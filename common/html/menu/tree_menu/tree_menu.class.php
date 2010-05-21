@@ -5,16 +5,19 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class TreeMenu extends HTML_Menu
 {
 	private $name;
-	
-	function TreeMenu($name, $data_provider)
+	private $data_provider;
+
+	function TreeMenu($name, TreeMenuDataProvider $data_provider)
 	{
 		$this->name = $name;
-		$menu = $data_provider->get_tree_menu_data()->to_array();
-		parent :: __construct(array($menu));
+		$this->data_provider = $data_provider;
+
+		parent :: __construct($this->get_menu_items());
+
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
-//        $this->forceCurrentUrl($data_provider->get_selected_tree_menu_item()->get_url());
+        $this->forceCurrentUrl($this->data_provider->get_selected_tree_menu_item_url());
 	}
-	
+
  	/**
      * Get the breadcrumbs which lead to the current category.
      * @return array The breadcrumbs.
@@ -32,10 +35,18 @@ class TreeMenu extends HTML_Menu
                 $i ++;
                 continue;
             }
-            
+
             $trail->add(new Breadcrumb($crumb['url'], substr($crumb['title'], 0, strpos($crumb['title'], '(') - 1)));
         }
         return $trail;
+    }
+
+    function get_menu_items()
+    {
+        $menu_items = array();
+        $menu_items[] = $this->data_provider->get_tree_menu_data()->to_array();
+
+        return $menu_items;
     }
 
     /**
@@ -48,7 +59,7 @@ class TreeMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     function get_tree_name()
     {
     	return $this->name;

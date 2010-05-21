@@ -6,15 +6,16 @@
 
 class ApplicationsPackageDependency extends PackageDependency
 {
-	const PROPERTY_VERSION = 'version';
-	
-	private $version;
-	
-	function ApplicationsPackageDependency($dependency)
-	{
-		parent :: __construct($dependency); 
-		$this->set_version($dependency['version']);	
-	}
+    const PROPERTY_VERSION = 'version';
+
+    private $version;
+
+    function ApplicationsPackageDependency($dependency)
+    {
+        parent :: __construct($dependency);
+        $this->set_version($dependency['version']);
+    }
+
     /**
      * @return the $version
      */
@@ -22,37 +23,47 @@ class ApplicationsPackageDependency extends PackageDependency
     {
         return $this->version;
     }
+    
+    public function get_operator()
+    {
+    	return $this->version['type'];
+    }
+    
+    public function get_version_number()
+    {
+    	return $this->version['_content'];
+    }
 
-	/**
+    /**
      * @param $version the $version to set
      */
     public function set_version($version)
     {
         $this->version = $version;
     }
-    
+
     function as_html()
-    {    	
-    	$version = $this->get_version();
-    	return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id())) . ', ' . Translation :: get('Version') . ': ' . $version['_content'];
+    {
+        $version = $this->get_version();
+        return Translation :: get(Utilities :: underscores_to_camelcase($this->get_id())) . ', ' . Translation :: get('Version') . ': ' . $version['_content'];
     }
 
-	function check()
+    function check()
     {
-    	$version = $this->get_version();
+        $version = $this->get_version();
         $message = Translation :: get('DependencyCheckApplication') . ': ' . $this->as_html() . ' ' . Translation :: get('Found') . ': ';
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $this->get_id());
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
         $condition = new AndCondition($conditions);
-        
+
         $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition, array(), 0, 1);
-        
+
         if ($registrations->size() === 0)
         {
             $message .= '--' . Translation :: get('Nothing') . '--';
-            $this->add_message($message);
+            $this->get_message_logger()->add_message($message);
             return false;
         }
         else
@@ -63,8 +74,8 @@ class ApplicationsPackageDependency extends PackageDependency
             if (! $application_version)
             {
                 $message .= '--' . Translation :: get('WrongVersion') . '--';
-                $this->add_message($message);
-                $this->add_message(Translation :: get('DependencyApplicationWrongVersion')/*, PackageInstaller :: TYPE_WARNING*/);
+                $this->get_message_logger()->add_message($message);
+                $this->get_message_logger()->add_message(Translation :: get('DependencyApplicationWrongVersion'), MessageLogger :: TYPE_WARNING);
                 return false;
             }
             else
@@ -72,15 +83,15 @@ class ApplicationsPackageDependency extends PackageDependency
                 if (! $registration->is_active())
                 {
                     $message .= '--' . Translation :: get('InactiveApplication') . '--';
-                    $this->add_message($message);
-                    $this->add_message(Translation :: get('DependencyActivateObjectWarning')/*, PackageInstaller :: TYPE_WARNING*/);
+                    $this->get_message_logger()->add_message($message);
+                    $this->get_message_logger()->add_message(Translation :: get('DependencyActivateObjectWarning'), MessageLogger :: TYPE_WARNING);
                 }
                 else
                 {
                     $message .= $registration->get_version();
-                    $this->add_message($message);
+                    $this->get_message_logger()->add_message($message);
                 }
-                
+
                 return true;
             }
         }

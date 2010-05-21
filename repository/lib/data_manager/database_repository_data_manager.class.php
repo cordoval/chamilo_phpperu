@@ -1466,7 +1466,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         if (isset($condition))
         {
-            $condition->set_storage_unit($alias);
+            $condition->set_storage_unit('Catalog');
         }
 
         if (isset($order_by))

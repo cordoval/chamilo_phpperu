@@ -27,6 +27,11 @@ class UserRepositoryReportingTemplate extends ReportingTemplate
         return UserManager :: APPLICATION_NAME;
     }
 
+	function is_platform()
+    {
+    	return true;
+    }
+
     function display_context()
     {
         $html = array();

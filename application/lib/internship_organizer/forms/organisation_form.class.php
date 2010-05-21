@@ -38,29 +38,29 @@ class InternshipOrganizerOrganisationForm extends FormValidator
     function build_basic_form()
     {
 		
-		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_NAME, Translation :: get('Name'));
+		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
 		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_ADDRESS, Translation :: get('Address'));
-		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_ADDRESS, Translation :: get('ThisFieldIsRequired'), 'required');
+//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_ADDRESS, Translation :: get('Address'));
+//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_ADDRESS, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_POSTCODE, Translation :: get('Postcode'));
-		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_POSTCODE, Translation :: get('ThisFieldIsRequired'), 'required');
+//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_POSTCODE, Translation :: get('Postcode'));
+//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_POSTCODE, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_CITY, Translation :: get('City'));
-		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_CITY, Translation :: get('ThisFieldIsRequired'), 'required');
+//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_CITY, Translation :: get('City'));
+//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_CITY, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE, Translation :: get('Telephone'));
-		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE, Translation :: get('ThisFieldIsRequired'));
+//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE, Translation :: get('Telephone'));
+//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE, Translation :: get('ThisFieldIsRequired'));
 				
-		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_FAX, Translation :: get('Fax'));
-		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_FAX, Translation :: get('ThisFieldIsRequired'));
+//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_FAX, Translation :: get('Fax'));
+//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_FAX, Translation :: get('ThisFieldIsRequired'));
 				
-		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_EMAIL, Translation :: get('Email'));
-		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'));
+//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_EMAIL, Translation :: get('Email'));
+//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'));
 		
-		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
-		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('textarea', InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "5", "cols" => "40"));
+		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION); /*, Translation :: get('ThisFieldIsRequired'), 'required');*/
 
     }
 
@@ -90,12 +90,12 @@ class InternshipOrganizerOrganisationForm extends FormValidator
     	$values = $this->exportValues();
 
     	$organisation->set_name($values[InternshipOrganizerOrganisation :: PROPERTY_NAME]);
-    	$organisation->set_address($values[InternshipOrganizerOrganisation :: PROPERTY_ADDRESS]);
-    	$organisation->set_postcode($values[InternshipOrganizerOrganisation :: PROPERTY_POSTCODE]);
-    	$organisation->set_city($values[InternshipOrganizerOrganisation :: PROPERTY_CITY]);
-    	$organisation->set_telephone($values[InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE]);
-    	$organisation->set_fax($values[InternshipOrganizerOrganisation :: PROPERTY_FAX]);
-    	$organisation->set_email($values[InternshipOrganizerOrganisation :: PROPERTY_EMAIL]);
+//    	$organisation->set_address($values[InternshipOrganizerOrganisation :: PROPERTY_ADDRESS]);
+//    	$organisation->set_postcode($values[InternshipOrganizerOrganisation :: PROPERTY_POSTCODE]);
+//    	$organisation->set_city($values[InternshipOrganizerOrganisation :: PROPERTY_CITY]);
+//    	$organisation->set_telephone($values[InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE]);
+//    	$organisation->set_fax($values[InternshipOrganizerOrganisation :: PROPERTY_FAX]);
+//    	$organisation->set_email($values[InternshipOrganizerOrganisation :: PROPERTY_EMAIL]);
     	$organisation->set_description($values[InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION]);
 
     	return $organisation->update();
@@ -107,12 +107,12 @@ class InternshipOrganizerOrganisationForm extends FormValidator
     	$values = $this->exportValues();
 
     	$organisation->set_name($values[InternshipOrganizerOrganisation :: PROPERTY_NAME]);
-    	$organisation->set_address($values[InternshipOrganizerOrganisation :: PROPERTY_ADDRESS]);
-    	$organisation->set_postcode($values[InternshipOrganizerOrganisation :: PROPERTY_POSTCODE]);
-    	$organisation->set_city($values[InternshipOrganizerOrganisation :: PROPERTY_CITY]);
-    	$organisation->set_telephone($values[InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE]);
-    	$organisation->set_fax($values[InternshipOrganizerOrganisation :: PROPERTY_FAX]);
-    	$organisation->set_email($values[InternshipOrganizerOrganisation :: PROPERTY_EMAIL]);
+//   	$organisation->set_address($values[InternshipOrganizerOrganisation :: PROPERTY_ADDRESS]);
+//    	$organisation->set_postcode($values[InternshipOrganizerOrganisation :: PROPERTY_POSTCODE]);
+//    	$organisation->set_city($values[InternshipOrganizerOrganisation :: PROPERTY_CITY]);
+//    	$organisation->set_telephone($values[InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE]);
+//    	$organisation->set_fax($values[InternshipOrganizerOrganisation :: PROPERTY_FAX]);
+//    	$organisation->set_email($values[InternshipOrganizerOrganisation :: PROPERTY_EMAIL]);
     	$organisation->set_description($values[InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION]);
     	    	
    		return $organisation->create();
@@ -133,12 +133,12 @@ class InternshipOrganizerOrganisationForm extends FormValidator
     	$organisation = $this->organisation;
 		
     	$defaults[InternshipOrganizerOrganisation :: PROPERTY_NAME] = $organisation->get_name();
-    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_ADDRESS] = $organisation->get_address();
-    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_POSTCODE] = $organisation->get_postcode();
-    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_CITY] = $organisation->get_city();
-    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE] = $organisation->get_telephone();
-    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_FAX] = $organisation->get_fax();
-    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_EMAIL] = $organisation->get_email();
+//    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_ADDRESS] = $organisation->get_address();
+//    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_POSTCODE] = $organisation->get_postcode();
+//    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_CITY] = $organisation->get_city();
+//    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE] = $organisation->get_telephone();
+//    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_FAX] = $organisation->get_fax();
+//    	$defaults[InternshipOrganizerOrganisation :: PROPERTY_EMAIL] = $organisation->get_email();
     	$defaults[InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION] = $organisation->get_description();
     
 		parent :: setDefaults($defaults);

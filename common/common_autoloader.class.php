@@ -83,6 +83,7 @@ class CommonAutoloader
 					  'header' => 'header.class.php',
 					  'footer' => 'footer.class.php',
 					  'text' => 'text.class.php',
+					  'message_logger' => 'message_logger.class.php',
 					  'theme' => 'layout/theme.class.php',
 					  'phpbb2_template_wrapper' => 'layout/phpbb2_template_wrapper.class.php',
 					  'chamilo_template' => 'layout/chamilo_template.class.php',

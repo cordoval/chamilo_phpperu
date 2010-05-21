@@ -139,4 +139,13 @@ $lang['survey']['SavedToRepository'] = 'Opgeslagen naar repository';
 $lang['survey']['TakeSurveyExplanation'] = 'Om een enquête af te nemen klikt u op het groene driehoekje of op de link onder TITEL.';
 $lang['survey']['SurveyFromEmailAddressName'] = 'Zend naam';
 $lang['survey']['SurveyReplyEmailAddressName'] = 'Antwoord naam';
+$lang['survey']['SurveyPublicationReportingTemplate'] = 'Publicatierapporting template';
+$lang['survey']['SurveyParticipantReportingBlock'] = 'Deelnemer rapportering blok';
+$lang['survey']['SurveyParticipantMailReportingBlock'] = 'Deelnemer e-mail rapportering blok';
+$lang['survey']['Count'] = 'Aantal';
+$lang['survey']['finished'] = 'Beëindigd';
+$lang['survey']['notstarted'] = 'Niet gestart';
+$lang['survey']['started'] = 'Gestart';
+$lang['survey']['MailNotSend'] = 'E-mail niet verzonden';
+$lang['survey']['MailSend'] = 'E-mail verzonden';
 ?>

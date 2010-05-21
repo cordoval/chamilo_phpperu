@@ -1,34 +1,34 @@
 <?php
-require_once Path::get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
-require_once dirname(__FILE__) . '/../package_updater/package_updater_dependency.class.php';
+require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
+
 class RegistrationDisplay
 {
 	private $object;
-	
+
 	function RegistrationDisplay($object)
 	{
 		$this->object = $object;
 	}
-    
+
 	function get_object()
     {
     	return $this->object;
     }
-    
+
     function as_html()
     {
     	$object = $this->object;
     	$package_info = PackageInfo::factory($object->get_type(), $object->get_name());
     	$package_info = $package_info->get_package();
-    	
+
     	$html = array();
-        $html[] = $this->get_properties_table($package_info);        
+        $html[] = $this->get_properties_table($package_info);
         $html[] = $this->get_dependencies_table($package_info);
         $html[] = $this->get_update_problems();
-        
+
         return implode("\n", $html);
     }
-    
+
     function get_dependencies_table($package_info)
     {
     	$html[] = '<h3>' . Translation::get('Dependencies') .  '</h3>';
@@ -49,27 +49,57 @@ class RegistrationDisplay
 	    		{
 	    			$html[] = '<td></td>';
 	    		}
-    			$html[] = '<td>' . $package_dependency->as_html() . '</td>'; 
-	    		
+    			$html[] = '<td>' . $package_dependency->as_html() . '</td>';
+
 	    		$html[] = '</tr>';
 	    		$count ++;
     		}
     	}
-    	$html[] = '</table>';
+    	$html[] = '</table><br/>';
     	return implode("\n", $html);
     }
-    
+
     function get_update_problems()
     {
-    	$html = array();
-    	$html[] = '<table class="data_table data_table_no_header">';
-    	var_dump(PackageUpdaterDependency::check_other_packages($this->get_object()));
-    	$html[] = implode('<br/>', PackageUpdaterDependency::check_other_packages($this->get_object()));
-    	$html[] = '</table>';
-    	return implode("\n", $html);
+		if ($this->get_object()->is_up_to_date())
+		{
+			return "";
+		}
+    	$conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $this->get_object()->get_name());
+        $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $this->get_object()->get_type());
+        $condition = new AndCondition($conditions);
+        
+        $admin = AdminDataManager::get_instance();
+        $order_by = new ObjectTableOrder(RemotePackage :: PROPERTY_VERSION, SORT_DESC);
+        
+        $package_remote = $admin->retrieve_remote_packages($condition, $order_by, null, 1);
+        if ($package_remote->size() == 1)
+        {
+        	$package_remote = $package_remote->next_result();
+
+	        $package_update_dependency = new PackageDependencyVerifier($package_remote);
+	        $success = $package_update_dependency->is_updatable();
+	        if ($success)
+	        {
+	        	$type = 'finished';
+	        }
+	        else 
+	        {
+	        	$type = 'failed';
+	        }
+	    	$html = array();
+	    	$html[] = '<h3>' . Translation::get('UpdateToVersion') . $package_remote->get_version() . '</h3>';
+	    	$html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path() . 'place_' . $type . '.png);">';
+        	$html[] = '<div class="title">' . Translation :: get(DependenciesResultVerification) . '</div>';
+        	$html[] = '<div class="description">';
+        	$html[] = $package_update_dependency->get_message_logger()->render();
+        	$html[] = '</div>';
+        	$html[] = '</div>';
+	    	return implode("\n", $html);
+        }
     }
-    
-    
+
+
 	function get_properties_table($package_info)
     {
     	$html = array();
@@ -84,11 +114,11 @@ class RegistrationDisplay
     		}
     	}
     	$html[] = '</table><br/>';
-    	
-    	
+
+
     	return implode("\n", $html);
     }
-	
+
 
 }
 ?>

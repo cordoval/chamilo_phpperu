@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="repository">
+	<settings>
+		<category name="system_annoucement">
+			<setting name="allow_system_announcement_creation" field="checkbox"
+				default="0">
+				<options type="static">
+					<option name="allow_system_announcement_creation" value="1" />
+				</options>
+			</setting>
+		</category>
+	</settings>
+</application>	

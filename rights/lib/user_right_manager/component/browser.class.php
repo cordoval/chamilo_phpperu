@@ -75,7 +75,7 @@ class UserRightManagerBrowserComponent extends UserRightManager
         
         $html = array();
         $application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
-        $html[] = Application :: get_selecter($application_url, $this->application);
+        $html[] = BasicApplication :: get_selecter($application_url, $this->application);
         $html[] = $this->action_bar->as_html() . '<br />';
         
         $url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_LOCATION => '%s'));

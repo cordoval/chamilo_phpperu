@@ -26,7 +26,7 @@ class ToolComplexBuilderComponent extends ToolComponent
         //$my_trail->add(new Breadcrumb($this->get_url(), Translation :: get('BuildComplexContentObject')));
         $my_trail->merge($trail);
         
-        parent :: display_header($my_trail);
+        parent :: display_header($my_trail, false, true, false);
         
         echo '<a href="' . $this->get_url(array('tool_action' => null, 'builder_action' => null)) . '">' . Translation :: get('Back') . '</a><br />';
     }

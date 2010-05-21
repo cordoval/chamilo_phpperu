@@ -133,6 +133,11 @@ class DatabaseReportingDataManager extends Database implements ReportingDataMana
     	return $this->retrieve_object(ReportingBlockRegistration::get_table_name(), $condition);
     }
 
+	function delete_reporting_block_registrations($condition = null)
+    {
+        return $this->delete_objects(ReportingBlockRegistration :: get_table_name(), $condition);
+    }
+    
     function delete_reporting_template_registrations($condition = null)
     {
         return $this->delete_objects(ReportingTemplateRegistration :: get_table_name(), $condition);

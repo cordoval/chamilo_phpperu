@@ -39,7 +39,7 @@ class Filesystem
      */
     public static function create_dir($path, $mode = null)
     {
-        if (! $mode)
+    	if (! $mode)
         {
             $mode = 0777;
             /*if(class_exists('PlatformSetting'))
@@ -58,13 +58,13 @@ class Filesystem
         // If the directory doesn't exist yet, create it using php's mkdir function
         if (! is_dir($path))
         {
-            if (! mkdir($path, $mode, true))
+        	if (! mkdir($path, $mode, true))
             {
-                return false;
+            	return false;
             }
             else
             {
-                return chmod($path, $mode);
+            	return chmod($path, $mode);
             }
         }
         return true;
@@ -124,10 +124,36 @@ class Filesystem
         
         return $bool;
     }
-
+	
+    function recurse_move($source, $destination, $overwrite = false)
+    {
+        if (! is_dir($source))
+            return self :: move_file($source, $destination, $overwrite);
+        $bool = true;
+        
+        $content = self :: get_directory_content($source, self :: LIST_FILES_AND_DIRECTORIES, false);
+        foreach ($content as $file)
+        {
+            $path_to_file = $source . '/' . $file;
+            $path_to_new_file = $destination . '/' . $file;
+            if (! is_dir($path_to_file))
+            {
+                $bool &= self :: move_file($path_to_file, $path_to_new_file, $overwrite);
+            }
+            else
+            {
+                self :: create_dir($path_to_new_file);
+                $bool &= self :: recurse_move($path_to_file, $path_to_new_file, $overwrite);
+            }
+        }
+        
+        return $bool;
+    }
+    
     /**
      * Moves a file. If the destination directory doesn't exist, this function
      * tries to create the directory using the Filesystem::create_dir function.
+     * Path cannot have a '/' at the end 
      * @param string $source The full path to the source file
      * @param string $destination The full path to the destination file
      * @param boolean $overwrite If the destination file allready exists, should
@@ -138,15 +164,14 @@ class Filesystem
     {
         if (file_exists($destination) && ! $overwrite)
         {
-            return false;
+        	return false;
         }
         $destination_dir = dirname($destination);
         if (file_exists($source) && Filesystem :: create_dir($destination_dir))
         {
-            return rename($source, $destination);
+        	return rename($source, $destination);
         }
     }
-
     /**
      * Creates a unique name for a file or a directory. This function will also
      * use the function Filesystem::create_safe_name to make sure the resulting
@@ -190,7 +215,7 @@ class Filesystem
         //Change encoding
         $safe_name = mb_convert_encoding($desired_name, "ISO-8859-1", "UTF-8");
         //Replace .php by .phps
-        $safe_name = eregi_replace("\.(php.?|phtml)$", ".phps", $safe_name);
+        //$safe_name = eregi_replace("\.(php.?|phtml)$", ".phps", $safe_name);
         //If first letter is . add something before
         $safe_name = eregi_replace("^\.", "0.", $safe_name);
         //Replace accented characters

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="personal_calendar">
+	<webservices>
+		<webservice name="test_webservice" type="1" category="test" />
+		<webservice name="test2_webservice" type="1" category="test" />
+	</webservices>
+</application>

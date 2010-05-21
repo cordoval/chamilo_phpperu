@@ -19,12 +19,12 @@ class ComplexFillInBlanksQuestionForm extends ComplexContentObjectItemForm
     function get_default_values()
     {
         $cloi = $this->get_complex_content_object_item();
-        
+
         if (isset($cloi))
         {
             $defaults[ComplexFillInBlanksQuestion :: PROPERTY_WEIGHT] = $cloi->get_weight() ? $cloi->get_weight() : 0;
         }
-        
+
         return $defaults;
     }
 

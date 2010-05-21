@@ -10,9 +10,10 @@ class EvaluationManagerBrowserComponent extends EvaluationManager
     	$trail = $this->get_trail();
     	$this->display_header($trail);
         $this->action_bar = $this->get_toolbar();
+        
         echo $this->action_bar->as_html();
         echo $this->get_table();
-        //echo $this->get_export_links();
+        
     	$this->display_footer();
     }
 

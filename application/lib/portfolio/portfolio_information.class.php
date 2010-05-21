@@ -2,7 +2,7 @@
 /**
  * @package application.lib.portfolio
  */
-require_once dirname(__FILE__) . '/portfolio_rights.class.php';
+require_once dirname(__FILE__) . '/rights/portfolio_rights.class.php';
 /**
  * This class describes information on the status of a user's portfolio publications
  *
@@ -19,11 +19,13 @@ class PortfolioInformation extends DataClass
     const PROPERTY_LAST_ACTION ="last_action" ;
 
 
+
     //possible actions to be logged on portfolio
     const ACTION_PORTFOLIO_ADDED = 1;
     const ACTION_ITEM_ADDED = 2;
     const ACTION_EDITED = 4;
     const ACTION_FIRST_PORTFOLIO_CREATED = 5;
+    const ACTION_DELETED = 6;
 
 
 
@@ -147,6 +149,10 @@ class PortfolioInformation extends DataClass
         {
             $text .= Translation :: get('PortfolioAdded');
         }
+        else if($action == self::ACTION_DELETED)
+        {
+            $text .= Translation :: get('PortfolioDeleted');
+        }
         else
         {
             $text .= Translation :: get('PortfolioChanged');
@@ -159,7 +165,10 @@ class PortfolioInformation extends DataClass
         if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
         {
 //            $pub = PortfolioManager::retrieve_portfolio_publication($id);
-            $pub = ContentObject::get_by_id($id);
+            if($id)
+            {
+                $pub = ContentObject::get_by_id($id);
+            }
             if($pub)
             {
                 $text .= $pub->get_title();
@@ -168,8 +177,9 @@ class PortfolioInformation extends DataClass
         else if($type == PortfolioRights::TYPE_PORTFOLIO_ITEM || $type == PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER )
         {
             $rdm = RepositoryDataManager :: get_instance();
-            $wrapper = $rdm->retrieve_content_object($id);
-            $item = $rdm->retrieve_content_object($wrapper->get_reference());
+//            $wrapper = $rdm->retrieve_content_object($id);
+//            $item = $rdm->retrieve_content_object($wrapper->get_reference());
+            $item = $rdm->retrieve_content_object($id);
             if($item)
             {
                 $text .= $item->get_title();

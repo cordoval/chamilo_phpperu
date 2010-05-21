@@ -54,19 +54,15 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
 
         if (isset($wiki_page))
         {
-            if ($property = $column->get_title())
+            if ($property = $column->get_name())
             {
                 switch ($property)
                 {
-                    case 'Title' :
+                    case ContentObject :: PROPERTY_TITLE :
                         return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $this->cid)) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>' . $homepage;
-                    //default:
-                    //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>';
-                    case '[=Wiki=Title=]' :
-                        return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $this->cid)) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>' . $homepage;
-                    case 'versions' :
+                    case Translation :: get('Versions') :
                         return $wiki_page->get_version_count();
-                    case 'Description' :
+                    case ContentObject :: PROPERTY_DESCRIPTION :
                         $description = str_ireplace(']]', '', str_ireplace('[[', '', str_ireplace('=', '', $wiki_page->get_description())));
                         return Utilities :: truncate_string($description, 50);
                 }

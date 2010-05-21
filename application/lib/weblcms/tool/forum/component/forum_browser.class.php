@@ -287,6 +287,17 @@ class ForumToolBrowserComponent extends ForumToolComponent
             $actions[] = $delete;
         
         }
+    
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        	$internal_item = EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id());
+        	if($internal_item && $internal_item->get_calculated() != 1)
+        	{
+        		$evaluate_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
+				$actions[] = array('href' => $evaluate_url, 'label' => Translation :: get('Evaluate'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png'); 
+        	}
+        }
         
         return '<div style="float: right;">' . Utilities :: build_toolbar($actions) . '</div>';
     }

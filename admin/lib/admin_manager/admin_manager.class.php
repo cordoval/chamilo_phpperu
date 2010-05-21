@@ -13,13 +13,13 @@
 class AdminManager extends CoreApplication
 {
     const APPLICATION_NAME = 'admin';
-    
+
     const PARAM_WEB_APPLICATION = 'web_application';
     const PARAM_SYSTEM_ANNOUNCEMENT_ID = 'announcement';
-    
+
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_EDIT_SELECTED = 'edit_selected';
-    
+
     const ACTION_ADMIN_BROWSER = 'browse';
     const ACTION_LANGUAGES = 'languages';
     const ACTION_CONFIGURE_PLATFORM = 'configure';
@@ -111,7 +111,7 @@ class AdminManager extends CoreApplication
         {
             $breadcrumbtrail = BreadcrumbTrail :: get_instance();;
         }
-        
+
         $title = $breadcrumbtrail->get_last()->get_name();
         $title_short = $title;
         if (strlen($title_short) > 53)
@@ -125,7 +125,7 @@ class AdminManager extends CoreApplication
             //$this->display_search_form();
         }
         echo '<div class="clear">&nbsp;</div>';
-        
+
         $message = Request :: get(Application :: PARAM_MESSAGE);
         if (isset($message))
         {
@@ -151,64 +151,64 @@ class AdminManager extends CoreApplication
     {
         $info = array();
         $user = $this->get_user();
-        
+
         // 1. Admin-core components
         $links = array();
-        $links[] = array('name' => Translation :: get('Settings'), 'description' => Translation :: get('SettingsDescription'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
+//        $links[] = array('name' => Translation :: get('Settings'), 'description' => Translation :: get('SettingsDescription'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
         $links[] = array('name' => Translation :: get('Importer'), 'description' => Translation :: get('ImporterDescription'), 'action' => 'import', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORTER)));
         $links[] = array('name' => Translation :: get('ManagePackages'), 'description' => Translation :: get('ManagePackagesDescription'), 'action' => 'build', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_PACKAGES)));
         $links[] = array('name' => Translation :: get('SystemAnnouncements'), 'description' => Translation :: get('SystemAnnouncementsDescription'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
         $links[] = array('name' => Translation :: get('ManageCategories'), 'description' => Translation :: get('ManageCategoriesDescription'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES)));
         $links[] = array('name' => Translation :: get('Diagnose'), 'description' => Translation :: get('DiagnoseDescription'), 'action' => 'information', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
         $links[] = array('name' => Translation :: get('LogsViewer'), 'description' => Translation :: get('LogsViewerDescription'), 'action' => 'information', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_LOGS)));
-        
+
         $admin_info = parent :: get_application_platform_admin_links();
         $admin_info['links'] = $links;
         $info[] = $admin_info;
-        
+
         // 2. Repository
         $repository_manager = new RepositoryManager($user);
         $info[] = $repository_manager->get_application_platform_admin_links();
-        
+
         // 3. UserManager
         $user_manager = new UserManager($user->get_id());
         $info[] = $user_manager->get_application_platform_admin_links();
-        
+
         // 4. Roles'n'Rights
         $rights_manager = new RightsManager($user->get_id());
         $info[] = $rights_manager->get_application_platform_admin_links();
-        
+
         // 5. Groups
         $group_manager = new GroupManager($user->get_id());
         $info[] = $group_manager->get_application_platform_admin_links();
-        
+
         // 6. Webservices
         $webservice_manager = new WebserviceManager($user->get_id());
         $info[] = $webservice_manager->get_application_platform_admin_links();
-        
+
         // 7. Tracking
         $tracking_manager = new TrackingManager($user);
         $info[] = $tracking_manager->get_application_platform_admin_links();
-        
+
         // 8. Reporting
         $reporting_manager = new ReportingManager($user);
         $info[] = $reporting_manager->get_application_platform_admin_links();
-        
+
         // 9. Home
         $home_manager = new HomeManager($user->get_id());
         $info[] = $home_manager->get_application_platform_admin_links();
-        
+
         // 10. Menu
         $menu_manager = new MenuManager($user->get_id());
         $info[] = $menu_manager->get_application_platform_admin_links();
-        
+
         // 11. Migration
         /*$migration_manager = new MigrationManager($user->get_id());
         $info[] = $migration_manager->get_application_platform_admin_links();*/
-        
+
         $help_manager = new HelpManager($user->get_id());
         $info[] = $help_manager->get_application_platform_admin_links();
-        
+
         // 12.The links for the plugin applications running on top of the essential Chamilo components
         $applications = WebApplication :: load_all();
         foreach ($applications as $index => $application_name)
@@ -216,60 +216,60 @@ class AdminManager extends CoreApplication
             $application = Application :: factory($application_name);
             $info[] = $application->get_application_platform_admin_links();
         }
-        
+
         return $info;
     }
-    
+
 	function get_application_platform_import_links()
 	{
         $user = $this->get_user();
-        
+
         // 1. Admin-core components
         $links = array();
-        
+
         // 2. Repository
         $repository_manager = new RepositoryManager($user);
         $links = array_merge($links, $repository_manager->get_application_platform_import_links());
-        
+
         // 3. UserManager
         $user_manager = new UserManager($user->get_id());
         $links = array_merge($links, $user_manager->get_application_platform_import_links());
-        
+
         // 4. Roles'n'Rights
         $rights_manager = new RightsManager($user->get_id());
         $links = array_merge($links, $rights_manager->get_application_platform_import_links());
-        
+
         // 5. Groups
         $group_manager = new GroupManager($user->get_id());
         $links = array_merge($links, $group_manager->get_application_platform_import_links());
-        
+
         // 6. Webservices
         $webservice_manager = new WebserviceManager($user->get_id());
         $links = array_merge($links, $webservice_manager->get_application_platform_import_links());
-        
+
         // 7. Tracking
         $tracking_manager = new TrackingManager($user);
         $links = array_merge($links, $tracking_manager->get_application_platform_import_links());
-        
+
         // 8. Reporting
         $reporting_manager = new ReportingManager($user);
         $links = array_merge($links, $reporting_manager->get_application_platform_import_links());
-        
+
         // 9. Home
         $home_manager = new HomeManager($user->get_id());
         $links = array_merge($links, $home_manager->get_application_platform_import_links());
-        
+
         // 10. Menu
         $menu_manager = new MenuManager($user->get_id());
         $links = array_merge($links, $menu_manager->get_application_platform_import_links());
-        
+
         // 11. Migration
         /*$migration_manager = new MigrationManager($user->get_id());
         $links[] = $migration_manager->get_application_platform_admin_links();*/
-        
+
         $help_manager = new HelpManager($user->get_id());
         $links = array_merge($links, $help_manager->get_application_platform_import_links());
-        
+
         // 12.The links for the plugin applications running on top of the essential Chamilo components
         $applications = WebApplication :: load_all();
         foreach ($applications as $index => $application_name)
@@ -277,7 +277,7 @@ class AdminManager extends CoreApplication
             $application = Application :: factory($application_name);
             $links = array_merge($links, $application->get_application_platform_import_links());
         }
-        
+
         return $links;
     }
 
@@ -420,7 +420,7 @@ class AdminManager extends CoreApplication
         $adm = AdminDataManager :: get_instance();
         return $adm->delete_content_object_publications($object_id);
     }
-    
+
 	public function delete_content_object_publication($publication_id)
     {
         $adm = AdminDataManager :: get_instance();
@@ -441,21 +441,21 @@ class AdminManager extends CoreApplication
     {
         return self :: APPLICATION_NAME;
     }
-    
+
 	/**
      * Used to publish system announcements
      */
     function get_content_object_publication_locations($content_object)
     {
         $allowed_types = array(SystemAnnouncement :: get_type_name());
-        
+
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
             $locations = array(Translation :: get('SystemAnnouncements'));
             return $locations;
         }
-        
+
         return array();
     }
 
@@ -469,13 +469,13 @@ class AdminManager extends CoreApplication
         $pub->set_content_object_id($content_object->get_id());
         $pub->set_publisher($content_object->get_owner_id());
         $pub->create();
-        
+
         return Translation :: get('PublicationCreated');
     }
-    
+
     function add_publication_attributes_elements()
     {
-    	
+
     }
 }
 ?>

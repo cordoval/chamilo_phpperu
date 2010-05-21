@@ -61,34 +61,40 @@ abstract class PackageUpdaterSource
     function process()
     {
         $this->set_package_file($this->get_archive());
-        if (! $this->get_package_file())
-        {
-            return $this->get_parent()->update_failed('source', Translation :: get('RemotePackageNotRetrieved'));
-        }
-        else
-        {
-            $extract_path = $this->extract_archive();
-            if (! $extract_path)
-            {
-                return $this->get_parent()->update_failed('source', Translation :: get('RemotePackageNotExtracted'));
-            }
-            else
-            {
-                $this->set_package_folder($extract_path);
-                $this->get_parent()->add_message(Translation :: get('RemotePackageExtracted'));
-                
-                if (! Filesystem :: move_file($extract_path, Path :: get(SYS_PATH)))
-                {
-                    $this->update_failed('source', Translation :: get('PackageMoveFailed'));
-                }
-                else
-                {
-                    $this->add_message(Translation :: get('PackageMovedSucessfully'));
-                }
-                
+//        if (! $this->get_package_file())
+//        {
+//            $this->add_message(Translation :: get('RemotePackageNotRetrieved'), PackageUpdater::TYPE_ERROR);
+//            return false;
+//        }
+//        else
+//        {
+//            $extract_path = $this->extract_archive();
+//            if (! $extract_path)
+//            {
+//                $this->add_message(Translation :: get('RemotePackageNotExtracted'), PackageUpdater::TYPE_ERROR);
+//                return false;
+//            }
+//            else
+//            {
+//                $this->set_package_folder($extract_path);
+//                $this->get_parent()->add_message(Translation :: get('RemotePackageExtracted'));
+//                if (! Filesystem :: recurse_copy($extract_path, realpath(Path :: get(SYS_PATH)), true))
+//                {
+//                	$this->add_message(Translation :: get('PackageMoveFailed'), PackageUpdater::TYPE_ERROR);
+//                	return false;
+//                }
+//                else
+//                {
+//                    if (! Filesystem :: remove($extract_path) || ! Filesystem :: remove($this->get_package_file()))
+//                    {
+//                    	$this->add_message(Translation :: get('RemoveTemporaryFailed'), PackageUpdater::TYPE_WARNING);
+//                    }
+//                	$this->add_message(Translation :: get('PackageMovedSucessfully'));
+//                }
+//                
                 return true;
-            }
-        }
+//            }
+//        }
     }
 
     function extract_archive()

@@ -29,7 +29,7 @@ class RightsManagerLocaterComponent extends RightsManager
         //        }
         
 
-        $package_manager = new LocationManager($this->get_parent());
+        $package_manager = new LocationManager($this);
         $package_manager->run();
     }
 }

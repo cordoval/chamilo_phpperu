@@ -17,6 +17,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
 	const SEPERATED = 1;
 	const OPEN_ONLY = 2;
 	
+	private $message;
+	
 	private $selected_tab = 0;
 	
     /**
@@ -27,7 +29,10 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyCourses')));
         $trail->add_help('courses general');
-               
+        
+        $this->message = Request::get('message');
+      	Request::set_get('message', null);
+      	
         $this->display_header();
         echo '<div class="clear"></div>';  
              
@@ -76,7 +81,9 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
 			$tabs[0][0] = $courses_result;
 			$tabs[0][1] = $tab_name;
        	 }
-       	 	
+		if(!is_null($this->message))
+        	$this->display_message($this->message);
+       	 
 		if(count($tabs) == 0)
         	$this->display_message(Translation :: get('NoCoursesFound'));
         else
