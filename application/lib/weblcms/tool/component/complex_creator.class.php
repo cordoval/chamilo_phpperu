@@ -38,7 +38,7 @@ class ToolComplexCreatorComponent extends ToolComponent
             {
                 $html[] = '<p><a href="' . $this->get_url(array('type' => $type, Tool :: PARAM_PUBLICATION_ID => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();
-                $this->display_header($trail);
+                $this->display_header($trail, false, true, false);
                 echo implode("\n", $html);
                 $this->display_footer();
             }
@@ -62,7 +62,7 @@ class ToolComplexCreatorComponent extends ToolComponent
                     }
                     else
                     {
-                        $this->display_header(new BreadcrumbTrail());
+                        $this->display_header(new BreadcrumbTrail(), false, true, false);
                         $cloi_form->display();
                         $this->display_footer();
                     }
