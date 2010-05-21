@@ -8,67 +8,73 @@ require_once dirname(__FILE__) . '/../question_display.class.php';
 class FillInBlanksQuestionDisplay extends QuestionDisplay
 {
 
-    function add_question_form()
-    {
+    function add_question_form(){
         $clo_question = $this->get_clo_question();
+        
         $question = $this->get_question();
-        $formvalidator = $this->get_formvalidator();
-        $renderer = $this->get_renderer();
-        $answsers = $question->get_answers();
-        
-        $element_template = array();
-        $element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
-        $element_template[] = '<div class="clear">&nbsp;</div>';
-        $element_template[] = '<div class="form_feedback"></div>';
-        $element_template[] = '<div class="clear">&nbsp;</div>';
-        $element_template[] = '</div>';
-        $element_template = implode("\n", $element_template);
-        
+        $answers = $question->get_answers();
+        $question_type = $question->get_question_type();
         $answer_text = $question->get_answer_text();
         $answer_text = nl2br($answer_text);
         
-        $question_type = $question->get_question_type();
-        $answer_options = $this->get_possible_answers();
-        
-        $matches = array();
-        preg_match_all('/\[[a-zA-Z0-9_êëûüôöîïéèà\s\-]*\]/', $answer_text, $matches);
-        $matches = $matches[0];
-        foreach ($matches as $i => $match)
-        {
-            $name = $clo_question->get_id() . '_' . $i;
-            
-            if ($question_type == FillInBlanksQuestion :: TYPE_SELECT)
-            {
-                $element_options = $this->shuffle_with_keys($answer_options);
-                $element = $formvalidator->createElement('select', $name, null, $element_options);
-            }
-            else
-            {
-                $answer = $answsers[$i];
-                $size = $answer->get_size();
-                
-                if ($size == 0)
-                    $size = strlen($match) - 2;
-                
-                $element = $formvalidator->createElement('text', $name, '', array('size' => $size));
-            
-            }
-            
-            $pos = strpos($answer_text, $match);
-            $formvalidator->addElement('html', substr($answer_text, 0, $pos));
-            $formvalidator->addElement($element);
-            $start = $pos + strlen($match);
-            $answer_text = substr($answer_text, $start, strlen($answer_text) - $start);
-            $renderer->setElementTemplate('{element}', $name);
-            
-        //$answer_text = str_replace($match, $element->toHtml(), $answer_text);
+        $parts = preg_split(FillInBlanksQuestionAnswer::CLOZE_REGEX, $answer_text);
+        $this->add_html(array_shift($parts));
+        $index = 0;
+        foreach($parts as $part){
+            $name = $clo_question->get_id() . "[$index]";
+            $this->add_question($name, $index, $question_type, $answers);
+        	$this->add_html($part);
+        	$index++;
         }
         
-        $formvalidator->addElement('html', $answer_text);
-        
-        //$formvalidator->addElement('static', 'blanks', null, $answer_text);
-        //$formvalidator->addElement('html', $answer_text);
-        $renderer->setElementTemplate($element_template, 'blanks');
+        $element_template = array();
+        $element_template[] = '{element}';
+        $renderer = $this->get_renderer();
+        $renderer->clearAllTemplates();
+        $renderer->setElementTemplate($element_template, 'select');
+    }
+    
+    function add_html($html){
+    	$html = is_array($html) ? implode("\n", $html) : $html;
+        $formvalidator = $this->get_formvalidator();
+		$formvalidator->addElement('html', $html);
+    }
+    
+    function add_select($name, $options){
+        $formvalidator = $this->get_formvalidator();
+        $formvalidator->addElement('select', $name, '', $options);
+    }
+    
+    function add_text($name, $size){
+        $formvalidator = $this->get_formvalidator();
+        $formvalidator->addElement('text', $name, null, array('size'=>$size));
+    }
+    
+    function add_question($name, $index, $question_type, $answers){
+        $formvalidator = $this->get_formvalidator();
+    	$options = $this->get_question_options($index, $answers);
+        if($question_type == FillInBlanksQuestion :: TYPE_SELECT){
+        	$this->add_select($name, $options);
+        }else{
+        	$size = 0;
+        	foreach($options as $option){
+        		$size = max($size, strlen($option));
+        	}
+        	$size = empty($size) ? 20 : $size;
+        	$this->add_text($name, $size);
+        }
+    }
+
+    function get_question_options($index, $answers){
+        $result = array();
+        foreach($answers as $answer){
+        	if($answer->get_position()==$index){
+            	$option = $answer->get_value();
+            	$result[$option] = $option;
+        	}
+        }
+        $this->shuffle_with_keys($result);
+        return $result;
     }
 
     function add_borders()
@@ -94,21 +100,17 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
         
         return implode("\n", $instruction);
     }
-
-    function get_possible_answers()
-    {
-        $answers = $this->get_question()->get_answers();
-        $options = array();
-        
-        foreach ($answers as $answer)
-        {
-            $option = str_replace(array('[', ']'), '', $answer->get_value());
-            $options[$option] = $option;
-        }
-        
-        asort($options);
-        
-        return $options;
-    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
