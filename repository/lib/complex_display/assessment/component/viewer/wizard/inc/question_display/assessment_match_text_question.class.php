@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__) . '/../question_display.class.php';
 
-class AssessmentMatchNumericQuestionDisplay extends QuestionDisplay
+class AssessmentMatchTextQuestionDisplay extends QuestionDisplay
 {
 
     function add_question_form()
@@ -55,3 +55,4 @@ class AssessmentMatchNumericQuestionDisplay extends QuestionDisplay
         return implode("\n", $instruction);
     }
 }
+?>
