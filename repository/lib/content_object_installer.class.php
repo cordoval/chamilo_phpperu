@@ -197,7 +197,7 @@ abstract class ContentObjectInstaller
         }
         else
         {
-            return true;
+        	return true;
         }
     }
 
@@ -250,6 +250,7 @@ abstract class ContentObjectInstaller
                     $this->installation_failed($message);
                 }
             }
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('SettingsAdded'));
         }
         
         return true;
@@ -257,7 +258,7 @@ abstract class ContentObjectInstaller
 
     function register_content_object()
     {
-        $this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectRegistration') . ': <em>' . $this->get_content_object() . '</em>');
+        $this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectRegistration'));
         
         $content_object_registration = new Registration();
         $content_object_registration->set_type(Registration :: TYPE_CONTENT_OBJECT);
