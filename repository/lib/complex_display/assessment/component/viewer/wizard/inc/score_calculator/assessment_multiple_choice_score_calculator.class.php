@@ -13,11 +13,10 @@ class AssessmentMultipleChoiceScoreCalculator extends ScoreCalculator
         $user_answers = $this->get_answer();
 
         $question = $this->get_question();
-        if ($question->get_answer_type() == 'radio')
+        if ($question->get_answer_type() == MultipleChoiceQuestion::ANSWER_TYPE_RADIO)
         {
             $answers = $question->get_options();
             $selected = $answers[$user_answers[0]];
-
             if ($selected && $selected->is_correct())
             {
                 return $this->make_score_relative($selected->get_score(), $selected->get_score());
@@ -35,7 +34,7 @@ class AssessmentMultipleChoiceScoreCalculator extends ScoreCalculator
 
             foreach ($answers as $i => $answer)
             {
-                if (array_key_exists($i + 1, $user_answers))
+                if (array_key_exists($i + 1, $user_answers) && ($answer->is_correct() || $answer->get_score() <= 0))
                 {
                     $score += $answer->get_score();
                 }
