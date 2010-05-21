@@ -12,19 +12,19 @@ class ComplexFillInBlanksQuestionForm extends ComplexContentObjectItemForm
 
     public function get_elements()
     {
-        $elements[] = $this->createElement('text', ComplexAssessmentFillInBlanksQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
+        $elements[] = $this->createElement('text', ComplexFillInBlanksQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
         return $elements;
     }
 
     function get_default_values()
     {
         $cloi = $this->get_complex_content_object_item();
-        
+
         if (isset($cloi))
         {
-            $defaults[ComplexAssessmentFillInBlanksQuestion :: PROPERTY_WEIGHT] = $cloi->get_weight() ? $cloi->get_weight() : 0;
+            $defaults[ComplexFillInBlanksQuestion :: PROPERTY_WEIGHT] = $cloi->get_weight() ? $cloi->get_weight() : 0;
         }
-        
+
         return $defaults;
     }
 
@@ -33,21 +33,21 @@ class ComplexFillInBlanksQuestionForm extends ComplexContentObjectItemForm
     {
         $cloi = $this->get_complex_content_object_item();
         $values = $this->exportValues();
-        $cloi->set_weight($values[ComplexAssessmentFillInBlanksQuestion :: PROPERTY_WEIGHT]);
+        $cloi->set_weight($values[ComplexFillInBlanksQuestion :: PROPERTY_WEIGHT]);
         return parent :: create_complex_content_object_item();
     }
 
     function create_cloi_from_values($values)
     {
         $cloi = $this->get_complex_content_object_item();
-        $cloi->set_weight($values[ComplexAssessmentFillInBlanksQuestion :: PROPERTY_WEIGHT]);
+        $cloi->set_weight($values[ComplexFillInBlanksQuestion :: PROPERTY_WEIGHT]);
         return parent :: create_complex_content_object_item();
     }
 
     function update_cloi_from_values($values)
     {
         $cloi = $this->get_complex_content_object_item();
-        $cloi->set_weight($values[ComplexAssessmentFillInBlanksQuestion :: PROPERTY_WEIGHT]);
+        $cloi->set_weight($values[ComplexFillInBlanksQuestion :: PROPERTY_WEIGHT]);
         return parent :: update_complex_content_object_item();
     }
 
@@ -56,7 +56,7 @@ class ComplexFillInBlanksQuestionForm extends ComplexContentObjectItemForm
     {
         $cloi = $this->get_complex_content_object_item();
         $values = $this->exportValues();
-        $cloi->set_weight($values[ComplexAssessmentFillInBlanksQuestion :: PROPERTY_WEIGHT]);
+        $cloi->set_weight($values[ComplexFillInBlanksQuestion :: PROPERTY_WEIGHT]);
         return parent :: update_complex_content_object_item();
     }
 
