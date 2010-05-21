@@ -23,8 +23,8 @@ class PortfolioLocation extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT, 
-     												  self :: PROPERTY_INHERIT, self :: PROPERTY_LOCKED));
+        return parent :: get_default_property_names(array(self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT, self::PROPERTY_TREE_IDENTIFIER,
+     							 self::PROPERTY_IDENTIFIER, self::PROPERTY_TYPE, self :: PROPERTY_INHERIT, self :: PROPERTY_LOCKED));
     }
 
 
@@ -94,7 +94,7 @@ class PortfolioLocation extends DataClass
     
 	function get_tree_identifier()
     {
-        return $this->get_default_property(self :: PROPERTY_TREE_IDENTIFIER);
+        return $this->get_default_property(self::PROPERTY_TREE_IDENTIFIER);
     }
 
     function set_tree_identifier($tree_identifier)
@@ -214,6 +214,7 @@ class PortfolioLocation extends DataClass
             $parent_conditions[] = new InequalityCondition(self :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_right_value());
         }
         $parent_conditions[] = new EqualityCondition(self :: PROPERTY_TREE_IDENTIFIER, $this->get_tree_identifier());
+        
 
         $parent_condition = new AndCondition($parent_conditions);
         $order[] = new ObjectTableOrder(self :: PROPERTY_LEFT_VALUE, SORT_DESC);

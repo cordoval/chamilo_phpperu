@@ -309,9 +309,9 @@ $(function ()
 		// Bind actions to option management buttons
 		$('.remove_option').live('click', removeOption);
 		$('.add_option').live('click', addOption);
-		
+
 		// Process image selection
-		$('.inactive_elements a:not(.disabled, .category)').live('click', setHotspotImage);
+		$('.inactive_elements a:not(.disabled, .category)').bind('click', setHotspotImage);
 	});
 
 });
