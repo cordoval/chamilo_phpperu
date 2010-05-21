@@ -130,5 +130,13 @@ $lang['survey']['SavedToRepository'] = 'Saved to repository';
 $lang['survey']['TakeSurveyExplanation'] = 'To Take a survey click on the green triagle shaped button or on the link in the TITEL column.';
 $lang['survey']['SurveyFromEmailAddressName'] = 'From name';
 $lang['survey']['SurveyReplyEmailAddressName'] = 'Reply name';
-
+$lang['survey']['SurveyPublicationReportingTemplate'] = 'Publication reporting template';
+$lang['survey']['SurveyParticipantReportingBlock'] = 'Participant reporting block';
+$lang['survey']['SurveyParticipantMailReportingBlock'] = 'Participant mail reporting block';
+$lang['survey']['Count'] = 'Count';
+$lang['survey']['finished'] = 'Finished';
+$lang['survey']['notstarted'] = 'Not started';
+$lang['survey']['started'] = 'Started';
+$lang['survey']['MailNotSend'] = 'Mail not sent';
+$lang['survey']['MailSend'] = 'Mail sent';
 ?>
