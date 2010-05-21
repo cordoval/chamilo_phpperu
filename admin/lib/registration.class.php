@@ -139,7 +139,12 @@ class Registration extends DataClass
 
     function is_up_to_date()
     {
-        $conditions = array();
+        if ($this->get_type() != self :: TYPE_APPLICATION && $this->get_type() != self :: TYPE_CONTENT_OBJECT)
+        {
+        	return true;
+        }
+        
+    	$conditions = array();
         $conditions[] = new EqualityCondition(RemotePackage::PROPERTY_CODE, $this->get_name());
         $conditions[] = new EqualityCondition(RemotePackage::PROPERTY_SECTION, $this->get_type());
         $condition = new AndCondition($conditions);

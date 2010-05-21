@@ -61,7 +61,11 @@ class RegistrationDisplay
 
     function get_update_problems()
     {
-		$conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $this->get_object()->get_name());
+		if ($this->get_object()->is_up_to_date())
+		{
+			return "";
+		}
+    	$conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $this->get_object()->get_name());
         $conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $this->get_object()->get_type());
         $condition = new AndCondition($conditions);
         

@@ -10,12 +10,6 @@
 			</setting>
 		</category>
 		<category name="allowed_content_objects">
-			<setting name="allow_announcement_creation" field="checkbox"
-				default="1">
-				<options type="static">
-					<option name="allow_announcement_creation" value="1" />
-				</options>
-			</setting>
 			<setting name="allow_assessment_creation" field="checkbox"
 				default="1">
 				<options type="static">
