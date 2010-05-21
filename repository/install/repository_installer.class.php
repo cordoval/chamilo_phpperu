@@ -1,5 +1,6 @@
 <?php
 require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object_installer.class.php';
 /**
  * $Id: repository_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
@@ -28,51 +29,22 @@ class RepositoryInstaller extends Installer
      */
     function install_extra()
     {
-        $rdm = $this->get_data_manager();
-        $dir = dirname(__FILE__) . '/../lib/content_object';
-
-        // Get the learning object xml-files if they exist
-        $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
-
-        foreach ($files as $file)
-        {
-            if ((substr($file, - 3) == 'xml'))
-            {
-                // Create the learning object table that stores the additional lo-properties
-                if (! $this->create_storage_unit($file))
-                {
-                    return false;
-                }
-            }
-        }
-
-        // Register the learning objects
-        $folders = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
-
-        foreach ($folders as $folder)
-        {
-            if ($folder == '.svn')
-                continue;
-
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectRegistration') . ': <em>' . $folder . '</em>');
-
-            $content_object_registration = new Registration();
-            $content_object_registration->set_type(Registration :: TYPE_CONTENT_OBJECT);
-            $content_object_registration->set_name($folder);
-            $content_object_registration->set_status(Registration :: STATUS_ACTIVE);
-
-            $package_info = PackageInfo :: factory(Registration :: TYPE_CONTENT_OBJECT, $folder);
-
-            if($package_info)
-            {
-                $content_object_registration->set_version($package_info->get_package()->get_version());
-            }
-
-            if (! $content_object_registration->create())
-            {
-                return $this->installation_failed(Translation :: get('ContentObjectRegistrationFailed'));
-            }
-        }
+    	$rdm = $this->get_data_manager();
+		
+    	
+//    	$dir = dirname(__FILE__) . '/../lib/content_object';
+//        // Register the learning objects
+//        $folders = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
+//
+//        foreach ($folders as $folder)
+//        {
+//            $content_object = ContentObjectInstaller::factory($folder);
+//            if ($content_object)
+//            {
+//            	$content_object->install();
+//            	$this->add_message(Installer::TYPE_NORMAL, $content_object->retrieve_message());
+//            }
+//        }
 
         if (! $this->add_metadata_catalogs())
         {
@@ -81,7 +53,47 @@ class RepositoryInstaller extends Installer
 
         return true;
     }
+    
+    function process_result($content_object, $result, $message, $default_collapse = true)
+    {
+        echo $this->display_install_block_header($content_object, $result, $default_collapse);
+        echo $message;
+        echo $this->display_install_block_footer();
+        if (! $result)
+        {
+            $this->parent->display_footer();
+            exit();
+        }
+    } 
 
+	function display_install_block_header($content_object, $result, $default_collapse)
+    {
+        $counter = $this->counter;
+
+        $html = array();
+        $html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/images/admin/place_' . $application . '.png);' . ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') . '">';
+        $html[] = '<div class="title">' . Translation :: get(ContentObject::type_to_class($content_object)) . '</div>';
+
+        $collapse = '';
+
+        if($result && $default_collapse)
+        {
+        	$collapse = ' collapse';
+        }
+
+        $html[] = '<div class="description' . $collapse . '">';
+
+        return implode("\n", $html);
+    }
+
+    function display_install_block_footer()
+    {
+        $html = array();
+        $html[] = '</div>';
+        $html[] = '</div>';
+        return implode("\n", $html);
+    }
+    
     function get_path()
     {
         return dirname(__FILE__);

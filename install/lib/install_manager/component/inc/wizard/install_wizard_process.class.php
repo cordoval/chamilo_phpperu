@@ -76,7 +76,6 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $this->counter ++;
 
         // 4. Post-Processing all applications
-        echo '<h3>' . Translation :: get('PostProcessing') . '</h3>';
         $this->post_process();
 
         $this->counter ++;
@@ -395,6 +394,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $values = $this->values;
 
         // Post-processing for core applications
+        echo '<h3>' . Translation :: get('PostProcessingCoreApplications') . '</h3>';
         foreach ($core_applications as $core_application)
         {
             $installer = Installer :: factory($core_application, $values);
@@ -405,8 +405,30 @@ class InstallWizardProcess extends HTML_QuickForm_Action
             unset($installer);
             flush();
         }
+        
+        //installation of contentObject
+        echo '<h3>' . Translation :: get('InstallingContentObjects') . '</h3>';
+        $dir = Path :: get_repository_path() . 'lib/content_object';
+        // Register the learning objects
+        $folders = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
+
+        foreach ($folders as $folder)
+        {
+            $content_object = ContentObjectInstaller::factory($folder);
+            if ($content_object)
+            {
+            	$content_object->install();
+            	$this->process_result($folder, $result, $content_object->retrieve_message());
+            }
+        }
+        
 
         // Post-processing for selected applications
+    	if (count($applications) > 0)
+        {
+        	echo '<h3>' . Translation :: get('PostProcessingWebApplications') . '</h3>';
+        }
+        $count = 0;
         foreach ($applications as $application)
         {
             $toolPath = Path :: get_application_path() . 'lib/' . $application . '/install';
@@ -421,9 +443,14 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
                     unset($installer, $result);
                     flush();
+                    $count ++;
                 }
             }
             flush();
+        }
+        if ($count == 0)
+        {
+        	$this->process_result('web_application', true, Translation :: get('NoWebApplicationSelected'));
         }
     }
 
