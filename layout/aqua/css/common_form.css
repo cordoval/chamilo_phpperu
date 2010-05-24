@@ -595,6 +595,12 @@ div.element_finder_buttons {
 	margin: 0px 10px 0px 10px;
 }
 
+#selected_image
+{
+	border: 1px solid #dedede;
+	margin-bottom: 5px;
+}
+
 /**********************
  * FILTER FORM STYLES *
  **********************/

@@ -26,7 +26,7 @@ $(function ()
 			timer = setTimeout(check_for_existing_names, 750);
 		});
 		
-		if(support_attachments)
+		if(typeof support_attachments != 'undefined')
 		{
 			$('#uploadify').fileUpload ({
 				'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/uploader-cms.swf',

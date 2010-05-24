@@ -27,10 +27,7 @@ class NewsArticleForm extends ContentObjectForm
     }
 
     private function build_default_form()
-    {
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/lib/content_object/news_article/news_article.js'));
-        
+    {        
         $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectHeaderImage');
@@ -38,14 +35,54 @@ class NewsArticleForm extends ContentObjectForm
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         
-        //$this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'), true);
-        
+        $this->addElement('html', '<div id="image_select" style="display: none;">');
         $this->addElement('static', 'uploadify', Translation :: get('UploadImage'), '<div id="uploadify"></div>');
-        $this->addElement('element_finder', NewsArticle :: PROPERTY_HEADER, Translation :: get('SelectHeaderImage'), $url, $locale, array());
+        $this->addElement('element_finder', 'image', Translation :: get('SelectHeaderImage'), $url, $locale, array());
+        $this->addElement('html', '</div>');
+        
+        $this->addElement('hidden', NewsArticle :: PROPERTY_HEADER);
+        $this->add_image();
         
         $this->addElement('textarea', NewsArticle :: PROPERTY_TAGS, Translation :: get('Tags'), array('cols' => '70', 'rows' => '7'));
         $this->addRule(NewsArticle :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
-    
+        
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/lib/content_object/news_article/news_article.js'));
+    }
+
+    function add_image()
+    {
+        $object = $this->get_content_object();
+        
+        $is_object_set = ! is_null($object);
+        
+        $html[] = '<div id="image_container" ' . ($is_object_set ? '' : ' style="display: none;"') . 'class="row">';
+        $html[] = '<div class="label">' . Translation :: get('SelectedImage') . '</div>';
+        $html[] = '<div class="formw">';
+        $html[] = '<div class="element">';
+        
+        if ($is_object_set)
+        {
+            $image_id = $object->get_header();
+            $image_object = RepositoryDataManager :: get_instance()->retrieve_content_object($image_id);
+            
+            $dimensions = getimagesize($image_object->get_full_path());
+            
+            $html[] = '<img id="selected_image" style="width: ' . $dimensions[0] . 'px; height: ' . $dimensions[1] . 'px;" src="' . $image_object->get_url() . '" />';
+            $html[] = '<div class="clear"></div>';
+            $html[] = '<button id="change_image" class="negative delete">' . htmlentities(Translation :: get('SelectAnotherImage')) . '</button>';
+        }
+        else
+        {
+            $html[] = '<img id="selected_image" />';
+        }
+        
+        $html[] = '</div>';
+        $html[] = '<div class="clear">&nbsp;</div>';
+        $html[] = '</div>';
+        $html[] = '</div>';
+
+        $this->addElement('html', implode("\n", $html));
     }
 
     function setDefaults($defaults = array ())
@@ -81,4 +118,5 @@ class NewsArticleForm extends ContentObjectForm
         $object->set_tags($this->exportValue(NewsArticle :: PROPERTY_TAGS));
     }
 }
+
 ?>
