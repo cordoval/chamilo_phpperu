@@ -9,7 +9,7 @@ require_once Path :: get_repository_path() . 'lib/content_object/document/docume
 if (! empty($_FILES))
 {
     $upload_path = Path :: get(SYS_REPO_PATH);
-    $owner = Request :: get('owner');
+    $owner = Request :: post('owner');
     
     $filename = $_FILES['Filedata']['name'];
     $hash = md5($_FILES['Filedata']['name']);
@@ -53,6 +53,7 @@ if (! empty($_FILES))
     $properties['width'] = $dimensions[0];
     $properties['height'] = $dimensions[1];
     $properties['type'] = $document->get_extension();
+    $properties['owner'] = $owner;
     
     echo json_encode($properties);
 }

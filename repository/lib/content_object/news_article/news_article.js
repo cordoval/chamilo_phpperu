@@ -35,9 +35,9 @@ $(function ()
 		imageProperties = eval('(' + imageProperties + ')');
 		imageProperties = getMaximumDimensions(imageProperties);
 		
+		$('#selected_image').attr('src', imageProperties.webPath);
 		$('#selected_image').css('width', imageProperties.thumbnailWidth + 'px');
 		$('#selected_image').css('height', imageProperties.thumbnailHeight + 'px');
-		$('#selected_image').attr('src', imageProperties.webPath);
 		$('#image_container').show();
 		
 		$('#image_select').hide();
@@ -59,18 +59,12 @@ $(function ()
 		}
 		
 		// Initialize the uploadify plugin
-		$('#uploadify').fileUpload ({
-			'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/uploader-cms.swf',
+		$('#uploadify').uploadify ({
+			'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
 			'script': getPath('WEB_PATH') + 'common/javascript/ajax/upload_image.php',
-			'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/cancel.png',
-			//'buttonText': getTranslation('Browse', 'repository'),
-			//'buttonImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/button.png',
-			//'rollover': true,
+			'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
 			'folder': 'not_important',
 			'auto': true,
-			//'width': 84,
-			//'height': 27,
-			'displayData': 'percentage',
 			'scriptData': {'owner': getMemory('_uid')},
 			onComplete: function (evt, queueID, fileObj, response, data)
 			{
@@ -79,9 +73,9 @@ $(function ()
 				
 				$('input[name="header"]').val(imageProperties.id);
 				
+				$('#selected_image').attr('src', imageProperties.webPath);
 				$('#selected_image').css('width', imageProperties.thumbnailWidth + 'px');
 				$('#selected_image').css('height', imageProperties.thumbnailHeight + 'px');
-				$('#selected_image').attr('src', imageProperties.webPath);
 				$('#image_container').show();
 				
 				$('#image_select').hide();

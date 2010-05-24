@@ -24,6 +24,9 @@ abstract class ImageManipulation
      * height. Ideal for cropping the result to a square.
      */
     const SCALE_OUTSIDE = 1;
+    
+    const DIMENSION_WIDTH = 0;
+    const DIMENSION_HEIGHT = 1;
     /**
      * The file on which the manipulations will be done
      */
@@ -38,8 +41,8 @@ abstract class ImageManipulation
     {
         $this->source_file = $source_file;
         $dimension = getimagesize($source_file);
-        $this->width = $dimension[0];
-        $this->height = $dimension[1];
+        $this->width = $dimension[self :: DIMENSION_WIDTH];
+        $this->height = $dimension[self :: DIMENSION_HEIGHT];
     }
 
     /**
@@ -50,32 +53,48 @@ abstract class ImageManipulation
      * @param int $type
      * @return boolean True if successfull, false if not
      */
-    function scale($width, $height, $type = ImageManipulation :: SCALE_INSIDE)
+    function scale($width, $height, $type = self :: SCALE_INSIDE)
     {
-        $aspect = $this->height / $this->width;
-        if ($type == ImageManipulation :: SCALE_OUTSIDE)
+        $new_dimensions = $this->rescale($this->width, $this->height, $width, $height, $type);
+        return $this->resize($new_dimensions[self :: DIMENSION_WIDTH], $new_dimensions[self :: DIMENSION_HEIGHT]);
+    }
+    
+    /**
+     * Static function to calculate resized image dimensions
+     * @param int $original_width
+     * @param int $original_height
+     * @param int $width
+     * @param int $height
+     * @param int $type
+     * @return Array An array containing the new width and height of the image
+     */
+    static function rescale($original_width, $original_height, $width, $height, $type = self :: SCALE_INSIDE)
+    {
+        $aspect = $original_height / $original_width;
+        if ($type == self :: SCALE_OUTSIDE)
         {
-            $new_aspect = $height / $width;
+            $new_aspect = $height / $maximum_width;
             $width = ($aspect < $new_aspect ? 9999999 : $width);
             $height = ($aspect > $new_aspect ? 9999999 : $height);
         }
         // don't scale up
-        if ($width >= $this->width && $height >= $this->height)
+        if ($width >= $original_width && $height >= $original_height)
         {
             return false;
         }
         $new_aspect = $height / $width;
         if ($aspect < $new_aspect)
         {
-            $width = (int) min($width, $this->width);
+            $width = (int) min($width, $original_width);
             $height = (int) round($width * $aspect);
         }
         else
         {
-            $height = (int) min($height, $this->height);
+            $height = (int) min($height, $original_height);
             $width = (int) round($height / $aspect);
         }
-        return $this->resize($width, $height);
+        
+        return array(self :: DIMENSION_WIDTH => $width, self :: DIMENSION_HEIGHT => $height);
     }
 
     /**
@@ -94,7 +113,7 @@ abstract class ImageManipulation
         {
             $height = $width;
         }
-        if ($this->scale($width, $height, ImageManipulation :: SCALE_OUTSIDE))
+        if ($this->scale($width, $height, self :: SCALE_OUTSIDE))
         {
             return $this->crop($width, $height);
         }
@@ -110,7 +129,7 @@ abstract class ImageManipulation
      * @param int $offset_y
      * @return boolean True if successfull, false if not
      */
-    abstract function crop($width, $height, $offset_x = ImageManipulation :: CROP_CENTER, $offset_y = ImageManipulation :: CROP_CENTER);
+    abstract function crop($width, $height, $offset_x = self :: CROP_CENTER, $offset_y = self :: CROP_CENTER);
 
     /**
      * Resize an image to an exact set of dimensions, ignoring aspect ratio.

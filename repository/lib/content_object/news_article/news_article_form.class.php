@@ -27,7 +27,10 @@ class NewsArticleForm extends ContentObjectForm
     }
 
     private function build_default_form()
-    {        
+    {
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
+        
         $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectHeaderImage');
@@ -46,7 +49,6 @@ class NewsArticleForm extends ContentObjectForm
         $this->addElement('textarea', NewsArticle :: PROPERTY_TAGS, Translation :: get('Tags'), array('cols' => '70', 'rows' => '7'));
         $this->addRule(NewsArticle :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/lib/content_object/news_article/news_article.js'));
     }
 
@@ -66,22 +68,25 @@ class NewsArticleForm extends ContentObjectForm
             $image_id = $object->get_header();
             $image_object = RepositoryDataManager :: get_instance()->retrieve_content_object($image_id);
             
-            $dimensions = getimagesize($image_object->get_full_path());
+            $dimensions = getimagesize($image_object->get_full_path());            
+            $dimensions = ImageManipulation :: rescale($dimensions[ImageManipulation :: DIMENSION_WIDTH], $dimensions[ImageManipulation :: DIMENSION_HEIGHT], 500, 450, ImageManipulation :: SCALE_INSIDE);
             
-            $html[] = '<img id="selected_image" style="width: ' . $dimensions[0] . 'px; height: ' . $dimensions[1] . 'px;" src="' . $image_object->get_url() . '" />';
-            $html[] = '<div class="clear"></div>';
-            $html[] = '<button id="change_image" class="negative delete">' . htmlentities(Translation :: get('SelectAnotherImage')) . '</button>';
+            $html[] = '<img id="selected_image" style="width: ' . $dimensions[ImageManipulation :: DIMENSION_WIDTH] . 'px; height: ' . $dimensions[ImageManipulation :: DIMENSION_HEIGHT] . 'px;" src="' . $image_object->get_url() . '" />';
         }
         else
         {
             $html[] = '<img id="selected_image" />';
+        
         }
+        
+        $html[] = '<div class="clear"></div>';
+        $html[] = '<button id="change_image" class="negative delete">' . htmlentities(Translation :: get('SelectAnotherImage')) . '</button>';
         
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
         $html[] = '</div>';
-
+        
         $this->addElement('html', implode("\n", $html));
     }
 
