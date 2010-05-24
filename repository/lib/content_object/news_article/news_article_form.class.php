@@ -28,9 +28,6 @@ class NewsArticleForm extends ContentObjectForm
 
     private function build_default_form()
     {
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
-        
         $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectHeaderImage');
@@ -38,18 +35,10 @@ class NewsArticleForm extends ContentObjectForm
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         
-        $this->addElement('html', '<div id="image_select" style="display: none;">');
-        $this->addElement('static', 'uploadify', Translation :: get('UploadImage'), '<div id="uploadify"></div>');
-        $this->addElement('element_finder', 'image', Translation :: get('SelectHeaderImage'), $url, $locale, array());
-        $this->addElement('html', '</div>');
+        $this->addElement('image_selecter', NewsArticle :: PROPERTY_HEADER, Translation :: get('HeaderImage'), $url, $locale);
         
-        $this->addElement('hidden', NewsArticle :: PROPERTY_HEADER);
-        $this->add_image();
-        
-        $this->addElement('textarea', NewsArticle :: PROPERTY_TAGS, Translation :: get('Tags'), array('cols' => '70', 'rows' => '7'));
+        $this->addElement('textarea', NewsArticle :: PROPERTY_TAGS, Translation :: get('Tags'), array('cols' => '70', 'rows' => '5'));
         $this->addRule(NewsArticle :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
-        
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/lib/content_object/news_article/news_article.js'));
     }
 
     function add_image()
