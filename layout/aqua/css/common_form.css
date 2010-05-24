@@ -292,14 +292,6 @@ button.normal,a.normal_button {
 	background-image: url(../images/common/buttons/button_next.png);
 }
 
-button.next,a.next_button {
-	background-image: url(../images/common/buttons/button_next.png);
-}
-
-button.previous,a.previous_button {
-	background-image: url(../images/common/buttons/button_previous.png);
-}
-
 a.normal_button:hover,button.normal:hover {
 	background-color: #dff4ff;
 	border: 1px solid #c2e1ef;
@@ -310,6 +302,32 @@ button.normal:active,a.normal_button:active {
 	background-color: #6299c5;
 	border: 1px solid #6299c5;
 	color: #ffffff;
+}
+
+button.mini, a.mini_button,
+button.mini:hover, a.mini_button:hover,
+button.mini:active, a.mini_button:active
+{
+	background-position: 6px center;
+	padding: 0px 6px 0px 28px;
+	margin: -3px 0px 0px -3px;
+	line-height: 16px;
+	height: 22px;
+	vertical-align: middle;
+	font-size: 11px;
+}
+
+button.mini, a.mini_button
+{
+	border: 1px solid #dedede;
+}
+
+button.next,a.next_button {
+	background-image: url(../images/common/buttons/button_next.png);
+}
+
+button.previous,a.previous_button {
+	background-image: url(../images/common/buttons/button_previous.png);
 }
 
 button.empty,a.empty_button {
@@ -448,6 +466,10 @@ button.continue,a.continue_button {
 	background-image: url(../images/common/buttons/button_continue.png);
 }
 
+button.hide, a.hide_button {
+	background-image: url(../images/common/buttons/button_hide.png);
+}
+
 /*IE-fix to avoid adding unwanted margins to the form*/
 div.simple_search form {
 	margin: 0;
@@ -480,7 +502,7 @@ div.configuration_form span.category {
  * Don't change unless you have a death wish *
  *********************************************/
 .element_finder_inactive {
-	margin-right: 10px;
+	margin-right: 5px;
 }
 
 .active_elements,.inactive_elements {
@@ -502,11 +524,12 @@ div.configuration_form span.category {
 input[type=text].element_query { /*****************
 	 * width: 278px; *
 	 *****************/
-	width: 294px;
+	width: 276px;
 	background-image: url('../images/common/buttons/button_search.png');
 	background-repeat: no-repeat;
 	background-position: 2px 2px;
 	padding: 2px 4px 2px 20px;
+	margin-right: 5px;
 }
 
 input[type=button].activate_elements,input[type=button].deactivate_elements

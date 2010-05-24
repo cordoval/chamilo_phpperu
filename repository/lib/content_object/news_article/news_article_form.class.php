@@ -28,12 +28,24 @@ class NewsArticleForm extends ContentObjectForm
 
     private function build_default_form()
     {
-		$this->addElement('text', NewsArticle :: PROPERTY_HEADER, Translation :: get('Header'));
-		$this->addRule(NewsArticle :: PROPERTY_HEADER, Translation :: get('ThisFieldIsRequired'), 'required');
-
-		$this->addElement('text', NewsArticle :: PROPERTY_TAGS, Translation :: get('Tags'));
-		$this->addRule(NewsArticle :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
-
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'repository/lib/content_object/news_article/news_article.js'));
+        
+        $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('SelectHeaderImage');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        
+        //$this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'), true);
+        
+        $this->addElement('static', 'uploadify', Translation :: get('UploadImage'), '<div id="uploadify"></div>');
+        $this->addElement('element_finder', NewsArticle :: PROPERTY_HEADER, Translation :: get('SelectHeaderImage'), $url, $locale, array());
+        
+        $this->addElement('textarea', NewsArticle :: PROPERTY_TAGS, Translation :: get('Tags'), array('cols' => '70', 'rows' => '7'));
+        $this->addRule(NewsArticle :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
+    
     }
 
     function setDefaults($defaults = array ())
@@ -41,8 +53,8 @@ class NewsArticleForm extends ContentObjectForm
         $content_object = $this->get_content_object();
         if (isset($content_object))
         {
-        	$defaults[NewsArticle :: PROPERTY_HEADER] = $content_object->get_header();
-        	$defaults[NewsArticle :: PROPERTY_TAGS] = $content_object->get_tags();
+            $defaults[NewsArticle :: PROPERTY_HEADER] = $content_object->get_header();
+            $defaults[NewsArticle :: PROPERTY_TAGS] = $content_object->get_tags();
         }
         parent :: setDefaults($defaults);
     }
@@ -65,8 +77,8 @@ class NewsArticleForm extends ContentObjectForm
 
     private function fill_properties($object)
     {
-    	$object->set_header($this->exportValue(NewsArticle :: PROPERTY_HEADER));
-    	$object->set_tags($this->exportValue(NewsArticle :: PROPERTY_TAGS));
+        $object->set_header($this->exportValue(NewsArticle :: PROPERTY_HEADER));
+        $object->set_tags($this->exportValue(NewsArticle :: PROPERTY_TAGS));
     }
 }
 ?>
