@@ -35,7 +35,6 @@ class PackageManagerUpdaterComponent extends PackageManager
         $updater->run();
 
         $this->display_header();
-        echo 'Implementation pending ...';
         echo $updater->retrieve_result();
         $this->display_footer();
     }

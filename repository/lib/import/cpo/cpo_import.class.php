@@ -163,12 +163,12 @@ class CpoImport extends ContentObjectImport
         	$this->create_content_object($lo);
         }
    
-//        $this->create_complex_wrappers();
-//        $this->create_attachments();
-//        $this->create_includes();
-//        $this->update_references();
-//        $this->update_learning_path_prerequisites();
-//		$this->update_hotspot_questions();        
+        $this->create_complex_wrappers();
+        $this->create_attachments();
+        $this->create_includes();
+        $this->update_references();
+        $this->update_learning_path_prerequisites();
+		$this->update_hotspot_questions();        
         
         if ($temp)
         {

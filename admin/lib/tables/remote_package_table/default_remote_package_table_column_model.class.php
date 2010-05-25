@@ -25,7 +25,7 @@ class DefaultRemotePackageTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $columns = array();
-        //$columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_SECTION);
+        $columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_SECTION);
         $columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_NAME);
         $columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_VERSION);
         $columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_DESCRIPTION);
