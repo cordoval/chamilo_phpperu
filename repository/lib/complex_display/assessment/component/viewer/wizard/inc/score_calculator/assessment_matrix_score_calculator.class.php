@@ -35,13 +35,11 @@ class AssessmentMatrixScoreCalculator extends ScoreCalculator
             {
                 $answers = array_keys($user_answers[$index]);
                 $matches = $option->get_matches();
-
                 if ($matches == null)
                     $matches = array();
 
                 $difference = array_diff($answers, $matches);
-
-                if (count($difference) == 0)
+                if (count($difference) == 0 && count($answers) == count($matches))
                 {
                     $score += $option->get_score();
                 }

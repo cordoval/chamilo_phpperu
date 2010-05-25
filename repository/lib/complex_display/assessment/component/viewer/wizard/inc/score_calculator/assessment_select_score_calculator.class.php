@@ -35,7 +35,7 @@ class AssessmentSelectScoreCalculator extends ScoreCalculator
 
             foreach ($answers as $i => $answer)
             {
-                if (in_array($i, $user_answers[0]))
+                if (in_array($i, $user_answers[0]) && ($answer->is_correct() || $answer->get_score() <= 0))
                 {
                     $score += $answer->get_score();
                 }
