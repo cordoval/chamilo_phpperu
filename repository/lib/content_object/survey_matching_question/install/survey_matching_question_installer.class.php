@@ -3,7 +3,7 @@
  * $Id: survey_matching_question_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
  */
-class SurveyMatchingQuestionInstaller extends ContentObjectInstaller
+class SurveyMatchingQuestionContentObjectInstaller extends ContentObjectInstaller
 {
     function get_path()
     {

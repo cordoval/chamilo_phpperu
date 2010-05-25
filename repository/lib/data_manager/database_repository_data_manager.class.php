@@ -1213,6 +1213,11 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $order_property[] = new ObjectTableOrder(RepositoryCategory :: PROPERTY_DISPLAY_ORDER);
         return $this->retrieve_objects(RepositoryCategory :: get_table_name(), $condition, $offset, $count, $order_property);
     }
+    
+    function retrieve_category_user_root($user_id)
+    {
+    	
+    }
 
     function select_next_category_display_order($parent_category_id, $user_id)
     {

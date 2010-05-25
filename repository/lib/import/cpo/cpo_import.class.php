@@ -114,7 +114,7 @@ class CpoImport extends ContentObjectImport
      * Example:
      * $object_numbers[60] = 1;
      */
-    private $object_numbers;
+    private $object_numbers = array();
     
     /**
      * Enter description here...
@@ -160,21 +160,20 @@ class CpoImport extends ContentObjectImport
         
         foreach ($content_objects as $lo)
         {
-            $this->create_content_object($lo);
+        	$this->create_content_object($lo);
         }
    
-        $this->create_complex_wrappers();
-        $this->create_attachments();
-        $this->create_includes();
-        $this->update_references();
-        $this->update_learning_path_prerequisites();
-		$this->update_hotspot_questions();        
+//        $this->create_complex_wrappers();
+//        $this->create_attachments();
+//        $this->create_includes();
+//        $this->update_references();
+//        $this->update_learning_path_prerequisites();
+//		$this->update_hotspot_questions();        
         
         if ($temp)
         {
             Filesystem :: remove($temp);
         }
-        
         return true;
     }
 
@@ -296,7 +295,15 @@ class CpoImport extends ContentObjectImport
             $comment = $general->getElementsByTagName('comment')->item(0)->nodeValue;
             $created = $general->getElementsByTagName('created')->item(0)->nodeValue;
             $modified = $general->getElementsByTagName('modified')->item(0)->nodeValue;
-            $category = $general->getElementsByTagName('parent')->item(0)->nodeValue;
+            if (is_object($general->getElementsByTagName('parent')->item(0)))
+            {
+            	$category = $general->getElementsByTagName('parent')->item(0)->nodeValue;
+            }
+            else 
+            {
+            	$category = null;
+            }
+            
             $object_number = $general->getElementsByTagName('object_number')->item(0)->nodeValue;
             
             $lo = ContentObject :: factory($type);

@@ -27,7 +27,7 @@ class PclzipFilecompression extends Filecompression
         $pclzip = new PclZip($file);
         if ($pclzip->extract(PCLZIP_OPT_PATH, $dir) == 0)
         { 
-        	dump($pclzip->errorInfo());
+        	print_r($pclzip->errorInfo());
             return false;
         } 
         Filesystem :: create_safe_names($dir);

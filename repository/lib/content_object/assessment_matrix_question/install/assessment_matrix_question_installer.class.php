@@ -3,7 +3,7 @@
  * $Id: assessment_matrix_question_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
  */
-class AssessmentMatrixQuestionInstaller extends ContentObjectInstaller
+class AssessmentMatrixQuestionContentObjectInstaller extends ContentObjectInstaller
 {
     function get_path()
     {

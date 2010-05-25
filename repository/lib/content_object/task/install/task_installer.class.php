@@ -3,7 +3,7 @@
  * $Id: task_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
  */
-class TaskInstaller extends ContentObjectInstaller
+class TaskContentObjectInstaller extends ContentObjectInstaller
 {
     function get_path()
     {
