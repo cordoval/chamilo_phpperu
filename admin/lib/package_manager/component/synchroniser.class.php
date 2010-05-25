@@ -85,7 +85,7 @@ class PackageManagerSynchroniserComponent extends PackageManager
     function parse_remote_packages_data($data)
     {
         $adm = AdminDataManager :: get_instance();
-        
+
         foreach ($data['package'] as $package)
         {
             $package['dependencies'] = serialize($package['dependencies']);
@@ -104,11 +104,10 @@ class PackageManagerSynchroniserComponent extends PackageManager
             }
             else
             {
-                $remote_package = new RemotePackage($package);
-                
+            	$remote_package = new RemotePackage($package);
                 if (! $remote_package->create())
                 {
-                    return false;
+                	return false;
                 }
             }
         }

@@ -1,19 +1,12 @@
 <?php
-/**
- * $Id: installer.class.php 198 2009-11-13 12:20:22Z vanpouckesven $
- * @package common
- * @todo Some more common install-functions can be added here. Example: A
- * function which returns the list of xml-files from a given directory.
- */
-
-abstract class ContentObjectInstaller
+abstract class ContentObjectUpdater
 {
     const TYPE_NORMAL = '1';
     const TYPE_CONFIRM = '2';
     const TYPE_WARNING = '3';
     const TYPE_ERROR = '4';
-    const INSTALL_SUCCESS = 'success';
-    const INSTALL_MESSAGE = 'message';
+    const UPDATE_SUCCESS = 'success';
+    const UPDATE_MESSAGE = 'message';
     
     /**
      * The datamanager which can be used by the installer of the application
@@ -21,36 +14,40 @@ abstract class ContentObjectInstaller
     private $data_manager;
     
     /**
-     * Message to be displayed upon completion of the installation procedure
+     * Message to be displayed upon completion of the update procedure
      */
     private $message;
 
+    private $type;
     /**
      * Constructor
      */
-    function ContentObjectInstaller()
+    function ContentObjectUpdater($type)
     {
         $this->data_manager = RepositoryDataManager :: get_instance();
         $this->message = array();
+        $this->type = $type;
     }
 
-    function install()
+    function update()
     {
-        if (! $this->register_content_object())
-        {
-            return false;
-        }
-        
-        $dir = $this->get_path();
+        $dir = $this->get_install_path();
         $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
         
         foreach ($files as $file)
         {
             if ((substr($file, - 3) == 'xml'))
             {
-                if (! $this->create_storage_unit($file))
+                if (! $this->storage_unit_exist($file))
                 {
-                    return false;
+                    if (! $this->create_storage_unit($file))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    $this->add_message(self :: TYPE_WARNING, 'Xml file needed with changes');
                 }
             }
         }
@@ -60,65 +57,54 @@ abstract class ContentObjectInstaller
             return false;
         }
         
-        if (method_exists($this, 'install_extra'))
+        if (method_exists($this, 'update_extra'))
         {
-            if (! $this->install_extra())
+            if (! $this->update_extra())
             {
                 return false;
             }
         }
         
-        if (! $this->import_content_object())
-        {
-        	return false;
-        }
-        
-        return $this->installation_successful();
+        return $this->update_successful();
     }
-    
-	public function import_content_object()
+
+    public function import_content_object()
     {
         $type = $this->get_content_object();
-    	$file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/install/example.zip';
-
-    	if (file_exists($file))
-    	{
-	    	$condition = new EqualityCondition(User::PROPERTY_PLATFORMADMIN, 1);
-	        $user = UserDataManager::get_instance()->retrieve_users($condition)->next_result();
-	        $category = RepositoryDataManager::get_instance();
+        $file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/install/example.zip';
         
-	        
-	    	$import = ContentObjectImport::factory('cpo', array('tmp_name' => $file), $user, 0);
-	        if (! $import->import_content_object())
-	        {
-	        	$message = Translation :: get('ContentObjectImportFailed');
-                $this->installation_failed($message);
+        if (file_exists($file))
+        {
+            $condition = new EqualityCondition(User :: PROPERTY_PLATFORMADMIN, 1);
+            $user = UserDataManager :: get_instance()->retrieve_users($condition)->next_result();
+            $category = RepositoryDataManager :: get_instance();
+            
+            $import = ContentObjectImport :: factory('cpo', array('tmp_name' => $file), $user, 0);
+            if (! $import->import_content_object())
+            {
+                $message = Translation :: get('ContentObjectImportFailed');
+                $this->update_failed($message);
                 return false;
-	        }
-	        else
-	        {
-	        	$this->add_message(self :: TYPE_NORMAL, Translation :: get('ImportSuccessfull'));
-	        }
-    	}
-    	return true;
+            }
+            else
+            {
+                $this->add_message(self :: TYPE_NORMAL, Translation :: get('ImportSuccessfull'));
+            }
+        }
+        return true;
     }
-    
 
+    
     function get_content_object()
     {
-        $content_object_class = $this->get_content_object_name();
-        $content_object = Utilities :: camelcase_to_underscores($content_object_class);
-        
-        return $content_object;
+        return $this->type;
     }
 
     function get_content_object_name()
     {
-        $content_object_class = str_replace('ContentObjectInstaller', '', get_class($this));
-        
-        return $content_object_class;
+        return Utilities :: underscores_to_camelcase($this->type);
     }
-
+    
     /**
      * Parses an XML file describing a storage unit.
      * For defining the 'type' of the field, the same definition is used as the
@@ -225,7 +211,7 @@ abstract class ContentObjectInstaller
         $this->add_message(self :: TYPE_NORMAL, Translation :: get('StorageUnitCreation') . ': <em>' . $storage_unit_info['name'] . '</em>');
         if (! $this->data_manager->create_storage_unit($storage_unit_info['name'], $storage_unit_info['properties'], $storage_unit_info['indexes']))
         {
-            return $this->installation_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
+            return $this->update_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
         }
         else
         {
@@ -246,7 +232,7 @@ abstract class ContentObjectInstaller
         
         foreach ($events as $index => $event)
         {
-            $settings[$event->getAttribute('name')] = array('default' => $event->getAttribute('default'), 'user_setting' => $event->getAttribute('user_setting'));
+            $settings[$event->getAttribute('name')] = array('default' => $event->getAttribute('default'), 'user_setting' => $event->getAttribute('user_setting'), 'type' => $event->getAttribute('type'));
         }
         
         return $settings;
@@ -255,31 +241,48 @@ abstract class ContentObjectInstaller
     function configure_content_object()
     {
         $content_object = $this->get_content_object();
-        $base_path = Path :: get_repository_path() . 'lib/content_object/' . $content_object;
-        $settings_file = $base_path . '/settings/settings_' . $content_object . '.xml';
+        $settings_file = $this->get_path() . 'settings.xml';
         
         if (file_exists($settings_file))
         {
             $xml = $this->parse_content_object_settings($settings_file);
-            
             foreach ($xml as $name => $parameters)
             {
-                $setting = new Setting();
-                $setting->set_application(RepositoryManager :: APPLICATION_NAME);
-                
-                $setting->set_variable($name);
-                $setting->set_value($parameters['default']);
-                
-                $user_setting = $parameters['user_setting'];
-                if ($user_setting)
-                    $setting->set_user_setting($user_setting);
-                else
-                    $setting->set_user_setting(0);
-                
-                if (! $setting->create())
+                $type = $parameters['type'];
+                if ($type == 1)
                 {
-                    $message = Translation :: get('ContentObjectConfigurationFailed');
-                    $this->installation_failed($message);
+                    $setting = new Setting();
+                    $setting->set_application(RepositoryManager :: APPLICATION_NAME);
+                    $setting->set_variable($name);
+                    $setting->set_value($parameters['default']);
+                    
+                    $user_setting = $parameters['user_setting'];
+                    if ($user_setting)
+                        $setting->set_user_setting($user_setting);
+                    else
+                        $setting->set_user_setting(0);
+                    
+                    if (! $setting->create())
+                    {
+                        $message = Translation :: get('ApplicationConfigurationFailed');
+                        $this->update_failed($message);
+                    }
+                }
+                else
+                {
+                    $conditions = array();
+                    $conditions[] = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application);
+                    $conditions[] = new EqualityCondition(Setting :: PROPERTY_VARIABLE, $name);
+                    $condition = new AndCondition($conditions);
+                    
+                    $settings = AdminDataManager :: get_instance()->retrieve_settings($condition);
+                    while ($setting = $settings->next_result())
+                    {
+                        if (! $setting->delete())
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('SettingsAdded'));
@@ -288,30 +291,22 @@ abstract class ContentObjectInstaller
         return true;
     }
 
-    function register_content_object()
+    function storage_unit_exist($file)
     {
-        $this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectRegistration'));
-        
-        $content_object_registration = new Registration();
-        $content_object_registration->set_type(Registration :: TYPE_CONTENT_OBJECT);
-        $content_object_registration->set_name($this->get_content_object());
-        $content_object_registration->set_status(Registration :: STATUS_ACTIVE);
-        
-        $package_info = PackageInfo :: factory(Registration :: TYPE_CONTENT_OBJECT, $this->get_content_object());
-        
-        if ($package_info)
+        $storage_unit_info = self :: parse_xml_file($file);
+        $this->add_message(self :: TYPE_NORMAL, Translation :: get('StorageUnitExist') . ': <em>' . $storage_unit_info['name'] . '</em>');
+        if (! $this->data_manager->storage_unit_exist($storage_unit_info['name']))
         {
-            $content_object_registration->set_version($package_info->get_package()->get_version());
+            return false;
+            //return $this->update_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
         }
-        
-        if (! $content_object_registration->create())
+        else
         {
-            return $this->installation_failed(Translation :: get('ContentObjectRegistrationFailed'));
+            return true;
         }
-        return true;
     }
 
-    function installation_failed($error_message)
+    function update_failed($error_message)
     {
         $this->add_message(self :: TYPE_ERROR, $error_message);
         $this->add_message(self :: TYPE_ERROR, Translation :: get('ContentObjectInstallFailed'));
@@ -319,7 +314,7 @@ abstract class ContentObjectInstaller
         return false;
     }
 
-    function installation_successful()
+    function update_successful()
     {
         $this->add_message(self :: TYPE_CONFIRM, Translation :: get('InstallSuccess'));
         return true;
@@ -330,15 +325,17 @@ abstract class ContentObjectInstaller
      * @param string $application The application for which we want to start the installer.
      * @param string $values The form values passed on by the wizard.
      */
-    static function factory($type)
+    static function factory($type, $version)
     {
-        $class = ContentObject :: type_to_class($type) . 'ContentObjectInstaller';
+        $version_string = str_replace('.', '', $version);
         
-        $file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/install/' . $type . '_installer.class.php';
+    	$class = ContentObject :: type_to_class($type) . $version_string . 'ContentObjectUpdater';
+        
+        $file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/update/' . $version . '/' . $type . '_' . $version_string . '_updater.class.php';
         if (file_exists($file))
         {
             require_once $file;
-            return new $class();
+            return new $class($type);
         }
         else
         {
@@ -348,5 +345,7 @@ abstract class ContentObjectInstaller
     }
 
     abstract function get_path();
+    
+    abstract function get_install_path();
 }
 ?>

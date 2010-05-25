@@ -202,7 +202,7 @@ class Database
         $this->connection->loadModule('Manager');
         $manager = $this->connection->manager;
         $table_fields = $manager->listTableFields($name);
-        
+
         if (! MDB2 :: isError($table_fields))
         {
         	return true;
