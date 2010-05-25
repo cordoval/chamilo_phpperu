@@ -68,24 +68,88 @@ abstract class ContentObjectInstaller
             }
         }
         
+        $this->import_content_object();
+        
         return $this->installation_successful();
     }
+    
+	public function import_content_object()
+    {
+        $type = $this->get_content_object();
+    	$file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/install/example.zip';
 
-        function get_content_object()
-        {
-            $content_object_class = $this->get_content_object_name();
-            $content_object = Utilities :: camelcase_to_underscores($content_object_class);
-            
-            return $content_object;
-        }
+    	if (file_exists($file))
+    	{
+	    	$condition = new EqualityCondition(User::PROPERTY_PLATFORMADMIN, 1);
+	        $user = UserDataManager::get_instance()->retrieve_users($condition)->next_result();
+	        $category = RepositoryDataManager::get_instance();
+        
+	        
+	    	$import = ContentObjectImport::factory('cpo', array('tmp_name' => $file), $user, 0);
+	        $import->import_content_object();
+    	}
+        
+//        
+//    	$zip = Filecompression :: factory();
+//        $temp = $zip->extract_file($this->get_path() . 'example.zip');
+//        $dir = $temp . '/';
+//        
+//        $path = $dir . 'example.xml';
+//        
+//    	if(!file_exists($path))
+//        {
+//	        if ($temp)
+//	        {
+//	            Filesystem :: remove($temp);
+//	        }
+//        	return false;
+//        }
+//        
+//        $this->import_files($dir);
+//        
+//        $doc = $this->doc;
+//        $doc = new DOMDocument();
+//       
+//        $doc->load($path);
+//        $content_objects = $doc->getElementsByTagname('content_object');
+//      
+//        $this->create_categories($doc->getElementsByTagname('category'));
+//        
+//        foreach ($content_objects as $lo)
+//        {
+//            $this->create_content_object($lo);
+//        }
+//   
+//        $this->create_complex_wrappers();
+//        $this->create_attachments();
+//        $this->create_includes();
+//        $this->update_references();
+//        $this->update_learning_path_prerequisites();
+//		$this->update_hotspot_questions();        
+//        
+//        if ($temp)
+//        {
+//            Filesystem :: remove($temp);
+//        }
+//        
+//        return true;
+    }
     
-        function get_content_object_name()
-        {
-            $content_object_class = str_replace('Installer', '', get_class($this));
-            
-            return $content_object_class;
-        }
-    
+
+    function get_content_object()
+    {
+        $content_object_class = $this->get_content_object_name();
+        $content_object = Utilities :: camelcase_to_underscores($content_object_class);
+        
+        return $content_object;
+    }
+
+    function get_content_object_name()
+    {
+        $content_object_class = str_replace('ContentObjectInstaller', '', get_class($this));
+        
+        return $content_object_class;
+    }
 
     /**
      * Parses an XML file describing a storage unit.
@@ -197,7 +261,7 @@ abstract class ContentObjectInstaller
         }
         else
         {
-        	return true;
+            return true;
         }
     }
 
@@ -222,8 +286,8 @@ abstract class ContentObjectInstaller
 
     function configure_content_object()
     {
-        $content_object = $this->get_content_object();       
-        $base_path = Path :: get_repository_path() . 'lib/content_object/' . $content_object; 
+        $content_object = $this->get_content_object();
+        $base_path = Path :: get_repository_path() . 'lib/content_object/' . $content_object;
         $settings_file = $base_path . '/settings/settings_' . $content_object . '.xml';
         
         if (file_exists($settings_file))
@@ -233,7 +297,7 @@ abstract class ContentObjectInstaller
             foreach ($xml as $name => $parameters)
             {
                 $setting = new Setting();
-                $setting->set_application(RepositoryManager::APPLICATION_NAME);
+                $setting->set_application(RepositoryManager :: APPLICATION_NAME);
                 
                 $setting->set_variable($name);
                 $setting->set_value($parameters['default']);
@@ -300,19 +364,19 @@ abstract class ContentObjectInstaller
      */
     static function factory($type)
     {
-        $class = ContentObject :: type_to_class($type) . 'Installer';
+        $class = ContentObject :: type_to_class($type) . 'ContentObjectInstaller';
         
         $file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/install/' . $type . '_installer.class.php';
         if (file_exists($file))
         {
-        	require_once $file;
-        	return new $class();
+            require_once $file;
+            return new $class();
         }
         else
         {
-        	return false;
+            return false;
         }
-        
+    
     }
 
     abstract function get_path();

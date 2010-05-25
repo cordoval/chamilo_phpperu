@@ -217,13 +217,13 @@ class Filesystem
         //Replace .php by .phps
         //$safe_name = eregi_replace("\.(php.?|phtml)$", ".phps", $safe_name);
         //If first letter is . add something before
-        $safe_name = eregi_replace("^\.", "0.", $safe_name);
+        $safe_name = preg_replace("/^\./", "0.", $safe_name);
         //Replace accented characters
         $safe_name = strtr($safe_name, 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝàáâãäåçèéêëìíîïðñòóôõöøùúûüýÿ', 'aaaaaaaceeeeiiiidnoooooouuuuyaaaaaaceeeeiiiidnoooooouuuuyy');
         //Replace all except letters, numbers, - and . to underscores
-        $safe_name = ereg_replace('[^0-9a-zA-Z\-\.]', '_', $safe_name);
+        $safe_name = preg_replace('[^0-9a-zA-Z\-\.]', '_', $safe_name);
         //Replace set of underscores by a single underscore
-        $safe_name = ereg_replace('[_]+', '_', $safe_name);
+        $safe_name = preg_replace('/[_]+/', '_', $safe_name);
         return $safe_name;
     }
 

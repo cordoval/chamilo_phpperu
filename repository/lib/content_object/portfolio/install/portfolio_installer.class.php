@@ -3,7 +3,7 @@
  * $Id: portfolio_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
  */
-class PortfolioInstaller extends ContentObjectInstaller
+class PortfolioContentObjectInstaller extends ContentObjectInstaller
 {
     function get_path()
     {

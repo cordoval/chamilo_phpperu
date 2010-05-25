@@ -58,7 +58,7 @@ class RepositoryRights
     {
         return RightsUtilities :: get_root_id(RepositoryManager :: APPLICATION_NAME, 'user_tree', $user_id);
     }
-
+    
 	static function get_location_id_by_identifier_from_user_subtree($type, $identifier, $user_id)
     {
     	return RightsUtilities :: get_location_id_by_identifier(RepositoryManager :: APPLICATION_NAME, $type, $identifier, $user_id, 'user_tree');

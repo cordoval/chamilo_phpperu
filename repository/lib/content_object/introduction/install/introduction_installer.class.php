@@ -3,7 +3,7 @@
  * $Id: introduction_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
  */
-class IntroductionInstaller extends ContentObjectInstaller
+class IntroductionContentObjectInstaller extends ContentObjectInstaller
 {
     function get_path()
     {
