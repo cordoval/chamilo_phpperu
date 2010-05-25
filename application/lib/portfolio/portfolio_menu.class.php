@@ -114,7 +114,7 @@ class PortfolioMenu extends HTML_Menu
         $pdm = PortfolioDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
         
-        $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_PUBLISHER, $this->view_user);
+        $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_OWNER_ID, $this->view_user);
         $publications = $pdm->retrieve_portfolio_publications($condition);
         while ($publication = $publications->next_result())
         {

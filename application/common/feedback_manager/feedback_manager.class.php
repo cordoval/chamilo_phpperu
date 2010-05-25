@@ -22,25 +22,36 @@ class FeedbackManager extends SubManager
     const ACTION_CREATE_FEEDBACK = 'create_feedback';
     const ACTION_UPDATE_FEEDBACK = 'update_feedback';
     const ACTION_DELETE_FEEDBACK = 'delete_feedback';
+
+    const ACTION_BROWSE_ONLY_FEEDBACK = 'browse_only_feedback';
+    const ACTION_CREATE_ONLY_FEEDBACK = 'create_only_feedback';
+
     
     private $parameters;
     private $application;
     private $publication_id;
     private $complex_wrapper_id;
 
-    function FeedbackManager($parent, $application, $publication_id, $complex_wrapper_id)
+    function FeedbackManager($parent, $application, $publication_id, $complex_wrapper_id, $optional_action = null)
     {
         parent :: __construct($parent);
         
         $this->application = $application;
         $this->publication_id = $publication_id;
         $this->complex_wrapper_id = $complex_wrapper_id;
-        
-    	$action = Request :: get(self :: PARAM_ACTION);
-        if ($action)
+
+        $action = Request :: get(self :: PARAM_ACTION);
+
+        if($optional_action != null && $action != FeedbackManager :: ACTION_DELETE_FEEDBACK && $action != FeedbackManager :: ACTION_UPDATE_FEEDBACK)
         {
+            $this->set_parameter(self :: PARAM_ACTION, $optional_action);
+        }
+        elseif ($action)
+        {          
             $this->set_parameter(self :: PARAM_ACTION, $action);
         }
+
+    	
     }
 
     function run()
@@ -62,8 +73,13 @@ class FeedbackManager extends SubManager
             case self :: ACTION_BROWSE_FEEDBACK :
                 $component = $this->create_component('Browser');
                 break;
-            case self :: ACTION_CREATE_FEEDBACK :
-                
+            case self :: ACTION_BROWSE_ONLY_FEEDBACK :
+                $component = $this->create_component('Browser');
+                break;
+            case self :: ACTION_CREATE_ONLY_FEEDBACK :
+                $component = $this->create_component('Creator');
+                break;
+            case self :: ACTION_CREATE_FEEDBACK :                
                 $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_UPDATE_FEEDBACK :
@@ -170,7 +186,7 @@ class FeedbackManager extends SubManager
         $this->get_parent()->add_actionbar_item($link);
     }
     
-	function create_component($type, $application)
+	function create_component($type, $application = null)
 	{
 		$component = parent :: create_component($type, $application);
 		
