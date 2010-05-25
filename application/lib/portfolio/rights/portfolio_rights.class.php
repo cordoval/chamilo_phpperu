@@ -26,6 +26,7 @@ class PortfolioRights {
 
     const ANONYMOUS_USERS_ID = '1';
     const ALL_USERS_ID ='0';
+    const DEFAULT_LOCATION_TREE_IDENTIFIER = 0;
 
     const VIEW_RIGHT = '1';
     const EDIT_RIGHT = '2';
@@ -50,6 +51,7 @@ class PortfolioRights {
     const GROUP_RIGHTS = 'group';
     const USER_RIGHTS = 'user';
     const SESSION_RIGHTS = 'portfolio_rights';
+
 
 
     /**
@@ -666,8 +668,7 @@ class PortfolioRights {
                         if($location->get_parent() == 0)
                         {
                             //RESULT3b: YES: default rights apply
-                            //TODO: IMPLEMENT THIS!!!!!!!!!!!!
-                            //FOR THE MOMENT DEFAULT RIGHTS = RIGHTS ONLY FOR USER
+                            $location = self::get_default_location();
                         }
 
 
@@ -912,11 +913,21 @@ class PortfolioRights {
             }
         }
 
+        static function get_default_location()
+        {
+            $default_root = self::get_root(self::DEFAULT_LOCATION_TREE_IDENTIFIER);
+            if($default_root == false)
+            {
+                $default_root = self::create_default_location();
+            }
+            return $default_root;
+        }
+
 
         /**
          * get the portfolio location object for the root of this user's portfolio locations tree
          * @param <type> $user_id
-         * @return <type>
+         * @return Portfoliolocation or False
          */
         static function get_root($user_id)
         {
@@ -1162,10 +1173,15 @@ class PortfolioRights {
             $location->set_tree_identifier($user_id);
             $location->set_locked(false);
             $location->set_parent(0);
-//            $pdm = PortfolioDataManager::get_instance();
-//            return $pdm->create_location($location);
             return $location->create();
         }
+
+    static function create_default_location()
+    {
+        return self::create_portfolio_root(self::DEFAULT_LOCATION_TREE_IDENTIFIER);
+    }
+
+
 
 
 

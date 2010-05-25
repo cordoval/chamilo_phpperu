@@ -28,6 +28,7 @@ class PortfolioManager extends WebApplication
     const ACTION_CREATE_PORTFOLIO_ITEM = 'create_portfolio_item';
     const ACTION_VIEW_PORTFOLIO = 'view_portfolio';
     const ACTION_BROWSE = 'browse';
+    const ACTION_SET_PORTFOLIO_DEFAULTS = 'set_defaults';
 
     /**
      * Constructor
@@ -65,6 +66,9 @@ class PortfolioManager extends WebApplication
             case self :: ACTION_BROWSE :
                 $component = $this->create_component('Browser');
                 break;
+            case self :: ACTION_SET_PORTFOLIO_DEFAULTS :
+                $component = $this->create_component('AdminDefaultSettingsCreator');
+                break;
             default :
                 if (PlatformSetting :: get('first_page', 'portfolio') == 0)
                 {
@@ -87,7 +91,19 @@ class PortfolioManager extends WebApplication
         return self :: APPLICATION_NAME;
     }
 
-    // Data Retrieving
+   /**
+     * Gets the available links to display in the platform admin
+     * @retun array of links and actions
+     */
+    public function get_application_platform_admin_links()
+    {
+        $links = array();
+        $links[] = array('name' => Translation :: get('SetPortfolioDefaults'), 'action' => 'category', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_SET_PORTFOLIO_DEFAULTS)));
+        
+        $info = parent :: get_application_platform_admin_links();
+        $info['links'] = $links;
+        return $info;
+    }
     
 
     function count_portfolio_publications($condition)
@@ -446,7 +462,7 @@ class PortfolioManager extends WebApplication
         return $success;
     }
 
-  
+   
 
 }
 ?>

@@ -14,6 +14,7 @@ class PortfolioPublicationForm extends FormValidator
 {
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
+    const TYPE_CREATE_DEFAULTS = 3;
 
 
     const RIGHT_VIEW = 'view';
@@ -39,6 +40,10 @@ class PortfolioPublicationForm extends FormValidator
         elseif ($this->form_type == self :: TYPE_CREATE)
         {
             $this->build_creation_form($type);
+        }
+        elseif ($this->form_type == self :: TYPE_CREATE_DEFAULTS)
+        {
+            $this->build_system_defaults_form();
         }
       
     }
@@ -222,6 +227,76 @@ class PortfolioPublicationForm extends FormValidator
 
         $defaults['inherit_set_option'] = $inherit_default ;
      
+        parent :: setDefaults($defaults);
+    }
+
+    function build_system_defaults_form()
+    {
+        $attributes1 = array();
+        $attributes1['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $locale1 = array();
+        $locale1['Display'] = Translation :: get('SelectRecipients');
+        $locale1['Searching'] = Translation :: get('Searching');
+        $locale1['NoResults'] = Translation :: get('NoResults');
+        $locale1['Error'] = Translation :: get('Error');
+        $attributes1['locale'] = $locale1;
+        
+
+        $attributes1['defaults'] = array();
+
+
+        $radio_options = array();
+        $i = 0;
+
+        $radio_options[$i++] = PortfolioRights::RADIO_OPTION_ANONYMOUS;
+        $radio_options[$i++] = PortfolioRights::RADIO_OPTION_ALLUSERS;
+        $radio_options[$i++] = PortfolioRights::RADIO_OPTION_ME;
+
+        $rights_array = array();
+
+        $rights_array[] = self::RIGHT_VIEW;
+        $rights_array[] = self::RIGHT_EDIT;
+        $rights_array[] = self::RIGHT_VIEW_FEEDBACK;
+        $rights_array[] = self::RIGHT_GIVE_FEEDBACK;
+
+        foreach ($rights_array as $right)
+        {
+            $this->add_receivers_variable($right, Translation :: get($right), $attributes, $radio_options, PortfolioRights::RADIO_OPTION_ALLUSERS);
+        }
+
+        $this->addElement('html', '</div>');
+
+        $this->addElement('html', "<script type = \"text/javascript\">
+                                    /* <![CDATA[ */
+                                    var no_inherit = document.getElementById('$idSet');
+                                    if(no_inherit.checked)
+                                    {
+                                        options_show();
+                                    }
+                                    else
+                                    {
+                                        options_hide();
+                                    }
+                                    function options_show()
+                                    {
+                                        el= document.getElementById('$nameWindow');
+                                        el.style.display='';
+                                    }
+                                    function options_hide()
+                                    {
+                                        el= document.getElementById('$nameWindow');
+                                        el.style.display='none';
+                                    }
+                                    /* ]]> */
+                                    </script>\n"
+                        );
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+        $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+
+        
+
         parent :: setDefaults($defaults);
     }
 
