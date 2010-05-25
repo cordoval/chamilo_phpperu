@@ -183,3 +183,27 @@ function openPopup(url, width, height)
 	
 	return true;
 }
+
+function scaleDimensions(width, height, imageProperties)
+{
+	if (imageProperties.width > width || imageProperties.height > height)
+	{
+		if (imageProperties.width >= imageProperties.height)
+		{
+			imageProperties.thumbnailWidth = width;
+			imageProperties.thumbnailHeight = (imageProperties.thumbnailWidth / imageProperties.width) * imageProperties.height;
+		}
+		else
+		{
+			imageProperties.thumbnailHeight = height;
+			imageProperties.thumbnailWidth = (imageProperties.thumbnailHeight / imageProperties.height) * imageProperties.width;
+		}
+	}
+	else
+	{
+		imageProperties.thumbnailWidth = imageProperties.width;
+		imageProperties.thumbnailHeight = imageProperties.height;
+	}
+	
+	return imageProperties;
+}
