@@ -179,6 +179,11 @@ class CpoExport extends ContentObjectExport
     	{
             return;
     	}
+    	
+    	if(get_class($content_object) == 'ContentObject')
+    	{
+    		$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object->get_id(), $content_object->get_type());
+    	}
         
     	//First we export the versions so the last version will always be imported last
         if($content_object->is_latest_version())
@@ -197,7 +202,7 @@ class CpoExport extends ContentObjectExport
         		return;
         	}
         }
-            
+        
         $this->exported_content_objects[] = $content_object->get_id();
         
         $doc = $this->doc;
