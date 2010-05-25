@@ -27,6 +27,15 @@ abstract class PackageUpdaterType
         $this->parent = $parent;
     }
 
+    function set_version()
+    {  
+        $source = $this->get_source();
+        $attributes = $source->get_attributes();
+        $registration = $this->get_parent()->get_registration();
+        $registration->set_version($attributes->get_version());
+        return $registration->update();
+    }
+        
     function add_message($message, $type = PackageUpdater :: TYPE_NORMAL)
     {
         $this->get_parent()->add_message($message, $type);
@@ -55,7 +64,7 @@ abstract class PackageUpdaterType
      */
     static function factory($parent, $type, $source)
     {
-        $class = 'PackageUpdater' . Utilities :: underscores_to_camelcase($type) . 'Type';
+    	$class = 'PackageUpdater' . Utilities :: underscores_to_camelcase($type) . 'Type';
         require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
         return new $class($parent, $source);
     }

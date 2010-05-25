@@ -70,15 +70,6 @@ class PackageUpdaterApplicationType extends PackageUpdaterType
         return true;
     }
 
-    function set_version()
-    {  
-        $source = $this->get_source();
-        $attributes = $source->get_attributes();
-        $registration = $this->get_parent()->get_registration();
-        $registration->set_version($attributes->get_version());
-        return $registration->update();
-    }
-
     function add_navigation_item()
     {
         $source = $this->get_source();

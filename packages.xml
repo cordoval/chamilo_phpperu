@@ -115,8 +115,39 @@
 		<tagline>From Wikipedia, the free encyclopedia</tagline>
 		<description>Electronic mail, often abbreviated as email or e-mail, is a method of exchanging digital messages, designed primarily for human use. E-mail systems are based on a store-and-forward model in which e-mail computer server systems accept, forward, deliver and store messages on behalf of users, who only need to connect to the e-mail infrastructure, typically an e-mail server, with a network-enabled device (e.g., a personal computer) for the duration of message submission or retrieval. Rarely is e-mail transmitted directly from one user's device to another's.</description>
 		<homepage>http://www.chamilo.org/</homepage>
+		<dependencies>	
+		</dependencies>
+	</package>
+	<package>
+		<name>Announcement</name>
+		<code>announcement</code>
+		<section>content_object</section>
+		<author></author>
+		<version>2.1.0</version>
+		<filename>pool/main/a/announcement/announcement-2.1.0.zip</filename>
+		<size>1203</size>
+		<md5>9849a1596cee656bf4baffc32cb2c772</md5>
+		<sha1>efd4bcd6cc31b4b5a2b5f41c3a75b7c0da70e684</sha1>
+		<sha256>fea18f94a80abbe23049290813e0db8a12fe0aa2a03f4c00123e6b2e94fbab5f</sha256>
+		<sha512>3567d03f864c5b46f7d3e25c7b6047de74a925d92589ff9b6efa87b15864c498cc3c40962b22192f7aeac7ee8e7572ef5b9dbc3c350ba5a13781d0ddd3839c6a</sha512>
+		<tagline></tagline>
+		<description></description>
+		<homepage></homepage>
 		<dependencies>
-			
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.2.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+			<applications>
+				<dependency>
+					<id>personal_calendar</id>
+					<version type="4">1.0.0</version>
+					<severity>5</severity>
+				</dependency>
+			</applications>
 		</dependencies>
 	</package>
 </packages>

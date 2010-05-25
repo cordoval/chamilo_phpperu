@@ -1,6 +1,6 @@
 <?php
 
-class AssessmentMatchTextQuestionInstaller extends ContentObjectInstaller
+class AssessmentMatchTextQuestionContentObjectInstaller extends ContentObjectInstaller
 {
     function get_path()
     {
