@@ -2,7 +2,7 @@
 <object name="hotspot_question">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="answers" type="text" length="1000" notnull="1" />
+		<property name="answers" type="text" notnull="1" />
 		<property name="image" type="text" length="255" fixed="1"
 			notnull="1" />
 	</properties>
