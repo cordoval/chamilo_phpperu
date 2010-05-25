@@ -257,7 +257,22 @@ class WikiParser
     {
         $this->set_wiki_text($links);
         $this->handle_internal_links();
-        $this->wikiText = explode(';', $this->wikiText);
+        
+        $links = str_replace(']]', ']];', $links);
+        $links = explode(';', $links);
+        
+        $new_links = str_replace('</a>', '</a>;', $this->wikiText);
+        $new_links = explode(';', $new_links);
+        
+        $this->wikiText = array();
+
+        foreach($new_links as $i => $link)
+        {
+        	$title = trim($links[$i]);
+        	$title = substr($title, 2, strlen($title) - 4);
+        	$this->wikiText[$title] = $link;
+        }
+        
         return $this->get_wiki_text();
     }
 
