@@ -139,8 +139,11 @@ class CpoExport extends ContentObjectExport
         if ($content_object->get_type() == LearningPathItem :: get_type_name() || $content_object->get_type() == PortfolioItem :: get_type_name())
         {
             $id = $content_object->get_reference();
-            $this->render_content_object($this->rdm->retrieve_content_object($id));
-            $content_object->set_reference('object' . $id);
+        	if($id)
+            {
+            	$this->render_content_object($this->rdm->retrieve_content_object($id));
+            	$content_object->set_reference('object' . $id);
+            }
         }
         
         if($content_object->get_type() == HotspotQuestion :: get_type_name())
