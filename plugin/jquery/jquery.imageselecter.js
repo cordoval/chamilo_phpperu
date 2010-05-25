@@ -24,7 +24,7 @@
 			{
 				imageProperties = scaleDimensions(600, 450, imageProperties);
 				
-				$('input[name="header"]').val(imageProperties.id);
+				$('input[name="' + settings.name + '"]').val(imageProperties.id);
 				$('#selected_image').attr('src', imageProperties.webPath);
 				$('#selected_image').css('width', imageProperties.thumbnailWidth + 'px');
 				$('#selected_image').css('height', imageProperties.thumbnailHeight + 'px');
@@ -46,7 +46,7 @@
 			function resetImage(ev, ui)
 			{
 				ev.preventDefault();
-				$('input[name="header"]').val('');
+				$('input[name="' + settings.name + '"]').val('');
 				$('#image_container').hide();
 				$('#image_select').show();
 			}

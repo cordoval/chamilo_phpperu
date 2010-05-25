@@ -29,6 +29,7 @@ class NewsArticleForm extends ContentObjectForm
     private function build_default_form()
     {
         $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
+        
         $locale = array();
         $locale['Display'] = Translation :: get('SelectHeaderImage');
         $locale['Searching'] = Translation :: get('Searching');
@@ -39,44 +40,6 @@ class NewsArticleForm extends ContentObjectForm
         
         $this->addElement('textarea', NewsArticle :: PROPERTY_TAGS, Translation :: get('Tags'), array('cols' => '70', 'rows' => '5'));
         $this->addRule(NewsArticle :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
-    }
-
-    function add_image()
-    {
-        $object = $this->get_content_object();
-        
-        $is_object_set = ! is_null($object);
-        
-        $html[] = '<div id="image_container" ' . ($is_object_set ? '' : ' style="display: none;"') . 'class="row">';
-        $html[] = '<div class="label">' . Translation :: get('SelectedImage') . '</div>';
-        $html[] = '<div class="formw">';
-        $html[] = '<div class="element">';
-        
-        if ($is_object_set)
-        {
-            $image_id = $object->get_header();
-            $image_object = RepositoryDataManager :: get_instance()->retrieve_content_object($image_id);
-            
-            $dimensions = getimagesize($image_object->get_full_path());            
-            $dimensions = ImageManipulation :: rescale($dimensions[ImageManipulation :: DIMENSION_WIDTH], $dimensions[ImageManipulation :: DIMENSION_HEIGHT], 500, 450, ImageManipulation :: SCALE_INSIDE);
-            
-            $html[] = '<img id="selected_image" style="width: ' . $dimensions[ImageManipulation :: DIMENSION_WIDTH] . 'px; height: ' . $dimensions[ImageManipulation :: DIMENSION_HEIGHT] . 'px;" src="' . $image_object->get_url() . '" />';
-        }
-        else
-        {
-            $html[] = '<img id="selected_image" />';
-        
-        }
-        
-        $html[] = '<div class="clear"></div>';
-        $html[] = '<button id="change_image" class="negative delete">' . htmlentities(Translation :: get('SelectAnotherImage')) . '</button>';
-        
-        $html[] = '</div>';
-        $html[] = '<div class="clear">&nbsp;</div>';
-        $html[] = '</div>';
-        $html[] = '</div>';
-        
-        $this->addElement('html', implode("\n", $html));
     }
 
     function setDefaults($defaults = array ())

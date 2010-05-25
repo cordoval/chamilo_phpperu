@@ -28,12 +28,18 @@ class EncyclopediaItemForm extends ContentObjectForm
 
     private function build_default_form()
     {
-		$this->addElement('text', EncyclopediaItem :: PROPERTY_IMAGE, Translation :: get('Image'));
-		$this->addRule(EncyclopediaItem :: PROPERTY_IMAGE, Translation :: get('ThisFieldIsRequired'), 'required');
-
-		$this->addElement('text', EncyclopediaItem :: PROPERTY_TAGS, Translation :: get('Tags'));
-		$this->addRule(EncyclopediaItem :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
-
+        $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
+        
+        $locale = array();
+        $locale['Display'] = Translation :: get('SelectImage');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        
+        $this->addElement('image_selecter', EncyclopediaItem :: PROPERTY_IMAGE, Translation :: get('Image'), $url, $locale);
+        
+        $this->addElement('textarea', EncyclopediaItem :: PROPERTY_TAGS, Translation :: get('Tags'), array('cols' => '70', 'rows' => '5'));
+        $this->addRule(EncyclopediaItem :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
     }
 
     function setDefaults($defaults = array ())
