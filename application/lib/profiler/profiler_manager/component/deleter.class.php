@@ -25,7 +25,7 @@ class ProfilerManagerDeleterComponent extends ProfilerManager
             
             foreach ($ids as $id)
             {
-                $publication = $this->get_parent()->retrieve_profile_publication($id);
+                $publication = $this->retrieve_profile_publication($id);
                 
                 if (! $publication->delete())
                 {

@@ -7,6 +7,7 @@
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
 require_once dirname(__FILE__) . '/../../portfolio_menu.class.php';
 require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.php';
+require_once dirname(__FILE__) . '/../../../../common/feedback_manager/component/browser.class.php';
 
 /**
  * portfolio component which allows the user to browse his portfolio_publications
@@ -22,7 +23,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     private $pid;
     private $owner_user_id ;
     private $viewing_right = true;
-    private $feedback_giving_right = false;
+    private $feedback_giving_right = true;
     private $feedback_viewing_right = false;
 
     const PROPERTY_PID = 'pid';
@@ -95,13 +96,9 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             {
               $actions[] = self::ACTION_EDIT;
             }
-            if($feedback_viewing_right)
+            if($feedback_viewing_right || $feedback_giving_right)
             {
               $actions[] = self::ACTION_FEEDBACK;
-            }
-            if($feedback_giving_right)
-            {
-              //TODO: how to allow feedback viewing and feedback giving seperately???
             }
             if($permission_setting_right)
             {
@@ -266,25 +263,34 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
     function display_feedback_page()
     {
-//        $this->set_parameter('action', Request :: get('action'));
-        if($this->feedback_viewing_right)
-        {
-            $this->set_parameter(FeedbackManager::PARAM_ACTION,  FeedbackManager::ACTION_BROWSE_FEEDBACK);
+            $this->set_parameter('action', Request :: get('action'));
+            $this->set_parameter(self::PROPERTY_CID, $this->cid);
+            $this->set_parameter(self::PROPERTY_PID, $this->pid);
             $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
-            $html = array();
-            $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
-            $html[] = $fbm->as_html();
-        }
-         if($this->feedback_giving_right)
-        {
-            $this->set_parameter(FeedbackManager::PARAM_ACTION,  FeedbackManager::ACTION_CREATE_FEEDBACK);
-            $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
-            $html = array();
-            $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
-            $html[] = $fbm->as_html();
-        }
-        
-        
+
+             if($this->feedback_viewing_right)
+             {
+                 $fbmv = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid, FeedbackManager::ACTION_BROWSE_ONLY_FEEDBACK);
+                 $html[] = $fbmv->as_html();
+             }
+             else
+             {
+                $html[] = '<br /><div id="no_rights">';
+                 $html[] = Translation :: get('NoPermissionToViewFeedback');                
+                  $html[] = '</div><br />';
+             }
+             if(!isset($this->feedback_giving_right) || $this->feedback_giving_right)
+             {
+                  $html[] = '<h3>' . Translation :: get('PublicationGiveFeedback') . '</h3>';
+                  $fbmc = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid, FeedbackManager::ACTION_CREATE_ONLY_FEEDBACK);
+                  $html[] = $fbmc->as_html();
+             }
+             else
+             {
+                $html[] = '<div id="no_rights">';
+                $html[] = Translation :: get('NoPermissionToGiveFeedback');
+                $html[] = '</div><br />';
+             }
         return implode("\n", $html);
     }
 
