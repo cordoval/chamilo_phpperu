@@ -51,7 +51,7 @@ $(function ()
 			newLabel = getTranslation('SwitchToSingleSelect', 'repository');
 		}
 		
-		$('.option').each(function ()
+		$('.value').each(function ()
 		{
 			var id, correct, value, newField, parent;
 			
