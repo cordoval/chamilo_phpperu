@@ -45,9 +45,9 @@ abstract class ToolComponent
 
     /** Delegation functions **/
     
-    function display_header($breadcrumbtrail, $display_title)
+    function display_header($breadcrumbtrail, $display_title, $display_tools = true, $display_student_view = true)
     {
-        $this->tool->display_header($breadcrumbtrail, $display_title);
+        $this->tool->display_header($breadcrumbtrail, $display_title, $display_tools, $display_student_view);
     }
 
     function display_footer()

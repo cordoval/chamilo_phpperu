@@ -139,8 +139,11 @@ class CpoExport extends ContentObjectExport
         if ($content_object->get_type() == LearningPathItem :: get_type_name() || $content_object->get_type() == PortfolioItem :: get_type_name())
         {
             $id = $content_object->get_reference();
-            $this->render_content_object($this->rdm->retrieve_content_object($id));
-            $content_object->set_reference('object' . $id);
+        	if($id)
+            {
+            	$this->render_content_object($this->rdm->retrieve_content_object($id));
+            	$content_object->set_reference('object' . $id);
+            }
         }
         
         if($content_object->get_type() == HotspotQuestion :: get_type_name())
@@ -179,6 +182,11 @@ class CpoExport extends ContentObjectExport
     	{
             return;
     	}
+    	
+    	if(get_class($content_object) == 'ContentObject')
+    	{
+    		$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object->get_id(), $content_object->get_type());
+    	}
         
     	//First we export the versions so the last version will always be imported last
         if($content_object->is_latest_version())
@@ -197,7 +205,7 @@ class CpoExport extends ContentObjectExport
         		return;
         	}
         }
-            
+        
         $this->exported_content_objects[] = $content_object->get_id();
         
         $doc = $this->doc;

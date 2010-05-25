@@ -98,6 +98,7 @@ class Assessment extends ContentObject
         $allowed_types[] = AssessmentMatrixQuestion :: get_type_name();
         $allowed_types[] = MatchQuestion :: get_type_name();
         $allowed_types[] = AssessmentMatchNumericQuestion :: get_type_name();
+        $allowed_types[] = AssessmentMatchTextQuestion :: get_type_name();
         $allowed_types[] = OrderingQuestion :: get_type_name();
         return $allowed_types;
     }

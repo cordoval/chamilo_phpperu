@@ -585,7 +585,7 @@ $lang['repository']['SavePrerequisites'] = 'Save prerequisites';
 $lang['repository']['AddPrerequisiteGroup'] = 'Add prerequisite group';
 $lang['repository']['PrerequisiteGroup'] = 'Prerequisite group';
 $lang['repository']['SelectedIsHomepage'] = 'Selected is homepage';
-$lang['repository']['FillInTheblanksInfo'] = 'Informatie: invullen';
+$lang['repository']['FillInTheblanksInfo'] = 'Question\'s format: <br/>Abadfsdv [answer 1(feedback 1)=score 1, answer 2=score 2, answer 3(feedback 3)] adacdt adfasdfa [answer 1,answer 2,answer 3]';
 $lang['repository']['DocumentTitleIsRequired'] = 'Document title is required';
 $lang['repository']['DocumentDescriptionIsRequired'] = 'Document description is required';
 $lang['repository']['ContentObjectOwnerIsRequired'] = 'Object owner is required';

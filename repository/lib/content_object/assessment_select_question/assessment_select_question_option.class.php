@@ -27,7 +27,7 @@ class AssessmentSelectQuestionOption extends SelectQuestionOption
     	parent :: SelectQuestionOption($value);
     	$this->correct = $correct;
     	$this->score = $score;
-    	$this->correct= $feedback;   	
+    	$this->feedback = $feedback;   	
     }
 
 	function get_feedback()

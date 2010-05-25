@@ -258,7 +258,7 @@ abstract class Tool
     /**
      * @see Application :: display_header()
      */
-    function display_header($breadcrumbtrail, $display_title)
+    function display_header($breadcrumbtrail, $display_title, $display_tools = true, $display_student_view = true)
     {
         $trail = new BreadcrumbTrail();
         $trail->set_help_items($breadcrumbtrail->get_help_items());
@@ -311,7 +311,7 @@ abstract class Tool
                     $trail->add($breadcrumb);
             }
         }
-        $this->parent->display_header($trail, false, $display_title);
+        $this->parent->display_header($trail, false, $display_title, $display_tools, $display_student_view);
         //echo '<div class="clear"></div>';
 
 

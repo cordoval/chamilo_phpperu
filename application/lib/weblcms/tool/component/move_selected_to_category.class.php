@@ -98,8 +98,8 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
     {
         $dm = WeblcmsDataManager :: get_instance();
         $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
-        $conditions[] = new EqualityCondition('course', $this->get_course_id());
-        $conditions[] = new EqualityCondition('tool', $this->get_tool_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->get_course_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_tool_id());
         $condition = new AndCondition($conditions);
         $categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition);
         

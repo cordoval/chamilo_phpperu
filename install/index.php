@@ -3,6 +3,12 @@
  * $Id: index.php 225 2009-11-13 14:43:20Z vanpouckesven $
  * @package install.lib
  */
+function dump($variable)
+{
+    echo '<pre style="background-color: white; color: black; padding: 5px; margin: 0px;">';
+    print_r($variable);
+    echo '</pre>';
+}
 
 try
 {

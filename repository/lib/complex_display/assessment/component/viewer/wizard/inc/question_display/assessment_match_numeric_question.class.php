@@ -55,4 +55,3 @@ class AssessmentMatchNumericQuestionDisplay extends QuestionDisplay
         return implode("\n", $instruction);
     }
 }
-?>

@@ -175,24 +175,23 @@ class WikiDisplay extends ComplexDisplay
             $p = new WikiParser($this, $pid, $links);
             $p->set_parent($this);
             $toolboxlinks = $p->handle_toolbox_links($links);
-            $links = explode(';', $links);
             $i = 0;
             
-            foreach ($toolboxlinks as $link)
+            foreach ($toolboxlinks as $title => $link)
             {
-                if (substr_count($link, 'www.') == 1)
+                /*if (substr_count($link, 'www.') == 1)
                 {
                     $action_bar->add_navigation_link(new ToolbarItem(ucfirst($p->get_title_from_url($link)), null, $link, ToolbarItem :: DISPLAY_LABEL));
                     continue;
-                }
+                }*/
                 
                 if (substr_count($link, 'class="does_not_exist"'))
                 {
-                    $action_bar->add_navigation_link(new ToolbarItem($p->get_title_from_wiki_tag($links[$i], true), null, $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), 'title' => $p->get_title_from_wiki_tag($links[$i], false))), ToolbarItem :: DISPLAY_ICON_AND_LABEL, null, 'does_not_exist'));
+                    $action_bar->add_navigation_link(new ToolbarItem($title, null, $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL, null, 'does_not_exist'));
                 }
                 else
                 {
-                    $action_bar->add_navigation_link(new ToolbarItem($p->get_title_from_wiki_tag($links[$i], true), null, $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), 'selected_cloi' => $p->get_cid_from_url($link))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                    $action_bar->add_navigation_link(new ToolbarItem($title, null, $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $p->get_cid_from_url($link))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                 }
                 $i ++;
             }

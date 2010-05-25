@@ -32,7 +32,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function initialize()
     {
         parent :: initialize();
-        PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array(get_class(), 'handle_error'));
+//        PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array(get_class(), 'handle_error'));
         $this->set_prefix('repository_');
     }
 
@@ -1466,7 +1466,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         if (isset($condition))
         {
-            $condition->set_storage_unit($alias);
+            $condition->set_storage_unit('Catalog');
         }
 
         if (isset($order_by))

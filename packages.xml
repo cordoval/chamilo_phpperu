@@ -100,4 +100,54 @@
 			</applications>
 		</dependencies>
 	</package>
+	<package>
+		<name>French</name>
+		<code>french</code>
+		<section>language</section>
+		<author>Alexander Graham Bell &lt;alexander.graham@bell.co.uk&gt;</author>
+		<version>1.3.0</version>
+		<filename>pool/main/p/personal_messenger/personal_messenger-1.0.0.zip</filename>
+		<size>38602</size>
+		<md5>30a43ed0f7e0be9bc7cafb4601254148</md5>
+		<sha1>84fc463a7ad2b1731fd7c1e0ba5f7020d403288e</sha1>
+		<sha256>f743def30d4bc1cf9d5bc7f346dea19832aaaf0f0c48061aaebce7e2ac67bb27</sha256>
+		<sha512>bc1b85606168494506b1544c32bf2c32b302df7134a499dcd49e1444ff31e57fa3bb14e2e84f8badf65c6f57b7ed63b83d3e83b1e4ef54aadd0a92b8759950f6</sha512>
+		<tagline>From Wikipedia, the free encyclopedia</tagline>
+		<description>Electronic mail, often abbreviated as email or e-mail, is a method of exchanging digital messages, designed primarily for human use. E-mail systems are based on a store-and-forward model in which e-mail computer server systems accept, forward, deliver and store messages on behalf of users, who only need to connect to the e-mail infrastructure, typically an e-mail server, with a network-enabled device (e.g., a personal computer) for the duration of message submission or retrieval. Rarely is e-mail transmitted directly from one user's device to another's.</description>
+		<homepage>http://www.chamilo.org/</homepage>
+		<dependencies>	
+		</dependencies>
+	</package>
+	<package>
+		<name>Announcement</name>
+		<code>announcement</code>
+		<section>content_object</section>
+		<author></author>
+		<version>2.1.0</version>
+		<filename>pool/main/a/announcement/announcement-2.1.0.zip</filename>
+		<size>1203</size>
+		<md5>9849a1596cee656bf4baffc32cb2c772</md5>
+		<sha1>efd4bcd6cc31b4b5a2b5f41c3a75b7c0da70e684</sha1>
+		<sha256>fea18f94a80abbe23049290813e0db8a12fe0aa2a03f4c00123e6b2e94fbab5f</sha256>
+		<sha512>3567d03f864c5b46f7d3e25c7b6047de74a925d92589ff9b6efa87b15864c498cc3c40962b22192f7aeac7ee8e7572ef5b9dbc3c350ba5a13781d0ddd3839c6a</sha512>
+		<tagline></tagline>
+		<description></description>
+		<homepage></homepage>
+		<dependencies>
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.2.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+			<applications>
+				<dependency>
+					<id>personal_calendar</id>
+					<version type="4">1.0.0</version>
+					<severity>5</severity>
+				</dependency>
+			</applications>
+		</dependencies>
+	</package>
 </packages>
