@@ -47,7 +47,7 @@ class GlossaryViewerTableCellRenderer extends DefaultContentObjectTableCellRende
             case GlossaryItem :: PROPERTY_TITLE :
                 return $this->glossary_item->get_title();
             case GlossaryItem :: PROPERTY_DESCRIPTION :
-                return strip_tags($this->glossary_item->get_description());
+                return $this->glossary_item->get_description();
         }
     }
 

@@ -20,18 +20,18 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
         $parts = preg_split(FillInBlanksQuestionAnswer::CLOZE_REGEX, $answer_text);
         $this->add_html(array_shift($parts));
         $index = 0;
+        
+        $element_template = ' {element} ';
+        $renderer = $this->get_renderer();
+        $renderer->setElementTemplate($element_template, 'select');
+        
         foreach($parts as $part){
             $name = $clo_question->get_id() . "[$index]";
             $this->add_question($name, $index, $question_type, $answers);
         	$this->add_html($part);
         	$index++;
+        	$renderer->setElementTemplate($element_template, $name);
         }
-        
-        $element_template = array();
-        $element_template[] = '{element}';
-        $renderer = $this->get_renderer();
-        $renderer->clearAllTemplates();
-        $renderer->setElementTemplate($element_template, 'select');
     }
     
     function add_html($html){
