@@ -1,6 +1,7 @@
 <?php
 require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_source.class.php';
 require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_type.class.php';
+require_once Path :: get_common_path() . 'database/backup/database_backup.class.php';
 
 class PackageUpdater
 {
@@ -52,7 +53,8 @@ class PackageUpdater
     
     function backup_package()
     {
-    	$this->add_message(Translation :: get('!!!!!!!!!!ToBeImplemented !!!!!!!'), self :: TYPE_WARNING);
+    	$backup = DatabaseBackup::factory('mysql', array(RemotePackage :: get_table_name(), Setting :: get_table_name()), AdminDataManager::get_instance());
+    	dump ($backup->backup());
     	return true;
     }
     
