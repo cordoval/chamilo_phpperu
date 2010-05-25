@@ -22,16 +22,9 @@ class AssessmentMultipleChoiceQuestionResultDisplay extends QuestionResultDispla
         $html[] = '<tbody>';
 
         $answers = $this->get_answers();
-
-//        dump($answers);
-
-
         $options = $this->get_question()->get_options();
-
-//        dump($options);
         $type = $this->get_question()->get_answer_type();
 
-        dump($type);
 
         foreach ($options as $i => $option)
         {

@@ -13,11 +13,6 @@ class AssessmentMatrixScoreCalculator extends ScoreCalculator
         $user_answers = $this->get_answer();
         $question = $this->get_question();
         $options = $question->get_options();
-        //$matches = $question->get_matches();
-
-
-        //dump($user_answers);
-
 
         $score = 0;
         $total_weight = 0;
