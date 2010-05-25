@@ -3,7 +3,7 @@
  * $Id: ordering_question_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
  */
-class OrderingQuestionInstaller extends ContentObjectInstaller
+class OrderingQuestionContentObjectInstaller extends ContentObjectInstaller
 {
     function get_path()
     {

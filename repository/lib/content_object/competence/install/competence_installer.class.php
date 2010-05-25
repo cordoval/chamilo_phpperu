@@ -3,7 +3,7 @@
  * $Id: competence_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
  */
-class CompetenceInstaller extends ContentObjectInstaller
+class CompetenceContentObjectInstaller extends ContentObjectInstaller
 {
     function get_path()
     {
