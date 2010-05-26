@@ -22,7 +22,7 @@ abstract class ComplexBuilder extends SubManager
     const PARAM_MOVE_SELECTED_CONTENT_OBJECT_ITEM_ID = 'move_selected_cloi';
     const PARAM_TYPE = 'type';
     const PARAM_DIRECTION = 'direction';
-    
+
     const ACTION_BROWSE = 'browse';
     const ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM = 'delete_cloi';
     const ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM = 'view_cloi';
@@ -30,21 +30,21 @@ abstract class ComplexBuilder extends SubManager
     const ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM = 'create_cloi';
     const ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM = 'move_cloi';
     const ACTION_CHANGE_PARENT = 'change_parent';
-    
+
     private $menu;
-    
+
     /**
-     * The root object that is used in the builder 
+     * The root object that is used in the builder
      * @var ContentObject
      */
     private $root_content_object;
-    
+
     /**
      * The current item in treemenu to determine where we are in the structure
      * @var ComplexContentObjectItem
      */
     private $complex_content_object_item;
-    
+
     /**
      * The item we select to execute an action like update / delete / move etc
      * @var ComplexContentObjectItem
@@ -55,22 +55,22 @@ abstract class ComplexBuilder extends SubManager
     {
         parent :: __construct($parent);
         $this->root_content_object = $root_content_object;
-        
+
         $complex_content_object_item_id = Request :: get(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($complex_content_object_item_id)
         {
             $this->complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
         }
-        
+
     	$selected_complex_content_object_item_id = Request :: get(self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID);
         if ($selected_complex_content_object_item_id)
         {
             $this->selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($selected_complex_content_object_item_id);
         }
-        
+
         $this->parse_input_from_table();
     }
-    
+
     //Singleton
     private static $instance;
 
@@ -88,7 +88,7 @@ abstract class ComplexBuilder extends SubManager
              	self :: $instance = new $class($parent, $root_content_object);
             }
         }
-        
+
         return self :: $instance;
     }
 
@@ -133,22 +133,22 @@ abstract class ComplexBuilder extends SubManager
     {
         return $this->root_content_object;
     }
-    
+
     function get_complex_content_object_item()
     {
     	return $this->complex_content_object_item;
     }
-    
+
 	function get_selected_complex_content_object_item()
     {
     	return $this->selected_complex_content_object_item;
     }
-    
+
 	function get_root_content_object_id()
     {
         return $this->root_content_object->get_id();
     }
-    
+
     function get_complex_content_object_item_id()
     {
     	if($this->complex_content_object_item)
@@ -156,7 +156,7 @@ abstract class ComplexBuilder extends SubManager
     		return $this->complex_content_object_item->get_id();
     	}
     }
-    
+
 	function get_selected_complex_content_object_item_id()
     {
     	if($this->selected_complex_content_object_item)
@@ -168,12 +168,12 @@ abstract class ComplexBuilder extends SubManager
     /**
      * Common functionality
      */
-    
+
     function get_table_html($show_subitems_column = true, $model = null, $renderer = null)
     {
         $parameters = $this->get_parameters();
     	$parameters[self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
-        
+
         $table = new ComplexBrowserTable($this, $parameters, $this->get_table_condition(), $show_subitems_column, $model, $renderer);
         return $table->as_html();
     }
@@ -207,7 +207,7 @@ abstract class ComplexBuilder extends SubManager
 
     private function build_menu()
     {
-        $this->menu = new ComplexMenu($this->get_root_content_object(), $this->get_complex_content_object_item(), 
+        $this->menu = new ComplexMenu($this->get_root_content_object(), $this->get_complex_content_object_item(),
         							  $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE_CLO)));
     }
 
@@ -215,73 +215,73 @@ abstract class ComplexBuilder extends SubManager
 
     function get_complex_content_object_item_edit_url($selected_content_object_item_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, 
-        							self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id, 
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM,
+        							self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     function get_complex_content_object_item_delete_url($selected_content_object_item_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, 
-        							self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id, 
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM,
+        							self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
-    
+
 	function get_complex_content_object_item_view_url($selected_content_object_item_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM, 
-        							self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id, 
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM,
+        							self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     function get_complex_content_object_item_move_url($selected_content_object_item_id, $direction)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM, 
-        							self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id, 
-        							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), 
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM,
+        							self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id,
+        							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(),
         							self :: PARAM_DIRECTION => $direction));
     }
-    
+
 	function get_complex_content_object_parent_changer_url($selected_content_object_item_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CHANGE_PARENT, 
-        							self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id, 
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CHANGE_PARENT,
+        							self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     function get_browse_url()
     {
-    	return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE, 
+    	return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
-    
+
 	function get_create_complex_content_object_item_url()
 	{
-    	return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, 
+    	return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
-    
+
     function get_creation_links($content_object, $types = array(), $additional_links = array())
     {
         $html[] = '<div class="category_form"><div id="content_object_selection">';
-        
+
         if (count($types) == 0)
         {
             $types = $content_object->get_allowed_types();
         }
-        
+
         foreach ($types as $type)
         {
-            $url = $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, 
-            						    self :: PARAM_TYPE => $type, 
+            $url = $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM,
+            						    self :: PARAM_TYPE => $type,
             						    self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
-            						    
+
             $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
             $html[] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div></a>';
         }
-        
+
         foreach ($additional_links as $link)
         {
             $type = $link['type'];
@@ -290,14 +290,19 @@ abstract class ComplexBuilder extends SubManager
             $html[] = '<div class="clear">&nbsp;</div>';
             $html[] = '</div></a>';
         }
-        
+
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
+
+	function get_application_component_path()
+	{
+		return Path :: get_repository_path() . 'lib/complex_builder/component/';
+	}
 }
 
 ?>
