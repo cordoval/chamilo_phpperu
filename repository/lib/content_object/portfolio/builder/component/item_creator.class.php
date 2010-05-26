@@ -3,10 +3,10 @@
  * $Id: item_creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.portfolio.component
  */
-require_once dirname(__FILE__) . '/../portfolio_builder_component.class.php';
-require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 
-class PortfolioBuilderItemCreatorComponent extends PortfolioBuilderComponent
+require_once dirname(__FILE__) . '/../../../../complex_builder/complex_repo_viewer.class.php';
+
+class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
 {
     private $rdm;
 
@@ -52,7 +52,7 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilderComponent
             $pub->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
         }
         
-        $pub->set_parameter(ComplexBuilder :: PARAM_ROOT_LO, $root_content_object);
+        $pub->set_parameter(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT, $root_content_object);
         $pub->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
         $pub->set_parameter('publish', $publish);
         $pub->set_excluded_objects($exclude);
@@ -95,7 +95,7 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilderComponent
                 $complex_content_object_item->create();
             }
             
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $cloi_id, 'publish' => Request :: get('publish')));
+            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id));
         }
         
         $this->display_header($trail);
