@@ -11,7 +11,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
     function run()
     {
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         //$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
         $trail->merge($menu_trail);
         $trail->add_help('repository builder');
@@ -25,7 +25,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
             $lo = $this->get_root_content_object();
         }
 
-        $this->display_header($trail);
+        $this->display_header();
 
         $display = ContentObjectDisplay :: factory($this->get_root_content_object());
         echo $display->get_full_html();

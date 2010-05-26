@@ -11,13 +11,13 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
 
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
 
         $root_content_object = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
         $complex_content_object_item_ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_ROOT_CONTENT_OBJECT_ID);
-        $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT_ID);
+        $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
 
-        $parameters = array(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT_ID => $parent_complex_content_object_item, ComplexBuilder :: PARAM_SELECTED_ROOT_CONTENT_OBJECT_ID => $complex_content_object_item_ids);
+        $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, ComplexBuilder :: PARAM_SELECTED_ROOT_CONTENT_OBJECT_ID => $complex_content_object_item_ids);
 
         $rdm = $this->rdm = RepositoryDataManager :: get_instance();
 
@@ -93,7 +93,7 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
                     }
                 }
 
-                $parameters[ComplexBuilder :: PARAM_BUILDER_ACTION] = ComplexBuilder :: ACTION_BROWSE_CLO;
+                $parameters[ComplexBuilder :: PARAM_BUILDER_ACTION] = ComplexBuilder :: ACTION_BROWSE;
                 $parameters[ComplexBuilder :: PARAM_SELECTED_ROOT_CONTENT_OBJECT_ID] = null;
                 $this->redirect($message, ($failures > 0), $parameters);
 

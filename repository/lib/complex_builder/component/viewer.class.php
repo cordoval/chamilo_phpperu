@@ -24,7 +24,7 @@ class ComplexBuilderViewerComponent extends ComplexBuilderComponent
             $trail = new BreadcrumbTrail(false);
             $menu_trail = $this->get_ccontent_object_breadcrumbs();
             $trail->merge($menu_trail);
-            $parameters = array(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT), ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID), ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $id);
+            $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_parent()->get_complex_content_object_item_id(), ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $id);
 
             $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('View') . ' ' . $content_object->get_title()));
 
