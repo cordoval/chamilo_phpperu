@@ -13,11 +13,11 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
     {
         $trail = BreadcrumbTrail :: get_instance();
 
-        $root_content_object = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
-        $complex_content_object_item_ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_ROOT_CONTENT_OBJECT_ID);
+        $complex_content_object_item_ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-
-        $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, ComplexBuilder :: PARAM_SELECTED_ROOT_CONTENT_OBJECT_ID => $complex_content_object_item_ids);
+		$root_content_object = $this->get_root_content_object();
+        
+        $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_ids);
 
         $rdm = $this->rdm = RepositoryDataManager :: get_instance();
 
@@ -38,7 +38,7 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
                 $selected_parent = $form->exportValue(self :: PARAM_NEW_PARENT);
                 if ($selected_parent == 0)
                 {
-                    $parent = $root_content_object;
+                    $parent = $root_content_object->get_id();
                 }
                 else
                 {
@@ -49,7 +49,7 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
                 $failures = 0;
                 $size = 0;
 
-                if ((! $parent_complex_content_object_item && $parent != $root_content_object) || $parent_complex_content_object_item != $selected_parent)
+                if ((! $parent_complex_content_object_item && $parent != $root_content_object->get_id()) || $parent_complex_content_object_item != $selected_parent)
                 {
                     $complex_content_object_items = $rdm->retrieve_complex_content_object_items(new InCondition(ComplexContentObjectItem :: PROPERTY_ID, $complex_content_object_item_ids));
                     $size = $complex_content_object_items->size();
@@ -94,13 +94,13 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
                 }
 
                 $parameters[ComplexBuilder :: PARAM_BUILDER_ACTION] = ComplexBuilder :: ACTION_BROWSE;
-                $parameters[ComplexBuilder :: PARAM_SELECTED_ROOT_CONTENT_OBJECT_ID] = null;
+                $parameters[ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
                 $this->redirect($message, ($failures > 0), $parameters);
 
             }
             else
             {
-                $menu_trail = $this->get_clo_breadcrumbs();
+                $menu_trail = $this->get_complex_content_object_breadcrumbs();
                 $trail->merge($menu_trail);
                 $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('Move')));
                 $this->display_header($trail);
@@ -118,23 +118,22 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
     private function get_possible_parents($root_content_object, $parent_complex_content_object_item)
     {
         $rdm = $this->rdm;
-        $root = $rdm->retrieve_content_object($root_content_object);
 
         if (! $parent_complex_content_object_item)
         {
             $current = ' (' . Translation :: get('Current') . ')';
         }
 
-        $parents = array(0 => $root->get_title() . $current);
-        $parents = $this->get_children_from_content_object($root_content_object, $parent_complex_content_object_item, $parents);
+        $parents = array(0 => $root_content_object->get_title() . $current);
+        $parents = $this->get_children_from_content_object($root_content_object->get_id(), $parent_complex_content_object_item, $parents);
 
         return $parents;
     }
 
-    private function get_children_from_content_object($content_object, $current_parent, $parents, $level = 1)
+    private function get_children_from_content_object($content_object_id, $current_parent, $parents, $level = 1)
     {
         $rdm = $this->rdm;
-        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $content_object);
+        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $content_object_id);
         $children = $rdm->retrieve_complex_content_object_items($condition);
 
         while ($child = $children->next_result())

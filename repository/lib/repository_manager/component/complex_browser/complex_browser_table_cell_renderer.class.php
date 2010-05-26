@@ -70,11 +70,11 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
                 
                 if ($content_object->is_complex_content_object())
                 {
-                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $cloi->get_id(), 'publish' => Request :: get('publish'))) . '">' . $title_short . '</a>';
+                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $cloi->get_id())) . '">' . $title_short . '</a>';
                 }
         		else
                 {
-                	$title_short = '<a href="' . $this->browser->get_complex_content_object_item_view_url($cloi) . '">' . $title_short . '</a>';
+                	$title_short = '<a href="' . $this->browser->get_complex_content_object_item_view_url($cloi->get_id()) . '">' . $title_short . '</a>';
                 }
                 
                 return $title_short; //'<a href="'.htmlentities($this->browser->get_content_object_viewing_url($content_object)).'" title="'.$title.'">'.$title_short.'</a>';
@@ -106,17 +106,20 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
     {
     	$toolbar_data = array();
         
-        $edit_url = $this->browser->get_complex_content_object_item_edit_url($cloi);
+        $edit_url = $this->browser->get_complex_content_object_item_edit_url($cloi->get_id());
         $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         
-        $delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi);
-        $moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi, RepositoryManager :: PARAM_DIRECTION_UP);
-        $movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi, RepositoryManager :: PARAM_DIRECTION_DOWN);
-        $change_parent_url = $this->browser->get_complex_content_object_parent_changer_url($cloi);
+        $delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi->get_id());
+        $moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_UP);
+        $movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN);
+        $change_parent_url = $this->browser->get_complex_content_object_parent_changer_url($cloi->get_id());
         
         $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
         
-        $toolbar_data[] = array('href' => $change_parent_url, 'label' => Translation :: get('ChangeParent'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+        if($this->browser->show_menu())
+        {
+        	$toolbar_data[] = array('href' => $change_parent_url, 'label' => Translation :: get('ChangeParent'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+        }
         
         $allowed = $this->check_move_allowed($cloi);
         
