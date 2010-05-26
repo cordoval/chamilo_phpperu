@@ -6,75 +6,78 @@
 require_once dirname(__FILE__) . '/../portfolio_builder_component.class.php';
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 
-class PortfolioBuilderUpdaterComponent extends PortfolioBuilderComponent
+class PortfolioBuilderUpdaterComponent extends PortfolioBuilder
 {
+
+    private $complex_builder_updater_component;
 
     function run()
     {
+         $this->complex_builder_browser_component = ComplexBuilderComponent::factory(ComplexBuilderComponent::UPDATER_COMPONENT, $this);
         $trail = new BreadcrumbTrail();
         
-        $root_lo = Request :: get(PortfolioBuilder :: PARAM_ROOT_LO);
-        $cloi_id = Request :: get(PortfolioBuilder :: PARAM_SELECTED_CLOI_ID);
-        $parent_cloi = Request :: get(PortfolioBuilder :: PARAM_CLOI_ID);
+        $root_content_object = Request :: get(PortfolioBuilder :: PARAM_ROOT_CONTENT_OBJECT);
+        $complex_content_object_item_id = Request :: get(PortfolioBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+        $parent_complex_content_object_item = Request :: get(PortfolioBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         
-        $parameters = array(PortfolioBuilder :: PARAM_ROOT_LO => $root_lo, PortfolioBuilder :: PARAM_CLOI_ID => $parent_cloi, PortfolioBuilder :: PARAM_SELECTED_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish'));
+        $parameters = array(PortfolioBuilder :: PARAM_ROOT_CONTENT_OBJECT=> $root_content_object, PortfolioBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, PortfolioBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
         
         $rdm = RepositoryDataManager :: get_instance();
-        $cloi = $rdm->retrieve_complex_content_object_item($cloi_id);
-        $lo = $rdm->retrieve_content_object($cloi->get_ref());
+        $complex_content_object_item = $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
+        $content_object = $rdm->retrieve_content_object($cloi->get_ref());
         
-        $type = $lo->get_type();
+        $type = $content_object->get_type();
         
-        $cloi_form = ComplexContentObjectItemForm :: factory_with_type(ComplexContentObjectItemForm :: TYPE_CREATE, $type, $cloi, 'create_complex', 'post', $this->get_url());
+        $complex_content_object_item_form = ComplexContentObjectItemForm :: factory_with_type(ComplexContentObjectItemForm :: TYPE_CREATE, $type, $complex_content_object_item, 'create_complex', 'post', $this->get_url());
         
-        if ($cloi_form)
+        if ($complex_content_object_item_form)
         {
-            $elements = $cloi_form->get_elements();
-            $defaults = $cloi_form->get_default_values();
+            $elements = $complex_content_object_item_form->get_elements();
+            $defaults = $complex_content_object_item_form->get_default_values();
         }
         
-        if ($lo->get_type() == PortfolioItem :: get_type_name())
+        if ($content_object->get_type() == PortfolioItem :: get_type_name())
         {
-            $item_lo = $lo;
-            $lo = $rdm->retrieve_content_object($lo->get_reference());
+            $item_content_object = $content_object;
+            $content_object = $rdm->retrieve_content_object($content_object->get_reference());
         }
         
-        $lo_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $lo, 'edit', 'post', $this->get_url($parameters), null, $elements);
-        $lo_form->setDefaults($defaults);
+        $content_object_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url($parameters), null, $elements);
+        $content_object_form->setDefaults($defaults);
         
-        if ($lo_form->validate())
+        if ($content_object_form->validate())
         {
-            $lo_form->update_content_object();
+            $content_object_form->update_content_object();
             
-            if ($lo_form->is_version())
+            if ($content_object_form->is_version())
             {
-                $new_id = $lo->get_latest_version()->get_id();
-                if ($item_lo)
+                $new_id = $content_object->get_latest_version()->get_id();
+                if ($item_content_object)
                 {
-                    $item_lo->set_reference($new_id);
-                    $item_lo->update();
+                    $item_content_object->set_reference($new_id);
+                    $item_content_object->update();
                 }
                 else
                 {
-                    $cloi->set_ref($new_id);
+                    $complex_content_object_item->set_ref($new_id);
                 }
             }
             
-            if ($cloi_form)
-                $cloi_form->update_cloi_from_values($lo_form->exportValues());
+            if ($complex_content_object_item_form)
+                $complex_content_object_item_form->update_complex_content_object_item_from_values($content_object_form->exportValues());
             else
                 $cloi->update();
             
-            $parameters[PortfolioBuilder :: PARAM_SELECTED_CLOI_ID] = null;
+            $parameters[PortfolioBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
             
-            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(PortfolioBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_BROWSE_CLO, 'publish' => Request :: get('publish'))));
+            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(PortfolioBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_BROWSE_CLO)));
         }
         else
         {
             $trail = new BreadcrumbTrail();
             $trail->add_help('repository learnpath builder');
             $this->display_header($trail);
-            echo $lo_form->toHTML();
+            echo $content_object_form->toHTML();
             $this->display_footer();
         }
     

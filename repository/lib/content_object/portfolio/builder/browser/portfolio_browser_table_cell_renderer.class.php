@@ -22,25 +22,25 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
     private $lpi_ref_object;
 
     // Inherited
-    function render_cell($column, $cloi)
+    function render_cell($column, $complex_content_object_item)
     {
-        $lo = $this->retrieve_content_object($cloi->get_ref());
+        $content_object = $this->retrieve_content_object($complex_content_object_item->get_ref());
         
-        if ($lo->get_type() == PortfolioItem :: get_type_name())
+        if ($content_object->get_type() == PortfolioItem :: get_type_name())
         {
-            if (! $this->lpi_ref_object || $this->lpi_ref_object->get_id() != $lo->get_reference())
+            if (! $this->lpi_ref_object || $this->lpi_ref_object->get_id() != $content_object->get_reference())
             {
-                $ref_lo = RepositoryDataManager :: get_instance()->retrieve_content_object($lo->get_reference());
-                $this->lpi_ref_object = $ref_lo;
+                $ref_content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object->get_reference());
+                $this->lpi_ref_object = $ref_content_object;
             }
             else
             {
-                $ref_lo = $this->lpi_ref_object;
+                $ref_content_object = $this->lpi_ref_object;
             }
         }
         else
         {
-            $ref_lo = $lo;
+            $ref_content_object = $content_object;
         }
         
         switch ($column->get_name())
@@ -51,15 +51,15 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
                 
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
                 
-                if ($ref_lo->get_type() == Portfolio :: get_type_name())
+                if ($ref_content_object->get_type() == Portfolio :: get_type_name())
                 {
-                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_ROOT_LO => $this->browser->get_root(), ComplexBuilder :: PARAM_CLOI_ID => $cloi->get_id(), 'publish' => Request :: get('publish'))) . '">' . $title_short . '</a>';
+                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->browser->get_root(), ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id())) . '">' . $title_short . '</a>';
                 }
                 
                 return $title_short;
         }
         
-        return parent :: render_cell($column, $cloi, $ref_lo);
+        return parent :: render_cell($column, $complex_content_object_item, $ref_content_object);
     }
 
 }

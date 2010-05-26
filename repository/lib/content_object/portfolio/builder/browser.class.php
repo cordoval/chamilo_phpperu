@@ -6,51 +6,56 @@
 require_once dirname(__FILE__) . '/../portfolio_builder_component.class.php';
 require_once dirname(__FILE__) . '/browser/portfolio_browser_table_cell_renderer.class.php';
 
-class PortfolioBuilderBrowserComponent extends PortfolioBuilderComponent
+class PortfolioBuilderBrowserComponent extends PortfolioBuilder
 {
+    private $complex_builder_browser_component;
 
     function run()
     {
-        $menu_trail = $this->get_clo_breadcrumbs();
+        $html = array();
+        $this->complex_builder_browser_component = ComplexBuilderComponent::factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
+        $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = new BreadcrumbTrail(false);
-        //$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
         $trail->merge($menu_trail);
-        $trail->add_help('repository learnpath builder');
+        $trail->add_help('repository portfolio builder');
 
-        if ($this->get_cloi())
+        if ($this->get_complex_content_object_item())
         {
-            $lo = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_cloi()->get_ref());
+            $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_complex_content_object_item()->get_ref());
         }
         else
         {
-            $lo = $this->get_root_lo();
+            $content_object = $this->get_root_content_object();
         }
 
         $this->display_header($trail);
-        $action_bar = $this->get_action_bar($lo);
+        $action_bar = $this->get_action_bar($content_object);
 
         if ($action_bar)
         {
-            echo '<br />';
-            echo $action_bar->as_html();
+            $html[] =  '<br />';
+            $html[] =  $action_bar->as_html();
         }
 
-        //echo $this->get_object_info();
+        
 
 
-        echo '<br />';
+        $html[] =  '<br />';
+        //TODO: shouldn't this be an admin setting or at least more flexible/generalized because now the portfolio application sets these allowed types independently
         $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), Description :: get_type_name(), 
         			  Document :: get_type_name(), Link :: get_type_name(), Note :: get_type_name(), RssFeed :: get_type_name(), Profile :: get_type_name(), Youtube :: get_type_name());
-        echo $this->get_creation_links($lo, $types);
-        echo '<div class="clear">&nbsp;</div><br />';
+        
+        $html[] =  $this->get_creation_links($content_object, $types);
+        $html[] =  '<div class="clear">&nbsp;</div><br />';
 
-        echo '<div style="width: 18%; overflow: auto; float: left;">';
-        echo $this->get_clo_menu();
-        echo '</div><div style="width: 80%; float: right;">';
-        echo $this->get_clo_table_html(false, null, new PortfolioBrowserTableCellRenderer($this->get_parent(), $this->get_clo_table_condition()));
-        echo '</div>';
-        echo '<div class="clear">&nbsp;</div>';
-
+        $html[] =  '<div style="width: 18%; overflow: auto; float: left;">';
+        $html[] =  $this->get_complex_content_object_menu();
+        $html[] =  '</div><div style="width: 80%; float: right;">';
+        $html[] =  $this->get_complex_content_object_table_html(false, null, new PortfolioBrowserTableCellRenderer($this->get_parent(), $this->get_complex_content_object_table_condition()));
+        $html[] =  '</div>';
+        $html[] =  '<div class="clear">&nbsp;</div>';
+        
+        $html[] =  implode("\n", $html);
         $this->display_footer();
     }
 
@@ -58,7 +63,7 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilderComponent
     {
         $html = array();
 
-        $content_object = $this->get_root_lo();
+        $content_object = $this->get_root_content_object();
         $display = ContentObjectDisplay :: factory($content_object);
         $content_object_display = $display->get_full_html();
         $check_empty = trim(strip_tags($content_object_display));
@@ -87,7 +92,7 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilderComponent
         }
     }
 
-    function get_creation_links($lo, $types = array())
+    function get_creation_links($content_object, $types = array())
     {
         $html[] = '<div class="select_complex_element">';
         $html[] = '<span class="title">' . Theme :: get_common_image('place_content_objects') . Translation :: get('PortfolioAddContentObject') . '</span>';
@@ -95,18 +100,18 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilderComponent
 
         if (count($types) == 0)
         {
-            $types = $lo->get_allowed_types();
+            $types = $content_object->get_allowed_types();
         }
 
         foreach ($types as $type)
         {
             if ($type == Portfolio :: get_type_name())
             {
-                $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
+                $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => ($this->get_complex_content_object_item() ? $this->get_complex_content_object_item()->get_id() : null)));
             }
             else
             {
-                $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_CREATE_LP_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
+                $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_CREATE_PORTFOLIO_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
             }
 
             $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';

@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/portfolio_builder_component.class.php';
 
 class PortfolioBuilder extends ComplexBuilder
 {
-    const ACTION_CREATE_LP_ITEM = 'create_item';
+    const ACTION_CREATE_PORTFOLIO_ITEM = 'create_item';
 
     function run()
     {
@@ -15,16 +15,16 @@ class PortfolioBuilder extends ComplexBuilder
         
         switch ($action)
         {
-            case ComplexBuilder :: ACTION_BROWSE_CLO :
+            case ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT :
                 $component = PortfolioBuilderComponent :: factory('Browser', $this);
                 break;
-            case PortfolioBuilder :: ACTION_CREATE_LP_ITEM :
+            case PortfolioBuilder :: ACTION_CREATE_PORTFOLIO_ITEM :
                 $component = PortfolioBuilderComponent :: factory('ItemCreator', $this);
                 break;
-            case self :: ACTION_DELETE_CLOI :
+            case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
                 $component = PortfolioBuilderComponent :: factory('Deleter', $this);
                 break;
-            case self :: ACTION_UPDATE_CLOI :
+            case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
                 $component = PortfolioBuilderComponent :: factory('Updater', $this);
                 break;
         }
