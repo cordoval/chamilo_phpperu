@@ -27,15 +27,15 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
         $complex_content_object_item_id = $this->get_complex_content_object_item_id();//Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
         
         //$publish = Request :: get('publish');
-        $request_type = Request :: get(ComplexBuilder :: PARAM_TYPE);
+        $type = Request :: get(ComplexBuilder :: PARAM_TYPE);
         $this->repository_data_manager = RepositoryDataManager :: get_instance();
         
-    	$parent = $root_content_object; //??
+    	$parent = $this->get_root_content_object()->get_id();
     	
         if ($complex_content_object_item_id)
         {
             $parent_complex_content_object_item = $this->repository_data_manager->retrieve_complex_content_object_item($complex_content_object_item_id);
-            $parent = $parent_complex_content_object_item_id->get_ref();
+            $parent = $parent_complex_content_object_item->get_ref();
         }
         
         if ($this->get_complex_content_object_item())
@@ -64,14 +64,12 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
         	$publication = new ComplexRepoViewer($this, $type);
         }
         
-        if ($request_type)
+        if ($type)
         {
-            $publication->set_parameter(ComplexBuilder :: PARAM_TYPE, $request_type);
+            $publication->set_parameter(ComplexBuilder :: PARAM_TYPE, $type);
         }
         
-        $publication->set_parameter(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT, $root_content_object);
         $publication->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
-        $publication->set_parameter('publish', $publish);
         $publication->set_excluded_objects($exclude);
         $publication->parse_input_from_table();
         
@@ -95,7 +93,7 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
             
             foreach ($object as $obj)
             {
-                $type = $rdm->determine_content_object_type($obj);
+                $type = $repository_data_manager->determine_content_object_type($obj);
                 
                 $complex_content_object_item = ComplexContentObjectItem :: factory($type);
                 $complex_content_object_item->set_ref($obj);
@@ -106,10 +104,10 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
                 $complex_content_object_item->create();
             }
             
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, 'publish' => Request :: get('publish')));
+            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
-        $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'root_content_object' => $root_content_object, 'publish' => Request :: get('publish'))), RepositoryDataManager :: get_instance()->retrieve_content_object($root_content_object)->get_title()));
-        $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'), 'root_content_object' => $root_content_object, 'publish' => Request :: get('publish'))), Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))));
+        $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null)), $root_content_object->get_title()));
+        $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'))), Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))));
         
         $this->display_header($trail);
         echo '<br />' . implode("\n", $html);
