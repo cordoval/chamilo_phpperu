@@ -50,11 +50,6 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
                 }
             }
 
-            if ($parent == $root)
-            {
-                $parent = null;
-            }
-
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -78,7 +73,7 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
                 }
             }
 
-            $this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root));
+            $this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item));
         }
         else
         {

@@ -16,9 +16,9 @@ class ComplexBuilderMoverComponent extends ComplexBuilderComponent
      */
     function run()
     {
-        $id = Request :: get(ComplexBuilder :: PARAM_SELECTED_ROOT_CONTENT_OBJECT_ID);
+        $id = Request :: get(ComplexBuilder :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID);
         $root = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
-        $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT_ID);
+        $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $direction = Request :: get(ComplexBuilder :: PARAM_DIRECTION);
         $succes = true;
 
@@ -54,7 +54,7 @@ class ComplexBuilderMoverComponent extends ComplexBuilderComponent
                 $parent = null;
             }
 
-            $this->redirect($succes ? Translation :: get('ComplexContentObjectItemsMoved') : Translation :: get('ComplexContentObjectItemsNotMoved'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT_ID => $parent_complex_content_object_item));
+            $this->redirect($succes ? Translation :: get('ComplexContentObjectItemsMoved') : Translation :: get('ComplexContentObjectItemsNotMoved'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item));
         }
         else
         {
