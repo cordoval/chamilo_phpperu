@@ -36,6 +36,9 @@ class AssessmentBuilder extends ComplexBuilder
             case self :: ACTION_SELECT_QUESTIONS :
                 $component = $this->create_component('QuestionSelecter');
                 break;
+            case ComplexBuilder::ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Creator');
+                break;    
             default : 
             	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
             	$component = $this->create_component('Browser');
