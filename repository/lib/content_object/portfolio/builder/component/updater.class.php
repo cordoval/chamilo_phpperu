@@ -3,8 +3,7 @@
  * $Id: updater.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.portfolio.component
  */
-require_once dirname(__FILE__) . '/../portfolio_builder_component.class.php';
-require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../../../complex_builder/complex_repo_viewer.class.php';
 
 class PortfolioBuilderUpdaterComponent extends PortfolioBuilder
 {
@@ -24,7 +23,7 @@ class PortfolioBuilderUpdaterComponent extends PortfolioBuilder
         
         $rdm = RepositoryDataManager :: get_instance();
         $complex_content_object_item = $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
-        $content_object = $rdm->retrieve_content_object($cloi->get_ref());
+        $content_object = $rdm->retrieve_content_object($complex_content_object_item->get_ref());
         
         $type = $content_object->get_type();
         
@@ -66,11 +65,11 @@ class PortfolioBuilderUpdaterComponent extends PortfolioBuilder
             if ($complex_content_object_item_form)
                 $complex_content_object_item_form->update_complex_content_object_item_from_values($content_object_form->exportValues());
             else
-                $cloi->update();
+                $complex_content_object_item->update();
             
             $parameters[PortfolioBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
             
-            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(PortfolioBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_BROWSE_CLO)));
+            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(PortfolioBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_BROWSE)));
         }
         else
         {

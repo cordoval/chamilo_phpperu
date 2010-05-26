@@ -13,7 +13,7 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilder
     function run()
     {
         $html = array();
-        $this->complex_builder_browser_component = ComplexBuilderComponent::factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
+//        $this->complex_builder_browser_component = ComplexBuilderComponent::factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = BreadcrumbTrail::get_instance();
         $trail->merge($menu_trail);
@@ -44,7 +44,7 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilder
         $html[] =  '<div style="width: 18%; overflow: auto; float: left;">';
         $html[] =  $this->get_complex_content_object_menu();
         $html[] =  '</div><div style="width: 80%; float: right;">';
-        $html[] =  $this->get_complex_content_object_table_html(false, null, new PortfolioBrowserTableCellRenderer($this->get_parent(), $this->get_complex_content_object_table_condition()));
+        $html[] =  $this->get_complex_content_object_table_html(false, null, new PortfolioBrowserTableCellRenderer($this, $this->get_complex_content_object_table_condition()));
         $html[] =  '</div>';
         $html[] =  '<div class="clear">&nbsp;</div>';
         
