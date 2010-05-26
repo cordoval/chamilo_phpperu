@@ -32,6 +32,15 @@ class LearningPathBuilder extends ComplexBuilder
             case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
                 $component = $this->create_component('Updater');
                 break;
+            case LearningPathBuilder :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Mover');
+                break;
+            case LearningPathBuilder :: ACTION_CHANGE_PARENT :
+                $component = $this->create_component('ParentChanger');
+                break;
+            case LearningPathBuilder :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Viewer');
+                break;
             case self :: ACTION_BUILD_PREREQUISITES :
                 $component = $this->create_component('PrerequisitesBuilder');
                 break;
