@@ -21,6 +21,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
         $this->rdm = RepositoryDataManager :: get_instance();
 
         $parent = $this->get_parent()->get_root_content_object_id();
+        
         if ($complex_content_object_item_id)
         {
             $parent_complex_content_object_item = $this->rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
