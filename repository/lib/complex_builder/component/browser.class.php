@@ -26,14 +26,6 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
         }
 
         $this->display_header($trail);
-        $action_bar = $this->get_action_bar($lo);
-
-        echo '<br />';
-        if ($action_bar)
-        {
-            echo $action_bar->as_html();
-            echo '<br />';
-        }
 
         $display = ContentObjectDisplay :: factory($this->get_root_content_object());
         echo $display->get_full_html();
