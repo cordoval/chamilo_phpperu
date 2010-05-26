@@ -14,8 +14,7 @@ class ForumBuilderBrowserComponent extends ForumBuilder
 {
 
     function run()
-    {
-        
+    {      
         $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
         
         $browser->run();

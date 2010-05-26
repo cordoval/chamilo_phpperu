@@ -13,19 +13,24 @@ class ForumTopicBuilder extends ComplexBuilder
         
         switch ($action)
         {
-            case ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT :
-                $component = ForumTopicBuilderComponent :: factory('Browser', $this);
+            case ComplexBuilder :: ACTION_BROWSE :
+                $component = $this->create_component('Browser');
                 break;
             case ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = ForumTopicBuilderComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
+                break;
+            default :
+                $component = $this->create_component('Browser');
                 break;
         }
         
-        if (! $component)
-            parent :: run();
-        else
-            $component->run();
+        $component->run();
     }
+ 
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 
 ?>
