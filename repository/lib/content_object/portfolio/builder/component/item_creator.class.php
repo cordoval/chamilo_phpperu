@@ -12,17 +12,17 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail::get_instance();
         $trail->add_help('repository learnpath builder');
         
-        $root_content_object = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
+        $root_content_object = $this->get_root_content_object();
         $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-        $publish = Request :: get('publish');
+        
         $type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
         
         $this->rdm = RepositoryDataManager :: get_instance();
         
-    	$parent = $root_content_object;
+    	$parent = $root_content_object->get_id();
         if ($complex_content_object_item_id)
         {
             $parent_complex_content_object_item = $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
@@ -35,7 +35,7 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
         }
         else
         {
-            $lo = $this->get_root_content_object();
+            $content_object = $this->get_root_content_object();
         }
         
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
@@ -52,9 +52,9 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
             $pub->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
         }
         
-        $pub->set_parameter(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT, $root_content_object);
+        
         $pub->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
-        $pub->set_parameter('publish', $publish);
+       
         $pub->set_excluded_objects($exclude);
         $pub->parse_input();
         
@@ -95,10 +95,10 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
                 $complex_content_object_item->create();
             }
             
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id));
+            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id));
         }
         
-        $this->display_header($trail);
+        $this->display_header();
         echo '<br />' . implode("\n", $html);
         $this->display_footer();
     }

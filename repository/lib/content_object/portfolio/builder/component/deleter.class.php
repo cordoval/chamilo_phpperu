@@ -19,7 +19,7 @@ class PortfolioBuilderDeleterComponent extends PortfolioBuilder
     {
         $this->complex_builder_deleter_component = ComplexBuilderComponent::factory(ComplexBuilderComponent::DELETER_COMPONENT, $this);
         $ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-        $root = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
+        $root = $this->get_root_content_object();
         $parent_complex_content_object = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         
         $failures = 0;
@@ -87,7 +87,7 @@ class PortfolioBuilderDeleterComponent extends PortfolioBuilder
                 }
             }
             
-            $this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root));
+            $this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item));
         }
         else
         {

@@ -16,11 +16,11 @@ class PortfolioBuilderUpdaterComponent extends PortfolioBuilder
          $this->complex_builder_browser_component = ComplexBuilderComponent::factory(ComplexBuilderComponent::UPDATER_COMPONENT, $this);
         $trail = new BreadcrumbTrail();
         
-        $root_content_object = Request :: get(PortfolioBuilder :: PARAM_ROOT_CONTENT_OBJECT);
+        $root_content_object = $this->get_root_content_object();
         $complex_content_object_item_id = Request :: get(PortfolioBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $parent_complex_content_object_item = Request :: get(PortfolioBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         
-        $parameters = array(PortfolioBuilder :: PARAM_ROOT_CONTENT_OBJECT=> $root_content_object, PortfolioBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, PortfolioBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
+        $parameters = array(PortfolioBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, PortfolioBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
         
         $rdm = RepositoryDataManager :: get_instance();
         $complex_content_object_item = $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);

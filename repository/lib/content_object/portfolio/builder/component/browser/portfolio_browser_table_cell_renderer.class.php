@@ -53,7 +53,7 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
                 
                 if ($ref_content_object->get_type() == Portfolio :: get_type_name())
                 {
-                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->browser->get_root(), ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id())) . '">' . $title_short . '</a>';
+                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id())) . '">' . $title_short . '</a>';
                 }
                 
                 return $title_short;
