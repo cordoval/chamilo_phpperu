@@ -4,149 +4,47 @@
  * @package repository.lib.complex_builder
  */
 /**
- * This class represents a basic complex builder structure. 
+ * This class represents a basic complex builder structure.
  * When a builder is needed for a certain type of complex learning object an extension should be written.
  * We will make use of the repoviewer for selection, creation of learning objects
- * 
+ *
  * @author vanpouckesven
  *
  */
-abstract class ComplexBuilderComponent
+abstract class ComplexBuilderComponent extends SubManager
 {
-    private $parent;
-    private static $component_count = 0;
+	const BROWSER_COMPONENT = 'browser';
+	const CREATOR_COMPONENT = 'creator';
+	const DELETER_COMPONENT = 'deleter';
+	const MOVER_COMPONENT = 'mover';
+	const PARENT_CHANGER_COMPONENT = 'parent_changer';
+	const UPDATER_COMPONENT = 'updater';
+	const VIEWER_COMPONENT = 'mover';
 
-    function ComplexBuilderComponent($parent)
-    {
-        $this->parent = $parent;
-        $this->id = ++ self :: $component_count;
-    }
+	static function factory($type, $application)
+	{
+		$file = dirname(__FILE__) . '/component/' . $type . '.class.php';
+    	if(!file_exists($file))
+    	{
+    		throw new Exception(Translation :: get('ComplexbuilderComponentTypeDoesNotExist', array('type' => $type)));
+    	}
 
-    function get_parent()
-    {
-        return $this->parent;
-    }
+    	require_once $file;
 
-    function set_parent($parent)
-    {
-        $this->parent = $parent;
-    }
-
-    function get_action()
-    {
-        return $this->get_parent()->get_action();
-    }
-
-    function set_action($action)
-    {
-        $this->get_parent()->set_action($action);
-    }
-
-    function set_parameter($parameter, $value)
-    {
-        $this->get_parent()->set_parameter($parameter, $value);
-    }
-
-    function get_parameter($parammeter)
-    {
-        return $this->get_parent()->get_parameter($parameter);
-    }
-
-    function get_parameters()
-    {
-        return $this->get_parent()->get_parameters();
-    }
-
-    function display_header($breadcrumbtrail, $helpitem)
-    {
-        $this->get_parent()->display_header($breadcrumbtrail, $helpitem);
-    }
-
-    function display_footer()
-    {
-        $this->get_parent()->display_footer();
-    }
-
-    function display_message($message)
-    {
-        $this->get_parent()->display_message($message);
-    }
-
-    function display_error_message($message)
-    {
-        $this->get_parent()->display_error_message($message);
-    }
-
-    function display_warning_message($message)
-    {
-        $this->get_parent()->display_warning_message($message);
-    }
-
-    function display_error_page($message)
-    {
-        $this->get_parent()->display_error_page($message);
-    }
-
-    function display_warning_page($message)
-    {
-        $this->get_parent()->display_warning_page($message);
-    }
-
-    function display_popup_form($form_html)
-    {
-        $this->get_parent()->display_popup_form($form_html);
-    }
-
-    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
-    {
-        $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
-    }
-
-    function get_url($additional_parameters = array ())
-    {
-        return $this->get_parent()->get_url($additional_parameters);
-    }
-
-    function get_user()
-    {
-        return $this->get_parent()->get_user();
-    }
-
-    function get_user_id()
-    {
-        return $this->get_parent()->get_user_id();
-    }
-
+    	$class = 'ComplexBuilder' . Utilities :: underscores_to_camelcase($type) . 'Component';
+    	return new $class($application);
+	}
+	
     function get_root_content_object()
     {
         return $this->get_parent()->get_root_content_object();
     }
 
-    function get_content_object_item()
+    function get_complex_content_object_item()
     {
-        return $this->get_parent()->get_content_object_item();
+        return $this->get_parent()->get_complex_content_object_item();
     }
-
-    static function factory($builder_name, $component_name, $builder)
-    {
-        $filename = dirname(__FILE__) . '/' . Utilities :: camelcase_to_underscores($builder_name) . '/component/' . //Utilities :: camelcase_to_underscores($builder_name). ($builder_name?'_':'') .
-        //$filename = Path :: get_repository_path() . 'lib/content_object/' . $builder_name . '/builder/'; 
-        
-        /*$filename .= */Utilities :: camelcase_to_underscores($component_name) . '.class.php';
-
-        if (! file_exists($filename) || ! is_file($filename))
-        {
-            die('Failed to load "' . $component_name . '" component');
-        }
-        
-        $class = $builder_name . 'Builder' . $component_name . 'Component';
-        if (! $builder_name)
-            $class = 'Complex' . $class;
-        
-        require_once $filename;
-        return new $class($builder);
-    }
-
+    
     /**
      * Common functionality
      */
@@ -171,24 +69,28 @@ abstract class ComplexBuilderComponent
         return $this->get_parent()->get_complex_content_object_breadcrumbs();
     }
 
-    function get_action_bar($lo)
+    function get_action_bar(ContentObject $content_object)
     {
-        return $this->get_parent()->get_action_bar($lo);
+        return $this->get_parent()->get_action_bar($content_object);
     }
 
-    function get_creation_links($lo, $types = array(), $additional_links = array())
+    function get_creation_links(ContentObject $content_object, $types = array(), $additional_links = array())
     {
-        return $this->get_parent()->get_creation_links($lo, $types, $additional_links);
+        return $this->get_parent()->get_creation_links($content_object, $types, $additional_links);
     }
     
-	function get_complex_content_object_item_view_url($cloi, $root_id)
+	function get_complex_content_object_item_view_url($complex_content_object_item, $root_content_object_id)
     {
-    	return $this->get_parent()->get_complex_content_object_item_view_url($cloi, $root_id);
+    	return $this->get_parent()->get_complex_content_object_item_view_url($complex_content_object_item, $root_content_object_id);
     }
     
-    function get_complex_content_object_parent_changer_url($cloi, $root_id)
+    function get_complex_content_object_parent_changer_url($complex_content_object_item, $root_content_object_id)
     {
-    	return $this->get_complex_content_object_parent_changer_url($cloi, $root_id);
+    	return $this->get_complex_content_object_parent_changer_url($complex_content_object_item, $root_content_object_id);
+    }
+    
+    function get_application_component_path()
+    {
     }
 }
 

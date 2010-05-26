@@ -12,18 +12,31 @@
 class RepositoryManagerComplexBuilderComponent extends RepositoryManager
 {
 
+	private $content_object;
+	
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $complex_builder = ComplexBuilder :: factory($this);
-        $complex_builder->run();
+        $content_object_id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
+        $this->set_parameter(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $content_object_id);
+        $this->content_object = $this->retrieve_content_object($content_object_id);
+        
+        if($this->content_object)
+        {
+        	$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
+        	$complex_builder->run();
+        }
+        else
+        {
+        	$this->display_error_page(Translation :: get('NoObjectSelected'));
+        }
     }
-
-    function display_header($breadcrumbtrail, $helpitem)
+    
+    function get_root_content_object()
     {
-        parent :: display_header($breadcrumbtrail, false, false, $helpitem);
+    	return $this->content_object;
     }
 }
 ?>

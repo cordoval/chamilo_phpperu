@@ -42,12 +42,12 @@ class RepositoryManager extends CoreApplication
     const PARAM_COMPARE_VERSION = 'compare';
     const PARAM_PUBLICATION_APPLICATION = 'publication_application';
     const PARAM_PUBLICATION_ID = 'publication';
-    const PARAM_COMPLEX_CONTENT_OBJECT_ITEM_REF = 'complex_content_object_item_ref';
-    const PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'complex_content_object_item_id';
-    const PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID = 'complex_content_object_item_root_id';
-    const PARAM_COMPLEX_CONTENT_OBJECT_ITEM_COMPLEX_REF = 'complex_content_object_item_complex_ref';
+     const PARAM_CLOI_REF = 'cloi_ref';
+    const PARAM_CLOI_ID = 'cloi_id';
+    const PARAM_CLOI_ROOT_ID = 'cloi_root_id';
+    const PARAM_CLOI_COMPLEX_REF = 'cloi_complex_ref';
     const PARAM_DISPLAY_ORDER = 'display_order';
-    const PARAM_REMOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM = 'complex_content_object_item_delete_selected';
+    const PARAM_REMOVE_SELECTED_CLOI = 'cloi_delete_selected';
     const PARAM_MOVE_DIRECTION = 'move_direction';
     const PARAM_DIRECTION_UP = 'up';
     const PARAM_DIRECTION_DOWN = 'down';
@@ -85,11 +85,11 @@ class RepositoryManager extends CoreApplication
     const ACTION_VIEW_QUOTA = 'quota';
     const ACTION_COMPARE_CONTENT_OBJECTS = 'compare';
     const ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION = 'publicationupdater';
-    const ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEMS = 'createcomplex';
-    const ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEMS = 'updatecomplex';
-    const ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEMS = 'deletecomplex';
-    const ACTION_BROWSE_COMPLEX_CONTENT_OBJECT_ITEMS = 'browsecomplex';
-    const ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEMS = 'movecomplex';
+    const ACTION_CREATE_COMPLEX_CONTENT_OBJECTS = 'createcomplex';
+    const ACTION_UPDATE_COMPLEX_CONTENT_OBJECTS = 'updatecomplex';
+    const ACTION_DELETE_COMPLEX_CONTENT_OBJECTS = 'deletecomplex';
+    const ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS = 'browsecomplex';
+    const ACTION_MOVE_COMPLEX_CONTENT_OBJECTS = 'movecomplex';
     const ACTION_SELECT_CONTENT_OBJECTS = 'selectobjects';
     const ACTION_ADD_CONTENT_OBJECT = 'addobject';
     const ACTION_EXPORT_CONTENT_OBJECTS = 'export';
@@ -97,8 +97,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_PUBLISH_CONTENT_OBJECT = 'publish';
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
-    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT_ITEM = 'build_complex';
-    const ACTION_VIEW_REPO = 'repo_viewer';
+    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'build_complex';    const ACTION_VIEW_REPO = 'repo_viewer';
     const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
     const ACTION_EXTERNAL_REPOSITORY_BROWSE = 'ext_rep_browse';
     const ACTION_EXTERNAL_REPOSITORY_EXPORT = 'ext_rep_export';
@@ -107,7 +106,8 @@ class RepositoryManager extends CoreApplication
     const ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW = 'ext_rep_metadata_review';
     const ACTION_EXTERNAL_REPOSITORY_CATALOG = 'ext_rep_catalog';
     const ACTION_BROWSE_TEMPLATES = 'templates';
-    const ACTION_COPY_CONTENT_OBJECT = 'content_object_copy';
+    const ACTION_COPY_CONTENT_OBJECT = 'lo_copy';
+
     const ACTION_IMPORT_TEMPLATE = 'import_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
     const ACTION_DELETE_LINK = 'delete_link';
@@ -154,16 +154,16 @@ class RepositoryManager extends CoreApplication
         $component = null;
         switch ($action)
         {
-            case self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEMS :
+            case self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECTS :
                 $component = $this->create_component('ComplexCreator');
                 break;
-            case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEMS :
+            case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECTS :
                 $component = $this->create_component('ComplexUpdater');
                 break;
-            case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEMS :
+            case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS :
                 $component = $this->create_component('ComplexDeleter');
                 break;
-            case self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT_ITEMS :
+            case self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS :
                 $component = $this->create_component('ComplexBrowser');
                 break;
             case self :: ACTION_SELECT_CONTENT_OBJECTS :
@@ -230,7 +230,7 @@ class RepositoryManager extends CoreApplication
                 $this->force_menu_url($this->get_recycle_bin_url(), true);
                 $component = $this->create_component('RecycleBinBrowser');
                 break;
-            case self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEMS :
+            case self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT :
                 $component = $this->create_component('ComplexOrderMover');
                 break;
             case self :: ACTION_EXPORT_CONTENT_OBJECTS :
@@ -264,7 +264,7 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_VIEW_ATTACHMENT :
                 $component = $this->create_component('AttachmentViewer');
                 break;
-            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT_ITEM :
+            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
                 $component = $this->create_component('ComplexBuilder');
                 break;
             case self :: ACTION_VIEW_REPO :
@@ -366,13 +366,13 @@ class RepositoryManager extends CoreApplication
                     Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
                     Request :: set_get(self :: PARAM_DELETE_PERMANENTLY, 1);
                     break;
-                case self :: PARAM_REMOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM :
-                    $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEMS);
-                    Request :: set_get(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $selected_ids);
+                     case self :: PARAM_REMOVE_SELECTED_CLOI :
+                    $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS);
+                    Request :: set_get(self :: PARAM_CLOI_ID, $selected_ids);
                     break;
                 case self :: PARAM_ADD_OBJECTS :
                     $this->set_action(self :: ACTION_ADD_CONTENT_OBJECT);
-                    Request :: set_get(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_REF, $selected_ids);
+                    Request :: set_get(self :: PARAM_CLOI_REF, $selected_ids);
                     break;
                 case self :: PARAM_PUBLISH_SELECTED :
                     $this->set_action(self :: ACTION_PUBLISH_CONTENT_OBJECT);
@@ -454,13 +454,6 @@ class RepositoryManager extends CoreApplication
             echo '<div>';
         }
 
-        echo '<div>';
-        echo '<h3 style="float: left;" title="' . $title . '">' . $title_short . '</h3>';
-        if ($display_search)
-        {
-            $this->display_search_form();
-        }
-        echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
 
         $message = Request :: get(self :: PARAM_MESSAGE);
@@ -1234,7 +1227,8 @@ class RepositoryManager extends CoreApplication
 
     function get_browse_complex_content_object_url($object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $object->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT,
+        							self :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
     }
 
     function get_add_existing_content_object_url($root_id, $complex_content_object_id)

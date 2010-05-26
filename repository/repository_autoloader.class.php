@@ -99,6 +99,7 @@ class RepositoryAutoloader
 	static function check_for_special_files($classname)
 	{
 		$list = array('complex_builder' => 'complex_builder/complex_builder.class.php',
+					  'complex_builder_component' => 'complex_builder/complex_builder_component.class.php',
 					  'complex_display' => 'complex_display/complex_display.class.php',
 					  'repository_category_manager' => 'category_manager/repository_category_manager.class.php',
 					  'repository_category' => 'category_manager/repository_category.class.php',
