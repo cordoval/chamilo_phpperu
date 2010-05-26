@@ -3,7 +3,6 @@
  * $Id: creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum.component
  */
-require_once dirname(__FILE__) . '/../forum_builder_component.class.php';
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 
 class ForumBuilderCreatorComponent extends ForumBuilder

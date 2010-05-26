@@ -3,7 +3,6 @@
  * $Id: homepage_selector.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.wiki.component
  */
-require_once dirname(__FILE__) . '/../wiki_builder_component.class.php';
 
 class WikiBuilderHomepageSelectorComponent extends WikiBuilder
 {

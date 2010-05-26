@@ -4,7 +4,6 @@
  * @package repository.lib.complex_builder.forum.component
  */
 
-require_once dirname(__FILE__) . '/../forum_builder_component.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
 require_once dirname(__FILE__) . '/browser/forum_browser_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/browser/forum_browser_table_column_model.class.php';
@@ -16,6 +15,11 @@ class ForumBuilderBrowserComponent extends ForumBuilder
 
     function run()
     {
+        
+        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
+        
+        $browser->run();
+        /*
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = new BreadcrumbTrail(false);
         $trail->merge($menu_trail);
@@ -52,10 +56,12 @@ class ForumBuilderBrowserComponent extends ForumBuilder
         echo '<div class="clear">&nbsp;</div>';
         
         $this->display_footer();
+        */
     }
 
     function get_table_html()
     {
+        /*
         $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => ($this->get_complex_content_object_item() ? $this->get_complex_content_object_item()->get_id() : null));
         
         if ($this->get_complex_content_object_item())
@@ -99,6 +105,7 @@ class ForumBuilderBrowserComponent extends ForumBuilder
         }
         
         return implode("\n", $html);
+        */
     }
 }
 

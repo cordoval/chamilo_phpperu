@@ -23,27 +23,27 @@ class ForumBuilder extends ComplexBuilder
         
         switch ($action)
         {
-            case ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT :
-                $component = ForumBuilderComponent :: factory('Browser', $this);
+            case ComplexBuilder :: ACTION_BROWSE :
+                $component = $this->create_component('Browser');
                 break;
             case ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = ForumBuilderComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_STICKY_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = ForumBuilderComponent :: factory('Sticky', $this);
+                $component = $this->create_component('Sticky');
                 break;
             case self :: ACTION_IMPORTANT_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = ForumBuilderComponent :: factory('Important', $this);
+                $component = $this->create_component('Important');
+                break;
+            default :
+                $component = $this->create_component('Browser');
                 break;
         }
         
-        if (! $component)
-            parent :: run();
-        else
-            $component->run();
+        $component->run();
     }
     
-	private function parse_input_from_table($action)
+	protected function parse_input_from_table($action)
     {
         if ($action)
         {
@@ -80,6 +80,11 @@ class ForumBuilder extends ComplexBuilder
     {
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_IMPORTANT_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item()->get_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
     }
+ 
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 
 ?>
