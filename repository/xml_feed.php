@@ -19,6 +19,9 @@ if (Authentication :: is_valid())
 
     $owner_condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
     $conditions[] = $owner_condition;
+    
+    $recycle_condition = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED));
+    $conditions[] = $recycle_condition;
 
     if (is_array(Request :: get('exclude')))
     {

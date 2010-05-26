@@ -77,7 +77,7 @@ class PortfolioMenu extends HTML_Menu
         $menu = array();
         
         $users = array();
-        //Changed so the root of the portfolio displays the user's full name
+        
         $udm = UserDataManager :: get_instance();
         $users['title'] = Translation :: get('PersonalPortfolio') . " - " . $udm->retrieve_user($this->view_user)->get_fullname();
         $users['url'] = $this->get_root_url();
@@ -114,7 +114,7 @@ class PortfolioMenu extends HTML_Menu
         $pdm = PortfolioDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
         
-        $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_PUBLISHER, $this->view_user);
+        $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_OWNER_ID, $this->view_user);
         $publications = $pdm->retrieve_portfolio_publications($condition);
         while ($publication = $publications->next_result())
         {

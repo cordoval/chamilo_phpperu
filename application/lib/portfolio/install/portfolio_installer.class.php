@@ -26,5 +26,35 @@ class PortfolioInstaller extends Installer
     {
         return dirname(__FILE__);
     }
+
+    /**
+	 * Runs the install-script.
+	 */
+	function install_extra()
+	{
+		if (! $this->create_default_location())
+		{
+			return false;
+		}
+		else
+		{
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultLocationCreated'));
+		}
+
+
+
+		return true;
+	}
+
+        /**
+         * create a location with tree identifier 0 to apply
+         * default settings for the portfolio
+         */
+        function create_default_location()
+        {
+            return PortfolioRights::create_default_location();
+
+
+        }
 }
 ?>

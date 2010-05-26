@@ -29,7 +29,7 @@ class StreamingVideoClip extends ContentObject
     {
         return $this->set_additional_property(self :: PROPERTY_APPLICATION, $application);
     }
-
+    
     //Inherited
     function supports_attachments()
     {

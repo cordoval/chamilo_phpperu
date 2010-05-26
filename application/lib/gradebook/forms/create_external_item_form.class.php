@@ -10,8 +10,6 @@ class CreateExternalItemForm extends FormValidator
 {
 	const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-//    const PARAM_SCORE = 'score';
-//    const PARAM_COMMENT = 'comment';
 
     private $form_type;
     private $evaluation_format;
@@ -52,7 +50,7 @@ class CreateExternalItemForm extends FormValidator
     function build_basic_form($users_ids = null)
     {
     	$counter = 0;
-    	$this->addElement('category', Translation :: get('GradeProperties'));
+    	$this->addElement('category', Translation :: get('ScoreProperties'));
     	$values = $this->getSubmitValues();
     	$format = EvaluationManager :: retrieve_evaluation_format($values['format_id']);
     	if(!$format)
@@ -85,13 +83,7 @@ class CreateExternalItemForm extends FormValidator
 	    	{
 	    		$score_rule = new ValidateScoreStepRule($this->evaluation_format);
 	    		$boundaries_rule = new ValidateScoreBoundariesRule($this->evaluation_format);
-//	    		if(!empty($values))
-//	    		{
-//		    		if(!$score_rule->validate($values[$this->evaluation_format->get_evaluation_field_name()]) || !$boundaries_rule->validate($values[$this->evaluation_format->get_evaluation_field_name()]) || !is_numeric($values[$this->evaluation_format->get_evaluation_field_name()]))
-//		    		{
-//		    			$this->grade_evaluation->set_score(null);
-//		    		}
-//	    		}
+	    		
 				$rule = array();
 	    		$group[] = $this->createElement($this->evaluation_format->get_evaluation_field_type(), $this->evaluation_format->get_evaluation_field_name() . $counter, false,  array('size' => '4'));
 	            $group[] = $this->createElement('text', GradeEvaluation :: PROPERTY_COMMENT . $counter, Translation :: get('Comment'), false);
@@ -101,7 +93,6 @@ class CreateExternalItemForm extends FormValidator
 	            $rule[$this->evaluation_format->get_evaluation_field_name() . $counter][] = array(Translation :: get('ScoreIsOutsideBoundaries'), $boundaries_rule);
 	            $this->addGroupRule('grades', $rule);
 	            $counter++;
-				//$this->addRule($this->evaluation_format->get_evaluation_field_name() . $counter, Translation :: get('ThisFieldIsRequired'), 'required');
 	    	}
 	    	else
 	    	{
@@ -112,7 +103,6 @@ class CreateExternalItemForm extends FormValidator
 	    		$group[] = $this->createElement('text', GradeEvaluation :: PROPERTY_COMMENT . $counter, Translation :: get('Comment'), false);
 	    		$this->addGroup($group, 'grades', $username, null, false);
 	    		$counter++;
-	    		//$this->addRule($this->evaluation_format->get_evaluation_field_name() . $counter, Translation :: get('ThisFieldIsRequired'), 'required');
 	    	}
     	}
     	$this->addElement('category');
@@ -120,7 +110,7 @@ class CreateExternalItemForm extends FormValidator
     
     function build_evaluation_format_element()
     {
-    	$this->addElement('category', Translation :: get('ExternalProperties'));
+    	$this->addElement('category', Translation :: get('ExternalItemProperties'));
     	$this->addElement('html', '<div id="message"></div>');
         $this->add_textfield(ExternalItem :: PROPERTY_TITLE, Translation :: get('Title'), true, array('size' => '100', 'id' => 'title', 'style' => 'width: 95%'));
         $this->add_html_editor(ExternalItem :: PROPERTY_DESCRIPTION, Translation :: get('Description'), $required);
@@ -144,7 +134,7 @@ class CreateExternalItemForm extends FormValidator
 	        $attributes['exclude'] = array('user_' . $this->user->get_id());
 	        $attributes['defaults'] = array();
 	        $this->add_receivers('target', Translation :: get('SelectUsers'), $attributes);
-	        $this->addElement('style_button', 'refresh', Translation :: get('RefreshGradeProperties'));
+	        $this->addElement('style_button', 'refresh', Translation :: get('RefreshScoreProperties'));
     	}
 		
 		if (Request :: get(EvaluationManager :: PARAM_EVALUATION_ACTION) == EvaluationManager :: ACTION_UPDATE)
@@ -200,12 +190,7 @@ class CreateExternalItemForm extends FormValidator
 			
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
-//    
-//    static function create_internal_item($publication)
-//    {
-//    	$paramaters['publication'] = $publication;
-//    	$evaluation_manager = new EvaluationManager($this, EvaluationManager :: ACTION_CREATE_INTERNAL_ITEM, $parameters);
-//    }
+    
 	function create_evaluation()
 	{
 		$export_values = $this->exportValues();
@@ -220,7 +205,7 @@ class CreateExternalItemForm extends FormValidator
 		{
 			return false;
 		}
-		for($i=0;$i<(count($export_values)-5)/2;$i++)
+		for($i=0;$i<(count($export_values)-6)/2;$i++)
 		{
 			if(!$export_values[$this->evaluation_format->get_evaluation_field_name() . $i] == 'no_evaluation' || !$export_values[$this->evaluation_format->get_evaluation_field_name() . $i] == null)
 			{
@@ -291,26 +276,6 @@ class CreateExternalItemForm extends FormValidator
 		
 		return true;
 	}
-    // Default values (setter)
-    
-//	function setEvaluationDefaults($defaults = array ())
-//	{
-//		$grade_evaluation = $this->grade_evaluation;
-//		$evaluation = $this->evaluation;
-//		if ($grade_evaluation->get_id())
-//		{
-//			$defaults[$this->evaluation_format->get_evaluation_field_name()] = $grade_evaluation->get_score();
-//		    $defaults[GradeEvaluation :: PROPERTY_COMMENT] = $grade_evaluation->get_comment();
-//		    $defaults[GradeEvaluation :: PROPERTY_ID] = $grade_evaluation->get_id();
-//	
-//		    $defaults[Evaluation :: PROPERTY_FORMAT_ID] = $evaluation->get_format_id();
-//		    $defaults[Evaluation :: PROPERTY_EVALUATION_DATE] = $evaluation->get_evaluation_date();
-//		    $defaults[Evaluation :: PROPERTY_USER_ID] = $evaluation->get_user_id();
-//		    $defaults[Evaluation :: PROPERTY_EVALUATOR_ID] = $evaluation->get_evaluator_id();
-//			parent :: setDefaults($defaults);
-//		}
-//		
-//	}
 	
 	function validate()
 	{
@@ -320,11 +285,6 @@ class CreateExternalItemForm extends FormValidator
 	        $this->setDefaults();
         	return parent :: validate();
         }
-//        elseif($this->evaluation_format->get_evaluation_field_type() == 'text')
-//        {
-//        	$this->setEvaluationDefaults(true);
-//        	return false;
-//        }
 	}
 }
 

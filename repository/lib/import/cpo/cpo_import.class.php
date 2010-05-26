@@ -114,7 +114,7 @@ class CpoImport extends ContentObjectImport
      * Example:
      * $object_numbers[60] = 1;
      */
-    private $object_numbers;
+    private $object_numbers = array();
     
     /**
      * Enter description here...
@@ -160,7 +160,7 @@ class CpoImport extends ContentObjectImport
         
         foreach ($content_objects as $lo)
         {
-            $this->create_content_object($lo);
+        	$this->create_content_object($lo);
         }
    
         $this->create_complex_wrappers();
@@ -174,7 +174,6 @@ class CpoImport extends ContentObjectImport
         {
             Filesystem :: remove($temp);
         }
-        
         return true;
     }
 
@@ -296,10 +295,18 @@ class CpoImport extends ContentObjectImport
             $comment = $general->getElementsByTagName('comment')->item(0)->nodeValue;
             $created = $general->getElementsByTagName('created')->item(0)->nodeValue;
             $modified = $general->getElementsByTagName('modified')->item(0)->nodeValue;
-            $category = $general->getElementsByTagName('parent')->item(0)->nodeValue;
+            if (is_object($general->getElementsByTagName('parent')->item(0)))
+            {
+            	$category = $general->getElementsByTagName('parent')->item(0)->nodeValue;
+            }
+            else 
+            {
+            	$category = null;
+            }
+            
             $object_number = $general->getElementsByTagName('object_number')->item(0)->nodeValue;
             
-            $lo = ContentObject :: factory($type);
+            $lo = ContentObject :: factory($type, array(ContentObject::PROPERTY_STATE => ContentObject::STATE_NORMAL));
             
             if(!$lo)
             {
@@ -382,68 +389,77 @@ class CpoImport extends ContentObjectImport
             
             // Complex children
             $subitems = $content_object->getElementsByTagName('sub_items')->item(0);
-            $children = $subitems->childNodes;
-            for($i = 0; $i < $children->length; $i ++)
+            if (is_object($subitems))
             {
-                $subitem = $children->item($i);
-                if ($subitem->nodeName == "#text")
-                    continue;
-                
-                if ($subitem->hasAttributes())
-                {
-                    $properties = array();
-                    
-                    foreach ($subitem->attributes as $attrName => $attrNode)
-                    {
-                        if ($attrName == 'idref')
-                        {
-                            $idref = $attrNode->value;
-                        }
-                        elseif ($attrName == 'id')
-                        {
-                            $my_id = $attrNode->value;
-                        }
-                        else
-                        {
-                            $properties[$attrName] = $attrNode->value;
-                        }
-                    }
-                }
-                
-                $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
+            	$children = $subitems->childNodes;
+	            for($i = 0; $i < $children->length; $i ++)
+	            {
+	                $subitem = $children->item($i);
+	                if ($subitem->nodeName == "#text")
+	                    continue;
+	                
+	                if ($subitem->hasAttributes())
+	                {
+	                    $properties = array();
+	                    
+	                    foreach ($subitem->attributes as $attrName => $attrNode)
+	                    {
+	                        if ($attrName == 'idref')
+	                        {
+	                            $idref = $attrNode->value;
+	                        }
+	                        elseif ($attrName == 'id')
+	                        {
+	                            $my_id = $attrNode->value;
+	                        }
+	                        else
+	                        {
+	                            $properties[$attrName] = $attrNode->value;
+	                        }
+	                    }
+	                }
+	                
+	                $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
+            	}
             }
            
             // Attachments
             $attachments = $content_object->getElementsByTagName('attachments')->item(0);
-            $children = $attachments->childNodes;
-            for($i = 0; $i < $children->length; $i ++)
+            if (is_object($attachments))
             {
-                $attachment = $children->item($i);
-                if ($attachment->nodeName == "#text")
-                    continue;
-                
-                $idref = $attachment->getAttribute('idref');
-                $this->lo_attachments[$id][] = $idref;
-            
+	            $children = $attachments->childNodes;
+	            for($i = 0; $i < $children->length; $i ++)
+	            {
+	                $attachment = $children->item($i);
+	                if ($attachment->nodeName == "#text")
+	                    continue;
+	                
+	                $idref = $attachment->getAttribute('idref');
+	                $this->lo_attachments[$id][] = $idref;
+	            
+	            }
             }
              
             // Includes
             $includes = $content_object->getElementsByTagName('includes')->item(0);
-            $children = $includes->childNodes;
-            
-            //if($children->length > 0)
-            $this->fix_links($lo);
-            
-            for($i = 0; $i < $children->length; $i ++)
+            if(is_object($includes))
             {
-                $include = $children->item($i);
-                if ($include->nodeName == "#text")
-                    continue;
-                
-                $idref = $include->getAttribute('idref');
-                $this->lo_includes[$id][] = $idref;
-            
-            } 
+            	$children = $includes->childNodes;
+                        
+	            //if($children->length > 0)
+	            $this->fix_links($lo);
+	            
+	            for($i = 0; $i < $children->length; $i ++)
+	            {
+	                $include = $children->item($i);
+	                if ($include->nodeName == "#text")
+	                    continue;
+	                
+	                $idref = $include->getAttribute('idref');
+	                $this->lo_includes[$id][] = $idref;
+	            
+	            } 
+            }
         }
     }
 

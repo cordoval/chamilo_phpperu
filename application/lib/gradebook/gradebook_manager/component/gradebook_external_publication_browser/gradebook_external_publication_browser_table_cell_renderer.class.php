@@ -25,10 +25,6 @@ class GradebookExternalPublicationBrowserTableCellRenderer extends DefaultGradeb
 		{
 			return $this->get_modification_links($external_item);
 		}
-//		$application_manager = WebApplication :: factory($internal_item->get_application());
-//		$attributes = $application_manager->get_content_object_publication_attribute($internal_item->get_publication_id());
-//		$rdm = RepositoryDataManager :: get_instance();
-//		$content_object = $rdm->retrieve_content_object($attributes->get_publication_object_id());
 
 		return parent :: render_cell($column, $external_item);
 	}
@@ -43,6 +39,14 @@ class GradebookExternalPublicationBrowserTableCellRenderer extends DefaultGradeb
 	{
 		$toolbar_data = array();
         $toolbar_data[] = array('href' => $this->browser->get_external_evaluations_on_publications_viewer_url($external_item), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+        
+        $user = $this->browser->get_user();
+        
+        if ($user->is_platform_admin())
+        {
+	        $toolbar_data[] = array('href' => $this->browser->get_edit_external_evaluation_url($external_item), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+	        $toolbar_data[] = array('href' => $this->browser->get_delete_external_evaluation_url($external_item), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        }
         
 		return Utilities :: build_toolbar($toolbar_data);
 	}

@@ -45,9 +45,9 @@ abstract class ToolComponent
 
     /** Delegation functions **/
     
-    function display_header($breadcrumbtrail, $display_title)
+    function display_header($breadcrumbtrail, $display_title, $display_tools = true, $display_student_view = true)
     {
-        $this->tool->display_header($breadcrumbtrail, $display_title);
+        $this->tool->display_header($breadcrumbtrail, $display_title, $display_tools, $display_student_view);
     }
 
     function display_footer()
@@ -58,6 +58,11 @@ abstract class ToolComponent
     function display_error_message($message)
     {
         $this->tool->display_error_message($message);
+    }
+    
+    function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
+    {
+        return $this->tool->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
     }
 
     function get_action()

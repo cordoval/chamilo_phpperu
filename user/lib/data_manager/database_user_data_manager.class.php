@@ -408,6 +408,11 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 		$condition = new EqualityCondition(UserSetting :: PROPERTY_ID, $user_setting->get_id());
 		return $this->delete(UserSetting :: get_table_name(), $condition);
 	}
+	
+	function delete_user_settings($condition = null)
+    {
+        return $this->delete_objects(UserSetting :: get_table_name(), $condition);
+    }
 
 	function retrieve_user_settings($condition = null, $offset = null, $count = null, $order_property = null)
 	{

@@ -91,6 +91,11 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
     {
         ;
     }
+    
+    function create_survey_context_template($survey_context_template)
+    {
+    	return $this->create($survey_context_template);
+    }
 
     function create_survey_context($context)
     {

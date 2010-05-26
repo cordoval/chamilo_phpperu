@@ -37,7 +37,7 @@ abstract class EvaluationFormat
 	
 	static function name_to_underscore($name)
 	{
-		return str_replace(' ', '_', $name);
+		return Utilities :: camelcase_to_underscores(str_replace(' ', '_', $name));
 	}
 	
 	function set_score($score)

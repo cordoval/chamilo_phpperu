@@ -206,5 +206,10 @@
 			<setting name="httpd_error_location" field="text" default="" />
 			<setting name="mysql_error_location" field="text" default="" />
 		</category>
+                <category name="mediamosa">
+                    <setting name="mediamosa_url" field="text" default="" />
+                    <setting name="mediamosa_username" field="text" default="" />
+                    <setting name="mediamosa_password" field="text" default="" />
+                </category>
 	</settings>
 </application>

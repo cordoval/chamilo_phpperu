@@ -51,46 +51,37 @@
 		// Determine tool text class
 		var tool_text = $("#tool_text", parent);
 		
-		// List old variables
-		var old_img = imgtag.attr('src');
-		var old_class = tool_text.attr('class');
-		var old_tool_img = tool_img.attr('src');
-		
-		var old_parent = parent.parent();
-		
-		// Changes icons and classes
-		imgtag.attr('src', new_img);
-   		if(new_visible == 0)
-   		{
-   			tool_text.addClass('invisible');
-   			var new_src = src.replace('.png', '_na.png');
-   			var new_parent = $('div.description', $('div.disabledblock'));
-   		}
-   		else
-   		{
-   			tool_text.removeClass('invisible');
-   			var new_src = src.replace('_na.png', '.png');
-   			var new_parent = $('div.description', $('div.toolblock:first'));
-   		}
-   		
-   		new_parent.prepend(parent);
-   		
-   		tool_img.attr('src', new_src);
-		
 		$.post("./application/lib/weblcms/ajax/change_course_module_visibility.php", 
 	    {
 	    	tool:  tool,
 	    	visible: new_visible
 	    },	function(data)
 	    	{
-	    		if(data.length > 0)
+	    		if(data.length == 0)
 	    		{
-	    			// On error : set the old icons and classes again
+	    			// If succeeded : change the icons and classes
 	    			//alert(data);
-	    			imgtag.attr('src', old_img);
-	    			tool_text.attr('class', old_class);
-	    			tool_img.attr('src', old_tool_img);
-	    			old_parent.prepend(parent);
+	    			// Changes icons and classes
+	    			imgtag.attr('src', new_img);
+	    	   		if(new_visible == 0)
+	    	   		{
+	    	   			tool_text.addClass('invisible');
+	    	   			var new_src = src.replace('.png', '_na.png');
+	    	   			var new_parent = $('div.description', $('div.disabledblock'));
+	    	   		}
+	    	   		else
+	    	   		{
+	    	   			tool_text.removeClass('invisible');
+	    	   			var new_src = src.replace('_na.png', '.png');
+	    	   			var new_parent = $('div.description', $('div.toolblock:first'));
+	    	   		}
+	    	   		
+	    	   		var clear_div = new_parent.children(".clear")[0];
+	    	   		new_parent.children(".clear")[0].remove;
+	    	   		new_parent.append(parent);
+	    	   		new_parent.append(clear_div);
+	    	   		
+	    	   		tool_img.attr('src', new_src);
 	    		}
 	    	}
 	    );

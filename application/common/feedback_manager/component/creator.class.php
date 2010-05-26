@@ -28,9 +28,12 @@ class FeedbackManagerCreatorComponent extends FeedbackManager
         $application = $this->get_application();
         $publication_id = $this->get_publication_id();
         $complex_wrapper_id = $this->get_complex_wrapper_id();
-        
+        $action = $this->get_action();
         $pub = new RepoViewer($this, Feedback :: get_type_name());
-		
+	if($action == self::ACTION_CREATE_ONLY_FEEDBACK)
+        {
+            $success = $pub->set_repo_viewer_actions(RepoViewer::ACTION_CREATOR);
+        }
         $html = array();
 
         if (!$pub->is_ready_to_be_published())
@@ -40,15 +43,15 @@ class FeedbackManagerCreatorComponent extends FeedbackManager
         }
         else
         {
-			$objects = $pub->get_selected_objects();
+		$objects = $pub->get_selected_objects();
 			
         	if(!is_array($objects))
-			{
-				$objects = array($objects);
-			}
-			
-			foreach($objects as $object)
-			{
+                {
+                        $objects = array($objects);
+                }
+
+                foreach($objects as $object)
+                {
 	            $fb = new FeedbackPublication();
 	            $fb->set_application($application);
 	            $fb->set_cid($complex_wrapper_id);
@@ -58,11 +61,17 @@ class FeedbackManagerCreatorComponent extends FeedbackManager
 	            $fb->set_creation_date(time());
 	            $fb->set_modification_date(time());
 	            $fb->create();
-			}
+                }
 
             $message = 'FeedbackCreated';
-            $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_BROWSE_FEEDBACK));
-
+            if($action == self::ACTION_CREATE_ONLY_FEEDBACK)
+            {
+                $redirect = $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_ONLY_FEEDBACK));    
+            }
+            else
+            {
+                $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_BROWSE_FEEDBACK));
+            }
         }
 
         return implode('\n', $html);

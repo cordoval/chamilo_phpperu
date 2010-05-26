@@ -59,7 +59,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
 
                 if (! is_array($object) && ($object->is_complex_content_object() || count($extra_params) == 2 || count($extra_params) == 3))
                 {
-                    $parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, ComplexBuilder :: PARAM_ROOT_LO => $object->get_id());
+                    $parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id());
                     $filter = array('category');
                     $this->redirect(null, false, $parameters, $filter);
                 }

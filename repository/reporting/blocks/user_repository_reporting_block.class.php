@@ -26,7 +26,7 @@ class UserRepositoryReportingBlock extends RepositoryReportingBlock
         $reporting_data->set_rows(array(Translation :: get('Count')));
 
         $rdm = RepositoryDataManager :: get_instance();
-        $registered_types = $rdm->get_registered_types(true);
+        $registered_types = RepositoryDataManager :: get_registered_types(true);
 
         foreach ($registered_types as $key => $registered_type)
         {

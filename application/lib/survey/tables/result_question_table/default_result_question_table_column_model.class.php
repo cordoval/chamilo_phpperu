@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/../../survey_publication.class.php';
  * Default column model for the survey_publication table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author
  */
 class DefaultResultQuestionTableColumnModel extends ObjectTableColumnModel
 {
@@ -29,8 +29,8 @@ class DefaultResultQuestionTableColumnModel extends ObjectTableColumnModel
     private static function get_default_columns()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        $content_object_alias = $rdm->get_database()->get_alias(ContentObject :: get_table_name());
-        
+        $content_object_alias = $rdm->get_alias(ContentObject :: get_table_name());
+
         $columns = array();
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, true, $content_object_alias);
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION, true, $content_object_alias);
@@ -38,7 +38,7 @@ class DefaultResultQuestionTableColumnModel extends ObjectTableColumnModel
         //$columns[] = new ObjectTableColumn(SurveyPublication :: PROPERTY_FROM_DATE);
         //$columns[] = new ObjectTableColumn(SurveyPublication :: PROPERTY_TO_DATE);
         //		$columns[] = new ObjectTableColumn(SurveyPublication :: PROPERTY_PUBLISHER);
-        
+
 
         return $columns;
     }

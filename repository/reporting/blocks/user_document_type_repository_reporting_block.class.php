@@ -76,7 +76,7 @@ class UserDocumentTypeRepositoryReportingBlock extends RepositoryReportingBlock
 
         foreach (Document :: get_image_types() as $image_type)
         {
-            $type_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $image_type, $rdm->get_database()->get_alias(Document :: get_type_name()));
+            $type_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $image_type, Document :: get_type_name());
         }
 
         $conditions[] = new OrCondition($type_conditions);
@@ -101,7 +101,7 @@ class UserDocumentTypeRepositoryReportingBlock extends RepositoryReportingBlock
 
         foreach (Document :: get_video_types() as $video_type)
         {
-            $type_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, $rdm->get_database()->get_alias(Document :: get_type_name()));
+            $type_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, Document :: get_type_name());
         }
 
         $conditions[] = new OrCondition($type_conditions);
@@ -126,7 +126,7 @@ class UserDocumentTypeRepositoryReportingBlock extends RepositoryReportingBlock
 
         foreach (Document :: get_audio_types() as $audio_type)
         {
-            $type_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $audio_type, $rdm->get_database()->get_alias(Document :: get_type_name()));
+            $type_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $audio_type, Document :: get_type_name());
         }
 
         $conditions[] = new OrCondition($type_conditions);

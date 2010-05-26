@@ -16,17 +16,20 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 	private $type;
 	private $applications;
 	private $application;
-	private $category;
 	
 	private $table;
 
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME)), Translation :: get('Gradebook')));
+		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('Gradebook')));
 		$this->applications = $this->retrieve_internal_item_applications();
 		$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_APP);
-		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_VIEW_HOME, GradebookManager :: PARAM_PUBLICATION_APP => $this->application)), Translation :: get('BrowsePublicationsOf') . ' ' . $this->application));
+		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('BrowsePublications')));
+		if($this->application)
+		{
+			$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK, GradebookManager :: PARAM_PUBLICATION_APP => $this->application)), ucfirst($this->application)));
+		}
 		$this->type = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
 		$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_APP, $this->application);
 		$this->set_parameter(GradebookManager :: PARAM_PUBLICATION_TYPE, $this->type);
@@ -173,9 +176,16 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
         $html[] = '<div id="external"/>';
         $html[] = $this->get_external_application_tabs();
 		$this->table = new GradebookExternalPublicationBrowserTable($this, $this->get_parameters());
-		if($this->application && ($this->application == 'weblcms' || $this->application == 'general'))
+		if(Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE) ==  'external')
 		{	
-			$html[] = $this->action_bar->as_html();
+			if(Request :: get(GradebookManager :: PARAM_PUBLICATION_APP) == 'weblcms')
+			{
+				$view_table = Request :: get($this->data_provider->get_id_param());
+			}
+			if ($view_table || Request :: get(GradebookManager :: PARAM_PUBLICATION_APP) == 'general')
+			{
+				$html[] = $this->action_bar->as_html();
+			}
 			$html[] = $this->show_filtered_publications('external');
 		}
         $html[] = '<div style="clear: both;"></div>';

@@ -306,7 +306,7 @@ class SurveyManagerMailerComponent extends SurveyManager
             $args[SurveyParticipantMailTracker :: PROPERTY_STATUS] = SurveyParticipantMailTracker :: STATUS_MAIL_SEND;
         }
         
-        foreach ($survey_ids as $survey_id)
+        foreach ($unique_surveys as $survey_id)
         {
             
             $args[SurveyParticipantMailTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $survey_id;

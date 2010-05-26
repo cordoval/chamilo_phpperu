@@ -110,13 +110,13 @@ class WikiParser
         }
         if (! empty($cloi))
         {
-            $url = $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, 'selected_cloi' => $cloi->get_id()));
+            $url = $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $cloi->get_id()));
             //$url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, 'selected_cloi' => $cloi->get_id())));
             return '<a href="' . $url . '">' . htmlspecialchars($title) . '</a>';
         }
         else
         {
-            $url = $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, 'title' => $title));
+            $url = $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, 'title' => $title));
             //$url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, 'title' => $title)));
             return '<a class="does_not_exist" href="' . $url . '">' . htmlspecialchars($title) . '</a>';
         }
@@ -257,7 +257,22 @@ class WikiParser
     {
         $this->set_wiki_text($links);
         $this->handle_internal_links();
-        $this->wikiText = explode(';', $this->wikiText);
+        
+        $links = str_replace(']]', ']];', $links);
+        $links = explode(';', $links);
+        
+        $new_links = str_replace('</a>', '</a>;', $this->wikiText);
+        $new_links = explode(';', $new_links);
+        
+        $this->wikiText = array();
+
+        foreach($new_links as $i => $link)
+        {
+        	$title = trim($links[$i]);
+        	$title = substr($title, 2, strlen($title) - 4);
+        	$this->wikiText[$title] = $link;
+        }
+        
         return $this->get_wiki_text();
     }
 

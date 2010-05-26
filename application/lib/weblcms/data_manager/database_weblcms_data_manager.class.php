@@ -196,7 +196,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $publication_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
         $publication_user_alias = $this->get_alias('content_object_publication_user');
         $publication_group_alias = $this->get_alias('content_object_publication_course_group');
-        $lo_table_alias = RepositoryDataManager :: get_instance()->get_alias('content_object');
+        $lo_table_alias = $this->get_alias('content_object');
 
         $query = 'SELECT DISTINCT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' LEFT JOIN ' . $this->escape_table_name('content_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
@@ -211,7 +211,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $publication_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
         $publication_user_alias = $this->get_alias('content_object_publication_user');
         $publication_group_alias = $this->get_alias('content_object_publication_course_group');
-        $lo_table_alias = RepositoryDataManager :: get_instance()->get_alias('content_object');
+        $lo_table_alias = $this->get_alias('content_object');
 
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' LEFT JOIN ' . $this->escape_table_name('content_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
@@ -1761,8 +1761,10 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function set_module_id_visible($module_id, $visible)
     {
+        $condition = new EqualityCondition(CourseModule :: PROPERTY_VISIBLE, $visible);
+        $sort = $this->retrieve_max_sort_value(CourseModule :: get_table_name(), CourseModule :: PROPERTY_SORT, $condition);
         $condition = new EqualityCondition(CourseModule :: PROPERTY_ID, $module_id);
-        $properties = array(CourseModule :: PROPERTY_VISIBLE => $visible);
+        $properties = array(CourseModule :: PROPERTY_VISIBLE => $visible, CourseModule :: PROPERTY_SORT => $sort + 1);
         return $this->update_objects(CourseModule :: get_table_name(), $properties, $condition);
     }
 
@@ -2315,7 +2317,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             $course_group_user_relation = new CourseGroupUserRelation();
             $course_group_user_relation->set_course_group($course_group->get_id());
             $course_group_user_relation->set_user($user);
-
             if (! $course_group_user_relation->create())
             {
                 return false;
@@ -2328,7 +2329,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     // Inherited
     function unsubscribe_users_from_course_groups($users, $course_group)
     {
-        if (! is_array($users))
+        if (!is_array($users))
         {
             $users = array($users);
         }

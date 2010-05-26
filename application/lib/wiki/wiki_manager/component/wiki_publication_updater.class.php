@@ -25,7 +25,7 @@ class WikiManagerWikiPublicationUpdaterComponent extends WikiManager
         $wiki_publication = $this->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $wiki_publication->get_content_object(), 'edit', 'post', $this->get_url(array(WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id())));
-        $this->display_header($trail);
+        
         if ($form->validate() || Request :: get('validated'))
         {
             if (! Request :: get('validated'))
@@ -39,12 +39,14 @@ class WikiManagerWikiPublicationUpdaterComponent extends WikiManager
             }
             else
             {
+            	$this->display_header($trail);
                 $pub_form->display();
             }
         
         }
         else
         {
+            $this->display_header($trail);
             $form->display();
         }
         $this->display_footer();

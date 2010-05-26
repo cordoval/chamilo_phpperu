@@ -16,7 +16,6 @@ require_once dirname(__FILE__) . '/../cba_data_manager_interface.class.php';
 
 class DatabaseCbaDataManager extends Database implements CbaDataManagerInterface
 {
-    private $database;
 
     function initialize()
     {

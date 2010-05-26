@@ -140,11 +140,13 @@ class HotspotQuestionForm extends ContentObjectForm
         $comments = $values['comment'];
         $coordinates = $values['coordinates'];
         $weights = $values['option_weight'];
-
         for($i = 0; $i < $_SESSION['mc_number_of_options']; $i ++)
         {
-            $answer = new HotspotQuestionAnswer($answers[$i], $comments[$i], $weights[$i], $coordinates[$i]);
-            $object->add_answer($answer);
+        	if(!in_array($i,$_SESSION['mc_skip_options']))
+        	{
+            	$answer = new HotspotQuestionAnswer($answers[$i], $comments[$i], $weights[$i], $coordinates[$i]);
+            	$object->add_answer($answer);
+        	}
         }
     }
 

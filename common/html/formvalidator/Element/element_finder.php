@@ -106,7 +106,16 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
     function getValue()
     {
-        return $this->get_active_elements();
+        $results = array();
+
+        $values = $this->get_active_elements();
+
+        // Process the array values so we end up with the id's of the elements only
+
+        foreach ($values as $value)
+            $results[] = $value['id'];
+        
+        return $results;
     }
 
     function exportValue($submitValues, $assoc = false)

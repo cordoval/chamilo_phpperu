@@ -217,7 +217,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         $users = array();
         while ($target_user = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
-            $users[] = $target_user['user'];
+            $users[] = $target_user['user_id'];
         }
 
         $res->free();
@@ -278,7 +278,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
         if (isset($condition))
         {
-            $translator = new ConditionTranslator($this->database);
+            $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
 
@@ -412,6 +412,11 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     {
         $condition = new EqualityCondition(RemotePackage :: PROPERTY_ID, $remote_package->get_id());
         return $this->delete($remote_package->get_table_name(), $condition);
+    }
+    
+    function delete_remote_packages($condition)
+    {
+    	return $this->delete_objects(RemotePackage :: get_table_name(), $condition);
     }
 
     function count_remote_packages($condition = null)

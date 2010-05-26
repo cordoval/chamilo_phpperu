@@ -111,9 +111,10 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 //        
 //        dump($count_questions);
         
-        $percent = $count_questions / $total_questions * 100;
+//        $percent = $count_questions / $total_questions * 100;
         
-        
+	//before we make questions required, sending the answers makes the survey finished;
+        $percent = 100;
         $this->parent->get_parent()->finish_survey($percent);
         
 //        dump($percent);

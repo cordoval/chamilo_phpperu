@@ -40,6 +40,7 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
 	function get_table() 
 	{
 		$parameters = $this->get_parameters();
+		echo '<p>array: ' .$parameters[2]. '</p>';
 		$parameters[InternshipOrganizerOrganisationManager::PARAM_ORGANISATION_ID] = $this->organisation->get_id();
 		$table = new InternshipOrganizerLocationBrowserTable ( $this, $parameters , $this->get_condition () );
 		return $table->as_html ();
@@ -70,9 +71,9 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
 		{
 			$search_conditions = array ();
 			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_NAME, '*' . $query . '*' );
-			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_STREET, '*' . $query . '*' );
-			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_STREET_NUMBER, '*' . $query . '*' );
-			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_CITY, '*' . $query . '*' );
+			//$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_STREET, '*' . $query . '*' );
+			//$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_STREET_NUMBER, '*' . $query . '*' );
+			//$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_CITY, '*' . $query . '*' );
 
 			$conditions[] = new OrCondition ( $search_conditions );
 		}

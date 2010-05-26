@@ -18,6 +18,8 @@ class RatingQuestionDisplay extends ContentObjectDisplay
         
         $html = array();
         $html[] = parent :: get_description();
+        $html[] = '<div class="question">';
+        $html[] = '<div class="answer">';
         $html[] = '<select class="rating_slider">';
         $html[] = '</option>';
 		for($i = $min; $i <= $max; $i ++)
@@ -27,6 +29,8 @@ class RatingQuestionDisplay extends ContentObjectDisplay
             $html[] = '</option>';
         }
         $html[] = '</select>';
+        $html[] = '</div>';
+        $html[] = '</div>';
 		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/rating_question.js');
 		return implode("\n", $html);
 	}

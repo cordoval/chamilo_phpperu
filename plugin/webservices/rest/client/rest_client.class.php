@@ -161,7 +161,7 @@ class RestClient
     {
         if($connexion_mode == self :: MODE_CURL || $connexion_mode == self :: MODE_PEAR)
         {
-            $this->connexion_mode = connexion_mode;
+            $this->connexion_mode = $connexion_mode;
         } 
         else
         {
@@ -449,7 +449,7 @@ class RestClient
      * 
      * @return RestResult
      */
-    private function send_curl_request()
+    protected function send_curl_request()
     {
         $result = new RestResult();
         $result->set_request_connexion_mode($this->connexion_mode);
@@ -609,7 +609,7 @@ class RestClient
      * 
      * @return RestResult
      */
-    private function send_pear_request()
+    protected function send_pear_request()
     {
         $result = new RestResult();
         $result->set_request_connexion_mode($this->connexion_mode);

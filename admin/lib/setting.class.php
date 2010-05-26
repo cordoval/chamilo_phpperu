@@ -110,5 +110,31 @@ class Setting extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+    function delete()
+    {
+    	if (! parent :: delete())
+    	{
+    		return false;
+    	}
+    	else {
+    		if ($this->get_user_setting())
+			{
+	    		$condition = new EqualityCondition(UserSetting::PROPERTY_SETTING_ID, $this->get_id());
+	    		if (! UserDataManager::get_instance()->delete_user_settings($condition))
+	    		{
+	    			return false;
+	    		}
+	    		else 
+	    		{
+	    			return true;
+	    		}
+			}
+			else 
+			{
+				return true;
+			}
+    	}
+    }
 }
 ?>

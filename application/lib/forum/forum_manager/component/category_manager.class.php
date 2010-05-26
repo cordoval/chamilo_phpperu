@@ -17,8 +17,12 @@ class ForumManagerCategoryManagerComponent extends ForumManager
             Display :: not_allowed();
             return;
         }
-        
-        $category_manager = new ForumPublicationCategoryManager($this);
+
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
+
+        $category_manager = new ForumPublicationCategoryManager($this, $trail);
         $category_manager->run();
     
     }

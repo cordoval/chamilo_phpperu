@@ -31,7 +31,7 @@ class PackageManagerSynchroniserComponent extends PackageManager
         
         if ($data)
         {
-            if ($this->parse_remote_packages_data($data))
+        	if ($this->parse_remote_packages_data($data))
             {
                 $message = 'RemotePackagesListSynchronised';
                 $failures = 0;
@@ -52,8 +52,9 @@ class PackageManagerSynchroniserComponent extends PackageManager
 
     function get_remote_packages_data()
     {
-        $xml_data = file_get_contents(Path :: get(WEB_PATH) . 'packages.xml');
         
+    	$xml_data = file_get_contents(Path :: get(WEB_PATH) . 'packages.xml');
+
         if ($xml_data)
         {
             $unserializer = new XML_Unserializer();
@@ -75,15 +76,26 @@ class PackageManagerSynchroniserComponent extends PackageManager
                 return $unserializer->getUnserializedData();
             }
         }
+        else
+        {
+        	return false;
+        }
     }
 
     function parse_remote_packages_data($data)
     {
         $adm = AdminDataManager :: get_instance();
+
+        $conditions = array();
         
         foreach ($data['package'] as $package)
         {
-            $package['dependencies'] = serialize($package['dependencies']);
+            $package_conditions = array();
+            $package_conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE,  $package['code']);
+            $package_conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $package['section']);
+            $conditions [] = new AndCondition($package_conditions);
+            
+        	$package['dependencies'] = serialize($package['dependencies']);
             
             $condition = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $package['code']);
             $remote_packages = $adm->retrieve_remote_packages($condition, array(), 0);
@@ -99,15 +111,18 @@ class PackageManagerSynchroniserComponent extends PackageManager
             }
             else
             {
-                $remote_package = new RemotePackage($package);
-                
+            	$remote_package = new RemotePackage($package);
                 if (! $remote_package->create())
                 {
-                    return false;
+                	return false;
                 }
             }
         }
-        
+        $condition = new NotCondition(new OrCondition($conditions));
+        if (! AdminDataManager::get_instance()->delete_remote_packages($condition))
+        {
+        	return false;
+        }        
         return true;
     }
 }

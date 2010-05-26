@@ -81,8 +81,7 @@ class ComplexMenu extends HTML_Menu
     function get_menu($root)
     {
         $menu = array();
-        $datamanager = $this->dm;
-        $lo = $datamanager->retrieve_content_object($root->get_id());
+        $lo = $root;
         $menu_item = array();
         $menu_item['title'] = $lo->get_title();
 

@@ -85,7 +85,7 @@ class GroupRightManagerBrowserComponent extends GroupRightManager
         
         $html = array();
         $application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP => $this->group->get_id(), GroupRightManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
-        $html[] = Application :: get_selecter($application_url, $this->application);
+        $html[] = BasicApplication :: get_selecter($application_url, $this->application);
         $html[] = $this->action_bar->as_html() . '<br />';
         
         $url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP => $this->group->get_id(), GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => '%s'));

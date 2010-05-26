@@ -2014,6 +2014,13 @@ div.question div.answer div.slider {
 	float: left;
 	width: 300px;
 	margin-left: 0.6em;
+	margin-top: 0.2em;
+	margin-bottom: 0.6em;
+	background-color: #EEF5FA;
+}
+
+div.question div.answer div.slider .ui-slider-handle {
+	margin-top: 1px;
 }
 
 div.question div.answer div.caption {

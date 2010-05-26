@@ -29,6 +29,11 @@ class DatabaseWebserviceDataManager extends Database implements WebserviceDataMa
     {
         return $this->count_objects(WebserviceRegistration :: get_table_name(), $conditions);
     }
+    
+    function count_webservice_categories($conditions = null)
+    {
+    	return $this->count_objects(WebserviceCategoryRegistration :: get_table_name(), $conditions);
+    }
 
     function truncate_webservice($webservice)
     {
@@ -112,6 +117,12 @@ class DatabaseWebserviceDataManager extends Database implements WebserviceDataMa
 
         return $bool;
     }
+    
+    function delete_webservices($condition)
+    {
+    	return $this->delete_objects(WebserviceRegistration :: get_table_name(), $condition);
+    }
+    
 
     function delete_webservice_category($webserviceCategory)
     {

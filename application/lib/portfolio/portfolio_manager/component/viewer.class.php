@@ -7,6 +7,7 @@
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
 require_once dirname(__FILE__) . '/../../portfolio_menu.class.php';
 require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.php';
+require_once dirname(__FILE__) . '/../../../../common/feedback_manager/component/browser.class.php';
 
 /**
  * portfolio component which allows the user to browse his portfolio_publications
@@ -21,6 +22,9 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     private $cid;
     private $pid;
     private $owner_user_id ;
+    private $viewing_right = true;
+    private $feedback_giving_right = true;
+    private $feedback_viewing_right = false;
 
     const PROPERTY_PID = 'pid';
     const PROPERTY_CID = 'cid';
@@ -61,25 +65,29 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         {
             $portfolio_identifier = self::PROPERTY_ROOT;
         }
-        //$rights = array();
+        
         $current_user_id = $this->get_user_id();
 
-        //TODO:find a performant way to cache these rights instead of doing the check over and over again
+        
         if($portfolio_identifier != self::PROPERTY_ROOT)
         {
             $rights = PortfolioRights::get_rights($current_user_id, $portfolio_identifier, $possible_types);
         }
-        $viewing_right = $rights[PortfolioRights::VIEW_RIGHT];
-        $editing_right = $rights[PortfolioRights::EDIT_RIGHT];
-        $feedback_viewing_right = $rights[PortfolioRights::VIEW_FEEDBACK_RIGHT];
-        $feedback_giving_right = $rights[PortfolioRights::GIVE_FEEDBACK_RIGHT];
-        $permission_setting_right = $rights[PortfolioRights::SET_PERMISSIONS_RIGHT];
+            $viewing_right = $rights[PortfolioRights::VIEW_RIGHT];
+            $this->viewing_right =$viewing_right;
+            $editing_right = $rights[PortfolioRights::EDIT_RIGHT];
+            $feedback_viewing_right = $rights[PortfolioRights::VIEW_FEEDBACK_RIGHT];
+            $this->feedback_viewing_right = $feedback_viewing_right;
+            $feedback_giving_right = $rights[PortfolioRights::GIVE_FEEDBACK_RIGHT];
+            $this->feedback_giving_right = $feedback_giving_right;
+            $permission_setting_right = $rights[PortfolioRights::SET_PERMISSIONS_RIGHT];
+        
         $actions = array();
 
         if($portfolio_identifier == self::PROPERTY_ROOT)
         {
             //root can be seen by everybody
-             $viewing_right = true;
+             $this->viewing_right = true;
         }
         if($viewing_right)
         {
@@ -88,13 +96,9 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             {
               $actions[] = self::ACTION_EDIT;
             }
-            if($feedback_viewing_right)
+            if($feedback_viewing_right || $feedback_giving_right)
             {
               $actions[] = self::ACTION_FEEDBACK;
-            }
-            if($feedback_giving_right)
-            {
-              //how to allow feedback viewing and feedback giving seperately???
             }
             if($permission_setting_right)
             {
@@ -103,7 +107,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             //get the object
             if ($pid && $cid)
             {
-                //get complex_conten_object
+                //get complex_content_object
                 $wrapper = $rdm->retrieve_complex_content_object_item($cid);
                 //get portfolio_item
                 $this->selected_object = $rdm->retrieve_content_object($wrapper->get_ref());
@@ -125,12 +129,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         {
             //no rights so no object should be retrieved
         }
-     
-        
-//        $trail = new BreadcrumbTrail();
-//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
-//        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $publisher_user_id)), Translation :: get('ViewPortfolio')));
-             
+           
         if ($owner_user_id == $this->get_user_id())
         {
             
@@ -139,7 +138,6 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         }
           
         $html[] = '<div id="action_bar_browser">';
-        
         $html[] = '<div style="width: 18%; float: left; overflow: auto;">';
         
         if (PlatformSetting :: get('display_user_picture', 'portfolio'))
@@ -240,12 +238,13 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             $display = ContentObjectDisplay :: factory($this->selected_object);
             $html[] = $display->get_full_html();
         }
+        else if ($this->viewing_right == false)
+        {
+            //display a warning that the user does not have viewing rights on the item
+            $html[] = Translation :: get('NoPermissionToViewItem');
+        }
         else
         {
-            //display information on the 'root'
-            //TODO: Add Date last changed + more information
-            //$html[] = Translation :: get('PortfolioIntroduction');
-
             $dm = PortfolioDataManager :: get_instance();
             $info = $dm->retrieve_portfolio_information_by_user($this->owner_user_id);
             if($info)
@@ -264,12 +263,34 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
     function display_feedback_page()
     {
-        $this->set_parameter('action', Request :: get('action'));
-        $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
-        $html = array();
-        $fbm = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
-        $html[] = $fbm->as_html();
-        
+            $this->set_parameter('action', Request :: get('action'));
+            $this->set_parameter(self::PROPERTY_CID, $this->cid);
+            $this->set_parameter(self::PROPERTY_PID, $this->pid);
+            $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
+
+             if($this->feedback_viewing_right)
+             {
+                 $fbmv = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid, FeedbackManager::ACTION_BROWSE_ONLY_FEEDBACK);
+                 $html[] = $fbmv->as_html();
+             }
+             else
+             {
+                $html[] = '<br /><div id="no_rights">';
+                 $html[] = Translation :: get('NoPermissionToViewFeedback');                
+                  $html[] = '</div><br />';
+             }
+             if(!isset($this->feedback_giving_right) || $this->feedback_giving_right)
+             {
+                  $html[] = '<h3>' . Translation :: get('PublicationGiveFeedback') . '</h3>';
+                  $fbmc = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid, FeedbackManager::ACTION_CREATE_ONLY_FEEDBACK);
+                  $html[] = $fbmc->as_html();
+             }
+             else
+             {
+                $html[] = '<div id="no_rights">';
+                $html[] = Translation :: get('NoPermissionToGiveFeedback');
+                $html[] = '</div><br />';
+             }
         return implode("\n", $html);
     }
 
@@ -286,14 +307,32 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     function display_edit_page()
     {
         $html = array();
-        
+        $success = true;
         $allow_new_version = ($this->selected_object->get_type() != Portfolio :: get_type_name());
         
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
         
         if ($form->validate())
         {
-            $success = $form->update_content_object();
+            if ($this->cid)
+            {
+                 if($this->selected_object->get_type() != Portfolio :: get_type_name())
+                 {
+                     $type = PortfolioRights::TYPE_PORTFOLIO_ITEM;
+                 }
+                 else
+                 {
+                     $type = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
+                 }
+
+            }
+            else
+            {
+                $type = PortfolioRights::TYPE_PORTFOLIO_FOLDER;
+            }
+            $success &= $form->update_content_object();
+            $success &=  PortfolioManager::update_portfolio_info($this->selected_object->get_id(), $type, PortfolioInformation::ACTION_EDITED, $this->owner_user_id);
+
             
             if ($form->is_version())
             {
@@ -301,12 +340,12 @@ class PortfolioManagerViewerComponent extends PortfolioManager
                 if ($this->publication)
                 {
                     $this->publication->set_content_object($object->get_latest_version()->get_id());
-                    $this->publication->update(false);
+                    $success &= $this->publication->update(false);
                 }
                 else
                 {
                     $this->portfolio_item->set_reference($object->get_latest_version()->get_id());
-                    $this->portfolio_item->update();
+                    $success &= $this->portfolio_item->update();
                 }
             }
             
@@ -339,7 +378,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         {
             $type = PortfolioRights::TYPE_PORTFOLIO_FOLDER;
         }
-       //TODO CHECK FOR ITEM --> NO NEED TO MAKE PERMISSIONS TAB
+      
        $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_EDIT, $this->publication, $this->get_url(array(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'properties')), $this->get_user(), $type);
 
         if ($form->validate())

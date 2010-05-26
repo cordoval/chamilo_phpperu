@@ -1,5 +1,5 @@
 <?php
-require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_dependency.class.php';
+require_once Path :: get_admin_path() . 'lib/package_manager/package_dependency_verifier.class.php';
 
 /**
  * $Id: package_installer_type.class.php 126 2009-11-09 13:11:05Z vanpouckesven $
@@ -58,17 +58,15 @@ abstract class PackageInstallerType
     {
         $source = $this->get_source();
         $attributes = $source->get_attributes();
-        $dependency = unserialize($attributes->get_dependencies());
-        
-        foreach ($dependency as $type => $dependencies)
+
+        $verifier = new PackageDependencyVerifier($attributes);
+        $success = $verifier->is_installable();
+        $this->add_message($verifier->get_message_logger()->render());
+        if (!$success)
         {
-            $verifier = PackageInstallerDependency :: factory($this, $type, $dependencies['dependency']);
-            if (! $verifier->verify())
-            {
-                return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependencyFailed'));
-            }
+            return false;
         }
-        
+
         return true;
     }
 

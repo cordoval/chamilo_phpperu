@@ -13,9 +13,9 @@ class CourseTypeForm extends CommonForm
    	const CREATION_ELEMENTS = 'creation_groups_elements';
    	const CREATION_OPTION = 'creation_groups_option';
 
-   	const CREATION_ON_REQUEST_TARGET = 'creation_on_request_groups';
-   	const CREATION_ON_REQUEST_ELEMENTS = 'creation_on_request_groups_elements';
-   	const CREATION_ON_REQUEST_OPTION = 'creation_on_request_groups_option';
+   	const CREATION_ON_REQUEST_TARGET = 'creationrequest_groups';
+   	const CREATION_ON_REQUEST_ELEMENTS = 'creationrequest_groups_elements';
+   	const CREATION_ON_REQUEST_OPTION = 'creationrequest_groups_option';
    	
 	function CourseTypeForm($form_type, $course_type, $action, $parent)
 	{
@@ -162,7 +162,7 @@ class CourseTypeForm extends CommonForm
 		$this->addGroup($choices, 'choices', Translation :: get('MaximumNumberOfMembers'), '<br />', false);
 		$this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . self :: UNLIMITED_MEMBERS . '_window">');
 		$this->add_textfield(CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS, null, false);
-		$this->registerRule('max_members', null, 'HTML_QuickForm_Rule_Max_Members', dirname(__FILE__) .'/max_members.rule.class.php');
+		$this->registerRule('max_members', null, 'HTML_QuickForm_Rule_Max_Members', dirname(__FILE__) .'/max_members_rule.class.php');
 		$this->addRule(Array('choices',CourseTypeSettings :: PROPERTY_MAX_NUMBER_OF_MEMBERS), Translation :: get('IncorrectNumber'), 'max_members');
 		$this->addElement('html', '</div>');
 

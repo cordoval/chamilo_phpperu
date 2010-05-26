@@ -30,7 +30,7 @@ class PortfolioManagerBrowserComponent extends PortfolioManager
         $this->display_header($trail);
 
         $firstletter = Request :: get('firstletter');
-        $firstletter = $firstletter ? $firstletter : 'A';
+        $firstletter = $firstletter ? $firstletter : '-';
         $this->firstletter = $firstletter;
 
         $menu = new UserMenu($firstletter);
@@ -71,19 +71,27 @@ class PortfolioManagerBrowserComponent extends PortfolioManager
             $conditions = array();
             if (isset($this->firstletter))
             {
-                for($i = 0; $i < 3; $i ++)
+                if($this->firstletter == '-')
                 {
-                    $tree_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, $firstletter . '*');
-                    if ($firstletter == 'Z')
-                        break;
-                    $firstletter ++;
+                    //just show the first results
+
                 }
-                $conditions[] = new OrCondition($tree_conditions);
+                else
+                {
+                    for($i = 0; $i < 3; $i ++)
+                    {
+                        $tree_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, $firstletter . '*');
+                        if ($firstletter == 'Z')
+                            break;
+                        $firstletter ++;
+                    }
+                    $conditions[] = new OrCondition($tree_conditions);
+                }
             }
         }
 
         // TODO: find the correct way to add the DISTINCT
-        $conditions[] = new SubselectCondition(User::PROPERTY_ID, PortfolioPublication::PROPERTY_PUBLISHER, PortfolioPublication::get_table_name(), null, null, PortfolioDataManager::get_instance());
+        $conditions[] = new SubselectCondition(User::PROPERTY_ID, PortfolioInformation::PROPERTY_USER_ID, PortfolioInformation::get_table_name(), null, null, PortfolioDataManager::get_instance());
 
         $condition = new AndCondition($conditions);
 

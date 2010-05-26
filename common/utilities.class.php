@@ -297,7 +297,7 @@ class Utilities
      * @param ContentObject $content_object_2
      * @return int
      */
-    private static function by_title($content_object_1, $content_object_2)
+    static function by_title($content_object_1, $content_object_2)
     {
         return strcasecmp($content_object_1->get_title(), $content_object_2->get_title());
     }
@@ -574,5 +574,49 @@ class Utilities
     {
     	return htmlentities($string, ENT_COMPAT, 'UTF-8');
     }
+    
+	static function get_usable_memory()
+	{
+		$val = trim(@ini_get('memory_limit'));
+	
+		if (preg_match('/(\\d+)([mkg]?)/i', $val, $regs))
+		{
+			$memory_limit = (int) $regs[1];
+			switch ($regs[2])
+			{
+	
+				case 'k':
+				case 'K':
+					$memory_limit *= 1024;
+				break;
+	
+				case 'm':
+				case 'M':
+					$memory_limit *= 1048576;
+				break;
+	
+				case 'g':
+				case 'G':
+					$memory_limit *= 1073741824;
+				break;
+			}
+	
+			// how much memory PHP requires at the start of export (it is really a little less)
+			if ($memory_limit > 6100000)
+			{
+				$memory_limit -= 6100000;
+			}
+	
+			// allow us to consume half of the total memory available
+			$memory_limit /= 2;
+		}
+		else
+		{
+			// set the buffer to 1M if we have no clue how much memory PHP will give us :P
+			$memory_limit = 1048576;
+		}
+	
+		return $memory_limit;
+	}
 }
 ?>
