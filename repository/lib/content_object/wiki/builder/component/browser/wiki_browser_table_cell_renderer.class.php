@@ -20,37 +20,37 @@ class WikiBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
     }
 
     // Inherited
-    function render_cell($column, $cloi)
+    function render_cell($column, $complex_content_object_item)
     {
         if ($column === ComplexBrowserTableColumnModel :: get_modification_column())
         {
-            return $this->get_modification_links($cloi);
+            return $this->get_modification_links($complex_content_object_item);
         }
 
-        $content_object = $this->retrieve_content_object($cloi->get_ref());
+        $content_object = $this->retrieve_content_object($complex_content_object_item->get_ref());
 
         switch ($column->get_name())
         {
             case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
-                return $content_object->get_title() . ($cloi->get_is_homepage() ? '(' . Translation :: get('HomePage') . ')' : '');
+                return $content_object->get_title() . ($complex_content_object_item->get_is_homepage() ? '(' . Translation :: get('HomePage') . ')' : '');
         }
 
-        return parent :: render_cell($column, $cloi);
+        return parent :: render_cell($column, $complex_content_object_item);
     }
 
-    function get_modification_links($cloi)
+    function get_modification_links($complex_content_object_item)
     {
         $toolbar_data = array();
-        if (! $cloi->get_is_homepage())
+        if (! $complex_content_object_item->get_is_homepage())
         {
-            $toolbar_data[] = array('href' => $this->browser->get_select_homepage_url($this->browser->get_root_lo(), $cloi), 'label' => Translation :: get('SelectAsHomepage'), 'img' => Theme :: get_common_image_path() . 'action_home.png', 'confirm' => true);
+            $toolbar_data[] = array('href' => $this->browser->get_select_homepage_url($complex_content_object_item), 'label' => Translation :: get('SelectAsHomepage'), 'img' => Theme :: get_common_image_path() . 'action_home.png', 'confirm' => true);
         }
         else
         {
             $toolbar_data[] = array('label' => Translation :: get('SelectedIsHomepage'), 'img' => Theme :: get_common_image_path() . 'action_home_na.png', 'confirm' => true);
         }
 
-        return parent :: get_modification_links($cloi, $toolbar_data);
+        return parent :: get_modification_links($complex_content_object_item, $toolbar_data);
     }
 }
 ?>

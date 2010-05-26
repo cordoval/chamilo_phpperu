@@ -54,7 +54,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
             }
 
             if ($complex_content_object_item_form)
-                $complex_content_object_item_form->update_complex_content_object_item_from_values($content_object_form->exportValues());
+                $complex_content_object_item_form->update_cloi_from_values($content_object_form->exportValues());
             else
                 $complex_content_object_item->update();
 
