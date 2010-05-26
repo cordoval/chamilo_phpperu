@@ -18,8 +18,8 @@ abstract class ComplexBuilder extends SubManager
     const PARAM_BUILDER_ACTION = 'builder_action';
     const PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'cloi';
     const PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'selected_cloi';
-    const PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'delete_selected_cloi';
-    const PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'move_selected_cloi';
+    const PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM = 'delete_selected_cloi';
+    const PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM = 'move_selected_cloi';
     const PARAM_TYPE = 'type';
     const PARAM_DIRECTION = 'direction';
 
