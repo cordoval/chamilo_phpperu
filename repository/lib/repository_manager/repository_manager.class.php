@@ -230,7 +230,7 @@ class RepositoryManager extends CoreApplication
                 $this->force_menu_url($this->get_recycle_bin_url(), true);
                 $component = $this->create_component('RecycleBinBrowser');
                 break;
-            case self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT :
+            case self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECTS :
                 $component = $this->create_component('ComplexOrderMover');
                 break;
             case self :: ACTION_EXPORT_CONTENT_OBJECTS :

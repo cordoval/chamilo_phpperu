@@ -12,7 +12,7 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilder
 	function run()
 	{
 		
-		$browser = ComplexBuilderComponent ::factory(ComplexBuilder::ACTION_BROWSE_CONTENT_OBJECT, $this);
+		$browser = ComplexBuilderComponent ::factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
 		//StreamingMediaComponent::factory(StreamingMediaComponent::BROWSER_COMPONENT, $this);
 		
 		$browser->run();

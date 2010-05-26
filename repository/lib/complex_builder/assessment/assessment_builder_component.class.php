@@ -13,6 +13,11 @@ class AssessmentBuilderComponent extends ComplexBuilderComponent
         
     	return parent :: factory('Assessment', $component_name, $builder);
     }
+    
+    function run()
+    {
+    	
+    }
 }
 
 ?>
