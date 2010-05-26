@@ -3,7 +3,6 @@
  * $Id: portfolio_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.portfolio
  */
-require_once dirname(__FILE__) . '/portfolio_builder_component.class.php';
 
 class PortfolioBuilder extends ComplexBuilder
 {
@@ -15,7 +14,7 @@ class PortfolioBuilder extends ComplexBuilder
         
         switch ($action)
         {
-            case ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT :
+            case ComplexBuilder :: ACTION_BROWSE :
                 $component = PortfolioBuilderComponent :: factory('Browser', $this);
                 break;
             case PortfolioBuilder :: ACTION_CREATE_PORTFOLIO_ITEM :
@@ -27,11 +26,9 @@ class PortfolioBuilder extends ComplexBuilder
             case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
                 $component = PortfolioBuilderComponent :: factory('Updater', $this);
                 break;
+            default
         }
         
-        if (! $component)
-            parent :: run();
-        else
             $component->run();
     }
 }
