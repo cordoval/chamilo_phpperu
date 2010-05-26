@@ -22,7 +22,7 @@ class ComplexBrowserTable extends ObjectTable
         $name = $name ? $name : (self :: DEFAULT_NAME);
         
     	if (! $model)
-            $model = new ComplexBrowserTableColumnModel($show_subitems_column);
+            $model = new ComplexBrowserTableColumnModel($browser);
         if (! $renderer)
             $renderer = new ComplexBrowserTableCellRenderer($browser, $condition);
         
