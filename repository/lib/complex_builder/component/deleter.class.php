@@ -15,7 +15,6 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
     function run()
     {
         $ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-        $root = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
         $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
 
         $failures = 0;
