@@ -18,10 +18,11 @@ abstract class ComplexBuilder extends SubManager
     const PARAM_BUILDER_ACTION = 'builder_action';
     const PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'cloi';
     const PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'selected_cloi';
-    const PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'delete_selected_cloi';
-    const PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'move_selected_cloi';
+    const PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM = 'delete_selected_cloi';
+    const PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM = 'move_selected_cloi';
     const PARAM_TYPE = 'type';
     const PARAM_DIRECTION = 'direction';
+    const PARAM_ROOT_CONTENT_OBJECT ='root_co';
 
     const ACTION_BROWSE = 'browse';
     const ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM = 'delete_cloi';
@@ -286,6 +287,11 @@ abstract class ComplexBuilder extends SubManager
 	function get_application_component_path()
 	{
 		return Path :: get_repository_path() . 'lib/complex_builder/component/';
+	}
+	
+	function show_menu()
+	{
+		return true;
 	}
 }
 

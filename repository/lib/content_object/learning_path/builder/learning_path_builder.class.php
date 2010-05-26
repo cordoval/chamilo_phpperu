@@ -18,28 +18,30 @@ class LearningPathBuilder extends ComplexBuilder
         switch ($action)
         {
             case ComplexBuilder :: ACTION_BROWSE :
-                $component = $this->create->component('Browser');
+                $component = $this->create_component('Browser');
                 break;
             case LearningPathBuilder :: ACTION_CREATE_LP_ITEM :
-                $component = $this->create->component('ItemCreator');
+                $component = $this->create_component('ItemCreator');
                 break;
             case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = $this->create->component('Deleter');
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = $this->create->component('Updater');
+                $component = $this->create_component('Updater');
                 break;
             case self :: ACTION_BUILD_PREREQUISITES :
-                $component = $this->create->component('PrerequisitesBuilder');
+                $component = $this->create_component('PrerequisitesBuilder');
                 break;
             case self :: ACTION_SET_MASTERY_SCORE :
-                $component = $this->create->component('MasteryScoreSetter');
+                $component = $this->create_component('MasteryScoreSetter');
                 break;
             default:
             	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
                 $component = $this->create_component('Browser');
                 break;
         }
+
+        $component->run();
         
     }
 
