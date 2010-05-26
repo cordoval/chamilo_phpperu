@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/complex_menu.class.php';
  * @author vanpouckesven
  *
  */
-abstract class ComplexBuilder
+class ComplexBuilder extends SubManager
 {
     const PARAM_BUILDER_ACTION = 'builder_action';
     const PARAM_ROOT_CONTENT_OBJECT = 'root_content_object';
@@ -60,6 +60,11 @@ abstract class ComplexBuilder
         }
     
     }
+
+    function get_application_component_path()
+    {
+    	return Path :: get_repository_path() . 'lib/complex_builder';
+    }    
     
     //Singleton
     private static $instance;
@@ -74,8 +79,8 @@ abstract class ComplexBuilder
                 $small_type = RepositoryDataManager :: get_instance()->determine_content_object_type($root_content_object);
                 $type = Utilities :: underscores_to_camelcase($small_type);
                
-                //$file = dirname(__FILE__) . '/' . $small_type . '/' . $small_type . '_builder.class.php';
-                $file = Path :: get_repository_path() . 'lib/content_object/' . $small_type . '/' . $small_type . '_builder.class.php';
+                $file = dirname(__FILE__) . '/' . $small_type . '/' . $small_type . '_builder.class.php';
+                //$file = Path :: get_repository_path() . 'lib/content_object/' . $small_type . '/' . $small_type . '_builder.class.php';
                 require_once $file;
                 $class = $type . 'Builder';
              	self :: $instance = new $class($parent);
@@ -103,7 +108,7 @@ abstract class ComplexBuilder
             case self :: ACTION_MOVE_CONTENT_OBJECT_ITEM :
                 $component = ComplexBuilderComponent :: factory(null, 'Mover', $this);
                 break;
-            case self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT :
+            case self :: ACTION_BROWSE_CONTENT_OBJECT :
                 $component = ComplexBuilderComponent :: factory(null, 'Browser', $this);
                 break;
             case self :: ACTION_VIEW_CONTENT_OBJECT_ITEM :
@@ -113,7 +118,7 @@ abstract class ComplexBuilder
             	$component = ComplexBuilderComponent :: factory(null, 'ParentChanger', $this);
                 break;
             default :
-                $this->set_action(self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT);
+                $this->set_action(self :: ACTION_BROWSE_CONTENT_OBJECT);
                 $component = ComplexBuilderComponent :: factory(null, 'Browser', $this);
         }
         
@@ -266,7 +271,7 @@ abstract class ComplexBuilder
     
     function get_complex_content_object_table_html($show_subitems_column = true, $model = null, $renderer = null)
     {
-        $parameters = array(self :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_lo()->get_id(), self :: PARAM_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null));
+        $parameters = array(self :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null));
         
         if ($this->get_content_object_item())
         {
@@ -283,7 +288,7 @@ abstract class ComplexBuilder
         {
             return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_content_object_item()->get_ref(), ComplexContentObjectItem :: get_table_name());
         }
-        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id(), ComplexContentObjectItem :: get_table_name());
+        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_content_object()->get_id(), ComplexContentObjectItem :: get_table_name());
     }
 
     function get_complex_content_object_menu()
@@ -306,7 +311,7 @@ abstract class ComplexBuilder
 
     private function build_menu()
     {
-        $this->menu = new ComplexMenu($this->get_root_content_object(), $this->get_content_object_item(), $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT)));
+        $this->menu = new ComplexMenu($this->get_root_content_object(), $this->get_content_object_item(), $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECT)));
     }
 
     function get_root()
@@ -372,7 +377,7 @@ abstract class ComplexBuilder
         
         foreach ($types as $type)
         {
-            $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), ComplexBuilder :: PARAM_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null), 'publish' => Request :: get('publish')));
+            $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), ComplexBuilder :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null), 'publish' => Request :: get('publish')));
             $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
             $html[] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
             $html[] = '<div class="clear">&nbsp;</div>';

@@ -18,15 +18,15 @@ class AssessmentBuilder extends ComplexBuilder
     {
         parent :: __construct($parent);
         
-        $this->parse_input_from_table();
+        //$this->parse_input_from_table();
     }
 
-    function run()
-    {
-        $action = $this->get_action();
-        
-        switch ($action)
-        {
+//    function run()
+//    {
+//        $action = $this->get_action();
+//        
+//        switch ($action)
+//        {
 //            case ComplexBuilder :: ACTION_BROWSE_CONTENT_OBJECT :
 //                $component = AssessmentBuilderComponent :: factory('Browser', $this);
 //                break;
@@ -36,46 +36,36 @@ class AssessmentBuilder extends ComplexBuilder
 //            case AssessmentBuilder :: ACTION_SELECT_QUESTIONS :
 //                $component = AssessmentBuilderComponent :: factory('QuestionSelecter', $this);
 //                break;
-                
-                case ComplexBuilder :: ACTION_BROWSE_CONTENT_OBJECT :
-                $component = AssessmentBuilderComponent :: factory('Browser', $this);
-                break;
-            case AssessmentBuilder :: ACTION_MERGE_ASSESSMENT :
-                $component = AssessmentBuilderComponent :: factory('AssessmentMerger', $this);
-                break;
-            case AssessmentBuilder :: ACTION_SELECT_QUESTIONS :
-                $component = AssessmentBuilderComponent :: factory('QuestionSelecter', $this);
-                break;
-        }
-        
-        if (! $component)
-            parent :: run();
-        else
-            $component->run();
-    }
+//        }
+//        
+//        if (! $component)
+//            parent :: run();
+//        else
+//            $component->run();
+//    }
 
-    function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $selected_ids = $_POST[ObjectBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_ADD_SELECTED_QUESTIONS :
-                    $this->set_action(self :: ACTION_SELECT_QUESTIONS);
-                    Request :: set_get(self :: PARAM_QUESTION_ID, $selected_ids);
-                    break;
-            }
-        }
-    }
+//    FUNCTION PARSE_INPUT_FROM_TABLE()
+//    {
+//        IF (ISSET($_POST['ACTION']))
+//        {
+//            $SELECTED_IDS = $_POST[OBJECTBROWSERTABLE :: DEFAULT_NAME . OBJECTTABLE :: CHECKBOX_NAME_SUFFIX];
+//            IF (EMPTY($SELECTED_IDS))
+//            {
+//                $SELECTED_IDS = ARRAY();
+//            }
+//            ELSEIF (! IS_ARRAY($SELECTED_IDS))
+//            {
+//                $SELECTED_IDS = ARRAY($SELECTED_IDS);
+//            }
+//            SWITCH ($_POST['ACTION'])
+//            {
+//                CASE SELF :: PARAM_ADD_SELECTED_QUESTIONS :
+//                    $THIS->SET_ACTION(SELF :: ACTION_SELECT_QUESTIONS);
+//                    REQUEST :: SET_GET(SELF :: PARAM_QUESTION_ID, $SELECTED_IDS);
+//                    BREAK;
+//            }
+//        }
+//    }
 }
 
 ?>

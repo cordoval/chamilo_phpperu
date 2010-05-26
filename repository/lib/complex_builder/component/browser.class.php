@@ -15,7 +15,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
         $trail->merge($menu_trail);
         $trail->add_help('repository builder');
         
-        if ($this->get_complex_content_object_item())
+        if ($this->get_content_object_item())
         {
             $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_complex_content_object_item()->get_ref());
         }

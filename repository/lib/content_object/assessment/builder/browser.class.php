@@ -7,12 +7,12 @@
 //require_once dirname(__FILE__) . '/../assessment.class.php';
 //require_once dirname(__FILE__) . '/browser/assessment_browser_table_cell_renderer.class.php';
 
-class AssessmentBuilderBrowserComponent extends ComplexBuilderBrowserComponent
+class AssessmentBuilderBrowserComponent extends AssessmentBuilder
 {
 	function run()
 	{
 		
-		$browser = ComplexBuilder::factory($this->get_parent());
+		$browser = ComplexBuilderComponent ::factory(ComplexBuilder::ACTION_BROWSE_CONTENT_OBJECT, $this);
 		//StreamingMediaComponent::factory(StreamingMediaComponent::BROWSER_COMPONENT, $this);
 		
 		$browser->run();

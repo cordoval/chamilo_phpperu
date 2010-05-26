@@ -117,22 +117,22 @@ abstract class ComplexBuilderComponent
         return $this->get_parent()->get_user_id();
     }
 
-    function get_root_lo()
+    function get_root_content_object()
     {
-        return $this->get_parent()->get_root_lo();
+        return $this->get_parent()->get_root_content_object();
     }
 
-    function get_cloi()
+    function get_content_object_item()
     {
-        return $this->get_parent()->get_cloi();
+        return $this->get_parent()->get_content_object_item();
     }
 
     static function factory($builder_name, $component_name, $builder)
     {
-        //$filename = dirname(__FILE__) . '/' . Utilities :: camelcase_to_underscores($builder_name) . '/component/' . //Utilities :: camelcase_to_underscores($builder_name). ($builder_name?'_':'') .
-        $filename = Path :: get_repository_path() . 'lib/content_object/' . $builder_name . '/builder/'; 
+        $filename = dirname(__FILE__) . '/' . Utilities :: camelcase_to_underscores($builder_name) . '/component/' . //Utilities :: camelcase_to_underscores($builder_name). ($builder_name?'_':'') .
+        //$filename = Path :: get_repository_path() . 'lib/content_object/' . $builder_name . '/builder/'; 
         
-        $filename .= Utilities :: camelcase_to_underscores($component_name) . '.class.php';
+        /*$filename .= */Utilities :: camelcase_to_underscores($component_name) . '.class.php';
 
         if (! file_exists($filename) || ! is_file($filename))
         {
@@ -151,24 +151,24 @@ abstract class ComplexBuilderComponent
      * Common functionality
      */
     
-    function get_clo_table_html($show_subitems_column = true, $model = null, $renderer = null)
+    function get_complex_content_object_table_html($show_subitems_column = true, $model = null, $renderer = null)
     {
-        return $this->get_parent()->get_clo_table_html($show_subitems_column, $model, $renderer);
+        return $this->get_parent()->get_complex_content_object_table_html($show_subitems_column, $model, $renderer);
     }
 
-    function get_clo_table_condition()
+    function get_complex_content_object_table_condition()
     {
-        return $this->get_parent()->get_clo_table_condition();
+        return $this->get_parent()->get_complex_content_object_table_condition();
     }
 
-    function get_clo_menu()
+    function get_complex_content_object_menu()
     {
-        return $this->get_parent()->get_clo_menu();
+        return $this->get_parent()->get_complex_content_object_menu();
     }
 
-    function get_clo_breadcrumbs()
+    function get_complex_content_object_breadcrumbs()
     {
-        return $this->get_parent()->get_clo_breadcrumbs();
+        return $this->get_parent()->get_complex_content_object_breadcrumbs();
     }
 
     function get_action_bar($lo)
