@@ -48,6 +48,11 @@ class GlossaryBuilder extends ComplexBuilder
 	{
 		return dirname(__FILE__) . '/component/';
 	}
+	
+	function show_menu()
+	{
+		return false;
+	}
 }
 
 ?>

@@ -7,7 +7,6 @@ require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
 
 class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 {
-
     function run()
     {
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
@@ -34,9 +33,18 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
         echo $this->get_creation_links($lo);
         echo '<div class="clear">&nbsp;</div><br />';
 
-        echo '<div style="width: 18%; overflow: auto; float: left;">';
-        echo $this->get_complex_content_object_menu();
-        echo '</div><div style="width: 80%; float: right;">';
+        if($this->get_parent()->show_menu())
+        {
+        	echo '<div style="width: 18%; overflow: auto; float: left;">';
+        	echo $this->get_complex_content_object_menu();
+        	echo '</div>';
+        	echo '<div style="width: 80%; float: right;">';
+        }
+        else
+        {
+        	echo '<div>';
+        }
+        
         echo $this->get_complex_content_object_table_html();
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
