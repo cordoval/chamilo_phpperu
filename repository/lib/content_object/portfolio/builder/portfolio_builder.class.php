@@ -14,23 +14,34 @@ class PortfolioBuilder extends ComplexBuilder
         
         switch ($action)
         {
-            case ComplexBuilder :: ACTION_BROWSE :
-                $component = PortfolioBuilderComponent :: factory('Browser', $this);
+            case ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM:
+            	$component = $this->create_component('Deleter');
+                break;
+            case ComplexBuilder :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM:
+            	$component = $this->create_component('Updater');
+                break;
+            case ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM:
+            	$component = $this->create_component('ItemCreator');
                 break;
             case PortfolioBuilder :: ACTION_CREATE_PORTFOLIO_ITEM :
-                $component = PortfolioBuilderComponent :: factory('ItemCreator', $this);
+                $component = $this->create_component('ItemCreator');
                 break;
-            case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = PortfolioBuilderComponent :: factory('Deleter', $this);
+            case ComplexBuilder :: ACTION_BROWSE : 
+            	$component = $this->create_component('Browser');
                 break;
-            case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = PortfolioBuilderComponent :: factory('Updater', $this);
+            default:
+            	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
+                $component = $this->create_component('Browser');
                 break;
-            default
         }
         
             $component->run();
     }
+
+    function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 
 ?>

@@ -46,7 +46,7 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         switch ($column->get_name())
         {
             case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)) :
-                $title = htmlspecialchars($ref_lo->get_title());
+                $title = htmlspecialchars($ref_content_object->get_title());
                 $title_short = $title;
                 
                 $title_short = Utilities :: truncate_string($title_short, 53, false);

@@ -3,19 +3,19 @@
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.portfolio.component
  */
-require_once dirname(__FILE__) . '/../portfolio_builder_component.class.php';
+
 require_once dirname(__FILE__) . '/browser/portfolio_browser_table_cell_renderer.class.php';
 
 class PortfolioBuilderBrowserComponent extends PortfolioBuilder
 {
-    private $complex_builder_browser_component;
+    
 
     function run()
     {
         $html = array();
         $this->complex_builder_browser_component = ComplexBuilderComponent::factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail::get_instance();
         $trail->merge($menu_trail);
         $trail->add_help('repository portfolio builder');
 
@@ -28,15 +28,8 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilder
             $content_object = $this->get_root_content_object();
         }
 
-        $this->display_header($trail);
-        $action_bar = $this->get_action_bar($content_object);
-
-        if ($action_bar)
-        {
-            $html[] =  '<br />';
-            $html[] =  $action_bar->as_html();
-        }
-
+        $this->display_header();
+        
         
 
 
@@ -55,7 +48,7 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilder
         $html[] =  '</div>';
         $html[] =  '<div class="clear">&nbsp;</div>';
         
-        $html[] =  implode("\n", $html);
+        echo  implode("\n", $html);
         $this->display_footer();
     }
 
@@ -111,7 +104,7 @@ class PortfolioBuilderBrowserComponent extends PortfolioBuilder
             }
             else
             {
-                $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_CREATE_PORTFOLIO_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
+                $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => PortfolioBuilder :: ACTION_CREATE_PORTFOLIO_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => ($this->get_complex_content_object_item_id() ? $this->get_complex_content_object_item_id()->get_id() : null), 'publish' => Request :: get('publish')));
             }
 
             $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
