@@ -3,7 +3,7 @@
  * $Id: creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum.component
  */
-require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../../../complex_builder/complex_repo_viewer.class.php';
 
 class ForumBuilderCreatorComponent extends ForumBuilder
 {
@@ -11,6 +11,9 @@ class ForumBuilderCreatorComponent extends ForumBuilder
 
     function run()
     {
+        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: CREATOR_COMPONENT, $this);
+        $browser->run();
+        /*
         $trail = new BreadcrumbTrail(false);
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail->merge($menu_trail);
@@ -62,8 +65,8 @@ class ForumBuilderCreatorComponent extends ForumBuilder
         if (!$pub->is_ready_to_be_published())
         {
         	$t = is_array($type) ? implode(',', $type) : $type;
-            $p = $this->repository_data_manager->retrieve_content_object($parent);
-        	$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />';
+            //$p = $this->repository_data_manager->retrieve_content_object($parent);
+        	//$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />';
         	$html[] = $pub->as_html();
         }
         else
@@ -115,7 +118,9 @@ class ForumBuilderCreatorComponent extends ForumBuilder
         }
 
         return $items;
+    */
     }
+    
 }
 
 ?>
