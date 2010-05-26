@@ -14,16 +14,22 @@ class GlossaryBuilder extends ComplexBuilder
 
         switch ($action)
         {
-            case ComplexBuilder :: ACTION_BROWSE_CLO :
-                $component = GlossaryBuilderComponent :: factory('Browser', $this);
+            case ComplexBuilder :: ACTION_BROWSE : 
+            	$component = $this->create_component('Browser');
+                break;
+            default:
+            	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
+                $component = $this->create_component('Browser');
                 break;
         }
 
-        if (! $component)
-            parent :: run();
-        else
-            $component->run();
+        $component->run();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 
 ?>

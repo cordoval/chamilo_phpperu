@@ -34,12 +34,6 @@ abstract class ComplexBuilder extends SubManager
     private $menu;
 
     /**
-     * The root object that is used in the builder
-     * @var ContentObject
-     */
-    private $root_content_object;
-
-    /**
      * The current item in treemenu to determine where we are in the structure
      * @var ComplexContentObjectItem
      */
@@ -51,10 +45,9 @@ abstract class ComplexBuilder extends SubManager
      */
     private $selected_complex_content_object_item;
 
-    function ComplexBuilder($parent, $root_content_object)
+    function ComplexBuilder($parent)
     {
         parent :: __construct($parent);
-        $this->root_content_object = $root_content_object;
 
         $complex_content_object_item_id = Request :: get(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($complex_content_object_item_id)
@@ -74,22 +67,12 @@ abstract class ComplexBuilder extends SubManager
     //Singleton
     private static $instance;
 
-    static function factory($parent, $root_content_object)
+    static function factory($parent, $type)
     {
-        if (is_null(self :: $instance))
-        {
-            if ($root_content_object)
-            {
-                $small_type = $root_content_object->get_type();
-                $type = Utilities :: underscores_to_camelcase($small_type);
-                $file = dirname(__FILE__) . '/../content_object/' . $small_type . '/builder/' . $small_type . '_builder.class.php';
-                require_once $file;
-                $class = $type . 'Builder';
-             	self :: $instance = new $class($parent, $root_content_object);
-            }
-        }
-
-        return self :: $instance;
+        $file = dirname(__FILE__) . '/../content_object/' . $type . '/builder/' . $type . '_builder.class.php';
+        require_once $file;
+        $class = Utilities :: underscores_to_camelcase($type) . 'Builder';
+    	return new $class($parent);
     }
 
     protected function parse_input_from_table()
@@ -130,8 +113,8 @@ abstract class ComplexBuilder extends SubManager
     }
 
     function get_root_content_object()
-    {
-        return $this->root_content_object;
+    { 
+    	return $this->get_parent()->get_root_content_object();
     }
 
     function get_complex_content_object_item()
@@ -146,7 +129,7 @@ abstract class ComplexBuilder extends SubManager
 
 	function get_root_content_object_id()
     {
-        return $this->root_content_object->get_id();
+        return $this->get_parent()->get_root_content_object()->get_id();
     }
 
     function get_complex_content_object_item_id()
@@ -169,16 +152,16 @@ abstract class ComplexBuilder extends SubManager
      * Common functionality
      */
 
-    function get_table_html($show_subitems_column = true, $model = null, $renderer = null)
+    function get_complex_content_object_table_html($show_subitems_column = true, $model = null, $renderer = null)
     {
         $parameters = $this->get_parameters();
     	$parameters[self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
 
-        $table = new ComplexBrowserTable($this, $parameters, $this->get_table_condition(), $show_subitems_column, $model, $renderer);
+        $table = new ComplexBrowserTable($this, $parameters, $this->get_complex_content_object_table_condition(), $show_subitems_column, $model, $renderer);
         return $table->as_html();
     }
 
-    function get_table_condition()
+    function get_complex_content_object_table_condition()
     {
         if ($this->get_complex_content_object_item())
         {
@@ -187,28 +170,28 @@ abstract class ComplexBuilder extends SubManager
         return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_content_object_id(), ComplexContentObjectItem :: get_table_name());
     }
 
-    function get_tree_menu()
+    function get_complex_content_object_menu()
     {
         if (is_null($this->menu))
         {
-            $this->build_menu();
+            $this->build_complex_content_object_menu();
         }
         return $this->menu->render_as_tree();
     }
 
-    function get_breadcrumbs()
+    function get_complex_content_object_breadcrumbs()
     {
         if (is_null($this->menu))
         {
-            $this->build_menu();
+            $this->build_complex_content_object_menu();
         }
         return $this->menu->get_breadcrumbs();
     }
 
-    private function build_menu()
+    private function build_complex_content_object_menu()
     {
         $this->menu = new ComplexMenu($this->get_root_content_object(), $this->get_complex_content_object_item(),
-        							  $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE_CLO)));
+        							  $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE)));
     }
 
     //url building

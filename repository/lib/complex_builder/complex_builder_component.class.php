@@ -71,12 +71,12 @@ abstract class ComplexBuilderComponent extends SubManager
 
     function get_action_bar(ContentObject $content_object)
     {
-        return $this->get_parent()->get_action_bar(ContentObject $content_object);
+        return $this->get_parent()->get_action_bar($content_object);
     }
 
     function get_creation_links(ContentObject $content_object, $types = array(), $additional_links = array())
     {
-        return $this->get_parent()->get_creation_links(ContentObject $content_object, $types, $additional_links);
+        return $this->get_parent()->get_creation_links($content_object, $types, $additional_links);
     }
     
 	function get_complex_content_object_item_view_url($complex_content_object_item, $root_content_object_id)
@@ -87,6 +87,10 @@ abstract class ComplexBuilderComponent extends SubManager
     function get_complex_content_object_parent_changer_url($complex_content_object_item, $root_content_object_id)
     {
     	return $this->get_complex_content_object_parent_changer_url($complex_content_object_item, $root_content_object_id);
+    }
+    
+    function get_application_component_path()
+    {
     }
 }
 

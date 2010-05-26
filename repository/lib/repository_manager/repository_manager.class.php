@@ -454,13 +454,6 @@ class RepositoryManager extends CoreApplication
             echo '<div>';
         }
 
-        echo '<div>';
-        echo '<h3 style="float: left;" title="' . $title . '">' . $title_short . '</h3>';
-        if ($display_search)
-        {
-            $this->display_search_form();
-        }
-        echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
 
         $message = Request :: get(self :: PARAM_MESSAGE);
