@@ -13,7 +13,6 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
     {
         $trail = new BreadcrumbTrail(false);
 
-        $root_content_object = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
         $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
 
@@ -68,7 +67,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('repository builder');
 
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'cid' => Request :: get('cid'))), RepositoryDataManager :: get_instance()->retrieve_content_object($root_content_object)->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'cid' => Request :: get('cid'))), $this->get_root_content_object()->get_title()));
             $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'update_complex_content_object_item', 'selected_complex_content_object_item' => $complex_content_object_item_id, 'cid' => Request :: get('cid'))), Translation :: get('Update')));
 
             $this->display_header($trail);
