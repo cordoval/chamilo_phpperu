@@ -131,8 +131,9 @@ abstract class ComplexBuilderComponent
     {
         //$filename = dirname(__FILE__) . '/' . Utilities :: camelcase_to_underscores($builder_name) . '/component/' . //Utilities :: camelcase_to_underscores($builder_name). ($builder_name?'_':'') .
         $filename = Path :: get_repository_path() . 'lib/content_object/' . $builder_name . '/builder/'; 
-        dump($filename);
-        Utilities :: camelcase_to_underscores($component_name) . '.class.php';
+        
+        $filename .= Utilities :: camelcase_to_underscores($component_name) . '.class.php';
+
         if (! file_exists($filename) || ! is_file($filename))
         {
             die('Failed to load "' . $component_name . '" component');
