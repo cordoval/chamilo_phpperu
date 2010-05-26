@@ -5,11 +5,11 @@
  */
 require_once dirname(__FILE__) . '/../../wiki.class.php';
 
-class WikiBuilderViewerComponent extends WikiBuilder
+class WikiBuilderUpdaterComponent extends WikiBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: VIEWER_COMPONENT, $this);
+        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: UPDATER_COMPONENT, $this);
         $browser->run();
     }
 }
