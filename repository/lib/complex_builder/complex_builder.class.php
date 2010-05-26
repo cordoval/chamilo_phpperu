@@ -51,10 +51,10 @@ abstract class ComplexBuilder extends SubManager
      */
     private $selected_complex_content_object_item;
 
-    function ComplexBuilder($parent, $root_object)
+    function ComplexBuilder($parent, $root_content_object)
     {
         parent :: __construct($parent);
-        $this->root_content_object = $root_object;
+        $this->root_content_object = $root_content_object;
         
         $complex_content_object_item_id = Request :: get(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($complex_content_object_item_id)
@@ -80,7 +80,7 @@ abstract class ComplexBuilder extends SubManager
         {
             if ($root_content_object)
             {
-                $small_type = RepositoryDataManager :: get_instance()->determine_content_object_type($root_content_object);
+                $small_type = $root_content_object->get_type();
                 $type = Utilities :: underscores_to_camelcase($small_type);
                 $file = dirname(__FILE__) . '/../content_object/' . $small_type . '/builder/' . $small_type . '_builder.class.php';
                 require_once $file;

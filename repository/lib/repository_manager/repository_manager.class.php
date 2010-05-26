@@ -1234,7 +1234,8 @@ class RepositoryManager extends CoreApplication
 
     function get_browse_complex_content_object_url($object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, ComplexBuilder :: PARAM_ROOT_LO => $object->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT,
+        							self :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
     }
 
     function get_add_existing_content_object_url($root_id, $clo_id)
