@@ -11,13 +11,13 @@
  */
 
 
-class FeedbackForm extends FormValidator
+class FeedbackManagerForm extends FormValidator
 {
     private $adm;
 
     const PROPERTY_TEXT = 'text';
     
-    function FeedbackForm($action)
+    function FeedbackManagerForm($action)
     {
         parent :: __construct('feedback_form', 'post', $action);
         $this->build_text_form();

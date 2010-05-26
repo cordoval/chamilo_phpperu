@@ -20,6 +20,12 @@ class MultipleChoiceQuestionDisplay extends ContentObjectDisplay
         $options = $lo->get_options();
         $type = $lo->get_answer_type();
         
+        switch($type)
+        {
+        	case MultipleChoiceQuestion :: ANSWER_TYPE_RADIO : $type = 'radio'; break;
+        	case MultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX : $type = 'checkbox'; break;
+        }
+        
         $html[] = parent :: get_description();
         $html[] = '<table class="data_table">';
         $html[] = '<thead>';

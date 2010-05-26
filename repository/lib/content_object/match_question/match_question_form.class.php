@@ -43,14 +43,12 @@ class MatchQuestionForm extends ContentObjectForm
             else
             {
                 $number_of_options = intval($_SESSION['match_number_of_options']);
-
                 for($option_number = 0; $option_number < $number_of_options; $option_number ++)
                 {
                     $defaults['option_weight'][$option_number] = 1;
                 }
             }
         }
-        //print_r($defaults);
         parent :: setDefaults($defaults);
     }
 
@@ -208,7 +206,7 @@ class MatchQuestionForm extends ContentObjectForm
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
 
-                $defaults['option_weight[' . $option_number . ']'] = 1;
+               // $defaults['option_weight[' . $option_number . ']'] = 1;
 
                 $i ++;
             }

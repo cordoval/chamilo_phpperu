@@ -162,8 +162,11 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $html_editor_options = array();
-        $html_editor_options['style'] = 'width: 100%; height: 65px;';
+        $html_editor_options['width'] = '100%';
+        $html_editor_options['height'] = '65';
+        $html_editor_options['collapse_toolbar'] = true;
         $html_editor_options['toolbar'] = 'RepositoryQuestion';
+        $this->addElement('html', implode("\n", $table_header));
 
         $table_header = array();
         $table_header[] = '<table class="data_table">';
@@ -178,7 +181,7 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
-
+        
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
             if (! in_array($option_number, $_SESSION['select_skip_options']))
