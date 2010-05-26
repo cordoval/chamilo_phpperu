@@ -20,25 +20,25 @@ class ForumPostBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
     }
 
     // Inherited
-    function render_cell($column, $cloi)
+    function render_cell($column, $complex_content_object_item)
     {
      	if ($column === ComplexBrowserTableColumnModel :: get_modification_column())
         {
-            return $this->get_modification_links($cloi);
+            return $this->get_modification_links($complex_content_object_item);
         }
         
     	switch ($column->get_name())
         {
             case Translation :: get('AddDate') :
-                return $cloi->get_add_date();
+                return $complex_content_object_item->get_add_date();
         }
         
-        return parent :: render_cell($column, $cloi);
+        return parent :: render_cell($column, $complex_content_object_item);
     }
     
- 	function get_modification_links($cloi)
+ 	function get_modification_links($complex_content_object_item)
     {
-        return parent :: get_modification_links($cloi, array(), true);
+        return parent :: get_modification_links($complex_content_object_item, array(), true);
     }
 }
 ?>

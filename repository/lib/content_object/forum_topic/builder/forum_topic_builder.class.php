@@ -3,7 +3,6 @@
  * $Id: forum_topic_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum_topic
  */
-require_once dirname(__FILE__) . '/forum_topic_builder_component.class.php';
 
 class ForumTopicBuilder extends ComplexBuilder
 {
@@ -14,10 +13,10 @@ class ForumTopicBuilder extends ComplexBuilder
         
         switch ($action)
         {
-            case ComplexBuilder :: ACTION_BROWSE_CLO :
+            case ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT :
                 $component = ForumTopicBuilderComponent :: factory('Browser', $this);
                 break;
-            case ComplexBuilder :: ACTION_DELETE_CLOI :
+            case ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
                 $component = ForumTopicBuilderComponent :: factory('Deleter', $this);
                 break;
         }
