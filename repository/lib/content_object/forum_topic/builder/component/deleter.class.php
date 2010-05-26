@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../forum_topic_builder_component.class.php';
 /**
  */
-class ForumTopicBuilderDeleterComponent extends ForumTopicBuilderComponent
+class ForumTopicBuilderDeleterComponent extends ForumTopicBuilder
 {
 
     /**
@@ -14,8 +14,8 @@ class ForumTopicBuilderDeleterComponent extends ForumTopicBuilderComponent
      */
     function run()
     {
-        $ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_CLOI_ID);
-        $root = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
+        $ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+        $root = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
         
         $failures = 0;
         
@@ -26,18 +26,18 @@ class ForumTopicBuilderDeleterComponent extends ForumTopicBuilderComponent
                 $ids = array($ids);
             }
             
-            $rdm = RepositoryDataManager :: get_instance();
+            $repositor_data_manager = RepositoryDataManager :: get_instance();
             
-            foreach ($ids as $cloi_id)
+            foreach ($ids as $complex_content_object_item_id)
             {
-                $cloi = $rdm->retrieve_complex_content_object_item($cloi_id);
+                $complex_content_object_item = $repositor_data_manager->retrieve_complex_content_object_item($complex_content_object_item_id);
 
-                if ($cloi->get_user_id() == $this->get_user_id())
+                if ($complex_content_object_item->get_user_id() == $this->get_user_id())
                 {
                     // TODO: check if deletion is allowed
-                    //if ($this->get_parent()->complex_content_object_item_deletion_allowed($cloi))
+                    //if ($this->get_parent()->complex_content_object_item_deletion_allowed($complex_content_object_item))
                     {
-                        if (! $cloi->delete())
+                        if (! $complex_content_object_item->delete())
                         {
                             $failures ++;
                         }
@@ -75,12 +75,12 @@ class ForumTopicBuilderDeleterComponent extends ForumTopicBuilderComponent
                 }
             }
    
-            $count = $rdm->count_content_objects(new EqualityCondition(ContentObject :: PROPERTY_ID, $root));
+            $count = $repositor_data_manager->count_content_objects(new EqualityCondition(ContentObject :: PROPERTY_ID, $root));
             
             if($count == 1)
-            	$this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root, 'publish' => Request :: get('publish')));
+            	$this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT));
             else
-            	$this->redirect(Translation :: get($message), $failures ? true : false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS, ComplexBuilder :: PARAM_BUILDER_ACTION => null));
+            	$this->redirect(Translation :: get($message), $failures ? true : false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS), array(ComplexBuilder :: PARAM_BUILDER_ACTION));
         }
         else
         {

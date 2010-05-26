@@ -6,14 +6,14 @@
 require_once dirname(__FILE__) . '/../forum_builder_component.class.php';
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 
-class ForumBuilderStickyComponent extends ForumBuilderComponent
+class ForumBuilderStickyComponent extends ForumBuilder
 {
 
     function run()
     {
-        $rdm = RepositoryDataManager :: get_instance();
+        $repository_data_manager = RepositoryDataManager :: get_instance();
         
-        $topic = $rdm->retrieve_complex_content_object_item(Request :: get(ComplexBuilder :: PARAM_SELECTED_CLOI_ID));
+        $topic = $repository_data_manager->retrieve_complex_content_object_item(Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPPLEX_CONTENT_OBJECT_ITEM_ID));
         
         if ($topic->get_type() == 1)
         {
@@ -27,8 +27,7 @@ class ForumBuilderStickyComponent extends ForumBuilderComponent
         }
         $topic->update();
         
-        $this->redirect($message, '', array(ComplexBuilder :: PARAM_ROOT_LO => Request :: get(ComplexBuilder :: PARAM_ROOT_LO),
-        								    ComplexBuilder :: PARAM_CLOI_ID => Request :: get(ComplexBuilder :: PARAM_CLOI_ID), ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO));
+        $this->redirect($message, '', array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID), ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT));
     }
 }
 
