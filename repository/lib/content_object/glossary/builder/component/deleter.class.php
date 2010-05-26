@@ -5,11 +5,11 @@
  */
 require_once dirname(__FILE__) . '/../../glossary.class.php';
 
-class GlossaryBuilderBrowserComponent extends GlossaryBuilder
+class GlossaryBuilderDeleterComponent extends GlossaryBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
+        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: DELETER_COMPONENT, $this);
         $browser->run();
     }
 }

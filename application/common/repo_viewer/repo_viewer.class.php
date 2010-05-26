@@ -18,7 +18,7 @@ class RepoViewer
 {
     const PARAM_ACTION = 'repoviewer_action';
     const PARAM_EDIT = 'edit';
-    const PARAM_ID = 'object';
+    const PARAM_ID = 'repo_object';
     const PARAM_EDIT_ID = 'obj';
     const PARAM_QUERY = 'query';
     const PARAM_CONTENT_OBJECT_TYPE = 'type';

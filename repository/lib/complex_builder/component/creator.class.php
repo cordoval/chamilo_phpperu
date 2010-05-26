@@ -15,13 +15,12 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository builder');
 
-        $root_content_object = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
         $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
 
         $this->rdm = RepositoryDataManager :: get_instance();
 
-        $parent = $root_content_object;
+        $parent = $this->get_parent()->get_root_content_object_id();
         if ($complex_content_object_item_id)
         {
             $parent_complex_content_object_item = $this->rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
@@ -62,11 +61,11 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
             $html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities :: underscores_to_camelcase($t)), Translation :: get(Utilities :: underscores_to_camelcase($p->get_type())), $p->get_title()) . '</h4><br />';
             $html[] = $complex_repository_viewer->as_html();
 
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'root_content_object' => $root_content_object, RepositoryDataManager :: get_instance()->retrieve_content_object($root_content_object)->get_title()))));
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'), 'root_content_object' => $root_content_object, Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))))));
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, $this->get_root_content_object()->get_title()))));
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'), Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))))));
 
             $this->display_header($trail);
-            echo '<br />' . implode("\n", $html);
+            echo implode("\n", $html);
             $this->display_footer();
         }
         else

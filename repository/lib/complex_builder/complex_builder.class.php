@@ -61,6 +61,7 @@ abstract class ComplexBuilder extends SubManager
             $this->selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($selected_complex_content_object_item_id);
         }
 
+        $this->set_action(Request :: get(self :: PARAM_BUILDER_ACTION));
         $this->parse_input_from_table();
     }
 
