@@ -17,7 +17,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
         $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
 
-        $parameters = array(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
+        $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
 
         $rdm = RepositoryDataManager :: get_instance();
         $complex_content_object_item = $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
@@ -61,15 +61,15 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 
             $parameters[ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
 
-            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO)));
+            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE)));
         }
         else
         {
-            $trail = new BreadcrumbTrail(false);
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('repository builder');
 
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'root_content_object' => $root_content_object, 'cid' => Request :: get('cid'))), RepositoryDataManager :: get_instance()->retrieve_content_object($root_content_object)->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'update_complex_content_object_item', 'root_content_object' => $root_content_object, 'selected_complex_content_object_item' => $complex_content_object_item_id, 'cid' => Request :: get('cid'))), Translation :: get('Update')));
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'cid' => Request :: get('cid'))), RepositoryDataManager :: get_instance()->retrieve_content_object($root_content_object)->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'update_complex_content_object_item', 'selected_complex_content_object_item' => $complex_content_object_item_id, 'cid' => Request :: get('cid'))), Translation :: get('Update')));
 
             $this->display_header($trail);
             echo $content_object_form->toHTML();

@@ -12,7 +12,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository builder');
 
         $root_content_object = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
@@ -51,7 +51,6 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
             $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
         }
 
-        $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT, $root_content_object);
         $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
         $complex_repository_viewer->set_excluded_objects($exclude);
         $complex_repository_viewer->parse_input();
@@ -61,10 +60,10 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
             $t = is_array($type) ? implode(',', $type) : $type;
             $p = $this->rdm->retrieve_content_object($parent);
             $html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities :: underscores_to_camelcase($t)), Translation :: get(Utilities :: underscores_to_camelcase($p->get_type())), $p->get_title()) . '</h4><br />';
-            $html[] = $pub->as_html();
+            $html[] = $complex_repository_viewer->as_html();
 
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'root_content_object' => $root_content_object, RepositoryDataManager :: get_instance()->retrieve_content_object($root_content_object)->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'), 'root_content_object' => $root_content_object, Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))));
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'root_content_object' => $root_content_object, RepositoryDataManager :: get_instance()->retrieve_content_object($root_content_object)->get_title()))));
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'), 'root_content_object' => $root_content_object, Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))))));
 
             $this->display_header($trail);
             echo '<br />' . implode("\n", $html);
@@ -72,7 +71,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
         }
         else
         {
-            $objects = $pub->get_selected_objects();
+            $objects = $complex_repository_viewer->get_selected_objects();
 
             if (! is_array($objects))
             {
@@ -94,7 +93,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
                 $complex_content_object_item->create();
             }
 
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
+            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
     }
 
