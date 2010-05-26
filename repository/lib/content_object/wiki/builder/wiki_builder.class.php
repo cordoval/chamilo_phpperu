@@ -14,18 +14,17 @@ class WikiBuilder extends ComplexBuilder
         
         switch ($action)
         {
-            case ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT :
-                $component = WikiBuilderComponent :: factory('Browser', $this);
+            case ComplexBuilder :: ACTION_BROWSE :
+                $component = $this->create_component('Browser', $this);
                 break;
             case self :: ACTION_SELECT_HOMEPAGE :
-                $component = WikiBuilderComponent :: factory('HomepageSelector', $this);
+                $component = $this->create_component('HomepageSelector', $this);
+                break;
+            default :
+                $component = $this->create_component('Browser', $this);
                 break;
         }
-        
-        if (! $component)
-            parent :: run();
-        else
-            $component->run();
+        $component->run();
     }
 
     function get_select_homepage_url($complex_content_object_item)
