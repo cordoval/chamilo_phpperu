@@ -3,16 +3,16 @@
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component
  */
-require_once dirname(__FILE__) . '/../assessment_builder_component.class.php';
-require_once dirname(__FILE__) . '/../assessment.class.php';
-require_once dirname(__FILE__) . '/browser/assessment_browser_table_cell_renderer.class.php';
+//require_once Path :: get_repository_path() . 'lib/complex_builder/assessment/assessment_builder_component.class.php';
+//require_once dirname(__FILE__) . '/../assessment.class.php';
+//require_once dirname(__FILE__) . '/browser/assessment_browser_table_cell_renderer.class.php';
 
-class AssessmentBuilderBrowserComponent extends AssessmentBuilderComponent
+class AssessmentBuilderBrowserComponent extends ComplexBuilderBrowserComponent
 {
 	function run()
 	{
 		
-		$browser = AssessmentBuilderComponent::factory(AssessmentBuilder::ACTION_BROWSE_CONTENT_OBJECT, $this);
+		$browser = ComplexBuilder::factory($this->get_parent());
 		//StreamingMediaComponent::factory(StreamingMediaComponent::BROWSER_COMPONENT, $this);
 		
 		$browser->run();

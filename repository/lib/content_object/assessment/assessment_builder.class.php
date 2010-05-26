@@ -27,7 +27,17 @@ class AssessmentBuilder extends ComplexBuilder
         
         switch ($action)
         {
-            case ComplexBuilder :: ACTION_BROWSE_CONTENT_OBJECT :
+//            case ComplexBuilder :: ACTION_BROWSE_CONTENT_OBJECT :
+//                $component = AssessmentBuilderComponent :: factory('Browser', $this);
+//                break;
+//            case AssessmentBuilder :: ACTION_MERGE_ASSESSMENT :
+//                $component = AssessmentBuilderComponent :: factory('AssessmentMerger', $this);
+//                break;
+//            case AssessmentBuilder :: ACTION_SELECT_QUESTIONS :
+//                $component = AssessmentBuilderComponent :: factory('QuestionSelecter', $this);
+//                break;
+                
+                case ComplexBuilder :: ACTION_BROWSE_CONTENT_OBJECT :
                 $component = AssessmentBuilderComponent :: factory('Browser', $this);
                 break;
             case AssessmentBuilder :: ACTION_MERGE_ASSESSMENT :

@@ -73,8 +73,9 @@ abstract class ComplexBuilder
             {
                 $small_type = RepositoryDataManager :: get_instance()->determine_content_object_type($root_content_object);
                 $type = Utilities :: underscores_to_camelcase($small_type);
+               
                 //$file = dirname(__FILE__) . '/' . $small_type . '/' . $small_type . '_builder.class.php';
-                $file = Path :: get_repository_path() . '/lib/content_object/' . $small_type . '/' . $small_type . '_builder.class.php';
+                $file = Path :: get_repository_path() . 'lib/content_object/' . $small_type . '/' . $small_type . '_builder.class.php';
                 require_once $file;
                 $class = $type . 'Builder';
              	self :: $instance = new $class($parent);

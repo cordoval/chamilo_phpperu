@@ -7,7 +7,6 @@ require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
 
 class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 {
-
     function run()
     {
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
