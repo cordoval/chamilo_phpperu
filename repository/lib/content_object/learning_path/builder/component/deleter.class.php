@@ -16,7 +16,6 @@ class LearningPathBuilderDeleterComponent extends LearningPathBuilder
     function run()
     {
         $deleter = ComplexBuilderComponent::factory(ComplexBuilderComponent::DELETER_COMPONENT, $this);
-    
         $deleter->run();
     }
 }

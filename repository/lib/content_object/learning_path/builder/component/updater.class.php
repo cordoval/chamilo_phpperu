@@ -11,16 +11,12 @@ class LearningPathBuilderUpdaterComponent extends LearningPathBuilder
 
     function run()
     {
-
-        $updater = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: UPDATER_COMPONENT, $this);
-        $update->run();
-        /* $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
-        $root_content_object = Request :: get(LearningPathBuilder :: PARAM_ROOT_CONTENT_OBJECT);
         $complex_content_object_item_id = Request :: get(LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $parent_complex_content_object_item = Request :: get(LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         
-        $parameters = array(LearningPathBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, 'publish' => Request :: get('publish'));
+        $parameters = array(LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
         
         $rdm = RepositoryDataManager :: get_instance();
         $complex_content_object_item = $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
@@ -63,14 +59,11 @@ class LearningPathBuilderUpdaterComponent extends LearningPathBuilder
                 }
             }
             
-            if ($complex_content_object_item_form)
-                $complex_content_object_item_form->update_complex_content_object_item_from_values($content_object_form->exportValues());
-            else
-                $complex_content_object_item->update();
+            $complex_content_object_item->update();
             
             $parameters[LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
             
-            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(LearningPathBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_BROWSE_CLO, 'publish' => Request :: get('publish'))));
+            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(LearningPathBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_BROWSE)));
         }
         else
         {
@@ -79,7 +72,7 @@ class LearningPathBuilderUpdaterComponent extends LearningPathBuilder
             $this->display_header($trail);
             echo $content_object_form->toHTML();
             $this->display_footer();
-        }*/
+        }
     
     }
 }

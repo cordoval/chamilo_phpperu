@@ -23,6 +23,9 @@ class LearningPathBuilder extends ComplexBuilder
             case LearningPathBuilder :: ACTION_CREATE_LP_ITEM :
                 $component = $this->create_component('ItemCreator');
                 break;
+           	case LearningPathBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Creator');
+                break;
             case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
                 $component = $this->create_component('Deleter');
                 break;
@@ -48,13 +51,13 @@ class LearningPathBuilder extends ComplexBuilder
     function get_prerequisites_url($selected_complex_content_object_item)
     {
         $complex_content_object_item_id = ($this->get_complex_content_object_item()) ? ($this->get_complex_content_object_item()->get_id()) : null;
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BUILD_PREREQUISITES, self :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID_ID => $selected_complex_content_object_item, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BUILD_PREREQUISITES, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item));
     }
 
     function get_mastery_score_url($selected_complex_content_object_item)
     {
         $complex_content_object_item_id = ($this->get_complex_content_object_item()) ? ($this->get_complex_content_object_item()->get_id()) : null;
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_SET_MASTERY_SCORE, self :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_SET_MASTERY_SCORE, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item));
     }
 
     function get_application_component_path()

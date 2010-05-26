@@ -18,7 +18,7 @@ class LearningPathBuilderMasteryScoreSetterComponent extends LearningPathBuilder
         $trail = new BreadcrumbTrail(false);
         $trail->merge($menu_trail);
         
-        $parameters = array(LearningPathBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, 'publish' => Request :: get('publish'));
+        $parameters = array(LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
         
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('BuildPrerequisites')));
         
@@ -38,7 +38,7 @@ class LearningPathBuilderMasteryScoreSetterComponent extends LearningPathBuilder
         {
             $succes = $this->set_mastery_score($lp_item, $form->exportValues());
             $message = $succes ? 'MasteryScoreSet' : 'MasteryScoreNotSet';
-            $this->redirect(Translation :: get($message), ! $succes, array_merge($parameters, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO)));
+            $this->redirect(Translation :: get($message), ! $succes, array_merge($parameters, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE)));
         }
         else
         {

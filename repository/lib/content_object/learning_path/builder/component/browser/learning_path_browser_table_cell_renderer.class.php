@@ -65,7 +65,7 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 
                 if ($content_object->get_type() == LearningPath :: get_type_name())
                 {
-                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->browser->get_root(), ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), 'publish' => Request :: get('publish'))) . '">' . $title_short . '</a>';
+                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id())) . '">' . $title_short . '</a>';
                 }
 
                 return $title_short;
@@ -102,23 +102,16 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 
         $toolbar_data = array();
 
-        $edit_url = $this->browser->get_complex_content_object_item_edit_url($complex_content_object_item, $this->browser->get_root());
-        if ($complex_content_object_item->is_extended() || get_parent_class($this->browser) == 'ComplexBuilder')
-        {
-            $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        }
-        else
-        {
-            $toolbar_data[] = array('label' => Translation :: get('EditNA'), 'img' => Theme :: get_common_image_path() . 'action_edit_na.png');
-        }
+        $edit_url = $this->browser->get_complex_content_object_item_edit_url($complex_content_object_item->get_id());
+        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
 
         if ($parent->get_version() == 'chamilo')
         {
 
-            $delete_url = $this->browser->get_complex_content_object_item_delete_url($complex_content_object_item, $this->browser->get_root());
-            $moveup_url = $this->browser->get_complex_content_object_item_move_url($complex_content_object_item, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
-            $movedown_url = $this->browser->get_complex_content_object_item_move_url($complex_content_object_item, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);
-			$change_parent_url = $this->browser->get_complex_content_object_parent_changer_url($complex_content_object_item, $this->browser->get_root());
+            $delete_url = $this->browser->get_complex_content_object_item_delete_url($complex_content_object_item->get_id());
+            $moveup_url = $this->browser->get_complex_content_object_item_move_url($complex_content_object_item->get_id(), RepositoryManager :: PARAM_DIRECTION_UP);
+            $movedown_url = $this->browser->get_complex_content_object_item_move_url($complex_content_object_item->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN);
+			$change_parent_url = $this->browser->get_complex_content_object_parent_changer_url($complex_content_object_item->get_id());
 			
             $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
 		 	$toolbar_data[] = array('href' => $change_parent_url, 'label' => Translation :: get('ChangeParent'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
