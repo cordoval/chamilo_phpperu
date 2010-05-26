@@ -51,13 +51,6 @@ class PackageUpdater
     	return $this->registration->update();
     }
     
-    function backup_package()
-    {
-    	$backup = DatabaseBackup::factory('mysql', array(RemotePackage :: get_table_name(), Setting :: get_table_name()), AdminDataManager::get_instance());
-    	dump ($backup->backup());
-    	return true;
-    }
-    
     function get_remote_package()
     {
     	$id = Request :: get(PackageManager::PARAM_REGISTRATION);
@@ -134,16 +127,6 @@ class PackageUpdater
 		else
 		{
 			return $this->update_failed('status', Translation :: get('PackageDeactivationFailed'));
-		}
-		
-    	if ($this->backup_package())
-		{
-			$this->add_message(Translation :: get('BackupPackageSuccess'), self :: TYPE_CONFIRM);
-			$this->process_result('Backup');
-		}
-		else
-		{
-			return $this->update_failed('backup', Translation :: get('BackupPackageFailed'));
 		}
 		
 		if (! $this->verify_dependencies())
