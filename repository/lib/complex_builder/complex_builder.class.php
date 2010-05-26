@@ -289,6 +289,11 @@ abstract class ComplexBuilder extends SubManager
 	{
 		return Path :: get_repository_path() . 'lib/complex_builder/component/';
 	}
+	
+	function show_menu()
+	{
+		return true;
+	}
 }
 
 ?>
