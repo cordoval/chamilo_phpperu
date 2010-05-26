@@ -19,7 +19,7 @@ abstract class ComplexBuilderComponent extends SubManager
 	const MOVER_COMPONENT = 'mover';
 	const PARENT_CHANGER_COMPONENT = 'parent_changer';
 	const UPDATER_COMPONENT = 'updater';
-	const VIEWER_COMPONENT = 'mover';
+	const VIEWER_COMPONENT = 'viewer';
 
 	static function factory($type, $application)
 	{
