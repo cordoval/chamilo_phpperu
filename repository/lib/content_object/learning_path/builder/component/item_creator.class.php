@@ -3,8 +3,7 @@
  * $Id: item_creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path.component
  */
-require_once dirname(__FILE__) . '/../learning_path_builder_component.class.php';
-require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../../../complex_builder/complex_repo_viewer.class.php';
 
 class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
 {
@@ -96,7 +95,7 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
                 $complex_content_object_item->create();
             }
             
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, 'publish' => Request :: get('publish')));
+            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, 'publish' => Request :: get('publish')));
         }
         
         $this->display_header($trail);
