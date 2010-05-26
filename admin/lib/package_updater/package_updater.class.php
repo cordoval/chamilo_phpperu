@@ -1,6 +1,7 @@
 <?php
 require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_source.class.php';
 require_once Path :: get_admin_path() . 'lib/package_updater/package_updater_type.class.php';
+require_once Path :: get_common_path() . 'database/backup/database_backup.class.php';
 
 class PackageUpdater
 {
@@ -48,12 +49,6 @@ class PackageUpdater
     {
     	$this->registration->activate();
     	return $this->registration->update();
-    }
-    
-    function backup_package()
-    {
-    	$this->add_message(Translation :: get('!!!!!!!!!!ToBeImplemented !!!!!!!'), self :: TYPE_WARNING);
-    	return true;
     }
     
     function get_remote_package()
@@ -132,16 +127,6 @@ class PackageUpdater
 		else
 		{
 			return $this->update_failed('status', Translation :: get('PackageDeactivationFailed'));
-		}
-		
-    	if ($this->backup_package())
-		{
-			$this->add_message(Translation :: get('BackupPackageSuccess'), self :: TYPE_CONFIRM);
-			$this->process_result('Backup');
-		}
-		else
-		{
-			return $this->update_failed('backup', Translation :: get('BackupPackageFailed'));
 		}
 		
 		if (! $this->verify_dependencies())
