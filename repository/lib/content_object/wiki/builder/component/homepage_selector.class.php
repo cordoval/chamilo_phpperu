@@ -17,7 +17,7 @@ class WikiBuilderHomepageSelectorComponent extends WikiBuilder
         $complex_content_object_item->set_is_homepage(1);
         $complex_content_object_item->update();
         
-        $this->redirect(Translation :: get('HomepageSelected'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT));
+        $this->redirect(Translation :: get('HomepageSelected'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE));
     
     }
 }
