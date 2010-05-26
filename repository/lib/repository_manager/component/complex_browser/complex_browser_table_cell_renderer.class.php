@@ -116,7 +116,10 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
         
         $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
         
-        $toolbar_data[] = array('href' => $change_parent_url, 'label' => Translation :: get('ChangeParent'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+        if($this->browser->show_menu())
+        {
+        	$toolbar_data[] = array('href' => $change_parent_url, 'label' => Translation :: get('ChangeParent'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+        }
         
         $allowed = $this->check_move_allowed($cloi);
         
