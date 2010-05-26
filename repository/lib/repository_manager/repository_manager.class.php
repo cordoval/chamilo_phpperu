@@ -42,7 +42,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_COMPARE_VERSION = 'compare';
     const PARAM_PUBLICATION_APPLICATION = 'publication_application';
     const PARAM_PUBLICATION_ID = 'publication';
-    const PARAM_CLOI_REF = 'cloi_ref';
+     const PARAM_CLOI_REF = 'cloi_ref';
     const PARAM_CLOI_ID = 'cloi_id';
     const PARAM_CLOI_ROOT_ID = 'cloi_root_id';
     const PARAM_CLOI_COMPLEX_REF = 'cloi_complex_ref';
@@ -97,8 +97,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_PUBLISH_CONTENT_OBJECT = 'publish';
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
-    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'build_complex';
-    const ACTION_VIEW_REPO = 'repo_viewer';
+    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'build_complex';    const ACTION_VIEW_REPO = 'repo_viewer';
     const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
     const ACTION_EXTERNAL_REPOSITORY_BROWSE = 'ext_rep_browse';
     const ACTION_EXTERNAL_REPOSITORY_EXPORT = 'ext_rep_export';
@@ -108,6 +107,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_EXTERNAL_REPOSITORY_CATALOG = 'ext_rep_catalog';
     const ACTION_BROWSE_TEMPLATES = 'templates';
     const ACTION_COPY_CONTENT_OBJECT = 'lo_copy';
+
     const ACTION_IMPORT_TEMPLATE = 'import_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
     const ACTION_DELETE_LINK = 'delete_link';
@@ -366,7 +366,7 @@ class RepositoryManager extends CoreApplication
                     Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
                     Request :: set_get(self :: PARAM_DELETE_PERMANENTLY, 1);
                     break;
-                case self :: PARAM_REMOVE_SELECTED_CLOI :
+                     case self :: PARAM_REMOVE_SELECTED_CLOI :
                     $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS);
                     Request :: set_get(self :: PARAM_CLOI_ID, $selected_ids);
                     break;
@@ -1204,25 +1204,25 @@ class RepositoryManager extends CoreApplication
         return $rdm->retrieve_complex_content_object_items($condition, $order_by, $offset, $max_objects);
     }
 
-    function retrieve_complex_content_object_item($cloi_id)
+    function retrieve_complex_content_object_item($complex_content_object_item_id)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_complex_content_object_item($cloi_id);
+        return $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
     }
 
-    function get_complex_content_object_item_edit_url($cloi, $root_id)
+    function get_complex_content_object_item_edit_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECTS, self :: PARAM_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
-    function get_complex_content_object_item_delete_url($cloi, $root_id)
+    function get_complex_content_object_item_delete_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS, self :: PARAM_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
-    function get_complex_content_object_item_move_url($cloi, $root_id, $direction)
+    function get_complex_content_object_item_move_url($complex_content_object_item, $root_id, $direction)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECTS, self :: PARAM_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ROOT_ID => $root_id, self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => Request :: get('publish')));
     }
 
     function get_browse_complex_content_object_url($object)
@@ -1231,14 +1231,14 @@ class RepositoryManager extends CoreApplication
         							self :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
     }
 
-    function get_add_existing_content_object_url($root_id, $clo_id)
+    function get_add_existing_content_object_url($root_id, $complex_content_object_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SELECT_CONTENT_OBJECTS, self :: PARAM_CLOI_ID => $clo_id, self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SELECT_CONTENT_OBJECTS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
-    function get_add_content_object_url($content_object, $cloi_id, $root_id)
+    function get_add_content_object_url($content_object, $complex_content_object_item_id, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADD_CONTENT_OBJECT, self :: PARAM_CLOI_REF => $content_object->get_id(), self :: PARAM_CLOI_ID => $cloi_id, self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADD_CONTENT_OBJECT, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_REF => $content_object->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
     function get_content_object_exporting_url($content_object)
@@ -1327,9 +1327,9 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
     }
 
-    function get_copy_content_object_url($lo_id, $to_user_id)
+    function get_copy_content_object_url($content_object_id, $to_user_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $lo_id, self :: PARAM_TARGET_USER => $to_user_id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $content_object_id, self :: PARAM_TARGET_USER => $to_user_id));
     }
 
     function get_import_template_url()
@@ -1378,8 +1378,8 @@ class RepositoryManager extends CoreApplication
         $udm = UserDataManager :: get_instance();
         $rdm = RightsDataManager :: get_instance();
 
-        $lo = $this->retrieve_content_object($content_object->get_id());
-        if ($lo->get_owner_id() == 0)
+        $content_object = $this->retrieve_content_object($content_object->get_id());
+        if ($content_object->get_owner_id() == 0)
             return true;
 
         $user = $udm->retrieve_user($user_id);
