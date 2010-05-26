@@ -17,20 +17,20 @@ require_once dirname(__FILE__) . '/complex_menu.class.php';
 abstract class ComplexBuilder
 {
     const PARAM_BUILDER_ACTION = 'builder_action';
-    const PARAM_ROOT_LO = 'root_lo';
-    const PARAM_CLOI_ID = 'cloi';
-    const PARAM_SELECTED_CLOI_ID = 'selected_cloi';
-    const PARAM_DELETE_SELECTED_CLOI = 'delete_selected_cloi';
-    const PARAM_MOVE_SELECTED_CLOI = 'move_selected_cloi';
+    const PARAM_ROOT_CONTENT_OBJECT = 'root_content_object';
+    const PARAM_COMPLEX_CONTENT_OBJECT_ITEM = 'complex_content_object_item';
+    const PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID = 'selected_complex_content_object_item';
+    const PARAM_DELETE_SELECTED_CONTENT_OBJECT_ITEM = 'delete_selected_complex_content_object_item';
+    const PARAM_MOVE_SELECTED_CONTENT_OBJECT_ITEM = 'move_selected_complex_content_object_item';
     const PARAM_TYPE = 'type';
     const PARAM_DIRECTION = 'direction';
     
-    const ACTION_DELETE_CLOI = 'delete_cloi';
-    const ACTION_VIEW_CLOI = 'view_cloi';
-    const ACTION_UPDATE_CLOI = 'update_cloi';
-    const ACTION_CREATE_CLOI = 'create_cloi';
-    const ACTION_MOVE_CLOI = 'move_cloi';
-    const ACTION_BROWSE_CLO = 'browse';
+    const ACTION_DELETE_CONTENT_OBJECT_ITEM = 'delete_content_object_item';
+    const ACTION_VIEW_CONTENT_OBJECT_ITEM = 'view_content_object_item';
+    const ACTION_UPDATE_CONTENT_OBJECT_ITEM = 'update_content_object_item';
+    const ACTION_CREATE_CONTENT_OBJECT_ITEM = 'create_content_object_item';
+    const ACTION_MOVE_CONTENT_OBJECT_ITEM = 'move_content_object_item';
+    const ACTION_BROWSE_CONTENT_OBJECT = 'browse';
     const ACTION_CHANGE_PARENT = 'change_parent';
     
     private $menu;
@@ -43,20 +43,20 @@ abstract class ComplexBuilder
         $action = Request :: get(self :: PARAM_BUILDER_ACTION);
         
         if (! $action)
-            $action = self :: ACTION_BROWSE_CLO;
+            $action = self :: ACTION_BROWSE_CONTENT_OBJECT;
         
         $this->set_action($action);
         $this->parse_input_from_table();
         
-        $root_id = Request :: get(self :: PARAM_ROOT_LO);
-        $cloi_id = Request :: get(self :: PARAM_CLOI_ID);
+        $root_id = Request :: get(self :: PARAM_ROOT_CONTENT_OBJECT);
+        $complex_object_item_id = Request :: get(self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID);
         
         $this->root = RepositoryDataManager :: get_instance()->retrieve_content_object($root_id);
-        if ($cloi_id)
+        if ($complex_object_item_id)
         {
-            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($cloi_id);
-            if ($cloi)
-                $this->cloi = $cloi;
+            $complex_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_object_item_id);
+            if ($complex_object_item)
+                $this->cloi = $complex_object_item;
         }
     
     }
@@ -68,12 +68,13 @@ abstract class ComplexBuilder
     {
         if (is_null(self :: $instance))
         {
-            $root_lo = Request :: get(self :: PARAM_ROOT_LO);
-            if ($root_lo)
+            $root_content_object = Request :: get(self :: PARAM_ROOT_CONTENT_OBJECT);
+            if ($root_content_object)
             {
-                $small_type = RepositoryDataManager :: get_instance()->determine_content_object_type($root_lo);
+                $small_type = RepositoryDataManager :: get_instance()->determine_content_object_type($root_content_object);
                 $type = Utilities :: underscores_to_camelcase($small_type);
-                $file = dirname(__FILE__) . '/' . $small_type . '/' . $small_type . '_builder.class.php';
+                //$file = dirname(__FILE__) . '/' . $small_type . '/' . $small_type . '_builder.class.php';
+                $file = Path :: get_repository_path() . '/lib/content_object/' . $small_type . '/' . $small_type . '_builder.class.php';
                 require_once $file;
                 $class = $type . 'Builder';
              	self :: $instance = new $class($parent);
@@ -89,29 +90,29 @@ abstract class ComplexBuilder
         $action = $this->get_action();
         switch ($action)
         {
-            case self :: ACTION_CREATE_CLOI :
+            case self :: ACTION_CREATE_CONTENT_OBJECT_ITEM :
                 $component = ComplexBuilderComponent :: factory(null, 'Creator', $this);
                 break;
-            case self :: ACTION_DELETE_CLOI :
+            case self :: ACTION_DELETE_CONTENT_OBJECT_ITEM :
                 $component = ComplexBuilderComponent :: factory(null, 'Deleter', $this);
                 break;
-            case self :: ACTION_UPDATE_CLOI :
+            case self :: ACTION_UPDATE_CONTENT_OBJECT_ITEM :
                 $component = ComplexBuilderComponent :: factory(null, 'Updater', $this);
                 break;
-            case self :: ACTION_MOVE_CLOI :
+            case self :: ACTION_MOVE_CONTENT_OBJECT_ITEM :
                 $component = ComplexBuilderComponent :: factory(null, 'Mover', $this);
                 break;
-            case self :: ACTION_BROWSE_CLO :
+            case self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT :
                 $component = ComplexBuilderComponent :: factory(null, 'Browser', $this);
                 break;
-            case self :: ACTION_VIEW_CLOI :
+            case self :: ACTION_VIEW_CONTENT_OBJECT_ITEM :
                 $component = ComplexBuilderComponent :: factory(null, 'Viewer', $this);
                 break;
             case self :: ACTION_CHANGE_PARENT :
             	$component = ComplexBuilderComponent :: factory(null, 'ParentChanger', $this);
                 break;
             default :
-                $this->set_action(self :: ACTION_BROWSE_CLO);
+                $this->set_action(self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT);
                 $component = ComplexBuilderComponent :: factory(null, 'Browser', $this);
         }
         
@@ -133,13 +134,13 @@ abstract class ComplexBuilder
             }
             switch ($_POST['action'])
             {
-                case self :: PARAM_DELETE_SELECTED_CLOI :
-                    $this->set_action(self :: ACTION_DELETE_CLOI);
-                    Request :: set_get(self :: PARAM_SELECTED_CLOI_ID, $selected_ids);
+                case self :: PARAM_DELETE_SELECTED_CONTENT_OBJECT_ITEM :
+                    $this->set_action(self :: ACTION_DELETE_CONTENT_OBJECT_ITEM);
+                    Request :: set_get(self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID, $selected_ids);
                     break;
-                case self :: PARAM_MOVE_SELECTED_CLOI:
+                case self :: PARAM_MOVE_SELECTED_CONTENT_OBJECT_ITEM:
                 	$this->set_action(self :: ACTION_CHANGE_PARENT);
-                	Request :: set_get(self :: PARAM_SELECTED_CLOI_ID, $selected_ids);
+                	Request :: set_get(self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID, $selected_ids);
                     break;
             }
         }
@@ -248,43 +249,43 @@ abstract class ComplexBuilder
         return $this->get_parent()->get_user_id();
     }
 
-    function get_root_lo()
+    function get_root_content_object()
     {
         return $this->root;
     }
 
-    function get_cloi()
+    function get_content_object_item()
     {
-        return $this->cloi;
+        return $this->content_object_item;
     }
 
     /**
      * Common functionality
      */
     
-    function get_clo_table_html($show_subitems_column = true, $model = null, $renderer = null)
+    function get_complex_content_object_table_html($show_subitems_column = true, $model = null, $renderer = null)
     {
-        $parameters = array(self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), self :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null));
+        $parameters = array(self :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_lo()->get_id(), self :: PARAM_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null));
         
-        if ($this->get_cloi())
+        if ($this->get_content_object_item())
         {
-            $parameters[self :: PARAM_CLOI_ID] = $this->get_cloi()->get_id();
+            $parameters[self :: PARAM_CONTENT_OBJECT_ITEM_ID] = $this->get_content_object_item()->get_id();
         }
         
-        $table = new ComplexBrowserTable($this, array_merge($this->get_parameters(), $parameters), $this->get_clo_table_condition(), $show_subitems_column, $model, $renderer);
+        $table = new ComplexBrowserTable($this, array_merge($this->get_parameters(), $parameters), $this->get_complex_content_object_table_condition(), $show_subitems_column, $model, $renderer);
         return $table->as_html();
     }
 
-    function get_clo_table_condition()
+    function get_complex_content_object_table_condition()
     {
-        if ($this->get_cloi())
+        if ($this->get_content_object_item())
         {
-            return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_cloi()->get_ref(), ComplexContentObjectItem :: get_table_name());
+            return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_content_object_item()->get_ref(), ComplexContentObjectItem :: get_table_name());
         }
         return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id(), ComplexContentObjectItem :: get_table_name());
     }
 
-    function get_clo_menu()
+    function get_complex_content_object_menu()
     {
         if (is_null($this->menu))
         {
@@ -293,7 +294,7 @@ abstract class ComplexBuilder
         return $this->menu->render_as_tree();
     }
 
-    function get_clo_breadcrumbs()
+    function get_complex_content_object_breadcrumbs()
     {
         if (is_null($this->menu))
         {
@@ -304,52 +305,52 @@ abstract class ComplexBuilder
 
     private function build_menu()
     {
-        $this->menu = new ComplexMenu($this->get_root_lo(), $this->get_cloi(), $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE_CLO)));
+        $this->menu = new ComplexMenu($this->get_root_content_object(), $this->get_content_object_item(), $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT)));
     }
 
     function get_root()
     {
-        return $this->get_root_lo()->get_id();
+        return $this->get_root_content_object()->get_id();
     }
 
     //url building
     
 
-    function get_complex_content_object_item_edit_url($cloi, $root_id)
+    function get_complex_content_object_item_edit_url($content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_CLOI, self :: PARAM_ROOT_LO => $root_id, self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_CONTENT_OBJECT_ITEM, self :: PARAM_ROOT_CONTENT_OBJECT => $root_id, self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $content_object_item->get_id(), self :: PARAM_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null), 'publish' => Request :: get('publish')));
     }
 
-    function get_complex_content_object_item_delete_url($cloi, $root_id)
+    function get_complex_content_object_item_delete_url($content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_DELETE_CLOI, self :: PARAM_ROOT_LO => $root_id, self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_DELETE_CONTENT_OBJECT_ITEM, self :: PARAM_ROOT_CONTENT_OBJECT => $root_id, self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $content_object_item->get_id(), self :: PARAM_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null), 'publish' => Request :: get('publish')));
     }
     
-	function get_complex_content_object_item_view_url($cloi, $root_id)
+	function get_complex_content_object_item_view_url($content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_VIEW_CLOI, self :: PARAM_ROOT_LO => $root_id, self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_VIEW_CONTENT_OBJECT_ITEM, self :: PARAM_ROOT_CONTENT_OBJECT => $root_id, self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $content_object_item->get_id(), self :: PARAM_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null), 'publish' => Request :: get('publish')));
     }
 
-    function get_complex_content_object_item_move_url($cloi, $root_id, $direction)
+    function get_complex_content_object_item_move_url($content_object_item, $root_id, $direction)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_MOVE_CLOI, self :: PARAM_ROOT_LO => $root_id, self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id(), self :: PARAM_DIRECTION => $direction, self :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_MOVE_CONTENT_OBJECT_ITEM, self :: PARAM_ROOT_CONTENT_OBJECT => $root_id, self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $content_object_item->get_id(), self :: PARAM_DIRECTION => $direction, self :: PARAM_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null), 'publish' => Request :: get('publish')));
     }
     
-	function get_complex_content_object_parent_changer_url($cloi, $root_id)
+	function get_complex_content_object_parent_changer_url($content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CHANGE_PARENT, self :: PARAM_ROOT_LO => $root_id, self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CHANGE_PARENT, self :: PARAM_ROOT_CONTENT_OBJECT => $root_id, self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $content_object_item->get_id(), self :: PARAM_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null), 'publish' => Request :: get('publish')));
     }
 
-    function get_action_bar($lo)
+    function get_action_bar($content_object)
     {
         $pub = Request :: get('publish');
         
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        //$types = $lo->get_allowed_types();
+        //$types = $content_object->get_allowed_types();
         /*foreach($types as $type)
 		{
-			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
+			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), ComplexBuilder :: PARAM_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item()?$this->get_content_object_item()->get_id():null), 'publish' => Request :: get('publish')));
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'content_object/' . $type . '.png', $url));
 		}*/
         
@@ -361,16 +362,16 @@ abstract class ComplexBuilder
     
     }
 
-    function get_creation_links($lo, $types = array(), $additional_links = array())
+    function get_creation_links($content_object, $types = array(), $additional_links = array())
     {
         $html[] = '<div class="category_form"><div id="content_object_selection">';
         
         if (count($types) == 0)
-            $types = $lo->get_allowed_types();
+            $types = $content_object->get_allowed_types();
         
         foreach ($types as $type)
         {
-            $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi() ? $this->get_cloi()->get_id() : null), 'publish' => Request :: get('publish')));
+            $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), ComplexBuilder :: PARAM_CONTENT_OBJECT_ITEM_ID => ($this->get_content_object_item() ? $this->get_content_object_item()->get_id() : null), 'publish' => Request :: get('publish')));
             $html[] = '<a href="' . $url . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
             $html[] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
             $html[] = '<div class="clear">&nbsp;</div>';
