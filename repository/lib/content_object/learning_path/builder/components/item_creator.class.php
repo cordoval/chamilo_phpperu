@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../learning_path_builder_component.class.php';
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 
-class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderComponent
+class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
 {
     private $rdm;
 
@@ -16,26 +16,26 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderCompone
         $trail->add_help('repository learnpath builder');
         
         $root_content_object = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
-        $cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
+        $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $publish = Request :: get('publish');
         $type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
         
         $this->rdm = RepositoryDataManager :: get_instance();
         
     	$parent = $root_content_object;
-		if ($cloi_id)
+		if ($complex_content_object_item_id)
 		{
-		    $parent_cloi = $this->rdm->retrieve_complex_content_object_item($cloi_id);
-		    $parent = $parent_cloi->get_ref();
+		    $parent_complex_content_object_item = $this->rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
+		    $parent = $parent_complex_content_object_item->get_ref();
 		}
         
-        if ($this->get_cloi())
+        if ($this->get_complex_content_object_item())
         {
-            $lo = $this->rdm->retrieve_content_object($this->get_cloi()->get_ref());
+            $content_object = $this->rdm->retrieve_content_object($this->get_complex_content_object_item()->get_ref());
         }
         else
         {
-            $lo = $this->get_root_content_object();
+            $content_object = $this->get_root_content_object();
         }
         
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
@@ -43,7 +43,7 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderCompone
         
         if (! $type)
         {
-            $type = $lo->get_allowed_types();
+            $type = $content_object->get_allowed_types();
         }
         
         $pub = new ComplexRepoViewer($this, $type);
@@ -53,7 +53,7 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderCompone
         }
         
         $pub->set_parameter(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT, $root_content_object);
-        $pub->set_parameter(ComplexBuilder :: PARAM_CLOI_ID, $cloi_id);
+        $pub->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
         $pub->set_parameter('publish', $publish);
         $pub->set_excluded_objects($exclude);
         $pub->parse_input();
@@ -87,16 +87,16 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderCompone
                 
                 $content_object->create();
                 
-                $cloi = ComplexContentObjectItem :: factory(LearningPathItem :: get_type_name());
-                $cloi->set_ref($content_object->get_id());
+                $complex_content_object_item = ComplexContentObjectItem :: factory(LearningPathItem :: get_type_name());
+                $complex_content_object_item->set_ref($content_object->get_id());
                 
-                $cloi->set_parent($parent);
-                $cloi->set_display_order($rdm->select_next_display_order($parent));
-                $cloi->set_user_id($this->get_user_id());
-                $cloi->create();
+                $complex_content_object_item->set_parent($parent);
+                $complex_content_object_item->set_display_order($rdm->select_next_display_order($parent));
+                $complex_content_object_item->set_user_id($this->get_user_id());
+                $complex_content_object_item->create();
             }
             
-            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish')));
+            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $root_content_object, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, 'publish' => Request :: get('publish')));
         }
         
         $this->display_header($trail);
@@ -108,13 +108,13 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderCompone
     {
         $items = array();
         
-        $clois = $this->rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name()));
-        while ($cloi = $clois->next_result())
+        $complex_content_object_items = $this->rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name()));
+        while ($complex_content_object_item = $complex_content_object_items->next_result())
         {
-            if ($cloi->is_complex())
+            if ($complex_content_object_item->is_complex())
             {
-                $items[] = $cloi->get_ref();
-                $items = array_merge($items, $this->retrieve_used_items($cloi->get_ref()));
+                $items[] = $complex_content_object_item->get_ref();
+                $items = array_merge($items, $this->retrieve_used_items($complex_content_object_item->get_ref()));
             }
         }
         

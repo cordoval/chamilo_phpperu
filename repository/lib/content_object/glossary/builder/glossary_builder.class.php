@@ -25,6 +25,8 @@ class GlossaryBuilder extends ComplexBuilder
 
         $component->run();
     }
+    public function get_application_component_path() {
+    }
     
 	function get_application_component_path()
 	{

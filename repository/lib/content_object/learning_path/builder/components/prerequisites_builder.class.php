@@ -7,23 +7,23 @@ require_once dirname(__FILE__) . '/../learning_path_builder_component.class.php'
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/prerequisites_builder/prerequisites_builder_form.class.php';
 
-class LearningPathBuilderPrerequisitesBuilderComponent extends LearningPathBuilderComponent
+class LearningPathBuilderPrerequisitesBuilderComponent extends LearningPathBuilder
 {
 
     function run()
     {
-        $cloi_id = Request :: get(LearningPathBuilder :: PARAM_SELECTED_CLOI_ID);
-        $parent_cloi = Request :: get(LearningPathBuilder :: PARAM_CLOI_ID);
+        $complex_content_object_item_id = Request :: get(LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+        $parent_complex_content_object_item = Request :: get(LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         
         $menu_trail = $this->get_clo_breadcrumbs();
         $trail = new BreadcrumbTrail(false);
         $trail->merge($menu_trail);
         
-        $parameters = array(LearningPathBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), LearningPathBuilder :: PARAM_CLOI_ID => $parent_cloi, LearningPathBuilder :: PARAM_SELECTED_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish'));
+        $parameters = array(LearningPathBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, 'publish' => Request :: get('publish'));
         
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('BuildPrerequisites')));
         
-        if (! $cloi_id)
+        if (! $complex_content_object_item_id)
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NoObjectSelected'));
@@ -31,8 +31,8 @@ class LearningPathBuilderPrerequisitesBuilderComponent extends LearningPathBuild
             exit();
         }
         
-        $selected_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($cloi_id);
-        $form = new PrerequisitesBuilderForm($this->get_user(), $selected_cloi, $this->get_url($parameters));
+        $selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
+        $form = new PrerequisitesBuilderForm($this->get_user(), $selected_complex_content_object_item, $this->get_url($parameters));
         
         if ($form->validate())
         {
@@ -44,7 +44,7 @@ class LearningPathBuilderPrerequisitesBuilderComponent extends LearningPathBuild
         {
             $this->display_header($trail);
             echo '<div style="width: 18%; overflow: auto; float: left;">';
-            $menu = new ComplexMenu($this->get_root_content_object(), $this->get_cloi(), '', true, false);
+            $menu = new ComplexMenu($this->get_root_content_object(), $this->get_complex_content_object_item(), '', true, false);
             echo $menu->render_as_tree();
             echo '</div>';
             echo '<div style="width: 80%; overflow: auto; float: right;">';

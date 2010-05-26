@@ -6,23 +6,23 @@
 require_once dirname(__FILE__) . '/../learning_path_builder_component.class.php';
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 
-class LearningPathBuilderMasteryScoreSetterComponent extends LearningPathBuilderComponent
+class LearningPathBuilderMasteryScoreSetterComponent extends LearningPathBuilder
 {
 
     function run()
     {
-        $cloi_id = Request :: get(LearningPathBuilder :: PARAM_SELECTED_CLOI_ID);
-        $parent_cloi = Request :: get(LearningPathBuilder :: PARAM_CLOI_ID);
+        $complex_content_object_item_id = Request :: get(LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+        $parent_complex_content_object_item = Request :: get(LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         
         $menu_trail = $this->get_clo_breadcrumbs();
         $trail = new BreadcrumbTrail(false);
         $trail->merge($menu_trail);
         
-        $parameters = array(LearningPathBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), LearningPathBuilder :: PARAM_CLOI_ID => $parent_cloi, LearningPathBuilder :: PARAM_SELECTED_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish'));
+        $parameters = array(LearningPathBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, 'publish' => Request :: get('publish'));
         
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('BuildPrerequisites')));
         
-        if (! $cloi_id)
+        if (! $complex_content_object_item_id)
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NoObjectSelected'));
@@ -30,8 +30,8 @@ class LearningPathBuilderMasteryScoreSetterComponent extends LearningPathBuilder
             exit();
         }
         
-        $selected_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($cloi_id);
-        $lp_item = RepositoryDataManager :: get_instance()->retrieve_content_object($selected_cloi->get_ref());
+        $selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
+        $lp_item = RepositoryDataManager :: get_instance()->retrieve_content_object($selected_complex_content_object_item->get_ref());
         $form = $this->get_form($this->get_url($parameters), $lp_item);
         
         if ($form->validate())

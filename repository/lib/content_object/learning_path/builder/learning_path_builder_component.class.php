@@ -13,14 +13,14 @@ class LearningPathBuilderComponent extends ComplexBuilderComponent
         return parent :: factory('LearningPath', $component_name, $builder);
     }
 
-    function get_prerequisites_url($selected_cloi)
+    function get_prerequisites_url($selected_complex_content_object_item)
     {
-        return $this->get_parent()->get_prerequisites_url($selected_cloi);
+        return $this->get_parent()->get_prerequisites_url($selected_complex_content_object_item);
     }
 
-    function get_mastery_score_url($selected_cloi)
+    function get_mastery_score_url($selected_complex_content_object_item)
     {
-        return $this->get_parent()->get_mastery_score_url($selected_cloi);
+        return $this->get_parent()->get_mastery_score_url($selected_complex_content_object_item);
     }
 }
 

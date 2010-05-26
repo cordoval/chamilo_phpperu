@@ -17,9 +17,9 @@ abstract class ComplexBuilder extends SubManager
 {
     const PARAM_BUILDER_ACTION = 'builder_action';
     const PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'cloi';
-    const PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID = 'selected_cloi';
-    const PARAM_DELETE_SELECTED_CONTENT_OBJECT_ITEM_ID = 'delete_selected_cloi';
-    const PARAM_MOVE_SELECTED_CONTENT_OBJECT_ITEM_ID = 'move_selected_cloi';
+    const PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'selected_cloi';
+    const PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'delete_selected_cloi';
+    const PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'move_selected_cloi';
     const PARAM_TYPE = 'type';
     const PARAM_DIRECTION = 'direction';
 
@@ -55,7 +55,7 @@ abstract class ComplexBuilder extends SubManager
             $this->complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
         }
 
-    	$selected_complex_content_object_item_id = Request :: get(self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID);
+    	$selected_complex_content_object_item_id = Request :: get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($selected_complex_content_object_item_id)
         {
             $this->selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($selected_complex_content_object_item_id);

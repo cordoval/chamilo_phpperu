@@ -3,7 +3,7 @@
  * $Id: learning_path_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path
  */
-require_once dirname(__FILE__) . '/learning_path_builder_component.class.php';
+//require_once dirname(__FILE__) . '/learning_path_builder_component.class.php';
 
 class LearningPathBuilder extends ComplexBuilder
 {
@@ -17,43 +17,49 @@ class LearningPathBuilder extends ComplexBuilder
         
         switch ($action)
         {
-            case ComplexBuilder :: ACTION_BROWSE_CLO :
-                $component = LearningPathBuilderComponent :: factory('Browser', $this);
+            case ComplexBuilder :: ACTION_BROWSE :
+                $component = $this->create->component('Browser');
                 break;
             case LearningPathBuilder :: ACTION_CREATE_LP_ITEM :
-                $component = LearningPathBuilderComponent :: factory('ItemCreator', $this);
+                $component = $this->create->component('ItemCreator');
                 break;
-            case self :: ACTION_DELETE_CLOI :
-                $component = LearningPathBuilderComponent :: factory('Deleter', $this);
+            case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create->component('Deleter');
                 break;
-            case self :: ACTION_UPDATE_CLOI :
-                $component = LearningPathBuilderComponent :: factory('Updater', $this);
+            case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create->component('Updater');
                 break;
             case self :: ACTION_BUILD_PREREQUISITES :
-                $component = LearningPathBuilderComponent :: factory('PrerequisitesBuilder', $this);
+                $component = $this->create->component('PrerequisitesBuilder');
                 break;
             case self :: ACTION_SET_MASTERY_SCORE :
-                $component = LearningPathBuilderComponent :: factory('MasteryScoreSetter', $this);
+                $component = $this->create->component('MasteryScoreSetter');
+                break;
+            default:
+            	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
+                $component = $this->create_component('Browser');
                 break;
         }
         
-        if (! $component)
-            parent :: run();
-        else
-            $component->run();
     }
 
-    function get_prerequisites_url($selected_cloi)
+    function get_prerequisites_url($selected_complex_content_object_item)
     {
-        $cloi_id = ($this->get_cloi()) ? ($this->get_cloi()->get_id()) : null;
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BUILD_PREREQUISITES, self :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), self :: PARAM_CLOI_ID => $cloi_id, self :: PARAM_SELECTED_CLOI_ID => $selected_cloi, 'publish' => Request :: get('publish')));
+        $complex_content_object_item_id = ($this->get_complex_content_object_item()) ? ($this->get_complex_content_object_item()->get_id()) : null;
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BUILD_PREREQUISITES, self :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID_ID => $selected_complex_content_object_item, 'publish' => Request :: get('publish')));
     }
 
-    function get_mastery_score_url($selected_cloi)
+    function get_mastery_score_url($selected_complex_content_object_item)
     {
-        $cloi_id = ($this->get_cloi()) ? ($this->get_cloi()->get_id()) : null;
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_SET_MASTERY_SCORE, self :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), self :: PARAM_CLOI_ID => $cloi_id, self :: PARAM_SELECTED_CLOI_ID => $selected_cloi, 'publish' => Request :: get('publish')));
+        $complex_content_object_item_id = ($this->get_complex_content_object_item()) ? ($this->get_complex_content_object_item()->get_id()) : null;
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_SET_MASTERY_SCORE, self :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_SELECTED_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item, 'publish' => Request :: get('publish')));
     }
+
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
+
 }
 
 ?>
