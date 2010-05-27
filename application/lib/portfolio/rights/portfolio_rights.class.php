@@ -380,7 +380,7 @@ class PortfolioRights {
         return $success;
     }
 
-   /**
+       /**
     * implements the setting of different selected rights for a location
     * @param values: array with all the information on the rights to implement
     * @param location: location for wich to implement the rights
@@ -504,6 +504,113 @@ class PortfolioRights {
              //the given location was not actually a location or could not be retrieved.
              //TODO: Need to return error message somewhere?!?!?
        }
+       return $success;
+    }
+
+
+   /**
+    * implements the setting of default rights
+    * @param values: array with all the information on the rights to implement
+    */
+    static function implement_default_rights($values)
+    {
+        $location = self::get_default_location();
+        $success = true;
+      
+        //SET VIEWING RIGHTS
+        $view_option = null;
+        if(array_key_exists(PortfolioPublicationForm::RIGHT_VIEW.'_option', $values))
+        {
+            //option-value defined for viewing?
+           $view_option =  $values[PortfolioPublicationForm::RIGHT_VIEW.'_option'];
+        }
+        $view_user = null;
+        if(array_key_exists('user', $values[PortfolioPublicationForm::RIGHT_VIEW.'_elements']))
+        {
+            //user-rights defined for viewing?
+            $view_user = $values[PortfolioPublicationForm::RIGHT_VIEW.'_elements']['user'];
+        }
+        $view_group = null;
+        if(array_key_exists('group', $values[PortfolioPublicationForm::RIGHT_VIEW.'_elements']))
+        {
+            //group-rights defined for viewing?
+            $view_group = $values[PortfolioPublicationForm::RIGHT_VIEW.'_elements']['group'];
+        }
+        if(isset($view_option))
+        {
+             $success &=  PortfolioRights::set_rights($location, PortfolioRights::VIEW_RIGHT,  $view_group, $view_user , $view_option);
+        }
+        //SET EDITING RIGHTS
+        //option-value defined for editing?
+        $edit_option = null;
+        if(array_key_exists(PortfolioPublicationForm::RIGHT_EDIT.'_option', $values))
+        {
+           $edit_option =  $values[PortfolioPublicationForm::RIGHT_EDIT.'_option'];
+        }
+        //user-rights defined for editing?
+        $edit_user = null;
+        if(array_key_exists('user', $values[PortfolioPublicationForm::RIGHT_EDIT.'_elements']))
+        {
+            $edit_user = $values[PortfolioPublicationForm::RIGHT_EDIT.'_elements']['user'];
+        }
+        //group-rights defined for editing?
+        $edit_group = null;
+        if(array_key_exists('group', $values[PortfolioPublicationForm::RIGHT_EDIT.'_elements']))
+        {
+            $edit_group = $values[PortfolioPublicationForm::RIGHT_EDIT.'_elements']['group'];
+        }
+        if(isset($edit_option))
+        {
+             $success &=  PortfolioRights::set_rights($location, PortfolioRights::EDIT_RIGHT,  $edit_group, $edit_user , $edit_option);
+        }
+        //SET FB-GIVING RIGHTS
+        //option-value defined for fb_giving?
+        $fbg_option = null;
+        if(array_key_exists(PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK.'_option', $values))
+        {
+           $fbg_option =  $values[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK.'_option'];
+        }
+        //user-rights defined for fb_giving?
+        $fbg_user = null;
+        if(array_key_exists('user', $values[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK.'_elements']))
+        {
+            $fbg_user = $values[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK.'_elements']['user'];
+        }
+        //group-rights defined for fb_giving?
+        $fbg_group = null;
+        if(array_key_exists('group', $values[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK.'_elements']))
+        {
+            $fbg_group = $values[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK.'_elements']['group'];
+        }
+        if(isset($fbg_option))
+        {
+             $success &=  PortfolioRights::set_rights($location, PortfolioRights::GIVE_FEEDBACK_RIGHT,  $fbg_group, $fbg_user , $fbg_option);
+        }
+        //SET FB-VIEWING RIGHTS
+        //option-value defined for fb_viewing?
+        $fbv_option = null;
+        if(array_key_exists(PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK.'_option', $values))
+        {
+           $fbv_option =  $values[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK.'_option'];
+        }
+        //user-rights defined for fb_viewing?
+        $fbv_user = null;
+        if(array_key_exists('user', $values[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK.'_elements']))
+        {
+            $fbv_user = $values[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK.'_elements']['user'];
+        }
+        //group-rights defined for fb_viewing?
+        $fbv_group = null;
+        if(array_key_exists('group', $values[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK.'_elements']))
+        {
+            $fbv_group = $values[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK.'_elements']['group'];
+        }
+        if(isset($fbv_option))
+        {
+            $success &= PortfolioRights::set_rights($location, PortfolioRights::VIEW_FEEDBACK_RIGHT,  $fbv_group, $fbv_user , $fbv_option);
+        }
+
+        $success &= $location->save();
        return $success;
     }
 

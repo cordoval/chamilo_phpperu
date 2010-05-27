@@ -40,7 +40,8 @@ class PortfolioManagerAdminDefaultSettingsCreatorComponent extends PortfolioMana
 
             if ($form->validate())
             {
-
+                $success = $form->create_portfolio_default_settings();
+                $this->redirect($success ? Translation :: get('PortfolioDefaultSettingsSaved') : Translation :: get('PortfolioDefaultSettingsNotSaved'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_SET_PORTFOLIO_DEFAULTS));
             }
             else
             {
