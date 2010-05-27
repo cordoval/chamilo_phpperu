@@ -11,7 +11,7 @@ require_once Path :: get_application_path() . '/lib/weblcms/browser/learningobje
  * Represents the view component for the assessment tool.
  *
  */
-class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
+class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplay
 {
     private $action_bar;
     
@@ -25,7 +25,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
         
         $dm = RepositoryDataManager :: get_instance();
         
-        $object = $this->get_root_lo();
+        $object = $this->get_root_content_object();
         
         $trail = new BreadcrumbTrail(false);
         $trail->add(new Breadcrumb($this->get_url(), $object->get_title()));
@@ -43,42 +43,42 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
             $children = $dm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object->get_id(), ComplexContentObjectItem :: get_table_name()));
             while ($child = $children->next_result())
             {
-                $lo = $dm->retrieve_content_object($child->get_ref());
-                echo $this->display_content_object($lo, $child);
+                $content_object = $dm->retrieve_content_object($child->get_ref());
+                echo $this->display_content_object($content_object, $child);
             }
         }
         
     	$this->display_footer();
     }
 
-    function display_content_object($lo, $cloi)
+    function display_content_object($content_object, $complex_content_object_item)
     {
         $html[] = '<div class="title" style="background-color: #e6e6e6; border: 1px solid grey; padding: 5px; font-weight: bold; color: #666666">';
         $html[] = '<div style="padding-top: 1px; float: left">';
-        $html[] = $lo->get_title();
+        $html[] = $content_object->get_title();
         $html[] = '</div>';
         $html[] = '<div style="float: right">';
-        $html[] = $this->get_actions($cloi);
+        $html[] = $this->get_actions($complex_content_object_item);
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp</div>';
         $html[] = '</div>';
         $html[] = '<div class="description">';
-        $html[] = $lo->get_description();
+        $html[] = $content_object->get_description();
         $html[] = '</div><br />';
         
         return implode("\n", $html);
     }
 
-    function get_actions($cloi)
+    function get_actions($complex_content_object_item)
     {
         if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
         {
-            $actions[] = array('href' => $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_cloi' => $cloi->get_id(), 'pid' => Request :: get('pid'))), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $actions[] = array('href' => $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_complex_content_object_item' => $complex_content_object_item->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         }
         
         if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
         {
-            $actions[] = array('href' => $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'selected_cloi' => $cloi->get_id(), 'pid' => Request :: get('pid'))), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+            $actions[] = array('href' => $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'selected_complex_content_object_item' => $complex_content_object_item->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         }
         
         return Utilities :: build_toolbar($actions);
@@ -97,17 +97,17 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE, 'pid' => Request :: get('pid'), 'type' => GlossaryItem :: get_type_name(), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE, 'type' => GlossaryItem :: get_type_name(), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsTable'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('pid' => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsList'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('pid' => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsTable'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsList'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
     }
 
     function get_condition()
     {
-        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id(), ComplexContentObjectItem :: get_table_name());
+        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_content_object()->get_id(), ComplexContentObjectItem :: get_table_name());
     }
 }
 

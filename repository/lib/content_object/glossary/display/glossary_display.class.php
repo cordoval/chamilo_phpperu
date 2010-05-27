@@ -26,14 +26,19 @@ class GlossaryDisplay extends ComplexDisplay
             switch ($action)
             {
                 case self :: ACTION_VIEW_GLOSSARY :
-                    $component = GlossaryDisplayComponent :: factory('GlossaryViewer', $this);
+                    $component = $this->create_component('GlossaryViewer');
                     break;
                 default :
-                    $component = GlossaryDisplayComponent :: factory('GlossaryViewer', $this);
+                    $component = create_component('GlossaryViewer');
             }
         }
         
         $component->run();
+    }
+
+    function get_application_component_path()
+    {
+		return dirname(__FILE__) . '/component/';
     }
 }
 ?>
