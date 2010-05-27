@@ -51,8 +51,7 @@ function getUtilities(type, parameters)
 	}
 	
 	parameters.type = type;
-	
-	response = doAjaxPost("./common/javascript/ajax/utilities.php", parameters);
+	response = doAjaxPost(rootWebPath + "common/javascript/ajax/utilities.php", parameters);
 	return eval('(' + response + ')');
 }
 

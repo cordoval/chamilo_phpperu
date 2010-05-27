@@ -197,6 +197,7 @@ class Display
         //        $header->add_javascript_file_header(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/fckeditor/fckeditor.js');
         $header->set_page_title(PlatformSetting :: get('site_name'));
         $header->add_html_header('<style type="text/css">body {background-color:white; padding: 10px;}</style>');
+        $header->add_html_header('<script type="text/javascript">var rootWebPath="' . Path :: get(WEB_PATH) . '"</script>');
         $header->display();
 
         echo '<body>' . "\n";
