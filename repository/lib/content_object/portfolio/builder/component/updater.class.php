@@ -12,8 +12,8 @@ class PortfolioBuilderUpdaterComponent extends PortfolioBuilder
 
     function run()
     {
-         $this->complex_builder_browser_component = ComplexBuilderComponent::factory(ComplexBuilderComponent::UPDATER_COMPONENT, $this);
-        $trail = new BreadcrumbTrail();
+        $this->complex_builder_browser_component = ComplexBuilderComponent::factory(ComplexBuilderComponent::UPDATER_COMPONENT, $this);
+        $trail = BreadcrumbTrail :: get_instance();
         
         $root_content_object = $this->get_root_content_object();
         $complex_content_object_item_id = Request :: get(PortfolioBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
@@ -73,7 +73,7 @@ class PortfolioBuilderUpdaterComponent extends PortfolioBuilder
         }
         else
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('repository learnpath builder');
             $this->display_header($trail);
             echo $content_object_form->toHTML();
