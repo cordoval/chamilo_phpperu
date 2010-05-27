@@ -30,8 +30,6 @@ class GlossaryViewerTableColumnModel extends ObjectTableColumnModel
     function get_columns()
     {
         $columns = array();
-        //$columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(GlossaryItem :: PROPERTY_TITLE)));
-        //$columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(GlossaryItem :: PROPERTY_DESCRIPTION)));
         $alias = RepositoryDataManager :: get_instance()->get_alias(ContentObject :: get_table_name());
         $columns[] = new ObjectTableColumn(GlossaryItem :: PROPERTY_TITLE, true, $alias);
         $columns[] = new ObjectTableColumn(GlossaryItem :: PROPERTY_DESCRIPTION, true, $alias);
@@ -47,7 +45,7 @@ class GlossaryViewerTableColumnModel extends ObjectTableColumnModel
     {
         if (! isset(self :: $action_column))
         {
-            self :: $action_column = new ObjectTableColumn();
+            self :: $action_column = new StaticTableColumn();
         }
         return self :: $action_column;
     }
