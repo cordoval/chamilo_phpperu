@@ -104,7 +104,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
      */
     protected function get_modification_links($cloi, $additional_toolbar_items = array(), $no_move = false)
     {
-        $toolbar_data = array();
+    	$toolbar_data = array();
         
         $edit_url = $this->browser->get_complex_content_object_item_edit_url($cloi->get_id());
         $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');

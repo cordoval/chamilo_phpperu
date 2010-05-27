@@ -37,14 +37,14 @@ public function get_elements()
         return parent :: create_complex_content_object_item();
     }
 
-    function create_cloi_from_values($values)
+    function create_complex_content_object_item_from_values($values)
     {
         $cloi = $this->get_complex_content_object_item();
         $cloi->set_weight($values[ComplexAssessmentOpenQuestion :: PROPERTY_WEIGHT]);
         return parent :: create_complex_content_object_item();
     }
 
-    function update_cloi_from_values($values)
+    function update_complex_content_object_item_from_values($values)
     {
         $cloi = $this->get_complex_content_object_item();
         $cloi->set_weight($values[ComplexAssessmentOpenQuestion :: PROPERTY_WEIGHT]);
