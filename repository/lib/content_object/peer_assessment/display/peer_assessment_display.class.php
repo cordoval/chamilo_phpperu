@@ -3,7 +3,7 @@
 class PeerAssessmentDisplay extends ComplexDisplay
 {
 	const ACTION_TAKE_PEER_ASSESSMENT = 'take_publication';
-    const ACTION_VIEW_PEER_ASSESSMENT = 'view_publication_results';
+    const ACTION_VIEW_PEER_ASSESSMENT_RESULTS = 'view_publication_results';
     
     function run()
     {
@@ -14,7 +14,7 @@ class PeerAssessmentDisplay extends ComplexDisplay
             case self :: ACTION_TAKE_PEER_ASSESSMENT :
                     $component = $this->create_component('PeerAssessmentViewer');
                     break;
-            case self :: ACTION_VIEW_PEER_ASSESSMENT :
+            case self :: ACTION_VIEW_PEER_ASSESSMENT_RESULTS :
                     $component = $this->create_component('PeerAssessmentResultViewer');
                     break;
                 default :
