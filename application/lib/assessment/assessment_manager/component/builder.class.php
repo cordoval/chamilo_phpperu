@@ -10,14 +10,16 @@ require_once dirname(__FILE__) . '/assessment_publication_browser/assessment_pub
 
 class AssessmentManagerBuilderComponent extends AssessmentManager
 {
+	private $content_object;
+	
     function run()
     {
     	$publication_id = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
     	$publication = AssessmentDataManager :: get_instance()->retrieve_assessment_publication($publication_id);
+    	$this->content_object = RepositoryDataManager::get_instance()->retrieve_content_object($publication->get_content_object());
     	$this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $publication_id);
-    	Request :: set_get(ComplexBuilder :: PARAM_ROOT_LO, $publication->get_content_object());
     	
-    	$complex_builder = ComplexBuilder :: factory($this);
+    	$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
     	$complex_builder->run();
     }
     
@@ -28,6 +30,11 @@ class AssessmentManagerBuilderComponent extends AssessmentManager
     	
     	$new_trail->merge($trail);
     	parent :: display_header($new_trail);
+    }
+    
+	function get_root_content_object()
+    {
+    	return $this->content_object;
     }
 }
 ?>
