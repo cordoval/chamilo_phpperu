@@ -12,7 +12,6 @@ class ForumTopicBuilderDeleterComponent extends ForumTopicBuilder
     function run()
     {
         $ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-        $root = Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
         
         $failures = 0;
         
@@ -72,12 +71,12 @@ class ForumTopicBuilderDeleterComponent extends ForumTopicBuilder
                 }
             }
    
-            $count = $repositor_data_manager->count_content_objects(new EqualityCondition(ContentObject :: PROPERTY_ID, $root));
+            $count = $repositor_data_manager->count_content_objects(new EqualityCondition(ContentObject :: PROPERTY_ID, $this->get_root_content_object_id()));
             
             if($count == 1)
-            	$this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT));
+            	$this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE));
             else
-            	$this->redirect(Translation :: get($message), $failures ? true : false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS), array(ComplexBuilder :: PARAM_BUILDER_ACTION));
+            	$this->redirect(Translation :: get($message), $failures ? true : false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
         }
         else
         {
