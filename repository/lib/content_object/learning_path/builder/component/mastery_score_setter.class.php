@@ -3,8 +3,6 @@
  * $Id: mastery_score_setter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path.component
  */
-require_once dirname(__FILE__) . '/../learning_path_builder_component.class.php';
-require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 
 class LearningPathBuilderMasteryScoreSetterComponent extends LearningPathBuilder
 {
@@ -14,7 +12,7 @@ class LearningPathBuilderMasteryScoreSetterComponent extends LearningPathBuilder
         $complex_content_object_item_id = Request :: get(LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $parent_complex_content_object_item = Request :: get(LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         
-        $menu_trail = $this->get_clo_breadcrumbs();
+        $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = BreadcrumbTrail :: get_instance();
         $trail->merge($menu_trail);
         
