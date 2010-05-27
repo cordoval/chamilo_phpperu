@@ -13,10 +13,10 @@ class ForumBrowserTableColumnModel extends ComplexBrowserTableColumnModel
     /**
      * Constructor
      */
-    function ForumBrowserTableColumnModel($show_subitems_column)
+    function ForumBrowserTableColumnModel($browser)
     {
         $columns[] = new StaticTableColumn(Translation :: get('AddDate'));
-        parent :: __construct($show_subitems_column, $columns);
+        parent :: __construct($browser, $columns);
     }
 }
 ?>

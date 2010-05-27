@@ -70,7 +70,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
                 
                 if ($content_object->is_complex_content_object())
                 {
-                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $cloi->get_id())) . '">' . $title_short . '</a>';
+                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $cloi->get_id())) . '">' . $title_short . '</a>';
                 }
         		else
                 {

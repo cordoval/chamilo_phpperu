@@ -41,9 +41,6 @@ class ForumBuilder extends ComplexBuilder
             case ComplexBuilder :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM : 
             	$component = $this->create_component('Viewer');
                 break;
-            case ComplexBuilder :: ACTION_CHANGE_PARENT : 
-            	$component = $this->create_component('ParentChanger');
-                break;
             case self :: ACTION_STICKY_COMPLEX_CONTENT_OBJECT_ITEM :
                 $component = $this->create_component('Sticky');
                 break;
@@ -88,17 +85,22 @@ class ForumBuilder extends ComplexBuilder
 
     function get_complex_content_object_item_sticky_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_STICKY_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item()->get_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_STICKY_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
     }
 
     function get_complex_content_object_item_important_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_IMPORTANT_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item()->get_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
+        return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_IMPORTANT_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
     }
  
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
+	}
+ 
+	function show_menu()
+	{
+		return false;
 	}
 }
 

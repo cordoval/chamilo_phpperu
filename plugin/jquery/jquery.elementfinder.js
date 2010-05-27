@@ -360,15 +360,17 @@
 				processFinderTree();
 			}
 			
-			function showElementFinder()
+			function showElementFinder(e)
 			{
+				e.preventDefault();
 				$(this).hide();
 				$('#' + settings.name + '_collapse_button').show();
 				$('#tbl_' + settings.name).show();
 			}
 			
-			function hideElementFinder()
+			function hideElementFinder(e)
 			{
+				e.preventDefault();
 				$(this).hide();
 				$('#' + settings.name + '_expand_button').show();
 				$('#tbl_' + settings.name).hide();

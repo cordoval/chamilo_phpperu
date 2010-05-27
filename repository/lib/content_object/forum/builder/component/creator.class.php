@@ -11,9 +11,6 @@ class ForumBuilderCreatorComponent extends ForumBuilder
 
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: CREATOR_COMPONENT, $this);
-        $browser->run();
-        /*
         $trail = new BreadcrumbTrail(false);
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail->merge($menu_trail);
@@ -28,7 +25,7 @@ class ForumBuilderCreatorComponent extends ForumBuilder
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('Add' . Utilities :: underscores_to_camelcase($type))));
 
         $this->repository_data_manager = RepositoryDataManager :: get_instance();
-
+        $parent = $this->get_root_content_object_id();
         if ($complex_content_object_item_id)
         {
             $parent_complex_content_object_item = $this->repository_data_manager->retrieve_complex_content_object_item($complex_content_object_item_id);
@@ -84,19 +81,21 @@ class ForumBuilderCreatorComponent extends ForumBuilder
                 $type = $repository_data_manager->determine_content_object_type($obj);
 
                 $complex_content_object_item = ComplexContentObjectItem :: factory($type);
+                
                 $complex_content_object_item->set_ref($obj);
 
                 $complex_content_object_item->set_parent($parent);
+                
                 if ($type == Forum :: get_type_name())
                 {
-                    $complex_content_object_item->set_display_order($repository_data_manager->select_next_display_order($parent));
+                    $complex_content_object_item->set_display_order($repository_data_manager->select_next_display_order_forum($parent));
                 }
                 $complex_content_object_item->set_user_id($this->get_user_id());
                 $complex_content_object_item->create();
+             
             }
 
-           $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECT, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
-        }
+           $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));        }
 
         $this->display_header($trail);
         echo '<br />' . implode("\n", $html);
@@ -116,9 +115,7 @@ class ForumBuilderCreatorComponent extends ForumBuilder
                 $items = array_merge($items, $this->retrieve_used_items($complex_content_object_item->get_ref()));
             }
         }
-
         return $items;
-    */
     }
     
 }

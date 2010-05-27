@@ -14,11 +14,7 @@ class ForumBuilderBrowserComponent extends ForumBuilder
 {
 
     function run()
-    {      
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
-        
-        $browser->run();
-        /*
+    {   
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = new BreadcrumbTrail(false);
         $trail->merge($menu_trail);
@@ -34,14 +30,6 @@ class ForumBuilderBrowserComponent extends ForumBuilder
         }
         
         $this->display_header($trail);
-        $action_bar = $this->get_action_bar($content_object);
-        
-        echo '<br />';
-        if ($action_bar)
-        {
-            echo $action_bar->as_html();
-            echo '<br />';
-        }
         
         $display = ContentObjectDisplay :: factory($this->get_root_content_object());
         echo $display->get_full_html();
@@ -55,12 +43,11 @@ class ForumBuilderBrowserComponent extends ForumBuilder
         echo '<div class="clear">&nbsp;</div>';
         
         $this->display_footer();
-        */
     }
 
     function get_table_html()
     {
-        /*
+        
         $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => ($this->get_complex_content_object_item() ? $this->get_complex_content_object_item()->get_id() : null));
         
         if ($this->get_complex_content_object_item())
@@ -77,7 +64,7 @@ class ForumBuilderBrowserComponent extends ForumBuilder
 	        $condition = new AndCondition($conditions);
 	        
 	        $html[] = '<h3>' . Translation :: get('Posts') . '</h3>';
-	        $table = new ComplexBrowserTable($this->get_parent(), array_merge($this->get_parameters(), $parameters), $condition, true, new ForumPostBrowserTableColumnModel(true), new ForumPostBrowserTableCellRenderer($this->get_parent(), $condition));
+	        $table = new ComplexBrowserTable($this, array_merge($this->get_parameters(), $parameters), $condition, true, new ForumPostBrowserTableColumnModel($this), new ForumPostBrowserTableCellRenderer($this, $condition));
 	        $html[] = $table->as_html();
         }
         else 
@@ -89,7 +76,7 @@ class ForumBuilderBrowserComponent extends ForumBuilder
 	        $condition = new AndCondition($conditions);
 	        
 	        $html[] = '<h3>' . Translation :: get('Forums') . '</h3>';
-	        $table = new ComplexBrowserTable($this->get_parent(), array_merge($this->get_parameters(), $parameters), $condition, true, null, null, 'forum_table');
+	        $table = new ComplexBrowserTable($this, array_merge($this->get_parameters(), $parameters), $condition, true, null, null, 'forum_table');
 	        $html[] = $table->as_html();
 	        
 	        $conditions = array();
@@ -99,12 +86,11 @@ class ForumBuilderBrowserComponent extends ForumBuilder
 	        $condition = new AndCondition($conditions);
 	        
 	        $html[] = '<br /><h3>' . Translation :: get('ForumTopics') . '</h3>';
-	        $table = new ComplexBrowserTable($this->get_parent(), array_merge($this->get_parameters(), $parameters), $condition, true, new ForumBrowserTableColumnModel(true), new ForumBrowserTableCellRenderer($this->get_parent(), $condition), 'topic_table');
+	        $table = new ComplexBrowserTable($this, array_merge($this->get_parameters(), $parameters), $condition, true, new ForumBrowserTableColumnModel($this), new ForumBrowserTableCellRenderer($this, $condition), 'topic_table');
 	        $html[] = $table->as_html();
         }
         
         return implode("\n", $html);
-        */
     }
 }
 

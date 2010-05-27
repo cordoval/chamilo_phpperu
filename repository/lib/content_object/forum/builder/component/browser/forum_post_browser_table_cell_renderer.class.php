@@ -26,11 +26,10 @@ class ForumPostBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         {
             return $this->get_modification_links($complex_content_object_item);
         }
-        
     	switch ($column->get_name())
         {
             case Translation :: get('AddDate') :
-                return $complex_content_object_item->get_add_date();
+                return DatetimeUtilities :: format_locale_date(null,$complex_content_object_item->get_add_date());
         }
         
         return parent :: render_cell($column, $complex_content_object_item);
