@@ -12,7 +12,7 @@ class PeerAssessmentDisplay extends ComplexDisplay
         
         if (! $component)
         {
-            $action = Request :: get('go');
+            $action = $this->get_action();
             
             switch ($action)
             {
