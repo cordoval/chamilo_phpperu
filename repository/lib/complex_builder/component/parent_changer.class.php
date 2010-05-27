@@ -61,8 +61,11 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
                         {
                             $old_parent = $complex_content_object_item->get_parent();
                         }
+                        $children = array();
+                        $ref = $complex_content_object_item->get_ref();
+                        $children = $this->get_children_from_content_object($ref, null, $children, $level = 1);
 
-                        if($complex_content_object_item->get_ref() != $parent)
+                        if($ref != $parent && !array_key_exists($selected_parent, $children))
                         {
                             $complex_content_object_item->set_parent($parent);
                             $complex_content_object_item->set_display_order($rdm->select_next_display_order($parent));
