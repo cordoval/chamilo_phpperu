@@ -1150,7 +1150,17 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return new DatabaseComplexContentObjectItemResultSet($this, $res, true);
         //return $this->retrieve_objects('complex_content_object_item', $condition, $offset, $max_objects, $order_by, 'DatabaseComplexContentObjectItemResultSet');
     }
-
+    
+    function select_next_display_order_forum($parent_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent_id);
+        $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Forum :: get_type_name());
+	    $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
+	    $condition = new AndCondition($conditions);
+        return $this->retrieve_next_sort_value(ComplexContentObjectItem :: get_table_name(), ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, $condition);
+    }
+    
     function select_next_display_order($parent_id)
     {
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent_id);
