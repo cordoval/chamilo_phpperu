@@ -55,7 +55,7 @@ class ComplexMenu extends HTML_Menu
      */
     function ComplexMenu($root, $cloi, $url_format = '?application=repository&go=build_complex&builder_action=browse', $view_entire_structure = false, $show_url = true)
     {
-        $url_format .= '&cloi=%s&root_lo=%s';
+        $url_format .= '&cloi=%s';
         $this->view_entire_structure = $view_entire_structure;
         $extra = array('publish');
 
@@ -117,20 +117,30 @@ class ComplexMenu extends HTML_Menu
 
         while ($cloi = $clois->next_result())
         {
-            if ($cloi->is_complex() || $this->view_entire_structure)
+        	$lo = $datamanager->retrieve_content_object($cloi->get_ref());
+
+            if($lo->get_type() == LearningPathItem :: get_type_name())
             {
-                $lo = $datamanager->retrieve_content_object($cloi->get_ref());
-
-                if($lo->get_type() == LearningPathItem :: get_type_name())
-                {
-                	$lo = $datamanager->retrieve_content_object($lo->get_reference());
-                }
-
+                $lo = $datamanager->retrieve_content_object($lo->get_reference());
+                $url = $this->get_build_complex_url($lo);
+            }
+                
+        	if ($lo->is_complex_content_object() || $this->view_entire_structure)
+            {
                 $menu_item = array();
                 $menu_item['title'] = $lo->get_title();
 
                 if($this->show_url)
-                	$menu_item['url'] = $this->get_cloi_url($cloi);
+                {
+                	if($url)
+                	{
+                		$menu_item['onclick'] = 'javascript:openPopup(\'' . $url . '\'); return false;';
+                	}
+                	else
+                	{
+                		$menu_item['url'] = $this->get_cloi_url($cloi);
+                	}
+                }
 
                 $sub_menu_items = $this->get_menu_items($cloi->get_ref());
                 if (count($sub_menu_items) > 0)
@@ -156,6 +166,11 @@ class ComplexMenu extends HTML_Menu
             return htmlentities(sprintf($new, $this->root->get_id()));
         }
         return htmlentities(sprintf($this->urlFmt, $cloi->get_id(), $this->root->get_id()));
+    }
+    
+    private function get_build_complex_url($object)
+    {
+    	return Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=complex_builder&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $object->get_id();
     }
 
     /**

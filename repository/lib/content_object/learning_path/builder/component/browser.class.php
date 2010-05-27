@@ -3,9 +3,6 @@
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path.component
  */
-//require_once dirname(__FILE__) . '/../learning_path_builder_component.class.php';
-require_once dirname(__FILE__).'/../../../../complex_builder/complex_builder_component.class.php';
-//require_once dirname(__FILE__).'/../../../../complex_builder/component/browser.class.php';
 require_once dirname(__FILE__) . '/browser/learning_path_browser_table_cell_renderer.class.php';
 
 class LearningPathBuilderBrowserComponent extends LearningPathBuilder

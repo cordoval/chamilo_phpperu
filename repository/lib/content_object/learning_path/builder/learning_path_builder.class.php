@@ -10,7 +10,7 @@ class LearningPathBuilder extends ComplexBuilder
     const ACTION_CREATE_LP_ITEM = 'create_item';
     const ACTION_BUILD_PREREQUISITES = 'prerequisites';
     const ACTION_SET_MASTERY_SCORE = 'mastery_score';
-
+    
     function run()
     {
         $action = $this->get_action();

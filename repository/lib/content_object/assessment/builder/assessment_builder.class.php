@@ -3,7 +3,6 @@
  * $Id: assessment_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment
  */
-require_once Path :: get_repository_path() . 'lib/complex_builder/assessment/assessment_builder_component.class.php';
 require_once dirname(__FILE__) . '/component/assessment_merger/object_browser_table.class.php';
 
 class AssessmentBuilder extends ComplexBuilder

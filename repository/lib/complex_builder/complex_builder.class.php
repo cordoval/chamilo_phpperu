@@ -32,7 +32,7 @@ abstract class ComplexBuilder extends SubManager
     const ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM = 'move_cloi';
     const ACTION_CHANGE_PARENT = 'change_parent';
 
-    private $menu;
+    protected $menu;
 
     /**
      * The current item in treemenu to determine where we are in the structure
@@ -190,7 +190,7 @@ abstract class ComplexBuilder extends SubManager
         return $this->menu->get_breadcrumbs();
     }
 
-    private function build_complex_content_object_menu()
+    protected function build_complex_content_object_menu()
     {
         $this->menu = new ComplexMenu($this->get_root_content_object(), $this->get_complex_content_object_item(),
         							  $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BROWSE)));

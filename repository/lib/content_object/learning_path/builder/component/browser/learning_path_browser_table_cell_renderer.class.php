@@ -67,6 +67,18 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
                 {
                     $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id())) . '">' . $title_short . '</a>';
                 }
+                else
+                {
+	        		if ($content_object->is_complex_content_object())
+	                {
+	                    $url = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=complex_builder&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $content_object->get_id();
+	                	$title_short = '<a href="#" onclick="javascript:openPopup(\'' . $url . '\'); return false">' . $title_short . '</a>';
+	                }
+	                else
+	                {
+	                	$title_short = '<a href="' . $this->browser->get_complex_content_object_item_view_url($complex_content_object_item->get_id()) . '">' . $title_short . '</a>';
+	                }
+                }
 
                 return $title_short;
         }
