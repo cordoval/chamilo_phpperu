@@ -54,6 +54,7 @@ class AssessmentPublisher
 
         $parameters = $this->parent->get_parameters();
         $parameters[RepoViewer::PARAM_ID] = $ids;
+        $parameters[RepoViewer::PARAM_ACTION] = RepoViewer :: ACTION_PUBLISHER;
 
         $form = new AssessmentPublicationForm(AssessmentPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url($parameters));
         if ($form->validate())
