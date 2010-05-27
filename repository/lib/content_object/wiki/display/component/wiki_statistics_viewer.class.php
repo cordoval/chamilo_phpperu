@@ -10,9 +10,9 @@
  * Author: Nick De Feyter
  */
 
-require_once Path :: get_repository_path() . '/lib/complex_display/wiki/wiki_display.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/wiki/display/wiki_display.class.php';
 
-class WikiDisplayWikiStatisticsViewerComponent extends WikiDisplayComponent
+class WikiDisplayWikiStatisticsViewerComponent extends WikiDisplay
 {
 
     function run()

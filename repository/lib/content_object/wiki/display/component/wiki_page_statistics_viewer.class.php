@@ -12,7 +12,7 @@
 
 require_once Path :: get_repository_path() . '/lib/complex_display/wiki/wiki_display.class.php';
 
-class WikiDisplayWikiPageStatisticsViewerComponent extends WikiDisplayComponent
+class WikiDisplayWikiPageStatisticsViewerComponent extends WikiDisplay
 {
 
     function run()

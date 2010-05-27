@@ -9,13 +9,13 @@
  * Author: Nick De Feyter
  */
 
-class WikiDisplayWikiHomepageSetterComponent extends WikiDisplayComponent
+class WikiDisplayWikiHomepageSetterComponent extends WikiDisplay
 {
 
     function run()
     {
         $dm = RepositoryDataManager :: get_instance();
-        $page = $dm->retrieve_complex_content_object_item(Request :: get('selected_cloi'));
+        $page = $dm->retrieve_complex_content_object_item(Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID));
         /*
          *  If the wiki_page isn't empy the homepage will be set
          */

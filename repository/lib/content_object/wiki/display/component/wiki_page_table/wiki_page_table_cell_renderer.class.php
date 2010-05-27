@@ -5,7 +5,7 @@
  */
 require_once Path :: get_repository_path() . 'lib/content_object_table/default_content_object_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/wiki_page_table_column_model.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_display.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
@@ -13,9 +13,9 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {
     private $table_actions;
     private $browser;
-    private $dm;
-    private $pid;
-    private $cid;
+    private $datamanager;
+    private $publication_id;
+    private $complex_id;
 
     /**
      * Constructor.
@@ -28,7 +28,7 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
     {
         $this->table_actions = array();
         $this->browser = $browser;
-        $this->dm = RepositoryDataManager :: get_instance();
+        $this->datamanager = RepositoryDataManager :: get_instance();
 
     }
 
@@ -42,10 +42,10 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
             return $this->get_actions($publication);
         }
 
-        $this->pid = Request :: get('pid');
+        $this->publication_id = Request :: get('publication_id');
 
-        $wiki_page = $this->get_publication_from_clo_item($publication);
-        $this->cid = $publication->get_id();
+        $wiki_page = $this->get_publication_from_complex_content_object_item($publication);
+        $this->complex_id = $publication->get_id();
 
         if ($publication->get_additional_property('is_homepage') == 1)
         {
@@ -59,7 +59,7 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
                 switch ($property)
                 {
                     case ContentObject :: PROPERTY_TITLE :
-                        return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $this->cid)) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>' . $homepage;
+                        return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>' . $homepage;
                     case Translation :: get('Versions') :
                         return $wiki_page->get_version_count();
                     case ContentObject :: PROPERTY_DESCRIPTION :
@@ -77,18 +77,18 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
         //if(!WikiTool ::is_wiki_locked($publication->get_parent()))
 
 
-        if ($this->browser->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
+        if ($this->browser->get_parent()->is_allowed(DELETE_RIGHT))
         {
-            $actions[] = array('href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE, 'selected_cloi' => $publication->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+            $actions[] = array('href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $publication->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
         }
 
-        if ($this->browser->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+        if ($this->browser->get_parent()->is_allowed(EDIT_RIGHT))
         {
-            $actions[] = array('href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE, 'selected_cloi' => $publication->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $actions[] = array('href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $publication->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
 
             if (($publication->get_additional_property('is_homepage') == 0))
             {
-                $actions[] = array('href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_SET_AS_HOMEPAGE, 'selected_cloi' => $this->cid)), 'label' => Translation :: get('SetAsHomepage'), 'img' => Theme :: get_common_image_path() . 'action_home.png');
+                $actions[] = array('href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_SET_AS_HOMEPAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)), 'label' => Translation :: get('SetAsHomepage'), 'img' => Theme :: get_common_image_path() . 'action_home.png');
             }
             else
             {
@@ -140,9 +140,9 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
         return Utilities :: build_toolbar($toolbar_data);
     }
 
-    private function get_publication_from_clo_item($clo_item)
+    private function get_publication_from_complex_content_object_item($clo_item)
     {
-        $publication = $this->dm->retrieve_content_objects(new EqualityCondition(ContentObject :: PROPERTY_ID, $clo_item->get_default_property(ComplexContentObjectItem :: PROPERTY_REF), ContentObject :: get_table_name()))->as_array();
+        $publication = $this->datamanager->retrieve_content_objects(new EqualityCondition(ContentObject :: PROPERTY_ID, $clo_item->get_default_property(ComplexContentObjectItem :: PROPERTY_REF), ContentObject :: get_table_name()))->as_array();
         return $publication[0];
     }
 }

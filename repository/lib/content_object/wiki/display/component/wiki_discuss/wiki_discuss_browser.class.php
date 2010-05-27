@@ -32,7 +32,7 @@ class WikiDiscussBrowser extends ContentObjectPubFeedbackBrowser
             {
                 $datamanager = RepositoryDataManager :: get_instance();
                 $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_PUBLICATION_ID, $this->publication_id);
-                $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_CLOI_ID, $this->cid);
+                $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->complex_id);
                 if ($this->get_parent()->get_condition())
                     $conditions[] = $this->get_parent()->get_condition();
                 $condition = new AndCondition($conditions);
