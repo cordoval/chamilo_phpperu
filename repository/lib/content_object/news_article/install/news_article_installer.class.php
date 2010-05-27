@@ -3,7 +3,7 @@
  * $Id: news_article_installer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.install
  */
-class NewsArticleInstaller extends ContentObjectInstaller
+class NewsArticleContentObjectInstaller extends ContentObjectInstaller
 {
     function get_path()
     {
