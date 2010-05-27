@@ -8,11 +8,6 @@
  */
 class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
 {
-    /**
-     * The user id of the current active user.
-     */
-    private $owner;
-    
     private $parent;
 
     /**
@@ -22,9 +17,8 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
      * selected.
      * @param string $query The search query.
      */
-    function GlossaryViewerTableDataProvider($parent, $owner)
+    function GlossaryViewerTableDataProvider($parent)
     {
-        $this->owner = $owner;
         $this->parent = $parent;
     }
 
