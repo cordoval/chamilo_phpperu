@@ -4,7 +4,7 @@
  * @package repository.lib.content_object.wiki
  */
 require_once dirname(__FILE__) . '/wiki.class.php';
-require_once Path :: get_repository_path() . '/lib/complex_display/wiki/wiki_parser.class.php';
+require_once dirname(__FILE__) . '/display/wiki_parser.class.php';
 
 class WikiForm extends ContentObjectForm
 {
