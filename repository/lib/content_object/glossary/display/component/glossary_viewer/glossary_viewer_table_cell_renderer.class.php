@@ -38,10 +38,10 @@ class GlossaryViewerTableCellRenderer extends DefaultContentObjectTableCellRende
         {
             return $this->get_actions($glossary_item);
         }
-        
+
         if (! $this->glossary_item || $this->glossary_item->get_id() != $glossary_item->get_ref())
             $this->glossary_item = $this->dm->retrieve_content_object($glossary_item->get_ref(), GlossaryItem :: get_type_name());
-        
+
         switch ($column->get_name())
         {
             case GlossaryItem :: PROPERTY_TITLE :
@@ -55,14 +55,14 @@ class GlossaryViewerTableCellRenderer extends DefaultContentObjectTableCellRende
     {
         if ($this->browser->is_allowed(EDIT_RIGHT))
         {
-            $actions[] = array('href' => $this->browser->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_complex_content_object_item' => $glossary_item->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $actions[] = array('href' => $this->browser->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, 'selected_complex_content_object_item' => $glossary_item->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         }
-        
+
         if ($this->browser->is_allowed(DELETE_RIGHT))
         {
-            $actions[] = array('href' => $this->browser->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'selected_complex_content_object_item' => $glossary_item->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+            $actions[] = array('href' => $this->browser->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, 'selected_complex_content_object_item' => $glossary_item->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         }
-        
+
         return Utilities :: build_toolbar($actions);
     }
 
