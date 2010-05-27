@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/assessment_merger/object_browser_table.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/assessment/assessment.class.php';
 
-class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderComponent
+class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilder
 {
 
     function run()
