@@ -12,12 +12,12 @@ class AssessmentRatingQuestionDisplay extends QuestionDisplay
     {
         $formvalidator = $this->get_formvalidator();
         $renderer = $this->get_renderer();
-        $clo_question = $this->get_clo_question();
+        $clo_question = $this->get_complex_content_object_question();
         $question = $this->get_question();
         
         $min = $question->get_low();
         $max = $question->get_high();
-        $question_name = $this->get_clo_question()->get_id() . '_0';
+        $question_name = $this->get_complex_content_object_question()->get_id() . '_0';
         
         for($i = $min; $i <= $max; $i ++)
         {

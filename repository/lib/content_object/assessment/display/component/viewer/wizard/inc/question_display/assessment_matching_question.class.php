@@ -74,7 +74,7 @@ class AssessmentMatchingQuestionDisplay extends QuestionDisplay
         $table_header[] = '<tbody>';
         $formvalidator->addElement('html', implode("\n", $table_header));
         
-        $question_id = $this->get_clo_question()->get_id();
+        $question_id = $this->get_complex_content_object_question()->get_id();
         
         $answers = $this->answers;
         $matches = $this->matches;
