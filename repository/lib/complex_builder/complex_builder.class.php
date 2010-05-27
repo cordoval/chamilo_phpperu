@@ -200,6 +200,7 @@ abstract class ComplexBuilder extends SubManager
 
     function get_complex_content_object_item_edit_url($selected_content_object_item_id)
     {
+      
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM,
         							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
@@ -216,14 +217,14 @@ abstract class ComplexBuilder extends SubManager
     {
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM,
         							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id,
-        							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
+                							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     function get_complex_content_object_item_move_url($selected_content_object_item_id, $direction)
     {
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM,
         							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id,
-        							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(),
+                							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(),
         							self :: PARAM_DIRECTION => $direction));
     }
 
@@ -231,7 +232,7 @@ abstract class ComplexBuilder extends SubManager
     {
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CHANGE_PARENT,
         							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id,
-        							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
+                							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     function get_browse_url()
@@ -244,6 +245,11 @@ abstract class ComplexBuilder extends SubManager
 	{
     	return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
+    }
+    
+    function get_additional_links()
+    {
+    	return array();
     }
 
     function get_creation_links($content_object, $types = array(), $additional_links = array())
@@ -267,7 +273,7 @@ abstract class ComplexBuilder extends SubManager
             $html[] = '</div></a>';
         }
 
-        foreach ($additional_links as $link)
+        foreach ($this->get_additional_links() as $link)
         {
             $type = $link['type'];
             $html[] = '<a href="' . $link['url'] . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
@@ -292,6 +298,11 @@ abstract class ComplexBuilder extends SubManager
 	function show_menu()
 	{
 		return true;
+	}
+	
+	function redirect_away_from_complex_builder($message, $error_message)
+	{
+		$this->get_parent()->redirect_away_from_complex_builder($message, $error_message);
 	}
 }
 

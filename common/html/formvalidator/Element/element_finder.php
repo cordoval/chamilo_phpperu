@@ -16,21 +16,21 @@ require_once 'HTML/QuickForm/group.php';
 class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 {
     const DEFAULT_HEIGHT = 300;
-    const DEFAULT_WIDTH = 310;
-
+    const DEFAULT_WIDTH = 292;
+    
     private static $initialized;
-
+    
     private $search_url;
-
+    
     private $locale;
-
+    
     private $default_collapsed;
-
+    
     private $height;
     private $width;
-
+    
     private $exclude;
-
+    
     private $defaults;
 
     function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array (), $options = array())
@@ -96,7 +96,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
         $active_hidden_id = 'elf_' . $this->getName() . '_active_hidden';
         $activate_button_id = $inactive_id . '_button';
         $deactivate_button_id = $active_id . '_button';
-
+        
         $this->_elements = array();
         $this->_elements[] = new HTML_QuickForm_hidden($this->getName() . '_active_hidden', null, array('id' => $active_hidden_id));
         $this->_elements[] = new HTML_QuickForm_text($this->getName() . '_search', null, array('class' => 'element_query', 'id' => $this->getName() . '_search_field'));
@@ -107,10 +107,11 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
     function getValue()
     {
         $results = array();
-
+        
         $values = $this->get_active_elements();
-
+        
         // Process the array values so we end up with the id's of the elements only
+        
 
         foreach ($values as $value)
             $results[] = $value['id'];
@@ -147,41 +148,50 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		 * 3 activate
 		 */
         $html = array();
-
+        
         if ($this->isCollapsed())
         {
-            //$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '.'onclick="document.getElementById(\''.$id.'\').style.display = \'\'; this.style.display = \'none\'; document.getElementById(\''.$this->getName().'_search_field\').focus();" id="'.$this->getName().'_expand_button" />';
-            $html[] = '<input type="button" value="' . htmlentities($this->locale['Display']) . '" ' . 'id="' . $this->getName() . '_expand_button" />';
-            $html[] = '<input style="display: none" type="button" value="' . htmlentities(Translation :: get('Hide')) . '" ' . 'id="' . $this->getName() . '_collapse_button" />';
+            $html[] = '<button id="' . $this->getName() . '_expand_button" class="normal select">' . htmlentities($this->locale['Display']) . '</button>';
         }
         else
         {
-           $html[] = '<input style="display: none" type="button" value="' . htmlentities($this->locale['Display']) . '" ' . 'id="' . $this->getName() . '_expand_button" />';
-           $html[] = '<input type="button" value="' . htmlentities(Translation :: get('Hide')) . '" ' . 'id="' . $this->getName() . '_collapse_button" />';
+            $html[] = '<button id="' . $this->getName() . '_expand_button" style="display: none" class="normal select">' . htmlentities($this->locale['Display']) . '</button>';
         }
         
         $id = 'tbl_' . $this->getName();
-
-        $html[] = '<div class="element_finder" id="' . $id . '" style="' . ($this->isCollapsed() ? ' display: none;' : '') . '">';
+        
+        $html[] = '<div class="element_finder" id="' . $id . '" style="margin-top: 5px;' . ($this->isCollapsed() ? ' display: none;' : '') . '">';
         $html[] = $this->_elements[0]->toHTML();
-
+        
         // Search
         $html[] = '<div class="element_finder_search">';
+        
         $this->_elements[1]->setValue('');
         $html[] = $this->_elements[1]->toHTML();
+        
+        if ($this->isCollapsed())
+        {
+            $html[] = '<button id="' . $this->getName() . '_collapse_button" style="display: none" class="normal hide">' . htmlentities(Translation :: get('Hide')) . '</button>';
+        }
+        else
+        {
+            $html[] = '<button id="' . $this->getName() . '_collapse_button" class="normal hide mini">' . htmlentities(Translation :: get('Hide')) . '</button>';
+        }
+        
         $html[] = '</div>';
+        
         $html[] = '<div class="clear"></div>';
-
+        
         // The elements
         $html[] = '<div class="element_finder_elements">';
-
+        
         // Inactive
         $html[] = '<div class="element_finder_inactive">';
         $html[] = '<div id="elf_' . $this->getName() . '_inactive" class="inactive_elements" style="height: ' . $this->getHeight() . 'px; width: ' . $this->getWidth() . 'px; overflow: auto;">';
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-
+        
         // Buttons
         //		$html[] = '<div class="element_finder_buttons" style="height: '.$this->getHeight().'px;">';
         //		$html[] = '<div class="button_elements" style="margin-top: '. (($this->height - 46) / 2) .'px">';
@@ -191,26 +201,26 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
         //		$html[] = '</div>';
         //		$html[] = '<div class="clear"></div>';
         //		$html[] = '</div>';
-
+        
 
         // Active
         $html[] = '<div class="element_finder_active">';
         $html[] = '<div id="elf_' . $this->getName() . '_active" class="active_elements" style="height: ' . $this->getHeight() . 'px; width: ' . $this->getWidth() . 'px; overflow: auto;"></div>';
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-
+        
         // Make sure the elements are all within the div.
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-
+        
         // Make sure everything is within the general div.
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
-
+        
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js');
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.elementfinder.js');
         $html[] = '<script type="text/javascript">';
-
+        
         $exclude_ids = array();
         if (count($this->exclude))
         {
@@ -220,18 +230,18 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
                 $exclude_ids[] = "'$exclude_id'";
             }
         }
-
+        
         $html[] = 'var ' . $this->getName() . '_excluded = new Array(' . implode(',', $exclude_ids) . ');';
-
+        
         $load_elements = $this->options['load_elements'];
         $load_elements = (isset($load_elements) && $load_elements == false ? ', loadElements: false' : ', loadElements: true');
-
+        
         $default_query = $this->options['default_query'];
         $default_query = (isset($default_query) && ! empty($default_query) ? ', defaultQuery: "' . $default_query . '"' : '');
-
+        
         $html[] = '$("#' . $id . '").elementfinder({ name: "' . $this->getName() . '", search: "' . $this->search_url . '"' . $load_elements . $default_query . ' });';
         $html[] = '</script>';
-
+        
         return implode("\n", $html);
     }
 

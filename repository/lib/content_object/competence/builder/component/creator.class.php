@@ -20,7 +20,7 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
     	//$creator = ComplexBuilderComponent :: factory(ComplexBuilderComponent::CREATOR_COMPONENT, $this);
         //$creator->run();
     //}
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository builder');
         
         $root_content_object = $this->get_root_content_object(); //Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);

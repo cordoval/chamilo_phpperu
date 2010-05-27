@@ -74,7 +74,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
             {
             	//$toolbar_data[] = array('label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move_na.png');
             }
-            
+
             $toolbar_data[] = array('href' => $this->browser->get_content_object_metadata_editing_url($content_object), 'label' => Translation :: get('Metadata'), 'img' => Theme :: get_common_image_path() . 'action_metadata.png');
             $toolbar_data[] = array('href' => $this->browser->get_content_object_rights_editing_url($content_object), 'label' => Translation :: get('Rights'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
             $toolbar_data[] = array('href' => $this->browser->get_content_object_exporting_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_export.png', 'label' => Translation :: get('Export'));
@@ -94,7 +94,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
             {
             	$toolbar_data[] = array('href' => $this->browser->get_document_downloader_url($content_object->get_id()), 'img' => Theme :: get_common_image_path() . 'action_download.png', 'label' => Translation :: get('Export'));
             }
-            
+
             return Utilities :: build_toolbar($toolbar_data);
         }
         elseif (get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')

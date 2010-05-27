@@ -50,7 +50,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
         echo '<div class="clear">&nbsp;</div>';
 
         $this->display_footer();
-    }
+    }    
 }
 
 ?>

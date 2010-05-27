@@ -16,7 +16,7 @@ class CompetenceBuilderBrowserComponent extends CompetenceBuilder
         $browser->run();
         
         /*
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         //$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
         $trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $object->get_id())), $object->get_title()));
         $trail->add_help('repository indicator builder');
