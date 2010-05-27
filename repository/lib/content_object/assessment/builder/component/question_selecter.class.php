@@ -5,7 +5,7 @@
  */
 require_once Path :: get_repository_path() . '/lib/content_object/assessment/assessment.class.php';
 
-class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilderComponent
+class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilder
 {
 
     function run()
