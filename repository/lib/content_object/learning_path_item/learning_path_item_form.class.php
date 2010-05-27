@@ -51,8 +51,12 @@ class LearningPathItemForm extends ContentObjectForm
     function setDefaults($defaults = array ())
     {
         $object = $this->get_content_object();
-        $defaults[LearningPathItem :: PROPERTY_REFERENCE] = $object->get_reference();
-        parent :: setDefaults($defaults);
+        if($object)
+        {
+            $defaults[LearningPathItem :: PROPERTY_REFERENCE] = $object->get_reference();
+            parent :: setDefaults($defaults);
+        }
+        
     }
 
 }
