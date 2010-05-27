@@ -73,15 +73,13 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplay
     {
         if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
         {
-            $actions[] = array('href' => $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, 
-            												  ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id())), 
+            $actions[] = array('href' => $this->get_complex_content_object_item_update_url($complex_content_object_item),
             				   'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         }
         
         if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
         {
-            $actions[] = array('href' => $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, 
-            												  ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id())), 
+            $actions[] = array('href' => $this->get_complex_content_object_item_delete_url($complex_content_object_item), 
             				   'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         }
         

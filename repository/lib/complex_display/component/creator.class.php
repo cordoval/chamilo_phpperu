@@ -29,7 +29,7 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
             $type = Request :: get('type');
 
             $pub = new RepoViewer($this, $type, RepoViewer :: SELECT_SINGLE, array(), false);
-            $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ComplexDisplay :: ACTION_CREATE);
+            $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ComplexDisplay :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM);
             $pub->set_parameter('cid', $complex_content_object_item_id);
             $pub->set_parameter('type', $type);
 
@@ -58,9 +58,9 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
                 	$cloi->set_parent($this->get_root_content_object()->get_id());
                 }
 
-                $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($complex_content_object_item->get_ref()));
+                $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($cloi->get_ref()));
 
-                $cloi_form = ComplexContentObjectItemForm :: factory(ComplexContentObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, 'object' => $pub->get_selected_objects())));
+                /*$cloi_form = ComplexContentObjectItemForm :: factory(ComplexContentObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, 'object' => $pub->get_selected_objects())));
 
                 if ($cloi_form)
                 {
@@ -77,10 +77,10 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
                     }
                 }
                 else
-                {
+                {*/
                     $cloi->create();
                     $this->my_redirect($complex_content_object_item_id);
-                }
+                //}
             }
 
         }
@@ -92,7 +92,7 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
 
         $params = array();
         $params['cid'] = $complex_content_object_item_id;
-        $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ComplexDisplay :: ACTION_VIEW_CLO;
+        $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;
 
         $this->redirect($message, '', $params);
     }
