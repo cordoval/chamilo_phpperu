@@ -62,9 +62,17 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
                             $old_parent = $complex_content_object_item->get_parent();
                         }
 
-                        $complex_content_object_item->set_parent($parent);
-                        $complex_content_object_item->set_display_order($rdm->select_next_display_order($parent));
-                        $complex_content_object_item->update();
+                        if($complex_content_object_item->get_ref() != $parent)
+                        {
+                            $complex_content_object_item->set_parent($parent);
+                            $complex_content_object_item->set_display_order($rdm->select_next_display_order($parent));
+                            $complex_content_object_item->update();
+                        }
+                        else
+                        {
+                            $failures++ ;
+                        }
+                        
                     }
 
                     $this->fix_display_order_values($old_parent);
