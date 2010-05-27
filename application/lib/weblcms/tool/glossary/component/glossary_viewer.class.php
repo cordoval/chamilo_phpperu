@@ -12,6 +12,7 @@
 class GlossaryToolViewerComponent extends GlossaryToolComponent
 {
 	private $trail;
+	private $object;
 	
     function run()
     {
@@ -23,14 +24,13 @@ class GlossaryToolViewerComponent extends GlossaryToolComponent
         
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
-		$object = $publication->get_content_object();
+		$this->object = $publication->get_content_object();
 	
         $this->trail = $trail = new BreadcrumbTrail();
         
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
         
-        $display = ComplexDisplay :: factory($this, $object->get_type());
-        $display->set_root_lo($object);
+        $display = ComplexDisplay :: factory($this, $this->object->get_type());
         $display->run();
     }
     
@@ -42,6 +42,11 @@ class GlossaryToolViewerComponent extends GlossaryToolComponent
     	}
     	
     	return parent :: display_header($this->trail);
+    }
+    
+    function get_root_content_object()
+    {
+    	return $this->object;
     }
 }
 
