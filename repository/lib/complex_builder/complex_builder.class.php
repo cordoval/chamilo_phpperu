@@ -71,7 +71,8 @@ abstract class ComplexBuilder extends SubManager
 
     static function factory($parent, $type)
     {
-        $file = dirname(__FILE__) . '/../content_object/' . $type . '/builder/' . $type . '_builder.class.php';
+        //$file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/builder/' . $type . '_builder.class.php';
+    	$file = dirname(__FILE__) . '/../content_object/' . $type . '/builder/' . $type . '_builder.class.php';
         require_once $file;
         $class = Utilities :: underscores_to_camelcase($type) . 'Builder';
     	return new $class($parent);

@@ -5,24 +5,24 @@
  */
 abstract class QuestionResultDisplay
 {
-    private $clo_question;
+    private $complex_content_object_question;
     private $question;
     private $question_nr;
     private $answers;
     private $score;
 
-    function QuestionResultDisplay($clo_question, $question_nr, $answers, $score)
+    function QuestionResultDisplay($complex_content_object_question, $question_nr, $answers, $score)
     {
-        $this->clo_question = $clo_question;
+        $this->complex_content_object_question = $complex_content_object_question;
         $this->question_nr = $question_nr;
-        $this->question = $clo_question->get_ref();
+        $this->question = $complex_content_object_question->get_ref();
         $this->answers = $answers;
         $this->score = $score;
     }
 
-    function get_clo_question()
+    function get_complex_content_object_question()
     {
-        return $this->clo_question;
+        return $this->complex_content_object_question;
     }
 
     function get_question()
@@ -92,7 +92,7 @@ abstract class QuestionResultDisplay
         $html[] = $this->question->get_title();
         $html[] = '</div>';
         $html[] = '<div class="bevel" style="text-align: right;">';
-        $html[] = $this->get_score() . ' / ' . $this->get_clo_question()->get_weight();
+        $html[] = $this->get_score() . ' / ' . $this->get_complex_content_object_question()->get_weight();
         $html[] = '</div>';
         
         $html[] = '</div>';
@@ -129,9 +129,9 @@ abstract class QuestionResultDisplay
         return false;
     }
 
-    static function factory($clo_question, $question_nr, $answers, $score)
+    static function factory($complex_content_object_question, $question_nr, $answers, $score)
     {
-        $type = $clo_question->get_ref()->get_type();
+        $type = $complex_content_object_question->get_ref()->get_type();
         
         $file = dirname(__FILE__) . '/question_result_display/' . $type . '_result_display.class.php';
         
@@ -143,7 +143,7 @@ abstract class QuestionResultDisplay
         require_once $file;
         
         $class = Utilities :: underscores_to_camelcase($type) . 'ResultDisplay';
-        $question_result_display = new $class($clo_question, $question_nr, $answers, $score);
+        $question_result_display = new $class($complex_content_object_question, $question_nr, $answers, $score);
         return $question_result_display;
     }
 }

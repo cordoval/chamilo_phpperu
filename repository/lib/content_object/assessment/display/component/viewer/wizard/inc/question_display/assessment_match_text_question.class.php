@@ -11,7 +11,7 @@ class AssessmentMatchTextQuestionDisplay extends QuestionDisplay
     {
         $formvalidator = $this->get_formvalidator();
         $renderer = $this->get_renderer();
-        $clo_question = $this->get_clo_question();
+        $clo_question = $this->get_complex_content_object_question();
         $question = $this->get_question();
         
         $textarea_width = '400px';

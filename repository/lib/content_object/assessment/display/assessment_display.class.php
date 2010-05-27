@@ -4,7 +4,7 @@
  * @package repository.lib.complex_display.assessment
  */
 
-require_once dirname(__FILE__) . '/assessment_display_component.class.php';
+//require_once dirname(__FILE__) . '/assessment_display_component.class.php';
 /**
  * This tool allows a user to publish assessments in his or her course.
  */
@@ -17,9 +17,7 @@ class AssessmentDisplay extends ComplexDisplay
      * Inherited.
      */
     function run()
-    {
-        $component = parent :: run();
-        
+    {     
         if (! $component)
         {
             $action = $this->get_action();
@@ -27,13 +25,13 @@ class AssessmentDisplay extends ComplexDisplay
             switch ($action)
             {
                 case self :: ACTION_VIEW_ASSESSMENT :
-                    $component = AssessmentDisplayComponent :: factory('AssessmentViewer', $this);
+                    $component = $this->create_component('AssessmentViewer');
                     break;
                 case self :: ACTION_VIEW_ASSESSMENT_RESULT :
-                    $component = AssessmentDisplayComponent :: factory('AssessmentResultViewer', $this);
+                    $component = $this->create_component('AssessmentResultViewer');
                     break;
                 default :
-                    $component = AssessmentDisplayComponent :: factory('AssessmentViewer', $this);
+                    $component = $this->create_component('AssessmentViewer');
             }
         }
         
@@ -69,5 +67,10 @@ class AssessmentDisplay extends ComplexDisplay
     {
         return $this->get_parent()->get_go_back_url();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

@@ -4,10 +4,9 @@
  * @package repository.lib.complex_display.assessment.component
  */
 require_once dirname(__FILE__) . '/../assessment_display.class.php';
-require_once dirname(__FILE__) . '/../assessment_display_component.class.php';
 require_once dirname(__FILE__) . '/viewer/assessment_viewer_wizard.class.php';
 
-class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplayComponent
+class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
 {
 
     /**
@@ -15,7 +14,8 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplayCompon
      */
     function run()
     {
-        $wizard = new AssessmentViewerWizard($this, $this->get_root_lo());
+        //$wizard = ComplexDisplay :: factory(ComplexDisplay:: ACTION_VIEW_COMPLEX_CONTENT_OBJECT, $this);
+        $wizard = new AssessmentViewerWizard($this, $this->get_root_content_object());
         $wizard->run();
     }
 }

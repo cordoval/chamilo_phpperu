@@ -60,7 +60,7 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
         while ($question = $this->questions->next_result())
         //foreach($this->questions as $question)
         {
-            $question_display = QuestionDisplay :: factory($this, $question, $i);
+        	$question_display = QuestionDisplay :: factory($this, $question, $i);
             $question_display->display();
             $i ++;
         }

@@ -100,13 +100,17 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         else
         {
             $display = ComplexDisplay :: factory($this, $this->assessment->get_type());
-            $display->set_root_lo($this->assessment);
             
             //$this->display_header($trail);
             $display->run();
             //$this->display_footer();
         }
     
+    }
+    
+	function get_root_content_object()
+    {
+    	return $this->assessment;
     }
 
     function display_header($trail)
@@ -128,15 +132,6 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         return $tracker[0];
     }
 
-    function get_user_id()
-    {
-        if ($this->assessment->get_assessment_type() == Assessment :: TYPE_SURVEY)
-        {
-            //if ($this->assessment->get_anonymous() == true)
-            return 0;
-        }
-        return parent :: get_user_id();
-    }
 
     function save_answer($complex_question_id, $answer, $score)
     {

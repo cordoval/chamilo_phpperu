@@ -11,7 +11,7 @@ class AssessmentMultipleChoiceQuestionDisplay extends QuestionDisplay
     function add_question_form()
     {
         $formvalidator = $this->get_formvalidator();
-        $clo_question = $this->get_clo_question();
+        $clo_question = $this->get_complex_content_object_question();
         $question = $this->get_question(); 
         $answers = $this->shuffle_with_keys($question->get_options());
         $type = $question->get_answer_type();
