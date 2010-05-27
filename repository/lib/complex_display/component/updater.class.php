@@ -11,27 +11,24 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
     {
         if ($this->is_allowed(EDIT_RIGHT))
         {
-            $cid = Request :: get('selected_cloi') ? Request :: get('selected_cloi') : $_POST['selected_cloi'];
-            $pid = Request :: get('pid') ? Request :: get('pid') : $_POST['pid'];
-            $selected_cloi = Request :: get('selected_cloi') ? Request :: get('selected_cloi') : $_POST['selected_cloi'];
+            $selected_complex_content_object_item = $this->get_selected_complex_content_object_item();
+            $rdm = RepositoryDataManager :: get_instance();
             
-            $datamanager = RepositoryDataManager :: get_instance();
-            $cloi = $datamanager->retrieve_complex_content_object_item($selected_cloi);
+            $content_object = $rdm->retrieve_content_object($selected_complex_content_object_item->get_ref());
+            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', 
+            		$this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 
+            					   ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_selected_complex_content_object_item_id(), 
+            					   ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id())));
             
-            $cloi->set_default_property(ComplexContentObjectItem :: PROPERTY_USER_ID, $this->get_user_id());
-            $content_object = $datamanager->retrieve_content_object($cloi->get_ref());
-            $content_object->set_default_property(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
-            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_cloi' => $selected_cloi, 'selected_cloi' => $cid, 'pid' => $pid)));
-            
-            if ($form->validate() || Request :: get('validated'))
+            if ($form->validate())
             {
                 $form->update_content_object();
                 if ($form->is_version())
                 {
-                    $old_id = $cloi->get_ref();
+                    $old_id = $selected_complex_content_object_item->get_ref();
                     $new_id = $content_object->get_latest_version()->get_id();
-                    $cloi->set_ref($new_id);
-                    $cloi->update();
+                    $selected_complex_content_object_item->set_ref($new_id);
+                    $selected_complex_content_object_item->update();
                     
                     $children = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $old_id, ComplexContentObjectItem :: get_table_name()));
                     while ($child = $children->next_result())
@@ -44,10 +41,8 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
                 $message = htmlentities(Translation :: get('ContentObjectUpdated'));
                 
                 $params = array();
-                $params['pid'] = Request :: get('pid');
-                $params['selected_cloi'] = $cid;
-                $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ComplexDisplay :: ACTION_VIEW_CLO;
-                $params['display_action'] = 'view_item';
+                $params[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
+                $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;
                 
                 $this->redirect($message, '', $params);
             
@@ -55,7 +50,10 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
             else
             {
                 $trail = $this->get_clo_breadcrumbs();
-                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_cloi)), Translation :: get('EditWikiPage')));
+                $trail->add(new Breadcrumb($this->get_url(
+                	array(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_selected_complex_content_object_item_id(),
+                		  ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id())), Translation :: get('EditWikiPage')));
+                		  
             	$this->display_header($trail);
             	$form->display();
             	$this->display_footer();

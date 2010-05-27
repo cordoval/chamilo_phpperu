@@ -14,31 +14,30 @@ class ComplexDisplayDeleterComponent extends ComplexDisplayComponent
     {
         if ($this->is_allowed(DELETE_RIGHT))
         {
-            if (Request :: get('selected_cloi'))
+            /*if (Request :: get('selected_cloi'))
             {
                 $cloi_ids = Request :: get('selected_cloi');
             }
             else
             {
                 $cloi_ids = $_POST['selected_cloi'];
-            }
+            }*/
+        	
+        	$complex_content_object_item_ids = $this->get_selected_complex_content_object_item();
             
-            if (! is_array($cloi_ids))
+            if (! is_array($complex_content_object_item_ids))
             {
-                $cloi_ids = array($cloi_ids);
+                $complex_content_object_item_ids = array($complex_content_object_item_ids);
             }
             
-            foreach ($cloi_ids as $cid)
+            foreach ($complex_content_object_item_ids as $complex_content_object_item_id)
             {
-                {
-                    $cloi = new ComplexContentObjectItem();
-                    $cloi->set_id($cid);
-                    $cloi->delete();
-                }
-            
+                $complex_content_object_item = new ComplexContentObjectItem();
+                $complex_content_object_item->set_id($complex_content_object_item_id);
+                $complex_content_object_item->delete();
             }
             
-            if (count($cloi_ids) > 1)
+            if (count($complex_content_object_item_ids) > 1)
             {
                 $message = htmlentities(Translation :: get('ComplexContentObjectItemsDeleted'));
             }
@@ -47,7 +46,8 @@ class ComplexDisplayDeleterComponent extends ComplexDisplayComponent
                 $message = htmlentities(Translation :: get('ComplexContentObjectItemDeleted'));
             }
             
-            $this->redirect($message, false, array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_CLO, 'pid' => Request :: get('pid'), 'cid' => Request :: get('cid')));
+            $this->redirect($message, false, array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT, 
+            				ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
         }
     }
 

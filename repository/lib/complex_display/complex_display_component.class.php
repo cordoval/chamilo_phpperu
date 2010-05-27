@@ -32,14 +32,34 @@ abstract class ComplexDisplayComponent extends SubManager
         return new $class($application);
     }
 
-    function get_root_content_object()
-    {
-        return $this->get_parent()->get_root_content_object();
+	function get_root_content_object()
+    { 
+    	return $this->get_parent()->get_root_content_object();
     }
 
     function get_complex_content_object_item()
     {
-        return $this->get_parent()->get_complex_content_object_item();
+    	return $this->get_parent()->get_complex_content_object_item();
+    }
+
+	function get_selected_complex_content_object_item()
+    {
+    	return $this->get_parent()->get_selected_complex_content_object_item();
+    }
+
+	function get_root_content_object_id()
+    {
+        return $this->get_parent()->get_root_content_object_id();
+    }
+
+    function get_complex_content_object_item_id()
+    {
+    	return $this->get_parent()->get_complex_content_object_item_id();
+    }
+
+	function get_selected_complex_content_object_item_id()
+    {
+    	return $this->get_parent()->get_selected_complex_content_object_item_id();
     }
 
     /**
