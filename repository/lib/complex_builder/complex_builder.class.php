@@ -299,6 +299,11 @@ abstract class ComplexBuilder extends SubManager
 	{
 		return true;
 	}
+	
+	function redirect_away_from_complex_builder($message, $error_message)
+	{
+		$this->get_parent()->redirect_away_from_complex_builder($message, $error_message);
+	}
 }
 
 ?>

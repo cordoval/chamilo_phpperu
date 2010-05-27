@@ -67,7 +67,7 @@ class LearningPathBuilderUpdaterComponent extends LearningPathBuilder
         }
         else
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('repository learnpath builder');
             $this->display_header($trail);
             echo $content_object_form->toHTML();

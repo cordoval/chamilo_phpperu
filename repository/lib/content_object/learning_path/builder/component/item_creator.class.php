@@ -11,7 +11,7 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
 
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository learnpath builder');
         
         $root_content_object = $this->get_root_content_object();

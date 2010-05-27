@@ -14,7 +14,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilder
     function run()
     {
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->merge($menu_trail);
         $trail->add_help('repository learnpath builder');
 
@@ -52,7 +52,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilder
         echo '<div style="width: 18%; overflow: auto; float: left;">';
         echo $this->get_complex_content_object_menu();
         echo '</div><div style="width: 80%; float: right;">';
-        echo $this->get_complex_content_object_table_html(false, null, new LearningPathBrowserTableCellRenderer($this));
+        echo $this->get_complex_content_object_table_html(false, null, new LearningPathBrowserTableCellRenderer($this, $this->get_complex_content_object_table_condition()));
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
 

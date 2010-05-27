@@ -15,7 +15,7 @@ class LearningPathBuilderMasteryScoreSetterComponent extends LearningPathBuilder
         $parent_complex_content_object_item = Request :: get(LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         
         $menu_trail = $this->get_clo_breadcrumbs();
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->merge($menu_trail);
         
         $parameters = array(LearningPathBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, LearningPathBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);

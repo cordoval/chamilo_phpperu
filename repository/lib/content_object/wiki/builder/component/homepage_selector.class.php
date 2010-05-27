@@ -9,7 +9,7 @@ class WikiBuilderHomepageSelectorComponent extends WikiBuilder
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
         $root = $this->get_root_content_object();
         $complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item(Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID));
