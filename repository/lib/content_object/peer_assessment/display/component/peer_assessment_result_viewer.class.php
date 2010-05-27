@@ -12,7 +12,7 @@ class PeerAssessmentDisplayPeerAssessmentResultViewerComponent extends PeerAsses
      */
     function run()
     {
-        $wizard = new PeerAssessmentResultViewerWizard($this, $this->get_root_lo());
+        $wizard = new PeerAssessmentResultViewerWizard($this, $this->get_root_content_object());
         return $wizard->run();
     }
 }
