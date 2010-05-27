@@ -21,6 +21,15 @@ class GlossaryDisplay extends ComplexDisplay
             case self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT :
                 $component = $this->create_component('GlossaryViewer');
                 break;
+            case self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Creator');
+                break;
+            case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Deleter');
+                break;
+            case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Updater');
+                break;
             default :
              	$this->set_action(self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT);
                 $component = $this->create_component('GlossaryViewer');

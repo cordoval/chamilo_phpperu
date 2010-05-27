@@ -101,6 +101,7 @@ class RepositoryAutoloader
 		$list = array('complex_builder' => 'complex_builder/complex_builder.class.php',
 					  'complex_builder_component' => 'complex_builder/complex_builder_component.class.php',
 					  'complex_display' => 'complex_display/complex_display.class.php',
+					  'complex_display_component' => 'complex_display/complex_display_component.class.php',
 					  'repository_category_manager' => 'category_manager/repository_category_manager.class.php',
 					  'repository_category' => 'category_manager/repository_category.class.php',
 					  'content_object_export' => 'export/content_object_export.class.php',
