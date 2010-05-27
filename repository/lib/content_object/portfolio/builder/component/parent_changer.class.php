@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../portfolio_builder.class.php';
 
-class PortfolioBuilderParentChangerComponent extends ComplexBuilderComponent
+class PortfolioBuilderParentChangerComponent extends PortfolioBuilder
 {
     const PARAM_NEW_PARENT = 'new_parent';
 
