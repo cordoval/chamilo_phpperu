@@ -45,6 +45,11 @@ abstract class ComplexBuilderComponent extends SubManager
         return $this->get_parent()->get_complex_content_object_item();
     }
     
+    function get_additional_links()
+    {
+    	return $this->get_parent()->get_additional_links();
+    }
+    
     /**
      * Common functionality
      */

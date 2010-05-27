@@ -19,7 +19,7 @@ class ObjectBrowserTable extends ObjectTable
      */
     function ObjectBrowserTable($browser, $parameters, $condition)
     {
-        $model = new ObjectBrowserTableColumnModel();
+    	$model = new ObjectBrowserTableColumnModel();
         $renderer = new ObjectBrowserTableCellRenderer($browser);
         $data_provider = new ObjectBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, ObjectBrowserTable :: DEFAULT_NAME, $model, $renderer);

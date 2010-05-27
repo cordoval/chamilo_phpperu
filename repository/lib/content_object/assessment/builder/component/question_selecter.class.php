@@ -3,8 +3,6 @@
  * $Id: question_selecter.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component
  */
-require_once dirname(__FILE__) . '/../assessment_builder_component.class.php';
-require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/assessment/assessment.class.php';
 
 class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilderComponent
@@ -37,7 +35,7 @@ class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilderCompon
         
         $succes = true;
         
-        $parent = $this->get_root_lo()->get_id();
+        $parent = $this->get_root_content_object()->get_id();
         
         foreach ($question_ids as $question_id)
         {
@@ -52,7 +50,7 @@ class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilderCompon
         
         $message = $succes ? Translation :: get('QuestionsAdded') : Translation :: get('QuestionsNotAdded');
         
-        $this->redirect($message, ! $succes, array(AssessmentBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_BROWSE_CLO, AssessmentBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), 'publish' => Request :: get('publish')));
+        $this->redirect($message, ! $succes, array(AssessmentBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_BROWSE));
     }
 
 }

@@ -18,7 +18,7 @@ class AssessmentBuilder extends ComplexBuilder
     {
         parent :: __construct($parent);
         
-        //$this->parse_input_from_table();
+        $this->parse_input_from_object_browser_table();
     }
 
     function run()
@@ -63,29 +63,34 @@ class AssessmentBuilder extends ComplexBuilder
 	{
 		return dirname(__FILE__) . '/component/';
 	}
+	
+    function parse_input_from_object_browser_table()
+    {
+    	if (isset($_POST['action']))
+        {
+            $selected_ids = $_POST[ObjectBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+            if (empty($selected_ids))
+            {
+                $selected_ids = array();
+            }
+            elseif (! is_array($selected_ids))
+            {
+                $selected_ids = array($selected_ids);
+            }
+            switch ($_POST['action'])
+            {
+                case self :: PARAM_ADD_SELECTED_QUESTIONS :
+                    $this->set_action(self :: ACTION_SELECT_QUESTIONS);
+                    Request :: set_get(self :: PARAM_QUESTION_ID, $selected_ids);
+                    break;
+            }
+        }
+    }
 
-//    function parse_input_from_table()
-//    {
-//        if (isset($_post['action']))
-//        {
-//            $selected_ids = $_post[objectbrowsertable :: default_name . objecttable :: checkbox_name_suffix];
-//            if (empty($selected_ids))
-//            {
-//                $selected_ids = array();
-//            }
-//            elseif (! is_array($selected_ids))
-//            {
-//                $selected_ids = array($selected_ids);
-//            }
-//            switch ($_post['action'])
-//            {
-//                case self :: param_add_selected_questions :
-//                    $this->set_action(self :: action_select_questions);
-//                    request :: set_get(self :: param_question_id, $selected_ids);
-//                    break;
-//            }
-//        }
-//    }
+	function show_menu()
+	{
+		return false;
+	}
 }
 
 ?>

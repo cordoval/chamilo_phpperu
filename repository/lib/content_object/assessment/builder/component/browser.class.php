@@ -47,16 +47,16 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilder
 //        $this->display_footer();
 //    }
 //
-//    function get_additional_links()
-//    {
-//        $link['type'] = 'Assessment';
-//        $link['url'] = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_MERGE_ASSESSMENT, ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT => $this->get_root_content_object()->get_id(), 'publish' => Request :: get('publish')));
-//        $link['title'] = Translation :: get('Merge' . ContentObject :: type_to_class('Assessment') . 'TypeName');
-//        
-//        $links[] = $link;
-//        
-//        return $links;
-//    }
+    function get_additional_links()
+    {
+        $link['type'] = 'Assessment';
+        $link['url'] = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_MERGE_ASSESSMENT));
+        $link['title'] = Translation :: get('Merge' . ContentObject :: type_to_class('Assessment') . 'TypeName');
+        
+        $links[] = $link;
+        
+        return $links;
+    }
 }
 
 ?>

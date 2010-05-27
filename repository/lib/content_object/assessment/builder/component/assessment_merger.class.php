@@ -3,8 +3,6 @@
  * $Id: assessment_merger.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component
  */
-require_once dirname(__FILE__) . '/../assessment_builder_component.class.php';
-require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/assessment_merger/object_browser_table.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/assessment/assessment.class.php';
 
@@ -14,16 +12,15 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
     function run()
     {
         $trail = new BreadcrumbTrail(false);
-        $trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id())), $this->get_root_lo()->get_title()));
-        $trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id())), Translation :: get('MergeAssessment')));
+        $trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE), $this->get_root_content_object()->get_title())));
+        $trail->add(new Breadcrumb($this->get_url(array(), Translation :: get('MergeAssessment'))));
         $trail->add_help('repository assessment builder');
-        $assessment = $this->get_root_lo();
+        $assessment = $this->get_root_content_object();
         
-        $pub = new ComplexRepoViewer($this, Assessment :: get_type_name(), RepoViewer :: SELECT_SINGLE);
-        $pub->set_parameter(ComplexBuilder :: PARAM_ROOT_LO, $assessment->get_id());
-        $pub->set_parameter('publish', Request :: get('publish'));
+        $pub = new RepoViewer($this, Assessment :: get_type_name(), RepoViewer :: SELECT_SINGLE, array(), false);
+        $pub->set_parameter(RepoViewer::PARAM_ID, Request :: get(RepoViewer::PARAM_ID));
         
-        $pub->parse_input();
+        $pub->parse_input_from_table();
         
         if (!$pub->is_ready_to_be_published())
         {
@@ -41,7 +38,7 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
             $html[] = $bar->as_html();
             $html[] = '<h3>' . Translation :: get('SelectQuestions') . '</h3>';
             
-            $params = array(ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), 'publish' => Request :: get('publish'));
+            $params = array(RepoViewer::PARAM_ID => Request :: get(RepoViewer::PARAM_ID));
             $table = new ObjectBrowserTable($this, array_merge($params, $this->get_parameters()), $this->get_condition($selected_assessment));
             $html[] = $table->as_html();
         }
@@ -61,7 +58,7 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilderCompon
 
     function get_question_selector_url($question_id, $assessment_id)
     {
-        return $this->get_url(array(AssessmentBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_SELECT_QUESTIONS, AssessmentBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), 'publish' => Request :: get('publish'), AssessmentBuilder :: PARAM_QUESTION_ID => $question_id, AssessmentBuilder :: PARAM_ASSESSMENT_ID => $assessment_id));
+        return $this->get_url(array(AssessmentBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_SELECT_QUESTIONS, AssessmentBuilder :: PARAM_QUESTION_ID => $question_id, AssessmentBuilder :: PARAM_ASSESSMENT_ID => $assessment_id, RepoViewer::PARAM_ID => Request :: get(RepoViewer::PARAM_ID)));
     }
 
     function get_action_bar($selected_assessment)

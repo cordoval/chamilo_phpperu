@@ -246,6 +246,11 @@ abstract class ComplexBuilder extends SubManager
     	return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
+    
+    function get_additional_links()
+    {
+    	return array();
+    }
 
     function get_creation_links($content_object, $types = array(), $additional_links = array())
     {
@@ -268,7 +273,7 @@ abstract class ComplexBuilder extends SubManager
             $html[] = '</div></a>';
         }
 
-        foreach ($additional_links as $link)
+        foreach ($this->get_additional_links() as $link)
         {
             $type = $link['type'];
             $html[] = '<a href="' . $link['url'] . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
