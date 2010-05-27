@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: feedback_edit.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * $Id: feedback_editor.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
  */
 require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
