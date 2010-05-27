@@ -55,14 +55,27 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
             {
                 //TODO: SOLVE PROBLEM: CREATION OF PORTFOLIO's AS PORTFOLIO-ITEMS IS HANDLED DIFFERENTLY IN REPOSITORY AND IN PORTFOLIO APPLICATION!!!!!!!!!!!!!
                 //EXTRA WRAPPER 'porftolioItem' not applied in repository!!!
-                $new_object = ContentObject :: factory(PortfolioItem :: get_type_name());
-                $new_object->set_owner_id($this->get_user_id());
-                $new_object->set_title(PortfolioItem :: get_type_name());
-                $new_object->set_description(PortfolioItem :: get_type_name());
-                $new_object->set_parent_id(0); 
-                $new_object->set_reference($object_id);
-                $new_object->create();
-//                $new_object_id = $new_object->get_id();
+
+                $rdm = RepositoryDataManager::get_instance();
+                $object = $rdm->retrieve_content_object($object_id);
+
+
+                if($object->get_type() != Portfolio::get_type_name())
+                {
+                    $new_object = ContentObject :: factory(PortfolioItem :: get_type_name());
+                    $new_object->set_owner_id($this->get_user_id());
+                    $new_object->set_title(PortfolioItem :: get_type_name());
+                    $new_object->set_description(PortfolioItem :: get_type_name());
+                    $new_object->set_parent_id(0);
+                    $new_object->set_reference($object_id);
+                    $new_object->create();
+                }
+                else
+                {
+                    $new_object = $object;
+                }
+//
+
                 $wrapper = new ComplexContentObjectItem();
                 $wrapper->set_ref($new_object->get_id());
                 $wrapper->set_parent($parent);
