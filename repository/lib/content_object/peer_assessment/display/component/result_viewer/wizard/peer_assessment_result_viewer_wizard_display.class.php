@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../../../../../../../application/lib/peer_assessment/peer_assessment_publication_results.class.php';
 
 /**
  * @author Nick Van Loocke
