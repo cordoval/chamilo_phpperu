@@ -34,7 +34,7 @@ class PeerAssessmentPublicationBrowserTableCellRenderer extends DefaultPeerAsses
             switch ($property)
             {
                 case ContentObject :: PROPERTY_TITLE :
-                    $url = $this->browser->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_VIEW_PEER_ASSESSMENT, PeerAssessmentDisplay :: PARAM_DISPLAY_ACTION => PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
+                    $url = $this->browser->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_VIEW_PEER_ASSESSMENT, PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION => $peer_assessment_publication->get_id()));
                     return htmlspecialchars($peer_assessment_publication->get_content_object()->get_title());
                 case ContentObject :: PROPERTY_DESCRIPTION :
                     return $peer_assessment_publication->get_content_object()->get_description();

@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/../../../../../../../application/lib/peer_assessment/peer_assessment_publication_results.class.php';
 
 /**
  * @author Sven Vanpoucke
@@ -30,6 +29,8 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
         	echo implode("\n", $error);
 		}
 
+		$error = array();
+		
 		// No competences => gives back error message
     	if($parent->get_total() == 0)
     	{

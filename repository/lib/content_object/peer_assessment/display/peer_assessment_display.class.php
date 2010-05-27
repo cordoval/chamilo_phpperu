@@ -1,5 +1,4 @@
 <?php
-require_once dirname(__FILE__) . '/peer_assessment_display_component.class.php';
 
 class PeerAssessmentDisplay extends ComplexDisplay
 {
@@ -8,23 +7,18 @@ class PeerAssessmentDisplay extends ComplexDisplay
     
     function run()
     {
-        $component = parent :: run();
-        
-        if (! $component)
-        {
-            $action = $this->get_action();
+        $action = $this->get_action();
             
-            switch ($action)
-            {
-            	case self :: ACTION_TAKE_PEER_ASSESSMENT :
-                    $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentViewer', $this);
+        switch ($action)
+        {
+            case self :: ACTION_TAKE_PEER_ASSESSMENT :
+                    $component = $this->create_component('PeerAssessmentViewer');
                     break;
-                case self :: ACTION_VIEW_PEER_ASSESSMENT :
-                    $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentResultViewer', $this);
+            case self :: ACTION_VIEW_PEER_ASSESSMENT :
+                    $component = $this->create_component('PeerAssessmentResultViewer');
                     break;
                 default :
-                    $component = PeerAssessmentDisplayComponent :: factory('PeerAssessmentViewer', $this);
-            }
+                    $component = $this->create_component('PeerAssessmentViewer');
         }
         
         return $component->run();
