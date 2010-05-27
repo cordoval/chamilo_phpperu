@@ -38,5 +38,10 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager
     {
     	return $this->content_object;
     }
+    
+    function redirect_away_from_complex_builder($message, $error_message)
+    {
+    	$this->redirect($message, $error_message, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
+    }
 }
 ?>
