@@ -20,15 +20,15 @@ class PortfolioManagerAdminDefaultSettingsCreatorComponent extends PortfolioMana
     {
 
         Header :: set_section('admin');
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail::get_instance();
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => PortfolioManager:: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Portfolio') ));
+                $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => PortfolioManager:: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Portfolio') ));
 
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DefaultSystemSettings')));
 
 		if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail, false, true);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -40,7 +40,8 @@ class PortfolioManagerAdminDefaultSettingsCreatorComponent extends PortfolioMana
 
             if ($form->validate())
             {
-
+                $success = $form->create_portfolio_default_settings();
+                $this->redirect($success ? Translation :: get('PortfolioDefaultSettingsSaved') : Translation :: get('PortfolioDefaultSettingsNotSaved'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_SET_PORTFOLIO_DEFAULTS));
             }
             else
             {

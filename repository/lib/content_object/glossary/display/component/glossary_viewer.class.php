@@ -27,7 +27,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplay
         
         $object = $this->get_root_content_object();
         
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), $object->get_title()));
         $this->display_header($trail);
 
@@ -35,7 +35,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplay
         
         if ($this->get_view() == self :: VIEW_TABLE)
         {
-            $table = new GlossaryViewerTable($this, $this->get_user(), Request :: get(Tool :: PARAM_PUBLICATION_ID));
+            $table = new GlossaryViewerTable($this);
             echo $table->as_html();
         }
         else
@@ -73,12 +73,14 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplay
     {
         if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
         {
-            $actions[] = array('href' => $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_complex_content_object_item' => $complex_content_object_item->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $actions[] = array('href' => $this->get_complex_content_object_item_update_url($complex_content_object_item),
+            				   'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         }
         
         if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
         {
-            $actions[] = array('href' => $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'selected_complex_content_object_item' => $complex_content_object_item->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+            $actions[] = array('href' => $this->get_complex_content_object_item_delete_url($complex_content_object_item), 
+            				   'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
         }
         
         return Utilities :: build_toolbar($actions);
@@ -107,7 +109,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplay
 
     function get_condition()
     {
-        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_content_object()->get_id(), ComplexContentObjectItem :: get_table_name());
+        return new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_root_content_object_id(), ComplexContentObjectItem :: get_table_name());
     }
 }
 

@@ -27,37 +27,12 @@ class GlossaryViewerTable extends ObjectTable
      * the selected learning object.
      * @see ResultsCandidateTableCellRenderer::ResultsCandidateTableCellRenderer()
      */
-    function GlossaryViewerTable($parent, $owner)
+    function GlossaryViewerTable($parent)
     {
-        $data_provider = new GlossaryViewerTableDataProvider($parent, $owner);
+        $data_provider = new GlossaryViewerTableDataProvider($parent);
         $column_model = new GlossaryViewerTableColumnModel();
         $cell_renderer = new GlossaryViewerTableCellRenderer($parent);
         parent :: __construct($data_provider, GlossaryViewerTable :: DEFAULT_NAME, $column_model, $cell_renderer);
     }
-
-/**
- * You should not be concerned with this method. It is only public because
- * of technical limitations.
- */
-/*function get_objects($offset, $count, $order_column)
-	{
-		$objects = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)));
-		$table_data = array ();
-		$column_count = $this->get_column_model()->get_column_count();
-		foreach ($objects as $object)
-		{
-			$row = array ();
-			if ($this->has_form_actions())
-			{
-				$row[] = $object->get_id();
-			}
-			for ($i = 0; $i < $column_count; $i ++)
-			{
-				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $object);
-			}
-			$table_data[] = $row;
-		}
-		return $table_data;
-	}*/
 }
 ?>

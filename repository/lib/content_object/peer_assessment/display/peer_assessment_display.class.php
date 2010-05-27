@@ -12,7 +12,7 @@ class PeerAssessmentDisplay extends ComplexDisplay
         
         if (! $component)
         {
-            $action = Request :: get('go');
+            $action = $this->get_action();
             
             switch ($action)
             {
@@ -34,5 +34,12 @@ class PeerAssessmentDisplay extends ComplexDisplay
     {
         return $this->get_parent()->get_current_attempt_id();
     }
+
+	function get_application_component_path ()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
+
+    
 }
 ?>
