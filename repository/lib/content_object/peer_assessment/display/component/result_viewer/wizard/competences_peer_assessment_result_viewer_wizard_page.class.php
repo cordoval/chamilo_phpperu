@@ -187,6 +187,7 @@ class CompetencesPeerAssessmentResultViewerWizardPage extends PeerAssessmentResu
 		$assessment_div[] = '</div>';
 		$assessment_div[] = '</div>';
 		$assessment_div[] = '</div>';
+		$assessment_div[] = '</div>';
 		$this->addElement('html', implode("\n", $assessment_div));
     }
     

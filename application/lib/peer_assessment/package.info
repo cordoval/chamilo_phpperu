@@ -2,7 +2,7 @@
 <packages>
 	<package>
 		<name>Peer Assessment</name>
-		<code>peer assessment</code>
+		<code>peer_assessment</code>
 		<section>application</section>
 		<category>evaluation</category>
 		<author></author>
