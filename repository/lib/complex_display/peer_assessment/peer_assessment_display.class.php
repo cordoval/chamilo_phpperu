@@ -34,5 +34,6 @@ class PeerAssessmentDisplay extends ComplexDisplay
     {
         return $this->get_parent()->get_current_attempt_id();
     }
+    
 }
 ?>
