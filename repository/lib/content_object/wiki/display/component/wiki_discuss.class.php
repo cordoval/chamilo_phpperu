@@ -10,7 +10,7 @@
  */
 
 require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_parser.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/wiki/displaywiki_display.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_display.class.php';
 
 class WikiDisplayWikiDiscussComponent extends WikiDisplay
 {
@@ -51,10 +51,10 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplay
         }
         $wiki_page = $data_manager->retrieve_content_object($this->wiki_page_id);
         
-        $this->display_header($this->get_parent()->get_breadcrumbtrail());
+        $this->display_header($this->get_breadcrumbtrail());
         
-        $this->action_bar = $this->get_parent()->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), $this->complex_id); //$this->get_toolbar();
-        //echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
+        $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), $this->complex_id); //$this->get_toolbar();
+        //echo '<div id="trailbox2" style="padding:0px;">' . $this->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
         echo '<div style="float:left; width: 135px;">' . $this->action_bar->as_html() . '</div>';
         echo '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">' . Translation :: get('DiscussThe') . ' ' . $wiki_page->get_title() . ' ' . Translation :: get('Page') . '<hr style="height:1px;color:#4271B5;width:100%;"></div>';
         
@@ -84,7 +84,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplay
             if (Request :: get('application') == 'wiki')
             {
                 $conditions[] = new EqualityCondition(WikiPubFeedback :: PROPERTY_WIKI_PUBLICATION_ID, Request :: get('wiki_publication'));
-                $conditions[] = new EqualityCondition(WikiPubFeedback :: PROPERTY_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->complex_id);
+                $conditions[] = new EqualityCondition(WikiPubFeedback :: PROPERTY_CLOI_ID, $this->complex_id);
                 $condition = new AndCondition($conditions);
                 $feedbacks = WikiDataManager :: get_instance()->retrieve_wiki_pub_feedbacks($condition);
             }

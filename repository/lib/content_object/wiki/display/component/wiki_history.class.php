@@ -56,10 +56,10 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
         $publication_attr = array();
         $versions = $wiki_page->get_content_object_versions();
         
-        $this->display_header( $this->get_parent()->get_breadcrumbtrail());
+        $this->display_header( $this->get_breadcrumbtrail());
         
-        $this->action_bar = $this->get_parent()->get_toolbar($this, Request :: get('pid'), $this->get_root_content_object(), $this->complex_id);
-        //echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
+        $this->action_bar = $this->get_toolbar($this, Request :: get('pid'), $this->get_root_content_object(), $this->complex_id);
+        //echo '<div id="trailbox2" style="padding:0px;">' . $this->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
         echo '<div style="float:left; width: 135px;">' . $this->action_bar->as_html() . '</div>';
         echo '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">' . Translation :: get('HistoryForThe') . ' ' . $wiki_page->get_title() . ' ' . Translation :: get('Page') . '</div><hr style="height:1px;color:#4271B5;width:100%;">';
         
