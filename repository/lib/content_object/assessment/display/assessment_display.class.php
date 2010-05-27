@@ -4,7 +4,7 @@
  * @package repository.lib.complex_display.assessment
  */
 
-require_once dirname(__FILE__) . '/assessment_display_component.class.php';
+//require_once dirname(__FILE__) . '/assessment_display_component.class.php';
 /**
  * This tool allows a user to publish assessments in his or her course.
  */
@@ -69,5 +69,10 @@ class AssessmentDisplay extends ComplexDisplay
     {
         return $this->get_parent()->get_go_back_url();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>
