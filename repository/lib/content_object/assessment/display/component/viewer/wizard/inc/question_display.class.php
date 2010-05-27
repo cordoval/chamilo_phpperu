@@ -5,25 +5,25 @@
  */
 abstract class QuestionDisplay
 {
-    private $clo_question;
+    private $complex_content_object_question;
     private $question;
     private $question_nr;
     private $formvalidator;
     private $renderer;
 
-    function QuestionDisplay($formvalidator, $clo_question, $question_nr, $question)
+    function QuestionDisplay($formvalidator, $complex_content_object_question, $question_nr, $question)
     {
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
         
-        $this->clo_question = $clo_question;
+        $this->clo_question = $complex_content_object_question;
         $this->question_nr = $question_nr;
         $this->question = $question;
     }
 
-    function get_clo_question()
+    function get_complex_content_object_question()
     {
-        return $this->clo_question;
+        return $this->complex_content_object_question;
     }
 
     function get_question()
@@ -124,9 +124,9 @@ abstract class QuestionDisplay
 
     abstract function get_instruction();
 
-    static function factory($formvalidator, $clo_question, $question_nr)
+    static function factory($formvalidator, $complex_content_object_question, $question_nr)
     {
-        $question = RepositoryDataManager :: get_instance()->retrieve_content_object($clo_question->get_ref());
+        $question = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object_question->get_ref());
         $type = $question->get_type();
         
         $file = dirname(__FILE__) . '/question_display/' . $type . '.class.php';
@@ -139,7 +139,7 @@ abstract class QuestionDisplay
         require_once $file;
         
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
-        $question_display = new $class($formvalidator, $clo_question, $question_nr, $question);
+        $question_display = new $class($formvalidator, $complex_content_object_question, $question_nr, $question);
         return $question_display;
     }
 

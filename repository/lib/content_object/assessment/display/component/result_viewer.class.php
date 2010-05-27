@@ -1,13 +1,12 @@
 <?php
 /**
- * $Id: assessment_result_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * $Id: result_viewer.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_display.assessment.component
  */
 require_once dirname(__FILE__) . '/../assessment_display.class.php';
-require_once dirname(__FILE__) . '/../assessment_display_component.class.php';
 require_once dirname(__FILE__) . '/result_viewer/question_result_display.class.php';
 
-class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplayComponent
+class AssessmentDisplayResultViewerComponent extends AssessmentDisplay
 {
 
     /**
