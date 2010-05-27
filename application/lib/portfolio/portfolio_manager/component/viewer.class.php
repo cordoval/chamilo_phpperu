@@ -176,11 +176,15 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $html[] = '</div></div>';
         $html[] = '</div>';
         $html[] = '</div>';
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail::get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $user_id)), Translation :: get('ViewPortfolio')));
         
-        $this->display_header($trail);
+        $udm = UserDataManager::get_instance();
+        $user = $udm->retrieve_user($owner_user_id);
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
+
+        
+        $this->display_header();
         echo implode("\n", $html);
         $this->display_footer();
     }
