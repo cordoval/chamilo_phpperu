@@ -13,7 +13,7 @@ class ToolComplexBuilderComponent extends ToolComponent
         {
             $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
-            $this->content_object = RepositoryDataManager::get_instance()->retrieve_content_object($publication->get_content_object());
+            $this->content_object = $publication->get_content_object();
             $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
             
             //Request :: set_get(ComplexBuilder :: PARAM_ROOT_LO, $pub->get_content_object()->get_id());
@@ -22,16 +22,10 @@ class ToolComplexBuilderComponent extends ToolComponent
             $complex_builder->run();
         }
     }
-
-    function display_header($trail)
+  
+	function get_root_content_object()
     {
-        $my_trail = new BreadcrumbTrail();
-        //$my_trail->add(new Breadcrumb($this->get_url(), Translation :: get('BuildComplexContentObject')));
-        $my_trail->merge($trail);
-        
-        parent :: display_header($my_trail, false, true, false);
-        
-        echo '<a href="' . $this->get_url(array('tool_action' => null, 'builder_action' => null)) . '">' . Translation :: get('Back') . '</a><br />';
+    	return $this->content_object;
     }
 
 }

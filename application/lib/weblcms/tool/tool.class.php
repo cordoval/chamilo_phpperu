@@ -260,8 +260,8 @@ abstract class Tool
      */
     function display_header($breadcrumbtrail, $display_title, $display_tools = true, $display_student_view = true)
     {
-        $trail = new BreadcrumbTrail();
-        $trail->set_help_items($breadcrumbtrail->get_help_items());
+        $trail = BreadcrumbTrail :: get_instance();
+        //$trail->set_help_items($breadcrumbtrail->get_help_items());
         switch ($this->parent->get_course()->get_breadcrumb())
         {
             case CourseLayout :: BREADCRUMB_TITLE :
@@ -301,7 +301,7 @@ abstract class Tool
             $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null, 'view' => null, 'time' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
         }
 
-        $breadcrumbs = $breadcrumbtrail->get_breadcrumbs();
+        $breadcrumbs = BreadcrumbTrail::get_instance()->get_breadcrumbs();
 
         if (count($breadcrumbs))
         {

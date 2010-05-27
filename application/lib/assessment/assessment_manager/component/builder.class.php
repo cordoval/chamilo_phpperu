@@ -18,19 +18,20 @@ class AssessmentManagerBuilderComponent extends AssessmentManager
     	$publication = AssessmentDataManager :: get_instance()->retrieve_assessment_publication($publication_id);
     	$this->content_object = RepositoryDataManager::get_instance()->retrieve_content_object($publication->get_content_object());
     	$this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $publication_id);
-    	
+    	$new_trail = BreadcrumbTrail::get_instance();
+    	$new_trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
     	$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
     	$complex_builder->run();
     }
     
-    function display_header($trail)
-    {
-    	$new_trail = new BreadcrumbTrail();
-    	$new_trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-    	
-    	$new_trail->merge($trail);
-    	parent :: display_header($new_trail);
-    }
+//    function display_header($trail)
+//    {
+//    	$new_trail = BreadcrumbTrail::get_instance();
+//    	$new_trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
+//    	
+//    	
+//    	parent :: display_header();
+//    }
     
 	function get_root_content_object()
     {

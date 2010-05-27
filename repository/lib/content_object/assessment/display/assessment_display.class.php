@@ -17,9 +17,7 @@ class AssessmentDisplay extends ComplexDisplay
      * Inherited.
      */
     function run()
-    {
-        $component = parent :: run();
-        
+    {     
         if (! $component)
         {
             $action = $this->get_action();
@@ -27,13 +25,13 @@ class AssessmentDisplay extends ComplexDisplay
             switch ($action)
             {
                 case self :: ACTION_VIEW_ASSESSMENT :
-                    $component = AssessmentDisplayComponent :: factory('AssessmentViewer', $this);
+                    $component = $this->create_component('AssessmentViewer');
                     break;
                 case self :: ACTION_VIEW_ASSESSMENT_RESULT :
-                    $component = AssessmentDisplayComponent :: factory('AssessmentResultViewer', $this);
+                    $component = $this->create_component('AssessmentResultViewer');
                     break;
                 default :
-                    $component = AssessmentDisplayComponent :: factory('AssessmentViewer', $this);
+                    $component = $this->create_component('AssessmentViewer');
             }
         }
         

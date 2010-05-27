@@ -16,7 +16,7 @@ abstract class QuestionDisplay
         $this->formvalidator = $formvalidator;
         $this->renderer = $formvalidator->defaultRenderer();
         
-        $this->clo_question = $complex_content_object_question;
+        $this->complex_content_object_question = $complex_content_object_question;
         $this->question_nr = $question_nr;
         $this->question = $question;
     }

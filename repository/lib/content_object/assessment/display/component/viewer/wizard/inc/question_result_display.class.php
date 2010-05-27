@@ -13,7 +13,7 @@ abstract class QuestionResultDisplay
 
     function QuestionResultDisplay($complex_content_object_question, $question_nr, $answers, $score)
     {
-        $this->complex_content_object_question = $clo_question;
+        $this->complex_content_object_question = $complex_content_object_question;
         $this->question_nr = $question_nr;
         $this->question = $complex_content_object_question->get_ref();
         $this->answers = $answers;
@@ -22,7 +22,7 @@ abstract class QuestionResultDisplay
 
     function get_complex_content_object_question()
     {
-        return $this->clo_question;
+        return $this->complex_content_object_question;
     }
 
     function get_question()

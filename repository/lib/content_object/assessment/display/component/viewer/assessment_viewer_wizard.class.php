@@ -96,7 +96,6 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
         }
         
         $questions = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition, array(), $start, $stop);
-        
         return $questions;
     }
 
