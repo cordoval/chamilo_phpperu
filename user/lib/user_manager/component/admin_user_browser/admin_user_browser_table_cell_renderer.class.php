@@ -76,13 +76,15 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         //$toolbar_data[] = array('href' => $this->browser->get_user_editing_url($user), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         $toolbar->add_item(new ToolbarItem(Translation :: get('VersionQuota'),
         	Theme :: get_common_image_path() . 'action_statistics.png',
-        	$this->browser->get_user_quota_url($user)));
+        	$this->browser->get_user_quota_url($user),
+        	ToolbarItem :: DISPLAY_ICON));
 
         //$toolbar_data[] = array('href' => $this->browser->get_user_quota_url($user), 'label' => Translation :: get('VersionQuota'), 'img' => Theme :: get_common_image_path() . 'action_statistics.png');
 
         $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRightsTemplates'),
         	Theme :: get_common_image_path() . 'action_rights.png',
-        	$this->browser->get_manage_user_rights_url($user)));	
+        	$this->browser->get_manage_user_rights_url($user),
+        	ToolbarItem :: DISPLAY_ICON));	
         //$toolbar_data[] = array('href' => $this->browser->get_manage_user_rights_url($user), 'label' => Translation :: get('ManageRightsTemplates'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
 
         $params = array();
@@ -102,7 +104,8 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         
 		$toolbar->add_item(new ToolBarItem(Translation :: get('Detail'),
         	Theme :: get_common_image_path().'action_details.png',
-        	$this->browser->get_user_detail_url($user->get_id())));
+        	$this->browser->get_user_detail_url($user->get_id()),
+        	ToolbarItem :: DISPLAY_ICON));
         	
 		//$toolbar_data[] = array(
 			//	'href' => $this->browser->get_user_detail_url($user->get_id()),
@@ -113,12 +116,14 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         //$unsubscribe_url = $this->browser->get_url($parameters);
         $toolbar->add_item(new ToolBarItem(Translation :: get('Report'),
         	Theme :: get_common_image_path() . 'action_reporting.png',
-        	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_REPORTING, UserManager::PARAM_USER_USER_ID => $user->get_id()))));	
+        	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_REPORTING, UserManager::PARAM_USER_USER_ID => $user->get_id())),
+        	ToolbarItem :: DISPLAY_ICON));	
         	
         //$toolbar_data[] = array('href' => $this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_REPORTING, UserManager::PARAM_USER_USER_ID => $user->get_id())), 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
         $toolbar->add_item(new ToolBarItem(Translation :: get('ViewQuota'),
         	Theme :: get_common_image_path() . 'action_browser.png',
-        	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, UserManager::PARAM_USER_USER_ID => $user->get_id()))));	
+        	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, UserManager::PARAM_USER_USER_ID => $user->get_id())),
+        	ToolbarItem :: DISPLAY_ICON));	
 
                	
         //$toolbar_data[] = array('href' => $this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, UserManager::PARAM_USER_USER_ID => $user->get_id())), 'label' => Translation :: get('ViewQuota'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
@@ -127,7 +132,8 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         {
         	$toolbar->add_item(new ToolBarItem(Translation :: get('SendEmail'),
         		Theme :: get_common_image_path() . 'action_email.png',
-        		$this->browser->get_email_user_url($user)));	
+        		$this->browser->get_email_user_url($user),
+        		ToolbarItem :: DISPLAY_ICON));	
         	
         	//$toolbar_data[] = array('href' => $this->browser->get_email_user_url($user), 'label' => Translation :: get('SendEmail'), 'img' => Theme :: get_common_image_path() . 'action_email.png');
         }
@@ -139,7 +145,7 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
             	$toolbar->add_item(new ToolBarItem(Translation :: get('Delete'),
         			Theme :: get_common_image_path() . 'action_delete.png',
         			$this->browser->get_user_delete_url($user),
-        			ToolbarItem :: DISPLAY_ICON_AND_LABEL,
+        			ToolbarItem :: DISPLAY_ICON,
         			true
         			));
         		
@@ -148,7 +154,8 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         	
 			$toolbar->add_item(new ToolBarItem(Translation :: get('LoginAsUser'),
         		Theme :: get_common_image_path() . 'action_login.png',
-        		$this->browser->get_change_user_url($user)));
+        		$this->browser->get_change_user_url($user),
+        		ToolbarItem :: DISPLAY_ICON));
             //$toolbar_data[] = array('href' => $this->browser->get_change_user_url($user), 'label' => Translation :: get('LoginAsUser'), 'img' => Theme :: get_common_image_path() . 'action_login.png');
         }
 		//dump($toolbar);
