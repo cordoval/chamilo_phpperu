@@ -141,7 +141,7 @@ class WikiDisplay extends ComplexDisplay
             
             if (Request :: get('display_action') == 'discuss')
             {
-                $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path() . 'action_add.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE_FEEDBACK, 'wiki_publication' => Request :: get('wiki_publication'), ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path() . 'action_add.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE_FEEDBACK, 'wiki_publication' => Request :: get('wiki_publication'), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
             
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Discuss'), Theme :: get_common_image_path() . 'action_users.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'wiki_publication' => Request :: get('wiki_publication'), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

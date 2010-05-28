@@ -5,19 +5,19 @@
  */
 require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
 
-class WikiDisplayWikiPubFeedbackEditorComponent extends WikiDisplayComponent
+class WikiDisplayWikiPubFeedbackEditorComponent extends WikiDisplay
 {
 
     function run()
     {
         if ($this->is_allowed(EDIT_RIGHT))
         {
-            $cid = Request :: get('selected_cloi') ? Request :: get('selected_cloi') : $_POST['selected_cloi'];
-            $wiki_publication_id = $this->get_root_lo();
-            $fid = Request :: get(WikiPubFeedback :: PROPERTY_FEEDBACK_ID) ? Request :: get(WikiPubFeedback :: PROPERTY_FEEDBACK_ID) : $_POST[WikiPubFeedback :: PROPERTY_FEEDBACK_ID];
+            $complex_id = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID) ? Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID) : $_POST[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID];
+            $wiki_publication_id = $this->get_root_content_object();
+            $feedback_id = Request :: get(WikiPubFeedback :: PROPERTY_FEEDBACK_ID) ? Request :: get(WikiPubFeedback :: PROPERTY_FEEDBACK_ID) : $_POST[WikiPubFeedback :: PROPERTY_FEEDBACK_ID];
 
             $datamanager = WikiDataManager :: get_instance();
-            $condition = new EqualityCondition(WikiPubFeedback :: PROPERTY_FEEDBACK_ID, $fid);
+            $condition = new EqualityCondition(WikiPubFeedback :: PROPERTY_FEEDBACK_ID, $feedback_id);
             $feedbacks = $datamanager->retrieve_wiki_pub_feedbacks($condition);
             
             $feedback = $feedbacks->next_result();
@@ -25,7 +25,7 @@ class WikiDisplayWikiPubFeedbackEditorComponent extends WikiDisplayComponent
                 $feedback_display = RepositoryDataManager :: get_instance()->retrieve_content_object($feedback->get_feedback_id());
                 $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $feedback_display, 'edit', 'post', 
                 	$this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_EDIT_FEEDBACK, 
-                					     WikiPubFeedback :: PROPERTY_FEEDBACK_ID => $fid, 'selected_cloi' => $cid, 'details' => Request :: get('details'))));
+                					     WikiPubFeedback :: PROPERTY_FEEDBACK_ID => $feedback_id, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_id, 'details' => Request :: get('details'))));
                 
                 if ($form->validate() || Request :: get('validated'))
                 {
@@ -47,16 +47,16 @@ class WikiDisplayWikiPubFeedbackEditorComponent extends WikiDisplayComponent
                         $params['wiki_publication_id'] = Request :: get('wiki_publication_id');
                         $params['tool_action'] = 'view';
                     }
-                    if ($cid != null)
+                    if ($complex_id != null)
                     {
-                        $params['selected_cloi'] = $cid;
+                        $params[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $complex_id;
                         $params['tool_action'] = Request :: get('tool_action');
                         $params['display_action'] = 'discuss';
                     }
                     
-                    if (Request :: get('fid') != null)
+                    if (Request :: get(WikiPubFeedback :: PROPERTY_FEEDBACK_ID) != null)
                     {
-                        $params['fid'] = Request :: get('fid');
+                        $params[WikiPubFeedback :: PROPERTY_FEEDBACK_ID] = Request :: get(WikiPubFeedback :: PROPERTY_FEEDBACK_ID);
                     }
                     
                     $this->redirect($message, '', $params);

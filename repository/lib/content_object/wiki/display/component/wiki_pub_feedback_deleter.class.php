@@ -4,24 +4,24 @@
  * @package repository.lib.complex_display.wiki.component
  */
 
-class WikiDisplayWikiPubFeedbackDeleterComponent extends WikiDisplayComponent
+class WikiDisplayWikiPubFeedbackDeleterComponent extends WikiDisplay
 {
-    private $cid;
+    private $complex_id;
     private $wiki_publication_id;
 
     function run()
     {
         if ($this->is_allowed(DELETE_RIGHT))
         {
-            if (Request :: get('fid'))
-                $feedback_ids = Request :: get('fid');
+            if (Request :: get(WikiPubFeedback :: PROPERTY_FEEDBACK_ID))
+                $feedback_ids = Request :: get(WikiPubFeedback :: PROPERTY_FEEDBACK_ID);
             else
-                $feedback_ids = $_POST['fid'];
-            
-            if (Request :: get('selected_cloi'))
-                $this->cid = Request :: get('selected_cloi');
+                $feedback_ids = $_POST[WikiPubFeedback :: PROPERTY_FEEDBACK_ID];
+                
+            if (Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID))
+                $this->complex_id = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
             else
-                $this->cid = $_POST['selected_cloi'];
+                $this->complex_id = $_POST[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID];
             
             if (Request :: get('wiki_publication'))
                 $this->wiki_publication_id = Request :: get('wiki_publication');
@@ -34,26 +34,33 @@ class WikiDisplayWikiPubFeedbackDeleterComponent extends WikiDisplayComponent
             }
             
             $datamanager = WikiDataManager :: get_instance();
-            
-            foreach ($feedback_ids as $index => $fid)
+            $errors = 0;
+            foreach ($feedback_ids as $index => $feedback_id)
             {
-                $condition = new EqualityCondition(WikiPubFeedback :: PROPERTY_FEEDBACK_ID, $fid);
+                $condition = new EqualityCondition(WikiPubFeedback :: PROPERTY_FEEDBACK_ID, $feedback_id);
                 $feedbacks = $datamanager->retrieve_wiki_pub_feedbacks($condition);
                 while ($feedback = $feedbacks->next_result())
                 {
-                    $feedback->delete();
+                    if(!$feedback->delete())
+                        $errors++;
                 }
             }
             if (count($feedback_ids) > 1)
             {
-                $message = htmlentities(Translation :: get('ContentObjectFeedbacksDeleted'));
+                if(!$errors)
+                    $message = htmlentities(Translation :: get('ContentObjectFeedbacksDeleted'));
+                else
+                    $message = htmlentities(Translation :: get('ContentObjectFeedbacksNotDeleted'));
             }
             else
             {
-                $message = htmlentities(Translation :: get('ContentObjectFeedbackDeleted'));
+                if(!$errors)
+                    $message = htmlentities(Translation :: get('ContentObjectFeedbackDeleted'));
+                else
+                    $message = htmlentities(Translation :: get('ContentObjectFeedbackNotDeleted'));
             }
             
-            $this->redirect($message, '', array(Tool :: PARAM_ACTION => Request :: get('tool_action'), 'display_action' => 'discuss', 'wiki_publication' => $this->wiki_publication_id, 'selected_cloi' => $this->cid));
+            $this->redirect($message, ($errors ? true : false), array(Tool :: PARAM_ACTION => Request :: get('tool_action'), 'display_action' => 'discuss', 'wiki_publication' => $this->wiki_publication_id, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id));
         }
     }
 

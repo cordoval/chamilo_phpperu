@@ -132,7 +132,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplay
 
     function show_add_feedback()
     {
-        $actions[] = array('href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_FEEDBACK_COMPLEX_CONTENT_OBJECT_ITEM, 'pid' => Request :: get('pid'), 'wiki_publication' => Request :: get('wiki_publication'), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)), 'label' => Translation :: get('AddFeedback'), 'img' => Theme :: get_common_image_path() . 'action_add.png', 'confirm' => false);
+        $actions[] = array('href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_FEEDBACK, 'pid' => Request :: get('pid'), 'wiki_publication' => Request :: get('wiki_publication'), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)), 'label' => Translation :: get('AddFeedback'), 'img' => Theme :: get_common_image_path() . 'action_add.png', 'confirm' => false);
         
         return Utilities :: build_toolbar($actions);
     
