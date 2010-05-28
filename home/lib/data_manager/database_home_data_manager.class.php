@@ -86,7 +86,7 @@ class DatabaseHomeDataManager extends Database implements HomeDataManagerInterfa
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name(HomeBlock :: get_table_name()) . ' AS ' . $this->get_alias(HomeBlock :: get_table_name()) . ' WHERE ' . $this->escape_column_name(HomeBlock :: PROPERTY_COLUMN) . ' IN (SELECT ' . $this->escape_column_name(HomeColumn :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name(HomeColumn :: get_table_name()) . ' AS ' . $this->get_alias(HomeColumn :: get_table_name()) . ' WHERE ' . $this->escape_column_name(HomeColumn :: PROPERTY_ROW) . ' IN (SELECT ' . $this->escape_column_name(HomeRow :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name(HomeRow :: get_table_name()) . ' AS ' . $this->get_alias(HomeTab :: get_table_name()) . ' WHERE ' . $this->escape_column_name(HomeRow :: PROPERTY_TAB) . ' = ' . $this->quote($home_tab->get_id()) . '))';
         $res = $this->query($query);
-        return new ObjectResultSet($this->database, $res, HomeBlock :: CLASS_NAME);
+        return new ObjectResultSet($this, $res, HomeBlock :: CLASS_NAME);
     }
 
     function retrieve_home_columns($condition = null, $offset = null, $max_objects = null, $order_by = null)
