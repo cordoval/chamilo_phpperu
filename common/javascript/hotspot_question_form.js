@@ -254,21 +254,16 @@ $(function ()
 		$('#hotspot_select').show();
 		
 		// Initialize the uploadify plugin
-		$('#uploadify').fileUpload ({
-			'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/uploader-cms.swf',
+		$('#uploadify').uploadify ({
+			'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
 			'script': getPath('WEB_PATH') + 'common/javascript/ajax/upload_image.php',
-			'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/cancel.png',
-			//'buttonText': getTranslation('Browse', 'repository'),
-			//'buttonImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/button.png',
-			//'rollover': true,
+			'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
+			'buttonText': getTranslation('Upload', 'repository').toUpperCase(),
 			'folder': 'not_important',
 			'auto': true,
-			//'width': 84,
-			//'height': 27,
-			'displayData': 'percentage',
 			'scriptData': {'owner': getMemory('_uid')},
 			onComplete: function (evt, queueID, fileObj, response, data)
-			{
+			{				
 				imageProperties = eval('(' + response + ')');
 				
 				$('input[name="image_object"]').val(imageProperties.id);
