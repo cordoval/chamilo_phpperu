@@ -10,9 +10,7 @@ class ForumDisplayStickyComponent extends ForumDisplay
 
     function run()
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        
-        $topic = $rdm->retrieve_complex_content_object_item(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID));
+        $topic = $this->get_selected_complex_content_object_item();
         
         if ($topic->get_type() == 1)
         {
@@ -26,11 +24,9 @@ class ForumDisplayStickyComponent extends ForumDisplay
         }
         $topic->update();
         
-        $params = array('pid' => Request :: get('pid'));
+        $params = array();
         $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_VIEW_FORUM;
-            
-        if ( Request :: get('is_subforum'))
-        	$params['forum'] = Request :: get('forum');
+        $params[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
         
         $this->redirect(Translation :: get($message), '', $params);
     }

@@ -11,42 +11,30 @@ class ForumDisplayForumPostDeleterComponent extends ForumDisplay
 
     function run()
     {
-        if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
+        if ($this->get_parent()->is_allowed(DELETE_RIGHT))
         {
-            $cid = Request :: get('cid');
-            $pid = Request :: get('pid');
+            $posts = $this->get_selected_complex_content_object_item_id();
             
-            $posts = Request :: get('post');
-            
-            if (! is_array($posts))
+        	if (! is_array($posts))
             {
                 $posts = array($posts);
             }
             
             $datamanager = RepositoryDataManager :: get_instance();
             $params = array();
-            $params['pid'] = $pid;
-            $params['cid'] = $cid;
             $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_VIEW_TOPIC;
+            $params[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
             
             foreach ($posts as $index => $post)
             {
-                $cloi = $datamanager->retrieve_complex_content_object_item($post);
-                $cloi->delete();
+                $complex_content_object_item = $datamanager->retrieve_complex_content_object_item($post);
+                $complex_content_object_item->delete();
                 
-                $siblings = $datamanager->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $cloi->get_parent()));
+                $siblings = $datamanager->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $complex_content_object_item->get_parent()));
                 if ($siblings == 0)
                 {
-                    /*$wrappers = $datamanager->retrieve_complex_content_object_items(new EqualityCondition('ref_id', $cloi->get_parent()));
-                    while($wrapper = $wrappers->next_result())
-                    {
-                        $wrapper->delete();
-                    }
-
-                    $datamanager->delete_content_object_by_id($cloi->get_parent());*/
-                    
                     $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_VIEW_FORUM;
-                    $params['cid'] = null;
+                    $params[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
                 }
             }
             if (count($posts) > 1)
