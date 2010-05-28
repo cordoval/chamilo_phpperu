@@ -12,7 +12,6 @@ require_once dirname(__FILE__) . '/../forum_manager.class.php';
 class ForumManagerViewerComponent extends ForumManager
 {
 	private $trail;
-	
     /**
      * Runs this component and displays its output.
      */
@@ -62,5 +61,14 @@ class ForumManagerViewerComponent extends ForumManager
         $parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_VIEW;
         parent :: redirect($message, $error_message, $parameters, $filter, $encode_entities);
     }
+    function get_root_content_object()
+    {
+    	$datamanager = ForumDataManager :: get_instance();
+    	$pid = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
+        $pub = $datamanager->retrieve_forum_publication($pid);
+    	$forum_id = $pub->get_forum_id();
+       	return RepositoryDataManager :: get_instance()->retrieve_content_object($forum_id);
+    }
+
 }
 ?>

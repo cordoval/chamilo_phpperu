@@ -6,7 +6,8 @@
 require_once dirname(__FILE__) . '/../forum_manager.class.php';
 require_once dirname(__FILE__) . '/../../forum_publication.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/forum/display/forum_display.class.php';
+
 require_once 'HTML/Table.php';
 
 class ForumManagerBrowserComponent extends ForumManager
@@ -106,15 +107,13 @@ class ForumManagerBrowserComponent extends ForumManager
             $last = $counter == ($size - 1) ? true : false;
             
             $forum = $rdm->retrieve_content_object($publication->get_forum_id(), Forum :: get_type_name());
-            $title = '<a href="' . $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_VIEW, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager :: PARAM_PUBLICATION_ID => $publication->get_forum_id())) . '">' . $forum->get_title() . '</a><br />' . Utilities :: truncate_string($forum->get_description());
-            
+            $title = '<a href="' . $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_VIEW, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . Utilities :: truncate_string($forum->get_description());
             $last_post = $rdm->retrieve_complex_content_object_item($forum->get_last_post());
             
             if ($publication->is_hidden())
             {
                 $title = '<span style="color: grey;">' . $title . '</span>';
             }
-            
             $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
             $table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
             $table->setCellContents($row, 1, $title);

@@ -33,6 +33,7 @@ class ForumDisplay extends ComplexDisplay
 
     function run()
     {
+    	dump($this);
         $action = $this->get_action();
         
         switch ($action)
