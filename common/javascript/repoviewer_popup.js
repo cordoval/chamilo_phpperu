@@ -5,7 +5,7 @@ var selected_question_id = 0;
 	function show_repo_viewer(ev, ui)
 	{
 		var path = get_path('WEB_PATH');
-		var html = '<iframe style="border: none; width: 1000px; height: 550px; z-index: 3500;" border="0" src="' + path + 'index_repository_manager.php?go=repo_viewer"></iframe>';
+		var html = '<iframe style="border: none; width: 1000px; height: 550px; z-index: 3500;" border="0" src="' + path + 'core.php?application=repository&go=repo_viewer"></iframe>';
 		$.modal(html, {
 			overlayId: 'modalOverlay',
 		  	containerId: 'repoViewerModalContainer',

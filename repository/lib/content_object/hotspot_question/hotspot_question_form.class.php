@@ -207,6 +207,9 @@ class HotspotQuestionForm extends ContentObjectForm
             $html[] = '<div id="hotspot_container"><div id="hotspot_image"></div></div>';
         }
 
+//        $html[] = '<div class="clear"></div>';
+//        $html[] = '<button id="change_image" class="negative delete">' . htmlentities(Translation :: get('SelectAnotherImage')) . '</button>';
+
         $this->addElement('html', implode("\n", $html));
         $this->addElement('category');
     }
