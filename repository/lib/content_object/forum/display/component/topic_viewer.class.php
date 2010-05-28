@@ -9,42 +9,34 @@ require_once 'HTML/Table.php';
 class ForumDisplayTopicViewerComponent extends ForumDisplay
 {
     private $action_bar;
-    private $topic;
     private $posts;
 
     function run()
     {
-        $cid = Request :: get('cid');
-        $pid = Request :: get('pid');
-        
-        $this->forum = RepositoryDataManager :: get_instance()->retrieve_content_object($pid);
-        
-        $lo = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition('id', $cid, ComplexContentObjectItem :: get_table_name()))->next_result()->get_ref();
-        $this->retrieve_children($lo);
-        
-        $topic = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($cid);
+        $topic = $this->get_complex_content_object_item();
+    	$this->retrieve_children($topic->get_ref());
         
         $trail = new BreadcrumbTrail(false);
-        $trail->add(new Breadcrumb($this->get_url(array('pid' => $pid, 'forum' => null, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $this->forum->get_title()));
+        $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $this->get_root_content_object()->get_title()));
         
-        $forums = $this->retrieve_children_trail($this->forum);
+        $forums = $this->retrieve_children_trail($this->get_root_content_object());
         while ($forums)
         {
             $forum = $forums[0]->get_ref();
             
-            if ($forum->get_id() != $topic->get_parent() && $pid != $topic->get_parent())
+            if ($forum->get_id() != $topic->get_parent() && $this->get_root_content_object_id() != $topic->get_parent())
             {
-                $trail->add(new Breadcrumb($this->get_url(array('pid' => $pid, 'forum' => $forums[0]->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $forum->get_title()));
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $forums[0]->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $forum->get_title()));
                 $forums = $this->retrieve_children_trail($forum);
             }
             else
             {
-                $trail->add(new Breadcrumb($this->get_url(array('pid' => $pid, 'forum' => $forums[0]->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $forum->get_title()));
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $forums[0]->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $forum->get_title()));
                 $forums = null;
             }
         }
         
-        $trail->add(new Breadcrumb($this->get_url(array('pid' => $pid, 'cid' => $cid)), $this->posts[0]->get_ref()->get_title()));
+        $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $topic->get_id())), $this->posts[0]->get_ref()->get_title()));
         
         $this->action_bar = $this->get_action_bar();
         $table = $this->get_posts_table();
@@ -54,7 +46,6 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         echo '<a name="top"></a>';
         
         echo $this->action_bar->as_html();
-        //echo '<div id="trailbox2">' . $trail->render() . '</div>';
         echo '<div class="clear"></div><br />';
         echo $table->toHtml();
         echo '<br />';
@@ -80,15 +71,15 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         return $forums;
     }
 
-    function retrieve_children($lo)
+    function retrieve_children($topic)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        
-        $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $lo, ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_ASC)));
+         
+        $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $topic, ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_ASC)));
         while ($child = $children->next_result())
         {
-            $lo = $rdm->retrieve_content_object($child->get_ref());
-            $child->set_ref($lo);
+            $post = $rdm->retrieve_content_object($child->get_ref());
+            $child->set_ref($post);
             $this->posts[] = $child;
         }
     }
@@ -140,7 +131,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
             
             $row ++;
             
-            $info = '<br /><img style="max-width: 100px;" src="' . $user->get_full_picture_url() . '" /><br /><br />' . $post->get_add_date();
+            $info = '<br /><img style="max-width: 100px;" src="' . $user->get_full_picture_url() . '" /><br /><br />' . DatetimeUtilities :: format_locale_date(null, $post->get_add_date());
             $message = $this->format_message($post->get_ref()->get_description());
             
             $attachments = $post->get_ref()->get_attached_content_objects();
@@ -202,25 +193,30 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         return $message;
     }
 
-    function get_post_actions($cloi)
+    function get_post_actions($complex_content_object_item)
     {
-        $post = $cloi->get_ref();
+        $post = $complex_content_object_item->get_ref();
         
-        $pid = Request :: get('pid');
-        $cid = Request :: get('cid');
+        $parameters = array();
+        $parameters[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
+        $parameters[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $complex_content_object_item->get_id();
         
-        $actions[] = array('href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_QUOTE_FORUM_POST, 'quote' => $cloi->get_id())), 'label' => Translation :: get('Quote'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif');
+        $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_QUOTE_FORUM_POST;
+        $actions[] = array('href' => $this->get_url($parameters), 'label' => Translation :: get('Quote'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif');
         
-        $actions[] = array('href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_CREATE_FORUM_POST, 'reply' => $cloi->get_id())), 'label' => Translation :: get('Reply'), 'img' => Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif');
+        $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CREATE_FORUM_POST;
+        $actions[] = array('href' => $this->get_url($parameters), 'label' => Translation :: get('Reply'), 'img' => Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif');
 
-        if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT) || $cloi->get_user_id() == $this->get_user_id())
+        if ($this->get_parent()->is_allowed(EDIT_RIGHT) || $complex_content_object_item->get_user_id() == $this->get_user_id())
         {
-            $actions[] = array('href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_EDIT_FORUM_POST, 'post' => $cloi->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_edit.gif');
+            $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_EDIT_FORUM_POST;
+        	$actions[] = array('href' => $this->get_url($parameters), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_edit.gif');
         }
         
-        if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT) || $cloi->get_user_id() == $this->get_user_id())
+        if ($this->get_parent()->is_allowed(DELETE_RIGHT) || $complex_content_object_item->get_user_id() == $this->get_user_id())
         {
-            $actions[] = array('href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_FORUM_POST, 'post' => $cloi->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif', 'confirm' => true);
+            $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_DELETE_FORUM_POST;
+        	$actions[] = array('href' => $this->get_url($parameters), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif', 'confirm' => true);
         }
         
         return Utilities :: build_toolbar($actions);
@@ -231,10 +227,11 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $pid = Request :: get('pid');
-        $cid = Request :: get('cid');
+        $parameters = array();
+        $parameters[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
+        $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CREATE_FORUM_POST;
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ReplyOnTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_reply.gif'*/ Theme :: get_common_image_path() . 'action_reply.png', $this->get_url(array('pid' => $pid, 'cid' => $cid, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_CREATE_FORUM_POST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ReplyOnTopic'), Theme :: get_common_image_path() . 'action_reply.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
     }
