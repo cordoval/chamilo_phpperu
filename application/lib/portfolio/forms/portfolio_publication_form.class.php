@@ -232,18 +232,15 @@ class PortfolioPublicationForm extends FormValidator
 
     function build_system_defaults_form()
     {
-        $attributes1 = array();
-        $attributes1['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
-        $locale1 = array();
-        $locale1['Display'] = Translation :: get('SelectRecipients');
-        $locale1['Searching'] = Translation :: get('Searching');
-        $locale1['NoResults'] = Translation :: get('NoResults');
-        $locale1['Error'] = Translation :: get('Error');
-        $attributes1['locale'] = $locale1;
-        
-
-        $attributes1['defaults'] = array();
-
+        $attributes = array();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('SelectRecipients');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        $attributes['locale'] = $locale;
+        $attributes['defaults'] = array();
 
         $radio_options = array();
         $i = 0;
@@ -264,7 +261,6 @@ class PortfolioPublicationForm extends FormValidator
             $this->add_receivers_variable($right, Translation :: get($right), $attributes, $radio_options, PortfolioRights::RADIO_OPTION_ALLUSERS);
         }
 
-        $this->addElement('html', '</div>');
 
         $this->addElement('html', "<script type = \"text/javascript\">
                                     /* <![CDATA[ */
@@ -290,14 +286,55 @@ class PortfolioPublicationForm extends FormValidator
                                     /* ]]> */
                                     </script>\n"
                         );
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
+        $defaults = array();
+        //get the defaultrights
+
+        $location = PortfolioRights::get_default_location();
+        if($location)
+        {
+            $rights = PortfolioRights::get_all_publication_rights($location);
+        }
+        else
+        {
+            $rights = array();
+        }
+ 
+         if(isset($rights[PortfolioPublicationForm::RIGHT_EDIT]['option']))
+        {
+            $defaults[self::RIGHT_EDIT. '_option'] = $rights[PortfolioPublicationForm::RIGHT_EDIT]['option'] ;
+        }
+
+        if(isset($rights[PortfolioPublicationForm::RIGHT_VIEW]['option']))
+        {
+            $defaults[self::RIGHT_VIEW. '_option'] = $rights[PortfolioPublicationForm::RIGHT_VIEW]['option'];
+        }
+
+        if(isset($rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK]['option']))
+        {
+            $defaults[self::RIGHT_VIEW_FEEDBACK. '_option'] = $rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK]['option'];
+        }
+
+        if(isset($rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK]['option']))
+        {
+            $defaults[self::RIGHT_GIVE_FEEDBACK. '_option'] = $rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK]['option'];
+        }
+         
         
 
         parent :: setDefaults($defaults);
+    }
+
+    function create_portfolio_default_settings()
+    {
+        $values = $this->exportValues();
+        return PortfolioRights::implement_default_rights($values);
+
     }
 
     function update_portfolio_publication($type)

@@ -55,7 +55,7 @@ abstract class ComplexDisplay extends SubManager
         }
 
     	$selected_complex_content_object_item_id = Request :: get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-        if ($selected_complex_content_object_item_id)
+        if ($selected_complex_content_object_item_id && !is_array($selected_complex_content_object_item_id))
         {
             $this->selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($selected_complex_content_object_item_id);
         }
@@ -151,14 +151,14 @@ abstract class ComplexDisplay extends SubManager
     {
         return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, 
         							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), 
-        							self :: PARAM_CLOI_ID => $this->get_complex_content_object_item_id()));
+        							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     function get_complex_content_object_item_delete_url($complex_content_object_item)
     {
         return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, 
         							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), 
-        							self :: PARAM_CLOI_ID => $this->get_complex_content_object_item_id()));
+        							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     

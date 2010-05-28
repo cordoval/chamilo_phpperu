@@ -10,6 +10,8 @@ require_once dirname(__FILE__) . '/mediamosa_streaming_media_connector.class.php
 
 class MediamosaStreamingMediaManager extends StreamingMediaManager{
 
+    const ACTION_SET_MEDIAMOSA_DEFAULTS = 'set_defaults';
+
     function MediamosaStreamingVideoManager($application)
     {
         parent :: __construct($application);
@@ -63,6 +65,10 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
             case StreamingMediaManager :: ACTION_BROWSE_STREAMING_MEDIA :
                 $component = $this->create_component('Browser', $this);
                 break;
+
+            case self::ACTION_SET_MEDIAMOSA_DEFAULTS :
+                $component = $this->create_component('AdminDefaultSettingsCreator', $application)
+
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION, StreamingMediaManager :: ACTION_BROWSE_STREAMING_MEDIA);
@@ -70,6 +76,20 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
         }
 
         $component->run();
+    }
+
+    /**
+     * Gets the available links to display in the platform admin
+     * @retun array of links and actions
+     */
+    public function get_application_platform_admin_links()
+    {
+        $links = array();
+        $links[] = array('name' => Translation :: get('SetPortfolioDefaults'), 'action' => 'category', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_SET_PORTFOLIO_DEFAULTS)));
+
+        $info = parent :: get_application_platform_admin_links();
+        $info['links'] = $links;
+        return $info;
     }
 }
 ?>
