@@ -13,7 +13,8 @@ require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_ques
 
 class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 {
-
+	private $object;
+	
     function run()
     {
         if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
@@ -138,7 +139,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
         $this->set_parameter('uaid', $uaid);
         
         $display = ComplexDisplay :: factory($this, $object->get_type());
-        $display->set_root_lo($object);
+        $this->object = $object;
         
         //$this->display_header($crumbs);
         $display->run();
@@ -235,6 +236,11 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
             return $action_bar;
         }
     
+    }
+    
+    function get_root_content_object()
+    {
+    	return $this->object;
     }
 }
 ?>
