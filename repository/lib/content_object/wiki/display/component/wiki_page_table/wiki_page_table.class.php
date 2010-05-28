@@ -37,7 +37,7 @@ class WikiPageTable extends ObjectTable
         
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(WikiDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, Translation :: get('RestoreSelected'));
+        $actions[] = new ObjectTableFormAction(ComplexDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, Translation :: get('RemoveSelected'));
         $this->set_form_actions($actions);
     
     }

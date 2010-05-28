@@ -59,6 +59,7 @@ abstract class ComplexDisplay extends SubManager
         {
             $this->selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($selected_complex_content_object_item_id);
         }
+        $this->parse_input_from_table();
     }
 
 	static function factory($parent, $type)
@@ -129,6 +130,7 @@ abstract class ComplexDisplay extends SubManager
         }
         return $this->menu->render_as_tree();
     }
+    
 
     function get_complex_content_object_breadcrumbs()
     {
@@ -161,7 +163,28 @@ abstract class ComplexDisplay extends SubManager
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
-    
+    protected function parse_input_from_table()
+    {
+        if (isset($_POST['action']))
+        {
+            $selected_ids = $_POST[ObjectTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+            if (empty($selected_ids))
+            {
+                $selected_ids = array();
+            }
+            elseif (! is_array($selected_ids))
+            {
+                $selected_ids = array($selected_ids);
+            }
+            switch ($_POST['action'])
+            {
+                case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
+                    $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM);
+                    Request :: set_get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $selected_ids);
+                    break;
+            }
+        }
+    }
 }
 
 ?>
