@@ -28,7 +28,7 @@ class AssessmentDisplay extends ComplexDisplay
                     $component = $this->create_component('AssessmentViewer');
                     break;
                 case self :: ACTION_VIEW_ASSESSMENT_RESULT :
-                    $component = $this->create_component('AssessmentResultViewer');
+                    $component = $this->create_component('ResultViewer');
                     break;
                 default :
                     $component = $this->create_component('AssessmentViewer');
