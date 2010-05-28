@@ -29,7 +29,7 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplay
                 
                 if ($this->get_complex_content_object_item())
                 {
-                    $cloi->set_parent($this->get_complex_content_object_item_id());
+                    $cloi->set_parent($this->get_complex_content_object_item()->get_ref());
                 }
                 else
                 {
