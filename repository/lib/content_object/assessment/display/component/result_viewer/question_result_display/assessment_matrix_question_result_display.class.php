@@ -65,7 +65,7 @@ class AssessmentMatrixQuestionResultDisplay extends QuestionResultDisplay
                         }
                     }
 
-                    $html[] = '<input type="radio" name="yourchoice_' . $this->get_clo_question()->get_id() . '_' . $i . '" value="' . $j . '" disabled' . $selected . '/>';
+                    $html[] = '<input type="radio" name="yourchoice_' . $this->get_complex_content_object_question()->get_id() . '_' . $i . '" value="' . $j . '" disabled' . $selected . '/>';
                     $html[] = $result;
                 }
                 else

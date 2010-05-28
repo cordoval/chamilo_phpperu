@@ -12,7 +12,7 @@ class HotspotQuestionResultDisplay extends QuestionResultDisplay
     function display_question_result()
     {
         $question = $this->get_question();
-        $question_id = $this->get_clo_question()->get_id();
+        $question_id = $this->get_complex_content_object_question()->get_id();
         $answers = $question->get_answers();
         
         $image_object = $question->get_image_object();
@@ -46,7 +46,7 @@ class HotspotQuestionResultDisplay extends QuestionResultDisplay
             $html[] = '<td><div class="colour_box" style="background-color: ' . $colors[$i] . ';"></div></td>';
             $html[] = '<td>' . ($this->is_valid_answer($answer, $user_answers[$i]) ? Theme :: get_common_image('action_confirm') : Theme :: get_common_image('action_delete')) . '</td>';
             $html[] = '<td>' . $answer->get_answer() . '</td>';
-            $html[] = '<input type="hidden" name="coordinates_' . $this->get_clo_question()->get_id() . '_' . $i . '" value="' . $answer->get_hotspot_coordinates() . '" />';
+            $html[] = '<input type="hidden" name="coordinates_' . $this->get_complex_content_object_question()->get_id() . '_' . $i . '" value="' . $answer->get_hotspot_coordinates() . '" />';
             $html[] = '</tr>';
         }
         

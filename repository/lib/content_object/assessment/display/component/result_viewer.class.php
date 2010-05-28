@@ -17,7 +17,7 @@ class AssessmentDisplayResultViewerComponent extends AssessmentDisplay
         $form = new FormValidator('result_viewer', 'post', $this->get_url());
         $rdm = RepositoryDataManager :: get_instance();
         
-        $results = $this->get_parent()->get_parent()->retrieve_assessment_results();
+        $results = $this->get_parent()->retrieve_assessment_results();
         $question_cids = array_keys($results);
         
         $this->display_header();
@@ -51,7 +51,7 @@ class AssessmentDisplayResultViewerComponent extends AssessmentDisplay
             $total_score += $score;
             $total_weight += $question_cloi->get_weight();
             
-            $display = QuestionResultDisplay :: factory($form, $question_cloi, $question_number, $answers, $score, $feedback, $this->get_parent()->get_parent()->can_change_answer_data());
+            $display = QuestionResultDisplay :: factory($form, $question_cloi, $question_number, $answers, $score, $feedback, $this->get_parent()->can_change_answer_data());
             $display->display();
             
             $question_number ++;
@@ -112,7 +112,7 @@ class AssessmentDisplayResultViewerComponent extends AssessmentDisplay
         $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
         $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
-        if ($this->get_parent()->get_parent()->can_change_answer_data())
+        if ($this->get_parent()->can_change_answer_data())
             $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
         $form->display();

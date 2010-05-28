@@ -40,7 +40,7 @@ class AssessmentSelectQuestionResultDisplay extends QuestionResultDisplay
                     $selected = "";
                 }
 
-                $html[] = '<td>' . '<input type="radio" name="yourchoice_' . $this->get_clo_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
+                $html[] = '<td>' . '<input type="radio" name="yourchoice_' . $this->get_complex_content_object_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
             }
             else
             {
@@ -67,7 +67,7 @@ class AssessmentSelectQuestionResultDisplay extends QuestionResultDisplay
 
             if ($type == 'radio')
             {
-                $html[] = '<td>' . '<input type="radio" name="correctchoice_' . $this->get_clo_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
+                $html[] = '<td>' . '<input type="radio" name="correctchoice_' . $this->get_complex_content_object_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
             }
             else
             {
