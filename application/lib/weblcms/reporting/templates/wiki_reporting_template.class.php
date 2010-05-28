@@ -3,61 +3,35 @@
  * $Id: wiki_reporting_template.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.reporting.templates
  */
-/**
- * @author Michael Kyndt
- */
+
+require_once dirname(__FILE__) . '/../blocks/weblcms_wiki_most_visited_page_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_wiki_most_edited_page_reporting_block.class.php';
+
 class WikiReportingTemplate extends ReportingTemplate
 {
 
-    function WikiReportingTemplate($parent, $id, $params)
+    function WikiReportingTemplate($parent)
     {
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("weblcms_wiki_most_visited_page")); //, array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("weblcms_wiki_most_edited_page")); // array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        
-        parent :: __construct($parent, $id, $params);
-    }
-    
-	function display_context()
-	{
-		//publicatie, content_object, application ... 
-	}
-	
-	function get_application()
-    {
-    	return WeblcmsManager::APPLICATION_NAME;
-    }
-    
-    /**
-     * @see ReportingTemplate -> get_properties()
-     */
-    public static function get_properties()
-    {
-        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'WeblcmsWikiReportingTemplate';
-        $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 0;
-        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'WeblcmsWikiReportingTemplate';
-        
-        return $properties;
+        parent :: __construct($parent);
+        $this->set_template_parameters();
+        $this->add_reporting_block(new WeblcmsWikiMostVisitedPageReportingBlock($this));
+        $this->add_reporting_block(new WeblcmsWikiMostEditedPageReportingBlock($this));
     }
 
-    /**
-     * @see ReportingTemplate -> to_html()
-     */
-    function to_html()
+    function set_template_parameters()
     {
-        //template header
-        $html[] = $this->get_header();
-        
-        //template menu
-        //$html[] = $this->get_menu();
-        
+        $publication_id = Request :: get(WeblcmsManager :: PARAM_PUBLICATION);
+        $this->set_parameter(WeblcmsManager :: PARAM_PUBLICATION, $publication_id);
+    }
 
-        //show visible blocks
-        $html[] = $this->get_visible_reporting_blocks();
-        
-        //template footer
-        $html[] = $this->get_footer();
-        
-        return implode("\n", $html);
+    function display_context()
+    {
+
+    }
+
+    function get_application()
+    {
+        return WeblcmsManager :: APPLICATION_NAME;
     }
 }
 ?>

@@ -70,15 +70,12 @@ class WikiDisplay extends ComplexDisplay
                 break;
             case self :: ACTION_PAGE_STATISTICS :
                 $component = $this->create_component('ReportingTemplateViewer');
-                $component->set_template_name('wiki_page_reporting_template');
                 break;
             case self :: ACTION_STATISTICS :
                 $component = $this->create_component('ReportingTemplateViewer');
-                $component->set_template_name('wiki_reporting_template');
                 break;
             case self :: ACTION_ACCESS_DETAILS :
                 $component = $this->create_component('ReportingTemplateViewer');
-                $component->set_template_name('publication_detail_reporting_template');
                 break;
             case self :: ACTION_CREATE_FEEDBACK :
                 if (Request :: get('application') == 'wiki')
