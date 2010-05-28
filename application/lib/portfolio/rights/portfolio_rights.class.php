@@ -172,21 +172,31 @@ class PortfolioRights {
             {
                 $rights = self::get_rights_on_location($location->get_id());
 
-                $user_rights = $rights[self::USER_RIGHTS];
+                $user_rights = $rights[self::USER_RIGHTS]->as_array();
+                $rights[self::USER_RIGHTS] = $user_rights;
                 if(isset($user_rights))
                 {
-                    while ($uright = $user_rights->next_result())
+//                    while ($uright = $user_rights->next_result())
+//                    {
+//                          $rights[$uright->get_right_id()][self::USER_RIGHTS][]= $uright->get_user_id();
+//                    }
+                    foreach ($user_rights as $uright)
                     {
                           $rights[$uright->get_right_id()][self::USER_RIGHTS][]= $uright->get_user_id();
                     }
                 }
 
-                $group_rights = $rights[self::GROUP_RIGHTS];
+                $group_rights = $rights[self::GROUP_RIGHTS]->as_array();
+                $rights[self::GROUP_RIGHTS] = $group_rights;
                 if(isset($group_rights))
                 {
-                    while ($gright = $group_rights->next_result())
+//                    while ($gright = $group_rights->next_result())
+//                    {
+//                          $rights[$gright->get_right_id()][self::GROUP_RIGHTS][]= $gright->get_group_id();
+//                    }
+                    foreach($group_rights as $gright)
                     {
-                          $rights[$gright->get_right_id()][self::GROUP_RIGHTS][]= $gright->get_group_id();
+                        $rights[$gright->get_right_id()][self::GROUP_RIGHTS][]= $gright->get_group_id();
                     }
                 }
                 //VIEW RIGHTS
