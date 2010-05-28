@@ -16,6 +16,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
 {
     private $current_attempt_id;
 	private $trail;
+	private $object;
 	
     /**
      * Runs this component and displays its output.
@@ -79,7 +80,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
                 $this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $pid);
                 
                 $html = ComplexDisplay :: factory($this, $object->get_type());
-                $html->set_root_lo($object);
+				$this->object = $object;
             }
             else
             {
@@ -97,6 +98,11 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
         	echo $html;
         	$this->display_footer();
         }
+    }
+    
+    function get_root_content_object()
+    {
+    	return $this->object;
     }
     
     function display_header($trail)
