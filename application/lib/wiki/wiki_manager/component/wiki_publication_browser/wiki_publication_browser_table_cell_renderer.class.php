@@ -41,7 +41,7 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
                     $url = $this->browser->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
                     return '<a href="' . $url . '">' . htmlspecialchars($wiki_publication->get_content_object()->get_title()) . '</a>';
                 case ContentObject :: PROPERTY_DESCRIPTION :
-                    return $wiki_publication->get_content_object()->get_description();
+                    return Utilities :: truncate_string($wiki_publication->get_content_object()->get_description(), 2000, false);
             }
         }
         if ($column === WikiPublicationBrowserTableColumnModel :: get_modification_column())

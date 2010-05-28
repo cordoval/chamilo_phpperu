@@ -91,7 +91,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplay
             else
             {
                 $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_PUBLICATION_ID, Request :: get('pid'));
-                $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->complex_id);
+                $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_CLOI_ID, $this->complex_id);
                 $condition = new AndCondition($conditions);
                 $feedbacks = $data_manager->retrieve_content_object_pub_feedback($condition);
             }
