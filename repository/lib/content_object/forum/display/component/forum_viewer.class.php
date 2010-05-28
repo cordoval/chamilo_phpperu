@@ -10,56 +10,45 @@ require_once 'HTML/Table.php';
 class ForumDisplayForumViewerComponent extends ForumDisplay
 {
     private $action_bar;
-    private $forum;
-    private $current_forum;
-    private $is_subforum;
     private $forums;
     private $topics;
-    private $pid;
 
     function run()
     {
-        $this->pid = $this->get_root_content_object()->get_id();
-        $this->forum = RepositoryDataManager :: get_instance()->retrieve_content_object($this->pid);
-        
-        $current_id = Request :: get('forum');
-        if (! isset($current_id))
+        if (!$this->get_complex_content_object_item())
         {
-            $this->current_forum = $this->forum;
-            $this->is_subforum = false;
-            $this->retrieve_children($this->current_forum);
+            $forum = $this->get_root_content_object();
         }
         else
         {
             $rdm = RepositoryDataManager :: get_instance();
-            $this->current_forum = $rdm->retrieve_complex_content_object_item($current_id);
-            $lo_current_forum = $rdm->retrieve_content_object($this->current_forum->get_ref());
-            $this->retrieve_children($lo_current_forum);
-            $this->is_subforum = true;
+            $forum = $rdm->retrieve_content_object($this->get_complex_content_object_item()->get_ref());
         }
+        
+        $this->retrieve_children($forum);
         
         $this->action_bar = $this->get_action_bar();
         $topics_table = $this->get_topics_table_html();
         $forum_table = $this->get_forums_table_html();
         
         $trail = new BreadcrumbTrail(false);
-        $trail->add(new Breadcrumb($this->get_url(array('pid' => $this->pid, 'forum' => null)), $this->forum->get_title()));
+        $trail->add(new Breadcrumb($this->get_url(array()), $forum->get_title()));
         
-        if ($this->is_subforum)
+        if ($this->get_complex_content_object_item())
         {
-            $forums = $this->retrieve_children_trail($this->forum);
+            $forums = $this->retrieve_children_trail($forum);
             while ($forums)
             {
                 $forum = $forums[0]->get_ref();
                 
-                if ($forums[0]->get_id() != Request :: get('forum'))
+                if ($forums[0]->get_id() != $this->get_complex_content_object_item_id())
                 {
-                    $trail->add(new Breadcrumb($this->get_url(array('pid' => $this->pid, 'forum' => $forums[0]->get_id())), $forum->get_title()));
+                    $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $forums[0]->get_id())), $forum->get_title()));
                     $forums = $this->retrieve_children_trail($forum);
                 }
                 else
                 {
-                    $trail->add(new Breadcrumb($this->get_url(array('pid' => $this->pid, 'forum' => $forums[0]->get_id())), $forum->get_title()));
+                    $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $forums[0]->get_id())), $forum->get_title()));
                     $forums = null;
                 }
             }
@@ -68,14 +57,11 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
         $this->display_header($trail);
         
         echo $this->action_bar->as_html();
-        
-       // echo '<div id="trailbox2">' . $trail->render() . '</div>';
-        //echo '<div class="clear"></div><br />';
         echo $topics_table->toHtml();
-        echo '<br /><br />';
         
         if (count($this->forums) > 0)
         {
+        	echo '<br /><br />';
         	echo $forum_table->toHtml();
         }
         
@@ -237,7 +223,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             if ($last_post)
             {
                 $link = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_TOPIC, 'pid' => $this->pid, 'cid' => $topic->get_id())) . '#post_' . $last_post->get_id();
-                $table->setCellContents($row, 5, $last_post->get_add_date() . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') . '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
+                $table->setCellContents($row, 5, DatetimeUtilities :: format_locale_date(null, $last_post->get_add_date()) . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') . '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
             }
             else
             {
@@ -253,69 +239,80 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
 
     function get_topic_actions($topic)
     {
-    	$tool_bar = new ToolBar(ToolBar :: TYPE_HORIZONTAL);
+    	$tool_bar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
+    	$parameters = array();
+    	$parameters[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id(); 
+        $parameters[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $topic->get_id();
         
-        if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
+        if ($this->get_parent()->is_allowed(DELETE_RIGHT))
         {
+        	$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_DELETE_TOPIC;
+        	
         	$tool_bar->add_item(new ToolbarItem(Translation :: get('Delete'), 
         		Theme :: get_common_image_path() . 'action_delete.png', 
-        		$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())),
-        		ToolBarItem :: DISPLAY_ICON_AND_LABEL,        		
-        		true));
-            //$actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+        		$this->get_url($parameters),
+        		ToolbarItem :: DISPLAY_ICON,       		
+        		true
+        	));
         }
         
-        if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+        if ($this->get_parent()->is_allowed(EDIT_RIGHT))
         { 
          	if ($topic->get_type() == 1)
         	{
+        		$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_MAKE_STICKY;
+        		
         		$tool_bar->add_item(new ToolbarItem(Translation :: get('UnSticky'), 
         			Theme :: get_common_image_path() . 'action_remove_sticky.png', 
-        			$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_STICKY, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id())),
-        			ToolBarItem :: DISPLAY_ICON_AND_LABEL,        		
-        			true));
-	            //$actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_STICKY, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id())), 'label' => Translation :: get('UnSticky'), 'img' => Theme :: get_common_image_path() . 'action_remove_sticky.png');
-	            //$actions[] = array('label' => Translation :: get('ImportantNa'), 'img' => Theme :: get_common_image_path() . 'action_make_important_na.png');
+        			$this->get_url($parameters),
+        			ToolbarItem :: DISPLAY_ICON	
+        		));
+        			
 	            $tool_bar->add_item(new ToolbarItem(Translation :: get('ImportantNa'), 
-        			Theme :: get_common_image_path() . 'action_make_important_na.png'
-        			));
+        			Theme :: get_common_image_path() . 'action_make_important_na.png',
+        			null,
+        			ToolbarItem :: DISPLAY_ICON
+        		));
 	        }
 	        else
 	        {
 	            if ($topic->get_type() == 2)
 	            {
+	            	$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_MAKE_IMPORTANT;
+	            	
 	            	$tool_bar->add_item(new ToolbarItem(Translation :: get('StickyNa'), 
-        				Theme :: get_common_image_path() . 'action_make_sticky_na.png'
-        				));
-	                //$actions[] = array('label' => Translation :: get('StickyNa'), 'img' => Theme :: get_common_image_path() . 'action_make_sticky_na.png');
-	                $actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_IMPORTANT, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id())), 'label' => Translation :: get('UnImportant'), 'img' => Theme :: get_common_image_path() . 'action_remove_important.png');
+        				Theme :: get_common_image_path() . 'action_make_sticky_na.png',
+        				null,
+        				ToolbarItem :: DISPLAY_ICON
+        			));
+
 	                $tool_bar->add_item(new ToolbarItem(Translation :: get('UnImportant'), 
         				Theme :: get_common_image_path() . 'action_remove_important.png', 
-        				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_IMPORTANT, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id()))
-        				));
+        				$this->get_url($parameters),
+        				ToolbarItem :: DISPLAY_ICON
+        			));
 	            }
 	            else
 	            {
+	            	$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_MAKE_STICKY;
 	            	$tool_bar->add_item(new ToolbarItem(Translation :: get('MakeSticky'), 
         				Theme :: get_common_image_path() . 'action_make_sticky.png', 
-        				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_STICKY, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id()))
-        				));
-	                //$actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_STICKY, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id())), 'label' => Translation :: get('MakeSticky'), 'img' => Theme :: get_common_image_path() . 'action_make_sticky.png');
-	                $tool_bar->add_item(new ToolbarItem(Translation :: get('MakeImportant'), 
+        				$this->get_url($parameters),
+        				ToolbarItem :: DISPLAY_ICON
+        			));
+
+        			$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_MAKE_IMPORTANT;
+        			$tool_bar->add_item(new ToolbarItem(Translation :: get('MakeImportant'), 
         				Theme :: get_common_image_path() . 'action_make_important.png', 
-        				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_IMPORTANT, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id()))
-        				));
-	                //$actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_MAKE_IMPORTANT, ComplexDisplay :: PARAM_SELECTED_CLOI_ID => $topic->get_id())), 'label' => Translation :: get('MakeImportant'), 'img' => Theme :: get_common_image_path() . 'action_make_important.png');
+        				$this->get_url($parameters),
+        				ToolbarItem :: DISPLAY_ICON
+        			));
 	            }
         	}
-        
-        	//$actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())), 'label' => Translation :: get('MakeSticky'), 'img' => Theme :: get_common_image_path() . 'action_make_sticky.png', 'confirm' => false);
-        	//$actions[] = array('href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())), 'label' => Translation :: get('MakeImportant'), 'img' => Theme :: get_common_image_path() . 'action_make_important.png', 'confirm' => false);
         }
         
-        //return '<div style="float: right;">' . Utilities :: build_toolbar($actions) . '</div>';
-        return $tool_bar;
+        return $tool_bar->as_html();
     }
 
     function get_forums_table_html()
@@ -399,38 +396,40 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('NewTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_CREATE_TOPIC)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('NewTopic'), Theme :: get_common_image_path() . 'action_add.png', 
+        		$this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(),
+        							 ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_CREATE_TOPIC)), 
+        		ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
-        if ($this->get_parent()->get_parent()->is_allowed(ADD_RIGHT))
+        if ($this->is_allowed(ADD_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('NewSubForum'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_CREATE_SUBFORUM)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('NewSubForum'), Theme :: get_common_image_path() . 'action_add.png', 
+            	$this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(),
+            						 ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_CREATE_SUBFORUM)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        //$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('forum tool'));
-        
-
-        //$action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
-        
-
         return $action_bar;
     }
 
     function get_forum_actions($forum, $first, $last)
     {
-    	$tool_bar = new ToolBar(ToolBar :: TYPE_HORIZONTAL);
-        if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
+    	$tool_bar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+    	
+    	$parameters = array();
+    	$parameters[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id(); 
+        $parameters[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $forum->get_id();
+    	
+        if ($this->get_parent()->is_allowed(DELETE_RIGHT))
         {
-            /*$delete = array('href' => $this->get_url(array('subforum' => $forum->get_id(), 'is_subforum' => $this->is_subforum, 'forum' => $this->current_forum->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_SUBFORUM, 'pid' => $this->pid)), 
-            'label' => Translation :: get('Delete'), 
-            'img' => Theme :: get_common_image_path() . 'action_delete.png', 
-            'confirm' => true);*/
-            $delete=new ToolbarItem(Translation :: get('Delete'),
+            $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_DELETE_SUBFORUM;
+        	$delete = new ToolbarItem(Translation :: get('Delete'),
             	Theme :: get_common_image_path() . 'action_delete.png',
-            	$this->get_url(array('subforum' => $forum->get_id(), 'is_subforum' => $this->is_subforum, 'forum' => $this->current_forum->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_SUBFORUM, 'pid' => $this->pid)), 
-            	ToolbarItem :: DISPLAY_ICON_AND_LABEL,
-            	true);
+            	$this->get_url($parameters), 
+            	ToolbarItem :: DISPLAY_ICON,
+            	true
+            );
         }
         
-        if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
+        if ($this->get_parent()->is_allowed(EDIT_RIGHT))
         {
             
             /*if($first)
@@ -465,17 +464,17 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
                 );
             }*/
             
-            $tool_bar->add_item( new ToolBarItem(Translation :: get('Edit'), 
-            Theme :: get_common_image_path() . 'action_edit.png',
-            $this->get_url(array('subforum' => $forum->get_id(), 'is_subforum' => $this->is_subforum, 'forum' => $this->current_forum->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_EDIT_SUBFORUM, 'pid' => $this->pid))
+        	$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_EDIT_SUBFORUM;
+            	$tool_bar->add_item( new ToolbarItem(Translation :: get('Edit'), 
+            	Theme :: get_common_image_path() . 'action_edit.png',
+            	$this->get_url($parameters),
+            	ToolbarItem :: DISPLAY_ICON
             ));
             
-            //$actions[] = $delete;
             $tool_bar->add_item($delete);
         
         }
-        return $action_bar;
-        //return '<div style="float: right;">' . Utilities :: build_toolbar($actions) . '</div>';
+        return $tool_bar->as_html();
     }
 }
 ?>

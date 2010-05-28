@@ -20,22 +20,17 @@ class ForumManagerViewerComponent extends ForumManager
         $this->trail = $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(parent :: get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
         
-        $pid = Request :: get('pid');
-        $trail->add(new Breadcrumb($this->get_url(array('display_action' => 'view_forum', 'pid' => $pid)), Translation :: get('ViewForum')));
-        
-        $cid = Request :: get('cid');
-        
-        //$this->display_header($trail);
+        $publication_id = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
+        $this->set_parameter(ForumManager :: PARAM_PUBLICATION_ID, $publication_id);
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewForum')));
         
         $cd = ComplexDisplay :: factory($this, Forum :: get_type_name());
         $cd->run();
         
-        //$this->display_footer();
-        
         switch ($cd->get_action())
         {
             case ForumDisplay :: ACTION_VIEW_TOPIC :
-                Events :: trigger_event('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $pid, 'forum_topic_id' => $cid));
+                Events :: trigger_event('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $publication_id, 'forum_topic_id' => $cd->get_complex_content_object_item_id()));
                 break;
         }
     }
@@ -50,22 +45,11 @@ class ForumManagerViewerComponent extends ForumManager
     	return parent :: display_header($this->trail);
     }
 
-    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
-    {
-        $parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_VIEW;
-        return parent :: get_url($parameters, $filter, $encode_entities);
-    }
-
-    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
-    {
-        $parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_VIEW;
-        parent :: redirect($message, $error_message, $parameters, $filter, $encode_entities);
-    }
     function get_root_content_object()
     {
     	$datamanager = ForumDataManager :: get_instance();
-    	$pid = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
-        $pub = $datamanager->retrieve_forum_publication($pid);
+    	$publication_id = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
+        $pub = $datamanager->retrieve_forum_publication($publication_id);
     	$forum_id = $pub->get_forum_id();
        	return RepositoryDataManager :: get_instance()->retrieve_content_object($forum_id);
     }

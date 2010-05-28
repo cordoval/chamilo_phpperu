@@ -10,14 +10,9 @@ class ForumDisplayForumTopicDeleterComponent extends ForumDisplay
 
     function run()
     {
-        if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
+        if ($this->get_parent()->is_allowed(DELETE_RIGHT))
         {
-            $forum = Request :: get('forum');
-            $topics = Request :: get('topic');
-            $is_subforum = Request :: get('is_subforum');
-            $pid = Request :: get('pid');
-            
-            $posts = Request :: get('post');
+            $topics = $this->get_selected_complex_content_object_item_id();
             
             if (! is_array($topics))
             {
@@ -25,17 +20,16 @@ class ForumDisplayForumTopicDeleterComponent extends ForumDisplay
             }
             
             $datamanager = RepositoryDataManager :: get_instance();
-            $params = array('pid' => $pid);
+
             $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_VIEW_FORUM;
-            
-            if ($is_subforum)
-                $params['forum'] = $forum;
+            $params[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
             
             foreach ($topics as $topic)
             {
-                $cloi = $datamanager->retrieve_complex_content_object_item($topic);
-                $cloi->delete();
+                $complex_content_object_item = $datamanager->retrieve_complex_content_object_item($topic);
+                $complex_content_object_item->delete();
             }
+            
             if (count($topics) > 1)
             {
                 $message = htmlentities(Translation :: get('ForumTopicsDeleted'));
