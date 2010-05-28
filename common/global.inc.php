@@ -305,6 +305,8 @@ if (isset($_SESSION['_uid']))
     }
 }
 
+$htmlHeadXtra[] = '<script type="text/javascript">var rootWebPath="' . Path :: get(WEB_PATH) . '"</script>';
+
 $timezone = LocalSetting :: get('platform_timezone');
 date_default_timezone_set($timezone);
 
