@@ -65,6 +65,7 @@ abstract class ComplexDisplay extends SubManager
 	static function factory($parent, $type)
     {
         $file = dirname(__FILE__) . '/../content_object/' . $type . '/display/' . $type . '_display.class.php';
+        dump($file);
         require_once $file;
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
     	return new $class($parent);

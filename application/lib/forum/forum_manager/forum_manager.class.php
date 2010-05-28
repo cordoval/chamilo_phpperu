@@ -51,6 +51,7 @@ class ForumManager extends WebApplication
     function run()
     {
         $action = $this->get_action();
+       	//dump($action);
         $component = null;
         switch ($action)
         {
