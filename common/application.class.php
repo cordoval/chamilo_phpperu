@@ -60,18 +60,16 @@ abstract class Application
      * @return Application An instance of the application corresponding to the
      * given $application
      */
-    function factory($application, $user = null)
+    static function factory($application, $user = null)
     {
         if (BasicApplication :: is_application($application))
         {
-            $class = BasicApplication :: get_application_class_name($application);
+            return BasicApplication :: factory($application, $user);
         }
         else
         {
-            $class = LauncherApplication :: get_application_class_name($application);
+            return LauncherApplication :: factory($application, $user);
         }
-        
-        return new $class($user);
     }
 
     /**

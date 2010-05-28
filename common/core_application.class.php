@@ -95,10 +95,11 @@ abstract class CoreApplication extends BasicApplication
         return $this->get_application_path($application_name) . 'lib/' . $application_name . '_manager/component/';
     }
 
-    function factory($application, $user = null)
+    static function factory($application, $user = null)
     {
         require_once self :: get_application_manager_path($application);
-        return parent :: factory($application, $user);
+        $class = self :: get_application_class_name($application);
+        return new $class($user);
     }
     
     static function get_application_manager_path($application_name)

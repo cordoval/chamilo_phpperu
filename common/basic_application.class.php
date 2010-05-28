@@ -69,6 +69,18 @@ abstract class BasicApplication extends Application
     	}
     }
     
+    static function factory($application, $user)
+    {
+    	if (WebApplication::is_application($application))
+    	{
+    		return WebApplication :: factory($application, $user);
+    	}
+    	else 
+    	{
+    		return CoreApplication :: factory($application, $user);
+    	}
+    }
+    
 	static function get_application_manager_path($application_name)
     {
     	if (WebApplication::is_application($application_name))
