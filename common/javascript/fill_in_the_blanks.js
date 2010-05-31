@@ -65,8 +65,8 @@
 		row.attr('class', css_class);
 		cells = $('td', row);
 		cells.eq(0).text(index);
-		cells.eq(1).text(answer);
-		cells.eq(2).text(feedback);
+		cells.eq(1).text(answer.replace('\n', '<br/>'));
+		cells.eq(2).html(feedback.replace('\n', '<br/>'));
 		cells.eq(3).text(score);
 	}
 	

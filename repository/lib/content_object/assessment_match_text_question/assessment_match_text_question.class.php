@@ -5,8 +5,7 @@
  */
 require_once dirname(__FILE__) . '/main.php'; 
 
-class AssessmentMatchTextQuestion extends ContentObject
-{
+class AssessmentMatchTextQuestion extends ContentObject{
 	const CLASS_NAME = __CLASS__;
 	
     const PROPERTY_OPTIONS = 'options';
@@ -25,10 +24,16 @@ class AssessmentMatchTextQuestion extends ContentObject
     	return $result;
     }
     
-    public function __construct($defaultProperties, $additionalProperties){
-    	parent::__construct($defaultProperties, $additionalProperties);
+    public function ContentObject($defaultProperties = array (), $additionalProperties = null){
+        parent :: __construct($defaultProperties, $additionalProperties);
+    	if(!isset($additionalProperties[self::PROPERTY_IGNORE_CASE])){
+        	$this->set_tolerance_type(true);
+    	}
+    	if(!isset($additionalProperties[self::PROPERTY_USE_WILDCARDS])){
+        	$this->set_tolerance_type(true);
+    	}
     }
-
+    
     public function add_option($option){
         $options = $this->get_options();
         $options[] = $option;
@@ -51,7 +56,7 @@ class AssessmentMatchTextQuestion extends ContentObject
     }
 
     public function set_use_wildcards($type){
-        return $this->set_additional_property(self::PROPERTY_USE_WILDCARDS, $type);
+        return $this->set_additional_property(self::PROPERTY_USE_WILDCARDS, (bool)$type);
     }
 
     public function get_use_wildcards(){
@@ -59,7 +64,7 @@ class AssessmentMatchTextQuestion extends ContentObject
     }
 
     public function set_ignore_case($type){
-        return $this->set_additional_property(self::PROPERTY_IGNORE_CASE, $type);
+        return $this->set_additional_property(self::PROPERTY_IGNORE_CASE, (bool)$type);
     }
 
     public function get_ignore_case(){

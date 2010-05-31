@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Select Question</name>
-		<code>select_question</code>
+		<name>Survey Select Question</name>
+		<code>survey_select_question</code>
 		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/s/select_question/select_question-1.0.0.zip</filename>
+		<filename>pool/main/objects/s/survey_select_question/survey_select_question-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Rating Question</name>
-		<code>rating_question</code>
+		<name>Survey Rating Question</name>
+		<code>survey_rating_question</code>
 		<section>content_object</section>
 		<author></author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/r/rating_question/rating_question-1.0.0.zip</filename>
+		<filename>pool/main/objects/r/survey_rating_question/survey_rating_question-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
