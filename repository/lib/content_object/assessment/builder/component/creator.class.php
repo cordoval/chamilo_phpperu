@@ -8,8 +8,8 @@ class AssessmentBuilderCreatorComponent extends AssessmentBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: CREATOR_COMPONENT, $this);
-        $browser->run();
+        $creator = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: CREATOR_COMPONENT, $this);
+        $creator->run();
     }
 }
 

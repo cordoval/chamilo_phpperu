@@ -20,5 +20,7 @@ $lang['personal_calendar']['Times'] = 'Times';
 $lang['personal_calendar']['Weeks'] = 'Weeks';
 $lang['personal_calendar']['Months'] = 'Months';
 $lang['personal_calendar']['Years'] = 'Years';
+$lang['personal_calendar']['Task'] = 'Task';
+$lang['personal_calendar']['CalendarEvent'] = 'Calendar event';
 $lang['personal_calendar'][''] = '';
 ?>
