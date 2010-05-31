@@ -33,7 +33,6 @@ class ForumDisplay extends ComplexDisplay
     function run()
     {
     	$action = $this->get_action();
-	        
         switch ($action)
         {
             case self :: ACTION_PUBLISH_FORUM :
@@ -79,7 +78,7 @@ class ForumDisplay extends ComplexDisplay
                 $component = $this->create_component('Sticky');
                 break;
             default :
-                $this->set_action(self :: ACTION_VIEW_CLO);
+                $this->set_action(self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT);
                 $component = $this->create_component('ForumViewer');
         }
     	$component->run();

@@ -122,12 +122,12 @@ class ForumManager extends WebApplication
 
     function get_update_forum_publication_url($forum_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_FORUM_PUBLICATION, self :: PARAM_FORUM_PUBLICATION => $forum_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_FORUM_PUBLICATION, self :: PARAM_PUBLICATION_ID => $forum_publication->get_id()));
     }
 
     function get_delete_forum_publication_url($forum_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_FORUM_PUBLICATION, self :: PARAM_FORUM_PUBLICATION => $forum_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_FORUM_PUBLICATION, self :: PPARAM_PUBLICATION_ID => $forum_publication->get_id()));
     }
 
     function get_browse_forum_publications_url()
