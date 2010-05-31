@@ -12,7 +12,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = BreadcrumbTrail :: get_instance();
         //$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
-        $trail->merge($menu_trail);
+        //$trail->merge($menu_trail);
         $trail->add_help('repository builder');
 
         if ($this->get_complex_content_object_item())
