@@ -36,7 +36,7 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
 
             $portfolio_publication = new PortfolioPublication();
 
-            $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_CREATE, $portfolio_publication, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $object)), $this->get_user());
+            $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_CREATE, $portfolio_publication, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $object)), $this->get_user(), PortfolioRights::TYPE_PORTFOLIO_FOLDER);
 
             if ($form->validate())
             {
