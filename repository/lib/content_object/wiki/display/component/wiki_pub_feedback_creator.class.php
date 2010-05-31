@@ -16,7 +16,7 @@ class WikiDisplayWikiPubFeedbackCreatorComponent extends WikiDisplay
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = $this->get_breadcrumbtrail();
         $trail->add_help('courses general');
         
         $this->pub = new RepoViewer($this, Feedback :: get_type_name(), RepoViewer :: SELECT_SINGLE);
@@ -29,7 +29,7 @@ class WikiDisplayWikiPubFeedbackCreatorComponent extends WikiDisplay
             $html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
             $html[] = $this->pub->as_html();
             
-            $this->display_header(new BreadcrumbTrail());
+            $this->display_header($trail);
             echo implode("\n", $html);
             $this->display_footer();
         }

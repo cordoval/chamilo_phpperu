@@ -104,13 +104,13 @@ class WikiParser
             $title = $viewTitle;
         foreach ($pages as $page)
         {
-            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition('ref_id', $page->get_id()))->next_result();
-            if (! empty($cloi))
+            $complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition('ref_id', $page->get_id()))->next_result();
+            if (! empty($complex_content_object_item))
                 break;
         }
-        if (! empty($cloi))
+        if (! empty($complex_content_object_item))
         {
-            $url = $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $cloi->get_id()));
+            $url = $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $complex_content_object_item->get_id()));
             //$url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, 'selected_cloi' => $cloi->get_id())));
             return '<a href="' . $url . '">' . htmlspecialchars($title) . '</a>';
         }
@@ -130,7 +130,7 @@ class WikiParser
 
     private function create_wiki_contentsbox()
     {
-        $pattern = '/(==+[[:print:] àèùìòáéúíóäëÿüïöÀÈÙÌÒÁÉÚÍÓÄËŸÜÏÖ]+==+)/u';
+        $pattern = '/(==+[[:print:] Ã Ã¨Ã¹Ã¬Ã²Ã¡Ã©ÃºÃ­Ã³Ã¤Ã«Ã¿Ã¼Ã¯Ã¶Ã€ÃˆÃ™ÃŒÃ’Ã�Ã‰ÃšÃ�Ã“Ã„Ã‹Å¸ÃœÃ�Ã–]+==+)/u';
         $linkCount = preg_match($pattern, $this->wikiText);
         $list = $this->parse_wiki_headers($this->wikiText);
 
@@ -156,7 +156,7 @@ class WikiParser
     {
         $list = array();
 
-        $pattern = '/(==+[[:print:] àèùìòáéúíóäëÿüïöÀÈÙÌÒÁÉÚÍÓÄËŸÜÏÖ]+==+)/u';
+        $pattern = '/(==+[[:print:] Ã Ã¨Ã¹Ã¬Ã²Ã¡Ã©ÃºÃ­Ã³Ã¤Ã«Ã¿Ã¼Ã¯Ã¶Ã€ÃˆÃ™ÃŒÃ’Ã�Ã‰ÃšÃ�Ã“Ã„Ã‹Å¸ÃœÃ�Ã–]+==+)/u';
         preg_match_all($pattern, $this->wikiText, $matches, PREG_PATTERN_ORDER);
 
         foreach ($matches[1] as $value)
@@ -309,7 +309,7 @@ class WikiParser
         return $matches[0][0];
     }
 
-    public function get_cid_from_url($link)
+    public function get_complex_id_from_url($link)
     {
         $pattern = '/(selected_cloi=[0-9]*)/';
 

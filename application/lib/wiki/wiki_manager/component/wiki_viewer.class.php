@@ -19,7 +19,7 @@ class WikiManagerWikiViewerComponent extends WikiManager
             Display :: not_allowed();
             return;
         }
-        $this->trail = $trail = new BreadcrumbTrail();
+        $this->trail = $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('Wiki')));
         
         $this->set_parameter(WikiManager :: PARAM_ACTION, WikiManager :: ACTION_VIEW_WIKI);
@@ -40,13 +40,8 @@ class WikiManagerWikiViewerComponent extends WikiManager
         return $this->content_object;
     }
     
-	function display_header($trail)
-    {
-    	if($trail)
-    	{
-    		$this->trail->merge($trail);
-    	}
-    	
+	function display_header()
+    {    	
     	return parent :: display_header($this->trail);
     }
 

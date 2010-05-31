@@ -537,6 +537,7 @@ $lang['common']['ContentObjectUpdated'] = 'Content object updated';
 $lang['common']['ContentObjectFeedbackUpdated'] = 'Content object feedback updated';
 $lang['common']['FeedbackAdded'] = 'Feedback added';
 $lang['common']['AddFeedback'] = 'Add feedback';
+$lang['common']['EditFeedback'] = 'Edit feedback';
 $lang['common']['Discuss'] = 'Discuss';
 $lang['common']['BrowseWiki'] = 'Browse wiki';
 $lang['common']['AccessDetails'] = 'Access details';
