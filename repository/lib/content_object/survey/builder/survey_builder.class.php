@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname ( __FILE__ ) . '/survey_builder_component.class.php';
+//require_once dirname ( __FILE__ ) . '/survey_builder_component.class.php';
 
 require_once dirname ( __FILE__ ) . '/component/context_template_browser/browser_table.class.php';
 require_once dirname ( __FILE__ ) . '/component/context_template_rel_page_browser/rel_page_browser_table.class.php';
@@ -31,20 +31,20 @@ class SurveyBuilder extends ComplexBuilder {
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe';
 	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
 	
-	function SurveyBuilder($parent) {
-		parent::__construct ( $parent );
-		$this->parse_input_from_table ();
-	}
+//	function SurveyBuilder($parent) {
+//		parent::__construct ( $parent );
+//		$this->parse_input_from_table ();
+//	}
 	
 	function run() {
 		$action = $this->get_action ();
-		
+
 		switch ($action) {
-			case ComplexBuilder::ACTION_BROWSE_CLO :
-				$component = SurveyBuilderComponent::factory ( 'Browser', $this );
+			case ComplexBuilder::ACTION_BROWSE:
+				$component = $this->create_component('Browser' );
 				break;
-			case SurveyBuilder::ACTION_CREATE_SURVEY :
-				$component = SurveyBuilderComponent::factory ( 'Creator', $this );
+			case ComplexBuilder::ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM :
+				$component = $this->create_component( 'Creator' );
 				break;
 			case SurveyBuilder::ACTION_CONFIGURE_CONTEXT :
 				$component = SurveyBuilderComponent::factory ( 'ConfigureContext', $this );
@@ -76,12 +76,16 @@ class SurveyBuilder extends ComplexBuilder {
 			case self::ACTION_CONFIGURE_QUESTION :
 				$component = SurveyBuilderComponent::factory ( 'ConfigureQuestion', $this );
 				break;	
+			default :
+            	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
+            	$component = $this->create_component('Browser');
 		}
-		
-		if (! $component)
-			parent::run ();
-		else
-			$component->run ();
+		$component->run ();
+	}
+	
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
 	}
 	
 	function get_configure_url($selected_cloi) {
@@ -121,54 +125,54 @@ class SurveyBuilder extends ComplexBuilder {
 		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_CONFIGURE_QUESTION, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_COMPLEX_QUESTION_ITEM => $complex_question_item->get_id () ) );
 	}
 	
-	private function parse_input_from_table() {
-		
-		if (isset ( $_POST ['action'] )) {
-			
-			if (isset ( $_POST [SurveyContextTemplateRelPageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) {
-				$selected_ids = $_POST [SurveyContextTemplateRelPageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX];
-			}
-			
-			if (isset ( $_POST [SurveyContextTemplateSubscribePageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) {
-				$selected_ids = $_POST [SurveyContextTemplateSubscribePageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX];
-			}
-			
-			if (isset ( $_POST [SurveyContextTemplateBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) {
-				$selected_ids = $_POST [SurveyContextTemplateBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX];
-			}
-			
-			if (empty ( $selected_ids )) {
-				$selected_ids = array ();
-			} elseif (! is_array ( $selected_ids )) {
-				$selected_ids = array ($selected_ids );
-			}
-			
-			switch ($_POST ['action']) {
-				case self::PARAM_UNSUBSCRIBE_SELECTED :
-					$this->set_action ( self::ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE );
-					Request::set_get ( self::PARAM_TEMPLATE_REL_PAGE_ID, $selected_ids );
-					break;
-				case self::PARAM_SUBSCRIBE_SELECTED :
-					$this->set_action ( self::ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE );
-					$location_ids = array ();
-					
-					foreach ( $selected_ids as $selected_id ) {
-						$ids = explode ( '|', $selected_id );
-						$page_ids [] = $ids [1];
-						$template_id = $ids [0];
-					}
-					
-					Request::set_get ( self::PARAM_TEMPLATE_ID, $template_id );
-					Request::set_get ( self::PARAM_SURVEY_PAGE_ID, $page_ids );
-					break;
-				case self::PARAM_TRUNCATE_SELECTED :
-					$this->set_action ( self::ACTION_TRUNCATE_TEMPLATE );
-					Request::set_get ( self::PARAM_TEMPLATE_ID, $selected_ids );
-					break;
-			}
-		}
-	
-	}
+//	private function parse_input_from_table() {
+//		
+//		if (isset ( $_POST ['action'] )) {
+//			
+//			if (isset ( $_POST [SurveyContextTemplateRelPageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) {
+//				$selected_ids = $_POST [SurveyContextTemplateRelPageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX];
+//			}
+//			
+//			if (isset ( $_POST [SurveyContextTemplateSubscribePageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) {
+//				$selected_ids = $_POST [SurveyContextTemplateSubscribePageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX];
+//			}
+//			
+//			if (isset ( $_POST [SurveyContextTemplateBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) {
+//				$selected_ids = $_POST [SurveyContextTemplateBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX];
+//			}
+//			
+//			if (empty ( $selected_ids )) {
+//				$selected_ids = array ();
+//			} elseif (! is_array ( $selected_ids )) {
+//				$selected_ids = array ($selected_ids );
+//			}
+//			
+//			switch ($_POST ['action']) {
+//				case self::PARAM_UNSUBSCRIBE_SELECTED :
+//					$this->set_action ( self::ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE );
+//					Request::set_get ( self::PARAM_TEMPLATE_REL_PAGE_ID, $selected_ids );
+//					break;
+//				case self::PARAM_SUBSCRIBE_SELECTED :
+//					$this->set_action ( self::ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE );
+//					$location_ids = array ();
+//					
+//					foreach ( $selected_ids as $selected_id ) {
+//						$ids = explode ( '|', $selected_id );
+//						$page_ids [] = $ids [1];
+//						$template_id = $ids [0];
+//					}
+//					
+//					Request::set_get ( self::PARAM_TEMPLATE_ID, $template_id );
+//					Request::set_get ( self::PARAM_SURVEY_PAGE_ID, $page_ids );
+//					break;
+//				case self::PARAM_TRUNCATE_SELECTED :
+//					$this->set_action ( self::ACTION_TRUNCATE_TEMPLATE );
+//					Request::set_get ( self::PARAM_TEMPLATE_ID, $selected_ids );
+//					break;
+//			}
+//		}
+//	
+//	}
 
 }
 
