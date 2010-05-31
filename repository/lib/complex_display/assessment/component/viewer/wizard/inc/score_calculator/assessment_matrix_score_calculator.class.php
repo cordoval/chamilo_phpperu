@@ -58,4 +58,10 @@ class AssessmentMatrixScoreCalculator extends ScoreCalculator
         return $this->make_score_relative($score, $total_weight);
     }
 }
-?>
+
+
+
+
+
+
+

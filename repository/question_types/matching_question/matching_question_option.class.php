@@ -18,7 +18,7 @@ class MatchingQuestionOption
      * @param int $match The index of the match corresponding to this option
      * @param int $weight The weight of this answer in the question
      */
-    function MatchingQuestionOption($value, $match)
+    function MatchingQuestionOption($value)
     {
         $this->value = $value;
     }

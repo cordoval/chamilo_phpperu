@@ -37,8 +37,8 @@ class AssessmentMatchNumericScoreCalculator extends ScoreCalculator
         		return $min <= $user_answer && $user_answer <= $max;
         		
         	case AssessmentMatchNumericQuestion::TOLERANCE_TYPE_RELATIVE:
-        		$min = $value - abs($value*$tolerance);
-        		$max = $value + abs($value*$tolerance);
+        		$min = $value - abs($value*$tolerance/100);
+        		$max = $value + abs($value*$tolerance/100);
         		return $min <= $user_answer && $user_answer <= $max;
         		
         	default:

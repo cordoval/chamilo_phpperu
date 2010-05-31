@@ -25,12 +25,12 @@ class AssessmentMatchNumericQuestion extends ContentObject
     	$result[] = self :: PROPERTY_OPTIONS;
     	return $result;
     }
-    
-    public function __construct($defaultProperties, $additionalProperties){
-    	//if(empty($defaultProperties)){
-    	//	$defaultProperties = array(self::PROPERTY_TOLERANCE_TYPE => self::TOLERANCE_TYPE_ABSOLUTE);
-    	//}
-    	parent::__construct($defaultProperties, $additionalProperties);
+     
+    public function ContentObject($defaultProperties = array (), $additionalProperties = null){
+        parent :: __construct($defaultProperties, $additionalProperties);
+    	if(!isset($additionalProperties[self::PROPERTY_TOLERANCE_TYPE])){
+        	$this->set_tolerance_type(self::TOLERANCE_TYPE_ABSOLUTE);
+    	}
     }
 
     public function add_option($option){
