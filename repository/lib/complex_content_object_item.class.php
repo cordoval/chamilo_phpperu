@@ -102,6 +102,11 @@ class ComplexContentObjectItem extends DataClass
         return $this->get_default_property(self :: PROPERTY_REF);
     }
 
+    function get_ref_object()
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_ref());
+    }
+
     function set_ref($ref)
     {
         $this->set_default_property(self :: PROPERTY_REF, $ref);
