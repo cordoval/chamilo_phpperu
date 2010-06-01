@@ -61,5 +61,8 @@ $lang['portfolio']['BrowsePortfolios'] = 'Doorblader portfolios';
 $lang['portfolio']['NoPermissionToGiveFeedback'] = 'You don\'t have the permission to give feedback on this portfolio item';
 $lang['portfolio']['NoPermissionToViewFeedback'] = 'You don\'t have the permission to view the feedback on this portfolio item';
 
+$lang['portfolio']['SetSystemDefaults'] = 'Aanpassen';
+$lang['portfolio']['PortfolioDefaultSettingsSaved'] = 'Standaard portfolio rechten werden opgeslagen';
+$lang['portfolio']['DefaultSystemSettings'] = 'Standaard portfolio Rechten';
 
 ?>

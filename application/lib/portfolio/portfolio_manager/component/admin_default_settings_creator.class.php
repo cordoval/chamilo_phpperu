@@ -25,6 +25,7 @@ class PortfolioManagerAdminDefaultSettingsCreatorComponent extends PortfolioMana
                 $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => PortfolioManager:: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Portfolio') ));
 
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DefaultSystemSettings')));
+                $trail->add_help('portfolio general');
 
 		if (! $this->get_user()->is_platform_admin())
         {

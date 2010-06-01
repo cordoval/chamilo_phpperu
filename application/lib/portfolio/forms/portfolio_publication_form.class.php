@@ -381,8 +381,8 @@ class PortfolioPublicationForm extends FormValidator
                                     </script>\n"
                         );
 
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
-        $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SetSystemDefaults'), array('class' => 'positive'));
+        
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
