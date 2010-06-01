@@ -10,8 +10,6 @@ class AssessmentAttemptsReportingBlock extends AssessmentReportingBlock
         
         $file = $base_path . $this->get_application() . '/reporting/reporting_' . $this->get_application() . '.class.php';
         require_once $file;
-        dump("yu");
-        dump($this->get_function_parameters());
         return ReportingAssessment :: getAssessmentAttempts($this->get_function_parameters());
         //return call_user_func('ReportingAssessment :: getAssessmentAttempts', $this->get_function_parameters());
 	}

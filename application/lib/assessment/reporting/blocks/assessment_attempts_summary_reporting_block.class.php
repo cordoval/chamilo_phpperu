@@ -6,28 +6,25 @@ class AssessmentAttemptsSummaryReportingBlock extends AssessmentReportingBlock
 {
 	public function count_data()
 	{	
-		$reporting_data = new ReportingData();
-		
-        return $reporting_data;
+		$base_path = (WebApplication :: is_application($this->get_application()) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+        
+        $file = $base_path . $this->get_application() . '/reporting/reporting_' . $this->get_application() . '.class.php';
+        require_once $file;
+        return ReportingAssessment :: getSummaryAssessmentAttempts($this->get_function_parameters());
 	}
 	
 	public function retrieve_data()
 	{
         return $this->count_data();	
 	}
-/**
-	 * 
-	 */
-	public function retrieve_date() {
-		
-	}
-
 
 /**
 	 * 
 	 */
 	function get_available_displaymodes() {
-		
+		$modes = array();
+        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
+        return $modes;
 	}
 
 }

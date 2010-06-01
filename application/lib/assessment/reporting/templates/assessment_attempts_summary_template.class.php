@@ -11,7 +11,10 @@ class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
 
     function AssessmentAttemptsSummaryTemplate($parent = null, $id, $params, $trail)
     {
-        $this->add_reporting_block(new AssessmentAttemptsSummaryReportingBlock(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("assessment_attempts_summary_template")));
+    	
+        $block = new AssessmentAttemptsSummaryReportingBlock($this);
+        $block->set_function_parameters($params);
+        $this->add_reporting_block($block);
         
         parent :: __construct($parent, $id, $params, $trail);
     }
@@ -58,7 +61,7 @@ class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
         $html[] = '</div>';
         
         $html[] = '<div style="float: right; width: 80%; overflow: auto;" />';
-        $html[] = $this->get_visible_reporting_blocks();
+        $html[] = $this->render_all_blocks();
         $html[] = '</div>';
         
         //$html[] = '</div>';
