@@ -18,7 +18,7 @@ class AssessmentAttemptsTemplate extends ReportingTemplate
     {
         $this->pub = AssessmentDataManager :: get_instance()->retrieve_assessment_publication(/*$pid, */$params['assessment_publication']);
         $this->assessment = $this->pub->get_publication_object();
-        $block = new AssessmentAttemptsReportingBlock(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("AssessmentAttempts"));
+        $block = new AssessmentAttemptsReportingBlock($this);
         $block->set_function_parameters($params);
         $this->add_reporting_block($block);
         parent :: __construct($parent/*, $id, $params, $trail*/);
