@@ -54,7 +54,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         
         $toolbar_data = array();
         
-        $edit_url = $this->browser->get_complex_content_object_item_edit_url($cloi, $this->browser->get_root());
+        $edit_url = $this->browser->get_complex_content_object_item_edit_url($cloi, $this->browser->get_root_content_object());
         if ($cloi->is_extended() || get_parent_class($this->browser) == 'ComplexBuilder')
         {
             $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
@@ -64,9 +64,9 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
             $toolbar_data[] = array('label' => Translation :: get('EditNA'), 'img' => Theme :: get_common_image_path() . 'action_edit_na.png');
         }
         $configure_url = $this->browser->get_configure_url ( $cloi);
-        $delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi, $this->browser->get_root());
-        $moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
-        $movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);
+        $delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi, $this->browser->get_root_content_object());
+        $moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root_content_object(), RepositoryManager :: PARAM_DIRECTION_UP);
+        $movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root_content_object(), RepositoryManager :: PARAM_DIRECTION_DOWN);
         
         $toolbar_data [] = array ('href' => $configure_url, 'label' => Translation::get ( 'Configure' ), 'img' => Theme::get_common_image_path () . 'action_build_prerequisites.png' );
 		
@@ -93,7 +93,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
             $toolbar_data[] = array('label' => Translation :: get('MoveDownNA'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
         }
         
-        $toolbar_data[] = array('href' => $this->browser->get_url(array(ComplexBuilder :: PARAM_ROOT_LO => $lo->get_id(), 'publish' => Request :: get('publish'))), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseSurveyPage'));
+        $toolbar_data[] = array('href' => $this->browser->get_url(), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseSurveyPage'));
         
         $toolbar_data = array_merge($toolbar_data, $additional_items);
         

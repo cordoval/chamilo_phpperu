@@ -25,11 +25,11 @@ class SurveyBuilderVisibilityChangerComponent extends SurveyBuilder
             
             $message = $succes ? self :: MESSAGE_VISIBILITY_CHANGED : self :: MESSAGE_VISIBILITY_NOT_CHANGED;
             
-            $this->redirect(Translation :: get($message), ! $succes, array(SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_CONFIGURE_PAGE, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_SURVEY_PAGE_ID => $page_id));
+            $this->redirect(Translation :: get($message), ! $succes, array(SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_CONFIGURE_PAGE, self::PARAM_SURVEY_PAGE_ID => $page_id));
         }
         else
         {
-            $this->redirect(Translation :: get('NoQuestionSelected'), true, array(SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_CONFIGURE_PAGE, self::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), self::PARAM_SURVEY_PAGE_ID => $page_id));
+            $this->redirect(Translation :: get('NoQuestionSelected'), true, array(SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_CONFIGURE_PAGE, self::PARAM_SURVEY_PAGE_ID => $page_id));
         }
     }
 }

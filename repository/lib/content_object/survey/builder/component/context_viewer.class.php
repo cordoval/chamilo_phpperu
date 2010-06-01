@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/context_template_rel_page_browser/rel_page_browser_table.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template_rel_page.class.php';
 
-class SurveyBuilderContextViewerComponent extends SurveyBuilderComponent
+class SurveyBuilderContextViewerComponent extends SurveyBuilder
 {
     private $template;
     private $ab;
@@ -42,7 +42,6 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilderComponent
             echo '<div class="title">' . Translation :: get('SurveyPages') . '</div>';
             $parameters = $this->get_parameters();
             $parameters[SurveyBuilder :: PARAM_TEMPLATE_ID ] =  $id;
-            $parameters[SurveyBuilder :: PARAM_ROOT_LO] =  $this->get_root_lo()->get_id();
             $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
             
             $table = new SurveyContextTemplateRelPageBrowserTable($this, $parameters, $this->get_condition());
@@ -61,7 +60,7 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilderComponent
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, Request :: get(SurveyBuilder :: PARAM_TEMPLATE_ID));
-        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, Request :: get(SurveyBuilder :: PARAM_ROOT_LO));
+        $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->get_root_content_object_id());
         
         $query = $this->ab->get_query();
         

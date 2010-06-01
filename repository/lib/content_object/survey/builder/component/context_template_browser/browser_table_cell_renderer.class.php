@@ -51,7 +51,7 @@ class SurveyContextTemplateBrowserTableCellRenderer extends DefaultSurveyContext
                 }
                 return Utilities :: truncate_string($description);
             case Translation :: get('SurveyPages') :
-                $survey_id = $this->browser->get_root_lo()->get_id();
+                $survey_id = $this->browser->get_root_content_object()->get_id();
                 $template_id = $template->get_id();
                 $conditions = array();
                 $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $survey_id);

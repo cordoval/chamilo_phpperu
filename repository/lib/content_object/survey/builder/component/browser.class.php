@@ -1,7 +1,7 @@
 <?php
 
 //require_once dirname ( __FILE__ ) . '/../survey_builder_component.class.php';
-//require_once dirname ( __FILE__ ) . '/browser/survey_browser_table_cell_renderer.class.php';
+require_once dirname ( __FILE__ ) . '/browser/survey_browser_table_cell_renderer.class.php';
 
 class SurveyBuilderBrowserComponent extends SurveyBuilder {
 	
@@ -11,6 +11,18 @@ function run()
 		
 		$browser->run();
 	}
+	
+	function get_action_bar($content_object) {
+				
+		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
+		$action_bar->add_tool_action( new ToolbarItem ( Translation::get ( 'ConfigureSurveyContext' ), Theme::get_common_image_path () . 'action_build_prerequisites.png', $this->get_configure_context_url($content_object) ) );
+		return $action_bar->as_html();
+	}
+	
+    function get_complex_content_object_table_html($show_subitems_column = true, $model = null, $renderer = null)
+    {
+        return parent :: get_complex_content_object_table_html($show_subitems_column, $model, new SurveyBrowserTableCellRenderer($this, $this->get_complex_content_object_table_condition()));
+    }
 //	
 //	function run() {
 //		$menu_trail = $this->get_clo_breadcrumbs ();

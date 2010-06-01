@@ -75,7 +75,7 @@ class SurveyBuilderPageUnsubscriberComponent extends SurveyBuilder
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_VIEW_CONTEXT, SurveyBuilder :: PARAM_ROOT_LO => $templaterelpage_ids[0], SurveyBuilder :: PARAM_TEMPLATE_ID => $templaterelpage_ids[1]));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_VIEW_CONTEXT, SurveyBuilder :: PARAM_TEMPLATE_ID => $templaterelpage_ids[1]));
         }
         else
         {

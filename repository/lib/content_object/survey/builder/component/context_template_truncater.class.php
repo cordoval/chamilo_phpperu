@@ -22,7 +22,7 @@ class SurveyBuilderContextTemplateTruncaterComponent extends SurveyBuilder
             
             foreach ($ids as $id)
             {
-                $survey_id = $this->get_root_lo()->get_id();
+                $survey_id = $this->get_root_content_object_id();
               	  
                 if (! $dm->truncate_survey_context_template($survey_id, $id))
                 {
@@ -59,9 +59,9 @@ class SurveyBuilderContextTemplateTruncaterComponent extends SurveyBuilder
             }
            
             if( count($ids) == 1){
-            	$this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_VIEW_CONTEXT, SurveyBuilder::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), SurveyBuilder::PARAM_TEMPLATE_ID => $ids[0]));
+            	$this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_VIEW_CONTEXT, SurveyBuilder::PARAM_TEMPLATE_ID => $ids[0]));
             }else{
-            	$this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_BROWSE_CONTEXT, SurveyBuilder::PARAM_ROOT_LO => $this->get_root_lo ()->get_id ()));
+            	$this->redirect(Translation :: get($message), ($failures ? true : false), array(SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_BROWSE_CONTEXT));
             	
             }
            

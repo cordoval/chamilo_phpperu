@@ -2,7 +2,7 @@
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/category_form.class.php';
 
 
-class InternshipOrganizerCategoryManagerCreatorComponent extends SurveyBuilderComponent
+class InternshipOrganizerCategoryManagerCreatorComponent extends SurveyBuilder
 {
 
     /**

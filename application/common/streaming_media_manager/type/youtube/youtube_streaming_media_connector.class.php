@@ -30,7 +30,7 @@ class YoutubeStreamingMediaConnector
             {
                 if ($manager->is_stand_alone())
                 {
-                	$next_url = PATH :: get(WEB_PATH) . 'application/common/launcher/index.php?type=youtube&application=streaming_media';
+                	$next_url = PATH :: get(WEB_PATH) . 'common/launcher/index.php?type=youtube&application=streaming_media';
                 }
                 else
                 {

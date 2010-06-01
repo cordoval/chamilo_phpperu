@@ -23,6 +23,18 @@ class SurveyPageBuilder extends ComplexBuilder
             case ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM :
                 $component = $this->create_component('Creator');
                 break;
+           case ComplexBuilder :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Mover');
+                break;
+            case ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Deleter');
+                break;
+            case ComplexBuilder :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Viewer');
+                break;
+            case ComplexBuilder :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
+                $component = $this->create_component('Updater');
+                break;
             default :
             	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
             	$component = $this->create_component('Browser');
@@ -43,7 +55,7 @@ class SurveyPageBuilder extends ComplexBuilder
 
 	function show_menu()
 	{
-		return false;
+		return true;
 	}
 }
 

@@ -1,10 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/../survey_builder_component.class.php';
 require_once dirname(__FILE__) . '/context_template_browser/browser_table.class.php';
 require_once dirname(__FILE__) . '/context_template_menu.class.php';
 
-class SurveyBuilderContextBrowserComponent extends SurveyBuilderComponent
+class SurveyBuilderContextBrowserComponent extends SurveyBuilder
 {
     private $ab;
     private $template;
@@ -19,7 +18,7 @@ class SurveyBuilderContextBrowserComponent extends SurveyBuilderComponent
         
         if ($current_template == '0' || is_null($current_template))
         {
-            $template_id = $this->get_root_lo()->get_context_template_id();
+            $template_id = $this->get_root_content_object()->get_context_template_id();
             $this->template = $template_id;
         }
         else
@@ -45,7 +44,6 @@ class SurveyBuilderContextBrowserComponent extends SurveyBuilderComponent
     function get_browser_html()
     {
         $parameters = $this->get_parameters();
-        $parameters[SurveyBuilder::PARAM_ROOT_LO] = $this->get_root_lo()->get_id();
         $parameters[SurveyBuilder::PARAM_TEMPLATE_ID] = $this->template;
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
         
@@ -62,7 +60,7 @@ class SurveyBuilderContextBrowserComponent extends SurveyBuilderComponent
 
     function get_menu_html()
     {
-        $template_menu = new SurveyContextTemplateMenu($this->template, $this->get_root_lo()->get_id());
+        $template_menu = new SurveyContextTemplateMenu($this->template, $this->get_root_content_object()->get_id());
         $html = array();
         $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
         $html[] = $template_menu->render_as_tree();
@@ -96,7 +94,7 @@ class SurveyBuilderContextBrowserComponent extends SurveyBuilderComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->set_search_url($this->get_url(array(SurveyBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), SurveyBuilder :: PARAM_TEMPLATE_ID => $this->template)));
+        $action_bar->set_search_url($this->get_url(array(SurveyBuilder :: PARAM_TEMPLATE_ID => $this->template)));
         
         //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'Add' ), Theme::get_common_image_path () . 'action_add.png', $this->get_create_category_url ( $this->get_category () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
         //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );

@@ -1,12 +1,9 @@
 <?php
 
 //require_once Path :: get_repository_path() . '/lib/content_object/survey/survey.class.php';
-
-
-require_once dirname ( __FILE__ ) . '/../survey_builder_component.class.php';
 require_once dirname ( __FILE__ ) . '/page_question_browser/question_browser_table.class.php';
 
-class SurveyBuilderConfigureComponent extends SurveyBuilderComponent {
+class SurveyBuilderConfigureComponent extends SurveyBuilder {
 	
 	const VISIBLE_QUESTION_ID = 'visible_question_id';
 	const INVISIBLE_QUESTION_ID = 'invisible_question_id';
@@ -18,11 +15,11 @@ class SurveyBuilderConfigureComponent extends SurveyBuilderComponent {
 		
 		$this->page_id = Request::get ( SurveyBuilder::PARAM_SURVEY_PAGE_ID );
 		
-		$menu_trail = $this->get_clo_breadcrumbs ();
+		$menu_trail = $this->get_complex_content_object_breadcrumbs ();
 		$trail = new BreadcrumbTrail ( false );
 		$trail->merge ( $menu_trail );
 		$trail->add_help ( 'repository survey_page component configurer' );
-		$trail->add ( new Breadcrumb ( $this->get_url ( array (SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_CONFIGURE_PAGE, SurveyBuilder::PARAM_ROOT_LO => $this->get_root_lo ()->get_id (), SurveyBuilder::PARAM_SURVEY_PAGE_ID =>$this->page_id ) ), Translation::get ( 'SurveyPageConfigure' ) ) );
+		$trail->add ( new Breadcrumb ( $this->get_url ( array (SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_CONFIGURE_PAGE, SurveyBuilder::PARAM_SURVEY_PAGE_ID =>$this->page_id ) ), Translation::get ( 'SurveyPageConfigure' ) ) );
 		
 		$this->action_bar = $this->get_action_bar ();
 		$this->display_header ( $trail );

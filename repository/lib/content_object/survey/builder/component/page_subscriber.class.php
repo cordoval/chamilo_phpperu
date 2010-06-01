@@ -14,7 +14,7 @@ class SurveyBuilderPageSubscriberComponent extends SurveyBuilder
 		
 		$template_id = Request::get ( SurveyBuilder::PARAM_TEMPLATE_ID );
 		$pages = Request::get ( SurveyBuilder::PARAM_SURVEY_PAGE_ID );
-		$survey_id = Request::get ( SurveyBuilder::PARAM_ROOT_LO );
+		$survey_id = $this->get_root_content_object_id();
 			
 		$failures = 0;
 		
@@ -77,7 +77,7 @@ class SurveyBuilderPageSubscriberComponent extends SurveyBuilder
 				}
 			}
 			
-			$this->redirect ( Translation::get ( $message ), ($failures ? true : false), array (SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_VIEW_CONTEXT, SurveyBuilder :: PARAM_ROOT_LO => $survey_id, SurveyBuilder :: PARAM_TEMPLATE_ID => $template_id) );
+			$this->redirect ( Translation::get ( $message ), ($failures ? true : false), array (SurveyBuilder :: PARAM_BUILDER_ACTION => SurveyBuilder :: ACTION_VIEW_CONTEXT, SurveyBuilder :: PARAM_TEMPLATE_ID => $template_id) );
 			
 		} else 
 		{

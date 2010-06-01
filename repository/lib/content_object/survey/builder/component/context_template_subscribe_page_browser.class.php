@@ -5,7 +5,7 @@ require_once Path :: get_repository_path() . '/lib/content_object/survey_page/su
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey_context_template_rel_page.class.php';
 
 
-class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBuilderComponent
+class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBuilder
 {
     private $template;
     private $ab;
@@ -42,7 +42,6 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
     function get_html()
     {
         $parameters = $this->get_parameters();
-        $parameters[SurveyBuilder :: PARAM_ROOT_LO ] = $this->get_root_lo()->get_id();
         $parameters[SurveyBuilder :: PARAM_TEMPLATE_ID ] = $this->template->get_id();
     	$parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
     	
@@ -58,7 +57,7 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
     {
         $root_conditions = array();
     	$root_conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_TEMPLATE_ID, Request :: get(SurveyBuilder :: PARAM_TEMPLATE_ID));
-		$root_conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, Request :: get(SurveyBuilder :: PARAM_ROOT_LO));
+		$root_conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $this->get_root_content_object_id());
         $condition = new AndCondition($root_conditions);
         $template_rel_pages = SurveyContextDataManager::get_instance()->retrieve_template_rel_pages($condition);
 
@@ -69,7 +68,7 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
             $template_pages[] =  $template_rel_page->get_page_id();
         }
 		
-       $survey = RepositoryDataManager::get_instance()->retrieve_content_object(Request :: get(SurveyBuilder :: PARAM_ROOT_LO));
+       $survey = RepositoryDataManager::get_instance()->retrieve_content_object($this->get_root_content_object_id());
      
         
         $pages = $survey->get_pages();

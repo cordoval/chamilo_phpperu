@@ -1,10 +1,9 @@
 <?php
 
-require_once dirname(__FILE__) . '/../survey_builder_component.class.php';
 require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/survey/survey.class.php';
 
-class SurveyBuilderConfigureContextComponent extends SurveyBuilderComponent
+class SurveyBuilderConfigureContextComponent extends SurveyBuilder
 {
 
     function run()
