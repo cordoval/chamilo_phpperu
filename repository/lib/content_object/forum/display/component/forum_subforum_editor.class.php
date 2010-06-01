@@ -46,7 +46,7 @@ class ForumDisplayForumSubforumEditorComponent extends ForumDisplay
             }
             else
             {
-                $this->display_header(new BreadcrumbTrail());
+                $this->display_header($this->get_complex_content_object_breadcrumbs());
                 $form->display();
                 $this->display_footer();
             }

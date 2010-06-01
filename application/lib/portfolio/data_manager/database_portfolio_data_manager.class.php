@@ -384,21 +384,32 @@ class DatabasePortfolioDataManager extends Database implements PortfolioDataMana
 	{
 		//TODO: maybe easier via the location?!
 	
-        $parent = false;
+        $pub = false;
         $item = true;
-        while(!$parent && $item)
+        while(!$pub && $item)
         {
             $item = RepositoryManager::retrieve_complex_content_object_item($cid);
             if($item)
             {
                 $parent_id = $item->get_parent();
-                $parent = self::retrieve_portfolio_publication_id_by_content_object($parent_id);
-                $cid = parent_id;
+                $rdm = RepositoryDataManager::get_instance();
+                $condition = new EqualityCondition(ComplexContentObjectItem::PROPERTY_REF, $parent_id);
+                $c_parent =  $rdm->retrieve_complex_content_object_items($condition)->next_result();
+                if($c_parent == false)
+                {
+                    $pub = self::retrieve_portfolio_publication_id_by_content_object($parent_id);
+                    $cid_parent = null;
+                }
+                else
+                {
+                    $cid_parent= $c_parent->get_id();
+                }
+                $cid = $cid_parent;
             }
         }
-        if($parent)
+        if($pub)
         {
-                return $parent->get_owner();
+                return $pub->get_owner();
 
         }
         else

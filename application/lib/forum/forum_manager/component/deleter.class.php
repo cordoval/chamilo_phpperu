@@ -17,7 +17,7 @@ class ForumManagerDeleterComponent extends ForumManager
      */
     function run()
     {
-        $ids = Request :: get(ForumManager :: PARAM_FORUM_PUBLICATION);
+        $ids = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
         $failures = 0;
         
         if (! empty($ids))

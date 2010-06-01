@@ -22,7 +22,7 @@ class ForumManagerViewerComponent extends ForumManager
         
         $publication_id = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
         $this->set_parameter(ForumManager :: PARAM_PUBLICATION_ID, $publication_id);
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewForum')));
+        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewForum')));
         
         $cd = ComplexDisplay :: factory($this, Forum :: get_type_name());
         $cd->run();
@@ -37,8 +37,9 @@ class ForumManagerViewerComponent extends ForumManager
     
     function display_header($trail)
     {
-    	if($trail)
+       	if($trail)
     	{
+    		$trail->remove(0);
     		$this->trail->merge($trail);
     	}
     	

@@ -20,7 +20,7 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplay
         {
             $html[] = $pub->as_html();
                 
-            $this->display_header(BreadcrumbTrail :: get_instance());
+            $this->display_header($this->get_complex_content_object_breadcrumbs());
             echo implode("\n", $html);
             $this->display_footer();
         }
