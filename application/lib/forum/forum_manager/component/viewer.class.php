@@ -39,6 +39,7 @@ class ForumManagerViewerComponent extends ForumManager
     {
        	if($trail)
     	{
+    		$trail->remove(0);
     		$this->trail->merge($trail);
     	}
     	
