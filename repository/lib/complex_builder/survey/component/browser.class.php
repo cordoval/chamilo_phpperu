@@ -36,13 +36,7 @@ class SurveyBuilderBrowserComponent extends SurveyBuilderComponent {
 		
 		$this->display_footer ();
 	}
-	
-	function get_action_bar($co) {
-				
-		$action_bar = new ActionBarRenderer ( ActionBarRenderer::TYPE_HORIZONTAL );
-		$action_bar->add_tool_action( new ToolbarItem ( Translation::get ( 'ConfigureSurveyContext' ), Theme::get_common_image_path () . 'action_build_prerequisites.png', $this->get_configure_context_url($co) ) );
-		return $action_bar;
-	}
+
 	
 	function get_creation_links($lo, $types = array()) {
 		$html [] = '<div class="select_complex_element">';

@@ -333,7 +333,7 @@ abstract class ContentObjectInstaller
     static function factory($type)
     {
         $class = ContentObject :: type_to_class($type) . 'ContentObjectInstaller';
-        
+
         $file = Path :: get_repository_path() . 'lib/content_object/' . $type . '/install/' . $type . '_installer.class.php';
         if (file_exists($file))
         {

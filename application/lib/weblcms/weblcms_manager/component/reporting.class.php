@@ -36,7 +36,14 @@ class WeblcmsManagerReportingComponent extends WeblcmsManager
         }
 
   		$rtv = new ReportingViewer($this);
-        $rtv->add_template_by_id($template);
+  		if (isset($template))
+  		{
+  			$rtv->add_template_by_id($template);
+  		}
+  		else 
+  		{
+        	$rtv->add_template_by_name('course_student_tracker_reporting_template', WeblcmsManager::APPLICATION_NAME);
+  		}
         $rtv->set_breadcrumb_trail($trail);
         $rtv->show_all_blocks();
         

@@ -8,8 +8,8 @@ class AssessmentBuilderMoverComponent extends AssessmentBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: MOVER_COMPONENT, $this);
-        $browser->run();
+        $mover = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: MOVER_COMPONENT, $this);
+        $mover->run();
     }
 }
 

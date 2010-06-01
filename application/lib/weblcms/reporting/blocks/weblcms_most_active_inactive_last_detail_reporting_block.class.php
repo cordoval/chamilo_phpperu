@@ -7,7 +7,7 @@ class WeblcmsMostActiveInactiveLastDetailReportingBlock extends WeblcmsCourseRep
 	public function count_data()
 	{
 		$reporting_data = new ReportingData();
-        $reporting_data->set_rows(array(Translation :: get('Course'), Translation :: get('LastVisit'), Translation :: get('LastPublication')));
+        $reporting_data->set_rows(array(Translation :: get('LastVisit'), Translation :: get('LastPublication')));
         
 		require_once Path :: get_user_path() . 'trackers/visit_tracker.class.php';
         $wdm = WeblcmsDataManager :: get_instance();
@@ -36,7 +36,7 @@ class WeblcmsMostActiveInactiveLastDetailReportingBlock extends WeblcmsCourseRep
             }
 
             $reporting_data->add_category($course->get_name());
-            $reporting_data->add_data_category_row($course->get_name(), Translation :: get('Course'), '<a href="run.php?go=courseviewer&course=' . $course->get_id() . '&application=weblcms&" />' . $course->get_name() . '</a>');
+            //$reporting_data->add_data_category_row($course->get_name(), Translation :: get('Course'), '<a href="run.php?go=courseviewer&course=' . $course->get_id() . '&application=weblcms&" />' . $course->get_name() . '</a>');
 			$reporting_data->add_data_category_row($course->get_name(), Translation :: get('LastVisit'), $lastaccess);
 			$reporting_data->add_data_category_row($course->get_name(), Translation :: get('LastPublication'), $lastpublication);
         }

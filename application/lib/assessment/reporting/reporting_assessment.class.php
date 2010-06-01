@@ -7,7 +7,7 @@
  * @author Sven Vanpoucke
  */
 require_once dirname(__FILE__) . '/../assessment_data_manager.class.php';
-require_once dirname(__FILE__) . '/../data_manager/database.class.php';
+require_once dirname(__FILE__) . '/../data_manager/database_assessment_data_manager.class.php';
 require_once dirname(__FILE__) . '/../assessment_manager/assessment_manager.class.php';
 require_once dirname(__FILE__) . '/../trackers/assessment_assessment_attempts_tracker.class.php';
 
@@ -20,24 +20,32 @@ class ReportingAssessment
     }
 
     public static function getAssessmentAttempts($params)
-    {
+    {	
+    	dump("yu");
+    	dump($params);
         $aid = $params[AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION];
         $url = $params['url'];
         $results_export_url = $params['results_export_url'];
-        
+        dump($aid);
         $dummy = new AssessmentAssessmentAttemptsTracker();
         $condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $aid);
-        
+        dump($condition);
         $trackers = $dummy->retrieve_tracker_items($condition);
-        
-        $pub = DatabaseAssessmentDataManager :: get_instance()->retrieve_assessment_publication($aid);
+        dump($trackers);
+        $pub = AssessmentDataManager :: get_instance()->retrieve_assessment_publication($aid);
         $assessment = $pub->get_publication_object();
-        foreach ($trackers as $tracker)
+        dump($trackers);
+       	
+        $reporting_data = new ReportingData();
+		$reporting_data->set_rows(array(Translation :: get('User'), Translation :: get('Date'), Translation :: get('TotalScore'), Translation :: get('Action')));
+
+        foreach ($trackers as $index => $tracker)
         {
+        	$reporting_data->add_category("tracker" . $index);
             $user = UserDataManager :: get_instance()->retrieve_user($tracker->get_user_id());
-            $data[Translation :: get('User')][] = $user->get_fullname();
-            $data[Translation :: get('Date')][] = $tracker->get_date();
-            $data[Translation :: get('TotalScore')][] = $tracker->get_total_score() . '%';
+            $reporting_data->add_data_category_row("tracker" . $index, Translation :: get('User'), $user->get_fullname());
+            $reporting_data->add_data_category_row("tracker" . $index, Translation :: get('Date'), $tracker->get_date());
+            $reporting_data->add_data_category_row("tracker" . $index, Translation :: get('TotalScore'), $tracker->get_total_score() . '%');
             $actions = array();
             if (!array_key_exists('export',$params))
             {
@@ -49,12 +57,15 @@ class ReportingAssessment
 	            }
 	            
 	            $actions[] = array('href' => $url . '&delete=tid_' . $tracker->get_id(), 'label' => Translation :: get('DeleteResults'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-            $data[Translation :: get('Action')][] = Utilities :: build_toolbar($actions);
+            $reporting_data->add_data_category_row("tracker" . $index, Translation :: get('Action'), Utilities :: build_toolbar($actions));
             }
         }
         
-        $description[Reporting :: PARAM_ORIENTATION] = Reporting :: ORIENTATION_HORIZONTAL;
-        return Reporting :: getSerieArray($data, $description);
+        //$description[Reporting :: PARAM_ORIENTATION] = Reporting :: ORIENTATION_HORIZONTAL;
+        dump(Reporting :: get_serie_array($data, $description));
+        dump($reporting_data);
+        return $reporting_data;
+        //return Reporting :: get_serie_array($data, $description);
     }
 
     public static function getSummaryAssessmentAttempts($params)

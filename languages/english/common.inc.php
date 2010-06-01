@@ -752,4 +752,6 @@ $lang['common']['SelectedEvaluationsDeleted'] = 'Selected evaluations deleted';
 $lang['common']['EvaluationUpdated'] = 'Evaluation updated';
 $lang['common']['EvaluationNotUpdated'] = 'Evaluation not updated';
 $lang['common']['UpdateEvaluation'] = 'Update evaluation';
+$lang['common']['DisplayOrder'] = 'Display Order';
+$lang['common']['PublisherId'] = 'Publisher';
 ?>
