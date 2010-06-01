@@ -31,8 +31,11 @@ class AssessmentAttemptsReportingBlock extends AssessmentReportingBlock
 /**
 	 * 
 	 */
-	function get_available_displaymodes() {
-		
+	function get_available_displaymodes() 
+	{
+		$modes = array();
+        $modes[ReportingFormatter::DISPLAY_TABLE] = Translation :: get('Table');
+        return $modes;
 	}
 
 }

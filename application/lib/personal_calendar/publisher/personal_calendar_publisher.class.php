@@ -57,7 +57,7 @@ class PersonalCalendarPublisher
         }
 
         $parameters = $this->parent->get_parameters();
-        $parameters['object'] = $ids;
+        $parameters[RepoViewer :: PARAM_ID] = $ids;
 
         $form = new PersonalCalendarPublicationForm(PersonalCalendarPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url($parameters));
         if ($form->validate())
