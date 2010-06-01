@@ -60,5 +60,11 @@ $lang['portfolio']['PublicationGiveFeedback'] = 'Add Your Own Feedback';
 $lang['portfolio']['NoPermissionToGiveFeedback'] = 'You don\'t have the permission to give feedback on this portfolio item';
 $lang['portfolio']['NoPermissionToViewFeedback'] = 'You don\'t have the permission to view the feedback on this portfolio item';
 
+$lang['portfolio']['SetSystemDefaults'] = 'Set Defaults';
+$lang['portfolio']['PortfolioDefaultSettingsSaved'] = 'Default portfolio permissions have been saved';
+$lang['portfolio']['DefaultSystemSettings'] = 'Default portfolio permissions';
+$lang['Admin']['SetPortfolioDefaults'] = 'Set default portfolio permissions';
+
+
 
 ?>

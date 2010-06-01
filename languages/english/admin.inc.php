@@ -441,4 +441,5 @@ $lang['admin']['ApplicationTitle'] = 'Application title';
 $lang['admin']['ContentObjectTitle'] = 'Content object title';
 $lang['admin']['LanguageTitle'] = 'Language title';
 $lang['admin'][''] = '';
+$lang['admin']['SetPortfolioDefaults'] = 'Set default portfolio permissions';
 ?>
