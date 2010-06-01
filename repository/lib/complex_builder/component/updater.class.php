@@ -68,7 +68,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
             $trail->add_help('repository builder');
 
             $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'cid' => Request :: get('cid'))), $this->get_root_content_object()->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'update_complex_content_object_item', 'selected_complex_content_object_item' => $complex_content_object_item_id, 'cid' => Request :: get('cid'))), Translation :: get('Update')));
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => ComplexBuilder :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, 'cid' => Request :: get('cid'))), Translation :: get('Update')));
 
             $this->display_header($trail);
             echo $content_object_form->toHTML();

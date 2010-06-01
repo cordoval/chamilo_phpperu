@@ -22,10 +22,8 @@ class ComplexBuilderViewerComponent extends ComplexBuilderComponent
             $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object_item->get_ref());
 
             $trail = BreadcrumbTrail :: get_instance();
-            $menu_trail = $this->get_complex_content_object_breadcrumbs();
-            $trail->merge($menu_trail);
+            $this->get_complex_content_object_breadcrumbs();
             $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_parent()->get_complex_content_object_item_id(), ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $id);
-
             $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('View') . ' ' . $content_object->get_title()));
 
             $this->display_header($trail);
