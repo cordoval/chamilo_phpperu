@@ -48,8 +48,8 @@ class ForumDisplayForumPostEditorComponent extends ForumDisplay
             
             }
             else
-            {
-                $this->display_header(BreadcrumbTrail :: get_instance());
+            {	
+                $this->display_header($this->get_complex_content_object_breadcrumbs());
                 $form->display();
                 $this->display_footer();
             }
