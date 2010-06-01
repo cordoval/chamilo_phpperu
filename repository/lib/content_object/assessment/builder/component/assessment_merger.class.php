@@ -11,9 +11,9 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilder
 
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
-        $trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE), $this->get_root_content_object()->get_title())));
-        $trail->add(new Breadcrumb($this->get_url(array(), Translation :: get('MergeAssessment'))));
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE)), $this->get_root_content_object()->get_title()));
+        $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('MergeAssessment')));
         $trail->add_help('repository assessment builder');
         $assessment = $this->get_root_content_object();
         
