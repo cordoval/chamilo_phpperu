@@ -33,8 +33,8 @@ class InternshipOrganizerRegionForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('text', InternshipOrganizerRegion :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
-        $this->addRule(InternshipOrganizerRegion :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', InternshipOrganizerRegion :: PROPERTY_CITY_NAME, Translation :: get('Name'), array("size" => "50"));
+        $this->addRule(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
                
         $this->addElement('select', InternshipOrganizerRegion :: PROPERTY_PARENT_ID, Translation :: get('Region'), $this->get_regions());
         $this->addRule(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -76,7 +76,7 @@ class InternshipOrganizerRegionForm extends FormValidator
         $region = $this->region;
         $values = $this->exportValues();
         
-        $region->set_name($values[InternshipOrganizerRegion :: PROPERTY_NAME]);
+        $region->set_name($values[InternshipOrganizerRegion :: PROPERTY_CITY_NAME]);
         $region->set_zip_code($values[InternshipOrganizerRegion :: PROPERTY_ZIP_CODE]);
         $region->set_description($values[InternshipOrganizerRegion :: PROPERTY_DESCRIPTION]);
         $value = $region->update();
@@ -100,7 +100,7 @@ class InternshipOrganizerRegionForm extends FormValidator
         $region = $this->region;
         $values = $this->exportValues();
         
-        $region->set_name($values[InternshipOrganizerRegion :: PROPERTY_NAME]);
+        $region->set_name($values[InternshipOrganizerRegion :: PROPERTY_CITY_NAME]);
         $region->set_zip_code($values[InternshipOrganizerRegion :: PROPERTY_ZIP_CODE]);
         $region->set_description($values[InternshipOrganizerRegion :: PROPERTY_DESCRIPTION]);
         $region->set_parent_id($values[InternshipOrganizerRegion :: PROPERTY_PARENT_ID]);
@@ -124,7 +124,7 @@ class InternshipOrganizerRegionForm extends FormValidator
         $region = $this->region;
         $defaults[InternshipOrganizerRegion :: PROPERTY_ID] = $region->get_id();
         $defaults[InternshipOrganizerRegion :: PROPERTY_PARENT_ID] = $region->get_parent_id();
-        $defaults[InternshipOrganizerRegion :: PROPERTY_NAME] = $region->get_name();
+        $defaults[InternshipOrganizerRegion :: PROPERTY_CITY_NAME] = $region->get_city_name();
         $defaults[InternshipOrganizerRegion :: PROPERTY_ZIP_CODE] = $region->get_zip_code();
         $defaults[InternshipOrganizerRegion :: PROPERTY_DESCRIPTION] = $region->get_description();
         parent :: setDefaults($defaults);

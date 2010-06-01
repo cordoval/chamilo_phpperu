@@ -25,7 +25,7 @@ class DefaultInternshipOrganizerRegionTableColumnModel extends ObjectTableColumn
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(InternshipOrganizerRegion :: PROPERTY_NAME);
+        $columns[] = new ObjectTableColumn(InternshipOrganizerRegion :: PROPERTY_CITY_NAME);
         $columns[] = new ObjectTableColumn(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE);
         $columns[] = new ObjectTableColumn(InternshipOrganizerRegion :: PROPERTY_DESCRIPTION);
         return $columns;

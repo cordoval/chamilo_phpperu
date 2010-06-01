@@ -14,8 +14,8 @@ class InternshipOrganizerLocation extends DataClass {
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_ADDRESS = 'address';
 	const PROPERTY_REGION_ID = 'region_id';
-	const PROPERTY_POSTCODE = 'postcode';
-	const PROPERTY_CITY = 'city';
+	//const PROPERTY_POSTCODE = 'postcode';
+	//const PROPERTY_CITY = 'city';
 	const PROPERTY_TELEPHONE = 'telephone';
 	const PROPERTY_FAX = 'fax';
 	const PROPERTY_EMAIL = 'email';
@@ -224,6 +224,10 @@ class InternshipOrganizerLocation extends DataClass {
 	
 	function get_organisation(){
 		return $this->get_data_manager()->retrieve_organisation($this->get_organisation_id());
+	}
+	
+	function get_region(){
+		return $this->get_data_manager()->retrieve_internship_organizer_region($this->get_region_id());
 	}
 	
 	static function get_table_name() {

@@ -40,7 +40,6 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
 	function get_table() 
 	{
 		$parameters = $this->get_parameters();
-		echo '<p>array: ' .$parameters[2]. '</p>';
 		$parameters[InternshipOrganizerOrganisationManager::PARAM_ORGANISATION_ID] = $this->organisation->get_id();
 		$table = new InternshipOrganizerLocationBrowserTable ( $this, $parameters , $this->get_condition () );
 		return $table->as_html ();
