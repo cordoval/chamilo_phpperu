@@ -4,13 +4,14 @@
  * @package application.lib.assessment.reporting.templates
  */
 require_once dirname(__FILE__) . '/../../assessment_publication_category_menu.class.php';
+require_once dirname(__FILE__) . '/../blocks/assessment_attempts_summary_reporting_block.class.php';
 
 class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
 {
 
     function AssessmentAttemptsSummaryTemplate($parent = null, $id, $params, $trail)
     {
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("AssessmentAttemptsSummary"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
+        $this->add_reporting_block(new AssessmentAttemptsSummaryReportingBlock(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("assessment_attempts_summary_template")));
         
         parent :: __construct($parent, $id, $params, $trail);
     }
@@ -43,7 +44,7 @@ class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
     function to_html()
     {
         //template header
-        $html[] = $this->get_header();
+        $html[] = $this->display_header();
         //$html[] = '<div class="reporting_center">';
         //show visible blocks
         
@@ -62,7 +63,7 @@ class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
         
         //$html[] = '</div>';
         //template footer
-        $html[] = $this->get_footer();
+        $html[] = $this->display_footer();
         
         return implode("\n", $html);
     }
