@@ -39,8 +39,11 @@ class InternshipOrganizerCategoryForm extends FormValidator
         $this->addElement('select', InternshipOrganizerCategory :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->get_categories());
         $this->addRule(InternshipOrganizerCategory :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->add_html_editor(InternshipOrganizerCategory :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+        //$this->add_html_editor(InternshipOrganizerCategory :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
     
+        $this->addElement('textarea', InternshipOrganizerCategory :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "5", "cols" => "40"));
+		$this->addRule(InternshipOrganizerCategory :: PROPERTY_DESCRIPTION); 
+        
     }
 
     function build_editing_form()
