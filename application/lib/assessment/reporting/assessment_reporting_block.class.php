@@ -10,6 +10,6 @@ abstract class AssessmentReportingBlock extends ReportingBlock
 	}
 	
 	public abstract function count_data();
-	public abstract function retrieve_date();
+	public abstract function retrieve_data();
 }
 ?>
