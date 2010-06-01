@@ -24,7 +24,6 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             $rdm = RepositoryDataManager :: get_instance();
             $forum = $rdm->retrieve_content_object($this->get_complex_content_object_item()->get_ref());
         }
-        
         $this->retrieve_children($forum);
         
         $this->action_bar = $this->get_action_bar();
@@ -54,8 +53,8 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             }
         }
         
-        $this->display_header($trail);
-        
+        //$this->display_header($trail);
+        $this->display_header($this->get_complex_content_object_breadcrumbs());
         echo $this->action_bar->as_html();
         echo $topics_table->toHtml();
         
@@ -360,7 +359,6 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             $row ++;
             return;
         }
-        
         foreach ($this->forums as $forum)
         {
             $last_post = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($forum->get_ref()->get_last_post());

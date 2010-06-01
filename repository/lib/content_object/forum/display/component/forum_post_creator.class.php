@@ -41,7 +41,19 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplay
             if (!$pub->is_ready_to_be_published())
             {
                 $html[] = $pub->as_html();
-                $this->display_header(new BreadcrumbTrail());
+                
+                $trail = new BreadcrumbTrail(false);
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $this->get_root_content_object()->get_title()));
+                
+                $topic=RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_complex_content_object_item()->get_ref());
+                
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_TOPIC,ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item()->get_id())), 
+                						   $topic->get_title()));
+        		
+				$trail->add(new Breadcrumb($this->get_url(), Translation :: get('reply_on_post')));
+                $this->display_header($this->get_complex_content_object_breadcrumbs());
+                //$this->display_header(new BreadcrumbTrail());
+                
                 echo implode("\n", $html);
                 $this->display_footer();
             }

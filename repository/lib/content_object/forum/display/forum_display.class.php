@@ -33,7 +33,7 @@ class ForumDisplay extends ComplexDisplay
     function run()
     {
     	$action = $this->get_action();
-	        
+
         switch ($action)
         {
             case self :: ACTION_PUBLISH_FORUM :
@@ -79,8 +79,11 @@ class ForumDisplay extends ComplexDisplay
                 $component = $this->create_component('Sticky');
                 break;
             default :
-                $this->set_action(self :: ACTION_VIEW_CLO);
-                $component = $this->create_component('ForumViewer');
+                $this->set_action(self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT);
+                if($this->get_complex_content_object_item() instanceof ComplexForumTopic)
+                	$component = $this->create_component('TopicViewer');
+                	else
+                		$component = $this->create_component('ForumViewer');
         }
     	$component->run();
     }
