@@ -13,5 +13,8 @@ abstract class AssessmentReportingBlock extends ReportingBlock
 	{
 		return AssessmentManager::APPLICATION_NAME;
 	}
+	
+	public abstract function count_data();
+	public abstract function retrieve_data();
 }
 ?>

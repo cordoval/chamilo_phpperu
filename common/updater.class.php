@@ -73,7 +73,7 @@ abstract class Updater
                 	$storage_unit = self :: parse_xml_file($file);
                     $backup = DatabaseBackup::factory('mysql', array($storage_unit['name']), $this->get_data_manager());
                     $output = $backup->backup();
-                    $file = Path :: get_temp_path() . 'backup/' . $this->get_application() . '.backup';
+                    $file = Path :: get_temp_path() . 'backup/' . $this->get_application() . '_' . time() . '.backup';
                     Filesystem::write_to_file($file, $output, true);
                 	$this->add_message(self :: TYPE_WARNING, 'Xml file needed with changes');
                     

@@ -20,12 +20,6 @@ class AssessmentAttemptsReportingBlock extends AssessmentReportingBlock
 	{
         return $this->count_data();
 	}
-/**
-	 * 
-	 */
-	public function retrieve_date() {
-		
-	}
 
 
 /**
