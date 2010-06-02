@@ -16,6 +16,9 @@ class ContentObjectImportForm extends FormValidator
     private $user;
     private $import_type;
     private $show_category;
+    private $messages;
+    private $warnings;
+    private $errors;
 
     /**
      * Constructor.
@@ -83,6 +86,18 @@ class ContentObjectImportForm extends FormValidator
         return $types;
     }
 
+    function get_messages(){
+    	return empty($this->messages) ? array() : $this->messages;
+    }
+    
+    function get_warnings(){
+    	return empty($this->warnings) ? array() : $this->warnings;
+    }
+    
+    function get_errors(){
+    	return empty($this->errors) ? array() : $this->errors;
+    }
+    
     /**
      * Sets default values.
      * @param array $defaults Default values for this form's parameters.
@@ -109,7 +124,11 @@ class ContentObjectImportForm extends FormValidator
         if (ContentObjectImport :: type_supported($type))
         {
             $importer = ContentObjectImport :: factory($type, $_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->exportValue(RepositoryManager :: PARAM_CATEGORY_ID));
-            return $importer->import_content_object();
+            $result = $importer->import_content_object();
+            $this->messages = $importer->get_messages();
+            $this->warnings = $importer->get_warnings();
+            $this->errors = $importer->get_errors();
+            return $result;
         }
         else
         {
