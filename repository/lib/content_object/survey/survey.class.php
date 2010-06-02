@@ -108,7 +108,7 @@ class Survey extends ContentObject
 	function get_context_template_name()
     {
         $template = SurveyContextDataManager::get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
-    	return $template->get_name();
+    	return empty($template) ? '' : $template->get_name();
 
     }
 

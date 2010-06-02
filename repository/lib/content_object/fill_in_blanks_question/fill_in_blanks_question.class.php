@@ -32,17 +32,27 @@ class FillInBlanksQuestion extends ContentObject
         return $this->set_additional_property(self :: PROPERTY_ANSWERS, serialize($answers));
     }*/
 
-    public function get_answers(){
+    public function get_answers($index = -1){
     	$text = $this->get_answer_text();
-    	$result = FillInBlanksQuestionAnswer::parse($text);
-    	
+    	$answers = FillInBlanksQuestionAnswer::parse($text);
+    	if($index<0){
+    		$result = $answers;
+    	}else{
+    		$result = array();
+    		foreach($answers as $answer){
+    			if($answer->get_position() == $index){
+    				$result[] = $answer;
+    			}
+    		}
+    	}
     	return $result;
     }
-/*
-    public function get_number_of_answers()
+
+    public function get_number_of_questions()
     {
-        return count($this->get_answers());
-    }*/
+    	$text = $this->get_answer_text();
+    	return FillInBlanksQuestionAnswer::get_number_of_questions($text);
+    }
 
     public function get_answer_text()
     {
