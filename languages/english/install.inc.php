@@ -96,4 +96,8 @@ $lang['install']['InternshipOrganizer'] = 'Internship Organizer';
 $lang['install']['Cba'] = 'Cba';
 $lang['install']['Cda'] = 'Cda';
 $lang['install']['World'] = 'World';
+$lang['install']['CompetenceBasedAssessment'] = 'Compentence Based Assessment';
+$lang['install']['PeerAssessment'] = 'Peer Assessment';
+$lang['install']['ChamiloTranslationApplication'] = 'Chamilo Translation Application';
+$lang['install']['Streamingvideo'] = 'Streaming video';
 ?>

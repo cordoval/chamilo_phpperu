@@ -1,5 +1,6 @@
 <?php
 $lang['repository']['ViewParent'] = 'Up';
+$lang['repository']['AllContentObjects'] = 'All content objects';
 $lang['repository']['NoComment'] = 'No comment';
 $lang['repository']['ThisObjectIsPublished'] = 'The object is published';
 $lang['repository']['ItemsInChapter'] = 'Items in chapter';
