@@ -15,6 +15,7 @@ class MediamosaRestClient extends RestClient{
     private $header_data;
     private $connector_cookie = null;
 
+
     const PARAM_CONNECTOR_COOKIE = 'mediamosa_connector_cookie';
     
     function __construct($mediamosa_url)
@@ -32,28 +33,40 @@ class MediamosaRestClient extends RestClient{
 
     }
 
+    /*
+     * login to mediamosa server
+     * a cookie is set with session id
+     *
+     * @param string username of chamilo for a particular mediamosa server
+     * @param string password {idem supra}
+     * @return boolean
+     */
     function login($username, $password)
     {
         $username = $username;
         $password = $password;
-        
+
         // step 1: request the challenge
         $response = $this->request('POST', '/login', array('dbus' => 'AUTH DBUS_COOKIE_SHA1 '. $username));
-
-        // parse response
-        $header = $response->get_response_header();
-        $this->set_connector_cookie(explode($header['Set-cookie']));
-
+ 
+        //TODO:jens--> set cookie ???
+        $cookies = $response->get_response_cookies();
+        $this->set_connector_cookie($cookies[0]['name'],$cookies[0]['value']);
+        
         //get challenge code
-        preg_match('@<dbus>DATA vpx 0 (.*)</dbus>@', $response->get_response_content(), $matches);
+        $data = $response->get_response_content_xml();
+        preg_match('@DATA vpx 0 (.*)@', $data->items->item->dbus, $matches);
         $challenge = $matches[1];
 
+        //generate something random
+        $random = substr(md5(microtime(true)),0,10);
+        
         // step 2: send credentials
         $challenge_response = sha1(sprintf('%s:%s:%s', $challenge, $random, $password));
         $response = $this->request('POST', '/login', array('dbus' => sprintf('DATA %s %s', $random, $challenge_response)));
 
         // parse the response
-        preg_match('@<dbus>(.*)</dbus>@', $response->data, $matches);
+        preg_match('@(.*)@', $response->get_response_content_xml()->items->item->dbus, $matches);
         $result = $matches[1];
 
         // return TRUE or FALSE
@@ -64,9 +77,9 @@ class MediamosaRestClient extends RestClient{
      * sets login validation cookie
      * @param string cookie
      */
-    private function set_connector_cookie($cookie)
+    private function set_connector_cookie($name, $value)
     {
-        $this->connector_cookie = $cookie;
+        $this->connector_cookie = array('name' => $name, 'value' => $value);
         $cookie = new Cookie();
         $cookie->register(self :: PARAM_CONNECTOR_COOKIE, $this->connector_cookie); //expire
     }
@@ -76,31 +89,31 @@ class MediamosaRestClient extends RestClient{
      * checks if cookie exists and returns
      * @return string or false
      */
+    //TODO:jens -> check if cookie exists
     function get_connector_cookie()
     {
-        return !is_null($this->connector_cookie) ?  $this->connector_cookie : false;
-    }
-
-    /*
-     * @param array data
-     * @return string
-     */
-    function array_to_xml($data){
-        if(is_array($data)){
-
-            foreach($data as $key=>$value)
-            {
-                $output = '<'.$key.'>'.$value.'</'.$key.'>';
-            }
-
-            return $output;
+        if(!is_null($this->connector_cookie))
+        {
+            return $this->connector_cookie;
         }
-        return null;
+        else
+        {
+            $cookie = new Cookie();
+            $tmp_cookie = $cookie->retrieve(self :: PARAM_CONNECTOR_COOKIE);
+
+            if($tmp_cookie)
+            {
+                $this->connector_cookie = $tmp_cookie;
+                return $this->connector_cookie;
+            }
+        }
+
+        return false;
     }
 
-    function set_header_data($data = array())
+    function set_header_data($name,$value)
     {
-        $this->header_data = $data;
+        $this->header_data[] = array('name' => $name, 'value' => $value);
     }
 
     function get_header_data()
@@ -118,8 +131,16 @@ class MediamosaRestClient extends RestClient{
     function request($method, $url, $data)
     {
         $this->set_http_method($method);
-        $this->set_url($this->mediamosa_url, $url);
-        if(is_array($data)) $this->set_data_to_send($this->array_to_xml($data));
+        $this->set_url($this->mediamosa_url.$url);
+        if(is_array($data)) $this->set_data_to_send($data);
+xdebug_break();
+        //add connector cookie to headers if set
+        if($this->get_connector_cookie())
+        {
+            $connector_cookie = $this->get_connector_cookie();
+            $this->set_header_data('Cookie', $connector_cookie['name'].'='.$connector_cookie['value']);
+        }
+        
         return $this->send_request();
     }
 
@@ -130,39 +151,45 @@ class MediamosaRestClient extends RestClient{
      */
     protected function send_pear_request()
     {
+        
         $result = new MediaMosaRestResult();
-        $result->set_request_connexion_mode($this->connexion_mode);
-        $result->set_request_http_method($this->http_method);
-        $result->set_request_sent_data($this->data_to_send);
-        $result->set_request_url($this->url);
+        $result->set_request_connexion_mode($this->get_connexion_mode());
+        $result->set_request_http_method($this->get_http_method());
+        $result->set_request_sent_data($this->get_data_to_send());
+        $result->set_request_url($this->get_url());
 
         $request_properties = array();
-        $request_properties['method'] = $this->http_method;
-        $request_properties['user']   = $this->basic_login;
-        $request_properties['pass']   = $this->basic_password;
+        $request_properties['method'] = $this->get_http_method();
+        $request_properties['user']   = $this->get_basic_login();
+        $request_properties['pass']   = $this->get_basic_password();
 
-        $request = new HTTP_Request($this->url, $request_properties);
+        $request = new HTTP_Request($this->get_url(), $request_properties);
 
-        if(isset($this->data_to_send))
+       //add data
+        $data_to_send = $this->get_data_to_send();
+        
+        if(isset($data_to_send))
         {
-            if(is_string($this->data_to_send))
+            //TODO:jens --> redistribute this so it works in all situations
+            //problem possible when key = content 
+           if(is_string($data_to_send))
             {
-                 $request->setBody($this->data_to_send);
+                 $request->setBody($data_to_send);
             }
-            elseif(is_array($this->data_to_send) && isset($this->data_to_send['content']))
+            elseif(is_array($data_to_send) && isset($data_to_send['content']))
             {
                 /*
                  * If $this->data_to_send is an array and the content to send
                  * is in $this->data_to_send['content'], we use it
                  */
                 //$request->addPostData('content', $this->data_to_send['content'], true);
-                $request->setBody($this->data_to_send['content']);
+                $request->setBody($data_to_send['content']);
             }
-            elseif(is_array($this->data_to_send) && isset($this->data_to_send['file']))
+            elseif(is_array($data_to_send) && isset($data_to_send['file']))
             {
-                if(is_array($this->data_to_send['file']))
+                if(is_array($data_to_send['file']))
                 {
-                    $values = array_values($this->data_to_send['file']);
+                    $values = array_values($data_to_send['file']);
                     if(count($values) > 0)
                     {
                         $file_path = $values[0];
@@ -186,18 +213,25 @@ class MediamosaRestClient extends RestClient{
                     /*
                      * Tries to use the file value as the content of a file in memory
                      */
-                    $file_content = $this->data_to_send['file'];
+                    $file_content = $data_to_send['file'];
                 }
 
                 $request->setBody($file_content);
+            }
+            else
+            {
+                foreach($data_to_send as $key => $value)
+                {
+                    $request->addPostData($key, $value);
+                }
             }
 
         	/*
              * If the mime type is given as a parameter, we use it to set the content-type request
              */
-            if(is_array($this->data_to_send) && isset($this->data_to_send['mime']))
+            if(is_array($data_to_send) && isset($data_to_send['mime']))
             {
-                $request->addHeader('Content-type', $this->data_to_send['mime']);
+                $request->addHeader('Content-type', $data_to_send['mime']);
             }
 
             //TODO: jens --> implement in restclient class*/
@@ -205,11 +239,12 @@ class MediamosaRestClient extends RestClient{
              * OVERRIDE
              */
             /*add additional headers*/
+             xdebug_break();
             if(is_array($this->get_header_data()))
             {
-                foreach($this->header_data as $name => $value)
+                foreach($this->get_header_data() as $n => $header)
                 {
-                    $request->addHeader($name, $value);
+                    $request->addHeader($header['name'], $header['value']);
                 }
             }
 
@@ -221,10 +256,11 @@ class MediamosaRestClient extends RestClient{
             $result->set_response_http_code($request->getResponseCode());
             $result->set_response_content($request->getResponseBody());
             $result->set_response_header($request->getResponseHeader());
+            $result->set_response_cookies($request->getResponseCookies());
         }
         else
         {
-            $result->set_response_http_code(curl_getinfo($curl, CURLINFO_HTTP_CODE));
+            $result->set_response_http_code();
             $result->set_response_error($request->getResponseReason());
         }
 

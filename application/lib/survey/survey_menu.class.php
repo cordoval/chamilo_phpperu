@@ -71,36 +71,43 @@ class SurveyMenu extends HTML_Menu
         $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_PARENT_ID, 0);
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
-        $participant = $trackers[0];
-        
+
         if (! $include_root)
         {
-            return $this->get_menu_items($participant->get_id());
+            $menu = array();
+        	foreach($trackers as $tracker)
+            {
+            	$menu = array_merge($this->get_menu_items($tracker->get_id()), $menu);
+            }
+			return $menu;
         }
         else
         {
             $menu = array();
             
-            $menu_item = array();
-            $menu_item['title'] = $participant->get_context_name();
-            $menu_item['url'] = $this->get_url($participant);
-            
-            $sub_menu_items = $this->get_menu_items($participant->get_id());
-            if (count($sub_menu_items) > 0)
+            foreach($trackers as $tracker)
             {
-                $menu_item['sub'] = $sub_menu_items;
+	            $menu_item = array();
+	            $menu_item['title'] = $tracker->get_context_name();
+	            $menu_item['url'] = $this->get_url($tracker);
+	            
+	            $sub_menu_items = $this->get_menu_items($tracker->get_id());
+	            if (count($sub_menu_items) > 0)
+	            {
+	                $menu_item['sub'] = $sub_menu_items;
+	            }
+	            if ($tracker->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
+	            {
+	                $menu_item['class'] = 'survey_finished';
+	            }
+	            else
+	            {
+	                $menu_item['class'] = 'survey';
+	            }
+	            
+	            $menu_item[OptionsMenuRenderer :: KEY_ID] = $tracker->get_id();
+	            $menu[$tracker->get_id()] = $menu_item;
             }
-            if ($participant->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
-            {
-                $menu_item['class'] = 'survey_finished';
-            }
-            else
-            {
-                $menu_item['class'] = 'survey';
-            }
-            
-            $menu_item[OptionsMenuRenderer :: KEY_ID] = $participant->get_id();
-            $menu[$participant->get_id()] = $menu_item;
             return $menu;
         }
     }

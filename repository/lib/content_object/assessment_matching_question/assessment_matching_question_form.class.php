@@ -157,7 +157,7 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
                 }
                 else
                 {
-                    $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" class="remove_option" />');
                 }
 
                 $this->addGroup($group, MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number, null, '', false);
@@ -165,7 +165,6 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number);
 
-                $this->addGroupRule(MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number, array(MatchingQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), AssessmentMatchingQuestionOption::PROPERTY_SCORE . '[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
             }
         }
         $table_footer[] = '</tbody>';

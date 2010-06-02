@@ -198,12 +198,10 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
                 }
                 else
                 {
-                    $group[] = & $this->createElement('static', null, null, '<img id="remove_' . $option_number . '" class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img id="remove_' . $option_number . '" class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" class="remove_option" />');
                 }
 
                 $this->addGroup($group, MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
-
-                $this->addGroupRule(MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number, array(MultipleChoiceQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), AssessmentMultipleChoiceQuestionOption :: PROPERTY_SCORE . '[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
 
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number);

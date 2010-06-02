@@ -16,7 +16,7 @@ class InternshipOrganizerRegion extends NestedTreeNode
      * Region properties
      */
     const PROPERTY_ID = 'id';
-    const PROPERTY_NAME = 'name';
+    const PROPERTY_CITY_NAME = 'city_name';
     const PROPERTY_ZIP_CODE = 'zip_code';
     const PROPERTY_DESCRIPTION = 'description';
 
@@ -28,7 +28,7 @@ class InternshipOrganizerRegion extends NestedTreeNode
     {
         return parent :: get_default_property_names(array(
         						self :: PROPERTY_ID, 
-        						self :: PROPERTY_NAME, 
+        						self :: PROPERTY_CITY_NAME, 
         						self :: PROPERTY_ZIP_CODE,
         						self :: PROPERTY_DESCRIPTION));
     }
@@ -55,18 +55,18 @@ class InternshipOrganizerRegion extends NestedTreeNode
      * Returns the name of this Region.
      * @return the name.
      */
-    function get_name()
+    function get_city_name()
     {
-        return $this->get_default_property(self :: PROPERTY_NAME);
+        return $this->get_default_property(self :: PROPERTY_CITY_NAME);
     }
 
     /**
      * Sets the name of this Region.
      * @param name
      */
-    function set_name($name)
+    function set_city_name($city_name)
     {
-        $this->set_default_property(self :: PROPERTY_NAME, $name);
+        $this->set_default_property(self :: PROPERTY_CITY_NAME, $city_name);
     }
 
     /**

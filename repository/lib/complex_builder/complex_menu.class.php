@@ -118,7 +118,8 @@ class ComplexMenu extends HTML_Menu
         while ($cloi = $clois->next_result())
         {
         	$lo = $datamanager->retrieve_content_object($cloi->get_ref());
-
+        	$url = null;
+        	
             if($lo->get_type() == LearningPathItem :: get_type_name())
             {
                 $lo = $datamanager->retrieve_content_object($lo->get_reference());

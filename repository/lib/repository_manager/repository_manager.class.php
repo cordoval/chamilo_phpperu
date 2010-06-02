@@ -414,7 +414,7 @@ class RepositoryManager extends CoreApplication
      * @param boolean $display_search Should the header include a search form or
      * not?
      */
-    function display_header($breadcrumbtrail, $display_search = false, $display_menu = true)
+    function display_header($breadcrumbtrail = null, $display_search = false, $display_menu = true)
     {
         if (is_null($breadcrumbtrail))
         {

@@ -46,10 +46,10 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
             
             if ($parent_id && $parent_parent_id)
             {
-            	$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $parent_id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_parent_id)), $parent_region->get_name()));
+            	$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $parent_id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_parent_id)), $parent_region->get_city_name()));
             }
             
-            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_id)), $region->get_name()));
+            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_id)), $region->get_city_name()));
             $trail->add_help('region general');
 
             $this->display_header($trail);
@@ -58,7 +58,7 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
 
             echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_region.png);">';
             echo '<div class="title">' . Translation :: get('Details') . '</div>';
-            echo '<b>' . Translation :: get('Name') . '</b>: ' . $region->get_name();
+            echo '<b>' . Translation :: get('Name') . '</b>: ' . $region->get_city_name();
             echo '<br /><b>' . Translation :: get('Description') . '</b>: ' . $region->get_description();
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
@@ -81,7 +81,7 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
 
         if (isset($query) && $query != '')
         {
-            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_NAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*');
             $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             $condition = new OrCondition($or_conditions);
 

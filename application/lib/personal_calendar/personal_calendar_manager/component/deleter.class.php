@@ -15,7 +15,6 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManager
     {
         $ids = Request :: get(PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID);
         $failures = 0;
-        
         if (! empty($ids))
         {
             if (! is_array($ids))
@@ -25,7 +24,7 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManager
             
             foreach ($ids as $id)
             {
-                $publication = $this->get_parent()->retrieve_personal_calendar_publication($id);
+                $publication = $this->retrieve_personal_calendar_publication($id);
                 
                 if (! $this->get_user()->is_platform_admin() && $publication->get_publisher() != $this->get_user_id())
                 {

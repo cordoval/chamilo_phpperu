@@ -12,7 +12,6 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilder
     {
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->merge($menu_trail);
         $trail->add_help('repository learnpath builder');
 
         if ($this->get_complex_content_object_item())

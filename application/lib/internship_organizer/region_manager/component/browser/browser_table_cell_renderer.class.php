@@ -34,7 +34,7 @@ class InternshipOrganizerRegionBrowserTableCellRenderer extends DefaultInternshi
         switch ($column->get_name())
         {
             // Exceptions that need post-processing go here ...
-            case InternshipOrganizerRegion :: PROPERTY_NAME :
+            case InternshipOrganizerRegion :: PROPERTY_CITY_NAME :
                 $title = parent :: render_cell($column, $region);
                 $title_short = $title;
                 if (strlen($title_short) > 53)

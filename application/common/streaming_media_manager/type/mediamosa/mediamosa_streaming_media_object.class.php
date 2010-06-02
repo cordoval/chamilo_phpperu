@@ -4,6 +4,8 @@
  *
  * @author jevdheyd
  */
+require_once dirname(__FILE__) . '/../../streaming_media_object.class.php';
+
 class MediamosaStreamingMediaObject extends StreamingMediaObject {
 
     const PROPERTY_CONVERSION_STATE = 'conversion_state';
@@ -18,6 +20,11 @@ class MediamosaStreamingMediaObject extends StreamingMediaObject {
     
     private $mediafiles;
     
+
+    function get_type()
+    {
+        return 'mediamosa';
+    }
 
     static function get_additional_property_names()
     {

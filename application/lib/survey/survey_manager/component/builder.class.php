@@ -13,19 +13,20 @@ class SurveyManagerBuilderComponent extends SurveyManager
         $publication_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication_id);
         $this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $publication_id);
-        $root_co_id = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
-        if (! isset($root_co_id))
-        {
-            Request :: set_get(ComplexBuilder :: PARAM_ROOT_LO, $publication->get_content_object());
-        }
+        $this->content_object = $publication->get_publication_object();
         
-        $complex_builder = ComplexBuilder :: factory($this);
-        $complex_builder->run();
+        $complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
+    	$complex_builder->run();
+    }
+    
+	function get_root_content_object()
+    {
+    	return $this->content_object;
     }
 
     function display_header($trail)
     {
-        $new_trail = new BreadcrumbTrail();
+        $new_trail = BreadcrumbTrail :: get_instance();
         $testcase = Request :: get(SurveyManager :: PARAM_TESTCASE);
         if ($testcase === 1)
         {
@@ -43,7 +44,6 @@ class SurveyManagerBuilderComponent extends SurveyManager
         
         }
         
-        $new_trail->merge($trail);
         parent :: display_header($new_trail);
     }
 }
