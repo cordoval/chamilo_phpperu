@@ -163,12 +163,10 @@ class OrderingQuestionForm extends ContentObjectForm
                 }
                 else
                 {
-                    $group[] = & $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" class = "remove_option" />');
                 }
 
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
-
-                $this->addGroupRule('option_' . $option_number, array('option[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'))));
 
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
