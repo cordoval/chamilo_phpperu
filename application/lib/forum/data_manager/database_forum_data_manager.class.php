@@ -59,7 +59,6 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
     {
         $oldIndex = $publication->get_display_order();
         $newIndex = $oldIndex + $places;
-
         $publications = $this->retrieve_forum_publications();
 
         while ($pub = $publications->next_result())
@@ -69,11 +68,12 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
             if ($index == $newIndex)
                 $pub->set_display_order($index - $places);
 
-            $pub->update();
+            if(!$pub->update())
+            	return false;
         }
 
         $publication->set_display_order($newIndex);
-        $publication->update();
+        return $publication->update();
     }
 
     function create_forum_publication_category($forum_publication_category)

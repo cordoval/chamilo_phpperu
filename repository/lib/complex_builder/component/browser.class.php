@@ -26,6 +26,13 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 
         $this->display_header();
 
+        $action_bar = $this->get_action_bar ( $lo );
+		
+		echo '<br />';
+		echo $action_bar;
+		
+		
+        
         $display = ContentObjectDisplay :: factory($this->get_root_content_object());
         echo $display->get_full_html();
 
@@ -50,7 +57,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
         echo '<div class="clear">&nbsp;</div>';
 
         $this->display_footer();
-    }    
+    }   
 }
 
 ?>

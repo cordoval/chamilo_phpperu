@@ -1,5 +1,6 @@
 <?php
 $lang['repository']['ViewParent'] = 'Up';
+$lang['repository']['AllContentObjects'] = 'All content objects';
 $lang['repository']['NoComment'] = 'No comment';
 $lang['repository']['ThisObjectIsPublished'] = 'The object is published';
 $lang['repository']['ItemsInChapter'] = 'Items in chapter';
@@ -766,4 +767,6 @@ $lang['repository']['SubContexts'] = 'Sub contexts';
 $lang['repository']['AddSurveyPages'] = 'Add survey pages';
 $lang['repository']['AddPages'] = 'Add pages';
 $lang['repository']['SurveyContextTemplateDetails'] = 'Survey context template details';
+$lang['repository']['QtiImportWarning'] = "Due to differences between QTI and Chamilo, imported questions may not exactly reflect file's content.</p><p>Please check imported questions.</p>" ;
+
 ?>

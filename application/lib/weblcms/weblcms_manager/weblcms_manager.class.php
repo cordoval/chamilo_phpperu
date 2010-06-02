@@ -857,14 +857,16 @@ class WeblcmsManager extends WebApplication
 	function get_content_object_publication_locations($content_object, $user = null)
 	{
 		$locations = array();
-
 		$type = $content_object->get_type();
-
+		
 		//$courses = $this->retrieve_courses($user->get_id());
 		$courses = $this->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user->get_id(), CourseUserRelation :: get_table_name()));
-		while ($course = $courses->next_result())
-		$c[] = $course;
-
+		
+		while ($course = $courses->next_result()){
+			if($course->is_course_admin($user)) //u can only publish in the course of u are course admin
+				$c[] = $course;
+		}	
+		
 		$directory = dirname(__FILE__) . '/../tool/';
 		$tools = Filesystem :: get_directory_content($directory, Filesystem :: LIST_DIRECTORIES, false);
 		foreach ($tools as $tool)
@@ -890,7 +892,6 @@ class WeblcmsManager extends WebApplication
 				$locations[$course->get_id() . '-' . $tool] = 'Course: ' . $course->get_name() . ' - Tool: ' . $tool;
 			}
 		}
-
 		return $locations;
 	}
 

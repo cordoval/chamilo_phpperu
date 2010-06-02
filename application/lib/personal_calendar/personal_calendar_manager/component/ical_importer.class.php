@@ -16,8 +16,9 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
         $form = $this->build_importing_form();
         if ($form->validate())
         {
-            $object = $this->import_ical($form);
-            $this->redirect(Translation :: get('IcalImported'), false, array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION, 'object' => $object));
+            $object = $this->import_ical($form);           
+            
+            $this->redirect(Translation :: get('IcalImported'), false, array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION, RepoViewer::PARAM_ID => $object, RepoViewer::PARAM_ACTION => RepoViewer::ACTION_PUBLISHER));
         }
         else
         {
@@ -63,7 +64,6 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
         
         $importer = ContentObjectImport :: factory('ical', $file, $user, $category);
         $result = $importer->import_content_object();
-        
         return $result;
     }
     

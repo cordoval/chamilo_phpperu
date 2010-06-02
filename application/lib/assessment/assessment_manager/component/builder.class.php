@@ -16,7 +16,7 @@ class AssessmentManagerBuilderComponent extends AssessmentManager
     {
     	$publication_id = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
     	$publication = AssessmentDataManager :: get_instance()->retrieve_assessment_publication($publication_id);
-    	$this->content_object = RepositoryDataManager::get_instance()->retrieve_content_object($publication->get_content_object());
+    	$this->content_object = $publication->get_publication_object();
     	$this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $publication_id);
     	$new_trail = BreadcrumbTrail::get_instance();
     	$new_trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));

@@ -26,12 +26,13 @@ $(function ()
 		{
 		    deleteField = deleteImage;
 		}
-	
+		
 		rows.each(function ()
 		{
 			var orderField, orderFieldName, id, appendField;
 		    
 			orderField = $('select[name*="option_order"]', this);
+			
 			if (rows.size() > currentNumberOfOptions)
 			{
 				orderField.append($('<option value="' + rows.size() + '">' + rows.size() + '</option>'));
@@ -48,6 +49,8 @@ $(function ()
 		    $('td:last', this).append(appendField);
 		});
 		
+		if (rows.size() > 2)
+			$('.remove_option').bind('click', removeOption);
 		currentNumberOfOptions = rows.size();
     }
 
@@ -62,7 +65,7 @@ $(function ()
 		id = id.replace('remove_', '');
 		$('tr#option_' + id, tableBody).remove();
 	
-		rows = $('tr', tableBody);
+		rows = $('.data_table > tbody > tr');
 	
 		row = 0;
 	
@@ -75,7 +78,7 @@ $(function ()
 		    },
 		    async : false
 		}).responseText;
-	
+		
 		rows.each(function () {
 		    var rowClass = row % 2 === 0 ? 'row_even' : 'row_odd';
 		    $(this).attr('class', rowClass);
@@ -132,7 +135,8 @@ $(function ()
     $(document).ready(function ()
     {
     	currentNumberOfOptions = $('.data_table tbody tr').size();
-		$('.remove_option').live('click', removeOption);
+		if($('.remove_option').length > 2)
+			$('.remove_option').bind('click', removeOption);
 		$('#add_option').live('click', addOption);
 		//$('.data_table thead tr th:nth-child(2)').hide();
 		//$('.data_table tbody tr td:nth-child(2)').hide();

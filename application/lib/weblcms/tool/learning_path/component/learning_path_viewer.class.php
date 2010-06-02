@@ -126,7 +126,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
         }
         else
         {
-            if ($cloi)
+            if ($cloi && get_class($cloi) == "ComplexLearningPathItem")
             {
                 $allowed = true;
                 
