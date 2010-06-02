@@ -26,7 +26,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 
         $this->display_header();
 
-        $action_bar = $this->get_parent()->get_action_bar ( $lo );
+        $action_bar = $this->get_action_bar ( $lo );
 		
 		echo '<br />';
 		echo $action_bar;

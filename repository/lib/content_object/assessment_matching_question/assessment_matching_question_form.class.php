@@ -157,7 +157,7 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
                 }
                 else
                 {
-                    $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" class="remove_option" />');
                 }
 
                 $this->addGroup($group, MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number, null, '', false);
