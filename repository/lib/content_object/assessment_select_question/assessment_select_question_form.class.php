@@ -211,7 +211,6 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
                 }
 
                 $this->addGroup($group, SelectQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
-                $this->addGroupRule(SelectQuestionOption :: PROPERTY_VALUE . '_' . $option_number, array(SelectQuestionOption :: PROPERTY_VALUE . '[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), AssessmentSelectQuestionOption :: PROPERTY_SCORE . '[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
 
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', SelectQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', SelectQuestionOption :: PROPERTY_VALUE . '_' . $option_number);
