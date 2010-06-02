@@ -65,4 +65,28 @@ $lang['portfolio']['SetSystemDefaults'] = 'Aanpassen';
 $lang['portfolio']['PortfolioDefaultSettingsSaved'] = 'Standaard portfolio rechten werden opgeslagen';
 $lang['portfolio']['DefaultSystemSettings'] = 'Standaard portfolio Rechten';
 
+$lang['portfolio']['Logout'] = 'Uitloggen';
+$lang['portfolio']['Lastname'] = 'Familienaam';
+$lang['portfolio']['Firstname'] = 'Voornaam';
+$lang['portfolio']['AllContentObjects'] = 'Alle objecten';
+$lang['portfolio']['PortfolioFormTitle'] = 'Titel';
+$lang['portfolio']['CategoryTypeName'] = 'Categorie type';
+$lang['portfolio']['PortfolioFormDescription'] = 'Omschrijving';
+$lang['portfolio']['MyRepository'] = 'Mijn Repository';
+$lang['portfolio']['SharedContentObjects'] = 'Gedeelde objecten';
+$lang['portfolio']['CategoryType'] = 'Categorie type';
+$lang['portfolio']['icon'] = 'Icoon';
+$lang['portfolio']['UploadDocument'] = 'Document opladen';
+$lang['portfolio']['SelectAttach'] = 'Selecteer bijlage';
+$lang['portfolio']['PortfolioTypeName'] = 'Portfolio';
+$lang['portfolio']['YoutubeTypeName'] = 'Youtube filmpje';
+$lang['portfolio']['FileName'] = 'Bestandsnaam';
+$lang['portfolio']['Preview'] = 'Preview';
+$lang['portfolio']['ViewerTitel'] = 'Preview';
+$lang['portfolio']['Repeat'] = 'Herhaal';
+$lang['portfolio']['SelectAttachment'] = 'Selecteer Bijlage';
+$lang['portfolio']['Attachments'] = 'Bijlagen';
+$lang['portfolio']['URL'] = 'Url';
+$lang['portfolio']['SelectedContentObjects'] = 'Geselecteerde inhoud';
+
 ?>

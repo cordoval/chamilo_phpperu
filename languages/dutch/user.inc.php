@@ -117,4 +117,34 @@ $lang['user']['UserApproveBrowser'] = '';
 $lang['user']['Emailer'] = '';
 $lang['user']['ApproveList'] = '';
 $lang['user']['ApproveListDescription'] = '';
+
+$lang['user']['UserSettingsTitle'] = 'Gebruikersinstellingen';
+$lang['user']['AccountTitle'] = 'Instellingen';
+$lang['user']['Username'] = 'Gebruikersnaam';
+$lang['user']['ConfigurationUpdated'] = 'Configuratie aangepast';
+$lang['user']['PlatformTimezone'] = 'Platform tijdzonde';
+$lang['user']['WorkingHoursStart'] = 'Start werkdag';
+$lang['user']['WorkingHoursEnd'] = 'Einde werkdag';
+$lang['user']['HideNoneWorkingHours'] = 'Verberg uren buiten werkdag';
+$lang['user']['PlatformLanguage'] = 'Platform taal';
+$lang['user']['HtmlEditor'] = 'Html editor';
+$lang['user']['CKEditor'] = 'CKEditor';
+$lang['user']['TinyMCE'] = 'TinyMCE';
+$lang['user']['EnterCurrentPassword'] = 'Voer het huidige wachtwoord in';
+$lang['user']['EnterNewPasswordTwice'] = 'Voer het nieuwe wachtwoord twee keer in';
+$lang['user']['NewPassword'] = 'Nieuw Password';
+$lang['user']['PasswordConfirmation'] = 'Bevestiging';
+$lang['user']['PlatformOptions'] = 'Platform opties';
+$lang['user']['CurrentPassword'] = 'Huidig wachtwoord';
+$lang['user']['ChangePassword'] = 'Wijzig wachtwoord';
+$lang['user']['Logout'] = 'Uitloggen';
+$lang['user']['PersonalDetails'] = 'Persoonlijke Gegevens';
+$lang['user']['GeneralPasswordRequirements'] = 'Algemene wachtwoord vereisten';
+$lang['user']['Calendar'] = 'Kalender';
+$lang['user']['Visual'] = 'Visuele instellingen';
+
+
+
+
+
 ?>
