@@ -139,6 +139,7 @@ class AssessmentForm extends ContentObjectForm
         $this->addRule(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('ValueShouldBeNumeric'), 'numeric');
         $this->addRule(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('ValueShouldBeNumeric'), 'numeric');
         $this->addRule(Assessment :: PROPERTY_MAXIMUM_TIME, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+        $this->addRule(Assessment :: PROPERTY_RANDOM_QUESTIONS, Translation :: get('ValueShouldBeNumeric'), 'numeric');
     }
 
     // Inherited

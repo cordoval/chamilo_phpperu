@@ -19,14 +19,15 @@ class MediamosaStreamingMediaConnector {
     function MediamosaStreamingMediaConnector($manager)
     {
         $this->manager = $manager;
-        $this->mediamosa = new MediamosaRestClient(Platformsetting::get('mediamosa_url','mediamosa'));
+        $url = Platformsetting::get('mediamosa_url','admin');
+        $this->mediamosa = new MediamosaRestClient($url);
         //TODO: jens -> implement curl request
         $this->mediamosa->set_connexion_mode(RestClient :: MODE_PEAR);
         //login if connector cookie doesn't exist
         //connector cookie takes care of login persistence
         if(!$this->mediamosa->get_connector_cookie())
         {
-            $this->mediamosa->login(PlatformSetting::get('mediamosa_username','mediamosa'), PlatformSetting::get('mediamosa_password','mediamosa'));
+            $ok = $this->mediamosa->login(PlatformSetting::get('mediamosa_username','admin'), PlatformSetting::get('mediamosa_password','admin'));
         }
     }
 
@@ -51,27 +52,20 @@ class MediamosaStreamingMediaConnector {
     }
 
     
+    
+
+    function retrieve_default_asset_mediafile(){}
+
+    
     /*
-     * @param simple xml element
-     * @return array
+     * searchable retrieve assets on a mediamosa server
+     * @param string condition optional
+     * @param string order_property optional
+     * @param string offset optional
+     * @param string count optional
+     * @return array objects
      */
-    function get_mediamosa_mediafiles($mediafiles)
-    {
-
-
-        foreach ($mediafiles as $items) {
-            foreach ($items as $mediafile) {
-
-
-            }
-        }
-    }
-
-    function get_default_asset_mediafile(){}
-
-    function get_mediamosa_mediafile($mediafile_id){}
-
-    function get_mediamosa_assets($condition, $order_property, $offset, $count)
+    function retrieve_mediamosa_assets($condition, $order_property, $offset, $count)
     {
         if($order_property) $params['order_by'] = $order_property;
         if($offset) $params['offset'] = $offset;
@@ -93,8 +87,9 @@ class MediamosaStreamingMediaConnector {
     }
 
     /*
+     * creates and populates a MediamosaStreamingMediaObject with xml data
      * @param object simple xml element
-     * @return mediamosa object
+     * @return MediamosaStreamingMediaObject
      */
     function create_object($asset){
         
@@ -115,9 +110,95 @@ class MediamosaStreamingMediaConnector {
         return $mediamosa_asset;
     }
 
-    function is_editable($id)
-    {
-        
-    }
+    function is_editable($id){}
+
+    /*
+     * create an asset on mediamosa server
+     * @return string asset_id
+     */
+    function create_mediamosa_asset(){}
+
+    /*
+     * retrieve an asset on mediamosa server
+     * @param string asset_id
+     * @return object simple xml element
+     */
+    function retrieve_mediamosa_asset($asset_id){}
+
+    /*
+     * remove an asset on mediamosa server
+     * @return boolean
+     */
+    function remove_mediamosa_asset(){}
+
+    /*
+     * create a mediamosa mediafile
+     * @param string asset_id
+     * @return string mediafile_id
+     */
+    function create_mediamosa_mediafile($asset_id){}
+
+     /*
+     * retrieves a mediamosa mediafile
+     * @param mediafile_id
+     * @return MediamosaMediafileObject
+     */
+    function retrieve_mediamosa_mediafile($mediafile_id){}
+
+    /*
+     * upload a file to mediamosa
+     * @param file
+     * @param string method
+     * @param string upload_ticket_id
+     * @return array transcode -the transcoding_profile_ids
+     * @return boolean ??
+     */
+    //TODO: jens determine output of upload request
+    function upload_mediamosa_mediafile($method, $upload_ticket_id, $file, $transcode = null){}
+
+    /*
+     * remove a mediamosa mediafile
+     * @param file
+     * @return boolean
+     */
+    function remove_mediamosa_mediafile($file){}
+
+    /*
+     * create or update metadata for an asset
+     * @param MediamosaStreamingMediaObject
+     * @return boolean
+     */
+    function add_mediamosa_metadata($mediamosa_streaming_media_object){}
+    
+    /*
+     * requests a upload ticket from server
+     * @param string mediafile_id
+     * @return string ticket_id
+     */
+    function create_mediamosa_upload_ticket($mediafile_id){}
+
+    /*
+     * creates a still for a certain mediafile on the mediamosa server
+     * @param string mediafile
+     * @return string url
+     */
+    function create_mediamosa_still($mediafile_id){}
+
+    /*
+     * retrieves all mediamosa profiles
+     * @return array
+     */
+    function retrieve_mediamosa_transcoding_profiles(){}
+
+    /*
+     * creates a transcoding job on the mediamosa server
+     * if a transcoding_profile_id is not provided it will transcode to the default profile(s)
+     * @param string mediafile_id
+     * @param string transcoding_profile_id
+     * @return int job_id
+     */
+    function transcode_mediamosa_mediafile($mediafile_id, $transcoding_profile_id = null){}
+
+
 }
 ?>

@@ -5,7 +5,7 @@
  *
  * @author jevdheyd
  */
-
+require_once dirname(__FILE__) . '/mediamosa_streaming_media_object.class.php';
 require_once dirname(__FILE__) . '/mediamosa_streaming_media_connector.class.php';
 
 class MediamosaStreamingMediaManager extends StreamingMediaManager{
@@ -30,7 +30,7 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
     function retrieve_streaming_media_objects($condition, $order_property, $offset, $count)
     {
         $connector = MediamosaStreamingMediaConnector::get_instance($this);
-        $connector->get_mediamosa_assets($condition, $order_property, $offset, $count);
+        $connector->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
     }
 
     function translate_search_query($query)
@@ -43,7 +43,7 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
     function retrieve_streaming_media_object($id)
     {
         $connector = MediamosaStreamingMediaConnector::get_instance($this);
-        $connector->get_mediamosa_asset($id);
+        $connector->retrieve_mediamosa_asset($id);
     }
 
     function delete_streaming_media_object($id){}
@@ -67,7 +67,7 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
                 break;
 
             case self::ACTION_SET_MEDIAMOSA_DEFAULTS :
-                $component = $this->create_component('AdminDefaultSettingsCreator', $application)
+                $component = $this->create_component('AdminDefaultSettingsCreator', $application);
 
             default :
                 $component = $this->create_component('Browser', $this);
