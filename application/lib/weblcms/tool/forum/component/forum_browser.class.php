@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
 require_once dirname(__FILE__) . '/../forum_tool_component.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/forum/display/forum_display.class.php';
 require_once 'HTML/Table.php';
 
 class ForumToolBrowserComponent extends ForumToolComponent

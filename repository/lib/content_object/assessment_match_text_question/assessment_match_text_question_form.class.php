@@ -205,12 +205,6 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
 
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
 
-                $rule = array(	"option[$option_number]" => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), 
-                				"option_weight[$option_number]" => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric')),
-                		);
-                
-                $this->addGroupRule("option_$option_number", $rule);
-
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
 

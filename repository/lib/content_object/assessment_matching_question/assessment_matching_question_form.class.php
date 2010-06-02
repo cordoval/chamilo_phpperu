@@ -165,7 +165,6 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
                 $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number);
 
-                $this->addGroupRule(MatchingQuestionOption::PROPERTY_VALUE . '_' . $option_number, array(MatchingQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), AssessmentMatchingQuestionOption::PROPERTY_SCORE . '[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
             }
         }
         $table_footer[] = '</tbody>';
