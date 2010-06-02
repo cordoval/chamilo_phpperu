@@ -55,7 +55,7 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManager
             $this->display_header($trail, true);
 
             $display = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
-        	$display->set_root_lo($this->peer_assessment);
+            $display->set_action(PeerAssessmentDisplay :: ACTION_VIEW_PEER_ASSESSMENT_RESULTS);
         	$display->run();
             
             echo $form->toHtml();
@@ -71,6 +71,11 @@ class PeerAssessmentManagerResultsComponent extends PeerAssessmentManager
         
         return $form;
 	} 
+	
+	function get_root_content_object()
+	{
+		return $this->peer_assessment;
+	}
 }
 
 ?>

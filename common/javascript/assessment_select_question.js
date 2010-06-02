@@ -26,9 +26,9 @@ $(function ()
 		{
 			var weightField, weightFieldName, id, appendField;
 		    
-			weightField = $('input[name*="option_weight"]', this);
+			weightField = $('input[name*="score"]', this);
 			weightFieldName = weightField.attr('name');
-		    id = weightFieldName.substr(14, weightFieldName.length - 15);
+		    id = weightFieldName.substr(6, weightFieldName.length - 7);
 		    appendField = deleteField.replace(/\$option_number/g, id);
 	
 		    $('.remove_option', this).remove();
@@ -139,7 +139,7 @@ $(function ()
 		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
 		fieldAnswer = '<input type="text" name="option[' + numberOfOptions + ']" style="width: 300px;" />';
 		fieldComment = renderHtmlEditor(editorName, parameters);
-		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
+		fieldScore = '<input class="input_numeric" type="text" value="1" name="score[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 

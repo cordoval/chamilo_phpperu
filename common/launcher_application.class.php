@@ -18,10 +18,11 @@ abstract class LauncherApplication extends Application
     	return Application :: application_to_class($application) . 'Launcher';
     }
     
-    function factory($application, $user = null)
+    static function factory($application, $user = null)
     {
-        require_once self :: get_application_manager_path($application);
-        return parent :: factory($application, $user);
+    	require_once self :: get_application_manager_path($application);
+        $class = self :: get_application_class_name($application);
+        return new $class($user);
     }
 
     function display_header()

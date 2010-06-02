@@ -12,6 +12,11 @@ class GlossaryBuilderBrowserComponent extends GlossaryBuilder
         $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
         $browser->run();
     }
+    
+    function get_action_bar()
+    {
+    	
+    }
 }
 
 ?>

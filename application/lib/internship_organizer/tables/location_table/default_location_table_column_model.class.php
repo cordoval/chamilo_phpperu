@@ -22,8 +22,9 @@ class DefaultInternshipOrganizerLocationTableColumnModel extends ObjectTableColu
 		$columns = array ();
 		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_NAME, true );
 		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_ADDRESS, true );
-		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_CITY, true );
-		//$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_CITY, true );
+		$region_column = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_REGION_ID, true );
+		$region_column->set_title(Translation :: get('City'));
+		$columns [] = $region_column;
 		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_DESCRIPTION, true );
 		
 		return $columns;

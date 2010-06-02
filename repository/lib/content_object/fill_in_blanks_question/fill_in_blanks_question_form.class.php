@@ -125,9 +125,9 @@ class FillInBlanksQuestionForm extends ContentObjectForm
 				$css_class = $css_class == 'row_even' ? 'row_odd' : 'row_even';
 			}
 			$html[] = '<tr class="'. $css_class .'">';
-			$html[] = '<td>' . $answer->get_position() . '</td>';
-			$html[] = '<td>' . $answer->get_value() . '</td>';
-			$html[] = '<td>' . $answer->get_comment() . ' </td>';
+			$html[] = '<td>' . ($answer->get_position()+1) . '</td>';
+			$html[] = '<td>' . str_replace("\n", '<br/>', $answer->get_value()) . '</td>';
+			$html[] = '<td>' . str_replace("\n", '<br/>', $answer->get_comment()) . ' </td>';
 			$html[] = '<td>' . $answer->get_weight() . '</td>';
 			$html[] = '</tr>';
         }

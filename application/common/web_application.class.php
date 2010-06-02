@@ -226,10 +226,11 @@ abstract class WebApplication extends BasicApplication
         return $this->get_application_path($application_name) . $application_name . '_manager/component/';
     }
 
-    function factory($application, $user = null)
+    static function factory($application, $user = null)
     {
         require_once self :: get_application_manager_path($application);
-        return parent :: factory($application, $user);
+        $class = self :: get_application_class_name($application);
+        return new $class($user);
     }
 
     function get_additional_user_information($user)

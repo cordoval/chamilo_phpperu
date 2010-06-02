@@ -5,11 +5,12 @@
  */
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_display.class.php';
 
 class WikiToolViewerComponent extends WikiToolComponent
 {
-    private $cd;
+    private $complex_display;
+	private $content_object;
 	private $trail;
     
     function run()
@@ -23,13 +24,13 @@ class WikiToolViewerComponent extends WikiToolComponent
         $this->trail = $trail = new BreadcrumbTrail();
         
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, Request :: get(Tool :: PARAM_PUBLICATION_ID));
-        $this->cd = ComplexDisplay :: factory($this, Wiki :: get_type_name());
+        $this->complex_display = ComplexDisplay :: factory($this, Wiki :: get_type_name());
         
-        $o = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
-        $o = $o->get_content_object();
+        $object = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
+        $object = $object->get_content_object();
         
-        $this->cd->set_root_lo($o);
-        $this->cd->run();
+        $this->content_object = $object;
+        $this->complex_display->run();
     }
     
 	function display_header($trail)
@@ -38,9 +39,13 @@ class WikiToolViewerComponent extends WikiToolComponent
     	{
     		$this->trail->merge($trail);
     	}
-    	
+
     	return parent :: display_header($this->trail);
     }
-
+    
+    function get_root_content_object()
+    {
+        return $this->content_object;
+    }
 }
 ?>

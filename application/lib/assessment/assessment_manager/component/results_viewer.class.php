@@ -16,13 +16,14 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
 {
     private $current_attempt_id;
 	private $trail;
+	private $object;
 	
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $this->trail = $trail = new BreadcrumbTrail();
+        $this->trail = $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
         
@@ -79,7 +80,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
                 $this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $pid);
                 
                 $html = ComplexDisplay :: factory($this, $object->get_type());
-                $html->set_root_lo($object);
+				$this->object = $object;
             }
             else
             {
@@ -97,6 +98,11 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
         	echo $html;
         	$this->display_footer();
         }
+    }
+    
+    function get_root_content_object()
+    {
+    	return $this->object;
     }
     
     function display_header($trail)
@@ -117,7 +123,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
         $current_category = $current_category ? $current_category : 0;
         $parameters = array('category' => $current_category, 'url' => $this->get_url());
         $database = ReportingDataManager :: get_instance();
-        $template_obj = $database->retrieve_reporting_template_object('AssessmentAttemptsSummaryTemplate');
+        $template_obj = $database->retrieve_reporting_template_object('assessment_attempts_summary_template');
         $template = new AssessmentAttemptsSummaryTemplate($this, $template_obj->get_id(), $parameters, null);
         //$template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();
@@ -129,10 +135,9 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
         
         $url = $this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid));
         $results_export_url = $this->get_results_exporter_url();
-        
         $parameters = array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid, 'url' => $url, 'results_export_url' => $results_export_url);
         $database = ReportingDataManager :: get_instance();
-        $template_obj = $database->retrieve_reporting_template_object('AssessmentAttemptsTemplate');
+        $template_obj = $database->retrieve_reporting_template_object('assessment_attempts_template');
         $template = new AssessmentAttemptsTemplate($this, $template_obj->get_id() , $parameters, null, $pid);
         //$template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();

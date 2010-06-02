@@ -18,7 +18,7 @@ class WikiManagerWikiPublicationUpdaterComponent extends WikiManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('Wiki')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateWikiPublication')));
         

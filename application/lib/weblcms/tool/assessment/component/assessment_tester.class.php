@@ -80,7 +80,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 
         if ($this->assessment->get_assessment_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
         {
-            $this->display_header(new BreadcrumbTrail());
+            $this->display_header(BreadcrumbTrail :: get_instance());
             
             $path = $this->assessment->add_javascript(Path :: get(WEB_PATH) . 'application/lib/weblcms/ajax/hotpotatoes_save_score.php', $this->get_go_back_url(), $this->active_tracker->get_id());
             //$path = $this->assessment->get_test_path();
@@ -93,10 +93,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
         }
         else
         {
-            $this->trail = new BreadcrumbTrail();
-            
+            $this->trail = BreadcrumbTrail :: get_instance();
+            $this->trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('TakeAssessment')));
         	$display = ComplexDisplay :: factory($this, $this->assessment->get_type());
-            $display->set_root_lo($this->assessment);
             
             //$this->display_header(new BreadcrumbTrail());
             $display->run();
@@ -105,13 +104,13 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
     
     }
     
-	function display_header($trail)
+	function get_root_content_object()
     {
-    	if($trail)
-    	{
-    		$this->trail->merge($trail);
-    	}
-    	
+    	return $this->assessment;
+    }
+    
+	function display_header($trail)
+    {    	
     	return parent :: display_header($this->trail);
     }
 
@@ -124,15 +123,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
         return $tracker[0];
     }
 
-    function get_user_id()
-    {
-        if ($this->assessment->get_assessment_type() == Assessment :: TYPE_SURVEY)
-        {
-            if ($this->assessment->get_anonymous() == true)
-                return 0;
-        }
-        return parent :: get_user_id();
-    }
 
     function save_answer($complex_question_id, $answer, $score)
     {

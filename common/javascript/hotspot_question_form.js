@@ -246,6 +246,14 @@ $(function ()
 		$('#hotspot_select').hide();
 		$('#hotspot_options').show();
 	}
+	
+//	function resetImage(ev, ui)
+//	{
+//		ev.preventDefault();
+//		$('input[name="image_object"]').val('');
+//		$('#hotspot_select').show();
+//		$('#hotspot_options').hide();
+//	}
 
 	$(document).ready(function ()
 	{
@@ -254,21 +262,16 @@ $(function ()
 		$('#hotspot_select').show();
 		
 		// Initialize the uploadify plugin
-		$('#uploadify').fileUpload ({
-			'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/uploader-cms.swf',
+		$('#uploadify').uploadify ({
+			'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
 			'script': getPath('WEB_PATH') + 'common/javascript/ajax/upload_image.php',
-			'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/cancel.png',
-			//'buttonText': getTranslation('Browse', 'repository'),
-			//'buttonImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/button.png',
-			//'rollover': true,
+			'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
+			'buttonText': getTranslation('Browse', 'repository').toUpperCase(),
 			'folder': 'not_important',
 			'auto': true,
-			//'width': 84,
-			//'height': 27,
-			'displayData': 'percentage',
 			'scriptData': {'owner': getMemory('_uid')},
 			onComplete: function (evt, queueID, fileObj, response, data)
-			{
+			{				
 				imageProperties = eval('(' + response + ')');
 				
 				$('input[name="image_object"]').val(imageProperties.id);
@@ -312,6 +315,9 @@ $(function ()
 
 		// Process image selection
 		$('.inactive_elements a:not(.disabled, .category)').bind('click', setHotspotImage);
+		
+		// Allow selection of a different image
+//		$("#change_image").bind('click', resetImage);
 	});
 
 });

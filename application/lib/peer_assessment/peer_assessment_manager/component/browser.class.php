@@ -2,7 +2,6 @@
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
 require_once dirname(__FILE__) . '/peer_assessment_publication_browser/peer_assessment_publication_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../peer_assessment_publication_category_menu.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/peer_assessment/peer_assessment_display.class.php';
 
 /**
  * peer_assessment component which allows the user to browse his peer_assessment_publications

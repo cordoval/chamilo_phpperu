@@ -16,7 +16,7 @@ abstract class ComplexDisplay extends SubManager
     const PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID = 'selected_cloi';
     const PARAM_DIRECTION = 'direction';
     const PARAM_TYPE = 'type';
-    
+
     const ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM = 'delete';
     const ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM = 'update';
     const ACTION_UPDATE_CONTENT_OBJECT = 'update_co';
@@ -26,9 +26,9 @@ abstract class ComplexDisplay extends SubManager
     const ACTION_CREATE_FEEDBACK = 'create_feedback';
     const ACTION_EDIT_FEEDBACK = 'edit_feedback';
     const ACTION_DELETE_FEEDBACK = 'delete_feedback';
-    
+
     protected $menu;
-    
+
     /**
      * The current item in treemenu to determine where we are in the structure
      * @var ComplexContentObjectItem
@@ -40,14 +40,14 @@ abstract class ComplexDisplay extends SubManager
      * @var ComplexContentObjectItem
      */
     private $selected_complex_content_object_item;
-    
+
     function ComplexDisplay($parent)
     {
         parent :: __construct($parent);
-        
+
         $action = Request :: get(self :: PARAM_DISPLAY_ACTION);
         $this->set_action($action);
-        
+
     	$complex_content_object_item_id = Request :: get(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($complex_content_object_item_id)
         {
@@ -59,6 +59,7 @@ abstract class ComplexDisplay extends SubManager
         {
             $this->selected_complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($selected_complex_content_object_item_id);
         }
+        $this->parse_input_from_table();
     }
 
 	static function factory($parent, $type)
@@ -83,9 +84,9 @@ abstract class ComplexDisplay extends SubManager
     {
         return $this->get_parent()->is_allowed($right);
     }
-    
+
 	function get_root_content_object()
-    { 
+    {
     	return $this->get_parent()->get_root_content_object();
     }
 
@@ -130,6 +131,7 @@ abstract class ComplexDisplay extends SubManager
         return $this->menu->render_as_tree();
     }
 
+
     function get_complex_content_object_breadcrumbs()
     {
         if (is_null($this->menu))
@@ -138,7 +140,7 @@ abstract class ComplexDisplay extends SubManager
         }
         return $this->menu->get_breadcrumbs();
     }
-    
+
 	protected function build_complex_content_object_menu()
     {
         $this->menu = new ComplexMenu($this->get_root_content_object(), $this->get_complex_content_object_item(),
@@ -149,19 +151,40 @@ abstract class ComplexDisplay extends SubManager
 
     function get_complex_content_object_item_update_url($complex_content_object_item)
     {
-        return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, 
-        							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), 
+        return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM,
+        							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
     function get_complex_content_object_item_delete_url($complex_content_object_item)
     {
-        return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, 
-        							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), 
+        return $this->get_url(array(self :: PARAM_DISPLAY_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM,
+        							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
 
-    
+    protected function parse_input_from_table()
+    {
+        if (isset($_POST['action']))
+        {
+            $selected_ids = $_POST[ObjectTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+            if (empty($selected_ids))
+            {
+                $selected_ids = array();
+            }
+            elseif (! is_array($selected_ids))
+            {
+                $selected_ids = array($selected_ids);
+            }
+            switch ($_POST['action'])
+            {
+                case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
+                    $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM);
+                    Request :: set_get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $selected_ids);
+                    break;
+            }
+        }
+    }
 }
 
 ?>

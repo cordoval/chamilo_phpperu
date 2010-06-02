@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>SurveyDescription</name>
+		<name>Survey Description</name>
 		<code>survey_description</code>
 		<section>content_object</section>
 		<author></author>

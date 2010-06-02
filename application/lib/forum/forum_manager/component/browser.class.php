@@ -6,7 +6,8 @@
 require_once dirname(__FILE__) . '/../forum_manager.class.php';
 require_once dirname(__FILE__) . '/../../forum_publication.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/forum/display/forum_display.class.php';
+
 require_once 'HTML/Table.php';
 
 class ForumManagerBrowserComponent extends ForumManager
@@ -106,15 +107,13 @@ class ForumManagerBrowserComponent extends ForumManager
             $last = $counter == ($size - 1) ? true : false;
             
             $forum = $rdm->retrieve_content_object($publication->get_forum_id(), Forum :: get_type_name());
-            $title = '<a href="' . $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_VIEW, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager :: PARAM_PUBLICATION_ID => $publication->get_forum_id())) . '">' . $forum->get_title() . '</a><br />' . Utilities :: truncate_string($forum->get_description());
-            
+            $title = '<a href="' . $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_VIEW, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . Utilities :: truncate_string($forum->get_description());
             $last_post = $rdm->retrieve_complex_content_object_item($forum->get_last_post());
             
             if ($publication->is_hidden())
             {
                 $title = '<span style="color: grey;">' . $title . '</span>';
             }
-            
             $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
             $table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
             $table->setCellContents($row, 1, $title);
@@ -145,18 +144,18 @@ class ForumManagerBrowserComponent extends ForumManager
     {
         if ($this->is_allowed(DELETE_RIGHT))
         {
-            $delete = array('href' => $this->get_url(array(ForumManager :: PARAM_FORUM_PUBLICATION => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_DELETE)), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+            $delete = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_DELETE)), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
         }
         
         if ($this->is_allowed(EDIT_RIGHT))
         {
             if ($publication->is_hidden())
             {
-                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_FORUM_PUBLICATION => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Show'), 'img' => Theme :: get_common_image_path() . 'action_invisible.png');
+                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Show'), 'img' => Theme :: get_common_image_path() . 'action_invisible.png');
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_FORUM_PUBLICATION => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
+                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
             }
             
             if ($first)
@@ -165,7 +164,7 @@ class ForumManagerBrowserComponent extends ForumManager
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_FORUM_PUBLICATION => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_MOVE, ForumManager :: PARAM_MOVE => - 1)), 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_MOVE, ForumManager :: PARAM_MOVE => - 1)), 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
             }
             
             if ($last)
@@ -174,7 +173,7 @@ class ForumManagerBrowserComponent extends ForumManager
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_FORUM_PUBLICATION => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_MOVE, ForumManager :: PARAM_MOVE => 1)), 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_MOVE, ForumManager :: PARAM_MOVE => 1)), 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
             }
             
             //			$actions[] = array(
@@ -184,7 +183,7 @@ class ForumManagerBrowserComponent extends ForumManager
             //			);
             
 
-            $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_FORUM_PUBLICATION => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT)), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT)), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
             
             $actions[] = $delete;
             
@@ -192,7 +191,7 @@ class ForumManagerBrowserComponent extends ForumManager
 	        {
 	        	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
         		if(EvaluationManager :: retrieve_internal_item_by_publication(ForumManager :: APPLICATION_NAME, $publication->get_id()))
-	        		$actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_FORUM_PUBLICATION => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EVALUATE)), 'label' => Translation :: get('Evaluation'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png');
+	        		$actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EVALUATE)), 'label' => Translation :: get('Evaluation'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png');
 	        }
         
         }

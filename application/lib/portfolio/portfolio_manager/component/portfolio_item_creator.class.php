@@ -32,11 +32,15 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
         {
 
             $html[] =  $pub->as_html();
-            $trail = new BreadcrumbTrail();
-            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
+            $trail = BreadcrumbTrail::get_instance();
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
+
+            $udm = UserDataManager::get_instance();
+            $user = $udm->retrieve_user($this->get_user_id());
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
+            
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
-            $this->display_header($trail);
+            $this->display_header();
             echo implode("\n", $html);
             $this->display_footer();
         }
@@ -53,16 +57,27 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
             
             foreach ($objects as $object_id)
             {
-                //TODO: SOLVE PROBLEM: CREATION OF PORTFOLIO's AS PORTFOLIO-ITEMS IS HANDLED DIFFERENTLY IN REPOSITORY AND IN PORTFOLIO APPLICATION!!!!!!!!!!!!!
-                //EXTRA WRAPPER 'porftolioItem' not applied in repository!!!
-                $new_object = ContentObject :: factory(PortfolioItem :: get_type_name());
-                $new_object->set_owner_id($this->get_user_id());
-                $new_object->set_title(PortfolioItem :: get_type_name());
-                $new_object->set_description(PortfolioItem :: get_type_name());
-                $new_object->set_parent_id(0); 
-                $new_object->set_reference($object_id);
-                $new_object->create();
-//                $new_object_id = $new_object->get_id();
+                
+                $rdm = RepositoryDataManager::get_instance();
+                $object = $rdm->retrieve_content_object($object_id);
+
+
+                if($object->get_type() != Portfolio::get_type_name())
+                {
+                    $new_object = ContentObject :: factory(PortfolioItem :: get_type_name());
+                    $new_object->set_owner_id($this->get_user_id());
+                    $new_object->set_title(PortfolioItem :: get_type_name());
+                    $new_object->set_description(PortfolioItem :: get_type_name());
+                    $new_object->set_parent_id(0);
+                    $new_object->set_reference($object_id);
+                    $new_object->create();
+                }
+                else
+                {
+                    $new_object = $object;
+                }
+//
+
                 $wrapper = new ComplexContentObjectItem();
                 $wrapper->set_ref($new_object->get_id());
                 $wrapper->set_parent($parent);

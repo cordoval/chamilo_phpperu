@@ -12,7 +12,7 @@ class ForumManagerMoverComponent extends ForumManager
         if ($this->is_allowed(EDIT_RIGHT))
         {
             $move = 0;
-            $fpid = Request :: get(ForumManager :: PARAM_FORUM_PUBLICATION);
+            $fpid = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
             if (Request :: get(ForumManager :: PARAM_MOVE))
             {
                 $move = Request :: get(ForumManager :: PARAM_MOVE);

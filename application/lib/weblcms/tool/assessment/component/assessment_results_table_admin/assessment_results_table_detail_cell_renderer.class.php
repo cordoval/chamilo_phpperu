@@ -55,7 +55,7 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
                     //return $total.'/'.$max.' ('.$pct.'%)';
                     return $total . '%';
                 case Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE) :
-                    return $user_assessment->get_date();
+                    return DatetimeUtilities :: format_locale_date(null,$user_assessment->get_date());
                 default :
                     return '';
             }

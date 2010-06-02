@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../wiki_manager.class.php';
 require_once dirname(__FILE__) . '/wiki_publication_browser/wiki_publication_browser_table.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_display.class.php';
 
 /**
  * wiki component which allows the user to browse his wiki_publications
@@ -18,7 +18,7 @@ class WikiManagerWikiPublicationsBrowserComponent extends WikiManager
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Wiki')));
         
         $this->display_header($trail);

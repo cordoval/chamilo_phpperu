@@ -11,7 +11,7 @@ class WikiManagerWikiEvaluationComponent extends WikiManager
         	$wiki_publication = $this->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         	$publication_id = $wiki_publication->get_id();
         	$publisher_id = $wiki_publication->get_publisher();
-    		$trail = new BreadcrumbTrail();
+    		$trail = BreadcrumbTrail :: get_instance();
         	$trail->add(new Breadcrumb($this->get_browse_wiki_publications_url(), Translation :: get('Wiki')));
     		$trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE, WikiManager :: PARAM_WIKI_PUBLICATION => $publication_id)), Translation :: get('BrowseEvaluationsOf') . ' ' . $wiki_publication->get_content_object()->get_title()));
     		$this->set_parameter(WikiManager :: PARAM_WIKI_PUBLICATION, $publication_id);

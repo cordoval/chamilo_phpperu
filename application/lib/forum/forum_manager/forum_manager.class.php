@@ -14,8 +14,7 @@ class ForumManager extends WebApplication
     const APPLICATION_NAME = 'forum';
     
     const PARAM_DELETE_SELECTED = 'delete_selected';
-    const PARAM_FORUM_PUBLICATION = 'forum_publication';
-    const PARAM_PUBLICATION_ID = 'pid';
+    const PARAM_PUBLICATION_ID = 'publication_id';
     const PARAM_MOVE = 'move';
     
     const ACTION_DELETE = 'delete_forum_publication';
@@ -52,6 +51,7 @@ class ForumManager extends WebApplication
     {
         $action = $this->get_action();
         $component = null;
+        
         switch ($action)
         {
             case self :: ACTION_DELETE :
@@ -122,12 +122,12 @@ class ForumManager extends WebApplication
 
     function get_update_forum_publication_url($forum_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_FORUM_PUBLICATION, self :: PARAM_FORUM_PUBLICATION => $forum_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_FORUM_PUBLICATION, self :: PARAM_PUBLICATION_ID => $forum_publication->get_id()));
     }
 
     function get_delete_forum_publication_url($forum_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_FORUM_PUBLICATION, self :: PARAM_FORUM_PUBLICATION => $forum_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_FORUM_PUBLICATION, self :: PPARAM_PUBLICATION_ID => $forum_publication->get_id()));
     }
 
     function get_browse_forum_publications_url()

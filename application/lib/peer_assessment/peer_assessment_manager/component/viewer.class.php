@@ -1,6 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/../peer_assessment_manager.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/peer_assessment/peer_assessment_display.class.php';
 
 class PeerAssessmentManagerViewerComponent extends PeerAssessmentManager
 {
@@ -22,9 +21,6 @@ class PeerAssessmentManagerViewerComponent extends PeerAssessmentManager
         
         $this->cd = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
         
-        $pub = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication(Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION));
-        
-        $this->cd->set_root_lo($pub->get_content_object());
         //$this->display_header($trail, false);
         $this->cd->run();
         //$this->display_footer();
@@ -34,6 +30,13 @@ class PeerAssessmentManagerViewerComponent extends PeerAssessmentManager
 	function get_current_attempt_id()
     {
         return $this->get_component_id();
+    }
+    
+    function get_root_content_object()
+    {
+    	$pub = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication(Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION));
+        
+        return $pub->get_content_object();
     }
 
 }

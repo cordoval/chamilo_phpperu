@@ -135,35 +135,35 @@ class HomeManagerManagerComponent extends HomeManager
 
     private function get_tab_modification_links($home_tab, $index)
     {
-        $toolbar_data = array();
+    	$toolbar = new Toolbar();
         
         $edit_url = $this->get_home_tab_editing_url($home_tab);
-        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'confirm' => false, 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $toolbar->add_item( new ToolbarItem( Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON, false));
         
         $edit_url = $this->get_home_tab_deleting_url($home_tab);
-        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        $toolbar->add_item( new ToolbarItem( Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $edit_url, ToolbarItem :: DISPLAY_ICON, true));    
         
         if ($index == 'first' || $index == 'single')
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+        	$toolbar->add_item( new ToolbarItem( Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up_na.png', NULL , ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
             $move_url = $this->get_home_tab_moving_url($home_tab, 'up');
-            $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            $toolbar->add_item( new ToolbarItem( Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $move_url, ToolbarItem :: DISPLAY_ICON));
         }
         
         if ($index == 'last' || $index == 'single')
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
+        	$toolbar->add_item( new ToolbarItem( Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down_na.png', NULL, ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
             $move_url = $this->get_home_tab_moving_url($home_tab, 'down');
-            $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            $toolbar->add_item( new ToolbarItem( Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down_na.png', $move_url, ToolbarItem :: DISPLAY_ICON));
         }
         
-        return '<div class="manage">' . Utilities :: build_toolbar($toolbar_data) . '<div class="clear"></div></div>';
+        return $toolbar->as_html();
     }
 
     private function get_row_modification_links($home_row, $index)

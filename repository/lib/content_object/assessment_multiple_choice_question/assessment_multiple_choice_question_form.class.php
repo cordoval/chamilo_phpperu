@@ -35,7 +35,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
                     $defaults[MultipleChoiceQuestionOption :: PROPERTY_VALUE][$index] = $option->get_value();
                     $defaults[AssessmentMultipleChoiceQuestionOption :: PROPERTY_SCORE][$index] = $option->get_score();
                     $defaults[AssessmentMultipleChoiceQuestionOption :: PROPERTY_FEEDBACK][$index] = $option->get_feedback();
-                    if ($object->get_answer_type() == 'checkbox')
+                    if ($object->get_answer_type() == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
                     {
                         $defaults[AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT][$index] = $option->is_correct();
                     }
@@ -198,7 +198,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
                 }
                 else
                 {
-                    $group[] = & $this->createElement('static', null, null, '<img id="remove_' . $option_number . '" class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img id="remove_' . $option_number . '" class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" class="remove_option" />');
                 }
 
                 $this->addGroup($group, MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
