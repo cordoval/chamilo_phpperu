@@ -12,14 +12,14 @@ class PeerAssessmentPublicationPublisher
     {
         $this->parent = $parent;
     }
-    
-    
+
     // Prints of the title of the object above the multiple properties
     // (publish for, from date, to date and hidden)
-    
+
+
     function get_content_object_title($object)
     {
-    	if (is_null($object))
+        if (is_null($object))
             return '';
 
         if (! is_array($object))
@@ -51,24 +51,25 @@ class PeerAssessmentPublicationPublisher
         return implode("\n", $html);
     }
 
-    
     // Publish the object
-    
+
+
     function publish_content_object($object)
-    {    	
-    	$published = false;
-    	$parameters = $this->parent->get_parameters();
-        $parameters['object'] = $object;
-        
-    	$form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_CREATE, $object, $this->parent->get_user(), $this->parent->get_url($parameters));
-        
-    	if ($form->validate())
+    {
+        $published = false;
+        $parameters = $this->parent->get_parameters();
+        $parameters[RepoViewer :: PARAM_ID] = $object;
+        $parameters[RepoViewer :: PARAM_ACTION] = RepoViewer :: ACTION_PUBLISHER;
+
+        $form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_CREATE, $object, $this->parent->get_user(), $this->parent->get_url($parameters));
+
+        if ($form->validate())
         {
-        	$publication = $form->create_content_object_publication();
-        	$published = true;
+            $publication = $form->create_content_object_publication();
+            $published = true;
         }
         return $published;
     }
-    
+
 }
 ?>
