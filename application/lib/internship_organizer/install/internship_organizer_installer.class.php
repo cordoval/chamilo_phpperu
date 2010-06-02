@@ -55,7 +55,7 @@ class InternshipOrganizerInstaller extends Installer
         $values = $this->get_form_values();
         
         $region = new InternshipOrganizerRegion();
-        $region->set_name(Translation::get('World'));
+        $region->set_city_name(Translation::get('World'));
         $region->set_parent_id(0);
         $succes = $region->create();
         

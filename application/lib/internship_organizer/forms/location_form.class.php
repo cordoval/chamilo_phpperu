@@ -64,8 +64,8 @@ class InternshipOrganizerLocationForm extends FormValidator
 		$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
 		$this->addRule(InternshipOrganizerLocation :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'));
 		
-		$this->addElement('textarea', InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "2", "cols" => "17"));
-		$this->addRule(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('textarea', InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "5", "cols" => "17"));
+		$this->addRule(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'));
     	
         
     }

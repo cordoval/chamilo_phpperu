@@ -40,25 +40,7 @@ class InternshipOrganizerOrganisationForm extends FormValidator
 		
 		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
 		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_ADDRESS, Translation :: get('Address'));
-//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_ADDRESS, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_POSTCODE, Translation :: get('Postcode'));
-//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_POSTCODE, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_CITY, Translation :: get('City'));
-//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_CITY, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE, Translation :: get('Telephone'));
-//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE, Translation :: get('ThisFieldIsRequired'));
 				
-//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_FAX, Translation :: get('Fax'));
-//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_FAX, Translation :: get('ThisFieldIsRequired'));
-				
-//		$this->addElement('text', InternshipOrganizerOrganisation :: PROPERTY_EMAIL, Translation :: get('Email'));
-//		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'));
-		
 		$this->addElement('textarea', InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "5", "cols" => "40"));
 		$this->addRule(InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION); /*, Translation :: get('ThisFieldIsRequired'), 'required');*/
 
