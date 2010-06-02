@@ -447,7 +447,7 @@ class CpoImport extends ContentObjectImport
             	$children = $includes->childNodes;
                         
 	            //if($children->length > 0)
-	            $this->fix_links($lo);
+	            //$this->fix_links($lo);
 	            
 	            for($i = 0; $i < $children->length; $i ++)
 	            {
@@ -474,12 +474,12 @@ class CpoImport extends ContentObjectImport
         {
             return;
         }
-            
+       
     	$fields = $co->get_html_editors();
         
         //$pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
         //$pattern = '/http:\/\/.*\/core\.php\?go=document_downloader&display=1&object=[0-9]*&application=repository/';
-        $pattern = '/core\.php\?go=document_downloader&display=1&object=[0-9]*&application=repository/';
+        $pattern = '/core\.php\?go=document_downloader&amp;display=1&amp;object=[0-9]*&amp;application=repository/';
         foreach ($fields as $field)
         {
             $value = $co->get_default_property($field);
@@ -493,15 +493,21 @@ class CpoImport extends ContentObjectImport
     private function fix_link_matches($matches)
     {
     	//TODO: Use the correct link (downloader) - You will need to change the structue of the import (first import everything, then loop through all the objects)
-        $base_path = Path :: get(WEB_REPO_PATH);
-        
-        foreach ($this->files as $hash => $file)
-        {
-            if (strpos($matches[0], $hash) !== false)
-            {
-                return $base_path . $file['path'];
-            }
-        }
+//        $base_path = Path :: get(WEB_REPO_PATH);
+//        
+//        foreach ($this->files as $hash => $file)
+//        {
+//            if (strpos($matches[0], $hash) !== false)
+//            {
+//                return $base_path . $file['path'];
+//            }
+//        }
+
+		$url = $matches[0];
+    	preg_match('/object=([0-9]*)/', $url, $matches);
+    	$object_id = $matches[1]; 
+
+    	return str_replace('object=' . $object_id, 'object=' . $this->content_object_reference['object' . $object_id], $url);
     }
 
     function create_complex_wrappers()
@@ -576,6 +582,8 @@ class CpoImport extends ContentObjectImport
                 if ($this->content_object_reference[$child])
                     $lo->include_content_object($this->content_object_reference[$child]);
             }
+            
+            $this->fix_links($lo);
         }
     }
 
