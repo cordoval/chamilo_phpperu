@@ -198,7 +198,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
                 }
                 else
                 {
-                    $group[] = & $this->createElement('static', null, null, '<img id="remove_' . $option_number . '" class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img id="remove_' . $option_number . '" class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" class="remove_option" />');
                 }
 
                 $this->addGroup($group, MultipleChoiceQuestionOption :: PROPERTY_VALUE . '_' . $option_number, null, '', false);
