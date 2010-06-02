@@ -25,11 +25,10 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
     function render_cell($column, $cloi)
     {
         $lo = $this->retrieve_content_object($cloi->get_ref());
-        $ref_lo = $lo;
         
         if ($column === ComplexBrowserTableColumnModel :: get_modification_column())
         {
-            return $this->get_modification_links($cloi, $ref_lo);
+            return $this->get_modification_links($cloi, $lo);
         }
         
         switch ($column->get_name())
@@ -38,9 +37,16 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
                 $title = htmlspecialchars($lo->get_title());
                 $title_short = $title;
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
-                //$title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_ROOT_LO => $lo->get_id(), 'publish' => Request :: get('publish'))) . '">' . $title_short . '</a>';
-                //TO DO
-                //need a link to the survey_page viewer not the builder
+                
+                if ($lo->is_complex_content_object())
+                {
+                    $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $cloi->get_id())) . '">' . $title_short . '</a>';
+                }
+        		else
+                {
+                	$title_short = '<a href="' . $this->browser->get_complex_content_object_item_view_url($cloi->get_id()) . '">' . $title_short . '</a>';
+                }
+                
                 return $title_short;
         }
         
@@ -92,8 +98,6 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         {
             $toolbar_data[] = array('label' => Translation :: get('MoveDownNA'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
         }
-        
-        $toolbar_data[] = array('href' => $this->browser->get_url(), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseSurveyPage'));
         
         $toolbar_data = array_merge($toolbar_data, $additional_items);
         

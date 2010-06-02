@@ -24,13 +24,27 @@ class SurveyContentObjectInstaller extends ContentObjectInstaller
     	if ($survey_context_template->create())
     	{
            	$this->add_message(Installer::TYPE_NORMAL, Translation :: get('DefaultSurveyContextTemplateCreated'));
-           	return true;
+           	
     	}
     	else
     	{
     		$this->add_message(Installer::TYPE_ERROR, Translation :: get('DefaultSurveyContextTemplateFailed'));
     		return false;
     	}
+     
+    	$dir = dirname(__FILE__) . '/../context';
+        $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
+        
+        foreach ($files as $file)
+        {
+            if ((substr($file, - 3) == 'xml'))
+            {
+                if (! $this->create_storage_unit($file))
+                {
+                    return false;
+                }
+            }
+        }
     }
 }
 ?>
