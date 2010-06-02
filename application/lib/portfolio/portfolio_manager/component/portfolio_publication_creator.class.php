@@ -75,7 +75,7 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
             
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
-        $trail->add_help('portfolio general');
+        $trail->add_help('portfolio create');
 
          $this->display_header();
          echo implode("\n", $html);

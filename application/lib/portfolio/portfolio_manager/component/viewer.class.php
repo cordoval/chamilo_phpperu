@@ -65,8 +65,16 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         {
             $portfolio_identifier = self::PROPERTY_ROOT;
         }
-        
-        $current_user_id = $this->get_user_id();
+
+        if(is_a($this->get_user(), User::CLASS_NAME))
+        {
+            $current_user_id = $this->get_user_id();
+        }
+        else
+        {
+            //anonymous user
+            $current_user_id = 1;
+        }
 
         
         if($portfolio_identifier != self::PROPERTY_ROOT)
@@ -84,9 +92,9 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         
         $actions = array();
 
-        if($portfolio_identifier == self::PROPERTY_ROOT)
+        if($portfolio_identifier == self::PROPERTY_ROOT && $current_user_id != 1)
         {
-            //root can be seen by everybody
+            //root can be seen by every user
              $this->viewing_right = true;
         }
         if($viewing_right)
@@ -130,7 +138,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             //no rights so no object should be retrieved
         }
            
-        if ($owner_user_id == $this->get_user_id())
+        if ($owner_user_id == $current_user_id)
         {
             
             $this->action_bar = $this->get_action_bar();
@@ -176,16 +184,60 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $html[] = '</div></div>';
         $html[] = '</div>';
         $html[] = '</div>';
-        $trail = BreadcrumbTrail::get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
-        $trail->add_help('portfolio general');
+
+        if($current_user_id != 1)
+        {
+            $trail = BreadcrumbTrail::get_instance();
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
+        }
+        if($current_action == 'view')
+        {
+            if($current_user_id != 1)
+            {
+                $trail->add_help('portfolio viewer');
+            }
+        }
+        else if($current_action == 'feedback')
+        {
+            if($current_user_id != 1)
+            {
+                $trail->add_help('portfolio feedback');
+            }
+        }
+        if($current_action == properties)
+        {
+            $trail->add_help('portfolio permissions'); 
+        }
+         if($current_action == edit)
+        {
+            $trail->add_help('portfolio edit'); 
+        }
+        else
+        {
+            if($current_user_id != 1)
+            {
+                $trail->add_help('portfolio general');
+            }
+            
+        }
+
 
         $udm = UserDataManager::get_instance();
         $user = $udm->retrieve_user($owner_user_id);
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
+        if($current_user_id != 1)
+        {
+            $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $current_user_id)), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
+        }
 
-        
-        $this->display_header();
+
+        if($current_user_id == 1)
+        {
+            $this->display_header(new BreadcrumbTrail(), false);
+        }
+        else
+        {
+             $this->display_header();
+        }
         echo implode("\n", $html);
         $this->display_footer();
     }
