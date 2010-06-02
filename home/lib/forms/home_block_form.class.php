@@ -88,25 +88,28 @@ class HomeBlockForm extends FormValidator
         $values = $this->exportValues();
         $component = explode('.', $values[HomeBlock :: PROPERTY_COMPONENT]);
         $hdm = HomeDataManager :: get_instance();
-        
         if ($homeblock->get_application() != $component[0] || $homeblock->get_component() != $component[1])
         {
             if (! $hdm->delete_home_block_configs($homeblock))
             {
                 return false;
             }
-            
-            if (! $hdm->create_block_properties($homeblock))
+            if(! $homeblock->create_initial_settings())
             {
-                return false;
+            	return false;
             }
+            
+//            if (! $hdm->create_home_block_config($homeblock))
+//            {
+//                return false;
+//            }
         }
         
         $homeblock->set_title($values[HomeBlock :: PROPERTY_TITLE]);
         $homeblock->set_column($values[HomeBlock :: PROPERTY_COLUMN]);
         $homeblock->set_application($component[0]);
         $homeblock->set_component($component[1]);
-        
+      
         return $homeblock->update();
     }
 
