@@ -65,5 +65,13 @@
 	<help_item name="profiler general" url="http://www.chamilo.org/chamilo_2.0.0" />
 	<help_item name="personal messenger general" url="http://www.chamilo.org/chamilo_2.0.0" />
 	<help_item name="personal calendar general" url="http://www.chamilo.org/chamilo_2.0.0" />
+        <help_item name="webconferencing general" url="http://www.chamilo.org/chamilo_2.0.0" />
         <help_item name="portfolio general" url="http://www.chamilo.org/chamilo_2.0.0" />
+        <help_item name="portfolio viewer" url="http://www.chamilo.org/chamilo_2.0.0" />
+        <help_item name="portfolio browser" url="http://www.chamilo.org/chamilo_2.0.0" />
+        <help_item name="portfolio system defaults" url="http://www.chamilo.org/chamilo_2.0.0" />
+        <help_item name="portfolio edit" url="http://www.chamilo.org/chamilo_2.0.0" />
+        <help_item name="portfolio permissions" url="http://www.chamilo.org/chamilo_2.0.0" />
+        <help_item name="portfolio feedback" url="http://www.chamilo.org/chamilo_2.0.0" />
+        <help_item name="portfolio create" url="http://www.chamilo.org/chamilo_2.0.0" />
 </help>
