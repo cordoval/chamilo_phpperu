@@ -537,6 +537,7 @@ $lang['common']['ContentObjectUpdated'] = 'Content object updated';
 $lang['common']['ContentObjectFeedbackUpdated'] = 'Content object feedback updated';
 $lang['common']['FeedbackAdded'] = 'Feedback added';
 $lang['common']['AddFeedback'] = 'Add feedback';
+$lang['common']['EditFeedback'] = 'Edit feedback';
 $lang['common']['Discuss'] = 'Discuss';
 $lang['common']['BrowseWiki'] = 'Browse wiki';
 $lang['common']['AccessDetails'] = 'Access details';
@@ -751,4 +752,6 @@ $lang['common']['SelectedEvaluationsDeleted'] = 'Selected evaluations deleted';
 $lang['common']['EvaluationUpdated'] = 'Evaluation updated';
 $lang['common']['EvaluationNotUpdated'] = 'Evaluation not updated';
 $lang['common']['UpdateEvaluation'] = 'Update evaluation';
+$lang['common']['DisplayOrder'] = 'Display Order';
+$lang['common']['PublisherId'] = 'Publisher';
 ?>

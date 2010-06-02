@@ -23,11 +23,11 @@ class YoutubeStreamingMediaManagerEditorComponent extends YoutubeStreamingMediaM
             	
             if ($this->is_stand_alone())
             {
-                Redirect :: web_link(PATH :: get(WEB_PATH) . 'common/launcher/index.php', $parameters);
+            	Redirect :: web_link(Path :: get(WEB_PATH) . 'common/launcher/index.php', $parameters);
             }
             else
             {
-                Redirect :: web_link(PATH :: get(WEB_PATH) . 'core.php', $parameters);
+                Redirect :: web_link(Path :: get(WEB_PATH) . 'core.php', $parameters);
             }
         
         //$this->redirect(Translation :: get($success ? 'ObjectUpdated' : 'ObjectUpdateFailed'), ($success ? false : true), $parameters);

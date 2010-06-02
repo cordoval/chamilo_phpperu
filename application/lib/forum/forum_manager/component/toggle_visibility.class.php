@@ -10,13 +10,13 @@ class ForumManagerToggleVisibilityComponent extends ForumManager
     {
         if ($this->is_allowed(DELETE_RIGHT))
         {
-            if (Request :: get(ForumManager :: PARAM_FORUM_PUBLICATION))
+            if (Request :: get(ForumManager :: PARAM_PUBLICATION_ID))
             {
-                $publication_ids = Request :: get(ForumManager :: PARAM_FORUM_PUBLICATION);
+                $publication_ids = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
             }
             else
             {
-                $publication_ids = $_POST[ForumManager :: PARAM_FORUM_PUBLICATION];
+                $publication_ids = $_POST[ForumManager :: PARAM_PUBLICATION_ID];
             }
             
             if (! is_array($publication_ids))

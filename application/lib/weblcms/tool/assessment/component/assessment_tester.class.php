@@ -80,7 +80,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 
         if ($this->assessment->get_assessment_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
         {
-            $this->display_header(new BreadcrumbTrail());
+            $this->display_header(BreadcrumbTrail :: get_instance());
             
             $path = $this->assessment->add_javascript(Path :: get(WEB_PATH) . 'application/lib/weblcms/ajax/hotpotatoes_save_score.php', $this->get_go_back_url(), $this->active_tracker->get_id());
             //$path = $this->assessment->get_test_path();
@@ -93,8 +93,8 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
         }
         else
         {
-            $this->trail = new BreadcrumbTrail();
-            
+            $this->trail = BreadcrumbTrail :: get_instance();
+            $this->trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('TakeAssessment')));
         	$display = ComplexDisplay :: factory($this, $this->assessment->get_type());
             
             //$this->display_header(new BreadcrumbTrail());
@@ -110,12 +110,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
     }
     
 	function display_header($trail)
-    {
-    	if($trail)
-    	{
-    		$this->trail->merge($trail);
-    	}
-    	
+    {    	
     	return parent :: display_header($this->trail);
     }
 

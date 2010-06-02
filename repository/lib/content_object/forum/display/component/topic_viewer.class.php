@@ -12,7 +12,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
     private $posts;
 
     function run()
-    {
+    {    	
         $topic = $this->get_complex_content_object_item();
     	$this->retrieve_children($topic->get_ref());
         
@@ -23,7 +23,6 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         while ($forums)
         {
             $forum = $forums[0]->get_ref();
-            
             if ($forum->get_id() != $topic->get_parent() && $this->get_root_content_object_id() != $topic->get_parent())
             {
                 $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $forums[0]->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $forum->get_title()));
@@ -41,7 +40,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         $this->action_bar = $this->get_action_bar();
         $table = $this->get_posts_table();
         
-        $this->display_header($trail);
+        $this->display_header($this->get_complex_content_object_breadcrumbs());
         
         echo '<a name="top"></a>';
         

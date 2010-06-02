@@ -41,7 +41,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
         $tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
         $this->set_parameter($tree_id, Request :: get($tree_id));
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses assessment tool');
         $this->display_header($trail, true);
 

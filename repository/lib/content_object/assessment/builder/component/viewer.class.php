@@ -8,8 +8,8 @@ class AssessmentBuilderViewerComponent extends AssessmentBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: VIEWER_COMPONENT, $this);
-        $browser->run();
+        $viewer = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: VIEWER_COMPONENT, $this);
+        $viewer->run();
     }
 }
 

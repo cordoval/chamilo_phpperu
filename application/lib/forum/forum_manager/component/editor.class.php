@@ -11,17 +11,17 @@ class ForumManagerEditorComponent extends ForumManager
     {
         if ($this->is_allowed(EDIT_RIGHT))
         {
-            $pid = Request :: get(ForumManager :: PARAM_FORUM_PUBLICATION);
+            $pid = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
             
             $datamanager = ForumDataManager :: get_instance();
             $publication = $datamanager->retrieve_forum_publication($pid);
             $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($publication->get_forum_id());
             
-            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_FORUM_PUBLICATION => $pid)));
+            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_PUBLICATION_ID => $pid)));
             
             $trail = new BreadcrumbTrail();
             
-            $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_FORUM_PUBLICATION => $pid)), Translation :: get('Edit')));
+            $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('Edit')));
             $trail->add_help('forum general');
             
             if ($form->validate())

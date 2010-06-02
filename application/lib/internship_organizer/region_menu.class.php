@@ -51,7 +51,7 @@ class InternshipOrganizerRegionMenu extends HTML_Menu
         if ($current_region == '0' || is_null($current_region))
         {
             $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, 0);
-            $group = InternshipOrganizerDataManager :: get_instance()->retrieve_regions($condition, null, 1, new ObjectTableOrder(InternshipOrganizerRegion :: PROPERTY_NAME))->next_result();
+            $group = InternshipOrganizerDataManager :: get_instance()->retrieve_regions($condition, null, 1, new ObjectTableOrder(InternshipOrganizerRegion :: PROPERTY_CITY_NAME))->next_result();
             $this->current_region = $group;
         }
         else
@@ -71,7 +71,7 @@ class InternshipOrganizerRegionMenu extends HTML_Menu
         $include_root = $this->include_root;
         
         $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, 0);
-        $group = InternshipOrganizerDataManager :: get_instance()->retrieve_regions($condition, null, 1, new ObjectTableOrder(InternshipOrganizerRegion :: PROPERTY_NAME))->next_result();
+        $group = InternshipOrganizerDataManager :: get_instance()->retrieve_regions($condition, null, 1, new ObjectTableOrder(InternshipOrganizerRegion :: PROPERTY_CITY_NAME))->next_result();
         
         if (! $include_root)
         {
@@ -82,7 +82,7 @@ class InternshipOrganizerRegionMenu extends HTML_Menu
             $menu = array();
             
             $menu_item = array();
-            $menu_item['title'] = $group->get_name();
+            $menu_item['title'] = $group->get_city_name();
             //$menu_item['url'] = $this->get_url($group->get_id());
             $menu_item['url'] = $this->get_home_url();
             
@@ -115,7 +115,7 @@ class InternshipOrganizerRegionMenu extends HTML_Menu
         $hide_current_region = $this->hide_current_region;
         
         $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, $parent_id);
-        $groups = InternshipOrganizerDataManager :: get_instance()->retrieve_regions($condition, null, null, new ObjectTableOrder(InternshipOrganizerRegion :: PROPERTY_NAME));
+        $groups = InternshipOrganizerDataManager :: get_instance()->retrieve_regions($condition, null, null, new ObjectTableOrder(InternshipOrganizerRegion :: PROPERTY_CITY_NAME));
         
         while ($group = $groups->next_result())
         {
@@ -124,7 +124,7 @@ class InternshipOrganizerRegionMenu extends HTML_Menu
             if (! ($group_id == $current_region->get_id() && $hide_current_region))
             {
                 $menu_item = array();
-                $menu_item['title'] = $group->get_name();
+                $menu_item['title'] = $group->get_city_name();
                 $menu_item['url'] = $this->get_url($group->get_id());
                 
                 if ($group->is_parent_of($current_region) || $group->get_id() == $current_region->get_id() || $show_complete_tree)

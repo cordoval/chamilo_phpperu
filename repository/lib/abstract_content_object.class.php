@@ -47,7 +47,7 @@ class AbstractContentObject extends ContentObject
      */
     function supports_attachments()
     {
-        $dummy_object = ContentObject :: factory($this->get_type());
+    	$dummy_object = ContentObject :: factory($this->get_type());
         return $dummy_object->supports_attachments();
     }
 

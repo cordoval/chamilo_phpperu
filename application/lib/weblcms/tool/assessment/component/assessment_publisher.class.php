@@ -24,7 +24,7 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
             return;
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), Translation :: get('PublishAssessment')));
         $trail->add_help('courses assessment tool');
         
@@ -42,7 +42,7 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
             $html[] = $publisher->get_publications_form($object_id);
         }
         
-        $this->display_header($trail, true);
+        $this->display_header($trail, true, true, false);
         echo implode("\n", $html);
         $this->display_footer();
     }

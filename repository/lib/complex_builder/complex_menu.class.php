@@ -181,7 +181,7 @@ class ComplexMenu extends HTML_Menu
     {
         $this->render($this->array_renderer, 'urhere');
         $breadcrumbs = $this->array_renderer->toArray();
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         foreach ($breadcrumbs as $crumb)
         {
             $trail->add(new Breadcrumb($crumb['url'], $crumb['title']));

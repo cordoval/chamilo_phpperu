@@ -28,9 +28,13 @@ class AssessmentBuilderQuestionSelecterComponent extends AssessmentBuilder
         
         if (count($question_ids) == 0)
         {
-            $this->display_header(new BreadcrumbTrail());
+        	$trail = BreadcrumbTrail :: get_instance();
+       		$trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE)), $this->get_root_content_object()->get_title()));
+        	$trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => AssessmentBuilder :: ACTION_MERGE_ASSESSMENT, RepoViewer :: PARAM_ACTION => RepoViewer:: ACTION_PUBLISHER, RepoViewer::PARAM_ID => Request :: get(RepoViewer::PARAM_ID))), Translation :: get('MergeAssessment')));
+            $this->display_header($trail);
             $this->display_error_message(Translation :: get('NoQuestionsSelected'));
             $this->display_footer();
+            exit;
         }
         
         $succes = true;
