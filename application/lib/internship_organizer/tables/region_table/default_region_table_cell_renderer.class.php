@@ -29,8 +29,8 @@ class DefaultInternshipOrganizerRegionTableCellRenderer implements ObjectTableCe
         {
             case InternshipOrganizerRegion :: PROPERTY_ID :
                 return $region->get_id();
-            case InternshipOrganizerRegion :: PROPERTY_NAME :
-                return $region->get_name();
+            case InternshipOrganizerRegion :: PROPERTY_CITY_NAME :
+                return $region->get_city_name();
             case InternshipOrganizerRegion :: PROPERTY_ZIP_CODE :
                 return $region->get_zip_code();    
             case InternshipOrganizerRegion :: PROPERTY_DESCRIPTION :

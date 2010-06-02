@@ -340,6 +340,8 @@ button.select,a.select_button {
 
 button.login,a.login_button {
 	background-image: url(../images/common/buttons/button_login.png);
+	float: left;
+	margin-bottom: 7px;
 }
 
 button.logout,a.logout_button {
@@ -396,6 +398,9 @@ button.compare,a.compare_button {
 
 button.register,a.register_button {
 	background-image: url(../images/common/buttons/button_register.png);
+	float: left;
+	padding-bottom: 11px;
+	margin-bottom: 7px;
 }
 
 button.switch,a.switch_button {
@@ -444,6 +449,9 @@ button.surf,a.surf_button {
 
 button.help,a.help_button {
 	background-image: url(../images/common/buttons/button_help.png);
+	float: left;
+	padding-bottom: 11px;
+	margin-bottom: 7px;
 }
 
 button.email,a.email_button {

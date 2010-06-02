@@ -5,4 +5,8 @@ $lang['search_portal']['Results_Through_Of_From_'] = 'Results %first% Through %l
 $lang['search_portal']['TheRepositoryReturnedOnly_Of_Results'] = 'The repository returned only %returned% results of the total %total% results';
 $lang['search_portal']['Notice'] = 'Notice';
 $lang['search_portal']['NoResultsFound'] = 'No results found';
+$lang['search_portal']['ObjectOwner'] = 'Owner';
+$lang['search_portal']['LastModification'] = 'Last modification';
+
+
 ?>

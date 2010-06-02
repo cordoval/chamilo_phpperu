@@ -22,10 +22,14 @@ class SystemAnnouncerMultipublisher
         $html = array();
 
         if (! $ids)
+        {
             return;
+        }
 
         if (! is_array($ids))
+        {
             $ids = array($ids);
+        }
 
         if (count($ids) > 0)
         {
@@ -49,7 +53,7 @@ class SystemAnnouncerMultipublisher
             $html[] = '</div>';
         }
 
-        $form = new SystemAnnouncementPublicationForm(SystemAnnouncementPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url(array_merge($this->parent->get_parameters(), array('object' => Request :: get('object')))));
+        $form = new SystemAnnouncementPublicationForm(SystemAnnouncementPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url(array_merge($this->parent->get_parameters(), array(RepoViewer :: PARAM_ID => $ids))));
         if ($form->validate())
         {
             $publication = $form->create_content_object_publications();

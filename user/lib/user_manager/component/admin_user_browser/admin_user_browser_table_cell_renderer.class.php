@@ -74,6 +74,8 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         //$toolbar_data = array();
 
         //$toolbar_data[] = array('href' => $this->browser->get_user_editing_url($user), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', 
+					$this->browser->get_user_editing_url($user), ToolbarItem :: DISPLAY_ICON));
         $toolbar->add_item(new ToolbarItem(Translation :: get('VersionQuota'),
         	Theme :: get_common_image_path() . 'action_statistics.png',
         	$this->browser->get_user_quota_url($user),

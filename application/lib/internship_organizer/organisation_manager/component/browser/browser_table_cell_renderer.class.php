@@ -27,7 +27,7 @@ class InternshipOrganizerOrganisationBrowserTableCellRenderer extends DefaultInt
      switch ($column->get_name())
         {
             // Exceptions that need post-processing go here ...
-            case InternshipOrganizerRegion :: PROPERTY_NAME :
+            case InternshipOrganizerOrganisation :: PROPERTY_NAME :
                 $title = parent :: render_cell($column, $organisation);
                 $title_short = $title;
                 if (strlen($title_short) > 53)

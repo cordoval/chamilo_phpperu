@@ -22,6 +22,11 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilder
         
         return $links;
     }
+    
+    function get_action_bar()
+    {
+    	
+    }
 }
 
 ?>

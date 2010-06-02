@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../tables/location_table/default_location_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/../../../location.class.php';
 require_once dirname(__FILE__) . '/../../organisation_manager.class.php';
+require_once dirname(__FILE__) . '/../../../region_manager/region_manager.class.php';
 
 class InternshipOrganizerLocationBrowserTableCellRenderer extends DefaultInternshipOrganizerLocationTableCellRenderer
 {
@@ -24,19 +25,23 @@ class InternshipOrganizerLocationBrowserTableCellRenderer extends DefaultInterns
             return $this->get_modification_links($location);
         }
         
+        
     	switch ($column->get_name())
         {
             // Exceptions that need post-processing go here ...
-            case InternshipOrganizerRegion :: PROPERTY_NAME :
+            case InternshipOrganizerLocation :: PROPERTY_NAME :
                 $title = parent :: render_cell($column, $location);
                 $title_short = $title;
+
                 if (strlen($title_short) > 53)
                 {
                     $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
                 }
                 return '<a href="' . htmlentities($this->browser->get_view_location_url($location)) . '" title="' . $title . '">' . $title_short . '</a>';
 
-        }
+           //case InternshipOrganizerLocation :: PROPERTY_REGION_ID :
+                
+		}
         
         return parent :: render_cell($column, $location);
     }
@@ -57,5 +62,7 @@ class InternshipOrganizerLocationBrowserTableCellRenderer extends DefaultInterns
         
         return Utilities :: build_toolbar($toolbar_data);
     }
+    
+
 }
 ?>

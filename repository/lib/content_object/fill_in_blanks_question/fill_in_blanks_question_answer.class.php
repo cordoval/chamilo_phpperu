@@ -41,6 +41,11 @@ class FillInBlanksQuestionAnswer{
 		//@todo: if needed
 	}
 	
+	static function get_number_of_questions($text){
+		$matches = array();
+		return preg_match_all(self::CLOZE_REGEX, $text, $matches);
+	}
+	
     private $value;
     private $weight;
     private $comment;
