@@ -697,9 +697,23 @@ class Document extends ContentObject
                 //DebugUtilities :: show($full_path);
 
                 $save_success = false;
-                if(StringUtilities :: has_value($this->temporary_file_path) && Filesystem :: move_file($this->temporary_file_path, $path_to_save, !$as_new_version))
+                if(StringUtilities :: has_value($this->temporary_file_path))
                 {
-                    $save_success = true;
+                    if(Filesystem :: move_file($this->temporary_file_path, $path_to_save, !$as_new_version))
+                    {
+                    	$save_success = true;
+                    }
+                    else
+                    {
+                    	if(FileSystem :: copy_file($this->temporary_file_path, $path_to_save, !$as_new_version))
+                    	{
+                    		if(FileSystem :: remove($this->temporary_file_path))
+                    		{
+                    			$save_success = true;
+                    		}
+                    	}
+                    }
+                	
                 }
                 elseif(StringUtilities :: has_value($this->in_memory_file) && Filesystem :: write_to_file($path_to_save, $this->in_memory_file))
                 {
@@ -707,7 +721,7 @@ class Document extends ContentObject
                 }
 
                 if($save_success)
-                {
+                { 
                     Filesystem :: chmod($path_to_save, PlatformSetting :: get('permissions_new_files'));
 
                     $file_bytes = Filesystem :: get_disk_space($path_to_save);
