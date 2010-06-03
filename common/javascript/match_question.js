@@ -59,6 +59,7 @@ $(function ()
 		tableBody = $(this).parent().parent().parent();
 		id = $(this).attr('id');
 		id = id.replace('remove_', '');
+		destroyHtmlEditor('comment['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 	
 		rows = $('tr', tableBody);

@@ -91,6 +91,7 @@ $(function ()
 			rows;
 		
 		id = id.replace('remove_', '');
+		destroyHtmlEditor('comment['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 		
 		rows = $('tr', tableBody);

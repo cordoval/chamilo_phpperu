@@ -166,6 +166,8 @@ $(function ()
 			rows;
 		
 		id = id.replace('remove_', '');
+		destroyHtmlEditor('answer['+ id +']');
+		destroyHtmlEditor('comment['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 		$('input[name="coordinates[' + id + ']"]').remove();
 		
