@@ -73,7 +73,7 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
      */
     private function render_event($event)
     {
-        $html[] = '<a href="' . $this->get_parent()->get_url(array(PersonalCalendarManager::PARAM_VIEW => 'day', PersonalCalendarManager::PARAM_TIME => $event->get_start_date())) . '"><br /><img src="' . Theme :: get_common_image_path() . 'action_posticon.png"/></a>';
+        $html[] = '<a href="' . $event->get_url() . '"><br /><img src="' . Theme :: get_common_image_path() . 'action_posticon.png"/></a>';
         return implode("\n", $html);
     }
 }
