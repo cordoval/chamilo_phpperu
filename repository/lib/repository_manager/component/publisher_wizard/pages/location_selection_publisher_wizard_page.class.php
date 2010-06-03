@@ -187,10 +187,10 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         $this->addElement('html', '</div><div style="float:right;"><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png" /><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a></div><div class="clear">&nbsp;</div></div>');
         $this->addElement('html', '<div class="description"><br />');
             
-        $application_name = Utilities :: underscores_to_camelcase($application_name);
-        $application_name = strtolower($application_name);
+        /*$application_name = Utilities :: underscores_to_camelcase($application_name);
+        $application_name = strtolower($application_name);*/
         $application->add_publication_attributes_elements($this);
-            
+
         foreach ($locations as $id => $location)
         {
             $cbname = $application_name . '|' . $id;
