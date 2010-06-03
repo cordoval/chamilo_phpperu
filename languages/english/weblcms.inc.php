@@ -505,4 +505,6 @@ $lang['weblcms']['NoCoursesFound'] = 'No courses found';
 $lang['weblcms']['CourseCreateRequestSent'] = 'Course creation request sent';
 $lang['weblcms']['CourseCreateRequestNotSent'] = 'Course creation request not sent';
 $lang['weblcms']['CourseRequest'] = 'Course Request';
+$lang['weblcms']['IncorrectUrl'] = 'Incorrect Url';
+$lang['weblcms']['CourseSaved'] = 'Course has been saved';
 ?>
