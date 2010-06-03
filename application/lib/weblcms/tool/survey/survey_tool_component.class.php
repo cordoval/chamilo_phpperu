@@ -38,7 +38,7 @@ class SurveyToolComponent extends ToolComponent
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(SurveyTool :: PARAM_ACTION => SurveyTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Browse'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(SurveyTool :: PARAM_ACTION => SurveyTool :: ACTION_VIEW_SURVEY)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Browse'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(SurveyTool :: PARAM_ACTION => SurveyTool :: ACTION_VIEW)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         //results
         if ($this->is_allowed(EDIT_RIGHT))
@@ -58,6 +58,11 @@ class SurveyToolComponent extends ToolComponent
         }
         
         return $action_bar;
+    }
+    
+    function get_survey_publication_viewer_url($publication)
+    {
+    	return $this->get_tool()->get_survey_publication_viewer_url($publication);
     }
 
 }

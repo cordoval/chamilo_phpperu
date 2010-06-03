@@ -23,7 +23,7 @@ class WeblcmsSurveyParticipantMailTracker extends MainTracker
      */
     function WeblcmsSurveyParticipantMailTracker()
     {
-        parent :: MainTracker('survey_participant_mail_tracker');
+        parent :: MainTracker('weblcms_survey_participant_mail_tracker');
     }
 
     /**

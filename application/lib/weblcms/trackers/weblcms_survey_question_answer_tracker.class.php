@@ -18,7 +18,7 @@ class WeblcmsSurveyQuestionAnswerTracker extends MainTracker
      */
     function WeblcmsSurveyQuestionAnswerTracker()
     {
-        parent :: MainTracker('survey_question_answer_tracker');
+        parent :: MainTracker('weblcms_survey_question_answer_tracker');
     }
 
     /**

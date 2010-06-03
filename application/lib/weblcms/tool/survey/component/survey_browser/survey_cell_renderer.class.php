@@ -30,7 +30,8 @@ class SurveyCellRenderer extends ObjectPublicationTableCellRenderer
 
     function get_actions($publication)
     {
-//        $actions = parent :: get_actions($publication);
+        $actions = parent :: get_actions($publication);
+		$actions[] = array('href' => $this->browser->get_survey_publication_viewer_url($publication), 'label' => Translation :: get('TakeSurvey'), 'img' => Theme :: get_common_image_path() . 'action_next.png');
 //        
 //        $assessment = $publication->get_content_object();
 //        $track = new WeblcmsAssessmentAttemptsTracker();
@@ -69,7 +70,7 @@ class SurveyCellRenderer extends ObjectPublicationTableCellRenderer
 ////            $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('InviteUsers'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
 ////        }
 //        
-//        return $actions;
+        return $actions;
     }
 
 }

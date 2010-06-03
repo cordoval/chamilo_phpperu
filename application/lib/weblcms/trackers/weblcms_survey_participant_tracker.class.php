@@ -33,7 +33,7 @@ class WeblcmsSurveyParticipantTracker extends MainTracker
      */
     function WeblcmsSurveyParticipantTracker()
     {
-        parent :: MainTracker('survey_participant_tracker');
+        parent :: MainTracker('weblcms_survey_participant_tracker');
     }
 
     /**
@@ -42,14 +42,14 @@ class WeblcmsSurveyParticipantTracker extends MainTracker
      */
     function track($parameters = array())
     {
-        $user = $parameters[SurveyParticipantTracker :: PROPERTY_USER_ID];
-        $survey = $parameters[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID];
-        $progress = $parameters[SurveyParticipantTracker :: PROPERTY_PROGRESS];
-        $context = $parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID];
-        $context_template = $parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID];
-        $context_name = $parameters[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME];
-        $status = $parameters[SurveyParticipantTracker :: PROPERTY_STATUS];
-        $parent_id = $parameters[SurveyParticipantTracker :: PROPERTY_PARENT_ID];
+        $user = $parameters[WeblcmsSurveyParticipantTracker :: PROPERTY_USER_ID];
+        $survey = $parameters[WeblcmsSurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID];
+        $progress = $parameters[WeblcmsSurveyParticipantTracker :: PROPERTY_PROGRESS];
+        $context = $parameters[WeblcmsSurveyParticipantTracker :: PROPERTY_CONTEXT_ID];
+        $context_template = $parameters[WeblcmsSurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID];
+        $context_name = $parameters[WeblcmsSurveyParticipantTracker :: PROPERTY_CONTEXT_NAME];
+        $status = $parameters[WeblcmsSurveyParticipantTracker :: PROPERTY_STATUS];
+        $parent_id = $parameters[WeblcmsSurveyParticipantTracker :: PROPERTY_PARENT_ID];
         
         $this->set_user_id($user);
         $this->set_survey_publication_id($survey);

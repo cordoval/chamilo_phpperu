@@ -27,6 +27,7 @@ class SurveyTool extends Tool
     const PARAM_ANONYMOUS = 'anonymous';
     const PARAM_INVITATION_ID = 'invitation_id';
     const PARAM_PUBLICATION_ACTION = 'publication_action';
+    const PARAM_SURVEY_PARTICIPANT = 'survey_participant';
 
     /*
 	 * Inherited.
@@ -84,5 +85,108 @@ class SurveyTool extends Tool
     {
         return array(Survey :: get_type_name());
     }
+    
+    //Url creation
+//	function get_create_survey_publication_url()
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_SURVEY_PUBLICATION));
+//    }
+//
+//    function get_update_survey_publication_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+//    }
+//
+//    function get_delete_survey_publication_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+//    }
+//
+//    function get_browse_survey_publications_url()
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS), array(self :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
+//    }
+//
+//    function get_browse_survey_pages_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES, self :: PARAM_SURVEY => $survey_publication->get_content_object()));
+//    }
+//
+//    function get_browse_survey_page_questions_url($survey_page)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS, self :: PARAM_SURVEY_PAGE => $survey_page->get_id()));
+//    }
+//
+//    function get_manage_survey_publication_categories_url()
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES));
+//    }
+//
+//    function get_testcase_url()
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TESTCASES), array(TestcaseManager :: PARAM_ACTION, TestcaseManager :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
+//    }
+//
+    function get_survey_publication_viewer_url($publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TAKE_SURVEY, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+    }
+//
+//    function get_survey_results_viewer_url($survey_publication)
+//    {
+//        $id = $survey_publication ? $survey_publication->get_id() : null;
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS, self :: PARAM_SURVEY_PUBLICATION => $id));
+//    }
+//
+//    function get_reporting_survey_publication_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+//    }
+//
+//    function get_question_reporting_url($question)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_QUESTION_REPORTING, self :: PARAM_SURVEY_QUESTION => $question->get_id()));
+//    }
+//
+//    function get_import_survey_url()
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_SURVEY));
+//    }
+//
+//    function get_export_survey_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_SURVEY, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+//    }
+//
+//    function get_change_survey_publication_visibility_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+//    }
+//
+//    function get_move_survey_publication_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+//    }
+//
+//    function get_results_exporter_url($tracker_id)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_RESULTS, 'tid' => $tracker_id));
+//    }
+//
+//    function get_download_documents_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+//    }
+//
+//    function get_mail_survey_participant_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MAIL_SURVEY_PARTICIPANTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+//    }
+//
+//    function get_build_survey_url($survey_publication)
+//    {
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_SURVEY, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+//    }
+//    
 }
 ?>

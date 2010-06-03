@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.tool.assessment.component
  */
 require_once dirname(__FILE__) . '/../../../content_object_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
+require_once dirname(__FILE__) . '/../survey_content_object_publisher.class.php';
 
 /**
  * Represents the repo_viewer component for the assessment tool.
@@ -37,7 +37,7 @@ class SurveyToolPublisherComponent extends SurveyToolComponent
         {
             $object_id = $pub->get_selected_objects();
             
-            $publisher = new ContentObjectPublisher($pub);
+            $publisher = new SurveyContentObjectPublisher($pub);
             $html[] = $publisher->get_publications_form($object_id);
         }
         
