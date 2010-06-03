@@ -31,10 +31,10 @@ class SurveyBuilder extends ComplexBuilder {
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe';
 	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
 	
-//	function SurveyBuilder($parent) {
-//		parent::__construct ( $parent );
-//		$this->parse_input_from_table ();
-//	}
+	function SurveyBuilder($parent) {
+		parent::__construct ( $parent );
+		$this->parse_input_from_survey_table ();
+	}
 	
 	function run() {
 		$action = $this->get_action ();
@@ -59,34 +59,34 @@ class SurveyBuilder extends ComplexBuilder {
 				$component = $this->create_component( 'Deleter' );
 				break;
 			case SurveyBuilder::ACTION_CONFIGURE_CONTEXT :
-				$component = $this->create_component( 'ConfigureContext', $this );
+				$component = $this->create_component( 'ConfigureContext');
 				break;
 			case SurveyBuilder::ACTION_BROWSE_CONTEXT :
-				$component = $this->create_component( 'ContextBrowser', $this );
+				$component = $this->create_component( 'ContextBrowser');
 				break;
 			case SurveyBuilder::ACTION_VIEW_CONTEXT :
-				$component = $this->create_component( 'ContextViewer', $this );
+				$component = $this->create_component( 'ContextViewer');
 				break;
 			case SurveyBuilder::ACTION_SUBSCRIBE_PAGE_BROWSER :
-				$component = $this->create_component( 'ContextTemplateSubscribePageBrowser', $this );
+				$component = $this->create_component( 'ContextTemplateSubscribePageBrowser');
 				break;
 			case SurveyBuilder::ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE :
-				$component = $this->create_component( 'PageSubscriber', $this );
+				$component = $this->create_component( 'PageSubscriber');
 				break;
 			case SurveyBuilder::ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE :
-				$component = $this->create_component( 'PageUnsubscriber', $this );
+				$component = $this->create_component( 'PageUnsubscriber');
 				break;
 			case SurveyBuilder::ACTION_TRUNCATE_TEMPLATE :
-				$component = $this->create_component( 'ContextTemplateTruncater', $this );
+				$component = $this->create_component( 'ContextTemplateTruncater');
 				break;
 			case SurveyBuilder::ACTION_CONFIGURE_PAGE :
-				$component = $this->create_component( 'Configure', $this );
+				$component = $this->create_component( 'Configure');
 				break;
 			case self::ACTION_CHANGE_QUESTION_VISIBILITY :
-				$component = $this->create_component( 'VisibilityChanger', $this );
+				$component = $this->create_component( 'VisibilityChanger');
 				break;
 			case self::ACTION_CONFIGURE_QUESTION :
-				$component = $this->create_component( 'ConfigureQuestion', $this );
+				$component = $this->create_component( 'ConfigureQuestion');
 				break;	
 			default :
             	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
@@ -147,54 +147,57 @@ class SurveyBuilder extends ComplexBuilder {
 		return $this->get_url ( array (self::PARAM_BUILDER_ACTION => self::ACTION_CONFIGURE_QUESTION, self::PARAM_COMPLEX_QUESTION_ITEM => $complex_question_item->get_id () ) );
 	}
 	
-//	private function parse_input_from_table() {
-//		
-//		if (isset ( $_POST ['action'] )) {
-//			
-//			if (isset ( $_POST [SurveyContextTemplateRelPageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) {
-//				$selected_ids = $_POST [SurveyContextTemplateRelPageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX];
-//			}
-//			
-//			if (isset ( $_POST [SurveyContextTemplateSubscribePageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) {
-//				$selected_ids = $_POST [SurveyContextTemplateSubscribePageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX];
-//			}
-//			
-//			if (isset ( $_POST [SurveyContextTemplateBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) {
-//				$selected_ids = $_POST [SurveyContextTemplateBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX];
-//			}
-//			
-//			if (empty ( $selected_ids )) {
-//				$selected_ids = array ();
-//			} elseif (! is_array ( $selected_ids )) {
-//				$selected_ids = array ($selected_ids );
-//			}
-//			
-//			switch ($_POST ['action']) {
-//				case self::PARAM_UNSUBSCRIBE_SELECTED :
-//					$this->set_action ( self::ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE );
-//					Request::set_get ( self::PARAM_TEMPLATE_REL_PAGE_ID, $selected_ids );
-//					break;
-//				case self::PARAM_SUBSCRIBE_SELECTED :
-//					$this->set_action ( self::ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE );
-//					$location_ids = array ();
-//					
-//					foreach ( $selected_ids as $selected_id ) {
-//						$ids = explode ( '|', $selected_id );
-//						$page_ids [] = $ids [1];
-//						$template_id = $ids [0];
-//					}
-//					
-//					Request::set_get ( self::PARAM_TEMPLATE_ID, $template_id );
-//					Request::set_get ( self::PARAM_SURVEY_PAGE_ID, $page_ids );
-//					break;
-//				case self::PARAM_TRUNCATE_SELECTED :
-//					$this->set_action ( self::ACTION_TRUNCATE_TEMPLATE );
-//					Request::set_get ( self::PARAM_TEMPLATE_ID, $selected_ids );
-//					break;
-//			}
-//		}
-//	
-//	}
+	private function parse_input_from_survey_table() {
+		$action = Request :: post('action');
+		if (isset ( $action )) {
+			
+			$template_rel_page = Request :: post(SurveyContextTemplateRelPageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX);
+			if (isset ($template_rel_page)) {
+				$selected_ids = Request :: post(SurveyContextTemplateRelPageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX);
+			}
+			$template_subscribe_page =  Request :: post(SurveyContextTemplateSubscribePageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX);
+			
+			if (isset ($template_subscribe_page)) {
+				$selected_ids = Request :: post(SurveyContextTemplateSubscribePageBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX);
+			}
+			
+			$template = Request :: post(SurveyContextTemplateBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX);
+			if (isset ($template)) {
+				$selected_ids = Request :: post(SurveyContextTemplateBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX);
+			}
+			
+			if (empty ( $selected_ids )) {
+				$selected_ids = array ();
+			} elseif (! is_array ( $selected_ids )) {
+				$selected_ids = array ($selected_ids );
+			}
+			
+			switch ($action) {
+				case self::PARAM_UNSUBSCRIBE_SELECTED :
+					$this->set_action ( self::ACTION_UNSUBSCRIBE_PAGE_FROM_TEMPLATE );
+					Request::set_get ( self::PARAM_TEMPLATE_REL_PAGE_ID, $selected_ids );
+					break;
+				case self::PARAM_SUBSCRIBE_SELECTED :
+					$this->set_action ( self::ACTION_SUBSCRIBE_PAGE_TO_TEMPLATE );
+					$location_ids = array ();
+					
+					foreach ( $selected_ids as $selected_id ) {
+						$ids = explode ( '|', $selected_id );
+						$page_ids [] = $ids [1];
+						$template_id = $ids [0];
+					}
+					
+					Request::set_get ( self::PARAM_TEMPLATE_ID, $template_id );
+					Request::set_get ( self::PARAM_SURVEY_PAGE_ID, $page_ids );
+					break;
+				case self::PARAM_TRUNCATE_SELECTED :
+					$this->set_action ( self::ACTION_TRUNCATE_TEMPLATE );
+					Request::set_get ( self::PARAM_TEMPLATE_ID, $selected_ids );
+					break;
+			}
+		}
+	
+	}
 
 }
 
