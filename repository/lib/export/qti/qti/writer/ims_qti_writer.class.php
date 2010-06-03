@@ -136,7 +136,7 @@ class ImsQtiWriter extends ImsXmlWriter{
      * Sections group together individual item references and/or sub-sections. A number of common parameters are shared by both types of child element.
      * @param $identifier The identifier of the section or item reference must be unique within the test and must not be the identifier of any testPart.
      * @param $title The title of the section is intended to enable the section to be selected in situations where the contents of the section are not available, for example when a candidate is browsing a test. Therefore, delivery engines may reveal the title to candidates at any time during the test but are not required to do so.
-     * @param $visible A visible section is one that is identifiable by the candidate. For example, delivery engines might provide a hierarchical view of the test to aid navigation. In such a view, a visible section would be a visible node in the hierarchy. Conversely, an invisible section is one that is not visible to the candidate—the child elements of an invisible section appear to the candidate as if they were part of the parent section (or testPart). The visibility of a section does not affect the visibility of its child elements. The visibility of each section is determined solely by the value of its own visible attribute.
+     * @param $visible A visible section is one that is identifiable by the candidate. For example, delivery engines might provide a hierarchical view of the test to aid navigation. In such a view, a visible section would be a visible node in the hierarchy. Conversely, an invisible section is one that is not visible to the candidateï¿½the child elements of an invisible section appear to the candidate as if they were part of the parent section (or testPart). The visibility of a section does not affect the visibility of its child elements. The visibility of each section is determined solely by the value of its own visible attribute.
      * @param $keepTogether An invisible section with a parent that is subject to shuffling can specify whether or not its children, which will appear to the candidate as if they were part of the parent, are shuffled as a block or mixed up with the other children of the parent section.
      * @param $required If a child element is required it must appear (at least once) in the selection. It is in error if a section contains a selection rule that selects fewer child elements than the number of required elements it contains.
      * @param $fixed If a child element is fixed it must never be shuffled. When used in combination with a selection rule fixed elements do not have their position fixed until after selection has taken place. For example, selecting 3 elements from {A,B,C,D} without replacement might result in the selection {A,B,C}. If the section is subject to shuffling but B is fixed then permutations such as {A,C,B} are not allowed whereas permutations like {C,B,A} are. 
@@ -473,7 +473,8 @@ class ImsQtiWriter extends ImsXmlWriter{
       $result->set_attribute('label', $label, false);
       $result->set_attribute('id', $id, false);
       $result->set_attribute('lang', $lang, false);
-      $result->set_attribute('view', implode(' ', func_get_args()));
+      $func_args = func_get_args();
+      $result->set_attribute('view', implode(' ', $func_args));
       return $result;
       
     }
