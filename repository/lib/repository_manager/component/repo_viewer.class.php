@@ -15,19 +15,20 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManager
      */
     function run()
     {
-        Display :: small_header();
         $pub = new RepoViewer($this, Document :: get_type_name(), RepoViewer :: SELECT_SINGLE, array(), true);
+        $html = array();
         if (!$pub->is_ready_to_be_published())
         {
-            echo $pub->as_html();
+            $html[] = $pub->as_html();
         }
         else
         {
             $html[] = '<script type="text/javascript">';
             $html[] = 'window.parent.object_selected(' . $pub->get_selected_objects() . ');';
             $html[] = '</script>';
-            echo implode("\n", $html);
-        }
+        } 
+        Display :: small_header();
+        echo implode("\n", $html);
     }
 }
 ?>
