@@ -32,6 +32,7 @@ class SurveyCellRenderer extends ObjectPublicationTableCellRenderer
     {
         $actions = parent :: get_actions($publication);
 		$actions[] = array('href' => $this->browser->get_survey_publication_viewer_url($publication), 'label' => Translation :: get('TakeSurvey'), 'img' => Theme :: get_common_image_path() . 'action_next.png');
+		$actions[] = array('href' => $this->browser->get_mail_survey_participant_url($publication), 'label' => Translation :: get('InviteParticipants'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
 //        
 //        $assessment = $publication->get_content_object();
 //        $track = new WeblcmsAssessmentAttemptsTracker();

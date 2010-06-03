@@ -20,6 +20,7 @@ class SurveyTool extends Tool
     const ACTION_EXPORT_RESULTS = 'export_results';
     const ACTION_VIEW = 'view';
     const ACTION_DELETE_RESULTS = 'delete_results';
+    const ACTION_MAIL_SURVEY_PARTICIPANTS = 'mail';
     
     const PARAM_USER_ASSESSMENT = 'uaid';
     const PARAM_QUESTION_ATTEMPT = 'qaid';
@@ -28,6 +29,7 @@ class SurveyTool extends Tool
     const PARAM_INVITATION_ID = 'invitation_id';
     const PARAM_PUBLICATION_ACTION = 'publication_action';
     const PARAM_SURVEY_PARTICIPANT = 'survey_participant';
+    
 
     /*
 	 * Inherited.
@@ -51,6 +53,9 @@ class SurveyTool extends Tool
             case self :: ACTION_TAKE_SURVEY :
                 $component = SurveyToolComponent :: factory('Taker', $this);
                 break;
+            case self :: ACTION_MAIL_SURVEY_PARTICIPANTS :
+                $component = SurveyToolComponent :: factory('Mailer', $this);
+                break;    
 //            case self :: ACTION_VIEW_RESULTS :
 //                $component = AssessmentToolComponent :: factory('ResultsViewer', $this);
 //                break;
@@ -102,10 +107,10 @@ class SurveyTool extends Tool
 //        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
 //    }
 //
-//    function get_browse_survey_publications_url()
-//    {
-//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS), array(self :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
-//    }
+    function get_browse_survey_publications_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW), array(self :: PARAM_PUBLICATION_ID, ComplexBuilder :: PARAM_BUILDER_ACTION));
+    }
 //
 //    function get_browse_survey_pages_url($survey_publication)
 //    {
@@ -178,10 +183,10 @@ class SurveyTool extends Tool
 //        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
 //    }
 //
-//    function get_mail_survey_participant_url($survey_publication)
-//    {
-//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MAIL_SURVEY_PARTICIPANTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
-//    }
+    function get_mail_survey_participant_url($survey_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MAIL_SURVEY_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
+    }
 //
 //    function get_build_survey_url($survey_publication)
 //    {

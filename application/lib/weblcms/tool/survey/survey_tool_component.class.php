@@ -64,7 +64,16 @@ class SurveyToolComponent extends ToolComponent
     {
     	return $this->get_tool()->get_survey_publication_viewer_url($publication);
     }
+    
+    function get_browse_survey_publications_url()
+    {
+        return $this->get_tool()->get_browse_survey_publications_url();
+    }
 
+	function get_mail_survey_participant_url($survey_publication)
+    {
+        return $this->get_tool()->get_mail_survey_participant_url($survey_publication);
+    }
 }
 
 ?>
