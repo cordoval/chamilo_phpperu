@@ -24,10 +24,15 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
         $this->set_parameter('cid', Request :: get('cid'));
         
         $display = ComplexDisplay :: factory($this, $object->get_type());
-        $display->set_root_lo($object);
+        //$display->set_root_lo($object);
         
         //Display :: small_header();
         $display->run();
+    }
+    
+    function get_root_content_object()
+    {
+    	return $this->object;
     }
     
 	function display_header($trail)
