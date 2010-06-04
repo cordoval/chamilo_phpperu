@@ -13,11 +13,12 @@ class DocumentToolPublisherComponent extends DocumentToolComponent
 
     function run()
     {
-        if (! $this->is_allowed(ADD_RIGHT))
+    	//every subscriber is allowed to add documents to dropbox??
+        /*if (! $this->is_allowed(ADD_RIGHT))
         {
             Display :: not_allowed();
             return;
-        }
+        }*/
         
         $trail = new BreadcrumbTrail();
         if (Request :: get('pcattree') > 0)

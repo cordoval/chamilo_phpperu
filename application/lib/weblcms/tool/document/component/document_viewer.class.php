@@ -17,6 +17,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 
     function run()
     {
+    	
         if (! $this->is_allowed(VIEW_RIGHT))
         {
             Display :: not_allowed();
@@ -80,12 +81,16 @@ class DocumentToolViewerComponent extends DocumentToolComponent
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $cat_id = Request :: get('pcattree');
+        
         $category = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_category($cat_id);
 
         if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             $action_bar->set_search_url($this->get_url());
-            if ($this->is_allowed(ADD_RIGHT) || ($category && $category->get_name() == Translation :: get('Dropbox')))
+            
+            $properties=$this->get_tool()->get_properties();
+    		
+            if ($this->is_allowed(ADD_RIGHT) || $properties->name=="document")//|| ($category && $category->get_name() == Translation :: get('Dropbox')))
             {
                 $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
