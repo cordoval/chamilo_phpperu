@@ -9,6 +9,7 @@ require_once dirname(__FILE__) . '/../forum_tool_component.class.php';
 class ForumToolViewerComponent extends ForumToolComponent
 {
 	private $trail;
+	private $root_content_object;
 	
     function run()
     {
@@ -28,6 +29,9 @@ class ForumToolViewerComponent extends ForumToolComponent
         
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
         
+   		$object = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
+   		$this->root_content_object = $object->get_content_object();
+        
         $cd = ComplexDisplay :: factory($this, Forum :: get_type_name());
         $cd->run();
         
@@ -39,6 +43,11 @@ class ForumToolViewerComponent extends ForumToolComponent
                 Events :: trigger_event('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $pid, 'forum_topic_id' => $cid));
                 break;
         }
+    }
+    
+    function get_root_content_object()
+    {
+    	return $this->root_content_object;
     }
     
 	function display_header($trail)
