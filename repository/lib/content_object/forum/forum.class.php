@@ -183,5 +183,51 @@ class Forum extends ContentObject
     {
         return false;
     }
+        
+    function delete_links()
+    {
+    	$success = parent :: delete_links();
+    	if($success)
+    	{
+    		$this->set_total_posts(0);
+    		$this->set_total_topics(0);
+    		$success = $this->update();
+    	}
+    	return $success;
+    }
+    
+    function delete_complex_wrapper($object_id, $link_ids)
+    {
+    	$rdm = RepositoryDataManager :: get_instance();
+    	$failures = 0;
+    	
+    	foreach($link_ids as $link_id)
+    	{
+    		$item = $rdm->retrieve_complex_content_object_item($link_id);
+    		$object = $rdm->retrieve_content_object($item->get_ref());
+    		
+    		if($object->get_type() == Forum :: get_type_name())
+    		{
+    			$this->set_total_topics($this->get_total_topics() - $object->get_total_topics());
+    		}
+    		
+    		$this->set_total_posts($this->get_total_post() - $object->get_total_post());
+    		
+    		if(!$item->delete())
+    		{
+    			$failures++;
+    			continue;
+    		}
+    		
+    	}
+    	
+    	if(!$this->update())
+    		$failures++;
+    	
+    	$message = $this->get_result($failures, count($link_ids), 'ComplexContentObjectItemNotDeleted', 'ComplexContentObjectItemsNotDeleted', 
+    							     'ComplexContentObjectItemDeleted', 'ComplexContentObjectItemsDeleted');
+    	
+    	return array($message, ($failures > 0));
+    }
 }
 ?>
