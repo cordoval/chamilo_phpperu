@@ -1602,9 +1602,16 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     	if (isset($condition))
         {
-            $translator = new ConditionTranslator($this, $co_alias);
-            $sql .= $translator->render_query($condition);
+        	$conditions = array();
+        	$conditions[] = $condition;
+        	$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED));
+    		$condition = new AndCondition($conditions);
         }
+        else
+    		$condition = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED));
+        
+        $translator = new ConditionTranslator($this, $co_alias);
+        $sql .= $translator->render_query($condition);
 
         $sql .= ' GROUP BY content_hash HAVING count(content_hash) > 1';
 
