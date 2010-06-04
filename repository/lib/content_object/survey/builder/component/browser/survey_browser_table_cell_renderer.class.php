@@ -73,9 +73,12 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         $delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi, $this->browser->get_root_content_object());
         $moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root_content_object(), RepositoryManager :: PARAM_DIRECTION_UP);
         $movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root_content_object(), RepositoryManager :: PARAM_DIRECTION_DOWN);
-        
-        $toolbar_data [] = array ('href' => $configure_url, 'label' => Translation::get ( 'Configure' ), 'img' => Theme::get_common_image_path () . 'action_build_prerequisites.png' );
-		
+
+        if ($lo->get_type() == SurveyPage :: get_type_name())
+        {
+        	$toolbar_data [] = array ('href' => $configure_url, 'label' => Translation::get ( 'Configure' ), 'img' => Theme::get_common_image_path () . 'action_build_prerequisites.png' );
+        }
+        		
         $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
         
         $allowed = $this->check_move_allowed($cloi);

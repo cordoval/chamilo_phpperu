@@ -215,7 +215,8 @@ class CourseForm extends CommonForm
 
         $this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Extlink_name'), array("size" => "50"));
         $this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('Extlink_url'), array("size" => "50"));
-
+        $this->addRule(Course :: PROPERTY_EXTLINK_URL, Translation :: get('IncorrectUrl'), 'url');
+        
         $adm = AdminDataManager :: get_instance();
 		$lang_options = AdminDataManager :: get_languages();
 

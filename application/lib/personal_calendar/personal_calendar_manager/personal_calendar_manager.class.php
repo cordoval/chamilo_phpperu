@@ -247,7 +247,7 @@ class PersonalCalendarManager extends WebApplication
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
-            $locations = array(__CLASS__);
+            $locations = array(Translation :: get(Utilities :: underscores_to_camelcase(self :: APPLICATION_NAME)));
             return $locations;
         }
         
@@ -256,7 +256,7 @@ class PersonalCalendarManager extends WebApplication
 
     function publish_content_object($content_object, $location)
     {
-        require_once dirname(__FILE__) . '/../calendar_event_publication.class.php';
+        require_once dirname(__FILE__) . '/../personal_calendar_publication.class.php';
         $pub = new PersonalCalendarPublication();
         $pub->set_content_object_id($content_object->get_id());
         $pub->set_publisher($content_object->get_owner_id());

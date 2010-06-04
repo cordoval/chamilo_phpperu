@@ -81,4 +81,14 @@
 	<event name="attempt_learning_path_item_objective">
 		<tracker name="weblcms_lpi_attempt_objective" />
 	</event>
+
+	<event name="weblcms_survey_participation">
+		<tracker name="weblcms_survey_participant" />
+	</event>
+	<event name="weblcms_survey_participation_mail">
+		<tracker name="weblcms_survey_participant_mail" />
+	</event>
+	<event name="weblcms_attempt_question">
+		<tracker name="weblcms_survey_question_answer" />
+	</event>
 </application>

@@ -68,6 +68,7 @@ class FormValidator extends HTML_QuickForm
         $this->registerRule('html', null, 'HTML_QuickForm_Rule_HTML', $dir . 'Rule/HTML.php');
         $this->registerRule('username_available', null, 'HTML_QuickForm_Rule_UsernameAvailable', $dir . 'Rule/UsernameAvailable.php');
         $this->registerRule('username', null, 'HTML_QuickForm_Rule_Username', $dir . 'Rule/Username.php');
+        $this->registerRule('url', null, 'HTML_QuickForm_Rule_Url', $dir . 'Rule/Url.php');
         $this->registerRule('filetype', null, 'HTML_QuickForm_Rule_Filetype', $dir . 'Rule/Filetype.php');
         $this->registerRule('disk_quota', null, 'HTML_QuickForm_Rule_DiskQuota', $dir . 'Rule/DiskQuota.php');
         $this->registerRule('max_value', null, 'HTML_QuickForm_Rule_MaxValue', $dir . 'Rule/MaxValue.php');

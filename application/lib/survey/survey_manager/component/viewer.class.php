@@ -207,9 +207,24 @@ class SurveyManagerViewerComponent extends SurveyManager
             Events :: trigger_event('attempt_question', 'survey', $parameters);
         }
         //test for better tracing of setting status of trackers.
+    }
+    
+    function get_answer($question)
+    {       
+        $dummy = new SurveyQuestionAnswerTracker();
+        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->get_participant_id());
+        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question->get_id());
+        $condition = new AndCondition($conditions);
+        $trackers = $dummy->retrieve_tracker_items($condition);
         
-        
-        
+        if (count($trackers) != 0)
+        {
+            return $trackers[0]->get_answer();
+        }
+        else
+        {
+            return null;
+        }
     }
 
     function finish_survey($percent)

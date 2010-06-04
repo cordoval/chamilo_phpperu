@@ -47,18 +47,8 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage {
 
 		if ($question_count != 0) {
 			foreach ( $this->questions as $nr => $question ) {
-				
-				$dummy = new SurveyQuestionAnswerTracker ();
-				$conditions [] = new EqualityCondition ( SurveyQuestionAnswerTracker::PROPERTY_SURVEY_PARTICIPANT_ID, $this->get_parent()->get_parent ()->get_parent ()->get_participant_id () );
-				$conditions [] = new EqualityCondition ( SurveyQuestionAnswerTracker::PROPERTY_QUESTION_CID, $question->get_id () );
-				$condition = new AndCondition ( $conditions );
-				$trackers = $dummy->retrieve_tracker_items ( $condition );
-				
-				if (count ( $trackers ) != 0) {
-					$answer = $trackers [0]->get_answer ();
-				} else {
-					$answer = null;
-				}
+				$answer = $this->get_parent()->get_parent()->get_parent()->get_answer($question);
+
 				
 				$visibility = $this->get_parent ()->get_question_visibility ( $question->get_id () );
 				

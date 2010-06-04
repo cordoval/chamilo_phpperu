@@ -82,12 +82,12 @@ class UserImportForm extends FormValidator
             	$validusers[] = $validuser;
             }
         }
-      
+      /*
     	if ($failures > 0)
         {
             return false;
         }
-        
+     */   
         $udm = UserDataManager :: get_instance();
         
         foreach($validusers as $csvuser)
@@ -128,6 +128,7 @@ class UserImportForm extends FormValidator
 	            $user->set_expiration_date($exp_date);
 	            
 	            $user->set_platformadmin(0);
+	            
 	            if (! $user->create())
 	            {
 	                $failures ++;
@@ -198,6 +199,7 @@ class UserImportForm extends FormValidator
 	            }
         	}
         }
+        
         if ($failures > 0)
         { 
             return false;
@@ -229,11 +231,19 @@ class UserImportForm extends FormValidator
             $csvuser[User :: PROPERTY_USERNAME] = $csvuser['user_name'];
             
         //1. Action valid ?
-    	$action = strtoupper($csvuser['action']);
-        if($action != 'A' && $action != 'D' && $action != 'U')
-        {
-        	$failures++; 
-        }
+    	if($csvuser['action'])
+    	{
+    		$action = strtoupper($csvuser['action']);
+        	if($action != 'A' && $action != 'D' && $action != 'U')
+        	{
+        		$failures++; 
+        	}
+    	}
+    	else
+    	{
+    		$csvuser['action'] = 'A';
+    		$action = 'A';
+    	}
 
         //1. Check if username exists
         if ( ($action == 'A' && !$udm->is_username_available($csvuser[User :: PROPERTY_USERNAME]))  || 
@@ -279,7 +289,7 @@ class UserImportForm extends FormValidator
         {
             $failures ++;
         }
-      
+        
         if ($failures > 0)
         {
             return false;
@@ -303,7 +313,7 @@ class UserImportForm extends FormValidator
             xml_set_element_handler($parser, array(get_class(), 'element_start'), array(get_class(), 'element_end'));
             xml_set_character_data_handler($parser, array(get_class(), 'character_data'));
             xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, false);
-            xml_parse($parser, file_get_contents($file_name));
+            xml_parse($parser, file_get_contents($file_name), $this->users);
             xml_parser_free($parser);
         }
         return $this->users;
