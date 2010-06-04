@@ -339,8 +339,8 @@ $lang['weblcms']['CreationDate'] = 'Creation Date';
 $lang['weblcms']['AllowedDate'] = 'Allowed Date';
 $lang['weblcms']['Motivation'] = 'Motivation';
 $lang['weblcms']['SubscriptionFailed'] = 'Subscription failed';
-$lang['weblcms']['CourseCodeTitleVisible'] = 'Course Code Title Visible';
-$lang['weblcms']['CourseManagerNameTitleVisible'] = 'Course Manager Name Title Visible';
+$lang['weblcms']['CourseCodeTitleVisible'] = 'Course Code Visible';
+$lang['weblcms']['CourseManagerNameTitleVisible'] = 'Course Manager Name Visible';
 $lang['weblcms']['CourseLanguageVisible'] = 'Course Language Visible';
 $lang['weblcms']['SubscriptionFailed'] = 'Subscription failed';
 $lang['weblcms']['CreationFailed'] = 'Creation failed';
@@ -505,4 +505,6 @@ $lang['weblcms']['NoCoursesFound'] = 'No courses found';
 $lang['weblcms']['CourseCreateRequestSent'] = 'Course creation request sent';
 $lang['weblcms']['CourseCreateRequestNotSent'] = 'Course creation request not sent';
 $lang['weblcms']['CourseRequest'] = 'Course Request';
+$lang['weblcms']['IncorrectUrl'] = 'Incorrect Url';
+$lang['weblcms']['CourseSaved'] = 'Course has been saved';
 ?>
