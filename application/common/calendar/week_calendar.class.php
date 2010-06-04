@@ -149,7 +149,6 @@ class WeekCalendar extends CalendarTable
     private function add_events()
     {
         $events = $this->get_events_to_show();
-        
     	$working_start = LocalSetting :: get('working_hours_start');
         $working_end = LocalSetting :: get('working_hours_end');
         $hide = LocalSetting :: get('hide_none_working_hours');
@@ -165,13 +164,16 @@ class WeekCalendar extends CalendarTable
         foreach ($events as $time => $items)
         {
             $row = (date('H', $time) / $this->hour_step) - $start;
-            
+            dump($row);
+            dump($end);
+            dump($start);
             if($row > $end - $start - 1)
             {
-            	break;
+            	continue;
             }
             
             $column = date('w', $time);
+            
             if ($column == 0)
             {
                 $column = 7;
