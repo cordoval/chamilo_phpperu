@@ -164,9 +164,6 @@ class WeekCalendar extends CalendarTable
         foreach ($events as $time => $items)
         {
             $row = (date('H', $time) / $this->hour_step) - $start;
-            dump($row);
-            dump($end);
-            dump($start);
             if($row > $end - $start - 1)
             {
             	continue;
