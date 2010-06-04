@@ -29,7 +29,7 @@ class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManager
             
             foreach ($ids as $id)
             {
-                $publication = $this->get_parent()->retrieve_personal_message_publication($id);
+                $publication = $this->retrieve_personal_message_publication($id);
                 if ($mark_type == PersonalMessengerManager :: PARAM_MARK_SELECTED_READ)
                 {
                     $publication->set_status(0);
