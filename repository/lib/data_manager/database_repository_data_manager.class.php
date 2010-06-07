@@ -1600,18 +1600,11 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     	$sql = 'SELECT ' . $co_alias . '.id, title, description, type, count(content_hash) as content_hash FROM ' . $co_table . ' as ' . $co_alias . '
 				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias  . '.id = ' . $version_alias . '.id';
 
-    	if (isset($condition))
+        if (isset($condition))
         {
-        	$conditions = array();
-        	$conditions[] = $condition;
-        	$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED));
-    		$condition = new AndCondition($conditions);
+            $translator = new ConditionTranslator($this, $co_alias);
+            $sql .= $translator->render_query($condition);
         }
-        else
-    		$condition = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED));
-        
-        $translator = new ConditionTranslator($this, $co_alias);
-        $sql .= $translator->render_query($condition);
 
         $sql .= ' GROUP BY content_hash HAVING count(content_hash) > 1';
 
