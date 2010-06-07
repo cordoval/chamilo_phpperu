@@ -22,7 +22,7 @@ class DocumentDisplay extends ContentObjectDisplay
         $extension = strtolower(substr($name, strrpos($name, '.') + 1));
         if(in_array($extension, $img_extensions))
         {
-            $html = preg_replace('|</div>\s*$|s', '<br /><a href="' . htmlentities($url) . '"><img style="max-width: 100%" src="' . $url . '" /></a></div>', $html);
+            $html = preg_replace('|</div>\s*$|s', '<br /><a href="' . Utilities :: htmlentities($url) . '"><img style="max-width: 100%" src="' . $url . '" /></a></div>', $html);
         }
         else
         {
@@ -32,7 +32,7 @@ class DocumentDisplay extends ContentObjectDisplay
             }
             else
             {
-                $html = preg_replace('|</div>\s*$|s', '<br /><div class="document_link" style="margin-top: 1em;"><a href="' . htmlentities($url) . '">' . htmlentities($name) . '</a> (' . Filesystem :: format_file_size($object->get_filesize()) . ')</div></div>', $html);
+                $html = preg_replace('|</div>\s*$|s', '<br /><div class="document_link" style="margin-top: 1em;"><a href="' . Utilities :: htmlentities($url) . '">' . Utilities :: htmlentities($name) . '</a> (' . Filesystem :: format_file_size($object->get_filesize()) . ')</div></div>', $html);
             }
         }
         
@@ -45,7 +45,7 @@ class DocumentDisplay extends ContentObjectDisplay
         $object = $this->get_content_object();
         $url = RepositoryManager :: get_document_downloader_url($object->get_id());
         
-        return '<span class="content_object"><a href="' . htmlentities($url) . '">' . htmlentities($object->get_title()) . '</a></span>';
+        return '<span class="content_object"><a href="' . Utilities :: htmlentities($url) . '">' . Utilities :: htmlentities($object->get_title()) . '</a></span>';
     }
 }
 ?>
