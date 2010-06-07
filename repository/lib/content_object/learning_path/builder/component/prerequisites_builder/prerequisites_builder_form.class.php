@@ -146,7 +146,7 @@ class PrerequisitesBuilderForm extends FormValidator
                 $category_html[] = '<div class="body">';
                 $this->addElement('html', implode("\n", $category_html));
                 //$this->addElement('category', Translation :: get('PrerequisiteGroup') . ' ' . ($gcounter + 1));
-
+				
                 $number_of_items = intval($_SESSION['number_of_items'][$group_number]);
 
                 $counter = 0;
@@ -225,7 +225,7 @@ class PrerequisitesBuilderForm extends FormValidator
         $condition = new AndCondition($conditions);
 
         $rdm = RepositoryDataManager :: get_instance();
-
+		$siblings[-1]=''; //add an empty box
         $siblings_list = $rdm->retrieve_complex_content_object_items($condition);
         while ($sibbling = $siblings_list->next_result())
         {
@@ -243,7 +243,7 @@ class PrerequisitesBuilderForm extends FormValidator
 
             $siblings[$sibbling->get_id()] = $content_object->get_title();
         }
-
+		
         return $siblings;
     }
 

@@ -20,7 +20,7 @@ class PrerequisitesTranslator
     function can_execute_item($item)
     {
         $prerequisites = $item->get_prerequisites();
-        
+
         if ($prerequisites)
             $executable = $this->prerequisite_completed($prerequisites);
         else
@@ -34,8 +34,8 @@ class PrerequisitesTranslator
         $matches = $items = array();
         $pattern = '/[^\(\)\&\|~]*/';
         preg_match_all($pattern, $prerequisites, $matches);
-        
         rsort($matches[0], SORT_NUMERIC);
+        
         foreach ($matches[0] as $match)
         {
             if ($match)
@@ -47,29 +47,32 @@ class PrerequisitesTranslator
         
         foreach ($items as $item)
         {
-            if ($this->version == 'SCORM1.2')
-                $real_id = $this->retrieve_real_id_from_prerequisite_identifier($item);
-            else
-                $real_id = $item;
-            
-            $value = false;
-            
-            foreach ($this->lpi_tracker_data[$real_id]['trackers'] as $tracker_data)
-            {
-                if ($tracker_data->get_status() == 'completed' || $tracker_data->get_status() == 'passed')
-                {
-                    $value = true;
-                    break;
-                }
-            }
-            
+        	if($item == -1) //if an empty box was selected, the prerequisite is automatically completed
+        		$value = 1;
+        		else{       		
+		            if ($this->version == 'SCORM1.2')
+		                $real_id = $this->retrieve_real_id_from_prerequisite_identifier($item);
+		            else
+		                $real_id = $item;
+		
+		            $value = 0;
+		            
+		            foreach ($this->lpi_tracker_data[$real_id]['trackers'] as $tracker_data)
+		            {
+		                if ($tracker_data->get_status() == 'completed' || $tracker_data->get_status() == 'passed')
+		                {
+		                    $value = 1;
+		                    break;
+		                }
+            		}
+        		}
             $prerequisites = str_replace($item, $value, $prerequisites);
         }
-        
         $prerequisites = str_replace('&', '&&', $prerequisites);
         $prerequisites = str_replace('|', '||', $prerequisites);
         $prerequisites = str_replace('~', '!', $prerequisites);
         $prerequisites = '$value = ' . $prerequisites . ';';
+
         eval($prerequisites);
         
         return $value;

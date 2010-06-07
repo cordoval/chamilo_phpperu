@@ -10,6 +10,8 @@
  * @author Soliber
  */
 
+require_once PATH :: get_application_path() . '/lib/weblcms/weblcms_manager/weblcms_manager.class.php';
+
 class ComplexDisplayReportingTemplateViewerComponent extends ComplexDisplayComponent
 {
     private $params;
@@ -21,7 +23,7 @@ class ComplexDisplayReportingTemplateViewerComponent extends ComplexDisplayCompo
     function run()
     {
     	$rtv = new ReportingViewer($this);
-        $rtv->add_template_by_name($this->template_name, WeblcmsManager :: APPLICATION_NAME);
+        $rtv->add_template_by_name($this->template_name, $this->get_parent()->get_application_name());
         $rtv->set_breadcrumb_trail($this->get_parent()->get_breadcrumbtrail());
         $rtv->show_all_blocks();
         

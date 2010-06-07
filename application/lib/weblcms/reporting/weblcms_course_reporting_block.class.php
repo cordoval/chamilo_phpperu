@@ -40,8 +40,8 @@ abstract class WeblcmsCourseReportingBlock extends WeblcmsReportingBlock
             }
 
             $arr[Translation :: get('User')][] = $user->get_fullname();
-            $arr[Translation :: get('LastAccess')][] = $visittracker->get_enter_date();
-            $time = strtotime($visittracker->get_leave_date()) - strtotime($visittracker->get_enter_date());
+            $arr[Translation :: get('LastAccess')][] = DatetimeUtilities :: format_locale_date(null, $visittracker->get_enter_date());
+            $time = $visittracker->get_leave_date() - $visittracker->get_enter_date();
             $time = mktime(0, 0, $time, 0, 0, 0);
             $time = date('G:i:s', $time);
             $arr[Translation :: get('TotalTime')][] = $time;
