@@ -100,7 +100,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
         
         $user = $this->course_group_tool->get_user();
         
-        if (! $user->is_platform_admin())
+        if (!$this->course_group_tool->is_allowed(EDIT_RIGHT))
         {
         	if($course_group->is_self_registration_allowed())
 	        {
