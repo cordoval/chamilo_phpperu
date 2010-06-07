@@ -1275,13 +1275,13 @@ class Course extends DataClass
 	private function fill_rights($course_type)
 	{
 		if($course_type->get_rights()->get_direct_subscribe_fixed())
-			$this->get_rights()->set_direct_subscribe($course_type->get_rights()->get_direct_subscribe());
+			$this->get_rights()->set_direct_subscribe_available($course_type->get_rights()->get_direct_subscribe_available());
 		if($course_type->get_rights()->get_request_subscribe_fixed())
-			$this->get_rights()->set_request_subscribe($course_type->get_request_subscribe());
+			$this->get_rights()->set_request_subscribe_available($course_type->get_request_subscribe_available());
 		if($course_type->get_rights()->get_code_subscribe_fixed())
-			$this->get_rights()->set_code_subscribe($course_type->get_rights()->get_code_subscribe());
+			$this->get_rights()->set_code_subscribe_available($course_type->get_rights()->get_code_subscribe_available());
 		if($course_type->get_rights()->get_unsubscribe_fixed())
-			$this->get_rights()->set_unsubscribe($course_type->get_rights()->get_unsubscribe());
+			$this->get_rights()->set_unsubscribe_available($course_type->get_rights()->get_unsubscribe_available());
 	}
 }
 ?>
