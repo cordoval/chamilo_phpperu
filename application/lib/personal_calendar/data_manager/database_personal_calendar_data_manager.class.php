@@ -95,15 +95,15 @@ class DatabasePersonalCalendarDatamanager extends Database implements PersonalCa
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
             $info = new ContentObjectPublicationAttributes();
-            $info->set_id($record['id']);
-            $info->set_publisher_user_id($record['publisher']);
-            $info->set_publication_date($record['publication_date']);
-            $info->set_application('personal_calendar');
+            $info->set_id($record[PersonalCalendarPublication :: PROPERTY_ID]);
+            $info->set_publisher_user_id($record[PersonalCalendarPublication :: PROPERTY_PUBLISHER]);
+            $info->set_publication_date($record[PersonalCalendarPublication :: PROPERTY_PUBLISHED]);
+            $info->set_application(PersonalCalendarManager :: APPLICATION_NAME);
             //TODO: i8n location string
-            $info->set_location('');
+            $info->set_location(PersonalCalendarManager :: APPLICATION_NAME);
             //TODO: set correct URL
             $info->set_url('index_personal_calendar.php?pid=' . $record['id']);
-            $info->set_publication_object_id($record['calendar_event_id']);
+            $info->set_publication_object_id($record[PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID]);
             $publication_attr[] = $info;
         }
 
@@ -123,9 +123,9 @@ class DatabasePersonalCalendarDatamanager extends Database implements PersonalCa
         $info->set_id($record->get_id());
         $info->set_publisher_user_id($record->get_publisher());
         $info->set_publication_date($record->get_publication_date());
-        $info->set_application('personal_calendar');
+        $info->set_application(PersonalCalendarManager :: APPLICATION_NAME);
         //TODO: i8n location string
-        $info->set_location('');
+        $info->set_location(PersonalCalendarManager :: APPLICATION_NAME);
         //TODO: set correct URL
         $info->set_url('index_personal_calendar.php?pid=' . $record->get_id());
         $info->set_publication_object_id($record->get_content_object());
