@@ -39,7 +39,7 @@ class ReportingAssessment
         	$reporting_data->add_category($index);
             $user = UserDataManager :: get_instance()->retrieve_user($tracker->get_user_id());
             $reporting_data->add_data_category_row($index, Translation :: get('User'), $user->get_fullname());
-            $reporting_data->add_data_category_row($index, Translation :: get('Date'), $tracker->get_date());
+            $reporting_data->add_data_category_row($index, Translation :: get('Date'), DatetimeUtilities :: format_locale_date(null, $tracker->get_date()));
             $reporting_data->add_data_category_row($index, Translation :: get('TotalScore'), $tracker->get_total_score() . '%');
             $actions = array();
             if (!array_key_exists('export',$params))

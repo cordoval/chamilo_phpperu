@@ -176,7 +176,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
 
     function change_total_score($total_score)
     {
-        $condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->current_attempt_id);
+        $condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ID, $this->current_attempt_id);
         $dummy = new AssessmentAssessmentAttemptsTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         $tracker = $trackers[0];
