@@ -861,9 +861,8 @@ class WeblcmsManager extends WebApplication
 		
 		//$courses = $this->retrieve_courses($user->get_id());
 		$courses = $this->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user->get_id(), CourseUserRelation :: get_table_name()));
-		
 		while ($course = $courses->next_result()){
-			if($course->is_course_admin($user)) //u can only publish in the course of u are course admin
+			if($course->is_course_admin($user) || $content_object->get_type() == 'document') //u can only publish in the course of u are course admin/ also documents in dropboxes 
 				$c[] = $course;
 		}	
 		
@@ -881,7 +880,6 @@ class WeblcmsManager extends WebApplication
 			$obj = new $class($this);
 			$types[$tool] = $obj->get_allowed_types();
 		}
-
 		foreach ($types as $tool => $allowed_types)
 		{
 			if (in_array($type, $allowed_types))

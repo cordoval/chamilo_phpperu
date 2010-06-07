@@ -23,7 +23,7 @@ class WeblcmsMostActiveInactiveLastDetailReportingBlock extends WeblcmsCourseRep
             $trackerdata = $tracker->retrieve_tracker_items($condition);
             foreach ($trackerdata as $key => $value)
             {
-                $lastaccess = $value->get_leave_date();
+                $lastaccess = DatetimeUtilities :: format_locale_date(null,$value->get_leave_date());
             }
 
             $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
@@ -31,8 +31,8 @@ class WeblcmsMostActiveInactiveLastDetailReportingBlock extends WeblcmsCourseRep
 
             while ($publication = $publications->next_result())
             {
-                $lastpublication = $publication->get_modified_date();
-                $lastpublication = date('Y-m-d G:i:s', $lastpublication);
+                $lastpublication = DatetimeUtilities :: format_locale_date(null,$publication->get_modified_date());
+                //$lastpublication = date('Y-m-d G:i:s', $lastpublication);
             }
 
             $reporting_data->add_category($course->get_name());

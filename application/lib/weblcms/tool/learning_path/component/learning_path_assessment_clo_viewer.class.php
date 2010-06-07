@@ -8,13 +8,15 @@ require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_lpi_
 class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolComponent
 {
     private $lpi_attempt_id;
-
+	private $object;
+	
     function run()
     {
         $assessment = Request :: get('oid');
         $lpi_attempt_id = Request :: get('lpi_attempt_id');
         
         $object = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment);
+        $this->object=$object;
         
         $this->lpi_attempt_id = $lpi_attempt_id;
         
@@ -24,10 +26,15 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
         $this->set_parameter('cid', Request :: get('cid'));
         
         $display = ComplexDisplay :: factory($this, $object->get_type());
-        $display->set_root_lo($object);
+        //$display->set_root_lo($object);
         
         //Display :: small_header();
         $display->run();
+    }
+    
+    function get_root_content_object()
+    {
+    	return $this->object;
     }
     
 	function display_header($trail)

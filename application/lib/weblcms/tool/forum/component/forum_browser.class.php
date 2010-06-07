@@ -201,7 +201,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
             
             //$forum = $rdm->retrieve_content_object($publication->get_id(), 'forum');
             $forum = $publication->get_content_object();
-            $title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_content_object()->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
+            $title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
             
             if ($publication->is_hidden())
             {
@@ -222,7 +222,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
             if ($last_post)
             {
                 //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,Tool :: PARAM_PUBLICATION_ID => $this->pid, 'cid' => $last_post->get_id())) . '#post_' . $last_post->get_id();
-                $table->setCellContents($row, 4, $last_post->get_add_date() . '<br />' . UserDataManager :: get_instance()->retrieve_user($last_post->get_user_id())->get_fullname()); // .
+                $table->setCellContents($row, 4, DatetimeUtilities :: format_locale_date(null,$last_post->get_add_date()) . '<br />' . UserDataManager :: get_instance()->retrieve_user($last_post->get_user_id())->get_fullname()); // .
             //' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') .
             //'" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
             }
@@ -231,7 +231,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
                 $table->setCellContents($row, 4, '-');
             }
             
-            $table->setCellAttributes($row, 4, array('class' => 'row2'));
+            $table->setCellAttributes($row, 4, array('align' => 'center', 'class' => 'row2'));
             
             if ($this->allowed)
             {

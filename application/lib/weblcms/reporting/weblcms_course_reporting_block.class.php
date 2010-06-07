@@ -12,7 +12,7 @@ abstract class WeblcmsCourseReportingBlock extends WeblcmsReportingBlock
     {
         foreach ($trackerdata as $key => $value)
         {
-            $time += strtotime($value->get_leave_date()) - strtotime($value->get_enter_date());
+            $time += $value->get_leave_date() - $value->get_enter_date();
         }
 
         $time = mktime(0, 0, $time, 0, 0, 0);

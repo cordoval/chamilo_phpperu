@@ -17,25 +17,28 @@ class WeblcmsUserCourseStatisticsReportingBlock extends WeblcmsToolReportingBloc
         $condition = new AndCondition($conditions);
         $trackerdata = $tracker->retrieve_tracker_items($condition);
         $count = 0;
+        
+        $firstconnection = null;
         foreach ($trackerdata as $key => $value)
         {
             $count ++;
-            if (! $firstconnection)
+            if (is_null($firstconnection))
             {
                 $firstconnection = $value->get_enter_date();
                 $lastconnection = $value->get_leave_date();
             }
+            
             if (self :: greaterDate($value->get_leave_date(), $lastconnection))
                 $lastconnection = $value->get_leave_date();
             if (self :: greaterDate($firstconnection, $value->get_enter_date()))
                 $firstconnection = $value->get_enter_date();
         }
-
+        
         $reporting_data->set_categories(array(Translation :: get('FirstAccessToCourse'), Translation :: get('LastAccessToCourse'), Translation :: get('TimeOnCourse'), Translation :: get('TotalTimesAccessed')));
         $reporting_data->set_rows(array(Translation :: get('count')));
         
-        $reporting_data->add_data_category_row(Translation :: get('FirstAccessToCourse'), Translation :: get('count'), $firstconnection);
-        $reporting_data->add_data_category_row(Translation :: get('LastAccessToCourse'), Translation :: get('count'), $lastconnection);
+        $reporting_data->add_data_category_row(Translation :: get('FirstAccessToCourse'), Translation :: get('count'), DatetimeUtilities :: format_locale_date(null,$firstconnection));
+        $reporting_data->add_data_category_row(Translation :: get('LastAccessToCourse'), Translation :: get('count'), DatetimeUtilities :: format_locale_date(null,$lastconnection));
         $reporting_data->add_data_category_row(Translation :: get('TimeOnCourse'), Translation :: get('count'), $this->get_total_time($trackerdata));
         $reporting_data->add_data_category_row(Translation :: get('TotalTimesAccessed'), Translation :: get('count'), $count);
 
@@ -44,9 +47,7 @@ class WeblcmsUserCourseStatisticsReportingBlock extends WeblcmsToolReportingBloc
 	
 	public static function greaterDate($start_date, $end_date)
     {
-        $start = strtotime($start_date);
-        $end = strtotime($end_date);
-        if ($start - $end > 0)
+        if ($start_date - $end_date > 0)
             return 1;
         else
             return 0;

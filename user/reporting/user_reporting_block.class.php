@@ -16,13 +16,7 @@ abstract class UserReportingBlock extends ReportingBlock
 	public static function getDateArray($data, $format)
     {
     	foreach ($data as $key => $value)
-        {
-            $bla = explode('-', $value->get_date());
-            $bla2 = explode(' ', $bla[2]);
-            $hoursarray = explode(':', $bla2[1]);
-            $bus = mktime($hoursarray[0], $hoursarray[1], $hoursarray[2], $bla[1], $bla2[0], $bla[0]);
-            $arr2[$bus] ++;    
-        }
+            $arr2[$value->get_date()] ++;
         
         //sort the array
         ksort($arr2);

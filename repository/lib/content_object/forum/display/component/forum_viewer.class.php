@@ -376,7 +376,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             if ($last_post)
             {
                 //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '#post_' . $last_post->get_id();
-                $table->setCellContents($row, 4, $last_post->get_add_date() . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname()); // .
+                $table->setCellContents($row, 4, DatetimeUtilities :: format_locale_date(null,$last_post->get_add_date()) . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname()); // .
             //' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') .
             //'" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
             }
@@ -384,7 +384,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             {
                 $table->setCellContents($row, 4, '-');
             }
-            $table->setCellAttributes($row, 4, array('class' => 'row2'));
+            $table->setCellAttributes($row, 4, array('align' => 'center', 'class' => 'row2'));
             $table->setCellContents($row, 5, $this->get_forum_actions($forum, true, true));
             $table->setCellAttributes($row, 5, array('class' => 'row2'));
             $row ++;
