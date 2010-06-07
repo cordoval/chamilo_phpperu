@@ -463,6 +463,7 @@ class CourseForm extends CommonForm
         $constant_available = null;
         $constant_type = null;
         $type = null;
+	    $fixed_groups = array();
         for($i=0; $i<3; $i++)
         {
         	switch($i)
@@ -504,6 +505,7 @@ class CourseForm extends CommonForm
 	    			$groups[] = $group->get_group_id();
 	    		if(count($groups)>0)
 	    		{
+	    			$fixed_groups = array_merge($fixed_groups, $groups);
 	    			$this->addElement('static', 'static_'.strtolower($type).'_subscribe_for', Translation :: get($type.'SubscribeFor'));
 	    			$this->addElement('hidden', $target_option, 1);
 	        		$tree = new RightsTreeRenderer($groups);
@@ -522,6 +524,11 @@ class CourseForm extends CommonForm
 	        	$this->add_receivers($target, Translation :: get($type.'SubscribeFor'), $attributes, 'Everybody');
 	        $this->addElement('html', '</div>');
         }
+       $this->addElement('html', "<script type=\"text/javascript\">
+						/* <![CDATA[ */
+							var fixed_groups = '".serialize($fixed_groups)."';
+						/* ]]> */
+						</script>\n");
         $this->addElement('category');
         
         $this->addElement('category', Translation :: get('Unsubscribe'));
