@@ -375,7 +375,12 @@ abstract class Tool
     {
         Display :: not_allowed();
     }
-
+    
+	function get_application_name()
+	{
+        return $this->parent->get_application_name();
+	}
+	
     /**
      * @see WebApplication :: get_user()
      */

@@ -12,7 +12,7 @@ class WikiMostVisitedPageReportingBlock extends WikiReportingBlock
 
         $tdm = TrackingDataManager :: get_instance();
 
-        $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($this->get_pid());
+        $publication = WikiDataManager :: get_instance()->retrieve_wiki_publication($this->get_publication_id());
         $wiki = $publication->get_content_object();
         $complex_content_object_items = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $wiki->get_id(), ComplexContentObjectItem :: get_table_name()))->as_array();
 
@@ -28,9 +28,9 @@ class WikiMostVisitedPageReportingBlock extends WikiReportingBlock
             foreach ($complex_content_object_items as $complex_content_object_item)
             {
                 $conditions = array();
-                $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*publication=' . $this->get_pid() . '*');
+                $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*publication=' . $this->get_publication_id() . '*');
                 $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*display_action=view_item*');
-                $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*application=weblcms*');
+                $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*application=wiki*');
                 $conditions[] = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*selected_cloi=' . $complex_content_object_item->get_id() . '*');
                 $condition = new AndCondition($conditions);
 
@@ -44,8 +44,8 @@ class WikiMostVisitedPageReportingBlock extends WikiReportingBlock
             }
         }
 
-        $url = 'run.php?go=courseviewer&course=' . $this->get_course_id() . '&tool=' . $this->get_tool() . '&application=weblcms&' . Tool :: PARAM_PUBLICATION_ID . '=' . $this->get_pid() . '&tool_action=view&display_action=view_item&selected_cloi=' . $most_visited_page->get_id();
-
+        $url = 'run.php?go=view&application=wiki&' . WikiManager :: PARAM_WIKI_PUBLICATION . '=' . $this->get_publication_id() . '&display_action=view_item&selected_cloi=' . $most_visited_page->get_id();
+        
         $reporting_data->add_category(0);
         $reporting_data->add_data_category_row(0, Translation :: get('MostVisitedPage'), '<a href="' . $url . '">' . $most_visited_page->get_ref_object()->get_title() . '</a>');
         $reporting_data->add_data_category_row(0, Translation :: get('NumberOfVisits'), $most_visits);
