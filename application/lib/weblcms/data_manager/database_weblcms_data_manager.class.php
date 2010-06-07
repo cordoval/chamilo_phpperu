@@ -143,7 +143,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             //TODO: i8n location string
             $info->set_location($record[ContentObjectPublication :: PROPERTY_COURSE_ID] . ' &gt; ' . $record[ContentObjectPublication :: PROPERTY_TOOL]);
             //TODO: set correct URL
-            $info->set_url('run.php?application=weblcms&amp;go=courseviewer&course=' . $record[ContentObjectPublication :: PROPERTY_COURSE_ID] . '&amp;tool=' . $record[ContentObjectPublication :: PROPERTY_TOOL] . '&amp;tool_action=view&amp;pid=' . $info->get_id());
+            $info->set_url('run.php?application=weblcms&amp;go=courseviewer&course=' . $record[ContentObjectPublication :: PROPERTY_COURSE_ID] . '&amp;tool=' . $record[ContentObjectPublication :: PROPERTY_TOOL] . '&amp;tool_action=view&amp;'.Tool :: PARAM_PUBLICATION_ID . '=' . $info->get_id());
             $info->set_publication_object_id($record[ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID]);
 
             $publication_attr[] = $info;
