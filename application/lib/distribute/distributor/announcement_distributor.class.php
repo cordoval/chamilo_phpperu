@@ -57,7 +57,7 @@ class AnnouncementDistributor
         }
 
         $parameters = $this->parent->get_parameters();
-        $parameters['object'] = $ids;
+        $parameters[RepoViewer :: PARAM_ID] = $ids;
 
         $form = new AnnouncementDistributionForm(AnnouncementDistributionForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url($parameters));
         if ($form->validate())
