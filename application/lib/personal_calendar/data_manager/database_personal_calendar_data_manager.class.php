@@ -100,9 +100,9 @@ class DatabasePersonalCalendarDatamanager extends Database implements PersonalCa
             $info->set_publication_date($record[PersonalCalendarPublication :: PROPERTY_PUBLISHED]);
             $info->set_application(PersonalCalendarManager :: APPLICATION_NAME);
             //TODO: i8n location string
-            $info->set_location(PersonalCalendarManager :: APPLICATION_NAME);
+            $info->set_location(Utilities :: underscores_to_camelcase_with_spaces(PersonalCalendarManager :: APPLICATION_NAME));
             //TODO: set correct URL
-            $info->set_url('index_personal_calendar.php?pid=' . $record['id']);
+            $info->set_url('run.php?application=personal_calendar&amp;go=view&personal_calendar=' . $info->get_id());
             $info->set_publication_object_id($record[PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID]);
             $publication_attr[] = $info;
         }
@@ -125,9 +125,9 @@ class DatabasePersonalCalendarDatamanager extends Database implements PersonalCa
         $info->set_publication_date($record->get_publication_date());
         $info->set_application(PersonalCalendarManager :: APPLICATION_NAME);
         //TODO: i8n location string
-        $info->set_location(PersonalCalendarManager :: APPLICATION_NAME);
+        $info->set_location(Utilities :: underscores_to_camelcase_with_spaces(PersonalCalendarManager :: APPLICATION_NAME));
         //TODO: set correct URL
-        $info->set_url('index_personal_calendar.php?pid=' . $record->get_id());
+        $info->set_url('run.php?application=personal_calendar&amp;go=view&personal_calendar=' . $info->get_id());
         $info->set_publication_object_id($record->get_content_object());
         return $info;
     }
