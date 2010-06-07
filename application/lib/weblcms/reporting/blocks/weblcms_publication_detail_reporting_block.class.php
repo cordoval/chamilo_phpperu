@@ -54,7 +54,7 @@ class WeblcmsPublicationDetailReportingBlock extends WeblcmsToolReportingBlock
 
         $reporting_data->add_data_category_row(Translation :: get('Title'), Translation :: get('count'), '<a href="' . $url . '">' . $title . '</a>');
         $reporting_data->add_data_category_row(Translation :: get('Description'), Translation :: get('count'), Utilities :: truncate_string($descr, 50));
-        $reporting_data->add_data_category_row(Translation :: get('LastAccess'), Translation :: get('count'), $lastaccess);
+        $reporting_data->add_data_category_row(Translation :: get('LastAccess'), Translation :: get('count'), DatetimeUtilities :: format_locale_date(null, $lastaccess));
         $reporting_data->add_data_category_row(Translation :: get('TotalTimesAccessed'), Translation :: get('count'), count($trackerdata));
         
         return $reporting_data;
