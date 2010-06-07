@@ -54,7 +54,10 @@ class RepositoryManagerDoublesViewerComponent extends RepositoryManager
     
     function get_full_condition()
     {
-    	return new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+    	$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_RECYCLED));
+    	return new AndCondition($conditions);
     }
     
     function get_detail_table_html()

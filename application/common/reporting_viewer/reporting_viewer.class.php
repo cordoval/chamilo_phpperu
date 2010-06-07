@@ -49,6 +49,7 @@ class ReportingViewer extends SubManager
 		$condition [] = new EqualityCondition(ReportingTemplateRegistration::PROPERTY_APPLICATION, $application);
 		$condition [] = new EqualityCondition(ReportingTemplateRegistration::PROPERTY_TEMPLATE, $template);
 		$conditions = new AndCondition($condition);
+		dump($condition);
 		$registration = ReportingDataManager :: get_instance()->retrieve_reporting_template_registration_by_condition($conditions);
 		$this->set_template($registration);
 	}
