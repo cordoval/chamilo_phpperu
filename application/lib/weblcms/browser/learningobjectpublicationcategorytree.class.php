@@ -38,7 +38,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
         $this->data_manager = WeblcmsDataManager :: get_instance();
         $menu = $this->get_menu_items();
         parent :: __construct($menu);
-        $this->forceCurrentUrl($this->get_category_url($this->get_current_category_id()));
+        $this->forceCurrentUrl($this->get_category_url($tree_id));
     }
 
 	function as_html()
