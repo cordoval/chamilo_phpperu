@@ -67,7 +67,6 @@ class UserImportForm extends FormValidator
         $validusers = array();
         
         $failures = 0;
-
         foreach ($csvusers as $csvuser)
         {
         	$validuser = $this->validate_data($csvuser);
@@ -199,7 +198,7 @@ class UserImportForm extends FormValidator
 	            }
         	}
         }
-        
+      
         if ($failures > 0)
         { 
             return false;
@@ -229,7 +228,6 @@ class UserImportForm extends FormValidator
         
         if ($csvuser['user_name'])
             $csvuser[User :: PROPERTY_USERNAME] = $csvuser['user_name'];
-            
         //1. Action valid ?
     	if($csvuser['action'])
     	{
@@ -244,14 +242,12 @@ class UserImportForm extends FormValidator
     		$csvuser['action'] = 'A';
     		$action = 'A';
     	}
-
         //1. Check if username exists
         if ( ($action == 'A' && !$udm->is_username_available($csvuser[User :: PROPERTY_USERNAME]))  || 
         	 ($action != 'A' && $udm->is_username_available($csvuser[User :: PROPERTY_USERNAME])  ))
 		{
             $failures ++;
         }
-        
         //2. Check status
         if ($csvuser[User :: PROPERTY_STATUS])
         {
@@ -289,7 +285,6 @@ class UserImportForm extends FormValidator
         {
             $failures ++;
         }
-        
         if ($failures > 0)
         {
             return false;
@@ -313,7 +308,7 @@ class UserImportForm extends FormValidator
             xml_set_element_handler($parser, array(get_class(), 'element_start'), array(get_class(), 'element_end'));
             xml_set_character_data_handler($parser, array(get_class(), 'character_data'));
             xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, false);
-            xml_parse($parser, file_get_contents($file_name), $this->users);
+            xml_parse($parser, utf8_decode(file_get_contents($file_name)));
             xml_parser_free($parser);
         }
         return $this->users;
@@ -336,6 +331,7 @@ class UserImportForm extends FormValidator
      */
     function element_end($parser, $data)
     {
+    	
         switch ($data)
         {
             case 'Contact' :
@@ -349,18 +345,27 @@ class UserImportForm extends FormValidator
                 }
                 $this->users[] = $this->user;
                 break;
+            case 'item' :
+            	$this->users[] = $this->user;
+            	break;
             default :
-                $this->user[$data] = $this->current_value;
+                $this->user[$data] = trim($this->current_value);
                 break;
         }
+        $this->current_value=''; 
+        //the xml_parse function splits the data in an element on special characters (for each split a different call to character_data function). 
+        //So in the character_data function the data needs to be concatinated. 
+        //If an element_end is reached, the current_value needs to be reset! (otherwise the data keeps concatinating)
+        
+        
     }
 
     /**
      * XML-parser: handle character data
      */
     function character_data($parser, $data)
-    {
-        $this->current_value = $data;
+    {        
+        $this->current_value .= $data;
     }
 
     function send_email($user)

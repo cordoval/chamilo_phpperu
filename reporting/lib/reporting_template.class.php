@@ -245,14 +245,14 @@ abstract class ReportingTemplate
 
     public abstract function display_context();
 
-    function get_action_bar()
+function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         $parameters = $this->get_parameters();
-        $parameters [ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
+        $parameters[ReportingViewer::PARAM_REPORTING_VIEWER_ACTION] = ReportingViewer::ACTION_EXPORT_TEMPLATE;
         $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $this->get_id();
         $parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'pdf';
-       
+      	
         $display_mode = $this->get_displaymode();
         if (isset($display_mode))
         {
@@ -261,6 +261,16 @@ abstract class ReportingTemplate
         $url = Redirect :: get_url($parameters, array(), false);
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), Theme :: get_common_image_path() . 'export_pdf.png', $url));
+        
+        $parameters[ReportingManager :: PARAM_EXPORT_TYPE] = 'excel';
+      	
+        $display_mode = $this->get_displaymode();
+        if (isset($display_mode))
+        {
+            $parameters[ReportingFormatterForm :: FORMATTER_TYPE] = $this->get_displaymode();
+        }
+        $url = Redirect :: get_url($parameters, array(), false);
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToExcel'), Theme :: get_common_image_path() . 'export_excel.png', $url));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToXml'), null, $url));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToCsv'), null, $url));
         
