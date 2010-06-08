@@ -754,4 +754,5 @@ $lang['common']['EvaluationNotUpdated'] = 'Evaluation not updated';
 $lang['common']['UpdateEvaluation'] = 'Update evaluation';
 $lang['common']['DisplayOrder'] = 'Display Order';
 $lang['common']['PublisherId'] = 'Publisher';
+$lang['common']['ExportToPdf'] = 'Export to pdf';
 ?>
