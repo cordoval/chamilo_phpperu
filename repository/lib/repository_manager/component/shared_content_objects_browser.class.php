@@ -75,6 +75,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         										break;
         	case self :: VIEW_OWN_OBJECTS:		$condition = $this->get_own_condition();
         										break;
+        	default: $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, -1, ContentObject :: get_table_name());
         }
         $parameters = $this->get_parameters(true);
         $types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
