@@ -1,0 +1,3 @@
+Changelog of Chamilo 2.0 
+
+See the http://support.chamilo.org/projects/chamilo-20/changelog website to get a glimp of all bugs that where fixed and all features added to this package! 

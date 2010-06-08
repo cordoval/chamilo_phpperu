@@ -10,6 +10,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 {
 	private $trail;
 	private $root_content_object;
+	private $publication_id;
 	
     function run()
     {
@@ -19,30 +20,17 @@ class ForumToolViewerComponent extends ForumToolComponent
             return;
         }
         
-        $cid = Request :: get(Tool :: PARAM_COMPLEX_ID);
-        $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
-        Request :: set_get('pid', $pid);
+        $this->publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+        $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $this->publication_id);
         
-        $this->set_parameter(Tool :: PARAM_ACTION, ForumTool :: ACTION_VIEW_FORUM);
         $this->trail = $trail = new BreadcrumbTrail();
-       // $this->display_header(new BreadcrumbTrail());
-        
-        $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
         
    		$object = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
    		$this->root_content_object = $object->get_content_object();
         
         $cd = ComplexDisplay :: factory($this, Forum :: get_type_name());
         $cd->run();
-        
-        //$this->display_footer();
-        
-        switch ($cd->get_action())
-        {
-            case ForumDisplay :: ACTION_VIEW_TOPIC :
-                Events :: trigger_event('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $pid, 'forum_topic_id' => $cid));
-                break;
-        }
+
     }
     
     function get_root_content_object()
@@ -59,17 +47,22 @@ class ForumToolViewerComponent extends ForumToolComponent
     	
     	return parent :: display_header($this->trail);
     }
-
-    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+    
+	function topic_viewed($complex_topic_id)
     {
-        $parameters[Tool :: PARAM_ACTION] = ForumTool :: ACTION_VIEW_FORUM;
-        return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+    	Events :: trigger_event('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $this->publication_id, 'forum_topic_id' => $complex_topic_id));
     }
-
-    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
+    
+	function count_topic_views($complex_topic_id)
     {
-        $parameters[Tool :: PARAM_ACTION] = ForumTool :: ACTION_VIEW_FORUM;
-        $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
+    	require_once dirname(__FILE__) . '/../../../trackers/weblcms_forum_topic_views_tracker.class.php';
+    	 
+    	$conditions[] = new EqualityCondition(WeblcmsForumTopicViewsTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
+        $conditions[] = new EqualityCondition(WeblcmsForumTopicViewsTracker :: PROPERTY_FORUM_TOPIC_ID, $complex_topic_id);
+        $condition = new AndCondition($conditions);
+        
+        $dummy = new WeblcmsForumTopicViewsTracker();
+        return $dummy->count_tracker_items($condition);
     }
 }
 ?>

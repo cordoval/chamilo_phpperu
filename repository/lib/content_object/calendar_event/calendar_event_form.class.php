@@ -99,8 +99,8 @@ class CalendarEventForm extends ContentObjectForm
 					/* ]]> */
 					</script>\n");
         $this->addElement('category');
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/dates.js'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/doubletimepicker.js'));
+        /*$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/dates.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/doubletimepicker.js'));*/
     }
 
     // Inherited

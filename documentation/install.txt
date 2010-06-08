@@ -1,0 +1,159 @@
+
+Chamilo 2.0 Release INSTALLATION
+--------------------------------------
+
+Thank you for downloading Chamilo! This text will guide you through the
+basics of installing Chamilo 2.0. Please read this fully before proceeding
+with the installation.
+
+This is only a short installation guide. We are writing a manual with more
+info on installation, but this was not ready at the time of writing. When
+ready, this manual will be accessible through the Chamilo website
+
+
+1. Requirements
+2. Installing a new version of Chamilo
+3. Troubleshooting & more Information
+
+
+1. Requirements
+---------------
+
+Chamilo is a web application which requires some other software to function:
+a web server, PHP, and the MySQL database server. These software packages
+have to be installed on the computer where you will install Chamilo.
+
+You can install all these software packages separately, which often gives
+the best results. However, beginning users who want to test Chamilo can use
+a combination package that installs all these software packages in one
+simple install. If you want to use a combination package, we recommend
+WAMP or XAMP.
+
+WAMP5 website: http://www.wampserver.com
+XAMP: http://www.apachefriends.org
+
+1.1. A webserver
+
+The Apache web server is recommended, and Chamilo is configured to use some
+Apache security enhancements if possible. However, other web servers will
+work too. For best security results, you need to have the Apache module
+mod_rewrite activated. 
+
+Download Apache web server:
+http://httpd.apache.org/download.cgi
+
+1.2. PHP
+
+You need PHP version 5.2 minimum and configured with the
+following modules : 
+
+* gd
+* pcre
+* session
+* standard
+* mysql
+* zlib
+* xsl 
+
+Their presence is also checked by the Chamilo install script.
+Download PHP: http://www.php.net/downloads.php
+
+Some users could meet problems if their PHP setting doesn't fit these ones:
+
+* output_buffering = Off
+
+BSD users:
+these php libraries have to be included during php installation:
+* php-mysql The mysql shared extension for php
+* php-pcre The pcre shared extension for php
+* php-session The session shared extension for php
+* php-zlib The zlib shared extension for php
+* (optional) php-ldap if you want to be able to use LDAP authentication
+
+
+1.3. The MySQL database server
+
+And a login/password allowing to administrate and create at least one
+database. Download MySQL server: http://dev.mysql.com/downloads/
+
+1.4. Permissions
+Furthermore, you need web Write access to web directory where Chamilo has
+been moved or unzipped to. On a Windows machine locally, this is not a
+problem. Remotely, you need to be allowed to CHMOD through FTP, telnet or
+any means.
+
+
+2. Installing a new version of Chamilo
+--------------------------------------
+
+2.1. Download the Chamilo 2.0 install package (.zip for Windows users
+or .tar.gz for all others) from the Chamilo download page:
+http://www.chamilo.org/download.php
+
+2.2. Unzip or untar the downloaded install package. Most current operating
+systems can do this with a built-in graphical application, if this doesn't
+work you can open a commandline, go to the download directory and type
+tar -zxvf chamilo-2.0.tar.gz
+
+2.3. Move by any means (FTP, SCP, local file copy) the contents of the
+Chamilo install package to your website on your webserver (whether webroot
+or subdirectory). Your webserver can also be your local computer. Be sure
+to copy all the folders as well as all the .php files.
+
+For Windows users: If you use e.g easyphp locally (http://www.easyphp.org),
+just drag and drop the contents of the Chamilo install package into
+C:\Program Files\easyphp\www\
+
+
+On Linux, Mac OS X and BSD operating systems you can use the CHMOD 666
+command for this. In Windows, you may need to check the properties of
+the folders.
+
+2.4. The following directories need to be readable, writeable and executable
+for everyone:
+
+chamilo/files/
+chamilo/common/configuration/
+
+On Linux, Mac OS X and BSD operating systems you can use the CHMOD 777
+command for this. In Windows, you may need to check the properties of
+the folders.
+
+2.6. Open a web browser and go to
+http://www.yourserver.org/yoursite/chamilo/index.php
+
+For Windows users locally, with e.g easyphp or another combination package,
+open http://localhost/chamilo/index.php
+
+2.7. Click on the install button and follow instructions. Windows: with
+combination packages like easyphp, out of the box, login and password for
+MySQL should probably remain empty.
+
+2.8. Security after installation
+
+Protect your configuration file make sure no one can overwrite it. You can find the config file in 
+(chamilo folder)/common/configuration/configuration.php.
+
+ Make it read-only (windows/xwindows: right-click the file to edit the properties.
+linux/bsd/macosx: use the chmod 444 command).
+
+Protect your installation folder
+if the (chamilo folder)/install folder is still accessible,
+someone could install over your existing version (you could lose your data
+that way). Move the folder somewhere out of the web directories so it is
+not accessible, change its name, or edit its properties so no one can read
+or execute it.
+
+
+3. Troubleshooting & more Information
+-------------------------------------
+
+If you have any problems, go to the Chamilo website and ask a question on our support
+forum. Please read the previous messages first to see if there is already
+an answer to your question. 
+
+Chamilo website: http://www.chamilo.org
+Support forum: http://www.chamilo.org/forum
+Issue & Bug Tracker: http://support.chamilo.org
+
+

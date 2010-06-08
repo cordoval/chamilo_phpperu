@@ -66,7 +66,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
         
         if ($this->assessment->get_maximum_attempts() != 0 && $count >= $this->assessment->get_maximum_attempts())
         {
-            Display :: not_allowed();
+            $this->display_header();
+            $this->display_error_message(Translation :: get('YouHaveReachedYourMaximumAttempts'));
+            $this->display_footer();
             return;
         }
         

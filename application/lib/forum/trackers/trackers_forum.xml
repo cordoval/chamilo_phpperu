@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="forum">
+	<event name="view_forum_topic">
+		<tracker name="forum_topic_view" />
+	</event>
+</application>

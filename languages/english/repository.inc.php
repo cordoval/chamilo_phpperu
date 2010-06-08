@@ -1,4 +1,5 @@
 <?php
+$lang['repository']['URLOfIcal'] = 'iCal URL location';
 $lang['repository']['AssessmentMatchNumericQuestionTypeName'] = 'Assessment Match Numeric Question';
 $lang['repository']['AssessmentMatchNumericQuestionCreationFormTitle'] = 'Create Assessment Match Numeric Question';
 $lang['repository']['AssessmentMatchNumericQuestionFormTitle'] = 'Question';
@@ -832,4 +833,6 @@ $lang['repository']['AddPages'] = 'Add pages';
 $lang['repository']['SurveyContextTemplateDetails'] = 'Survey context template details';
 $lang['repository']['QtiImportWarning'] = "Due to differences between QTI and Chamilo, imported questions may not exactly reflect file's content.</p><p>Please check imported questions.</p>" ;
 $lang['repository']['ExportTitle'] = 'Export title';
+$lang['repository']['ShowOwnSharedObjects'] = 'Show own';
+$lang['repository']['ShowOthersSharedObjects'] = 'Show others';
 ?>
