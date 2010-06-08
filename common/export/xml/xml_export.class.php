@@ -15,13 +15,13 @@ class XmlExport extends Export
     
     public function render_data()
     {
-    	$all = '<?xml version="1.0" encoding="ISO-8859-1"?>' . "\n";
+    	$all = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $all .= str_repeat("\t", $this->level) . '<rootItem>' . "\n";
         $this->level ++;
         $all .= $this->write_array($this->get_data());
         $this->level --;
         $all .= str_repeat("\t", $this->level) . '</rootItem>' . "\n";
-        return $all;
+        return utf8_encode($all);
     }
 
     public function write_array($row)

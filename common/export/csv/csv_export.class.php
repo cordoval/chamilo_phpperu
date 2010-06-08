@@ -20,7 +20,7 @@ class CsvExport extends Export
         {
             $all .= implode(';', $row) . "\n";
         }
-        return $all;
+        return utf8_encode($all);
 	}
 	
 	 function get_type()
