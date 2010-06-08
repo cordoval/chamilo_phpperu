@@ -71,65 +71,38 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
     {
     	$toolbar = new Toolbar();
     	
-        //$toolbar_data = array();
-
-        //$toolbar_data[] = array('href' => $this->browser->get_user_editing_url($user), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', 
+       $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', 
 					$this->browser->get_user_editing_url($user), ToolbarItem :: DISPLAY_ICON));
         $toolbar->add_item(new ToolbarItem(Translation :: get('VersionQuota'),
         	Theme :: get_common_image_path() . 'action_statistics.png',
         	$this->browser->get_user_quota_url($user),
         	ToolbarItem :: DISPLAY_ICON));
 
-        //$toolbar_data[] = array('href' => $this->browser->get_user_quota_url($user), 'label' => Translation :: get('VersionQuota'), 'img' => Theme :: get_common_image_path() . 'action_statistics.png');
-
+       
         $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRightsTemplates'),
         	Theme :: get_common_image_path() . 'action_rights.png',
         	$this->browser->get_manage_user_rights_url($user),
         	ToolbarItem :: DISPLAY_ICON));	
-        //$toolbar_data[] = array('href' => $this->browser->get_manage_user_rights_url($user), 'label' => Translation :: get('ManageRightsTemplates'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
-
+       
         $params = array();
-        //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
-        //$params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
         $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
-        //$url = ReportingManager :: get_reporting_template_registration_url_content($this->browser,'UserReportingTemplate',$params);
-        //$url =
-
-		//$unsubscribe_url = $this->browser->get_url($parameters);
-
-		/*$toolbar_data[] = array(
-			'href' => $this->browser->get_reporting_url('UserReportingTemplate',$params),
-			'label' => Translation :: get('Report'),
-			'img' => Theme :: get_common_image_path().'action_reporting.png'
-		);*/
-        
-		$toolbar->add_item(new ToolBarItem(Translation :: get('Detail'),
+       		$toolbar->add_item(new ToolBarItem(Translation :: get('Detail'),
         	Theme :: get_common_image_path().'action_details.png',
         	$this->browser->get_user_detail_url($user->get_id()),
         	ToolbarItem :: DISPLAY_ICON));
         	
-		//$toolbar_data[] = array(
-			//	'href' => $this->browser->get_user_detail_url($user->get_id()),
-				//'label' => Translation :: get('Detail'),
-			//	'img' => Theme :: get_common_image_path().'action_details.png'
-			//);
-
-        //$unsubscribe_url = $this->browser->get_url($parameters);
-        $toolbar->add_item(new ToolBarItem(Translation :: get('Report'),
+		        $toolbar->add_item(new ToolBarItem(Translation :: get('Report'),
         	Theme :: get_common_image_path() . 'action_reporting.png',
         	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_REPORTING, UserManager::PARAM_USER_USER_ID => $user->get_id())),
         	ToolbarItem :: DISPLAY_ICON));	
         	
-        //$toolbar_data[] = array('href' => $this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_REPORTING, UserManager::PARAM_USER_USER_ID => $user->get_id())), 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
         $toolbar->add_item(new ToolBarItem(Translation :: get('ViewQuota'),
         	Theme :: get_common_image_path() . 'action_browser.png',
         	$this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, UserManager::PARAM_USER_USER_ID => $user->get_id())),
         	ToolbarItem :: DISPLAY_ICON));	
 
                	
-        //$toolbar_data[] = array('href' => $this->browser->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_QUOTA, UserManager::PARAM_USER_USER_ID => $user->get_id())), 'label' => Translation :: get('ViewQuota'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-
+        
     	if(PlatformSetting :: get('active_online_email_editor'))
         {
         	$toolbar->add_item(new ToolBarItem(Translation :: get('SendEmail'),
@@ -137,7 +110,6 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         		$this->browser->get_email_user_url($user),
         		ToolbarItem :: DISPLAY_ICON));	
         	
-        	//$toolbar_data[] = array('href' => $this->browser->get_email_user_url($user), 'label' => Translation :: get('SendEmail'), 'img' => Theme :: get_common_image_path() . 'action_email.png');
         }
 
         if ($user->get_id() != Session :: get_user_id())
@@ -151,18 +123,14 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         			true
         			));
         		
-                //$toolbar_data[] = array('href' => $this->browser->get_user_delete_url($user), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-        	}
+                }
         	
 			$toolbar->add_item(new ToolBarItem(Translation :: get('LoginAsUser'),
         		Theme :: get_common_image_path() . 'action_login.png',
         		$this->browser->get_change_user_url($user),
         		ToolbarItem :: DISPLAY_ICON));
-            //$toolbar_data[] = array('href' => $this->browser->get_change_user_url($user), 'label' => Translation :: get('LoginAsUser'), 'img' => Theme :: get_common_image_path() . 'action_login.png');
-        }
-		//dump($toolbar);
+            }
 		return $toolbar->as_html();
-        //return Utilities :: build_toolbar($toolbar_data);
     }
 }
 ?>

@@ -52,11 +52,12 @@ class RemotePackageBrowserTableCellRenderer extends DefaultRemotePackageTableCel
      */
     private function get_modification_links($remote_package)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
-        $toolbar_data[] = array('href' => $this->browser->get_remote_package_installation_url($remote_package), 'label' => Translation :: get('Install'), 'img' => Theme :: get_image_path() . 'action_install.png');
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Install'), Theme :: get_common_image_path().'action_install.png', 
+					$this->browser->get_remote_package_installation_url($remote_package), ToolbarItem :: DISPLAY_ICON));	
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>
