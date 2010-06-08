@@ -428,15 +428,18 @@ class CpoImport extends ContentObjectImport
             if (is_object($attachments))
             {
 	            $children = $attachments->childNodes;
-	            for($i = 0; $i < $children->length; $i ++)
+	            if($children)
 	            {
-	                $attachment = $children->item($i);
-	                if ($attachment->nodeName == "#text")
-	                    continue;
-	                
-	                $idref = $attachment->getAttribute('idref');
-	                $this->lo_attachments[$id][] = $idref;
-	            
+		            for($i = 0; $i < $children->length; $i ++)
+		            {
+		                $attachment = $children->item($i);
+		                if ($attachment->nodeName == "#text")
+		                    continue;
+		                
+		                $idref = $attachment->getAttribute('idref');
+		                $this->lo_attachments[$id][] = $idref;
+		            
+		            }
 	            }
             }
              
@@ -446,19 +449,19 @@ class CpoImport extends ContentObjectImport
             {
             	$children = $includes->childNodes;
                         
-	            //if($children->length > 0)
-	            //$this->fix_links($lo);
-	            
-	            for($i = 0; $i < $children->length; $i ++)
+	            if($children)
 	            {
-	                $include = $children->item($i);
-	                if ($include->nodeName == "#text")
-	                    continue;
-	                
-	                $idref = $include->getAttribute('idref');
-	                $this->lo_includes[$id][] = $idref;
-	            
-	            } 
+		            for($i = 0; $i < $children->length; $i ++)
+		            {
+		                $include = $children->item($i);
+		                if ($include->nodeName == "#text")
+		                    continue;
+		                
+		                $idref = $include->getAttribute('idref');
+		                $this->lo_includes[$id][] = $idref;
+		            
+		            } 
+	            }
             }
         }
     }
@@ -512,7 +515,12 @@ class CpoImport extends ContentObjectImport
 
     function create_complex_wrappers()
     {
-        foreach ($this->lo_subitems as $parent_id => $children)
+        if(!$this->lo_subitems)
+        {
+        	return;
+        }
+        
+    	foreach ($this->lo_subitems as $parent_id => $children)
         {
             $real_parent_id = $this->content_object_reference[$parent_id];
             
@@ -549,7 +557,12 @@ class CpoImport extends ContentObjectImport
 
     function create_attachments()
     {
-        foreach ($this->lo_attachments as $lo_id => $children)
+    	if(!$this->lo_attachments)
+        {
+        	return;
+        }
+        
+    	foreach ($this->lo_attachments as $lo_id => $children)
         {
             $real_lo_id = $this->content_object_reference[$lo_id];
             
@@ -568,7 +581,12 @@ class CpoImport extends ContentObjectImport
 
     function create_includes()
     {
-        foreach ($this->lo_includes as $lo_id => $children)
+        if(!$this->lo_includes)
+        {
+        	return;
+        }
+        
+    	foreach ($this->lo_includes as $lo_id => $children)
         {
             $real_lo_id = $this->content_object_reference[$lo_id];
             
@@ -589,6 +607,11 @@ class CpoImport extends ContentObjectImport
 
     function update_references()
     {
+        if(!$this->references)
+        {
+        	return;
+        }
+        
         foreach ($this->references as $lo_id => $reference)
         {
             $real_reference = $this->content_object_reference[$reference];
@@ -604,7 +627,12 @@ class CpoImport extends ContentObjectImport
 
     function update_learning_path_prerequisites()
     {
-        foreach ($this->learning_path_item_wrappers as $lp_wrapper)
+   		if(!$this->learning_path_item_wrappers)
+        {
+        	return;
+        }
+        
+    	foreach ($this->learning_path_item_wrappers as $lp_wrapper)
         {
             $ref = $this->rdm->retrieve_content_object($lp_wrapper->get_ref());
             $reference = $this->rdm->retrieve_content_object($ref->get_reference());
@@ -629,6 +657,11 @@ class CpoImport extends ContentObjectImport
     
     function update_hotspot_questions()
     {
+    	if(!$this->hotspot_questions)
+        {
+        	return;
+        }
+        
     	foreach($this->hotspot_questions as $question_id => $image_id)
     	{
     		$new_image_id = $this->content_object_reference[$image_id];
