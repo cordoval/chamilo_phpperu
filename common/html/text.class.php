@@ -31,7 +31,6 @@
 ==============================================================================
  */
 
-
 class Text
 {
 
@@ -65,46 +64,27 @@ class Text
             $string = eregi_replace("(https?|ftp)://([a-z0-9#?/&=._+:~%-]+)", "<a href=\"\\1://\\2\" target=\"_blank\">\\1://\\2</a>", $string);
             $string = eregi_replace("([a-z0-9_.-]+@[a-z0-9.-]+)", "<a href=\"mailto:\\1\">\\1</a>", $string);
         }
-        
+
         return $string;
     }
-
-    /**
-     * formats the date according to the locale settings
-     *
-     * @author  Patrick Cool <patrick.cool@UGent.be>, Ghent University
-     * @author  Christophe Gesch� <gesche@ipm.ucl.ac.be>
-     *          originally inspired from from PhpMyAdmin
-     * @param  string  $formatOfDate date pattern
-     * @param  integer $timestamp, default is NOW.
-     * @return the formatted date
-     */
-    public static function format_locale_date($dateFormat, $timeStamp = -1)
-    {
-        // Defining the shorts for the days
-        $DaysShort = array(Translation :: get("SundayShort"), Translation :: get("MondayShort"), Translation :: get("TuesdayShort"), Translation :: get("WednesdayShort"), Translation :: get("ThursdayShort"), Translation :: get("FridayShort"), Translation :: get("SaturdayShort"));
-        // Defining the days of the week to allow translation of the days
-        $DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLong"), Translation :: get("TuesdayLong"), Translation :: get("WednesdayLong"), Translation :: get("ThursdayLong"), Translation :: get("FridayLong"), Translation :: get("SaturdayLong"));
-        // Defining the shorts for the months
-        $MonthsShort = array(Translation :: get("JanuaryShort"), Translation :: get("FebruaryShort"), Translation :: get("MarchShort"), Translation :: get("AprilShort"), Translation :: get("MayShort"), Translation :: get("JuneShort"), Translation :: get("JulyShort"), Translation :: get("AugustShort"), Translation :: get("SeptemberShort"), Translation :: get("OctoberShort"), Translation :: get("NovemberShort"), Translation :: get("DecemberShort"));
-        // Defining the months of the year to allow translation of the months
-        $MonthsLong = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
-        
-        if ($timeStamp == - 1)
-            $timeStamp = time();
-            
-        // with the ereg  we  replace %aAbB of date format
-        //(they can be done by the system when  locale date aren't aivailable
-        
-
-        $date = ereg_replace('%[A]', $DaysLong[(int) strftime('%w', $timeStamp)], $dateFormat);
-        $date = ereg_replace('%[a]', $DaysShort[(int) strftime('%w', $timeStamp)], $date);
-        $date = ereg_replace('%[B]', $MonthsLong[(int) strftime('%m', $timeStamp) - 1], $date);
-        $date = ereg_replace('%[b]', $MonthsShort[(int) strftime('%m', $timeStamp) - 1], $date);
-        
-        return strftime($date, $timeStamp);
     
-    }
+	/**
+	 *    Get the ordinal suffix of an int (e.g. th, rd, st, etc.)
+	 *     @param	int	$n
+	 *     @return	string	$n + $n's ordinal suffix
+	 */
+	function ordinal_suffix($n) {
+	     $n_last = $n % 100;
+	     if (($n_last > 10 && $n_last < 14) || $n == 0){
+	          return "{$n}th";
+	     }
+	     switch(substr($n, -1)) {
+	          case '1':    return "{$n}st";
+	          case '2':    return "{$n}nd";
+	          case '3':    return "{$n}rd";
+	          default:     return "{$n}th";
+	     }
+	}
 
     /**
      * Apply parsing to content to parse tex commandos that are seperated by [tex]
@@ -146,13 +126,13 @@ class Text
     {
         $queries = array();
         $variables = explode('&', $query);
-        
+
         foreach ($variables as $variable)
         {
             list($key, $value) = explode('=', $variable, 2);
             $queries[$key] = $value;
         }
-        
+
         return $queries;
     }
 
@@ -162,7 +142,7 @@ class Text
         $i = - 1;
         $n = '';
         $ok = 1;
-        
+
         while (isset($text{++ $i}))
         {
             if ($ok && $text{$i} != '<')
@@ -179,13 +159,13 @@ class Text
             {
                 $ok = 0;
             }
-            
+
             if (! $ok)
             {
                 $n .= $text{$i};
             }
         }
-        
+
         return $n;
     }
 
@@ -195,9 +175,9 @@ class Text
         $data = self :: strip_text($source);
         $data = ">" . $data;
         $striped_data = strip_tags($data, $tag);
-        
+
         $my_array = explode("><", $striped_data);
-        
+
         foreach ($my_array as $main_key => $main_value)
         {
             $my_space_array[$main_key] = explode(" ", $main_value);
@@ -211,8 +191,15 @@ class Text
                 }
             }
         }
-        
+
         return $my_tag_array;
+    }
+
+    public static function parse_html_file($string, $tag = 'img')
+    {
+    	$document = new DOMDocument();
+        $document->loadHTML($string);
+        return $document->getElementsByTagname($tag);
     }
 
     public static function highlight($haystack, $needle, $highlight_color)
@@ -221,19 +208,19 @@ class Text
         {
             return $haystack;
         }
-        
+
         $matches = array();
         $matches_done = array();
-        
+
         preg_match_all("/$needle+/i", $haystack, $matches);
-        
+
         if (is_array($matches[0]) && count($matches[0]) >= 1)
         {
             foreach ($matches[0] as $match)
             {
                 if (in_array($match, $matches_done))
                     continue;
-                
+
                 $matches_done[] = $match;
                 $haystack = str_replace($match, '<span style="background-color:' . $highlight_color . ';">' . $match . '</span>', $haystack);
             }
@@ -243,7 +230,7 @@ class Text
 
     /*	Convert strings from one character set to another
 	 * 	Can avoid weird characters in output for non default alphanumeric symbols
-	 * 
+	 *
 	 * 	Example
 	 *  $string = htmlentities($string, ENT_COMPAT, 'cp1252');
 	 *	$string = iconv('windows-1252', 'ISO-8859-1//TRANSLIT', $string);
@@ -252,34 +239,34 @@ class Text
     {
         $string = htmlentities($string, ENT_COMPAT, $from);
         $string = iconv($from, $to . '//TRANSLIT', $string);
-        
+
         return $string;
     }
 
     public function create_link($url, $text, $new_page = false, $class = null, $styles = array())
     {
         $link = '<a href="' . $url . '" ';
-        
+
         if ($new_page)
             $link .= 'target="about:blank" ';
-        
+
         if ($class)
             $link .= 'class="' . $class . '" ';
-        
+
         if (count($styles) > 0)
         {
             $link .= 'style="';
-            
+
             foreach ($styles as $name => $value)
             {
                 $link .= $name . ': ' . $value . ';';
             }
-            
+
             $link .= '" ';
         }
-        
+
         $link .= '>' . $text . '</a>';
-        
+
         return $link;
     }
 
@@ -294,6 +281,13 @@ class Text
     function char_at($str, $pos)
     {
         return (substr($str, $pos, 1) !== false) ? substr($str, $pos, 1) : - 1;
+    }
+
+    public static function remove_non_alphanumerical($string)
+    {
+        $string = str_replace (' ', '', $string);
+        $string = preg_replace('/[^a-zA-Z0-9\s]/', '', $string);
+        return Utilities :: camelcase_to_underscores($string);
     }
 }
 ?>

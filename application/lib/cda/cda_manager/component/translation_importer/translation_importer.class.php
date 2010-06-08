@@ -164,11 +164,11 @@ abstract class TranslationImporter
     				
     				$system_translation = $this->get_translation($system_language, $system_variable);
     				
-    				if($translation && trim($translation) != '')
+    				if($translation && trim($translation) != '' && is_object($system_translation))
     				{
     					$system_translation->set_translation($translation);
     					$system_translation->set_user_id($this->get_user()->get_id());
-    					$system_translation->set_date(Utilities :: to_db_date(time()));
+    					$system_translation->set_date(time());
     					$system_translation->update();
     				}
     			}	

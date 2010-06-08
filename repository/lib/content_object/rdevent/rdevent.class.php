@@ -8,13 +8,16 @@
  */
 class Rdevent extends ContentObject
 {
-    
-    const CLASS_NAME = __CLASS__;
-    
     const PROPERTY_EVENT_ID = 'event_id';
     const PROPERTY_REF_ID = '';
     const PROPERTY_PUB_TYPE = '';
-    
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
     private $defaultProperties;
 
     /**

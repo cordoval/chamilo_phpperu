@@ -34,7 +34,6 @@ class WikiPublicationForm extends FormValidator
         $this->wiki_publication = $wiki_publication;
         $this->user = $user;
         $this->form_type = $form_type;
-
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -50,7 +49,7 @@ class WikiPublicationForm extends FormValidator
     function build_basic_form()
     {
         $attributes = array();
-        //$attributes['search_url'] = Path :: get(WEB_PATH).'application/lib/weblcms/xml_feeds/xml_course_user_group_feed.php?course=' . $this->course->get_id();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
         $locale = array();
         $locale['Display'] = Translation :: get('SelectRecipients');
         $locale['Searching'] = Translation :: get('Searching');
@@ -59,7 +58,15 @@ class WikiPublicationForm extends FormValidator
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
-
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	if(PlatformSetting :: get_instance()->get('allow_evaluate_application_wiki', 'gradebook'))
+        	{
+	        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
+	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+	        	$gradebook_internal_item_form->build_evaluation_question($this);
+        	}
+        }
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
 
         $this->add_forever_or_timewindow();
@@ -115,6 +122,35 @@ class WikiPublicationForm extends FormValidator
         $wiki_publication->set_email_sent($values[WikiPublication :: PROPERTY_EMAIL_SENT] ? $values[WikiPublication :: PROPERTY_EMAIL_SENT] : 0);
 
         return $wiki_publication->update();
+    }
+    
+    function create_wiki_publication($object, $values)
+    {
+    	$wiki_publication = new WikiPublication();
+		$wiki_publication->set_content_object($object);
+		
+        if ($values['forever'] != 0)
+        {
+            $wiki_publication->set_from_date(0);
+            $wiki_publication->set_to_date(0);
+        }
+        else
+        {
+            $wiki_publication->set_from_date(Utilities :: time_from_datepicker($values['from_date']));
+            $wiki_publication->set_to_date(Utilities :: time_from_datepicker($values['to_date']));
+        }
+        $wiki_publication->set_hidden($values['hidden'] ? 1 : 0);
+        $wiki_publication->set_publisher(Session :: get_user_id());
+        $wiki_publication->set_published(time());
+        $wiki_publication->set_modified(time());
+        $wiki_publication->set_display_order(0);
+        $wiki_publication->create();
+		if($values['evaluation'] == true)
+		{
+        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+        	$gradebook_internal_item_form->create_internal_item($wiki_publication->get_id(), false, 'C' . 0);
+		} 
+        return $wiki_publication;
     }
 
     /**

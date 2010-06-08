@@ -37,7 +37,7 @@ class PublisherWizardDisplay extends HTML_QuickForm_Action_Display
         $header_template = "\n\t<tr>\n\t\t<td valign=\"top\" colspan=\"2\">{header}</td>\n\t</tr>";
         $renderer->setHeaderTemplate($header_template);
         HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>' . Translation :: get('ThisFieldIsRequired') . '</small>');
-        $current_page->accept($renderer);
+//        $current_page->accept($renderer);
         
         $trail = new BreadcrumbTrail(false);
         $trail->add(new Breadcrumb($this->parent->get_url(), Translation :: get('Publish')));

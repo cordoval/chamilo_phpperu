@@ -6,7 +6,7 @@
 /**
  * Repository manager component which can be used to view a learning object.
  */
-class RepositoryManagerViewerComponent extends RepositoryManagerComponent
+class RepositoryManagerViewerComponent extends RepositoryManager
 {
     private $action_bar;
     private $object;
@@ -22,7 +22,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
             $object = $this->retrieve_content_object($id);
             $this->object = $object;
             // TODO: Use Roles & Rights here.
-            if ($object->get_owner_id() != $this->get_user_id() && ! $this->get_parent()->has_right($object, $this->get_user_id(), RepositoryRights :: VIEW_RIGHT))
+            if ($object->get_owner_id() != $this->get_user_id() && ! $this->has_right($object, $this->get_user_id(), RepositoryRights :: VIEW_RIGHT))
             {
                 $this->not_allowed();
             }
@@ -207,8 +207,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
                         $action_bar->add_common_action($force_delete_button);
                     }
 
-                    $dm = RepositoryDataManager :: get_instance();
-                    if ($dm->get_number_of_categories($this->get_user_id()) > 1)
+                    if (RepositoryDataManager :: get_number_of_categories($this->get_user_id()) > 1)
                     {
                         $move_url = $this->get_content_object_moving_url($object);
                         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -223,7 +222,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
                     if ($object->is_complex_content_object())
                     {
                         $clo_url = $this->get_browse_complex_content_object_url($object);
-                        $action_bar->add_common_action(new ToolbarItem(Translation :: get('BrowseComplex'), Theme :: get_common_image_path() . 'action_browser.png', $clo_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                        $action_bar->add_common_action(new ToolbarItem(Translation :: get('BuildComplexContentObject'), Theme :: get_common_image_path() . 'action_bar.png', $clo_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                     }
                 }
                 else

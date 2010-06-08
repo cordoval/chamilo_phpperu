@@ -3,7 +3,6 @@
  * $Id: wiki_manager.class.php 210 2009-11-13 13:18:50Z kariboe $
  * @package application.lib.wiki.wiki_manager
  */
-require_once dirname(__FILE__) . '/wiki_manager_component.class.php';
 require_once dirname(__FILE__) . '/../wiki_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/wiki_publication_browser/wiki_publication_browser_table.class.php';
 
@@ -23,6 +22,7 @@ class WikiManager extends WebApplication
     const ACTION_CREATE_WIKI_PUBLICATION = 'create_wiki_publication';
     const ACTION_BROWSE_WIKI_PUBLICATIONS = 'browse_wiki_publications';
     const ACTION_VIEW_WIKI = 'view';
+    const ACTION_EVALUATE_WIKI_PUBLICATION = 'evaluate_wiki_publication';
 
     /**
      * Constructor
@@ -38,30 +38,32 @@ class WikiManager extends WebApplication
      * Run this wiki manager
      */
     function run()
-    {
+    { 
         $action = $this->get_action();
         $component = null;
         switch ($action)
         {
+        	case self :: ACTION_EVALUATE_WIKI_PUBLICATION :
+        		$component = $this->create_component('WikiEvaluation');
+        		break;
             case self :: ACTION_BROWSE_WIKI_PUBLICATIONS :
-                $component = WikiManagerComponent :: factory('WikiPublicationsBrowser', $this);
+                $component = $this->create_component('WikiPublicationsBrowser');
                 break;
             case self :: ACTION_DELETE_WIKI_PUBLICATION :
-                $component = WikiManagerComponent :: factory('WikiPublicationDeleter', $this);
+                $component = $this->create_component('WikiPublicationDeleter');
                 break;
             case self :: ACTION_EDIT_WIKI_PUBLICATION :
-                $component = WikiManagerComponent :: factory('WikiPublicationUpdater', $this);
+                $component = $this->create_component('WikiPublicationUpdater');
                 break;
             case self :: ACTION_CREATE_WIKI_PUBLICATION :
-                $component = WikiManagerComponent :: factory('WikiPublicationCreator', $this);
+                $component = $this->create_component('WikiPublicationCreator');
                 break;
             case self :: ACTION_VIEW_WIKI :
-                $component = WikiManagerComponent :: factory('WikiViewer', $this);
+                $component = $this->create_component('WikiViewer');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_WIKI_PUBLICATIONS);
-                $component = WikiManagerComponent :: factory('WikiPublicationsBrowser', $this);
-        
+                $component = $this->create_component('WikiPublicationsBrowser');
         }
         $component->run();
     }
@@ -122,6 +124,11 @@ class WikiManager extends WebApplication
     function get_create_wiki_publication_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_WIKI_PUBLICATION));
+    }
+ 	
+    function get_evaluation_publication_url($wiki_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EVALUATE_WIKI_PUBLICATION, self :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
     }
 
     function get_update_wiki_publication_url($wiki_publication)
@@ -187,7 +194,7 @@ class WikiManager extends WebApplication
 
 	function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array('wiki');
+        $allowed_types = array(Wiki :: get_type_name());
         
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))

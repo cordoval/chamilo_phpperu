@@ -5,14 +5,14 @@
  */
 require_once 'HTML/Table.php';
 
-class UserManagerUserDetailComponent extends UserManagerComponent
+class UserManagerUserDetailComponent extends UserManager
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
@@ -31,7 +31,7 @@ class UserManagerUserDetailComponent extends UserManagerComponent
 
 			$action_bar = $this->get_action_bar($user);
 			
-			$this->display_header($trail);
+			$this->display_header();
 			
 			echo $action_bar->as_html() . '<br />';
 			
@@ -113,11 +113,11 @@ class UserManagerUserDetailComponent extends UserManagerComponent
 			case 'active':
 				return $value ? Translation :: get('True') : Translation :: get('False');
 			case 'activation_date':
-				return $value == 0 ? Translation :: get('Forever') : Utilities :: to_db_date($value);
+				return $value == 0 ? Translation :: get('Forever') : DatetimeUtilities :: format_locale_date(null, $value);
 			case 'expiration_date':
-				return $value == 0 ? Translation :: get('Forever') : Utilities :: to_db_date($value);
+				return $value == 0 ? Translation :: get('Forever') : DatetimeUtilities :: format_locale_date(null, $value);
 			case 'registration_date':
-				return Utilities :: to_db_date($value);
+				return DatetimeUtilities :: format_locale_date(null, $value);
 			default: return $value;
 		}
 	}

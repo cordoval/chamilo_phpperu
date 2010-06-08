@@ -21,6 +21,7 @@ class Utilities
     private static $us_camel_map = array();
     private static $us_camel_map_with_spaces = array();
     private static $camel_us_map = array();
+    private static $camel_us_map_with_spaces = array();
 
     /**
      * Splits a Google-style search query. For example, the query
@@ -207,7 +208,7 @@ class Utilities
         }
         return self :: $camel_us_map[$string];
     }
-
+    
     /**
      * Builds an HTML representation of a toolbar, i.e. a list of clickable
      * icons. The icon data is passed as an array with the following structure:
@@ -249,9 +250,9 @@ class Utilities
         $class_names[] = 'toolbar';
         $html = array();
         $html[] = '<ul class="' . implode(' ', $class_names) . '"' . (isset($css) ? ' style="' . $css . '"' : '') . '>';
-        foreach ($toolbar_data as $index => $elmt)
+        foreach ($toolbar_data as $index => & $elmt)
         {
-            $label = (isset($elmt['label']) ? htmlentities($elmt['label']) : null);
+            $label = (isset($elmt['label']) ? htmlentities($elmt['label'], ENT_QUOTES, 'UTF-8') : null);
             if (! array_key_exists('display', $elmt))
             {
                 $elmt['display'] = self :: TOOLBAR_DISPLAY_ICON;
@@ -270,7 +271,7 @@ class Utilities
             {
                 $class = isset($elmt['class']) ? 'class="' . $elmt['class'] . '" ' : '';
                 $id = isset($elmt['id']) ? 'id="' . $elmt['id'] . '" ' : '';
-                $button = '<a ' . $id . $class . 'href="' . htmlentities($elmt['href']) . '" title="' . $label . '"' . ($elmt['confirm'] ? ' onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"' : '') . '>' . $button . '</a>';
+                $button = '<a ' . $id . $class . 'href="' . htmlentities($elmt['href']) . '" title="' . $label . '"' . ($elmt['confirm'] ? ' onclick="javascript: return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'), ENT_QUOTES, 'UTF-8')) . '\');"' : '') . '>' . $button . '</a>';
             }
 
             $classes = array();
@@ -296,7 +297,7 @@ class Utilities
      * @param ContentObject $content_object_2
      * @return int
      */
-    private static function by_title($content_object_1, $content_object_2)
+    static function by_title($content_object_1, $content_object_2)
     {
         return strcasecmp($content_object_1->get_title(), $content_object_2->get_title());
     }
@@ -452,15 +453,6 @@ class Utilities
         echo $spaces . ")<br />";
     }
 
-    static function to_db_date($date)
-    {
-        if (isset($date))
-        {
-            return date('Y-m-d H:i:s', $date);
-        }
-        return null;
-    }
-
     static function format_seconds_to_hours($seconds)
     {
         $hours = floor($seconds / 3600);
@@ -480,6 +472,24 @@ class Utilities
         }
 
         return $hours . ':' . $minutes . ':' . $seconds;
+    }
+    
+    static function format_seconds_to_minutes($seconds)
+    {
+        $minutes = floor($seconds/ 60);
+        $seconds = $seconds % 60;
+
+        if ($minutes < 10)
+        {
+            $minutes = '0' . $minutes;
+        }
+
+        if ($seconds < 10)
+        {
+            $seconds = '0' . $seconds;
+        }
+
+        return $minutes . ':' . $seconds;
     }
 
     /**
@@ -546,5 +556,67 @@ class Utilities
         Translation :: set_application($application);
         Theme :: set_application($application);
     }
+
+    static function display_true_false_icon($value)
+    {
+    	if($value)
+    	{
+    		$icon =  'action_setting_true.png';
+    	}
+    	else
+    	{
+    		$icon = 'action_setting_false.png';
+    	}
+    	return '<img src="' . Theme :: get_common_image_path() . $icon . '">';
+    }
+    
+    static function htmlentities($string)
+    {
+    	return htmlentities($string, ENT_COMPAT, 'UTF-8');
+    }
+    
+	static function get_usable_memory()
+	{
+		$val = trim(@ini_get('memory_limit'));
+	
+		if (preg_match('/(\\d+)([mkg]?)/i', $val, $regs))
+		{
+			$memory_limit = (int) $regs[1];
+			switch ($regs[2])
+			{
+	
+				case 'k':
+				case 'K':
+					$memory_limit *= 1024;
+				break;
+	
+				case 'm':
+				case 'M':
+					$memory_limit *= 1048576;
+				break;
+	
+				case 'g':
+				case 'G':
+					$memory_limit *= 1073741824;
+				break;
+			}
+	
+			// how much memory PHP requires at the start of export (it is really a little less)
+			if ($memory_limit > 6100000)
+			{
+				$memory_limit -= 6100000;
+			}
+	
+			// allow us to consume half of the total memory available
+			$memory_limit /= 2;
+		}
+		else
+		{
+			// set the buffer to 1M if we have no clue how much memory PHP will give us :P
+			$memory_limit = 1048576;
+		}
+	
+		return $memory_limit;
+	}
 }
 ?>

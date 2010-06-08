@@ -3,10 +3,7 @@
  * $Id: portfolio_publication.class.php 206 2009-11-13 13:08:01Z chellee $
  * @package application.portfolio.portfolio_manager.component
  */
-
-require_once dirname(__FILE__) . '/portfolio_publication_user.class.php';
-require_once dirname(__FILE__) . '/portfolio_publication_group.class.php';
-
+require_once dirname(__FILE__) . '/rights/portfolio_rights.class.php';
 /**
  * This class describes a PortfolioPublication data object
  *
@@ -19,15 +16,25 @@ class PortfolioPublication extends DataClass
     /**
      * PortfolioPublication properties
      */
+    //id of the content object that is being published in the portfolio
     const PROPERTY_CONTENT_OBJECT = 'content_object_id';
-    const PROPERTY_FROM_DATE = 'from_date';
-    const PROPERTY_TO_DATE = 'to_date';
-    const PROPERTY_HIDDEN = 'hidden';
+   //id of the user who published the portfolio item
     const PROPERTY_PUBLISHER = 'publisher_id';
+    //date this portfolio was published in the portfolio application
     const PROPERTY_PUBLISHED = 'published';
+    //id of the owner of this portfolio
+    const PROPERTY_OWNER_ID = 'owner_id';
 
-    private $target_groups;
-    private $target_users;
+
+
+
+
+    //id of the parent portfolio-item if there is any???
+    //const PROPERTY_PARENT_ID = 'parent_id';
+
+
+
+    private $location;
 
     /**
      * Get the default properties
@@ -35,7 +42,7 @@ class PortfolioPublication extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self::PROPERTY_OWNER_ID));
     }
 
     /**
@@ -47,7 +54,7 @@ class PortfolioPublication extends DataClass
     }
 
     /**
-     * Returns the content_object of this PortfolioPublication.
+     * Returns the id of the content_object of this PortfolioPublication.
      * @return the content_object.
      */
     function get_content_object()
@@ -57,66 +64,26 @@ class PortfolioPublication extends DataClass
 
     /**
      * Sets the content_object of this PortfolioPublication.
-     * @param content_object
+     * @param content_object_id
      */
-    function set_content_object($content_object)
+    function set_content_object($content_object_id)
     {
-        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object);
+        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object_id);
     }
 
-    /**
-     * Returns the from_date of this PortfolioPublication.
-     * @return the from_date.
-     */
-    function get_from_date()
+
+
+    function get_location()
     {
-        return $this->get_default_property(self :: PROPERTY_FROM_DATE);
+        if(!isset($this->location))
+        {
+            $this->location = PortfolioRights::get_portfolio_location($this->get_id(), PortfolioRights::TYPE_PORTFOLIO_FOLDER, $this->get_publisher());
+        }
+        return $this->location;
     }
 
-    /**
-     * Sets the from_date of this PortfolioPublication.
-     * @param from_date
-     */
-    function set_from_date($from_date)
-    {
-        $this->set_default_property(self :: PROPERTY_FROM_DATE, $from_date);
-    }
 
-    /**
-     * Returns the to_date of this PortfolioPublication.
-     * @return the to_date.
-     */
-    function get_to_date()
-    {
-        return $this->get_default_property(self :: PROPERTY_TO_DATE);
-    }
 
-    /**
-     * Sets the to_date of this PortfolioPublication.
-     * @param to_date
-     */
-    function set_to_date($to_date)
-    {
-        $this->set_default_property(self :: PROPERTY_TO_DATE, $to_date);
-    }
-
-    /**
-     * Returns the hidden of this PortfolioPublication.
-     * @return the hidden.
-     */
-    function get_hidden()
-    {
-        return $this->get_default_property(self :: PROPERTY_HIDDEN);
-    }
-
-    /**
-     * Sets the hidden of this PortfolioPublication.
-     * @param hidden
-     */
-    function set_hidden($hidden)
-    {
-        $this->set_default_property(self :: PROPERTY_HIDDEN, $hidden);
-    }
 
     /**
      * Returns the publisher of this PortfolioPublication.
@@ -129,133 +96,100 @@ class PortfolioPublication extends DataClass
 
     /**
      * Sets the publisher of this PortfolioPublication.
-     * @param publisher
+     * @param publisher_id
      */
-    function set_publisher($publisher)
+    function set_publisher($publisher_id)
     {
-        $this->set_default_property(self :: PROPERTY_PUBLISHER, $publisher);
+        $this->set_default_property(self :: PROPERTY_PUBLISHER, $publisher_id);
+    }
+
+      /**
+     * Returns the owner of this PortfolioPublication.
+     * @return the owner id.
+     */
+    function get_owner()
+    {
+        return $this->get_default_property(self :: PROPERTY_OWNER_ID);
     }
 
     /**
-     * Returns the published of this PortfolioPublication.
-     * @return the published.
+     * Sets the owner of this PortfolioPublication.
+     * @param owner_id
+     */
+    function set_owner($owner_id)
+    {
+        $this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
+    }
+
+    /**
+     * Returns the publishing date of this PortfolioPublication.
+     * @return the date the publication was published
      */
     function get_published()
     {
         return $this->get_default_property(self :: PROPERTY_PUBLISHED);
     }
 
+
     /**
-     * Sets the published of this PortfolioPublication.
-     * @param published
+     * Sets the publishedate of this PortfolioPublication.
+     * @param publishe_date:date the item was published
      */
-    function set_published($published)
+    function set_published($publishe_date)
     {
-        $this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
+        $this->set_default_property(self :: PROPERTY_PUBLISHED, $publishe_date);
     }
 
-    function set_target_groups($target_groups)
+    /*
+     * creates a location for the portfolio-publication under the user's portfolio-tree root.
+     * if necessary (= first portfolio publication for the user) the root is created
+     * @return the location or "false"
+     */
+    function create_location()
     {
-        $this->target_groups = $target_groups;
+        $user_id = $this->get_owner();
+        $parent_location = null;
+        $object_id = $this->get_id();
+        $this->location = PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_FOLDER, PortfolioRights::TYPE_PORTFOLIO_FOLDER, $object_id, $parent_location, $user_id, true, false, true);
+        return $this ->location;
     }
 
-    function set_target_users($target_users)
-    {
-        $this->target_users = $target_users;
-    }
-
-    function get_target_groups()
-    {
-        if (! $this->target_groups)
-        {
-            $condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_PORTFOLIO_PUBLICATION, $this->get_id());
-            $groups = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_groups($condition);
-
-            while ($group = $groups->next_result())
-            {
-                $this->target_groups[] = $group->get_group_id();
-            }
-        }
-
-        return $this->target_groups;
-    }
-
-    function get_target_users()
-    {
-        if (! $this->target_users)
-        {
-            $condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_PORTFOLIO_PUBLICATION, $this->get_id());
-            $users = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication_users($condition);
-
-            while ($user = $users->next_result())
-            {
-                $this->target_users[] = $user->get_user();
-            }
-        }
-
-        return $this->target_users;
-    }
-
-    function is_visible_for_target_user($user_id)
-    {
-        $user = UserDataManager :: get_instance()->retrieve_user($user_id);
-
-        if ($user->is_platform_admin() || $user_id == $this->get_publisher())
-            return true;
-
-        if ($this->get_target_groups() || $this->get_target_users())
-        {
-            $allowed = false;
-
-            if (in_array($user_id, $this->get_target_users()))
-            {
-                $allowed = true;
-            }
-
-            if (! $allowed)
-            {
-                $user_groups = $user->get_groups();
-
-                while ($user_group = $user_groups->next_result())
-                {
-                    if (in_array($user_group->get_id(), $this->get_target_groups()))
-                    {
-                        $allowed = true;
-                        break;
-                    }
-                }
-            }
-
-            if (! $allowed)
-                return false;
-        }
-
-        if ($this->get_hidden())
-            return false;
-
-        $time = time();
-
-        if ($time < $this->get_from_date() || $time > $this->get_to_date() && !$this->is_forever())
-            return false;
-
-        return true;
-    }
-    
-    function is_forever()
-    {
-    	return ($this->get_from_date() == 0 && $this->get_to_date() == 0);
-    }
 
     function create()
     {
         $dm = PortfolioDataManager :: get_instance();
-        return $dm->create_portfolio_publication($this);
+        $pub = $dm->create_portfolio_publication($this);
+        $this->create_location();
+        $this->update_information(PortfolioInformation::ACTION_PORTFOLIO_ADDED);
+        return $pub;
+    }
+
+    /**
+     * update the portfolio information for the action performed on this publication
+     * @param <type> $action
+     * @return <bool> $success
+     */
+    function update_information($action)
+    {
+        return PortfolioManager::update_portfolio_info($this->get_id, PortfolioRights::TYPE_PORTFOLIO_FOLDER, $action, $this->get_owner());
     }
 
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+
+    static function get_publication_owner($pid)
+    {
+        return PortfolioManager::retrieve_portfolio_publication_owner($pid);
+    }
+
+     static function get_item_owner($cid)
+    {
+        return PortfolioManager::retrieve_portfolio_item_owner($cid);
+    }
+
+   
 }
 
 ?>

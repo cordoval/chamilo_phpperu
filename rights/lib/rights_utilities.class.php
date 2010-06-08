@@ -59,9 +59,9 @@ class RightsUtilities
         return true;
     }
     
-    static function create_subtree_root_location($application, $tree_identifier, $tree_type)
+    static function create_subtree_root_location($application, $tree_identifier, $tree_type, $return_location = false)
     {
-    	return self :: create_location($tree_type, $application, 'root', 0, 0, 0, 0, $tree_identifier, $tree_type);	
+    	return self :: create_location($tree_type, $application, 'root', 0, 0, 0, 0, $tree_identifier, $tree_type, $return_location);
     }
 
     function parse_locations_file($application)
@@ -366,22 +366,32 @@ class RightsUtilities
     function get_root_id($application, $tree_type = 'root', $tree_identifier = 0)
     {
         $root = self :: get_root($application, $tree_type, $tree_identifier);
-        return $root->get_id();
+        if($root)
+        {
+            return $root->get_id();
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    function get_location_by_identifier($application, $type, $identifier, $tree_identifier = '0', $tree_type = 'root')
+    static function get_location_by_identifier($application, $type, $identifier, $tree_identifier = '0', $tree_type = 'root')
     {
         $rdm = RightsDataManager :: get_instance();
 
+        //nathalie: changed this method slightly because the first 3 conditions were not taken into account
         $conditions = array();
-        $root_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $application);
-        $root_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $tree_type);
-        $root_conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $application);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $tree_type);
+        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_IDENTIFIER, $identifier);
-        $conditions[] = new EqualityCondition(Location :: PROPERTY_TYPE, $type);
-
+        //nathalie: added this check so the type becomes optional (I need this method to work with variable types)
+        if($type!=null)
+        {
+            $conditions[] = new EqualityCondition(Location :: PROPERTY_TYPE, $type);
+        }
         $condition = new AndCondition($conditions);
-
         $locations = $rdm->retrieve_locations($condition, 0, 1);
 
         return $locations->next_result();
@@ -539,7 +549,7 @@ class RightsUtilities
     {
         if (isset($user) && isset($right) && isset($location) && isset($value))
         {
-        	echo 'start<br />';
+        	//echo 'start<br />';
             $rdm = RightsDataManager :: get_instance();
             $user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
 

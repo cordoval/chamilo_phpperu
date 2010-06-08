@@ -18,6 +18,13 @@ class Document extends ContentObject
     const TYPE_VIDEO = 'video';
     const TYPE_AUDIO = 'audio';
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     /**
     * In memory file content. Will be saved on disk if it doesn't exist yet. Mainly used to create a new Document.
     *
@@ -427,6 +434,36 @@ class Document extends ContentObject
         return in_array($extension, $this->get_image_types());
     }
 
+    /**
+     * Determines if this document is a flash movie
+     * @return boolean True if the document is a flash movie
+     */
+    function is_flash()
+    {
+        $extension = $this->get_extension();
+        return in_array($extension, $this->get_flash_types());
+    }
+
+    /**
+     * Determines if this document is a video
+     * @return boolean True if the document is a video
+     */
+    function is_video()
+    {
+        $extension = $this->get_extension();
+        return in_array($extension, $this->get_video_types());
+    }
+
+    /**
+     * Determines if this document is an audio file
+     * @return boolean True if the document is an audio file
+     */
+    function is_audio()
+    {
+        $extension = $this->get_extension();
+        return in_array($extension, $this->get_audio_types());
+    }
+
     static function get_image_types()
     {
         $image_types = array();
@@ -464,15 +501,18 @@ class Document extends ContentObject
         $video_types[] = 'avi';
         $video_types[] = 'wmv';
         $video_types[] = 'mov';
-        $video_types[] = 'asf';
+        $video_types[] = '3gp';
+        $video_types[] = 'flv';
+        $video_types[] = 'mkv';
         $video_types[] = 'MPG';
         $video_types[] = 'MPEG';
         $video_types[] = 'MP4';
         $video_types[] = 'AVI';
         $video_types[] = 'WMV';
         $video_types[] = 'MOV';
-        $video_types[] = 'ASF';
-
+        $video_types[] = '3GP';
+        $video_types[] = 'FLV';
+        $video_types[] = 'MKV';
 
         return $video_types;
     }
@@ -504,7 +544,9 @@ class Document extends ContentObject
 
     function send_as_download()
     {
-        header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
+        $filename = str_replace(' ', '_', $this->get_filename());
+        
+    	header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
         header('Cache-Control: public');
         header('Pragma: no-cache');
         header('Content-type: ' . $this->get_mime_type());
@@ -512,11 +554,11 @@ class Document extends ContentObject
         header('Content-length: ' . $this->get_filesize());
         if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
         {
-            header('Content-Disposition: filename= ' . $this->get_filename());
+            header('Content-Disposition: filename= ' . $filename);
         }
         else
         {
-            header('Content-Disposition: attachment; filename= ' . $this->get_filename());
+            header('Content-Disposition: attachment; filename= ' . $filename);
         }
         if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
         {
@@ -524,7 +566,7 @@ class Document extends ContentObject
             header('Cache-Control: ');
             header('Cache-Control: public'); // IE cannot download from sessions without a cache
         }
-        header('Content-Description: ' . $this->get_filename());
+        header('Content-Description: ' . $filename);
         header('Content-transfer-encoding: binary');
         $fp = fopen($this->get_full_path(), 'r');
         fpassthru($fp);
@@ -655,9 +697,23 @@ class Document extends ContentObject
                 //DebugUtilities :: show($full_path);
 
                 $save_success = false;
-                if(StringUtilities :: has_value($this->temporary_file_path) && Filesystem :: move_file($this->temporary_file_path, $path_to_save, !$as_new_version))
+                if(StringUtilities :: has_value($this->temporary_file_path))
                 {
-                    $save_success = true;
+                    if(Filesystem :: move_file($this->temporary_file_path, $path_to_save, !$as_new_version))
+                    {
+                    	$save_success = true;
+                    }
+                    else
+                    {
+                    	if(FileSystem :: copy_file($this->temporary_file_path, $path_to_save, !$as_new_version))
+                    	{
+                    		if(FileSystem :: remove($this->temporary_file_path))
+                    		{
+                    			$save_success = true;
+                    		}
+                    	}
+                    }
+                	
                 }
                 elseif(StringUtilities :: has_value($this->in_memory_file) && Filesystem :: write_to_file($path_to_save, $this->in_memory_file))
                 {
@@ -665,7 +721,7 @@ class Document extends ContentObject
                 }
 
                 if($save_success)
-                {
+                { 
                     Filesystem :: chmod($path_to_save, PlatformSetting :: get('permissions_new_files'));
 
                     $file_bytes = Filesystem :: get_disk_space($path_to_save);
@@ -673,6 +729,7 @@ class Document extends ContentObject
                     $this->set_filesize($file_bytes);
                     $this->set_path($relative_path);
                     $this->set_hash($unique_hash);
+                    $this->set_content_hash(md5_file($path_to_save));
                 }
                 else
                 {

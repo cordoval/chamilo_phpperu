@@ -10,7 +10,7 @@
  * can be selected. Afterwards, the form to create the actual learning object
  * will be displayed.
  */
-class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
+class RepositoryManagerCreatorComponent extends RepositoryManager
 {
 
     /**
@@ -24,7 +24,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
         $type_options = array();
         $type_options[''] = '-- ' . Translation :: get('SelectObject') . ' --';
         $extra_params = array();
-        $this->forbidden_types = array('portfolio_item', 'learning_path_item', 'scorm_item');
+        $this->forbidden_types = array(PortfolioItem :: get_type_name(), LearningPathItem :: get_type_name(), ScormItem :: get_type_name());
 
         foreach ($this->get_content_object_types(true) as $type)
         {
@@ -59,7 +59,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 
                 if (! is_array($object) && ($object->is_complex_content_object() || count($extra_params) == 2 || count($extra_params) == 3))
                 {
-                    $parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, ComplexBuilder :: PARAM_ROOT_LO => $object->get_id());
+                    $parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id());
                     $filter = array('category');
                     $this->redirect(null, false, $parameters, $filter);
                 }
@@ -77,7 +77,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
                     $parameters = array();
                     $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
                     $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $parent;
-                    $this->redirect(Translation :: get('ObjectCreated'), false, $parameters);
+                    $message = Utilities :: underscores_to_camelcase($object->get_type()) . 'TypeNameCreated';
+                    $this->redirect(Translation :: get($message), false, $parameters);
                 }
             }
             else
@@ -214,7 +215,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
         {
             $html[] = Utilities :: add_block_hider();
             $html[] = Utilities :: build_block_hider('other_content_object_types', null, true);
-            
+
             //$html[] = '<h3>'. Translation :: get('OtherObjectTypes') .'</h3>';
             $html[] = '<div class="content_object_selection">';
             $html[] = implode("\n", $unused_html);

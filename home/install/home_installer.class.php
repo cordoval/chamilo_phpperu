@@ -41,7 +41,7 @@ class HomeInstaller extends Installer
     {
         // First test-tab
         $tab = new HomeTab();
-        $tab->set_title(Translation :: get('Default'));
+        $tab->set_title(Translation :: get('Home'));
         $tab->set_user('0');
         if (! $tab->create())
         {

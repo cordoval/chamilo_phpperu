@@ -36,7 +36,8 @@ class RegisterForm extends FormValidator
      */
     function build_basic_form()
     {
-        // Lastname
+        $this->addElement('category', Translation :: get('Basic'));
+    	// Lastname
         $this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'), array("size" => "50"));
         $this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
         // Firstname
@@ -58,6 +59,10 @@ class RegisterForm extends FormValidator
         $group[] = & $this->createElement('radio', 'pass', null, null, 0);
         $group[] = & $this->createElement('password', User :: PROPERTY_PASSWORD, null, null);
         $this->addGroup($group, 'pw', Translation :: get('Password'), '');
+        
+        $this->addElement('category');
+        $this->addElement('category', Translation :: get('Additional'));
+        
         // Official Code
         $this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'), array("size" => "50"));
         if (PlatformSetting :: get('require_official_code', 'user'))
@@ -90,6 +95,16 @@ class RegisterForm extends FormValidator
         // Submit button
         //$this->addElement('submit', 'user_settings', 'OK');
 
+        $this->addElement('category');
+        
+        if(PlatformSetting :: get('enable_terms_and_conditions', 'user'))
+        {
+	        $this->addElement('category', Translation :: get('Information'));
+			$this->addElement('textarea', 'conditions', Translation :: get('TermsAndConditions'), array('cols' => 80, 'rows' => 20, 'disabled' => 'disabled', 'style' => 'background-color: white;'));
+			$this->addElement('checkbox', 'conditions_accept', '', Translation :: get('IAccept'));
+        	$this->addRule('conditions_accept', Translation :: get('ThisFieldIsRequired'), 'required');       
+	        $this->addElement('category');
+        }
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Register'), array('class' => 'positive register'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -161,6 +176,14 @@ class RegisterForm extends FormValidator
             {
                 $this->send_email($user);
             }
+            
+            if (PlatformSetting :: get('allow_registration', 'user') == 2)
+        	{
+        		$user->set_approved(0);
+        		$user->set_active(0);
+        		return $user->create();
+        	}
+            
             if ($user->create())
             {
                 Session :: register('_uid', intval($user->get_id()));
@@ -211,6 +234,7 @@ class RegisterForm extends FormValidator
         $defaults[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
         $defaults[User :: PROPERTY_PICTURE_URI] = $user->get_picture_uri();
         $defaults[User :: PROPERTY_PHONE] = $user->get_phone();
+        $defaults['conditions'] = implode("\n", file(Path :: get(SYS_PATH) . 'documentation/license.txt'));
         parent :: setDefaults($defaults);
     }
 

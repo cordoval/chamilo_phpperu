@@ -13,6 +13,13 @@ class Forum extends ContentObject
     const PROPERTY_TOTAL_POSTS = 'total_posts';
     const PROPERTY_LAST_POST = 'last_post_id';
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     function get_locked()
     {
         return $this->get_additional_property(self :: PROPERTY_LOCKED);
@@ -101,7 +108,7 @@ class Forum extends ContentObject
 
     function get_allowed_types()
     {
-        return array('forum', 'forum_topic');
+        return array(Forum :: get_type_name(), ForumTopic :: get_type_name());
     }
 
     function add_post($posts = 1)
@@ -170,6 +177,57 @@ class Forum extends ContentObject
             $lo = $rdm->retrieve_content_object($item->get_parent());
             $lo->remove_topic($topics);
         }
+    }
+    
+	function is_versionable()
+    {
+        return false;
+    }
+        
+    function delete_links()
+    {
+    	$success = parent :: delete_links();
+    	if($success)
+    	{
+    		$this->set_total_posts(0);
+    		$this->set_total_topics(0);
+    		$success = $this->update();
+    	}
+    	return $success;
+    }
+    
+    function delete_complex_wrapper($object_id, $link_ids)
+    {
+    	$rdm = RepositoryDataManager :: get_instance();
+    	$failures = 0;
+    	
+    	foreach($link_ids as $link_id)
+    	{
+    		$item = $rdm->retrieve_complex_content_object_item($link_id);
+    		$object = $rdm->retrieve_content_object($item->get_ref());
+    		
+    		if($object->get_type() == Forum :: get_type_name())
+    		{
+    			$this->set_total_topics($this->get_total_topics() - $object->get_total_topics());
+    		}
+    		
+    		$this->set_total_posts($this->get_total_post() - $object->get_total_post());
+    		
+    		if(!$item->delete())
+    		{
+    			$failures++;
+    			continue;
+    		}
+    		
+    	}
+    	
+    	if(!$this->update())
+    		$failures++;
+    	
+    	$message = $this->get_result($failures, count($link_ids), 'ComplexContentObjectItemNotDeleted', 'ComplexContentObjectItemsNotDeleted', 
+    							     'ComplexContentObjectItemDeleted', 'ComplexContentObjectItemsDeleted');
+    	
+    	return array($message, ($failures > 0));
     }
 }
 ?>

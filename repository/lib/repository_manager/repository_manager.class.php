@@ -42,7 +42,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_COMPARE_VERSION = 'compare';
     const PARAM_PUBLICATION_APPLICATION = 'publication_application';
     const PARAM_PUBLICATION_ID = 'publication';
-    const PARAM_CLOI_REF = 'cloi_ref';
+     const PARAM_CLOI_REF = 'cloi_ref';
     const PARAM_CLOI_ID = 'cloi_id';
     const PARAM_CLOI_ROOT_ID = 'cloi_root_id';
     const PARAM_CLOI_COMPLEX_REF = 'cloi_complex_ref';
@@ -97,8 +97,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_PUBLISH_CONTENT_OBJECT = 'publish';
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
-    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'build_complex';
-    const ACTION_VIEW_REPO = 'repo_viewer';
+    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'build_complex';    const ACTION_VIEW_REPO = 'repo_viewer';
     const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
     const ACTION_EXTERNAL_REPOSITORY_BROWSE = 'ext_rep_browse';
     const ACTION_EXTERNAL_REPOSITORY_EXPORT = 'ext_rep_export';
@@ -108,10 +107,13 @@ class RepositoryManager extends CoreApplication
     const ACTION_EXTERNAL_REPOSITORY_CATALOG = 'ext_rep_catalog';
     const ACTION_BROWSE_TEMPLATES = 'templates';
     const ACTION_COPY_CONTENT_OBJECT = 'lo_copy';
+
     const ACTION_IMPORT_TEMPLATE = 'import_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
     const ACTION_DELETE_LINK = 'delete_link';
-
+    const ACTION_VIEW_DOUBLES = 'view_doubles';
+    const ACTION_STREAMING_MEDIA_MANAGER = 'streaming';
+   
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
     const ACTION_DELETE_USER_VIEW = 'delete_view';
@@ -125,18 +127,13 @@ class RepositoryManager extends CoreApplication
     private $search_parameters;
     private $search_form;
     private $category_menu;
-    private $quota_url;
-    private $publication_url;
-    private $create_url;
-    private $import_url;
-    private $recycle_bin_url;
 
     /**
      * Constructor
      * @param int $user_id The user id of current user
      */
     function RepositoryManager($user)
-    {
+    {       
         parent :: __construct($user);
         $this->parse_input_from_table();
         $this->determine_search_settings();
@@ -147,11 +144,6 @@ class RepositoryManager extends CoreApplication
      */
     function run()
     {
-        $this->publication_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');
-        $this->quota_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
-        $this->create_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTENT_OBJECTS));
-        $this->import_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_CONTENT_OBJECTS));
-        $this->recycle_bin_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => null));
 
         /*
 		 * Only setting breadcrumbs here. Some stuff still calls
@@ -163,160 +155,166 @@ class RepositoryManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('ComplexCreator', $this);
+                $component = $this->create_component('ComplexCreator');
                 break;
             case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('ComplexUpdater', $this);
+                $component = $this->create_component('ComplexUpdater');
                 break;
             case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('ComplexDeleter', $this);
+                $component = $this->create_component('ComplexDeleter');
                 break;
             case self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('ComplexBrowser', $this);
+                $component = $this->create_component('ComplexBrowser');
                 break;
             case self :: ACTION_SELECT_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('ContentObjectSelector', $this);
+                $component = $this->create_component('ContentObjectSelector');
                 break;
             case self :: ACTION_ADD_CONTENT_OBJECT :
-                $component = RepositoryManagerComponent :: factory('AddContentObjects', $this);
+                $component = $this->create_component('AddContentObjects');
                 break;
             case self :: ACTION_VIEW_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_COMPARE_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('Comparer', $this);
+                $component = $this->create_component('Comparer');
                 break;
             case self :: ACTION_CREATE_CONTENT_OBJECTS :
-                $this->force_menu_url($this->create_url, true);
-                $component = RepositoryManagerComponent :: factory('Creator', $this);
+                $this->force_menu_url($this->get_content_object_creation_url(), true);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_EDIT_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
                 break;
             case self :: ACTION_REVERT_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('Reverter', $this);
+                $component = $this->create_component('Reverter');
                 break;
             case self :: ACTION_DELETE_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS :
-                $component = RepositoryManagerComponent :: factory('PublicationDeleter', $this);
+                $component = $this->create_component('PublicationDeleter');
                 break;
             case self :: ACTION_RESTORE_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('Restorer', $this);
+                $component = $this->create_component('Restorer');
                 break;
             case self :: ACTION_MOVE_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('Mover', $this);
+                $component = $this->create_component('Mover');
                 break;
             case self :: ACTION_EDIT_CONTENT_OBJECT_METADATA :
-                $component = RepositoryManagerComponent :: factory('MetadataEditor', $this);
+                $component = $this->create_component('MetadataEditor');
                 break;
             case self :: ACTION_VIEW_CONTENT_OBJECT_METADATA :
-                $component = RepositoryManagerComponent :: factory('MetadataViewer', $this);
+                $component = $this->create_component('MetadataViewer');
                 break;
             case self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS :
-                $component = RepositoryManagerComponent :: factory('RightsEditor', $this);
+                $component = $this->create_component('RightsEditor');
                 break;
             case self :: ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION :
-                $component = RepositoryManagerComponent :: factory('PublicationUpdater', $this);
+                $component = $this->create_component('PublicationUpdater');
                 break;
             case self :: ACTION_DELETE_LINK :
-            	$component = RepositoryManagerComponent :: factory('LinkDeleter', $this);
+            	$component = $this->create_component('LinkDeleter');
             	break;
             case self :: ACTION_VIEW_QUOTA :
                 $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
-                $this->force_menu_url($this->quota_url, true);
-                $component = RepositoryManagerComponent :: factory('QuotaViewer', $this);
+                $this->force_menu_url($this->get_quota_url(), true);
+                $component = $this->create_component('QuotaViewer');
                 break;
             case self :: ACTION_VIEW_MY_PUBLICATIONS :
                 $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
-                $this->force_menu_url($this->publication_url, true);
-                $component = RepositoryManagerComponent :: factory('PublicationBrowser', $this);
+                $this->force_menu_url($this->get_publication_url(), true);
+                $component = $this->create_component('PublicationBrowser');
                 break;
             case self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS :
                 $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
-                $this->force_menu_url($this->recycle_bin_url, true);
-                $component = RepositoryManagerComponent :: factory('RecycleBinBrowser', $this);
+                $this->force_menu_url($this->get_recycle_bin_url(), true);
+                $component = $this->create_component('RecycleBinBrowser');
                 break;
             case self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('ComplexOrderMover', $this);
+                $component = $this->create_component('ComplexOrderMover');
                 break;
             case self :: ACTION_EXPORT_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('Exporter', $this);
+                $component = $this->create_component('Exporter');
                 break;
             case self :: ACTION_IMPORT_CONTENT_OBJECTS :
                 $this->force_menu_url($this->import_url, true);
-                $component = RepositoryManagerComponent :: factory('Importer', $this);
+                $component = $this->create_component('Importer');
                 break;
             case self :: ACTION_PUBLISH_CONTENT_OBJECT :
-                $component = RepositoryManagerComponent :: factory('Publisher', $this);
+                $component = $this->create_component('Publisher');
                 break;
             case self :: ACTION_MANAGE_CATEGORIES :
-                $component = RepositoryManagerComponent :: factory('CategoryManager', $this);
+                $component = $this->create_component('CategoryManager');
                 break;
             case self :: ACTION_DOWNLOAD_DOCUMENT :
-                $component = RepositoryManagerComponent :: factory('DocumentDownloader', $this);
+                $component = $this->create_component('DocumentDownloader');
                 break;
             case self :: ACTION_BROWSE_USER_VIEWS :
-                $component = RepositoryManagerComponent :: factory('UserViewBrowser', $this);
+                $component = $this->create_component('UserViewBrowser');
                 break;
             case self :: ACTION_CREATE_USER_VIEW :
-                $component = RepositoryManagerComponent :: factory('UserViewCreator', $this);
+                $component = $this->create_component('UserViewCreator');
                 break;
             case self :: ACTION_UPDATE_USER_VIEW :
-                $component = RepositoryManagerComponent :: factory('UserViewUpdater', $this);
+                $component = $this->create_component('UserViewUpdater');
                 break;
             case self :: ACTION_DELETE_USER_VIEW :
-                $component = RepositoryManagerComponent :: factory('UserViewDeleter', $this);
+                $component = $this->create_component('UserViewDeleter');
                 break;
             case self :: ACTION_VIEW_ATTACHMENT :
-                $component = RepositoryManagerComponent :: factory('AttachmentViewer', $this);
+                $component = $this->create_component('AttachmentViewer');
                 break;
             case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
-                $component = RepositoryManagerComponent :: factory('ComplexBuilder', $this);
+                $component = $this->create_component('ComplexBuilder');
                 break;
             case self :: ACTION_VIEW_REPO :
-                $component = RepositoryManagerComponent :: factory('RepoViewer', $this);
+                $component = $this->create_component('RepoViewer');
                 break;
             case self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('SharedContentObjectsBrowser', $this);
+                $component = $this->create_component('SharedContentObjectsBrowser');
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_BROWSE :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryBrowser', $this);
+                $component = $this->create_component('ExternalRepositoryBrowser');
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_EXPORT :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryExport', $this);
+                $component = $this->create_component('ExternalRepositoryExport');
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_IMPORT :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryImport', $this);
+                $component = $this->create_component('ExternalRepositoryImport');
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryListObjects', $this);
+                $component = $this->create_component('ExternalRepositoryListObjects');
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryMetadataReviewer', $this);
+                $component = $this->create_component('ExternalRepositoryMetadataReviewer');
                 break;
             case self :: ACTION_EXTERNAL_REPOSITORY_CATALOG :
-                $component = RepositoryManagerComponent :: factory('ExternalRepositoryCatalog', $this);
+                $component = $this->create_component('ExternalRepositoryCatalog');
                 break;
             case self :: ACTION_BROWSE_TEMPLATES :
-                $component = RepositoryManagerComponent :: factory('TemplateBrowser', $this);
+                $component = $this->create_component('TemplateBrowser');
                 break;
             case self :: ACTION_COPY_CONTENT_OBJECT :
-                $component = RepositoryManagerComponent :: factory('ContentObjectCopier', $this);
+                $component = $this->create_component('ContentObjectCopier');
                 break;
             case self :: ACTION_IMPORT_TEMPLATE :
-                $component = RepositoryManagerComponent :: factory('TemplateImporter', $this);
+                $component = $this->create_component('TemplateImporter');
                 break;
             case self :: ACTION_DELETE_TEMPLATE :
-                $component = RepositoryManagerComponent :: factory('TemplateDeleter', $this);
+                $component = $this->create_component('TemplateDeleter');
                 break;
             case self :: ACTION_UNLINK_CONTENT_OBJECTS:
-            	$component = RepositoryManagerComponent :: factory('Unlinker', $this);
+            	$component = $this->create_component('Unlinker');
                 break;
+            case self :: ACTION_VIEW_DOUBLES:
+            	$component = $this->create_component('DoublesViewer');
+                break;
+            case self :: ACTION_STREAMING_MEDIA_MANAGER:
+            	$component = $this->create_component('Streaming');
+            	break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_CONTENT_OBJECTS);
-                $component = RepositoryManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }
@@ -368,7 +366,7 @@ class RepositoryManager extends CoreApplication
                     Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
                     Request :: set_get(self :: PARAM_DELETE_PERMANENTLY, 1);
                     break;
-                case self :: PARAM_REMOVE_SELECTED_CLOI :
+                     case self :: PARAM_REMOVE_SELECTED_CLOI :
                     $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS);
                     Request :: set_get(self :: PARAM_CLOI_ID, $selected_ids);
                     break;
@@ -416,7 +414,7 @@ class RepositoryManager extends CoreApplication
      * @param boolean $display_search Should the header include a search form or
      * not?
      */
-    function display_header($breadcrumbtrail, $display_search = false, $display_menu = true)
+    function display_header($breadcrumbtrail = null, $display_search = false, $display_menu = true)
     {
         if (is_null($breadcrumbtrail))
         {
@@ -425,15 +423,6 @@ class RepositoryManager extends CoreApplication
 
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
-
-        /*$categories = $this->breadcrumbs;
-		if (count($categories) > 0 && $this->get_action() == self :: ACTION_BROWSE_CONTENT_OBJECTS)
-		{
-			foreach($categories as $category)
-			{
-				$breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
-			}
-		}*/
 
         if ($display_menu)
         {
@@ -455,31 +444,34 @@ class RepositoryManager extends CoreApplication
 
         if ($display_menu)
         {
-            echo '<div id="repository_tree_container" style="float: left; width: 12%;">';
+            echo '<div id="repository_tree_container" style="float: left; width: 15%;">';
             $this->display_content_object_categories();
             echo '</div>';
-            echo '<div style="float: right; width: 85%;">';
+            echo '<div style="float: right; width: 82%;">';
         }
         else
         {
             echo '<div>';
         }
 
-        echo '<div>';
-        echo '<h3 style="float: left;" title="' . $title . '">' . $title_short . '</h3>';
-        if ($display_search)
-        {
-            $this->display_search_form();
-        }
-        echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
-        if ($msg = Request :: get(Application :: PARAM_MESSAGE))
+
+        $message = Request :: get(self :: PARAM_MESSAGE);
+        if ($message)
         {
-            $this->display_message($msg);
+            $this->display_message($message);
         }
-        if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
+
+        $message = Request :: get(self :: PARAM_ERROR_MESSAGE);
+        if ($message)
         {
-            $this->display_error_message($msg);
+            $this->display_error_message($message);
+        }
+
+        $message = Request :: get(self :: PARAM_WARNING_MESSAGE);
+        if ($message)
+        {
+            $this->display_warning_message($message);
         }
     }
 
@@ -534,7 +526,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_quota_url()
     {
-        return $this->quota_url;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
     }
 
     /**
@@ -543,7 +535,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_publication_url()
     {
-        return $this->publication_url;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');
     }
 
     /**
@@ -552,7 +544,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_creation_url()
     {
-        return $this->create_url;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTENT_OBJECTS));
     }
 
     /**
@@ -561,7 +553,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_importing_url()
     {
-        return $this->import_url;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORT_CONTENT_OBJECTS));
     }
 
     /**
@@ -570,7 +562,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_recycle_bin_url()
     {
-        return $this->recycle_bin_url;
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS, self :: PARAM_CATEGORY_ID => null));
     }
 
     /**
@@ -647,8 +639,7 @@ class RepositoryManager extends CoreApplication
 
     function count_publication_attributes($user, $type = null, $condition = null)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->count_publication_attributes($user, $type, $condition);
+        return RepositoryDataManager :: count_publication_attributes($user, $type, $condition);
     }
 
     /**
@@ -656,8 +647,7 @@ class RepositoryManager extends CoreApplication
      */
     function content_object_deletion_allowed($content_object, $type = null)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->content_object_deletion_allowed($content_object, $type);
+        return RepositoryDataManager :: content_object_deletion_allowed($content_object, $type);
     }
 
     /**
@@ -665,8 +655,7 @@ class RepositoryManager extends CoreApplication
      */
     function content_object_revert_allowed($content_object)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->content_object_revert_allowed($content_object);
+        return RepositoryDataManager :: content_object_revert_allowed($content_object);
     }
 
     /**
@@ -674,8 +663,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_registered_types($only_master_types = false)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->get_registered_types($only_master_types);
+        return RepositoryDataManager :: get_registered_types($only_master_types);
     }
 
     /**
@@ -683,8 +671,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_publication_attributes($user, $id, $type = null, $offset = null, $count = null, $order_property = null)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->get_content_object_publication_attributes($user, $id, $type, $offset, $count, $order_property);
+        return RepositoryDataManager :: get_content_object_publication_attributes($user, $id, $type, $offset, $count, $order_property);
     }
 
     /**
@@ -692,8 +679,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_publication_attribute($id, $application)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->get_content_object_publication_attribute($id, $application);
+        return RepositoryDataManager :: get_content_object_publication_attribute($id, $application);
     }
 
     function get_publication_update_url($publication_attribute)
@@ -861,8 +847,7 @@ class RepositoryManager extends CoreApplication
      */
     function get_content_object_types($only_master_types = false)
     {
-        $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->get_registered_types($only_master_types);
+        return RepositoryDataManager :: get_registered_types($only_master_types);
     }
 
     /**
@@ -1046,21 +1031,52 @@ class RepositoryManager extends CoreApplication
             $shared['url'] = $this->get_shared_content_objects_url();
             $shared['class'] = 'category';
 
+            $doubles = array();
+            $doubles['title'] = Translation :: get('ViewDoubles');
+            $doubles['url'] = $this->get_view_doubles_url();
+            $doubles['class'] = 'doubles';
+
             $external_repositories = ExternalRepository :: retrieve_external_repository();
             if (count($external_repositories) > 0)
             {
                 $external_repository = array();
                 $external_repository['title'] = (count($external_repositories) > 1) ? Translation :: get('ExternalRepositories') : Translation :: get('ExternalRepository');
-                $external_repository['url']   = $this->get_url(array('go' => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
+                $external_repository['url']   = $this->get_url(array(Application::PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_BROWSE));
                 $external_repository['class'] = 'external_repository';
             }
 
+        	$streaming_media_managers = StreamingMediaManager :: retrieve_streaming_media_manager();
+        	
+            if (count($streaming_media_managers) > 0)
+            {
+                $streaming_item = array();
+                $streaming_item['title'] = (count($streaming_media_managers) > 1) ? Translation :: get('StreamingMediaManagers') : Translation :: get('StreamingMediaManager');
+                $streaming_item['url']   = '#'/*$this->get_url(array(Application::PARAM_ACTION => self :: ACTION_STREAMING_MEDIA_MANAGER))*/;
+                $streaming_item['class'] = 'streaming';
+                $streaming_sub_items = array();
+                
+            	foreach($streaming_media_managers as $streaming_media_manager){
+            		$streaming_sub_item = array();
+            		$streaming_sub_item['title'] = Translation :: get(Utilities:: underscores_to_camelcase($streaming_media_manager));
+                	$streaming_sub_item['url']   = $this->get_url(array(Application::PARAM_ACTION => self :: ACTION_STREAMING_MEDIA_MANAGER, StreamingMediaManager::PARAM_TYPE => $streaming_media_manager));
+                	$streaming_sub_item['class'] = $streaming_media_manager;
+                	$streaming_sub_items[] = $streaming_sub_item;
+            	
+                }
+                $streaming_item['sub'] = $streaming_sub_items;
+            }
+            
             $extra_items[] = $shared;
             $extra_items[] = $pub;
 
             if(isset($external_repository))
             {
                 $extra_items[] = $external_repository;
+            }
+            
+        	if(isset($streaming_item))
+            {
+                $extra_items[] = $streaming_item;
             }
 
             $extra_items[] = $line;
@@ -1073,6 +1089,7 @@ class RepositoryManager extends CoreApplication
 
             $extra_items[] = $quota;
             $extra_items[] = $uv;
+            $extra_items[] = $doubles;
             $extra_items[] = $trash;
 
             if ($force_search || $this->get_search_form()->validate())
@@ -1187,40 +1204,41 @@ class RepositoryManager extends CoreApplication
         return $rdm->retrieve_complex_content_object_items($condition, $order_by, $offset, $max_objects);
     }
 
-    function retrieve_complex_content_object_item($cloi_id)
+    function retrieve_complex_content_object_item($complex_content_object_item_id)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_complex_content_object_item($cloi_id);
+        return $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
     }
 
-    function get_complex_content_object_item_edit_url($cloi, $root_id)
+    function get_complex_content_object_item_edit_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECTS, self :: PARAM_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
-    function get_complex_content_object_item_delete_url($cloi, $root_id)
+    function get_complex_content_object_item_delete_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS, self :: PARAM_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
-    function get_complex_content_object_item_move_url($cloi, $root_id, $direction)
+    function get_complex_content_object_item_move_url($complex_content_object_item, $root_id, $direction)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECTS, self :: PARAM_CLOI_ID => $cloi->get_id(), self :: PARAM_CLOI_ROOT_ID => $root_id, self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => Request :: get('publish')));
     }
 
     function get_browse_complex_content_object_url($object)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, ComplexBuilder :: PARAM_ROOT_LO => $object->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT,
+        							self :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
     }
 
-    function get_add_existing_content_object_url($root_id, $clo_id)
+    function get_add_existing_content_object_url($root_id, $complex_content_object_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SELECT_CONTENT_OBJECTS, self :: PARAM_CLOI_ID => $clo_id, self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SELECT_CONTENT_OBJECTS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
-    function get_add_content_object_url($content_object, $cloi_id, $root_id)
+    function get_add_content_object_url($content_object, $complex_content_object_item_id, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADD_CONTENT_OBJECT, self :: PARAM_CLOI_REF => $content_object->get_id(), self :: PARAM_CLOI_ID => $cloi_id, self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADD_CONTENT_OBJECT, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_REF => $content_object->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
     function get_content_object_exporting_url($content_object)
@@ -1309,9 +1327,9 @@ class RepositoryManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
     }
 
-    function get_copy_content_object_url($lo_id, $to_user_id)
+    function get_copy_content_object_url($content_object_id, $to_user_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $lo_id, self :: PARAM_TARGET_USER => $to_user_id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_CONTENT_OBJECT, self :: PARAM_CONTENT_OBJECT_ID => $content_object_id, self :: PARAM_TARGET_USER => $to_user_id));
     }
 
     function get_import_template_url()
@@ -1322,6 +1340,11 @@ class RepositoryManager extends CoreApplication
     function get_delete_template_url($template_id)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_TEMPLATE, self :: PARAM_CONTENT_OBJECT_ID => $template_id));
+    }
+
+    function get_view_doubles_url()
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_DOUBLES));
     }
 
     function get_delete_link_url($type, $object_id, $link_id)
@@ -1355,8 +1378,8 @@ class RepositoryManager extends CoreApplication
         $udm = UserDataManager :: get_instance();
         $rdm = RightsDataManager :: get_instance();
 
-        $lo = $this->retrieve_content_object($content_object->get_id());
-        if ($lo->get_owner_id() == 0)
+        $content_object = $this->retrieve_content_object($content_object->get_id());
+        if ($content_object->get_owner_id() == 0)
             return true;
 
         $user = $udm->retrieve_user($user_id);
@@ -1422,5 +1445,20 @@ class RepositoryManager extends CoreApplication
         }
         return false;
     } //has_right
+    
+    function get_create_user_view_url()
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_USER_VIEW));
+    }
+    
+	function get_update_user_view_url($user_view_id)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
+    }
+    
+	function get_delete_user_view_url($user_view_id)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW, self :: PARAM_USER_VIEW => $user_view_id));
+    }
 }
 ?>

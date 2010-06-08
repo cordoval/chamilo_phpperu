@@ -16,9 +16,9 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function ComplexBrowserTableColumnModel($show_subitems_column, $additional_columns = array())
+    function ComplexBrowserTableColumnModel($browser, $additional_columns = array())
     {
-        parent :: __construct(self :: get_default_columns($show_subitems_column, $additional_columns), 1);
+        parent :: __construct(self :: get_default_columns($browser, $additional_columns), 1);
         $this->set_default_order_column(0);
     }
 
@@ -35,7 +35,7 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
         return self :: $modification_column;
     }
 
-    private static function get_default_columns($show_subitems_column = true, $additional_columns = array())
+    private static function get_default_columns($browser, $additional_columns = array())
     {
         $columns = array();
         $columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TYPE)));
@@ -44,7 +44,7 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
         //$columns[] = new ObjectTableColumn(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER);
         
 
-        if ($show_subitems_column)
+        if ($browser->show_menu())
         {
             $columns[] = new StaticTableColumn(Translation :: get('Subitems'));
         }

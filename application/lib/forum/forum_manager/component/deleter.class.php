@@ -4,13 +4,12 @@
  * @package application.lib.forum.forum_manager.component
  */
 require_once dirname(__FILE__) . '/../forum_manager.class.php';
-require_once dirname(__FILE__) . '/../forum_manager_component.class.php';
 
 /**
  * Component to delete forum_publications objects
  * @author Sven Vanpoucke & Michael Kyndt
  */
-class ForumManagerDeleterComponent extends ForumManagerComponent
+class ForumManagerDeleterComponent extends ForumManager
 {
 
     /**
@@ -18,7 +17,7 @@ class ForumManagerDeleterComponent extends ForumManagerComponent
      */
     function run()
     {
-        $ids = Request :: get(ForumManager :: PARAM_FORUM_PUBLICATION);
+        $ids = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
         $failures = 0;
         
         if (! empty($ids))
@@ -31,7 +30,12 @@ class ForumManagerDeleterComponent extends ForumManagerComponent
             foreach ($ids as $id)
             {
                 $forum_publication = $this->retrieve_forum_publication($id);
-                
+            	if(WebApplication :: is_active('gradebook'))
+       			{
+       				require_once dirname(__FILE__) . '/../../../gradebook/gradebook_utilities.class.php';
+			    	if(!GradebookUtilities :: move_internal_item_to_external_item(ForumManager :: APPLICATION_NAME, $forum_publication->get_id()))
+			    		$message = 'failed to move internal evaluation to external evaluation';
+       			}
                 if (! $forum_publication->delete())
                 {
                     $failures ++;

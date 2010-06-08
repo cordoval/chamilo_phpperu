@@ -40,9 +40,12 @@ class PersonalMessagePublisher
             $failures = 0;
             
             if ($edit)
-                $array = array('user|' . $user);
+            {
+                $recipients = array();
+                $recipients[] = $user;
+            }
             
-            if ($form->create_content_object_publication($array))
+            if ($form->create_content_object_publication($recipients))
             {
                 $message = 'PersonalMessagePublished';
             }
@@ -51,7 +54,6 @@ class PersonalMessagePublisher
                 $failures ++;
                 $message = 'PersonalMessageNotPublished';
             }
-            
             $this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
         }
         else

@@ -116,17 +116,17 @@ $(function ()
 	
 	function getEditIcon()
 	{
-		return $('.data_table tbody tr:first td:last .edit_option').attr('src');
+		return $('.data_table > tbody > tr:first > td:last .edit_option').attr('src');
 	}
 	 
 	function getResetIcon()
 	{
-		return $('.data_table tbody tr:first td:last .reset_option').attr('src');
+		return $('.data_table > tbody > tr:first > td:last .reset_option').attr('src');
 	}
 	
 	function getDeleteIcon()
 	{
-		return $('.data_table tbody tr:first td:last .remove_option').attr('src').replace('_na.png', '.png');
+		return $('.data_table > tbody > tr:first > td:last .remove_option').attr('src').replace('_na.png', '.png');
 	}
    
 	function processOptions()
@@ -135,7 +135,7 @@ $(function ()
 		
 		deleteImage = '<img class="remove_option" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
 		deleteField = '<input id="remove_$option_number" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
-		rows = $('.data_table tbody tr');
+		rows = $('.data_table > tbody > tr');
 		
 		if (rows.size() <= 1)
 		{
@@ -166,6 +166,8 @@ $(function ()
 			rows;
 		
 		id = id.replace('remove_', '');
+		destroyHtmlEditor('answer['+ id +']');
+		destroyHtmlEditor('comment['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 		$('input[name="coordinates[' + id + ']"]').remove();
 		
@@ -205,14 +207,14 @@ $(function ()
 		
 		$('#mc_number_of_options').val(newNumber);
 		
-		parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
+		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
 		editorNameAnswer = 'answer[' + numberOfOptions + ']';
 		editorNameComment = 'comment[' + numberOfOptions + ']';
 		
 		fieldColour = '<div class="colour_box" style="background-color: ' + colours[numberOfOptions] + ';"></div>';
 		fieldCoordinates = '<input name="coordinates[' + numberOfOptions + ']" type="hidden" value="" />';
-		fieldAnswer = renderFckEditor(editorNameAnswer, parameters);
-		fieldComment = renderFckEditor(editorNameComment, parameters);
+		fieldAnswer = renderHtmlEditor(editorNameAnswer, parameters);
+		fieldComment = renderHtmlEditor(editorNameComment, parameters);
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldEdit = '<input id="edit_' + numberOfOptions + '" class="edit_option" type="image" src="' + getEditIcon() + '" name="edit[' + numberOfOptions + ']" />&nbsp;&nbsp;';
 		fieldReset = '<input id="reset_' + numberOfOptions + '" class="reset_option" type="image" src="' + getResetIcon() + '" name="reset[' + numberOfOptions + ']" />&nbsp;&nbsp;';
@@ -221,7 +223,7 @@ $(function ()
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldColour + fieldCoordinates + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
 				 '</td><td>' + fieldScore + '</td><td>' + fieldEdit + fieldReset + fieldDelete + '</td></tr>';
 		
-		$('.data_table tbody').append(string);
+		$('.data_table > tbody').append(string);
 		
 		processOptions();
 		
@@ -246,6 +248,14 @@ $(function ()
 		$('#hotspot_select').hide();
 		$('#hotspot_options').show();
 	}
+	
+//	function resetImage(ev, ui)
+//	{
+//		ev.preventDefault();
+//		$('input[name="image_object"]').val('');
+//		$('#hotspot_select').show();
+//		$('#hotspot_options').hide();
+//	}
 
 	$(document).ready(function ()
 	{
@@ -254,21 +264,16 @@ $(function ()
 		$('#hotspot_select').show();
 		
 		// Initialize the uploadify plugin
-		$('#uploadify').fileUpload ({
-			'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/uploader-cms.swf',
+		$('#uploadify').uploadify ({
+			'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
 			'script': getPath('WEB_PATH') + 'common/javascript/ajax/upload_image.php',
-			'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/cancel.png',
-			//'buttonText': getTranslation('Browse', 'repository'),
-			//'buttonImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/button.png',
-			//'rollover': true,
+			'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
+			'buttonText': getTranslation('Browse', 'repository').toUpperCase(),
 			'folder': 'not_important',
 			'auto': true,
-			//'width': 84,
-			//'height': 27,
-			'displayData': 'percentage',
 			'scriptData': {'owner': getMemory('_uid')},
 			onComplete: function (evt, queueID, fileObj, response, data)
-			{
+			{				
 				imageProperties = eval('(' + response + ')');
 				
 				$('input[name="image_object"]').val(imageProperties.id);
@@ -309,9 +314,12 @@ $(function ()
 		// Bind actions to option management buttons
 		$('.remove_option').live('click', removeOption);
 		$('.add_option').live('click', addOption);
-		
+
 		// Process image selection
-		$('.inactive_elements a:not(.disabled, .category)').live('click', setHotspotImage);
+		$('.inactive_elements a:not(.disabled, .category)').bind('click', setHotspotImage);
+		
+		// Allow selection of a different image
+//		$("#change_image").bind('click', resetImage);
 	});
 
 });

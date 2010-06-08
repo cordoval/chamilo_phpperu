@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="category_rel_period">
+	<properties>
+		<property name="category_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="period_id" type="integer" unsigned="1"
+			notnull="1" />
+	</properties>
+	<index name="category_period_id" type="primary">
+		<indexproperty name="category_id" />
+		<indexproperty name="period_id" />
+	</index>
+</object>

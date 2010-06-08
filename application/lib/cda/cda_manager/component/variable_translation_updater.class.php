@@ -3,7 +3,6 @@
  * @package application.cda.cda.component
  */
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/variable_translation_form.class.php';
 
 /**
@@ -11,7 +10,7 @@ require_once dirname(__FILE__).'/../../forms/variable_translation_form.class.php
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
+class CdaManagerVariableTranslationUpdaterComponent extends CdaManager
 {
 	/**
 	 * Runs this component and displays its output.
@@ -70,7 +69,7 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 						}
 						
 						$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
-						$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+						$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATED, 0);
 						$conditions[] = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $variable->get_language_pack_id(), Variable :: get_table_name());
 						$condition = new AndCondition($conditions);
 						$next_variable = $this->retrieve_variable_translations($condition, 0, 1)->next_result();
@@ -83,7 +82,7 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManagerComponent
 								$conditions[] = $extra_condition;
 							
 							$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
-							$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATION, ' ');
+							$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_TRANSLATED, 0);
 							$condition = new AndCondition($conditions);
 							$next_variable = $this->retrieve_variable_translations($condition, 0, 1)->next_result();
 						}

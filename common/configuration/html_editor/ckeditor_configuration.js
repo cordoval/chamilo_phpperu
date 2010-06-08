@@ -9,10 +9,11 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	
-	config.removePlugins = 'flash';
-	config.extraPlugins = 'chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo';
-//	config.removePlugins = 'elementspath,save,font';
-	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion, chamilovimeo';
+    config.extraPlugins = 'chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio, chamilodailymotion, chamilovimeo';
+	config.removePlugins = 'flash,elementspath,resize';
+	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio, chamilodailymotion, chamilovimeo';
+	
+	
 	
 	config.toolbar_Full =
 		[

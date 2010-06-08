@@ -54,6 +54,7 @@ class User extends DataClass
     const PROPERTY_REGISTRATION_DATE = 'registration_date';
     const PROPERTY_ACTIVE = 'active';
     const PROPERTY_SECURITY_TOKEN = 'security_token';
+    const PROPERTY_APPROVED = 'approved';
 
     const ACTION_CREATE_USER = 'create';
 
@@ -66,12 +67,12 @@ class User extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, 
-        		self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL, 
-        		self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, 
-        		self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, 
-        		self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, 
-        		self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_SECURITY_TOKEN));
+        return parent :: get_default_property_names(array(self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME,
+        		self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EXTERNAL_UID, self :: PROPERTY_EMAIL,
+        		self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE,
+        		self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA,
+        		self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE,
+        		self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_SECURITY_TOKEN, self :: PROPERTY_APPROVED));
     }
 
     /**
@@ -272,7 +273,7 @@ class User extends DataClass
     {
         return $this->get_default_property(self :: PROPERTY_ACTIVE);
     }
-    
+
     function get_security_token()
     {
         return $this->get_default_property(self :: PROPERTY_SECURITY_TOKEN);
@@ -388,7 +389,7 @@ class User extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_PICTURE_URI, $picture_uri);
     }
-    
+
     function set_security_token($security_token)
     {
         $this->set_default_property(self :: PROPERTY_SECURITY_TOKEN, $security_token);
@@ -520,6 +521,16 @@ class User extends DataClass
         $this->set_default_property(self :: PROPERTY_ACTIVE, $active);
     }
 
+	function set_approved($approved)
+    {
+        $this->set_default_property(self :: PROPERTY_APPROVED, $approved);
+    }
+
+	function get_approved()
+    {
+        return $this->get_default_property(self :: PROPERTY_APPROVED);
+    }
+
     /**
      * Gets the version type quota of a certain learning object type
      * @param String $type The learning object type
@@ -560,8 +571,7 @@ class User extends DataClass
 
         $version_quota = $this->get_version_quota() ? $this->get_version_quota() : 20;
 
-        $rdm = RepositoryDataManager :: get_instance();
-        $types = $rdm->get_registered_types();
+        $types = RepositoryDataManager :: get_registered_types();
 
         foreach ($types as $type)
         {
@@ -655,7 +665,7 @@ class User extends DataClass
     {
         if ($this->get_platformadmin() == '1')
         {
-            return Translation :: get('PlatformAdmin');
+            return Translation :: get('PlatformAdministrator');
         }
         if ($this->get_status() == '1')
         {

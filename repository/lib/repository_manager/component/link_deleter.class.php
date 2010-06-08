@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to delete a
  * link to a content object
  */
-class RepositoryManagerLinkDeleterComponent extends RepositoryManagerComponent
+class RepositoryManagerLinkDeleterComponent extends RepositoryManager
 {
 
     /**
@@ -54,13 +54,12 @@ class RepositoryManagerLinkDeleterComponent extends RepositoryManagerComponent
     
     function delete_publication($object_id, $link_ids)
     {
-    	$rdm = RepositoryDataManager :: get_instance();
     	$failures = 0;
     	
     	foreach($link_ids as $link_id)
     	{
     		list($application, $publication_id) = explode("|", $link_id);
-    		if(!$rdm->delete_content_object_publication($application, $publication_id))
+    		if(!RepositoryDataManager :: delete_content_object_publication($application, $publication_id))
     			$failures++;
     	}	
     	
@@ -86,7 +85,7 @@ class RepositoryManagerLinkDeleterComponent extends RepositoryManagerComponent
     			continue;
     		}
     		
-    		if($object->get_type() == 'portfolio_item' || $object->get_type() == 'learning_path_item')
+    		if($object->get_type() == PortfolioItem :: get_type_name() || $object->get_type() == LearningPathItem :: get_type_name())
     		{
     			if(!$object->delete())
     			{

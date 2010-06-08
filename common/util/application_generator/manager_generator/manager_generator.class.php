@@ -23,11 +23,10 @@ class ManagerGenerator
             mkdir($location, 0777, true);
         
         $manager_file = fopen($location . Utilities :: camelcase_to_underscores($application_name) . '_manager.class.php', 'w+');
-        $component_file = fopen($location . Utilities :: camelcase_to_underscores($application_name) . '_manager_component.class.php', 'w+');
         
-        if ($manager_file && $component_file)
+        if ($manager_file)
         {
-            $this->template->set_filenames(array('manager' => 'manager.template', 'component' => 'manager_component.template'));
+            $this->template->set_filenames(array('manager' => 'manager.template'));
             
             $this->template->assign_vars(array('APPLICATION_NAME' => Utilities :: underscores_to_camelcase($application_name), 'L_APPLICATION_NAME' => Utilities :: camelcase_to_underscores($application_name), 'AUTHOR' => $author));
             
@@ -46,10 +45,6 @@ class ManagerGenerator
             $string = trim($this->template->pparse_return('manager'));
             fwrite($manager_file, $string);
             fclose($manager_file);
-            
-            $string = trim($this->template->pparse_return('component'));
-            fwrite($component_file, $string);
-            fclose($component_file);
         }
     }
 }

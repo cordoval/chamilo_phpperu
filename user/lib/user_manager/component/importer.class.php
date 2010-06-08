@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerImporterComponent extends UserManagerComponent
+class UserManagerImporterComponent extends UserManager
 {
 
     /**
@@ -12,16 +12,16 @@ class UserManagerImporterComponent extends UserManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_IMPORTER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Importer')));
         //$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreateCsv')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ImportUsers')));
         $trail->add_help('user general');
         
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -31,12 +31,13 @@ class UserManagerImporterComponent extends UserManagerComponent
         
         if ($form->validate())
         {
-            $success = $form->import_users();
-            $this->redirect(Translation :: get($success ? 'CsvUsersProcessed' : 'CsvUsersNotProcessed') . '<br />' . $form->get_failed_csv(), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS));
+            $success = $form->import_users(); 
+            $message = Translation :: get(($success ? 'CsvUsersProcessed' : 'CsvUsersNotProcessed'), array('COUNT' => $form->count_failed_items()));
+            $this->redirect($message . '<br />' . $form->get_failed_csv(), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS));
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_extra_information();
             $this->display_footer();

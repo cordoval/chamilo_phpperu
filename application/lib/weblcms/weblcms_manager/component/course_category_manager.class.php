@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../course/course_category_form.class.php';
 require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 require_once dirname(__FILE__) . '/../../category_manager/weblcms_category_manager.class.php';
@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../category_manager/weblcms_category_manag
 /**
  * Weblcms component allows the user to manage course categories
  */
-class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
 {
 
     /**

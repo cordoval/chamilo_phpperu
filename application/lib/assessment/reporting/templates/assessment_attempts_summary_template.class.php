@@ -4,17 +4,31 @@
  * @package application.lib.assessment.reporting.templates
  */
 require_once dirname(__FILE__) . '/../../assessment_publication_category_menu.class.php';
+require_once dirname(__FILE__) . '/../blocks/assessment_attempts_summary_reporting_block.class.php';
 
 class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
 {
 
     function AssessmentAttemptsSummaryTemplate($parent = null, $id, $params, $trail)
     {
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("AssessmentAttemptsSummary"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
+    	
+        $block = new AssessmentAttemptsSummaryReportingBlock($this);
+        $block->set_function_parameters($params);
+        $this->add_reporting_block($block);
         
         parent :: __construct($parent, $id, $params, $trail);
     }
-
+    
+	function display_context()
+	{
+		//publicatie, content_object, application ... 
+	}
+	
+    function get_application()
+    {
+    	return AssessmentManager::APPLICATION_NAME;
+    }
+	
     /**
      * @see ReportingTemplate -> get_properties()
      */
@@ -33,7 +47,7 @@ class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
     function to_html()
     {
         //template header
-        $html[] = $this->get_header();
+        $html[] = $this->display_header();
         //$html[] = '<div class="reporting_center">';
         //show visible blocks
         
@@ -47,12 +61,12 @@ class AssessmentAttemptsSummaryTemplate extends ReportingTemplate
         $html[] = '</div>';
         
         $html[] = '<div style="float: right; width: 80%; overflow: auto;" />';
-        $html[] = $this->get_visible_reporting_blocks();
+        $html[] = $this->render_all_blocks();
         $html[] = '</div>';
         
         //$html[] = '</div>';
         //template footer
-        $html[] = $this->get_footer();
+        $html[] = $this->display_footer();
         
         return implode("\n", $html);
     }

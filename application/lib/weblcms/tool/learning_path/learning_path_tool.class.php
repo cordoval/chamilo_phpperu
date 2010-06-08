@@ -21,6 +21,7 @@ class LearningPathTool extends Tool
     const PARAM_LEARNING_PATH = 'lp';
     const PARAM_LP_STEP = 'step';
     const PARAM_LEARNING_PATH_ID = 'lpid';
+    const PARAM_ATTEMPT_ID = 'attempt_id';
 
     // Inherited.
     function run()
@@ -76,45 +77,11 @@ class LearningPathTool extends Tool
         }
         
         $component->run();
-        /*$trail = new BreadcrumbTrail();
-		$trail->add_help('courses learnpath tool');
-
-		if(!$this->is_allowed(VIEW_RIGHT))
-		{
-			Display :: not_allowed();
-			return;
-		}
-		if (Request :: get('admin'))
-		{
-			$_SESSION['wikiadmin'] = Request :: get('admin');
-		}
-		if ($_SESSION['wikiadmin'] && $this->is_allowed(ADD_RIGHT))
-		{
-			require_once dirname(__FILE__).'/../../content_object_repo_viewer.class.php';
-			$pub = new ContentObjectPublisher($this, 'learning_path');
-			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), array(), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
-			$html[] =  $pub->as_html();
-			$this->display_header($trail, true);
-			echo implode("\n",$html);
-			$this->display_footer();
-		}
-		else
-		{
-			$this->display_header($trail, true);
-			if($this->is_allowed(ADD_RIGHT))
-			{
-				echo '<p><a href="' . $this->get_url(array('admin' => 1), array(), true) . '"><img src="'.Theme :: get_common_image_path().'action_publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
-			}
-			echo $this->perform_requested_actions();
-			$browser = new LearningPathBrowser($this);
-			echo $browser->as_html();
-			$this->display_footer();
-		}*/
     }
 
     static function get_allowed_types()
     {
-        return array('learning_path');
+        return array(LearningPath :: get_type_name());
     }
 }
 ?>

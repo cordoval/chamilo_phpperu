@@ -12,6 +12,8 @@
 class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
+    private $object_count;
+    private $preloaded_result_set = null;
     /**
      * Constructor
      * @param RepositoryManagerComponent $browser
@@ -20,6 +22,7 @@ class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
     function SubscribeGroupBrowserTableDataProvider($browser, $condition)
     {
         parent :: __construct($browser, $condition);
+        $this->get_objects();
     }
 
     /**
@@ -31,9 +34,13 @@ class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        $order_property = $this->get_order_property($order_property);
-        
-        return GroupDataManager :: get_instance()->retrieve_groups($this->get_condition(), $offset, $count, $order_property);
+    	if(is_null($this->preloaded_result_set))
+    	{
+	        $order_property = $this->get_order_property($order_property);
+	        $this->preloaded_result_set = WeblcmsDataManager::get_instance()->retrieve_course_subscribe_groups_by_right(CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT, parent::get_browser()->get_course(),$this->get_condition(), $offset, $count, $order_property);
+	        $this->object_count = $this->preloaded_result_set->size();
+    	}
+        return $this->preloaded_result_set;
     }
 
     /**
@@ -42,7 +49,7 @@ class SubscribeGroupBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        return GroupDataManager :: get_instance()->count_groups($this->get_condition());
+        return $this->object_count;
     }
 }
 ?>

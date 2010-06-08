@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerExporterComponent extends UserManagerComponent
+class UserManagerExporterComponent extends UserManager
 {
 
     /**
@@ -12,7 +12,7 @@ class UserManagerExporterComponent extends UserManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreateExport')));
@@ -20,7 +20,7 @@ class UserManagerExporterComponent extends UserManagerComponent
         
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -42,6 +42,7 @@ class UserManagerExporterComponent extends UserManagerComponent
             	else
             	{
             		$user_array = $this->prepare_for_other_export($user);
+            		
             	}
             	
                 Events :: trigger_event('export', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
@@ -51,7 +52,7 @@ class UserManagerExporterComponent extends UserManagerComponent
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }
@@ -63,7 +64,7 @@ class UserManagerExporterComponent extends UserManagerComponent
         $firstname_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_FIRSTNAME));
         $username_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_USERNAME));
         $email_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_EMAIL));
-        $language_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_LANGUAGE));
+        $language_title = Translation :: get(Utilities :: underscores_to_camelcase('language'));
         $status_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_STATUS));
         $active_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_ACTIVE));
         $official_code_title = Translation :: get(Utilities :: underscores_to_camelcase(User :: PROPERTY_OFFICIAL_CODE));
@@ -76,21 +77,17 @@ class UserManagerExporterComponent extends UserManagerComponent
         $user_array[$firstname_title] = $user->get_firstname();
         $user_array[$username_title] = $user->get_username();
         $user_array[$email_title] = $user->get_email();
-        $user_array[$language_title] = $user->get_language();
+        $user_array[$language_title] = LocalSetting :: get('platform_language');
         $user_array[$status_title] = $user->get_status();
         $user_array[$active_title] = $user->get_active();
         $user_array[$official_code_title] = $user->get_official_code();
         $user_array[$phone_title] = $user->get_phone();
                 
         $act_date = $user->get_activation_date();
-        if ($act_date != 0)
-            $act_date = Utilities :: to_db_date($act_date);
                 
         $user_array[$activation_date_title] = $act_date;
                
         $exp_date = $user->get_expiration_date();
-        if ($exp_date != 0)
-            $exp_date = Utilities :: to_db_date($exp_date);
               
         $user_array[$expiration_date_title] = $exp_date;
                 
@@ -106,21 +103,17 @@ class UserManagerExporterComponent extends UserManagerComponent
         $user_array[User :: PROPERTY_FIRSTNAME] = $user->get_firstname();
         $user_array[User :: PROPERTY_USERNAME] = $user->get_username();
         $user_array[User :: PROPERTY_EMAIL] = $user->get_email();
-        $user_array[User :: PROPERTY_LANGUAGE] = $user->get_language();
+        $user_array['language'] = LocalSetting :: get('platform_language');
         $user_array[User :: PROPERTY_STATUS] = $user->get_status();
         $user_array[User :: PROPERTY_ACTIVE] = $user->get_active();
         $user_array[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
         $user_array[User :: PROPERTY_PHONE] = $user->get_phone();
                 
         $act_date = $user->get_activation_date();
-        if ($act_date != 0)
-            $act_date = Utilities :: to_db_date($act_date);
                 
         $user_array[User :: PROPERTY_ACTIVATION_DATE] = $act_date;
                
         $exp_date = $user->get_expiration_date();
-        if ($exp_date != 0)
-            $exp_date = Utilities :: to_db_date($exp_date);
               
         $user_array[User :: PROPERTY_EXPIRATION_DATE] = $exp_date;
                 
@@ -132,11 +125,13 @@ class UserManagerExporterComponent extends UserManagerComponent
     function export_users($file_type, $data)
     {
         $filename = 'export_users_' . date('Y-m-d_H-i-s');
-        $export = Export :: factory($file_type, $filename);
-        if ($file_type == 'pdf')
+    	if ($file_type == 'pdf')
+        {
             $data = array(array('key' => 'users', 'data' => $data));
-        $export->write_to_file($data);
-        return;
+        }
+        $export = Export :: factory($file_type, $data);
+        $export->set_filename($filename);
+        $export->send_to_browser();
     }
 }
 ?>

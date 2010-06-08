@@ -6,6 +6,7 @@
 require_once dirname(__FILE__) . '/../user_tool.class.php';
 require_once dirname(__FILE__) . '/../user_tool_component.class.php';
 require_once dirname(__FILE__) . '/../../../weblcms_manager/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
+require_once dirname(__FILE__) . '/../course_group_user_menu.class.php';
 
 class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 {
@@ -24,8 +25,8 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'user');
 
-        $subselect_condition = new EqualityCondition('type', 'introduction');
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         $condition = new AndCondition($conditions);
 
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
@@ -39,31 +40,68 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 
         //echo '<br /><a name="top"></a>';
         //echo $this->perform_requested_actions();
-        if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+        if ($this->get_course()->get_intro_text())
         {
             echo $this->display_introduction_text();
         }
+
         echo $this->action_bar->as_html();
-        echo $this->get_user_unsubscribe_html();
+        echo $this->display_users();
 
         $this->display_footer();
+    }
+
+    function display_users()
+    {
+        $has_subscribed_groups = $this->get_course()->has_subscribed_groups();
+        $html = array();
+
+        if ($has_subscribed_groups)
+        {
+            $html[] = '<div style="float: left; width: 14%; overflow: auto;">';
+            $html[] = $this->get_course_group_menu();
+            $html[] = '</div>';
+            $html[] = '<div style="float: right; width: 84%;">';
+        }
+
+        $html[] = $this->get_user_unsubscribe_html();
+
+        if ($has_subscribed_groups)
+        {
+            $html[] = '</div>';
+            $html[] = '<div class="clear"></div>';
+        }
+
+        return implode("\n", $html);
     }
 
     function get_user_unsubscribe_html()
     {
         $table = new SubscribedUserBrowserTable($this, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => $this->get_tool_id(), UserTool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USERS, 'application' => 'weblcms'), $this->get_unsubscribe_condition());
+        return $table->as_html();
+    }
 
-        $html = array();
-        $html[] = $table->as_html();
-
-        return implode($html, "\n");
+    function get_course_group_menu()
+    {
+        $group = Request :: get(WeblcmsManager :: PARAM_GROUP);
+        $course_group_user_menu = new CourseGroupUserMenu($this->get_course(), $group);
+        return $course_group_user_menu->render_as_tree();
     }
 
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->set_search_url($this->get_url(array('tool_action' => UserTool :: ACTION_UNSUBSCRIBE_USERS)));
+        $parameters = array();
+        $parameters['tool_action'] = UserTool :: ACTION_UNSUBSCRIBE_USERS;
+
+        $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
+        if (isset($group_id))
+        {
+            $parameters[WeblcmsManager :: PARAM_GROUP] = $group_id;
+        }
+
+        $action_bar->set_search_url($this->get_url($parameters));
 
         if ($this->is_allowed(EDIT_RIGHT))
         {
@@ -72,7 +110,7 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 
             if (! $this->introduction_text)
             {
-                $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }
 
@@ -81,27 +119,46 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 
     function get_unsubscribe_condition()
     {
-        $condition = null;
+        $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
 
-        $relation_conditions = array();
-        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_course()->get_id());
-        $relation_condition = new AndCondition($relation_conditions);
-
-        $users = $this->get_parent()->retrieve_course_user_relations($relation_condition);
-
-        $conditions = array();
-        while ($user = $users->next_result())
+        if (isset($group_id))
         {
-            $conditions[] = new EqualityCondition(User :: PROPERTY_ID, $user->get_user());
+            $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
+
+            $conditions = array();
+            $conditions[] = new InCondition(User :: PROPERTY_ID, $group->get_users(true, true));
+
+            if ($this->get_condition())
+            {
+                $conditions[] = $this->get_condition();
+            }
+
+            return new AndCondition($conditions);
         }
-
-        $condition = new OrCondition($conditions);
-
-        if ($this->get_condition())
+        else
         {
-            $condition = new AndCondition($condition, $this->get_condition());
+            $condition = null;
+
+            $relation_conditions = array();
+            $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_course()->get_id());
+            $relation_condition = new AndCondition($relation_conditions);
+
+            $users = $this->get_parent()->retrieve_course_user_relations($relation_condition);
+
+            $conditions = array();
+            while ($user = $users->next_result())
+            {
+                $conditions[] = new EqualityCondition(User :: PROPERTY_ID, $user->get_user());
+            }
+
+            $condition = new OrCondition($conditions);
+
+            if ($this->get_condition())
+            {
+                $condition = new AndCondition($condition, $this->get_condition());
+            }
+            return $condition;
         }
-        return $condition;
     }
 
     function get_condition()
@@ -109,9 +166,9 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
-            $conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
-            $conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
             return new OrCondition($conditions);
         }
     }

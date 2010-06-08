@@ -4,14 +4,13 @@
  * @package application.lib.assessment.assessment_manager.component
  */
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_manager_component.class.php';
 
 /**
  * Component to delete assessment_publications objects
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerDeleterComponent extends AssessmentManagerComponent
+class AssessmentManagerDeleterComponent extends AssessmentManager
 {
 
     /**
@@ -32,13 +31,18 @@ class AssessmentManagerDeleterComponent extends AssessmentManagerComponent
             foreach ($ids as $id)
             {
                 $assessment_publication = $this->retrieve_assessment_publication($id);
-                
                 if (! $assessment_publication->is_visible_for_target_user($this->get_user()))
                 {
                     $failures ++;
                 }
                 else
                 {
+	                if(WebApplication :: is_active('gradebook'))
+	       			{
+	       				require_once dirname(__FILE__) . '/../../../gradebook/gradebook_utilities.class.php';
+				    	if(!GradebookUtilities :: move_internal_item_to_external_item(AssessmentManager :: APPLICATION_NAME, $id))
+				    		$message = 'failed to move internal evaluation to external evaluation';
+	       			}
                     if (! $assessment_publication->delete())
                     {
                         $failures ++;

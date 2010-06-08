@@ -10,7 +10,6 @@ require_once Path :: get_plugin_path() . '/pChart/pChart/pData.class';
 class PchartReportingChartFormatter extends ReportingChartFormatter
 {
     private $instance;
-    protected $reporting_block;
     protected $font;
 
     /**
@@ -22,6 +21,19 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
     } //to_html
 
     
+    public function get_chart()
+    {
+        $all_data = $this->get_block()->retrieve_data();
+        if ($all_data == null)
+        {
+            return null;
+        }
+        else
+        {
+            return $this->render_chart();
+        }
+    }
+
     protected function strip_data_names($data)
     {
         foreach ($data as $key => $value)
@@ -30,26 +42,18 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
             {
                 if ($key2 == "Name")
                 {
-                    $value[$key2] = Utilities :: truncate_string($value2, 30, false, '...');
+                    $value[$key2] = Utilities :: truncate_string(trim(html_entity_decode(strip_tags($value2), ENT_COMPAT, 'utf-8')), 30, false, '...');
                 }
             }
             $data[$key] = $value;
         }
         return $data;
     }
-
-    /**
-     * @see Reporting Chart Formatter -> to_link
-     */
-    public function to_link($type = 'SYS')
-    {
-        return $this->get_pchart_instance()->to_link();
-    }
-
+    
     public function PchartReportingChartFormatter(&$reporting_block)
     {
-        $this->reporting_block = $reporting_block;
-        $this->font = Path :: get_plugin_path() . '/pChart/Fonts/tahoma.ttf';
+        parent :: __construct($reporting_block);
+        $this->font = Path :: get_plugin_path() . 'pChart/Fonts/tahoma.ttf';
     } //ReportingChartFormatter
 
     
@@ -57,11 +61,13 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
     {
         if (! isset(self :: $instance))
         {
-            $pos = strpos($this->reporting_block->get_displaymode(), ':');
-            $charttype = substr($this->reporting_block->get_displaymode(), $pos + 1);
-            require_once dirname(__FILE__) . '/' . strtolower($charttype) . '_pchart_reporting_chart_formatter.class.php';
-            $class = $charttype . 'PchartReportingChartFormatter';
-            $this->instance = new $class($this->reporting_block); // (self :: $charttype);
+            $display_mode = $this->get_block()->get_displaymode();
+            $display_mode = explode('_', $display_mode);
+            $type = self :: get_type_name($display_mode[0] . '_' . $display_mode[1]);
+            
+            require_once dirname(__FILE__) . '/' . strtolower($type) . '_pchart_reporting_chart_formatter.class.php';
+            $class = Utilities :: underscores_to_camelcase($type) . 'PchartReportingChartFormatter';
+            $this->instance = new $class($this->get_block()); // (self :: $charttype);
         }
         return $this->instance;
     } //get_instance
@@ -87,16 +93,44 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
         return '<img src="' . $path . '" border="0" />';
     }
 
-    protected function render_link($chart, $chartname = 'chart', $type = 'SYS')
+    public function convert_reporting_data()
     {
-        $random = rand();
-        // Render the pie chart to a temporary file
-        $path = Path :: get(SYS_FILE_PATH) . 'temp/' . $this->reporting_block->get_name() . '_' . $chartname . $random . '.png';
-        $chart->Render($path);
-        
-        // Return the link to the file
-        $path = Path :: get($type . _FILE_PATH) . 'temp/' . $this->reporting_block->get_name() . '_' . $chartname . $random . '.png';
-        return $path;
+        $reporting_data = $this->get_block()->retrieve_data();
+        if ($reporting_data->is_empty())
+        {
+            return false;
+        }
+        else
+        {
+            $chart = array();
+            $chart_description = array();
+            $chart_data = array();
+            
+            $chart_description['Position'] = 'Name';
+            $chart_description['Values'] = array();
+              $chart_description['Description'] = array();
+            foreach ($reporting_data->get_rows() as $row_id => $row_name)
+            {
+                $chart_description['Values'][$row_id] = 'Serie'.$row_id;
+                $chart_description['Description']['Serie'.$row_id] = trim(trim(trim(html_entity_decode(strip_tags($row_name), ENT_COMPAT, 'utf-8')), "\xC2\xA0" ));
+            }
+            
+            $chart[1] = $chart_description;
+            
+            foreach ($reporting_data->get_categories() as $category_id => $category_name)
+            {
+                $category_array = array();
+                $category_array['Name'] = trim(trim(html_entity_decode(strip_tags($category_name), ENT_COMPAT, 'utf-8')), "\xC2\xA0");
+                foreach ($reporting_data->get_rows() as $row_id => $row_name)
+                {
+                    $category_array['Serie'.$row_id] = $reporting_data->get_data_category_row($category_id, $row_id);
+                }
+                $chart_data[] = $category_array;
+            }
+            
+            $chart[0] = $chart_data;
+            return $chart;
+        }
     }
 }
 ?>

@@ -19,9 +19,9 @@ class ContentObjectRepoViewer extends RepoViewer
      * The default learning objects, which are used for form defaults.
      */
     
-    function ContentObjectRepoViewer($parent, $types, $mail_option = false, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $action = TOOL :: ACTION_PUBLISH)
+    function ContentObjectRepoViewer($parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $action = TOOL :: ACTION_PUBLISH)
     {
-        parent :: __construct($parent, $types, $mail_option, $maximum_select, array(), false);
+        parent :: __construct($parent, $types, $maximum_select, array(), false);
         if (is_array($action))
         {
             foreach ($action as $type => $action)
@@ -31,20 +31,10 @@ class ContentObjectRepoViewer extends RepoViewer
         }
         else
             $this->set_parameter(Tool :: PARAM_ACTION, $action);
-        if (Request :: get('pid') != null)
-            $this->set_parameter('pid', Request :: get('pid'));
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
+            $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, Request :: get(Tool :: PARAM_PUBLICATION_ID));
         $this->set_repo_viewer_actions(array('creator', 'browser'));
         $this->parse_input_from_table();
-    }
-
-    function redirect_complex($type)
-    {
-        /*switch ($type)
-		{
-			case 'forum_topic':
-				return false;
-			default: return true;
-		}*/        return false;
     }
 
     /**

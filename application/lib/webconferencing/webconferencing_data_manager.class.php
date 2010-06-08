@@ -9,7 +9,7 @@
  *
  *	@author Stefaan Vanbillemont
  */
-abstract class WebconferencingDataManager
+class WebconferencingDataManager
 {
     /**
      * Instance of this class for the singleton pattern.
@@ -35,49 +35,11 @@ abstract class WebconferencingDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '.class.php';
+            require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '_webconferencing_data_manager.class.php';
             $class = $type . 'WebconferencingDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
     }
-
-    abstract function initialize();
-
-    abstract function create_storage_unit($name, $properties, $indexes);
-
-    abstract function create_webconference($webconference);
-
-    abstract function update_webconference($webconference);
-
-    abstract function delete_webconference($webconference);
-
-    abstract function count_webconferences($conditions = null);
-
-    abstract function retrieve_webconference($id);
-
-    abstract function retrieve_webconferences($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function create_webconference_option($webconference_option);
-
-    abstract function update_webconference_option($webconference_option);
-
-    abstract function delete_webconference_options($webconference);
-
-    abstract function delete_webconference_option($webconference_option);
-
-    abstract function count_webconference_options($conditions = null);
-
-    abstract function retrieve_webconference_option($id);
-
-    abstract function retrieve_webconference_options($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function retrieve_webconference_groups($condition = null, $offset = null, $max_objects = null, $order_by = null);
-
-    abstract function retrieve_webconference_users($condition = null, $offset = null, $max_objects = null, $order_by = null);
-
-    abstract function create_webconference_user($webconference_user);
-
-    abstract function create_webconference_group($webconference_group);
 }
 ?>

@@ -3,7 +3,7 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="user_id" type="integer" unsigned="1" notnull="1" />
-		<property name="date" type="timestamp" notnull="1" />
+		<property name="date" type="integer" unsigned="1" notnull="1" />
 		<property name="ip" type="text" length="50" fixed="true"
 			notnull="1" />
 		<property name="type" type="text" length="50" fixed="true"

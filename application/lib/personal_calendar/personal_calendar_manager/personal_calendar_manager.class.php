@@ -3,11 +3,11 @@
  * $Id: personal_calendar_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.personal_calendar.personal_calendar_manager
  */
-require_once dirname(__FILE__) . '/personal_calendar_manager_component.class.php';
 require_once dirname(__FILE__) . '/../connector/personal_calendar_weblcms_connector.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_event.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_data_manager.class.php';
 require_once dirname(__FILE__) . '/../personal_calendar_block.class.php';
+require_once dirname(__FILE__) . '/../personal_calendar_event_parser.class.php';
 /**
  * This application gives each user the possibility to maintain a personal
  * calendar.
@@ -16,7 +16,7 @@ class PersonalCalendarManager extends WebApplication
 {
     const APPLICATION_NAME = 'personal_calendar';
     
-    const PARAM_CALENDAR_EVENT_ID = 'calendar_event';
+    const PARAM_PERSONAL_CALENDAR_ID = 'personal_calendar';
     
     const ACTION_BROWSE_CALENDAR = 'browse';
     const ACTION_VIEW_PUBLICATION = 'view';
@@ -28,6 +28,8 @@ class PersonalCalendarManager extends WebApplication
     const ACTION_IMPORT_ICAL = 'import_ical';
     
     const ACTION_RENDER_BLOCK = 'block';
+    const PARAM_TIME = 'time';
+    const PARAM_VIEW = 'view';
 
     /**
      * Constructor
@@ -48,32 +50,32 @@ class PersonalCalendarManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_CALENDAR :
-                $component = PersonalCalendarManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_VIEW_PUBLICATION :
-                $component = PersonalCalendarManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_CREATE_PUBLICATION :
-                $component = PersonalCalendarManagerComponent :: factory('Publisher', $this);
+                $component = $this->create_component('Publisher');
                 break;
             case self :: ACTION_DELETE_PUBLICATION :
-                $component = PersonalCalendarManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_EDIT_PUBLICATION :
-                $component = PersonalCalendarManagerComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
                 break;
             case self :: ACTION_VIEW_ATTACHMENT :
-                $component = PersonalCalendarManagerComponent :: factory('AttachmentViewer', $this);
+                $component = $this->create_component('AttachmentViewer');
                 break;
             case self :: ACTION_EXPORT_ICAL :
-                $component = PersonalCalendarManagerComponent :: factory('IcalExporter', $this);
+                $component = $this->create_component('IcalExporter');
                 break;
             case self :: ACTION_IMPORT_ICAL :
-                $component = PersonalCalendarManagerComponent :: factory('IcalImporter', $this);
+                $component = $this->create_component('IcalImporter');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_CALENDAR);
-                $component = PersonalCalendarManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }
@@ -104,8 +106,8 @@ class PersonalCalendarManager extends WebApplication
     {
         
         $dm = PersonalCalendarDatamanager :: get_instance();
-        $condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_PUBLISHER, $this->get_user_id());
-        $publications = $dm->retrieve_calendar_event_publications($condition);
+        $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_PUBLISHER, $this->get_user_id());
+        $publications = $dm->retrieve_personal_calendar_publications($condition);
         
         //$query = Request :: post('query');
         
@@ -147,13 +149,13 @@ class PersonalCalendarManager extends WebApplication
         
         $pcdm = PersonalCalendarDatamanager :: get_instance();
         $conditions = array();
-        $conditions[] = new EqualityCondition('user_id', $this->get_user_id(), $pcdm->get_database()->get_alias('publication_user'));
+        $conditions[] = new EqualityCondition('user_id', $this->get_user_id(), 'publication_user');
         if (count($user_groups) > 0)
         {
-            $conditions[] = new InCondition('group_id', $user_groups, $pcdm->get_database()->get_alias('publication_group'));
+            $conditions[] = new InCondition('group_id', $user_groups, 'publication_group');
         }
         $condition = new OrCondition($conditions);
-        $publications = $pcdm->retrieve_shared_calendar_event_publications($condition);
+        $publications = $pcdm->retrieve_shared_personal_calendar_publications($condition);
         
         return $this->render_personal_calendar_events($publications, $from_date, $to_date, 'SharedEvents');
     }
@@ -165,67 +167,9 @@ class PersonalCalendarManager extends WebApplication
         
         while ($publication = $publications->next_result())
         {
-            $object = $publication->get_publication_object();
-            $publisher = $publication->get_publisher();
-            $publishing_user = $publication->get_publication_publisher();
-            
-            if (isset($query) && $query != '')
-            {
-                if ((stripos($object->get_title(), $query) === false) && (stripos($object->get_description(), $query) === false))
-                    continue;
-            }
-            
-            if ($object->repeats())
-            {
-                $repeats = $object->get_repeats($from_date, $to_date);
-                
-                foreach ($repeats as $repeat)
-                {
-                    $event = new PersonalCalendarEvent();
-                    $event->set_start_date($repeat->get_start_date());
-                    $event->set_end_date($repeat->get_end_date());
-                    $event->set_url($this->get_publication_viewing_url($publication));
-                    
-                    // Check whether it's a shared or regular publication
-                    if ($publisher != $this->get_user_id())
-                    {
-                        $event->set_title($object->get_title() . ' [' . $publishing_user->get_fullname() . ']');
-                    }
-                    else
-                    {
-                        $event->set_title($object->get_title());
-                    }
-                    
-                    $event->set_content($repeat->get_description());
-                    $event->set_source($source);
-                    $event->set_id($publication->get_id());
-                    $events[] = $event;
-                }
-            }
-            elseif ($object->get_start_date() >= $from_date && $object->get_start_date() <= $to_date)
-            {
-                $event = new PersonalCalendarEvent();
-                $event->set_start_date($object->get_start_date());
-                $event->set_end_date($object->get_end_date());
-                $event->set_url($this->get_publication_viewing_url($publication));
-                
-                // Check whether it's a shared or regular publication
-                if ($publisher != $this->get_user_id())
-                {
-                    $event->set_title($object->get_title() . ' [' . $publishing_user->get_fullname() . ']');
-                }
-                else
-                {
-                    $event->set_title($object->get_title());
-                }
-                
-                $event->set_content($object->get_description());
-                $event->set_source($source);
-                $event->set_id($publication->get_id());
-                $events[] = $event;
-            }
+        	$parser = PersonalCalendarEventParser::factory($this, $publication, $from_date, $to_date);
+            $events = array_merge($events, $parser->get_events());
         }
-        
         return $events;
     }
 
@@ -298,12 +242,12 @@ class PersonalCalendarManager extends WebApplication
      */
     function get_content_object_publication_locations($content_object)
     {
-        $allowed_types = array('calendar_event');
+        $allowed_types = array(CalendarEvent :: get_type_name());
         
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
-            $locations = array(__CLASS__);
+            $locations = array(Translation :: get(Utilities :: underscores_to_camelcase(self :: APPLICATION_NAME)));
             return $locations;
         }
         
@@ -312,9 +256,9 @@ class PersonalCalendarManager extends WebApplication
 
     function publish_content_object($content_object, $location)
     {
-        require_once dirname(__FILE__) . '/../calendar_event_publication.class.php';
-        $pub = new CalendarEventPublication();
-        $pub->set_calendar_event($content_object->get_id());
+        require_once dirname(__FILE__) . '/../personal_calendar_publication.class.php';
+        $pub = new PersonalCalendarPublication();
+        $pub->set_content_object_id($content_object->get_id());
         $pub->set_publisher($content_object->get_owner_id());
         $pub->create();
         
@@ -336,27 +280,33 @@ class PersonalCalendarManager extends WebApplication
         return self :: APPLICATION_NAME;
     }
 
-    function retrieve_calendar_event_publication($publication_id)
+    function retrieve_personal_calendar_publication($publication_id)
     {
         $pcdm = PersonalCalendarDataManager :: get_instance();
-        return $pcdm->retrieve_calendar_event_publication($publication_id);
+        return $pcdm->retrieve_personal_calendar_publication($publication_id);
+    }
+    
+	function retrieve_task_publication($publication_id)
+    {
+        $pcdm = PersonalCalendarDataManager :: get_instance();
+        return $pcdm->retrieve_personal_calendar_publication($publication_id);
     }
 
     function get_publication_deleting_url($publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PERSONAL_CALENDAR_ID => $publication->get_id()));
     }
 
     function get_publication_editing_url($publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION, self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION, self :: PARAM_PERSONAL_CALENDAR_ID => $publication->get_id()));
     }
 
     function get_publication_viewing_url($publication)
     {
         $parameters = array();
         $parameters[self :: PARAM_ACTION] = self :: ACTION_VIEW_PUBLICATION;
-        $parameters[self :: PARAM_CALENDAR_EVENT_ID] = $publication->get_id();
+        $parameters[self :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
         $parameters[Application :: PARAM_APPLICATION] = self :: APPLICATION_NAME;
         
         return $this->get_link($parameters);
@@ -365,7 +315,7 @@ class PersonalCalendarManager extends WebApplication
     function get_ical_export_url($publication)
     {
         $parameters = array();
-        $parameters[self :: PARAM_CALENDAR_EVENT_ID] = $publication->get_id();
+        $parameters[self :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
         $parameters[self :: PARAM_ACTION] = self :: ACTION_EXPORT_ICAL;
         
         return $this->get_url($parameters);

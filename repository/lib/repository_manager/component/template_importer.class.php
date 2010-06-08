@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
  */
-class RepositoryManagerTemplateImporterComponent extends RepositoryManagerComponent
+class RepositoryManagerTemplateImporterComponent extends RepositoryManager
 {
 
     /**
@@ -26,7 +26,7 @@ class RepositoryManagerTemplateImporterComponent extends RepositoryManagerCompon
         $user = new User();
         $user->set_id(0);
         
-        $import_form = new ContentObjectImportForm('import', 'post', $this->get_url($extra_params), 0, $user);
+        $import_form = new ContentObjectImportForm('import', 'post', $this->get_url($extra_params), 0, $user, null, false);
         
         if ($import_form->validate())
         {
@@ -45,7 +45,7 @@ class RepositoryManagerTemplateImporterComponent extends RepositoryManagerCompon
         }
         else
         {
-            $this->display_header($trail, false, true);
+            $this->display_header($trail, false, false);
             $import_form->display();
             $this->display_footer();
         }

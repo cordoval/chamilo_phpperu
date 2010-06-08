@@ -41,8 +41,6 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
                 $title = parent :: render_cell($column, $content_object);
                 $title_short = Utilities :: truncate_string($title, 53, false);
                 return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
-            case ContentObject :: PROPERTY_MODIFICATION_DATE :
-                return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_modification_date());
         }
         return parent :: render_cell($column, $content_object);
     }
@@ -68,10 +66,15 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
             {
                 $toolbar_data[] = array('label' => Translation :: get('Remove'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png');
             }
-            if ($this->browser->count_categories() > 0)
+            if ($this->browser->count_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->browser->get_user_id())) > 0)
             {
                 $toolbar_data[] = array('href' => $this->browser->get_content_object_moving_url($content_object), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
             }
+            else
+            {
+            	//$toolbar_data[] = array('label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move_na.png');
+            }
+
             $toolbar_data[] = array('href' => $this->browser->get_content_object_metadata_editing_url($content_object), 'label' => Translation :: get('Metadata'), 'img' => Theme :: get_common_image_path() . 'action_metadata.png');
             $toolbar_data[] = array('href' => $this->browser->get_content_object_rights_editing_url($content_object), 'label' => Translation :: get('Rights'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
             $toolbar_data[] = array('href' => $this->browser->get_content_object_exporting_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_export.png', 'label' => Translation :: get('Export'));
@@ -87,11 +90,11 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
                 $toolbar_data[] = array('href' => $this->browser->get_browse_complex_content_object_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_build.png', 'label' => Translation :: get('BrowseComplex'));
             }
 
-            if($content_object->get_type() == 'document')
+            if($content_object->get_type() == Document :: get_type_name())
             {
             	$toolbar_data[] = array('href' => $this->browser->get_document_downloader_url($content_object->get_id()), 'img' => Theme :: get_common_image_path() . 'action_download.png', 'label' => Translation :: get('Export'));
             }
-            
+
             return Utilities :: build_toolbar($toolbar_data);
         }
         elseif (get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')

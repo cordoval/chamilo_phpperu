@@ -13,10 +13,18 @@ class Redirect
     const TYPE_CORE = 'core';
     const TYPE_APPLICATION = 'application';
 
+    const ARGUMENT_SEPARATOR = '&';
+
     static function link($application, $parameters = array (), $filter = array(), $encode_entities = false, $type = self :: TYPE_APPLICATION)
     {
         $link = self :: get_link($application, $parameters, $filter, $encode_entities, $type);
         self :: write_header($link);
+    }
+    
+    static function web_link($url, $parameters = array (), $encode_entities = false)
+    {
+    	$link = self :: get_web_link($url, $parameters, $encode_entities);
+    	self :: write_header($link);
     }
 
     static function get_link($application, $parameters = array (), $filter = array(), $encode_entities = false, $type = self :: TYPE_APPLICATION)
@@ -52,17 +60,7 @@ class Redirect
             $parameters = $url_parameters;
         }
 
-        if (count($parameters))
-        {
-            $link .= '?' . http_build_query($parameters);
-        }
-
-        if ($encode_entities)
-        {
-            $link = htmlentities($link);
-        }
-
-        return $link;
+       return self :: get_web_link($link, $parameters, $encode_entities);
     }
 
     static function url($parameters = array (), $filter = array(), $encode_entities = false)
@@ -73,7 +71,7 @@ class Redirect
 
     static function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
-        $url = $_SERVER['PHP_SELF'];
+    	$url = $_SERVER['PHP_SELF'];
 
         if (count($filter) > 0)
         {
@@ -88,9 +86,17 @@ class Redirect
             $parameters = $url_parameters;
         }
 
-        if (count($parameters))
+        return self :: get_web_link($url, $parameters, $encode_entities);
+    }
+    
+    static function get_web_link($url, $parameters = array (), $encode_entities = false)
+    {
+    	if (count($parameters))
         {
-            $url .= '?' . http_build_query($parameters);
+            // Because the argument separator can be defined in the php.ini
+            // file, we explicitly add it as a parameter here to avoid
+            // trouble when parsing the resulting urls
+            $url .= '?' . http_build_query($parameters, '', self :: ARGUMENT_SEPARATOR);
         }
 
         if ($encode_entities)
@@ -102,7 +108,11 @@ class Redirect
     }
 
     static function write_header($url)
-    {
+    {  
+    	if(headers_sent($filename, $line))
+    	{
+    		throw new Exception('headers already sent in ' . $filename . ' on line ' . $line);
+    	}
         header('Location: ' . $url);
         exit();
     }

@@ -102,6 +102,11 @@ class ComplexContentObjectItem extends DataClass
         return $this->get_default_property(self :: PROPERTY_REF);
     }
 
+    function get_ref_object()
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_ref());
+    }
+
     function set_ref($ref)
     {
         $this->set_default_property(self :: PROPERTY_REF, $ref);
@@ -140,7 +145,7 @@ class ComplexContentObjectItem extends DataClass
     function create()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        $this->set_add_date(Utilities :: to_db_date(time()));
+        $this->set_add_date(time());
         if(!$this->get_display_order())
         {
         	$this->set_display_order($rdm->select_next_display_order($this->get_parent()));

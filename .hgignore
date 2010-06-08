@@ -23,3 +23,53 @@ syntax: glob
 .cache*
 syntax: regexp
 \.log$
+glob:layout/aqua/images/common/treemenu_types/Thumbs.db
+glob:layout/aqua/images/common/content_object/Thumbs.db
+glob:layout/aqua/images/common/Thumbs.db
+glob:layout/aqua/Thumbs.db
+glob:layout/aqua/images/common/treemenu/Thumbs.db
+
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^youtube\.php$
+syntax: regexp
+^layout/ruby/images/common/background_header\.png$
+syntax: regexp
+^layout/ruby/images/common/background_footer\.png$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_vakken_context$
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^layout/aqua/images/common/buttons/Thumbs\.db$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_opleiding_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_docenten_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_opleiding_jaar_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_vakken_jaar_context$
+syntax: regexp
+^layout/aqua/images/survey/Thumbs\.db$
+syntax: regexp
+\.db$
+syntax: regexp
+^repository/lib/content_object/survey/context/Copy of survey_opleiding_engels_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_opleiding_engels_context$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_vakken_engels_context$
+syntax: regexp
+^application/lib/sts$
+syntax: regexp
+^layout/aqua/css/sts\.css$
+syntax: regexp
+^layout/aqua/images/sts$
+syntax: regexp
+^languages/dutch/sts\.inc\.php$
+syntax: regexp
+^languages/english/sts\.inc\.php$

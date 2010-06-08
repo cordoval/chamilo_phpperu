@@ -18,9 +18,9 @@ class CategoryBrowserTableColumnModel extends ObjectTableColumnModel
     /**
      * Constructor
      */
-    function CategoryBrowserTableColumnModel()
+    function CategoryBrowserTableColumnModel($browser)
     {
-        parent :: __construct(self :: get_default_columns(), 1);
+        parent :: __construct(self :: get_default_columns($browser), 1);
         $this->set_default_order_column(1);
         $this->add_column(self :: get_modification_column());
     }
@@ -38,12 +38,17 @@ class CategoryBrowserTableColumnModel extends ObjectTableColumnModel
         return self :: $modification_column;
     }
 
-    private static function get_default_columns()
+    private static function get_default_columns($browser)
     {
         $columns = array();
         $columns[] = new StaticTableColumn('');
         $columns[] = new StaticTableColumn(PlatformCategory :: PROPERTY_NAME);
-        $columns[] = new StaticTableColumn(Translation :: get('Subcategories'));
+        
+        if($browser->get_subcategories_allowed())
+        {
+        	$columns[] = new StaticTableColumn(Translation :: get('Subcategories'));
+        }
+        
         return $columns;
     }
 }

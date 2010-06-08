@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
  */
-class RepositoryManagerImporterComponent extends RepositoryManagerComponent
+class RepositoryManagerImporterComponent extends RepositoryManager
 {
 
     /**
@@ -23,10 +23,26 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
         
         if ($import_form->validate())
         {
-            $succes = $import_form->import_content_object();
+            $success = $import_form->import_content_object();
             
-            $message = $succes ? 'ContentObjectImported' : 'ContentObjectNotImported';
-            $this->redirect(Translation :: get($message), ! $succes, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
+            $messages = array();
+            $errors = array();
+            if($success){
+            	$messages[] = Translation::translate('ContentObjectImported');
+            }else{
+            	$errors[] = Translation::translate('ContentObjectNotImported');
+            }
+            
+            $messages = array_merge($messages, $import_form->get_messages());
+            $warnings = $import_form->get_warnings();
+            $errors = array_merge($errors, $import_form->get_errors());
+            $parameters = array(Application::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_CONTENT_OBJECTS);
+            $parameters[self::PARAM_MESSAGE] = implode('<br/>', $messages);
+            $parameters[self::PARAM_WARNING_MESSAGE] = implode('<br/>', $warnings);
+            $parameters[self::PARAM_ERROR_MESSAGE] = implode('<br/>', $errors);
+            
+            $this->simple_redirect($parameters);
+            
         }
         else
         {

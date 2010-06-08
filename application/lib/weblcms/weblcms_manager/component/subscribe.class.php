@@ -4,13 +4,13 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 require_once dirname(__FILE__) . '/course_browser/course_browser_table.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
+class WeblcmsManagerSubscribeComponent extends WeblcmsManager
 {
     private $category;
     private $action_bar;
@@ -83,15 +83,21 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
             }
             else
             {
-                if ($this->get_course_subscription_url($course))
-                {
-                    $success = $this->subscribe_user_to_course($course, '5', '0', $this->get_user_id());
-                    $this->redirect(Translation :: get($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code));
-                }
+				$success = $this->subscribe_user_to_course($course, '5', '0', $this->get_user_id());
+				$params = null;
+				$filters = null;
+				if($course->get_access()) 
+					$params = array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code);
+				else
+				{
+					$params = array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME);
+					$filters = array(WeblcmsManager :: PARAM_COURSE);
+				}
+                $this->redirect(Translation :: get($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true),$params,$filters);
             }
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseSubscribe')));
         $trail->add_help('courses subscribe');
@@ -105,7 +111,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
         
         $output = $this->get_course_html();
         
-        $this->display_header($trail, false, true);
+        $this->display_header();
         echo '<div class="clear"></div>';
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo $menu;
@@ -179,9 +185,9 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
         if (isset($query) && $query != '')
         {
             $conditions = array();
-            $conditions[] = new PatternMatchCondition(Course :: PROPERTY_ID, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(Course :: PROPERTY_VISUAL, '*' . $query . '*');
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*' . $query . '*');
-            $conditions[] = new PatternMatchCondition(Course :: PROPERTY_LANGUAGE, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(CourseSettings :: PROPERTY_LANGUAGE, '*' . $query . '*', CourseSettings :: get_table_name());
             
             $search_conditions = new OrCondition($conditions);
         }
@@ -203,7 +209,13 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
                 $condition = $search_conditions;
             }
         }
-        
+
+        $visibility_condition = new EqualityCondition(CourseSettings :: PROPERTY_VISIBILITY, '1', CourseSettings :: get_table_name());
+        if(is_null($condition))
+        	$condition = $visibility_condition;
+        else
+        	$condition = new AndCondition($condition, $visibility_condition);
+        	
         return $condition;
     }
 }

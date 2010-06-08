@@ -32,7 +32,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
         {
             return $this->get_modification_links($user);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -50,7 +50,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             case User :: PROPERTY_PLATFORMADMIN :
                 if ($user->get_platformadmin() == '1')
                 {
-                    return Translation :: get('PlatformAdmin');
+                    return Translation :: get('PlatformAdministrator');
                 }
                 else
                 {
@@ -78,7 +78,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $subscribe_url = $this->browser->get_url($parameters);
             $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('SubscribeAsStudent'), 'img' => Theme :: get_image_path() . 'action_subscribe_student.png');
-            
+
             $parameters = array();
             $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
@@ -93,16 +93,31 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $unsubscribe_url = $this->browser->get_url($parameters);
             $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_image_path() . 'action_details.png');
-            
-            if ($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(DELETE_RIGHT))
+
+            if(PlatformSetting :: get('active_online_email_editor'))
+            {
+	            $parameters = array();
+	            $parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool :: ACTION_EMAIL;
+	            $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
+	            $unsubscribe_url = $this->browser->get_url($parameters);
+	            $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Email'), 'img' => Theme :: get_common_image_path() . 'action_email.png');
+            }
+
+            $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
+
+            if ($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(DELETE_RIGHT) && !isset($group_id))
             {
                 $parameters = array();
                 $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_UNSUBSCRIBE;
                 $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
                 $unsubscribe_url = $this->browser->get_url($parameters);
-                $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_unsubscribe.png');
+                $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_image_path() . 'action_unsubscribe.png');
             }
-            
+            else
+            {
+                $toolbar_data[] = array('label' => Translation :: get('UnsubscribeNotAvailable'), 'img' => Theme :: get_image_path() . 'action_unsubscribe_na.png');
+            }
+
             if ($this->browser->is_allowed(EDIT_RIGHT))
             {
                 //@todo check rights ?
@@ -110,12 +125,14 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
                 //$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
                 $params = array();
                 //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
-                $params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
-                $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
-                $unsubscribe_url = ReportingManager :: get_reporting_template_registration_url_content($this->browser, 'CourseStudentTrackerDetailReportingTemplate', $params);
-                $unsubscribe_url = str_replace('go=reporting', 'go=courseviewer', $unsubscribe_url) . '&tool_action=view_reporting_template&tool=reporting';
+                $params[WeblcmsManager :: PARAM_COURSE] = $this->browser->get_course_id();
+                $params[WeblcmsManager::PARAM_USERS] = $user->get_id();
+				$params[Application::PARAM_ACTION] = WeblcmsManager::ACTION_REPORTING;
+				//$params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration(Utilities::camelcase_to_underscores('CourseStudentTrackerDetailReportingTemplate'), WeblcmsManager::APPLICATION_NAME)->get_id();
+   
+                $reporting_url = $this->browser->get_url($params, array(WeblcmsManager::PARAM_TOOL));
                 //$unsubscribe_url = $this->browser->get_url($parameters);
-                $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
+                $toolbar_data[] = array('href' => $reporting_url, 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
             }
         }
         return Utilities :: build_toolbar($toolbar_data);

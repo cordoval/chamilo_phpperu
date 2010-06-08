@@ -4,7 +4,7 @@
  * @package admin.lib.admin_manager.component
  */
 
-class AdminManagerSystemAnnouncementViewerComponent extends AdminManagerComponent
+class AdminManagerSystemAnnouncementViewerComponent extends AdminManager
 {
 
     /**
@@ -12,8 +12,11 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManagerComponen
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewSystemAnnouncement')));
+    	
+    	$id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
+    	
+        $trail = BreadcrumbTrail :: get_instance();;
+        $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $id)), Translation :: get('ViewSystemAnnouncement')));
         $trail->add_help('administration system announcements');
         
         $user = $this->get_user();
@@ -24,7 +27,6 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManagerComponen
             exit();
         }
         
-        $id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
         
         if ($id)
         {
@@ -33,7 +35,7 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManagerComponen
             
             $display = ContentObjectDisplay :: factory($object);
             
-            $this->display_header($trail);
+            $this->display_header();
             echo $display->get_full_html();
             echo $this->get_toolbar($system_announcement_publication, $object);
             $this->display_footer();

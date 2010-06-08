@@ -10,145 +10,155 @@
  * @author pieter
  */
 
-require_once dirname(__FILE__) . '/feedback_manager_component.class.php';
 
-class FeedbackManager
+class FeedbackManager extends SubManager
 {
     
     const PARAM_ACTION = 'feedback_action';
     const PARAM_FEEDBACK_ID = 'feedback_id';
+    
     const PARAM_REMOVE_FEEDBACK = 'remove_feedback';
     const ACTION_BROWSE_FEEDBACK = 'browse_feedback';
     const ACTION_CREATE_FEEDBACK = 'create_feedback';
     const ACTION_UPDATE_FEEDBACK = 'update_feedback';
     const ACTION_DELETE_FEEDBACK = 'delete_feedback';
-    
-    private $parent;
+
+    const ACTION_BROWSE_ONLY_FEEDBACK = 'browse_only_feedback';
+    const ACTION_CREATE_ONLY_FEEDBACK = 'create_only_feedback';
+
     
     private $parameters;
-    
     private $application;
+    private $publication_id;
+    private $complex_wrapper_id;
 
-    function FeedbackManager($parent, $application)
+    function FeedbackManager($parent, $application, $publication_id, $complex_wrapper_id, $optional_action = null)
     {
-        $this->parent = $parent;
+        parent :: __construct($parent);
+        
         $this->application = $application;
-        //$parent->set_parameter(self :: PARAM_ACTION, $this->get_action());
-    //$this->parse_input_from_table();
+        $this->publication_id = $publication_id;
+        $this->complex_wrapper_id = $complex_wrapper_id;
+
+        $action = Request :: get(self :: PARAM_ACTION);
+
+        if($optional_action != null && $action != FeedbackManager :: ACTION_DELETE_FEEDBACK && $action != FeedbackManager :: ACTION_UPDATE_FEEDBACK)
+        {
+            $this->set_parameter(self :: PARAM_ACTION, $optional_action);
+        }
+        elseif ($action)
+        {          
+            $this->set_parameter(self :: PARAM_ACTION, $action);
+        }
+
+    	
     }
 
     function run()
     {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_FEEDBACK :
-                $component = FeedbackManagerComponent :: factory('Browser', $this);
-                break;
-            case self :: ACTION_CREATE_FEEDBACK :
-                
-                $component = FeedbackManagerComponent :: factory('Creator', $this);
-                break;
-            case self :: ACTION_UPDATE_FEEDBACK :
-                $component = FeedbackManagerComponent :: factory('Updater', $this);
-                break;
-            case self :: ACTION_DELETE_FEEDBACK :
-                $component = FeedbackManagerComponent :: factory('Deleter', $this);
-                break;
-            default :
-                $component = FeedbackManagerComponent :: factory('Browser', $this);
-        }
-        $component->run();
-    
+        return $this->get_component()->run();
     }
 
     function as_html()
     {
-        $action = $this->get_action();
+        return $this->get_component()->as_html();
+    }
+    
+    function get_component()
+    {
+    	$action = $this->get_action();
         $component = null;
         switch ($action)
         {
             case self :: ACTION_BROWSE_FEEDBACK :
-                $component = FeedbackManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
-            case self :: ACTION_CREATE_FEEDBACK :
-                
-                $component = FeedbackManagerComponent :: factory('Creator', $this);
+            case self :: ACTION_BROWSE_ONLY_FEEDBACK :
+                $component = $this->create_component('Browser');
+                break;
+            case self :: ACTION_CREATE_ONLY_FEEDBACK :
+                $component = $this->create_component('Creator');
+                break;
+            case self :: ACTION_CREATE_FEEDBACK :                
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_UPDATE_FEEDBACK :
-                $component = FeedbackManagerComponent :: factory('Updater', $this);
+                $component = $this->create_component('Updater');
                 break;
             case self :: ACTION_DELETE_FEEDBACK :
-                $component = FeedbackManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             default :
-                $component = FeedbackManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
-        return $component->as_html();
+        
+        return $component;
     }
 
-    /**
-     * Returns the tool which created this publisher.
-     * @return Tool The tool.
-     */
-    function get_parent()
-    {
-        return $this->parent;
-    }
-
-    function display_header($breadcrumbtrail)
-    {
-        return $this->parent->display_header($breadcrumbtrail, false, false);
-    }
-
-    function display_footer()
-    {
-        return $this->parent->display_footer();
-    }
-
-    /**
-     * @see Tool::get_user_id()
-     */
-    function get_user_id()
-    {
-        return $this->parent->get_user_id();
-    }
-
-    function get_user()
-    {
-        return $this->parent->get_user();
-    }
-
-    function get_application()
-    {
-        return $this->application;
-    }
-
+    // General functions
+    
     /**
      * Returns the action that the user selected.
      * @return string The action.
      */
     function get_action()
     {
-        return $_GET[self :: PARAM_ACTION];
+        return $this->get_parameter(self :: PARAM_ACTION);
     }
+    
+	function get_application_component_path() 
+	{
+		return dirname(__FILE__) . '/component/';		
+	}
 
-    function get_url($parameters = array(), $encode = false)
+	// Getters and setters for values
+    
+    function get_application()
     {
-        return $this->parent->get_url($parameters, $encode);
+        return $this->application;
     }
-
-    function get_parameters()
+    
+    function set_application($application)
     {
-        return $this->parent->get_parameters();
+    	$this->application = $application;
     }
-
-    function set_parameter($name, $value)
+    
+	function get_publication_id()
     {
-        $this->parent->set_parameter($name, $value);
+        return $this->publication_id;
     }
+    
+    function set_publication_id($publication_id)
+    {
+    	$this->publication_id = $publication_id;
+    }
+    
+	function get_complex_wrapper_id()
+    {
+        return $this->complex_wrapper_id;
+    }
+    
+    function set_complex_wrapper_id($complex_wrapper_id)
+    {
+    	$this->complex_wrapper_id = $complex_wrapper_id;
+    }	
 
+	// Data retrieval functions
+	
+	function retrieve_feedback_publications($pid, $cid, $application)
+    {
+        $adm = AdminDataManager :: get_instance();
+        return $adm->retrieve_feedback_publications($pid, $cid, $application);
+    }    
+
+    function retrieve_feedback_publication($id)
+    {
+        $adm = AdminDataManager :: get_instance();
+        return $adm->retrieve_feedback_publication($id);
+    }
+    
+    // Additional methods
+    
     /**
      * Sets a default learning object. When the creator component of this
      * publisher is displayed, the properties of the given learning object will
@@ -171,43 +181,24 @@ class FeedbackManager
         return new AbstractContentObject($type, $this->get_user_id());
     }
 
-    function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
-    {
-        return $this->parent->redirect($action, $message, $error_message, $extra_params);
-    }
-
-    function repository_redirect($action = null, $message = null, $cat_id = 0, $error_message = false, $extra_params = array())
-    {
-        return $this->parent->redirect($action, $message, $cat_id, $error_message, $extra_params);
-    }
-
-    function get_extra_parameters()
-    {
-        return $this->parameters;
-    }
-
-    function set_extra_parameters($parameters)
-    {
-        $this->parameters = $parameters;
-    }
-
-    function retrieve_feedback_publications($pid, $cid, $application)
-    {
-        $adm = AdminDataManager :: get_instance();
-        return $adm->retrieve_feedback_publications($pid, $cid, $application);
-    
-    }
-
-    function retrieve_feedback_publication($id)
-    {
-        $adm = AdminDataManager :: get_instance();
-        return $adm->retrieve_feedback_publication($id);
-    }
-
     function add_actionbar_item($link)
     {
-        $this->parent->add_actionbar_item($link);
+        $this->get_parent()->add_actionbar_item($link);
     }
+    
+	function create_component($type, $application = null)
+	{
+		$component = parent :: create_component($type, $application);
+		
+		if(is_subclass_of($component, __CLASS__))
+		{
+			$component->set_application($this->get_application());
+			$component->set_complex_wrapper_id($this->get_complex_wrapper_id());
+			$component->set_publication_id($this->get_publication_id());
+		}
+		
+		return $component;
+	}
 
 }
 ?>

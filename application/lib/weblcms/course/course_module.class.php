@@ -20,6 +20,7 @@ class CourseModule extends DataClass
     const PROPERTY_NAME = 'name';
     const PROPERTY_VISIBLE = 'visible';
     const PROPERTY_SECTION = 'section';
+    const PROPERTY_SORT = 'sort';
 
     /**
      * Get the default properties
@@ -27,7 +28,12 @@ class CourseModule extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_VISIBLE, self :: PROPERTY_SECTION));
+        return parent :: get_default_property_names(
+        	   array(self :: PROPERTY_COURSE_CODE, 
+        			 self :: PROPERTY_NAME, 
+        			 self :: PROPERTY_VISIBLE, 
+        			 self :: PROPERTY_SECTION,
+        			 self :: PROPERTY_SORT));
     }
 
     /**
@@ -110,10 +116,48 @@ class CourseModule extends DataClass
         $this->set_default_property(self :: PROPERTY_SECTION, $section);
     }
 
+    /**
+     * Returns the sort of this CourseModule.
+     * @return the sort.
+     */
+    function get_sort()
+    {
+        return $this->get_default_property(self :: PROPERTY_SORT);
+    }
+
+    /**
+     * Sets the sort of this CourseModule.
+     * @param sort
+     */
+    function set_sort($sort)
+    {
+        $this->set_default_property(self :: PROPERTY_SORT, $sort);
+    }
+    
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+    static function convert_tools($tools, $course_code = null, $course_type_tools = false, $form = null)
+    {
+		$tools_array = array();
+
+		foreach($tools as $index => $tool)
+		{
+			if($course_type_tools)
+				$tool = $tool->get_name();
+			$element_default = $tool . "elementdefault";
+			$course_module = new CourseModule();
+			$course_module->set_course_code($course_code);
+			$course_module->set_name($tool);
+			$course_module->set_visible((!is_null($form)?$form->parse_checkbox_value($form->getSubmitValue($element_default)):1));
+			$course_module->set_section("basic");
+			$course_module->set_sort($index);
+			$tools_array[] = $course_module;
+		}
+		return $tools_array;
+	}
 }
 
 ?>

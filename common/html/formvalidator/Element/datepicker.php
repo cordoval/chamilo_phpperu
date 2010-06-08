@@ -28,7 +28,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
         $this->_appendName = true;
         $this->_type = 'datepicker';
         $popup_link = '<a href="javascript:openCalendar(\'' . $js_form_name . '\',\'' . $elementName . '\')"><img src="' . Theme :: get_common_image_path() . 'action_calendar_select.png" style="vertical-align:middle;"/></a>';
-        $special_chars = array('D', 'l', 'd', 'M', 'F', 'm', 'y', 'H', 'a', 'A', 's', 'i', 'h', 'g', ' ');
+        $special_chars = array('D', 'l', 'd', 'M', 'F', 'm', 'y', 'H', 'a', 'A', 's', 'i', 'h', 'g', 'W','.', ' ');
         $hour_minute_devider = Translation :: get("HourMinuteDivider");
         foreach ($special_chars as $index => $char)
         {
@@ -75,7 +75,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
      */
     function getElementJS()
     {
-        /* $js = '';
+         $js = '';
         //if(!defined('DATEPICKER_JAVASCRIPT_INCLUDED'))
         {
             //define('DATEPICKER_JAVASCRIPT_INCLUDED',1);
@@ -85,13 +85,14 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
             $js .= 'tbl_change.js" type="text/javascript"></script>';
             $js .= "\n";
         }
-        return $js;*/
         
-        $js = '<script type="text/javascript">';
-        $js .= 'var path = \'' . Path :: get(WEB_LIB_PATH) . '\';';
+        $js .= '<script type="text/javascript">';
+        $js .= 'var path = \'' . Path :: get(WEB_LIB_PATH) . '\';' . "\n";
+        $js .= 'var max_year="' . (date('Y') + 5) . '";';
         $js .= '</script>';
-        
-        return $js . ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
+
+        //$js .= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
+        return $js; //ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'html/formvalidator/Element/tbl_change.js');
     }
 
     /**

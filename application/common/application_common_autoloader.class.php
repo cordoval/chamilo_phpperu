@@ -37,11 +37,17 @@ class ApplicationCommonAutoloader
 		$list = array('category_manager' => 'category_manager/category_manager.class.php',
 					  'feedback_manager' => 'feedback_manager/feedback_manager.class.php',
 					  'repo_viewer' => 'repo_viewer/repo_viewer.class.php',
+					  'reporting_viewer' => 'reporting_viewer/reporting_viewer.class.php',
+				      'streaming_media_manager' => 'streaming_media_manager/streaming_media_manager.class.php',
+		              'streaming_media_component' => 'streaming_media_manager/streaming_media_component.class.php',
 				      'dynamic_form_manager' => 'dynamic_form_manager/dynamic_form_manager.class.php',
 				      'rights_editor_manager' => 'rights_editor_manager/rights_editor_manager.class.php',
 					  'validation_manager' => 'validation_manager/validation_manager.class.php',
 					  'web_application' => 'web_application.class.php',
-					  'web_application_component' => 'web_application_component.class.php');
+					  'web_application_component' => 'web_application_component.class.php',
+					  'test_category_manager' => 'category_manager/test_category_manager.class.php',
+					  'email_manager' => 'email_manager/email_manager.class.php',
+					  'streaming_media_menu' => 'streaming_media_manager/streaming_media_menu.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

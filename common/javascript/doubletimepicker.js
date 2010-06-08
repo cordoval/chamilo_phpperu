@@ -4,9 +4,9 @@ var start_time_changed = function(ev, ui)
 
 	stop_date.setFullYear(start_date.getFullYear());
 	stop_date.setMonth(start_date.getMonth());
-	stop_date.setDate(start_date.getDate() + 1);
+	stop_date.setDate(start_date.getDate());
 	stop_date.setMinutes(start_date.getMinutes());
-	stop_date.setHours(start_date.getHours());
+	stop_date.setHours(start_date.getHours() + 1);
 
 	$(".end_date").each(set_stop_date);
 

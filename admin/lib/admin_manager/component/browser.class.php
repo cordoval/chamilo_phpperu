@@ -6,7 +6,7 @@
 /**
  * Admin component
  */
-class AdminManagerBrowserComponent extends AdminManagerComponent
+class AdminManagerBrowserComponent extends AdminManager
 {
 
     /**
@@ -14,13 +14,13 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Administration')));
         $trail->add_help('administration');
 
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -28,7 +28,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
 
         $links = $this->get_application_platform_admin_links();
 
-        $this->display_header($trail);
+        $this->display_header();
         echo $this->get_application_platform_admin_tabs($links);
         $this->display_footer();
     }
@@ -41,7 +41,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
     {
         $html = array();
         $html[] = '<a name="top"></a>';
-        $html[] = '<div id="tabs">';
+        $html[] = '<div id="admin_tabs">';
         $html[] = '<ul>';
 
         // Render the tabs
@@ -63,7 +63,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
             	$selected_tab = $index - 1;
             }
 
-            $html[] = '<li><a href="#tabs-' . $index . '">';
+            $html[] = '<li><a href="#admin_tabs-' . $index . '">';
             $html[] = '<span class="category">';
             $html[] = '<img src="' . Theme :: get_image_path() . 'place_mini_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
             $html[] = '<span class="title">' . $application_links['application']['name'] . '</span>';
@@ -80,7 +80,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
             {
             	$index ++;
                 $html[] = '<h2><img src="' . Theme :: get_image_path() . 'place_mini_' . $application_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>&nbsp;' . $application_links['application']['name'] . '</h2>';
-                $html[] = '<div class="tab" id="tabs-' . $index . '">';
+                $html[] = '<div class="admin_tab" id="admin_tabs-' . $index . '">';
 
                 $html[] = '<a class="prev"></a>';
 
@@ -98,6 +98,32 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
                     $html[] = '</div>';
                 }
 
+                $condition = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application_links['application']['class']);
+                $application_settings_count = AdminDataManager :: get_instance()->count_settings($condition);
+
+                if($application_settings_count)
+                {
+                    if (!isset($application_links['search']))
+                    {
+                        $html[] = '<div class="vertical_action" style="border-top: none;">';
+                    }
+                    else
+                    {
+                        $html[] = '<div class="vertical_action">';
+                    }
+
+                    $settings_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM, self :: PARAM_WEB_APPLICATION => $application_links['application']['class']));
+
+                    $html[] = '<div class="icon">';
+                    $html[] = '<a href="' . $settings_url . '"><img src="' . Theme :: get_image_path() . 'browse_manage.png" alt="' . Translation :: get('Settings') . '" title="' . Translation :: get('Settings') . '"/></a>';
+                    $html[] = '</div>';
+                    $html[] = '<div class="description">';
+                    $html[] = '<h4><a href="' . $settings_url . '" ' . $onclick . '>' . Translation :: get('Settings') . '</a></h4>';
+                    $html[] = Translation :: get('SettingsDescription');
+                    $html[] = '</div>';
+                    $html[] = '</div>';
+                }
+
                 $count = 1;
 
                 foreach ($application_links['links'] as $link)
@@ -109,7 +135,15 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
                         $onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
                     }
 
-                    $html[] = '<div class="vertical_action"' . ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') . '>';
+                    if (!isset($application_links['search']) && $application_settings_count == 0 && $count == 2)
+                    {
+                        $html[] = '<div class="vertical_action" style="border-top: none;">';
+                    }
+                    else
+                    {
+                        $html[] = '<div class="vertical_action">';
+                    }
+
                     $html[] = '<div class="icon">';
                     $html[] = '<a href="' . $link['url'] . '" ' . $onclick . '><img src="' . Theme :: get_image_path() . 'browse_' . $link['action'] . '.png" alt="' . $link['name'] . '" title="' . $link['name'] . '"/></a>';
                     $html[] = '</div>';

@@ -56,8 +56,11 @@ class AdminSystemAnnouncements extends AdminBlock
         
         while ($announcement = $announcements->next_result())
         {
-            $object = $announcement->get_publication_object();
-            $html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_icon_name() . '.png" />&nbsp;&nbsp;<a href="' . $this->get_parent()->get_link(array(Application :: PARAM_ACTION => AdminManager :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id())) . '">' . $object->get_title() . '</a></li>';
+        	if ($announcement->is_visible_for_target_users())
+        	{
+            	$object = $announcement->get_publication_object();
+            	$html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_icon_name() . '.png" />&nbsp;&nbsp;<a href="' . $this->get_parent()->get_link(array(Application :: PARAM_ACTION => AdminManager :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id())) . '">' . $object->get_title() . '</a></li>';
+        	}
         }
         
         $html[] = '</ul>';

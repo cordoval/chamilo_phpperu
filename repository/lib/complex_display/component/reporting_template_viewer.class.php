@@ -10,6 +10,8 @@
  * @author Soliber
  */
 
+require_once PATH :: get_application_path() . '/lib/weblcms/weblcms_manager/weblcms_manager.class.php';
+
 class ComplexDisplayReportingTemplateViewerComponent extends ComplexDisplayComponent
 {
     private $params;
@@ -20,10 +22,12 @@ class ComplexDisplayReportingTemplateViewerComponent extends ComplexDisplayCompo
      */
     function run()
     {
-        $rtv = new ReportingTemplateViewer($this);
+    	$rtv = new ReportingViewer($this);
+        $rtv->add_template_by_name($this->template_name, $this->get_parent()->get_application_name());
+        $rtv->set_breadcrumb_trail($this->get_parent()->get_breadcrumbtrail());
+        $rtv->show_all_blocks();
         
-        echo '<div id="trailbox2" style="padding:0px;">' . $this->get_parent()->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
-        $rtv->show_reporting_template_by_name($this->template_name, array('course_id' => Request :: get('course'), 'pid' => Request :: get('pid'), 'cid' => Request :: get('selected_cloi')));
+        $rtv->run();
     }
 
     function get_template_name()

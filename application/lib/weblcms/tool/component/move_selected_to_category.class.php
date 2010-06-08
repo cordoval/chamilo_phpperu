@@ -20,7 +20,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
                 $this->display_footer();
             }
             
-            $publication_ids = Request :: get('pid');
+            $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             if (! is_array($publication_ids))
             {
                 $publication_ids = array($publication_ids);
@@ -45,7 +45,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
                 {
                     $message = Translation :: get('ContentObjectPublicationsMoved');
                 }
-                $this->redirect($message, false, array('tool_action' => null, 'pid' => null));
+                $this->redirect($message, false, array('tool_action' => null, Tool :: PARAM_PUBLICATION_ID => null));
             }
             else
             {
@@ -64,7 +64,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 
     function build_move_to_category_form()
     {
-        $publication_ids = Request :: get('pid');
+        $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         if (! is_array($publication_ids))
         {
             $publication_ids = array($publication_ids);
@@ -79,7 +79,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
                 if ($cat != 0)
                     $this->tree[0] = Translation :: get('Root');
                 $this->build_category_tree(0, $cat);
-                $form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => 'move_selected_to_category', 'pid' => Request :: get('pid'))));
+                $form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => 'move_selected_to_category', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))));
                 $form->addElement('select', 'category', Translation :: get('Category'), $this->tree);
                 //$form->addElement('submit', 'submit', Translation :: get('Ok'));
                 $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));
@@ -98,8 +98,8 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
     {
         $dm = WeblcmsDataManager :: get_instance();
         $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
-        $conditions[] = new EqualityCondition('course', $this->get_course_id());
-        $conditions[] = new EqualityCondition('tool', $this->get_tool_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->get_course_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_tool_id());
         $condition = new AndCondition($conditions);
         $categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition);
         

@@ -7,17 +7,33 @@
 class LearningPathToolCloViewerComponent extends LearningPathToolComponent
 {
 
+	private $object;
+	
     function run()
     {
-        $object_id = Request :: get('pid');
+        $object_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
-        $this->set_parameter(LearningPathTool :: PARAM_ACTION, LearningPathTool :: ACTION_VIEW_CLO);
-        $this->set_parameter('pid', $object_id);
+        $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $object_id);
         $display = ComplexDisplay :: factory($this, $object->get_type());
-        $display->set_root_lo($object);
-        Display :: small_header();
+        //$display->set_root_content_object($object);
+        $this->object=$object;
         $display->run();
     
+    }
+    
+	function display_header($trail)
+    {
+    	return Display :: small_header();
+    }
+    
+    function display_footer()
+    {
+    	return null;
+    }
+    
+	function get_root_content_object()
+    {
+    	return $this->object;
     }
 
 }

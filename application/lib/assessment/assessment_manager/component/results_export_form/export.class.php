@@ -6,6 +6,7 @@
 require_once dirname(__FILE__) . '/result_exporters/export_csv.class.php';
 require_once dirname(__FILE__) . '/result_exporters/export_xml.class.php';
 require_once dirname(__FILE__) . '/result_exporters/export_pdf.class.php';
+require_once dirname(__FILE__) . '/../../../../weblcms/weblcms_data_manager.class.php';
 
 abstract class ResultsExport
 {

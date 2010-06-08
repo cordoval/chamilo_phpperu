@@ -5,7 +5,7 @@
  */
 require_once Path :: get_rights_path() . 'lib/rights_template_manager/component/rights_template_location_browser_table/rights_template_location_browser_table.class.php';
 
-class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComponent
+class RightsTemplateManagerConfigurerComponent extends RightsTemplateManager
 {
     private $action_bar;
     
@@ -22,14 +22,14 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
         $location = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
         $rights_template = Request :: get(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('RightsTemplates')));
         
         if (! isset($rights_template))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NoUserSelected'));
             $this->display_footer();
             exit();
@@ -80,11 +80,11 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
 
         $this->action_bar = $this->get_action_bar();
         
-        $this->display_header($trail);
+        $this->display_header();
         
         $html = array();
         $application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
-        $html[] = Application :: get_selecter($application_url, $this->application);
+        $html[] = BasicApplication :: get_selecter($application_url, $this->application);
         $html[] = $this->action_bar->as_html() . '<br />';
         
         $url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_LOCATION => '%s'));
@@ -94,7 +94,9 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManagerComp
         $html[] = $location_menu->render_as_tree();
         $html[] = '</div>';
         
-        $table = new RightsTemplateLocationBrowserTable($this, $this->get_parameters(), $this->get_condition($location));
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        $table = new RightsTemplateLocationBrowserTable($this, $parameters, $this->get_condition($location));
         
         $html[] = '<div style="float: right; width: 80%;">';
         $html[] = $table->as_html();

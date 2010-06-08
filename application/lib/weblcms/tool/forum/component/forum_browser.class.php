@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
 require_once dirname(__FILE__) . '/../forum_tool_component.class.php';
 require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
+require_once Path :: get_repository_path() . 'lib/content_object/forum/display/forum_display.class.php';
 require_once 'HTML/Table.php';
 
 class ForumToolBrowserComponent extends ForumToolComponent
@@ -24,6 +24,17 @@ class ForumToolBrowserComponent extends ForumToolComponent
             return;
         }
         
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'forum');
+
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
+        $condition = new AndCondition($conditions);
+
+        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
+        $this->introduction_text = $publications->next_result();
+        
         $this->size = 0;
         $this->allowed = $this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT);
         $this->action_bar = $this->get_action_bar();
@@ -33,6 +44,11 @@ class ForumToolBrowserComponent extends ForumToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses forum tool');
         $this->display_header($trail, true);
+        
+   		if ($this->get_course()->get_intro_text())
+        {
+            echo $this->display_introduction_text($this->introduction_text);
+        }
         
         echo $this->action_bar->as_html();
         echo $table->toHtml();
@@ -139,17 +155,37 @@ class ForumToolBrowserComponent extends ForumToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'forum');
         $conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $parent);
         
-        $access = array();
-        $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
-        $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+        /*$access = array();
+        $access[] = new InCondition('user_id', $user_id, $datamanager->get_alias('content_object_publication_user'));
+        $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
         if (! empty($user_id) || ! empty($course_group_ids))
         {
-            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
+            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
         }
+        $conditions[] = new OrCondition($access);*/
+        
+        $access = array();
+        if($user_id)
+        {
+    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
+        }
+    	
+    	if(count($course_group_ids) > 0)
+    	{
+        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
+    	}
+        	
+        if (! empty($user_id) || ! empty($course_group_ids))
+        {
+            $access[] = new AndCondition(array(
+            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), 
+            			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+        }
+        
         $conditions[] = new OrCondition($access);
         
-        $subselect_condition = new EqualityCondition('type', 'forum');
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Forum :: get_type_name());
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         $condition = new AndCondition($conditions);
         
         $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Forum :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC));
@@ -165,7 +201,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
             
             //$forum = $rdm->retrieve_content_object($publication->get_id(), 'forum');
             $forum = $publication->get_content_object();
-            $title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_content_object()->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
+            $title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
             
             if ($publication->is_hidden())
             {
@@ -185,8 +221,8 @@ class ForumToolBrowserComponent extends ForumToolComponent
             
             if ($last_post)
             {
-                //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $last_post->get_id())) . '#post_' . $last_post->get_id();
-                $table->setCellContents($row, 4, $last_post->get_add_date() . '<br />' . UserDataManager :: get_instance()->retrieve_user($last_post->get_user_id())->get_fullname()); // .
+                //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,Tool :: PARAM_PUBLICATION_ID => $this->pid, 'cid' => $last_post->get_id())) . '#post_' . $last_post->get_id();
+                $table->setCellContents($row, 4, DatetimeUtilities :: format_locale_date(null,$last_post->get_add_date()) . '<br />' . UserDataManager :: get_instance()->retrieve_user($last_post->get_user_id())->get_fullname()); // .
             //' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') .
             //'" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
             }
@@ -195,7 +231,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
                 $table->setCellContents($row, 4, '-');
             }
             
-            $table->setCellAttributes($row, 4, array('class' => 'row2'));
+            $table->setCellAttributes($row, 4, array('align' => 'center', 'class' => 'row2'));
             
             if ($this->allowed)
             {
@@ -212,18 +248,18 @@ class ForumToolBrowserComponent extends ForumToolComponent
     {
         if ($this->is_allowed(DELETE_RIGHT))
         {
-            $delete = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DELETE)), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+            $delete = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DELETE)), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
         }
         
         if ($this->is_allowed(EDIT_RIGHT))
         {
             if ($publication->is_hidden())
             {
-                $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Show'), 'img' => Theme :: get_common_image_path() . 'action_invisible.png');
+                $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Show'), 'img' => Theme :: get_common_image_path() . 'action_invisible.png');
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
+                $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
             }
             
             if ($first)
@@ -232,7 +268,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => - 1)), 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+                $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => - 1)), 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
             }
             
             if ($last)
@@ -241,15 +277,26 @@ class ForumToolBrowserComponent extends ForumToolComponent
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => 1)), 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+                $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => 1)), 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
             }
             
-            $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY)), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+            $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY)), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
             
-            $actions[] = array('href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT)), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $actions[] = array('href' => $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT)), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
             
             $actions[] = $delete;
         
+        }
+    
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        	$internal_item = EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id());
+        	if($internal_item && $internal_item->get_calculated() != 1)
+        	{
+        		$evaluate_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
+				$actions[] = array('href' => $evaluate_url, 'label' => Translation :: get('Evaluate'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png'); 
+        	}
         }
         
         return '<div style="float: right;">' . Utilities :: build_toolbar($actions) . '</div>';
@@ -261,15 +308,20 @@ class ForumToolBrowserComponent extends ForumToolComponent
         
         if ($this->is_allowed(ADD_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         
         if ($this->is_allowed(EDIT_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         
-        //		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
+    	if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(EDIT_RIGHT))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
+        //		if(!$this->introduction_text && $this->get_course()->get_intro_text())
         //		{
         //			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_introduce.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         //		}

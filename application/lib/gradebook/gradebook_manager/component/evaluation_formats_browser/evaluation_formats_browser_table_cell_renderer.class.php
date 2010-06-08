@@ -1,0 +1,47 @@
+<?php
+require_once dirname(__FILE__).'/../../../tables/evaluation_formats_table/default_evaluation_formats_table_cell_renderer.class.php';
+
+class EvaluationFormatsBrowserTableCellRenderer extends DefaultEvaluationFormatsTableCellRenderer
+{/**
+	 * The browser component
+	 */
+	private $browser;
+
+	/**
+	 * Constructor
+	 * @param ApplicationComponent $browser
+	 */
+	function EvaluationFormatsBrowserTableCellRenderer($browser)
+	{
+		parent :: __construct();
+		$this->browser = $browser;
+	}
+
+	// Inherited
+	function render_cell($column, $format)
+	{
+		if ($column === EvaluationFormatsBrowserTableColumnModel :: get_modification_column())
+		{
+			return $this->get_modification_links($format);
+		}
+
+		return parent :: render_cell($column, $format);
+	}
+
+	/**
+	 * Gets the action links to display
+	 * @param Format $evaluation_format The evaluation format for which the
+	 * action links should be returned
+	 * @return string A HTML representation of the action links
+	 */
+	private function get_modification_links($evaluation_format)
+	{
+		$toolbar_data = array();
+		
+        $toolbar_data[] = array('href' => $this->browser->get_change_evaluation_format_activation_url($evaluation_format), 'label' => ($evaluation_format->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'), 'confirm' => false, 'img' => ($evaluation_format->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png');
+        
+		return Utilities :: build_toolbar($toolbar_data);
+	}
+	
+}
+?>

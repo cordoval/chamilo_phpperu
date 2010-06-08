@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
  */
-class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
+class RepositoryManagerDeleterComponent extends RepositoryManager
 {
 
     /**
@@ -29,13 +29,13 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
             $recycled = Request :: get(RepositoryManager :: PARAM_DELETE_RECYCLED);
             foreach ($ids as $object_id)
             {
-                $object = $this->get_parent()->retrieve_content_object($object_id);
+                $object = $this->retrieve_content_object($object_id);
                 // TODO: Roles & Rights.
                 if ($object->get_owner_id() == $this->get_user_id())
                 {
                     if ($delete_version)
                     {
-                        if ($this->get_parent()->content_object_deletion_allowed($object, 'version'))
+                        if ($this->content_object_deletion_allowed($object, 'version'))
                         {
                             $object->delete_version();
                         }
@@ -46,7 +46,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
                     }
                     else
                     {
-                        if ($this->get_parent()->content_object_deletion_allowed($object))
+                        if ($this->content_object_deletion_allowed($object))
                         {
                             if ($permanent)
                             {

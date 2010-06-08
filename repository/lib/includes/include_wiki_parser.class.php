@@ -25,7 +25,6 @@ class IncludeWikiParser extends ContentObjectIncludeParser
             {
                 $tags = Text :: fetch_tag_into_array($values[$html_editor], '[wikilink=]'); //bvb wikilink
 
-
                 foreach ($tags as $tag)
                 {
                     $search_path = str_replace($base_path, '', $tag['src']);
@@ -33,7 +32,7 @@ class IncludeWikiParser extends ContentObjectIncludeParser
                     $rdm = RepositoryDataManager :: get_instance();
                     $condition = new Equalitycondition('path', $search_path);
 
-                    $search_objects = $rdm->retrieve_type_content_objects('document', $condition);
+                    $search_objects = $rdm->retrieve_type_content_objects(Document :: get_type_name(), $condition);
 
                     while ($search_object = $search_objects->next_result())
                     {

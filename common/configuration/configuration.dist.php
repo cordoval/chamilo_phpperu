@@ -13,4 +13,5 @@ $configuration['general']['root_web'] = '{ROOT_WEB}';
 $configuration['general']['url_append'] = '{URL_APPEND}';
 $configuration['general']['security_key'] = '{SECURITY_KEY}';
 $configuration['general']['hashing_algorithm'] = '{HASHING_ALGORITHM}';
+$configuration['general']['install_date'] = '{INSTALL_DATE}';
 ?>

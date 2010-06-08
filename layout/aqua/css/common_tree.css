@@ -64,6 +64,48 @@ ul.tree-menu li div a {
 	font-weight: bold;
 }
 
+ul.tree-menu li div a.blog_item {
+	background-image: url(../images/common/treemenu_types/blog_item.png);
+}
+
+ul.tree-menu li div a.link {
+	background-image: url(../images/common/treemenu_types/link.png);
+}
+
+ul.tree-menu li div a.portfolio {
+	background-image: url(../images/common/treemenu_types/portfolio.png);
+}
+
+ul.tree-menu li div a.announcement {
+	background-image: url(../images/common/treemenu_types/announcement.png);
+}
+
+ul.tree-menu li div a.calendar_event {
+	background-image:
+		url(../images/common/treemenu_types/calendar_event.png);
+}
+
+ul.tree-menu li div a.description {
+	background-image: url(../images/common/treemenu_types/description.png);
+}
+
+ul.tree-menu li div a.document {
+	background-image: url(../images/common/treemenu_types/document.png);
+}
+
+ul.tree-menu li div a.note {
+	background-image: url(../images/common/treemenu_types/note.png);
+}
+
+ul.tree-menu li div a.profile {
+	background-image: url(../images/common/treemenu_types/profile.png);
+}
+
+ul.tree-menu li div a.youtube {
+	clear: both;
+	background-image: url(../images/common/treemenu_types/youtube.png);
+}
+
 ul.tree-menu li div a.disabled {
 	color: #9f9f9f;
 	cursor: default;
@@ -82,6 +124,18 @@ ul.tree-menu li div img {
  */
 ul.tree-menu li div a.home {
 	background-image: url(../images/common/treemenu/home.png);
+}
+
+ul.tree-menu li div a.user {
+	background-image: url(../images/common/treemenu/user.png);
+}
+
+ul.tree-menu li div a.feed {
+	background-image: url(../images/common/treemenu/feed.png);
+}
+
+ul.tree-menu li div a.streaming {
+	background-image: url(../images/common/treemenu/streaming.png);
 }
 
 ul.tree-menu li div a.trash {
@@ -117,7 +171,8 @@ ul.tree-menu li div a.import {
 }
 
 ul.tree-menu li div a.external_repository {
-	background-image: url(../images/common/treemenu/external_repository.png);
+	background-image: url(../images/common/treemenu/external_repository.png)
+		;
 }
 
 ul.tree-menu li div a.search_results {
@@ -134,6 +189,14 @@ ul.tree-menu li div a.template {
 
 ul.tree-menu li div a.category {
 	background-image: url(../images/common/treemenu/tree-folder-closed.png);
+}
+
+ul.tree-menu li div a.survey {
+	background-image: url(../images/common/treemenu/survey.png);
+}
+
+ul.tree-menu li div a.survey_finished {
+	background-image: url(../images/common/treemenu/survey_finished.png);
 }
 
 ul.tree-menu li div a.divider {
@@ -189,7 +252,8 @@ ul.tree-menu li div a.type_blog_item {
 }
 
 ul.tree-menu li div a.type_calendar_event {
-	background-image: url(../images/common/treemenu_types/calendar_event.png);
+	background-image:
+		url(../images/common/treemenu_types/calendar_event.png);
 }
 
 ul.tree-menu li div a.type_description {
@@ -204,9 +268,16 @@ ul.tree-menu li div a.type_feedback {
 	background-image: url(../images/common/treemenu_types/feedback.png);
 }
 
-ul.tree-menu li div a.type_fill_in_blanks_question {
+ul.tree-menu li div a.type_assessment_fill_in_blanks_question {
 	background-image:
-		url(../images/common/treemenu_types/fill_in_blanks_question.png);
+		url(../images/common/treemenu_types/assessment_fill_in_blanks_question.png)
+		;
+}
+
+ul.tree-menu li div a.type_survey_fill_in_blanks_question {
+	background-image:
+		url(../images/common/treemenu_types/survey_fill_in_blanks_question.png)
+		;
 }
 
 ul.tree-menu li div a.type_forum {
@@ -226,7 +297,8 @@ ul.tree-menu li div a.type_glossary {
 }
 
 ul.tree-menu li div a.type_glossary_item {
-	background-image: url(../images/common/treemenu_types/glossary_item.png);
+	background-image: url(../images/common/treemenu_types/glossary_item.png)
+		;
 }
 
 ul.tree-menu li div a.type_hotpotatoes {
@@ -234,8 +306,8 @@ ul.tree-menu li div a.type_hotpotatoes {
 }
 
 ul.tree-menu li div a.type_hotspot_question {
-	background-image: url(../images/common/treemenu_types/hotspot_question.png)
-		;
+	background-image:
+		url(../images/common/treemenu_types/hotspot_question.png);
 }
 
 ul.tree-menu li div a.type_introduction {
@@ -243,7 +315,8 @@ ul.tree-menu li div a.type_introduction {
 }
 
 ul.tree-menu li div a.type_learning_path {
-	background-image: url(../images/common/treemenu_types/learning_path.png);
+	background-image: url(../images/common/treemenu_types/learning_path.png)
+		;
 }
 
 ul.tree-menu li div a.type_learning_path_item {
@@ -255,31 +328,50 @@ ul.tree-menu li div a.type_link {
 	background-image: url(../images/common/treemenu_types/link.png);
 }
 
-ul.tree-menu li div a.type_matching_question {
+ul.tree-menu li div a.type_assessment_matching_question {
 	background-image:
-		url(../images/common/treemenu_types/matching_question.png);
+		url(../images/common/treemenu_types/assessment_matching_question.png);
 }
 
-ul.tree-menu li div a.type_multiple_choice_question {
+ul.tree-menu li div a.type_survey_matching_question {
 	background-image:
-		url(../images/common/treemenu_types/multiple_choice_question.png);
+		url(../images/common/treemenu_types/survey_matching_question.png);
+}
+
+ul.tree-menu li div a.type_assessment_multiple_choice_question {
+	background-image:
+		url(../images/common/treemenu_types/assessment_multiple_choice_question.png)
+		;
+}
+
+ul.tree-menu li div a.type_survey_multiple_choice_question {
+	background-image:
+		url(../images/common/treemenu_types/survey_multiple_choice_question.png)
+		;
 }
 
 ul.tree-menu li div a.type_note {
 	background-image: url(../images/common/treemenu_types/note.png);
 }
 
-ul.tree-menu li div a.type_open_question {
-	background-image: url(../images/common/treemenu_types/open_question.png);
+ul.tree-menu li div a.type_assessment_open_question {
+	background-image:
+		url(../images/common/treemenu_types/assessment_open_question.png);
+}
+
+ul.tree-menu li div a.type_survey_open_question {
+	background-image:
+		url(../images/common/treemenu_types/survey_open_question.png);
 }
 
 ul.tree-menu li div a.type_personal_message {
-	background-image: url(../images/common/treemenu_types/personal_message.png)
-		;
+	background-image:
+		url(../images/common/treemenu_types/personal_message.png);
 }
 
 ul.tree-menu li div a.type_portfolio_item {
-	background-image: url(../images/common/treemenu_types/portfolio_item.png);
+	background-image:
+		url(../images/common/treemenu_types/portfolio_item.png);
 }
 
 ul.tree-menu li div a.type_profile {
@@ -290,12 +382,42 @@ ul.tree-menu li div a.type_rss_feed {
 	background-image: url(../images/common/treemenu_types/rss_feed.png);
 }
 
-ul.tree-menu li div a.type_rating_question {
-	background-image: url(../images/common/treemenu_types/rating_question.png);
+ul.tree-menu li div a.type_assessment_rating_question {
+	background-image:
+		url(../images/common/treemenu_types/assessment_rating_question.png);
+}
+
+ul.tree-menu li div a.type_survey_rating_question {
+	background-image:
+		url(../images/common/treemenu_types/survey_rating_question.png);
+}
+
+ul.tree-menu li div a.type_assessment_matrix_question {
+	background-image:
+		url(../images/common/treemenu_types/assessment_matrix_question.png);
+}
+
+ul.tree-menu li div a.type_survey_matrix_question {
+	background-image:
+		url(../images/common/treemenu_types/survey_matrix_question.png);
+}
+
+ul.tree-menu li div a.type_assessment_select_question {
+	background-image:
+		url(../images/common/treemenu_types/assessment_select_question.png);
+}
+
+ul.tree-menu li div a.type_survey_select_question {
+	background-image:
+		url(../images/common/treemenu_types/survey_select_question.png);
 }
 
 ul.tree-menu li div a.type_survey {
 	background-image: url(../images/common/treemenu_types/survey.png);
+}
+
+ul.tree-menu li div a.type_survey_page {
+	background-image: url(../images/common/treemenu_types/survey_page.png);
 }
 
 ul.tree-menu li div a.type_template {
@@ -308,6 +430,10 @@ ul.tree-menu li div a.type_wiki {
 
 ul.tree-menu li div a.type_user {
 	background-image: url(../images/common/treemenu/user.png);
+}
+
+ul.tree-menu li div a.type_user_platform {
+	background-image: url(../images/common/treemenu/user_platform.png);
 }
 
 ul.tree-menu li div a.type_group {

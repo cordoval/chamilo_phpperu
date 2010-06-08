@@ -16,10 +16,10 @@ if (! Authentication :: is_valid())
 
 $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
 // TODO: User real right_users'n'rights here
-if (! $user->is_platform_admin())
+/*if (! $user->is_platform_admin())
 {
     return 0;
-}
+}*/
 
 $rights = $_POST['rights'];
 $rights = explode('_', $rights);

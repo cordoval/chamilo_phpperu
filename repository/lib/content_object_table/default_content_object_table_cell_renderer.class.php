@@ -60,15 +60,13 @@ class DefaultContentObjectTableCellRenderer implements ObjectTableCellRenderer
                 $icon = $content_object->get_icon_name();
                 return '<img src="' . Theme :: get_common_image_path() . 'content_object/' . $icon . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($type) . 'TypeName')) . '"/>';
             case ContentObject :: PROPERTY_TITLE :
-                return htmlspecialchars($content_object->get_title());
+                return Utilities :: truncate_string($content_object->get_title(), 50);
             case ContentObject :: PROPERTY_DESCRIPTION :
                 return Utilities :: truncate_string($content_object->get_description(), 50);
             case ContentObject :: PROPERTY_CREATION_DATE :
-                // TODO: i18n
-                return date('Y-m-d, H:i', $content_object->get_creation_date());
+                return DatetimeUtilities :: format_locale_date(null, $content_object->get_creation_date());
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
-                // TODO: i18n
-                return date('Y-m-d, H:i', $content_object->get_creation_date());
+                return DatetimeUtilities :: format_locale_date(null, $content_object->get_modification_date());
             case Translation :: get('Versions') :
                 return $content_object->get_version_count();
             default :

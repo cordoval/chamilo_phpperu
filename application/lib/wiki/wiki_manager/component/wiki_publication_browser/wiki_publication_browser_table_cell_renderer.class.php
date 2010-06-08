@@ -41,7 +41,7 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
                     $url = $this->browser->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
                     return '<a href="' . $url . '">' . htmlspecialchars($wiki_publication->get_content_object()->get_title()) . '</a>';
                 case ContentObject :: PROPERTY_DESCRIPTION :
-                    return $wiki_publication->get_content_object()->get_description();
+                    return Utilities :: truncate_string($wiki_publication->get_content_object()->get_description(), 2000, false);
             }
         }
         if ($column === WikiPublicationBrowserTableColumnModel :: get_modification_column())
@@ -64,6 +64,13 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
         $toolbar_data[] = array('href' => $this->browser->get_update_wiki_publication_url($wiki_publication), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         
         $toolbar_data[] = array('href' => $this->browser->get_delete_wiki_publication_url($wiki_publication), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        	if(EvaluationManager :: retrieve_internal_item_by_publication(WikiManager :: APPLICATION_NAME, $wiki_publication->get_id()))
+        		$toolbar_data[] = array('href' => $this->browser->get_evaluation_publication_url($wiki_publication), 'label' => Translation :: get('Evaluation'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png');
+        }
         
         return Utilities :: build_toolbar($toolbar_data);
     }

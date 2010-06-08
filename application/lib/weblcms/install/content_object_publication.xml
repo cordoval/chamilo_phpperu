@@ -11,12 +11,6 @@
 			notnull="1" />
 		<property name="category_id" type="integer" unsigned="1"
 			notnull="1" />
-		<!--
-			from_date & end_date are defined as integers here. Shouldn't they be
-			defined as timestamp like in the content_object.xml file? Maybe this
-			has to do with the fact that they can be 0 (zero) if a publication
-			doesn't have a publiction period. So it is published 'forever'.
-		-->
 		<property name="from_date" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="to_date" type="integer" unsigned="1" notnull="1" />

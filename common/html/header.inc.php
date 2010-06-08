@@ -9,11 +9,15 @@ require_once (dirname(__FILE__) . '/banner.class.php');
 // The error ignorance is due to the non compatibility of function_exists()
 // with the object syntax of Database::get_language_isocode()
 
-$document_language = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
+$document_language = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface);
 if (empty($document_language))
 {
     //if there was no valid iso-code, use the english one
     $document_language = 'en';
+}
+else
+{
+	$document_language = $document_language->get_isocode();
 }
 
 $header = new Header($document_language);
@@ -21,7 +25,7 @@ $header->add_default_headers();
 $header->set_page_title(PlatformSetting :: get('institution') . ' - ' . PlatformSetting :: get('site_name'));
 if (isset($httpHeadXtra) && $httpHeadXtra)
 {
-    foreach ($httpHeadXtra as $thisHttpHead)
+    foreach ($httpHeadXtra as & $thisHttpHead)
     {
         $header->add_http_header($thisHttpHead);
     }
@@ -29,7 +33,7 @@ if (isset($httpHeadXtra) && $httpHeadXtra)
 
 if (isset($htmlHeadXtra) && $htmlHeadXtra)
 {
-    foreach ($htmlHeadXtra as $this_html_head)
+    foreach ($htmlHeadXtra as & $this_html_head)
     {
         $header->add_html_header($this_html_head);
     }

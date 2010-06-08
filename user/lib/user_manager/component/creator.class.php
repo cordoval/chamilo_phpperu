@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerCreatorComponent extends UserManagerComponent
+class UserManagerCreatorComponent extends UserManager
 {
 
     /**
@@ -14,7 +14,7 @@ class UserManagerCreatorComponent extends UserManagerComponent
     {
         $user_id = $this->get_user_id();
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreate')));
@@ -22,7 +22,7 @@ class UserManagerCreatorComponent extends UserManagerComponent
         
         if (isset($user_id) && ! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: warning_message(Translation :: get('AlreadyRegistered'));
             $this->display_footer();
             exit();
@@ -47,14 +47,14 @@ class UserManagerCreatorComponent extends UserManagerComponent
             else
             {
                 Request :: set_get('error_message', Translation :: get('UsernameNotAvailable'));
-                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }

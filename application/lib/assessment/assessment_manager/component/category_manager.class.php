@@ -4,7 +4,6 @@
  * @package application.lib.assessment.assessment_manager.component
  */
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../category_manager/assessment_publication_category_manager.class.php';
 
 /**
@@ -12,7 +11,7 @@ require_once dirname(__FILE__) . '/../../category_manager/assessment_publication
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerCategoryManagerComponent extends AssessmentManagerComponent
+class AssessmentManagerCategoryManagerComponent extends AssessmentManager
 {
 
     /**

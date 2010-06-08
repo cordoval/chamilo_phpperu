@@ -40,9 +40,12 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
             case ContentObject :: PROPERTY_TITLE :
                 $title = parent :: render_cell($column, $content_object);
                 $title_short = Utilities :: truncate_string($title, 53, false);
-                return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
+                if ($this->browser->has_right($content_object->get_id(), RepositoryRights :: VIEW_RIGHT))
+                	return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
+                else
+                	return $title_short;
             case ContentObject :: PROPERTY_MODIFICATION_DATE :
-                return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_modification_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_modification_date());
             case ContentObject :: PROPERTY_OWNER_ID :
                 return UserDataManager :: get_instance()->retrieve_user($content_object->get_owner_id())->get_fullname();
         }

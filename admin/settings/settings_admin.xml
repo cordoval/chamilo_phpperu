@@ -2,17 +2,19 @@
 <application name="admin">
 	<settings>
 		<category name="administrator">
-			<setting name="show_administrator_data" field="radio"
-				default="true">
+			<setting name="show_administrator_data" field="checkbox" default="1">
 				<options type="static">
-					<option name="true" value="true" />
-					<option name="false" value="false" />
+					<option name="show_administrator_data" value="1" />
 				</options>
 			</setting>
 			<setting name="administrator_firstname" field="text" default="Chamilo" />
+			
 			<setting name="administrator_surname" field="text" default="Administrator" />
-			<setting name="administrator_email" field="text"
-				default="chamilo.admin@mychamilo.com" />
+			<setting name="administrator_email" field="text" default="chamilo.admin@mychamilo.com">
+				<validations>
+                    <validation rule="email" message="MustBeAnEMailAddress"/>
+                </validations>
+            </setting>
 			<setting name="administrator_telephone" field="text" default="000/1234567" />
 		</category>
 		<category name="whoisonline">
@@ -23,41 +25,71 @@
 					<option name="registered" value="2" />
 				</options>
 			</setting>
-			<setting name="timelimit" field="text" default="30" />
+			<setting name="timelimit" field="text" default="30">
+				<validations>
+					<validation rule="numeric" message="MustBeNumeric"/>
+				</validations>
+			</setting>
 		</category>
 		<category name="platform">
 			<setting name="site_name" field="text" default="Chamilo" />
 			<setting name="institution" field="text" default="Chamilo" />
-			<setting name="institution_url" field="text"
-				default="http://www.chamilo.org" />
-			<setting name="no_reply_email" field="text" default="" />
-			<setting name="page_after_login" field="radio" default="home">
-				<options type="static">
-					<option name="homepage" value="home" />
-					<option name="courses" value="weblcms" />
-				</options>
+			<setting name="institution_url" field="text" default="http://www.chamilo.org">
+				<validations>
+						<validation rule="regex" format="/http:\/\/.*/" message="MustStartWithHTTP" />
+					</validations>
 			</setting>
-			<setting name="public_pages_compliance_to_wai" field="radio"
+			<setting name="no_reply_email" field="text" default="" >
+				<validations>
+	                    <validation rule="email" message="MustBeAnEMailAddress"/>
+	                </validations>
+	            </setting>
+			<setting name="page_after_login" field="select" default="home">
+				<options type="dynamic" source="get_active_applications" />
+			</setting>
+			<setting name="public_pages_compliance_to_wai" field="checkbox"
 				default="0">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="public_pages_compliance_to_wai" value="1" />
 				</options>
 			</setting>
-			<setting name="hide_dcda_markup" field="radio" default="0">
+			<setting name="hide_dcda_markup" field="checkbox" default="0">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="hide_dcda_markup" value="1" />
 				</options>
 			</setting>
-			<setting name="show_variable_in_translation" field="checkbox"
-				default="0">
+			<setting name="show_variable_in_translation" field="checkbox" default="0">
 				<options type="static">
 					<option name="show_variable_in_translation" value="1" />
 				</options>
 			</setting>
 			<setting name="platform_timezone" field="select" default="Europe/Brussels" user_setting="1">
 				<options type="dynamic" source="get_time_zones" />
+			</setting>
+			<setting name="active_online_email_editor" field="checkbox"
+				default="0">
+				<options type="static">
+					<option name="active_online_email_editor" value="1" />
+				</options>
+			</setting>
+			<setting name="installation_blocked" field="checkbox" 
+				default="0">
+				<options type="static">
+					<option name="installation_blocked" value="1" />
+				</options>
+			</setting>
+		</category>
+		<category name="calendar">
+			<setting name="working_hours_start" field="select" default="0" user_setting="1">
+				<options type="dynamic" source="get_working_hours" />
+			</setting>
+			<setting name="working_hours_end" field="select" default="24" user_setting="1">
+				<options type="dynamic" source="get_working_hours" />
+			</setting>
+			<setting name="hide_none_working_hours" field="checkbox" default="0" user_setting="1">
+				<options type="static">
+					<option name="hide_none_working_hours" value="1" />
+				</options>
 			</setting>
 		</category>
 		<category name="visual">
@@ -73,13 +105,17 @@
 					<option name="TinyMCE" value="tinymce" />
 				</options>
 			</setting>
-			<setting name="reload_templates" field="radio" default="0">
+			<setting name="reload_templates" field="checkbox" default="0">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="reload_templates" value="1" />
 				</options>
 			</setting>
 			<setting name="portal_home" field="html_editor" default="" />
+			<setting name="allow_portal_functionality" field="checkbox" default="1">
+				<options type="static">
+					<option name="allow_portal_functionality" value="1" />
+				</options>
+			</setting>
 		</category>
 		<category name="various">
 			<setting name="server_type" field="radio" default="production">
@@ -95,10 +131,9 @@
 				</options>
 			</setting>
 			<setting name="version" field="text" default="2.0" locked="true" />
-			<setting name="show_version_data" field="radio" default="0">
+			<setting name="show_version_data" field="checkbox" default="0">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="show_version_data" value="1" />
 				</options>
 			</setting>
 		</category>
@@ -117,7 +152,11 @@
 				</options>
 			</setting>
 			<setting name="replacement_extension" field="text" default="" />
-			<setting name="permissions_new_files" field="text" default="0660" />
+			<setting name="permissions_new_files" field="text" default="0660">
+				<validations>
+                    <validation rule="numeric" message="MustBeNumeric"/>
+                </validations>
+            </setting>
 		</category>
 		<category name="authentication">
 			<setting name="enable_external_authentication" field="checkbox">
@@ -167,5 +206,10 @@
 			<setting name="httpd_error_location" field="text" default="" />
 			<setting name="mysql_error_location" field="text" default="" />
 		</category>
+                <category name="mediamosa">
+                    <setting name="mediamosa_url" field="text" default="" />
+                    <setting name="mediamosa_username" field="text" default="" />
+                    <setting name="mediamosa_password" field="text" default="" />
+                </category>
 	</settings>
 </application>

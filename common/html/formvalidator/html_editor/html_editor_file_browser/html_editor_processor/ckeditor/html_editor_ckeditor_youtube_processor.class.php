@@ -8,7 +8,7 @@ class HtmlEditorCkeditorYoutubeProcessor extends HtmlEditorProcessor
 
         $html = array();
         $html[] = '<script type="text/javascript">';
-        $html[] = 'window.opener.CKEDITOR.tools.callFunction(' . $this->get_parameter('CKEditorFuncNum') . ', \'' . $object->get_video_url() . '\', function() {';
+        $html[] = 'window.opener.CKEDITOR.tools.callFunction(' . $this->get_parameter('CKEditorFuncNum') . ', \'' . $object->get_video_url() . '?' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $object->get_id() . '\', function() {';
 
         $html[] = '    var element, dialog = this.getDialog();';
 

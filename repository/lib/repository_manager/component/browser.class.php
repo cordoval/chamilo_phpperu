@@ -7,7 +7,7 @@
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
  */
-class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
+class RepositoryManagerBrowserComponent extends RepositoryManager
 {
     private $form;
 
@@ -67,6 +67,9 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
         {
             $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
         }
+        
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        
         $table = new RepositoryBrowserTable($this, $parameters, $condition);
         return $table->as_html();
     }
@@ -94,16 +97,18 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id());
 
-        $types = array('learning_path_item', 'portfolio_item');
+        $types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
 
         foreach ($types as $type)
+        {
             $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type));
+        }
 
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
-            $or_conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
+            $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
 
             $conditions[] = new OrCondition($or_conditions);
         }

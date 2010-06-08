@@ -4,7 +4,7 @@
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
+class GroupManagerSubscribeUserBrowserComponent extends GroupManager
 {
     private $group;
     private $ab;
@@ -14,7 +14,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
@@ -32,7 +32,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -40,7 +40,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
         $this->ab = $this->get_action_bar();
         $output = $this->get_user_subscribe_html();
 
-        $this->display_header($trail);
+        $this->display_header();
         echo $this->ab->as_html() . '<br />';
         echo $output;
         $this->display_footer();
@@ -48,7 +48,11 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 
     function get_user_subscribe_html()
     {
-        $table = new SubscribeUserBrowserTable($this, array(Application :: PARAM_APPLICATION => GroupManager :: APPLICATION_NAME, Application :: PARAM_ACTION => GroupManager :: ACTION_SUBSCRIBE_USER_BROWSER, GroupManager :: PARAM_GROUP_ID => $this->group->get_id()), $this->get_subscribe_condition());
+        $parameters = $this->get_parameters();
+        $parameters[GroupManager :: PARAM_GROUP_ID] = $this->group->get_id();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+        
+    	$table = new SubscribeUserBrowserTable($this, $parameters, $this->get_subscribe_condition());
 
         $html = array();
         $html[] = $table->as_html();
@@ -60,7 +64,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
     {
         $condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, Request :: get(GroupRelUser :: PROPERTY_GROUP_ID));
 
-        $users = $this->get_parent()->retrieve_group_rel_users($condition);
+        $users = $this->retrieve_group_rel_users($condition);
 
         $conditions = array();
         while ($user = $users->next_result())
@@ -72,9 +76,9 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 
         if (isset($query) && $query != '')
         {
-            $or_conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
-            $or_conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
-            $or_conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
             $conditions[] = new OrCondition($or_conditions);
         }
 

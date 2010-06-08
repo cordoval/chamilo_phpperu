@@ -3,20 +3,20 @@
  * $Id: toggle_visibility.class.php 195 2009-11-13 12:02:41Z chellee $
  * @package application.lib.forum.forum_manager.component
  */
-class ForumManagerToggleVisibilityComponent extends ForumManagerComponent
+class ForumManagerToggleVisibilityComponent extends ForumManager
 {
 
     function run()
     {
         if ($this->is_allowed(DELETE_RIGHT))
         {
-            if (Request :: get(ForumManager :: PARAM_FORUM_PUBLICATION))
+            if (Request :: get(ForumManager :: PARAM_PUBLICATION_ID))
             {
-                $publication_ids = Request :: get(ForumManager :: PARAM_FORUM_PUBLICATION);
+                $publication_ids = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
             }
             else
             {
-                $publication_ids = $_POST[ForumManager :: PARAM_FORUM_PUBLICATION];
+                $publication_ids = $_POST[ForumManager :: PARAM_PUBLICATION_ID];
             }
             
             if (! is_array($publication_ids))

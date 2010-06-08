@@ -4,7 +4,7 @@
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerExporterComponent extends GroupManagerComponent
+class GroupManagerExporterComponent extends GroupManager
 {
 
     /**
@@ -12,7 +12,7 @@ class GroupManagerExporterComponent extends GroupManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupCreateExport')));
@@ -59,13 +59,15 @@ class GroupManagerExporterComponent extends GroupManagerComponent
     }
 
     function export_groups($file_type, $data)
-    {
+    {       
         $filename = 'export_groups_' . date('Y-m-d_H-i-s');
-        $export = Export :: factory($file_type, $filename);
-        if ($file_type == 'pdf')
-            $data = array(array('key' => 'users', 'data' => $data));
-        $export->write_to_file($data);
-        return;
+    	if ($file_type == 'pdf')
+        {
+            $data = array(array('key' => 'groups', 'data' => $data));
+        }
+        $export = Export :: factory($file_type, $data);
+        $export->set_filename($filename);
+        $export->send_to_browser();
     }
 }
 ?>

@@ -54,7 +54,6 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
                 return Translation :: get('Course_User_Relations');
             case 4 :
                 return Translation :: get('Course_Class_Relations');
-                ;
             default :
                 return Translation :: get('Courses');
         }
@@ -99,7 +98,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
             //Migrate the courses
             $this->migrate('_Course', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null, 1);
             
-            //Migrate the class users
+            //Migrate the course users and user course categories
             if (isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
             {
                 //Migrate the user course categories
@@ -119,9 +118,7 @@ class CoursesMigrationWizardPage extends MigrationWizardPage
             if (isset($exportvalues['migrate_classes']) && $exportvalues['migrate_classes'] == 1)
             {
                 //Migrate course classes
-            //$this->migrate('CourseRelClass', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,4);
-            
-
+            	$this->migrate('CourseRelClass', array('old_mgdm' => $this->old_mgdm, 'del_files' => $this->include_deleted_files), array(), null,4);
             }
             else
             {

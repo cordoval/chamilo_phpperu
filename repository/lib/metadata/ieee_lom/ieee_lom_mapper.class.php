@@ -69,6 +69,8 @@ class IeeeLomMapper extends MetadataMapper
         $generator->set_content_object($this->content_object);
         $this->ieeeLom = $generator->generate();
         
+        //$this->debug_dom();
+        
         /*
 		 * Add technical datasource infos to the ieeeLom object to allow 
 		 * adding /merge of additional metadata  
@@ -837,13 +839,12 @@ class IeeeLomMapper extends MetadataMapper
         foreach ($contribution_nodes as $contribution)
         {
             //debug($contribution);
-            
 
             $contribution_array = array();
             
-            $role = XMLUtilities :: get_first_element_by_xpath($contribution, '/lom/lifeCycle/contribute/role');
-            $entities = XMLUtilities :: get_all_element_by_xpath($contribution, '/lom/lifeCycle/contribute/entity');
-            $date = XMLUtilities :: get_first_element_by_xpath($contribution, '/lom/lifeCycle/contribute/date');
+            $role     = XMLUtilities :: get_first_element_by_relative_xpath($contribution, '/contribute/role');
+            $entities = XMLUtilities :: get_all_element_by_relative_xpath($contribution,   '/contribute/entity');
+            $date     = XMLUtilities :: get_first_element_by_relative_xpath($contribution, '/contribute/date');
             
             $contribution_array['contribution_override_id'] = XMLUtilities :: get_attribute($role, self :: OVERRIDE_ID_ATTRIBUTE, DataClass :: NO_UID);
             $contribution_array['contribution_original_id'] = XMLUtilities :: get_attribute($role, self :: ORIGINAL_ID_ATTRIBUTE, DataClass :: NO_UID);
@@ -1882,9 +1883,16 @@ class IeeeLomMapper extends MetadataMapper
     /****************************************************************************************/
     /****************************************************************************************/
     
-    function debug_dom($title = null)
+    function debug_dom($title = 'IeeLomMapper')
     {
-        debug($this->ieeeLom->get_dom(), $title, 2);
+        if(isset($this->ieeeLom))
+        {
+            debug($this->ieeeLom->get_dom(), $title, 2);
+        }
+        else
+        {
+            debug(null, $title, 2);
+        }
     }
 }
 ?>

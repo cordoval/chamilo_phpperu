@@ -101,7 +101,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             }
             else
             {
-                if ($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() < 3)
+                if ($section->get_type() == CourseSection :: TYPE_DISABLED && ($this->course->get_layout() < 3 || !$this->is_course_admin))
                     continue;
                 
                 if ($section->get_type() == CourseSection :: TYPE_ADMIN && ! $this->is_course_admin)
@@ -109,7 +109,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 
                 $id = ($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() > 2) ? 0 : $section->get_id();
                 
-                if ((count($tools[$id]) > 0 && $section->get_visible()) || $this->is_course_admin)
+                if ($section->get_visible() && (count($tools[$id]) > 0 || $this->is_course_admin))
                 {
                     echo $this->display_block_header($section, $section->get_name());
                     $this->show_section_tools($section, $tools[$id]);
@@ -169,13 +169,13 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 // Show visibility-icon
                 if ($parent->is_allowed(EDIT_RIGHT))
                 {
-                    $html[] = '<a href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => $lcms_action, 'pid' => $publication->get_id(), 'tool_action' => null)) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
-                    $html[] = '<a href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'delete_publication', 'pid' => $publication->get_id(), 'tool_action' => null)) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
+                    $html[] = '<a href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => $lcms_action, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'tool_action' => null)) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
+                    $html[] = '<a href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'delete_publication', Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'tool_action' => null)) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
                     $html[] = '&nbsp;&nbsp;&nbsp;';
                 }
                 
                 // Show tool-icon + name
-                $html[] = '<a href="' . $parent->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $publication->get_tool(), 'pid' => $publication->get_id()), array(), true) . '" ' . $link_class . '>';
+                $html[] = '<a href="' . $parent->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $publication->get_tool(), Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true) . '" ' . $link_class . '>';
                 $html[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $html[] = '&nbsp;';
                 $html[] = $title;
@@ -208,6 +208,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             $html[] = '<div class="toolblock" id="block_' . $section->get_id() . '" style="width:100%; height: 100%;">';
         }
         
+    	if ($section->get_type() == CourseSection :: TYPE_DISABLED)
+        {
+            $html[] = '<div class="disabledblock" id="block_' . $section->get_id() . '" style="width:100%; height: 100%;">';
+        }
+        
         $html[] = '<div class="block" id="block_' . $section->get_id() . '" style="background-image: url(' . Theme :: get_image_path('home') . $icon . ');">';
         
         $html[] = '<div class="title"><div style="float: left;">' . $block_name . '</div>';
@@ -223,11 +228,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
     {
         $html = array();
         
-        $html[] = '<div style="clear: both;"></div>';
+        $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '</div>';
         
-        if ($section->get_type() == CourseSection :: TYPE_TOOL)
+        if ($section->get_type() == CourseSection :: TYPE_TOOL || $section->get_type() == CourseSection :: TYPE_DISABLED)
         {
             $html[] = '</div>';
         }
@@ -249,9 +254,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         
         foreach ($tools as $index => $tool)
         {
-            if (! PlatformSetting :: get($tool->name . '_active', 'weblcms') && $section->get_type() != CourseSection :: TYPE_ADMIN)
-                continue;
-            
             if ($tool->visible || $section->get_name() == 'course_admin')
             {
                 $lcms_action = 'make_invisible';
@@ -277,7 +279,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             //$html = array();
             if ($this->is_course_admin || $tool->visible)
             {
-                if ($section->get_type() == CourseSection :: TYPE_TOOL)
+                if ($section->get_type() == CourseSection :: TYPE_TOOL || $section->get_type() == CourseSection :: TYPE_DISABLED)
                 {
                     $html[] = '<div id="tool_' . $tool->id . '" class="tool" style="width: ' . $column_width . '%;">';
                     //$html[] = '<div id="drag_' . $tool->id . '" class="tooldrag" style="width: 20px; cursor: pointer; display:none;"><img src="'. Theme :: get_common_image_path() .'action_drag.png" alt="'. Translation :: get('DragAndDrop') .'" title="'. Translation :: get('DragAndDrop') .'" /></div>';

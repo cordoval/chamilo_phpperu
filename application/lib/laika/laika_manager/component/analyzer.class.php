@@ -4,10 +4,9 @@
  * @package application.lib.laika.laika_manager.component
  */
 require_once dirname(__FILE__) . '/../laika_manager.class.php';
-require_once dirname(__FILE__) . '/../laika_manager_component.class.php';
 require_once dirname(__FILE__) . '/laika_group_browser/laika_group_browser_table.class.php';
 
-class LaikaManagerAnalyzerComponent extends LaikaManagerComponent
+class LaikaManagerAnalyzerComponent extends LaikaManager
 {
 
     /**
@@ -18,7 +17,7 @@ class LaikaManagerAnalyzerComponent extends LaikaManagerComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_STATISTICS)), Translation :: get('ViewStatistics')));
-        
+
         if (! LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, LaikaRights :: LOCATION_ANALYZER, 'laika_component'))
         {
             $this->display_header($trail);
@@ -26,15 +25,15 @@ class LaikaManagerAnalyzerComponent extends LaikaManagerComponent
             $this->display_footer();
             exit();
         }
-        
+
         $group_id = $this->get_group();
-        
+
         if (isset($group_id) && $group_id != 0)
         {
             $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_STATISTICS, LaikaManager :: PARAM_GROUP_ID => $group->get_id())), $group->get_name()));
         }
-        
+
         $this->display_header($trail);
         echo $this->get_table_html();
         $this->display_footer();
@@ -43,10 +42,10 @@ class LaikaManagerAnalyzerComponent extends LaikaManagerComponent
     function get_table_html()
     {
         $html = array();
-        
+
         $table = new LaikaGroupBrowserTable($this, $this->get_table_parameters(), $this->get_condition());
         $html[] = $table->as_html();
-        
+
         return implode("\n", $html);
     }
 
@@ -58,13 +57,13 @@ class LaikaManagerAnalyzerComponent extends LaikaManagerComponent
     function get_condition()
     {
         $condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_group());
-        
+
         //		$query = $this->ab->get_query();
         //		if(isset($query) && $query != '')
         //		{
         //			$or_conditions = array();
-        //			$or_conditions[] = new LikeCondition(Group :: PROPERTY_NAME, $query);
-        //			$or_conditions[] = new LikeCondition(Group :: PROPERTY_DESCRIPTION, $query);
+        //			$or_conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*');
+        //			$or_conditions[] = new PatternMatchCondition(Group :: PROPERTY_DESCRIPTION, '*' . $query . '*');
         //			$or_condition = new OrCondition($or_conditions);
         //
         //			$and_conditions[] = array();
@@ -72,7 +71,7 @@ class LaikaManagerAnalyzerComponent extends LaikaManagerComponent
         //			$and_conditions = $or_condition;
         //			$condition = new AndCondition($and_conditions);
         //		}
-        
+
 
         return $condition;
     }
@@ -81,9 +80,9 @@ class LaikaManagerAnalyzerComponent extends LaikaManagerComponent
     {
         $extra_parameters = array();
         $extra_parameters[LaikaManager :: PARAM_GROUP_ID] = $this->get_group();
-        
+
         $parameters = $this->get_parameters();
-        
+
         return array_merge($extra_parameters, $parameters);
     }
 

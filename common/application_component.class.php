@@ -84,6 +84,11 @@ class ApplicationComponent
     {
         return $this->get_parent()->set_parameter($name, $value);
     }
+    
+	function set_parameters($parameters)
+    {
+        return $this->get_parent()->set_parameters($parameters);
+    }
 
     /**
      * @see Application :: get_url()
@@ -275,34 +280,6 @@ class ApplicationComponent
         $class = $manager_class . $type . 'Component';
         require_once $file;
         return new $class($manager);
-    }
-    
-    function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
-    {
-    	if ($failures)
-        {
-            if ($count == 1)
-            {
-                $message = $fail_message_single;
-            }
-            else
-            {
-                $message = $fail_message_multiple;
-            }
-        }
-        else
-        {
-            if ($count == 1)
-            {
-                $message = $succes_message_single;
-            }
-        	else
-            {
-                $message = $succes_message_multiple;
-            }
-        }
-        
-        return Translation :: get($message);
     }
 }
 ?>

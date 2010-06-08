@@ -4,7 +4,7 @@
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerGroupRightsTemplateManagerComponent extends GroupManagerComponent
+class GroupManagerGroupRightsTemplateManagerComponent extends GroupManager
 {
 
     /**
@@ -12,7 +12,7 @@ class GroupManagerGroupRightsTemplateManagerComponent extends GroupManagerCompon
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
@@ -21,7 +21,7 @@ class GroupManagerGroupRightsTemplateManagerComponent extends GroupManagerCompon
         $group_id = Request :: get(GroupManager :: PARAM_GROUP_ID);
         if (! $group_id)
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message('NoObjectSelected');
             $this->display_footer();
             exit();
@@ -40,7 +40,7 @@ class GroupManagerGroupRightsTemplateManagerComponent extends GroupManagerCompon
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             
             echo sprintf(Translation :: get('ModifyRightsTemplatesForGroup'), $group->get_name());
             

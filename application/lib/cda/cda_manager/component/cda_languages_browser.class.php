@@ -4,7 +4,6 @@
  */
 
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/cda_language_browser/cda_language_browser_table.class.php';
 
 /**
@@ -12,7 +11,7 @@ require_once dirname(__FILE__).'/cda_language_browser/cda_language_browser_table
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerCdaLanguagesBrowserComponent extends CdaManagerComponent
+class CdaManagerCdaLanguagesBrowserComponent extends CdaManager
 {
 	private $action_bar;
 

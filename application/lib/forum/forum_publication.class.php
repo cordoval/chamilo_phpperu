@@ -133,7 +133,19 @@ class ForumPublication extends DataClass
 
     function move($move)
     {
-        return ForumDataManager :: get_instance()->move_forum_publication($this, $move);
+        if($this->get_display_order() == 1 && $move == -1)
+        {
+        	return false;
+        }
+        
+        $count = ForumDataManager :: get_instance()->count_forum_publications();
+
+        if($this->get_display_order() == ($count) && $move == 1)
+        {
+        	return false;
+        }
+
+    	return ForumDataManager :: get_instance()->move_forum_publication($this, $move);
     }
 
     static function get_table_name()

@@ -11,7 +11,9 @@
  */
 class GlossaryToolViewerComponent extends GlossaryToolComponent
 {
-
+	private $trail;
+	private $object;
+	
     function run()
     {
         if (! $this->is_allowed(VIEW_RIGHT))
@@ -20,24 +22,31 @@ class GlossaryToolViewerComponent extends GlossaryToolComponent
             return;
         }
         
-        /*$publication_id = Request :: get('pid');
+        $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
-		$object = $publication->get_content_object();
+		$this->object = $publication->get_content_object();
 	
-		Request :: set_get('pid',$object->get_id())*/
+        $this->trail = $trail = new BreadcrumbTrail();
         
-        $object = RepositoryDataManager :: get_instance()->retrieve_content_object(Request :: get('pid'));
+        $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
         
-        $this->set_parameter(Tool :: PARAM_ACTION, GlossaryTool :: ACTION_VIEW_GLOSSARY);
-        
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewGlossary')));
-        
-        $this->display_header($trail);
-        
-        $display = ComplexDisplay :: factory($this, $object->get_type());
+        $display = ComplexDisplay :: factory($this, $this->object->get_type());
         $display->run();
-        $this->display_footer();
+    }
+    
+	function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	return parent :: display_header($this->trail);
+    }
+    
+    function get_root_content_object()
+    {
+    	return $this->object;
     }
 }
 

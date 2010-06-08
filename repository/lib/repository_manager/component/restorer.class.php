@@ -7,7 +7,7 @@
  * Repository manager component to restore learning objects. This means movig
  * learning objects from the recycle bin to there original location.
  */
-class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
+class RepositoryManagerRestorerComponent extends RepositoryManager
 {
 
     /**
@@ -25,7 +25,7 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
             $failures = 0;
             foreach ($ids as $object_id)
             {
-                $object = $this->get_parent()->retrieve_content_object($object_id);
+                $object = $this->retrieve_content_object($object_id);
                 // TODO: Roles & Rights.
                 if ($object->get_owner_id() == $this->get_user_id())
                 {

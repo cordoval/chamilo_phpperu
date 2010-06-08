@@ -121,29 +121,32 @@ class CpoExport extends ContentObjectExport
 
     function export_additional_properties($content_object)
     {
-        if ($content_object->get_type() == 'document')
+        if ($content_object->get_type() == Document :: get_type_name())
         {
             $this->files[$content_object->get_hash()] = $content_object->get_full_path();
         }
         
-        if ($content_object->get_type() == 'hotpotatoes')
+        if ($content_object->get_type() == Hotpotatoes :: get_type_name())
         {
             $this->hotpot_files[] = dirname($content_object->get_full_path());
         }
         
-        if ($content_object->get_type() == 'learning_path' && $content_object->get_path())
+        if ($content_object->get_type() == LearningPath :: get_type_name() && $content_object->get_path())
         {
             $this->scorm_files[] = $content_object->get_full_path();
         }
         
-        if ($content_object->get_type() == 'learning_path_item' || $content_object->get_type() == 'portfolio_item')
+        if ($content_object->get_type() == LearningPathItem :: get_type_name() || $content_object->get_type() == PortfolioItem :: get_type_name())
         {
             $id = $content_object->get_reference();
-            $this->render_content_object($this->rdm->retrieve_content_object($id));
-            $content_object->set_reference('object' . $id);
+        	if($id)
+            {
+            	$this->render_content_object($this->rdm->retrieve_content_object($id));
+            	$content_object->set_reference('object' . $id);
+            }
         }
         
-        if($content_object->get_type() == 'hotspot_question')
+        if($content_object->get_type() == HotspotQuestion :: get_type_name())
         {
         	$content_object->set_image('object' . $content_object->get_image());
         }
@@ -173,10 +176,35 @@ class CpoExport extends ContentObjectExport
      * Render the contentobject
      * @param ContentObject $content_object
      */
-    function render_content_object($content_object)
+    function render_content_object($content_object, $is_version = false)
     {
-        if (in_array($content_object->get_id(), $this->exported_content_objects))
+    	if (in_array($content_object->get_id(), $this->exported_content_objects))
+    	{
             return;
+    	}
+    	
+    	if(get_class($content_object) == 'ContentObject')
+    	{
+    		$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object->get_id(), $content_object->get_type());
+    	}
+        
+    	//First we export the versions so the last version will always be imported last
+        if($content_object->is_latest_version())
+        {
+            $versions = $this->rdm->retrieve_content_object_versions($content_object, false);
+	        foreach($versions as $version)
+	        {
+	        	$this->render_content_object($version, true);
+	        }
+        }
+    	else
+        {
+        	if(!$is_version)
+        	{ 
+        		$this->render_content_object($content_object->get_latest_version());
+        		return;
+        	}
+        }
         
         $this->exported_content_objects[] = $content_object->get_id();
         
@@ -192,7 +220,16 @@ class CpoExport extends ContentObjectExport
         $id_value = $doc->createTextNode('object' . $content_object->get_id());
         $id->appendChild($id_value);
         
-        $export_prop = array(ContentObject :: PROPERTY_TYPE, ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION, ContentObject :: PROPERTY_COMMENT, ContentObject :: PROPERTY_CREATION_DATE, ContentObject :: PROPERTY_MODIFICATION_DATE);
+        if($content_object->is_latest_version())
+        {
+        	$last_version = $doc->createAttribute('last_version');
+        	$lo->appendChild($last_version);
+        	
+        	$last_version_value = $doc->createTextNode('1');
+        	$last_version->appendChild($last_version_value);
+        }
+        
+        $export_prop = array(ContentObject :: PROPERTY_TYPE, ContentObject :: PROPERTY_OBJECT_NUMBER, ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION, ContentObject :: PROPERTY_COMMENT, ContentObject :: PROPERTY_CREATION_DATE, ContentObject :: PROPERTY_MODIFICATION_DATE);
         
         $general = $doc->createElement('general');
         $lo->appendChild($general);

@@ -7,9 +7,8 @@
  */
 
 require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_manager_component.class.php';
 
-class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManagerComponent
+class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManager
 {
 
     /**
@@ -30,7 +29,7 @@ class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManagerCo
             
             foreach ($ids as $id)
             {
-                $publication = $this->get_parent()->retrieve_personal_message_publication($id);
+                $publication = $this->retrieve_personal_message_publication($id);
                 if ($mark_type == PersonalMessengerManager :: PARAM_MARK_SELECTED_READ)
                 {
                     $publication->set_status(0);

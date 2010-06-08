@@ -17,6 +17,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     public function render()
     {
         // Range from start (0) to 10 years in the future...
+        
         $events = $this->get_events(0, strtotime('+10 Years', time()));
         $dm = RepositoryDataManager :: get_instance();
         $html = array();
@@ -49,11 +50,11 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         $html[] = '<div class="description">';
         if ($event->get_end_date() != '')
         {
-            $html[] = '<div class="calendar_event_range">' . htmlentities(Translation :: get('From') . ' ' . Text :: format_locale_date($date_format, $event->get_start_date()) . ' ' . Translation :: get('Until') . ' ' . Text :: format_locale_date($date_format, $event->get_end_date())) . '</div>';
+            $html[] = '<div class="calendar_event_range">' . htmlentities(Translation :: get('From') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $event->get_start_date()) . ' ' . Translation :: get('Until') . ' ' . DatetimeUtilities :: format_locale_date($date_format, $event->get_end_date())) . '</div>';
         }
         else
         {
-            $html[] = '<div class="calendar_event_range">' . Text :: format_locale_date($date_format, $event->get_start_date()) . '</div>';
+            $html[] = '<div class="calendar_event_range">' . DatetimeUtilities :: format_locale_date($date_format, $event->get_start_date()) . '</div>';
         }
         $html[] = $event->get_content();
         $html[] = $this->render_attachments($event);
@@ -78,7 +79,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 
     function get_publication_actions($event)
     {
-        $toolbar_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $event->get_id())), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+        $toolbar_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $event->get_id())), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
 
         $toolbar_data[] = array('href' => $this->get_parent()->get_publication_editing_url($event), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         $toolbar_data[] = array('href' => $this->get_parent()->get_publication_deleting_url($event), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
@@ -105,7 +106,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         }
         else
         {
-            $publication = PersonalCalendarDataManager :: get_instance()->retrieve_calendar_event_publication($event->get_id());
+            $publication = PersonalCalendarDataManager :: get_instance()->retrieve_personal_calendar_publication($event->get_id());
             $object = $publication->get_publication_object();
         }
 

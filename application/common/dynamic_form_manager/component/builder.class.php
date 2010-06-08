@@ -8,7 +8,7 @@
 require_once dirname(__FILE__) . '/../dynamic_form_element.class.php';
 require_once dirname(__FILE__) . '/dynamic_form_element_browser/dynamic_form_element_browser_table.class.php';
 
-class DynamicFormManagerBuilderComponent extends DynamicFormManagerComponent
+class DynamicFormManagerBuilderComponent extends DynamicFormManager
 {
     function run()
     {

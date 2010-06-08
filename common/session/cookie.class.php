@@ -8,7 +8,7 @@ class Cookie
 
     function register($variable, $value, $expiration = '900')
     {
-        setcookie($variable, $value, time() + $expiration, "", Path :: get_path(WEB_PATH));
+        setcookie($variable, $value, time() + $expiration, "", Path :: get(WEB_PATH));
         $_COOKIE[$variable] = $value;
     }
 

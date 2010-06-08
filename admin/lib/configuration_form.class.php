@@ -49,7 +49,7 @@ class ConfigurationForm extends FormValidator
         $application = $this->application;
         $base_path = $this->base_path;
         $configuration = $this->configuration;
-
+        
         if (count($configuration['settings']) > 0)
         {
             require_once $base_path . $application . '/settings/settings_' . $application . '_connector.class.php';
@@ -79,6 +79,24 @@ class ConfigurationForm extends FormValidator
                     elseif ($setting['field'] == 'text')
                     {
                         $this->add_textfield($name, Translation :: get(Utilities :: underscores_to_camelcase($name)), ($setting['required'] == 'true'));
+                        
+                        $validations = $setting['validations'];
+	                    if($validations)
+	                    {
+	                    	foreach($validations as $validation)
+	                    	{
+	                    		if($this->is_valid_validation_method($validation['rule']))
+	                    		{
+	                    			if($validation['rule'] != 'regex')
+	                    			{
+	                    				$validation['format'] = NULL;
+	                    			}
+	                    			
+	                    			$this->addRule($name, Translation :: get($validation['message']), $validation['rule'], $validation['format']);
+	                    		}
+	                    	}
+	                    } 
+                        
                     }
                     elseif ($setting['field'] == 'html_editor')
                     {
@@ -182,24 +200,45 @@ class ConfigurationForm extends FormValidator
                     if ($property->hasChildNodes())
                     {
                         $property_options = $property->getElementsByTagname('options')->item(0);
-                        $property_options_attributes = array('type', 'source');
-                        foreach ($property_options_attributes as $index => $options_attribute)
+                        
+                        if($property_options)
                         {
-                            if ($property_options->hasAttribute($options_attribute))
-                            {
-                                $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
-                            }
+	                        $property_options_attributes = array('type', 'source');
+	                        
+                        	foreach ($property_options_attributes as $index => $options_attribute)
+	                        {
+	                            if ($property_options->hasAttribute($options_attribute))
+	                            {
+	                                $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
+	                            }
+	                        }
+	
+	                        if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+	                        {
+	                            $options = $property_options->getElementsByTagname('option');
+	                            $options_info = array();
+	                            foreach ($options as $option)
+	                            {
+	                                $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
+	                            }
+	                            $property_info['options']['values'] = $options_info;
+	                        }
                         }
-
-                        if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
+                        
+                        $property_validations = $property->getElementsByTagname('validations')->item(0);
+                        
+                        if($property_validations)
                         {
-                            $options = $property_options->getElementsByTagname('option');
-                            $options_info = array();
-                            foreach ($options as $option)
-                            {
-                                $options_info[$option->getAttribute('value')] = $option->getAttribute('name');
-                            }
-                            $property_info['options']['values'] = $options_info;
+                        	if($property_validations->hasChildNodes())
+                        	{
+                        		$validations = $property_validations->getElementsByTagname('validation');
+	                            $validation_info = array();
+	                            foreach ($validations as $validation)
+	                            {
+	                                $validation_info[] = array('rule' => $validation->getAttribute('rule'), 'message' => $validation->getAttribute('message'), 'format' => $validation->getAttribute('format'));
+	                            } 
+	                            $property_info['validations'] = $validation_info;
+                        	}
                         }
                     }
                     $category_properties[$property->getAttribute('name')] = $property_info;
@@ -230,7 +269,7 @@ class ConfigurationForm extends FormValidator
         {
             foreach ($settings as $name => $setting)
             {
-                if($setting['user_setting'])
+                if($setting['user_setting'] && $this->is_user_setting_form)
                 {
                 	$configuration_value = LocalSetting :: get($name, $application);
                 }
@@ -303,31 +342,62 @@ class ConfigurationForm extends FormValidator
     	$values = $this->exportValues();
     	$adm = AdminDataManager :: get_instance();
     	$udm = UserDataManager :: get_instance();
+    	$problems = 0;
+    	
+    	foreach ($this->configuration['settings'] as $category_name => $settings)
+        {
+            foreach ($settings as $name => $setting)
+            {
+                if ($setting['locked'] != 'true' && $setting['user_setting'])
+                {
+                    if (isset($values[$name]))
+                    {
+                        $value = $values[$name];
+                    }
+                    else
+                    {
+                        $value = 0;
+                    }
+                    
+	                $setting = $adm->retrieve_setting_from_variable_name($name, $this->application);
+		    		$user_setting = $udm->retrieve_user_setting(Session :: get_user_id(), $setting->get_id());
+		    		if($user_setting)
+		    		{
+		    			$user_setting->set_value($value);
+		    			if(!$user_setting->update())
+		    			{
+		    				$problems++;
+		    			}
+		    		}
+		    		else
+		    		{
+		    			$user_setting = new UserSetting();
+		    			$user_setting->set_setting_id($setting->get_id());
+		    			$user_setting->set_value($value);
+		    			$user_setting->set_user_id(Session :: get_user_id());
+		    			if(!$user_setting->create())
+		    			{
+		    				$problems++;
+		    			}
+		    		}
+                }
+            }
+        }
 
-    	foreach($values as $key => $value)
-    	{
-    		if($key == 'submit')
-    			continue;
-
-            $setting = $adm->retrieve_setting_from_variable_name($key, $this->application);
-    		$user_setting = $udm->retrieve_user_setting(Session :: get_user_id(), $setting->get_id());
-    		if($user_setting)
-    		{
-    			//dump($user_setting);
-    			$user_setting->set_value($value);
-    			$user_setting->update();
-    		}
-    		else
-    		{
-    			$user_setting = new UserSetting();
-    			$user_setting->set_setting_id($setting->get_id());
-    			$user_setting->set_value($value);
-    			$user_setting->set_user_id(Session :: get_user_id());
-    			$user_setting->create();
-    		}
-    	}
-
-    	return true;
+        if ($problems > 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+    private function is_valid_validation_method($validation_method)
+    {
+    	$available_validation_methods = array('regex', 'email', 'lettersonly', 'alphanumeric', 'numeric');
+    	return in_array($validation_method, $available_validation_methods);
     }
 }
 ?>

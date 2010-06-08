@@ -86,10 +86,22 @@ class WeekCalendar extends CalendarTable
         $first_day = $this->get_start_time();
         $last_day = $this->get_end_time;
         
-        for($hour = 0; $hour < 24; $hour += $this->hour_step)
+    	$working_start = LocalSetting :: get('working_hours_start');
+        $working_end = LocalSetting :: get('working_hours_end');
+        $hide = LocalSetting :: get('hide_none_working_hours');
+        $start = 0;
+        $end = 24;
+        
+        if($hide)
         {
-            $cell_content = $hour . 'u - ' . ($hour + $this->hour_step) . 'u';
-            $this->setCellContents($hour / $this->hour_step, 0, $cell_content);
+        	$start = $working_start;
+        	$end = $working_end;
+        }
+        
+        for($hour = $start; $hour < $end; $hour += $this->hour_step)
+        {
+            $cell_content = $hour . Translation :: get('h') . ' - ' . ($hour + $this->hour_step) . Translation :: get('h');
+            $this->setCellContents(($hour / $this->hour_step) - $start, 0, $cell_content);
         }
         
         $this->updateColAttributes(0, 'class="week_hours"');
@@ -99,9 +111,11 @@ class WeekCalendar extends CalendarTable
         {
             $week_day = strtotime('+' . $day . ' days', $first_day);
             $header->setHeaderContents(0, $day + 1, Translation :: get(date('l', $week_day) . 'Long') . '<br/>' . date('Y-m-d', $week_day));
-            for($hour = 0; $hour < 24; $hour += $this->hour_step)
+            
+            for($hour = $start; $hour < $end; $hour += $this->hour_step)
             {
-                $class = array();
+                $row = ($hour / $this->hour_step) - $start;
+            	$class = array();
                 if ($today == date('Y-m-d', $week_day))
                 {
                     if (date('H') >= $hour && date('H') < $hour + $this->hour_step)
@@ -116,8 +130,13 @@ class WeekCalendar extends CalendarTable
                 }
                 if (count($class) > 0)
                 {
-                    $this->updateCellAttributes($hour / $this->hour_step, $day + 1, 'class="' . implode(' ', $class) . '"');
+                    $this->updateCellAttributes( $row, $day + 1, 'class="' . implode(' ', $class) . '"');
                 }
+                
+            	if ($hour < $working_start || $hour >= $working_end)
+            	{
+                	$this->updateCellAttributes($row, $day + 1, 'class="disabled_month"');
+            	}
             }
         }
         //$this->setRowType(0,'th');
@@ -130,10 +149,28 @@ class WeekCalendar extends CalendarTable
     private function add_events()
     {
         $events = $this->get_events_to_show();
+    	$working_start = LocalSetting :: get('working_hours_start');
+        $working_end = LocalSetting :: get('working_hours_end');
+        $hide = LocalSetting :: get('hide_none_working_hours');
+        $start = 0;
+        $end = 24;
+        
+        if($hide)
+        {
+        	$start = $working_start;
+        	$end = $working_end;
+        }
+        
         foreach ($events as $time => $items)
         {
-            $row = date('H', $time) / $this->hour_step + 1;
+            $row = (date('H', $time) / $this->hour_step) - $start;
+            if($row > $end - $start - 1)
+            {
+            	continue;
+            }
+            
             $column = date('w', $time);
+            
             if ($column == 0)
             {
                 $column = 7;

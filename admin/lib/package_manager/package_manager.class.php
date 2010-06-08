@@ -4,7 +4,7 @@
  * @package admin.lib.package_manager
  * @author Hans De Bisschop
  */
-require_once Path :: get_admin_path() . 'lib/package_manager/package_manager_component.class.php';
+require_once dirname(__FILE__) . '/component/registration_browser/registration_browser_table.class.php';
 
 class PackageManager extends SubManager
 {
@@ -16,17 +16,21 @@ class PackageManager extends SubManager
     const PARAM_PACKAGE = 'package';
     const PARAM_INSTALL_TYPE = 'type';
     const PARAM_SECTION = 'section';
-    
+
     const ACTION_BROWSE_PACKAGES = 'browse';
     const ACTION_ACTIVATE_PACKAGE = 'activate';
     const ACTION_DEACTIVATE_PACKAGE = 'deactivate';
     const ACTION_REMOTE_PACKAGE = 'remote';
     const ACTION_LOCAL_PACKAGE = 'local';
     const ACTION_ARCHIVE_PACKAGE = 'archive';
+    const ACTION_UPDATE_PACKAGE_ARCHIVE= 'update_archive';
     const ACTION_SYNCHRONISE_REMOTE_PACKAGES = 'synchronise';
     const ACTION_INSTALL_PACKAGE = 'install';
+    const ACTION_UPDATE_PACKAGE = 'update';
     const ACTION_REMOVE_PACKAGE = 'remove';
-    
+
+    const ACTION_VIEW_REGISTRATION = 'view_registration';
+
     const INSTALL_REMOTE = 'remote';
     const INSTALL_ARCHIVE = 'archive';
     const INSTALL_LOCAL = 'local';
@@ -34,50 +38,97 @@ class PackageManager extends SubManager
     function PackageManager($admin_manager)
     {
         parent :: __construct($admin_manager);
-        
+
         $package_action = Request :: get(self :: PARAM_PACKAGE_ACTION);
         if ($package_action)
         {
-            $this->set_parameter(self :: PARAM_PACKAGE_ACTION, $package_action);
+            $this->set_action($package_action);
         }
+
+        $this->parse_input_from_table();
     }
 
     function run()
     {
-        $package_action = $this->get_parameter(self :: PARAM_PACKAGE_ACTION);
-        
+        $package_action = $this->get_action();
+
         switch ($package_action)
         {
             case self :: ACTION_BROWSE_PACKAGES :
-                $component = PackageManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_ACTIVATE_PACKAGE :
-                $component = PackageManagerComponent :: factory('Activator', $this);
+                $component = $this->create_component('Activator');
                 break;
             case self :: ACTION_DEACTIVATE_PACKAGE :
-                $component = PackageManagerComponent :: factory('Deactivator', $this);
+                $component = $this->create_component('Deactivator');
                 break;
             case self :: ACTION_REMOTE_PACKAGE :
-                $component = PackageManagerComponent :: factory('Remote', $this);
+                $component = $this->create_component('Remote');
                 break;
             case self :: ACTION_SYNCHRONISE_REMOTE_PACKAGES :
-                $component = PackageManagerComponent :: factory('Synchroniser', $this);
+                $component = $this->create_component('Synchroniser');
                 break;
             case self :: ACTION_INSTALL_PACKAGE :
-                $component = PackageManagerComponent :: factory('Installer', $this);
+                $component = $this->create_component('Installer');
+                break;
+            case self :: ACTION_UPDATE_PACKAGE :
+                $component = $this->create_component('Updater');
                 break;
             case self :: ACTION_LOCAL_PACKAGE :
-                $component = PackageManagerComponent :: factory('Local', $this);
+                $component = $this->create_component('Local');
                 break;
             case self :: ACTION_REMOVE_PACKAGE :
-                $component = PackageManagerComponent :: factory('Remover', $this);
+                $component = $this->create_component('Remover');
+                break;
+            case self :: ACTION_VIEW_REGISTRATION :
+                $component = $this->create_component('Viewer');
                 break;
             default :
-                $component = PackageManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
         }
-        
+
         $component->run();
+    }
+
+    function set_action($action)
+    {
+        $this->set_parameter(self :: PARAM_PACKAGE_ACTION, $action);
+    }
+
+    function get_action()
+    {
+        return $this->get_parameter(self :: PARAM_PACKAGE_ACTION);
+    }
+
+    function parse_input_from_table()
+    {
+        if (isset($_POST['action']))
+        {
+            $selected_ids = Request :: post(RegistrationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
+
+            if (empty($selected_ids))
+            {
+                $selected_ids = array();
+            }
+            elseif (! is_array($selected_ids))
+            {
+                $selected_ids = array($selected_ids);
+            }
+            switch ($_POST['action'])
+            {
+                case self :: PARAM_ACTIVATE_SELECTED :
+                    $this->set_action(self :: ACTION_ACTIVATE_PACKAGE);
+                    Request :: set_get(self :: PARAM_REGISTRATION, $selected_ids);
+                    break;
+                case self :: ACTION_DEACTIVATE_PACKAGE :
+                    $this->set_action(self :: ACTION_DEACTIVATE_PACKAGE);
+                    Request :: set_get(self :: PARAM_REGISTRATION, $selected_ids);
+                    break;
+            }
+
+        }
     }
 
     function get_application_component_path()
@@ -95,6 +146,7 @@ class PackageManager extends SubManager
         return $this->get_parent()->retrieve_registrations($condition, $order_by, $offset, $max_objects);
     }
 
+    
     function count_registrations($condition = null)
     {
         return $this->get_parent()->count_registrations($condition);
@@ -103,6 +155,21 @@ class PackageManager extends SubManager
     function get_registration_activation_url($registration)
     {
         return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_ACTIVATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id()));
+    }
+
+    function get_registration_update_archive_url($registration)
+    {
+    	return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_UPDATE_PACKAGE_ARCHIVE, self :: PARAM_REGISTRATION => $registration->get_id()));
+    }
+    
+    function get_registration_update_url($registration)
+    {
+        return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_UPDATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id(), self :: PARAM_INSTALL_TYPE => self :: INSTALL_REMOTE));
+    }
+
+    function get_registration_view_url($registration)
+    {
+        return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_VIEW_REGISTRATION, self :: PARAM_REGISTRATION => $registration->get_id()));
     }
 
     function get_registration_deactivation_url($registration)

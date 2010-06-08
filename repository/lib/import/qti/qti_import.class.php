@@ -1,93 +1,61 @@
 <?php
-/**
- * $Id: qti_import.class.php 204 2009-11-13 12:51:30Z kariboe $
- * @package repository.lib.import.qti
- */
-require_once dirname(__FILE__) . '/assessment/assessment_qti_import.class.php';
-require_once dirname(__FILE__) . '/question/question_qti_import.class.php';
 
-class QtiImport extends ContentObjectImport
-{
+require_once dirname(__FILE__) . '/main.php';
 
-    function import_content_object()
-    {
-        $file = $this->get_content_object_file();
+class QtiImport extends ContentObjectImport{
+	
+	/**
+	 * 
+	 * @var Log
+	 */
+	private $log = null;
+	
+	public function __construct($content_object_file, $user, $category, $log = null){
+		parent::__construct($content_object_file, $user, $category);
+		$this->log = empty($log) ? new Log() : $log;
+	}
+
+    public function import_content_object(){
+    	$result = false;
+        $zipper = Filecompression::factory();
+        $temp = $zipper->extract_file($this->get_content_object_file_property('tmp_name'));
+        
+        $directory = "$temp/";
+        if(!file_exists($directory)){
+        	return false;
+        }
+        
         $user = $this->get_user();
-        
-        $zip = Filecompression :: factory();
-        $temp = $zip->extract_file($this->get_content_object_file_property('tmp_name'));
-        
-        $dir = $temp . '/';
-        if (file_exists($dir))
-        {
-            $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
-            foreach ($files as $f)
-            {
-                $type = split('_', $f);
-                if ($type[0] == 'qti')
-                {
-                    $importer = self :: factory_qti($f, $this->get_user(), $this->get_category(), $dir);
-                    if ($importer != null)
-                    {
-                        $returnvalue = $importer->import_content_object();
-                    }
-                }
-            }
+        $category = $this->get_category();
+        $factory = new BufferedFactory();
+		$files = $this->get_files($directory);
+        foreach($files as $path){
+        	$import_result = $factory->import($path, $user, $category, $this->log);
+        	$result = $result ? true : !empty($import_result);
         }
         
-        if($temp)
-        {
-        	Filesystem :: remove($temp);
+        if($temp){
+        	Filesystem::remove($temp);
         }
-        
-        return $returnvalue;
+        $this->log->translate('QtiImportWarning', Log::TYPE_WARNING);
+        $this->add_messages($this->log->get_messages());
+        $this->add_warnings($this->log->get_warnings());
+        $this->add_errors($this->log->get_errors());
+        return $result;
     }
-
-    function factory_qti($lo_file, $user, $category, $dir)
-    {
-        $type = split('_', $lo_file);
-        switch ($type[0])
-        {
-            case 'qti' :
-                return new AssessmentQtiImport($dir . $lo_file, $user, $category);
-            case 'question' :
-                return new QuestionQtiImport($dir . $lo_file, $user, $category);
-            default :
-                return null;
-        }
-    }
-
-    function get_file_content_array($substring)
-    {
-        $file = parent :: get_content_object_file();
-        
-        if (file_exists($file) || ! is_null($substring))
-        {
-            $unserializer = new XML_Unserializer();
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('hotspotChoice'));
-            
-            // userialize the document
-            
-
-            if ($substring)
-                $unserializer->unserialize($substring);
-            else
-                $status = $unserializer->unserialize($file, true);
-            
-            if (PEAR :: isError($status))
-            {
-                echo 'Error: ' . $status->getMessage();
-            }
-            else
-            {
-                $data = $unserializer->getUnserializedData();
-            }
-        }
-        return $data;
+    
+    protected function get_files($directory){
+    	$files = Filesystem::get_directory_content($directory, Filesystem::LIST_FILES, false);
+    	$assessments = array();
+    	$questions = array();
+    	foreach($files as $file){
+    		if(Qti::is_test_file($directory.$file)){
+    			$assessments[] = $directory.$file;
+    		}else if(Qti::is_question_file($directory.$file)){
+    			$questions[] = $directory.$file;
+    		}
+    	}
+    	//assessments should be imported first
+    	return array_merge($assessments, $questions);
     }
 }
-?>

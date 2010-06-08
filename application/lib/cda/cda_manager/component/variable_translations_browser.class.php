@@ -5,7 +5,6 @@
 
 require_once dirname(__FILE__).'/../cda_manager.class.php';
 require_once dirname(__FILE__).'/../../forms/variable_translation_browser_filter_form.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/variable_translation_browser/variable_translation_browser_table.class.php';
 
 /**
@@ -13,7 +12,7 @@ require_once dirname(__FILE__).'/variable_translation_browser/variable_translati
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
+class CdaManagerVariableTranslationsBrowserComponent extends CdaManager
 {
 	private $action_bar;
 	private $form;
@@ -65,7 +64,7 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
         	$conditions[] = $condition;
 		
 		$subcondition = new EqualityCondition(Variable :: PROPERTY_LANGUAGE_PACK_ID, $language_pack_id);
-		$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
+		$conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, Variable :: get_table_name(), $subcondition);
 		$conditions[] = new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, $language_id);
 		
 		$query = $this->action_bar->get_query();
@@ -74,7 +73,7 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManagerComponent
     	{
     		$or_conditions[] = new PatternMatchCondition(VariableTranslation :: PROPERTY_TRANSLATION, '*' . $query . '*');
     		$subcondition =  new PatternMatchCondition(Variable :: PROPERTY_VARIABLE, '*' . $query . '*');
-			$or_conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, 'cda_' . Variable :: get_table_name(), $subcondition);
+			$or_conditions[] = new SubselectCondition(VariableTranslation :: PROPERTY_VARIABLE_ID, Variable :: PROPERTY_ID, Variable :: get_table_name(), $subcondition);
     		$conditions[] = new OrCondition($or_conditions);
     	}
 	

@@ -22,7 +22,7 @@ class ComplexBrowserTable extends ObjectTable
         $name = $name ? $name : (self :: DEFAULT_NAME);
         
     	if (! $model)
-            $model = new ComplexBrowserTableColumnModel($show_subitems_column);
+            $model = new ComplexBrowserTableColumnModel($browser);
         if (! $renderer)
             $renderer = new ComplexBrowserTableCellRenderer($browser, $condition);
         
@@ -31,19 +31,21 @@ class ComplexBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        if (get_parent_class($browser) == 'ComplexBuilder')
-        {
-			$action = ComplexBuilder :: PARAM_DELETE_SELECTED_CLOI;
-			if($name != self :: DEFAULT_NAME)
-				$action = ComplexBuilder :: PARAM_DELETE_SELECTED_CLOI . '_' . $name;
+        $action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM;
+		if($name != self :: DEFAULT_NAME)
+			$action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
 				
-        	$actions[] = new ObjectTableFormAction($action, Translation :: get('RemoveSelected'));
-        }
-        else
+        $actions[] = new ObjectTableFormAction($action, Translation :: get('RemoveSelected'));
+       
+        if($browser->show_menu())
         {
-            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_REMOVE_SELECTED_CLOI, Translation :: get('RemoveSelected'));
+	        $action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM;
+			if($name != self :: DEFAULT_NAME)
+				$action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
+	        
+	        $actions[] = new ObjectTableFormAction($action, Translation :: get('MoveSelected'), false);
         }
-        
+         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }

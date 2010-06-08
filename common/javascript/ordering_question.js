@@ -6,12 +6,12 @@ $(function ()
     
     function getDeleteIcon()
     {
-		return $('.data_table tbody tr:first td:last .remove_option').attr('src').replace('_na.png', '.png');
+		return $('.data_table > tbody > tr:first > td:last .remove_option').attr('src').replace('_na.png', '.png');
     }
     
     function getSelectOptions()
     {
-		return $('.data_table tbody tr:first select[name*="option_order"]').html();
+		return $('.data_table > tbody > tr:first select[name*="option_order"]').html();
     }
     
     function processItems()
@@ -20,18 +20,19 @@ $(function ()
     	
 		deleteImage = '<img class="remove_option" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
 		deleteField = '<input id="remove_$option_number" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
-		rows = $('.data_table tbody tr');
+		rows = $('.data_table > tbody > tr');
 	
 		if (rows.size() <= 2)
 		{
 		    deleteField = deleteImage;
 		}
-	
+		
 		rows.each(function ()
 		{
 			var orderField, orderFieldName, id, appendField;
 		    
 			orderField = $('select[name*="option_order"]', this);
+			
 			if (rows.size() > currentNumberOfOptions)
 			{
 				orderField.append($('<option value="' + rows.size() + '">' + rows.size() + '</option>'));
@@ -48,6 +49,8 @@ $(function ()
 		    $('td:last', this).append(appendField);
 		});
 		
+		if (rows.size() > 2)
+			$('.remove_option').bind('click', removeOption);
 		currentNumberOfOptions = rows.size();
     }
 
@@ -60,9 +63,10 @@ $(function ()
 		tableBody = $(this).parent().parent().parent();
 		id = $(this).attr('id');
 		id = id.replace('remove_', '');
+		destroyHtmlEditor('option['+ id +']');
 		$('tr#option_' + id, tableBody).remove();
 	
-		rows = $('tr', tableBody);
+		rows = $('.data_table > tbody > tr');
 	
 		row = 0;
 	
@@ -75,7 +79,7 @@ $(function ()
 		    },
 		    async : false
 		}).responseText;
-	
+		
 		rows.each(function () {
 		    var rowClass = row % 2 === 0 ? 'row_even' : 'row_odd';
 		    $(this).attr('class', rowClass);
@@ -113,26 +117,27 @@ $(function ()
 		rowClass = (numberOfOptions - skippedOptions) % 2 === 0 ? 'row_even' : 'row_odd';
 		id = 'correct[' + numberOfOptions + ']';
 		
-		parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
+		parameters = { "width" : "100%", "height" : "65", "toolbar" : "RepositoryQuestion", "collapse_toolbar" : true };
 		editorName = 'option[' + numberOfOptions + ']';
 	
-		fieldAnswer = renderFckEditor(editorName, parameters);
+		fieldAnswer = renderHtmlEditor(editorName, parameters);
 		fieldOrder = '<select name="option_order[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldOrder + '</td><td>' + fieldDelete + '</td></tr>';
 	
-		$('.data_table tbody').append(string);
+		$('.data_table > tbody').append(string);
 	
 		processItems();
 		
 		highestOptionValue = $('.data_table tbody tr:first select[name*="option_order"] option:last').val();
-		$('.data_table tbody tr:last select[name*="option_order"]').val(highestOptionValue);
+		$('.data_table > tbody > tr:last select[name*="option_order"]').val(highestOptionValue);
     }
 
     $(document).ready(function ()
     {
     	currentNumberOfOptions = $('.data_table tbody tr').size();
-		$('.remove_option').live('click', removeOption);
+		if($('.remove_option').length > 2)
+			$('.remove_option').bind('click', removeOption);
 		$('#add_option').live('click', addOption);
 		//$('.data_table thead tr th:nth-child(2)').hide();
 		//$('.data_table tbody tr td:nth-child(2)').hide();

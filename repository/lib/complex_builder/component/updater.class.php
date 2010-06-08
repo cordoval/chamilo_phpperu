@@ -12,40 +12,39 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
     function run()
     {
         $trail = new BreadcrumbTrail(false);
-        
-        $root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
-        $cloi_id = Request :: get(ComplexBuilder :: PARAM_SELECTED_CLOI_ID);
-        $parent_cloi = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
-        
-        $parameters = array(ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $parent_cloi, ComplexBuilder :: PARAM_SELECTED_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish'));
-        
+
+        $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+        $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+
+        $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id);
+
         $rdm = RepositoryDataManager :: get_instance();
-        $cloi = $rdm->retrieve_complex_content_object_item($cloi_id);
-        $lo = $rdm->retrieve_content_object($cloi->get_ref());
-        
-        $type = $lo->get_type();
-        
-        $cloi_form = ComplexContentObjectItemForm :: factory_with_type(ComplexContentObjectItemForm :: TYPE_CREATE, $type, $cloi, 'create_complex', 'post', $this->get_url());
-        
-        if ($cloi_form)
+        $complex_content_object_item = $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
+        $content_object = $rdm->retrieve_content_object($complex_content_object_item->get_ref());
+
+        $type = $content_object->get_type();
+
+        $complex_content_object_item_form = ComplexContentObjectItemForm :: factory_with_type(ComplexContentObjectItemForm :: TYPE_CREATE, $type, $complex_content_object_item, 'create_complex', 'post', $this->get_url());
+
+        if ($complex_content_object_item_form)
         {
-            $elements = $cloi_form->get_elements();
-            $defaults = $cloi_form->get_default_values();
+            $elements = $complex_content_object_item_form->get_elements();
+            $defaults = $complex_content_object_item_form->get_default_values();
         }
-        
-        $lo_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $lo, 'edit', 'post', $this->get_url($parameters), null, $elements);
-        $lo_form->setDefaults($defaults);
-        
-        if ($lo_form->validate())
+
+        $content_object_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url($parameters), null, $elements);
+        $content_object_form->setDefaults($defaults);
+
+        if ($content_object_form->validate())
         {
-            $lo_form->update_content_object();
-            
-            if ($lo_form->is_version())
+            $content_object_form->update_content_object();
+
+            if ($content_object_form->is_version())
             {
-                $old_id = $cloi->get_ref();
-                $new_id = $lo->get_latest_version()->get_id();
-                $cloi->set_ref($new_id);
-                
+                $old_id = $complex_content_object_item->get_ref();
+                $new_id = $content_object->get_latest_version()->get_id();
+                $complex_content_object_item->set_ref($new_id);
+
                 $children = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $old_id, ComplexContentObjectItem :: get_table_name()));
                 while ($child = $children->next_result())
                 {
@@ -53,29 +52,29 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
                     $child->update();
                 }
             }
-            
-            if ($cloi_form)
-                $cloi_form->update_cloi_from_values($lo_form->exportValues());
+
+            if ($complex_content_object_item_form)
+                $complex_content_object_item_form->update_cloi_from_values($content_object_form->exportValues());
             else
-                $cloi->update();
-            
-            $parameters[ComplexBuilder :: PARAM_SELECTED_CLOI_ID] = null;
-            
-            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, 'publish' => Request :: get('publish'))));
+                $complex_content_object_item->update();
+
+            $parameters[ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = null;
+
+            $this->redirect(Translation :: get('ContentObjectUpdated'), false, array_merge($parameters, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE)));
         }
         else
         {
-            $trail = new BreadcrumbTrail(false);
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('repository builder');
-            
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'root_lo' => $root_lo, 'cid' => Request :: get('cid'), 'publish' => Request :: get('publish'))), RepositoryDataManager :: get_instance()->retrieve_content_object($root_lo)->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'update_cloi', 'root_lo' => $root_lo, 'selected_cloi' => $cloi_id, 'cid' => Request :: get('cid'), 'publish' => Request :: get('publish'))), Translation :: get('Update')));
-            
+
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, 'cid' => Request :: get('cid'))), $this->get_root_content_object()->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array('builder_action' => ComplexBuilder :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, 'cid' => Request :: get('cid'))), Translation :: get('Update')));
+
             $this->display_header($trail);
-            echo $lo_form->toHTML();
+            echo $content_object_form->toHTML();
             $this->display_footer();
         }
-    
+
     }
 }
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="format">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="title" type="text" length="255" notnull="1" />
+		<property name="active" type="boolean" notnull="1" defualt="0" />
+	</properties>
+</object>

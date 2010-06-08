@@ -4,7 +4,6 @@
  * @package application.lib.wiki.wiki_manager.component
  */
 require_once dirname(__FILE__) . '/../wiki_manager.class.php';
-require_once dirname(__FILE__) . '/../wiki_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/wiki_publication_form.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/content_object_repo_viewer.class.php';
 
@@ -12,7 +11,7 @@ require_once Path :: get_application_path() . '/lib/weblcms/content_object_repo_
  * Component to create a new wiki_publication object
  * @author Sven Vanpoucke & Stefan Billiet
  */
-class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
+class WikiManagerWikiPublicationCreatorComponent extends WikiManager
 {
 
     /**
@@ -20,80 +19,59 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('Wiki')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishWiki')));
-        
-        $objects = Request :: get('object');
         
         /*
          *  We make use of the ContentObjectRepoViewer setting the type to wiki
          */
-        $pub = new RepoViewer($this, 'wiki', true);
+        $pub = new RepoViewer($this, Wiki :: get_type_name());
         
         /*
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object
          */
-        $this->display_header($trail, true);
         
-        if (empty($objects))
+        if (!$pub->is_ready_to_be_published())
         {
-            echo $pub->as_html();
+            $html = $pub->as_html();
+            $this->display_header($trail, true);
+            echo $html;
+            $this->display_footer();
         }
         else
         {
-            $form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, null, $this->get_url(array('object' => $objects)), $this->get_user());
+            $form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $pub->get_selected_objects())), $this->get_user());
             if ($form->validate())
             {
                 $values = $form->exportValues();
-                
             	$failures = 0;
             	
+            	$objects = $pub->get_selected_objects();
+            	
             	if(!is_array($objects))
+            	{
             		$objects = array($objects);
+            	}
             	
                 foreach($objects as $object)
                 {
-                	if(!$this->create_wiki_publication($object, $values))
+                	if(!$form->create_wiki_publication($object, $values))
                 		$failures++;
                 }
-                
-                $message = $this->get_result($failures, count($objects), 'WikiPublicationNotCreated', 'WikiPublicationsNotCreated', 'WikiPublicationCreated', 'WikiPublicationsCreated');
-                
+                $message = $this->get_result($failures, count($objects), 'WikiPublicationNotCreated', 'WikiPublicationsNotCreated', 'WikiPublicationCreated', 'WikiPublicationsCreated');               
                 $this->redirect($message, $failures, array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
             }
             else
             {
-                $form->display();
+                $this->display_header($trail, true);
+            	$form->display();
+            	$this->display_footer();
             }
         }
         
         //		echo implode("\n",$html);
-        $this->display_footer();
-    }
-    
-    function create_wiki_publication($object, $values)
-    {
-    	$wiki_publication = new WikiPublication();
-		$wiki_publication->set_content_object($object);
-		
-        if ($values['forever'] != 0)
-        {
-            $wiki_publication->set_from_date(0);
-            $wiki_publication->set_to_date(0);
-        }
-        else
-        {
-            $wiki_publication->set_from_date(Utilities :: time_from_datepicker($values['from_date']));
-            $wiki_publication->set_to_date(Utilities :: time_from_datepicker($values['to_date']));
-        }
-        $wiki_publication->set_hidden($values['hidden'] ? 1 : 0);
-        $wiki_publication->set_publisher($this->get_user_id());
-        $wiki_publication->set_published(time());
-        $wiki_publication->set_modified(time());
-        $wiki_publication->set_display_order(0);
-
-        return $wiki_publication->create();
+       
     }
 }
 ?>

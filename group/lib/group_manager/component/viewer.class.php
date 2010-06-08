@@ -4,22 +4,26 @@
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerViewerComponent extends GroupManagerComponent
+class GroupManagerViewerComponent extends GroupManager
 {
     private $group;
     private $ab;
+    private $root_group;
 
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
 
         $id = Request :: get(GroupManager :: PARAM_GROUP_ID);
         if ($id)
         {
             $this->group = $this->retrieve_group($id);
+
+            $this->root_group = $this->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
+
             $group = $this->group;
 
             if (! $this->get_user()->is_platform_admin())
@@ -33,7 +37,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
             $trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), $group->get_name()));
             $trail->add_help('group general');
 
-            $this->display_header($trail);
+            $this->display_header();
             $this->ab = $this->get_action_bar();
             echo $this->ab->as_html() . '<br />';
 
@@ -63,7 +67,11 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 
             echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';
             echo '<div class="title">' . Translation :: get('Users') . '</div>';
-            $table = new GroupRelUserBrowserTable($this, array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $id), $this->get_condition());
+            
+            $parameters = $this->get_parameters();
+        	$parameters[GroupManager :: PARAM_GROUP_ID] = $id;
+            $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+            $table = new GroupRelUserBrowserTable($this, $parameters, $this->get_condition());
             echo $table->as_html();
             echo '</div>';
 
@@ -84,9 +92,9 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 
         if (isset($query) && $query != '')
         {
-            $or_conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
-            $or_conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
-            $or_conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
             $condition = new OrCondition($or_conditions);
 
             $users = UserDataManager :: get_instance()->retrieve_users($condition);
@@ -117,7 +125,11 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_group_editing_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+        if($this->group != $this->root_group)
+        {
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
 
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_manage_group_rights_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

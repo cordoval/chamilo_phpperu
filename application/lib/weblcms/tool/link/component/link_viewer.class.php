@@ -25,8 +25,8 @@ class LinkToolViewerComponent extends LinkToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'link');
 
-        $subselect_condition = new EqualityCondition('type', 'introduction');
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         $condition = new AndCondition($conditions);
 
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
@@ -45,19 +45,22 @@ class LinkToolViewerComponent extends LinkToolComponent
                 $trail->add(new Breadcrumb($this->get_url(), $breadcrumb->get_name()));
             }
         }*/
-        if (Request :: get('pid') != null)
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get('pid'))->get_content_object()->get_title()));
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
+            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
+        
+        $html = $browser->as_html();    
+            
         $this->display_header($trail, true);
 
         //echo '<br /><a name="top"></a>';
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
-            if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+            if ($this->get_course()->get_intro_text())
             {
                 echo $this->display_introduction_text($this->introduction_text);
             }
         }
-        $html = $browser->as_html();
+        
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
         echo $html;
@@ -75,7 +78,7 @@ class LinkToolViewerComponent extends LinkToolComponent
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        if (! Request :: get('pid'))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             $action_bar->set_search_url($this->get_url());
 
@@ -87,10 +90,10 @@ class LinkToolViewerComponent extends LinkToolComponent
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (! Request :: get('pid') && $this->is_allowed(EDIT_RIGHT))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID) && $this->is_allowed(EDIT_RIGHT))
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (! $this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms') && $this->is_allowed(EDIT_RIGHT))
+        if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -106,8 +109,8 @@ class LinkToolViewerComponent extends LinkToolComponent
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions[] = new LikeCondition(ContentObject :: PROPERTY_TITLE, $query);
-            $conditions[] = new LikeCondition(ContentObject :: PROPERTY_DESCRIPTION, $query);
+            $conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             return new OrCondition($conditions);
         }
 

@@ -48,7 +48,7 @@ class LearningPathToolDeleterComponent extends LearningPathToolComponent
                 $message = htmlentities(Translation :: get('ContentObjectPublicationDeleted'));
             }
             
-            $this->redirect($message, '', array('tool_action' => null, 'pid' => null));
+            $this->redirect($message, '', array('tool_action' => null, Tool :: PARAM_PUBLICATION_ID => null));
         }
     }
 

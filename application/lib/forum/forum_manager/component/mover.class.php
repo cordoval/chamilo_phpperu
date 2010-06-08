@@ -4,15 +4,15 @@
  * @package application.lib.forum.forum_manager.component
  */
 
-class ForumManagerMoverComponent extends ForumManagerComponent
+class ForumManagerMoverComponent extends ForumManager
 {
 
     function run()
     {
-        if ($this->get_parent()->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(EDIT_RIGHT))
         {
             $move = 0;
-            $fpid = Request :: get(ForumManager :: PARAM_FORUM_PUBLICATION);
+            $fpid = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
             if (Request :: get(ForumManager :: PARAM_MOVE))
             {
                 $move = Request :: get(ForumManager :: PARAM_MOVE);
@@ -22,8 +22,13 @@ class ForumManagerMoverComponent extends ForumManagerComponent
             $publication = $datamanager->retrieve_forum_publication($fpid);
             if ($publication->move($move))
             {
-                $message = htmlentities(Translation :: get('ContentObjectPublicationMoved'));
+                $message = Translation :: get('ContentObjectPublicationMoved');
             }
+            else
+            {
+            	$message = Translation :: get('ContentObjectPublicationNotMoved');
+            }
+            
             $this->redirect($message, false, array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE));
         }
     }

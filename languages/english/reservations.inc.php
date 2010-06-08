@@ -106,5 +106,5 @@ $lang['reservations']['UpdateReservation'] = 'Update reservation';
 $lang['reservations']['RepeatEvery'] = 'Repeat every';
 $lang['reservations']['CreateSubscription'] = 'Create subscription';
 $lang['reservations']['ViewSubscription'] = 'View subscription';
-$lang['reservations']['TimeUnitD'] = '';
+$lang['reservations']['TimeUnitD'] = 'Time unit ID....';
 ?>

@@ -9,13 +9,9 @@ require_once dirname(__FILE__) . '/forum_publication_category.class.php';
 class ForumPublicationCategoryManager extends CategoryManager
 {
 
-    function ForumPublicationCategoryManager($parent)
+    function ForumPublicationCategoryManager($parent, $trail)
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($parent->get_url(array(ForumManager :: PARAM_ACTION => null)), Translation :: get('Forum')));
-        $trail->add(new Breadcrumb($parent->get_url(), Translation :: get('ManageCategories')));
-        
-        parent :: __construct($parent, $trail);
+        parent :: __construct($parent, $trail, false);
     }
 
     function get_category()

@@ -13,6 +13,8 @@ require_once dirname(__FILE__) . '/category_manager/repository_category.class.ph
  */
 class ContentObjectCategoryMenu extends HTML_Menu
 {
+    const TREE_NAME = __CLASS__;
+    
     /**
      * The owner of the categories
      */
@@ -27,6 +29,13 @@ class ContentObjectCategoryMenu extends HTML_Menu
     private $array_renderer;
 
     private $data_manager;
+    
+    /**
+     * Array to define the types on which the count on the categories should be filtered
+     * Leave empty if you want to count everything
+     * @var String[]
+     */
+    private $filter_count_on_types;
 
     /**
      * Creates a new category navigation menu.
@@ -38,12 +47,16 @@ class ContentObjectCategoryMenu extends HTML_Menu
      *                           "?category=%s".
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
+     * @param string[] $filter_count_on_types - Array to define the types on which the count on the categories should be filtered                         
      */
-    function ContentObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $extra_items = array())
+    function ContentObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $extra_items = array(), $filter_count_on_types = array())
     {
         $this->owner = $owner;
         $this->urlFmt = $url_format;
         $this->data_manager = RepositoryDataManager :: get_instance();
+        
+        $this->filter_count_on_types = $filter_count_on_types;
+        
         $menu = $this->get_menu_items($extra_items);
         parent :: __construct($menu);
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
@@ -66,8 +79,14 @@ class ContentObjectCategoryMenu extends HTML_Menu
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, 0);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
-        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'learning_path_item'));
-        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'portfolio_item'));
+        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, LearningPathItem :: get_type_name()));
+        $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, PortfolioItem :: get_type_name()));
+        
+        if(count($this->filter_count_on_types))
+        {
+        	$conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
+        }
+        
         $condition = new AndCondition($conditions);
         $count = $this->data_manager->count_content_objects($condition);
 
@@ -112,8 +131,14 @@ class ContentObjectCategoryMenu extends HTML_Menu
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category->get_id());
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->owner);
             $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
-            $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'learning_path_item'));
-        	$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'portfolio_item'));
+            $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, LearningPathItem :: get_type_name()));
+        	$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, PortfolioItem :: get_type_name()));
+        	
+	        if(count($this->filter_count_on_types))
+	        {
+	        	$conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->filter_count_on_types);
+	        }
+        	
             $condition = new AndCondition($conditions);
 
             $count = $this->data_manager->count_content_objects($condition);
@@ -168,10 +193,15 @@ class ContentObjectCategoryMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-    function render_as_tree()
+	function render_as_tree()
     {
-        $renderer = new TreeMenuRenderer();
+        $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
+    }
+    
+    static function get_tree_name()
+    {
+    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }

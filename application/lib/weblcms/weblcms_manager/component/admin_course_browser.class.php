@@ -4,13 +4,13 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 require_once dirname(__FILE__) . '/admin_course_browser/admin_course_browser_table.class.php';
 /**
  * Weblcms component which allows the the platform admin to browse the courses
  */
-class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
+class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
 {
     private $category;
     private $action_bar;
@@ -24,7 +24,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
         
         $this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_APPLICATION => 'weblcms')), Translation :: get('MyCourses')));
         if ($this->get_user()->is_platform_admin())
         {
@@ -32,7 +32,10 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
         }
         else
+        {
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
+        }
+        	
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseList')));
         $trail->add_help('courses general');
         
@@ -42,20 +45,20 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
             $trail->add(new Breadcrumb($this->get_url(), $category->get_name()));
         }
         
-        if (! $this->get_user()->is_platform_admin())
+        /*if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
             echo '<div class="clear"></div><br />';
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
-        }
+        }*/
         
         $this->action_bar = $this->get_action_bar();
         $menu = $this->get_menu_html();
         $output = $this->get_course_html();
         
-        $this->display_header($trail, false, true);
+        $this->display_header();
         echo '<div class="clear"></div>';
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo $menu;
@@ -68,15 +71,18 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         $action_bar->set_search_url($this->get_url(array('category' => Request :: get('category'))));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }
 
     function get_course_html()
     {
-        $table = new AdminCourseBrowserTable($this, null, $this->get_condition());
-        
-        $html = array();
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+    	$table = new AdminCourseBrowserTable($this, $parameters, $this->get_condition());
+
+    	$html = array();
         $html[] = '<div style="float: right; width: 80%;">';
         $html[] = $table->as_html();
         $html[] = '</div>';
@@ -129,7 +135,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
             $conditions = array();
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*' . $query . '*');
             $conditions[] = new PatternMatchCondition(Course :: PROPERTY_VISUAL, '*' . $query . '*');
-            $conditions[] = new PatternMatchCondition(Course :: PROPERTY_LANGUAGE, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(CourseSettings :: PROPERTY_LANGUAGE, '*' . $query . '*', CourseSettings :: get_table_name());
             
             $search_conditions = new OrCondition($conditions);
         }
@@ -150,8 +156,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
             {
                 $condition = $search_conditions;
             }
-        }
-        
+        }        
         return $condition;
     }
 }

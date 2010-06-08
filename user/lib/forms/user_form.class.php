@@ -116,7 +116,7 @@ class UserForm extends FormValidator
         $group = array();
         $group[] = & $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN, null, Translation :: get('Yes'), 1);
         $group[] = & $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN, null, Translation :: get('No'), 0);
-        $this->addGroup($group, 'admin', Translation :: get('PlatformAdmin'), '&nbsp;');
+        $this->addGroup($group, 'admin', Translation :: get('PlatformAdministrator'), '&nbsp;');
 
         //  Send email
         $group = array();
@@ -359,9 +359,7 @@ class UserForm extends FormValidator
         {
             $defaults['ExpirationDate' . self :: PARAM_FOREVER] = 1;
 
-            //$defaults['from_date'] = time();
-            //echo Utilities :: to_db_date(strtotime('+ ' . intval(PlatformSetting :: get('days_valid', 'user')) . 'Days', time()));
-            $defaults['ExpirationDate' . 'to_date'] = Utilities :: to_db_date(strtotime('+ ' . intval(PlatformSetting :: get('days_valid', 'user')) . 'Days', time()));
+            $defaults['ExpirationDate' . 'to_date'] = strtotime('+ ' . intval(PlatformSetting :: get('days_valid', 'user')) . 'Days', time());
             $defaults['pw']['pass'] = $user->get_password();
 
             $defaults[User :: PROPERTY_DATABASE_QUOTA] = '300';

@@ -6,43 +6,49 @@
 /**
  * @author Michael Kyndt
  */
+require_once dirname(__FILE__) . '/../blocks/weblcms_tool_publications_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../../weblcms_manager/weblcms_manager.class.php';
+
 class ToolPublicationsDetailReportingTemplate extends ReportingTemplate
 {
 
-    function ToolPublicationsDetailReportingTemplate($parent, $id, $params)
+    function ToolPublicationsDetailReportingTemplate($parent)
     {
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsToolPublicationsDetail"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-        
-        parent :: __construct($parent, $id, $params);
+        parent :: __construct($parent);
+        $this->add_reporting_block($this->get_tool_publications());
     }
-
-    /**
-     * @see ReportingTemplate -> get_properties()
-     */
-    public static function get_properties()
+    
+	function display_context()
+	{
+		
+	}
+	
+	function get_application()
     {
-        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'ToolPublicationsDetailReportingTemplateTitle';
-        $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 0;
-        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'ToolPublicationsDetailReportingTemplateDescription';
-        
-        return $properties;
+    	return WeblcmsManager::APPLICATION_NAME;
     }
-
-    /**
-     * @see ReportingTemplate -> to_html()
-     */
-    function to_html()
+    
+    function get_tool_publications()
     {
-        //template header
-        $html[] = $this->get_header();
-        
-        //show visible blocks
-        $html[] = $this->get_visible_reporting_blocks();
-        
-        //template footer
-        $html[] = $this->get_footer();
-        
-        return implode("\n", $html);
+    	$course_weblcms_block = new WeblcmsToolPublicationsReportingBlock($this);
+
+        $course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	$user_id = Request :: get(WeblcmsManager::PARAM_USERS);
+    	$tool = Request :: get(WeblcmsManager::PARAM_TOOL);
+    	
+    	if ($course_id)
+    	{
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	if ($user_id)
+    	{
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
+    	}
+    	if ($tool)
+    	{
+    		$this->set_parameter(WeblcmsManager::PARAM_TOOL, $tool);
+    	}
+    	return $course_weblcms_block;
     }
 }
 ?>

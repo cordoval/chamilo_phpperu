@@ -18,6 +18,8 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
     private $trackers;
     private $lpi_attempt_data;
     private $cloi;
+    private $menu;
+    private $navigation;
 
     function run()
     {
@@ -32,7 +34,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
         $trail->add_help('courses learnpath tool');
         
         // Check and retrieve publication
-        $pid = Request :: get('pid');
+        $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->pid = $pid;
         
         if (! $pid)
@@ -60,40 +62,41 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             $step = Request :: get(LearningPathTool :: PARAM_LP_STEP) ? Request :: get(LearningPathTool :: PARAM_LP_STEP) : 1;
         }
         
-        $menu = $this->get_menu($root_object->get_id(), $step, $pid, $lpi_attempt_data);
-        $object = $menu->get_current_object();
-        $cloi = $menu->get_current_cloi();
+        $this->menu = $this->get_menu($root_object->get_id(), $step, $pid, $lpi_attempt_data);
+        $object = $this->menu->get_current_object();
+        $cloi = $this->menu->get_current_cloi();
         $this->cloi = $cloi;
         
         // Update main tracker
-        $this->trackers['lp_tracker']->set_progress($menu->get_progress());
+        $this->trackers['lp_tracker']->set_progress($this->menu->get_progress());
         $this->trackers['lp_tracker']->update();
         
-        $trail->merge($menu->get_breadcrumbs());
+        $trail->merge($this->menu->get_breadcrumbs());
         
-        $navigation = $this->get_navigation_menu($menu->count_steps(), $step, $object, $menu);
-        $objects = $menu->get_objects();
+        $this->navigation = $this->get_navigation_menu($this->menu->count_steps(), $step, $object, $this->menu);
+        $objects = $this->menu->get_objects();
         
         // Retrieve correct display and show it on screen
         if (Request :: get('lp_action') == 'view_progress')
         {
-            $url = $this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress'));
-            require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
+            $url = $this->get_url(array('tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress'));
+            require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_reporting_template.class.php');
+            require_once (Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempt_progress_details_reporting_template.class.php');
             
             $cid = Request :: get('cid');
             $details = Request :: get('details');
             
             if ($cid)
             {
-                $trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress', 'cid' => $cid)), Translation :: get('ItemDetails')));
+                $trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'attempt_id' => Request :: get('attempt_id'))), Translation :: get('ItemDetails')));
             }
             
             if ($details)
             {
-                $trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult')));
+                $trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult')));
                 
                 $this->set_parameter('tool_action', 'view');
-                $this->set_parameter('pid', $pid);
+                $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
                 $this->set_parameter('lp_action', 'view_progress');
                 $this->set_parameter('cid', $cid);
                 $this->set_parameter('details', $details);
@@ -106,15 +109,24 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             }
             else
             {
-                $parameters = array('objects' => $objects, 'attempt_data' => $lpi_attempt_data, 'cid' => $cid, 'url' => $url);
-                $template = new LearningPathProgressReportingTemplate($this, 0, $parameters, $trail, $objects[$cid]);
-                $template->set_reporting_blocks_function_parameters($parameters);
-                $display = $template->to_html();
+                $rtv = new ReportingViewer($this);
+                $rtv->set_breadcrumb_trail($trail);
+                $rtv->show_all_blocks();
+                if ($cid)
+                {
+                    $rtv->add_template_by_name('learning_path_attempt_progress_details_reporting_template', WeblcmsManager :: APPLICATION_NAME);
+                }
+                else
+                {
+                    
+                    $rtv->add_template_by_name('learning_path_attempt_progress_reporting_template', WeblcmsManager :: APPLICATION_NAME);
+                }
+                $rtv->run();
             }
         }
         else
         {
-            if ($cloi)
+            if ($cloi && get_class($cloi) == "ComplexLearningPathItem")
             {
                 $allowed = true;
                 
@@ -130,7 +142,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
                 
                 if ($allowed)
                 {
-                    $lpi_tracker = $menu->get_current_tracker();
+                    $lpi_tracker = $this->menu->get_current_tracker();
                     if (! $lpi_tracker)
                     {
                         $lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
@@ -144,8 +156,19 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
                     
                     $this->trackers['lpi_tracker'] = $lpi_tracker;
                     
-                    $display = LearningPathContentObjectDisplay :: factory($this, $object->get_type())->display_content_object($object, $lpi_attempt_data[$cloi->get_id()], $menu->get_continue_url(), $menu->get_previous_url(), $menu->get_jump_urls());
+                    $display = LearningPathContentObjectDisplay :: factory($this, $object->get_type())->display_content_object($object, $lpi_attempt_data[$cloi->get_id()], $this->menu->get_continue_url(), $this->menu->get_previous_url(), $this->menu->get_jump_urls());
                 }
+                $this->display_header($trail, true);
+
+                if (get_class($display) == 'AssessmentDisplay')
+                {
+                    $display->run();
+                }
+                else
+                {
+                    echo $display;
+                }
+                $this->display_footer();
             }
             else
             {
@@ -156,28 +179,49 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             }
         }
         
-        $this->display_header($trail, true);
-        //echo '<br />';
-        echo '<div style="width: 17%; overflow: auto; float: left;">';
-        echo $menu->render_as_tree() . '<br /><br />';
-        echo $this->get_progress_bar($menu->get_progress());
-        echo $navigation . '<br /><br />';
-        echo '</div>';
-        echo '<div style="width: 82%; float: right; padding-left: 10px; min-height: 500px;">';
-        
-        if (get_class($display) == 'AssessmentDisplay')
-        {
-            $display->run();
-        }
-        else
-        {
-            echo $display;
-        }
-        echo '</div>';
-        echo '<div class="clear">&nbsp;</div>';
-        $this->display_footer();
+    //        $this->display_header($trail, true);
+    //        //echo '<br />';
+    //        echo '<div style="width: 17%; overflow: auto; float: left;">';
+    //        echo $this->menu->render_as_tree() . '<br /><br />';
+    //        echo $this->get_progress_bar($this->menu->get_progress());
+    //        echo $navigation . '<br /><br />';
+    //        echo '</div>';
+    //        echo '<div style="width: 82%; float: right; padding-left: 10px; min-height: 500px;">';
+    //        
+    //        if (get_class($display) == 'AssessmentDisplay')
+    //        {
+    //            $display->run();
+    //        }
+    //        else
+    //        {
+    //            echo $display;
+    //        }
+    //        echo '</div>';
+    //        echo '<div class="clear">&nbsp;</div>';
+    //        $this->display_footer();
     }
 
+    function display_header($breadcrumb)
+    {
+        parent :: display_header($breadcrumb, true);
+        echo '<div style="width: 17%; overflow: auto; float: left;">';
+        echo $this->menu->render_as_tree() . '<br /><br />';
+        echo $this->get_progress_bar($this->menu->get_progress());
+        echo $this->navigation . '<br /><br />';
+        echo '</div>';
+        echo '<div style="width: 82%; float: right; padding-left: 10px; min-height: 500px;">';
+        if (Request :: get('lp_action') == 'view_progress')
+        {
+        
+        }
+    }
+
+    function display_footer()
+    {
+    	echo '</div>';
+    	echo '<div class="clear">&nbsp;</div>';
+    	parent :: display_footer();   	
+    }
     /**
      * Creates the tree menu for the learning path
      *
@@ -189,9 +233,9 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
      */
     private function get_menu($root_object_id, $selected_object_id, $pid, $lp_tracker)
     {
-        $menu = new LearningPathTree($root_object_id, $selected_object_id, Path :: get(WEB_PATH) . 'run.php?go=courseviewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=view&pid=' . $pid . '&' . LearningPathTool :: PARAM_LP_STEP . '=%s', $lp_tracker);
+        $this->menu = new LearningPathTree($root_object_id, $selected_object_id, Path :: get(WEB_PATH) . 'run.php?go=courseviewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=view&publication=' . $pid . '&' . LearningPathTool :: PARAM_LP_STEP . '=%s', $lp_tracker);
         
-        return $menu;
+        return $this->menu;
     }
 
     // Getters & Setters
@@ -227,7 +271,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
     {
         if (! $current_step)
         {
-            $previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'step' => $total_steps));
+            $previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $total_steps));
             
             $actions[] = array('href' => $previous_url, 'label' => Translation :: get('Previous'), 'img' => Theme :: get_common_image_path() . 'action_prev.png');
             
@@ -246,10 +290,10 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             
             $add_previous_na = false;
             
-            if ($current_step > 1 && $menu->get_previous_url())
+            if ($current_step > 1 && $this->menu->get_previous_url())
             {
-                //$previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'step' => $current_step - 1));
-                $previous_url = $menu->get_previous_url();
+                //$previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $current_step - 1));
+                $previous_url = $this->menu->get_previous_url();
                 
                 if (! in_array('previous', $hide_lms_ui))
                 {
@@ -274,10 +318,10 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             
             if (($current_step < $total_steps))
             {
-                //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'step' => $current_step + 1));
+                //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $current_step + 1));
                 
 
-                $continue_url = $menu->get_continue_url();
+                $continue_url = $this->menu->get_continue_url();
                 
                 if (! in_array('continue', $hide_lms_ui))
                 {
@@ -290,10 +334,10 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             }
             else
             {
-                //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'lp_action' => 'view_progress'));
+                //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'lp_action' => 'view_progress'));
                 
 
-                $continue_url = $menu->get_continue_url();
+                $continue_url = $this->menu->get_continue_url();
                 
                 if (! in_array('continue', $hide_lms_ui))
                 {

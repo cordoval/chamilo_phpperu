@@ -56,26 +56,26 @@ class HomeManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_BUILD_HOME :
-                $component = HomeManagerComponent :: factory('Builder', $this);
+                $component = $this->create_component('Builder');
                 break;
             case self :: ACTION_EDIT_HOME :
-                $component = HomeManagerComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
                 break;
             case self :: ACTION_MOVE_HOME :
-                $component = HomeManagerComponent :: factory('Mover', $this);
+                $component = $this->create_component('Mover');
                 break;
             case self :: ACTION_DELETE_HOME :
-                $component = HomeManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_CREATE_HOME :
-                $component = HomeManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_CONFIGURE_HOME :
-                $component = HomeManagerComponent :: factory('Configurer', $this);
+                $component = $this->create_component('Configurer');
                 break;
             default :
                 $this->set_action(self :: ACTION_MANAGE_HOME);
-                $component = HomeManagerComponent :: factory('Manager', $this);
+                $component = $this->create_component('Manager');
         }
         $component->run();
     }
@@ -85,11 +85,11 @@ class HomeManager extends CoreApplication
         switch ($type)
         {
             case self :: ACTION_VIEW_HOME :
-                $component = HomeManagerComponent :: factory('Home', $this);
+                $component = $this->create_component('Home');
                 break;
             default :
                 $this->set_action(self :: ACTION_VIEW_HOME);
-                $component = HomeManagerComponent :: factory('Home', $this);
+                $component = $this->create_component('Home');
         }
         $component->run();
     }

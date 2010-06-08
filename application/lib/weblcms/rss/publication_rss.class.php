@@ -1,18 +1,19 @@
 <?php
 require_once dirname(__FILE__).'/../../../../common/global.inc.php';
 require_once Path :: get_common_path().'/rss/publication_rss.class.php';
-require_once dirname(__FILE__).'/../data_manager/database.class.php';
+require_once dirname(__FILE__).'/../data_manager/database_weblcms_data_manager.class.php';
 
 class WeblcmsPublicationRSS extends PublicationRSS
 {
 	function WeblcmsPublicationRSS()
 	{
-		parent :: PublicationRSS('Chamilo weblcms', htmlspecialchars(Path :: get(WEB_PATH)), 'Weblcms publications', htmlspecialchars(Path :: get(WEB_PATH)));
+		Utilities :: set_application(WeblcmsManager :: APPLICATION_NAME);
+		parent :: PublicationRSS(Translation :: get('WeblcmsPublicationRSSTitle'), htmlspecialchars(Path :: get(WEB_PATH)), Translation :: get('WeblcmsPublicationRSSDescription'), htmlspecialchars(Path :: get(WEB_PATH)));
 	}
 	
 	function retrieve_items($user, $min_date = '')
 	{
-		$pubs = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new(null, array(), 0, 20);//, array('id', SORT_DESC));
+		$pubs = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($this->get_access_condition($user), new ObjectTableOrder(ContentObjectPublication :: PROPERTY_PUBLICATION_DATE, SORT_DESC), 0, 20);//, array('id', SORT_DESC));
 		$publications = array();
 		while ($pub = $pubs->next_result())
 		{
@@ -22,6 +23,25 @@ class WeblcmsPublicationRSS extends PublicationRSS
 			}
 		}
 		return $publications;
+	}
+	
+	function add_item($publication, $channel)
+	{
+		$course = WeblcmsDataManager :: get_instance()->retrieve_course($publication->get_course_id());
+		$co = $publication->get_content_object();
+		if (!is_object($co))
+		{
+			$co = RepositoryDataManager :: get_instance()->retrieve_content_object($co);
+		}
+		
+		$title = $co->get_title();
+		$description = '<b>' . Translation :: get('Course') . ': </b>' . $course->get_name() . '<br />';
+		$description .= '<b>' . Translation :: get('Tool') . ': </b>' . Translation :: get(Utilities :: underscores_to_camelcase($publication->get_tool())) . '<br />';
+		$description .= '<b>' . Translation :: get('Published') . ': </b>' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $publication->get_publication_date()) . '<br />';
+		$description .= '<b>' . Translation :: get('Publisher') . ': </b>' . UserDataManager :: get_instance()->retrieve_user($publication->get_publisher_id())->get_fullname() . '<br />';
+		$description .= '<br />' . $co->get_description();
+		
+		$channel->add_item(htmlspecialchars($title), htmlspecialchars($this->get_url($publication)), htmlspecialchars($description));
 	}
 	
 	function get_url($pub)
@@ -39,35 +59,6 @@ class WeblcmsPublicationRSS extends PublicationRSS
             return true;
         }
         
-        if ($pub->get_target_course_groups() || $pub->get_target_users())
-        {
-            $allowed = false;
-            
-            if (in_array($user->get_id(), $pub->get_target_users()))
-            {
-                $allowed = true;
-            }
-            
-            if (! $allowed)
-            {
-                $user_groups = $user->get_groups();
-                
-                while ($user_group = $user_groups->next_result())
-                {
-                    if (in_array($user_group->get_id(), $pub->get_target_groups()))
-                    {
-                        $allowed = true;
-                        break;
-                    }
-                }
-            }
-            
-            if (! $allowed)
-            {
-                return false;
-            }
-        }
-        
         if ($pub->is_hidden())
         {
             return false;
@@ -81,6 +72,57 @@ class WeblcmsPublicationRSS extends PublicationRSS
         }
         
         return true;
+	}
+	
+	private function get_access_condition($user)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		
+		if ($user->is_platform_admin())
+        {
+            $user_id = array();
+            $course_group_ids = array();
+        }
+        else
+        {
+            $user_id = $user->get_id();
+            $course_groups = $this->get_user_groups();
+                
+            $course_group_ids = array();
+                
+            foreach($course_groups as $course_group)
+            {
+                $course_group_ids[] = $course_group->get_id();
+            }
+        }
+            
+        $access = array();
+        
+        if(!empty($user_id))
+        {
+        	$access[] = new InCondition('user_id', $user_id, $wdm->get_alias('content_object_publication_user'));
+        }
+        
+        if(!empty($course_group_ids))
+        {
+        	$access[] = new InCondition('course_group_id', $course_group_ids, $wdm->get_alias('content_object_publication_course_group'));
+        }
+        
+        if (! empty($user_id) || ! empty($course_groups))
+        {
+            $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $wdm->get_alias('content_object_publication_user')), 
+            	new EqualityCondition('course_group_id', null, $wdm->get_alias('content_object_publication_course_group'))));
+        }
+        
+        if(!empty($access))
+        {
+        	return new OrCondition($access);
+        }
+	}
+	
+	private function get_user_groups($user)
+	{
+		return WeblcmsDataManager :: get_user_course_groups($user);
 	}
 }
 

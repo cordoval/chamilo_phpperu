@@ -35,6 +35,7 @@
 			notnull="1" default="0" />
 		<property name="active" type="boolean" default="1" />
 		<property name="security_token" type="text" fixed="true" length="40" default="" />
+		<property name="approved" type="boolean" default="1" />
 	</properties>
 	<index name="username" type="unique">
 		<indexproperty name="username" />

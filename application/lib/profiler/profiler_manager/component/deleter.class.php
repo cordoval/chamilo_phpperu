@@ -4,9 +4,8 @@
  * @package application.profiler.profiler_manager.component
  */
 require_once dirname(__FILE__) . '/../profiler_manager.class.php';
-require_once dirname(__FILE__) . '/../profiler_manager_component.class.php';
 
-class ProfilerManagerDeleterComponent extends ProfilerManagerComponent
+class ProfilerManagerDeleterComponent extends ProfilerManager
 {
 
     /**
@@ -26,7 +25,7 @@ class ProfilerManagerDeleterComponent extends ProfilerManagerComponent
             
             foreach ($ids as $id)
             {
-                $publication = $this->get_parent()->retrieve_profile_publication($id);
+                $publication = $this->retrieve_profile_publication($id);
                 
                 if (! $publication->delete())
                 {
@@ -57,7 +56,7 @@ class ProfilerManagerDeleterComponent extends ProfilerManagerComponent
                 }
             }
             
-            $this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
         }
         else
         {

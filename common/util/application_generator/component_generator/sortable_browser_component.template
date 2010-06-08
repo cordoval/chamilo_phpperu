@@ -4,7 +4,6 @@
  */
  
 require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
-require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
 require_once dirname(__FILE__).'/{L_OBJECT_CLASS}_browser/{L_OBJECT_CLASS}_browser_table.class.php';
 
 /**
@@ -12,7 +11,7 @@ require_once dirname(__FILE__).'/{L_OBJECT_CLASS}_browser/{L_OBJECT_CLASS}_brows
  * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
-class {APPLICATION_NAME}Manager{OBJECT_CLASSES}BrowserComponent extends {APPLICATION_NAME}ManagerComponent
+class {APPLICATION_NAME}Manager{OBJECT_CLASSES}BrowserComponent extends {APPLICATION_NAME}Manager
 {
 	
 	function run()

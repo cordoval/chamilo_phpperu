@@ -39,11 +39,6 @@ abstract class RepoViewerComponent
         return $this->get_parent()->get_maximum_select();
     }
 
-    function redirect_complex($type)
-    {
-        return $this->get_parent()->redirect_complex($type);
-    }
-
     /**
      * @see ObjectRepoViewer::get_user_id()
      */
@@ -149,7 +144,7 @@ abstract class RepoViewerComponent
 
         if (! file_exists($path) || ! is_file($path))
         {
-            $message = Translation :: get('ComponentFailedToLoad') . ': ' . Translation :: get($type);
+            $message = Translation :: get('ComponentFailedToLoad') . ': ' . $type;
             Display :: error_message($message);
         }
 

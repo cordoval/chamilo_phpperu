@@ -4,13 +4,12 @@
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../portfolio_manager_component.class.php';
 
 /**
  * Component to delete portfolio_publications objects
  * @author Sven Vanpoucke
  */
-class PortfolioManagerPortfolioPublicationDeleterComponent extends PortfolioManagerComponent
+class PortfolioManagerPortfolioPublicationDeleterComponent extends PortfolioManager
 {
 
     /**
@@ -19,7 +18,7 @@ class PortfolioManagerPortfolioPublicationDeleterComponent extends PortfolioMana
     function run()
     {
         $ids = $_GET[PortfolioManager :: PARAM_PORTFOLIO_PUBLICATION];
-        $failures = 0;
+        $success = true;
         
         if (! empty($ids))
         {
@@ -31,37 +30,43 @@ class PortfolioManagerPortfolioPublicationDeleterComponent extends PortfolioMana
             foreach ($ids as $id)
             {
                 $portfolio_publication = $this->retrieve_portfolio_publication($id);
+                $owner_id = $portfolio_publication->get_owner();
+                $object_id = $portfolio_publication->get_content_object();
+                //DELETE PORTFOLIO PUBLICATION
+                $success &= $portfolio_publication->delete();
+                //DELETE LOCATION
+                $success &=  PortfolioRights::delete_location($id, $owner_id, PortfolioRights::TYPE_PORTFOLIO_FOLDER);
                 
-                if (! $portfolio_publication->delete())
-                {
-                    $failures ++;
-                }
             }
             
-            if ($failures)
+            if ($success)
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPortfolioPublicationDeleted';
+                    $message = 'SelectedPortfolioPublicationDeletionSuccess';
                 }
                 else
                 {
-                    $message = 'SelectedPortfolioPublicationsDeleted';
+                    $message = 'SelectedPortfolioPublicationsDeletionSuccess';
                 }
+                
+                //UPDATE PORTFOLIO INFORMATION
+                $success = PortfolioManager::update_portfolio_info($object_id, PortfolioRights::TYPE_PORTFOLIO_FOLDER, PortfolioInformation::ACTION_DELETED, $owner_id);
+
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedPortfolioPublicationNotDeleted';
+                    $message = 'SelectedPortfolioPublicationDeletionProblem';
                 }
                 else
                 {
-                    $message = 'SelectedPortfolioPublicationsNotDeleted';
+                    $message = 'SelectedPortfolioPublicationsDeletionProblem';
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id()));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
         }
         else
         {

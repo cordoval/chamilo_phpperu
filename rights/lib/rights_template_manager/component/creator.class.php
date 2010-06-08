@@ -4,7 +4,7 @@
  * @package rights.lib.rights_template_manager.component
  */
 
-class RightsTemplateManagerCreatorComponent extends RightsTemplateManagerComponent
+class RightsTemplateManagerCreatorComponent extends RightsTemplateManager
 {
 
     /**
@@ -12,7 +12,7 @@ class RightsTemplateManagerCreatorComponent extends RightsTemplateManagerCompone
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('RightsTemplates')));
@@ -36,7 +36,7 @@ class RightsTemplateManagerCreatorComponent extends RightsTemplateManagerCompone
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }

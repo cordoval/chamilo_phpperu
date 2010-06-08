@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerAdditionalAccountInformationComponent extends UserManagerComponent
+class UserManagerAdditionalAccountInformationComponent extends UserManager
 {
 
     /**
@@ -20,11 +20,11 @@ class UserManagerAdditionalAccountInformationComponent extends UserManagerCompon
     
 	function display_header($new_trail)
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAccount')));
 		$trail->merge($new_trail);
 		
-		parent :: display_header($trail);
+		parent :: display_header();
 		
 		$actions[] = 'account';
 		$actions[] = 'user_settings';

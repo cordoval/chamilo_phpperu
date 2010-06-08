@@ -14,6 +14,8 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class NavigationItemMenu extends HTML_Menu
 {
+    const TREE_NAME = __CLASS__;
+    
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -88,7 +90,7 @@ class NavigationItemMenu extends HTML_Menu
                 $navigation_item['url'] = $this->get_category_url($category->get_id());
                 $sub_navigation_items = $this->get_sub_navigation_items($categories, $category->get_id());
                 $navigation_item['sub'] = $sub_navigation_items;
-                $navigation_item['class'] = 'type_category';
+                $navigation_item['class'] = 'category';
                 $navigation_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
                 $sub_tree[] = $navigation_item;
             
@@ -128,11 +130,16 @@ class NavigationItemMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-    function render_as_tree()
+	function render_as_tree()
     {
-        $renderer = new TreeMenuRenderer();
+        $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
+    }
+    
+    static function get_tree_name()
+    {
+    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 
     function render_as_list()

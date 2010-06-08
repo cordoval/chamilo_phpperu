@@ -11,7 +11,7 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
 {
 	protected $type;
 	private $browser;
-	
+
     /**
      * Constructor
      */
@@ -32,37 +32,37 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
     {
     	if($this->type == LinkBrowserTable :: TYPE_PARENTS)
        	{
-       		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_parent()); 	
+       		$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_parent());
        	}
-            
+
         if($this->type == LinkBrowserTable :: TYPE_CHILDREN)
         {
             $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_ref());
-            if($object->get_type() == 'portfolio_item' || $object->get_type() == 'learning_path_item')
+            if($object->get_type() == PortfolioItem :: get_type_name() || $object->get_type() == LearningPathItem :: get_type_name())
             {
             	$object = RepositoryDataManager :: get_instance()->retrieve_content_object($object->get_reference());
-            } 
+            }
         }
-            	
+
     	switch ($column->get_name())
         {
             case ContentObjectPublicationAttributes :: PROPERTY_APPLICATION :
                 return Utilities :: underscores_to_camelcase_with_spaces($object->get_application());
             case ContentObjectPublicationAttributes :: PROPERTY_LOCATION :
                 $application = $object->get_application();
-                
+
                 if ($application == 'weblcms')
                 {
                     $location = $object->get_location();
                     $codes = explode("&gt;", $location);
                     $course_id = trim($codes[0]);
                     $tool = trim($codes[1]);
-                    
+
                     $wdm = WeblcmsDataManager :: get_instance();
                     $course = $wdm->retrieve_course($course_id);
                     return $course->get_name() . ' > ' . $tool;
                 }
-                
+
                 return $object->get_location();
             case ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :
                 return date('Y-m-d, H:i', $object->get_publication_date());
@@ -70,10 +70,10 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
             	return Utilities :: truncate_string($object->get_description(), 50);
             case ContentObject :: PROPERTY_TITLE :
             	$url = $this->browser->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS,
-            										 RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));	
+            										 RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id()));
             	return '<a href="' . $url . '">' . Utilities :: truncate_string($object->get_title(), 50) . '</a>';
             case ContentObject :: PROPERTY_TYPE :
-            	return $object->get_icon();
+            	return $object->get_icon_image();
             default :
                 return '&nbsp;';
         }
@@ -89,7 +89,7 @@ class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
         {
         	$link_id = $object->get_id();
         }
-        
+
         return $link_id;
     }
 }

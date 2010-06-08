@@ -14,8 +14,8 @@
 		<property name="typed_external_repository_id" notnull="1" type="integer"
 			unsigned="1" />
 		<property name="enabled" notnull="1" type="integer" unsigned="1" />
-		<property name="created" type="timestamp" />
-		<property name="modified" type="timestamp" />
+		<property name="created" type="integer" unsigned="1" notnull="1" />
+		<property name="modified" type="integer" unsigned="1" notnull="1" />
 	</properties>
 	<index name="unique_repository" type="unique">
 		<indexproperty name="title" />

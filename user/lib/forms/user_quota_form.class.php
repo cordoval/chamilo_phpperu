@@ -143,11 +143,10 @@ class UserQuotaForm extends FormValidator
     function filter_content_object_types()
     {
         $user = $this->user;
-        $rdm = RepositoryDataManager :: get_instance();
-        $content_object_types = $rdm->get_registered_types();
+        $content_object_types = RepositoryDataManager :: get_registered_types();
         $filtered_object_types = array();
 
-        $hidden_types = array('learning_path_item', 'portfolio_item');
+        $hidden_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
 
         foreach ($content_object_types as $type)
         {

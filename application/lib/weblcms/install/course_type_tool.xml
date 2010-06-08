@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="course_type_tool">
+	<properties>
+		<property name="course_type_id" type="integer" notnull="1" />
+		<property name="name" type="text" length="40" fixed="true"
+			notnull="1" />
+		<property name="visible_default" type="boolean"/>
+	</properties>
+	<index name="course_type_id" type="primary">
+		<indexproperty name="course_type_id" />
+		<indexproperty name="name" />
+	</index>
+</object>

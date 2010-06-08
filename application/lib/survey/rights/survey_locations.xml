@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<location name="survey" type="root" identifier="0">
+	<children>
+		<location name="PublicationBrowser" type="survey_component"
+			identifier="publication_browser">
+		</location>
+		<location name="TestCaseBrowser" type="survey_component"
+			identifier="testcase_browser">
+		</location>
+		<location name="CategoryManager" type="survey_component"
+			identifier="category_manager">
+		</location>
+		<location name="Reporting" type="survey_component"
+			identifier="reporting">
+		</location>
+	</children>
+</location>

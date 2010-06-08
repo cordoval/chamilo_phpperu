@@ -4,10 +4,9 @@
  * @package application.lib.forum.forum_manager.component
  */
 require_once dirname(__FILE__) . '/../forum_manager.class.php';
-require_once dirname(__FILE__) . '/../forum_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../category_manager/forum_publication_category_manager.class.php';
 
-class ForumManagerCategoryManagerComponent extends ForumManagerComponent
+class ForumManagerCategoryManagerComponent extends ForumManager
 {
     private $action_bar;
 
@@ -18,8 +17,12 @@ class ForumManagerCategoryManagerComponent extends ForumManagerComponent
             Display :: not_allowed();
             return;
         }
-        
-        $category_manager = new ForumPublicationCategoryManager($this);
+
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
+
+        $category_manager = new ForumPublicationCategoryManager($this, $trail);
         $category_manager->run();
     
     }

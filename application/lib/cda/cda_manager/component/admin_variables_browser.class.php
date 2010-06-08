@@ -4,7 +4,6 @@
  */
 
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/variable_browser/variable_browser_table.class.php';
 
 /**
@@ -12,7 +11,7 @@ require_once dirname(__FILE__).'/variable_browser/variable_browser_table.class.p
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerAdminVariablesBrowserComponent extends CdaManagerComponent
+class CdaManagerAdminVariablesBrowserComponent extends CdaManager
 {
 	private $actionbar;
 

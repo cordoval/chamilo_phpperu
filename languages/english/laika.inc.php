@@ -50,4 +50,5 @@ $lang['laika']['OnlyIncludeMostRecentAttempt'] = 'Only include most recent attem
 $lang['laika']['IncludeAllAttempts'] = 'Include all attempts';
 $lang['laika']['AttemptsToInclude'] = 'Attempts to include';
 $lang['laika']['ManageRoles'] = 'Manage roles';
+$lang['laika']['Logout'] = 'Log out';
 ?>

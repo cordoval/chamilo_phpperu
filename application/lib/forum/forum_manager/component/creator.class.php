@@ -4,7 +4,6 @@
  * @package application.lib.forum.forum_manager.component
  */
 require_once dirname(__FILE__) . '/../forum_manager.class.php';
-require_once dirname(__FILE__) . '/../forum_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../publisher/forum_publication_publisher.class.php';
 require_once dirname(__FILE__) . '/../../forms/forum_publication_form.class.php';
 
@@ -12,7 +11,7 @@ require_once dirname(__FILE__) . '/../../forms/forum_publication_form.class.php'
  * Component to create a new forum_publication object
  * @author Sven Vanpoucke & Michael Kyndt
  */
-class ForumManagerCreatorComponent extends ForumManagerComponent
+class ForumManagerCreatorComponent extends ForumManager
 {
 
     /**
@@ -25,10 +24,9 @@ class ForumManagerCreatorComponent extends ForumManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForumPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishForum')));
         
-        $object = Request :: get('object');
-        $pub = new RepoViewer($this, 'forum', true);
+        $pub = new RepoViewer($this, Forum :: get_type_name());
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             
             $html[] = $pub->as_html();
@@ -36,7 +34,7 @@ class ForumManagerCreatorComponent extends ForumManagerComponent
         else
         {
             $publisher = new ForumPublicationPublisher($pub);
-            $html[] = $publisher->publish($object);
+            $html[] = $publisher->publish($pub->get_selected_objects());
         }
         
         $this->display_header($trail);

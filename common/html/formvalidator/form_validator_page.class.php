@@ -1,7 +1,7 @@
 <?php
 /**
  * Class representing a page of a multipage form in the formvalidator extension.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -10,7 +10,7 @@
  * the PHP License and are unable to obtain it through the web, please
  * send a note to license@php.net so we can mail you a copy immediately.
  *
- * $Id: form_validator_page.class.php 128 2009-11-09 13:13:20Z vanpouckesven $ 
+ * $Id: form_validator_page.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common.html.formvalidator
  * @author      Alexey Borzov <avb@php.net>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
@@ -44,14 +44,14 @@ class FormValidatorPage extends FormValidator
      * @var array
      */
     var $_actions = array();
-    
+
     /**
      * Contains a reference to a Controller object containing this page
      * @var      HTML_QuickForm_Controller
      * @access   public
      */
     var $controller = null;
-    
+
     /**
      * Should be set to true on first call to buildForm()
      * @var bool

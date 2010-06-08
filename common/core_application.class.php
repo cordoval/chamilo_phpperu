@@ -3,7 +3,7 @@
  * $Id: core_application.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  * @package common
  */
-abstract class CoreApplication extends Application
+abstract class CoreApplication extends BasicApplication
 {
 
     /**
@@ -12,7 +12,7 @@ abstract class CoreApplication extends Application
      */
     function is_active($application)
     {
-        if (self :: exists($application))
+        if (self :: is_application($application))
         {
             return true;
         }
@@ -27,7 +27,7 @@ abstract class CoreApplication extends Application
      * @param string $name
      * @return boolean
      */
-    public static function exists($name)
+    public static function is_application($name)
     {
         $application_path = self :: get_application_path($name);
         $application_manager_path = $application_path . '/lib/' . $name . '_manager' . '/' . $name . '_manager.class.php';
@@ -84,7 +84,7 @@ abstract class CoreApplication extends Application
         return parent :: redirect($message, $error_message, $parameters, $filter, $encode_entities, $redirect_type, $application_type);
     }
 
-    public function get_application_path($application_name)
+    public static function get_application_path($application_name)
     {
         return Path :: get(SYS_PATH) . $application_name . '/';
     }
@@ -95,11 +95,16 @@ abstract class CoreApplication extends Application
         return $this->get_application_path($application_name) . 'lib/' . $application_name . '_manager/component/';
     }
 
-    function factory($application, $user = null)
+    static function factory($application, $user = null)
     {
-        $manager_path = self :: get_application_path($application) . 'lib/' . $application . '_manager/' . $application . '_manager.class.php';
-        require_once $manager_path;
-        return parent :: factory($application, $user);
+        require_once self :: get_application_manager_path($application);
+        $class = self :: get_application_class_name($application);
+        return new $class($user);
+    }
+    
+    static function get_application_manager_path($application_name)
+    {
+    	return self :: get_application_path($application_name) . 'lib/' . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
     }
 }
 

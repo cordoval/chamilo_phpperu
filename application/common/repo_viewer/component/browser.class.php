@@ -70,7 +70,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 
         if ($this->get_maximum_select() > RepoViewer :: SELECT_SINGLE)
         {
-            $html[] = '<b>' . sprintf(Translation :: get('SelectMaximumLO'), $this->get_maximum_select()) . '</b><br />';
+            $html[] = '<b>' . sprintf(Translation :: get('SelectMaximumNumberOfContentObjects'), $this->get_maximum_select()) . '</b><br />';
         }
 
         $menu = $this->get_menu();
@@ -180,7 +180,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
             $search_url = null;
         }
 
-        $menu = new ContentObjectCategoryMenu($this->get_user_id(), Request :: get('category') ? Request :: get('category') : 0, $url, $extra);
+        $menu = new ContentObjectCategoryMenu($this->get_user_id(), Request :: get('category') ? Request :: get('category') : 0, $url, $extra, $this->get_types());
 
         if ($search_url)
         {
@@ -199,6 +199,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         $browser_actions = array();
 
         $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
+        $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_VIEWER, RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('Preview'));
 
         if (!$this->is_shared_object_browser())
         {

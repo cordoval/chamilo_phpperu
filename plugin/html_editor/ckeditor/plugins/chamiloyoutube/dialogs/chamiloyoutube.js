@@ -334,8 +334,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 													} );
 												// Sync when input value changed.
 												this.getInputElement().on( 'change', function( evt ){
-
-													updatePreview( this.getValue() );
+													var value = this.getValue();
+													if(value.indexOf('watch?v=') > -1)
+													{
+														value = value.replace('watch?v=', 'v/');
+													}
+													this.setValue(value);
+													updatePreview( value );
 												}, this );
 											}
 										},

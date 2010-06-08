@@ -16,7 +16,7 @@ class ToolWikiLinkCreatorComponent extends ToolComponent
         
         if ($this->is_allowed(ADD_RIGHT))
         {
-            $pid = Request :: get('pid');
+            $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             if (! $pid)
             {
                 $this->display_header($trail, true);
@@ -24,18 +24,16 @@ class ToolWikiLinkCreatorComponent extends ToolComponent
                 $this->display_footer();
             }
             
-            $type = 'wiki_page';
+            $type = WikiPage :: get_type_name();
             
-            $pub = new ContentObjectRepoViewer($this, $type, true);
+            $pub = new ContentObjectRepoViewer($this, $type, RepoViewer :: SELECT_SINGLE);
             $pub->set_parameter(Tool :: PARAM_ACTION, WikiTool :: ACTION_ADD_LINK);
-            $pub->set_parameter('pid', $pid);
+            $pub->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
             $pub->set_parameter('type', $type);
             
-            $object_id = Request :: get('object');
-            
-            if (! isset($object_id))
+            if (!$pub->is_ready_to_be_published())
             {
-                $html[] = '<p><a href="' . $this->get_url(array('type' => $type, 'pid' => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
+                $html[] = '<p><a href="' . $this->get_url(array('type' => $type, Tool :: PARAM_PUBLICATION_ID => $pid)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();
                 $this->display_header($trail, true);
                 echo implode("\n", $html);
@@ -54,7 +52,7 @@ class ToolWikiLinkCreatorComponent extends ToolComponent
         $message = htmlentities(Translation :: get('ContentObjectCreated'));
         
         $params = array();
-        $params['pid'] = $pid;
+        $params[Tool :: PARAM_PUBLICATION_ID] = $pid;
         $params['tool_action'] = 'view';
         
         $this->redirect($message, '', $params);

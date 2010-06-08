@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../../trackers/assessment_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts_tracker.class.php';
 
-class AssessmentManagerDocumentDownloaderComponent extends AssessmentManagerComponent
+class AssessmentManagerDocumentDownloaderComponent extends AssessmentManager
 {
 
     function run()
@@ -95,7 +95,7 @@ class AssessmentManagerDocumentDownloaderComponent extends AssessmentManagerComp
             if ($user_question != null)
             {
                 $answer = unserialize($user_question->get_answer());
-                $document = RepositoryDataManager :: get_instance()->retrieve_content_object($answer[2], 'document');
+                $document = RepositoryDataManager :: get_instance()->retrieve_content_object($answer[2], Document :: get_type_name());
                 $filenames[] = Path :: get(SYS_REPO_PATH) . $document->get_path();
             }
         }

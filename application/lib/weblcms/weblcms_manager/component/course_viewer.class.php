@@ -4,11 +4,11 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 /**
  * Weblcms component which provides the course page
  */
-class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 {
 	private $rights;
 
@@ -22,17 +22,12 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 	private $tool_class;
 
 	/**
-	 * The course object of the course currently active in this application
-	 */
-	private $course;
-
-	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{
+	{	
 		$this->load_rights();
-
+		
 		if ($this->is_teacher())
 		{
 			$studentview = Request :: get('studentview');
@@ -52,14 +47,33 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				$this->set_rights_for_teacher();
 			}
 		}
-
-		$trail = new BreadcrumbTrail();
-		$trail->add_help('courses general');
-
+		
+		$trail = BreadcrumbTrail :: get_instance();
+		//$trail->add_help('courses general');
+		
+		if(!$this->is_teacher() && (!$this->is_subscribed($this->get_course(), $this->get_user_id()) || !$this->get_course()->get_access()))
+		{
+			$this->display_header($trail, false, true, false);
+			Display :: error_message(Translation :: get("NotAllowedToView"));
+			$this->display_footer();
+			exit();
+		}
+		
 		if (! $this->is_course())
 		{
-			$this->display_header($trail, false, true);
+			$this->display_header($trail, false, true, false);
 			Display :: error_message(Translation :: get("NotACourse"));
+			$this->display_footer();
+			exit();
+		}
+		
+		if($studentview && $this->get_course()->get_student_view() != 1)
+		{
+			if($this->is_teacher())
+				$this->redirect(Translation :: get('StudentViewNotAvailable'), true, array('studentview'=>0));
+
+			$this->display_header($trail, false, false, false);
+			Display :: error_message(Translation :: get("StudentViewNotAvailable"));
 			$this->display_footer();
 			exit();
 		}
@@ -94,7 +108,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		$component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
 		$category = $this->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
 
-		if (is_null($category))
+		if (!$category)
 		{
 			$category = 0;
 		}
@@ -103,31 +117,40 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		{
 			if ($component_action)
 			{
+				$parameters[WeblcmsManager :: PARAM_COMPONENT_ACTION] = null;
+				$parameters[Tool :: PARAM_PUBLICATION_ID] = null;
+				$parameters[WeblcmsManager :: PARAM_TOOL] = null;
+				
 				$wdm = WeblcmsDataManager :: get_instance();
 				switch ($component_action)
 				{
 					case 'make_visible' :
-						$wdm->set_module_visible($this->get_course_id(), $tool, true);
+						$wdm->set_module_visible($this->get_course_id(), $tool, 1);
 						$this->load_tools();
+						$this->redirect(Translation :: get('ToolVisibilityChanged'), false, $parameters);
 						break;
 					case 'make_invisible' :
-						$wdm->set_module_visible($this->get_course_id(), $tool, false);
+						$wdm->set_module_visible($this->get_course_id(), $tool, 0);
 						$this->load_tools();
+						$this->redirect(Translation :: get('ToolVisibilityChanged'), false, $parameters);
 						break;
 					case 'make_publication_invisible' :
-						$publication = $wdm->retrieve_content_object_publication(Request :: get('pid'));
+						$publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 						$publication->set_hidden(1);
 						$publication->update();
+						$this->redirect(Translation :: get('PublicationVisibilityChanged'), false, $parameters);
 						break;
 					case 'make_publication_visible' :
-						$publication = $wdm->retrieve_content_object_publication(Request :: get('pid'));
+						$publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 						$publication->set_hidden(0);
 						$publication->update();
+						$this->redirect(Translation :: get('PublicationVisibilityChanged'), false, $parameters);
 						break;
 					case 'delete_publication' :
-						$publication = $wdm->retrieve_content_object_publication(Request :: get('pid'));
+						$publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 						$publication->set_show_on_homepage(0);
 						$publication->update();
+						$this->redirect(Translation :: get('PublicationDeleted'), false, $parameters);
 						break;
 				}
 				$this->set_parameter(WeblcmsManager :: PARAM_TOOL, null);
@@ -141,33 +164,22 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 				$wdm = WeblcmsDataManager :: get_instance();
 				$class = Tool :: type_to_class($tool);
-				$toolObj = new $class($this);
+				/*$toolObj = new $class($this);*/
+				
+				$toolObj = Tool :: factory($tool, $this);
+				
 				$this->set_tool_class($class);
 				$toolObj->run();
 				$wdm->log_course_module_access($this->get_course_id(), $this->get_user_id(), $tool, $category);
 			}
 			else
 			{
-				$trail = new BreadcrumbTrail();
-				$this->set_parameter('pid', null);
+				$trail = BreadcrumbTrail :: get_instance();
+				$this->set_parameter(Tool :: PARAM_PUBLICATION_ID, null);
 				$this->set_parameter('tool_action', null);
 				$this->set_parameter('course_group', null);
 
-				switch ($this->get_course()->get_breadcrumb())
-				{
-					case Course :: BREADCRUMB_TITLE :
-						$title = $this->get_course()->get_name();
-						break;
-					case Course :: BREADCRUMB_CODE :
-						$title = $this->get_course()->get_visual();
-						break;
-					case Course :: BREADCRUMB_COURSE_HOME :
-						$title = Translation :: get('CourseHome');
-						break;
-					default :
-						$title = $this->get_course()->get_visual();
-						break;
-				}
+				$title = CourseLayout :: get_title($this->get_course());
 
 				if (Request :: get('previous') == 'admin')
 				{
@@ -197,7 +209,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 				//Display menu
 				$menu_style = $this->get_course()->get_menu();
-				if ($menu_style != Course :: MENU_OFF)
+				if ($menu_style != CourseLayout :: MENU_OFF)
 				{
 					$renderer = ToolListRenderer :: factory('Menu', $this);
 					$renderer->display();
@@ -207,7 +219,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 				{
 					echo '<div id="tool_browser">';
 				}
-				if (PlatformSetting :: get('enable_introduction', 'weblcms'))
+				if ($this->get_course()->get_intro_text())
 				{
 					echo $this->display_introduction_text();
 					echo '<div class="clear"></div>';
@@ -304,10 +316,10 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		{
 			if ($this->is_allowed(EDIT_RIGHT))
 			{
-				$tb_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)), 'label' => Translation :: get('PublishIntroductionText'), 'img' => Theme :: get_common_image_path() . 'action_introduce.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+				$tb_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)), 'label' => Translation :: get('PublishIntroductionText'), 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 			}
 
-			$html[] = Utilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
+			$html[] = '<br />' . Utilities :: build_toolbar($tb_data) . '<div class="clear"></div><br /><div style="border-bottom: 1px dotted #D3D3D3;"></div><br /><br />';
 		}
 
 		return implode("\n", $html);
@@ -317,11 +329,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbtrail, $display_search = false, $display_title = true)
+	function display_header($breadcrumbtrail = null, $display_search = false, $display_title = true, $display_tools = true, $display_student_view = true)
 	{
 		if (is_null($breadcrumbtrail))
 		{
-			$breadcrumbtrail = new BreadcrumbTrail();
+			$breadcrumbtrail = BreadcrumbTrail :: get_instance();
 		}
 
 		$tool_class = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
@@ -335,19 +347,28 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			$title_short = substr($title_short, 0, 50) . '&hellip;';
 		}
 
-		if ($this->is_teacher() && PlatformSetting :: get('allow_student_view', 'weblcms') == 1)
+		$wdm = WeblcmsDataManager :: get_instance();
+		$tools = WeblcmsDataManager :: get_tools('course_admin');
+		$admin_tool = false;
+		foreach($tools as $tool)
+		{
+			if($tool_class == $tool)
+				$admin_tool = true;
+		}
+		
+		if ($this->is_teacher() && $this->get_course()->get_student_view() == 1 && !$admin_tool && $display_student_view)
 		{
 			$studentview = Session :: retrieve('studentview');
 
 			if ($studentview == 1)
 			{
-				$breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array('studentview' => '0', 'pid' => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-				//echo '<a href="' . $this->get_url(array('studentview' => '0', 'pid' => Request :: get('pid'))) . '">' . Translation :: get('TeacherView') . '</a>';
+				$breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array('studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+				//echo '<a href="' . $this->get_url(array('studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))) . '">' . Translation :: get('TeacherView') . '</a>';
 			}
 			else
 			{
-				$breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array('studentview' => '1', 'pid' => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-				//echo '<a href="' . $this->get_url(array('studentview' => '1', 'pid' => Request :: get('pid'))) . '">' . Translation :: get('StudentView') . '</a>';
+				$breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array('studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+				//echo '<a href="' . $this->get_url(array('studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))) . '">' . Translation :: get('StudentView') . '</a>';
 			}
 		}
 
@@ -358,29 +379,30 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 			if ($display_title)
 			{
 				echo '<div style="float: left;">';
-				Display :: tool_title(htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($tool_class) . 'Title')));
+				Display :: tool_title(Utilities :: htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($tool_class) . 'Title')));
 				echo '</div>';
 			}
 
 		}
 		else
 		{
-			if ($course && is_object($this->course) && $action == self :: ACTION_VIEW_COURSE)
+			if ($course && is_object($this->get_course()) && $action == WeblcmsManager :: ACTION_VIEW_COURSE)
 			{
+				
 				//echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
-				echo '<h3 style="float: left;">' . htmlentities($title) . '</h3>';
+				echo '<h3 style="float: left;">' . Utilities :: htmlentities($title) . '</h3>';
 				// TODO: Add department name and url here somewhere ?
 			}
 			else
 			{
-				echo '<h3 style="float: left;">' . htmlentities($title) . '</h3>';
+				echo '<h3 style="float: left;">' . Utilities :: htmlentities($title) . '</h3>';
 				if ($display_search)
 				{
 					$this->display_search_form();
 				}
 			}
 
-			if ($this->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
+			if ($this->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON && $display_tools)
 			{
 				$renderer = ToolListRenderer :: factory('Shortcut', $this);
 				echo '<div id="tool_shortcuts">';
@@ -430,8 +452,6 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		{
 			$this->set_rights_for_student();
 		}
-
-		return;
 	}
 
 	private function set_rights_for_teacher()
@@ -450,25 +470,14 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 	private $is_teacher;
 
-	private function is_teacher()
+	function is_teacher()
 	{
 		if (is_null($this->is_teacher))
 		{
 			$user = $this->get_user();
 			$course = $this->get_course();
 
-			if ($user != null && $course != null)
-			{
-				$relation = $this->retrieve_course_user_relation($course->get_id(), $user->get_id());
-
-				if (($relation && $relation->get_status() == 1) || $user->is_platform_admin())
-				{
-					$this->is_teacher = true;
-					return $this->is_teacher;
-				}
-			}
-
-			$this->is_teacher = false;
+			$this->is_teacher = parent::is_teacher($course,$user);
 		}
 
 		return $this->is_teacher;

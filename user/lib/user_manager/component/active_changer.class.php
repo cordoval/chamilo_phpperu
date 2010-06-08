@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerActiveChangerComponent extends UserManagerComponent
+class UserManagerActiveChangerComponent extends UserManager
 {
 
     /**
@@ -17,9 +17,9 @@ class UserManagerActiveChangerComponent extends UserManagerComponent
         
 	    if (! $this->get_user()->is_platform_admin())
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('user general');
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();

@@ -85,6 +85,16 @@ abstract class ContentObjectForm extends FormValidator
     }
 
     /**
+     * Sets the ID of the owner of the learning object being created or
+     * edited.
+     * @param int The owner id.
+     */
+    protected function set_owner_id($owner_id)
+    {
+        $this->owner_id = $owner_id;
+    }
+
+    /**
      * Returns the learning object associated with this form.
      * @return ContentObject The learning object, or null if none.
      */
@@ -324,7 +334,7 @@ EOT;
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
             $this->addElement('category', Translation :: get('Attachments'), 'content_object_attachments');
             $this->addElement('static', 'uploadify', Translation :: get('UploadDocument'), '<div id="uploadify"></div>');
-            $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments);
+            $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments, $options);
             $this->addElement('category');
 
             $elem->setDefaults($defaults);
@@ -485,7 +495,7 @@ EOT;
     {
         $object = $this->content_object;
         $values = $this->exportValues();
-
+        
         $object->set_title($values[ContentObject :: PROPERTY_TITLE]);
 
         $desc = $values[ContentObject :: PROPERTY_DESCRIPTION] ? $values[ContentObject :: PROPERTY_DESCRIPTION] : '';
@@ -548,6 +558,7 @@ EOT;
             {
                 $object->detach_content_object($o->get_id());
             }
+            
             foreach ($values['attachments'] as $aid)
             {
                 $aid = str_replace('lo_', '', $aid);
@@ -593,8 +604,7 @@ EOT;
 
     private function allows_category_selection()
     {
-        $lo = $this->content_object;
-        return ($this->form_type == self :: TYPE_CREATE || $this->form_type == self :: TYPE_REPLY || $lo->get_parent_id());
+        return ($this->form_type == self :: TYPE_CREATE || $this->form_type == self :: TYPE_REPLY || $this->form_type == self :: TYPE_EDIT);
     }
 
     /**
@@ -612,7 +622,7 @@ EOT;
     static function factory($form_type, $content_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements = array(), $allow_new_version = true, $form_variant = null)
     {
         $type = $content_object->get_type();
-        
+
         if ($form_variant)
         {
             $class = ContentObject :: type_to_class($type) . ContentObject :: type_to_class($form_variant) . 'Form';

@@ -6,57 +6,69 @@
 /**
  * @author Michael Kyndt
  */
+require_once dirname(__FILE__) . '/../blocks/weblcms_last_access_to_tools_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_average_learning_path_score_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_average_exercise_score_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../../weblcms_manager/weblcms_manager.class.php';
+
 class CourseTrackerReportingTemplate extends ReportingTemplate
 {
 
-    function CourseTrackerReportingTemplate($parent, $id, $params)
+    function CourseTrackerReportingTemplate($parent)
     {
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsAverageLearningpathScore"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsAverageExerciseScore"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLastAccessToTools"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
+        parent :: __construct($parent);
         
-        parent :: __construct($parent, $id, $params);
+    	$this->add_reporting_block($this->get_last_access_to_tool());
+    	$this->add_reporting_block($this->get_average_learning_path_score());
+    	//$this->add_reporting_block($this->get_average_exercise_score());
     }
-
-    /**
-     * @see ReportingTemplate -> get_properties()
-     */
-    public static function get_properties()
+    
+	function display_context()
+	{
+		
+	}
+	
+	function get_application()
     {
-        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'CourseTrackerReportingTemplateTitle';
-        $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 0;
-        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'CourseTrackerReportingTemplateDescription';
-        
-        return $properties;
+    	return WeblcmsManager::APPLICATION_NAME;
     }
-
-    /**
-     * @see ReportingTemplate -> to_html()
-     */
-    function to_html()
+    
+    function get_last_access_to_tool()
     {
-        $classname = 'CourseStudentTrackerReportingTemplate';
-        $params = Reporting :: get_params($this);
-        $manager = new WeblcmsManager();
-        $url = $manager->get_reporting_url($classname, $params);
-        
-        //template header
-        $html[] = $this->get_header();
-        
-        $html[] = '<div class="reporting_center">';
-        $html[] = '<a href="' . $url . '" />' . Translation :: get('CourseStudentTrackerReportingTemplateTitle') . '</a> | ';
-        $html[] = Translation :: get('CourseTrackerReportingTemplateTitle');
-        $html[] = '</div><br />';
-        
-        //show visible blocks
-        $html[] = '<div style="margin-left:auto;margin-right:auto;">';
-        $html[] = $this->get_visible_reporting_blocks();
-        $html[] = '</div>';
-        
-        //template footer
-        $html[] = $this->get_footer();
-        
-        return implode("\n", $html);
+    	$course_weblcms_block = new WeblcmsLastAccessToToolsReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	$user_id = request :: get(WeblcmsManager::PARAM_USERS);
+    	if ($course_id)
+    	{
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	if ($user_id)
+    	{
+    		$this->set_parameter(WeblcmsManager::PARAM_USERS, $user_id);
+    	}
+    	return $course_weblcms_block;
+    }
+    
+    function get_average_learning_path_score()
+    {
+    	$course_weblcms_block = new WeblcmsAverageLearningPathScoreReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
+    }
+    
+    function get_average_exercise_score()
+    {
+    	$course_weblcms_block = new WeblcmsAverageExerciseScoreReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	if ($course_id)
+    	{
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	return $course_weblcms_block;
     }
 }
 ?>

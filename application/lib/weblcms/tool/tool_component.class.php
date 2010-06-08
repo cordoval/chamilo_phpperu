@@ -45,9 +45,9 @@ abstract class ToolComponent
 
     /** Delegation functions **/
     
-    function display_header($breadcrumbtrail, $display_title)
+    function display_header($breadcrumbtrail, $display_title, $display_tools = true, $display_student_view = true)
     {
-        $this->tool->display_header($breadcrumbtrail, $display_title);
+        $this->tool->display_header($breadcrumbtrail, $display_title, $display_tools, $display_student_view);
     }
 
     function display_footer()
@@ -59,7 +59,17 @@ abstract class ToolComponent
     {
         $this->tool->display_error_message($message);
     }
-
+    
+    function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
+    {
+        return $this->tool->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
+    }
+    
+	function get_application_name()
+	{
+        return $this->tool->get_application_name();
+	}
+	
     function get_action()
     {
         return $this->tool->get_action();
@@ -132,6 +142,14 @@ abstract class ToolComponent
     {
         return $this->tool->get_parameters();
     }
+    
+	/**
+     * @see WebApplication :: get_parameters()
+     */
+    function set_parameters($parameters)
+    {
+        return $this->tool->set_parameters($parameters);
+    }
 
     /**
      * @see WebApplication :: get_parameter()
@@ -164,6 +182,11 @@ abstract class ToolComponent
     function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
     {
         return $this->tool->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
+    }
+    
+    function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $redirect_type = Redirect :: TYPE_URL, $application_type = Redirect :: TYPE_APPLICATION)
+    {
+        return $this->tool->simple_redirect($parameters, $filter, $encode_entities , $redirect_type , $application_type);
     }
 
     /**
@@ -234,6 +257,11 @@ abstract class ToolComponent
     function get_complex_builder_url($pid)
     {
         return $this->tool->get_complex_builder_url($pid);
+    }
+    
+	function create_component($type, $application)
+    {
+    	return $this->tool->create_component($type, $application);
     }
 
 }

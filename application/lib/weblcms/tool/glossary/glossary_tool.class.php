@@ -46,7 +46,7 @@ class GlossaryTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('glossary');
+        return array(Glossary :: get_type_name());
     }
 }
 ?>

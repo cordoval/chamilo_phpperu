@@ -12,6 +12,8 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class PortfolioMenu extends HTML_Menu
 {
+    const TREE_NAME = __CLASS__;
+    
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -75,7 +77,9 @@ class PortfolioMenu extends HTML_Menu
         $menu = array();
         
         $users = array();
-        $users['title'] = Translation :: get('MyPortfolio');
+        
+        $udm = UserDataManager :: get_instance();
+        $users['title'] = Translation :: get('PersonalPortfolio') . " - " . $udm->retrieve_user($this->view_user)->get_fullname();
         $users['url'] = $this->get_root_url();
         $users['class'] = 'home';
         $subs = $this->get_publications();
@@ -110,21 +114,21 @@ class PortfolioMenu extends HTML_Menu
         $pdm = PortfolioDataManager :: get_instance();
         $rdm = RepositoryDataManager :: get_instance();
         
-        $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_PUBLISHER, $this->view_user);
+        $condition = new EqualityCondition(PortfolioPublication :: PROPERTY_OWNER_ID, $this->view_user);
         $publications = $pdm->retrieve_portfolio_publications($condition);
         while ($publication = $publications->next_result())
         {
-            if ($publication->is_visible_for_target_user($this->user->get_id()))
-            {
+//            if ($publication->is_visible_for_target_user($this->user->get_id()))
+//            { TODO: CHECK ON VISIBILITY WITH NEW METHODS 
                 $lo = $rdm->retrieve_content_object($publication->get_content_object());
-                
+             
                 $pub = array();
                 $pub['title'] = $lo->get_title();
                 $pub['url'] = $this->get_publication_url($publication->get_id());
                 $pub['class'] = 'portfolio';
                 $pub['sub'] = $this->get_portfolio_items($publication->get_content_object(), $publication->get_id());
                 $menu[] = $pub;
-            }
+//            }
         }
         
         return $menu;
@@ -142,10 +146,11 @@ class PortfolioMenu extends HTML_Menu
             $lo = $rdm->retrieve_content_object($child->get_ref());
             
             $item = array();
-            
-            $lo = $rdm->retrieve_content_object($lo->get_reference()); 
-            
-            if ($lo->get_type() == 'portfolio')
+            if($lo->get_type() == PortfolioItem::get_type_name())
+            {
+                $lo = $rdm->retrieve_content_object($lo->get_reference());
+            }
+            if ($lo->get_type() == Portfolio :: get_type_name())
             {
                 $items = $this->get_portfolio_items($lo->get_id(), $pub_id);
                 if (count($items) > 0)
@@ -154,8 +159,7 @@ class PortfolioMenu extends HTML_Menu
             
             $item['title'] = $lo->get_title();
             $item['url'] = $this->get_sub_item_url($pub_id, $child->get_id());
-            $item['class'] = 'portfolio';
-            
+           $item['class'] = $lo->get_type();
             $menu[] = $item;
         }
         
@@ -202,10 +206,15 @@ class PortfolioMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-    function render_as_tree()
+	function render_as_tree()
     {
-        $renderer = new TreeMenuRenderer();
+        $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
+    }
+    
+    static function get_tree_name()
+    {
+    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }

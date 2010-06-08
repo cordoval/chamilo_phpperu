@@ -23,12 +23,17 @@ class RepositoryAutoloader
 		{
 			return true;
 		}
-
+		
 		if(self :: check_for_special_files($classname))
 		{
 			return true;
 		}
-
+		
+		if(self :: check_for_content_objects($classname))
+		{
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -94,7 +99,9 @@ class RepositoryAutoloader
 	static function check_for_special_files($classname)
 	{
 		$list = array('complex_builder' => 'complex_builder/complex_builder.class.php',
+					  'complex_builder_component' => 'complex_builder/complex_builder_component.class.php',
 					  'complex_display' => 'complex_display/complex_display.class.php',
+					  'complex_display_component' => 'complex_display/complex_display_component.class.php',
 					  'repository_category_manager' => 'category_manager/repository_category_manager.class.php',
 					  'repository_category' => 'category_manager/repository_category.class.php',
 					  'content_object_export' => 'export/content_object_export.class.php',
@@ -126,6 +133,25 @@ class RepositoryAutoloader
 		}
 
 		return false;
+	}
+	
+	static $content_objects;
+	
+	static function check_for_content_objects($classname)
+	{
+		$dir = dirname(__FILE__) . '/lib/content_object/';
+		
+		if(!self :: $content_objects)
+		{
+			self :: $content_objects = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
+		}
+		
+		$lower_case = Utilities :: camelcase_to_underscores($classname);
+		
+		if(in_array($lower_case, self :: $content_objects))
+		{
+			require_once $dir . $lower_case . '/' . $lower_case . '.class.php';
+		}
 	}
 }
 

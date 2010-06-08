@@ -6,46 +6,50 @@
 /**
  * @author Michael Kyndt
  */
+require_once dirname(__FILE__) . '/../blocks/weblcms_learning_path_attempts_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../../weblcms_manager/weblcms_manager.class.php';
 
 class LearningPathAttemptsReportingTemplate extends ReportingTemplate
 {
     private $object;
 
-    function LearningPathAttemptsReportingTemplate($parent = null, $id, $params)
+    function LearningPathAttemptsReportingTemplate($parent)
     {
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLearningPathAttempts"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
-        
-        parent :: __construct($parent, $id, $params);
+        parent :: __construct($parent);
+    	$this->add_reporting_block($this->get_learning_path_attempts());
     }
+    
+	function display_context()
+	{
 
-    /**
-     * @see ReportingTemplate -> get_properties()
-     */
-    public static function get_properties()
+	}
+	
+	function get_application()
     {
-        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'LearningPathAttemptsReportingTemplateTitle';
-        $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 0;
-        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'LearningPathAttemptsReportingTemplateDescription';
-        
-        return $properties;
+    	return WeblcmsManager::APPLICATION_NAME;
     }
-
-    /**
-     * @see ReportingTemplate -> to_html()
-     */
-    function to_html()
+   
+    function get_learning_path_attempts()
     {
-        //template header
-        $html[] = $this->get_header();
-        
-        //$html[] = '<div align="center">';
-        //show visible blocks
-        $html[] = $this->get_visible_reporting_blocks();
-        //$html[] = '</div>';
-        //template footer
-        $html[] = $this->get_footer();
-        
-        return implode("\n", $html);
+    	$course_weblcms_block = new WeblcmsLearningPathAttemptsReportingBlock($this);
+    	$course_id = Request :: get(WeblcmsManager::PARAM_COURSE);
+    	$pid = Request :: get(WeblcmsManager::PARAM_PUBLICATION);
+    	if ($course_id)
+    	{
+    		$this->set_parameter(WeblcmsManager::PARAM_COURSE, $course_id);
+    	}
+    	
+    	if ($pid)
+    	{
+    		$this->set_parameter(WeblcmsManager::PARAM_PUBLICATION, $pid);
+    	}
+    	
+    	$tool = Request :: get(WeblcmsManager::PARAM_TOOL);
+    	if ($tool)
+    	{
+    		$this->set_parameter(WeblcmsManager::PARAM_TOOL, $tool);
+    	}
+    	return $course_weblcms_block;
     }
 }
 ?>

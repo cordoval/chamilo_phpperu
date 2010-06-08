@@ -44,7 +44,7 @@ if (Authentication :: is_valid())
     $condition = new AndCondition($conditions);
 
     $dm = RepositoryDataManager :: get_instance();
-    $objects = $dm->retrieve_type_content_objects('document', $condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)), array(SORT_ASC));
+    $objects = $dm->retrieve_type_content_objects(Document :: get_type_name(), $condition, array(new ObjectTableOrder(ContentObject :: PROPERTY_TITLE)), array(SORT_ASC));
 
     while ($lo = $objects->next_result())
     {
@@ -127,7 +127,7 @@ function dump_tree($tree, $objects)
         else
             $title = $node['obj']->get_title();
 
-        echo '<node id="category_', $id, '" classes="type_category unlinked" title="', htmlentities($title), '">', "\n";
+        echo '<node id="category_', $id, '" classes="category unlinked" title="', htmlentities($title), '">', "\n";
         dump_tree($node['sub'], $objects);
         foreach ($objects[$id] as $lo)
         {

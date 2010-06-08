@@ -42,7 +42,7 @@ class NoteTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('note');
+        return array(Note :: get_type_name());
     }
 }
 ?>

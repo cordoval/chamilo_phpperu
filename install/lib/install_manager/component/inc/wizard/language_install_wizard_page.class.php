@@ -22,8 +22,6 @@ class LanguageInstallWizardPage extends InstallWizardPage
 
     function buildForm()
     {
-        Session :: unregister('normal_install');
-
     	$this->_formBuilt = true;
 
         $this->addElement('category', Translation :: get('Language'));

@@ -4,11 +4,10 @@
  * @package application.lib.assessment.assessment_manager.component
  */
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/results_export_form/results_export_form.class.php';
 require_once dirname(__FILE__) . '/results_export_form/export.class.php';
 
-class AssessmentManagerResultsExporterComponent extends AssessmentManagerComponent
+class AssessmentManagerResultsExporterComponent extends AssessmentManager
 {
 
     function run()
@@ -42,11 +41,13 @@ class AssessmentManagerResultsExporterComponent extends AssessmentManagerCompone
 
     function export($type, $id, $filetype)
     {
-        $exporter = Export :: factory($filetype, 'export_' . $type . $id);
+        
         $results_exporter = ResultsExport :: factory($filetype);
         
         $data = $results_exporter->export_results($type, $id);
-        $exporter->write_to_file($data);
+        $exporter = Export :: factory($filetype, $data);
+        $exporter->set_filename('export_' . $type . $id);
+        $exporter->send_to_browser();
     }
 
 }

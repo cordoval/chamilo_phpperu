@@ -5,19 +5,19 @@
  */
 class UserViewForm extends FormValidator
 {
-    
+
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-    
+
     private $user_view;
     private $form_type;
 
     function UserViewForm($form_type, $user_view, $action)
     {
         parent :: __construct('user_views_settings', 'post', $action);
-        
+
         $this->user_view = $user_view;
-        
+
         $this->form_type = $form_type;
         if ($this->form_type == self :: TYPE_EDIT)
         {
@@ -27,7 +27,7 @@ class UserViewForm extends FormValidator
         {
             $this->build_creation_form();
         }
-        
+
         $this->setDefaults();
     }
 
@@ -36,7 +36,7 @@ class UserViewForm extends FormValidator
         $this->addElement('text', UserView :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
         $this->addRule(UserView :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
         $this->add_html_editor(UserView :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
-        
+
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $uvrlo = RepositoryDataManager :: get_instance()->retrieve_user_view_rel_content_objects(new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $this->get_user_view()->get_id()));
@@ -49,11 +49,10 @@ class UserViewForm extends FormValidator
         }
         else
         {
-            $dm = RepositoryDataManager :: get_instance();
-            $registrations = $dm->get_registered_types();
-            
-            $hidden_types = array('learning_path_item', 'portfolio_item');
-            
+            $registrations = RepositoryDataManager :: get_registered_types();
+
+            $hidden_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+
             foreach ($registrations as $registration)
             {
                 if (in_array($registration, $hidden_types))
@@ -62,11 +61,11 @@ class UserViewForm extends FormValidator
                 //$defaults[] = $registration;
             }
         }
-        
+
         $this->addElement('advmultiselect', 'types', Translation :: get('SelectTypesToShow'), $content_object_types, array('style' => 'width:300px; height: 300px'));
-        
+
         $this->setDefaults(array('types' => $defaults));
-        
+
     //$this->addElement('submit', 'user_view_settings', 'OK');
     }
 
@@ -74,22 +73,22 @@ class UserViewForm extends FormValidator
     {
         $user_view = $this->user_view;
         $this->build_basic_form();
-        
+
         $this->addElement('hidden', UserView :: PROPERTY_ID);
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     function build_creation_form()
     {
         $this->build_basic_form();
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -97,28 +96,28 @@ class UserViewForm extends FormValidator
     {
         $user_view = $this->user_view;
         $values = $this->exportValues();
-        
+
         $user_view->set_name($values[UserView :: PROPERTY_NAME]);
         $user_view->set_description($values[UserView :: PROPERTY_DESCRIPTION]);
-        
+
         $dm = RepositoryDataManager :: get_instance();
-        
+
         $dm->reset_user_view($user_view);
-        
+
         foreach ($values['types'] as $type)
         {
             $conditions = array();
             $conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $user_view->get_id());
             $conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_CONTENT_OBJECT_TYPE, $type);
             $condition = new AndCondition($conditions);
-            
+
             $lo_type = $dm->retrieve_user_view_rel_content_objects($condition)->next_result();
             $lo_type->set_visibility(1);
             $lo_type->update();
         }
-        
+
         $value = $user_view->update();
-        
+
         return $value;
     }
 
@@ -126,17 +125,17 @@ class UserViewForm extends FormValidator
     {
         $user_view = $this->user_view;
         $values = $this->exportValues();
-        
+
         $user_view->set_name($values[UserView :: PROPERTY_NAME]);
         $user_view->set_description($values[UserView :: PROPERTY_DESCRIPTION]);
-        
+
         $value = $user_view->create($values['types']);
-        
+
         return $value;
     }
 
     /**
-     * Sets default values. 
+     * Sets default values.
      * @param array $defaults Default values for this form's parameters.
      */
     function setDefaults($defaults = array ())

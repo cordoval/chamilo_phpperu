@@ -4,39 +4,45 @@
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../portfolio_manager_component.class.php';
 require_once dirname(__FILE__) . '/user_browser/user_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../user_menu.class.php';
+require_once dirname(__FILE__) . '/../../portfolio_publication.class.php';
 
 /**
  * Portfolio component which allows the user to browse the portfolio application
  * @author Sven Vanpoucke
  */
-class PortfolioManagerBrowserComponent extends PortfolioManagerComponent
+class PortfolioManagerBrowserComponent extends PortfolioManager
 {
     private $firstletter;
+    private $ab;
 
     function run()
     {
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowsePortfolio')));
-       
+        $trail->add_help('portfolio create');
+
+        $html = array();
+
+        $this->ab = $this->get_action_bar();
+
         $this->display_header($trail);
-        
+
         $firstletter = Request :: get('firstletter');
-        $firstletter = $firstletter ? $firstletter : 'A';
+        $firstletter = $firstletter ? $firstletter : '-';
         $this->firstletter = $firstletter;
-        
+
         $menu = new UserMenu($firstletter);
-        
-        echo '<div style="width: 17%; overflow: auto; float: left;">';
-        echo $menu->render_as_tree();
-        echo '</div>';
-        
-        echo '<div style="width: 82%; overflow: auto; float: right;">';
-        echo $this->get_table();
-        echo '</div>';
-        
+        $html[] = $this->ab->as_html() . '<br />';
+        $html[] =  '<div style="width: 17%; overflow: auto; float: left;">';
+        $html[] = $menu->render_as_tree();
+        $html[] = '</div>';
+
+        $html[] = '<div style="width: 82%; overflow: auto; float: right;">';
+        $html[] = $this->get_table();
+        $html[] = '</div>';
+        echo implode("\n", $html);
         $this->display_footer();
     }
 
@@ -48,23 +54,56 @@ class PortfolioManagerBrowserComponent extends PortfolioManagerComponent
 
     function get_condition()
     {
-        $firstletter = $this->firstletter;
         
-        $conditions = array();
-        
-        for($i = 0; $i < 3; $i ++)
+        $query = $this->ab->get_query();
+
+        if (isset($query) && $query != '')
         {
-            $conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $firstletter . '%');
-            
-            if ($firstletter == 'Z')
-                break;
-            
-            $firstletter ++;
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
+            $conditions[] = new OrCondition($search_conditions);
         }
-        
-        $condition = new OrCondition($conditions);
-        
+        else
+        {
+            //place in alfabet-tree
+            $firstletter = $this->firstletter;
+            $conditions = array();
+            if (isset($this->firstletter))
+            {
+                if($this->firstletter == '-')
+                {
+                    //just show the first results
+
+                }
+                else
+                {
+                    for($i = 0; $i < 3; $i ++)
+                    {
+                        $tree_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, $firstletter . '*');
+                        if ($firstletter == 'Z')
+                            break;
+                        $firstletter ++;
+                    }
+                    $conditions[] = new OrCondition($tree_conditions);
+                }
+            }
+        }
+
+        // TODO: find the correct way to add the DISTINCT
+        $conditions[] = new SubselectCondition(User::PROPERTY_ID, PortfolioInformation::PROPERTY_USER_ID, PortfolioInformation::get_table_name(), null, null, PortfolioDataManager::get_instance());
+
+        $condition = new AndCondition($conditions);
+
         return $condition;
+    }
+
+    function get_action_bar()
+    {
+        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+        $action_bar->set_search_url($this->get_url());
+
+        return $action_bar;
     }
 
 }

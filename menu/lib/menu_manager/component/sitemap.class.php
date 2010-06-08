@@ -4,7 +4,7 @@
  * @package menu.lib.menu_manager.component
  */
 
-class MenuManagerSitemapComponent extends MenuManagerComponent
+class MenuManagerSitemapComponent extends MenuManager
 {
 
     /**

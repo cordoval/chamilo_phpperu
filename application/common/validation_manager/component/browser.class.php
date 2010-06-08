@@ -25,6 +25,15 @@ class ValidationManagerBrowserComponent extends ValidationManagerComponent
 
     function run()
     {
+    	$html = $this->as_html();
+    	
+    	$this->display_header(new BreadcrumbTrail());
+    	echo $html;
+    	$this->display_footer();
+    }
+    
+    function as_html()
+    {
         
         $this->pid = Request :: get('pid');
         $this->user_id = Request :: get('user_id');
@@ -34,16 +43,9 @@ class ValidationManagerBrowserComponent extends ValidationManagerComponent
         
         $url = $this->get_url(array('pid' => $this->pid, 'cid' => $this->cid, 'user_id' => $this->user_id, 'action' => $this->action));
         
-        // $validations = $this->retrieve_validations($this->pid,$this->cid,$application);
-        
-
         $table = new ValidationBrowserTab($this, null, $parameters, $this->get_condition());
         
-        echo $table->as_html();
-        
-    // echo  $this->render_create_action();
-    
-
+        return $table->as_html();
     }
 
     function get_condition()

@@ -35,7 +35,7 @@ class ReportingAutoloader
 	static function check_for_general_files($classname)
 	{
 		$list = array('reporting_block_layout', 'reporting_block', 'reporting_blocks', 'reporting_data_manager', 'reporting_exporter', 'reporting_formatter',
-					  'reporting_template_registration', 'reporting_template_viewer', 'reporting_template', 'reporting_templates', 'reporting');
+					  'reporting_template_registration', 'reporting_block_registration', 'reporting_template', 'reporting_templates', 'reporting', 'reporting_template_viewer');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
@@ -83,7 +83,8 @@ class ReportingAutoloader
 	{
 		$list = array('reporting_manager' => 'reporting_manager/reporting_manager.class.php',
 					  'reporting_manager_component' => 'reporting_manager/reporting_manager_component.class.php',
-					  'reporting_validator' => '../validator/reporting_validator.class.php');
+					  'reporting_validator' => '../validator/reporting_validator.class.php',
+					  'reporting_chart_formatter' => 'formatters/reporting_chart_formatter.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

@@ -10,7 +10,7 @@ require_once 'HTML/Table.php';
 /**
  * Admin component
  */
-class AdminManagerLogViewerComponent extends AdminManagerComponent
+class AdminManagerLogViewerComponent extends AdminManager
 {
 
     /**
@@ -18,15 +18,15 @@ class AdminManagerLogViewerComponent extends AdminManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => null)), Translation :: get('PlatformAdmin')));
+        $trail = BreadcrumbTrail :: get_instance();;
+        $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => null)), Translation :: get('PlatformAdministration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('LogsViewer')));
         $trail->add_help('administration');
         
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -34,7 +34,7 @@ class AdminManagerLogViewerComponent extends AdminManagerComponent
         
         $form = $this->build_form();
         
-        $this->display_header($trail);
+        $this->display_header();
         echo $form->toHtml() . '<br />';
         
         if ($form->validate())
@@ -66,7 +66,24 @@ class AdminManagerLogViewerComponent extends AdminManagerComponent
         $renderer = & $form->defaultRenderer();
         $renderer->setElementTemplate(' {element} ');
         
-        $types = array('chamilo' => Translation :: get('ChamiloLogs'), 'server' => Translation :: get('ServerLogs'));
+        $types = array('server' => Translation :: get('ServerLogs'));
+        
+        $file = Path :: get(SYS_FILE_PATH) . 'logs/';
+       	$scan_list = scandir($file);
+       	
+       	foreach($scan_list as $i => $item)
+       	{
+       		if(substr($item, 0, 1) == '.')
+       		{
+       			unset($scan_list[$i]);
+       		}
+       	}
+       	
+       	if(count($scan_list) > 0)
+        {
+        	$types['chamilo'] = Translation :: get('ChamiloLogs');		
+        }
+        
         $lines = array('10' => '10 ' . Translation :: get('lines'), '20' => '20 ' . Translation :: get('lines'), '50' => '50 ' . Translation :: get('lines'), 'all' => Translation :: get('AllLines'));
         
         $dir = Path :: get(SYS_FILE_PATH) . 'logs/';

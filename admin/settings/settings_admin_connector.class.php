@@ -13,10 +13,7 @@ class SettingsAdminConnector
 
     function get_languages()
     {
-        $adm = AdminDataManager :: get_instance();
-        $options = $adm->get_languages();
-
-        return $options;
+        return AdminDataManager :: get_languages();
     }
 
     function get_themes()
@@ -47,22 +44,58 @@ class SettingsAdminConnector
 
         return $options;
     }
-    
+
     function get_time_zones()
     {
 		$content = file_get_contents(dirname(__FILE__) . '/timezones.txt');
 		$content = explode("\n", $content);
-		
+
 		$timezones = array();
-		
+
 		foreach($content as $timezone)
 		{
 			$timezone = trim($timezone);
 			$timezones[$timezone] = $timezone;
 		}
-		
+
 		return $timezones;
     }
+
+    function get_active_applications()
+    {
+        $adm = AdminDataManager :: get_instance();
+        $conditions = array();
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
+        $conditions[] = new EqualityCondition(Registration :: PROPERTY_STATUS, 1);
+        $condition = new AndCondition($conditions);
+
+        $registrations = $adm->retrieve_registrations($condition);
+
+        $options = array();
+        $options['home'] = Translation :: get('Homepage');
+
+        while($registration = $registrations->next_result())
+        {
+            $options[$registration->get_name()] = Translation :: get(Utilities :: underscores_to_camelcase($registration->get_name()));
+        }
+
+        asort($options);
+
+        return $options;
+    }
     
+	function get_working_hours()
+    {
+        $start = 0;
+        $end = 24;
+        $working_hours = array();
+        
+        for($i = $start; $i <= $end; $i++)
+        {
+        	$working_hours[$i] = $i;
+        }
+        
+        return $working_hours;
+    }
 }
 ?>

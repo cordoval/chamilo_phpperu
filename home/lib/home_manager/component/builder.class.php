@@ -4,7 +4,7 @@
  * @package home.lib.home_manager.component
  */
 
-class HomeManagerBuilderComponent extends HomeManagerComponent
+class HomeManagerBuilderComponent extends HomeManager
 {
     private $build_user_id;
 
@@ -14,15 +14,15 @@ class HomeManagerBuilderComponent extends HomeManagerComponent
     function run()
     {
         Header :: set_section('admin');
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => HomeManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Home')));
         //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
+        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeBuilder')));
         $trail->add_help('home_build');
-        
+  
         $user = $this->get_user();
         $user_home_allowed = $this->get_platform_setting('allow_user_home');
         

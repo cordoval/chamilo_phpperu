@@ -39,6 +39,42 @@ $(function () {
 		bindIconsLegacy();
 	}
 	
+	/*function checkForEmptyColumns() 
+	{
+		$("div.tab").each(function(i)
+		{
+			var count = $("div.column", this).length;
+			
+			var emptyBlock  = '<div class="empty_column">';
+			emptyBlock += translation('EmptyColumnText', 'home');
+			
+			if(count > 1)
+			{
+				emptyBlock += '<div class="deleteColumn"></div>';
+			}
+			
+			emptyBlock += '</div>';
+			
+			$("div.column", this).each(function (j) 
+			{
+				var numberOfBlocks, emptyBlockExists;
+				numberOfBlocks = $(".block", this).length;
+				emptyBlockExists = $(".empty_column", this).length;
+				
+				if (numberOfBlocks === 0 && emptyBlockExists === 0)
+				{
+					$(this).append(emptyBlock);
+				}
+				else if (numberOfBlocks > 0 && emptyBlockExists >= 1)
+				{
+					$(".empty_column", this).remove();
+				}
+			});
+		});
+
+		bindIconsLegacy();
+	}*/
+	
 	function sortableStart(e, ui) {
 		ui.helper.css("border", "4px solid #c0c0c0");
 	}
@@ -136,7 +172,7 @@ $(function () {
 				);
 	}
 
-	function collapseItem(e) {
+	function collapseItem(e, ui) {
 		e.preventDefault();
 		$(this).parent().next(".description").slideToggle(300);
 
@@ -210,12 +246,9 @@ $(function () {
 		});
 	}
 
-	function addBlock(e, ui) {
+	function addBlock(e, ui) 
+	{
 		var column, columnId, order, loadingMessage, loading;
-		
-		column = $(".tab:visible .column:first-child");
-		columnId = column.attr("id");
-		order = column.sortable("serialize");
 		
 		loadingMessage = 'YourBlockIsBeingAdded';
 
@@ -225,7 +258,21 @@ $(function () {
 			opacity: 75,
 			close: false
 		});
-
+		
+		column = $(".tab:visible .column");
+		
+		if(column.length == 0)
+		{
+			$(".loadingBox", loading.dialog.container).html(getMessageBox(false, getTranslation('BlockCanNotBeAddedWhenNoColumnAvailable', 'home')));
+			handleLoadingBox(loading);
+			return;
+		}
+		
+		column = $(".tab:visible .column:last");
+		
+		columnId = column.attr("id");
+		order = column.sortable("serialize");
+		
 		$.post("./home/ajax/block_add.php", {
 			component : $(this).attr("id"),
 			column : columnId,
@@ -313,14 +360,22 @@ $(function () {
 			newWidths = data.width;
 			
 			lastColumn = $("div.column:last", row);
-			lastColumn.css('margin-right', '1%');
 			
-			$("div.column", row).each(function (i) {
-				var newWidth = newWidths[this.id] + '%'; 
-				this.style.width = newWidth;
-			});
-			
-			$("div.column:last", row).after(columnHtml);
+			if(lastColumn.length > 0)
+			{
+				lastColumn.css('margin-right', '1%');
+				
+				$("div.column", row).each(function (i) {
+					var newWidth = newWidths[this.id] + '%'; 
+					this.style.width = newWidth;
+				});
+				
+				$("div.column:last", row).after(columnHtml);
+			}
+			else
+			{
+				row.append(columnHtml);
+			}
 			
 			bindIconsLegacy();
 			columnsSortable();
@@ -436,7 +491,7 @@ $(function () {
 		$.post("./home/ajax/tab_edit.php", {tab: tabId, title: newTitle}, function (data) {
 			if (data.success === '1')
 			{
-				e.data.tab.html(newTitle);
+				e.data.tab.html(data.title);
 				e.data.loading.close();
 				
 				$('#tabSave').unbind();
@@ -507,22 +562,26 @@ $(function () {
 				
 				// Get the last column's width 
 				otherColumn = $(".tab:visible .column:last");
-				otherColumnWidth = otherColumn.css('width');
-				otherColumnWidth = parseInt(otherColumnWidth.replace('%', ''), 10);
 				
-				// Calculate the new width
-				newColumnWidth =  columnWidth + otherColumnWidth + 1;
-				
-				// Set the new width + postback
-				otherColumn.css('margin-right', '0px');
-				otherColumn.css('width', newColumnWidth + '%');
-				
-				$.post("./home/ajax/column_width.php", {
-					column : otherColumn.attr('id'),
-					width : newColumnWidth
-				}// ,
-						// function(data){alert("Data Loaded: " + data);}
-						);
+				if(otherColumn.length > 0)
+				{
+					otherColumnWidth = otherColumn.css('width');
+					otherColumnWidth = parseInt(otherColumnWidth.replace('%', ''), 10);
+
+					// Calculate the new width
+					newColumnWidth =  columnWidth + otherColumnWidth + 1;
+					
+					// Set the new width + postback
+					otherColumn.css('margin-right', '0px');
+					otherColumn.css('width', newColumnWidth + '%');
+					
+					$.post("./home/ajax/column_width.php", {
+						column : otherColumn.attr('id'),
+						width : newColumnWidth
+					}// ,
+							// function(data){alert("Data Loaded: " + data);}
+							);
+				}
 			}
 			
 			$(".loadingBox", loading.dialog.container).html(getMessageBox(data.success, data.message));

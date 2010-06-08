@@ -73,16 +73,16 @@ class AlexiaLinks extends AlexiaBlock
             $groups = $user->get_groups();
         }
         
-        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, 'link');
-        $conditions[] = new SubselectCondition(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Link :: get_type_name());
+        $conditions[] = new SubselectCondition(AlexiaPublication :: PROPERTY_CONTENT_OBJECT, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         
         $access = array();
         $access[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
-        $access[] = new InCondition(AlexiaPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_database()->get_alias(AlexiaPublicationUser :: get_table_name()));
-        $access[] = new InCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_database()->get_alias(AlexiaPublicationGroup :: get_table_name()));
+        $access[] = new InCondition(AlexiaPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_alias(AlexiaPublicationUser :: get_table_name()));
+        $access[] = new InCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_alias(AlexiaPublicationGroup :: get_table_name()));
         if (! empty($user_id) || ! empty($groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, $datamanager->get_database()->get_alias(AlexiaPublicationUser :: get_table_name())), new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_database()->get_alias(AlexiaPublicationGroup :: get_table_name()))));
+            $access[] = new AndCondition(array(new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, $datamanager->get_alias(AlexiaPublicationUser :: get_table_name())), new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_alias(AlexiaPublicationGroup :: get_table_name()))));
         }
         $conditions[] = new OrCondition($access);
         

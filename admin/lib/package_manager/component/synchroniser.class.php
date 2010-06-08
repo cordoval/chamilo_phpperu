@@ -5,7 +5,7 @@
  * @author Hans De Bisschop
  */
 
-class PackageManagerSynchroniserComponent extends PackageManagerComponent
+class PackageManagerSynchroniserComponent extends PackageManager
 {
 
     /**
@@ -13,15 +13,15 @@ class PackageManagerSynchroniserComponent extends PackageManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+        $trail = BreadcrumbTrail :: get_instance();;
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdministration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Install')));
         $trail->add_help('administration install');
         
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -31,7 +31,7 @@ class PackageManagerSynchroniserComponent extends PackageManagerComponent
         
         if ($data)
         {
-            if ($this->parse_remote_packages_data($data))
+        	if ($this->parse_remote_packages_data($data))
             {
                 $message = 'RemotePackagesListSynchronised';
                 $failures = 0;
@@ -52,8 +52,9 @@ class PackageManagerSynchroniserComponent extends PackageManagerComponent
 
     function get_remote_packages_data()
     {
-        $xml_data = file_get_contents(Path :: get(WEB_PATH) . 'packages.xml');
         
+    	$xml_data = file_get_contents(Path :: get(WEB_PATH) . 'packages.xml');
+
         if ($xml_data)
         {
             $unserializer = new XML_Unserializer();
@@ -75,15 +76,26 @@ class PackageManagerSynchroniserComponent extends PackageManagerComponent
                 return $unserializer->getUnserializedData();
             }
         }
+        else
+        {
+        	return false;
+        }
     }
 
     function parse_remote_packages_data($data)
     {
         $adm = AdminDataManager :: get_instance();
+
+        $conditions = array();
         
         foreach ($data['package'] as $package)
         {
-            $package['dependencies'] = serialize($package['dependencies']);
+            $package_conditions = array();
+            $package_conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_CODE,  $package['code']);
+            $package_conditions[] = new EqualityCondition(RemotePackage :: PROPERTY_SECTION, $package['section']);
+            $conditions [] = new AndCondition($package_conditions);
+            
+        	$package['dependencies'] = serialize($package['dependencies']);
             
             $condition = new EqualityCondition(RemotePackage :: PROPERTY_CODE, $package['code']);
             $remote_packages = $adm->retrieve_remote_packages($condition, array(), 0);
@@ -99,15 +111,18 @@ class PackageManagerSynchroniserComponent extends PackageManagerComponent
             }
             else
             {
-                $remote_package = new RemotePackage($package);
-                
+            	$remote_package = new RemotePackage($package);
                 if (! $remote_package->create())
                 {
-                    return false;
+                	return false;
                 }
             }
         }
-        
+        $condition = new NotCondition(new OrCondition($conditions));
+        if (! AdminDataManager::get_instance()->delete_remote_packages($condition))
+        {
+        	return false;
+        }        
         return true;
     }
 }

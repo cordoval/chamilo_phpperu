@@ -4,13 +4,13 @@
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../portfolio_manager_component.class.php';
+require_once dirname(__FILE__) . '/../../rights/portfolio_rights.class.php';
 
 /**
  * Component to delete portfolio_publications objects
  * @author Sven Vanpoucke
  */
-class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManagerComponent
+class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManager
 {
 
     /**
@@ -19,7 +19,7 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManagerComp
     function run()
     {
         $ids = $_GET[PortfolioManager :: PARAM_PORTFOLIO_ITEM];
-        $failures = 0;
+        $success = true;
         
         if (! empty($ids))
         {
@@ -30,23 +30,27 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManagerComp
             
             $rdm = RepositoryDataManager :: get_instance();
             
-            foreach ($ids as $id)
+            foreach ($ids as $cid)
             {
-                $item = $rdm->retrieve_complex_content_object_item($id);
+                $item = $rdm->retrieve_complex_content_object_item($cid);
                 $ref = $rdm->retrieve_content_object($item->get_ref());
-                
-                if (! $item->delete())
+                //DELETE COMPLEX CONTENT OBJECT WRAPPER
+                $success &= $item->delete();
+                $types = array();
+                $types[] = PortfolioRights::TYPE_PORTFOLIO_ITEM;
+                $types[] = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
+                //DELETE LOCATION
+                $success &=  PortfolioRights::delete_location($cid, $this->get_user_id(), $types );
+               
+                if ($ref->get_type() == PortfolioItem :: get_type_name())
                 {
-                    $failures ++;
-                }
-                
-                if ($ref->get_type() == 'portfolio_item')
-                {
-                    $ref->delete();
+                    $object_id = $ref->get_reference();
+                    //DELETE PORTFOLIO ITEM WRAPPER
+                    $success &= $ref->delete();
                 }
             }
             
-            if ($failures)
+            if ($success)
             {
                 if (count($ids) == 1)
                 {
@@ -56,6 +60,8 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManagerComp
                 {
                     $message = 'SelectedPortfolioItemsDeleted';
                 }
+                //UPDATE INFORMATION
+                $success = PortfolioManager::update_portfolio_info($object_id, PortfolioRights::TYPE_PORTFOLIO_ITEM, PortfolioInformation::ACTION_DELETED, $item->get_user_id());
             }
             else
             {
@@ -69,7 +75,7 @@ class PortfolioManagerPortfolioItemDeleterComponent extends PortfolioManagerComp
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id()));
+            $this->redirect(Translation :: get($message), ($success ? false : true), array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
         }
         else
         {

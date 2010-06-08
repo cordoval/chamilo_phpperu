@@ -1,32 +1,25 @@
 /*************************************************************/
-/*   Design:   Multiflex-3 Update-7 / Drop-Down Menu         */
-/*-----------------------------------------------------------*/
-/*   Author:   Wolfgang, based on Stu Nichols ingenious      */
-/*             designs over at www.cssplay.co.uk             */
-/*   Date:     January 15, 2007                              */
-/*   Homepage: wwww.1-2-3-4.info                             */
-/*-----------------------------------------------------------*/
-/*   License:  Public domain.                                */
-/*************************************************************/
-
-/*Basic Setup*/
-
-/*Color navigation bar normal mode*/
-#header1 div.applications
-{
+	/*   Design:   Multiflex-3 Update-7 / Drop-Down Menu         */
+	/*-----------------------------------------------------------*/
+	/*   Author:   Wolfgang, based on Stu Nichols ingenious      */
+	/*             designs over at www.cssplay.co.uk             */
+	/*   Date:     January 15, 2007                              */
+	/*   Homepage: wwww.1-2-3-4.info                             */
+	/*-----------------------------------------------------------*/
+	/*   License:  Public domain.                                */
+	/*************************************************************/
+	/*Basic Setup*/ /*Color navigation bar normal mode*/
+#header1 div.applications {
 	display: inline;
 	/*overflow: hidden;*/
-	
 	float: right;
 	margin: 38px 0px 0px 0px;
 	padding: 0px;
 	height: 24px;
-	
 	color: white;
 	text-decoration: none;
 	font-size: 98%;
 	font-weight: bold;
-	
 	background-color: #264269;
 	background-image: url('../images/common/background_header_menu.png');
 	background-repeat: repeat-x;
@@ -36,65 +29,56 @@
 	*/
 }
 
-#header1 ul.bracket_left li, #header1 ul.bracket_right li
-{
+#header1 ul.bracket_left li,#header1 ul.bracket_right li {
 	display: inline-block;
 	height: 24px;
 	width: 4px;
 	padding: 0px;
 	margin: 0px;
-	
 	background-repeat: no-repeat;
 	background-position: center left;
 }
 
-#header1 ul.bracket_left li
-{
+#header1 ul.bracket_left li {
 	margin-right: 9px;
 	background-image: url('../images/common/background_header_left.png');
 }
 
-#header1 ul.bracket_right li
-{
+#header1 ul.bracket_right li {
 	margin-left: 9px;
 	background-image: url('../images/common/background_header_right.png');
 }
 
-#header1 div.applications ul
-{
+#header1 div.applications ul {
 	display: inline;
 	margin: 0px;
 	padding: 0px;
 	list-style-type: none;
 }
 
-#header1 div.applications ul li
-{
+#header1 div.applications ul li {
 	display: inline;
-	float:left;
-	position:relative;
-	z-index:auto !important /*Non-IE6*/;
-	z-index:1000 /*IE6*/;
+	float: left;
+	position: relative;
+	z-index: auto !important /*Non-IE6*/;
+	z-index: 1000 /*IE6*/;
 	white-space: nowrap;
 }
 
-#header1 div.applications ul li.bullet
-{
+#header1 div.applications ul li.bullet {
 	height: 16px;
 	padding: 4px 9px 4px 9px;
 }
 
-#header1 div.applications ul li form
-{
+#header1 div.applications ul li form {
 	float: left;
 	height: 16px;
 	line-height: 16px;
-	text-decoration:none;
+	text-decoration: none;
 }
 
-#header1 div.applications ul li input
-{
-	float:left;
+#header1 div.applications ul li input {
+	float: left;
 	margin: 0;
 	padding: 0;
 	height: 16px;
@@ -104,13 +88,11 @@
 	color: white;
 	background-color: transparent;
 	border: 0px;
-	
 	font-family: arial, verdana, helvetica, sans-serif;
 	font-size: 10px;
 }
 
-#header1 div.applications ul li a
-{
+#header1 div.applications ul li a {
 	float: none !important /*Non-IE6*/;
 	float: left /*IE-6*/;
 	display: block;
@@ -123,33 +105,28 @@
 	color: white;
 }
 
-#header1 div.applications ul li ul
-{
+#header1 div.applications ul li ul {
 	display: none;
 	border: none;
 }
 
 /*Color main cells hovering mode*/
-#header1 div.applications ul li:hover a
-{
+#header1 div.applications ul li:hover a {
 	color: #88a8d4;
 	text-decoration: none;
 }
 
-#header1 div.applications ul li a.current
-{
+#header1 div.applications ul li a.current {
 	color: #88a8d4;
 	text-decoration: none;
 }
 
-#header1 div.applications ul li:hover a.current
-{
+#header1 div.applications ul li:hover a.current {
 	color: #88a8d4;
 	text-decoration: none;
 }
 
-#header1 div.applications ul li:hover ul
-{
+#header1 div.applications ul li:hover ul {
 	display: block;
 	position: absolute;
 	z-index: 999;
@@ -166,14 +143,12 @@
 }
 
 /*Color subcells normal mode*/
-#header1 div.applications ul li:hover ul li img
-{
+#header1 div.applications ul li:hover ul li img {
 	vertical-align: middle;
 	margin: 0px 9px 0px 0px;
 }
 
-#header1 div.applications ul li:hover ul li a
-{
+#header1 div.applications ul li:hover ul li a {
 	display: block;
 	width: 12.0em;
 	height: 16px;
@@ -184,28 +159,24 @@
 }
 
 /*Color subcells hovering mode*/
-#header1 div.applications ul li:hover ul li a:hover
-{
+#header1 div.applications ul li:hover ul li a:hover {
 	background-color: #15243B;
 	text-decoration: none;
 }
 
 /*Color main cells hovering mode*/
-#header1 div.applications ul li a:hover
-{
+#header1 div.applications ul li a:hover {
 	color: #88a8d4;
 	text-decoration: none;
 	outline: none;
 }
 
-#header1 div.applications ul li a:active
-{
+#header1 div.applications ul li a:active {
 	color: #fa8500;
 	outline: none;
 }
 
-#header1 div.applications ul li a:hover ul
-{
+#header1 div.applications ul li a:hover ul {
 	display: block;
 	width: 12.0em;
 	position: absolute;
@@ -217,8 +188,7 @@
 }
 
 /*Color subcells normal mode*/
-#header1 div.applications ul li a:hover ul li a
-{
+#header1 div.applications ul li a:hover ul li a {
 	display: block;
 	w\idth: 12.0em;
 	height: 1px;
@@ -228,7 +198,6 @@
 }
 
 /*Color subcells hovering mode*/
-#header1 div.applications ul li a:hover ul li a:hover
-{
+#header1 div.applications ul li a:hover ul li a:hover {
 	text-decoration: none;
 }

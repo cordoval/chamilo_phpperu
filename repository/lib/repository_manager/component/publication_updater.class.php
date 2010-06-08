@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to update a
  * learning object publication.
  */
-class RepositoryManagerPublicationUpdaterComponent extends RepositoryManagerComponent
+class RepositoryManagerPublicationUpdaterComponent extends RepositoryManager
 {
 
     /**
@@ -20,7 +20,7 @@ class RepositoryManagerPublicationUpdaterComponent extends RepositoryManagerComp
         
         if (! empty($application) && ! empty($publication_id))
         {
-            $pub = $this->get_parent()->get_content_object_publication_attribute($publication_id, $application);
+            $pub = $this->get_content_object_publication_attribute($publication_id, $application);
             $latest_version = $pub->get_publication_object()->get_latest_version_id();
             
             $pub->set_publication_object_id($latest_version);

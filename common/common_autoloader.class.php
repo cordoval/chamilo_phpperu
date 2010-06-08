@@ -83,12 +83,15 @@ class CommonAutoloader
 					  'header' => 'header.class.php',
 					  'footer' => 'footer.class.php',
 					  'text' => 'text.class.php',
+					  'message_logger' => 'message_logger.class.php',
 					  'theme' => 'layout/theme.class.php',
 					  'phpbb2_template_wrapper' => 'layout/phpbb2_template_wrapper.class.php',
 					  'chamilo_template' => 'layout/chamilo_template.class.php',
 					  'toolbar' => 'toolbar/toolbar.class.php',
 					  'toolbar_item' => 'toolbar/toolbar_item.class.php',
 					  'simple_table' => 'table/simple_table.class.php',
+					  'gallery_table' => 'table/gallery_table.class.php',
+					  'gallery_table_from_array' => 'table/gallery_table.class.php',
 					  'sortable_table' => 'table/sortable_table.class.php',
 					  'sortable_table_from_array' => 'table/sortable_table.class.php',
 					  'static_table_column' => 'table/static_table_column.class.php',
@@ -101,6 +104,9 @@ class CommonAutoloader
 					  'object_table_form_action' => 'table/object_table/object_table_form_action.class.php',
 					  'object_table_order' => 'table/object_table/object_table_order.class.php',
 					  'object_table' => 'table/object_table/object_table.class.php',
+					  'gallery_object_table_cell_renderer' => 'table/gallery_object_table/gallery_object_table_cell_renderer.class.php',
+					  'gallery_object_table_data_provider' => 'table/gallery_object_table/gallery_object_table_data_provider.class.php',
+					  'gallery_object_table' => 'table/gallery_object_table/gallery_object_table.class.php',
 					  'drag_and_drop_tree_menu_renderer' => 'menu/drag_and_drop_tree_menu_renderer.class.php',
 					  'options_menu_renderer' => 'menu/options_menu_renderer.class.php',
 					  'tree_menu_renderer' => 'menu/tree_menu_renderer.class.php',
@@ -108,7 +114,11 @@ class CommonAutoloader
 					  'wizard_page_validator' => 'formvalidator/wizard_page_validator.class.php',
 					  'form_validator' => 'formvalidator/form_validator.class.php',
 					  'form_validator_page' => 'formvalidator/form_validator_page.class.php',
+					  'form_validator_tab' => 'formvalidator/form_validator_tab.class.php',
 					  'form_validator_html_editor' => 'formvalidator/form_validator_html_editor.class.php',
+					  'form_validator_html_editor_templates' => 'formvalidator/form_validator_html_editor_templates.class.php',
+		              'form_validator_html_editor_options' => 'formvalidator/form_validator_html_editor_options.class.php',
+					  'html_editor_processor' => 'formvalidator/html_editor/html_editor_file_browser/html_editor_processor/html_editor_processor.class.php',
 					  'action_bar_renderer' => 'action_bar/action_bar_renderer.class.php'
 		);
 
@@ -127,7 +137,7 @@ class CommonAutoloader
 	static function check_for_general_files($classname)
 	{
 		$list = array('application_component', 'application', 'block', 'core_application_component', 'core_application',
-				      'installer', 'redirect', 'resource_manager', 'sub_manager_component', 'sub_manager');
+				      'installer', 'redirect', 'resource_manager', 'sub_manager_component', 'sub_manager', 'launcher_application', 'basic_application');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
@@ -149,11 +159,15 @@ class CommonAutoloader
 					  'object_result_set' => 'database/object_result_set.class.php',
 					  'record_result_set' => 'database/record_result_set.class.php',
 					  'database_alias_generator' => 'database/database_alias_generator.class.php',
+					  'data_manager_interface' => 'database/data_manager_interface.class.php',
 					  'data_class' => 'database/data_class.class.php',
 					  'nested_tree_node' => 'database/nested_tree_node.class.php',
 					  'nested_tree_database' => 'database/nested_tree_database.class.php',
 					  'cookie' => 'session/cookie.class.php',
 					  'request' => 'session/request.class.php',
+					  'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php',
+					  'streaming_media_launcher' => 'launcher/streaming_media/streaming_media_launcher.class.php',
+					  'chamilo_test_suite' => 'test/chamilo_test_suite.class.php'
 		);
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);

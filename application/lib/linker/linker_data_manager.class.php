@@ -9,7 +9,7 @@
  *
  *	@author Sven Vanpoucke
  */
-abstract class LinkerDataManager
+class LinkerDataManager
 {
     /**
      * Instance of this class for the singleton pattern.
@@ -35,27 +35,11 @@ abstract class LinkerDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '.class.php';
+            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_linker_data_manager.class.php';
             $class = $type . 'LinkerDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
     }
-
-    abstract function initialize();
-
-    abstract function create_storage_unit($name, $properties, $indexes);
-
-    abstract function delete_link($link);
-
-    abstract function update_link($link);
-
-    abstract function create_link($link);
-
-    abstract function retrieve_link($id);
-
-    abstract function count_links($conditions = null);
-
-    abstract function retrieve_links($condition = null, $offset = null, $count = null, $order_property = null);
 }
 ?>

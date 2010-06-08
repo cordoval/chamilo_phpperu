@@ -4,7 +4,7 @@
  * @package admin.lib.admin_manager.component
  */
 
-class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponent
+class AdminManagerSystemAnnouncementEditorComponent extends AdminManager
 {
 
     /**
@@ -13,9 +13,9 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
     function run()
     {
         $id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdministration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('SystemAnnouncements')));
         $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $id)), Translation :: get('EditSystemAnnouncementPublication')));
@@ -55,7 +55,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
                 }
                 else
                 {
-                    $this->display_header($trail);
+                    $this->display_header();
                     echo ContentObjectDisplay :: factory($system_announcement_publication->get_publication_object())->get_full_html();
                     $publication_form->display();
                     $this->display_footer();
@@ -64,7 +64,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
             }
             else
             {
-                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }

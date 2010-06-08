@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/location_user_browser/location_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/location_group_browser/location_group_browser_table.class.php';
 
-class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
+class RightsEditorManagerBrowserComponent extends RightsEditorManager
 {
     private $action_bar;
     private $type;
@@ -58,7 +58,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
         else
         {
             $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_condition());
-            $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
+            $html[] = '<div style="float: left; width: 18%; overflow: auto;">';
 
             $group = Request :: get(RightsEditorManager :: PARAM_GROUP);
 
@@ -71,7 +71,8 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
             $html[] = '</div>';
             $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_group.js');
         }
-
+		
+        $html[] = '<div class="clear"></div>';
         $html[] = RightsUtilities :: get_rights_legend();
 
         echo implode("\n", $html);
@@ -137,6 +138,8 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
                 $condition = $parent_condition;
             }
 
+            $conditions = array();
+            
         	if(count($this->get_excluded_groups()) > 0)
         	{
         		foreach($this->get_excluded_groups() as $group)
@@ -151,6 +154,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManagerComponent
         }
         else
         {
+        	$conditions = array();
         	if(count($this->get_excluded_users()) > 0)
         	{
         		foreach($this->get_excluded_users() as $user)

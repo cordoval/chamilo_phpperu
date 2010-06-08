@@ -4,7 +4,7 @@
  * @package home.lib.home_manager.component
  */
 
-class HomeManagerHomeComponent extends HomeManagerComponent
+class HomeManagerHomeComponent extends HomeManager
 {
 
     /**
@@ -12,7 +12,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->truncate();
         
         $output = $this->get_home_html();

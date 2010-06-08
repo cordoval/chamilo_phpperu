@@ -16,7 +16,7 @@ class PlatformSetting
      * Instance of this class for the singleton pattern.
      */
     private static $instance;
-    
+
     /**
      * Parameters defined in the configuration. Stored as an associative array.
      */
@@ -54,12 +54,12 @@ class PlatformSetting
     function get($variable, $application = 'admin')
     {
         $instance = self :: get_instance();
-        
-        $params = $instance->params;
-        
+
+        $params = & $instance->params;
+
         if (isset($params[$application]))
         {
-            $value = $instance->params[$application][$variable];
+            $value = $params[$application][$variable];
             return (isset($value) ? $value : null);
         }
         else

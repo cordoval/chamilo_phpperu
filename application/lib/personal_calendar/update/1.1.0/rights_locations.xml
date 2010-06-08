@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="personal_calendar">
+	<rights>
+		<right 
+			name="test_location" 
+			identifier="102" 
+			tree_identifier="0"
+			type="1" 
+			tree_type="root"
+			parent_identifier="0"
+			parent_tree_identifier="0" 
+			parent_type="root" 
+			parent_tree_type="root"
+			update_type="1" />
+		<right 
+			name="test2_location" 
+			identifier="103" 
+			tree_identifier="0" 
+			type="0" 
+			tree_type="root" 
+			parent_identifier="0"
+			parent_tree_identifier="0" 
+			parent_type="root" 
+			parent_tree_type="root"
+			update_type="1" />
+	</rights>
+</application>

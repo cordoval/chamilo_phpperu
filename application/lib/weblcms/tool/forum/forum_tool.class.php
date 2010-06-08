@@ -13,6 +13,7 @@ class ForumTool extends Tool
     const ACTION_BROWSE_FORUMS = 'browse';
     const ACTION_VIEW_FORUM = 'view';
     const ACTION_PUBLISH_FORUM = 'publish';
+    const ACTION_MANAGE_CATEGORIES = 'manage_forum_categories';
 
     /**
      * Inherited.
@@ -38,6 +39,9 @@ class ForumTool extends Tool
             case self :: ACTION_VIEW_FORUM :
                 $component = ForumToolComponent :: factory('Viewer', $this);
                 break;
+            case self :: ACTION_MANAGE_CATEGORIES:
+            	$component = ForumToolComponent :: factory('CategoryManager', $this);
+                break;
             default :
                 $component = ForumToolComponent :: factory('Browser', $this);
         }
@@ -46,7 +50,7 @@ class ForumTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('forum');
+        return array(Forum :: get_type_name());
     }
 
     static function get_subforum_parents($subforum_id)

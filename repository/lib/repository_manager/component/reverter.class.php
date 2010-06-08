@@ -10,7 +10,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-class RepositoryManagerReverterComponent extends RepositoryManagerComponent
+class RepositoryManagerReverterComponent extends RepositoryManager
 {
 
     /**
@@ -28,11 +28,11 @@ class RepositoryManagerReverterComponent extends RepositoryManagerComponent
             $failures = 0;
             foreach ($ids as $object_id)
             {
-                $object = $this->get_parent()->retrieve_content_object($object_id);
+                $object = $this->retrieve_content_object($object_id);
                 // TODO: Roles & Rights.
                 if ($object->get_owner_id() == $this->get_user_id())
                 {
-                    if ($this->get_parent()->content_object_revert_allowed($object))
+                    if ($this->content_object_revert_allowed($object))
                     {
                         $object->version();
                     }

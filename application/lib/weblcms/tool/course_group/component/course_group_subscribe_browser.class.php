@@ -19,25 +19,25 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
             Display :: not_allowed();
             return;
         }
-        
+
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses group');
-        
+
         $html = array();
         $this->display_header($trail, true);
         $html[] = '<div style="clear: both;">&nbsp;</div>';
-        
+
         $this->action_bar = $this->get_action_bar();
-        
+
         if (Request :: get(WeblcmsManager :: PARAM_USERS))
         {
             $udm = UserDataManager :: get_instance();
             $user = $udm->retrieve_user(Request :: get(WeblcmsManager :: PARAM_USERS));
-            
+
             $course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
         	$wdm = WeblcmsDataManager :: get_instance();
        	 	$course_group = $wdm->retrieve_course_group($course_group_id);
-            
+
             $course_group->subscribe_users($user->get_id());
             $html[] = Display :: normal_message(Translation :: get('UserSubscribed'), true);
         }
@@ -51,14 +51,14 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         //$action_bar->set_search_url($this->get_url());
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('UnSubscribeUsers'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $this->get_url(array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+
         //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+
 
         return $action_bar;
     }
@@ -68,9 +68,9 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
-            $conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
-            $conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
             return new OrCondition($conditions);
         }
     }

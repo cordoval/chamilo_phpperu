@@ -2,6 +2,7 @@
 {
 	var handle_drop = function(ev, ui) 
 	{ 
+		alert('yuw');
 	       //$(this).empty();
 		var target = $(this).attr("id");
 		var source = $(ui.draggable).attr("id");
@@ -15,7 +16,7 @@
 			source : source
 		},  function(data) 
 			{
-	    		//alert(data);
+	    		alert(data);
 	    		$("#" + target + " > * > .description").empty();
 	    		$("#" + target + " > * > .description").append(data);
 	    		$(".tooldrag").css('display', 'inline');
@@ -50,39 +51,37 @@
 		// Determine tool text class
 		var tool_text = $("#tool_text", parent);
 		
-		// List old variables
-		var old_img = imgtag.attr('src');
-		var old_class = tool_text.attr('class');
-		var old_tool_img = tool_img.attr('src');
-		
-		// Changes icons and classes
-		imgtag.attr('src', new_img);
-   		if(new_visible == 0)
-   		{
-   			tool_text.addClass('invisible');
-   			var new_src = src.replace('.png', '_na.png');
-   		}
-   		else
-   		{
-   			tool_text.removeClass('invisible');
-   			var new_src = src.replace('_na.png', '.png');
-   		}
-   		
-   		tool_img.attr('src', new_src);
-		
 		$.post("./application/lib/weblcms/ajax/change_course_module_visibility.php", 
 	    {
 	    	tool:  tool,
 	    	visible: new_visible
 	    },	function(data)
 	    	{
-	    		if(data.length > 0)
+	    		if(data.length == 0)
 	    		{
-	    			// On error : set the old icons and classes again
+	    			// If succeeded : change the icons and classes
 	    			//alert(data);
-	    			imgtag.attr('src', old_img);
-	    			tool_text.attr('class', old_class);
-	    			tool_img.attr('src', old_tool_img);
+	    			// Changes icons and classes
+	    			imgtag.attr('src', new_img);
+	    	   		if(new_visible == 0)
+	    	   		{
+	    	   			tool_text.addClass('invisible');
+	    	   			var new_src = src.replace('.png', '_na.png');
+	    	   			var new_parent = $('div.description', $('div.disabledblock'));
+	    	   		}
+	    	   		else
+	    	   		{
+	    	   			tool_text.removeClass('invisible');
+	    	   			var new_src = src.replace('_na.png', '.png');
+	    	   			var new_parent = $('div.description', $('div.toolblock:first'));
+	    	   		}
+	    	   		
+	    	   		var clear_div = new_parent.children(".clear")[0];
+	    	   		new_parent.children(".clear")[0].remove;
+	    	   		new_parent.append(parent);
+	    	   		new_parent.append(clear_div);
+	    	   		
+	    	   		tool_img.attr('src', new_src);
 	    		}
 	    	}
 	    );
@@ -98,16 +97,22 @@
 		ui.helper.css("border", "0px solid #c0c0c0");
 	}
 	
-	function toolsSortableUpdate(e, ui) {
+	function toolsSortableUpdate(e, ui) 
+	{
 		var section = $(this).attr("id");
 		var order = $(this).sortable("serialize");
 
-		$.post("./application/lib/weblcms/ajax/block_sort.php", {
-			column : column,
+		$.post("./application/lib/weblcms/ajax/block_sort.php", 
+		{
+			section : section,
 			order : order
-		}// ,
-				// function(data){alert("Data Loaded: " + data);}
-				);
+		} , function(data)
+			{
+				
+			}
+		);
+		
+
 	}
 	
 	function toolsSortable() {
@@ -124,10 +129,10 @@
 			scroll : false,
 			start : toolsSortableStart,
 			beforeStop : toolSortableBeforeStop,
-			//update : toolSortableUpdate
+			update : toolsSortableUpdate
 		});
 	}
-
+	
 	$(document).ready( function() 
 	{
 		toolsSortable();
@@ -135,6 +140,7 @@
 		$(".tool_visible").bind('click', handle_visible_clicked);
 		
 		$(".tooldrag").css('display', 'inline');
+
 	});
 	
 })(jQuery);

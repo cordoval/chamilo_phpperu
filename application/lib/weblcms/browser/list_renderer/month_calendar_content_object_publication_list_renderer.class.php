@@ -75,7 +75,7 @@ class MonthCalendarContentObjectPublicationListRenderer extends ContentObjectPub
     {
         static $color_cache;
         $event = $publication->get_content_object();
-        $event_url = $this->get_url(array('pid' => $publication->get_id()), array(), true);
+        $event_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
         $start_date = $event->get_start_date();
         $end_date = $event->get_end_date();
         if (! isset($color_cache[$event->get_id()]))

@@ -4,7 +4,7 @@
  * @package rights.lib.rights_manager.component
  */
 
-class RightsManagerRightRequesterComponent extends RightsManagerComponent
+class RightsManagerRightRequesterComponent extends RightsManager
 {
     const USER_CURRENT_RIGHTS_TEMPLATES = 'USER_CURRENT_RIGHTS_TEMPLATES';
     const USER_CURRENT_GROUPS = 'USER_CURRENT_GROUPS';
@@ -21,7 +21,7 @@ class RightsManagerRightRequesterComponent extends RightsManagerComponent
         
         if (isset($user))
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();;
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_REQUEST_RIGHT)), Translation :: get('RightRequest')));
             
             $parameters = array();
@@ -38,7 +38,7 @@ class RightsManagerRightRequesterComponent extends RightsManagerComponent
             
             if ($form->validate())
             {
-                $this->display_header($trail);
+                $this->display_header();
                 
                 $data = $form->getSubmitValues();
                 
@@ -78,7 +78,7 @@ class RightsManagerRightRequesterComponent extends RightsManagerComponent
     	         * - get user's current rights_templates and groups (to display them to the user) 
     	         */
                 
-                $this->display_header($trail);
+                $this->display_header();
                 
                 $rights_templates = array();
                 $groups = array();

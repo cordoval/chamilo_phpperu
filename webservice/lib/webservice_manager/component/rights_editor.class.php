@@ -8,7 +8,7 @@
  * Repository manager component to edit the rights for the learning objects in
  * the repository.
  */
-class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
+class WebserviceManagerRightsEditorComponent extends WebserviceManager
 {
     private $location;
     private $webserviceID;
@@ -225,7 +225,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 
     function show_rights_list()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => WebserviceManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Webservice')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)), Translation :: get('Webservices')));
@@ -233,7 +233,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES, WebserviceManager :: PARAM_WEBSERVICE_ID => Request :: get(WebserviceManager :: PARAM_WEBSERVICE_ID))), $this->message));
         $trail->add_help('webservice general');
         
-        $this->display_header($trail);
+        $this->display_header();
         echo $this->submessage . '<br/><br/>';
         echo $this->get_modification_links();
         echo $this->get_rights_table_html();

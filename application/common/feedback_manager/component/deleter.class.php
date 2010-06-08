@@ -9,48 +9,56 @@
  *
  * @author pieter
  */
-class FeedbackManagerDeleterComponent extends FeedbackManagerComponent
+class FeedbackManagerDeleterComponent extends FeedbackManager
 {
 
     function run()
     {
-        echo $this->as_html();
+        $html = $this->as_html();
+        
+    	$this->display_header();
+    	echo $html;
+    	$this->display_footer();
     }
 
     function as_html()
     {
-        //fouten opvang en id dynamisch ophalen
-        //$id = Request :: get(FeedbackPublication :: PROPERTY_ID);
-        
-
-        $pid = Request :: get('pid');
-        $cid = Request :: get('cid');
-        
-        $id = Request :: get('deleteitem');
+        $ids = Request :: get(FeedbackManager :: PARAM_FEEDBACK_ID);
         
         if (! $this->get_user())
         {
-            $this->display_header($this->get_breadcrumb_trail());
             Display :: error_message(Translation :: get("NotAllowed"));
-            $this->display_footer();
             exit();
         }
         
-        $FeedbackPublication = $this->retrieve_feedback_publication($id);
+        $failures = 0;
         
-        if ($FeedbackPublication->delete())
+        if(isset($ids))
         {
-            
-            $message = 'FeedbackDeleted';
-            $succes = true;
+	        if(!is_array($ids))
+	        {
+	        	$ids = array($ids);
+	        }
+	        
+	        foreach($ids as $id)
+	        {
+	        	$FeedbackPublication = $this->retrieve_feedback_publication($id);
+	        
+		        if (!$FeedbackPublication->delete())
+		        {
+		        	$failures++;
+		        }
+	        }
+	       
+	        $message = $this->get_result($failures, count($ids), 'FeedbackPublicationNotDeleted', 'FeedbackPublicationsNotDeleted', 'FeedbackPublicationDeleted', 'FeedbackPublicationsDeleted');
+	        
+	        $this->redirect($message, ($failures > 0) ? true : false, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_BROWSE_FEEDBACK));
         }
-        
         else
         {
-            $message = 'FeedbackNotDeleted';
-            $succes = false;
+        	Display :: error_message(Translation :: get("NoObjectSelected"));
+            exit();
         }
-        $this->redirect(Translation :: get($message), $succes ? false : true, array('pid' => $pid, 'cid' => $cid));
     }
 }
 ?>

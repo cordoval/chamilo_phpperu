@@ -31,7 +31,7 @@ class CourseGroup extends NestedTreeNode
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(
-        		array(self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, 
+        		array(self :: PROPERTY_ID, self :: PROPERTY_COURSE_CODE, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION,
         		self :: PROPERTY_MAX_NUMBER_OF_MEMBERS, self :: PROPERTY_SELF_REG, self :: PROPERTY_SELF_UNREG));
     }
 
@@ -222,11 +222,11 @@ class CourseGroup extends NestedTreeNode
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
-	function get_data_manager() 
+	function get_data_manager()
 	{
 		return WeblcmsDataManager :: get_instance();
 	}
-	
+
 	function create()
 	{
 		if(!$this->get_parent_id())
@@ -237,8 +237,36 @@ class CourseGroup extends NestedTreeNode
 				$this->set_parent_id($root_group->get_id());
 			}
 		}
-		
+
 		return parent :: create();
+	}
+	
+	function update()
+	{
+		if($this->check_before_save())
+		{
+			return parent :: update();
+		}
+		
+		return false;
+	}
+	
+	function check_before_save()
+	{
+		$children = WeblcmsDataManager :: get_instance()->count_course_group_users($this);
+
+		if($children > $this->get_max_number_of_members())
+		{
+			$this->add_error(Translation :: get('MaximumMembersToSmall'));
+			return false;
+		}
+		
+		return true;
+	}
+
+	function get_nested_tree_node_condition()
+	{
+	    return new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $this->get_course_code());
 	}
 
 }

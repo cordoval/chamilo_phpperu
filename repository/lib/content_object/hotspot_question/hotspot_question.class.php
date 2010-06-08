@@ -12,6 +12,13 @@ class HotspotQuestion extends ContentObject
     const PROPERTY_ANSWERS = 'answers';
     const PROPERTY_IMAGE = 'image';
 
+	const CLASS_NAME = __CLASS__;
+
+	static function get_type_name() 
+	{
+		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+    
     public function supports_attachments()
     {
     	return false;

@@ -14,29 +14,24 @@ class ComplexBuilderViewerComponent extends ComplexBuilderComponent
      */
     function run()
     {
-        $id = Request :: get(ComplexBuilder :: PARAM_SELECTED_CLOI_ID);
-        
-        if($id)
-        {
-        	$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($id);
-        	$lo = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_ref());
-        	
-        	$trail = new BreadcrumbTrail(false);
-        	$menu_trail = $this->get_clo_breadcrumbs();
-        	$trail->merge($menu_trail);
-        	$parameters = array(ComplexBuilder :: PARAM_ROOT_LO => Request :: get(ComplexBuilder :: PARAM_ROOT_LO), 
-        					    ComplexBuilder :: PARAM_CLOI_ID => Request :: get(ComplexBuilder :: PARAM_CLOI_ID),
-        					    ComplexBuilder :: PARAM_SELECTED_CLOI_ID => $id, 
-        						'publish' => Request :: get('publish'));
+        $id = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
 
-        	$trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('View') . ' ' . $lo->get_title()));
-        	
-        	$this->display_header($trail);
-        	
-        	$display = ContentObjectDisplay :: factory($lo);
-        	echo $display->get_full_html();
-        	
-        	$this->display_footer();
+        if ($id)
+        {
+            $complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($id);
+            $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object_item->get_ref());
+
+            $trail = BreadcrumbTrail :: get_instance();
+            $this->get_complex_content_object_breadcrumbs();
+            $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_parent()->get_complex_content_object_item_id(), ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $id);
+            $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('View') . ' ' . $content_object->get_title()));
+
+            $this->display_header($trail);
+
+            $display = ContentObjectDisplay :: factory($content_object);
+            echo $display->get_full_html();
+
+            $this->display_footer();
         }
         else
         {

@@ -1,7 +1,7 @@
 /*****************************************************
  *  DATA TABLE STYLES                                *
  *****************************************************/
-.data_table {
+.data_table,div.table {
 	width: 100%;
 	padding: 0;
 	margin: 0;
@@ -11,7 +11,11 @@
 	border-spacing: 0px;
 }
 
-.data_table th {
+.data_table_no_header {
+	border-top: 0px solid #b5cae7;
+}
+
+.data_table th,div.header {
 	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #4171b5;
 	border-top: 1px solid white;
@@ -25,19 +29,34 @@
 		repeat-x;
 }
 
-.data_table tr.row_even {
+.data_table td.header {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #4171b5;
+	border-right: 1px solid #b5cae7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: right;
+	padding: 6px 10px 6px 10px;
+	vertical-align: top;
+	width: 10%;
+	background: #d4e0f1 url(../images/common/background_table_header.png)
+		repeat-x;
+}
+
+.data_table tr.row_even,div.row_even {
 	background: #fff;
 }
 
-.data_table tr.row_even:hover,.data_table tr.row_odd:hover {
+.data_table tr.row_even:hover,.data_table tr.row_odd:hover,div.row_even:hover,div.row_odd:hover
+	{
 	background-color: #f0f0f0;
 }
 
-.data_table tr.row_odd {
+.data_table tr.row_odd,div.row_odd {
 	background-color: #eef5fa;
 }
 
-.data_table td {
+.data_table td,div.cell {
 	border-right: 1px solid #b5cae7;
 	border-top: 1px solid #b5cae7;
 	padding: 6px 10px 6px 10px;
@@ -75,6 +94,70 @@
 	background: #f4f8fc url(images/bullet2.gif) no-repeat;
 	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #797268;
+}
+/*****************************************************
+ *  GALLERY TABLE STYLES                            *
+ *****************************************************/
+	
+.gallery_table{
+  	width: 100%;
+	padding: 0;
+	margin: 0;
+	border-left: 1px solid #b5cae7;
+	border-bottom: 1px solid #b5cae7;
+	border-spacing: 0px;
+}
+
+.gallery_table th{
+	padding-right: 0px;
+  	border: 1px  solid gray;
+  	background-color: #f4eaeb;
+  	text-align: center;
+}
+
+.gallery_table tr.row_odd{
+  	background-color: #fafafa;
+  }
+.gallery_table tr.row_odd:hover, .gallery_table tr.row_even:hover{
+  	background-color: #f0f0f0;
+}
+.gallery_table tr.row_even{
+  	background-color: #fff;
+}
+
+.gallery_table td{
+	border-right: 1px solid #b5cae7;
+	border-top: 1px solid #b5cae7;
+	padding: 6px 10px 6px 10px;
+	color: #797268;
+	text-align: center;
+	vertical-align: top;
+}
+
+.gallery_table tr.row_even td.col_odd{
+  	background-color: #fafafa;
+  }
+.gallery_table tr.row_even td.col_odd:hover, .gallery_table tr.row_even td.col_even:hover{
+  	background-color: #f0f0f0;
+}
+.gallery_table tr.row_even td.col_even{
+  	background-color: #fff;
+}
+
+.gallery_table tr.row_odd td.col_even{
+  	background-color: #fafafa;
+  }
+.gallery_table tr.row_odd td.col_even:hover, .gallery_table tr.row_odd td.col_odd:hover{
+  	background-color: #f0f0f0;
+}
+.gallery_table tr.row_odd td.col_odd{
+  	background-color: #fff;
+}
+
+.gallery_table td img.thumbnail
+{
+	border: 1px solid #000000;
+	margin: 0.25em;
 }
 
 /*****************************************************

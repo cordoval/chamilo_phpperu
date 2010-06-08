@@ -23,7 +23,8 @@ class PersonalCalendarWeekRenderer extends PersonalCalendarRenderer
         $html = array();
         
         $start_time = $calendar->get_start_time();
-        $end_time = $calendar->get_end_time();
+        $end_time = $to_date;//$calendar->get_end_time();  //The end date of a WeekCalender is dependent of the system settings, this can be saturday. In this case the algorithm skips sundays.
+        
         $table_date = $start_time;
         
         while ($table_date <= $end_time)

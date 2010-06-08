@@ -5,17 +5,16 @@
  */
 require_once dirname(__FILE__) . '/../reservations_data_manager.class.php';
 require_once dirname(__FILE__) . '/../reservations_rights.class.php';
-require_once dirname(__FILE__) . '/reservations_manager_component.class.php';
 
 class ReservationsManager extends WebApplication
 {
-    
+
     const APPLICATION_NAME = 'reservations';
-    
+
     const PARAM_ACTION = 'go';
     const PARAM_MESSAGE = 'message';
     const PARAM_ERROR_MESSAGE = 'error_message';
-    
+
     const PARAM_CATEGORY_ID = 'category_id';
     const PARAM_ITEM_ID = 'item_id';
     const PARAM_RESERVATION_ID = 'reservation_id';
@@ -26,7 +25,7 @@ class ReservationsManager extends WebApplication
     const PARAM_REF_QUOTA_ID = 'ref_quota_id';
     const PARAM_REF_QUOTA_GROUP = 'ref_quota_group';
     const PARAM_BLACKOUT = 'blackout';
-    
+
     const PARAM_REMOVE_SELECTED_ITEMS = 'remove_selected_items';
     const PARAM_REMOVE_SELECTED_CATEGORIES = 'remove_selected_categories';
     const PARAM_REMOVE_SELECTED_RESERVATIONS = 'remove_selected_reservations';
@@ -36,7 +35,7 @@ class ReservationsManager extends WebApplication
     const PARAM_REMOVE_SELECTED_CATEGORY_QUOTA_BOXES = 'remove_selected_category_boxes';
     const PARAM_REMOVE_SELECTED_QUOTA_BOXES = 'remove_selected_quota_boxes';
     const PARAM_DIRECTION = 'direction';
-    
+
     const ACTION_BROWSE_CATEGORIES = 'browse_categories';
     const ACTION_ADMIN_BROWSE_CATEGORIES = 'admin_browse_categories';
     const ACTION_CREATE_CATEGORY = 'create_category';
@@ -46,19 +45,19 @@ class ReservationsManager extends WebApplication
     const ACTION_BLACKOUT_CATEGORY = 'blackout_category';
     const ACTION_CREDIT_CATEGORY = 'credit_category';
     const ACTION_SEARCH_POOL = 'search_pool';
-    
+
     const ACTION_BROWSE_ITEMS = 'browse_items';
     const ACTION_ADMIN_BROWSE_ITEMS = 'admin_browse_items';
     const ACTION_CREATE_ITEM = 'create_item';
     const ACTION_UPDATE_ITEM = 'update_item';
     const ACTION_DELETE_ITEM = 'delete_item';
-    
+
     const ACTION_BROWSE_RESERVATIONS = 'browse_reservations';
     const ACTION_ADMIN_BROWSE_RESERVATIONS = 'admin_browse_reservations';
     const ACTION_CREATE_RESERVATION = 'create_reservation';
     const ACTION_UPDATE_RESERVATION = 'update_reservation';
     const ACTION_DELETE_RESERVATION = 'delete_reservation';
-    
+
     const ACTION_BROWSE_SUBSCRIPTIONS = 'browse_subscriptions';
     const ACTION_ADMIN_BROWSE_SUBSCRIPTIONS = 'admin_browse_subscriptions';
     const ACTION_CREATE_SUBSCRIPTION = 'create_subscription';
@@ -66,27 +65,27 @@ class ReservationsManager extends WebApplication
     const ACTION_APPROVE_SUBSCRIPTION = 'approve_subscription';
     const ACTION_BROWSE_SUBSCRIPTION_USERS = 'browse_subscription_users';
     const ACTION_UPDATE_SUBSCRIPTION_USER = 'update_subscription_user';
-    
+
     const ACTION_BROWSE_QUOTAS = 'browse_quotas';
     const ACTION_CREATE_QUOTA = 'create_quota';
     const ACTION_UPDATE_QUOTA = 'update_quota';
     const ACTION_DELETE_QUOTA = 'delete_quota';
-    
+
     const ACTION_BROWSE_QUOTA_BOXES = 'browse_quota_boxes';
     const ACTION_CREATE_QUOTA_BOX = 'create_quota_box';
     const ACTION_UPDATE_QUOTA_BOX = 'update_quota_box';
     const ACTION_DELETE_QUOTA_BOX = 'delete_quota_box';
-    
+
     const ACTION_BROWSE_CATEGORY_QUOTA_BOXES = 'browse_category_boxes';
     const ACTION_CREATE_CATEGORY_QUOTA_BOX = 'create_category_box';
     const ACTION_UPDATE_CATEGORY_QUOTA_BOX = 'update_category_box';
     const ACTION_DELETE_CATEGORY_QUOTA_BOX = 'delete_category_box';
-    
+
     const ACTION_OVERVIEW = 'overview';
     const ACTION_MANAGE_OVERVIEW = 'manage_overview';
-    
+
     const ACTION_EDIT_RIGHTS = 'edit_rights';
-    
+
     private $parameters;
     private $search_parameters;
     private $search_form;
@@ -106,137 +105,137 @@ class ReservationsManager extends WebApplication
      */
     function run()
     {
-        
+
         $action = $this->get_action();
         $component = null;
         switch ($action)
         {
             case self :: ACTION_ADMIN_BROWSE_CATEGORIES :
-                $component = ReservationsManagerComponent :: factory('AdminCategoryBrowser', $this);
+                $component = $this->create_component('AdminCategoryBrowser');
                 break;
             case self :: ACTION_ADMIN_BROWSE_ITEMS :
-                $component = ReservationsManagerComponent :: factory('AdminItemBrowser', $this);
+                $component = $this->create_component('AdminItemBrowser');
                 break;
             case self :: ACTION_ADMIN_BROWSE_RESERVATIONS :
-                $component = ReservationsManagerComponent :: factory('AdminReservationBrowser', $this);
+                $component = $this->create_component('AdminReservationBrowser');
                 break;
             case self :: ACTION_ADMIN_BROWSE_SUBSCRIPTIONS :
-                $component = ReservationsManagerComponent :: factory('AdminSubscriptionBrowser', $this);
+                $component = $this->create_component('AdminSubscriptionBrowser');
                 break;
             case self :: ACTION_BROWSE_CATEGORIES :
-                $component = ReservationsManagerComponent :: factory('CategoryBrowser', $this);
+                $component = $this->create_component('CategoryBrowser');
                 break;
             case self :: ACTION_CREATE_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryCreator', $this);
+                $component = $this->create_component('CategoryCreator');
                 break;
             case self :: ACTION_UPDATE_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryUpdater', $this);
+                $component = $this->create_component('CategoryUpdater');
                 break;
             case self :: ACTION_DELETE_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryDeleter', $this);
+                $component = $this->create_component('CategoryDeleter');
                 break;
             case self :: ACTION_MOVE_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryMover', $this);
+                $component = $this->create_component('CategoryMover');
                 break;
             case self :: ACTION_BLACKOUT_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryBlackout', $this);
+                $component = $this->create_component('CategoryBlackout');
                 break;
             case self :: ACTION_CREDIT_CATEGORY :
-                $component = ReservationsManagerComponent :: factory('CategoryCredit', $this);
+                $component = $this->create_component('CategoryCredit');
                 break;
             case self :: ACTION_BROWSE_ITEMS :
-                $component = ReservationsManagerComponent :: factory('ItemBrowser', $this);
+                $component = $this->create_component('ItemBrowser');
                 break;
             case self :: ACTION_CREATE_ITEM :
-                $component = ReservationsManagerComponent :: factory('ItemCreator', $this);
+                $component = $this->create_component('ItemCreator');
                 break;
             case self :: ACTION_UPDATE_ITEM :
-                $component = ReservationsManagerComponent :: factory('ItemUpdater', $this);
+                $component = $this->create_component('ItemUpdater');
                 break;
             case self :: ACTION_DELETE_ITEM :
-                $component = ReservationsManagerComponent :: factory('ItemDeleter', $this);
+                $component = $this->create_component('ItemDeleter');
                 break;
             case self :: ACTION_BROWSE_RESERVATIONS :
-                $component = ReservationsManagerComponent :: factory('ReservationBrowser', $this);
+                $component = $this->create_component('ReservationBrowser');
                 break;
             case self :: ACTION_CREATE_RESERVATION :
-                $component = ReservationsManagerComponent :: factory('ReservationCreator', $this);
+                $component = $this->create_component('ReservationCreator');
                 break;
             case self :: ACTION_UPDATE_RESERVATION :
-                $component = ReservationsManagerComponent :: factory('ReservationUpdater', $this);
+                $component = $this->create_component('ReservationUpdater');
                 break;
             case self :: ACTION_DELETE_RESERVATION :
-                $component = ReservationsManagerComponent :: factory('ReservationDeleter', $this);
+                $component = $this->create_component('ReservationDeleter');
                 break;
             case self :: ACTION_BROWSE_SUBSCRIPTIONS :
-                $component = ReservationsManagerComponent :: factory('SubscriptionBrowser', $this);
+                $component = $this->create_component('SubscriptionBrowser');
                 break;
             case self :: ACTION_CREATE_SUBSCRIPTION :
-                $component = ReservationsManagerComponent :: factory('SubscriptionCreator', $this);
+                $component = $this->create_component('SubscriptionCreator');
                 break;
             case self :: ACTION_DELETE_SUBSCRIPTION :
-                $component = ReservationsManagerComponent :: factory('SubscriptionDeleter', $this);
+                $component = $this->create_component('SubscriptionDeleter');
                 break;
             case self :: ACTION_APPROVE_SUBSCRIPTION :
-                $component = ReservationsManagerComponent :: factory('SubscriptionApprover', $this);
+                $component = $this->create_component('SubscriptionApprover');
                 break;
             case self :: ACTION_BROWSE_SUBSCRIPTION_USERS :
-                $component = ReservationsManagerComponent :: factory('SubscriptionUserBrowser', $this);
+                $component = $this->create_component('SubscriptionUserBrowser');
                 break;
             case self :: ACTION_UPDATE_SUBSCRIPTION_USER :
-                $component = ReservationsManagerComponent :: factory('SubscriptionUserUpdater', $this);
+                $component = $this->create_component('SubscriptionUserUpdater');
                 break;
             case self :: ACTION_BROWSE_QUOTAS :
-                $component = ReservationsManagerComponent :: factory('QuotaBrowser', $this);
+                $component = $this->create_component('QuotaBrowser');
                 break;
             case self :: ACTION_CREATE_QUOTA :
-                $component = ReservationsManagerComponent :: factory('QuotaCreator', $this);
+                $component = $this->create_component('QuotaCreator');
                 break;
             case self :: ACTION_UPDATE_QUOTA :
-                $component = ReservationsManagerComponent :: factory('QuotaUpdater', $this);
+                $component = $this->create_component('QuotaUpdater');
                 break;
             case self :: ACTION_DELETE_QUOTA :
-                $component = ReservationsManagerComponent :: factory('QuotaDeleter', $this);
+                $component = $this->create_component('QuotaDeleter');
                 break;
             case self :: ACTION_SEARCH_POOL :
-                $component = ReservationsManagerComponent :: factory('PoolSearcher', $this);
+                $component = $this->create_component('PoolSearcher');
                 break;
             case self :: ACTION_EDIT_RIGHTS :
-                $component = ReservationsManagerComponent :: factory('RightsEditor', $this);
+                $component = $this->create_component('RightsEditor');
                 break;
             case self :: ACTION_BROWSE_QUOTA_BOXES :
-                $component = ReservationsManagerComponent :: factory('QuotaBoxBrowser', $this);
+                $component = $this->create_component('QuotaBoxBrowser');
                 break;
             case self :: ACTION_CREATE_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('QuotaBoxCreator', $this);
+                $component = $this->create_component('QuotaBoxCreator');
                 break;
             case self :: ACTION_UPDATE_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('QuotaBoxUpdater', $this);
+                $component = $this->create_component('QuotaBoxUpdater');
                 break;
             case self :: ACTION_DELETE_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('QuotaBoxDeleter', $this);
+                $component = $this->create_component('QuotaBoxDeleter');
                 break;
             case self :: ACTION_BROWSE_CATEGORY_QUOTA_BOXES :
-                $component = ReservationsManagerComponent :: factory('CategoryQuotaBoxBrowser', $this);
+                $component = $this->create_component('CategoryQuotaBoxBrowser');
                 break;
             case self :: ACTION_CREATE_CATEGORY_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('CategoryQuotaBoxCreator', $this);
+                $component = $this->create_component('CategoryQuotaBoxCreator');
                 break;
             case self :: ACTION_UPDATE_CATEGORY_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('CategoryQuotaBoxUpdater', $this);
+                $component = $this->create_component('CategoryQuotaBoxUpdater');
                 break;
             case self :: ACTION_DELETE_CATEGORY_QUOTA_BOX :
-                $component = ReservationsManagerComponent :: factory('CategoryQuotaBoxDeleter', $this);
+                $component = $this->create_component('CategoryQuotaBoxDeleter');
                 break;
             case self :: ACTION_OVERVIEW :
-                $component = ReservationsManagerComponent :: factory('OverviewBrowser', $this);
+                $component = $this->create_component('OverviewBrowser');
                 break;
             case self :: ACTION_MANAGE_OVERVIEW :
-                $component = ReservationsManagerComponent :: factory('ManageOverview', $this);
+                $component = $this->create_component('ManageOverview');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_ITEMS);
-                $component = ReservationsManagerComponent :: factory('ItemBrowser', $this);
+                $component = $this->create_component('ItemBrowser');
         }
         $component->run();
     }
@@ -257,25 +256,25 @@ class ReservationsManager extends WebApplication
     function display_menu()
     {
         $html = array();
-        
+
         $html[] = '<div id="tool_bar" class="tool_bar tool_bar_left">';
-        
+
         $html[] = '<div id="tool_bar_hide_container" class="hide">';
         $html[] = '<a id="tool_bar_hide" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_left_hide.png" /></a>';
         $html[] = '<a id="tool_bar_show" href="#"><img src="' . Theme :: get_common_image_path() . 'action_action_bar_left_show.png" /></a>';
         $html[] = '</div>';
-        
+
         $html[] = '<div class="tool_menu">';
         $html[] = '<ul>';
-        
+
         $html[] = '<li class="tool_list_menu title">' . Translation :: get('Use') . '</li>';
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a href="' . $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS)) . '">' . Translation :: get('MyReservations') . '</a></li>';
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_statistics.png)"><a href="' . $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_OVERVIEW)) . '">' . Translation :: get('Statistics') . '</a></li>';
-        
+
         $html[] = '<div class="splitter"></div>';
-        
+
         $html[] = '<li class="tool_list_menu title" style="font-weight: bold">' . Translation :: get('Manage') . '</li>';
-        
+
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_item.png)"><a href="' . $this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)) . '">' . Translation :: get('ManageItems') . '</a></li>';
         if ($this->has_right('root', 0, ReservationsRights :: MANAGE_CATEGORIES_RIGHT))
         {
@@ -285,11 +284,11 @@ class ReservationsManager extends WebApplication
         }
         $html[] = '</ul>';
         $html[] = '</div>';
-        
+
         $html[] = '</div>';
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
         $html[] = '<div class="clear"></div>';
-        
+
         return implode($html, "\n");
     }
 
@@ -301,7 +300,7 @@ class ReservationsManager extends WebApplication
 
     function has_enough_credits_for($item, $start_date, $stop_date, $user_id)
     {
-        return $this->dm->has_enough_credits_for($item, $start_date, $stop_date, $user_id);
+        return ReservationsDataManager :: has_enough_credits_for($item, $start_date, $stop_date, $user_id);
     }
 
     /**
@@ -315,7 +314,7 @@ class ReservationsManager extends WebApplication
         $links[] = array('name' => Translation :: get('Items'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_ITEMS)));
         $links[] = array('name' => Translation :: get('Quotas'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTAS)));
         $links[] = array('name' => Translation :: get('QuotaBoxes'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTA_BOXES)));
-        
+
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
         return $info;
@@ -329,7 +328,7 @@ class ReservationsManager extends WebApplication
         if (isset($_POST['action']))
         {
             $selected_ids = $_POST['reservations_table' . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            
+
             if (empty($selected_ids))
             {
                 $selected_ids = array();

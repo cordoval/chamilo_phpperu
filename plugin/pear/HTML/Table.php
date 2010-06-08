@@ -808,6 +808,48 @@ class HTML_Table extends HTML_Common {
             }
         }
     }
+    
+	/**
+     * Alternates the col attributes starting at $start
+     * @param   int     $start            Col index of col in which alternating
+     *                                    begins
+     * @param   mixed   $attributes1      Associative array or string of table
+     *                                    col attributes
+     * @param   mixed   $attributes2      Associative array or string of table
+     *                                    col attributes
+     * @param   bool    $inTR             false if attributes are to be applied
+     *                                    in TD tags; true if attributes are to
+     *                                    be applied in TR tag
+     * @param   int     $firstAttributes  (optional) Which attributes should be
+     *                                    applied to the first col, 1 or 2.
+     * @param   int     $body             (optional) The index of the body to set.
+     *                                    Pass null to set for all bodies.
+     * @access  public
+     * @throws  PEAR_Error
+     */
+    function altColAttributes($start, $attributes1, $attributes2, $inTR = false,
+        $firstAttributes = 1, $body = null)
+    {
+        if (!is_null($body)) {
+            $ret = $this->_adjustTbodyCount($body, 'altColAttributes');
+            if (PEAR::isError($ret)) {
+                return $ret;
+            }
+            $this->_tbodies[$body]->altColAttributes($start, $attributes1,
+                $attributes2, $inTR, $firstAttributes);
+        } else {
+            for ($i = 0; $i < $this->_tbodyCount; $i++) {
+                $this->_tbodies[$i]->altColAttributes($start, $attributes1,
+                    $attributes2, $inTR, $firstAttributes);
+                // if the tbody's row count is odd, toggle $firstAttributes to
+                // prevent the next tbody's first row from having the same
+                // attributes as this tbody's last row.
+                if ($this->_tbodies[$i]->getColCount() % 2) {
+                    $firstAttributes ^= 3;
+                }
+            }
+        }
+    }
 
     /**
      * Adds a table column and returns the column identifier

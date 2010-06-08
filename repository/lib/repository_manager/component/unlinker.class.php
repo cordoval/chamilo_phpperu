@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to delete a
  * learning object publication from the publication overview.
  */
-class RepositoryManagerUnlinkerComponent extends RepositoryManagerComponent
+class RepositoryManagerUnlinkerComponent extends RepositoryManager
 {
 
     /**
@@ -20,7 +20,7 @@ class RepositoryManagerUnlinkerComponent extends RepositoryManagerComponent
         {
             $failures = 0;
             
-            $object = $this->get_parent()->retrieve_content_object($id);
+            $object = $this->retrieve_content_object($id);
             // TODO: Roles & Rights.
             if ($object->get_owner_id() == $this->get_user_id())
             {
@@ -57,7 +57,7 @@ class RepositoryManagerUnlinkerComponent extends RepositoryManagerComponent
             {
                 $message = 'SelectedObjectUnlinked';
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id));
         }
         else
         {

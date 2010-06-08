@@ -5,31 +5,31 @@
  */
 class ToolComplexBuilderComponent extends ToolComponent
 {
-
+	private $content_object;
+	
     function run()
     {
         if ($this->is_allowed(EDIT_RIGHT))
         {
             $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+            $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
+            $this->content_object = $publication->get_content_object();
             $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
-            $pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);
-            Request :: set_get(ComplexBuilder :: PARAM_ROOT_LO, $pub->get_content_object()->get_id());
             
-            $complex_builder = ComplexBuilder :: factory($this);
+            //Request :: set_get(ComplexBuilder :: PARAM_ROOT_LO, $pub->get_content_object()->get_id());
+            $complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
             $complex_builder->run();
         }
     }
-
-    function display_header($trail)
+  
+	function get_root_content_object()
     {
-        $my_trail = new BreadcrumbTrail();
-        //$my_trail->add(new Breadcrumb($this->get_url(), Translation :: get('BuildComplexContentObject')));
-        $my_trail->merge($trail);
-        
-        parent :: display_header($my_trail);
-        
-        echo '<a href="' . $this->get_url(array('tool_action' => null, 'builder_action' => null)) . '">' . Translation :: get('Back') . '</a><br />';
+    	return $this->content_object;
     }
-
+    
+    function display_header($breadcrumbtrail = null, $display_title = true)
+    {
+        parent :: display_header($breadcrumbtrail, $display_title, true, false);
+    }
 }
 ?>

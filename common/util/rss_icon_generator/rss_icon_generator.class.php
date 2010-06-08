@@ -18,7 +18,7 @@ class RssIconGenerator
 		{
 			if ($user != null)
 			{
-				$path .= '?sid'.$user->get_security_token();
+				$path .= '?sid='.$user->get_security_token();
 			}
 			return $path;
 		}
@@ -43,7 +43,5 @@ class RssIconGenerator
 	}
 
 }
-
-//echo RssIconGenerator :: generate_rss_icon('assessment', RssIconGenerator :: TYPE_PUBLICATION);
 
 ?>

@@ -20,22 +20,27 @@ class IncludeFlashParser extends ContentObjectIncludeParser
         {
             if (isset($values[$html_editor]))
             {
-                $tags = Text :: fetch_tag_into_array($values[$html_editor], '<embed>');
+                $tags = Text :: parse_html_file($values[$html_editor], 'embed');
 
                 foreach ($tags as $tag)
                 {
-                    if ($tag['type'] == 'application/x-shockwave-flash' && stripos($tag['src'], 'http://') === false)
+                    $source = $tag->getAttribute('src');
+                    $matches = preg_match(HtmlEditorProcessor :: get_repository_document_display_matching_url(), $source);
+
+                    if ($matches === 1)
                     {
-                        $search_path = str_replace($base_path, '', $tag['src']);
+                        $source_components = parse_url($source);
+                        $source_query_components = Text :: parse_query_string($source_components['query']);
+                        $content_object_id = $source_query_components[RepositoryManager :: PARAM_CONTENT_OBJECT_ID];
 
-                        $rdm = RepositoryDataManager :: get_instance();
-                        $condition = new Equalitycondition('path', $search_path);
-
-                        $search_objects = $rdm->retrieve_type_content_objects('document', $condition);
-
-                        while ($search_object = $search_objects->next_result())
+                        if ($content_object_id)
                         {
-                            $content_object->include_content_object($search_object->get_id());
+                            $included_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object_id);
+
+                            if ($included_object->is_flash())
+                            {
+                                $content_object->include_content_object($included_object->get_id());
+                            }
                         }
                     }
                 }

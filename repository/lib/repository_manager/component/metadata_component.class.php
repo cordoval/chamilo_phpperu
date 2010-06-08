@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../metadata/ieee_lom/ieee_lom_mapper.class
 require_once dirname(__FILE__) . '/../../metadata/ieee_lom/ieee_lom_langstring_mapper.class.php';
 
 
-class RepositoryManagerMetadataComponent extends RepositoryManagerComponent
+class RepositoryManagerMetadataComponent extends RepositoryManager
 {
     const METADATA_FORMAT_LOM = 'lom';
     const METADATA_FORMAT_DUBLINCORE = 'dc';

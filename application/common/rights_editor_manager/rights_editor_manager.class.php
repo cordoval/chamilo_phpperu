@@ -3,7 +3,6 @@
  * $Id: rights_editor_manager.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager
  */
-require_once dirname(__FILE__) . '/rights_editor_manager_component.class.php';
 
 class RightsEditorManager extends SubManager
 {
@@ -24,9 +23,9 @@ class RightsEditorManager extends SubManager
         parent :: __construct($parent);
         
         $this->locations = $locations;
-        $this->exclude_users = array();
+        $this->exclude_users = array(Session :: get_user_id());
         $this->exclude_groups = array();
-        
+
         $rights_editor_action = Request :: get(self :: PARAM_RIGHTS_EDITOR_ACTION);
         if ($rights_editor_action)
         {
@@ -41,16 +40,16 @@ class RightsEditorManager extends SubManager
         switch ($parent)
         {
             case self :: ACTION_BROWSE_RIGHTS :
-                $component = RightsEditorManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_SET_USER_RIGHTS :
-                $component = RightsEditorManagerComponent :: factory('UserRightsSetter', $this);
+                $component = $this->create_component('UserRightsSetter');
                 break;
             case self :: ACTION_SET_GROUP_RIGHTS :
-                $component = RightsEditorManagerComponent :: factory('GroupRightsSetter', $this);
+                $component = $this->create_component('GroupRightsSetter');
                 break;
             default :
-                $component = RightsEditorManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
         }
         
@@ -65,6 +64,11 @@ class RightsEditorManager extends SubManager
     function get_locations()
     {
         return $this->locations;
+    }
+    
+    function set_locations($locations)
+    {
+    	$this->locations = $locations;
     }
 
     function get_available_rights()
@@ -91,5 +95,19 @@ class RightsEditorManager extends SubManager
     {
     	return $this->excluded_groups;
     }
+
+	function create_component($type, $application)
+	{
+		$component = parent :: create_component($type, $application);
+		
+		if(is_subclass_of($component, __CLASS__))
+		{
+			$component->set_locations($this->locations);
+			$component->exclude_users($this->get_excluded_users());
+			$component->exclude_groups($this->get_excluded_groups());
+		}
+		
+		return $component;
+	}
 }
 ?>

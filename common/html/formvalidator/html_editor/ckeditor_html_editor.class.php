@@ -12,9 +12,7 @@ class FormValidatorCkeditorHtmlEditor extends FormValidatorHtmlEditor
     {
         $form = $this->get_form();
 
-        $scripts = array();
-        $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/ckeditor.js');
-        $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/adapters/jquery.js');
+        $scripts = $this->get_includes();
 
         foreach($scripts as $script)
         {
@@ -24,19 +22,35 @@ class FormValidatorCkeditorHtmlEditor extends FormValidatorHtmlEditor
             }
         }
 
-//        $result[] = 'oFCKeditor.BasePath = "' . Path :: get(WEB_PLUGIN_PATH) . 'html_editor/fckeditor/";';
-//        $result[] = 'oFCKeditor.Width = "' . $this->get_option('width') . '";';
-//        $result[] = 'oFCKeditor.Height = ' . ($this->get_option('full_page') ? '500' : $this->get_option('height')) . ';';
-//        $result[] = 'oFCKeditor.Config[ "FullPage" ] = ' . ($this->get_option('full_page') ? 'true' : 'false') . ';';
-//        $result[] = 'oFCKeditor.Config[ "DefaultLanguage" ] = "' . $editor_lang . '" ;';
-//        $result[] = 'oFCKeditor.Value = "' . str_replace('"', '\"', str_replace(array("\r\n", "\n", "\r", "/"), array(' ', ' ', ' ', '\/'), $this->getValue())) . '" ;';
-//        $result[] = 'oFCKeditor.ToolbarSet = \'' . $this->get_option('toolbar_set') . '\';';
-//        $result[] = 'oFCKeditor.Config[ "SkinPath" ] = oFCKeditor.BasePath + "editor/skins/' . Theme :: get_theme() . '/";';
-//        $result[] = 'oFCKeditor.Config["CustomConfigurationsPath"] = "' . Path :: get(WEB_LIB_PATH) . 'configuration/html_editor/fckconfig.js";';
-//        $result[] = 'oFCKeditor.Config[ "ToolbarStartExpanded" ] = ' . ($this->get_option('show_toolbar') ? 'true' : 'false') . ';';
+        $form->addElement('html', implode("\n", $this->get_javascript()));
 
+        return parent :: create();
+    }
+
+    function render()
+    {
+        $html = array();
+        $html[] = parent :: render();
+//        $html[] = implode("\n", $this->get_includes());
+        $html[] = implode("\n", $this->get_javascript());
+
+        return implode("\n", $html);
+    }
+
+    function get_includes()
+    {
+        $scripts = array();
+        $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/ckeditor.js');
+        $scripts[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'html_editor/ckeditor/adapters/jquery.js');
+
+        return $scripts;
+    }
+
+    function get_javascript()
+    {
         $javascript = array();
         $javascript[] = '<script type="text/javascript">';
+        $javascript[] = 'var web_path = \'' . Path :: get(WEB_PATH) . '\'';
         $javascript[] = '$(function ()';
         $javascript[] = '{';
         $javascript[] = '	$(document).ready(function ()';
@@ -48,9 +62,7 @@ class FormValidatorCkeditorHtmlEditor extends FormValidatorHtmlEditor
         $javascript[] = '});';
         $javascript[] = '</script>';
 
-        $form->addElement('html', implode("\n", $javascript));
-
-        return parent :: create();
+        return $javascript;
     }
 }
 

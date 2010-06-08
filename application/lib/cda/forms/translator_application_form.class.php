@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../cda_language.class.php';
 /**
  * $Id: language_pack_browser_filter_form.class.php 196 2009-11-13 12:19:18Z chellee $
  * @package application.lib.cda.forms
- * 
+ *
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
@@ -29,12 +29,12 @@ class TranslatorApplicationForm extends FormValidator
      * Build the form.
      */
     private function build_form()
-    {  
+    {
     	$this->addElement('category', Translation :: get('LanguageSelections'));
-    	
+
     	$platform_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name('source_language', CdaManager :: APPLICATION_NAME);
     	$user_setting = UserDataManager :: get_instance()->retrieve_user_setting(Session :: get_user_id(), $platform_setting->get_id());
-    	
+
     	if ($user_setting)
     	{
     		$language = CdaDataManager :: get_instance()->retrieve_cda_language($user_setting->get_value());
@@ -45,7 +45,7 @@ class TranslatorApplicationForm extends FormValidator
     	{
     		$this->addElement('select', TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID, Translation :: get('SourceLanguage'), $this->get_source_languages());
     	}
-    	
+
 //		$url = Path :: get(WEB_PATH) . 'application/lib/cda/xml_feeds/xml_cda_languages_feed.php';
 //		$locale = array();
 //		$locale['Display'] = Translation :: get('SelectLanguages');
@@ -53,13 +53,13 @@ class TranslatorApplicationForm extends FormValidator
 //		$locale['NoResults'] = Translation :: get('NoResults');
 //		$locale['Error'] = Translation :: get('Error');
 //		$hidden = false;
-		
+
 //		$elem = $this->addElement('element_finder', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID, Translation :: get('DestinationLanguages'), $url, $locale);
 //		$elem->setDefaults(array());
 //		$elem->excludeElements(array());
 
     	$target_languages = $this->get_target_languages();
-    	
+
     	if (count($target_languages) > 0)
     	{
     		$this->addElement('select', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID, Translation :: get('DestinationLanguages'), $this->get_target_languages(), array('multiple'));
@@ -70,27 +70,27 @@ class TranslatorApplicationForm extends FormValidator
     	}
 
     	$this->addElement('category');
-    	
+
     	if (count($target_languages) > 0)
     	{
         	$this->addElement('style_submit_button', 'submit', Translation :: get('Apply'), array('class' => 'positive'));
     	}
     }
-    
+
     function get_target_languages()
     {
     	$condition = new EqualityCondition(TranslatorApplication :: PROPERTY_USER_ID, Session :: get_user_id());
     	$translator_applications = CdaDataManager :: get_instance()->retrieve_translator_applications($condition);
-    	
+
     	$exclude = array();
     	while($translator_application = $translator_applications->next_result())
     	{
     		$exclude[] = $translator_application->get_destination_language_id();
     	}
-    	
+
     	return $this->get_source_languages($exclude);
     }
-    
+
     function get_source_languages($exclude = array())
     {
     	if (count($exclude) > 0)
@@ -101,15 +101,15 @@ class TranslatorApplicationForm extends FormValidator
     	{
     		$condition = null;
     	}
-    	
+
     	$languages = CdaDataManager :: get_instance()->retrieve_cda_languages($condition, null, null, array(new ObjectTableOrder(CdaLanguage :: PROPERTY_ORIGINAL_NAME)));
     	$options = array();
-    	
+
     	while($language = $languages->next_result())
     	{
     		$options[$language->get_id()] = $language->get_original_name();
     	}
-    	
+
         return $options;
     }
 
@@ -117,10 +117,10 @@ class TranslatorApplicationForm extends FormValidator
     {
     	$user_language_text = LocalSetting :: get('platform_language');
     	$user_language = CdaDataManager :: get_instance()->retrieve_cda_languages(new EqualityCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, $user_language_text), null, 1)->next_result();
-    	
+
     	$platform_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name('source_language', CdaManager :: APPLICATION_NAME);
     	$user_setting = UserDataManager :: get_instance()->retrieve_user_setting(Session :: get_user_id(), $platform_setting->get_id());
-    	
+
     	if ($user_setting)
     	{
     		$source_language = $user_setting->get_value();
@@ -136,66 +136,66 @@ class TranslatorApplicationForm extends FormValidator
     			$source_language = LocalSetting :: get('source_language', CdaManager :: APPLICATION_NAME);
     		}
     	}
-    	
+
     	$defaults[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID] = $source_language;
         parent :: setDefaults($defaults);
     }
-    
+
     function create_application()
     {
     	$values = $this->exportValues();
-    	
+
     	$languages = $values[TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID];
     	$source_language = $values[TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID];
-    	
+
     	foreach($languages as $language)
     	{
 	   		$application = new TranslatorApplication();
 	   		$application->set_user_id(Session :: get_user_id());
 	   		$application->set_source_language_id($source_language);
 	   		$application->set_destination_language_id($language);
-	   		$application->set_date(Utilities :: to_db_date(time()));
+	   		$application->set_date(time());
 	   		$application->set_status(TranslatorApplication :: STATUS_PENDING);
-	   		
+
 	   		if (!$application->create())
 	   		{
 	   			return false;
 	   		}
-	   		
+
 	   		$applications[$application->get_id()] = $language;
     	}
-    	
+
     	$this->notify($applications, $source_language);
-    	
+
    		return true;
     }
-    
+
     function notify($applications, $source_language)
     {
     	$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
 
     	$source_language = $this->get_language($source_language);
-    	
+
     	foreach($applications as $application => $language)
     	{
     		$language = $this->get_language($language);
-    		
+
     		$html = array();
-    	
+
 	    	$html[] = Translation :: get('DearAdministratorModerator');
 	    	$html[] = '';
 	    	$html[] = sprintf(Translation :: get('UserHasAppliedForTheFollowingLanguages'), $user->get_fullname());
 	    	$html[] = '';
 	    	$html[] = Translation :: get('SourceLanguage') . ': ' . $source_language->get_english_name();
-	
+
 	    	$language_name = $language->get_english_name();
     		$link = Path :: get(WEB_PATH) . Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION,
     											  CdaManager :: PARAM_TRANSLATOR_APPLICATION => $application));
 
 	    	$html[] = Translation :: get('DestinationLanguage') . ': <a href="' . $link . '">' . $language_name . '</a>';
-	    	
+
 	    	$link = Path :: get(WEB_PATH) . Redirect :: get_link('cda', array(Application :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS));
-	    	
+
 	    	$html[] = '';
 	    	$html[] = Translation :: get('FollowLinkToActivate') . ':';
 	    	$html[] = '<a href="' . $link . '">' . $link . '</a>';
@@ -204,45 +204,45 @@ class TranslatorApplicationForm extends FormValidator
 	    	$html[] =  '';
 	    	$html[] = 'Chamilo Support Team';
 	    	$html[] = '<a href="http://www.chamilo.org">http://www.chamilo.org</a>';
-	    	
+
 	    	$subject = '[CDA] ' . Translation :: get('UserAppliedForTranslator');
 	    	$content = implode("<br />", $html);
-	    	
+
 	    	$to = $this->get_moderator_emails($language);
 	    	$to[] = PlatformSetting :: get('administrator_email');
-	    	
-	    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: FROM_NAME => 'info@chamilo.org', Mail :: FROM_EMAIL => 'info@chamilo.org')); 
+
+	    	$mail = Mail :: factory($subject, $content, $to, array(Mail :: NAME => 'info@chamilo.org', Mail :: EMAIL => 'info@chamilo.org'));
     		$mail->send();
     	}
-    
+
     }
-    
+
     function get_language($language_id)
     {
     	$language = CdaDataManager :: get_instance()->retrieve_cda_language($language_id);
     	return $language;
     }
-    
+
 	function get_moderator_emails($cda_language)
 	{
 		$moderators = CdaRights :: get_allowed_users(CdaRights :: EDIT_RIGHT, $cda_language->get_id(), $cda_language->get_table_name());
-		
+
 		$udm = UserDataManager :: get_instance();
-		
+
 		$emails = array();
-		
+
 		foreach($moderators as $moderator)
 		{
 			$user = $udm->retrieve_user($moderator);
-			
-			if(!$user)	
+
+			if(!$user)
 			{
 				continue;
 			}
-			
+
 			$emails[] = $user->get_email();
 		}
-		
+
 		return $emails;
 	}
 }

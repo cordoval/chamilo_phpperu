@@ -11,6 +11,10 @@ class WeblcmsRights
     const ADD_RIGHT = '2';
     const EDIT_RIGHT = '3';
     const DELETE_RIGHT = '4';
+    
+    const LOCATION_BROWSER = 1;
+	const LOCATION_HOME = 2;
+	const LOCATION_VIEWER = 3;
 
     static function get_available_rights()
     {

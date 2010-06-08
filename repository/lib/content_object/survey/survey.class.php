@@ -4,49 +4,53 @@
  * @package repository.lib.content_object.survey
  */
 /**
- * This class represents an assessment
+ * This class represents an survey
  */
+
+require_once (dirname(__FILE__) . '/survey_context.class.php');
+
 class Survey extends ContentObject
 {
-    const PROPERTY_TIMES_TAKEN = 'times_taken';
-    const PROPERTY_AVERAGE_SCORE = 'average_score';
-    const PROPERTY_MAXIMUM_SCORE = 'maximum_score';
-    const PROPERTY_MAXIMUM_ATTEMPTS = 'max_attempts';
+    const PROPERTY_HEADER = 'header';
+    const PROPERTY_FOOTER = 'footer';
     const PROPERTY_FINISH_TEXT = 'finish_text';
-    const PROPERTY_INTRODUCTION_TEXT = 'intro_text';
     const PROPERTY_ANONYMOUS = 'anonymous';
-    const PROPERTY_QUESTIONS_PER_PAGE = 'questions_per_page';
+//    const PROPERTY_CONTEXT = 'context';
+    const PROPERTY_CONTEXT_TEMPLATE_ID = 'context_template_id';
+
+    const CLASS_NAME = __CLASS__;
+
+
+    private $context;
+
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_MAXIMUM_ATTEMPTS, self :: PROPERTY_QUESTIONS_PER_PAGE, self :: PROPERTY_INTRODUCTION_TEXT, self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_ANONYMOUS);
-    }
-    
-    const TYPE_SURVEY = 4;
-
-    function get_assessment_type()
-    {
-        return self :: TYPE_SURVEY;
+        return array(self :: PROPERTY_HEADER, self :: PROPERTY_FOOTER, self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_ANONYMOUS,  self :: PROPERTY_CONTEXT_TEMPLATE_ID);
     }
 
-    function get_introduction_text()
+    function get_header()
     {
-        return $this->get_additional_property(self :: PROPERTY_INTRODUCTION_TEXT);
+        return $this->get_additional_property(self :: PROPERTY_HEADER);
     }
 
-    function set_introduction_text($text)
+    function set_header($text)
     {
-        $this->set_additional_property(self :: PROPERTY_INTRODUCTION_TEXT, $text);
+        $this->set_additional_property(self :: PROPERTY_HEADER, $text);
     }
 
-    function get_maximum_attempts()
+    function get_footer()
     {
-        return $this->get_additional_property(self :: PROPERTY_MAXIMUM_ATTEMPTS);
+        return $this->get_additional_property(self :: PROPERTY_FOOTER);
     }
 
-    function set_maximum_attempts($value)
+    function set_footer($text)
     {
-        $this->set_additional_property(self :: PROPERTY_MAXIMUM_ATTEMPTS, $value);
+        $this->set_additional_property(self :: PROPERTY_FOOTER, $text);
     }
 
     function get_finish_text()
@@ -69,51 +73,121 @@ class Survey extends ContentObject
         return $this->set_additional_property(self :: PROPERTY_ANONYMOUS, $value);
     }
 
+//    function get_context()
+//    {
+//        $type = $this->get_additional_property(self :: PROPERTY_CONTEXT);
+//        return SurveyContext :: factory($type);
+//    }
+//
+//    function get_context_type()
+//    {
+//        return $this->get_additional_property(self :: PROPERTY_CONTEXT);
+//    }
+//
+//    function set_context($value)
+//    {
+//        $this->set_additional_property(self :: PROPERTY_CONTEXT, $value);
+//    }
+
+    function set_context_instance($context)
+    {
+        $this->context = $context;
+    }
+
+    function get_context_instance()
+    {
+        return $this->context;
+    }
+
+    function get_context_template_id()
+    {
+        return $this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID);
+
+    }
+
+	function get_context_template_name()
+    {
+        $template = SurveyContextDataManager::get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
+    	return empty($template) ? '' : $template->get_name();
+
+    }
+
+	function get_context_template()
+    {
+        return SurveyContextDataManager::get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
+
+    }
+
+    function set_context_template_id($value)
+    {
+        $this->set_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID, $value);
+    }
+
     function get_allowed_types()
     {
         $allowed_types = array();
-        $allowed_types[] = 'rating_question';
-        $allowed_types[] = 'open_question';
-        $allowed_types[] = 'hotspot_question';
-        $allowed_types[] = 'fill_in_blanks_question';
-        $allowed_types[] = 'multiple_choice_question';
-        $allowed_types[] = 'matching_question';
-        $allowed_types[] = 'select_question';
-        $allowed_types[] = 'matrix_question';
-        $allowed_types[] = 'match_question';
-        $allowed_types[] = 'ordering_question';
-        //$allowed_types[] = '';
+        $allowed_types[] = SurveyPage :: get_type_name();
         return $allowed_types;
-    }
-
-    function get_times_taken()
-    {
-        return WeblcmsDataManager :: get_instance()->get_num_user_assessments($this);
     }
 
     function get_table()
     {
-        return 'survey';
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
-    function get_average_score()
+    function is_versionable()
     {
-        return WeblcmsDataManager :: get_instance()->get_average_score($this);
+        return false;
     }
 
-    function get_maximum_score()
+    function get_pages($complex_items = false)
     {
-        return WeblcmsDataManager :: get_instance()->get_maximum_score($this);
+
+        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+
+        if($complex_items){
+        	return $complex_content_objects;
+        }
+               
+        //        $survey_page_ids = array();
+        $survey_pages = array();
+
+        while ($complex_content_object = $complex_content_objects->next_result())
+        {
+            //            $survey_page_ids[] = $complex_content_object->get_ref();
+            $survey_pages[] = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
+
+        }
+
+        return $survey_pages;
+
+    //        if (count($survey_page_ids) == 0)
+    //        {
+    //            $survey_page_ids[] = 0;
+    //        }
+    //
+    //        $condition = new InCondition(ContentObject :: PROPERTY_ID, $survey_page_ids, ContentObject :: get_table_name());
+    //        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
     }
 
-    function get_questions_per_page()
+    function get_page_by_index($index)
     {
-        return $this->get_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE);
+        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()))->as_array();
+
+        if(isset($complex_content_objects[$index - 1]))
+        {
+            return RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_objects[$index - 1]->get_ref());
+        }
+        else
+        {
+            return null;
+        }
     }
 
-    function set_questions_per_page($value)
+    function count_pages()
     {
-        $this->set_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE, $value);
+        return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
     }
+
 }
 ?>

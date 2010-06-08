@@ -10,9 +10,22 @@
 class ComplexAssessment extends ComplexContentObjectItem
 {
 
-    function get_allowed_types()
+	function get_allowed_types()
     {
-        return array('open_question', 'hotspot_question', 'fill_in_blanks_question', 'multiple_choice_question', 'matching_question', 'select_question', 'matrix_question');
+        $allowed_types = array();
+        $allowed_types[] = AssessmentRatingQuestion :: get_type_name();
+        $allowed_types[] = AssessmentOpenQuestion :: get_type_name();
+        $allowed_types[] = HotspotQuestion :: get_type_name();
+        $allowed_types[] = FillInBlanksQuestion :: get_type_name();
+        $allowed_types[] = AssessmentMultipleChoiceQuestion :: get_type_name();
+        $allowed_types[] = AssessmentMatchingQuestion :: get_type_name();
+        $allowed_types[] = AssessmentSelectQuestion :: get_type_name();
+        $allowed_types[] = AssessmentMatrixQuestion :: get_type_name();
+        $allowed_types[] = MatchQuestion :: get_type_name();
+        $allowed_types[] = AssessmentMatchNumericQuestion :: get_type_name();
+        $allowed_types[] = AssessmentMatchTextQuestion :: get_type_name();
+        $allowed_types[] = OrderingQuestion :: get_type_name();
+        return $allowed_types;
     }
 }
 ?>

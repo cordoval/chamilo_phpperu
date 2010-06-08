@@ -51,8 +51,7 @@ function getUtilities(type, parameters)
 	}
 	
 	parameters.type = type;
-	
-	response = doAjaxPost("./common/javascript/ajax/utilities.php", parameters);
+	response = doAjaxPost(rootWebPath + "common/javascript/ajax/utilities.php", parameters);
 	return eval('(' + response + ')');
 }
 
@@ -75,7 +74,7 @@ function doAjax(type, url, parameters)
 	{
 		parameters = new Object();
 	}
-	
+
 	var response = $.ajax({
 		type: type,
 		url: url,
@@ -86,38 +85,124 @@ function doAjax(type, url, parameters)
 	return response;
 }
 
-// Return an FckEditor
-function renderFckEditor(name, options)
+// Return an HTML Editor
+function renderHtmlEditor(editorName, editorOptions, editorLabel, editorAttributes)
 {
 	var defaults = {
-			width: '100%',
-			height: '100',
-			fullPage: false,
-			toolbarSet: 'Basic',
-			toolbarExpanded: true,
-			value: ''
+			"name": '',
+			"label": '',
+			"options": $.json.serialize({}),
+			"attributes": $.json.serialize({})
 	};
 	
-	var options = $.extend(defaults, options);
+	var parameters = new Object();
+	parameters.name = editorName;
 	
-	var oFCKeditor = new FCKeditor(name);
-	oFCKeditor.BasePath = getPath('WEB_PLUGIN_PATH') + 'html_editor/fckeditor/';
-	oFCKeditor.Width = options.width;
-	oFCKeditor.Height = options.height;
-	oFCKeditor.Config[ "FullPage" ] = options.fullPage;
-	oFCKeditor.Config[ "DefaultLanguage" ] = options.language ;
-	if(options.value)
+	if (typeof editorOptions != "undefined")
 	{
-		oFCKeditor.Value = options.value;
+		parameters.options = $.json.serialize(editorOptions);
+	}
+	
+	if (typeof editorAttributes != "undefined")
+	{
+		parameters.attributes = $.json.serialize(editorAttributes);
+	}
+	
+	if (typeof editorLabel != "undefined")
+	{
+		parameters.label = editorLabel;
+	}
+	
+	var ajaxParameters = $.extend(defaults, parameters);
+	
+	var result = doAjaxPost("./common/html/formvalidator/form_validator_html_editor_instance.php", ajaxParameters);
+	
+//	alert(result);
+	
+	return result;
+}
+
+// Destroy an HTML Editor
+function destroyHtmlEditor(editorName)
+{
+	if ( typeof CKEDITOR != 'undefined' )
+	{
+		$('textarea.html_editor[name=\'' + editorName + '\']').ckeditorGet().destroy();
+	}
+	
+	if ( typeof tinyMCE != 'undefined' )
+	{
+		$('textarea.html_editor[name=\'' + editorName + '\']').tinymce().destroy();
+	}
+}
+
+//Popup window
+function openPopup(url, width, height)
+{
+	width = width || '80%';
+	height = height || '70%';
+
+	if ( typeof width == 'string' && width.length > 1 && width.substr( width.length - 1, 1 ) == '%' )
+		width = parseInt( window.screen.width * parseInt( width, 10 ) / 100, 10 );
+
+	if ( typeof height == 'string' && height.length > 1 && height.substr( height.length - 1, 1 ) == '%' )
+		height = parseInt( window.screen.height * parseInt( height, 10 ) / 100, 10 );
+
+	if ( width < 640 )
+		width = 640;
+
+	if ( height < 420 )
+		height = 420;
+
+	var top = parseInt( ( window.screen.height - height ) / 2, 10 ),
+		left = parseInt( ( window.screen.width  - width ) / 2, 10 ),
+		options = 'location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,resizable=yes,scrollbars=yes' +
+		',width='  + width +
+		',height=' + height +
+		',top='  + top +
+		',left=' + left;
+
+	var popupWindow = window.open( '', null, options, true );
+
+	// Blocked by a popup blocker.
+	if ( !popupWindow )
+		return false;
+
+	try
+	{
+		popupWindow.moveTo( left, top );
+		popupWindow.resizeTo( width, height );
+		popupWindow.focus();
+		popupWindow.location.href = url;
+	}
+	catch (e)
+	{
+		popupWindow = window.open( url, null, options, true );
+	}
+	
+	return true;
+}
+
+function scaleDimensions(width, height, imageProperties)
+{
+	if (imageProperties.width > width || imageProperties.height > height)
+	{
+		if (imageProperties.width >= imageProperties.height)
+		{
+			imageProperties.thumbnailWidth = width;
+			imageProperties.thumbnailHeight = (imageProperties.thumbnailWidth / imageProperties.width) * imageProperties.height;
+		}
+		else
+		{
+			imageProperties.thumbnailHeight = height;
+			imageProperties.thumbnailWidth = (imageProperties.thumbnailHeight / imageProperties.height) * imageProperties.width;
+		}
 	}
 	else
 	{
-		oFCKeditor.Value = "";
+		imageProperties.thumbnailWidth = imageProperties.width;
+		imageProperties.thumbnailHeight = imageProperties.height;
 	}
-	oFCKeditor.ToolbarSet = options.toolbarSet;
-	oFCKeditor.Config[ "SkinPath" ] = oFCKeditor.BasePath + 'editor/skins/' + getTheme() + '/';
-	oFCKeditor.Config["CustomConfigurationsPath"] = getPath('WEB_LIB_PATH') + 'configuration/html_editor/fckconfig.js';
-	oFCKeditor.Config[ "ToolbarStartExpanded" ] = options.toolbarExpanded;
 	
-	return oFCKeditor.CreateHtml();
+	return imageProperties;
 }

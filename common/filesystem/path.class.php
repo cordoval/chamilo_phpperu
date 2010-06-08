@@ -38,6 +38,8 @@ define('SYS_APP_HOME_PATH', 'SYS_APP_HOME_PATH');
 define('SYS_APP_TRACKING_PATH', 'SYS_APP_TRACKING_PATH');
 define('SYS_APP_REPORTING_PATH', 'SYS_APP_REPORTING_PATH');
 define('SYS_APP_WEBSERVICE_PATH', 'SYS_APP_WEBSERVICE_PATH');
+define('SYS_LAUNCH_APP_PATH', 'SYS_LAUNCH_APP_PATH');
+define('WEB_LAUNCH_APP_PATH', 'WEB_LAUNCH_APP_PATH');
 
 // Files-paths
 define('WEB_ARCHIVE_PATH', 'WEB_ARCHIVE_PATH');
@@ -61,127 +63,126 @@ define('SYS_CACHE_PATH', 'SYS_CACHE_PATH');
 
 class Path
 {
-    private static $web_path;
-    private static $sys_path;
-    private static $rel_path;
+    private static $path = array();
 
     public static function get($path_type)
     {
+    	if (isset(self :: $path[$path_type]))
+    	{
+    		return self :: $path[$path_type];
+    	}
+
         switch ($path_type)
         {
             case WEB_PATH :
-                if (! self :: $web_path)
-                    self :: $web_path = Configuration :: get_instance()->get_parameter('general', 'root_web');
-                return self :: $web_path;
+                return self :: $path[$path_type] = Configuration :: get_instance()->get_parameter('general', 'root_web');
             case SYS_PATH :
-                if (! self :: $sys_path)
-                    self :: $sys_path = realpath(dirname(__FILE__) . '/../../') . '/';
-                return self :: $sys_path;
+                return self :: $path[$path_type] = realpath(dirname(__FILE__) . '/../../') . '/';
             case REL_PATH :
-                if (! self :: $rel_path)
-                {
-                    $url_append = Configuration :: get_instance()->get_parameter('general', 'url_append');
-                    self :: $rel_path = (substr($url_append, - 1) === '/' ? $url_append : $url_append . '/');
-                }
-                return self :: $rel_path;
+                $url_append = Configuration :: get_instance()->get_parameter('general', 'url_append');
+                return self :: $path[$path_type] = (substr($url_append, - 1) === '/' ? $url_append : $url_append . '/');
 
             // Platform-level paths
             case WEB_LIB_PATH :
-                return self :: get(WEB_PATH) . 'common/';
+                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'common/';
             case SYS_LIB_PATH :
-                return self :: get(SYS_PATH) . 'common/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'common/';
             case WEB_PLUGIN_PATH :
-                return self :: get(WEB_PATH) . 'plugin/';
+                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'plugin/';
             case SYS_PLUGIN_PATH :
-                return self :: get(SYS_PATH) . 'plugin/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'plugin/';
             case WEB_FILE_PATH :
-                return self :: get(WEB_PATH) . 'files/';
+                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'files/';
             case SYS_FILE_PATH :
-                return self :: get(SYS_PATH) . 'files/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'files/';
             case REL_FILE_PATH :
-                return self :: get(REL_PATH) . 'files/';
+                return self :: $path[$path_type] = self :: get(REL_PATH) . 'files/';
             case WEB_LAYOUT_PATH :
-                return self :: get(WEB_PATH) . 'layout/';
+                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'layout/';
             case SYS_LAYOUT_PATH :
-                return self :: get(SYS_PATH) . 'layout/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'layout/';
             case WEB_LANG_PATH :
-                return self :: get(WEB_PATH) . 'languages/';
+                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'languages/';
             case SYS_LANG_PATH :
-                return self :: get(SYS_PATH) . 'languages/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'languages/';
 
             // Some paths for the LCMS applications
             case SYS_APP_PATH :
-                return self :: get(SYS_PATH) . 'application/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'application/';
             case WEB_APP_PATH :
-                return self :: get(WEB_PATH) . 'application/';
+                return self :: $path[$path_type] = self :: get(WEB_PATH) . 'application/';
             case SYS_APP_ADMIN_PATH :
-                return self :: get(SYS_PATH) . 'admin/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'admin/';
             case SYS_APP_CLASS_GROUP_PATH :
-                return self :: get(SYS_PATH) . 'group/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'group/';
             case SYS_APP_HELP_PATH :
-                return self :: get(SYS_PATH) . 'help/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'help/';
             case SYS_APP_RIGHTS_PATH :
-                return self :: get(SYS_PATH) . 'rights/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'rights/';
             case SYS_APP_INSTALL_PATH :
-                return self :: get(SYS_PATH) . 'install/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'install/';
             case SYS_APP_MIGRATION_PATH :
-                return self :: get(SYS_PATH) . 'migration/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'migration/';
             case SYS_APP_REPOSITORY_PATH :
-                return self :: get(SYS_PATH) . 'repository/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'repository/';
             case SYS_APP_USER_PATH :
-                return self :: get(SYS_PATH) . 'user/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'user/';
             case SYS_APP_MENU_PATH :
-                return self :: get(SYS_PATH) . 'menu/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'menu/';
             case SYS_APP_HOME_PATH :
-                return self :: get(SYS_PATH) . 'home/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'home/';
             case SYS_APP_TRACKING_PATH :
-                return self :: get(SYS_PATH) . 'tracking/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'tracking/';
             case SYS_APP_REPORTING_PATH :
-                return self :: get(SYS_PATH) . 'reporting/';
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'reporting/';
             case SYS_APP_WEBSERVICE_PATH :
-                return self :: get(SYS_PATH) . 'webservice/';
-
+                return self :: $path[$path_type] = self :: get(SYS_PATH) . 'webservice/';
+			case SYS_LAUNCH_APP_PATH :
+                return self :: $path[$path_type] = self :: get_library_path() . 'launcher/';
+			case WEB_LAUNCH_APP_PATH :
+				return self :: $path[$path_type] = self :: get(WEB_LIB_PATH) . 'launcher/';
+                
             // Application-paths
             case SYS_APP_LIB_PATH :
-                return self :: get(SYS_APP_PATH) . 'common/';
+                return self :: $path[$path_type] = self :: get(SYS_APP_PATH) . 'common/';
 
             // Files-paths
             case WEB_ARCHIVE_PATH :
-                return self :: get(WEB_FILE_PATH) . 'archive/';
+                return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'archive/';
             case SYS_ARCHIVE_PATH :
-                return self :: get(SYS_FILE_PATH) . 'archive/';
+                return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'archive/';
             case WEB_TEMP_PATH :
-                return self :: get(WEB_FILE_PATH) . 'temp/';
+                return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'temp/';
             case SYS_TEMP_PATH :
-                return self :: get(SYS_FILE_PATH) . 'temp/';
+                return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'temp/';
             case WEB_USER_PATH :
-                return self :: get(WEB_FILE_PATH) . 'userpictures/';
+                return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'userpictures/';
             case SYS_USER_PATH :
-                return self :: get(SYS_FILE_PATH) . 'userpictures/';
+                return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'userpictures/';
             case WEB_FCK_PATH :
-                return self :: get(WEB_FILE_PATH) . 'fckeditor/';
+                return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'fckeditor/';
             case SYS_FCK_PATH :
-                return self :: get(SYS_FILE_PATH) . 'fckeditor/';
+                return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'fckeditor/';
             case REL_FCK_PATH :
-                return self :: get(REL_FILE_PATH) . 'fckeditor/';
+                return self :: $path[$path_type] = self :: get(REL_FILE_PATH) . 'fckeditor/';
             case WEB_REPO_PATH :
-                return self :: get(WEB_FILE_PATH) . 'repository/';
+                return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'repository/';
             case SYS_REPO_PATH :
-                return self :: get(SYS_FILE_PATH) . 'repository/';
+                return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'repository/';
             case REL_REPO_PATH :
-                return self :: get(REL_FILE_PATH) . 'repository/';
+                return self :: $path[$path_type] = self :: get(REL_FILE_PATH) . 'repository/';
             case SYS_SCORM_PATH :
-                return self :: get(SYS_FILE_PATH) . 'scorm/';
+                return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'scorm/';
             case WEB_SCORM_PATH :
-                return self :: get(WEB_FILE_PATH) . 'scorm/';
+                return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'scorm/';
             case SYS_HOTPOTATOES_PATH :
-                return self :: get(SYS_FILE_PATH) . 'hotpotatoes/';
+                return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'hotpotatoes/';
             case WEB_HOTPOTATOES_PATH :
-                return self :: get(WEB_FILE_PATH) . 'hotpotatoes/';
+                return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'hotpotatoes/';
             case SYS_CACHE_PATH :
-                return self :: get(SYS_FILE_PATH) . 'cache/';
+                return self :: $path[$path_type] = self :: get(SYS_FILE_PATH) . 'cache/';
             case WEB_CACHE_PATH :
-                return self :: get(WEB_FILE_PATH) . 'cache/';
+                return self :: $path[$path_type] = self :: get(WEB_FILE_PATH) . 'cache/';
             default :
                 return;
         }
@@ -261,6 +262,17 @@ class Path
     {
         return self :: get(SYS_APP_PATH);
     }
+    
+    public static function get_launcher_application_path($web = false)
+    {
+    	if ($web)
+    	{
+    		return self :: get(WEB_LAUNCH_APP_PATH);
+    	}
+    	return self :: get(SYS_LAUNCH_APP_PATH);
+    }
+    
+    
 
     public static function get_reporting_path()
     {
@@ -295,6 +307,11 @@ class Path
     public static function get_cache_path()
     {
         return self :: get(SYS_CACHE_PATH);
+    }
+    
+    public static function get_layout_path()
+    {
+    	return self :: get(SYS_LAYOUT_PATH);
     }
 }
 ?>

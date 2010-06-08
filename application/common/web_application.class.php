@@ -4,7 +4,7 @@
  * @package application
  */
 
-abstract class WebApplication extends Application
+abstract class WebApplication extends BasicApplication
 {
 
     /**
@@ -73,7 +73,7 @@ abstract class WebApplication extends Application
     {
         return true;
     }
-    
+
     function delete_content_object_publication($publication_id)
     {
     	return true;
@@ -109,14 +109,21 @@ abstract class WebApplication extends Application
      * /application/lib/weblcms/weblcms.class.php. Applications must extend the
      * Application class.
      */
-    public static function load_all_from_filesystem($include_application_classes = true)
+    public static function load_all_from_filesystem($include_application_classes = true, $only_registered_applications = false)
     {
         $applications = array();
         $path = dirname(__FILE__) . '/../lib/';
         $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
+
         foreach ($directories as $directory)
         {
             $application_name = basename($directory);
+
+            if($only_registered_applications && !AdminDataManager :: is_registered($application_name))
+            {
+            	continue;
+            }
+
             if (Application :: is_application_name($application_name))
             {
                 if (! in_array($application_name, $applications))
@@ -134,22 +141,21 @@ abstract class WebApplication extends Application
 
     public static function load_all($include_application_classes = true)
     {
-        $path = Path :: get_application_path() . 'lib';
+    	$path = Path :: get_application_path() . 'lib';
         $adm = AdminDataManager :: get_instance();
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
-        
         $applications = $adm->retrieve_registrations($condition);
         $active_applications = array();
-        
+
         while ($application = $applications->next_result())
         {
-            if ($include_application_classes)
+        	if ($include_application_classes)
             {
                 require_once $path . '/' . $application->get_name() . '/' . $application->get_name() . '_manager/' . $application->get_name() . '_manager.class.php';
             }
             $active_applications[] = $application->get_name();
+            
         }
-        
         return $active_applications;
     }
 
@@ -160,9 +166,10 @@ abstract class WebApplication extends Application
      */
     public static function is_application($name)
     {
-        $path = dirname(__FILE__) . '/../lib/';
+        $path = dirname(__FILE__) . '/../lib';
         $application_path = $path . '/' . $name;
         $application_manager_path = $path . '/' . $name . '/' . $name . '_manager' . '/' . $name . '_manager.class.php';
+                
         if (file_exists($application_path) && is_dir($application_path) && file_exists($application_manager_path))
         {
             return true;
@@ -178,12 +185,12 @@ abstract class WebApplication extends Application
         if (self :: is_application($application))
         {
             $adm = AdminDataManager :: get_instance();
-            
+
             $conditions = array();
             $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, 'application');
             $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $application);
             $condition = new AndCondition($conditions);
-            
+
             $registrations = $adm->retrieve_registrations($condition);
             if ($registrations->size() > 0)
             {
@@ -208,7 +215,7 @@ abstract class WebApplication extends Application
         }
     }
 
-    public function get_application_path($application_name)
+    public static function get_application_path($application_name)
     {
         return Path :: get_application_path() . 'lib/' . $application_name . '/';
     }
@@ -219,16 +226,21 @@ abstract class WebApplication extends Application
         return $this->get_application_path($application_name) . $application_name . '_manager/component/';
     }
 
-    function factory($application, $user = null)
+    static function factory($application, $user = null)
     {
-        $manager_path = self :: get_application_path($application) . $application . '_manager/' . $application . '_manager.class.php';
-        require_once $manager_path;
-        return parent :: factory($application, $user);
+        require_once self :: get_application_manager_path($application);
+        $class = self :: get_application_class_name($application);
+        return new $class($user);
     }
-    
+
     function get_additional_user_information($user)
     {
     	return null;
+    }
+    
+	static function get_application_manager_path($application_name)
+    {
+    	return self :: get_application_path($application_name) . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
     }
 }
 ?>

@@ -6,7 +6,7 @@
 
 require_once Path :: get_application_path() . 'lib/assessment/trackers/assessment_assessment_attempts_tracker.class.php';
 
-class AssessmentManagerViewerComponent extends AssessmentManagerComponent
+class AssessmentManagerViewerComponent extends AssessmentManager
 {
     private $datamanager;
     
@@ -14,6 +14,7 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
     private $assessment;
     private $pid;
     private $active_tracker;
+    private $trail;
 
     function run()
     {
@@ -77,7 +78,7 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
             $this->active_tracker = $this->create_tracker();
         }
         
-        $trail = new BreadcrumbTrail();
+        $this->trail = $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $this->pid)), Translation :: get('TakeAssessment')));
         
@@ -99,33 +100,38 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
         else
         {
             $display = ComplexDisplay :: factory($this, $this->assessment->get_type());
-            $display->set_root_lo($this->assessment);
             
-            $this->display_header($trail);
+            //$this->display_header($trail);
             $display->run();
-            $this->display_footer();
+            //$this->display_footer();
         }
     
     }
+    
+	function get_root_content_object()
+    {
+    	return $this->assessment;
+    }
 
+    function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	parent :: display_header($this->trail);
+    }
+    
     function create_tracker()
     {
         $args = array('assessment_id' => $this->pid, 'user_id' => $this->get_user_id(), 'total_score' => 0);
         
-        $tracker = Events :: trigger_event('attempt_assessment', 'assessment', $args);
+        $tracker = Events :: trigger_event('attempt_assessment', AssessmentManager :: APPLICATION_NAME, $args);
         
         return $tracker[0];
     }
 
-    function get_user_id()
-    {
-        if ($this->assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
-        {
-            //if ($this->assessment->get_anonymous() == true)
-            return 0;
-        }
-        return parent :: get_user_id();
-    }
 
     function save_answer($complex_question_id, $answer, $score)
     {
@@ -136,7 +142,7 @@ class AssessmentManagerViewerComponent extends AssessmentManagerComponent
         $parameters['score'] = $score;
         $parameters['feedback'] = '';
         
-        Events :: trigger_event('attempt_question', 'assessment', $parameters);
+        Events :: trigger_event('attempt_question', AssessmentManager :: APPLICATION_NAME, $parameters);
     }
 
     function finish_assessment($total_score)

@@ -4,11 +4,11 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 /**
  * Repository manager component which provides functionality to delete a course
  */
-class WeblcmsManagerCourseDeleterComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
 {
 
     /**
@@ -16,16 +16,17 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManagerComponent
      */
     function run()
     {
+    	$wdm = WeblcmsDataManager :: get_instance();
         $course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $failures = 0;
         
         if (! $this->get_user()->is_platform_admin())
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteCourse')));
             $trail->add_help('courses delete');
             
-            $this->display_header($trail, false, true);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -40,7 +41,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManagerComponent
             
             foreach ($course_codes as $course_code)
             {
-                $course = $this->get_parent()->retrieve_course($course_code);
+                $course = $wdm->retrieve_course($course_code);
                 
                 if (! $course->delete())
                 {

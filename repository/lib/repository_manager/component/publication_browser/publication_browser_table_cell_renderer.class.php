@@ -37,7 +37,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
         switch ($column->get_name())
         {
             case ContentObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :
-                return Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_publication_date());
+                return DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $content_object->get_publication_date());
         }
         return parent :: render_cell($column, $content_object);
     }

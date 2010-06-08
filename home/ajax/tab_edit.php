@@ -10,9 +10,9 @@ $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: AP
 if ($user_home_allowed && Authentication :: is_valid())
 {
     $user_id = Session :: get_user_id();
-    $tab = $_POST['tab'];
-    $title = $_POST['title'];
-    
+    $tab = Request :: post('tab'); //$_POST['tab'];
+    $title = Request :: post('title'); //$_POST['title'];
+
     $hdm = HomeDataManager :: get_instance();
     
     $tab = $hdm->retrieve_home_tab($tab);
@@ -24,6 +24,7 @@ if ($user_home_allowed && Authentication :: is_valid())
         {
             $json_result['success'] = '1';
             $json_result['message'] = Translation :: get('TabUpdated');
+            $json_result['title'] = $title;
         }
         else
         {

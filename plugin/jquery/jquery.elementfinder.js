@@ -106,10 +106,10 @@
 					if (tree.node && $(tree.node).size() > 0)
 					{
 						$.each(tree.node, function(i, the_node){
-								var li = $('<li><div><a href="#" id="' + the_node.id + '" class="category">' + the_node.title + '</a></div></li>');
-								$(ul).append(li);
-								buildElement(the_node, li);
-							});
+							var li = $('<li><div><a href="#" id="' + the_node.id + '" class="' + the_node.classes + '" title="' + the_node.description + '">' + the_node.title + '</a></div></li>');
+							$(ul).append(li);
+							buildElement(the_node, li);
+						});
 					}
 					
 					if (tree.leaf && $(tree.leaf).size() > 0)
@@ -138,7 +138,7 @@
 					if (the_node.node && $(the_node.node).size() > 0)
 					{
 						$.each(the_node.node, function(i, a_node){
-							var li = $('<li><div><a href="#" id="' + a_node.id + '" class="category">' + a_node.title + '</a></div></li>');
+							var li = $('<li><div><a href="#" id="' + a_node.id + '" class="' + a_node.classes + '" title="' + a_node.description + '">' + a_node.title + '</a></div></li>');
 							$(ul).append(li);
 							buildElement(a_node, li);
 						});
@@ -176,7 +176,8 @@
 			{				
 				var ul = $('<ul class="tree-menu"></ul>');
 				$.each(originalActivatedElements, function(i, activatedElement){
-					activatedElements.push(activatedElement.id);
+					
+					activatedElements.push(activatedElement);
 					var li = $('<li><div><a href="#" id="' + activatedElement.id + '" class="' + activatedElement.classes + '">' + activatedElement.title + '</a></div></li>');
 					ul.append(li);
 				});
@@ -186,71 +187,193 @@
 				$(activeBox).html(ul);
 			}
 			
+			function disableElement(theElement)
+			{
+				if(theElement.css("background-image"))
+				{
+					if (!theElement.hasClass('disabled'))
+					{
+						theElement.addClass('disabled');
+						theElement.css("background-image", theElement.css("background-image").replace(".png", "_na.png"));
+					}
+				}
+			}
+			
+//			function disableElement(theElementObject)
+//			{
+//				var theElements = $('#' + theElementObject.attr('id'), inactiveBox);
+//				
+//				$.each(theElements, function(i, theElement){
+//					theElement = $(theElement);
+//					
+//					if(theElement.css("background-image"))
+//					{
+//						if (!theElement.hasClass('disabled'))
+//						{
+//							theElement.addClass('disabled');
+//							theElement.css("background-image", theElement.css("background-image").replace(".png", "_na.png"));
+//						}
+//					}
+//				});
+//			}
+			
 			function disableActivatedElements()
 			{
 				$.each(activatedElements, function(i, activatedElement){
-					var current_element = $('#' + activatedElement, inactiveBox);
-					if(current_element.css("background-image"))
-					{
-						if (!current_element.hasClass('disabled'))
-						{
-							current_element.addClass('disabled');
-							current_element.css("background-image", current_element.css("background-image").replace(".png", "_na.png"));
-						}
-					}
+					var currentElements = $('#' + activatedElement.id, inactiveBox);
+					
+					$.each(currentElements, function(i, currentElement){
+						currentElement = $(currentElement);
+						
+						var currentElementParent = currentElement.parent().parent();
+						
+						disableElement(currentElement);
+						
+						var subElements = $('ul:first div a', currentElementParent);
+						
+						$.each(subElements, function(i, subElement){
+							subElementObject = $(subElement);
+							
+							// Remove the child-elements in case they were previously activated
+							removeActivatedElement(subElementObject.attr('id'));
+							var currentSubElement = $('#' + subElementObject.attr('id'), activeBox);
+							currentSubElement.parent().parent().remove();
+							
+							// Disabled the child-elements in the inactive tree box
+							disableElement(subElementObject);
+						});
+					});
+					
+//					var currentElementParent = currentElement.parent().parent();
+//					
+//					disableElement(currentElement);
+//					
+//					var subElements = $('ul:first div a', currentElementParent);
+//					
+//					$.each(subElements, function(i, subElement){
+//						subElementObject = $(subElement);
+//						
+//						// Remove the child-elements in case they were previously activated
+//						removeActivatedElement(subElementObject.attr('id'));
+//						var currentSubElement = $('#' + subElementObject.attr('id'), activeBox);
+//						currentSubElement.parent().parent().remove();
+//						
+//						// Disabled the child-elements in the inactive tree box
+//						disableElement(subElementObject);
+//					});
 				});
+				
+				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 			}
 			
 			function removeActivatedElement(arrayElement)
 			{
 				for(var i=0; i < activatedElements.length;i++ )
 				{ 
-					if(activatedElements[i] == arrayElement)
+					if(activatedElements[i].id == arrayElement)
 					{
 						activatedElements.splice(i,1);
 					}
 				} 
 			}
 			
+			function enableElement(theElement)
+			{
+				if (typeof theElement.css("background-image") !== 'undefined')
+				{
+					theElement.removeClass('disabled');
+					theElement.css("background-image", theElement.css("background-image").replace("_na.png", ".png"));
+				}
+			}
+			
+//			function enableElement(theElementObject)
+//			{
+//				var theElements = $('#' + theElementObject.attr('id'), inactiveBox);
+//				
+//				$.each(theElements, function(i, theElement){
+//					theElement = $(theElement);
+//					
+//					if (typeof theElement.css("background-image") !== 'undefined')
+//					{
+//						theElement.removeClass('disabled');
+//						theElement.css("background-image", theElement.css("background-image").replace("_na.png", ".png"));
+//					}
+//				});
+//			}
+			
 			function deactivateElement(e)
 			{
 				e.preventDefault();
-				var the_element = $('#' + $(this).attr('id'), inactiveBox);
+				var currentElement = $('#' + $(this).attr('id'), inactiveBox);
+				var currentElementParent = currentElement.parent().parent();
 				
-				if (typeof the_element.css("background-image") !== 'undefined')
-				{
-					the_element.removeClass('disabled');
-					the_element.css("background-image", the_element.css("background-image").replace("_na.png", ".png"));
-				}
+				enableElement(currentElement);
+				
+				var subElements = $('ul:first div a', currentElementParent);
+				$.each(subElements, function(i, subElement){
+					enableElement($(subElement));
+				});
 				
 				removeActivatedElement($(this).attr('id'));
 				$(this).parent().parent().remove();
 				
 				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 				processFinderTree();
+				return false;
 			}
 			
 			function activateElement(e)
 			{
 				e.preventDefault();
-				var elementHtml = $(this).parent().parent().html();
+				var elementParent = $(this).parent().parent();
+				var elementHtml = elementParent.html();
 				
-				activatedElements.push($(this).attr('id'));
+				var elementArray = { id : $(this).attr('id'), classes : $(this).attr('class'), title : $(this).attr('title'), description : $(this).text() };
+				activatedElements.push(elementArray);
 				
 				var li = $('<li></li>');
 				li.append(elementHtml);
+				$('ul', li).remove();
 				
 				$("ul:first", activeBox).append(li);
 				
 				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 				disableActivatedElements();
 				processFinderTree();
+				return false;
 			}
 			
-			function showElementFinder()
+			function resetElementFinder(e)
 			{
+				activatedElements = new Array();
+				
+				setOriginalActivatedElements();
+				if (settings.loadElements)
+				{
+					updateSearchResults();
+				}
+				else
+				{
+					displayMessage('Please enter a search query', inactiveBox);
+				}
+				
+				processFinderTree();
+			}
+			
+			function showElementFinder(e)
+			{
+				e.preventDefault();
 				$(this).hide();
+				$('#' + settings.name + '_collapse_button').show();
 				$('#tbl_' + settings.name).show();
+			}
+			
+			function hideElementFinder(e)
+			{
+				e.preventDefault();
+				$(this).hide();
+				$('#' + settings.name + '_expand_button').show();
+				$('#tbl_' + settings.name).hide();
 			}
 			
 			function init()
@@ -275,7 +398,7 @@
 				}
 				
 				$("a", activeBox).live("click", deactivateElement);
-				
+
 				if (settings.nodesSelectable)
 				{
 					$("a:not(.disabled)", inactiveBox).live("click", activateElement);
@@ -289,6 +412,7 @@
 				}
 				
 				$('#' + settings.name + '_expand_button').click(showElementFinder);
+				$('#' + settings.name + '_collapse_button').click(hideElementFinder);
 				
 				$('#' + settings.name + '_search_field').keypress( function(event) {
 						// Avoid searches being started after every character
@@ -302,6 +426,8 @@
 					});
 				
 				$(this).bind('update_search', updateSearchResults);
+				
+				$(":reset").live("click", resetElementFinder);
 			}
 			
 			return this.each(init);

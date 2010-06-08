@@ -42,7 +42,7 @@ class AnnouncementTool extends Tool
 
     static function get_allowed_types()
     {
-        return array('announcement');
+        return array(Announcement :: get_type_name());
     }
 }
 ?>

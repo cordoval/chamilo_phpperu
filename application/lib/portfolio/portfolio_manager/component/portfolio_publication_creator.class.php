@@ -4,14 +4,13 @@
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/../portfolio_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.php';
 
 /**
  * Component to create a new portfolio_publication object
  * @author Sven Vanpoucke
  */
-class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioManagerComponent
+class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioManager
 {
 
     /**
@@ -19,38 +18,34 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
 
-        $object = Request :: get('object');
-
-        $pub = new RepoViewer($this, 'portfolio', false, RepoViewer :: SELECT_MULTIPLE, array(), true, false);
-
-        if (! isset($object))
+        $pub = new RepoViewer($this, Portfolio :: get_type_name(), RepoViewer :: SELECT_MULTIPLE);
+        $html = array();
+        if (!$pub->is_ready_to_be_published())
         {
-            $this->display_header($trail);
-            echo $pub->as_html();
-            $this->display_footer();
+            $html[] = $pub->as_html();
         }
         else
         {
-            if (! is_array($object))
+            $object = $pub->get_selected_objects();
+            
+        	if (! is_array($object))
+            { 
                 $object = array($object);
+            }
 
             $portfolio_publication = new PortfolioPublication();
 
-            $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_CREATE, $portfolio_publication, $this->get_url(array('object' => $object)), $this->get_user());
+            $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_CREATE, $portfolio_publication, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $object)), $this->get_user(), PortfolioRights::TYPE_PORTFOLIO_FOLDER);
 
             if ($form->validate())
             {
                 $success = $form->create_portfolio_publications($object);
-                $this->redirect($success ? Translation :: get('PortfolioCreated') : Translation :: get('PortfolioNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id()));
+                $this->redirect($success ? Translation :: get('PortfolioCreated') : Translation :: get('PortfolioNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
             }
             else
             {
-                $this->display_header($trail);
+                
 
                 $condition = new InCondition(ContentObject :: PROPERTY_ID, $object, ContentObject :: get_table_name());
                 $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
@@ -68,13 +63,23 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
                 $html[] = '</ul>';
                 $html[] = '</div>';
                 $html[] = '</div>';
+                $html[] = $form->toHtml();
 
-                echo implode("\n", $html);
-
-                $form->display();
-                $this->display_footer();
             }
         }
+        $trail = BreadcrumbTrail::get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
+
+        $udm = UserDataManager::get_instance();
+        $user = $udm->retrieve_user($this->get_user_id());
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
+            
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
+        $trail->add_help('portfolio create');
+
+         $this->display_header();
+         echo implode("\n", $html);
+          $this->display_footer();
     }
 }
 ?>

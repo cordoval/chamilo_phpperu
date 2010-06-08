@@ -20,6 +20,9 @@ class UserManager extends CoreApplication
     const PARAM_RESET_PASSWORD_SELECTED = 'reset_pass_selected';
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_FIRSTLETTER = 'firstletter';
+    const PARAM_APPROVE_SELECTED = 'approve_selected';
+    const PARAM_DENY_SELECTED = 'deny_selected';
+    const PARAM_EMAIL_SELECTED = 'email_selected';
     
     const ACTION_CREATE_USER = 'create';
     const ACTION_BROWSE_USERS = 'adminbrowse';
@@ -29,6 +32,7 @@ class UserManager extends CoreApplication
     const ACTION_DELETE_USER = 'delete';
     const ACTION_REGISTER_USER = 'register';
     const ACTION_VIEW_ACCOUNT = 'account';
+    const ACTION_EMAIL = 'email';
     const ACTION_USER_QUOTA = 'quota';
     const ACTION_RESET_PASSWORD = 'reset_password';
     const ACTION_CHANGE_USER = 'change_user';
@@ -51,6 +55,8 @@ class UserManager extends CoreApplication
     const ACTION_BUILD_USER_FIELDS = 'user_field_builder';
     const ACTION_ADDITIONAL_ACCOUNT_INFORMATION = 'account_extra';
     const ACTION_USER_SETTINGS = 'user_settings';
+    const ACTION_USER_APPROVAL_BROWSER = 'user_approval_browser';
+    const ACTION_USER_APPROVER = 'user_approver';
     
     const PARAM_BUDDYLIST_CATEGORY = 'buddylist_category';
     const PARAM_BUDDYLIST_ITEM = 'buddylist_item';
@@ -120,6 +126,20 @@ class UserManager extends CoreApplication
                     $this->set_action(self :: ACTION_RESET_PASSWORD_MULTI);
                     Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
                     break;
+                case self :: PARAM_APPROVE_SELECTED:
+                	$this->set_action(self :: ACTION_USER_APPROVER);
+                	Request :: set_get('choice', 1);
+                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
+                    break;
+                case self :: PARAM_DENY_SELECTED:
+                	$this->set_action(self :: ACTION_USER_APPROVER);
+                	Request :: set_get('choice', 0);
+                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
+                    break;
+                case self :: PARAM_EMAIL_SELECTED:
+                	$this->set_action(self :: ACTION_EMAIL);
+                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
+                    break;
             }
         }
     }
@@ -180,94 +200,103 @@ class UserManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_CREATE_USER :
-                $component = UserManagerComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_REGISTER_USER :
-                $component = UserManagerComponent :: factory('Register', $this);
+                $component = $this->create_component('Register');
                 break;
             case self :: ACTION_UPDATE_USER :
-                $component = UserManagerComponent :: factory('Updater', $this);
+                $component = $this->create_component('Updater');
                 break;
             case self :: ACTION_DELETE_USER :
-                $component = UserManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_IMPORT_USERS :
                 //$this->force_menu_url($this->create_url, true);
-                $component = UserManagerComponent :: factory('Importer', $this);
+                $component = $this->create_component('Importer');
                 break;
             case self :: ACTION_EXPORT_USERS :
                 //$this->force_menu_url($this->create_url, true);
-                $component = UserManagerComponent :: factory('Exporter', $this);
+                $component = $this->create_component('Exporter');
                 break;
             case self :: ACTION_USER_QUOTA :
-                $component = UserManagerComponent :: factory('quota', $this);
+                $component = $this->create_component('quota');
                 break;
             case self :: ACTION_BROWSE_USERS :
-                $component = UserManagerComponent :: factory('AdminUserBrowser', $this);
+                $component = $this->create_component('AdminUserBrowser');
                 break;
             case self :: ACTION_VIEW_ACCOUNT :
-                $component = UserManagerComponent :: factory('Account', $this);
+                $component = $this->create_component('Account');
                 break;
             case self :: ACTION_RESET_PASSWORD :
-                $component = UserManagerComponent :: factory('ResetPassword', $this);
+                $component = $this->create_component('ResetPassword');
                 break;
             case self :: ACTION_CHANGE_USER :
-                $component = UserManagerComponent :: factory('ChangeUser', $this);
+                $component = $this->create_component('ChangeUser');
                 break;
             case self :: ACTION_MANAGE_RIGHTS_TEMPLATES :
-                $component = UserManagerComponent :: factory('UserRightsTemplateManager', $this);
+                $component = $this->create_component('UserRightsTemplateManager');
                 break;
             case self :: ACTION_VIEW_BUDDYLIST :
-                $component = UserManagerComponent :: factory('BuddyListViewer', $this);
+                $component = $this->create_component('BuddyListViewer');
                 break;
             case self :: ACTION_CREATE_BUDDYLIST_CATEGORY :
-                $component = UserManagerComponent :: factory('BuddyListCategoryCreator', $this);
+                $component = $this->create_component('BuddyListCategoryCreator');
                 break;
             case self :: ACTION_DELETE_BUDDYLIST_CATEGORY :
-                $component = UserManagerComponent :: factory('BuddyListCategoryDeleter', $this);
+                $component = $this->create_component('BuddyListCategoryDeleter');
                 break;
             case self :: ACTION_UPDATE_BUDDYLIST_CATEGORY :
-                $component = UserManagerComponent :: factory('BuddyListCategoryEditor', $this);
+                $component = $this->create_component('BuddyListCategoryEditor');
                 break;
             case self :: ACTION_CREATE_BUDDYLIST_ITEM :
-                $component = UserManagerComponent :: factory('BuddyListItemCreator', $this);
+                $component = $this->create_component('BuddyListItemCreator');
                 break;
             case self :: ACTION_DELETE_BUDDYLIST_ITEM :
-                $component = UserManagerComponent :: factory('BuddyListItemDeleter', $this);
+                $component = $this->create_component('BuddyListItemDeleter');
                 break;
             case self :: ACTION_CHANGE_BUDDYLIST_ITEM_STATUS :
-                $component = UserManagerComponent :: factory('BuddyListItemStatusChanger', $this);
+                $component = $this->create_component('BuddyListItemStatusChanger');
                 break;
             case self :: ACTION_CHANGE_BUDDYLIST_ITEM_CATEGORY :
-                $component = UserManagerComponent :: factory('BuddyListItemCategoryChanger', $this);
+                $component = $this->create_component('BuddyListItemCategoryChanger');
                 break;
             case self :: ACTION_REPORTING :
-                $component = UserManagerComponent :: factory('Reporting', $this);
+                $component = $this->create_component('Reporting');
                 break;
             case self :: ACTION_VIEW_QUOTA :
-                $component = UserManagerComponent :: factory('QuotaViewer', $this);
+                $component = $this->create_component('QuotaViewer');
                 break;
             case self :: ACTION_USER_DETAIL:
-            	$component = UserManagerComponent :: factory('UserDetail',$this);
+            	$component = $this->create_component('UserDetail');
                 break;
             case self :: ACTION_CHANGE_ACTIVATION :
-                $component = UserManagerComponent :: factory('ActiveChanger', $this);
+                $component = $this->create_component('ActiveChanger');
                 break;
             case self :: ACTION_RESET_PASSWORD_MULTI:
-            	$component = UserManagerComponent :: factory('MultiPasswordResetter',$this);
+            	$component = $this->create_component('MultiPasswordResetter');
                 break;
             case self :: ACTION_BUILD_USER_FIELDS:
-            	$component = UserManagerComponent :: factory('UserFieldsBuilder',$this);
+            	$component = $this->create_component('UserFieldsBuilder');
                 break;
             case self :: ACTION_ADDITIONAL_ACCOUNT_INFORMATION:
-            	$component = UserManagerComponent :: factory('AdditionalAccountInformation',$this);
+            	$component = $this->create_component('AdditionalAccountInformation');
                 break;
             case self :: ACTION_USER_SETTINGS:
-            	$component = UserManagerComponent :: factory('UserSettings',$this);
+            	$component = $this->create_component('UserSettings');
+                break;
+            case self :: ACTION_USER_APPROVAL_BROWSER:
+            	$component = $this->create_component('UserApprovalBrowser');
+                break;
+            case self :: ACTION_USER_APPROVER:
+            	$component = $this->create_component('UserApprover');
+                break;
+            case self :: ACTION_EMAIL:
+            	$component = $this->create_component('Emailer');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_USERS);
-                $component = UserManagerComponent :: factory('AdminUserBrowser', $this);
+                $component = $this->create_component('AdminUserBrowser');
         }
         $component->run();
     }
@@ -323,8 +352,7 @@ class UserManager extends CoreApplication
      */
     function user_deletion_allowed($user)
     {
-        $udm = UserDataManager :: get_instance();
-        return $udm->user_deletion_allowed($user);
+        return UserDataManager :: user_deletion_allowed($user);
     }
 
     /**
@@ -335,6 +363,12 @@ class UserManager extends CoreApplication
     {
         $links = array();
         $links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+        
+        if(PlatformSetting :: get('allow_registration', 'user') == 2)
+        {
+			$links[] = array('name' => Translation :: get('ApproveList'), 'description' => Translation :: get('ApproveListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)));        	
+        }
+        
         $links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
         $links[] = array('name' => Translation :: get('Export'), 'description' => Translation :: get('ExportDescription'), 'action' => 'export', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
         $links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
@@ -439,6 +473,26 @@ class UserManager extends CoreApplication
   	function get_user_detail_url($user_id)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_DETAIL, self :: PARAM_USER_USER_ID => $user_id));
+    }
+    
+	function get_approve_user_url($user)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_APPROVER, 
+        						    self :: PARAM_USER_USER_ID => $user->get_id(),
+        							UserManagerUserApproverComponent :: PARAM_CHOICE => UserManagerUserApproverComponent :: CHOICE_APPROVE));
+    }
+    
+	function get_deny_user_url($user)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_USER_APPROVER, 
+        						    self :: PARAM_USER_USER_ID => $user->get_id(),
+        						    UserManagerUserApproverComponent :: PARAM_CHOICE => UserManagerUserApproverComponent :: CHOICE_DENY));
+    }
+    
+    function get_email_user_url($user)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EMAIL, 
+        						    self :: PARAM_USER_USER_ID => $user->get_id()));
     }
 
 }

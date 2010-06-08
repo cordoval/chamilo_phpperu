@@ -52,21 +52,21 @@ class DefaultSubscriptionTableCellRenderer implements ObjectTableCellRenderer
                     }
                 case Subscription :: PROPERTY_START_TIME :
                     {
-                        $t = $subscription->get_start_time();
-                        if (! $t)
+                        $time = $subscription->get_start_time();
+                        if (!$time)
                         {
-                            $t = $this->reservation->get_start_date();
+                            $time = $this->reservation->get_start_date();
                         }
-                        return $t;
+                        return DatetimeUtilities :: format_locale_date(null, $time);
                     }
                 case Subscription :: PROPERTY_STOP_TIME :
                     {
-                        $t = $subscription->get_stop_time();
-                        if (! $t)
+                        $time = $subscription->get_stop_time();
+                        if (!$time)
                         {
-                            $t = $this->reservation->get_stop_date();
+                            $time = $this->reservation->get_stop_date();
                         }
-                        return $t;
+                        return DatetimeUtilities :: format_locale_date(null, $time);
                     }
                 case Subscription :: PROPERTY_ACCEPTED :
                     if ($subscription->get_accepted())

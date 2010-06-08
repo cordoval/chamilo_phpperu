@@ -9,7 +9,7 @@
  * allows password resets, an email with further instructions will be send to
  * the user.
  */
-class UserManagerResetPasswordComponent extends UserManagerComponent
+class UserManagerResetPasswordComponent extends UserManager
 {
     const PARAM_RESET_KEY = 'key';
 
@@ -18,23 +18,25 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('LostPassword')));
         $trail->add_help('user general');
 
-        $user_id = $this->get_user_id();
+        //$user_id = $this->get_user_id();
+        $user_id = Session :: get_user_id();
+        
         if ($this->get_platform_setting('allow_password_retrieval', 'admin') == false)
         {
             Display :: not_allowed();
         }
         if (isset($user_id))
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: warning_message(Translation :: get('AlreadyRegistered'));
             $this->display_footer();
             exit();
         }
-        $this->display_header($trail);
+        $this->display_header();
         $request_key = Request :: get(self :: PARAM_RESET_KEY);
         $request_user_id = Request :: get(User :: PROPERTY_ID);
         if (! is_null($request_key) && ! is_null($request_user_id))
@@ -70,7 +72,9 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
                 }
                 else
                 {
-                    foreach ($users as $index => $user)
+                    $failures = 0;
+                    
+                	foreach ($users as $index => $user)
                     {
                         $auth_source = $user->get_auth_source();
                         $auth = Authentication :: factory($auth_source);
@@ -79,10 +83,22 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
                             Display :: error_message('ResetPasswordNotPossibleForThisUser');
                         }
                         else
-                        {
-                            $this->send_reset_link($user);
-                            Display :: normal_message('ResetLinkHasBeenSend');
+                        { 
+                            if(!$this->send_reset_link($user))
+                            {
+                            	$failures++;
+                            }
                         }
+                    }
+                    
+                    $message = $this->get_result($failures, count($users), 'ResetLinkHasNotBeenSend', 'ResetLinksHasNotBeenSend', 'ResetLinkHasBeenSend', 'ResetLinksHasBeenSend');
+                    if($failures == 0)
+                    {
+                    	Display :: normal_message($message);
+                    }
+                    else
+                    {
+                    	Display :: error_message($message);
                     }
                 }
             }
@@ -131,7 +147,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
         $mail_body[] = Translation :: get('UserName') . ' :' . $user->get_username();
         $mail_body[] = Translation :: get('YourAccountParam') . ' ' . $this->get_path(WEB_PATH) . ': ' . $url;
         $mail_body = implode("\n", $mail_body);
-        echo ($mail_body);
+
         $mail = Mail :: factory($mail_subject, $mail_body, $user->get_email());
         return $mail->send();
     }

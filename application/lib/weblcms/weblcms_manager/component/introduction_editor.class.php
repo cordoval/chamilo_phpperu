@@ -4,10 +4,10 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../content_object_publication_form.class.php';
 
-class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManagerComponent
+class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManager
 {
 
     function run()
@@ -35,23 +35,9 @@ class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManagerComponent
         }
         else
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             
-            switch ($this->get_course()->get_breadcrumb())
-            {
-                case Course :: BREADCRUMB_TITLE :
-                    $title = $this->get_course()->get_name();
-                    break;
-                case Course :: BREADCRUMB_CODE :
-                    $title = $this->get_course()->get_visual();
-                    break;
-                case Course :: BREADCRUMB_COURSE_HOME :
-                    $title = Translation :: get('CourseHome');
-                    break;
-                default :
-                    $title = $this->get_course()->get_visual();
-                    break;
-            }
+            $title = CourseLayout :: get_title($this->get_course());
             
             $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
             $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE)), $title));
@@ -59,7 +45,7 @@ class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManagerComponent
             
             $trail->add_help('courses general');
             
-            $this->display_header($trail, false, true);
+            $this->display_header();
             echo '<div class="clear"></div><br />';
             $form->display();
             $this->display_footer();

@@ -11,8 +11,8 @@
 		<property name="property" notnull="1" type="text" length="255"
 			fixed="true" />
 		<property name="value" notnull="1" type="text" />
-		<property name="created" type="timestamp" />
-		<property name="modified" type="timestamp" />
+		<property name="created" type="integer" unsigned="1" notnull="1" />
+		<property name="modified" type="integer" unsigned="1" notnull="1" />
 	</properties>
 	<index name="content_object_id" type="unique">
 		<indexproperty name="content_object_id" />

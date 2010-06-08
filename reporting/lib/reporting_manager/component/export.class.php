@@ -5,7 +5,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingManagerExportComponent extends ReportingManagerComponent
+class ReportingManagerExportComponent extends ReportingManager
 {
 
     function run()
@@ -13,18 +13,27 @@ class ReportingManagerExportComponent extends ReportingManagerComponent
         $rte = new ReportingExporter($this);
         
         if (Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID))
-            $rbi = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
+        {
+			$rbi = Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID);
+        }
         else 
+        {
             if (Request :: get(ReportingManager :: PARAM_TEMPLATE_ID))
+            {
                 $ti = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
-        
-        $params = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS);
-        
-        $_SESSION[ReportingManager :: PARAM_REPORTING_PARENT] = $this;
-        
+            }
+        }
+		//$params = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS);
+        //$params = unserialize(base64_decode($params));
+        /*$_SESSION[ReportingManager :: PARAM_REPORTING_PARENT] = $this;*/
+        //$params['export'] = true;
         $export = Request :: get(ReportingManager :: PARAM_EXPORT_TYPE);
         
-        if (isset($rbi))
+        $rtv = new ReportingExporter($this);
+        $rtv->add_export($export);
+        $rtv->export();
+        //$rte->export();
+        /*if (isset($rbi))
         {
             $rte->export_reporting_block($rbi, $export, $params);
         }
@@ -32,7 +41,7 @@ class ReportingManagerExportComponent extends ReportingManagerComponent
             if (isset($ti))
             {
                 $rte->export_template($ti, $export, $params);
-            }
+            }*/
     } //run
 }
 ?>

@@ -38,6 +38,15 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         // Add special features here
         switch ($column->get_name())
         {
+        	
+        	case Course::PROPERTY_COURSE_TYPE_ID: 
+        		
+        		if($course->get_course_type_id() != 0)
+        			return WeblcmsDatamanager::get_instance()->retrieve_course_type($course->get_course_type_id())->get_name();
+        		else
+        		{
+        			return Translation :: get('NoCourseType');
+        		}
             // Exceptions that need post-processing go here ...
         }
         return parent :: render_cell($column, $course);
@@ -57,12 +66,14 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         
         $toolbar_data[] = array('href' => $this->browser->get_course_editing_url($course), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         $toolbar_data[] = array('href' => $this->browser->get_course_deleting_url($course), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        $toolbar_data[] = array('href' => $this->browser->get_course_changing_course_type_url($course), 'label' => Translation :: get('ChangeCourseType'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
         
         $toolbar_data[] = array('href' => $this->browser->get_course_maintenance_url($course), 'label' => Translation :: get('Maintenance'), 'img' => Theme :: get_common_image_path() . 'action_maintenance.png');
         
         $params = array();
-        $params[ReportingManager :: PARAM_COURSE_ID] = $course->get_id();
-        $url = ReportingManager :: get_reporting_template_registration_url_content($this->browser, 'CourseStudentTrackerReportingTemplate', $params);
+        $params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();
+        //$params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration('course_student_tracker_reporting_template', WeblcmsManager::APPLICATION_NAME)->get_id();
+        $url = $this->browser->get_reporting_url($params);
         //$unsubscribe_url = $this->browser->get_url($parameters);
         $toolbar_data[] = array('href' => $url, 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
         

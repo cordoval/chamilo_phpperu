@@ -60,7 +60,7 @@ function dump_tree($users)
 {
     if (contains_results($users))
     {
-        echo '<nodes classes="type_category unlinked" id="recipients" title="' . Translation :: get('User') . '">';
+        echo '<nodes classes="category unlinked" id="recipients" title="' . Translation :: get('User') . '">';
         foreach ($users as $lo)
         {
             echo '<leaf id="user|' . $lo->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($lo->get_fullname()) . '" description="' . htmlentities($lo->get_username()) . '"/>' . "\n";

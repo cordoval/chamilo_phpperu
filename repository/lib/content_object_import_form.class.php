@@ -15,6 +15,10 @@ class ContentObjectImportForm extends FormValidator
     private $category;
     private $user;
     private $import_type;
+    private $show_category;
+    private $messages;
+    private $warnings;
+    private $errors;
 
     /**
      * Constructor.
@@ -22,12 +26,13 @@ class ContentObjectImportForm extends FormValidator
      * @param string $method The method to use ('post' or 'get').
      * @param string $action The URL to which the form should be submitted.
      */
-    function ContentObjectImportForm($form_name, $method = 'post', $action = null, $category, $user, $import_type = null)
+    function ContentObjectImportForm($form_name, $method = 'post', $action = null, $category, $user, $import_type = null, $show_category = true)
     {
         parent :: __construct($form_name, $method, $action);
         $this->category = $category;
         $this->import_type = $import_type;
         $this->user = $user;
+        $this->show_category = $show_category;
         $this->build_basic_form();
         $this->setDefaults();
     }
@@ -49,7 +54,15 @@ class ContentObjectImportForm extends FormValidator
      */
     private function build_basic_form()
     {
-        $this->add_select(RepositoryManager :: PARAM_CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
+        if($this->show_category)
+        {
+    		$this->add_select(RepositoryManager :: PARAM_CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
+        }
+        else
+        {
+        	$this->addElement('hidden', RepositoryManager :: PARAM_CATEGORY_ID);	
+        }
+        
         $this->add_select('type', Translation :: get('Type'), $this->get_types());
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
         //$this->addElement('submit', 'content_object_import', Translation :: get('Ok'));
@@ -73,6 +86,18 @@ class ContentObjectImportForm extends FormValidator
         return $types;
     }
 
+    function get_messages(){
+    	return empty($this->messages) ? array() : $this->messages;
+    }
+    
+    function get_warnings(){
+    	return empty($this->warnings) ? array() : $this->warnings;
+    }
+    
+    function get_errors(){
+    	return empty($this->errors) ? array() : $this->errors;
+    }
+    
     /**
      * Sets default values.
      * @param array $defaults Default values for this form's parameters.
@@ -99,7 +124,11 @@ class ContentObjectImportForm extends FormValidator
         if (ContentObjectImport :: type_supported($type))
         {
             $importer = ContentObjectImport :: factory($type, $_FILES[self :: IMPORT_FILE_NAME], $this->get_user(), $this->exportValue(RepositoryManager :: PARAM_CATEGORY_ID));
-            return $importer->import_content_object();
+            $result = $importer->import_content_object();
+            $this->messages = $importer->get_messages();
+            $this->warnings = $importer->get_warnings();
+            $this->errors = $importer->get_errors();
+            return $result;
         }
         else
         {

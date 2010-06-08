@@ -111,6 +111,11 @@ abstract class SubManager
     {
         $this->get_parent()->display_popup_form($form_html);
     }
+    
+    function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
+    {
+        return $this->get_parent()->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
+    }
 
     function not_allowed()
     {
@@ -152,6 +157,16 @@ abstract class SubManager
         return $this->get_parent()->get_application_name();
     }
 
+    function create_component($type, $application = null)
+    {
+    	if($application == null)
+    	{
+    		$application = $this;
+    	}
+    	
+    	return $this->get_parent()->create_component($type, $application);
+    }
+    
     abstract function run();
 
     abstract function get_application_component_path();

@@ -7,7 +7,7 @@
 /**
  *
  */
-class ReportingManagerDeleteComponent extends ReportingManagerComponent
+class ReportingManagerDeleteComponent extends ReportingManager
 {
     private $action_bar;
 
@@ -16,24 +16,24 @@ class ReportingManagerDeleteComponent extends ReportingManagerComponent
      */
     function run()
     {
-        
-        $trail = new BreadcrumbTrail();
+
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb($this->get_url(array(Translation :: get('Reporting')))));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteTemplate')));
         $trail->add_help('reporting general');
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
         }
-        
+
         $this->action_bar = $this->get_action_bar();
         $output = $this->get_user_html();
-        
-        $this->display_header($trail);
+
+        $this->display_header();
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo $output;
         $this->display_footer();
@@ -42,14 +42,14 @@ class ReportingManagerDeleteComponent extends ReportingManagerComponent
     function get_user_html()
     {
         //$table = new RoleBrowserTable($this, array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES), $this->get_condition());
-        
+
 
         $html = array();
         $html[] = '<div style="float: right; width: 100%;">';
         //$html[] = $table->as_html();
         $html[] = 'bla';
         $html[] = '</div>';
-        
+
         return implode($html, "\n");
     }
 
@@ -58,9 +58,9 @@ class ReportingManagerDeleteComponent extends ReportingManagerComponent
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $condition = new LikeCondition(HelpItem :: PROPERTY_NAME, $query);
+            $condition = new PatternMatchCondition(HelpItem :: PROPERTY_NAME, '*' . $query . '*');
         }
-        
+
         return $condition;
     }
 
@@ -72,10 +72,10 @@ class ReportingManagerDeleteComponent extends ReportingManagerComponent
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+
         $action_bar->set_search_url($this->get_url(array(ReportingManager :: PARAM_TEMPLATE_ID => $this->get_template())));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+
 
         return $action_bar;
     }

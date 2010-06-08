@@ -202,6 +202,28 @@ class XMLUtilities
         return $node_list;
     }
 
+    
+    public static function get_all_element_by_relative_xpath($node, $xpath_query)
+    {
+        $dom = new DOMDocument();
+        if(is_a($node, 'DOMNode'))
+        {
+            $imported_node = $dom->importNode($node, true);
+            $dom->appendChild($imported_node);
+        }
+        elseif(is_a($node, 'DOMNodeList'))
+        {
+            foreach($node as $subnode)
+            {
+                $imported_node = $dom->importNode($subnode, true);
+                $dom->appendChild($imported_node);   
+            }
+        }
+        
+        $xpath = new DOMXPath($dom);
+        return $xpath->query($xpath_query);
+    }
+    
     /**
      * Get an attribute value, of the default value if the attribute is null or empty
      * 

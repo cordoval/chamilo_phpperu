@@ -14,7 +14,7 @@ require_once Path :: get_application_path() . 'lib/profiler/profile_publication.
  * This class represents an old Dokeos 1.8.5 user
  *
  * @author David Van Wayenbergh
- * @author Sven Vanpoucke 
+ * @author Sven Vanpoucke
  */
 
 class Dokeos185User extends Import
@@ -22,7 +22,7 @@ class Dokeos185User extends Import
     /**
      * Migration data manager
      */
-    
+
     /**
      * Table User Properties
      */
@@ -51,29 +51,29 @@ class Dokeos185User extends Import
     const PROPERTY_EXPIRATION_DATE = 'expiration_date';
     const PROPERTY_ACTIVE = 'active';
     const PROPERTY_OPENID = 'openid';
-    
-    /** 
+
+    /**
      * Table Admin Properties
      */
     const PROPERTY_ADMIN = 'user_id';
-    
+
     const ACTION_READ_USER = 'read';
-    
+
     /**
      * Numeric identifier of the user object.
      */
     private $user_id;
-    
+
     /**
      * Default properties of the user table, stored in an associative
      * array.
      */
     private $default_user_properties;
-    
+
     /**
      * Default properties of the admin table, stored in an associative array
      */
-    
+
     private $default_admin_properties;
 
     /**
@@ -171,7 +171,7 @@ class Dokeos185User extends Import
     /**
      * USER GETTERS AND SETTERS
      */
-    
+
     /**
      * Returns the user_id of this user.
      * @return int The user_id.
@@ -428,7 +428,7 @@ class Dokeos185User extends Import
     {
         $mgdm = MigrationDataManager :: get_instance();
         $old_mgdm = $parameters['old_mgdm'];
-        
+
         //User parameters
         $lcms_user = new User();
         $lcms_user->set_lastname($this->get_lastname());
@@ -440,13 +440,7 @@ class Dokeos185User extends Import
         $lcms_user->set_platformadmin($this->get_platformadmin());
         $lcms_user->set_official_code($this->get_official_code());
         $lcms_user->set_phone($this->get_phone());
-        /*
-        if ($mgdm->is_language_available($this->get_language()))
-            //$lcms_user->set_language($this->get_language());
-        else
-            //$lcms_user->set_language('english');
-         */
-        
+
         //Set user authentication method, if not available use default: platform
         if ($mgdm->is_authentication_available($this->get_auth_source()))
         {
@@ -459,39 +453,42 @@ class Dokeos185User extends Import
 
         //Move picture to correct directory
         $old_rel_path_picture = '/main/upload/users/';
-        
+
         if ($this->get_picture_uri())
         {
             $new_rel_path_picture = '/files/userpictures/';
-            
+
             $picture_uri = $old_mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, $this->get_picture_uri());
             if ($picture_uri)
             {
                 $lcms_user->set_picture_uri($picture_uri);
             }
-            
+
             unset($new_rel_path_picture);
             unset($old_rel_path_picture);
             unset($picture_uri);
         }
-        
+
         // Get new id from temporary table for references
         $creator_id = $mgdm->get_id_reference($this->get_creator_id(), 'user_user');
         if ($creator_id)
             $lcms_user->set_creator_id($creator_id);
         unset($creator_id);
-        
+
         //create user in database
         $lcms_user->create();
         //Add id references to temp table
         $mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_id(), 'user_user');
-        
-        // Create user directory
-        //$rep_dir = '/files/repository/' . $lcms_user->get_id() . '/';
-        //self :: $old_mgdm->create_directory(true, $rep_dir);
 
+        if ($mgdm->is_language_available($this->get_language()))
+            LocalSetting :: create_local_setting('platform_language', $this->get_language(), 'admin', $lcms_user->get_id());
+        else
+            LocalSetting :: create_local_setting('platform_language', 'english', 'admin', $lcms_user->get_id());
+
+        //control if the profiler application exists
+		$is_registered = AdminDataManager :: is_registered('profiler');
         // Convert profile fields to Profile object if the user has user profile data
-        if ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL)
+        if ($is_registered && ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL))
         {
         	$lcms_category_id = $mgdm->get_repository_category_by_name($lcms_user->get_id(),Translation :: get('Profile'));
         	$lcms_repository_profile = new Profile();
@@ -502,23 +499,23 @@ class Dokeos185User extends Import
         	$lcms_repository_profile->set_title($this->get_lastname().' '.$this->get_firstname());
         	$lcms_repository_profile->set_parent_id($lcms_category_id);
         	$lcms_repository_profile->set_phone($this->get_phone());
-        	
+
         	//Create profile in database
         	$lcms_repository_profile->create();
-        
+
         	//Publish Profile
         	$lcms_profile_publication = new ProfilePublication();
         	$lcms_profile_publication->set_profile($lcms_repository_profile->get_id());
         	$lcms_profile_publication->set_publisher($lcms_user->get_id());
-        
+
         	//Create profile publication in database
         	$lcms_profile_publication->create();
-        
+
         	//unset
         	unset($lcms_repository_profile);
         	unset($lcms_profile_publication);
         }
-        	
+
         //Convert all production files to content objects
         $old_path = $old_rel_path_picture . $this->get_user_id() . '/' . $this->get_user_id() . '/';
         $directory = $old_mgdm->append_full_path(false, $old_path);
@@ -526,7 +523,7 @@ class Dokeos185User extends Import
         if (file_exists($directory))
         {
             $files_list = Filesystem :: get_directory_content($directory, Filesystem :: LIST_FILES);
-            
+
             if (count($files_list) != 0)
             {
                 //Create category for user in lcms
@@ -534,18 +531,18 @@ class Dokeos185User extends Import
                 $lcms_repository_category->set_id($lcms_user->get_id());
                 $lcms_repository_category->set_name(Translation :: get('User'));
                 $lcms_repository_category->set_parent(0);
-                
+
                 //Create category in database
                 $lcms_repository_category->create();
-                
+
                 foreach ($files_list as $file)
                 {
                     $file_split = split('/', $file);
                     $filename = $file_split[count($file_split) - 1];
                     $new_path = '/files/repository/' . $lcms_user->get_id() . '/';
-                    
+
                     $filename = $old_mgdm->move_file($old_path, $new_path, $filename);
-                    
+
                     if ($filename)
                     {
                         //Create document
@@ -553,38 +550,38 @@ class Dokeos185User extends Import
                         $lcms_repository_document->set_filename($filename);
                         $lcms_repository_document->set_path($lcms_user->get_id() . '/' . $filename);
                         $lcms_repository_document->set_filesize(filesize($file));
-                        
+
                         //Create document in db
                         $lcms_repository_document->create();
-                        
+
                         unset($lcms_repository_document);
                     }
-                    
+
                     unset($file_split);
                     unset($filename);
                     unset($file);
                     unset($new_path);
                 }
-                
+
                 $files_list = array();
                 unset($files_list);
             }
         }
-        
+
         unset($repository_id);
         unset($old_path);
         unset($directory);
-        
+
         $parameters = array();
         unset($parameters);
-        
+
         $this->default_user_properties = array();
         unset($this->default_user_properties);
         $this->default_admin_properties = array();
         unset($this->default_admin_properties);
         unset($mgdm);
         unset($old_mgdm);
-        
+
         return $lcms_user;
     }
 
@@ -598,19 +595,19 @@ class Dokeos185User extends Import
     {
         $lcms_users = $parameters['lcms_users'];
         $mgdm = MigrationDataManager :: get_instance();
-        
+
         if (! $this->get_username() || ! $this->get_password() || ! $this->get_status())
         {
             $mgdm->add_failed_element($this->get_user_id(), 'dokeos_main.user');
-            
+
             return false;
         }
-        
+
         $index = 0;
         $user = $this->username_exists($lcms_users, $this->get_username());
         $firstuser = $user;
         $newusername = $this->get_username();
-        
+
         if ($user)
         {
             do
@@ -620,10 +617,10 @@ class Dokeos185User extends Import
             }
             while ($user);
         }
-        
+
         $lcms_users = array();
         unset($lcms_users);
-        
+
         if ($firstuser)
         {
             $firstuser->set_username($newusername);
@@ -633,7 +630,7 @@ class Dokeos185User extends Import
 			 to change your login name\r\n
 			 new login: ' . $firstuser->get_username());*/
         }
-        
+
         $parameters = array();
         unset($parameters);
         unset($firstuser);

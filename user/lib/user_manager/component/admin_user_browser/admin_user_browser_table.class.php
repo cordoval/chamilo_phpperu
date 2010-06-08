@@ -30,6 +30,12 @@ class AdminUserBrowserTable extends ObjectTable
         $actions[] =  new ObjectTableFormAction(UserManager :: PARAM_ACTIVATE_SELECTED, Translation :: get('ActivateSelected'), false);
         $actions[] =  new ObjectTableFormAction(UserManager :: PARAM_DEACTIVATE_SELECTED, Translation :: get('DeactivateSelected'));
         $actions[] =  new ObjectTableFormAction(UserManager :: PARAM_RESET_PASSWORD_SELECTED, Translation :: get('ResetPassword'));
+        
+        if(PlatformSetting :: get('active_online_email_editor'))
+        {
+        	$actions[] =  new ObjectTableFormAction(UserManager :: PARAM_EMAIL_SELECTED, Translation :: get('EmailSelected'), false);
+        }
+        
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }

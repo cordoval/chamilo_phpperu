@@ -18,7 +18,7 @@ class RepoViewer
 {
     const PARAM_ACTION = 'repoviewer_action';
     const PARAM_EDIT = 'edit';
-    const PARAM_ID = 'object';
+    const PARAM_ID = 'repo_object';
     const PARAM_EDIT_ID = 'obj';
     const PARAM_QUERY = 'query';
     const PARAM_CONTENT_OBJECT_TYPE = 'type';
@@ -28,6 +28,7 @@ class RepoViewer
     const ACTION_CREATOR = 'creator';
     const ACTION_BROWSER = 'browser';
     const ACTION_PUBLISHER = 'publisher';
+    const ACTION_VIEWER = 'viewer';
 
     /**
      * The types of learning object that this repo_viewer is aware of and may
@@ -46,13 +47,9 @@ class RepoViewer
 
     private $parameters;
 
-    private $mail_option;
-
     private $maximum_select;
 
     private $excluded_objects;
-
-    private $redirect;
 
     /**
      * You have two choices for the select multiple
@@ -65,17 +62,14 @@ class RepoViewer
     /**
      * Constructor.
      * @param array $types The learning object types that may be repoviewered.
-     * @param  boolean $email_option If true the repo_viewer has the option to
-     * send the repoviewered learning object by email to the selecter target users.
      */
-    function RepoViewer($parent, $types, $mail_option = false, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true, $redirect = true)
+    function RepoViewer($parent, $types, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true)
     {
         $this->maximum_select = $maximum_select;
         $this->parent = $parent;
         $this->default_content_objects = array();
         $this->parameters = array();
         $this->types = (is_array($types) ? $types : array($types));
-        $this->mail_option = $mail_option;
         $this->set_repo_viewer_actions(array(self :: ACTION_CREATOR, self :: ACTION_BROWSER));
         $this->excluded_objects = $excluded_objects;
         $this->set_parameter(RepoViewer :: PARAM_ACTION, (Request :: get(RepoViewer :: PARAM_ACTION) ? Request :: get(RepoViewer :: PARAM_ACTION) : self :: ACTION_CREATOR));
@@ -83,7 +77,6 @@ class RepoViewer
         {
             $this->parse_input_from_table();
         }
-        $this->redirect = $redirect;
     }
 
     function as_html()
@@ -93,6 +86,12 @@ class RepoViewer
 
         $html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
         $repo_viewer_actions = $this->get_repo_viewer_actions();
+        
+        if($action == self :: ACTION_VIEWER)
+        {
+        	$repo_viewer_actions[] = self :: ACTION_VIEWER;
+        }
+        
         foreach ($repo_viewer_actions as $repo_viewer_action)
         {
             $html[] = '<li><a';
@@ -105,7 +104,15 @@ class RepoViewer
                 $html[] = ' class="current"';
             }
 
-            $html[] = ' href="' . $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => $repo_viewer_action)), true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
+            $parameters = $this->get_parameters();
+            $parameters[self :: PARAM_ACTION] = $repo_viewer_action;
+            
+	        if($repo_viewer_action == self :: ACTION_VIEWER)
+	        {
+	        	$parameters[self :: PARAM_ID] = Request :: get(self :: PARAM_ID);
+	        }
+            
+            $html[] = ' href="' . $this->get_url($parameters, true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
         }
         $html[] = '</ul><div class="tabbed-pane-content">';
 
@@ -228,21 +235,6 @@ class RepoViewer
         return $this->creation_defaults;
     }
 
-    function redirect_complex($type)
-    {
-        return $this->redirect;
-    }
-
-    function get_redirect()
-    {
-        return $this->redirect;
-    }
-
-    function set_redirect($value)
-    {
-        $this->redirect = $value;
-    }
-
     /**
      * Sets a default learning object. When the creator component of this
      * repo_viewer is displayed, the properties of the given learning object will
@@ -290,11 +282,6 @@ class RepoViewer
         $this->repo_viewer_actions = $repo_viewer_actions;
     }
 
-    function with_mail_option()
-    {
-        return $this->mail_option;
-    }
-
     function parse_input_from_table()
     {
         if (isset($_POST['action']))
@@ -311,13 +298,13 @@ class RepoViewer
                     {
                         if (count($selected_publication_ids) > $this->get_maximum_select())
                         {
-                            Request :: set_get('message', sprintf(Translation :: get('MaximumSelectableLOReached'), count($selected_publication_ids), $this->get_maximum_select()));
+                            Request :: set_get('message', sprintf(Translation :: get('MaximumSelectableContentObjectsReached'), count($selected_publication_ids), $this->get_maximum_select()));
                             $_POST['action'] = null;
                             Request :: set_get('action', null);
                             return;
                         }
                     }
-                    $redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $selected_publication_ids));
+                    $redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer:: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $selected_publication_ids));
 
                     $this->redirect(null, false, $redirect_params);
                     break;

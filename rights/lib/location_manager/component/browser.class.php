@@ -5,7 +5,7 @@
  */
 require_once Path :: get_rights_path() . 'lib/location_manager/component/location_browser_table/location_browser_table.class.php';
 
-class LocationManagerBrowserComponent extends LocationManagerComponent
+class LocationManagerBrowserComponent extends LocationManager
 {
     private $action_bar;
     
@@ -20,7 +20,7 @@ class LocationManagerBrowserComponent extends LocationManagerComponent
         $this->application = Request :: get(LocationManager :: PARAM_SOURCE);
         $location = Request :: get(LocationManager :: PARAM_LOCATION);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS)), Translation :: get('Locations')));
@@ -56,11 +56,11 @@ class LocationManagerBrowserComponent extends LocationManagerComponent
         
         $this->action_bar = $this->get_action_bar();
         
-        $this->display_header($trail);
+        $this->display_header();
         
         $html = array();
         $application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS, LocationManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
-        $html[] = Application :: get_selecter($application_url, $this->application);
+        $html[] = BasicApplication :: get_selecter($application_url, $this->application);
         $html[] = $this->action_bar->as_html() . '<br />';
         
         $url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS, LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_BROWSE_LOCATIONS, LocationManager :: PARAM_SOURCE => $this->application, LocationManager :: PARAM_LOCATION => '%s'));
@@ -70,7 +70,9 @@ class LocationManagerBrowserComponent extends LocationManagerComponent
         $html[] = $location_menu->render_as_tree();
         $html[] = '</div>';
         
-        $table = new LocationBrowserTable($this, $this->get_parameters(), $this->get_condition($location));
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        $table = new LocationBrowserTable($this, $parameters, $this->get_condition($location));
         
         $html[] = '<div style="float: right; width: 80%;">';
         $html[] = $table->as_html();

@@ -55,7 +55,6 @@ div.row div.forme,div.row div.forme_no_margin {
 	background-repeat: no-repeat;
 	background-position: 10px 10px;
 	/*background-image: url('../images/common/status_warning.png');*/
-	
 	border: 1px solid #ffd89b;
 	background-color: #fff8aa;
 	color: #996900;
@@ -75,8 +74,8 @@ div.row div.formc,div.row div.formc_no_margin {
 	color: #212467;
 }
 
-div.row div.forme h2,div.row div.forme_no_margin h2,
-div.row div.formc h2,div.row div.formc_no_margin h2 {
+div.row div.forme h2,div.row div.forme_no_margin h2,div.row div.formc h2,div.row div.formc_no_margin h2
+	{
 	padding: 0px 0px 5px 0px;
 	margin: 0px;
 	font-size: 120%;
@@ -250,6 +249,11 @@ button,a.button {
 	vertical-align: middle;
 }
 
+a.button {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
 button.positive,a.positive_button {
 	background-image: url(../images/common/buttons/button_confirm.png);
 	color: #529214;
@@ -288,14 +292,6 @@ button.normal,a.normal_button {
 	background-image: url(../images/common/buttons/button_next.png);
 }
 
-button.next,a.next_button {
-	background-image: url(../images/common/buttons/button_next.png);
-}
-
-button.previous,a.previous_button {
-	background-image: url(../images/common/buttons/button_previous.png);
-}
-
 a.normal_button:hover,button.normal:hover {
 	background-color: #dff4ff;
 	border: 1px solid #c2e1ef;
@@ -308,6 +304,32 @@ button.normal:active,a.normal_button:active {
 	color: #ffffff;
 }
 
+button.mini, a.mini_button,
+button.mini:hover, a.mini_button:hover,
+button.mini:active, a.mini_button:active
+{
+	background-position: 6px center;
+	padding: 0px 6px 0px 28px;
+	margin: -3px 0px 0px -3px;
+	line-height: 16px;
+	height: 22px;
+	vertical-align: middle;
+	font-size: 11px;
+}
+
+button.mini, a.mini_button
+{
+	border: 1px solid #dedede;
+}
+
+button.next,a.next_button {
+	background-image: url(../images/common/buttons/button_next.png);
+}
+
+button.previous,a.previous_button {
+	background-image: url(../images/common/buttons/button_previous.png);
+}
+
 button.empty,a.empty_button {
 	background-image: url(../images/common/buttons/button_empty.png);
 }
@@ -318,6 +340,12 @@ button.select,a.select_button {
 
 button.login,a.login_button {
 	background-image: url(../images/common/buttons/button_login.png);
+	float: left;
+	margin-bottom: 7px;
+}
+
+button.logout,a.logout_button {
+	background-image: url(../images/common/buttons/button_logout.png);
 }
 
 button.search,a.search_button {
@@ -370,6 +398,9 @@ button.compare,a.compare_button {
 
 button.register,a.register_button {
 	background-image: url(../images/common/buttons/button_register.png);
+	float: left;
+	padding-bottom: 11px;
+	margin-bottom: 7px;
 }
 
 button.switch,a.switch_button {
@@ -418,6 +449,9 @@ button.surf,a.surf_button {
 
 button.help,a.help_button {
 	background-image: url(../images/common/buttons/button_help.png);
+	float: left;
+	padding-bottom: 11px;
+	margin-bottom: 7px;
 }
 
 button.email,a.email_button {
@@ -438,6 +472,10 @@ button.quickstart,a.quickstart_button {
 
 button.continue,a.continue_button {
 	background-image: url(../images/common/buttons/button_continue.png);
+}
+
+button.hide, a.hide_button {
+	background-image: url(../images/common/buttons/button_hide.png);
 }
 
 /*IE-fix to avoid adding unwanted margins to the form*/
@@ -472,7 +510,7 @@ div.configuration_form span.category {
  * Don't change unless you have a death wish *
  *********************************************/
 .element_finder_inactive {
-	margin-right: 10px;
+	margin-right: 5px;
 }
 
 .active_elements,.inactive_elements {
@@ -494,11 +532,12 @@ div.configuration_form span.category {
 input[type=text].element_query { /*****************
 	 * width: 278px; *
 	 *****************/
-	width: 294px;
+	width: 276px;
 	background-image: url('../images/common/buttons/button_search.png');
 	background-repeat: no-repeat;
 	background-position: 2px 2px;
 	padding: 2px 4px 2px 20px;
+	margin-right: 5px;
 }
 
 input[type=button].activate_elements,input[type=button].deactivate_elements
@@ -564,6 +603,12 @@ div.element_finder_buttons {
 	margin: 0px 10px 0px 10px;
 }
 
+#selected_image
+{
+	border: 1px solid #dedede;
+	margin-bottom: 5px;
+}
+
 /**********************
  * FILTER FORM STYLES *
  **********************/
@@ -587,6 +632,28 @@ div.filter_form div.row div.formw {
 
 div.filter_form div.row div.formw button {
 	margin-top: -4px;
+}
+
+/**********************
+ * JUMP FORM STYLES *
+ **********************/
+#personal_calendar_jump_form select{
+	width : 100%;
+}
+div.jump_form {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+}
+
+div.jump_form div.row {
+	clear: both;
+	padding: 0px;
+}
+
+div.jump_form div.row div.formw {
+	float: none;
+	width: 100%;
 }
 
 input.search_query {
@@ -617,6 +684,25 @@ input#attachments_expand_button :hover {
 	color: red;
 }
 
+input#attachments_collapse_button {
+	border: 0;
+	background: transparent;
+	background-image: url(../images/common/action_attachment.png);
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	padding: 0 0 0 18px;
+	height: 16px;
+	font-weight: bold;
+	font-family: arial, verdana, helvetica, sans-serif;
+	font-size: 12px;
+	color: #4171b5;
+	cursor: pointer;
+}
+
+input#attachments_collapse_button :hover {
+	color: red;
+}
+
 input#rights_templates_expand_button {
 	border: 0;
 	background: transparent;
@@ -633,6 +719,25 @@ input#rights_templates_expand_button {
 }
 
 input#rights_templates_expand_button :hover {
+	color: red;
+}
+
+input#rights_templates_collapse_button {
+	border: 0;
+	background: transparent;
+	background-image: url(../images/common/action_rights.png);
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	padding: 0 0 0 18px;
+	height: 16px;
+	font-weight: bold;
+	font-family: arial, verdana, helvetica, sans-serif;
+	font-size: 12px;
+	color: #4171b5;
+	cursor: pointer;
+}
+
+input#rights_templates_collapse_button :hover {
 	color: red;
 }
 
@@ -692,20 +797,17 @@ div.search_form button.search img {
 	margin: 1px 2px 0px 2px;
 }
 
-input.visual_input
-{
+input.visual_input {
 	background-image: url(../images/common/buttons/button_right.png);
 	background-repeat: no-repeat;
 	background-position: 4px 50%;
 	padding-left: 24px;
 }
 
-input.width
-{
+input.width {
 	background-image: url(../images/common/buttons/button_width.png);
 }
 
-input.height
-{
+input.height {
 	background-image: url(../images/common/buttons/button_height.png);
 }

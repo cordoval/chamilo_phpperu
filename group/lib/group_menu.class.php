@@ -12,6 +12,8 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class GroupMenu extends HTML_Menu
 {
+    const TREE_NAME = __CLASS__; 
+    
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -81,7 +83,8 @@ class GroupMenu extends HTML_Menu
             
             $menu_item = array();
             $menu_item['title'] = $group->get_name();
-            $menu_item['url'] = $this->get_url($group->get_id());
+            //$menu_item['url'] = $this->get_url($group->get_id());
+            $menu_item['url'] = $this->get_home_url();
             
             $sub_menu_items = $this->get_menu_items($group->get_id());
             if (count($sub_menu_items) > 0)
@@ -187,8 +190,13 @@ class GroupMenu extends HTML_Menu
      */
     function render_as_tree()
     {
-        $renderer = new TreeMenuRenderer();
+        $renderer = new TreeMenuRenderer($this->get_tree_name(), Path :: get(WEB_PATH) . 'group/xml_feeds/xml_group_menu_feed.php');
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
+    }
+    
+    static function get_tree_name()
+    {
+    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }

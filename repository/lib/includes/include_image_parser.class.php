@@ -20,20 +20,28 @@ class IncludeImageParser extends ContentObjectIncludeParser
         {
             if (isset($values[$html_editor]))
             {
-                $tags = Text :: fetch_tag_into_array($values[$html_editor], '<img>');
+                $tags = Text :: parse_html_file($values[$html_editor], 'img');
 
                 foreach ($tags as $tag)
                 {
-                    $search_path = str_replace($base_path, '', $tag['src']);
+                    $source = $tag->getAttribute('src');
+                    $matches = preg_match(HtmlEditorProcessor :: get_repository_document_display_matching_url(), $source);
 
-                    $rdm = RepositoryDataManager :: get_instance();
-                    $condition = new Equalitycondition('path', $search_path);
-
-                    $search_objects = $rdm->retrieve_type_content_objects('document', $condition);
-
-                    while ($search_object = $search_objects->next_result())
+                    if ($matches === 1)
                     {
-                        $content_object->include_content_object($search_object->get_id());
+                        $source_components = parse_url($source);
+                        $source_query_components = Text :: parse_query_string($source_components['query']);
+                        $content_object_id = $source_query_components[RepositoryManager :: PARAM_CONTENT_OBJECT_ID];
+
+                        if ($content_object_id)
+                        {
+                            $included_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object_id);
+
+                            if ($included_object->is_image())
+                            {
+                                $content_object->include_content_object($included_object->get_id());
+                            }
+                        }
                     }
                 }
             }

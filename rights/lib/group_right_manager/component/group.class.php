@@ -5,7 +5,7 @@
  */
 require_once Path :: get_rights_path() . 'lib/group_right_manager/component/location_group_browser_table/location_group_browser_table.class.php';
 
-class GroupRightManagerGroupComponent extends GroupRightManagerComponent
+class GroupRightManagerGroupComponent extends GroupRightManager
 {
     private $action_bar;
     
@@ -21,7 +21,7 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
         $location = Request :: get(GroupRightManager :: PARAM_LOCATION);
         $group = Request :: get(GroupRightManager :: PARAM_GROUP);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS)), Translation :: get('GroupRights')));
@@ -55,11 +55,11 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
         
         $this->action_bar = $this->get_action_bar();
         
-        $this->display_header($trail);
+        $this->display_header();
         
         $html = array();
         $application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION, GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP)));
-        $html[] = Application :: get_selecter($application_url, $this->application);
+        $html[] = BasicApplication :: get_selecter($application_url, $this->application);
         $html[] = $this->action_bar->as_html() . '<br />';
         
         $url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS, GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP), GroupRightManager :: PARAM_LOCATION => '%s'));
@@ -70,6 +70,7 @@ class GroupRightManagerGroupComponent extends GroupRightManagerComponent
         $html[] = '</div>';
         
         $params = array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id(), GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP));
+        $params[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         $html[] = '<div style="float: left; width: 62%; margin-left: 1%;">';
         $table = new LocationGroupBrowserTable($this, array_merge($this->get_parameters(), $params), $this->get_condition());
         $html[] = $table->as_html();

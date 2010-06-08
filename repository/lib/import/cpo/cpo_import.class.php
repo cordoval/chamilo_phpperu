@@ -108,6 +108,15 @@ class CpoImport extends ContentObjectImport
     private $categories;
     
     /**
+     * Used to save the references in the object numbers
+     * @var int[]
+     * 
+     * Example:
+     * $object_numbers[60] = 1;
+     */
+    private $object_numbers = array();
+    
+    /**
      * Enter description here...
      *
      * @param unknown_type $content_object_file
@@ -151,7 +160,7 @@ class CpoImport extends ContentObjectImport
         
         foreach ($content_objects as $lo)
         {
-            $this->create_content_object($lo);
+        	$this->create_content_object($lo);
         }
    
         $this->create_complex_wrappers();
@@ -165,7 +174,6 @@ class CpoImport extends ContentObjectImport
         {
             Filesystem :: remove($temp);
         }
-        
         return true;
     }
 
@@ -222,7 +230,7 @@ class CpoImport extends ContentObjectImport
 
     public function import_extra_properties($type, $additionalProperties, $lo)
     {
-        if ($type == 'document')
+        if ($type == Document :: get_type_name())
         {
             $hash = $additionalProperties['hash'];
             
@@ -230,7 +238,7 @@ class CpoImport extends ContentObjectImport
             $additionalProperties['path'] = $this->files[$hash]['path']; 
         }
         
-        if ($type == 'hotpotatoes')
+        if ($type == Hotpotatoes :: get_type_name())
         {
             $path = $additionalProperties['path'];
             foreach ($this->hp_files as $folder => $new_folder)
@@ -243,7 +251,7 @@ class CpoImport extends ContentObjectImport
             }
         }
         
-        if ($type == 'learning_path')
+        if ($type == LearningPath :: get_type_name())
         {
             $path = $additionalProperties['path'];
             foreach ($this->scorm_files as $folder => $new_folder)
@@ -256,7 +264,7 @@ class CpoImport extends ContentObjectImport
             }
         }
         
-        if ($type == 'scorm_item')
+        if ($type == ScormItem :: get_type_name())
         {
             $path = $additionalProperties['path'];
             foreach ($this->scorm_files as $folder => $new_folder)
@@ -287,20 +295,45 @@ class CpoImport extends ContentObjectImport
             $comment = $general->getElementsByTagName('comment')->item(0)->nodeValue;
             $created = $general->getElementsByTagName('created')->item(0)->nodeValue;
             $modified = $general->getElementsByTagName('modified')->item(0)->nodeValue;
-            $category = $general->getElementsByTagName('parent')->item(0)->nodeValue;
+            if (is_object($general->getElementsByTagName('parent')->item(0)))
+            {
+            	$category = $general->getElementsByTagName('parent')->item(0)->nodeValue;
+            }
+            else 
+            {
+            	$category = null;
+            }
             
-            $lo = ContentObject :: factory($type);
+            $object_number = $general->getElementsByTagName('object_number')->item(0)->nodeValue;
+            
+            $lo = ContentObject :: factory($type, array(ContentObject::PROPERTY_STATE => ContentObject::STATE_NORMAL));
+            
+            if(!$lo)
+            {
+            	return null;
+            }
+            
             $lo->set_title($title);
             $lo->set_description($description);
             $lo->set_comment($comment);
             $lo->set_creation_date($created);
             $lo->set_modification_date($modified);
             $lo->set_owner_id($this->get_user()->get_id());
+            
+            $object_number_exists = array_key_exists($object_number, $this->object_numbers);
+            if($object_number_exists)
+            {
+            	$lo->set_object_number($this->object_numbers[$object_number]);
+            }
 
             if($category == 'category0' || !$category)
+            {
             	$lo->set_parent_id($this->get_category());
+            }
            	else
+           	{
            		$lo->set_parent_id($this->categories[$category]);
+           	}
             
             $extended = $content_object->getElementsByTagName('extended')->item(0);
             
@@ -313,7 +346,13 @@ class CpoImport extends ContentObjectImport
                 {
                     if ($node->nodeName == "#text" || $node->nodeName == 'id' || $node->nodeName == 'category')
                         continue;
-                    $additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
+                   
+                    $prop_names = $lo->get_additional_property_names();    
+                        
+                    if(in_array($node->nodeName, $prop_names))
+                    {    
+                    	$additionalProperties[$node->nodeName] = convert_uudecode($node->nodeValue);
+                    }
                 }
                 
                 $additionalProperties = $this->import_extra_properties($type, $additionalProperties, $lo);
@@ -321,17 +360,27 @@ class CpoImport extends ContentObjectImport
                 $lo->set_additional_properties($additionalProperties);
             }
         
-            if($type == 'document' && !$lo->get_path())
+            if($type == Document :: get_type_name() && !$lo->get_path())
+            {
 				return;
+            }
 
-			$lo->create_all();
+            if($object_number_exists)
+            {
+            	$lo->version();	
+            }
+            else
+            {
+            	$lo->create_all();
+            	$this->object_numbers[$object_number] = $lo->get_object_number();
+            }
 			
-            if ($type == 'learning_path_item' || $type == 'portfolio_item')
+            if ($type == LearningPathItem :: get_type_name() || $type == PortfolioItem :: get_type_name())
             {
                 $this->references[$lo->get_id()] = $additionalProperties['reference_id'];
             }
             
-            if($type == 'hotspot_question')
+            if($type == HotspotQuestion :: get_type_name())
             {
             	$this->hotspot_questions[$lo->get_id()] = $lo->get_image();
             }
@@ -340,68 +389,77 @@ class CpoImport extends ContentObjectImport
             
             // Complex children
             $subitems = $content_object->getElementsByTagName('sub_items')->item(0);
-            $children = $subitems->childNodes;
-            for($i = 0; $i < $children->length; $i ++)
+            if (is_object($subitems))
             {
-                $subitem = $children->item($i);
-                if ($subitem->nodeName == "#text")
-                    continue;
-                
-                if ($subitem->hasAttributes())
-                {
-                    $properties = array();
-                    
-                    foreach ($subitem->attributes as $attrName => $attrNode)
-                    {
-                        if ($attrName == 'idref')
-                        {
-                            $idref = $attrNode->value;
-                        }
-                        elseif ($attrName == 'id')
-                        {
-                            $my_id = $attrNode->value;
-                        }
-                        else
-                        {
-                            $properties[$attrName] = $attrNode->value;
-                        }
-                    }
-                }
-                
-                $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
+            	$children = $subitems->childNodes;
+	            for($i = 0; $i < $children->length; $i ++)
+	            {
+	                $subitem = $children->item($i);
+	                if ($subitem->nodeName == "#text")
+	                    continue;
+	                
+	                if ($subitem->hasAttributes())
+	                {
+	                    $properties = array();
+	                    
+	                    foreach ($subitem->attributes as $attrName => $attrNode)
+	                    {
+	                        if ($attrName == 'idref')
+	                        {
+	                            $idref = $attrNode->value;
+	                        }
+	                        elseif ($attrName == 'id')
+	                        {
+	                            $my_id = $attrNode->value;
+	                        }
+	                        else
+	                        {
+	                            $properties[$attrName] = $attrNode->value;
+	                        }
+	                    }
+	                }
+	                
+	                $this->lo_subitems[$id][] = array('id' => $my_id, 'idref' => $idref, 'properties' => $properties);
+            	}
             }
            
             // Attachments
             $attachments = $content_object->getElementsByTagName('attachments')->item(0);
-            $children = $attachments->childNodes;
-            for($i = 0; $i < $children->length; $i ++)
+            if (is_object($attachments))
             {
-                $attachment = $children->item($i);
-                if ($attachment->nodeName == "#text")
-                    continue;
-                
-                $idref = $attachment->getAttribute('idref');
-                $this->lo_attachments[$id][] = $idref;
-            
+	            $children = $attachments->childNodes;
+	            for($i = 0; $i < $children->length; $i ++)
+	            {
+	                $attachment = $children->item($i);
+	                if ($attachment->nodeName == "#text")
+	                    continue;
+	                
+	                $idref = $attachment->getAttribute('idref');
+	                $this->lo_attachments[$id][] = $idref;
+	            
+	            }
             }
              
             // Includes
             $includes = $content_object->getElementsByTagName('includes')->item(0);
-            $children = $includes->childNodes;
-            
-            //if($children->length > 0)
-            $this->fix_links($lo);
-            
-            for($i = 0; $i < $children->length; $i ++)
+            if(is_object($includes))
             {
-                $include = $children->item($i);
-                if ($include->nodeName == "#text")
-                    continue;
-                
-                $idref = $include->getAttribute('idref');
-                $this->lo_includes[$id][] = $idref;
-            
-            } 
+            	$children = $includes->childNodes;
+                        
+	            //if($children->length > 0)
+	            //$this->fix_links($lo);
+	            
+	            for($i = 0; $i < $children->length; $i ++)
+	            {
+	                $include = $children->item($i);
+	                if ($include->nodeName == "#text")
+	                    continue;
+	                
+	                $idref = $include->getAttribute('idref');
+	                $this->lo_includes[$id][] = $idref;
+	            
+	            } 
+            }
         }
     }
 
@@ -412,9 +470,16 @@ class CpoImport extends ContentObjectImport
      */
     private function fix_links($co)
     {
-        $fields = $co->get_html_editors();
+        if (count($co->get_included_content_objects()) == 0)
+        {
+            return;
+        }
+       
+    	$fields = $co->get_html_editors();
         
-        $pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
+        //$pattern = '/http:\/\/.*\/files\/repository\/[1-9]*\/[^\"]*/';
+        //$pattern = '/http:\/\/.*\/core\.php\?go=document_downloader&display=1&object=[0-9]*&application=repository/';
+        $pattern = '/core\.php\?go=document_downloader&amp;display=1&amp;object=[0-9]*&amp;application=repository/';
         foreach ($fields as $field)
         {
             $value = $co->get_default_property($field);
@@ -427,15 +492,22 @@ class CpoImport extends ContentObjectImport
 
     private function fix_link_matches($matches)
     {
-        $base_path = Path :: get(WEB_REPO_PATH);
-        
-        foreach ($this->files as $hash => $file)
-        {
-            if (strpos($matches[0], $hash) !== false)
-            {
-                return $base_path . $file['path'];
-            }
-        }
+    	//TODO: Use the correct link (downloader) - You will need to change the structue of the import (first import everything, then loop through all the objects)
+//        $base_path = Path :: get(WEB_REPO_PATH);
+//        
+//        foreach ($this->files as $hash => $file)
+//        {
+//            if (strpos($matches[0], $hash) !== false)
+//            {
+//                return $base_path . $file['path'];
+//            }
+//        }
+
+		$url = $matches[0];
+    	preg_match('/object=([0-9]*)/', $url, $matches);
+    	$object_id = $matches[1]; 
+
+    	return str_replace('object=' . $object_id, 'object=' . $this->content_object_reference['object' . $object_id], $url);
     }
 
     function create_complex_wrappers()
@@ -465,7 +537,7 @@ class CpoImport extends ContentObjectImport
                 $cloi->set_additional_properties($child['properties']);
                 $cloi->create();
                 
-                if ($childlo->get_type() == 'learning_path_item')
+                if ($childlo->get_type() == LearningPathItem :: get_type_name())
                 {
                     $this->learning_path_item_wrappers[] = $cloi;
                 }
@@ -510,6 +582,8 @@ class CpoImport extends ContentObjectImport
                 if ($this->content_object_reference[$child])
                     $lo->include_content_object($this->content_object_reference[$child]);
             }
+            
+            $this->fix_links($lo);
         }
     }
 
@@ -534,7 +608,7 @@ class CpoImport extends ContentObjectImport
         {
             $ref = $this->rdm->retrieve_content_object($lp_wrapper->get_ref());
             $reference = $this->rdm->retrieve_content_object($ref->get_reference());
-            if ($reference->get_type() != 'scorm_item')
+            if ($reference->get_type() != ScormItem :: get_type_name())
             {
                 if ($prereq = $lp_wrapper->get_prerequisites())
                 {
@@ -591,9 +665,13 @@ class CpoImport extends ContentObjectImport
             		$category->set_name($name);
             		
             		if($parent == 'category0' || !$this->categories[$parent])
+            		{
             			$category->set_parent($this->get_category());
+            		}
             		else
+            		{
             			$category->set_parent($this->categories[$parent]);
+            		}
             			
             		$category->set_user_id($this->get_user()->get_id());
             		$category->create();

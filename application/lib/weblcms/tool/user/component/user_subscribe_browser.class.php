@@ -51,6 +51,7 @@ class UserToolSubscribeBrowserComponent extends UserToolComponent
         $action_bar->set_search_url($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)));
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USERS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('RequestUser'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_REQUEST_SUBSCRIBE_USER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }
@@ -77,6 +78,7 @@ class UserToolSubscribeBrowserComponent extends UserToolComponent
         {
             $condition = new AndCondition($condition, $this->get_condition());
         }
+        
         return $condition;
     }
 
@@ -85,9 +87,9 @@ class UserToolSubscribeBrowserComponent extends UserToolComponent
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
-            $conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
-            $conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
             return new OrCondition($conditions);
         }
     }

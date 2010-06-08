@@ -11,56 +11,67 @@
  */
 
 
-class FeedbackManagerCreatorComponent extends FeedbackManagerComponent
+class FeedbackManagerCreatorComponent extends FeedbackManager
 {
 
     function run()
     {
-        echo $this->as_html();
+        $html = $this->as_html();
+        
+    	$this->display_header();
+    	echo $html;
+    	$this->display_footer();
     }
 
     function as_html()
     {
-
-        $pid = Request :: get('pid');
-        $cid = Request :: get('cid');
-
-        $application = $this->get_parent()->get_application();
-        $object = Request :: get('object');
-
-        $pub = new RepoViewer($this, 'feedback', true);
-
-        $actions = array('pid' => $pid, 'cid' => $cid, FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_FEEDBACK);
-
-        foreach ($actions as $type => $action)
+        $application = $this->get_application();
+        $publication_id = $this->get_publication_id();
+        $complex_wrapper_id = $this->get_complex_wrapper_id();
+        $action = $this->get_action();
+        $pub = new RepoViewer($this, Feedback :: get_type_name());
+	if($action == self::ACTION_CREATE_ONLY_FEEDBACK)
         {
-            $pub->set_parameter($type, $action);
+            $success = $pub->set_repo_viewer_actions(RepoViewer::ACTION_CREATOR);
         }
-
         $html = array();
 
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
 
         }
         else
         {
+		$objects = $pub->get_selected_objects();
+			
+        	if(!is_array($objects))
+                {
+                        $objects = array($objects);
+                }
 
-            $fb = new FeedbackPublication();
-            $fb->set_application($application);
-            $fb->set_cid($cid);
-            $fid = $object;
-            $fb->set_fid($fid);
-            $fb->set_pid($pid);
-            $fb->set_creation_date(time());
-            $fb->set_modification_date(time());
-            $fb->create();
+                foreach($objects as $object)
+                {
+	            $fb = new FeedbackPublication();
+	            $fb->set_application($application);
+	            $fb->set_cid($complex_wrapper_id);
+	            $fid = $object;
+	            $fb->set_fid($object);
+	            $fb->set_pid($publication_id);
+	            $fb->set_creation_date(time());
+	            $fb->set_modification_date(time());
+	            $fb->create();
+                }
 
             $message = 'FeedbackCreated';
-            $html[] = $action;
-            $this->redirect(Translation :: get($message), false, array('pid' => $pid, 'cid' => $cid));
-
+            if($action == self::ACTION_CREATE_ONLY_FEEDBACK)
+            {
+                $redirect = $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_ONLY_FEEDBACK));    
+            }
+            else
+            {
+                $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_BROWSE_FEEDBACK));
+            }
         }
 
         return implode('\n', $html);

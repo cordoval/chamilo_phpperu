@@ -9,8 +9,8 @@
 		<property name="name" notnull="1" type="text" length="50"
 			fixed="true" />
 		<property name="sort" type="integer" unsigned="1" notnull="1" />
-		<property name="created" type="timestamp" />
-		<property name="modified" type="timestamp" />
+		<property name="created" type="integer" unsigned="1" notnull="1" />
+		<property name="modified" type="integer" unsigned="1" notnull="1" />
 	</properties>
 	<index name="type_name" type="unique">
 		<indexproperty name="type" />

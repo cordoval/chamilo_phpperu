@@ -3,7 +3,7 @@
  * $Id: alexia_data_manager.class.php 192 2009-11-13 11:51:02Z chellee $
  * @package application.lib.alexia
  */
-abstract class AlexiaDataManager
+class AlexiaDataManager
 {
     /**
      * Instance of this class for the singleton pattern.
@@ -29,44 +29,12 @@ abstract class AlexiaDataManager
         if (! isset(self :: $instance))
         {
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-            require_once dirname(__FILE__) . '/data_manager/' . Utilities :: camelcase_to_underscores($type) . '.class.php';
-            $class = $type . 'AlexiaDataManager';
+            require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_alexia_data_manager.class.php';
+            $class = Utilities :: underscores_to_camelcase($type) . 'AlexiaDataManager';
             self :: $instance = new $class();
         }
         return self :: $instance;
     }
-
-    abstract function initialize();
-
-    abstract function create_storage_unit($name, $properties, $indexes);
-
-    abstract function create_alexia_publication($alexia_publication);
-
-    abstract function update_alexia_publication($alexia_publication);
-
-    abstract function delete_alexia_publication($alexia_publication);
-
-    abstract function count_alexia_publications($conditions = null);
-
-    abstract function retrieve_alexia_publication($id);
-
-    abstract function retrieve_alexia_publications($condition = null, $offset = null, $count = null, $order_property = array());
-
-    abstract function create_alexia_publication_group($alexia_publication_group);
-
-    abstract function delete_alexia_publication_group($alexia_publication_group);
-
-    abstract function count_alexia_publication_groups($conditions = null);
-
-    abstract function retrieve_alexia_publication_groups($condition = null, $offset = null, $count = null, $order_property = null);
-
-    abstract function create_alexia_publication_user($alexia_publication_user);
-
-    abstract function delete_alexia_publication_user($alexia_publication_user);
-
-    abstract function count_alexia_publication_users($conditions = null);
-
-    abstract function retrieve_alexia_publication_users($condition = null, $offset = null, $count = null, $order_property = null);
 
 }
 ?>

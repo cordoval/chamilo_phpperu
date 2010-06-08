@@ -44,11 +44,14 @@ class HelpItemBrowserTableCellRenderer extends DefaultHelpItemTableCellRenderer
      */
     private function get_modification_links($help_item)
     {
-        $toolbar_data = array();
+    	$toolbar = new Toolbar(); 
+        //$toolbar_data = array();
         
-        $toolbar_data[] = array('href' => $this->browser->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_UPDATE_HELP_ITEM, HelpManager :: PARAM_HELP_ITEM => $help_item->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+    	$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'),Theme :: get_common_image_path() . 'action_edit.png',$this->browser->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_UPDATE_HELP_ITEM, HelpManager :: PARAM_HELP_ITEM => $help_item->get_id())),ToolbarItem :: DISPLAY_ICON));
+        //$toolbar_data[] = array('href' => $this->browser->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_UPDATE_HELP_ITEM, HelpManager :: PARAM_HELP_ITEM => $help_item->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
         
-        return Utilities :: build_toolbar($toolbar_data);
+        //return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

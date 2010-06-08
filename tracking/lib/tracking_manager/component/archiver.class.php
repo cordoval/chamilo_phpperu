@@ -10,7 +10,7 @@
  *
  * @author Sven Vanpoucke
  */
-class TrackingManagerArchiverComponent extends TrackingManagerComponent
+class TrackingManagerArchiverComponent extends TrackingManager
 {
 
     /**
@@ -20,9 +20,9 @@ class TrackingManagerArchiverComponent extends TrackingManagerComponent
     {
         if (! $this->get_user() || ! $this->get_user()->is_platform_admin())
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('tracking general');
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();

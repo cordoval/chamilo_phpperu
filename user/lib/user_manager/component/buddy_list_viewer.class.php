@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerBuddyListViewerComponent extends UserManagerComponent
+class UserManagerBuddyListViewerComponent extends UserManager
 {
 	/**
 	 * Runs this component and displays its output.
@@ -13,11 +13,11 @@ class UserManagerBuddyListViewerComponent extends UserManagerComponent
 	{
 		Header :: set_section('my_account');
 
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAccount')));
 		$trail->add_help('user general');
 
-		$this->display_header($trail);
+		$this->display_header();
 		echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 		$actions = array('account', 'buddy_view');
 		foreach ($actions as $action)

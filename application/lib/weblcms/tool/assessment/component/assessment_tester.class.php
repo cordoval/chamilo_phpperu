@@ -18,6 +18,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
     private $iid;
     private $pid;
     private $active_tracker;
+    private $trail;
 
     function run()
     {
@@ -28,7 +29,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
             $this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             $this->pub = $this->datamanager->retrieve_content_object_publication($this->pid);
             $this->assessment = $this->pub->get_content_object();
-            $this->set_parameter('pid', $this->pid);
+            $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $this->pid);
         }
         
         if (Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
@@ -79,7 +80,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 
         if ($this->assessment->get_assessment_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
         {
-            $this->display_header(new BreadcrumbTrail());
+            $this->display_header(BreadcrumbTrail :: get_instance());
             
             $path = $this->assessment->add_javascript(Path :: get(WEB_PATH) . 'application/lib/weblcms/ajax/hotpotatoes_save_score.php', $this->get_go_back_url(), $this->active_tracker->get_id());
             //$path = $this->assessment->get_test_path();
@@ -92,14 +93,25 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
         }
         else
         {
-            $display = ComplexDisplay :: factory($this, $this->assessment->get_type());
-            $display->set_root_lo($this->assessment);
+            $this->trail = BreadcrumbTrail :: get_instance();
+            $this->trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('TakeAssessment')));
+        	$display = ComplexDisplay :: factory($this, $this->assessment->get_type());
             
-            $this->display_header(new BreadcrumbTrail());
+            //$this->display_header(new BreadcrumbTrail());
             $display->run();
-            $this->display_footer();
+            //$this->display_footer();
         }
     
+    }
+    
+	function get_root_content_object()
+    {
+    	return $this->assessment;
+    }
+    
+	function display_header($trail)
+    {    	
+    	return parent :: display_header($this->trail);
     }
 
     function create_tracker()
@@ -111,15 +123,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
         return $tracker[0];
     }
 
-    function get_user_id()
-    {
-        if ($this->assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
-        {
-            if ($this->assessment->get_anonymous() == true)
-                return 0;
-        }
-        return parent :: get_user_id();
-    }
 
     function save_answer($complex_question_id, $answer, $score)
     {

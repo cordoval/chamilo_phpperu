@@ -5,14 +5,14 @@
  */
 require_once dirname(__FILE__) . '/course_category_browser/course_category_browser_table.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
+
 require_once dirname(__FILE__) . '/../../course/course_category_form.class.php';
 require_once dirname(__FILE__) . '/../../course/course_category_menu.class.php';
 
 /**
  * Weblcms component allows the user to manage course categories
  */
-class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManagerComponent
+class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
 {
     private $category;
 
@@ -25,11 +25,11 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManagerCompone
         
         if (! $this->get_user()->is_platform_admin())
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseCategoryManager')));
             $trail->add_help('courses category manager');
             
-            $this->display_header($trail, false, true);
+            $this->display_header();
             Display :: error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -67,10 +67,10 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManagerCompone
 
     function display_page_header($title)
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), $title));
         $trail->add_help('courses category manager');
-        $this->display_header($trail, false, true);
+        $this->display_header();
     }
 
     function display_course_categories()

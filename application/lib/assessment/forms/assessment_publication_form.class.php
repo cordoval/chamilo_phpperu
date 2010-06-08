@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../assessment_publication.class.php';
 /**
  * This class describes the form for a AssessmentPublication object.
  * @author Sven Vanpoucke
- * @author
+ * @author 
  **/
 class AssessmentPublicationForm extends FormValidator
 {
@@ -28,7 +28,6 @@ class AssessmentPublicationForm extends FormValidator
     function AssessmentPublicationForm($form_type, $content_object, $user, $action)
     {
         parent :: __construct('assessment_publication_settings', 'post', $action);
-
         $this->content_object = $content_object;
         $this->user = $user;
         $this->form_type = $form_type;
@@ -42,7 +41,7 @@ class AssessmentPublicationForm extends FormValidator
                 $this->build_multi_form();
                 break;
         }
-
+        
         $this->add_footer();
         $this->setDefaults();
     }
@@ -54,6 +53,7 @@ class AssessmentPublicationForm extends FormValidator
      */
     function set_publication($publication)
     {
+    	
         $this->publication = $publication;
         $this->addElement('hidden', 'pid');
         $this->addElement('hidden', 'action');
@@ -138,10 +138,19 @@ class AssessmentPublicationForm extends FormValidator
         $attributes['locale'] = $locale;
         $attributes['exclude'] = array('user_' . $this->user->get_id());
         $attributes['defaults'] = array();
-
+    	if(WebApplication :: is_active('gradebook'))
+        {
+        	if(PlatformSetting :: get_instance()->get('allow_evaluate_application_assessment', 'gradebook'))
+        	{
+	        	require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
+	        	$gradebook_internal_item_form = new GradebookInternalItemForm();
+	        	$gradebook_internal_item_form->build_evaluation_question($this);
+        	}
+        }
         $this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
         $this->add_forever_or_timewindow();
         $this->addElement('checkbox', AssessmentPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
+
     }
 
     function add_footer()
@@ -212,6 +221,7 @@ class AssessmentPublicationForm extends FormValidator
         $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
         $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
 
+
         $ids = unserialize($values['ids']);
 
         foreach ($ids as $id)
@@ -225,7 +235,7 @@ class AssessmentPublicationForm extends FormValidator
             $pub->set_hidden($hidden);
             $pub->set_target_users($users);
             $pub->set_target_groups($groups);
-
+			
             if (! $pub->create())
             {
                 return false;
@@ -234,6 +244,16 @@ class AssessmentPublicationForm extends FormValidator
             {
             	$this->publication = $pub;
             }
+			if(Request :: post('evaluation'))
+			{
+				
+		        require_once dirname (__FILE__) . '/../../gradebook/forms/gradebook_internal_item_form.class.php';
+		        $gradebook_internal_item_form = new GradebookInternalItemForm();
+		        if($pub->get_publication_object()->get_type() == 'survey')
+		        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), null, 'c' . 0);
+		       	else
+		        	$gradebook_internal_item_form->create_internal_item($pub->get_id(), true, 'C' . 0);
+			}
         }
         return true;
     }
@@ -263,7 +283,6 @@ class AssessmentPublicationForm extends FormValidator
         $pub->set_target_groups($groups);
         return $pub->update();
     }
-
     function get_publication()
     {
     	return $this->publication;

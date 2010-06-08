@@ -25,9 +25,9 @@ class DefaultLaikaCalculatedResultTableColumnModel extends ObjectTableColumnMode
      */
     private static function get_default_columns()
     {
-        $user_alias = UserDataManager :: get_instance()->get_database()->get_alias(User :: get_table_name());
-        $attempt_alias = LaikaDataManager :: get_instance()->get_database()->get_alias(LaikaAttempt :: get_table_name());
-        
+        $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
+        $attempt_alias = LaikaDataManager :: get_instance()->get_alias(LaikaAttempt :: get_table_name());
+
         $columns = array();
         $columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true, $user_alias);
         $columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true, $user_alias);

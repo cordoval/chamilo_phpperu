@@ -48,8 +48,9 @@ $lang['group']['ErrorUpdatingGroup'] = 'Error updating group';
 $lang['group']['ErrorDeletingGroup'] = 'Error deleting group';
 $lang['group']['ErrorSubscribingOrUnsubscribingUser'] = 'Error subscribing or unsubscribing user';
 $lang['group']['ToFrom'] = 'to / from';
-$lang['group']['GroupUserCreateCsv'] = '';
+$lang['group']['GroupUserCreateCsv'] = 'Create CSV from users group....';
 $lang['group']['ImportGroupUsers'] = 'Import group users';
-$lang['group']['ImportGroupUsersDescription'] = '';
+$lang['group']['ImportGroupUsersDescription'] = 'Import group users description....';
 $lang['group']['OnlyCSVAllowed'] = 'Only CSV files allowed';
+$lang['group']['ViewRoot'] = '';
 ?>

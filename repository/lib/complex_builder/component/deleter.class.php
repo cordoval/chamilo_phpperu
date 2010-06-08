@@ -14,45 +14,41 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
      */
     function run()
     {
-        $ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_CLOI_ID);
-        $root = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
-        $parent_cloi = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
-        
+        $ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+        $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+
         $failures = 0;
-        
+
         if (! empty($ids))
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
-            $rdm = RepositoryDataManager :: get_instance();
-            
-            foreach ($ids as $cloi_id)
-            {
-                $cloi = $rdm->retrieve_complex_content_object_item($cloi_id);
 
-                if ($cloi->get_user_id() == $this->get_user_id())
+            $rdm = RepositoryDataManager :: get_instance();
+
+            foreach ($ids as $complex_content_object_item_id)
+            {
+                $complex_content_object_item = $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
+
+                if ($complex_content_object_item->get_user_id() == $this->get_user_id())
                 {
                     // TODO: check if deletion is allowed
-                    //if ($this->get_parent()->complex_content_object_item_deletion_allowed($cloi))
+                    //if ($this->get_parent()->complex_content_object_item_deletion_allowed($complex_content_object_item))
                     {
-                        if (! $cloi->delete())
+                        if (! $complex_content_object_item->delete())
                         {
                             $failures ++;
                         }
                     }
                 }
                 else
-                { 
+                {
                     $failures ++;
                 }
             }
-  
-            if ($parent == $root)
-                $parent = null;
-         
+
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -75,8 +71,8 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
                     $message = 'AllSelectedObjectsDeleted';
                 }
             }
-   
-            $this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_CLOI_ID => $parent_cloi, ComplexBuilder :: PARAM_ROOT_LO => $root, 'publish' => Request :: get('publish')));
+
+            $this->redirect(Translation :: get($message), $failures ? true : false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item));
         }
         else
         {

@@ -5,7 +5,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingManagerEditComponent extends ReportingManagerComponent
+class ReportingManagerEditComponent extends ReportingManager
 {
 
     /**
@@ -13,7 +13,7 @@ class ReportingManagerEditComponent extends ReportingManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => ReportingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Reporting')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
@@ -29,7 +29,7 @@ class ReportingManagerEditComponent extends ReportingManagerComponent
             
             if (! $this->get_user()->is_platform_admin())
             {
-                $this->display_header($trail);
+                $this->display_header();
                 Display :: error_message(Translation :: get("NotAllowed"));
                 $this->display_footer();
                 exit();
@@ -45,7 +45,7 @@ class ReportingManagerEditComponent extends ReportingManagerComponent
             else
             {
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit')));
-                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }

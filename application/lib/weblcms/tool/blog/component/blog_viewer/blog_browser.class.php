@@ -21,9 +21,9 @@ class BlogBrowser extends ContentObjectPublicationBrowser
     function BlogBrowser($parent)
     {
         parent :: __construct($parent, 'blog');
-        if (Request :: get('pid') && $parent->get_action() == 'view')
+        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) && $parent->get_action() == 'view')
         {
-            $this->set_publication_id(Request :: get('pid'));
+            $this->set_publication_id(Request :: get(Tool :: PARAM_PUBLICATION_ID));
             $parent->set_parameter(Tool :: PARAM_ACTION, BlogTool :: ACTION_VIEW_BLOGS);
             $renderer = new ContentObjectPublicationDetailsRenderer($this);
         }
@@ -91,23 +91,43 @@ class BlogBrowser extends ContentObjectPublicationBrowser
             $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'blog');
             $conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category);
             
-            $access = array();
-            $access[] = new InCondition('user_id', $user_id, $datamanager->get_database()->get_alias('content_object_publication_user'));
-            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_database()->get_alias('content_object_publication_course_group'));
+            /*$access = array();
+            $access[] = new InCondition('user_id', $user_id, $datamanager->get_alias('content_object_publication_user'));
+            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
             if (! empty($user_id) || ! empty($course_group_ids))
             {
-                $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_database()->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_database()->get_alias('content_object_publication_course_group'))));
+                $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
             }
-            $conditions[] = new OrCondition($access);
+            $conditions[] = new OrCondition($access);*/
+            
+            $access = array();
+	        if($user_id)
+	        {
+	    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
+	        }
+	    	
+	    	if(count($course_group_ids) > 0)
+	    	{
+	        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
+	    	}
+	        	
+	        if (! empty($user_id) || ! empty($course_group_ids))
+	        {
+	            $access[] = new AndCondition(array(
+	            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), 
+	            			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+	        }
+        
+        $conditions[] = new OrCondition($access);
             
             $subselect_conditions = array();
-            $subselect_conditions[] = new EqualityCondition('type', 'blog_item');
+            $subselect_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, BlogItem :: get_type_name());
             if ($this->get_parent()->get_condition())
             {
                 $subselect_conditions[] = $this->get_parent()->get_condition();
             }
             $subselect_condition = new AndCondition($subselect_conditions);
-            $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, RepositoryDataManager :: get_instance()->get_database()->escape_table_name(ContentObject :: get_table_name()), $subselect_condition);
+            $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
             $condition = new AndCondition($conditions);
             
             $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC));

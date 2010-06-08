@@ -2,7 +2,6 @@
 /**
  * @package application.lib.cda.cda_manager
  */
-require_once dirname(__FILE__).'/cda_manager_component.class.php';
 require_once dirname(__FILE__).'/../cda_data_manager.class.php';
 require_once dirname(__FILE__).'/component/cda_language_browser/cda_language_browser_table.class.php';
 require_once dirname(__FILE__).'/component/language_pack_browser/language_pack_browser_table.class.php';
@@ -98,107 +97,107 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_CDA_LANGUAGES :
-				$component = CdaManagerComponent :: factory('CdaLanguagesBrowser', $this);
+				$component = $this->create_component('CdaLanguagesBrowser');
 				break;
 			case self :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES :
-				$component = CdaManagerComponent :: factory('AdminCdaLanguagesBrowser', $this);
+				$component = $this->create_component('AdminCdaLanguagesBrowser');
 				break;
 			case self :: ACTION_DELETE_CDA_LANGUAGE :
-				$component = CdaManagerComponent :: factory('CdaLanguageDeleter', $this);
+				$component = $this->create_component('CdaLanguageDeleter');
 				break;
 			case self :: ACTION_EDIT_CDA_LANGUAGE :
-				$component = CdaManagerComponent :: factory('CdaLanguageUpdater', $this);
+				$component = $this->create_component('CdaLanguageUpdater');
 				break;
 			case self :: ACTION_CREATE_CDA_LANGUAGE :
-				$component = CdaManagerComponent :: factory('CdaLanguageCreator', $this);
+				$component = $this->create_component('CdaLanguageCreator');
 				break;
 			case self :: ACTION_BROWSE_LANGUAGE_PACKS :
-				$component = CdaManagerComponent :: factory('LanguagePacksBrowser', $this);
+				$component = $this->create_component('LanguagePacksBrowser');
 				break;
 			case self :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS :
-				$component = CdaManagerComponent :: factory('AdminLanguagePacksBrowser', $this);
+				$component = $this->create_component('AdminLanguagePacksBrowser');
 				break;
 			case self :: ACTION_DELETE_LANGUAGE_PACK :
-				$component = CdaManagerComponent :: factory('LanguagePackDeleter', $this);
+				$component = $this->create_component('LanguagePackDeleter');
 				break;
 			case self :: ACTION_EDIT_LANGUAGE_PACK :
-				$component = CdaManagerComponent :: factory('LanguagePackUpdater', $this);
+				$component = $this->create_component('LanguagePackUpdater');
 				break;
 			case self :: ACTION_CREATE_LANGUAGE_PACK :
-				$component = CdaManagerComponent :: factory('LanguagePackCreator', $this);
+				$component = $this->create_component('LanguagePackCreator');
 				break;
 			case self :: ACTION_BROWSE_VARIABLES :
-				$component = CdaManagerComponent :: factory('VariablesBrowser', $this);
+				$component = $this->create_component('VariablesBrowser');
 				break;
 			case self :: ACTION_ADMIN_BROWSE_VARIABLES :
-				$component = CdaManagerComponent :: factory('AdminVariablesBrowser', $this);
+				$component = $this->create_component('AdminVariablesBrowser');
 				break;
 			case self :: ACTION_DELETE_VARIABLE :
-				$component = CdaManagerComponent :: factory('VariableDeleter', $this);
+				$component = $this->create_component('VariableDeleter');
 				break;
 			case self :: ACTION_EDIT_VARIABLE :
-				$component = CdaManagerComponent :: factory('VariableUpdater', $this);
+				$component = $this->create_component('VariableUpdater');
 				break;
 			case self :: ACTION_CREATE_VARIABLE :
-				$component = CdaManagerComponent :: factory('VariableCreator', $this);
+				$component = $this->create_component('VariableCreator');
 				break;
 			case self :: ACTION_BROWSE_VARIABLE_TRANSLATIONS :
-				$component = CdaManagerComponent :: factory('VariableTranslationsBrowser', $this);
+				$component = $this->create_component('VariableTranslationsBrowser');
 				break;
 			case self :: ACTION_EDIT_VARIABLE_TRANSLATION :
-				$component = CdaManagerComponent :: factory('VariableTranslationUpdater', $this);
+				$component = $this->create_component('VariableTranslationUpdater');
 				break;
 			case self :: ACTION_LOCK_VARIABLE_TRANSLATION :
-				$component = CdaManagerComponent :: factory('VariableTranslationLocker', $this);
+				$component = $this->create_component('VariableTranslationLocker');
 				break;
 			case self :: ACTION_VIEW_VARIABLE_TRANSLATION :
-				$component = CdaManagerComponent :: factory('VariableTranslationViewer', $this);
+				$component = $this->create_component('VariableTranslationViewer');
 				break;
 			case self :: ACTION_EXPORT_TRANSLATIONS :
-				$component = CdaManagerComponent :: factory('TranslationExporter', $this);
+				$component = $this->create_component('TranslationExporter');
 				break;
 			case self :: ACTION_IMPORT_TRANSLATIONS :
-				$component = CdaManagerComponent :: factory('TranslationImporter', $this);
+				$component = $this->create_component('TranslationImporter');
 				break;
 			case self :: ACTION_ADMIN_IMPORT_TRANSLATIONS :
-				$component = CdaManagerComponent :: factory('AdminTranslationImporter', $this);
+				$component = $this->create_component('AdminTranslationImporter');
 				break;
 			case self :: ACTION_RATE_VARIABLE_TRANSLATION :
-				$component = CdaManagerComponent :: factory('VariableTranslationRater', $this);
+				$component = $this->create_component('VariableTranslationRater');
 				break;
 			case self :: ACTION_CREATE_TRANSLATOR_APPLICATION :
-				$component = CdaManagerComponent :: factory('TranslatorApplicationCreator', $this);
+				$component = $this->create_component('TranslatorApplicationCreator');
 				break;
 			case self :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS :
-				$component = CdaManagerComponent :: factory('TranslatorApplicationBrowser', $this);
+				$component = $this->create_component('TranslatorApplicationBrowser');
 				break;
 			case self :: ACTION_ACTIVATE_TRANSLATOR_APPLICATION :
-				$component = CdaManagerComponent :: factory('TranslatorApplicationActivator', $this);
+				$component = $this->create_component('TranslatorApplicationActivator');
 				break;
 			case self :: ACTION_DEACTIVATE_TRANSLATOR_APPLICATION :
-				$component = CdaManagerComponent :: factory('TranslatorApplicationDeactivator', $this);
+				$component = $this->create_component('TranslatorApplicationDeactivator');
 				break;
 			case self :: ACTION_DELETE_TRANSLATOR_APPLICATION :
-				$component = CdaManagerComponent :: factory('TranslatorApplicationDeleter', $this);
+				$component = $this->create_component('TranslatorApplicationDeleter');
 				break;
 			case self :: ACTION_SEARCH_VARIABLE_TRANSLATIONS :
-				$component = CdaManagerComponent :: factory('VariableTranslationsSearcher', $this);
+				$component = $this->create_component('VariableTranslationsSearcher');
 				break;
 			case self :: ACTION_DELETE_HISTORIC_VARIABLE_TRANSLATION :
-			    $component = CdaManagerComponent :: factory('HistoricVariableTranslationDeleter', $this);
+			    $component = $this->create_component('HistoricVariableTranslationDeleter');
 			    break;
 			case self :: ACTION_REVERT_HISTORIC_VARIABLE_TRANSLATION :
-			    $component = CdaManagerComponent :: factory('HistoricVariableTranslationReverter', $this);
+			    $component = $this->create_component('HistoricVariableTranslationReverter');
 			    break;
 			case self :: ACTION_VERIFY_VARIABLE_TRANSLATION :
-			    $component = CdaManagerComponent :: factory('VariableTranslationVerifier', $this);
+			    $component = $this->create_component('VariableTranslationVerifier');
 			    break;
 			case self :: ACTION_DEPRECATE_VARIABLE_TRANSLATION :
-			    $component = CdaManagerComponent :: factory('VariableTranslationDeprecater', $this);
+			    $component = $this->create_component('VariableTranslationDeprecater');
 			    break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CDA_LANGUAGES);
-				$component = CdaManagerComponent :: factory('CdaLanguagesBrowser', $this);
+				$component = $this->create_component('CdaLanguagesBrowser');
 
 		}
 		$component->run();
@@ -646,6 +645,11 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
   	function retrieve_historic_variable_translation($historic_variable_translation_id)
 	{
 		return CdaDataManager :: get_instance()->retrieve_historic_variable_translation($historic_variable_translation_id);
+	}
+	
+	function retrieve_first_untranslated_variable_translation($language_id, $language_pack_id = null, $status = null)
+	{
+		return CdaDataManager :: get_instance()->retrieve_first_untranslated_variable_translation($language_id, $language_pack_id, $status);
 	}
 
  	function get_delete_historic_variable_translation_url($historic_variable_translation)

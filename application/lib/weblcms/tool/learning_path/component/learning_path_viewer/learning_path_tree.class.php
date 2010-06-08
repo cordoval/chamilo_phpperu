@@ -13,7 +13,8 @@ require_once dirname(__FILE__) . '/rule_condition_translator.class.php';
  */
 class LearningPathTree extends HTML_Menu
 {
-    
+    const TREE_NAME = __CLASS__;
+	
     private $current_step;
     private $lp_id;
     private $lp;
@@ -124,7 +125,7 @@ class LearningPathTree extends HTML_Menu
             $lo = $datamanager->retrieve_content_object($object->get_ref());
             $lpi_tracker_data = $this->lpi_tracker_data[$object->get_id()];
             
-            if ($lo->get_type() == 'learning_path_item')
+            if ($lo->get_type() == LearningPathItem :: get_type_name())
             {
                 $lo = $datamanager->retrieve_content_object($lo->get_reference());
             }
@@ -138,7 +139,7 @@ class LearningPathTree extends HTML_Menu
             
             $control_mode = $parent->get_control_mode();
             
-            if ($lo->get_type() == 'learning_path')
+            if ($lo->get_type() == LearningPath :: get_type_name())
                 $sub_menu_items = $this->get_menu_items($lo);
             
             if (count($sub_menu_items) > 0)
@@ -312,11 +313,16 @@ class LearningPathTree extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-    function render_as_tree()
+	function render_as_tree()
     {
-        $renderer = new TreeMenuRenderer();
+        $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
+    }
+    
+    static function get_tree_name()
+    {
+    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 
     function get_progress()

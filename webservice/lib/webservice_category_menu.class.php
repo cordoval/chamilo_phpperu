@@ -12,6 +12,8 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class WebserviceCategoryMenu extends HTML_Menu
 {
+    const TREE_NAME = __CLASS__;
+    
     /**
      * The string passed to sprintf() to format category URLs
      */
@@ -32,7 +34,7 @@ class WebserviceCategoryMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function WebserviceCategoryMenu($current_category, $url_format = '?go=browse&webservice_category_id=%s')
+    function WebserviceCategoryMenu($current_category, $url_format = '?application=webservice&go=browse&webservice_category_id=%s')
     {
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
@@ -46,7 +48,7 @@ class WebserviceCategoryMenu extends HTML_Menu
         $menu = array();
         
         $menu_item = array();
-        $menu_item['title'] = Translation :: get('WebserviceCategory');
+        $menu_item['title'] = Translation :: get('Webservices');
         $menu_item['url'] = $this->get_home_url();
         
         $sub_menu_items = $this->get_menu_items(0);
@@ -132,10 +134,15 @@ class WebserviceCategoryMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-    function render_as_tree()
+	function render_as_tree()
     {
-        $renderer = new TreeMenuRenderer();
+        $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
+    }
+    
+    static function get_tree_name()
+    {
+    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }

@@ -15,92 +15,6 @@ class Reporting
     const ORIENTATION_HORIZONTAL = 'horizontal';
 
     /**
-     * Generates a reporting block
-     * @param ReportingBlock $reporting_block
-     * @return html
-     */
-    public static function generate_block(&$reporting_block, $params)
-    {
-        if ($params[ReportingTemplate :: PARAM_DIMENSIONS] == ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS)
-        {
-            //$html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';">';
-            $html[] = '<div id="' . $reporting_block->get_id() . '" class="reporting_block">';
-            $width = "<script>document.write(screen.width);</script>";
-            //$reporting_block->set_width($width.'px');
-        }
-        else
-        {
-            $html[] = '<div id="' . $reporting_block->get_id() . '" class="reporting_block">';
-            //$html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';'.
-        //'width:'.$reporting_block->get_width().';">';
-        //$html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="width:'.$reporting_block->get_width().';">';
-        }
-        $html[] = '<div class="reporting_header">';
-        $html[] = '<div class="reporting_header_title">' . Translation :: get($reporting_block->get_name()) . '</div>';
-        $html[] = '<div class="reporting_header_displaymode">';
-        $html[] = '<select name="charttype" class="charttype">';
-        foreach ($reporting_block->get_displaymodes() as $key => $value)
-        {
-            if ($key == $reporting_block->get_displaymode())
-            {
-                $html[] = '<option SELECTED value="' . $key . '">' . $value . '</option>';
-            }
-            else
-            {
-                $html[] = '<option value="' . $key . '">' . $value . '</option>';
-            }
-        }
-        $html[] = '</select></div><div class="clear">&nbsp;</div>';
-        $html[] = '</div>';
-        
-        $html[] = '<div class="reporting_content">';
-        $html[] = ReportingFormatter :: factory($reporting_block)->to_html();
-        $html[] = '</div>';
-        
-        $html[] = '<div class="reporting_footer">';
-        $html[] = '<div class="reporting_footer_export">';
-        $html[] = $reporting_block->get_export_links();
-        $html[] = '</div>&nbsp;<div class="clear">&nbsp;</div>';
-        $html[] = '</div>';
-        
-        $html[] = '</div>';
-        
-        return implode("\n", $html);
-    } //generate_block
-
-    
-    public static function generate_block_export(&$reporting_block, $params)
-    {
-        if ($params[ReportingTemplate :: PARAM_DIMENSIONS] == ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS)
-        {
-            $html[] = '<div id="' . $reporting_block->get_id() . '" class="reporting_block">';
-        }
-        else
-        {
-            $html[] = '<div id="' . $reporting_block->get_id() . '" class="reporting_block">';
-        }
-        $html[] = '<div class="reporting_header">';
-        $html[] = '<div class="reporting_header_title"><b>' . Translation :: get($reporting_block->get_name()) . '</b></div>';
-        $html[] = '</div>';
-        
-        $html[] = '<div class="reporting_content">';
-        //remove links
-        $data = ReportingFormatter :: factory($reporting_block)->to_html();
-        $data = str_replace('</a>', '', $data);
-        $data = preg_replace('/<a[^>]+href[^>]+>/', '', $data);
-        $html[] = $data;
-        $html[] = '</div>';
-        
-        $html[] = '<div class="clear">&nbsp;</div>';
-        $html[] = '</div>';
-        
-        $html[] = '</div>';
-        
-        return implode("\n", $html);
-    } //generate_block_export
-
-    
-    /**
      * Generates an array from a tracker
      * Currently only supports 1 serie
      * @todo support multiple series
@@ -115,15 +29,16 @@ class Reporting
         
         foreach ($trackerdata as $key => $value)
         {
-            $arr[$value->get_name()][] = $value->get_value();
+            $arr[$value->get_name()] = $value->get_value();
         }
-        return self :: getSerieArray($arr, $description);
+        return $arr;
+        //return self :: get_serie_array($arr, $description);
     } //array_from_tracker
 
     
-    public static function getSerieArray($arr, $description = null)
+    public static function get_serie_array($arr, $description = null)
     {
-        $len = 50;
+    	$len = 50;
         $array = array();
         $i = 0;
         if (! isset($arr) || count($arr) == 0)
@@ -197,43 +112,6 @@ class Reporting
         }
     } //sort_array
 
-    
-    public static function get_params()
-    {
-        $params_session = $_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS];
-        $params_get = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS);
-        
-        foreach ($params_session as $key => $value)
-        {
-            $params[$key] = $value;
-        }
-        
-        foreach ($params_get as $key => $value)
-        {
-            $params[$key] = $value;
-        }
-        
-        if (! isset($params[ReportingManager :: PARAM_COURSE_ID]))
-            $params[ReportingManager :: PARAM_COURSE_ID] = Request :: get('course');
-        
-        if (Request :: get('pid'))
-            $params['pid'] = Request :: get('pid');
-        if (Request :: get('cid') != null)
-            $params['cid'] = Request :: get('cid');
-            
-        //$params['url'] = $parent->get_url();
-        
-
-        //        $params['parent'] = $parent;
-        
-
-        $_SESSION[ReportingManager :: PARAM_REPORTING_PARENT] = $parent;
-        
-        $_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
-        
-        return $params;
-    }
-
     public static function get_weblcms_reporting_url($classname, $params)
     {
         require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
@@ -244,5 +122,55 @@ class Reporting
         $url = strstr($url, '?');
         return 'run.php' . $url;
     }
+    
+    public static function get_name_registration($name, $application)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_TEMPLATE, $name);
+    	$conditions[] = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, $application);
+    	$condition = new AndCondition($conditions);
+    	
+    	$registrations = ReportingDataManager::get_instance()->retrieve_reporting_template_registrations($condition);
+    	if ($registrations->size() == 1)
+    	{
+    		return $registrations->next_result();
+    	}
+    	else
+    	{
+    		return null;
+    	}
+    }
+    
+	/**
+     * Creates a reporting template registration in the database
+     * @param array $props
+     * @return ReportingTemplateRegistration
+     */
+    public static function create_reporting_template_registration($props)
+    {
+    	$reporting_template_registration = new ReportingTemplateRegistration();
+        $reporting_template_registration->set_default_properties($props);
+        if (! $reporting_template_registration->create())
+        {
+            return false;
+        }
+        return $reporting_template_registration;
+    }
+    
+    /**
+     * Creates a reporting block in the database
+     * @param array $array
+     * @return ReportingBlock
+     */
+    public static function create_reporting_block_registration($array)
+    {
+        $reporting_block = new ReportingBlockRegistration();
+        $reporting_block->set_default_properties($array);
+        if (! $reporting_block->create())
+        {
+            return false;
+        }
+        return $reporting_block;
+    }    
 } //class reporting
 ?>

@@ -4,10 +4,10 @@
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="item_id" type="integer" unsigned="1" notnull="1" />
 		<property name="type" type="integer" unsigned="1" notnull="1" />
-		<property name="start_date" type="timestamp" />
-		<property name="stop_date" type="timestamp" />
-		<property name="start_subscription" type="timestamp" />
-		<property name="stop_subscription" type="timestamp" />
+		<property name="start_date" type="integer" unsigned="1" notnull="1" />
+		<property name="stop_date" type="integer" unsigned="1" notnull="1" />
+		<property name="start_subscription" type="integer" unsigned="1" />
+		<property name="stop_subscription" type="integer" unsigned="1" />
 		<property name="max_users" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="notes" type="text" length="250" fixed="true"

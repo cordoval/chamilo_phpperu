@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerRegisterComponent extends UserManagerComponent
+class UserManagerRegisterComponent extends UserManager
 {
 
     /**
@@ -12,7 +12,7 @@ class UserManagerRegisterComponent extends UserManagerComponent
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
         if ($this->get_platform_setting('allow_registration', 'admin') == false)
         {
@@ -26,7 +26,7 @@ class UserManagerRegisterComponent extends UserManagerComponent
         
         if (isset($user))
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: warning_message(Translation :: get('AlreadyRegistered'));
             $this->display_footer();
             exit();
@@ -45,19 +45,27 @@ class UserManagerRegisterComponent extends UserManagerComponent
             if ($success == 1)
             {
                 //$this->redirect(Translation :: get($success ? 'UserRegistered' : 'UserNotRegistered'), ($success ? false : true), array(), array(), false, Redirect :: TYPE_LINK);
-                Redirect :: link('', array(), array(), false, null);
+                
+            	$parameters = array();
+            	
+	            if (PlatformSetting :: get('allow_registration', 'user') == 2)
+	        	{
+	        		$parameters['message'] = Translation :: get('UserAwaitingApproval');
+	        	}
+            	
+                Redirect :: link('', $parameters, array(), false, null);
             }
             else
             {
                 Request :: set_get('error_message', Translation :: get('UsernameNotAvailable'));
-                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }

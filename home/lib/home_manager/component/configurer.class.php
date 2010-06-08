@@ -6,7 +6,7 @@
 /**
  * Repository manager component to edit an existing learning object.
  */
-class HomeManagerConfigurerComponent extends HomeManagerComponent
+class HomeManagerConfigurerComponent extends HomeManager
 {
 
     /**
@@ -17,7 +17,7 @@ class HomeManagerConfigurerComponent extends HomeManagerComponent
         Header :: set_section('admin');
         
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => HomeManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Home')));
@@ -27,7 +27,7 @@ class HomeManagerConfigurerComponent extends HomeManagerComponent
         
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -53,14 +53,14 @@ class HomeManagerConfigurerComponent extends HomeManagerComponent
                 }
                 else
                 {
-                    $this->display_header($trail);
+                    $this->display_header();
                     $form->display();
                     $this->display_footer();
                 }
             }
             else
             {
-                $this->display_header($trail);
+                $this->display_header();
                 $this->display_warning_message(Translation :: get('NothingToConfigure'));
                 $this->display_footer();
             }

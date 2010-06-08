@@ -4,7 +4,6 @@
  * @package application.lib.assessment.assessment_manager.component
  */
 require_once dirname(__FILE__) . '/../assessment_manager.class.php';
-require_once dirname(__FILE__) . '/../assessment_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../trackers/assessment_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts_tracker.class.php';
 
@@ -13,16 +12,18 @@ require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
+class AssessmentManagerResultsViewerComponent extends AssessmentManager
 {
     private $current_attempt_id;
-
+	private $trail;
+	private $object;
+	
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $this->trail = $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
         
@@ -79,7 +80,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
                 $this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $pid);
                 
                 $html = ComplexDisplay :: factory($this, $object->get_type());
-                $html->set_root_lo($object);
+				$this->object = $object;
             }
             else
             {
@@ -87,14 +88,31 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
             }
         }
         
-        $this->display_header($trail);
-        
         if (is_object($html))
+        {
             $html->run();
-        else
-            echo $html;
-        
-        $this->display_footer();
+        }
+        else 
+        {
+            $this->display_header();
+        	echo $html;
+        	$this->display_footer();
+        }
+    }
+    
+    function get_root_content_object()
+    {
+    	return $this->object;
+    }
+    
+    function display_header($trail)
+    {
+    	if($trail)
+    	{
+    		$this->trail->merge($trail);
+    	}
+    	
+    	parent :: display_header($this->trail);
     }
 
     function display_summary_results()
@@ -103,10 +121,11 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
         
         $current_category = Request :: get('category');
         $current_category = $current_category ? $current_category : 0;
-        
         $parameters = array('category' => $current_category, 'url' => $this->get_url());
-        $template = new AssessmentAttemptsSummaryTemplate($this, 0, $parameters, null);
-        $template->set_reporting_blocks_function_parameters($parameters);
+        $database = ReportingDataManager :: get_instance();
+        $template_obj = $database->retrieve_reporting_template_object('assessment_attempts_summary_template');
+        $template = new AssessmentAttemptsSummaryTemplate($this, $template_obj->get_id(), $parameters, null);
+        //$template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();
     }
 
@@ -116,10 +135,11 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
         
         $url = $this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid));
         $results_export_url = $this->get_results_exporter_url();
-        
         $parameters = array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid, 'url' => $url, 'results_export_url' => $results_export_url);
-        $template = new AssessmentAttemptsTemplate($this, 0, $parameters, null, $pid);
-        $template->set_reporting_blocks_function_parameters($parameters);
+        $database = ReportingDataManager :: get_instance();
+        $template_obj = $database->retrieve_reporting_template_object('assessment_attempts_template');
+        $template = new AssessmentAttemptsTemplate($this, $template_obj->get_id() , $parameters, null, $pid);
+        //$template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();
     }
 
@@ -156,7 +176,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManagerComponent
 
     function change_total_score($total_score)
     {
-        $condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->current_attempt_id);
+        $condition = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ID, $this->current_attempt_id);
         $dummy = new AssessmentAssessmentAttemptsTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         $tracker = $trackers[0];

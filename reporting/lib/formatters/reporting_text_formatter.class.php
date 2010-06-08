@@ -13,69 +13,52 @@ class ReportingTextFormatter extends ReportingFormatter
      */
     public function to_html()
     {
-        $all_data = $this->reporting_block->get_data();
-        $data = $all_data[0];
-        $datadescription = $all_data[1];
-        $values = sizeof($datadescription["Values"]);
+    	$reporting_data = $this->get_block()->retrieve_data();
+        $data = $reporting_data->get_data();
+        $values = sizeof($reporting_data->get_rows());
         $count = 1;
         
-        $pager_params = array();
+        /*$pager_params = array();
         $pager_params['mode'] = 'Sliding';
         $pager_params['perPage'] = 10;
-        $pager_params['totalItems'] = count($datadescription["Values"]);
-        $pager_params['urlVar'] = 'pageID_' . $this->reporting_block->get_id();
+        $pager_params['totalItems'] = $values;
+        $pager_params['urlVar'] = 'pageID_' . $this->get_block()->get_id();
         
         $pager = $this->create_pager($pager_params);
         $pager_links = $this->get_pager_links($pager);
-        
-        $offset = $pager->getOffsetByPageId();
+        $offset = $pager->getOffsetByPageId();*/
         
         $start = $offset[0];
         $end = $offset[1];
         
         if ($values > 1)
         {
-            while ($count <= $values)
-            {
-                if ($count >= $start && $count <= $end)
-                {
-                    foreach ($data as $key => $value)
-                    {
-                        $html[] = $value["Name"] . ': ' . $value["Serie" . $count];
-                        $html[] = '<br />';
-                    }
-                    //$count++;
-                    $html[] = '<br />';
-                }
-                $count ++;
-            }
+            
+        	foreach ($reporting_data->get_rows() as $row_id => $row_name)
+        	{
+	        	//$html[] = $row_name . '<br />';
+	        	$html[] = '<h4>' . $row_name . '</h4>';
+        		$categories = $reporting_data->get_categories();
+	            foreach($categories as $category_id => $category_name)
+	            {
+	                  $html[] = $category_name . ': ' . $reporting_data->get_data_category_row($category_id, $row_id) .'<br />';  	
+	            }
+	            $html[] = '<br />';
+        	}
         }
         else
         {
-            foreach ($data as $key => $value)
+        	$categories = $reporting_data->get_categories();
+        	$rows = $reporting_data->get_rows();
+        	$rows_id = array_keys($rows);
+            foreach($categories as $category_id => $category_name)
             {
-                $j = 0;
-                foreach ($value as $key2)
-                {
-                    if (isset($datadescription["Description"]["Column" . $j]))
-                    {
-                        $html[] = $datadescription["Description"]["Column" . $j] . ': ' . $key2;
-                        $html[] = '<br />';
-                    }
-                    else
-                        $html[] = $key2 . " ";
-                    $j ++;
-                }
-                $html[] = "<br />";
+            	  $html[] = $category_name . ': ' . $reporting_data->get_data_category_row($category_id, $rows_id[0]) .'<br />';      	
             }
         }
-        $html[] = $pager_links;
+        //$html[] = $pager_links;
         return implode("\n", $html);
     }
 
-    public function ReportingTextFormatter(& $reporting_block)
-    {
-        $this->reporting_block = $reporting_block;
-    }
 } //ReportingTextFormatter
 ?>

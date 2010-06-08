@@ -4,7 +4,6 @@
  */
 
 require_once dirname(__FILE__).'/../cda_manager.class.php';
-require_once dirname(__FILE__).'/../cda_manager_component.class.php';
 require_once dirname(__FILE__).'/historic_variable_translation_browser/historic_variable_translation_browser_table.class.php';
 
 /**
@@ -12,7 +11,7 @@ require_once dirname(__FILE__).'/historic_variable_translation_browser/historic_
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
+class CdaManagerVariableTranslationViewerComponent extends CdaManager
 {
 
 	private $variable_translation;
@@ -122,7 +121,7 @@ class CdaManagerVariableTranslationViewerComponent extends CdaManagerComponent
         $html[] = '<div class="title">' . Translation :: get('Statistics') . '</div>';
         $html[] = '<div class="description" style="overflow: auto;">';
 
-        $html[] = '<b>' . Translation :: get('Date') . ': </b>' . Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), Utilities :: time_from_datepicker($variable_translation->get_date()));
+        $html[] = '<b>' . Translation :: get('Date') . ': </b>' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), Utilities :: time_from_datepicker($variable_translation->get_date()));
         $html[] = '<br /><b>' . Translation :: get('Rating') . ': </b>' . $variable_translation->get_relative_rating();
         $html[] = '<br /><b>' . Translation :: get('NumberOfPersonsRated') . ': </b>' . $variable_translation->get_rated();
         $html[] = '<br /><b>' . Translation :: get('Status') . ': </b>' . $variable_translation->get_status_icon();

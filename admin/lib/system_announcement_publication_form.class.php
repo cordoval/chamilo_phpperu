@@ -201,7 +201,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
             
             $selected_group = array();
             $selected_group['id'] = 'group_' . $group->get_id();
-            $selected_group['class'] = 'type type_group';
+            $selected_group['classes'] = 'type type_group';
             $selected_group['title'] = $group->get_name();
             $selected_group['description'] = $group->get_description();
             
@@ -213,7 +213,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
             
             $selected_user = array();
             $selected_user['id'] = 'user_' . $user->get_id();
-            $selected_user['class'] = 'type type_user';
+            $selected_user['classes'] = 'type type_user';
             $selected_user['title'] = $user->get_fullname();
             $selected_user['description'] = $user->get_username();
             
@@ -270,7 +270,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
     function create_content_object_publications()
     {
         $values = $this->exportValues();
-        
+
         $ids = unserialize($values['ids']);
         
         foreach ($ids as $id)
@@ -288,7 +288,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
             
             $users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
             $groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
-            
+
             $pub = new SystemAnnouncementPublication();
             $pub->set_content_object_id($id);
             $pub->set_publisher($this->form_user->get_id());

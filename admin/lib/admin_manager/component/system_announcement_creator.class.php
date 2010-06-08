@@ -4,7 +4,7 @@
  * @package admin.lib.admin_manager.component
  */
 
-class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerComponent
+class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager
 {
 
     /**
@@ -12,8 +12,8 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+        $trail = BreadcrumbTrail :: get_instance();;
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdministration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('SystemAnnouncements')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishSystemAnnouncement')));
@@ -21,7 +21,7 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
         
         $publisher = $this->get_publisher_html();
         
-        $this->display_header($trail);
+        $this->display_header();
         echo $publisher;
         echo '<div style="clear: both;"></div>';
         $this->display_footer();
@@ -29,10 +29,9 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
 
     private function get_publisher_html()
     {
-        $object = Request :: get('object');
-        $pub = new RepoViewer($this, 'system_announcement', true);
+        $pub = new RepoViewer($this, SystemAnnouncement :: get_type_name());
         
-        if (! isset($object))
+        if (!$pub->is_ready_to_be_published())
         {
             //$html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
             $html[] = $pub->as_html();
@@ -41,7 +40,7 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
         {
             //$html[] = 'ContentObject: ';
             $publisher = new SystemAnnouncerMultipublisher($pub);
-            $html[] = $publisher->get_publications_form($object);
+            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
         }
         
         return implode($html, "\n");

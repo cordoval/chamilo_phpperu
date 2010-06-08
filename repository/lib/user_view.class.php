@@ -80,19 +80,19 @@ class UserView extends DataClass
 
     function create($values)
     {
-        //dump($values);
-        $gdm = RepositoryDataManager :: get_instance();
-
-        $condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
-        $views = $gdm->count_user_views($condition);
+        $rdm = $this->get_data_manager();
+        
+    	$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+        $views = $rdm->count_user_views($condition);
         if ($views > 0)
         {
-            return false;
+            $this->add_error(Translation :: get('UserViewNameNotUnique'));
+        	return false;
         }
 
-        $success = $gdm->create_user_view($this);
+        $success = $rdm->create_user_view($this);
 
-        $registrations = $gdm->get_registered_types();
+        $registrations = RepositoryDataManager :: get_registered_types();
         foreach ($registrations as $registration)
         {
             $uvrlo = new UserViewRelContentObject();
@@ -108,6 +108,24 @@ class UserView extends DataClass
         }
 
         return $success;
+    }
+
+    function update($values)
+    {
+    	$rdm = RepositoryDataManager :: get_instance();
+    	
+    	$conditions[] = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+    	$conditions[] = new NotCondition(new EqualityCondition(self :: PROPERTY_ID, $this->get_id()));
+    	$condition = new AndCondition($conditions);
+
+        $views = $rdm->count_user_views($condition);
+        if ($views > 0)
+        {
+            $this->add_error(Translation :: get('UserViewNameNotUnique'));
+        	return false;
+        }
+
+        return parent :: update();
     }
 
     static function get_table_name()

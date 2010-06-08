@@ -3,7 +3,6 @@
  * $Id: alexia_manager.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.alexia
  */
-require_once dirname(__FILE__) . '/alexia_manager_component.class.php';
 require_once dirname(__FILE__) . '/component/alexia_publication_browser/alexia_publication_browser_table.class.php';
 require_once dirname(__FILE__) . '/../alexia_data_manager.class.php';
 require_once dirname(__FILE__) . '/../alexia_block.class.php';
@@ -47,29 +46,29 @@ class AlexiaManager extends WebApplication
         switch ($action)
         {
             case self :: ACTION_BROWSE_PUBLICATIONS :
-                $component = AlexiaManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_CREATE_PUBLICATION :
-                $component = AlexiaManagerComponent :: factory('Publisher', $this);
+                $component = $this->create_component('Publisher');
                 break;
             case self :: ACTION_EDIT_PUBLICATION :
-                $component = AlexiaManagerComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
                 break;
             case self :: ACTION_DELETE_PUBLICATION :
-                $component = AlexiaManagerComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_VIEW_PUBLICATION :
-                $component = AlexiaManagerComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_PUBLISH_INTRODUCTION :
-                $component = AlexiaManagerComponent :: factory('Introducer', $this);
+                $component = $this->create_component('Introducer');
                 break;
             case self :: ACTION_EDIT_INTRODUCTION :
-                $component = AlexiaManagerComponent :: factory('Reintroducer', $this);
+                $component = $this->create_component('Reintroducer');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_PUBLICATIONS);
-                $component = AlexiaManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }

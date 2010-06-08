@@ -6,10 +6,9 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
-require_once dirname(__FILE__) . '/../personal_messenger_manager_component.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 
-class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerComponent
+class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
 {
     private $folder;
     private $publication;
@@ -106,7 +105,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
             $html[] = '<b>' . Translation :: get('MessageTo') . '</b>:&nbsp;' . Translation :: get('RecipientUnknown') . '<br />';
         }
         
-        $html[] = '<b>' . Translation :: get('MessageDate') . '</b>:&nbsp;' . Text :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $publication->get_published()) . '<br />';
+        $html[] = '<b>' . Translation :: get('MessageDate') . '</b>:&nbsp;' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatShort') . ', ' . Translation :: get('timeNoSecFormat'), $publication->get_published()) . '<br />';
         $html[] = '<b>' . Translation :: get('MessageSubject') . '</b>:&nbsp;' . $message->get_title();
         $html[] = '</div>';
         $html[] = '</div>';

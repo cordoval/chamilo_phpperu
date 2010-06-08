@@ -131,6 +131,7 @@ function write_config_file()
     $config['{SECURITY_KEY}'] = md5(uniqid(rand() . time()));
     $config['{URL_APPEND}'] = $values['url_append'];
     $config['{HASHING_ALGORITHM}'] = $values['hashing_algorithm'];
+    $config['{INSTALL_DATE}'] = time();
     
     foreach ($config as $key => $value)
     {

@@ -38,7 +38,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         {
             case ContentObjectPublication :: PROPERTY_PUBLICATION_DATE :
                 $date_format = Translation :: get('dateTimeFormatLong');
-                $data = Text :: format_locale_date($date_format, $publication->get_publication_date());
+                $data = DatetimeUtilities :: format_locale_date($date_format, $publication->get_publication_date());
                 break;
             case ContentObjectPublication :: PROPERTY_PUBLISHER_ID :
                 $user = $this->retrieve_user($publication->get_publisher_id());
@@ -79,12 +79,19 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         {
             $users = $publication->get_target_users();
             $course_groups = $publication->get_target_course_groups();
-            if (count($users) + count($course_groups) == 1)
+            $groups = $publication->get_target_groups();
+            if (count($users) + count($course_groups) + count($groups) == 1)
             {
                 if (count($users) == 1)
                 {
                     $user = $this->retrieve_user($users[0]);
                     return $user->get_firstname() . ' ' . $user->get_lastname() . $email_suffix;
+                }
+                elseif(count($groups) == 1)
+                {
+                    $gdm = GroupDataManager :: get_instance();
+                    $group = $gdm->retrieve_group($groups[0]);
+                    return $group->get_name();
                 }
                 else
                 {
@@ -105,6 +112,13 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
                 $wdm = WeblcmsDatamanager :: get_instance();
                 $course_group = $wdm->retrieve_course_group($course_group_id);
                 $target_list[] = '<option>' . $course_group->get_name() . '</option>';
+            }
+            foreach ($groups as $index => $group_id)
+            {
+                $gdm = GroupDataManager :: get_instance();
+                //Todo: make this more efficient. Get all course_groups using a single query
+                $group = $gdm->retrieve_group($group_id);
+                $target_list[] = '<option>' . $group->get_name() . '</option>';
             }
             $target_list[] = '</select>';
             return implode("\n", $target_list) . $email_suffix;
@@ -134,7 +148,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
             {
                 $img = 'action_visible_na.png';
             }
-           
+
             if($publication->get_display_order_index() > 1)
             {
             	$actions[] = array(
@@ -150,7 +164,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
             		'img' => Theme :: get_common_image_path() . 'action_up_na.png'
             	);
             }
-            
+
             if($publication->get_display_order_index() < $this->object_count)
             {
             	$actions[] = array(
@@ -175,7 +189,17 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 
         $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
         $actions['feedback'] = array('href' => $feedback_url, 'label' => Translation :: get('Feedback'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-
+        
+        if(WebApplication :: is_active('gradebook'))
+        {
+        	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        	$internal_item = EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id());
+        	if($internal_item && $internal_item->get_calculated() != 1)
+        	{
+        		$evaluate_url = $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
+				$actions['evaluate'] = array('href' => $evaluate_url, 'label' => Translation :: get('Evaluate'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png'); 
+        	}
+        }
         return $actions;
     }
 }

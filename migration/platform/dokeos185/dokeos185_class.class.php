@@ -132,7 +132,7 @@ class Dokeos185Class extends ImportClass
 
     /**
      * Check if the class is valid
-     * @return true if the blog is valid 
+     * @return true if the class is valid 
      */
     function is_valid($parameters)
     {
@@ -158,10 +158,13 @@ class Dokeos185Class extends ImportClass
         $lcms_class->set_name($this->get_name());
         
         if ($this->get_code())
-            $lcms_class->set_description($this->get_code());
+            $lcms_class->set_code($this->get_code());
         else
-            $lcms_class->set_description($this->get_name());
+            $lcms_class->set_code($this->get_name());
         
+ 		$lcms_class->set_description($this->get_name());
+        $lcms_class->set_parent('0');    
+           
         $lcms_class->set_sort($mgdm->get_next_position('group_group', 'sort'));
         
         //create course in database

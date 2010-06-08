@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerUserSettingsComponent extends UserManagerComponent
+class UserManagerUserSettingsComponent extends UserManager
 {
 	const PARAM_APPLICATION = 'category';
 
@@ -15,7 +15,7 @@ class UserManagerUserSettingsComponent extends UserManagerComponent
 	{
 		Header :: set_section('my_account');
 
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAccount')));
 
 		$application = Request :: get(self :: PARAM_APPLICATION);
@@ -35,14 +35,14 @@ class UserManagerUserSettingsComponent extends UserManagerComponent
         }
         else
         {
-			$this->display_header($trail);
+			$this->display_header();
 
 			if(!$application)
 			{
 				echo '<div class="normal-message">' . Translation :: get('SelectApplicationToConfigure') . '</div><br />';
 			}
 
-			echo $this->get_selecter($this->get_url(), $application);
+			echo $this->get_application_selecter($this->get_url(), $application);
 
 			$form->display();
 
@@ -52,7 +52,7 @@ class UserManagerUserSettingsComponent extends UserManagerComponent
 
 	function display_header($trail)
 	{
-		parent :: display_header($trail);
+		parent :: display_header();
 
 		$actions[] = 'account';
 		$actions[] = 'user_settings';
@@ -91,7 +91,7 @@ class UserManagerUserSettingsComponent extends UserManagerComponent
 		parent :: display_footer();
 	}
 
-	function get_selecter($url, $current_application = null)
+	function get_application_selecter($url, $current_application = null)
     {
         $html = array();
 

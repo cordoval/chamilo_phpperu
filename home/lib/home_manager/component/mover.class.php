@@ -6,7 +6,7 @@
 /**
  * Repository manager component to edit an existing learning object.
  */
-class HomeManagerMoverComponent extends HomeManagerComponent
+class HomeManagerMoverComponent extends HomeManager
 {
 
     /**
@@ -19,7 +19,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
         $type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
         $direction = Request :: get(HomeManager :: PARAM_DIRECTION);
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();;
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => HomeManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Home')));
         //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
@@ -29,7 +29,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
         
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();

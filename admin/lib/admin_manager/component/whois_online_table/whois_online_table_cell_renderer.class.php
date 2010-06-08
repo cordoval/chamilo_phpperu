@@ -37,7 +37,7 @@ class WhoisOnlineTableCellRenderer extends DefaultUserTableCellRenderer
             case User :: PROPERTY_STATUS :
                 if ($user->get_platformadmin() == '1')
                 {
-                    return Translation :: get('PlatformAdmin');
+                    return Translation :: get('PlatformAdministrator');
                 }
                 if ($user->get_status() == '1')
                 {
@@ -50,7 +50,7 @@ class WhoisOnlineTableCellRenderer extends DefaultUserTableCellRenderer
             case User :: PROPERTY_PLATFORMADMIN :
                 if ($user->get_platformadmin() == '1')
                 {
-                    return Translation :: get('PlatformAdmin');
+                    return Translation :: get('PlatformAdministrator');
                 }
                 else
                 {

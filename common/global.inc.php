@@ -86,7 +86,7 @@ if (! $already_installed)
 // Add the path to the pear packages to the include path
 require_once dirname(__FILE__) . '/filesystem/path.class.php';
 require_once dirname(__FILE__) . '/utilities.class.php';
-ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear'));
+ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear') . PATH_SEPARATOR . realpath(Path :: get_plugin_path() . 'google/library'));
 
 function __autoload($classname)
 {
@@ -187,7 +187,9 @@ else
 	- full fake register globals block
 	--------------------------------------------
 	*/
+	// TODO: Restore the normal error reporting for production software release.
     //error_reporting(E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR);
+	// The following error reporting setting is for software under development, these lines are to be disabled.
 	if (phpversion() >= 5.3)
 	{
 		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
@@ -208,8 +210,7 @@ else
 // Login
 if (isset($_POST['login']))
 {
-    $udm = UserDataManager :: get_instance();
-    $user = $udm->login($_POST['login'], $_POST['password']);
+    $user = UserDataManager :: login($_POST['login'], $_POST['password']);
     if (get_class($user) == 'User')
     {
         Session :: register('_uid', $user->get_id());
@@ -225,9 +226,13 @@ if (isset($_POST['login']))
         }
 
         $login_page = PlatformSetting :: get('page_after_login');
-        if ($login_page == 'weblcms')
+        if ($login_page == 'home')
         {
-            header('Location: run.php?application=weblcms');
+            header('Location: index.php');
+        }
+        else
+        {
+            header('Location: run.php?application=' . $login_page);
         }
     }
     else
@@ -260,8 +265,7 @@ if (Request :: get('logout'))
         $udm = UserDataManager :: get_instance();
         $user = $udm->retrieve_user(Session :: get_user_id());
 
-        $udm = UserDataManager :: get_instance();
-        $udm->logout();
+        $udm = UserDataManager :: logout();
         Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
     }
 
@@ -283,12 +287,12 @@ if ($user)
 {
 	Events :: trigger_event('online', 'admin', array('user' => $user));
 }
-else
-{
-	$timezone = LocalSetting :: get('platform_timezone');
-}
 
 $language_interface = LocalSetting :: get('platform_language');
+if(!AdminDataManager :: is_language_active($language_interface))
+{
+	$language_interface = PlatformSetting :: get('platform_language');
+}
 
 if (isset($_SESSION['_uid']))
 {
@@ -301,6 +305,9 @@ if (isset($_SESSION['_uid']))
     }
 }
 
+$htmlHeadXtra[] = '<script type="text/javascript">var rootWebPath="' . Path :: get(WEB_PATH) . '"</script>';
+
+$timezone = LocalSetting :: get('platform_timezone');
 date_default_timezone_set($timezone);
 
 /**

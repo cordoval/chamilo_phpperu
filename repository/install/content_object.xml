@@ -11,12 +11,13 @@
 			notnull="1" />
 		<property name="title" type="text" notnull="1" />
 		<property name="description" type="text" />
+		<property name="content_hash" type="text" length="32" fixed="true" />
 		<property name="parent_id" type="integer" unsigned="1"
 			notnull="1" default="0" />
 		<property name="display_order" type="integer" unsigned="1"
 			notnull="1" default="0" />
-		<property name="created" type="timestamp" />
-		<property name="modified" type="timestamp" />
+		<property name="created" type="integer" unsigned="1" notnull="1" />
+		<property name="modified" type="integer" unsigned="1" notnull="1" />
 		<property name="state" type="integer" length="1" unsigned="1"
 			notnull="1" default="0" />
 	</properties>

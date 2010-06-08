@@ -54,26 +54,26 @@ class ReportingManager extends CoreApplication
         switch ($action)
         {
             case self :: ACTION_ADD_TEMPLATE :
-                $component = ReportingManagerComponent :: factory('Add', $this);
+                $component = $this->create_component('Add');
                 break;
             case self :: ACTION_DELETE_TEMPLATE :
-                $component = ReportingManagerComponent :: factory('Delete', $this);
+                $component = $this->create_component('Delete');
                 break;
             case self :: ACTION_BROWSE_TEMPLATES :
-                $component = ReportingManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_VIEW_TEMPLATE :
-                $component = ReportingManagerComponent :: factory('View', $this);
+                $component = $this->create_component('View');
                 break;
             case self :: ACTION_EDIT_TEMPLATE :
-                $component = ReportingManagerComponent :: factory('Edit', $this);
+                $component = $this->create_component('Edit');
                 break;
             case self :: ACTION_EXPORT :
-                $component = ReportingManagerComponent :: factory('Export', $this);
+                $component = $this->create_component('Export');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_TEMPLATES);
-                $component = ReportingManagerComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
                 break;
         }
         $component->run();
@@ -145,9 +145,9 @@ class ReportingManager extends CoreApplication
         return $url;
     }
 
-    function get_reporting_template_registration_url_content($parent, $classname, $params)
+    function get_reporting_template_registration_url_content($parent, $params)
     {
-        $_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
-        return $parent->get_parent()->get_reporting_url($classname, $params);
+        //$_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
+        return $parent->get_parent()->get_reporting_url($params);
     }
 }

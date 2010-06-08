@@ -4,10 +4,9 @@
  * @package application.profiler.profiler_manager.component
  */
 require_once dirname(__FILE__) . '/../profiler_manager.class.php';
-require_once dirname(__FILE__) . '/../profiler_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../profile_publication_form.class.php';
 
-class ProfilerManagerEditorComponent extends ProfilerManagerComponent
+class ProfilerManagerEditorComponent extends ProfilerManager
 {
     private $folder;
     private $publication;
@@ -22,17 +21,17 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
         
         $user = $this->get_user();
         
-        if (! $user->is_platform_admin())
-        {
-            Display :: not_allowed();
-            exit();
-        }
-        
         $id = Request :: get(ProfilerManager :: PARAM_PROFILE_ID);
         
         if ($id)
         {
             $profile_publication = $this->retrieve_profile_publication($id);
+
+        	if (!$user->is_platform_admin() && $user->get_id() != $profile_publication->get_publisher())
+	        {
+    	        Display :: not_allowed();
+        	    exit();
+        	}
             
             $content_object = $profile_publication->get_publication_object();
             
@@ -46,8 +45,8 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
                 $success = $form->update_content_object();
                 if ($form->is_version())
                 {
-                    $publication->set_content_object($content_object->get_latest_version());
-                    $publication->update();
+                    $profile_publication->set_content_object($content_object->get_latest_version());
+                    $profile_publication->update();
                 }
                 
                 $condition = new EqualityCondition(ProfilerCategory :: PROPERTY_PARENT, 0);
