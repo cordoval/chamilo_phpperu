@@ -39,6 +39,8 @@ CKEDITOR.lang.nl = {
 		flash : 'Flash',
 		chamiloflash : 'Flash',
 		chamiloyoutube : 'YouTube',
+		chamilodailymotion : 'DailyMotion',
+		chamilovimeo : 'Vimeo', 
 		chamilovideo : 'Video',
 		chamiloaudio : 'Audio',
 		form : 'Formulier',
@@ -423,6 +425,20 @@ CKEDITOR.lang.nl = {
 		properties : 'Eigenschappen YouTube',
 		propertiesTab : 'Eigenschappen',
 		title : 'Eigenschappen YouTube',
+		width : 'Breedte',
+		height : 'Hoogte'
+	},
+	chamilodailymotion : {
+		properties : 'Eigenschappen DailyMotion',
+		propertiesTab : 'Eigenschappen',
+		title : 'Eigenschappen DailyMotion',
+		width : 'Breedte',
+		height : 'Hoogte'
+	},
+	chamilovimeo : {
+		properties : 'Eigenschappen Vimeo',
+		propertiesTab : 'Eigenschappen',
+		title : 'Eigenschappen Vimeo',
 		width : 'Breedte',
 		height : 'Hoogte'
 	},
