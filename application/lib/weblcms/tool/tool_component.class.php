@@ -64,7 +64,12 @@ abstract class ToolComponent
     {
         return $this->tool->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
     }
-
+    
+	function get_application_name()
+	{
+        return $this->tool->get_application_name();
+	}
+	
     function get_action()
     {
         return $this->tool->get_action();

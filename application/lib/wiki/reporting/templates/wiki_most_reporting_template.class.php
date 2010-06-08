@@ -31,7 +31,7 @@ class WikiMostReportingTemplate extends ReportingTemplate
 
     function get_application()
     {
-        return Wiki :: APPLICATION_NAME;
+        return WikiManager :: APPLICATION_NAME;
     }
 }
 ?>
