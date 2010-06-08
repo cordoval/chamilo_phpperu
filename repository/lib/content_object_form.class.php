@@ -604,8 +604,7 @@ EOT;
 
     private function allows_category_selection()
     {
-        $lo = $this->content_object;
-        return ($this->form_type == self :: TYPE_CREATE || $this->form_type == self :: TYPE_REPLY || $lo->get_parent_id());
+        return ($this->form_type == self :: TYPE_CREATE || $this->form_type == self :: TYPE_REPLY || $this->form_type == self :: TYPE_EDIT);
     }
 
     /**

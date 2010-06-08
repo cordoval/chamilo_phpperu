@@ -74,11 +74,6 @@ abstract class ComplexBuilderComponent extends SubManager
         return $this->get_parent()->get_complex_content_object_breadcrumbs();
     }
 
-    function get_action_bar(ContentObject $content_object)
-    {
-        return $this->get_parent()->get_action_bar($content_object);
-    }
-
     function get_creation_links(ContentObject $content_object, $types = array(), $additional_links = array())
     {
         return $this->get_parent()->get_creation_links($content_object, $types, $additional_links);

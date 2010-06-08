@@ -145,13 +145,6 @@ $(function ()
 			
 		$.each(subElements, function(i, subElement){
 			subElementObject = $(subElement);
-				
-			// Remove the child-elements in case they were previously activated
-			//removeActivatedElement(subElementObject.attr('id'));
-			//var currentSubElement = $('#' + subElementObject.attr('id'), activeBox);
-			//currentSubElement.parent().parent().remove();
-				
-			// Disabled the child-elements in the inactive tree box
 			disable_element_style(subElementObject);
 		});
 	}
@@ -192,6 +185,33 @@ $(function ()
 		});
 	}
 	
+	function toggle_other_groups_by_id(id, elem_type_id, parent_class)
+	{
+		$("[id|="+id+"]").each(function()
+		{
+			var elem_type = $(this);
+			if(elem_type.attr("id") == id)
+			{
+				var parent_type = elem_type.parent();
+				while(parent_type.attr("class") != "inactive_elements" && parent_type.attr("class") != "active_elements")
+				{
+					parent_type = parent_type.parent();
+				}
+				var type_id = parent_type.attr("id").split('_')[1];
+				if(((elem_type_id == "request" || elem_type_id == "direct" || elem_type_id == "code") &&
+				    (type_id == "request" || type_id == "direct" || type_id == "code")) || 
+				   ((elem_type_id == "creation" || elem_type_id == "creationrequest") &&
+				    (type_id == "creation" || type_id == "creationrequest")))
+				{
+					if(parent_type.attr("class") == "inactive_elements" && parent_class == "inactive_elements") 
+						disable_element(elem_type);
+					else if(parent_type.attr("class") == "inactive_elements" && parent_class == "active_elements") 
+						enable_element(elem_type);
+				}
+			}
+		});
+	}
+	
 	function toggle_other_groups(elem)
 	{
 		var id = elem.attr("id"),
@@ -201,31 +221,20 @@ $(function ()
 			parent = parent.parent();
 		}
 		var elem_type_id = parent.attr("id").split('_')[1];
-		$("[id|="+id+"]").each(function()
-				{
-					var elem_type = $(this);
-					if(elem_type.attr("id") == id && elem_type[0] != elem[0])
-					{
-						var parent_type = elem_type.parent();
-						while(parent_type.attr("class") != "inactive_elements" && parent_type.attr("class") != "active_elements")
-						{
-							parent_type = parent_type.parent();
-						}
-						var type_id = parent_type.attr("id").split('_')[1];
-						if(((elem_type_id == "request" || elem_type_id == "direct" || elem_type_id == "code") &&
-						    (type_id == "request" || type_id == "direct" || type_id == "code")) || 
-						   ((elem_type_id == "creation" || elem_type_id == "creationrequest") &&
-						    (type_id == "creation" || type_id == "creationrequest")))
-						{
-							if(parent_type.attr("class") == "inactive_elements" && parent.attr("class") == "inactive_elements") 
-								disable_element(elem_type);
-							else if(parent_type.attr("class") == "inactive_elements" && parent.attr("class") == "active_elements") 
-								enable_element(elem_type);
-						}
-					}
-				});
+		toggle_other_groups_by_id(id, elem_type_id, parent.attr("class"));
 		if(parent.attr("class") == "inactive_elements")
 			setTimeout(function () { add_events(elem); }, 50);
+	}
+	
+	function disable_locked_groups()
+	{
+		if(typeof(fixed_groups) != "undefined")
+		{
+			var locked_groups = unserialize(fixed_groups);
+			$.each(locked_groups, function(i, group){
+				toggle_other_groups_by_id("group_" + group, "direct", "inactive_elements");
+			});
+		}
 	}
 	
 	function check_disabled_before_toggle()
@@ -260,6 +269,7 @@ $(function ()
 	
 	$.fn.init_disable_other_groups = function()
 	{
+		disable_locked_groups();
 		return this.each(function()
 			{
 				var elem = $(this);				

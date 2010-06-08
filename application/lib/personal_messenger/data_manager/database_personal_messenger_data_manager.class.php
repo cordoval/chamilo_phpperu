@@ -182,7 +182,7 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
 
             if ($publication->get_user() == $user->get_id())
             {
-                $info->set_url('index_personal_messenger.php?go=view&pm=' . $publication->get_id());
+                $info->set_url('run.php?application=personal_messenger&amp;go=view&pm=' . $publication->get_id());
             }
             $info->set_publication_object_id($publication->get_personal_message());
 
@@ -203,7 +203,7 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
         $info->set_id($publication->get_id());
         $info->set_publisher_user_id($publication->get_sender());
         $info->set_publication_date($publication->get_published());
-        $info->set_application('Personal Messenger');
+        $info->set_application(PersonalMessengerManager :: APPLICATION_NAME);
         //TODO: i8n location string
         if ($publication->get_user() == $publication->get_recipient())
         {
@@ -222,7 +222,7 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
 
         if ($publication->get_user() == Session :: get_user_id())
         {
-            $info->set_url('index_personal_messenger.php?go=view&pm=' . $publication->get_id());
+            $info->set_url('run.php?application=personal_messenger&amp;go=view&pm=' . $publication->get_id());
         }
         $info->set_publication_object_id($publication->get_personal_message());
 

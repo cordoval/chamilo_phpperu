@@ -23,7 +23,7 @@ class RightsEditorManager extends SubManager
         parent :: __construct($parent);
         
         $this->locations = $locations;
-        $this->exclude_users = array();
+        $this->exclude_users = array(Session :: get_user_id());
         $this->exclude_groups = array();
 
         $rights_editor_action = Request :: get(self :: PARAM_RIGHTS_EDITOR_ACTION);
@@ -103,6 +103,8 @@ class RightsEditorManager extends SubManager
 		if(is_subclass_of($component, __CLASS__))
 		{
 			$component->set_locations($this->locations);
+			$component->exclude_users($this->get_excluded_users());
+			$component->exclude_groups($this->get_excluded_groups());
 		}
 		
 		return $component;

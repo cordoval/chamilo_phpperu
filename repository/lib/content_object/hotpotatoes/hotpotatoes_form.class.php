@@ -157,7 +157,7 @@ class HotpotatoesForm extends ContentObjectForm
         foreach ($entries as $entry)
         {
         	//$filename = basename($entry); dump($entry);
-        	$filename = substr($entry, strlen($dir)); dump($filename);
+        	$filename = substr($entry, strlen($dir)); //dump($filename);
             $full_new_path = $full_path . $filename;
             $new_path = substr($full_new_path, strlen($hotpot_path));
             
