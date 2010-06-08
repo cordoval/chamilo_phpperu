@@ -6,15 +6,19 @@
 /**
  * @author Michael Kyndt
  */
+
+require_once dirname(__FILE__) . '/../blocks/weblcms_wiki_page_most_active_users_reporting_block.class.php';
+require_once dirname(__FILE__) . '/../blocks/weblcms_wiki_page_users_contributions_reporting_block.class.php';
+
 class WikiPageReportingTemplate extends ReportingTemplate
 {
 
     function WikiPageReportingTemplate($parent, $id, $params)
     {
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsWikiPageMostActiveUser"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsWikiPageUsersContributions"), array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(new WeblcmsWikiPageMostActiveUsersReportingBlock($this));
+        $this->add_reporting_block(new WeblcmsWikiPageUsersContributionsReportingBlock($this));
         
-        parent :: __construct($parent, $id, $params);
+        parent :: __construct($parent);
     }
     
 	function display_context()
@@ -42,7 +46,7 @@ class WikiPageReportingTemplate extends ReportingTemplate
     /**
      * @see ReportingTemplate -> to_html()
      */
-    function to_html()
+  /*  function to_html()
     {
         //template header
         $html[] = $this->get_header();
@@ -52,6 +56,6 @@ class WikiPageReportingTemplate extends ReportingTemplate
         $html[] = $this->get_footer();
         
         return implode("\n", $html);
-    }
+    }*/
 }
 ?>

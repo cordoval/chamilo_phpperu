@@ -8,9 +8,14 @@ abstract class WikiReportingBlock extends ReportingBlock
 		return WikiDataManager::get_instance();
 	}
 	
+	function get_publication_id()
+	{
+		return $this->get_parent()->get_parameter(WikiManager :: PARAM_WIKI_PUBLICATION);
+	}
+	
 	function get_application()
 	{
-		return Wiki :: APPLICATION_NAME;
+		return WikiManager :: APPLICATION_NAME;
 	}
 }
 ?>

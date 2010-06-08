@@ -87,10 +87,21 @@ class ForumDisplay extends ComplexDisplay
         }
     	$component->run();
     }
+    
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
 	}
+	
+	function topic_viewed($complex_topic_id)
+    {
+    	return $this->get_parent()->topic_viewed($complex_topic_id);
+    }
+    
+	function count_topic_views($complex_topic_id)
+    {
+    	 return $this->get_parent()->count_topic_views($complex_topic_id);
+    }
 }
 
 ?>

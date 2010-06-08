@@ -148,4 +148,6 @@ $lang['survey']['notstarted'] = 'Niet gestart';
 $lang['survey']['started'] = 'Gestart';
 $lang['survey']['MailNotSend'] = 'E-mail niet verzonden';
 $lang['survey']['MailSend'] = 'E-mail verzonden';
+$lang['survey']['ExportToExcel'] = 'Exporteer naar Excel';
+$lang['survey']['Excel'] = 'Excel';
 ?>

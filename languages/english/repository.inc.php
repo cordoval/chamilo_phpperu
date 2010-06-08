@@ -1,4 +1,5 @@
 <?php
+$lang['repository']['URLOfIcal'] = 'iCal URL location';
 $lang['repository']['AssessmentMatchNumericQuestionTypeName'] = 'Assessment Match Numeric Question';
 $lang['repository']['AssessmentMatchNumericQuestionCreationFormTitle'] = 'Create Assessment Match Numeric Question';
 $lang['repository']['AssessmentMatchNumericQuestionFormTitle'] = 'Question';

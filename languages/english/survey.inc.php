@@ -139,4 +139,6 @@ $lang['survey']['notstarted'] = 'Not started';
 $lang['survey']['started'] = 'Started';
 $lang['survey']['MailNotSend'] = 'Mail not sent';
 $lang['survey']['MailSend'] = 'Mail sent';
+$lang['survey']['ExportToExcel'] = 'Export to Excel';
+$lang['survey']['Excel'] = 'Excel';
 ?>

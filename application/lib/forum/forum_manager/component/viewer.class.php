@@ -12,6 +12,8 @@ require_once dirname(__FILE__) . '/../forum_manager.class.php';
 class ForumManagerViewerComponent extends ForumManager
 {
 	private $trail;
+	private $publication_id;
+	
     /**
      * Runs this component and displays its output.
      */
@@ -20,19 +22,11 @@ class ForumManagerViewerComponent extends ForumManager
         $this->trail = $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(parent :: get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
         
-        $publication_id = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
-        $this->set_parameter(ForumManager :: PARAM_PUBLICATION_ID, $publication_id);
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewForum')));
+        $this->publication_id = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
+        $this->set_parameter(ForumManager :: PARAM_PUBLICATION_ID, $this->publication_id);
         
         $cd = ComplexDisplay :: factory($this, Forum :: get_type_name());
         $cd->run();
-        
-        switch ($cd->get_action())
-        {
-            case ForumDisplay :: ACTION_VIEW_TOPIC :
-                Events :: trigger_event('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $publication_id, 'forum_topic_id' => $cd->get_complex_content_object_item_id()));
-                break;
-        }
     }
     
     function display_header($trail)
@@ -49,10 +43,26 @@ class ForumManagerViewerComponent extends ForumManager
     function get_root_content_object()
     {
     	$datamanager = ForumDataManager :: get_instance();
-    	$publication_id = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
-        $pub = $datamanager->retrieve_forum_publication($publication_id);
+        $pub = $datamanager->retrieve_forum_publication($this->publication_id);
     	$forum_id = $pub->get_forum_id();
        	return RepositoryDataManager :: get_instance()->retrieve_content_object($forum_id);
+    }
+    
+    function topic_viewed($complex_topic_id)
+    {
+    	Events :: trigger_event('view_forum_topic', 'forum', array('user_id' => $this->get_user_id(), 'publication_id' => $this>publication_id, 'forum_topic_id' => $complex_topic_id));
+    }
+    
+    function count_topic_views($complex_topic_id)
+    {
+    	require_once dirname(__FILE__) . '/../../trackers/forum_topic_view_tracker.class.php';
+    	 
+    	$conditions[] = new EqualityCondition(ForumTopicViewTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
+        $conditions[] = new EqualityCondition(ForumTopicViewTracker :: PROPERTY_FORUM_TOPIC_ID, $complex_topic_id);
+        $condition = new AndCondition($conditions);
+        
+        $dummy = new ForumTopicViewTracker();
+        return $dummy->count_tracker_items($condition);
     }
 
 }

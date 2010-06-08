@@ -82,7 +82,7 @@ class OverviewInstallWizardPage extends InstallWizardPage
         $defaults['database_host']		= $this->controller->exportValue('page_database', 'database_host');
         $defaults['database_name']		= $this->controller->exportValue('page_database', 'database_name');
         $defaults['database_username']	= $this->controller->exportValue('page_database', 'database_username');
-        $defaults['database_password']	= '***********';
+        $defaults['database_password']	= $this->controller->exportValue('page_database', 'database_password');
         
         // Application selections
     	$applications = Filesystem :: get_directory_content(Path :: get_application_path() . 'lib/', Filesystem :: LIST_DIRECTORIES, false);
@@ -114,7 +114,7 @@ class OverviewInstallWizardPage extends InstallWizardPage
         $defaults['admin_surname']		= $this->controller->exportValue('page_settings', 'admin_surname');
         $defaults['admin_firstname']	= $this->controller->exportValue('page_settings', 'admin_firstname');
         $defaults['admin_username']		= $this->controller->exportValue('page_settings', 'admin_username');
-        $defaults['admin_password']		= '***********';
+        $defaults['admin_password']		= $this->controller->exportValue('page_settings', 'admin_password');
         $defaults['platform_name']		= $this->controller->exportValue('page_settings', 'platform_name');
         $defaults['organization_name']	= $this->controller->exportValue('page_settings', 'organization_name');
         $defaults['organization_url']	= $this->controller->exportValue('page_settings', 'organization_url');        
