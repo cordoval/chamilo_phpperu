@@ -2194,6 +2194,50 @@ div.complex_browser_display div.content_object div.title {
 	color: #4271B5;
 }
 
+/**
+div.create_block {
+	background-repeat: no-repeat;	
+	background-position: 0px center;
+	float: left;
+	padding: 5px 0px 5px 32px;
+	-moz-border-radius: 5px;
+	-webkit-border--radius: 5px;
+	overflow: hidden;
+	width: 100px;
+	font-weight: bold;
+	color: #565656;
+	font-size: 11px;
+}
+
+div.create_category {
+	background-repeat: no-repeat;	
+	background-position: 10px center;
+	background-color: #F6F6F6;
+	float: left;
+	margin: 0px 10px 10px 0px;
+	padding: 10px 10px 10px 10px;
+	-moz-border-radius: 5px;
+	-webkit-border--radius: 5px;
+	overflow: hidden;
+	width: 132px;
+	font-weight: bold;
+	color: #565656;
+	font-size: 11px;
+	height: 200px;
+}
+
+div.create_category span.title
+{
+	display: block;
+	border-bottom: dotted 1px grey;
+	clear: both;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	width: 132px;
+	overflow: hidden;
+}
+*/
+
 div.create_block {
 	background-repeat: no-repeat;
 	background-position: center 10px;
