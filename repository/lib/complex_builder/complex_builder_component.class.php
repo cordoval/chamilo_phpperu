@@ -34,7 +34,7 @@ abstract class ComplexBuilderComponent extends SubManager
     	$class = 'ComplexBuilder' . Utilities :: underscores_to_camelcase($type) . 'Component';
     	return new $class($application);
 	}
-	
+
     function get_root_content_object()
     {
         return $this->get_parent()->get_root_content_object();
@@ -44,16 +44,16 @@ abstract class ComplexBuilderComponent extends SubManager
     {
         return $this->get_parent()->get_complex_content_object_item();
     }
-    
+
     function get_additional_links()
     {
     	return $this->get_parent()->get_additional_links();
     }
-    
+
     /**
      * Common functionality
      */
-    
+
     function get_complex_content_object_table_html($show_subitems_column = true, $model = null, $renderer = null)
     {
         return $this->get_parent()->get_complex_content_object_table_html($show_subitems_column, $model, $renderer);
@@ -78,19 +78,24 @@ abstract class ComplexBuilderComponent extends SubManager
     {
         return $this->get_parent()->get_creation_links($content_object, $types, $additional_links);
     }
-    
+
 	function get_complex_content_object_item_view_url($complex_content_object_item, $root_content_object_id)
     {
     	return $this->get_parent()->get_complex_content_object_item_view_url($complex_content_object_item, $root_content_object_id);
     }
-    
+
     function get_complex_content_object_parent_changer_url($complex_content_object_item, $root_content_object_id)
     {
     	return $this->get_complex_content_object_parent_changer_url($complex_content_object_item, $root_content_object_id);
     }
-    
+
     function get_application_component_path()
     {
+    }
+
+    function get_action_bar(ContentObject $content_object)
+    {
+        return $this->get_parent()->get_action_bar($content_object);
     }
 }
 
