@@ -1,4 +1,9 @@
 <?php
+/**
+ * $Id: vimeo_display.class.php 2010-06-08
+ * package repository.lib.content_object.vimeo
+ * @author Shoira Mukhsinova
+ */
 class VimeoDisplay extends ContentObjectDisplay
 {
 

@@ -1,7 +1,8 @@
 <?php
 /**
- * $Id: dailymotion.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.dailymotion
+ * $Id: dailymotion.class.php 2010-06-08
+ * package repository.lib.content_object.dailymotion
+ * @author Shoira Mukhsinova
  */
 class Dailymotion extends ContentObject
 {

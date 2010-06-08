@@ -1,7 +1,8 @@
 <?php
 /**
- * $Id: dailymotion.class.php 200 2009-11-13 12:30:04Z kariboe $
- * @package repository.lib.content_object.dailymotion
+ * $Id: vimeo.class.php 2010-06-08
+ * package repository.lib.content_object.vimeo
+ * @author Shoira Mukhsinova
  */
 class Vimeo extends ContentObject
 {
