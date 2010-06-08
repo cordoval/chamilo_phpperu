@@ -1079,7 +1079,7 @@ class PortfolioRights {
             $pdm = PortfolioDataManager::get_instance();
             $success = $pdm->create_location($location);
 
-                if($return_location && $success)
+                if($success)
                 {
                         return $location;
                 }
