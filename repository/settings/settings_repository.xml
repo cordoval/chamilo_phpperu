@@ -260,6 +260,13 @@
 					<option name="allow_youtube_creation" value="1" />
 				</options>
 			</setting>
+			
+				<setting name="allow_dailymotion_creation" field="checkbox"
+				default="1">
+				<options type="static">
+					<option name="allow_dailymotion_creation" value="1" />
+				</options>
+			</setting>
 		</category>
 		<category name="rights">
 			<setting name="use_cumulative_rights" field="checkbox" default="0">
