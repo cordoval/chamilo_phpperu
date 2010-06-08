@@ -22,7 +22,7 @@ abstract class ComplexBuilder extends SubManager
     const PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM = 'move_selected_cloi';
     const PARAM_TYPE = 'type';
     const PARAM_DIRECTION = 'direction';
-    
+
 
     const ACTION_BROWSE = 'browse';
     const ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM = 'delete_cloi';
@@ -116,7 +116,7 @@ abstract class ComplexBuilder extends SubManager
     }
 
     function get_root_content_object()
-    { 
+    {
     	return $this->get_parent()->get_root_content_object();
     }
 
@@ -201,7 +201,7 @@ abstract class ComplexBuilder extends SubManager
 
     function get_complex_content_object_item_edit_url($selected_content_object_item_id)
     {
-      
+
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM,
         							self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_content_object_item_id,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
@@ -247,7 +247,7 @@ abstract class ComplexBuilder extends SubManager
     	return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM,
         							self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
     }
-    
+
     function get_additional_links()
     {
     	return array();
@@ -295,15 +295,20 @@ abstract class ComplexBuilder extends SubManager
 	{
 		return Path :: get_repository_path() . 'lib/complex_builder/component/';
 	}
-	
+
 	function show_menu()
 	{
 		return true;
 	}
-	
+
 	function redirect_away_from_complex_builder($message, $error_message)
 	{
 		$this->get_parent()->redirect_away_from_complex_builder($message, $error_message);
+	}
+
+	function get_action_bar(ContentObject $content_object)
+	{
+	    return '';
 	}
 }
 
