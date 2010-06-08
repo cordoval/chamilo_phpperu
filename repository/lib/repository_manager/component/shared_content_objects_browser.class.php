@@ -9,13 +9,20 @@
  */
 class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryManager
 {
+	const VIEW_OTHERS_OBJECTS = 0;
+	const VIEW_OWN_OBJECTS = 1;
+	const PARAM_VIEW_OBJECTS = 'view_objects';
+	
     private $form;
-
+	private $view;
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
+		$this->view = Request :: get(self :: PARAM_VIEW_OBJECTS);
+		if(is_null($this->view)) $this->view = self :: VIEW_OTHERS_OBJECTS;
+    	
         $trail = new BreadcrumbTrail(false);
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SharedObjects')));
         $trail->add_help('repository general');
@@ -30,8 +37,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
         //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor').': '.$query));
         //}
-
-
+        
         $session_filter = Session :: retrieve('filter');
 
         if ($session_filter != null && ! $session_filter == 0)
@@ -62,7 +68,14 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
      */
     private function get_content_objects_html()
     {
-        $condition = $this->get_condition();
+        $condition = null;
+        switch($this->view)
+        {
+        	case self :: VIEW_OTHERS_OBJECTS: 	$condition = $this->get_others_condition();
+        										break;
+        	case self :: VIEW_OWN_OBJECTS:		$condition = $this->get_own_condition();
+        										break;
+        }
         $parameters = $this->get_parameters(true);
         $types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
         if (is_array($types) && count($types))
@@ -77,6 +90,13 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+        switch($this->view)
+        {
+        	case self :: VIEW_OTHERS_OBJECTS: 	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowOwnSharedObjects'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW_OBJECTS => self :: VIEW_OWN_OBJECTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        										break;
+        	case self :: VIEW_OWN_OBJECTS:		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowOthersSharedObjects'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_VIEW_OBJECTS => self :: VIEW_OTHERS_OBJECTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        										break;
+        }
         $action_bar->set_search_url($this->get_url());
         return $action_bar;
     }
@@ -91,7 +111,24 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         return false;
     }
 
-    private function get_condition()
+    private function retrieve_rights()
+    {
+        //retrieve all the rights
+        $rights = array();
+        $reflect = new ReflectionClass(Application :: application_to_class(RepositoryManager :: APPLICATION_NAME) . 'Rights');
+        $rights_db = $reflect->getConstants();
+
+        foreach ($rights_db as $right_id)
+        {
+            if ($right_id != RepositoryRights :: VIEW_RIGHT && $right_id != RepositoryRights :: USE_RIGHT && $right_id != RepositoryRights :: REUSE_RIGHT)
+                continue;
+            $rights[] = $right_id;
+        }
+        
+        return $rights;
+    }
+    
+    private function get_others_condition()
     {
         //TODO: limit this so only the shared objects are seen (view and use)
         $query = $this->action_bar->get_query();
@@ -118,16 +155,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
             $group_ids[] = $group->get_id();
         }
 
-        //retrieve all the rights
-        $reflect = new ReflectionClass(Application :: application_to_class(RepositoryManager :: APPLICATION_NAME) . 'Rights');
-        $rights_db = $reflect->getConstants();
-
-        foreach ($rights_db as $right_id)
-        {
-            if ($right_id != RepositoryRights :: VIEW_RIGHT && $right_id != RepositoryRights :: USE_RIGHT && $right_id != RepositoryRights :: REUSE_RIGHT)
-                continue;
-            $rights[] = $right_id;
-        }
+		$rights = $this->retrieve_rights();
 
         $location_ids = array();
         $shared_content_objects = $rdm->retrieve_shared_content_objects_for_user($user->get_id(), $rights);
@@ -182,6 +210,68 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         }
 
         return $condition;
+    }
+    
+	private function get_own_condition()
+    {
+        //TODO: limit this so only the shared objects are seen (view and use)
+        $content_objects = $this->retrieve_content_objects(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $this->get_user_id()));
+        if($content_objects->size()>0)
+        {
+	        $ids = array();
+	        while($content_object = $content_objects->next_result())
+	        {
+	        	$ids[] = $content_object->get_id();
+	        }
+	        
+	        $rights_data_manager = RightsDataManager :: get_instance();
+	        $locations = $rights_data_manager->retrieve_locations(new InCondition(Location :: PROPERTY_IDENTIFIER, $ids));
+	        $location_ids = array();
+	        while($location = $locations->next_result())
+	        {
+	        	$location_ids[$location->get_identifier()] = $location->get_id();
+	        }
+	        $rights = $this->retrieve_rights();
+	        $rights_condition = new InCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $rights);
+	        $user_condition = new InCondition(UserRightLocation :: PROPERTY_LOCATION_ID, $location_ids);
+	        $group_condition = new InCondition(GroupRightLocation :: PROPERTY_LOCATION_ID, $location_ids);
+	        
+	        $user_rights = $rights_data_manager->retrieve_user_right_locations(new AndCondition($rights_condition, $user_condition));
+	        $group_rights = $rights_data_manager->retrieve_group_right_locations(new AndCondition($rights_condition, $group_condition));
+	        
+	        $ids = array();
+	        while($user_right = $user_rights->next_result())
+	        {
+	        	foreach($location_ids as $index => $location_id)
+	        	{
+	        		if($user_right->get_location_id() == $location_id)
+	        		{
+	        			$ids[] = $index;
+	        			unset($location_ids[$index]);
+	        		}
+	        	}	
+	        }
+	        
+	        while($group_right = $group_rights->next_result())
+	        {
+	        	foreach($location_ids as $index => $location_id)
+	        	{
+	        		if($group_right->get_location_id() == $location_id)
+	        		{
+	        			$ids[] = $index;
+	        			unset($location_ids[$index]);
+	        		}
+	        	}	
+	        }
+	        
+	        if(count($ids))
+	        	$condition = new InCondition(ContentObject :: PROPERTY_ID, $ids, ContentObject :: get_table_name());
+        }
+        
+        if($condition)
+        	return $condition;
+        else
+        	return new EqualityCondition(ContentObject :: PROPERTY_ID, -1, ContentObject :: get_table_name());
     }
 
 }
