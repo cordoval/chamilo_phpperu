@@ -86,6 +86,7 @@ $lang['admin']['LinksPathActive'] = 'Links path Active';
 $lang['admin']['SearchActive'] = 'Search active';
 $lang['admin']['UsersActive'] = 'Users active';
 $lang['admin']['WikiActive'] = 'Wiki active';
+$lang['admin']['DropBox'] = 'Dropbox';
 $lang['admin']['AllowDropboxOverwrite'] = 'Allow Dropbox overwrite';
 $lang['admin']['DisplaySmallMonthCalendar'] = 'Display small month calendar';
 $lang['admin']['DisplayUpcommingEvents'] = 'Display upcomming events';

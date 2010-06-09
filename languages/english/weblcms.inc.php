@@ -108,6 +108,7 @@ $lang['weblcms']['CourseGroups'] = 'Groups';
 $lang['weblcms']['RightsLocationNotAdded'] = 'Location not added';
 $lang['weblcms']['RightsLocationAdded'] = 'Rights location added';
 $lang['weblcms']['AnnouncementToolTitle'] = 'Announcements';
+$lang['weblcms']['SurveyToolTitle'] = 'Survey';
 $lang['weblcms']['ChatToolTitle'] = 'Chat';
 $lang['weblcms']['DocumentToolTitle'] = 'Document';
 $lang['weblcms']['LearningPathToolTitle'] = 'Learning Path';
@@ -525,4 +526,5 @@ $lang['weblcms']['WeblcmsPublicationDetailReportingBlock'] = 'Publication detail
 $lang['weblcms']['WeblcmsPublicationAccessReportingBlock'] = 'Publication access';
 $lang['weblcms']['WeblcmsPublicationUserAccessReportingBlock'] = 'Publication user access';
 $lang['weblcms']['count'] = 'Count';
+$lang['weblcms']['ImportQti'] = 'Import QTI';
 ?>
