@@ -22,19 +22,10 @@ class GeolocationCellRenderer extends ObjectPublicationTableCellRenderer
     {
         if ($column === ObjectPublicationTableColumnModel :: get_action_column())
         {
-            return Utilities :: build_toolbar($this->get_actions($publication));
+            return $this->get_actions($publication, null, true, false)->as_html();
         }
         
         return parent :: render_cell($column, $publication);
-    }
-
-    function get_actions($publication)
-    {
-        $actions = parent :: get_actions($publication);
-        
-        unset($actions['move']);
-        
-        return $actions;
     }
 
 }

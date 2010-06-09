@@ -17,7 +17,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
 		$agreement_id = $_GET[InternshipOrganizerAgreementManager::PARAM_AGREEMENT_ID];
 		$this->agreement = $this->retrieve_agreement($agreement_id);
 
-		$trail = new BreadcrumbTrail ();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerAgreementManager::PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT) ), Translation::get ( 'BrowseInternshipOrganizerAgreements' ) ) );
 		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerAgreementManager::PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id)), $this->agreement->get_name()) );
 

@@ -14,7 +14,7 @@ class PeerAssessmentManagerUpdaterComponent extends PeerAssessmentManager
      */
     function run()
     {
-    	$trail = new BreadcrumbTrail();
+    	$trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowsePeerAssessmentPublications')));
         $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_EDIT_PEER_ASSESSMENT_PUBLICATION)) . '&peer_assessment_publication=' . Request :: get('peer_assessment_publication'), Translation :: get('UpdatePeerAssessmentPublication')));
         

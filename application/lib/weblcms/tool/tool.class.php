@@ -571,9 +571,22 @@ abstract class Tool
         {
             if ($this->is_allowed(EDIT_RIGHT))
             {
-                $tb_data[] = array('href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON);
-
-                $tb_data[] = array('href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON);
+                $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+                
+            	$toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Edit'),
+		        		Theme :: get_common_image_path() . 'action_edit.png',
+		        		$this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+        
+		        $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Delete'),
+		        		Theme :: get_common_image_path() . 'action_delete.png',
+		        		$this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+		        		ToolbarItem :: DISPLAY_ICON,
+		        		true
+		        ));
             }
 
             $html[] = '<div class="announcements level_1">';
@@ -583,7 +596,7 @@ abstract class Tool
             $html[] = '<div class="description">';
             $html[] = $introduction_text->get_content_object()->get_description();
             $html[] = '</div>';
-            $html[] = Utilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
+            $html[] = $toolbar->as_html() . '<div class="clear"></div>';
             $html[] = '</div>';
             $html[] = '<br />';
         }

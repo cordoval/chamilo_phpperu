@@ -14,7 +14,7 @@ class InternshipOrganizerOrganisationManagerLocationUpdaterComponent extends Int
         
         $location = $this->retrieve_location(Request :: get(InternshipOrganizerOrganisationManager :: PARAM_LOCATION_ID));
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_view_organisation_url($location->get_organisation()), Translation :: get('BrowseInternshipOrganizerOrganisations')));
         $trail->add(new Breadcrumb($this->get_update_location_url($location), Translation :: get('UpdateInternshipOrganizerLocation')));
         

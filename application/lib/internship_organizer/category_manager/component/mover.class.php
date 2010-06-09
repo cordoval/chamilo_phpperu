@@ -11,7 +11,7 @@ class InternshipOrganizerCategoryManagerMoverComponent extends InternshipOrganiz
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
       
         $trail->add_help('category general');
                 

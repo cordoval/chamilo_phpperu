@@ -112,7 +112,7 @@ interface RepositoryDataManagerInterface
      * by default.
      * @return ResultSet A set of matching learning objects.
      */
-    function retrieve_content_objects($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
+    function retrieve_content_objects($condition = null, $order_by = array (), $offset = 0, $max_objects = -1, $query = null);
 
     function retrieve_type_content_objects($type, $condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
@@ -146,7 +146,7 @@ interface RepositoryDataManagerInterface
      * by default.
      * @return int The number of matching learning objects.
      */
-    function count_content_objects($condition = null);
+    function count_content_objects($condition = null, $query = null);
 
     function count_type_content_objects($type, $condition = null);
 

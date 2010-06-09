@@ -27,7 +27,7 @@ class SurveyManagerPageBrowserComponent extends SurveyManager
         
         $this->survey_ids = $ids;
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
         
         $this->action_bar = $this->get_action_bar();

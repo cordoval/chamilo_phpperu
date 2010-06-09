@@ -10,7 +10,7 @@ class InternshipOrganizerCategoryManagerEditorComponent extends InternshipOrgani
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('category general');
         $trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
         

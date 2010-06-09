@@ -21,7 +21,7 @@ class GradebookManagerGradebookBrowserComponent extends GradebookManager
 
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('Gradebook')));
 		$this->applications = $this->retrieve_internal_item_applications();
 		$this->application = Request :: get(GradebookManager :: PARAM_PUBLICATION_APP);

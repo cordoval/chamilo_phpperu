@@ -197,16 +197,6 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 
 				$this->display_header($trail, false, true);
 
-				/*$tb_data = array();
-				 $tb_data[] = array(
-					'href' => $this->get_course()->get_extlink_url(),
-					'label' => $this->get_course()->get_extlink_name(),
-					'icon' => Theme :: get_common_image_path().'action_home.png',
-					'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-					);*/
-				//dump($tb_data);
-				//echo Utilities :: build_toolbar($tb_data);
-
 				//Display menu
 				$menu_style = $this->get_course()->get_menu();
 				if ($menu_style != CourseLayout :: MENU_OFF)
@@ -276,6 +266,8 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 
 	function display_introduction_text()
 	{
+		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
 		$html = array();
 
 		$conditions = array();
@@ -290,12 +282,23 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 		{
 			if ($this->is_allowed(EDIT_RIGHT))
 			{
-				$tb_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_EDIT_INTRODUCTION)), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON);
+				$toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Edit'),
+		        		Theme :: get_common_image_path() . 'action_edit.png',
+		        		$this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_EDIT_INTRODUCTION)),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
 			}
 
 			if ($this->is_allowed(DELETE_RIGHT))
 			{
-				$tb_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_DELETE_INTRODUCTION)), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON);
+				$toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Delete'),
+		        		Theme :: get_common_image_path() . 'action_delete.png',
+		        		$this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_DELETE_INTRODUCTION)),
+		        		ToolbarItem :: DISPLAY_ICON,
+		        		true
+		        ));
 			}
 
 			$html = array();
@@ -308,7 +311,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 			$html[] = $introduction_text->get_content_object()->get_description();
 			$html[] = '<div style="clear: both;"></div>';
 			$html[] = '</div>';
-			$html[] = Utilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
+			$html[] = $toolbar->as_html() . '<div class="clear"></div>';
 			$html[] = '</div>';
 			$html[] = '<br />';
 		}
@@ -316,10 +319,15 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 		{
 			if ($this->is_allowed(EDIT_RIGHT))
 			{
-				$tb_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)), 'label' => Translation :: get('PublishIntroductionText'), 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+				$toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('PublishIntroductionText'),
+		        		null,
+		        		$this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)),
+		        		ToolbarItem :: DISPLAY_LABEL
+		        ));
 			}
 
-			$html[] = '<br />' . Utilities :: build_toolbar($tb_data) . '<div class="clear"></div><br /><div style="border-bottom: 1px dotted #D3D3D3;"></div><br /><br />';
+			$html[] = '<br />' . $toolbar->as_html() . '<div class="clear"></div><br /><div style="border-bottom: 1px dotted #D3D3D3;"></div><br /><br />';
 		}
 
 		return implode("\n", $html);

@@ -104,21 +104,31 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
      */
     protected function get_modification_links($cloi, $additional_toolbar_items = array(), $no_move = false)
     {
-    	$toolbar_data = array();
+    	$toolbar = new Toolbar();
         
-        $edit_url = $this->browser->get_complex_content_object_item_edit_url($cloi->get_id());
-        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+    	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Edit'),
+        			Theme :: get_common_image_path().'action_edit.png', 
+					$this->browser->get_complex_content_object_item_edit_url($cloi->get_id()),
+				 	ToolbarItem :: DISPLAY_ICON
+		));
         
-        $delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi->get_id());
-        $moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_UP);
-        $movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN);
-        $change_parent_url = $this->browser->get_complex_content_object_parent_changer_url($cloi->get_id());
-        
-        $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+         $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Delete'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->browser->get_complex_content_object_item_delete_url($cloi->get_id()),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+		));
         
         if($this->browser->show_menu())
-        {
-        	$toolbar_data[] = array('href' => $change_parent_url, 'label' => Translation :: get('ChangeParent'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+        {	
+        	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('ChangeParent'),
+        			Theme :: get_common_image_path().'action_move.png', 
+					$this->browser->get_complex_content_object_parent_changer_url($cloi->get_id()),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         }
         
         $allowed = $this->check_move_allowed($cloi);
@@ -127,27 +137,45 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
         {
             if ($allowed["moveup"])
             {
-                $toolbar_data[] = array('href' => $moveup_url, 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('MoveUp'),
+        			Theme :: get_common_image_path().'action_up.png', 
+					$this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_UP),
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             }
             else
             {
-                $toolbar_data[] = array('label' => Translation :: get('MoveUpNA'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+            	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('MoveUpNA'),
+        			Theme :: get_common_image_path().'action_up_na.png', 
+					null,
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             
             }
             
             if ($allowed["movedown"])
             {
-                $toolbar_data[] = array('href' => $movedown_url, 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('MoveDown'),
+        			Theme :: get_common_image_path().'action_down.png', 
+					$this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN),
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             }
             else
             {
-                $toolbar_data[] = array('label' => Translation :: get('MoveDownNA'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
+            	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('MoveDownNA'),
+        			Theme :: get_common_image_path().'action_down_na.png', 
+					null,
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             }
         }
-        
-        $toolbar_data = array_merge($toolbar_data, $additional_toolbar_items);
-        
-        return Utilities :: build_toolbar($toolbar_data);
+ssss        
+        return $toolbar->as_html();
     }
 
     protected function check_move_allowed($cloi)

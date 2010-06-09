@@ -17,7 +17,7 @@ class ReservationsManagerAdminCategoryBrowserComponent extends ReservationsManag
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
 

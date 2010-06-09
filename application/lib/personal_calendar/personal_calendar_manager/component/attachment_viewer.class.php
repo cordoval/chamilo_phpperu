@@ -10,7 +10,7 @@ class PersonalCalendarManagerAttachmentViewerComponent extends PersonalCalendarM
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('personal calender general');
         
         $object_id = Request :: get('object');

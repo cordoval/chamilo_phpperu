@@ -35,7 +35,7 @@ class CbaManagerCriteriaMoverComponent extends CbaManager
         }
         else
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_CRITERIA)), Translation :: get('BrowseCriteria')));
             $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_MOVE_CRITERIA, CbaManager :: PARAM_CRITERIA => $id)), Translation :: get('MoveCriteria')));
             

@@ -13,7 +13,7 @@ class PeerAssessmentManagerBrowserComponent extends PeerAssessmentManager
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PeerAssessment')));
                
         

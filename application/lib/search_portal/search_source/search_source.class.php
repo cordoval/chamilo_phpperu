@@ -30,6 +30,6 @@ abstract class SearchSource
 		return self :: $instance;
 	}
 	
-	abstract function retrieve_search_results($query, $offset = 0, $max_objects = -1);
-	abstract function count_search_results($query);	
+	abstract function retrieve_search_results($query, $offset = 0, $max_objects = -1, $user = null);
+	abstract function count_search_results($query, $user = null);	
 }

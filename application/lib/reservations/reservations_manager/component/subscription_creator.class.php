@@ -20,7 +20,7 @@ class ReservationsManagerSubscriptionCreatorComponent extends ReservationsManage
         $reservation_id = $_GET[ReservationsManager :: PARAM_RESERVATION_ID];
         $reservation = $this->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $reservation_id))->next_result();
         $item = $this->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $reservation->get_item()))->next_result();
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_ITEMS)), Translation :: get('ViewItems')));
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $reservation->get_item())), Translation :: get('ViewReservations')));
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_RESERVATION_ID => $reservation_id)), Translation :: get('CreateSubscription')));

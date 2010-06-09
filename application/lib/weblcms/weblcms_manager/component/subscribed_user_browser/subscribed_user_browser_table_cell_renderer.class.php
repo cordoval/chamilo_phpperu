@@ -70,37 +70,61 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
      */
     private function get_modification_links($user)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) == WeblcmsManager :: ACTION_SUBSCRIBE)
         {
             $parameters = array();
             $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $subscribe_url = $this->browser->get_url($parameters);
-            $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('SubscribeAsStudent'), 'img' => Theme :: get_image_path() . 'action_subscribe_student.png');
 
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('SubscribeAsStudent'),
+	        		Theme :: get_common_image_path() . 'action_subscribe_student.png',
+	        		$subscribe_url,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+            
             $parameters = array();
             $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $parameters[WeblcmsManager :: PARAM_STATUS] = 1;
             $subscribe_url = $this->browser->get_url($parameters);
-            $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('SubscribeAsTeacher'), 'img' => Theme :: get_image_path() . 'action_subscribe_teacher.png');
+            
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('SubscribeAsTeacher'),
+	        		Theme :: get_common_image_path() . 'action_subscribe_teacher.png',
+	        		$subscribe_url,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         else
         {
             $parameters = array();
             $parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool :: ACTION_USER_DETAILS;
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
-            $unsubscribe_url = $this->browser->get_url($parameters);
-            $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_image_path() . 'action_details.png');
+            $details_url = $this->browser->get_url($parameters);
+            
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Details'),
+	        		Theme :: get_common_image_path() . 'action_details.png',
+	        		$details_url,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
 
             if(PlatformSetting :: get('active_online_email_editor'))
             {
 	            $parameters = array();
 	            $parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool :: ACTION_EMAIL;
 	            $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
-	            $unsubscribe_url = $this->browser->get_url($parameters);
-	            $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Email'), 'img' => Theme :: get_common_image_path() . 'action_email.png');
+	            $email_url = $this->browser->get_url($parameters);
+	            
+	            $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Email'),
+		        		Theme :: get_common_image_path() . 'action_email.png',
+		        		$email_url,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
 
             $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
@@ -111,31 +135,41 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
                 $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_UNSUBSCRIBE;
                 $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
                 $unsubscribe_url = $this->browser->get_url($parameters);
-                $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_image_path() . 'action_unsubscribe.png');
+                
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Unsubscribe'),
+		        		Theme :: get_common_image_path() . 'action_unsubscribe.png',
+		        		$unsubscribe_url,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
             else
             {
-                $toolbar_data[] = array('label' => Translation :: get('UnsubscribeNotAvailable'), 'img' => Theme :: get_image_path() . 'action_unsubscribe_na.png');
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('UnsubscribeNotAvailable'),
+		        		Theme :: get_common_image_path() . 'action_unsubscribe_na.png',
+		        		null,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
 
             if ($this->browser->is_allowed(EDIT_RIGHT))
             {
-                //@todo check rights ?
-                //$parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool::ACTION_USER_DETAILS;
-                //$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
                 $params = array();
-                //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
                 $params[WeblcmsManager :: PARAM_COURSE] = $this->browser->get_course_id();
                 $params[WeblcmsManager::PARAM_USERS] = $user->get_id();
 				$params[Application::PARAM_ACTION] = WeblcmsManager::ACTION_REPORTING;
-				//$params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration(Utilities::camelcase_to_underscores('CourseStudentTrackerDetailReportingTemplate'), WeblcmsManager::APPLICATION_NAME)->get_id();
-   
                 $reporting_url = $this->browser->get_url($params, array(WeblcmsManager::PARAM_TOOL));
-                //$unsubscribe_url = $this->browser->get_url($parameters);
-                $toolbar_data[] = array('href' => $reporting_url, 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
+                
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Report'),
+		        		Theme :: get_common_image_path() . 'action_reporting.png',
+		        		$reporting_url,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
         }
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

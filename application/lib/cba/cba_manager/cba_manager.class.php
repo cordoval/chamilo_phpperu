@@ -547,7 +547,7 @@ require_once dirname(__FILE__).'/component/criteria_browser/criteria_browser_tab
     {
         if (is_null($breadcrumbtrail))
         {
-            $breadcrumbtrail = new BreadcrumbTrail();
+            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
         }
         $trail = $breadcrumbtrail;        
         $categories = $this->breadcrumbs;

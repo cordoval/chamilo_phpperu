@@ -22,7 +22,7 @@ class ProfilerManagerBrowserComponent extends ProfilerManager
         
         $output = $this->get_publications_html();
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyProfiler')));
         $trail->merge($menu->get_breadcrumbs());
         $trail->add_help('profiler general');

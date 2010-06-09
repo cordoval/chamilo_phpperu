@@ -53,17 +53,30 @@ class GlossaryViewerTableCellRenderer extends DefaultContentObjectTableCellRende
 
     function get_actions($glossary_item)
     {
+    	$toolbar = new Toolbar();
+    	
         if ($this->browser->is_allowed(EDIT_RIGHT))
         {
-            $actions[] = array('href' => $this->browser->get_complex_content_object_item_update_url($glossary_item), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Edit'),
+        			Theme :: get_common_image_path().'action_edit.png', 
+					$this->browser->get_complex_content_object_item_update_url($glossary_item),
+					ToolbarItem :: DISPLAY_ICON
+			));
         }
         
         if ($this->browser->is_allowed(DELETE_RIGHT))
         {
-            $actions[] = array('href' => $this->browser->get_complex_content_object_item_delete_url($glossary_item), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Delete'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->browser->get_complex_content_object_item_delete_url($glossary_item),
+					ToolbarItem :: DISPLAY_ICON,
+					true
+			));
         }
         
-        return Utilities :: build_toolbar($actions);
+        return $toolbar->as_html();
     }
 
 }

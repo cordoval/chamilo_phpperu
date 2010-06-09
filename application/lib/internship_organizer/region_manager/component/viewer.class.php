@@ -13,7 +13,7 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
 
         $id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
         $parent_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID);       

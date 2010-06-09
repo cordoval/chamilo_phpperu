@@ -69,10 +69,24 @@ class RecycleBinBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
      */
     private function get_action_links($content_object)
     {
-        $toolbar_data = array();
-        $toolbar_data[] = array('href' => $this->browser->get_content_object_restoring_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_restore.png', 'label' => Translation :: get('Restore'));
-        $toolbar_data[] = array('href' => $this->browser->get_content_object_deletion_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'label' => Translation :: get('Delete'), 'confirm' => true);
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar  = new Toolbar();
+        
+		$toolbar->add_item(new ToolbarItem(
+       		Translation :: get('Restore'), 
+       		Theme :: get_common_image_path().'action_restore.png', 
+			$this->browser->get_content_object_restoring_url($content_object), 
+			ToolbarItem :: DISPLAY_ICON
+		));
+			
+	   	$toolbar->add_item(new ToolbarItem(
+        	Translation :: get('Delete'), 
+     		Theme :: get_common_image_path().'action_delete.png', 
+			$this->browser->get_content_object_deletion_url($content_object), 
+			ToolbarItem :: DISPLAY_ICON, 
+			true
+		));
+		return $toolbar->as_html();
+		
     }
 }
 ?>
