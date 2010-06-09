@@ -63,11 +63,24 @@ class ReportingSurvey
                 
                 $actions = array();
                 
-                $actions[] = array('href' => $url . '&' . SurveyManager :: PARAM_SURVEY_PUBLICATION . '=' . $publication->get_id(), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
-                
-                $actions[] = array('href' => $url . '&delete=aid_' . $publication->get_id(), 'label' => Translation :: get('DeleteResults'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-                
-                $data[Translation :: get('Action')][] = Utilities :: build_toolbar($actions);
+                $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+		        $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('ViewResults'),
+		        		Theme :: get_common_image_path() . 'action_view_results.png',
+		        		$url . '&' . SurveyManager :: PARAM_SURVEY_PUBLICATION . '=' . $publication->get_id(),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+		        
+		        $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('DeleteResults'),
+		        		Theme :: get_common_image_path() . 'action_delete.png',
+		        		$url . '&delete=aid_' . $publication->get_id(),
+		        		ToolbarItem :: DISPLAY_ICON,
+		        		true
+		        ));
+        
+                $data[Translation :: get('Action')][] = $toolbar->as_html();
             
             }
         
@@ -96,24 +109,26 @@ class ReportingSurvey
         
         $pub = SurveyDataManager :: get_instance()->retrieve_survey_publication($pid);
         $survey = $pub->get_publication_object();
+        $data = array();
         
         foreach ($trackers as $tracker)
         {
-            
             $question_id = $tracker->get_question_cid();
             $question = RepositoryDataManager :: get_instance()->retrieve_content_object($question_id);
-            //$user = UserDataManager :: get_instance()->retrieve_user($tracker->get_user_id());
+
             $data[Translation :: get('Title')][] = $question->get_title();
             $data[Translation :: get('Description')][] = $question->get_description();
             
-            $actions = array();
-            
-            //$actions[] = array('href' => $url . '&delete=tid_' . $tracker->get_id(), 'label' => Translation :: get('DeleteResults'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-            
-
-            $actions[] = array('href' => $url . '&' . SurveyManager :: PARAM_SURVEY_QUESTION . '=' . $question_id, 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
-            
-            $data[Translation :: get('Action')][] = Utilities :: build_toolbar($actions);
+            $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+		        $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('ViewResults'),
+		        		Theme :: get_common_image_path() . 'action_view_results.png',
+		        		$url . '&' . SurveyManager :: PARAM_SURVEY_QUESTION . '=' . $question_id,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+		        
+                $data[Translation :: get('Action')][] = $toolbar->as_html();
         }
         
         $description[Reporting :: PARAM_ORIENTATION] = Reporting :: ORIENTATION_HORIZONTAL;
