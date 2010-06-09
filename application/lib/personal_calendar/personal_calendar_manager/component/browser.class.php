@@ -72,10 +72,24 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManager
                 $display = ContentObjectDisplay :: factory($content_object);
                 $out .= '<h3>' . $content_object->get_title() . '</h3>';
                 $out .= $display->get_full_html();
-                $toolbar_data = array();
-                $toolbar_data[] = array('href' => $this->get_url(), 'label' => Translation :: get('Back'), 'img' => Theme :: get_common_image_path() . 'action_prev.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-                $toolbar_data[] = array('href' => $this->get_publication_deleting_url($event), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-                $html[] = Utilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+                
+                $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+                
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Back'),
+		        		Theme :: get_common_image_path() . 'action_prev.png',
+		        		$this->get_url(),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+		        
+		         $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Delete'),
+		        		Theme :: get_common_image_path() . 'action_delete.png',
+		        		$this->get_publication_deleting_url($event),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+		        
+		        $html[] = $toolbar->as_html();
             }
         }
         
