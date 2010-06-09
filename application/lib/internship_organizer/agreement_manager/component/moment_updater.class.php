@@ -15,7 +15,7 @@ class InternshipOrganizerAgreementManagerMomentUpdaterComponent extends Internsh
 		$moment = $this->retrieve_moment(Request :: get(InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID));
 		
 		
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_view_agreement_url($moment->get_agreement()), Translation :: get('ViewInternshipOrganizerAgreement')));
 		$trail->add(new Breadcrumb($this->get_update_moment_url($moment), Translation :: get('UpdateInternshipOrganizerMoment')));
 

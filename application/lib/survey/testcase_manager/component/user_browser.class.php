@@ -14,7 +14,7 @@ class TestcaseManagerUserBrowserComponent extends TestcaseManager {
 		
 		$survey_pub_id = Request::get(TestcaseManager:: PARAM_SURVEY_PUBLICATION);
 		
-		$trail = new BreadcrumbTrail ();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add ( new Breadcrumb ( $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation::get ( 'BrowseTestCaseSurveyPublications' ) ));
 		$trail->add ( new Breadcrumb ( $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_SURVEY_EXCLUDED_USERS, self::PARAM_SURVEY_PUBLICATION => $survey_pub_id) ), Translation::get ( 'BrowseTestCaseExcludedUsers' ) ) );
 		

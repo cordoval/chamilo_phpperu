@@ -13,7 +13,7 @@ class LinkerManagerBrowserComponent extends LinkerManager
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Links')));
         
         $this->display_header($trail);

@@ -55,7 +55,7 @@ class SearchPortalManagerUserEmailerComponent extends SearchPortalManager
         
     	$this->set_parameter(SearchPortalManager :: PARAM_USER, null);
     	
-    	$trail = new BreadcrumbTrail();
+    	$trail = BreadcrumbTrail :: get_instance();
     	$trail->add(new Breadcrumb($this->get_url(array(SearchPortalManager :: PARAM_ACTION => SearchPortalManager :: ACTION_SEARCH)), Translation :: get('SearchPortal')));
         $trail->add(new Breadcrumb($this->get_url(array(SearchPortalManager :: PARAM_USER => $ids)), Translation :: get('Emailer')));
         $trail->add_help('user general');

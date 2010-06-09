@@ -10,7 +10,7 @@ class InternshipOrganizerMentorManagerCreatorComponent extends InternshipOrganiz
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerMentorManager :: PARAM_ACTION => InternshipOrganizerMentorManager :: ACTION_BROWSE_MENTOR)), Translation :: get('BrowseInternshipOrganizerMentors')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateInternshipOrganizerMentor')));
 

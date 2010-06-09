@@ -22,7 +22,7 @@ class SurveyManagerUpdaterComponent extends SurveyManager
             $this->testcase = true;
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
         if ($this->testcase)
         {

@@ -30,7 +30,7 @@ class SurveyManagerResultsViewerComponent extends SurveyManager
      */
     function run()
     {
-        $this->trail = $trail = new BreadcrumbTrail();
+        $this->trail = $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
         

@@ -22,7 +22,7 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
         }
         else
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => null)), Translation :: get('BrowsePersonalCalendar')));
             $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_IMPORT_ICAL)), Translation :: get('ImportICal')));
             

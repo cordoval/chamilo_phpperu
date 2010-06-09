@@ -14,7 +14,7 @@ class LinkerManagerCreatorComponent extends LinkerManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS)), Translation :: get('Links')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateLink')));
         

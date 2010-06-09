@@ -14,7 +14,7 @@ class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyPersonalMessenger')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get(ucfirst($this->get_folder()))));
         $trail->add_help('personal messenger general');

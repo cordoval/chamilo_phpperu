@@ -27,7 +27,7 @@ class SurveyManagerQuestionBrowserComponent extends SurveyManager
         
         $this->page_ids = $ids;
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
 //        if(count($ids) == 1){
 //        	//has to be publication !
