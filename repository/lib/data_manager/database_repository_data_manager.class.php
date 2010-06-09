@@ -78,11 +78,14 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     // Inherited.
     // TODO: Extract methods.
-    function retrieve_content_objects($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
+    function retrieve_content_objects($condition = null, $order_by = array (), $offset = 0, $max_objects = -1, $query = null)
     {
-        $query = 'SELECT * FROM ';
-        $query .= $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
-        $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+    	if(is_null($query))
+    	{
+        	$query = 'SELECT * FROM ';
+        	$query .= $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
+       		$query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+    	}
 		
         if (isset($condition))
         {
@@ -191,11 +194,14 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     // Inherited.
     // TODO: Extract methods; share stuff with retrieve_content_objects.
-    function count_content_objects($condition = null)
+    function count_content_objects($condition = null, $query = null)
     {
-        $query = 'SELECT COUNT(' . $this->get_alias(ContentObject :: get_table_name()). '.' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . ') FROM ' . $this->escape_table_name('content_object') . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
+    	if(is_null($query))
+    	{
+        	$query = 'SELECT COUNT(' . $this->get_alias(ContentObject :: get_table_name()). '.' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . ') FROM ' . $this->escape_table_name('content_object') . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
 
-        $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+        	$query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+    	}
 
         return $this->count_result_set($query, ContentObject :: get_table_name(), $condition);
     }
