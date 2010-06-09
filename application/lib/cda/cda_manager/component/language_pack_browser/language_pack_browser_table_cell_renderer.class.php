@@ -120,7 +120,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
     				Translation :: get('LockNa'), 
     				Theme :: get_common_image_path() . 'action_lock_na.png', 
     				null, 
-    				ToolbarItem :: DISPLAY_ICON,
+    				ToolbarItem :: DISPLAY_ICON
     				));
 		        }
 
@@ -139,7 +139,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
     				Translation :: get('UnlockNa'), 
     				Theme :: get_common_image_path() . 'action_unlock_na.png', 
     				null, 
-    				ToolbarItem :: DISPLAY_ICON,
+    				ToolbarItem :: DISPLAY_ICON
     				));
 		        }
 			}
