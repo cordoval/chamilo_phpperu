@@ -72,7 +72,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         }
         else
         {
-        	$count = $search_source->count_search_results($query);
+        	$count = $search_source->count_search_results($query, $this->get_user());
             if ($count)
             {
             	$pager = $this->create_pager($count, self :: CONTENT_OBJECTS_PER_PAGE);  
@@ -88,7 +88,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
                 $i = 0;
                 $html[] = '<ul class="portal_search_results">';
                 
-                $results = $search_source->retrieve_search_results($query, $first, self :: CONTENT_OBJECTS_PER_PAGE);
+                $results = $search_source->retrieve_search_results($query, $first, self :: CONTENT_OBJECTS_PER_PAGE, $this->get_user());
                 
                 foreach($results as $result)
                 {
