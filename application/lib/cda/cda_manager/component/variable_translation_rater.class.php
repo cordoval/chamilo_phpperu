@@ -29,7 +29,7 @@ class CdaManagerVariableTranslationRaterComponent extends CdaManager
 		$language = $this->retrieve_cda_language($language_id);
 		$language_pack = $this->retrieve_language_pack($variable->get_language_pack_id());
 		
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
 		$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), $language->get_original_name()));
 		$trail->add(new Breadcrumb($this->get_browse_variable_translations_url($language_id, $variable->get_language_pack_id()), $language_pack->get_branch_name() . ' - ' . $language_pack->get_name()));

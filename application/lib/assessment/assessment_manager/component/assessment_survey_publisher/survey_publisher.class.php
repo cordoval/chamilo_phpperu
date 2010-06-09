@@ -21,7 +21,7 @@ class SurveyPublisher extends SurveyPublisherComponent
 			return;
 		}*/
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->parent->get_browse_assessment_publications_url(), Translation :: get('BrowseAssessmentPublications')));
         $trail->add(new Breadcrumb($this->parent->get_url(array(self :: PUBLISH_ACTION => self :: ACTION_PUBLISH, AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION))), Translation :: get('PublishSurvey')));
         $toolbar = $this->parent->get_toolbar();

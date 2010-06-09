@@ -19,7 +19,7 @@ class ForumManagerViewerComponent extends ForumManager
      */
     function run()
     {
-        $this->trail = $trail = new BreadcrumbTrail();
+        $this->trail = $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(parent :: get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
         
         $this->publication_id = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);

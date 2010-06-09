@@ -10,7 +10,7 @@ class SurveyPublicationViewer extends SurveyPublisherComponent
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->parent->get_browse_assessment_publications_url(), Translation :: get('BrowseAssessmentPublications')));
         $trail->add(new Breadcrumb($this->parent->get_url(array(SurveyPublisher :: PUBLISH_ACTION => SurveyPublisher :: ACTION_VIEW, AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION))), Translation :: get('ViewInvitedUsers')));
         $toolbar = $this->parent->get_toolbar();
