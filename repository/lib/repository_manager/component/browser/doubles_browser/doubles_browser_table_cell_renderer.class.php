@@ -62,15 +62,14 @@ class DoublesBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
         	return '&nbsp;';
         }
         
-    	$toolbar = array();
-        
-        $view_item = array();
-        $view_item['href'] = $this->browser->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id()));
-        $view_item['label'] = Translation :: get('ViewItem');
-        $view_item['img'] = Theme :: get_common_image_path() . 'action_browser.png';
-        
-        $toolbar[] = $view_item;
-    	return Utilities :: build_toolbar($toolbar);
+    	$toolbar = new Toolbar();
+		$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('ViewItem'), 
+        			Theme :: get_common_image_path().'action_browser.png', 
+					$this->browser->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), 
+					ToolbarItem :: DISPLAY_ICON
+		));
+		return $toolbar->as_html();
     }
 }
 ?>

@@ -44,7 +44,7 @@ class LinkBrowserTableCellRenderer extends DefaultLinkTableCellRenderer
      */
     private function get_modification_links($object)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
         $link_id = $this->render_id_cell($object);
         
@@ -53,9 +53,15 @@ class LinkBrowserTableCellRenderer extends DefaultLinkTableCellRenderer
         	return '&nbsp';
         }
         
-        $delete_url = $this->browser->get_delete_link_url($this->type, $this->browser->get_object()->get_id(), $link_id);
-        $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Delete'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->browser->get_delete_link_url($this->type, $this->browser->get_object()->get_id(), $link_id),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+		));
+        return $toolbar->as_html();
+        
     }
 }
 ?>
