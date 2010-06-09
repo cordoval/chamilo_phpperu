@@ -82,10 +82,10 @@ class LocalPackageBrowser
                 $data = array();
                 $data[] = Utilities :: underscores_to_camelcase_with_spaces($installable_language);
                 
-                $toolbar_data = array();
-                $toolbar_data[] = array('href' => $this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_SECTION => 'language', PackageManager :: PARAM_PACKAGE => $installable_language, PackageManager :: PARAM_INSTALL_TYPE => 'local')), 'label' => Translation :: get('Install'), 'img' => Theme :: get_image_path() . 'action_install.png');
-                
-                $data[] = Utilities :: build_toolbar($toolbar_data);
+                $toolbar = new Toolbar();
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Install'), Theme :: get_image_path(). 'action_install.png', 
+					$this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_SECTION => 'language', PackageManager :: PARAM_PACKAGE => $installable_language, PackageManager :: PARAM_INSTALL_TYPE => 'local')), ToolbarItem :: DISPLAY_ICON));
+                $data[] = $toolbar->as_html();
                 
                 $languages[] = $data;
             }
@@ -120,10 +120,11 @@ class LocalPackageBrowser
                 $data = array();
                 $data[] = Utilities :: underscores_to_camelcase_with_spaces($installable_object);
                 
-                $toolbar_data = array();
-                $toolbar_data[] = array('href' => $this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL, PackageManager :: PARAM_SECTION => 'content_object', PackageManager :: PARAM_PACKAGE => $installable_object)), 'label' => Translation :: get('Install'), 'img' => Theme :: get_image_path() . 'action_install.png');
+                $toolbar = new Toolbar();
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Install'), Theme :: get_image_path(). 'action_install.png', 
+					$this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL, PackageManager :: PARAM_SECTION => 'content_object', PackageManager :: PARAM_PACKAGE => $installable_object)), ToolbarItem :: DISPLAY_ICON));
+                $data[] = $toolbar->as_html();
                 
-                $data[] = Utilities :: build_toolbar($toolbar_data);
                 
                 $objects[] = $data;
             }
@@ -158,10 +159,10 @@ class LocalPackageBrowser
                 $data = array();
                 $data[] = Utilities :: underscores_to_camelcase_with_spaces($installable_application);
                 
-                $toolbar_data = array();
-                $toolbar_data[] = array('href' => $this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL, PackageManager :: PARAM_SECTION => 'application', PackageManager :: PARAM_PACKAGE => $installable_application)), 'label' => Translation :: get('Install'), 'img' => Theme :: get_image_path() . 'action_install.png');
-                
-                $data[] = Utilities :: build_toolbar($toolbar_data);
+                $toolbar = new Toolbar();
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Install'), Theme :: get_image_path(). 'action_install.png', 
+					$this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL, PackageManager :: PARAM_SECTION => 'application', PackageManager :: PARAM_PACKAGE => $installable_application)), ToolbarItem :: DISPLAY_ICON));
+                $data[] = $toolbar->as_html();
                 
                 $applications[] = $data;
             }

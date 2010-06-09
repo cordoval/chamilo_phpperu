@@ -44,17 +44,20 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
      */
     private function get_modification_links($registration)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
 		
-        $toolbar_data[] = array('href' => $this->browser->get_registration_view_url($registration), 'label' => Translation :: get('ViewRegistration'), 'img' => Theme :: get_common_image_path() . 'action_details.png');
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewRegistration'), Theme :: get_common_image_path().'action_details.png', 
+					$this->browser->get_registration_view_url($registration), ToolbarItem :: DISPLAY_ICON));	
         
         if (! $registration->is_up_to_date())
         {
-            $toolbar_data[] = array('href' => $this->browser->get_registration_update_url($registration), 'label' => Translation :: get('UpdatePackage'), 'img' => Theme :: get_common_image_path() . 'action_update.png');
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('UpdatePackage'), Theme :: get_common_image_path().'action_update.png', 
+					$this->browser->get_registration_update_url($registration), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('PackageIsAlreadyUpToDate'), 'img' => Theme :: get_common_image_path() . 'action_update_na.png');
+            $toolbar->add_item(new ToolbarItem(Translation :: get('PackageIsAlreadyUpToDate'), Theme :: get_common_image_path().'action_update_na.png', 
+					'', ToolbarItem :: DISPLAY_ICON));
         }
 
         if ($registration->get_type() == Registration :: TYPE_LANGUAGE && Utilities :: camelcase_to_underscores($registration->get_name()) == PlatformSetting :: get('platform_language'))
@@ -64,16 +67,20 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
 
         if ($registration->is_active())
         {
-            $toolbar_data[] = array('href' => $this->browser->get_registration_deactivation_url($registration), 'label' => Translation :: get('Deactivate'), 'img' => Theme :: get_common_image_path() . 'action_deactivate.png');
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate'), Theme :: get_common_image_path().'action_deactivate.png', 
+					$this->browser->get_registration_deactivation_url($registration), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar_data[] = array('href' => $this->browser->get_registration_activation_url($registration), 'label' => Translation :: get('Activate'), 'img' => Theme :: get_common_image_path() . 'action_activate.png');
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Activate'), Theme :: get_common_image_path().'action_activate.png', 
+					$this->browser->get_registration_activation_url($registration), ToolbarItem :: DISPLAY_ICON));
+					
         }
+		$toolbar->add_item(new ToolbarItem(Translation :: get('Deinstall'), Theme :: get_common_image_path().'action_deinstall.png', 
+					$this->browser->get_registration_removal_url($registration), ToolbarItem :: DISPLAY_ICON,true));
 
-        $toolbar_data[] = array('href' => $this->browser->get_registration_removal_url($registration), 'label' => Translation :: get('Deinstall'), 'img' => Theme :: get_common_image_path() . 'action_deinstall.png', 'confirm' => true);
-
-        return Utilities :: build_toolbar($toolbar_data);
+        
+        return $toolbar->as_html();
     }
 }
 ?>
