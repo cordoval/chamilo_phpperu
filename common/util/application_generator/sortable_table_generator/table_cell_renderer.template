@@ -50,21 +50,24 @@ class {OBJECT_CLASS}BrowserTableCellRenderer extends Default{OBJECT_CLASS}TableC
 	 */
 	private function get_modification_links(${L_OBJECT_CLASS})
 	{
-		$toolbar_data = array();
-		
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-		);
-		
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-		);
-		
-		return Utilities :: build_toolbar($toolbar_data);
+		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Edit'),
+        		Theme :: get_common_image_path() . 'action_edit.png',
+        		$this->browser->get_update_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$this->browser->get_delete_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}),
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
+        
+        return $toolbar->as_html();
 	}
 }
 ?>

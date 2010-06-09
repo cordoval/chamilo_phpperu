@@ -68,18 +68,30 @@ class ValidationBrowserTableCellRend extends DefaultValidationTableCellRend
      */
     private function get_modification_links($validation)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+       
         if ($this->browser->get_user()->is_platform_admin() || $validation->get_validation_publisher()->get_id() == $this->browser->get_user()->get_id())
         {
             // $edit_url = "#";//$this->browser->get_publication_editing_url($profile);
-            // $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-            
-
             $delete_url = $this->browser->get_publication_deleting_url($validation);
-            $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+            
+            /*$toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Edit'),
+	        		Theme :: get_common_image_path() . 'action_edit.png',
+	        		$edit_url,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));*/
+	        
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Delete'),
+	        		Theme :: get_common_image_path() . 'action_delete.png',
+	        		$delete_url,
+	        		ToolbarItem :: DISPLAY_ICON,
+	        		true
+	        ));
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>
