@@ -70,6 +70,11 @@ class ReservationsRights
     	return RightsUtilities :: get_location_id_by_identifier(ReservationsManager :: APPLICATION_NAME, $type, $identifier, 0, 'reservations_tree');
     }
     
+	static function get_location_by_identifier_from_reservations_subtree($type, $identifier)
+    {
+    	return RightsUtilities :: get_location_by_identifier(ReservationsManager :: APPLICATION_NAME, $type, $identifier, 0, 'reservations_tree');
+    }
+    
 	static function is_allowed_in_reservations_subtree($right, $location, $type)
     {
     	 return RightsUtilities :: is_allowed($right, $location, $type, ReservationsManager :: APPLICATION_NAME, null, 0, 'reservations_tree');
