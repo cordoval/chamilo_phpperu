@@ -60,7 +60,7 @@ class GroupRelUserBrowserTableCellRenderer extends DefaultGroupRelUserTableCellR
         $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Unsubscribe'),
         			Theme :: get_common_image_path().'action_delete.png', 
-					$this->browser->get_manage_group_rights_url($group),
+					$this->browser->get_group_rel_user_unsubscribing_url($groupreluser),
 				 	ToolbarItem :: DISPLAY_ICON,
 				 	true
 		));
