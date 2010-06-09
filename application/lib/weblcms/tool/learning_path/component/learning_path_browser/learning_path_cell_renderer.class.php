@@ -23,7 +23,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
     {
         if ($column === ObjectPublicationTableColumnModel :: get_action_column())
         {
-            return Utilities :: build_toolbar($this->get_actions($publication));
+        	return $this->get_actions($publication)->as_html();
         }
 
         switch ($column->get_name())
@@ -74,16 +74,26 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
     function get_actions($publication)
     {
         $progress = $this->get_progress($publication);
-
+		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+		
         $view_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
-        $actions['view'] = array('href' => $view_url, 'label' => Translation :: get(($progress > 0 ? 'ContinueLearningPath' : 'StartLearningPath')), 'img' => Theme :: get_image_path() . 'action_start.png');
-        $actions = $actions + parent :: get_actions($publication);
-        $actions['reporting'] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Statistics'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
-
-        unset($actions['move']);
-        unset($actions['feedback']);
-
-        return $actions;
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get(($progress > 0 ? 'ContinueLearningPath' : 'StartLearningPath')),
+        		Theme :: get_common_image_path() . 'action_start.png',
+        		$view_url,
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        $toolbar = parent :: get_actions($publication, $toolbar, true, false, false);
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Statistics'),
+        		Theme :: get_common_image_path() . 'action_reporting.png',
+        		$this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+       return $toolbar;
     }
 
 }

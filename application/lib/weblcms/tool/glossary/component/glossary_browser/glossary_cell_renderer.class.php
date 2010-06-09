@@ -22,7 +22,7 @@ class GlossaryCellRenderer extends ObjectPublicationTableCellRenderer
     {
         if ($column === ObjectPublicationTableColumnModel :: get_action_column())
         {
-            return Utilities :: build_toolbar($this->get_actions($publication));
+            return $this->get_actions($publication)->as_html();
         }
         
         switch ($column->get_name())
@@ -53,14 +53,17 @@ class GlossaryCellRenderer extends ObjectPublicationTableCellRenderer
 
     function get_actions($publication)
     {
-        $actions = parent :: get_actions($publication);
-        
-        unset($actions['move']);
+        $toolbar = parent :: get_actions($publication, null, true, false, false);
         
         $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
-        $actions['feedback'] = array('href' => $feedback_url, 'label' => Translation :: get('Browse'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Browse'),
+        		Theme :: get_common_image_path() . 'action_browser.png',
+        		$feedback_url,
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        return $actions;
+        return $toolbar;
     }
 
 }

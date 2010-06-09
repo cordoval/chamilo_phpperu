@@ -130,9 +130,12 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         return UserDataManager :: get_instance()->retrieve_user($user_id);
     }
 
-    function get_actions($publication)
+    function get_actions($publication, $toolbar = null, $show_move_action = true, $show_parent_change_action = true, $show_feedback_option = true)
     {
-        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        if(!$toolbar)
+        {
+    		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        }
         
     	if ($this->browser->is_allowed(EDIT_RIGHT))
         {
@@ -167,42 +170,45 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
                 $img = 'action_visible_na.png';
             }
 
-            if($publication->get_display_order_index() > 1)
+            if($show_move_action)
             {
-            	$toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('MoveUp'),
-		        		Theme :: get_common_image_path() . 'action_up.png',
-		        		$this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
-            }
-            else
-            {
-            	$toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('MoveUpNA'),
-		        		Theme :: get_common_image_path() . 'action_up_na.png',
-		        		null,
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
-            }
-
-            if($publication->get_display_order_index() < $this->object_count)
-            {
-            	$toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('MoveDown'),
-		        		Theme :: get_common_image_path() . 'action_down.png',
-		        		$this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
-            }
-            else
-            {
-            	$toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('MoveDownNA'),
-		        		Theme :: get_common_image_path() . 'action_down_na.png',
-		        		null,
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
+	            if($publication->get_display_order_index() > 1)
+	            {
+	            	$toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('MoveUp'),
+			        		Theme :: get_common_image_path() . 'action_up.png',
+			        		$this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
+	            }
+	            else
+	            {
+	            	$toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('MoveUpNA'),
+			        		Theme :: get_common_image_path() . 'action_up_na.png',
+			        		null,
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
+	            }
+	
+	            if($publication->get_display_order_index() < $this->object_count)
+	            {
+	            	$toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('MoveDown'),
+			        		Theme :: get_common_image_path() . 'action_down.png',
+			        		$this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
+	            }
+	            else
+	            {
+	            	$toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('MoveDownNA'),
+			        		Theme :: get_common_image_path() . 'action_down_na.png',
+			        		null,
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
+	            }
             }
 
             $toolbar->add_item(new ToolbarItem(
@@ -212,22 +218,28 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
 	        
-	        $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Move'),
-	        		Theme :: get_common_image_path() . 'action_move.png',
-	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+	        if($show_parent_change_action)
+	        {
+		        $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Move'),
+		        		Theme :: get_common_image_path() . 'action_move.png',
+		        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+	        }
 
         }
 
-        $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Feedback'),
-        		Theme :: get_common_image_path() . 'action_browser.png',
-        		$feedback_url,
-        		ToolbarItem :: DISPLAY_ICON
-        ));
+        if($show_feedback_option)
+        {
+	        $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Feedback'),
+	        		Theme :: get_common_image_path() . 'action_browser.png',
+	        		$feedback_url,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+        }
         
         if(WebApplication :: is_active('gradebook'))
         {

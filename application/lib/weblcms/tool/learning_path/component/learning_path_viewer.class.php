@@ -269,13 +269,25 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
      */
     private function get_navigation_menu($total_steps, $current_step, $object, $menu)
     {
-        if (! $current_step)
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+    	if (! $current_step)
         {
             $previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $total_steps));
             
-            $actions[] = array('href' => $previous_url, 'label' => Translation :: get('Previous'), 'img' => Theme :: get_common_image_path() . 'action_prev.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Previous'),
+	        		Theme :: get_common_image_path() . 'action_prev.png',
+	        		$previous_url,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
             
-            $actions[] = array('label' => Translation :: get('NextNA'), 'img' => Theme :: get_common_image_path() . 'action_next_na.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('NextNA'),
+	        		Theme :: get_common_image_path() . 'action_next_na.png',
+	        		null,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         else
         {
@@ -297,7 +309,12 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
                 
                 if (! in_array('previous', $hide_lms_ui))
                 {
-                    $actions[] = array('href' => $previous_url, 'label' => Translation :: get('Previous'), 'img' => Theme :: get_common_image_path() . 'action_prev.png');
+                    $toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('Previous'),
+			        		Theme :: get_common_image_path() . 'action_prev.png',
+			        		$previous_url,
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
                 }
                 else
                 {
@@ -311,7 +328,12 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             
             if ($add_previous_na)
             {
-                $actions[] = array('label' => Translation :: get('PreviousNA'), 'img' => Theme :: get_common_image_path() . 'action_prev_na.png');
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('PreviousNA'),
+		        		Theme :: get_common_image_path() . 'action_prev_na.png',
+		        		null,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
             
             $add_continue_na = false;
@@ -320,12 +342,16 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             {
                 //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $current_step + 1));
                 
-
                 $continue_url = $this->menu->get_continue_url();
                 
                 if (! in_array('continue', $hide_lms_ui))
                 {
-                    $actions[] = array('href' => $continue_url, 'label' => Translation :: get('Next'), 'img' => Theme :: get_common_image_path() . 'action_next.png');
+                    $toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('Next'),
+			        		Theme :: get_common_image_path() . 'action_next.png',
+			        		$continue_url,
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
                 }
                 else
                 {
@@ -335,13 +361,17 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             else
             {
                 //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'lp_action' => 'view_progress'));
-                
 
                 $continue_url = $this->menu->get_continue_url();
                 
                 if (! in_array('continue', $hide_lms_ui))
                 {
-                    $actions[] = array('href' => $continue_url, 'label' => Translation :: get('Next'), 'img' => Theme :: get_common_image_path() . 'action_next.png');
+                    $toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('Next'),
+			        		Theme :: get_common_image_path() . 'action_next.png',
+			        		$continue_url,
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
                 }
                 else
                 {
@@ -351,11 +381,16 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
             
             if ($add_continue_na)
             {
-                $actions[] = array('label' => Translation :: get('NextNA'), 'img' => Theme :: get_common_image_path() . 'action_next_na.png');
+		        $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('NextNA'),
+		        		Theme :: get_common_image_path() . 'action_next_na.png',
+		        		null,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
         }
         
-        return Utilities :: build_toolbar($actions);
+        return $toolbar->as_html();
     }
 
     /**

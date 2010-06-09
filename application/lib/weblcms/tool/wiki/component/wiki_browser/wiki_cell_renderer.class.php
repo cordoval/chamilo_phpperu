@@ -22,22 +22,10 @@ class WikiCellRenderer extends ObjectPublicationTableCellRenderer
     {
         if ($column === ObjectPublicationTableColumnModel :: get_action_column())
         {
-            return Utilities :: build_toolbar($this->get_actions($publication));
+             return parent :: get_actions($publication)->as_html();
         }
         
         return parent :: render_cell($column, $publication);
-    }
-
-    function get_actions($publication)
-    {
-        $actions = parent :: get_actions($publication);
-        
-        unset($actions['move']);
-        
-        $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
-        $actions['feedback'] = array('href' => $feedback_url, 'label' => Translation :: get('Feedback'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-        
-        return $actions;
     }
 
 }

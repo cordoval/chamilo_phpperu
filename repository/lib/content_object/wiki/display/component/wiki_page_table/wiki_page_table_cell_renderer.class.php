@@ -127,7 +127,7 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
      */
     private function get_publish_links($wiki_page)
     {
-        $toolbar_data = array();
+        /*$toolbar_data = array();
         $table_actions = $this->table_actions;
 
         foreach ($table_actions as $table_action)
@@ -136,7 +136,7 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
             $toolbar_data[] = $table_action;
         }
 
-        return Utilities :: build_toolbar($toolbar_data);
+        return Utili ties :: build_toolbar($toolbar_data);*/
     }
 
     private function get_publication_from_complex_content_object_item($clo_item)

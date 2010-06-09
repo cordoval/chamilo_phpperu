@@ -64,13 +64,31 @@ class WikiPublicationTableCellRenderer extends DefaultContentObjectTableCellRend
 
     function get_actions($publication)
     {
-        if ($this->browser->is_allowed(EDIT_RIGHT))
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+    	if ($this->browser->is_allowed(EDIT_RIGHT))
         {
-            $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-            
-            $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-            
-            $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Visible'), 'img' => $publication->is_hidden() ? Theme :: get_common_image_path() . 'action_visible_na.png' : Theme :: get_common_image_path() . 'action_visible.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Visible'),
+	        		$publication->is_hidden() ? Theme :: get_common_image_path() . 'action_visible_na.png' : Theme :: get_common_image_path() . 'action_visible.png',
+	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+	        
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Edit'),
+	        		Theme :: get_common_image_path() . 'action_edit.png',
+	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+        
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Delete'),
+	        		Theme :: get_common_image_path() . 'action_delete.png',
+	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		ToolbarItem :: DISPLAY_ICON,
+	        		true
+	        ));
         }
         
         /*if(!WikiTool :: is_wiki_locked($publication->get_content_object()->get_id()))
@@ -90,8 +108,7 @@ class WikiPublicationTableCellRenderer extends DefaultContentObjectTableCellRend
 			);
         }*/
         
-        if (count($actions) > 0)
-            return Utilities :: build_toolbar($actions);
+    	return $toolbar->as_html();
     }
 
     /**
@@ -102,7 +119,7 @@ class WikiPublicationTableCellRenderer extends DefaultContentObjectTableCellRend
      */
     private function get_publish_links($content_object)
     {
-        $toolbar_data = array();
+        /*$toolbar_data = array();
         $table_actions = $this->table_actions;
         
         foreach ($table_actions as $table_action)
@@ -111,7 +128,7 @@ class WikiPublicationTableCellRenderer extends DefaultContentObjectTableCellRend
             $toolbar_data[] = $table_action;
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return Utilities :: build_ toolbar($toolbar_data);*/
     }
 }
 ?>
