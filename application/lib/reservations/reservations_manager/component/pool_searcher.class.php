@@ -17,7 +17,7 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManager
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $pool_id = $_GET[ReservationsManager :: PARAM_CATEGORY_ID];
 
         if (! $this->get_user())

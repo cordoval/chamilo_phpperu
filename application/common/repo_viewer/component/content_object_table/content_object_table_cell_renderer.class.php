@@ -46,7 +46,6 @@ class ContentObjectTableCellRenderer extends DefaultContentObjectTableCellRender
     {
         $toolbar_data = array();
         $table_actions = $this->get_table_actions();
-
         foreach ($table_actions as $table_action)
         {
             $table_action['href'] = str_replace('%d', $content_object->get_id(), $table_action['href']);

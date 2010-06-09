@@ -72,7 +72,7 @@ class SurveyManagerViewerComponent extends SurveyManager
             }
         }
 
-        $this->trail = new BreadcrumbTrail();
+        $this->trail = BreadcrumbTrail :: get_instance();
         if ($this->pub->is_test())
         {
             $this->trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));

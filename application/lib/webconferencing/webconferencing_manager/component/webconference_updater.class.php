@@ -18,7 +18,7 @@ class WebconferencingManagerWebconferenceUpdaterComponent extends Webconferencin
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(WebconferencingManager :: PARAM_ACTION => WebconferencingManager :: ACTION_BROWSE_WEBCONFERENCES)), Translation :: get('BrowseWebconferences')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateWebconference')));
         

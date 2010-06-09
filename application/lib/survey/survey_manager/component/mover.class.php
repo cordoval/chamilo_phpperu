@@ -40,7 +40,7 @@ class SurveyManagerMoverComponent extends SurveyManager
         }
         else
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
             $trail->add(new Breadcrumb($this->get_move_survey_publication_url($publication), Translation :: get('MoveSurveyPublications')));
             

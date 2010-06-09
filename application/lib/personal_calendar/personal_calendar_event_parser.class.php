@@ -32,7 +32,7 @@ abstract class PersonalCalendarEventParser
             $message[] = '<li>' . Translation :: get($type) . '</li>';
             $message[] = '</ul>';
             
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb('#', Translation :: get(PersonalCalendarManager:: APPLICATION_NAME)));
             
             Display :: header($trail);

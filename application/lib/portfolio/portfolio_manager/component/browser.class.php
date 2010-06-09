@@ -19,7 +19,7 @@ class PortfolioManagerBrowserComponent extends PortfolioManager
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowsePortfolio')));
         $trail->add_help('portfolio create');
 

@@ -17,7 +17,7 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPersonalMessageAttachments')));
         $trail->add_help('personal messenger general');
         

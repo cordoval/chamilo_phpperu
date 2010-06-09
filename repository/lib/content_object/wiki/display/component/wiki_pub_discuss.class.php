@@ -27,7 +27,7 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
     {
         if (! $this->is_allowed(VIEW_RIGHT))
         {
-            $this->display_header(new BreadcrumbTrail());
+            $this->display_header(BreadcrumbTrail :: get_instance());
         	Display :: not_allowed();
         	$this->display_footer();
             return;
@@ -53,7 +53,7 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
         }
         $wiki_page = $data_manager->retrieve_content_object($this->wiki_page_id);
         
-        $this->display_header(new BreadcrumbTrail());
+        $this->display_header(BreadcrumbTrail :: get_instance());
         
         $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), $this->complex_id); //$this->get_toolbar();
         echo '<div id="trailbox2" style="padding:0px;">' . $this->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
@@ -128,8 +128,7 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
         			Translation :: get('Edit'),
         			Theme :: get_common_image_path().'action_edit.png', 
 					$this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_EDIT_FEEDBACK, ' WikiPubFeedback :: PROPERTY_FEEDBACK_ID' => $this->feedback_id, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id, 'pid' => Request :: get('pid'))),
-				 	ToolbarItem :: DISPLAY_ICON,
-		));
+				 	ToolbarItem :: DISPLAY_ICON));
         return $toolbar->as_html();
     
     }

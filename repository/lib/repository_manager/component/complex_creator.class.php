@@ -16,7 +16,7 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository general');
         
         $owner = $this->get_user()->get_id();

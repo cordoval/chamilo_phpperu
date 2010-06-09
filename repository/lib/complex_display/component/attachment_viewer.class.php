@@ -19,7 +19,7 @@ class ComplexDisplayAttachmentViewerComponent extends ComplexDisplayComponent
             return;
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses general');
         
         $object_id = Request :: get('object_id');

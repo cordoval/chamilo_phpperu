@@ -17,7 +17,7 @@ class ProfilerManagerCategoryManagerComponent extends ProfilerManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
         

@@ -45,20 +45,27 @@ class DynamicFormElementBrowserTableCellRenderer extends DefaultDynamicFormEleme
      */
     private function get_modification_links($dynamic_form_element)
     {
-        $toolbar_data = array();
-        
         $update_url = $this->browser->get_update_element_url($dynamic_form_element);
         $delete_url = $this->browser->get_delete_element_url($dynamic_form_element);
         
-        $toolbar_data[] = array('href' => $update_url, 
-        						'label' => Translation :: get('Edit'), 
-        						'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Edit'),
+        		Theme :: get_common_image_path() . 'action_edit.png',
+        		$update_url,
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        $toolbar_data[] = array('href' => $delete_url, 
-        						'label' => Translation :: get('Delete'), 
-        						'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$delete_url,
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

@@ -17,7 +17,7 @@ class ReservationsManagerManageOverviewComponent extends ReservationsManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_OVERVIEW)), Translation :: get('Statistics')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageItems')));
         

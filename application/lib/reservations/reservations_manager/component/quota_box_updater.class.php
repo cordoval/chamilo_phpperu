@@ -18,7 +18,7 @@ class ReservationsManagerQuotaBoxUpdaterComponent extends ReservationsManager
     function run()
     {
         $quota_box_id = Request :: get(ReservationsManager :: PARAM_QUOTA_BOX_ID);
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTA_BOXES)), Translation :: get('ViewQuotaBoxes')));
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_QUOTA_BOX_ID => $quota_box_id)), Translation :: get('UpdateQuotaBoxes')));
