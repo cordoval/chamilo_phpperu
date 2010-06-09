@@ -10,7 +10,7 @@ class InternshipOrganizerRegionManagerCreatorComponent extends InternshipOrganiz
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $region_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
         $trail->add(new Breadcrumb($this->get_url(array( InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS , InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region_id)), Translation :: get('BrowseInternshipOrganizerRegions')));
         $trail->add(new Breadcrumb($this->get_region_create_url, Translation :: get('CreateInternshipOrganizerRegion')));

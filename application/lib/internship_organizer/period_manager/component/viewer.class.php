@@ -11,7 +11,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
 
         $id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
         if ($id)

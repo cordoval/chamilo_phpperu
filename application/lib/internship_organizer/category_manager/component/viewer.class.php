@@ -14,7 +14,7 @@ class InternshipOrganizerCategoryManagerViewerComponent extends InternshipOrgani
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
 
         $id = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
         if ($id)

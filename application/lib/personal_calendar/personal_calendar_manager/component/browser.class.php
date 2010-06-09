@@ -32,7 +32,7 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManager
         	$time = Request :: get(PersonalCalendarManager::PARAM_TIME) ? intval(Request :: get(PersonalCalendarManager::PARAM_TIME)) : time();
         }
         $this->set_parameter(PersonalCalendarManager::PARAM_TIME, $time);
-    	$trail = new BreadcrumbTrail();
+    	$trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PersonalCalendar')));
         $trail->add_help('personal calender general');
         

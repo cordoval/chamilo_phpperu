@@ -19,7 +19,7 @@ class SurveyManagerReportingComponent extends SurveyManager
         
         $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
         $publication_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         $publication = $this->retrieve_survey_publication($publication_id);

@@ -18,7 +18,7 @@ class ReservationsManagerQuotaBoxCreatorComponent extends ReservationsManager
     function run()
     {
         $category_id = $_GET[ReservationsManager :: PARAM_CATEGORY_ID];
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTA_BOXES)), Translation :: get('ViewQuotaBoxes')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateQuotaBox')));
