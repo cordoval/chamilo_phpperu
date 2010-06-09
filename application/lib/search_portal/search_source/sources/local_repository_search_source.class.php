@@ -41,8 +41,7 @@ class LocalRepositorySearchSource extends SearchSource
 	
 	private function get_condition($query, $user = null)
 	{
-		//TODO check for admin
-		$set_rights = !is_null($user);
+		$set_rights = !is_null($user) && !$user->is_platform_admin();
     	
     	if($set_rights)
     	{
