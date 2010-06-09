@@ -58,7 +58,7 @@ class ComplexDisplayFeedbackEditComponent extends ComplexDisplayComponent
                 }
                 else
                 {
-                    $trail = new BreadcrumbTrail();
+                    $trail = BreadcrumbTrail :: get_instance();
                     $trail->add_help('courses general');
                     
                     $this->display_header($trail);
