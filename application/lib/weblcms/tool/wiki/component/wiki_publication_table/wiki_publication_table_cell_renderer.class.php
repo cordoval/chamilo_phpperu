@@ -119,7 +119,7 @@ class WikiPublicationTableCellRenderer extends DefaultContentObjectTableCellRend
      */
     private function get_publish_links($content_object)
     {
-        $toolbar_data = array();
+        /*$toolbar_data = array();
         $table_actions = $this->table_actions;
         
         foreach ($table_actions as $table_action)
@@ -128,7 +128,7 @@ class WikiPublicationTableCellRenderer extends DefaultContentObjectTableCellRend
             $toolbar_data[] = $table_action;
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return Utilities :: build_ toolbar($toolbar_data);*/
     }
 }
 ?>

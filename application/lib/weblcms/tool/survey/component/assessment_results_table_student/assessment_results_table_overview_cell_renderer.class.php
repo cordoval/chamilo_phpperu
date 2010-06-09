@@ -66,11 +66,16 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultContentOb
 
     function get_actions($publication)
     {
-        $execute = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('ViewResults'),
+        		Theme :: get_common_image_path() . 'action_view_results.png',
+        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        $actions[] = $execute;
-        
-        return Utilities :: build_toolbar($actions);
+        return $toolbar->as_html();
     }
 
     /**
@@ -81,7 +86,7 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultContentOb
      */
     private function get_publish_links($content_object)
     {
-        $toolbar_data = array();
+        /*$toolbar_data = array();
         $table_actions = $this->table_actions;
         
         foreach ($table_actions as $table_action)
@@ -90,7 +95,7 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultContentOb
             $toolbar_data[] = $table_action;
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return Uti lities :: build_toolbar($toolbar_data);*/
     }
 }
 ?>
