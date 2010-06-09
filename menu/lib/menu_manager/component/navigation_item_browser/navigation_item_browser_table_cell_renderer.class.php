@@ -69,34 +69,62 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
             }
         }
         
-        $toolbar_data = array();
-        $edit_url = $this->browser->get_navigation_item_editing_url($menu);
-        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $toolbar = new Toolbar();
         
+        $toolbar->add_item(new ToolbarItem(
+    			Translation :: get('Edit'),
+    			Theme :: get_common_image_path() . 'action_edit.png',
+    			$this->browser->get_navigation_item_editing_url($menu),
+    			ToolbarItem :: DISPLAY_ICON
+    	));
+    	
         if ($index == 'first' || $index == 'single')
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+           	$toolbar->add_item(new ToolbarItem(
+    			Translation :: get('MoveUpNA'),
+    			Theme :: get_common_image_path() . 'action_up_na.png',
+    			null,
+    			ToolbarItem :: DISPLAY_ICON
+    		));
         }
         else
         {
-            $move_url = $this->browser->get_navigation_item_moving_url($menu, 'up');
-            $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            $toolbar->add_item(new ToolbarItem(
+    			Translation :: get('MoveUp'),
+    			Theme :: get_common_image_path() . 'action_up.png',
+    			$this->browser->get_navigation_item_moving_url($menu, 'up'),
+    			ToolbarItem :: DISPLAY_ICON
+    		));
         }
         
         if ($index == 'last' || $index == 'single')
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
+            $toolbar->add_item(new ToolbarItem(
+    			Translation :: get('MoveDownNA'),
+    			Theme :: get_common_image_path() . 'action_down_na.png',
+    			null,
+    			ToolbarItem :: DISPLAY_ICON
+    		));
         }
         else
         {
-            $move_url = $this->browser->get_navigation_item_moving_url($menu, 'down');
-            $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            $toolbar->add_item(new ToolbarItem(
+    			Translation :: get('MoveDown'),
+    			Theme :: get_common_image_path() . 'action_down.png',
+    			$this->browser->get_navigation_item_moving_url($menu, 'down'),
+    			ToolbarItem :: DISPLAY_ICON
+    		));
         }
+
+        $toolbar->add_item(new ToolbarItem(
+    			Translation :: get('Delete'),
+    			Theme :: get_common_image_path() . 'action_delete.png',
+    			$this->browser->get_navigation_item_deleting_url($menu),
+    			ToolbarItem :: DISPLAY_ICON,
+    			true
+    	));
         
-        $delete_url = $this->browser->get_navigation_item_deleting_url($menu);
-        $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>
