@@ -132,16 +132,27 @@ class WebconferenceBrowserTableCellRenderer extends DefaultWebconferenceTableCel
      */
     private function get_modification_links($webconference)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         if ($this->browser->get_user()->is_platform_admin() || $webconference->get_user_id() == $this->browser->get_user()->get_id())
         {
-            $toolbar_data[] = array('href' => $this->browser->get_update_webconference_url($webconference), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-            
-            $toolbar_data[] = array('href' => $this->browser->get_delete_webconference_url($webconference), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Edit'),
+	        		Theme :: get_common_image_path() . 'action_edit.png',
+	        		$this->browser->get_update_webconference_url($webconference),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+	        
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Delete'),
+	        		Theme :: get_common_image_path() . 'action_delete.png',
+	        		$this->browser->get_delete_webconference_url($webconference),
+	        		ToolbarItem :: DISPLAY_ICON,
+	        		true
+	        ));
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>
