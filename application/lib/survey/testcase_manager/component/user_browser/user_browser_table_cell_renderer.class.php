@@ -26,11 +26,10 @@ class TestCaseManagerUserBrowserTableCellRenderer extends DefaultTestCaseManager
 	
 	private function get_modification_links($user)
 	{
-		$toolbar_data = array();
-		
-		
-		
-		return Utilities :: build_toolbar($toolbar_data);
+		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+        
+        return $toolbar->as_html();
 	}
 }
 ?>

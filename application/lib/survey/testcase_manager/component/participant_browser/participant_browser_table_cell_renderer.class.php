@@ -42,18 +42,16 @@ class TestcaseSurveyParticipantBrowserTableCellRenderer extends DefaultParticipa
      */
     private function get_modification_links($survey_participant_tracker)
     {
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $survey_publication = SurveyDataManager::get_instance()->retrieve_survey_publication($survey_participant_tracker->get_survey_publication_id());
-    	
-        $toolbar_data = array();
-           
-      
-        $toolbar_data[] = array('href' => $this->browser->get_survey_publication_viewer_url($survey_participant_tracker), 'label' => Translation :: get('TakeSurvey'), 'img' => Theme :: get_common_image_path() . 'action_next.png');
-         
-//        $toolbar_data[] = array('href' => $this->browser->get_survey_results_viewer_url($survey_publication), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('TakeSurvey'),
+        		Theme :: get_common_image_path() . 'action_next.png',
+        		$this->browser->get_survey_publication_viewer_url($survey_participant_tracker),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

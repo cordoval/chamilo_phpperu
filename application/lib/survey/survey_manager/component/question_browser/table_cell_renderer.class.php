@@ -41,10 +41,16 @@ class SurveyQuestionBrowserTableCellRenderer extends DefaultSurveyQuestionTableC
      */
     private function get_modification_links($survey_question)
     {
-        $toolbar_data = array();
-        $toolbar_data[] = array('href' => $this->browser->get_question_reporting_url($survey_question), 'label' => Translation :: get('VieuwQuestionResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('VieuwQuestionResults'),
+        		Theme :: get_common_image_path() . 'action_view_results.png',
+        		$this->browser->get_question_reporting_url($survey_question),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        return $toolbar->as_html();
     }
 }
 ?>

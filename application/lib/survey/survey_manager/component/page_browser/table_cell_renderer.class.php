@@ -41,11 +41,16 @@ class SurveyPageBrowserTableCellRenderer extends DefaultSurveyPageTableCellRende
      */
     private function get_modification_links($survey_page)
     {
-    	
-    	$toolbar_data = array(); 
-    	$toolbar_data[] = array('href' => $this->browser->get_browse_survey_page_questions_url($survey_page), 'label' => Translation :: get('BrowseSurveyPageQuestions'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('BrowseSurveyPageQuestions'),
+        		Theme :: get_common_image_path() . 'action_view_results.png',
+        		$this->browser->get_browse_survey_page_questions_url($survey_page),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        return $toolbar->as_html();
     }
 }
 ?>
