@@ -90,7 +90,7 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 	 */
 	private function get_modification_links($cda_language)
 	{
-		$toolbar_data = array();
+		$toolbar = new Toolbar();
 
 		if(get_class($this->browser) != 'CdaManagerCdaLanguagesBrowserComponent')
 		{
@@ -99,20 +99,12 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 
     		if ($can_edit)
     		{
-    			$toolbar_data[] = array(
-    				'href' => $this->browser->get_update_cda_language_url($cda_language),
-    				'label' => Translation :: get('Edit'),
-    				'img' => Theme :: get_common_image_path().'action_edit.png'
-    			);
+    			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_cda_language_url($cda_language), ToolbarItem :: DISPLAY_ICON));
     		}
 
     		if ($can_delete)
     		{
-    			$toolbar_data[] = array(
-    				'href' => $this->browser->get_delete_cda_language_url($cda_language),
-    				'label' => Translation :: get('Delete'),
-    				'img' => Theme :: get_common_image_path().'action_delete.png',
-    			);
+    			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_cda_language_url($cda_language), ToolbarItem :: DISPLAY_ICON, true));
     		}
 		}
 		else
@@ -124,34 +116,20 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 			{
 				if($this->browser->can_language_be_locked($cda_language))
 		        {
-		        	$toolbar_data[] = array(
-						'href' => $this->browser->get_lock_language_url($cda_language),
-						'label' => Translation :: get('Lock'),
-						'img' => Theme :: get_common_image_path().'action_lock.png'
-					);
+		        	$toolbar->add_item(new ToolbarItem(Translation :: get('Lock'), Theme :: get_common_image_path() . 'action_lock.png', $this->browser->get_lock_language_url($cda_language), ToolbarItem :: DISPLAY_ICON));
 		        }
 		        else
 		        {
-		        	$toolbar_data[] = array(
-						'label' => Translation :: get('LockNa'),
-						'img' => Theme :: get_common_image_path().'action_lock_na.png'
-					);
+		        	$toolbar->add_item(new ToolbarItem(Translation :: get('LockNa'), Theme :: get_common_image_path() . 'action_lock_na.png', null, ToolbarItem :: DISPLAY_ICON));		        	
 		        }
 
 		        if($this->browser->can_language_be_unlocked($cda_language))
 		        {
-		        	$toolbar_data[] = array(
-						'href' => $this->browser->get_unlock_language_url($cda_language),
-						'label' => Translation :: get('Unlock'),
-						'img' => Theme :: get_common_image_path().'action_unlock.png'
-					);
+		        	$toolbar->add_item(new ToolbarItem(Translation :: get('Unlock'), Theme :: get_common_image_path().'action_unlock.png', $this->browser->get_unlock_language_url($cda_language), ToolbarItem :: DISPLAY_ICON));
 		        }
 		        else
 		        {
-					$toolbar_data[] = array(
-						'label' => Translation :: get('UnlockNa'),
-						'img' => Theme :: get_common_image_path().'action_unlock_na.png'
-					);
+		        	$toolbar->add_item(new ToolbarItem(Translation :: get('UnlockNa'), Theme :: get_common_image_path() . 'action_unlock_na.png', null, ToolbarItem :: DISPLAY_ICON));
 		        }
 			}
 
@@ -166,16 +144,12 @@ class CdaLanguageBrowserTableCellRenderer extends DefaultCdaLanguageTableCellRen
 
 				if($translation)
 				{
-					$toolbar_data[] = array(
-								'href' => $this->browser->get_update_variable_translation_url($translation),
-								'label' => Translation :: get('TranslateFirstEmptyTranslation'),
-								'img' => Theme :: get_image_path() . 'action_quickstart.png'
-							);
+					$toolbar->add_item(new ToolbarItem(Translation :: get('TranslateFirstEmptyTranslation'), Theme :: get_image_path() . 'action_quickstart.png', $this->browser->get_update_variable_translation_url($translation), ToolbarItem :: DISPLAY_ICON));
 				}
 			}
 		}
 
-		return Utilities :: build_toolbar($toolbar_data);
+		return $toolbar->as_html();
 	}
 }
 ?>

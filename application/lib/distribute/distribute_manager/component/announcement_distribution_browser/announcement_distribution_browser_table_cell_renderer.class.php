@@ -59,7 +59,7 @@ class AnnouncementDistributionBrowserTableCellRenderer extends DefaultAnnounceme
      */
     private function get_modification_links($announcement_distribution)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
         //		$delete_url = $this->browser->get_publication_deleting_url($announcement_distribution);
         //		$toolbar_data[] = array(
@@ -70,7 +70,7 @@ class AnnouncementDistributionBrowserTableCellRenderer extends DefaultAnnounceme
         //		);
         
 
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

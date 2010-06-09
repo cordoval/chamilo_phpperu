@@ -46,26 +46,15 @@ class CompetencyBrowserTableCellRenderer extends DefaultCompetencyTableCellRende
 	 */
 	private function get_modification_links($competency)
 	{
-		$toolbar_data = array();
+		$toolbar = new Toolbar();
+		
+		$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_competency_url($competency), ToolbarItem :: DISPLAY_ICON));
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_competency_url($competency),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-		);
-		$toolbar_data[] = array(
-				'href' => $this->browser->get_competency_moving_url($competency),
-				'label' => Translation :: get('Move'),
-				'img' => Theme :: get_common_image_path().'action_move.png'
-		);	
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_competency_url($competency),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-			'confirm' => true
-		);
+		$toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_competency_moving_url($competency), ToolbarItem :: DISPLAY_ICON));
 
-		return Utilities :: build_toolbar($toolbar_data);
+		$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png',$this->browser->get_delete_competency_url($competency), ToolbarItem :: DISPLAY_ICON, true));
+
+		return $toolbar->as_html();
 	}
 }
 ?>

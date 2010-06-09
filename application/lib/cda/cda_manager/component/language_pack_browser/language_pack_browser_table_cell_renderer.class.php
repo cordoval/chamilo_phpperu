@@ -77,7 +77,7 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 		$can_lock = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $cda_language_id, 'cda_language');
 		$can_translate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $cda_language_id, 'cda_language');
 
-		$toolbar_data = array();
+		$toolbar = new Toolbar();
 
 		if(get_class($this->browser) != 'CdaManagerLanguagePacksBrowserComponent')
 		{
@@ -86,20 +86,18 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 
     		if ($can_edit)
     		{
-    			$toolbar_data[] = array(
-    				'href' => $this->browser->get_update_language_pack_url($language_pack),
-    				'label' => Translation :: get('Edit'),
-    				'img' => Theme :: get_common_image_path().'action_edit.png'
-    			);
+    			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_language_pack_url($language_pack), ToolbarItem :: DISPLAY_ICON));
     		}
 
     		if ($can_delete)
     		{
-    			$toolbar_data[] = array(
-    				'href' => $this->browser->get_delete_language_pack_url($language_pack),
-    				'label' => Translation :: get('Delete'),
-    				'img' => Theme :: get_common_image_path().'action_delete.png',
-    			);
+    			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Delete'), 
+    				Theme :: get_common_image_path() . 'action_delete.png', 
+    				$this->browser->get_delete_language_pack_url($language_pack), 
+    				ToolbarItem :: DISPLAY_ICON,
+    				true
+    				));
     		}
 		}
 		else
@@ -108,34 +106,41 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 			{
 				if($this->browser->can_language_pack_be_locked($language_pack, $cda_language_id))
 		        {
-		        	$toolbar_data[] = array(
-						'href' => $this->browser->get_lock_language_pack_url($language_pack, $cda_language_id),
-						'label' => Translation :: get('Lock'),
-						'img' => Theme :: get_common_image_path().'action_lock.png'
-					);
+		        	$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Lock'), 
+    				Theme :: get_common_image_path() . 'action_lock.png', 
+    				$this->browser->get_lock_language_pack_url($language_pack, $cda_language_id), 
+    				ToolbarItem :: DISPLAY_ICON,
+    				true
+    				));
 		        }
 		        else
 		        {
-		        	$toolbar_data[] = array(
-						'label' => Translation :: get('LockNa'),
-						'img' => Theme :: get_common_image_path().'action_lock_na.png'
-					);
+		        	$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('LockNa'), 
+    				Theme :: get_common_image_path() . 'action_lock_na.png', 
+    				null, 
+    				ToolbarItem :: DISPLAY_ICON,
+    				));
 		        }
 
 		        if($this->browser->can_language_pack_be_unlocked($language_pack, $cda_language_id))
 		        {
-		        	$toolbar_data[] = array(
-						'href' => $this->browser->get_unlock_language_pack_url($language_pack, $cda_language_id),
-						'label' => Translation :: get('Unlock'),
-						'img' => Theme :: get_common_image_path().'action_unlock.png'
-					);
+		        	$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Unlock'), 
+    				Theme :: get_common_image_path() . 'action_unlock.png', 
+    				$this->browser->get_unlock_language_pack_url($language_pack, $cda_language_id), 
+    				ToolbarItem :: DISPLAY_ICON
+    				));
 		        }
 		        else
 		        {
-					$toolbar_data[] = array(
-						'label' => Translation :: get('UnlockNa'),
-						'img' => Theme :: get_common_image_path().'action_unlock_na.png'
-					);
+		        	$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('UnlockNa'), 
+    				Theme :: get_common_image_path() . 'action_unlock_na.png', 
+    				null, 
+    				ToolbarItem :: DISPLAY_ICON,
+    				));
 		        }
 			}
 
@@ -150,16 +155,17 @@ class LanguagePackBrowserTableCellRenderer extends DefaultLanguagePackTableCellR
 				
 				if($translation)
 				{
-					$toolbar_data[] = array(
-								'href' => $this->browser->get_update_variable_translation_url($translation),
-								'label' => Translation :: get('TranslateFirstEmptyTranslation'),
-								'img' => Theme :: get_image_path() . 'action_quickstart.png'
-							);
+					$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('TranslateFirstEmptyTranslation'), 
+    				Theme :: get_common_image_path() . 'action_quickstart.png', 
+    				$this->browser->get_update_variable_translation_url($translation), 
+    				ToolbarItem :: DISPLAY_ICON
+    				));
 				}
 			}
 		}
 
-		return Utilities :: build_toolbar($toolbar_data);
+		return $toolbar->as_html();
 	}
 }
 ?>
