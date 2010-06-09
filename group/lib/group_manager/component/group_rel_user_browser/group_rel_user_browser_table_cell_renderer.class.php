@@ -55,11 +55,17 @@ class GroupRelUserBrowserTableCellRenderer extends DefaultGroupRelUserTableCellR
      */
     private function get_modification_links($groupreluser)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
-        $toolbar_data[] = array('href' => $this->browser->get_group_rel_user_unsubscribing_url($groupreluser), 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Unsubscribe'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->browser->get_manage_group_rights_url($group),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+		));
+		        
+        return $toolbar->as_html();
     }
 }
 ?>

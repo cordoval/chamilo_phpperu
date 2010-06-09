@@ -69,11 +69,14 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
      */
     private function get_modification_links($group)
     {
-        $toolbar_data = array();
         
-        $toolbar_data[] = array('href' => $this->browser->get_group_editing_url($group), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        
-        $toolbar_data[] = array('href' => $this->browser->get_group_suscribe_user_browser_url($group), 'label' => Translation :: get('AddUsers'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
+        $toolbar = new Toolbar();
+    	
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', 
+					$this->browser->get_group_editing_url($group), ToolbarItem :: DISPLAY_ICON));
+					
+		$toolbar->add_item(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path().'action_subscribe.png', 
+					$this->browser->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON));
         
         $condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
         $users = $this->browser->retrieve_group_rel_users($condition);
@@ -81,20 +84,48 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
         
         if ($visible)
         {
-            $toolbar_data[] = array('href' => $this->browser->get_group_emptying_url($group), 'label' => Translation :: get('Truncate'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png');
+        	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Truncate'), 
+        			Theme :: get_common_image_path().'action_recycle_bin.png', 
+					$this->browser->get_group_emptying_url($group), 
+					ToolbarItem :: DISPLAY_ICON, 
+					true
+			));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('TruncateNA'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png');
+        	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('TruncateNA'),
+        			Theme :: get_common_image_path().'action_recycle_bin_na.png', 
+					null,
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+			));
         }
         
-        $toolbar_data[] = array('href' => $this->browser->get_group_delete_url($group), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-        $toolbar_data[] = array('href' => $this->browser->get_move_group_url($group), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
-        
-        $toolbar_data[] = array('href' => $this->browser->get_manage_group_rights_url($group), 'label' => Translation :: get('ManageRightsTemplates'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Delete'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->browser->get_group_delete_url($group),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+		));
+			
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Move'),
+        			Theme :: get_common_image_path().'action_move.png', 
+					$this->browser->get_move_group_url($group),
+				 	ToolbarItem :: DISPLAY_ICON
+		));
+
+		$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('ManageRightsTemplates'),
+        			Theme :: get_common_image_path().'action_rights.png', 
+					$this->browser->get_manage_group_rights_url($group),
+				 	ToolbarItem :: DISPLAY_ICON
+		));
+		        
+        return $toolbar->as_html();
     }
 }
 ?>
