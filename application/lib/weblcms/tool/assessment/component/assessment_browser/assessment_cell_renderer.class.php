@@ -22,7 +22,7 @@ class AssessmentCellRenderer extends ObjectPublicationTableCellRenderer
     {
         if ($column === ObjectPublicationTableColumnModel :: get_action_column())
         {
-            return Utilities :: build_toolbar($this->get_actions($publication));
+            return $this->get_actions($publication)->as_html();
         }
         
         switch ($column->get_name())
@@ -45,7 +45,7 @@ class AssessmentCellRenderer extends ObjectPublicationTableCellRenderer
 
     function get_actions($publication)
     {
-        $actions = parent :: get_actions($publication);
+    	$toolbar = parent :: get_actions($publication);
         
         $assessment = $publication->get_content_object();
         $track = new WeblcmsAssessmentAttemptsTracker();
@@ -68,23 +68,23 @@ class AssessmentCellRenderer extends ObjectPublicationTableCellRenderer
         
         if ($assessment->get_maximum_attempts() == 0 || $count < $assessment->get_maximum_attempts())
         {
-            $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('TakeAssessment'), 'img' => Theme :: get_common_image_path() . 'action_right.png');
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_right.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()))));
         }
         else
         {
-            $actions[] = array('label' => Translation :: get('TakeAssessment'), 'img' => Theme :: get_common_image_path() . 'action_right_na.png');
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_right_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
-        $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
         
-        $actions[] = array('href' => $this->browser->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_QTI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Export'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->browser->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_QTI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
         
 //        if ($assessment->get_assessment_type() == Assessment :: TYPE_SURVEY)
 //        {
 //            $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('InviteUsers'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
 //        }
         
-        return $actions;
+        return $toolbar;
     }
 
 }

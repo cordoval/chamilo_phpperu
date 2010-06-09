@@ -67,11 +67,12 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
         $pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($user_assessment->get_assessment_id());
         $assessment = $pub->get_content_object();
         
+        $toolbar = new Toolbar();
+        
         if ($assessment->get_assessment_type() != Hotpotatoes :: TYPE_HOTPOTATOES)
         {
-            $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
-            
-            $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), 'label' => Translation :: get('ExportResults'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
+        	$toolbar->add_item(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem::DISPLAY_ICON );
+            $toolbar->add_item(Translation :: get('ExportResults'), Theme :: get_common_image_path() . 'action_export.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem::DISPLAY_ICON );
         }
         else
         {
