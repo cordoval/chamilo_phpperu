@@ -68,25 +68,46 @@ class ReservationBrowserTableCellRenderer extends DefaultReservationTableCellRen
      */
     private function get_modification_links($reservation)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         if (get_class($this->browser) == 'ReservationsManagerAdminReservationBrowserComponent' && $this->browser->has_right('item', $reservation->get_item(), ReservationsRights :: EDIT_RIGHT))
         {
             if ($reservation->get_subscriptions() == 0)
             {
-                $toolbar_data[] = array('href' => $this->browser->get_update_reservation_url($reservation->get_id(), $this->browser->get_item()), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Edit'),
+		        		Theme :: get_common_image_path() . 'action_edit.png',
+		        		$this->browser->get_update_reservation_url($reservation->get_id(), $this->browser->get_item()),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
             else
             {
-                $toolbar_data[] = array('label' => Translation :: get('EditNA'), 'img' => Theme :: get_common_image_path() . 'action_edit_na.png');
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('EditNA'),
+		        		Theme :: get_common_image_path() . 'action_edit_na.png',
+		        		null,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
             
-            $toolbar_data[] = array('href' => $this->browser->get_delete_reservation_url($reservation->get_id(), $this->browser->get_item()), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Delete'),
+	        		Theme :: get_common_image_path() . 'action_delete.png',
+	        		$this->browser->get_delete_reservation_url($reservation->get_id(), $this->browser->get_item()),
+	        		ToolbarItem :: DISPLAY_ICON,
+	        		true
+	        ));
             
-            $toolbar_data[] = array('href' => $this->browser->get_admin_browse_subscription_url($reservation->get_id()), 'label' => Translation :: get('BrowseSubscriptions'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('BrowseSubscriptions'),
+	        		Theme :: get_common_image_path() . 'action_browser.png',
+	        		$this->browser->get_admin_browse_subscription_url($reservation->get_id()),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

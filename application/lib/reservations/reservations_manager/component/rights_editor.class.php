@@ -21,7 +21,7 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManager
         $type = Request :: get('type');
         $id = Request :: get('id');
         
-        $location = ReservationsRights :: get_location_by_identifier($type, $id);
+        $location = ReservationsRights :: get_location_by_identifier_from_reservations_subtree($type, $id);
         
         $manager = new RightsEditorManager($this, array($location));
         $manager->run();

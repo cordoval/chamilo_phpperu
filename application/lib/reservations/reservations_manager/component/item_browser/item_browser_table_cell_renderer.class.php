@@ -46,20 +46,36 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
      */
     private function get_modification_links($item)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        if (get_class($this->browser) == 'ReservationsManagerAdminItemBrowserComponent')
+    	if (get_class($this->browser) == 'ReservationsManagerAdminItemBrowserComponent')
         {
             if ($this->browser->has_right('item', $item->get_id(), ReservationsRights :: DELETE_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
             {
-                $toolbar_data[] = array('href' => $this->browser->get_delete_item_url($item->get_id(), $this->browser->get_category()), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Delete'),
+		        		Theme :: get_common_image_path() . 'action_delete.png',
+		        		$this->browser->get_delete_item_url($item->get_id(), $this->browser->get_category()),
+		        		ToolbarItem :: DISPLAY_ICON,
+		        		true
+		        ));
             }
             
             if ($this->browser->has_right('item', $item->get_id(), ReservationsRights :: EDIT_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
             {
-                $toolbar_data[] = array('href' => $this->browser->get_update_item_url($item->get_id(), $this->browser->get_category()), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Edit'),
+		        		Theme :: get_common_image_path() . 'action_edit.png',
+		        		$this->browser->get_update_item_url($item->get_id(), $this->browser->get_category()),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
                 
-                $toolbar_data[] = array('href' => $this->browser->get_modify_rights_url('item', $item->get_id()), 'label' => Translation :: get('ModifyRights'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('ModifyRights'),
+		        		Theme :: get_common_image_path() . 'action_rights.png',
+		        		$this->browser->get_modify_rights_url('item', $item->get_id()),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
         }
         
@@ -74,10 +90,15 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
         
         if ($this->browser->has_right('item', $item->get_id(), ReservationsRights :: VIEW_RIGHT))
         {
-            $toolbar_data[] = array('href' => $url, 'label' => Translation :: get('BrowseReservations'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('BrowseReservations'),
+	        		Theme :: get_common_image_path() . 'action_browser.png',
+	        		$url,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
-        
-        return Utilities :: build_toolbar($toolbar_data);
+
+        return $toolbar->as_html();
     }
 }
 ?>
