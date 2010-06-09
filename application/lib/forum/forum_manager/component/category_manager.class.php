@@ -18,7 +18,7 @@ class ForumManagerCategoryManagerComponent extends ForumManager
             return;
         }
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
 

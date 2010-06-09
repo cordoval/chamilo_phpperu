@@ -98,8 +98,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
         			Translation :: get('TruncateNA'),
         			Theme :: get_common_image_path().'action_recycle_bin_na.png', 
 					null,
-				 	ToolbarItem :: DISPLAY_ICON,
-				 	true
+				 	ToolbarItem :: DISPLAY_ICON
 			));
         }
         
@@ -117,15 +116,6 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 					$this->browser->get_move_group_url($group),
 				 	ToolbarItem :: DISPLAY_ICON
 		));
-
-		$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('ManageRightsTemplates'),
-        			Theme :: get_common_image_path().'action_rights.png', 
-					$this->browser->get_manage_group_rights_url($group),
-				 	ToolbarItem :: DISPLAY_ICON
-		));
-		        
-        return $toolbar->as_html();
     }
 }
 ?>

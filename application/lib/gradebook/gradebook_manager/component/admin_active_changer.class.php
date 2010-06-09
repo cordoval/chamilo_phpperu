@@ -9,7 +9,7 @@ class GradebookManagerAdminActiveChangerComponent extends GradebookManager
 
 	    if (! $this->get_user()->is_platform_admin())
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('course_type_active_changer');
             $this->display_header($trail);
             Display :: error_message(Translation :: get("NotAllowed"));

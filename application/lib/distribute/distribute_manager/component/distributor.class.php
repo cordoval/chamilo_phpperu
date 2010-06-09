@@ -14,7 +14,7 @@ class DistributeManagerDistributorComponent extends DistributeManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => DistributeManager :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS)), Translation :: get('Distribute')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Compose')));
         $trail->add_help('distribute general');

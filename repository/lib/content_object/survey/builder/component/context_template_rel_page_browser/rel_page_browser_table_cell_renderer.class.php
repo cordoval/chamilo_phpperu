@@ -40,11 +40,16 @@ class SurveyContextTemplateRelPageBrowserTableCellRenderer extends DefaultSurvey
      */
     private function get_modification_links($template_rel_page)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
-        $toolbar_data[] = array('href' => $this->browser->get_template_unsubscribing_page_url($template_rel_page), 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Unsubscribe'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->browser->get_template_unsubscribing_page_url($template_rel_page),
+				 	ToolbarItem :: DISPLAY_ICON
+		));
+		        
+        return $toolbar->as_html();
     }
     
     function render_id_cell($template_rel_page){

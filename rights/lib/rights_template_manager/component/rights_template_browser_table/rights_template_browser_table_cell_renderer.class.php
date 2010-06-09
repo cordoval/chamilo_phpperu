@@ -44,17 +44,31 @@ class RightsTemplateBrowserTableCellRenderer extends DefaultRightsTemplateTableC
      */
     private function get_modification_links($rights_template)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
-        $toolbar_data[] = array('href' => $this->browser->get_manage_rights_template_rights_url($rights_template), 'label' => Translation :: get('ManageRightsTemplates'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
-        
-        $editing_url = $this->browser->get_rights_template_editing_url($rights_template);
-        $toolbar_data[] = array('href' => $editing_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        
-        $deleting_url = $this->browser->get_rights_template_deleting_url($rights_template);
-        $toolbar_data[] = array('href' => $deleting_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+		$toolbar->add_item(new ToolbarItem(
+      		Translation :: get('ManageRightsTemplates'),
+        	Theme :: get_common_image_path().'action_rights.png', 
+			$this->browser->get_manage_rights_template_rights_url($rights_template),
+		 	ToolbarItem :: DISPLAY_ICON
+		));
+			
+       	$toolbar->add_item(new ToolbarItem(
+   			Translation :: get('Edit'),
+   			Theme :: get_common_image_path().'action_rights.png', 
+			$this->browser->get_rights_template_editing_url($rights_template),
+		 	ToolbarItem :: DISPLAY_ICON
+		));
+			
+	  	$toolbar->add_item(new ToolbarItem(
+        	Translation :: get('Delete'),
+        	Theme :: get_common_image_path().'action_delete.png', 
+			$this->browser->get_rights_template_deleting_url($rights_template),
+		 	ToolbarItem :: DISPLAY_ICON,
+		 	true
+		));
+		
+        return $toolbar->as_html();
     }
 }
 ?>

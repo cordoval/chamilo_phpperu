@@ -58,14 +58,27 @@ class TemplateBrowserTableCellRenderer extends DefaultContentObjectTableCellRend
      */
     private function get_modification_links($content_object)
     {
-        $toolbar_data[] = array('href' => $this->browser->get_copy_content_object_url($content_object->get_id(), $this->browser->get_user_id()), 'img' => Theme :: get_common_image_path() . 'action_copy.png', 'label' => Translation :: get('CopyToRepository'));
+    	$toolbar = new Toolbar();
+    	
+    	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('CopyToRepository'),
+        			Theme :: get_common_image_path().'action_copy.png', 
+					$this->browser->get_copy_content_object_url($content_object->get_id(), $this->browser->get_user_id()),
+				 	ToolbarItem :: DISPLAY_ICON
+		));
 
         if ($this->browser->get_user()->is_platform_admin())
         {
-            $toolbar_data[] = array('href' => $this->browser->get_delete_template_url($content_object->get_id()), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'label' => Translation :: get('DeleteFromTemplates'));
+          	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('DeleteFromTemplates'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->browser->get_delete_template_url($content_object->get_id()),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+			));
         }
 
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

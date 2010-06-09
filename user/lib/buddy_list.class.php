@@ -105,13 +105,26 @@ class BuddyList
         
         if (! $is_request && ! $is_normal)
         {
-            $toolbar_data = array();
+            $toolbar = new Toolbar();
+
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Edit'),
+        			Theme :: get_common_image_path().'action_edit.png', 
+					$this->parent->get_update_buddylist_category_url($category->get_id()),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
+	       	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Delete'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->parent->get_delete_buddylist_category_url($category->get_id()),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true,
+				 	'delete_category'
+			));
             
-            $toolbar_data[] = array('href' => $this->parent->get_update_buddylist_category_url($category->get_id()), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-            
-            $toolbar_data[] = array('href' => $this->parent->get_delete_buddylist_category_url($category->get_id()), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'class' => 'delete_category', 'id' => $category->get_id(), 'confirm' => true);
-            
-            $html[] = Utilities :: build_toolbar($toolbar_data);
+            //$toolbar_data[] = array('href' => , 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'class' => 'delete_category', 'id' => $category->get_id(), 'confirm' => true);
+
+            $html[] = $toolbar->as_html();
         }
         
         $html[] = '</div>';
@@ -164,20 +177,46 @@ class BuddyList
         $html[] = '</span></div>';
         
         $html[] = '<div class="buddy_list_item_actions">';
-        $toolbar_data = array();
         
+        
+        $toolbar = new Toolbar();
+
         if (! $is_request)
         {
-            $toolbar_data[] = array('href' => $this->parent->get_delete_buddylist_item_url($buddy->get_buddy_id()), 'label' => Translation :: get('DeleteUser'), 'img' => Theme :: get_common_image_path() . 'action_unsubscribe.png', 'class' => 'delete_item', 'id' => $buddy->get_buddy_id(), 'confirm' => true);
+        	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('DeleteUser'),
+        			Theme :: get_common_image_path().'action_unsubscribe.png', 
+					$this->parent->get_delete_buddylist_item_url($buddy->get_buddy_id()),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true,
+				 	'delete_item'
+				 	
+			));
+            //$toolbar_data[] = array('href' => , 'label' => Translation :: get('DeleteUser'), 'img' => Theme :: get_common_image_path() . 'action_unsubscribe.png', 'class' => 'delete_item', 'id' => $buddy->get_buddy_id(), 'confirm' => true);
         }
         else
         {
-            $toolbar_data[] = array('href' => $this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_NORMAL), 'label' => Translation :: get('Accept'), 'img' => Theme :: get_common_image_path() . 'action_setting_true.png', 'class' => 'accept_buddy', 'id' => $buddy->get_user_id());
-            
-            $toolbar_data[] = array('href' => $this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_REJECTED), 'label' => Translation :: get('Reject'), 'img' => Theme :: get_common_image_path() . 'action_setting_false.png', 'class' => 'reject_buddy', 'id' => $buddy->get_user_id());
+           	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Accept'),
+        			Theme :: get_common_image_path().'action_setting_true.png', 
+					$this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_NORMAL),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	false,
+				 	'accept_buddy'
+			));
+           	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Reject'),
+        			Theme :: get_common_image_path().'action_setting_false.png', 
+					$this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_REJECTED),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	false,
+				 	'reject_buddy'
+			));
+            //$toolbar_data[] = array('href' => , 'label' => Translation :: get('Accept'), 'img' => Theme :: get_common_image_path() . 'action_setting_true.png', 'class' => 'accept_buddy', 'id' => $buddy->get_user_id());
+            //$toolbar_data[] = array('href' => $this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_REJECTED), 'label' => Translation :: get('Reject'), 'img' => Theme :: get_common_image_path() . 'action_setting_false.png', 'class' => 'reject_buddy', 'id' => $buddy->get_user_id());
         }
         
-        $html[] = Utilities :: build_toolbar($toolbar_data);
+        $html[] = $toolbar->as_html();
         $html[] = '</div>';
         
         $html[] = '<div class="clear">&nbsp;</div>';
@@ -198,13 +237,23 @@ class BuddyList
         $html[] = '<div class="buddylist_footer">';
         
         $html[] = '<div class="buddylist_footer_actions">';
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
-        $toolbar_data[] = array('href' => $this->parent->get_create_buddylist_category_url(), 'label' => Translation :: get('AddCategory'), 'img' => Theme :: get_common_image_path() . 'action_add.png');
+       	$toolbar->add_item(new ToolbarItem(
+        	Translation :: get('AddCategory'),
+        	Theme :: get_common_image_path().'action_add.png', 
+			$this->parent->get_create_buddylist_category_url(),
+			ToolbarItem :: DISPLAY_ICON
+		));
+       	
+		$toolbar->add_item(new ToolbarItem(
+        	Translation :: get('AddUser'),
+        	Theme :: get_common_image_path().'action_subscribe.png', 
+			$this->parent->get_create_buddylist_item_url(),
+			ToolbarItem :: DISPLAY_ICON
+		));        
         
-        $toolbar_data[] = array('href' => $this->parent->get_create_buddylist_item_url(), 'label' => Translation :: get('AddUser'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
-        
-        $html[] = Utilities :: build_toolbar($toolbar_data);
+        $html[] = $toolbar->as_html();
         $html[] = '</div></div>';
         
         $html[] = '</div>';
