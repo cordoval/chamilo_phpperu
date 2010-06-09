@@ -53,8 +53,8 @@ class LocationUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
      */
     private function get_modification_links($user)
     {
-        $toolbar_data = array();
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar = new Toolbar();
+        return $toolbar->as_html();
     }
 
     private function get_rights_column_value($column, $user)
