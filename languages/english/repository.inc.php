@@ -835,4 +835,6 @@ $lang['repository']['QtiImportWarning'] = "Due to differences between QTI and Ch
 $lang['repository']['ExportTitle'] = 'Export title';
 $lang['repository']['ShowOwnSharedObjects'] = 'Show own';
 $lang['repository']['ShowOthersSharedObjects'] = 'Show others';
+$lang['repository']['ManageContentObjects'] = 'Management';
+$lang['repository']['SurveyContextManager'] = 'Survey contexts';
 ?>

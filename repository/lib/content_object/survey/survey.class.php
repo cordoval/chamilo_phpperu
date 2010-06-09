@@ -20,6 +20,7 @@ class Survey extends ContentObject
 
     const CLASS_NAME = __CLASS__;
 
+    const MANAGER_CONTEXT = 'context';
 
     private $context;
 
@@ -148,7 +149,7 @@ class Survey extends ContentObject
         if($complex_items){
         	return $complex_content_objects;
         }
-               
+
         //        $survey_page_ids = array();
         $survey_pages = array();
 
@@ -189,5 +190,12 @@ class Survey extends ContentObject
         return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
     }
 
+    static function get_managers()
+    {
+        $managers = array();
+        $managers[] = self :: MANAGER_CONTEXT;
+
+        return $managers;
+    }
 }
 ?>

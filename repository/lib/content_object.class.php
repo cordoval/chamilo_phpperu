@@ -1132,10 +1132,15 @@ class ContentObject extends DataClass implements AccessibleContentObject
         $rdm = RepositoryDataManager :: get_instance();
         return $rdm->retrieve_content_object($content_object_id);
     }
-    
+
 	static function get_type_name()
     {
     	return $this->get_type();
+    }
+
+    static function get_managers()
+    {
+        return array();
     }
 }
 ?>
