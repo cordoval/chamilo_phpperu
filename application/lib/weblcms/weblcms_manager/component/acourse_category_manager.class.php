@@ -186,11 +186,15 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
 
     function get_course_category_manager_modification_links()
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar_data[] = array('href' => $this->get_course_category_add_url(), 'label' => Translation :: get('CreateCourseCategory'), 'img' => Theme :: get_common_image_path() . 'action_create.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('CreateCourseCategory'),
+        		Theme :: get_common_image_path() . 'action_create.png',
+        		$this->get_course_category_add_url()
+        ));
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 
     function get_condition()
