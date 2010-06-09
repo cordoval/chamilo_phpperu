@@ -52,7 +52,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
      */
     private function get_modification_links($course)
     {    	 
-    	$toolbar_data = array();
+    	$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
     	
         if($this->browser->is_subscribed($course, $this->browser->get_user_id()))
         {
@@ -67,10 +67,12 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         	{
         		case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT :       			
         			$course_subscription_url = $this->browser->get_course_subscription_url($course);
-        			$toolbar_data[] = array(
-        				'href' => $course_subscription_url,
-        				'label' => Translation :: get('Subscribe'),
-        			    'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
+        			$toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('Subscribe'),
+			        		Theme :: get_common_image_path() . 'action_subscribe.png',
+			        		$course_subscription_url,
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
         			break;
         		
         		case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST :
@@ -89,31 +91,38 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         			if($teller == 0)
         			{
         				$course_request_form_url = $this->browser->get_course_request_form_url($course);
-        				$toolbar_data[] = array(
-        					'href' => $course_request_form_url, 
-        					'label' => Translation :: get('Request'), 
-        					'img' => Theme :: get_common_image_path() . 'action_request.png');
+        				$toolbar->add_item(new ToolbarItem(
+				        		Translation :: get('Request'),
+				        		Theme :: get_common_image_path() . 'action_request.png',
+				        		$course_request_form_url,
+				        		ToolbarItem :: DISPLAY_ICON
+				        ));
         			}
         			else
         			{	
-        				$toolbar_data[] = array(
-        				'label' => Translation :: get('Pending'), 
-        				'img' => Theme :: get_common_image_path() . 'status_pending.png');        			
+        				$toolbar->add_item(new ToolbarItem(
+				        		Translation :: get('Pending'),
+				        		Theme :: get_common_image_path() . 'status_pending.png',
+				        		null,
+				        		ToolbarItem :: DISPLAY_ICON
+				        ));    			
         			}
         			break;
         			
         		case CourseGroupSubscribeRight :: SUBSCRIBE_CODE :     		
         			$course_code_url = $this->browser->get_course_code_url($course);
-        			$toolbar_data[] = array(
-        				'href' => $course_code_url, 
-        				'label' => Translation :: get('Code'), 
-        				'img' => Theme :: get_common_image_path() . 'action_code.png');
+        			$toolbar->add_item(new ToolbarItem(
+        				Translation :: get('Code'),
+		        		Theme :: get_common_image_path() . 'action_code.png',
+		        		$course_code_url,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
         			break;
         			     			
         		default : return Translation :: get('SubscribeNotAllowed');	
         	}      		
         }  
-        return Utilities :: build_toolbar($toolbar_data);  
+        return $toolbar->as_html();
     }
 }
 ?>

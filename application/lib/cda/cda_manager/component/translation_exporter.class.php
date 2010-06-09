@@ -22,7 +22,7 @@ class CdaManagerTranslationExporterComponent extends CdaManager
 
 	function display_header($extra_trail)
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ExportTranslations')));
 		$trail->merge($extra_trail);

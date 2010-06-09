@@ -79,54 +79,108 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
     private function get_modification_links($survey_publication)
     {
         $survey = $survey_publication->get_publication_object();
-        
-        $toolbar_data = array();
-        
         $user = $this->browser->get_user();
+        
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         if ($survey_publication->is_visible_for_target_user($user, true))
         {
-            $toolbar_data[] = array('href' => $this->browser->get_survey_publication_viewer_url($survey_publication), 'label' => Translation :: get('TakeSurvey'), 'img' => Theme :: get_common_image_path() . 'action_next.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('TakeSurvey'),
+	        		Theme :: get_common_image_path() . 'action_next.png',
+	        		$this->browser->get_survey_publication_viewer_url($survey_publication),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('SurveyPublished'), 'img' => Theme :: get_common_image_path() . 'action_next_na.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('SurveyPublished'),
+	        		Theme :: get_common_image_path() . 'action_next_na.png',
+	        		null,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         
         }
-        
-//        $toolbar_data[] = array('href' => $this->browser->get_survey_results_viewer_url($survey_publication), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
         
         if ($user->is_platform_admin() || $user->get_id() == $survey_publication->get_publisher())
         {
-            $toolbar_data[] = array('href' => $this->browser->get_delete_survey_publication_url($survey_publication), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-            $toolbar_data[] = array('href' => $this->browser->get_update_survey_publication_url($survey_publication), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Edit'),
+	        		Theme :: get_common_image_path() . 'action_edit.png',
+	        		$this->browser->get_update_survey_publication_url($survey_publication),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+	        
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Delete'),
+	        		Theme :: get_common_image_path() . 'action_delete.png',
+	        		$this->browser->get_delete_survey_publication_url($survey_publication),
+	        		ToolbarItem :: DISPLAY_ICON,
+	        		true
+	        ));
             
             if ($survey_publication->get_hidden())
             {
-                $toolbar_data[] = array('href' => $this->browser->get_change_survey_publication_visibility_url($survey_publication), 'label' => Translation :: get('Show'), 'img' => Theme :: get_common_image_path() . 'action_visible_na.png');
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Show'),
+		        		Theme :: get_common_image_path() . 'action_visible_na.png',
+		        		$this->browser->get_change_survey_publication_visibility_url($survey_publication),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
             else
             {
-                $toolbar_data[] = array('href' => $this->browser->get_change_survey_publication_visibility_url($survey_publication), 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Hide'),
+		        		Theme :: get_common_image_path() . 'action_visible.png',
+		        		$this->browser->get_change_survey_publication_visibility_url($survey_publication),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
             
-            $toolbar_data[] = array('href' => $this->browser->get_reporting_survey_publication_url($survey_publication), 'label' => Translation :: get('ViewReport'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('ViewReport'),
+	        		Theme :: get_common_image_path() . 'action_view_results.png',
+	        		$this->browser->get_reporting_survey_publication_url($survey_publication),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
             
             //TO DO implement survey exporter !!
             //$toolbar_data[] = array('href' => $this->browser->get_export_survey_url($survey_publication), 'label' => Translation :: get('Export'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
-            $toolbar_data[] = array('href' => $this->browser->get_move_survey_publication_url($survey_publication), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
-            $toolbar_data[] = array('href' => $this->browser->get_mail_survey_participant_url($survey_publication), 'label' => Translation :: get('InviteParticipants'), 'img' => Theme :: get_common_image_path() . 'action_invite_users.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Move'),
+	        		Theme :: get_common_image_path() . 'action_move.png',
+	        		$this->browser->get_move_survey_publication_url($survey_publication),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+	        
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('InviteParticipants'),
+	        		Theme :: get_common_image_path() . 'action_invite_users.png',
+	        		$this->browser->get_mail_survey_participant_url($survey_publication),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
             
-            $toolbar_data[] = array('href' => $this->browser->get_browse_survey_pages_url($survey_publication), 'label' => Translation :: get('BrowseSurveyPages'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
-            
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('BrowseSurveyPages'),
+	        		Theme :: get_common_image_path() . 'action_view_results.png',
+	        		$this->browser->get_browse_survey_pages_url($survey_publication),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
             
             if ($survey->is_complex_content_object())
             {
-                $toolbar_data[] = array('href' => $this->browser->get_build_survey_url($survey_publication), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseSurvey'));
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('BrowseSurvey'),
+		        		Theme :: get_common_image_path() . 'action_browser.png',
+		        		$this->browser->get_build_survey_url($survey_publication),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 

@@ -28,7 +28,7 @@ class ForumManagerBrowserComponent extends ForumManager
         
         $table = $this->get_table_html();
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseForum')));
         
         $this->display_header($trail);

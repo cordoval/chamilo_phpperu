@@ -31,7 +31,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
     {
         if ($column === ObjectPublicationTableColumnModel :: get_action_column())
         {
-            return Utilities :: build_toolbar($this->get_actions($publication));
+            return $this->get_actions($publication)->as_html();
         }
 
         switch ($column->get_name())
@@ -130,17 +130,38 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         return UserDataManager :: get_instance()->retrieve_user($user_id);
     }
 
-    function get_actions($publication)
+    function get_actions($publication, $toolbar = null, $show_move_action = true, $show_parent_change_action = true, $show_feedback_option = true)
     {
-        if ($this->browser->is_allowed(EDIT_RIGHT))
+        if(!$toolbar)
         {
-            $actions['delete'] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-
-            $actions['edit'] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-
+    		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        }
+        
+    	if ($this->browser->is_allowed(EDIT_RIGHT))
+        {
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Edit'),
+	        		Theme :: get_common_image_path() . 'action_edit.png',
+	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+	        
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Delete'),
+	        		Theme :: get_common_image_path() . 'action_delete.png',
+	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		ToolbarItem :: DISPLAY_ICON,
+	        		true
+	        ));
+            
             if ($publication->get_content_object()->is_complex_content_object())
             {
-                $actions['build'] = array('href' => $this->browser->get_complex_builder_url($publication->get_id()), 'label' => Translation :: get('BuildComplex'), 'img' => Theme :: get_common_image_path() . 'action_bar.png');
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('BuildComplex'),
+		        		Theme :: get_common_image_path() . 'action_bar.png',
+		        		$this->browser->get_complex_builder_url($publication->get_id()),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
 
             $img = 'action_visible.png';
@@ -149,46 +170,76 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
                 $img = 'action_visible_na.png';
             }
 
-            if($publication->get_display_order_index() > 1)
+            if($show_move_action)
             {
-            	$actions[] = array(
-            		'href' => $this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-            		'label' => Translation :: get('Up'),
-            		'img' => Theme :: get_common_image_path() . 'action_up.png'
-            	);
-            }
-            else
-            {
-            	$actions[] = array(
-            		'label' => Translation :: get('UpNA'),
-            		'img' => Theme :: get_common_image_path() . 'action_up_na.png'
-            	);
+	            if($publication->get_display_order_index() > 1)
+	            {
+	            	$toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('MoveUp'),
+			        		Theme :: get_common_image_path() . 'action_up.png',
+			        		$this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
+	            }
+	            else
+	            {
+	            	$toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('MoveUpNA'),
+			        		Theme :: get_common_image_path() . 'action_up_na.png',
+			        		null,
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
+	            }
+	
+	            if($publication->get_display_order_index() < $this->object_count)
+	            {
+	            	$toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('MoveDown'),
+			        		Theme :: get_common_image_path() . 'action_down.png',
+			        		$this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
+	            }
+	            else
+	            {
+	            	$toolbar->add_item(new ToolbarItem(
+			        		Translation :: get('MoveDownNA'),
+			        		Theme :: get_common_image_path() . 'action_down_na.png',
+			        		null,
+			        		ToolbarItem :: DISPLAY_ICON
+			        ));
+	            }
             }
 
-            if($publication->get_display_order_index() < $this->object_count)
-            {
-            	$actions[] = array(
-            		'href' => $this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-            		'label' => Translation :: get('Down'),
-            		'img' => Theme :: get_common_image_path() . 'action_down.png'
-            	);
-            }
-            else
-            {
-            	$actions[] = array(
-            		'label' => Translation :: get('DownNA'),
-            		'img' => Theme :: get_common_image_path() . 'action_down_na.png'
-            	);
-            }
-
-            $actions['visible'] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Visible'), 'img' => Theme :: get_common_image_path() . $img);
-
-            $actions['move'] = array('href' => $this->browser->get_url(array(AssessmentTool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Visible'),
+	        		Theme :: get_common_image_path() . $img,
+	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+	        
+	        if($show_parent_change_action)
+	        {
+		        $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Move'),
+		        		Theme :: get_common_image_path() . 'action_move.png',
+		        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+	        }
 
         }
 
-        $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
-        $actions['feedback'] = array('href' => $feedback_url, 'label' => Translation :: get('Feedback'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+        if($show_feedback_option)
+        {
+	        $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Feedback'),
+	        		Theme :: get_common_image_path() . 'action_browser.png',
+	        		$feedback_url,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+        }
         
         if(WebApplication :: is_active('gradebook'))
         {
@@ -197,10 +248,17 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         	if($internal_item && $internal_item->get_calculated() != 1)
         	{
         		$evaluate_url = $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
-				$actions['evaluate'] = array('href' => $evaluate_url, 'label' => Translation :: get('Evaluate'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png'); 
+
+				$toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Evaluate'),
+		        		Theme :: get_common_image_path() . 'action_evaluation.png',
+		        		$evaluate_url,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
         	}
         }
-        return $actions;
+        
+        return $toolbar;
     }
 }
 ?>

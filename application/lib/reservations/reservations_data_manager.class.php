@@ -120,7 +120,7 @@ class ReservationsDataManager
         return $condition;
     }
 
-    private $used_quota = null;
+    private static $used_quota = null;
 
     function calculate_used_quota($days, $category_id, $user_id)
     {

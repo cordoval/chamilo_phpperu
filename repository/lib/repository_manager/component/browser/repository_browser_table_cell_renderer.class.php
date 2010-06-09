@@ -55,54 +55,127 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
     {
         if (get_class($this->browser) == 'RepositoryManagerBrowserComponent')
         {
-            $toolbar_data = array();
-            $toolbar_data[] = array('href' => $this->browser->get_content_object_editing_url($content_object), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $toolbar = new Toolbar();
+            
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Edit'),
+        			Theme :: get_common_image_path().'action_edit.png', 
+					$this->browser->get_content_object_editing_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
 
             if ($url = $this->browser->get_content_object_recycling_url($content_object))
             {
-                $toolbar_data[] = array('href' => $url, 'label' => Translation :: get('Remove'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png', 'confirm' => true);
+            	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Remove'),
+        			Theme :: get_common_image_path().'action_recycle_bin.png', 
+					$url,
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+				));
             }
             else
             {
-                $toolbar_data[] = array('label' => Translation :: get('Remove'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png');
+            	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('RemoveNA'),
+        			Theme :: get_common_image_path().'action_recycle_bin_na.png', 
+					null,
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             }
             if ($this->browser->count_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->browser->get_user_id())) > 0)
             {
-                $toolbar_data[] = array('href' => $this->browser->get_content_object_moving_url($content_object), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+            	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Move'),
+        			Theme :: get_common_image_path().'action_move.png', 
+					$this->browser->get_content_object_moving_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             }
             else
             {
             	//$toolbar_data[] = array('label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move_na.png');
             }
 
-            $toolbar_data[] = array('href' => $this->browser->get_content_object_metadata_editing_url($content_object), 'label' => Translation :: get('Metadata'), 'img' => Theme :: get_common_image_path() . 'action_metadata.png');
-            $toolbar_data[] = array('href' => $this->browser->get_content_object_rights_editing_url($content_object), 'label' => Translation :: get('Rights'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
-            $toolbar_data[] = array('href' => $this->browser->get_content_object_exporting_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_export.png', 'label' => Translation :: get('Export'));
-            $toolbar_data[] = array('href' => $this->browser->get_publish_content_object_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
+            
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Move'),
+        			Theme :: get_common_image_path().'action_move.png', 
+					$this->browser->get_content_object_moving_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
+			
+			$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Metadata'),
+        			Theme :: get_common_image_path().'action_metadata.png', 
+					$this->browser->get_content_object_metadata_editing_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
+			
+			$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Rights'),
+        			Theme :: get_common_image_path().'action_rights.png', 
+					$this->browser->get_content_object_rights_editing_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
+			
+			$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Export'),
+        			Theme :: get_common_image_path().'action_export.png', 
+					$this->browser->get_content_object_exporting_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
 
+			$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Publish'),
+        			Theme :: get_common_image_path().'action_publish.png', 
+					$this->browser->get_publish_content_object_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
+				
+		
             if ($this->browser->get_user()->is_platform_admin())
             {
-                $toolbar_data[] = array('href' => $this->browser->get_copy_content_object_url($content_object->get_id(), 0), 'img' => Theme :: get_common_image_path() . 'export_template.png', 'label' => Translation :: get('CopyToTemplates'));
+           		$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('CopyToTemplates'),
+        			Theme :: get_common_image_path().'export_template.png', 
+					$this->browser->get_copy_content_object_url($content_object->get_id(), 0),
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             }
 
             if ($content_object->is_complex_content_object())
-            {
-                $toolbar_data[] = array('href' => $this->browser->get_browse_complex_content_object_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_build.png', 'label' => Translation :: get('BrowseComplex'));
+            {   
+            	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('BrowseComplex'),
+        			Theme :: get_common_image_path().'action_build.png', 
+					$this->browser->get_browse_complex_content_object_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             }
 
             if($content_object->get_type() == Document :: get_type_name())
             {
-            	$toolbar_data[] = array('href' => $this->browser->get_document_downloader_url($content_object->get_id()), 'img' => Theme :: get_common_image_path() . 'action_download.png', 'label' => Translation :: get('Export'));
+            	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Export'),
+        			Theme :: get_common_image_path().'action_download.png', 
+					$this->browser->get_document_downloader_url($content_object->get_id()),
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             }
-
-            return Utilities :: build_toolbar($toolbar_data);
+            return $toolbar->as_html();
         }
         elseif (get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')
         {
-            $toolbar_data = array();
-            $toolbar_data[] = array('href' => $this->browser->get_add_content_object_url($content_object, $this->browser->get_cloi_id(), $this->browser->get_root_id()), 'label' => Translation :: get('Add'), 'img' => Theme :: get_common_image_path() . 'action_add.png');
+            $toolbar = new Toolbar();
+           	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Add'),
+        			Theme :: get_common_image_path().'action_add.png', 
+					$this->browser->get_add_content_object_url($content_object, $this->browser->get_cloi_id(), $this->browser->get_root_id()),
+				 	ToolbarItem :: DISPLAY_ICON
+				));
 
-            return Utilities :: build_toolbar($toolbar_data);
+            return $toolbar->as_html();
         }
         else
         {

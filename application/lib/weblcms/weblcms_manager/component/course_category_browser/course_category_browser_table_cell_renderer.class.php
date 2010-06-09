@@ -51,13 +51,24 @@ class CourseCategoryBrowserTableCellRenderer extends DefaultCourseCategoryTableC
      */
     private function get_modification_links($coursecategory)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar_data[] = array('href' => $this->browser->get_course_category_edit_url($coursecategory), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Edit'),
+        		Theme :: get_common_image_path() . 'action_edit.png',
+        		$this->browser->get_course_category_edit_url($coursecategory),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        $toolbar_data[] = array('href' => $this->browser->get_course_category_delete_url($coursecategory), 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$this->browser->get_course_category_delete_url($coursecategory),
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

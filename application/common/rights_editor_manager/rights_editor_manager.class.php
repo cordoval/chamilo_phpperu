@@ -23,8 +23,8 @@ class RightsEditorManager extends SubManager
         parent :: __construct($parent);
         
         $this->locations = $locations;
-        $this->exclude_users = array(Session :: get_user_id());
-        $this->exclude_groups = array();
+        $this->excluded_users = array(Session :: get_user_id());
+        $this->excluded_groups = array();
 
         $rights_editor_action = Request :: get(self :: PARAM_RIGHTS_EDITOR_ACTION);
         if ($rights_editor_action)

@@ -35,7 +35,7 @@ class CbaManagerCompetencyMoverComponent extends CbaManager
         }
         else
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_BROWSE_COMPETENCY)), Translation :: get('BrowseCompetency')));
             $trail->add(new Breadcrumb($this->get_url(array(CbaManager :: PARAM_ACTION => CbaManager :: ACTION_MOVE_COMPETENCY, CbaManager :: PARAM_COMPETENCY => $id)), Translation :: get('MoveCompetency')));
             

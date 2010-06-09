@@ -73,31 +73,7 @@ class SurveyContextTemplateBrowserTableCellRenderer extends DefaultSurveyContext
      */
     private function get_modification_links($template)
     {
-        $toolbar_data = array();
         
-        //        $toolbar_data[] = array('href' => $this->browser->get_survey_context_template_editing_url($template), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        //        
-        //        $toolbar_data[] = array('href' => $this->browser->get_survey_context_template_suscribe_page_browser_url($template), 'label' => Translation :: get('AddLocations'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
-        //        
-        //        $condition = new EqualityCondition(SurveyContextTemplateRelLocation :: PROPERTY_survey_context_template_ID, $template->get_id());
-        //        $pages = $this->browser->retrieve_survey_context_template_rel_pages($condition);
-        //        $visible = ($pages->size() > 0);
-        //        
-        //        if ($visible)
-        //        {
-        //            $toolbar_data[] = array('href' => $this->browser->get_survey_context_template_emptying_url($template), 'label' => Translation :: get('Truncate'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png');
-        //        }
-        //        else
-        //        {
-        //            $toolbar_data[] = array('label' => Translation :: get('TruncateNA'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png');
-        //        }
-        //        
-        //        $toolbar_data[] = array('href' => $this->browser->get_survey_context_template_delete_url($template), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        //        
-        //        $toolbar_data[] = array('href' => $this->browser->get_move_survey_context_template_url($template), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
-        
-
-        return Utilities :: build_toolbar($toolbar_data);
     }
 }
 ?>

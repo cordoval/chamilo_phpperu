@@ -168,115 +168,218 @@ class HomeManagerManagerComponent extends HomeManager
 
     private function get_row_modification_links($home_row, $index)
     {
-        $toolbar_data = array();
+    	
+    	$toolbar = new Toolbar(); 
         
-        $edit_url = $this->get_home_row_editing_url($home_row);
-        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'confirm' => false, 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        
-        $edit_url = $this->get_home_row_deleting_url($home_row);
-        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+    	$toolbar->add_item(new ToolbarItem(
+    			Translation :: get('Edit'),
+    			Theme :: get_common_image_path() . 'action_edit.png',
+    			$this->get_home_row_editing_url($home_row),
+    			ToolbarItem :: DISPLAY_ICON
+    	));
+    	
+    	$toolbar->add_item(new ToolbarItem(
+    			Translation :: get('Delete'),
+    			Theme :: get_common_image_path() . 'action_delete.png',
+    			$this->get_home_row_deleting_url($home_row),
+    			ToolbarItem :: DISPLAY_ICON,
+    			true
+    	));
         
         if ($index == 'first' || $index == 'single')
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveUpNA'),
+    				Theme :: get_common_image_path() . 'action_up_na.png',
+    				null,
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         else
         {
-            $move_url = $this->get_home_row_moving_url($home_row, 'up');
-            $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            $toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveUp'),
+    				Theme :: get_common_image_path() . 'action_up.png',
+    				$this->get_home_row_moving_url($home_row, 'up'),
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         
         if ($index == 'last' || $index == 'single')
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
+            $toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveDownNA'),
+    				Theme :: get_common_image_path() . 'action_down_na.png',
+    				null,
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         else
         {
-            $move_url = $this->get_home_row_moving_url($home_row, 'down');
-            $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            $toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveDown'),
+    				Theme :: get_common_image_path() . 'action_down.png',
+    				$this->get_home_row_moving_url($home_row, 'down'),
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         
-        return '<div class="manage">' . Utilities :: build_toolbar($toolbar_data) . '<div class="clear"></div></div>';
+        return '<div class="manage">' . $toolbar->as_html() . '<div class="clear"></div></div>';
     }
 
     private function get_column_modification_links($home_column, $index)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(); 
         
-        $edit_url = $this->get_home_column_editing_url($home_column);
-        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'confirm' => false, 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        
-        $edit_url = $this->get_home_column_deleting_url($home_column);
-        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+    	$toolbar->add_item(new ToolbarItem(
+    			Translation :: get('Edit'),
+    			Theme :: get_common_image_path() . 'action_edit.png',
+    			$this->get_home_column_editing_url($home_column),
+    			ToolbarItem :: DISPLAY_ICON
+    	));
+    	
+    	$toolbar->add_item(new ToolbarItem(
+    			Translation :: get('Delete'),
+    			Theme :: get_common_image_path() . 'action_delete.png',
+    			$this->get_home_column_deleting_url($home_column),
+    			ToolbarItem :: DISPLAY_ICON,
+    			true
+    	));
         
         if ($index == 'first' || $index == 'single')
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveLeft'), 'img' => Theme :: get_common_image_path() . 'action_left_na.png');
+            $toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveLeftNA'),
+    				Theme :: get_common_image_path() . 'action_left_na.png',
+    				null,
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         else
         {
-            $move_url = $this->get_home_column_moving_url($home_column, 'up');
-            $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveLeft'), 'img' => Theme :: get_common_image_path() . 'action_left.png');
+            $toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveLeft'),
+    				Theme :: get_common_image_path() . 'action_left.png',
+    				$this->get_home_column_moving_url($home_column, 'up'),
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         
         if ($index == 'last' || $index == 'single')
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveRight'), 'img' => Theme :: get_common_image_path() . 'action_right_na.png');
+        	$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveRightNA'),
+    				Theme :: get_common_image_path() . 'action_right_na.png',
+    				null,
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         else
         {
-            $move_url = $this->get_home_column_moving_url($home_column, 'down');
-            $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveRight'), 'img' => Theme :: get_common_image_path() . 'action_right.png');
+        	$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveRight'),
+    				Theme :: get_common_image_path() . 'action_right.png',
+    				$this->get_home_column_moving_url($home_column, 'down'),
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         
-        return '<div class="manage">' . Utilities :: build_toolbar($toolbar_data) . '<div class="clear"></div></div>';
+        return '<div class="manage">' . $toolbar->as_html() . '<div class="clear"></div></div>';
     }
 
     private function get_block_modification_links($home_block, $index)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(); 
         
-        $edit_url = $this->get_home_block_editing_url($home_block);
-        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+    	$toolbar->add_item(new ToolbarItem(
+    			Translation :: get('Edit'),
+    			Theme :: get_common_image_path() . 'action_edit.png',
+    			$this->get_home_block_editing_url($home_block),
+    			ToolbarItem :: DISPLAY_ICON
+    	));
         
-        $configure_url = $this->get_home_block_configuring_url($home_block);
-        $toolbar_data[] = array('href' => $configure_url, 'label' => Translation :: get('Configure'), 'img' => Theme :: get_common_image_path() . 'action_config.png');
-        
-        $edit_url = $this->get_home_block_deleting_url($home_block);
-        $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
+    	$toolbar->add_item(new ToolbarItem(
+    			Translation :: get('Configure'),
+    			Theme :: get_common_image_path() . 'action_config.png',
+    			$this->get_home_block_configuring_url($home_block),
+    			ToolbarItem :: DISPLAY_ICON
+    	));
+    	
+    	 $toolbar->add_item(new ToolbarItem(
+    			Translation :: get('Delete'),
+    			Theme :: get_common_image_path() . 'action_delete.png',
+    			$this->get_home_block_deleting_url($home_block),
+    			ToolbarItem :: DISPLAY_ICON,
+    			true
+    	));
+    	
         if ($index == 'first' || $index == 'single')
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+            $toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveUpNA'),
+    				Theme :: get_common_image_path() . 'action_up_na.png',
+    				null,
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         else
         {
-            $move_url = $this->get_home_block_moving_url($home_block, 'up');
-            $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            $toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveUp'),
+    				Theme :: get_common_image_path() . 'action_up.png',
+    				$this->get_home_block_moving_url($home_block, 'up'),
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         
         if ($index == 'last' || $index == 'single')
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
+            $toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveDownNA'),
+    				Theme :: get_common_image_path() . 'action_down_na.png',
+    				null,
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         else
         {
-            $move_url = $this->get_home_block_moving_url($home_block, 'down');
-            $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            $toolbar->add_item(new ToolbarItem(
+    				Translation :: get('MoveDown'),
+    				Theme :: get_common_image_path() . 'action_down.png',
+    				$this->get_home_block_moving_url($home_block, 'down'),
+    				ToolbarItem :: DISPLAY_ICON
+    		));
         }
         
-        return '<div class="manage">' . Utilities :: build_toolbar($toolbar_data) . '<div class="clear"></div></div>';
+        return '<div class="manage">' . $toolbar->as_html() . '<div class="clear"></div></div>';
     }
 
     function get_manager_modification_links()
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
-        $toolbar_data[] = array('href' => $this->get_home_row_creation_url(), 'label' => Translation :: get('AddRow'), 'img' => Theme :: get_common_image_path() . 'action_add.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-        $toolbar_data[] = array('href' => $this->get_home_column_creation_url(), 'label' => Translation :: get('AddColumn'), 'img' => Theme :: get_common_image_path() . 'action_add.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-        $toolbar_data[] = array('href' => $this->get_home_block_creation_url(), 'label' => Translation :: get('AddBlock'), 'img' => Theme :: get_common_image_path() . 'action_add.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+        $toolbar->add_item(new ToolbarItem(
+    				Translation :: get('AddRow'),
+    				Theme :: get_common_image_path() . 'action_add.png',
+    				$this->get_home_row_creation_url(),
+    				ToolbarItem :: DISPLAY_ICON_AND_LABEL
+    	));
+    	
+    	$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('AddColumn'),
+    				Theme :: get_common_image_path() . 'action_add.png',
+    				$this->get_home_column_creation_url(),
+    				ToolbarItem :: DISPLAY_ICON_AND_LABEL
+    	));
+    	
+    	$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('AddBlock'),
+    				Theme :: get_common_image_path() . 'action_add.png',
+    				$this->get_home_block_creation_url(),
+    				ToolbarItem :: DISPLAY_ICON_AND_LABEL
+    	));
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

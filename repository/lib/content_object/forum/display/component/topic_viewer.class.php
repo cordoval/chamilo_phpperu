@@ -198,29 +198,56 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
     {
         $post = $complex_content_object_item->get_ref();
         
+        $toolbar = new Toolbar();
+    	
+
+        
         $parameters = array();
         $parameters[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
         $parameters[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $complex_content_object_item->get_id();
         
         $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_QUOTE_FORUM_POST;
-        $actions[] = array('href' => $this->get_url($parameters), 'label' => Translation :: get('Quote'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif');
         
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Quote'), 
+        		Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif', 
+				$this->get_url($parameters), 
+				ToolbarItem :: DISPLAY_ICON
+		));
+		
         $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CREATE_FORUM_POST;
-        $actions[] = array('href' => $this->get_url($parameters), 'label' => Translation :: get('Reply'), 'img' => Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif');
 
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Reply'), 
+        		Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif', 
+				$this->get_url($parameters), 
+				ToolbarItem :: DISPLAY_ICON
+		));
+		
         if ($this->get_parent()->is_allowed(EDIT_RIGHT) || $complex_content_object_item->get_user_id() == $this->get_user_id())
         {
             $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_EDIT_FORUM_POST;
-        	$actions[] = array('href' => $this->get_url($parameters), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_edit.gif');
+            $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Edit'), 
+        		Theme :: get_image_path() . 'forum/buttons/icon_post_edit.gif', 
+				$this->get_url($parameters), 
+				ToolbarItem :: DISPLAY_ICON
+			));
         }
         
         if ($this->get_parent()->is_allowed(DELETE_RIGHT) || $complex_content_object_item->get_user_id() == $this->get_user_id())
         {
             $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_DELETE_FORUM_POST;
-        	$actions[] = array('href' => $this->get_url($parameters), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif', 'confirm' => true);
+             $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'), 
+        		Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif', 
+				$this->get_url($parameters), 
+				ToolbarItem :: DISPLAY_ICON,
+				true
+			));       	
         }
         
-        return Utilities :: build_toolbar($actions);
+        return $toolbar->as_html();
     
     }
 

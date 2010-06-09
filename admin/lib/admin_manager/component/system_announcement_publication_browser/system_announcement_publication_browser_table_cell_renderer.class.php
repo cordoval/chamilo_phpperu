@@ -61,17 +61,17 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
      */
     private function get_modification_links($system_announcement_publication)
     {
-        $toolbar_data = array();
+        
+        $toolbar = new Toolbar();
         
         if ($this->browser->get_user()->is_platform_admin() || $system_announcement_publication->get_publisher() == $this->browser->get_user()->get_id())
         {
-            $edit_url = $this->browser->get_system_announcement_publication_editing_url($system_announcement_publication);
-            $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-            
-            $delete_url = $this->browser->get_system_announcement_publication_deleting_url($system_announcement_publication);
-            $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-            
-            $visibility_url = $this->browser->get_system_announcement_publication_visibility_url($system_announcement_publication);
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', 
+					$this->browser->get_system_announcement_publication_editing_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON));		
+
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', 
+					$this->browser->get_system_announcement_publication_deleting_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON, true));
+
             if ($system_announcement_publication->is_hidden())
             {
                 $visibility_img = 'action_invisible.png';
@@ -84,12 +84,12 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
             {
                 $visibility_img = 'action_period.png';
             }
+        
+             $toolbar->add_item(new ToolbarItem(Translation :: get('Hide'), Theme :: get_common_image_path(). $visibility_img, 
+					$this->browser->get_system_announcement_publication_visibility_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON));
             
-            $toolbar_data[] = array('href' => $visibility_url, 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . $visibility_img);
-        
         }
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

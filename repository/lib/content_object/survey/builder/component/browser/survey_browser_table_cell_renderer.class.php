@@ -55,57 +55,87 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 
     protected function get_modification_links($cloi, $lo)
     {
-        $additional_items = array();
+        $toolbar = new Toolbar();
         $parent = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi->get_parent());
         
-        $toolbar_data = array();
-        
-        $edit_url = $this->browser->get_complex_content_object_item_edit_url($cloi, $this->browser->get_root_content_object());
         if ($cloi->is_extended() || get_parent_class($this->browser) == 'ComplexBuilder')
         {
-            $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Edit'),
+        			Theme :: get_common_image_path().'action_edit.png', 
+					$this->browser->get_complex_content_object_item_edit_url($cloi, $this->browser->get_root_content_object()),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('EditNA'), 'img' => Theme :: get_common_image_path() . 'action_edit_na.png');
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('EditNA'),
+        			Theme :: get_common_image_path().'action_edit_na.png', 
+					null,
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         }
-        $configure_url = $this->browser->get_configure_url ( $cloi);
-        $delete_url = $this->browser->get_complex_content_object_item_delete_url($cloi, $this->browser->get_root_content_object());
-        $moveup_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root_content_object(), RepositoryManager :: PARAM_DIRECTION_UP);
-        $movedown_url = $this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root_content_object(), RepositoryManager :: PARAM_DIRECTION_DOWN);
-
+        
         if ($lo->get_type() == SurveyPage :: get_type_name())
         {
-        	$toolbar_data [] = array ('href' => $configure_url, 'label' => Translation::get ( 'Configure' ), 'img' => Theme::get_common_image_path () . 'action_build_prerequisites.png' );
+        	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Configure'),
+        			Theme :: get_common_image_path().'action_build_prerequisites.png', 
+					$this->browser->get_configure_url ( $cloi),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         }
         		
-        $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Delete'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->browser->get_complex_content_object_item_delete_url($cloi, $this->browser->get_root_content_object()),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+		));
         
         $allowed = $this->check_move_allowed($cloi);
         
         if ($allowed["moveup"])
         {
-            $toolbar_data[] = array('href' => $moveup_url, 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('MoveUp'),
+        			Theme :: get_common_image_path().'action_up.png', 
+					$this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root_content_object(), RepositoryManager :: PARAM_DIRECTION_UP),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveUpNA'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
-        
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('MoveUpNA'),
+        			Theme :: get_common_image_path().'action_up_na.png', 
+					null,
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         }
         
         if ($allowed["movedown"])
         {
-            $toolbar_data[] = array('href' => $movedown_url, 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('MoveDown'),
+        			Theme :: get_common_image_path().'action_down.png', 
+					$this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root_content_object(), RepositoryManager :: PARAM_DIRECTION_DOWN),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveDownNA'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
+        	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('MoveDownNA'),
+        			Theme :: get_common_image_path().'action_down_na.png', 
+					null,
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         }
         
-        $toolbar_data = array_merge($toolbar_data, $additional_items);
-        
-        return Utilities :: build_toolbar($toolbar_data);
-    
+        return $toolbar->as_html();
     }
 }
 ?>

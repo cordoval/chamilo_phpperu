@@ -19,7 +19,7 @@ class ForumManagerEditorComponent extends ForumManager
             
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_PUBLICATION_ID => $pid)));
             
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             
             $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('Edit')));
             $trail->add_help('forum general');

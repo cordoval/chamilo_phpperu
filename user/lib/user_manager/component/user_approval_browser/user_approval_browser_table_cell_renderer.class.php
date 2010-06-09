@@ -44,12 +44,23 @@ class UserApprovalBrowserTableCellRenderer extends DefaultUserTableCellRenderer
      */
     private function get_modification_links($user)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
-        $toolbar_data[] = array('href' => $this->browser->get_approve_user_url($user), 'label' => Translation :: get('Approve'), 'img' => Theme :: get_common_image_path() . 'action_activate.png');
-        $toolbar_data[] = array('href' => $this->browser->get_deny_user_url($user), 'label' => Translation :: get('Deny'), 'img' => Theme :: get_common_image_path() . 'action_deinstall.png');
+		$toolbar->add_item(new ToolbarItem(
+       		Translation :: get('Approve'),
+        	Theme :: get_common_image_path().'action_activate.png', 
+			 $this->browser->get_approve_user_url($user),
+		 	ToolbarItem :: DISPLAY_ICON
+		));
+			
+		$toolbar->add_item(new ToolbarItem(
+       		Translation :: get('Deny'),
+        	Theme :: get_common_image_path().'action_deinstall.png', 
+			$this->browser->get_deny_user_url($user),
+			ToolbarItem :: DISPLAY_ICON
+		));
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

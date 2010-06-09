@@ -59,7 +59,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         $html[] = $event->get_content();
         $html[] = $this->render_attachments($event);
         $html[] = '</div>';
-        if($event->get_source() == 'personal_calendar')
+        if($event->get_source() == Utilities :: underscores_to_camelcase(CalendarEvent :: get_type_name()))
         {
         	$html[] = '<div style="float: right;">';
         	$html[] = $this->get_publication_actions($event);
@@ -79,19 +79,45 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 
     function get_publication_actions($event)
     {
-        $toolbar_data[] = array('href' => $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $event->get_id())), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-
-        $toolbar_data[] = array('href' => $this->get_parent()->get_publication_editing_url($event), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        $toolbar_data[] = array('href' => $this->get_parent()->get_publication_deleting_url($event), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-
-        return Utilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('View'),
+        		Theme :: get_common_image_path() . 'action_browser.png',
+        		$this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $event->get_id())),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Edit'),
+        		Theme :: get_common_image_path() . 'action_edit.png',
+        		$this->get_parent()->get_publication_editing_url($event),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$this->get_parent()->get_publication_deleting_url($event),
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
+        
+        return $toolbar->as_html();
     }
 
  	function get_external_publication_actions($event)
     {
-        $toolbar_data[] = array('href' => html_entity_decode($event->get_url()), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-
-        return Utilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+    	$toolbar->add_item(new ToolbarItem(
+        		Translation :: get('View'),
+        		Theme :: get_common_image_path() . 'action_browser.png',
+        		html_entity_decode($event->get_url()),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        return $toolbar->as_html();
     }
 
     function render_attachments($event)

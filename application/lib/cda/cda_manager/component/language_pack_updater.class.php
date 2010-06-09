@@ -17,7 +17,7 @@ class CdaManagerLanguagePackUpdaterComponent extends CdaManager
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateLanguagePack')));
 

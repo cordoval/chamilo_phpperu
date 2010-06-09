@@ -67,16 +67,34 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
     function get_actions($publication)
     {
         $assessment = $publication->get_content_object();
-        $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), 'label' => Translation :: get('DeleteAllResults'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('ViewResults'),
+        		Theme :: get_common_image_path() . 'action_view_results.png',
+        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('DeleteAllResults'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
         
         if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
         {
-            $actions[] = array('href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), 'label' => Translation :: get('DownloadDocuments'), 'img' => Theme :: get_common_image_path() . 'action_download.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('DownloadDocuments'),
+	        		Theme :: get_common_image_path() . 'action_download.png',
+	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         
-        return Utilities :: build_toolbar($actions);
+        return $toolbar->as_html();
     }
 
     /**
@@ -87,7 +105,7 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
      */
     private function get_publish_links($content_object)
     {
-        $toolbar_data = array();
+        /*$toolbar_data = array();
         $table_actions = $this->table_actions;
         
         foreach ($table_actions as $table_action)
@@ -96,7 +114,7 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultContentObje
             $toolbar_data[] = $table_action;
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return Utiliti es :: build_toolbar($toolbar_data);*/
     }
 }
 ?>

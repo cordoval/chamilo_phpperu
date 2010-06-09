@@ -32,14 +32,23 @@ class AdminEventViewerCellRenderer
      */
     function get_modification_links($tracker)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
-        $toolbar_data[] = array('href' => $this->eventviewer->get_change_active_url('tracker', $this->event->get_id(), $tracker->get_id()), 'label' => ($tracker->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'), 'confirm' => false, 'img' => ($tracker->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png');
-        
-        $toolbar_data[] = array('href' => $this->eventviewer->get_empty_tracker_url('tracker', $this->event->get_id(), $tracker->get_id()), 'label' => Translation :: get('Empty_Tracker'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
-    
+       	$toolbar->add_item(new ToolbarItem(
+        	$tracker->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'),
+        	($tracker->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png', 
+			$this->eventviewer->get_change_active_url('tracker', $this->event->get_id(), $tracker->get_id()),
+		 	ToolbarItem :: DISPLAY_ICON
+		));
+    	$toolbar->add_item(new ToolbarItem(
+        	Translation :: get('Empty_Tracker'),
+        	Theme :: get_common_image_path() . 'action_recycle_bin.png', 
+			$this->eventviewer->get_empty_tracker_url('tracker', $this->event->get_id(),
+		 	ToolbarItem :: DISPLAY_ICON,
+		 	true
+		));
+
+		return $toolbar->as_html();
     }
 
     /**
