@@ -44,11 +44,15 @@ class WebserviceBrowserTableCellRenderer extends DefaultWebserviceTableCellRende
      */
     private function get_modification_links($webservice)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(
+        	Translation :: get('ManageWebservices'),
+        	Theme :: get_common_image_path().'action_rights.png', 
+			$this->browser->get_manage_roles_url($webservice),
+		 	ToolbarItem :: DISPLAY_ICON
+		));
         
-        $toolbar_data[] = array('href' => $this->browser->get_manage_roles_url($webservice), 'label' => Translation :: get('ManageWebservices'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+		return $toolbar->as_html();
     }
 }
 ?>

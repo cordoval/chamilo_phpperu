@@ -71,19 +71,29 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplay
 
     function get_actions($complex_content_object_item)
     {
+    	$toolbar = new Toolbar();
         if ($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
         {
-            $actions[] = array('href' => $this->get_complex_content_object_item_update_url($complex_content_object_item),
-            				   'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Edit'),
+        			Theme :: get_common_image_path().'action_edit.png', 
+					$this->get_complex_content_object_item_update_url($complex_content_object_item),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         }
         
         if ($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
         {
-            $actions[] = array('href' => $this->get_complex_content_object_item_delete_url($complex_content_object_item), 
-            				   'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Delete'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->get_complex_content_object_item_delete_url($complex_content_object_item),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+			));
         }
         
-        return Utilities :: build_toolbar($actions);
+        return $toolbar->as_html();
     }
 
     function get_view()

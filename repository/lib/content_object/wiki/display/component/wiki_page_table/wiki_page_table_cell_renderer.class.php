@@ -74,50 +74,49 @@ class WikiPageTableCellRenderer extends DefaultContentObjectTableCellRenderer
 
     function get_actions($publication)
     {
-        //if(!WikiTool ::is_wiki_locked($publication->get_parent()))
-
-
+    	$toolbar = New Toolbar();
         if ($this->browser->get_parent()->is_allowed(DELETE_RIGHT))
         {
-            $actions[] = array('href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $publication->get_id())), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+      		$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Delete'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $publication->get_id())),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+			));
         }
 
         if ($this->browser->get_parent()->is_allowed(EDIT_RIGHT))
         {
-            $actions[] = array('href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $publication->get_id())), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        	$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Edit'),
+        			Theme :: get_common_image_path().'action_edit.png', 
+					$this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $publication->get_id())),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
 
             if (($publication->get_additional_property('is_homepage') == 0))
             {
-                $actions[] = array('href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_SET_AS_HOMEPAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)), 'label' => Translation :: get('SetAsHomepage'), 'img' => Theme :: get_common_image_path() . 'action_home.png');
+        		$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('SetAsHomepage'),
+        			Theme :: get_common_image_path().'action_home.png', 
+					$this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_SET_AS_HOMEPAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)),
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             }
             else
             {
-                $actions[] = array('href' => '', 'label' => Translation :: get('SetAsHomepage'), 'img' => Theme :: get_common_image_path() . 'action_home_na.png');
+        		$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('SetAsHomepage'),
+        			Theme :: get_common_image_path().'action_home_na.png', 
+        			null,
+				 	ToolbarItem :: DISPLAY_ICON
+				));
             }
         }
-        /*else
-        {
-            $actions[] = array(
-			'href' => '',
-			'label' => Translation :: get('Locked'),
-			'img' => Theme :: get_common_image_path().'action_delete_na.png'
-			);
-
-			$actions[] = array(
-			'href' => '',
-			'label' => Translation :: get('Locked'),
-			'img' => Theme :: get_common_image_path().'action_edit_na.png'
-			);
-
-            $actions[] = array(
-            'href' => '',
-            'label' => Translation :: get('Locked'),
-            'img' => Theme :: get_common_image_path().'action_home_na.png'
-            );
-        }*/
 
         if (count($actions) > 0)
-            return Utilities :: build_toolbar($actions);
+            return $toolbar->as_html();
     }
 
     /**
