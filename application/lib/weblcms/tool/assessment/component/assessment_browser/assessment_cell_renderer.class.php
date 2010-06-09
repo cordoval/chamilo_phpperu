@@ -68,7 +68,7 @@ class AssessmentCellRenderer extends ObjectPublicationTableCellRenderer
         
         if ($assessment->get_maximum_attempts() == 0 || $count < $assessment->get_maximum_attempts())
         {
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_right.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()))));
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_right.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
