@@ -439,60 +439,122 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
 
     function get_course_modification_links($course, $course_type_id, $key, $total)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         if ($key > 0 && $total > 1)
         {
-            $toolbar_data[] = array('href' => $this->get_course_user_move_url($course, $course_type_id, 'up'), 'label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveUp'),
+	        		Theme :: get_common_image_path() . 'action_up.png',
+	        		$this->get_course_user_move_url($course, $course_type_id, 'up'),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         else
         {
             $toolbar_data[] = array('label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveUpNA'),
+	        		Theme :: get_common_image_path() . 'action_up_na.png',
+					null,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         
         if ($key < ($total - 1) && $total > 1)
         {
-            $toolbar_data[] = array('href' => $this->get_course_user_move_url($course, $course_type_id, 'down'), 'label' => Translation :: get('Down'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveDown'),
+	        		Theme :: get_common_image_path() . 'action_down.png',
+	        		$this->get_course_user_move_url($course, $course_type_id, 'down'),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveDownNA'),
+	        		Theme :: get_common_image_path() . 'action_down_na.png',
+	        		null,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         
-        $toolbar_data[] = array('href' => $this->get_course_user_edit_url($course), 'label' => Translation :: get('Move'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Move'),
+        		Theme :: get_common_image_path() . 'action_move.png',
+        		$this->get_course_user_edit_url($course),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        $toolbar_data[] = array('img' => Theme :: get_common_image_path() . 'spacer_tab.png');
+        $toolbar->add_item(new ToolbarItem(
+        		null,
+        		Theme :: get_common_image_path() . 'spacer_tab.png',
+        		null,
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        return Utilities :: build_toolbar($toolbar_data);
+    	return $toolbar->as_html();
     }
 
     function get_category_modification_links($courseusercategory, $course_type_id, $key, $total)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         if ($key > 0 && $total > 1)
         {
-            $toolbar_data[] = array('href' => $this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'up'), 'label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveUp'),
+	        		Theme :: get_common_image_path() . 'action_up.png',
+	        		$this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'up'),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveUpNA'),
+	        		Theme :: get_common_image_path() . 'action_up_na.png',
+	        		null,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         
         if ($key < ($total - 1) && $total > 1)
         {
-            $toolbar_data[] = array('href' => $this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'down'), 'label' => Translation :: get('Down'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveDown'),
+	        		Theme :: get_common_image_path() . 'action_down.png',
+	        		$this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'down'),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveDownNA'),
+	        		Theme :: get_common_image_path() . 'action_down_na.png',
+	        		null,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         
-        $toolbar_data[] = array('href' => $this->get_course_user_category_edit_url($courseusercategory), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Edit'),
+        		Theme :: get_common_image_path() . 'action_edit.png',
+        		$this->get_course_user_category_edit_url($courseusercategory),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        $toolbar_data[] = array('href' => $this->get_course_user_category_delete_url($courseusercategory, $course_type_id), 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$this->get_course_user_category_delete_url($courseusercategory, $course_type_id),
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

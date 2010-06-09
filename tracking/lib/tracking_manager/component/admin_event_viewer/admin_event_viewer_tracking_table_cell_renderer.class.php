@@ -32,13 +32,24 @@ class AdminEventViewerTrackingTableCellRenderer
      */
     function get_modification_links($tracker)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
+
+        $toolbar->add_item(new ToolbarItem(
+   			($tracker->get_active() == 1) ? Translation :: get('Hide') : Translation :: get('Visible'),
+   			($tracker->get_active() == 1) ? (Theme :: get_common_image_path() . 'action_visible.png') : (Theme :: get_common_image_path() . 'action_invisible.png', 
+			$this->eventviewer->get_change_active_url('tracker', $this->event->get_id(), $tracker->get_id()),
+		 	ToolbarItem :: DISPLAY_ICON
+		));
+
+		$toolbar->add_item(new ToolbarItem(
+   			Translation :: get('Empty_Tracker'),
+   			Theme :: get_common_image_path() . 'action_delete.png',
+			$this->eventviewer->get_empty_tracker_url($this->event->get_id(), $tracker->get_id()),
+		 	ToolbarItem :: DISPLAY_ICON,
+		 	true
+		));
         
-        $toolbar_data[] = array('href' => $this->eventviewer->get_change_active_url('tracker', $this->event->get_id(), $tracker->get_id()), 'label' => ($tracker->get_active() == 1) ? Translation :: get('Hide') : Translation :: get('Visible'), 'confirm' => false, 'img' => ($tracker->get_active() == 1) ? (Theme :: get_common_image_path() . 'action_visible.png') : (Theme :: get_common_image_path() . 'action_invisible.png'));
-        
-        $toolbar_data[] = array('href' => $this->eventviewer->get_empty_tracker_url($this->event->get_id(), $tracker->get_id()), 'label' => Translation :: get('Empty_Tracker'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     
     }
 

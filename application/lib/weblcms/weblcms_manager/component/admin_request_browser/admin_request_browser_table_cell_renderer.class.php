@@ -56,39 +56,42 @@ class AdminRequestBrowserTableCellRenderer extends DefaultCourseRequestTableCell
      */
     private function get_modification_links($request)
     {    
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
     	$check_item = $request->get_decision();
         if($check_item == CommonRequest :: NO_DECISION)
         {
-        	$toolbar_data[] = array(
-        		'href' => $this->browser->get_course_request_allowing_url($request, $this->browser->get_request_type(),$this->browser->get_request_view()),
-        		'label' => Translation :: get('Allow'),
-        		'img' => Theme :: get_common_image_path() . 'action_confirm.png');
-        	
-        	$toolbar_data[] = array(
-	        	'href' => $this->browser->get_course_request_refuse_url($request, $this->browser->get_request_type(),$this->browser->get_request_view()),
-	         	'label' => Translation :: get('Refuse'),
-	         	'img' => Theme :: get_common_image_path() . 'action_refuse.png');
-        }/*
-        else
-        {
-        	$toolbar_data[] = array(
-        		'label' => Translation :: get('Allow_NA'),
-        		'img' => Theme :: get_common_image_path() . 'action_verify_na.png');
-        }
-		*/
-        $toolbar_data[] = array(
-        	'href' => $this->browser->get_course_request_deleting_url($request, $this->browser->get_request_type(),$this->browser->get_request_view()),
-        	 'label' => Translation :: get('Delete'), 
-        	 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-              
-        $toolbar_data[] = array(
-        	'href' =>$this->browser->get_course_request_viewing_url($request, $this->browser->get_request_type(),$this->browser->get_request_view()),
-        	'label' => Translation :: get('view'),
-        	'img' => Theme :: get_common_image_path() . 'action_view.png');
+        	$toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Allow'),
+	        		Theme :: get_common_image_path() . 'action_confirm.png',
+	        		$this->browser->get_course_request_allowing_url($request, $this->browser->get_request_type(),$this->browser->get_request_view()),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         
-        return Utilities :: build_toolbar($toolbar_data);
+        	$toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Refuse'),
+	        		Theme :: get_common_image_path() . 'action_refuse.png',
+	        		$this->browser->get_course_request_refuse_url($request, $this->browser->get_request_type(),$this->browser->get_request_view()),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+        }
+
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$this->browser->get_course_request_deleting_url($request, $this->browser->get_request_type(),$this->browser->get_request_view()),
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
+
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('View'),
+        		Theme :: get_common_image_path() . 'action_view.png',
+        		$this->browser->get_course_request_viewing_url($request, $this->browser->get_request_type(),$this->browser->get_request_view()),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        return $toolbar->as_html();
     }
 }
 ?>

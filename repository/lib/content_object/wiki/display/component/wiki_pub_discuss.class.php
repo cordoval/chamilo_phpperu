@@ -115,20 +115,36 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
 
     function build_feedback_actions()
     {
-        $actions[] = array('href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_FEEDBACK, ' WikiPubFeedback :: PROPERTY_FEEDBACK_ID' => $this->feedback_id, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id, 'pid' => Request :: get('pid'))), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
-        
-        $actions[] = array('href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_EDIT_FEEDBACK, ' WikiPubFeedback :: PROPERTY_FEEDBACK_ID' => $this->feedback_id, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id, 'pid' => Request :: get('pid'))), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        
-        return Utilities :: build_toolbar($actions);
+
+       	$toolbar = New Toolbar();
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Delete'),
+        			Theme :: get_common_image_path().'action_delete.png', 
+					$this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_FEEDBACK, ' WikiPubFeedback :: PROPERTY_FEEDBACK_ID' => $this->feedback_id, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id, 'pid' => Request :: get('pid'))),
+				 	ToolbarItem :: DISPLAY_ICON,
+				 	true
+		));
+		$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Edit'),
+        			Theme :: get_common_image_path().'action_edit.png', 
+					$this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_EDIT_FEEDBACK, ' WikiPubFeedback :: PROPERTY_FEEDBACK_ID' => $this->feedback_id, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id, 'pid' => Request :: get('pid'))),
+				 	ToolbarItem :: DISPLAY_ICON,
+		));
+        return $toolbar->as_html();
     
     }
 
     function show_add_feedback()
     {
-        $actions[] = array('href' => $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)), 'label' => Translation :: get('AddFeedback'), 'img' => Theme :: get_common_image_path() . 'action_add.png', 'confirm' => false);
+		$toolbar = New Toolbar();
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('AddFeedback'),
+        			Theme :: get_common_image_path().'action_add.png', 
+					$this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)),
+				 	ToolbarItem :: DISPLAY_ICON
+		));
+        return $toolbar->as_html();
         
-        return Utilities :: build_toolbar($actions);
-    
     }
 
     private function show_feedback($object)

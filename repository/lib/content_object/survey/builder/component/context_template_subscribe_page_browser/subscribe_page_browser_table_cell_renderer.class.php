@@ -39,12 +39,17 @@ class SurveyContextTemplateSubscribePageBrowserTableCellRenderer extends Default
     private function get_modification_links($page)
     {
         $template = $this->browser->get_survey_context_template();
-        $toolbar_data = array();
         
-        $subscribe_url = $this->browser->get_template_suscribe_page_url($template->get_id(), $page->get_id());
-        $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar = New Toolbar();
+       
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Subscribe'),
+        			Theme :: get_common_image_path().'action_subscribe.png', 
+					$this->browser->get_template_suscribe_page_url($template->get_id(), $page->get_id()),
+				 	ToolbarItem :: DISPLAY_ICON
+		));
+		        
+        return $toolbar->as_html();
     }
 }
 ?>

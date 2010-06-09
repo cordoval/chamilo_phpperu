@@ -51,7 +51,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
      */
     private function get_modification_links($course)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
         $course = WeblcmsDataManager :: get_instance()->retrieve_course($course->get_id());
         $current_right = $course->can_user_unsubscribe($this->browser->get_user());
@@ -59,7 +59,12 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
         if ($current_right)
         {
         	$course_unsubscription_url = $this->browser->get_course_unsubscription_url($course);
-            $toolbar_data[] = array('href' => $course_unsubscription_url, 'label' => Translation :: get('Unsubscribe'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_unsubscribe.png');           
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Unsubscribe'),
+	        		Theme :: get_common_image_path() . 'action_unsubscribe.png',
+	        		$course_unsubscription_url,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));           
         }
         else
         {
@@ -69,12 +74,16 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
             }
             else
             {
-                $toolbar_data[] = array(
-        		'label' => Translation :: get('Allow_NA'),
-        		'img' => Theme :: get_common_image_path() . 'action_unsubscribe_na.png');
+                $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('UnsubscribeNA'),
+		        		Theme :: get_common_image_path() . 'action_unsubscribe_na.png',
+		        		null,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
             }
         }
-        return Utilities :: build_toolbar($toolbar_data);
+        
+        return $toolbar->as_html();
     
     }
 }

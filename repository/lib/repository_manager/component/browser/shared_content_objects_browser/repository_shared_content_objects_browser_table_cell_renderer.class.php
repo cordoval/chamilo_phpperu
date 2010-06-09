@@ -60,27 +60,62 @@ class RepositorySharedContentObjectsBrowserTableCellRenderer extends DefaultShar
      */
     private function get_modification_links($content_object)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
         if ($this->browser->has_right($content_object->get_id(), RepositoryRights :: VIEW_RIGHT))
-            $toolbar_data[] = array('href' => $this->browser->get_content_object_viewing_url($content_object), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('View'),
+        			Theme :: get_common_image_path().'action_visible.png', 
+					$this->browser->get_content_object_viewing_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         else
-            $toolbar_data[] = array('img' => Theme :: get_common_image_path() . 'action_visible_na.png');
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('View'),
+        			Theme :: get_common_image_path().'action_visible_na.png', 
+					null,
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         if ($this->browser->has_right($content_object->get_id(), RepositoryRights :: USE_RIGHT))
-            $toolbar_data[] = array('href' => $this->browser->get_publish_content_object_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Publish'),
+        			Theme :: get_common_image_path().'action_publish.png', 
+					$this->browser->get_publish_content_object_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         else
-            $toolbar_data[] = array('img' => Theme :: get_common_image_path() . 'action_publish_na.png');
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('PublishNA'),
+        			Theme :: get_common_image_path().'action_publish_na.png', 
+					null,
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         if ($this->browser->has_right($content_object->get_id(), RepositoryRights :: REUSE_RIGHT))
-            $toolbar_data[] = array('href' => $this->browser->get_copy_content_object_url($content_object->get_id(), $this->browser->get_user_id()), 'label' => Translation :: get('ReUse'), 'img' => Theme :: get_common_image_path() . 'action_reuse.png');
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('ReUse'),
+        			Theme :: get_common_image_path().'action_reuse.png', 
+					$this->browser->get_copy_content_object_url($content_object->get_id(), $this->browser->get_user_id()),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         else
-            $toolbar_data[] = array('img' => Theme :: get_common_image_path() . 'action_reuse_na.png');
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('ReUseNA'),
+        			Theme :: get_common_image_path().'action_reuse_na.png', 
+					null,
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         
         if ($content_object->is_complex_content_object())
         {
-            $toolbar_data[] = array('href' => $this->browser->get_browse_complex_content_object_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('BrowseComplex'));
+        	            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('BrowseComplex'),
+        			Theme :: get_common_image_path().'action_browser.png', 
+					$this->browser->get_browse_complex_content_object_url($content_object),
+				 	ToolbarItem :: DISPLAY_ICON
+			));
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>
