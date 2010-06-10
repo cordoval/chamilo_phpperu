@@ -41,7 +41,7 @@ class CourseGroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTable
      */
     private function get_modification_links($user)
     {
-        $toolbar_data = array();
+    	$toolbar = new Toolbar();
         if($this->browser->is_allowed(EDIT_RIGHT))
         {
             $parameters = array();
@@ -49,7 +49,7 @@ class CourseGroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTable
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP] = $this->browser->get_course_group()->get_id();
             $unsubscribe_url = $this->browser->get_url($parameters);
-            $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_unsubscribe.png');
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem::DISPLAY_ICON ));
         }
         
         $course_group = $this->browser->get_course_group();
@@ -60,10 +60,10 @@ class CourseGroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTable
             $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_USER_SELF_UNSUBSCRIBE;
             $unsubscribe_url = $this->browser->get_url($parameters);
-            $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_unsubscribe.png');
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_unsubscribe.png', $unsubscribe_url, ToolbarItem::DISPLAY_ICON ));
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>
