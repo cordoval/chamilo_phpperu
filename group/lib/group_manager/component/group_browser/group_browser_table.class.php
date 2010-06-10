@@ -11,8 +11,6 @@ require_once dirname(__FILE__) . '/group_browser_table_cell_renderer.class.php';
  */
 class GroupBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'group_browser_table';
-
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
@@ -22,7 +20,7 @@ class GroupBrowserTable extends ObjectTable
         $model = new GroupBrowserTableColumnModel();
         $renderer = new GroupBrowserTableCellRenderer($browser);
         $data_provider = new GroupBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, GroupBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
         
@@ -31,6 +29,21 @@ class GroupBrowserTable extends ObjectTable
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+    static function handle_table_actions($table_action)
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        
+        switch($table_action)
+        {
+        	case GroupManager :: PARAM_REMOVE_SELECTED :
+                Request :: set_get(GroupManager :: PARAM_GROUP_ID, $ids);
+                return GroupManager :: ACTION_DELETE_GROUP;
+            case GroupManager :: PARAM_TRUNCATE_SELECTED :
+                Request :: set_get(GroupManager :: PARAM_GROUP_ID, $ids);
+                return GroupManager :: ACTION_TRUNCATE_GROUP;
+        }
     }
 }
 ?>

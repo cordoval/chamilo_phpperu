@@ -351,5 +351,21 @@ class ObjectTable
     {
         return $this->get_data_provider()->get_object_count();
     }
+    
+    static function get_selected_ids($table_name)
+    {
+    	$selected_ids = Request :: post($table_name . self :: CHECKBOX_NAME_SUFFIX);
+
+        if (empty($selected_ids))
+        {
+            $selected_ids = array();
+        }
+        elseif (! is_array($selected_ids))
+        {
+            $selected_ids = array($selected_ids);
+        }
+        
+        return $selected_ids;
+    }
 }
 ?>

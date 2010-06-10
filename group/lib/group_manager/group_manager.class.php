@@ -361,9 +361,19 @@ class GroupManager extends CoreApplication
 
     private function parse_input_from_table()
     {
-        //		print_r($_POST); echo("<br />"); print_r($_GET);
-        if (isset($_POST['action']))
+        $table_name = Request :: post('table_name');
+        if(isset($table_name))
         {
+        	$class = Utilities :: underscores_to_camelcase($table_name);
+        	$action = call_user_func(array($class, 'handle_table_actions'), Request :: post('action'));
+        	$this->set_action($action);
+        }
+        
+    return;
+            
+    	//		print_r($_POST); echo("<br />"); print_r($_GET);
+        if (isset($_POST['action']))
+        { 
             $selected_ids = $_POST[GroupRelUserBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 
             if (empty($selected_ids))
