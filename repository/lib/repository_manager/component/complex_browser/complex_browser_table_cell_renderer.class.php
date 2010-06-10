@@ -174,7 +174,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
 				));
             }
         }
-ssss        
+                
         return $toolbar->as_html();
     }
 

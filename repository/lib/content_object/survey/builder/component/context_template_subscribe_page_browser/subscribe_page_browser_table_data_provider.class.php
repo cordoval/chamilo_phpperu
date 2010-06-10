@@ -7,7 +7,7 @@ class SurveyContextTemplateSubscribePageBrowserTableDataProvider extends ObjectT
 	}
 	
 	function get_objects($offset, $count, $order_property = null) {
-		return RepositoryDataManager :: get_instance()->retrieve_content_objects($this->get_condition(), $offset, $max_objects, $order_by, SurveyPage :: CLASS_NAME);
+		return RepositoryDataManager :: get_instance()->retrieve_content_objects($this->get_condition(), $offset, $max_objects, $order_by);
 	}
 	
 	function get_object_count() {

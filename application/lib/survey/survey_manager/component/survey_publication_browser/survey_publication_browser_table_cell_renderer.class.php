@@ -180,6 +180,13 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
             }
         }
         
+        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('ExportToExcel'),
+	        		Theme :: get_common_image_path() . 'export_excel.png',
+	        		$this->browser->get_survey_publication_export_excel_url($survey_publication),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
+	        
         return $toolbar->as_html();
     }
 }
