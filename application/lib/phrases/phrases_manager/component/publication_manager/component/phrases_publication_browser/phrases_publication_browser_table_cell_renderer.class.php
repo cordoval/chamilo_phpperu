@@ -54,12 +54,13 @@ class PhrasesPublicationBrowserTableCellRenderer extends DefaultPhrasesPublicati
     {
         $phrases = $phrases_publication->get_publication_object();
 
-        $toolbar_data = array();
-        $toolbar_data[] = array('href' => $this->browser->get_update_phrases_publication_url($phrases_publication), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        $toolbar_data[] = array('href' => $this->browser->get_delete_phrases_publication_url($phrases_publication), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        $toolbar_data[] = array('href' => $this->browser->get_build_phrases_publication_url($phrases_publication), 'label' => Translation :: get('Build'), 'img' => Theme :: get_common_image_path() . 'action_build.png');
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_phrases_publication_url($phrases_publication), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_phrases_publication_url($phrases_publication), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Build'), Theme :: get_common_image_path() . 'action_build.png', $this->browser->get_build_phrases_publication_url($phrases_publication), ToolbarItem :: DISPLAY_ICON));
+
+        return $toolbar->as_html();
     }
 }
 ?>

@@ -8,7 +8,7 @@ class PhrasesQuestionAttemptsTracker extends MainTracker
 {
     const CLASS_NAME = __CLASS__;
 
-    const PROPERTY_USER_ID = 'user_id';
+    const PROPERTY_ASSESSMENT_ATTEMPT_ID = 'assessment_attempt_id';
     const PROPERTY_COMPLEX_QUESTION_ID = 'complex_question_id';
     const PROPERTY_DATE = 'date';
     const PROPERTY_ANSWER = 'answer';
@@ -29,14 +29,14 @@ class PhrasesQuestionAttemptsTracker extends MainTracker
      */
     function track($parameters = array())
     {
-        $user_id = $parameters['user_id'];
+        $assessment_attempt_id = $parameters['assessment_attempt_id'];
         $complex_question_id = $parameters['complex_question_id'];
         $date = $parameters['date'];
         $answer = $parameters['answer'];
         $feedback = $parameters['feedback'];
         $score = $parameters['score'];
 
-        $this->set_user_id($user_id);
+        $this->set_assessment_attempt_id($assessment_attempt_id);
         $this->set_complex_question_id($complex_question_id);
         $this->set_date($date);
         $this->set_answer($answer);
@@ -62,27 +62,27 @@ class PhrasesQuestionAttemptsTracker extends MainTracker
      */
     function get_default_property_names()
     {
-        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_QUESTION_ID, self :: PROPERTY_DATE, self :: PROPERTY_ANSWER, self :: PROPERTY_FEEDBACK, self :: PROPERTY_SCORE));
+        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_ASSESSMENT_ATTEMPT_ID, self :: PROPERTY_QUESTION_ID, self :: PROPERTY_DATE, self :: PROPERTY_ANSWER, self :: PROPERTY_FEEDBACK, self :: PROPERTY_SCORE));
     }
 
-    function get_user_id()
+    function get_assessment_attempt_id()
     {
-        return $this->get_property(self :: PROPERTY_USER_ID);
+        return $this->get_property(self :: PROPERTY_ASSESSMENT_ATTEMPT_ID);
     }
 
-    function set_user_id($user_id)
+    function set_assessment_attempt_id($assessment_attempt_id)
     {
-        $this->set_property(self :: PROPERTY_USER_ID, $user_id);
+        $this->set_property(self :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $assessment_attempt_id);
     }
 
     function get_complex_question_id()
     {
-        return $this->get_property(self :: PROPERTY_QUESTION_ID);
+        return $this->get_property(self :: PROPERTY_COMPLEX_QUESTION_ID);
     }
 
     function set_complex_question_id($complex_question_id)
     {
-        $this->set_property(self :: PROPERTY_QUESTION_ID, $complex_question_id);
+        $this->set_property(self :: PROPERTY_COMPLEX_QUESTION_ID, $complex_question_id);
     }
 
     function get_date()

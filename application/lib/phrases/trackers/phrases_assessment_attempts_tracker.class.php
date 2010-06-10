@@ -164,8 +164,8 @@ class PhrasesAssessmentAttemptsTracker extends MainTracker
     {
         parent :: delete();
 
-        $condition = new EqualityCondition(AssessmentQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_id());
-        $dummy = new AssessmentQuestionAttemptsTracker();
+        $condition = new EqualityCondition(PhrasesQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_id());
+        $dummy = new PhrasesQuestionAttemptsTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         foreach ($trackers as $tracker)
         {
