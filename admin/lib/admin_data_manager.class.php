@@ -31,7 +31,7 @@ class AdminDataManager
         return self :: $instance;
     }
 
-    function get_languages()
+    function get_languages($use_folder_name_as_key = true)
     {
         $options = array();
 
@@ -40,7 +40,15 @@ class AdminDataManager
         {
     		if(self :: is_language_active($language->get_english_name()))
     		{
-        		$options[$language->get_folder()] = $language->get_original_name();
+    		    if ($use_folder_name_as_key)
+    		    {
+    		        $key = $language->get_folder();
+    		    }
+    		    else
+    		    {
+    		        $key = $language->get_id();
+    		    }
+        		$options[$key] = $language->get_original_name();
     		}
         }
 
