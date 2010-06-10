@@ -24,6 +24,8 @@ abstract class Application
 
     function Application($user)
     {
+    	dump("app constructor");
+    	dump($this);
         $this->user = $user;
         $this->parameters = array();
         $this->search_parameters = array();
@@ -34,13 +36,15 @@ abstract class Application
         {
             $this->set_action(Request :: get(self :: PARAM_ACTION));
         }
-        
-        $this->handle_table_action();
+
+        if(Request :: get(self :: PARAM_APPLICATION) == $this->get_application_name())
+        	$this->handle_table_action();
     }
     
     function handle_table_action()
     {
     	$table_name = Request :: post('table_name');
+    	dump($table_name);
         if(isset($table_name))
         {
         	$class = Utilities :: underscores_to_camelcase($table_name);
