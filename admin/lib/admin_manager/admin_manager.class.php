@@ -109,7 +109,7 @@ class AdminManager extends CoreApplication
     {
         if (is_null($breadcrumbtrail))
         {
-            $breadcrumbtrail = BreadcrumbTrail :: get_instance();;
+            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
         }
 
         $title = $breadcrumbtrail->get_last()->get_name();

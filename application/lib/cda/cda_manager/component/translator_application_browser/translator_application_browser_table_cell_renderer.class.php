@@ -76,34 +76,37 @@ class TranslatorApplicationBrowserTableCellRenderer extends DefaultTranslatorApp
 	 */
 	private function get_modification_links($translator_application)
 	{
-		$toolbar_data = array();
+		$toolbar = new Toolbar();
 
 		$status = $translator_application->get_status();
 
 		if ($status == TranslatorApplication :: STATUS_ACCEPTED)
 		{
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_deactivate_translator_application_url($translator_application),
-				'label' => Translation :: get('Deactivate'),
-				'img' => Theme :: get_common_image_path().'action_deactivate.png'
-			);
+			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Deactivate'), 
+    				Theme :: get_common_image_path() . 'action_deactivate.png', 
+    				$this->browser->get_deactivate_translator_application_url($translator_application), 
+    				ToolbarItem :: DISPLAY_ICON
+    				));
 		}
 		elseif ($status == TranslatorApplication :: STATUS_PENDING)
 		{
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_activate_translator_application_url($translator_application),
-				'label' => Translation :: get('Activate'),
-				'img' => Theme :: get_common_image_path().'action_activate.png'
-			);
+			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Activate'), 
+    				Theme :: get_common_image_path() . 'action_activate.png', 
+    				$this->browser->get_activate_translator_application_url($translator_application), 
+    				ToolbarItem :: DISPLAY_ICON
+    				));
 		}
+		
+		$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Delete'), 
+    				Theme :: get_common_image_path() . 'action_delete.png', 
+    				$this->browser->get_delete_translator_application_url($translator_application), 
+    				ToolbarItem :: DISPLAY_ICON
+    				));
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_translator_application_url($translator_application),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-		);
-
-		return Utilities :: build_toolbar($toolbar_data);
+		return $toolbar->as_html();
 	}
 }
 ?>

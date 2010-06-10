@@ -41,12 +41,13 @@ class CourseGroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTab
      */
     private function get_modification_links($user)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         $parameters = array();
         $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
         $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_SUBSCRIBE;
         $unsubscribe_url = $this->browser->get_url($parameters);
-        $toolbar_data[] = array('href' => $unsubscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $unsubscribe_url, ToolbarItem::DISPLAY_ICON ));
+        
         $parameters = array();
         /*$parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool::USER_DETAILS;
 			$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
@@ -56,7 +57,7 @@ class CourseGroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTab
 				'label' => Translation :: get('Details'),
 				'img' => Theme :: get_common_image_path().'action_details.png'
 			);*/
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

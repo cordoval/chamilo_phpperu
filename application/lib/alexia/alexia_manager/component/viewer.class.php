@@ -25,7 +25,7 @@ class AlexiaManagerViewerComponent extends AlexiaManager
             $publication = $this->publication;
             
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS)), Translation :: get('Library')));
+            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS)), Translation :: get('Alexia')));
             $trail->add(new Breadcrumb($this->get_url(), $publication->get_publication_object()->get_title()));
             $trail->add_help('alexia general');
             

@@ -12,14 +12,15 @@ class InternshipOrganizerPeriodRelUser extends DataClass
 	 */
 	const PROPERTY_PERIOD_ID = 'period_id';
 	const PROPERTY_USER_ID = 'user_id';
-
+	const PROPERTY_USER_TYPE = 'user_type';
+	
 	/**
 	 * Get the default properties
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_PERIOD_ID, self :: PROPERTY_USER_ID);
+		return array (self :: PROPERTY_PERIOD_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_USER_TYPE);
 	}
 
 	function get_data_manager()
@@ -62,7 +63,25 @@ class InternshipOrganizerPeriodRelUser extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
 	}
+	
+/**
+	 * Returns the user_type of this InternshipOrganizerPeriodRelUser.
+	 * @return the user_type.
+	 */
+	function get_user_type()
+	{
+		return $this->get_default_property(self :: PROPERTY_USER_TYPE);
+	}
 
+	/**
+	 * Sets the user_type of this InternshipOrganizerPeriodRelUser.
+	 * @param user_type
+	 */
+	function set_user_type($user_type)
+	{
+		$this->set_default_property(self :: PROPERTY_USER_TYPE, $user_type);
+	}
+	
 
 	static function get_table_name()
 	{

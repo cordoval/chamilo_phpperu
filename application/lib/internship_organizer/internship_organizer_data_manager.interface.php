@@ -95,10 +95,6 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_root_region();
 
-//    function add_internship_organizer_region_nested_values($node, $previous_visited, $number_of_elements = 1, $condition);
-//
-//    function delete_internship_organizer_region_nested_values($node, $previous_visited, $number_of_elements, $condition);
-
     function count_mentors($conditions = null);
 
     function retrieve_mentor($id);
@@ -121,6 +117,13 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_periods($condition = null, $offset = null, $count = null, $order_property = null);
 
     function retrieve_root_period();
+    
+    
+    function count_period_rel_users($conditions = null);
+
+    function retrieve_period_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    
     
 }
 ?>

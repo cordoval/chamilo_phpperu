@@ -11,7 +11,7 @@ class PackageManagerViewerComponent extends PackageManager
     	$id = Request :: get(PackageManager :: PARAM_REGISTRATION);
        	$registration = $this->get_parent()->retrieve_registration($id);
        	
-    	$trail = BreadcrumbTrail :: get_instance();;
+    	$trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdministration')));
         $trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManager')));
     	$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities::camelcase_to_underscores($registration->get_name()))));

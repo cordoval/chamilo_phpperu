@@ -10,6 +10,7 @@ class InternshipOrganizerMentorManagerBrowserComponent extends InternshipOrganiz
 	function run() 
 	{
 		$trail = BreadcrumbTrail :: get_instance();
+		$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
 		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerMentorManager::PARAM_ACTION => InternshipOrganizerMentorManager :: ACTION_BROWSE_MENTOR) ), Translation::get ( 'BrowseInternshipOrganizerMentors' ) ) );
 
 		$this->action_bar = $this->get_action_bar ();

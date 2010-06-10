@@ -47,7 +47,7 @@ class InternshipOrganizerManager extends WebApplication
 	{
 		$action = $this->get_action ();
 		$component = null;
-		BreadcrumbTrail :: get_instance()->add ( new Breadcrumb ( $this->get_url ( array (InternshipOrganizerManager::PARAM_ACTION => InternshipOrganizerManager::ACTION_APPLICATION_CHOOSER) ), Translation::get ( 'InternshipOrganizer' ) ) );
+		//BreadcrumbTrail :: get_instance()->add ( new Breadcrumb ( $this->get_url ( array (InternshipOrganizerManager::PARAM_ACTION => InternshipOrganizerManager::ACTION_APPLICATION_CHOOSER) ), Translation::get ( 'InternshipOrganizer' ) ) );
 				
 		switch ($action) {
 			case self::ACTION_ORGANISATION :

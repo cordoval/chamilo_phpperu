@@ -63,7 +63,7 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
     {
         $actions = array();
         
-        return Utilities :: build_toolbar($actions);
+        return new Toolbar();
     }
 
 /**
@@ -82,8 +82,8 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
 			$table_action['href'] = sprintf($table_action['href'], $content_object->get_id());
 			$toolbar_data[] = $table_action;
 		}
-		
-		return Utilities :: build_toolbar($toolbar_data);
+		//TODO USE TOOLBAR
+		return Utilitie  :: build_toolbar($toolbar_data);
 	}*/
 }
 ?>

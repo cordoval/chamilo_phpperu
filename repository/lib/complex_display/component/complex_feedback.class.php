@@ -15,7 +15,7 @@ class ComplexDisplayComplexFeedbackComponent extends ComplexDisplayComponent
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses general');
 
         $this->pub = new RepoViewer($this, Feedback :: get_type_name(), RepoViewer :: SELECT_SINGLE);

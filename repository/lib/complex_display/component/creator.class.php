@@ -38,7 +38,7 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
             {
                 $html[] = '<p><a href="' . $this->get_url(array('type' => $type)) . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
                 $html[] = $pub->as_html();
-                $this->display_header(new BreadcrumbTrail());
+                $this->display_header(BreadcrumbTrail :: get_instance());
                 echo implode("\n", $html);
                 $this->display_footer();
             }

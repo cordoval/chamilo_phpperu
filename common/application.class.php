@@ -34,6 +34,19 @@ abstract class Application
         {
             $this->set_action(Request :: get(self :: PARAM_ACTION));
         }
+        
+        $this->handle_table_action();
+    }
+    
+    function handle_table_action()
+    {
+    	$table_name = Request :: post('table_name');
+        if(isset($table_name))
+        {
+        	$class = Utilities :: underscores_to_camelcase($table_name);
+        	call_user_func(array($class, 'handle_table_action'));
+        	$this->set_action(Request :: post('action'));
+        }
     }
 
     /**

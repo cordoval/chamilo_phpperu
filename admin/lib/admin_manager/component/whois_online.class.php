@@ -13,7 +13,7 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();;
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('WhoisOnline')));
         $trail->add_help('common whoisonline');
 

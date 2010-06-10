@@ -60,13 +60,11 @@ class InternshipOrganizerPeriodBrowserTableCellRenderer extends DefaultInternshi
      */
     private function get_modification_links($period)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_period_editing_url($period), ToolbarItem :: DISPLAY_ICON ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_period_delete_url($period), ToolbarItem :: DISPLAY_ICON, true ));    
         
-        $toolbar_data[] = array('href' => $this->browser->get_period_editing_url($period), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-            
-        $toolbar_data[] = array('href' => $this->browser->get_period_delete_url($period), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

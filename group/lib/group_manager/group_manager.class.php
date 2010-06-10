@@ -54,7 +54,6 @@ class GroupManager extends CoreApplication
     function GroupManager($user = null)
     {
         parent :: __construct($user);
-        $this->parse_input_from_table();
         $this->create_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_GROUP));
     }
 
@@ -357,44 +356,6 @@ class GroupManager extends CoreApplication
     function get_move_group_url($group)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
-    }
-
-    private function parse_input_from_table()
-    {
-        //		print_r($_POST); echo("<br />"); print_r($_GET);
-        if (isset($_POST['action']))
-        {
-            $selected_ids = $_POST[GroupRelUserBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_UNSUBSCRIBE_SELECTED :
-                    $this->set_action(self :: ACTION_UNSUBSCRIBE_USER_FROM_GROUP);
-                    Request :: set_get(self :: PARAM_GROUP_REL_USER_ID, $selected_ids);
-                    break;
-                case self :: PARAM_SUBSCRIBE_SELECTED :
-                    $this->set_action(self :: ACTION_SUBSCRIBE_USER_TO_GROUP);
-                    Request :: set_get(self :: PARAM_USER_ID, $selected_ids);
-                    break;
-                case self :: PARAM_REMOVE_SELECTED :
-                    $this->set_action(self :: ACTION_DELETE_GROUP);
-                    Request :: set_get(self :: PARAM_GROUP_ID, $selected_ids);
-                    break;
-                case self :: PARAM_TRUNCATE_SELECTED :
-                    $this->set_action(self :: ACTION_TRUNCATE_GROUP);
-                    Request :: set_get(self :: PARAM_GROUP_ID, $selected_ids);
-                    break;
-            }
-
-        }
     }
 
     function get_manage_group_rights_url($group)

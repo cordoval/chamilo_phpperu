@@ -286,9 +286,12 @@ class SortableTable extends HTML_Table
                 foreach ($this->form_actions as $form_action)
                 {
                     if (get_class($form_action) == 'ObjectTableFormAction')
+                    {
                         $html[] = '<option value="' . $form_action->get_action() . '" class="' . ($form_action->get_confirm() ? 'confirm' : '') . '">' . $form_action->get_title() . '</option>';
+                    }
                 }
                 $html[] = '</select>';
+                $html[] = '<input type="hidden" name="table_name" value="' . $this->table_name . '"/>';
                 //                $html[] = '<button class="normal start" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
                 $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
                 //                $html[] = '</div>';

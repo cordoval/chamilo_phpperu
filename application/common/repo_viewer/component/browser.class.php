@@ -62,10 +62,12 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         $html[] = '</div>';
         $html[] = '</div>';
 
-        $actions = $this->get_browser_actions();
-        foreach ($actions as $key => $action)
+    	$toolbar = $this->get_default_browser_actions();
+        
+        $table_actions = $toolbar->get_items();
+        foreach ($table_actions as $table_action)
         {
-            $actions[$key]['href'] = str_replace('__ID__', '%d', $action['href']);
+            $table_action->set_href(str_replace('__ID__', '%d', $table_action->get_href()));
         }
 
         if ($this->get_maximum_select() > RepoViewer :: SELECT_SINGLE)
@@ -74,7 +76,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         }
 
         $menu = $this->get_menu();
-        $table = $this->get_object_table($actions);
+        $table = $this->get_object_table($toolbar);
 
         $html[] = '<br />';
 
@@ -196,17 +198,33 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 
     function get_default_browser_actions()
     {
-        $browser_actions = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'));
-        $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_VIEWER, RepoViewer :: PARAM_ID => '__ID__')), false), 'img' => Theme :: get_common_image_path() . 'action_browser.png', 'label' => Translation :: get('Preview'));
-
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Publish'),
+        		Theme :: get_common_image_path() . 'action_publish.png',
+        		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => '__ID__')), false),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Preview'),
+        		Theme :: get_common_image_path() . 'action_browser.png',
+        		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_VIEWER, RepoViewer :: PARAM_ID => '__ID__')), false),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
         if (!$this->is_shared_object_browser())
         {
-            $browser_actions[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_CREATOR, RepoViewer :: PARAM_EDIT_ID => '__ID__'))), 'img' => Theme :: get_common_image_path() . 'action_editpublish.png', 'label' => Translation :: get('EditAndPublish'));
+        	$toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('EditAndPublish'),
+	        		Theme :: get_common_image_path() . 'action_editpublish.png',
+	        		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_CREATOR, RepoViewer :: PARAM_EDIT_ID => '__ID__')), false),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
-
-        return $browser_actions;
+        
+        return $toolbar;
     }
 
     function is_shared_object_browser()

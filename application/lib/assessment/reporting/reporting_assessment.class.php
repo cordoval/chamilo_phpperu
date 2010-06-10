@@ -41,18 +41,18 @@ class ReportingAssessment
             $reporting_data->add_data_category_row($index, Translation :: get('User'), $user->get_fullname());
             $reporting_data->add_data_category_row($index, Translation :: get('Date'), DatetimeUtilities :: format_locale_date(null, $tracker->get_date()));
             $reporting_data->add_data_category_row($index, Translation :: get('TotalScore'), $tracker->get_total_score() . '%');
-            $actions = array();
+            $toolbar = new Toolbar();
             if (!array_key_exists('export',$params))
             {
 	            if ($assessment->get_type() != Hotpotatoes :: get_type_name())
 	            {
-	                $actions[] = array('href' => $url . '&details=' . $tracker->get_id(), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+	            	$toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $url . '&details=' . $tracker->get_id(), ToolbarItem :: DISPLAY_ICON ));
+	                $toolbar->add_item(new ToolbarItem(Translation :: get('ExportResults'), Theme :: get_common_image_path() . 'action_export.png', $results_export_url . '&tid=' . $tracker->get_id(), ToolbarItem :: DISPLAY_ICON ));
 	                
-	                $actions[] = array('href' => $results_export_url . '&tid=' . $tracker->get_id(), 'label' => Translation :: get('ExportResults'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
 	            }
 	            
-	            $actions[] = array('href' => $url . '&delete=tid_' . $tracker->get_id(), 'label' => Translation :: get('DeleteResults'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-            $reporting_data->add_data_category_row($index, Translation :: get('Action'), Utilities :: build_toolbar($actions));
+	            $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteResults'), Theme :: get_common_image_path() . 'action_delete.png', $url . '&delete=tid_' . $tracker->get_id(), ToolbarItem :: DISPLAY_ICON, true ));
+            $reporting_data->add_data_category_row($index, Translation :: get('Action'), $toolbar->as_html());
             }
         }
         $reporting_data->hide_categories();
@@ -92,14 +92,14 @@ class ReportingAssessment
             $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('TimesTaken'), $dummy->get_times_taken($publication));
             $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('AverageScore'),$dummy->get_average_score($publication) . '%');
             
-            $actions = array();
+            $toolbar = new Toolbar();
             if (!array_key_exists('export',$params))
             {
-	            $actions[] = array('href' => $url . '&' . AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION . '=' . $publication->get_id(), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults', Theme :: get_common_image_path() . 'action_view_results.png'), $url . '&' . AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION . '=' . $publication->get_id(), ToolbarItem::DISPLAY_ICON));
 	            
-	            $actions[] = array('href' => $url . '&delete=aid_' . $publication->get_id(), 'label' => Translation :: get('DeleteResults'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('DeleteResults', Theme :: get_common_image_path() . 'action_delete.png'), $url . '&delete=aid_' . $publication->get_id(), ToolbarItem::DISPLAY_ICON, true));
 	            
-	            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Action'), Utilities :: build_toolbar($actions));
+	            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Action'), $toolbar->as_html());
             }
         }
         

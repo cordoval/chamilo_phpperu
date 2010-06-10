@@ -18,6 +18,7 @@ class InternshipOrganizerOrganisationBrowserTableColumnModel extends DefaultInte
         parent :: __construct();
         //$this->set_default_order_column(0);
         $this->set_default_order_column(1);
+        $this->add_column(new StaticTableColumn(Translation :: get('Locations')));
         $this->add_column(self :: get_modification_column());
     }
 
