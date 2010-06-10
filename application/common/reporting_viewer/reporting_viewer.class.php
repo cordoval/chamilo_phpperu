@@ -86,7 +86,7 @@ class ReportingViewer extends SubManager
 		}
 		else
 		{
-			return new BreadcrumbTrail();
+			return BreadcrumbTrail :: get_instance();
 		}
 	}
 

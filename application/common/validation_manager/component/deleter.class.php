@@ -16,7 +16,7 @@ class ValidationManagerDeleterComponent extends ValidationManagerComponent
     {
     	$html = $this->as_html();
     	
-    	$this->display_header(new BreadcrumbTrail());
+    	$this->display_header(BreadcrumbTrail :: get_instance());
     	echo $html;
     	$this->display_footer();
     }

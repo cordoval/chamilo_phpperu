@@ -15,7 +15,7 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager
     	
     	$id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
     	
-        $trail = BreadcrumbTrail :: get_instance();;
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $id)), Translation :: get('ViewSystemAnnouncement')));
         $trail->add_help('administration system announcements');
         

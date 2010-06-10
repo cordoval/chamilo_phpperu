@@ -20,7 +20,9 @@ class InternshipOrganizerPeriodManager extends SubManager
 	const ACTION_EDIT_PERIOD = 'edit';
 	const ACTION_DELETE_PERIOD = 'delete';
 	const ACTION_VIEW_PERIOD = 'view';
-
+	const ACTION_SUBSCRIBE_USERS_BROWSER =  'subscribe_browser';
+	const ACTION_SUBSCRIBE_USERS_TO_PERIOD =  'subscribe';
+	
 	function InternshipOrganizerPeriodManager($internship_manager)
 	{
 		parent :: __construct($internship_manager);
@@ -54,6 +56,12 @@ class InternshipOrganizerPeriodManager extends SubManager
 			case self :: ACTION_BROWSE_PERIODS :
 				$component = $this->create_component('Browser');
 				break;
+			case self :: ACTION_SUBSCRIBE_USERS_TO_PERIOD :
+                $component = $this->create_component('Subscriber');
+                break;
+            case self :: ACTION_SUBSCRIBE_USERS_BROWSER :
+                $component = $this->create_component('SubscribeUsersBrowser');
+                break;	
 			default :
 				$this->set_period_action(self :: ACTION_BROWSE_PERIODS);
 				$component = $this->create_component('Browser');
@@ -126,6 +134,11 @@ class InternshipOrganizerPeriodManager extends SubManager
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
 	}
 
+	function get_period_subscribe_users_browser_url($period)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USERS_BROWSER, self :: PARAM_PERIOD_ID => $period->get_id()));
+	}
+	
 	private function parse_input_from_table()
 	{
 		if (isset($_POST[InternshipOrganizerPeriodBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))

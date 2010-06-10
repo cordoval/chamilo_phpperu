@@ -13,7 +13,7 @@ class EmailManagerEmailerComponent extends EmailManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
         if(PlatformSetting :: get('active_online_email_editor') == 0)
         {

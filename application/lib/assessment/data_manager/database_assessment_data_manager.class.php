@@ -112,7 +112,7 @@ class DatabaseAssessmentDataManager extends Database implements AssessmentDataMa
 
     function select_next_assessment_publication_category_display_order($parent)
     {
-        $query = 'SELECT MAX(' . AssessmentPublicationCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->escape_table_name('assessment_publication_category');
+        $query = 'SELECT MAX(' . AssessmentPublicationCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->escape_table_name(AssessmentPublicationCategory :: get_table_name()) . ' AS ' . $this->get_alias(AssessmentPublicationCategory :: get_table_name());
 
         $condition = new EqualityCondition(AssessmentPublicationCategory :: PROPERTY_PARENT, $parent);
 
@@ -121,7 +121,7 @@ class DatabaseAssessmentDataManager extends Database implements AssessmentDataMa
             $translator = new ConditionTranslator($this, $this->get_alias(AssessmentPublicationCategory :: get_table_name()));
             $query .= $translator->render_query($condition);
         }
-
+        
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();

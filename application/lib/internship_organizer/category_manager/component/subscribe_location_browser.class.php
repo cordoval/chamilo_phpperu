@@ -24,7 +24,7 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         $trail->add(new Breadcrumb($this->get_category_viewing_url($this->category), $this->category->get_name()));
       
 
-        $trail->add(new Breadcrumb($this->get_category_suscribe_location_browser_url($this->category), Translation :: get('CreateInternshipOrganizerLocation')));
+        $trail->add(new Breadcrumb($this->get_category_subscribe_location_browser_url($this->category), Translation :: get('CreateInternshipOrganizerLocation')));
       	
         $trail->add_help('category subscribe locations');
         
@@ -104,9 +104,9 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
 
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->set_search_url($this->get_category_suscribe_location_browser_url($category));
+        $action_bar->set_search_url($this->get_category_subscribe_location_browser_url($category));
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_category_suscribe_location_browser_url($category), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_category_subscribe_location_browser_url($category), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }
