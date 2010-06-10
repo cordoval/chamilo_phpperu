@@ -1,0 +1,41 @@
+<?php
+/**
+ * @package application.cda.cda.component
+ */
+require_once dirname(__FILE__) . '/../../../../forms/phrases_mastery_level_form.class.php';
+
+/**
+ * Component to create a new cda_language object
+ * @author Sven Vanpoucke
+ * @author Hans De Bisschop
+ */
+class PhrasesMasteryLevelManagerCreatorComponent extends PhrasesMasteryLevelManager
+{
+	/**
+	 * Runs this component and displays its output.
+	 */
+	function run()
+	{
+		$trail = BreadcrumbTrail :: get_instance();
+//		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+//        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => CdaManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Cda') ));
+//		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES)), Translation :: get('AdminBrowseLanguages')));
+//		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateCdaLanguage')));
+
+		$mastery_level = new PhrasesMasteryLevel();
+		$form = new PhrasesMasteryLevelForm(PhrasesMasteryLevelForm :: TYPE_CREATE, $mastery_level, $this->get_url(), $this->get_user());
+
+		if($form->validate())
+		{
+			$success = $form->create_phrases_mastery_level();
+			$this->redirect($success ? Translation :: get('PhrasesMasteryLevelCreated') : Translation :: get('PhrasesMasteryLevelNotCreated'), !$success, array(PhrasesMasteryLevelManager :: PARAM_MASTERY_LEVEL_MANAGER_ACTION => PhrasesMasteryLevelManager :: ACTION_BROWSE));
+		}
+		else
+		{
+			$this->display_header($trail);
+			$form->display();
+			$this->display_footer();
+		}
+	}
+}
+?>
