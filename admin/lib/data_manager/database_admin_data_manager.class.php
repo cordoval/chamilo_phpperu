@@ -64,6 +64,12 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         return $this->retrieve_object(Language :: get_table_name(), $condition);
     }
 
+    function retrieve_language($id)
+    {
+        $condition = new EqualityCondition(Language :: PROPERTY_ID, $id);
+        return $this->retrieve_object(Language :: get_table_name(), $condition);
+    }
+
     function retrieve_setting_from_variable_name($variable, $application = 'admin')
     {
         $conditions[] = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application);
@@ -413,7 +419,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         $condition = new EqualityCondition(RemotePackage :: PROPERTY_ID, $remote_package->get_id());
         return $this->delete($remote_package->get_table_name(), $condition);
     }
-    
+
     function delete_remote_packages($condition)
     {
     	return $this->delete_objects(RemotePackage :: get_table_name(), $condition);
