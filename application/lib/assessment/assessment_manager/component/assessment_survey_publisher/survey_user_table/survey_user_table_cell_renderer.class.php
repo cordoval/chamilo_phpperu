@@ -62,8 +62,8 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
     function get_actions($publication)
     {
         $actions = array();
-        
-        return Utilities :: build_toolbar($actions);
+        $toolbar = new Toolbar();
+        return $toolbar;
     }
 
 /**
@@ -82,8 +82,8 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
 			$table_action['href'] = sprintf($table_action['href'], $content_object->get_id());
 			$toolbar_data[] = $table_action;
 		}
-		
-		return Utilities :: build_toolbar($toolbar_data);
+		TODO: use toolbar
+		return Utilitie :: build_toolbar($toolbar_data);
 	}*/
 }
 ?>

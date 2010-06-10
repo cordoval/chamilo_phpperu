@@ -92,14 +92,14 @@ class ReportingAssessment
             $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('TimesTaken'), $dummy->get_times_taken($publication));
             $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('AverageScore'),$dummy->get_average_score($publication) . '%');
             
-            $actions = array();
+            $toolbar = new Toolbar();
             if (!array_key_exists('export',$params))
             {
-	            $actions[] = array('href' => $url . '&' . AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION . '=' . $publication->get_id(), 'label' => Translation :: get('ViewResults'), 'img' => Theme :: get_common_image_path() . 'action_view_results.png');
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults', Theme :: get_common_image_path() . 'action_view_results.png'), $url . '&' . AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION . '=' . $publication->get_id(), ToolbarItem::DISPLAY_ICON));
 	            
-	            $actions[] = array('href' => $url . '&delete=aid_' . $publication->get_id(), 'label' => Translation :: get('DeleteResults'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('DeleteResults', Theme :: get_common_image_path() . 'action_delete.png'), $url . '&delete=aid_' . $publication->get_id(), ToolbarItem::DISPLAY_ICON, true));
 	            
-	            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Action'), Utilities :: build_toolbar($actions));
+	            $reporting_data->add_data_category_row($lo->get_id(), Translation :: get('Action'), $toolbar->as_html());
             }
         }
         
