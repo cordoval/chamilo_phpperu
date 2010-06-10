@@ -52,10 +52,10 @@ class GradebookInternalPublicationBrowserTableCellRenderer extends DefaultGradeb
 	 */
 	private function get_modification_links($content_object)
 	{
-		$toolbar_data = array();
-        $toolbar_data[] = array('href' => $this->browser->get_internal_evaluations_on_publications_viewer_url($content_object), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+		$toolbar= new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Browser'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_internal_evaluations_on_publications_viewer_url($content_object), ToolbarItem :: DISPLAY_ICON ));
         
-		return Utilities :: build_toolbar($toolbar_data);
+		return $toolbar->as_html();
 	}
 	
 }

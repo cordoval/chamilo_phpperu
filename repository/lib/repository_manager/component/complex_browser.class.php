@@ -30,7 +30,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManager
             $action = 'build';
         $this->action = $action;
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository general');
         if (! isset($publish))
             $trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));

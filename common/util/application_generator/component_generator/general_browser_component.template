@@ -14,7 +14,7 @@ class {APPLICATION_NAME}ManagerBrowserComponent extends {APPLICATION_NAME}Manage
 	
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Browse{APPLICATION_NAME}')));
 
 		$this->display_header($trail);

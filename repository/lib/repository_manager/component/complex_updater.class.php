@@ -16,7 +16,7 @@ class RepositoryManagerComplexUpdaterComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository general');
         
         $cloi_id = Request :: get(RepositoryManager :: PARAM_CLOI_ID);

@@ -63,7 +63,7 @@ class SurveyUserTableCellRenderer extends DefaultContentObjectTableCellRenderer
     {
         $actions = array();
         
-        return Utilities :: build_toolbar($actions);
+        return new Toolbar();
     }
 
 /**

@@ -38,7 +38,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
         $exports = $page->controller->exportValues();
         
         // Display the page header
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)), Translation :: get('Archiver')));
         
         $this->parent->display_header($trail, false, 'tracking general');

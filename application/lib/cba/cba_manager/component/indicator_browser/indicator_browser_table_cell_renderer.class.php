@@ -46,26 +46,15 @@ class IndicatorBrowserTableCellRenderer extends DefaultIndicatorTableCellRendere
 	 */
 	private function get_modification_links($indicator)
 	{
-		$toolbar_data = array();
+		$toolbar = new Toolbar();
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_indicator_url($indicator),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-		);
-		$toolbar_data[] = array(
-				'href' => $this->browser->get_indicator_moving_url($indicator),
-				'label' => Translation :: get('Move'),
-				'img' => Theme :: get_common_image_path().'action_move.png'
-		);
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_indicator_url($indicator),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-			'confirm' => true
-		);
+		$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_indicator_url($indicator), ToolbarItem :: DISPLAY_ICON));
 
-		return Utilities :: build_toolbar($toolbar_data);
+		$toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_indicator_moving_url($indicator), ToolbarItem :: DISPLAY_ICON));
+
+		$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_indicator_url($indicator), ToolbarItem :: DISPLAY_ICON, true));
+		
+		return $toolbar->as_html();
 	}
 }
 ?>

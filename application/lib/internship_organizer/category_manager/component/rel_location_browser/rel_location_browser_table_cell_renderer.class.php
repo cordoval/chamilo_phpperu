@@ -48,11 +48,10 @@ class InternshipOrganizerCategoryRelLocationBrowserTableCellRenderer extends Def
      */
     private function get_modification_links($categoryrellocation)
     {
-        $toolbar_data = array();
+        $toolbar= new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_category_rel_location_unsubscribing_url($categoryrellocation), ToolbarItem :: DISPLAY_ICON, true ));
         
-        $toolbar_data[] = array('href' => $this->browser->get_category_rel_location_unsubscribing_url($categoryrellocation), 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
     
     function render_id_cell($categoryrellocation){

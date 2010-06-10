@@ -63,7 +63,7 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 	 */
 	private function get_modification_links($variable_translation)
 	{
-		$toolbar_data = array();
+		$toolbar = new Toolbar();
 
 		$status = $variable_translation->get_status();
 		$can_translate = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: VIEW_RIGHT, $variable_translation->get_language_id(), 'cda_language');
@@ -74,82 +74,94 @@ class VariableTranslationBrowserTableCellRenderer extends DefaultVariableTransla
 
 		if (($can_translate && !$variable_translation->is_locked()) || $can_lock)
 		{
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_update_variable_translation_url($variable_translation),
-				'label' => Translation :: get('Translate'),
-				'img' => $theme_image_path.'action_translate.png'
-			);
+			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Translate'), 
+    				$theme_image_path . 'action_translate.png', 
+    				$this->browser->get_update_variable_translation_url($variable_translation), 
+    				ToolbarItem :: DISPLAY_ICON
+    		));
 
 			if ($variable_translation->is_outdated())
 			{
-				$toolbar_data[] = array(
-					'href' => $this->browser->get_verify_variable_translation_url($variable_translation),
-					'label' => Translation :: get('Verify'),
-					'img' => $theme_image_path.'action_verify.png',
-					'confirm' => true
-				);
-
-				$toolbar_data[] = array(
-					'label' => Translation :: get('DeprecationNotPossible'),
-					'img' => $theme_image_path.'action_deprecate_na.png'
-				);
+				$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Verify'), 
+    				$theme_image_path . 'action_verify.png', 
+    				$this->browser->get_verify_variable_translation_url($variable_translation), 
+    				ToolbarItem :: DISPLAY_ICON,
+    				true
+    			));
+				
+    			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('DeprecationNotPossible'), 
+    				$theme_image_path . 'action_deprecate_na.png', 
+    				null, 
+    				ToolbarItem :: DISPLAY_ICON
+    			));
 			}
 			else
 			{
-				$toolbar_data[] = array(
-					'label' => Translation :: get('VerificationNotPossible'),
-					'img' => $theme_image_path.'action_verify_na.png'
-				);
-
-				$toolbar_data[] = array(
-					'href' => $this->browser->get_deprecate_variable_translation_url($variable_translation),
-					'label' => Translation :: get('Deprecate'),
-					'img' => $theme_image_path.'action_deprecate.png',
-					'confirm' => true
-				);
+				$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('VerificationNotPossible'), 
+    				$theme_image_path . 'action_verify_na.png', 
+    				null, 
+    				ToolbarItem :: DISPLAY_ICON
+    			));
+    			
+    			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Deprecate'), 
+    				$theme_image_path . 'action_deprecate.png', 
+    				$this->browser->get_deprecate_variable_translation_url($variable_translation), 
+    				ToolbarItem :: DISPLAY_ICON,
+    				true
+    			));
 			}
 		}
 		elseif ($can_translate && $variable_translation->is_locked())
 		{
-			$toolbar_data[] = array(
-				'label' => Translation :: get('Lock'),
-				'img' => $theme_common_image_path.'action_lock.png'
-			);
+			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Lock'), 
+    				Theme :: get_common_image_path() . 'action_lock.png', 
+    				null, 
+    				ToolbarItem :: DISPLAY_ICON
+    		));
 		}
 
 		if ($can_lock)
 		{
 			if (!$variable_translation->is_locked())
 			{
-				$toolbar_data[] = array(
-					'href' => $this->browser->get_lock_variable_translation_url($variable_translation),
-					'label' => Translation :: get('Lock'),
-					'img' => $theme_common_image_path.'action_lock.png'
-				);
+				$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Lock'), 
+    				Theme :: get_common_image_path() . 'action_lock.png', 
+    				$this->browser->get_lock_variable_translation_url($variable_translation), 
+    				ToolbarItem :: DISPLAY_ICON
+    			));
 			}
 			else
 			{
-				$toolbar_data[] = array(
-					'href' => $this->browser->get_unlock_variable_translation_url($variable_translation),
-					'label' => Translation :: get('Unlock'),
-					'img' => $theme_common_image_path.'action_unlock.png'
-				);
+				$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Unlock'), 
+    				Theme :: get_common_image_path() . 'action_unlock.png', 
+    				$this->browser->get_unlock_variable_translation_url($variable_translation), 
+    				ToolbarItem :: DISPLAY_ICON
+    			));
 			}
 		}
+		$toolbar->add_item(new ToolbarItem(
+    		Translation :: get('Rate'), 
+    		Theme :: get_common_image_path() . 'action_statistics.png', 
+    		$this->browser->get_rate_variable_translation_url($variable_translation), 
+    		ToolbarItem :: DISPLAY_ICON
+    	));
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_rate_variable_translation_url($variable_translation),
-			'label' => Translation :: get('Rate'),
-			'img' => $theme_common_image_path.'action_statistics.png'
-		);
+    	$toolbar->add_item(new ToolbarItem(
+    		Translation :: get('View'), 
+    		$theme_common_image_path.'action_browser.png', 
+    		$this->browser->get_view_variable_translation_url($variable_translation), 
+    		ToolbarItem :: DISPLAY_ICON
+    	));
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_view_variable_translation_url($variable_translation),
-			'label' => Translation :: get('View'),
-			'img' => $theme_common_image_path.'action_browser.png'
-		);
-
-		return Utilities :: build_toolbar($toolbar_data);
+		return $toolbar->as_html();
 	}
 }
 ?>

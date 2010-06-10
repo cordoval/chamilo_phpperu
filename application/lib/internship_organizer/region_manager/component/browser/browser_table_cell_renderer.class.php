@@ -60,13 +60,11 @@ class InternshipOrganizerRegionBrowserTableCellRenderer extends DefaultInternshi
      */
     private function get_modification_links($column, $region)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_region_editing_url($region), ToolbarItem :: DISPLAY_ICON ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_region_delete_url($region), ToolbarItem :: DISPLAY_ICON, true ));
         
-        $toolbar_data[] = array('href' => $this->browser->get_region_editing_url($region), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-            
-        $toolbar_data[] = array('href' => $this->browser->get_region_delete_url($region), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

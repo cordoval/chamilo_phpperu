@@ -54,13 +54,11 @@ class InternshipOrganizerLocationBrowserTableCellRenderer extends DefaultInterns
      */
     private function get_modification_links($location)
     {
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_location_url($location), ToolbarItem :: DISPLAY_ICON ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_location_url($location), ToolbarItem :: DISPLAY_ICON, true ));
         
-        $toolbar_data = array();
-        
-        $toolbar_data[] = array('href' => $this->browser->get_update_location_url($location), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        $toolbar_data[] = array('href' => $this->browser->get_delete_location_url($location), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
     
 

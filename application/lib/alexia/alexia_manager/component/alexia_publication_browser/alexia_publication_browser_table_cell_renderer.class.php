@@ -53,21 +53,23 @@ class AlexiaPublicationBrowserTableCellRenderer extends DefaultAlexiaPublication
      */
     private function get_modification_links($alexia_publication)
     {
-        $toolbar_data = array();
+        
+    	$toolbar = new Toolbar(); 
         
         $viewing_url = $this->browser->get_publication_viewing_url($alexia_publication);
-        $toolbar_data[] = array('href' => $viewing_url, 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_details.png');
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_details.png', $viewing_url, ToolbarItem :: DISPLAY_ICON));
         
         if ($this->browser->get_user()->is_platform_admin() || $alexia_publication->get_publisher() == $this->browser->get_user()->get_id())
         {
             $edit_url = $this->browser->get_publication_editing_url($alexia_publication);
-            $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON));
             
             $delete_url = $this->browser->get_publication_deleting_url($alexia_publication);
-            $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $delete_url, ToolbarItem :: DISPLAY_ICON, true));
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

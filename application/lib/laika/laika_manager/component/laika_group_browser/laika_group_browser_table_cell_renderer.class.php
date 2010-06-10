@@ -81,8 +81,10 @@ class LaikaGroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
      */
     private function get_modification_links($group)
     {
-        $toolbar_data = array();
+        $toolbar= new Toolbar();
         
+
+        return $toolbar->as_html();
         //		$toolbar_data[] = array(
         //			'href' => $this->browser->get_group_editing_url($group),
         //			'label' => Translation :: get('Edit'),
@@ -134,7 +136,6 @@ class LaikaGroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
         //		);
         
 
-        return Utilities :: build_toolbar($toolbar_data);
     }
 
     function count_participants($group)

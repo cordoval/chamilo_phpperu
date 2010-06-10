@@ -50,30 +50,33 @@ class VariableBrowserTableCellRenderer extends DefaultVariableTableCellRenderer
 	 */
 	private function get_modification_links($variable)
 	{
-		$toolbar_data = array();
+		$toolbar = new Toolbar();
 
 		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
 		$can_delete = CdaRights :: is_allowed(CdaRights :: DELETE_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
 
 		if ($can_edit)
 		{
-    		$toolbar_data[] = array(
-    			'href' => $this->browser->get_update_variable_url($variable),
-    			'label' => Translation :: get('Edit'),
-    			'img' => Theme :: get_common_image_path().'action_edit.png'
-    		);
+			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Edit'), 
+    				Theme :: get_common_image_path() . 'action_edit.png', 
+    				$this->browser->get_update_variable_url($variable), 
+    				ToolbarItem :: DISPLAY_ICON
+    				));
 		}
 
 		if ($can_delete)
 		{
-    		$toolbar_data[] = array(
-    			'href' => $this->browser->get_delete_variable_url($variable),
-    			'label' => Translation :: get('Delete'),
-    			'img' => Theme :: get_common_image_path().'action_delete.png',
-    		);
+			$toolbar->add_item(new ToolbarItem(
+    				Translation :: get('Delete'), 
+    				Theme :: get_common_image_path() . 'action_delete.png', 
+    				$this->browser->get_delete_variable_url($variable), 
+    				ToolbarItem :: DISPLAY_ICON,
+    				true
+    				));
 		}
 
-		return Utilities :: build_toolbar($toolbar_data);
+		return $toolbar->as_html();
 	}
 }
 ?>

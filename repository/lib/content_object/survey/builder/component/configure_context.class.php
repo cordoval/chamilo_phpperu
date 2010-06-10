@@ -18,7 +18,7 @@ class SurveyBuilderConfigureContextComponent extends SurveyBuilder
         
         if (count($survey_page_ids) == 0)
         {
-            $this->display_header(new BreadcrumbTrail());
+            $this->display_header(BreadcrumbTrail :: get_instance());
             $this->display_error_message(Translation :: get('NoPagesSelected'));
             $this->display_footer();
         }

@@ -39,12 +39,12 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
     private function get_modification_links($location)
     {
         $category = $this->browser->get_category();
-        $toolbar_data = array();
+        $toolbar= new Toolbar();
         
         $subscribe_url = $this->browser->get_category_rel_location_subscribing_url($category, $location);
-        $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON ));
+       
+        return $toolbar->as_html();
     }
 }
 ?>

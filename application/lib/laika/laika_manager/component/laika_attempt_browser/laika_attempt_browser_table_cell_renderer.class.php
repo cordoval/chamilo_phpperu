@@ -45,11 +45,10 @@ class LaikaAttemptBrowserTableCellRenderer extends DefaultLaikaAttemptTableCellR
      */
     private function get_modification_links($attempt)
     {
-        $toolbar_data = array();
+        $toolbar= new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Browse'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_laika_attempt_viewing_url($attempt), ToolbarItem :: DISPLAY_ICON ));
         
-        $toolbar_data[] = array('href' => $this->browser->get_laika_attempt_viewing_url($attempt), 'label' => Translation :: get('Browse'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

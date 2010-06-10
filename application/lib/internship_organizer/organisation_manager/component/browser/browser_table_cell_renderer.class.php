@@ -30,12 +30,25 @@ class InternshipOrganizerOrganisationBrowserTableCellRenderer extends DefaultInt
             case InternshipOrganizerOrganisation :: PROPERTY_NAME :
                 $title = parent :: render_cell($column, $organisation);
                 $title_short = $title;
-                if (strlen($title_short) > 53)
+                if (strlen($title_short) > 75)
                 {
-                    $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
+                    $title_short = mb_substr($title_short, 0, 75) . '&hellip;';
                 }
                 return '<a href="' . htmlentities($this->browser->get_view_organisation_url($organisation)) . '" title="' . $title . '">' . $title_short . '</a>';
 
+          	case InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION :
+                $title = parent :: render_cell($column, $organisation);
+                $title_short = $title;
+                if (strlen($title_short) > 75)
+                {
+                    $title_short = mb_substr($title_short, 0, 75) . '&hellip;';
+                }
+                return $title_short;
+                
+           	case Translation :: get('Locations') :
+                return $organisation->count_locations();
+                   
+                
         }
         
         return parent :: render_cell($column, $organisation);
@@ -50,12 +63,12 @@ class InternshipOrganizerOrganisationBrowserTableCellRenderer extends DefaultInt
     private function get_modification_links($organisation)
     {
         
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
         $user = $this->browser->get_user();
         
-      
-            $toolbar_data[] = array('href' => $this->browser->get_update_organisation_url($organisation), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+      	$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_organisation_url($organisation), ToolbarItem :: DISPLAY_ICON ));
+ 
         
        
 //            $toolbar_data[] = array('href' => $this->browser->get_group_suscribe_user_browser_url($group), 'label' => Translation :: get('AddStudents'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
@@ -73,15 +86,10 @@ class InternshipOrganizerOrganisationBrowserTableCellRenderer extends DefaultInt
 //            {
 //                $toolbar_data[] = array('label' => Translation :: get('TruncateNA'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png');
 //            }
+      	$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_organisation_url($organisation), ToolbarItem :: DISPLAY_ICON, true ));            
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_organisation_url($organisation), ToolbarItem :: DISPLAY_ICON, true ));            
             
-            $toolbar_data[] = array('href' => $this->browser->get_delete_organisation_url($organisation), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
-            $toolbar_data[] = array('href' => $this->browser->get_view_organisation_url($organisation), 'label' => Translation :: get('View'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
-            
-      
-        
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>
