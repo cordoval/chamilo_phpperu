@@ -54,7 +54,6 @@ class GroupManager extends CoreApplication
     function GroupManager($user = null)
     {
         parent :: __construct($user);
-        $this->parse_input_from_table();
         $this->create_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_GROUP));
     }
 
@@ -357,19 +356,6 @@ class GroupManager extends CoreApplication
     function get_move_group_url($group)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
-    }
-
-    private function parse_input_from_table()
-    {
-        $table_name = Request :: post('table_name');
-        if(isset($table_name))
-        {
-        	$class = Utilities :: underscores_to_camelcase($table_name);
-        	call_user_func(array($class, 'handle_table_actions'));
-        	$this->set_action(Request :: post('action'));
-        }
-        
-    return;
     }
 
     function get_manage_group_rights_url($group)
