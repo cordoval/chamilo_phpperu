@@ -14,8 +14,8 @@ class AdminManagerBrowserComponent extends AdminManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();;
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Administration')));
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PlatformAdministration')));
         $trail->add_help('administration');
 
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
