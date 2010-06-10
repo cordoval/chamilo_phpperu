@@ -68,7 +68,7 @@ class InternshipOrganizerCategoryBrowserTableCellRenderer extends DefaultInterns
     {
         $toolbar = new Toolbar();
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_category_editing_url($category), ToolbarItem :: DISPLAY_ICON ));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('CreateInternshipOrganizerLocation'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->browser->get_category_suscribe_location_browser_url($category), ToolbarItem :: DISPLAY_ICON ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('CreateInternshipOrganizerLocation'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->browser->get_category_subscribe_location_browser_url($category), ToolbarItem :: DISPLAY_ICON ));
         
         $condition = new EqualityCondition(InternshipOrganizerCategoryRelLocation :: PROPERTY_CATEGORY_ID, $category->get_id());
         $locations = $this->browser->retrieve_category_rel_locations($condition);
