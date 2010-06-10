@@ -7,30 +7,28 @@
 abstract class Application
 {
     private $user;
-    
+
     private $parameters;
     private $search_parameters;
-    
+
     private $breadcrumbs;
-    
+
     const PARAM_ACTION = 'go';
-    
+
     const PARAM_MESSAGE = 'message';
     const PARAM_ERROR_MESSAGE = 'error_message';
     const PARAM_WARNING_MESSAGE = 'warning_message';
     const PARAM_APPLICATION = 'application';
-    
+
     const PLACEHOLDER_APPLICATION = '__APPLICATION__';
 
     function Application($user)
     {
-    	dump("app constructor");
-    	dump($this);
         $this->user = $user;
         $this->parameters = array();
         $this->search_parameters = array();
         $this->breadcrumbs = array();
-        
+
         $action = Request :: get(self :: PARAM_ACTION);
         if ($action)
         {
@@ -40,11 +38,10 @@ abstract class Application
         if(Request :: get(self :: PARAM_APPLICATION) == $this->get_application_name())
         	$this->handle_table_action();
     }
-    
+
     function handle_table_action()
     {
     	$table_name = Request :: post('table_name');
-    	dump($table_name);
         if(isset($table_name))
         {
         	$class = Utilities :: underscores_to_camelcase($table_name);
@@ -137,7 +134,7 @@ abstract class Application
         {
             $parameters[self :: PARAM_ERROR_MESSAGE] = $message;
         }
-        
+
         $this->simple_redirect($parameters, $filter, $encode_entities, $redirect_type, $application_type);
     }
 
@@ -222,7 +219,7 @@ abstract class Application
             	$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
             }
         }
-        
+
         $categories = $this->get_breadcrumbs();
         if (count($categories) > 0)
         {
@@ -231,10 +228,10 @@ abstract class Application
                 $breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
             }
         }
-        
+
         $title = $breadcrumbtrail->get_last()->get_name();
         Display :: header($breadcrumbtrail);
-        
+
         // If there is an application-wide menu, show it
         if ($this->has_menu())
         {
@@ -243,23 +240,23 @@ abstract class Application
             echo '</div>';
             echo '<div style="float: right; width: 85%;">';
         }
-        
+
         if ($display_title)
             echo '<h3 style="float: left;" title="' . $title . '">' . Utilities :: truncate_string($title) . '</h3>';
         echo '<div class="clear">&nbsp;</div>';
-        
+
         $message = Request :: get(self :: PARAM_MESSAGE);
         if ($message)
         {
             $this->display_message($message);
         }
-        
+
         $message = Request :: get(self :: PARAM_ERROR_MESSAGE);
         if ($message)
         {
             $this->display_error_message($message);
         }
-        
+
         $message = Request :: get(self :: PARAM_WARNING_MESSAGE);
         if ($message)
         {
@@ -275,7 +272,7 @@ abstract class Application
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
         }
-        
+
         echo '<div class="clear">&nbsp;</div>';
         Display :: footer();
     }
@@ -404,12 +401,12 @@ abstract class Application
         // Then use get_class($this) :: APPLICATION_NAME
         // and remove the get_application_name function();
         $application = $this->get_application_name();
-        
+
         $info = array();
         $info['application'] = array('name' => Translation :: get(self :: application_to_class($application)), 'class' => $application);
         $info['links'] = array();
         $info['search'] = null;
-        
+
         return $info;
     }
 
@@ -485,12 +482,12 @@ abstract class Application
         {
             $application = $this;
         }
-        
+
         $manager_class = get_class($application);
         $application_component_path = $application->get_application_component_path();
-        
+
         $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
-        
+
         if (! file_exists($file) || ! is_file($file))
         {
             $message = array();
@@ -502,21 +499,21 @@ abstract class Application
             $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
             $message[] = '<li>' . Translation :: get($type) . '</li>';
             $message[] = '</ul>';
-            
+
             $application_name = Application :: application_to_class($this->get_application_name());
-            
+
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
-            
+
             Display :: header($trail);
             Display :: error_message(implode("\n", $message));
             Display :: footer();
             exit();
         }
-        
+
         $class = $manager_class . $type . 'Component';
         require_once $file;
-        
+
         if (is_subclass_of($application, 'SubManager'))
         {
             $component = new $class($application->get_parent());
@@ -536,7 +533,7 @@ abstract class Application
 
     abstract static function get_application_path($application_name);
 
-    
+
 
     abstract static function get_application_manager_path($application_name);
 
@@ -564,7 +561,7 @@ abstract class Application
                 $message = $succes_message_multiple;
             }
         }
-        
+
         return Translation :: get($message);
     }
 }

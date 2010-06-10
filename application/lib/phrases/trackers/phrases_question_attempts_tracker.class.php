@@ -10,7 +10,6 @@ class PhrasesQuestionAttemptsTracker extends MainTracker
 
     const PROPERTY_ASSESSMENT_ATTEMPT_ID = 'assessment_attempt_id';
     const PROPERTY_COMPLEX_QUESTION_ID = 'complex_question_id';
-    const PROPERTY_DATE = 'date';
     const PROPERTY_ANSWER = 'answer';
     const PROPERTY_FEEDBACK = 'feedback';
     const PROPERTY_SCORE = 'score';
@@ -31,14 +30,12 @@ class PhrasesQuestionAttemptsTracker extends MainTracker
     {
         $assessment_attempt_id = $parameters['assessment_attempt_id'];
         $complex_question_id = $parameters['complex_question_id'];
-        $date = $parameters['date'];
         $answer = $parameters['answer'];
         $feedback = $parameters['feedback'];
         $score = $parameters['score'];
 
         $this->set_assessment_attempt_id($assessment_attempt_id);
         $this->set_complex_question_id($complex_question_id);
-        $this->set_date($date);
         $this->set_answer($answer);
         $this->set_feedback($feedback);
         $this->set_score($score);
@@ -62,7 +59,7 @@ class PhrasesQuestionAttemptsTracker extends MainTracker
      */
     function get_default_property_names()
     {
-        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_ASSESSMENT_ATTEMPT_ID, self :: PROPERTY_QUESTION_ID, self :: PROPERTY_DATE, self :: PROPERTY_ANSWER, self :: PROPERTY_FEEDBACK, self :: PROPERTY_SCORE));
+        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_ASSESSMENT_ATTEMPT_ID, self :: PROPERTY_COMPLEX_QUESTION_ID, self :: PROPERTY_ANSWER, self :: PROPERTY_FEEDBACK, self :: PROPERTY_SCORE));
     }
 
     function get_assessment_attempt_id()
@@ -83,16 +80,6 @@ class PhrasesQuestionAttemptsTracker extends MainTracker
     function set_complex_question_id($complex_question_id)
     {
         $this->set_property(self :: PROPERTY_COMPLEX_QUESTION_ID, $complex_question_id);
-    }
-
-    function get_date()
-    {
-        return $this->get_property(self :: PROPERTY_DATE);
-    }
-
-    function set_date($date)
-    {
-        $this->set_property(self :: PROPERTY_DATE, $date);
     }
 
     function get_answer()

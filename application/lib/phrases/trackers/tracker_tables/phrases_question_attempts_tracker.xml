@@ -3,9 +3,7 @@
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="assessment_attempt_id" type="integer" unsigned="1" notnull="1" />
-		<property name="user_id" type="integer" unsigned="1" notnull="1" />
 		<property name="complex_question_id" type="integer" unsigned="1" notnull="1" />
-		<property name="date" type="integer" unsigned="1" notnull="1" />
 		<property name="answer" type="text" />
 		<property name="feedback" type="text" />
 		<property name="score" type="integer" />

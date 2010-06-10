@@ -5,6 +5,7 @@
  */
 
 require_once dirname(__FILE__) . '/publication_manager/publication_manager.class.php';
+require_once dirname(__FILE__) . '/../../trackers/phrases_assessment_attempts_tracker.class.php';
 
 class PhrasesManagerTakerComponent extends PhrasesManager
 {
@@ -25,7 +26,7 @@ class PhrasesManagerTakerComponent extends PhrasesManager
         {
             $this->publication_id = $publication_id;
             $this->publication = $this->retrieve_phrases_publication($this->publication_id);
-            $assessment_id = $this->pub->get_content_object();
+            $assessment_id = $this->publication->get_publication_object();
             $this->assessment = $this->publication->get_publication_object();
             $this->set_parameter(PhrasesPublicationManager :: PARAM_PHRASES_PUBLICATION_ID, $this->publication_id);
         }
@@ -91,12 +92,12 @@ class PhrasesManagerTakerComponent extends PhrasesManager
     {
         $parameters = array();
         $parameters['assessment_attempt_id'] = $this->active_tracker->get_id();
-        $parameters['question_cid'] = $complex_question_id;
+        $parameters['complex_question_id'] = $complex_question_id;
         $parameters['answer'] = $answer;
         $parameters['score'] = $score;
         $parameters['feedback'] = '';
 
-        Events :: trigger_event('attempt_question', AssessmentManager :: APPLICATION_NAME, $parameters);
+        Events :: trigger_event('attempt_question', PhrasesManager :: APPLICATION_NAME, $parameters);
     }
 
     function finish_assessment($total_score)
@@ -107,6 +108,11 @@ class PhrasesManagerTakerComponent extends PhrasesManager
         $tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
         $tracker->set_status('completed');
         $tracker->update();
+    }
+
+    function get_go_back_url()
+    {
+        return $this->get_url(array(PhrasesManager :: PARAM_ACTION => PhrasesManager :: ACTION_VIEW_START, PhrasesPublicationManager :: PARAM_PHRASES_PUBLICATION_ID => null));
     }
 }
 ?>
