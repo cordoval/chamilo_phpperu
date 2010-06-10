@@ -42,10 +42,13 @@ class DefaultInternshipOrganizerCategoryRelLocationTableCellRenderer implements 
         {
             case InternshipOrganizerLocation :: PROPERTY_NAME :
                 return $location->get_name();
+            case InternshipOrganizerLocation :: PROPERTY_ADDRESS :
+                return $location->get_address();    
             case InternshipOrganizerLocation :: PROPERTY_DESCRIPTION :
                 return $location->get_description();
             case InternshipOrganizerLocation :: PROPERTY_REGION_ID :
-                return $region->get_city_name();
+            	$city_string = $region->get_zip_code() . '  ' . $region->get_city_name();
+                return $city_string;
             //case InternshipOrganizerLocation :: PROPERTY_CITY :
               //  return $location->get_city();
            // case InternshipOrganizerLocation :: PROPERTY_STREET :

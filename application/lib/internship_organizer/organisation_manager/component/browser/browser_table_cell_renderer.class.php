@@ -30,12 +30,25 @@ class InternshipOrganizerOrganisationBrowserTableCellRenderer extends DefaultInt
             case InternshipOrganizerOrganisation :: PROPERTY_NAME :
                 $title = parent :: render_cell($column, $organisation);
                 $title_short = $title;
-                if (strlen($title_short) > 53)
+                if (strlen($title_short) > 75)
                 {
-                    $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
+                    $title_short = mb_substr($title_short, 0, 75) . '&hellip;';
                 }
                 return '<a href="' . htmlentities($this->browser->get_view_organisation_url($organisation)) . '" title="' . $title . '">' . $title_short . '</a>';
 
+          	case InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION :
+                $title = parent :: render_cell($column, $organisation);
+                $title_short = $title;
+                if (strlen($title_short) > 75)
+                {
+                    $title_short = mb_substr($title_short, 0, 75) . '&hellip;';
+                }
+                return $title_short;
+                
+           	case Translation :: get('Locations') :
+                return $organisation->count_locations();
+                   
+                
         }
         
         return parent :: render_cell($column, $organisation);

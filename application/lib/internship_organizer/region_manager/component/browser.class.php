@@ -104,7 +104,8 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 		if (isset ( $query ) && $query != '')
 		{
 			$or_conditions = array ();
-			$or_conditions [] = new PatternMatchCondition ( InternshipOrganizerRegion::PROPERTY_NAME, '*' . $query . '*' );
+			$or_conditions [] = new PatternMatchCondition ( InternshipOrganizerRegion::PROPERTY_CITY_NAME, '*' . $query . '*' );
+			$or_conditions [] = new PatternMatchCondition ( InternshipOrganizerRegion::PROPERTY_ZIP_CODE, '*' . $query . '*' );
 			$or_conditions [] = new PatternMatchCondition ( InternshipOrganizerRegion::PROPERTY_DESCRIPTION, '*' . $query . '*' );
 			$or_condition = new OrCondition ( $or_conditions );
 			
