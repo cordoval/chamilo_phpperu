@@ -30,6 +30,7 @@ class DefaultInternshipOrganizerCategoryRelLocationTableColumnModel extends Obje
         
     	$columns = array();
         $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_NAME, true, $location_alias);
+        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_ADDRESS, true, $location_alias);
         $region_column = new ObjectTableColumn ( InternshipOrganizerLocation :: PROPERTY_REGION_ID, true );
 		$region_column->set_title(Translation :: get('City'));
 		$columns [] = $region_column;
