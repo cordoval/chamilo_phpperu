@@ -131,6 +131,33 @@ class InternshipOrganizerManager extends WebApplication
 	{
 		return self::APPLICATION_NAME;
 	}
+	
+function add_publication_attributes_elements($form)
+    {
+//        $form->addElement('category', Translation :: get('PublicationDetails'));
+//        $form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . SurveyPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
+//        $form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . SurveyPublication :: PROPERTY_TEST, Translation :: get('TestCase'));
+//        $form->add_forever_or_timewindow('PublicationPeriod', self :: APPLICATION_NAME . '_opt_');
+        
+        $attributes = array();
+        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('ShareWith');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        $attributes['locale'] = $locale;
+        $attributes['defaults'] = array();
+        $attributes['options'] = array('load_elements' => false);
+        
+        $form->add_receivers(self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
+        
+        $form->addElement('category');
+        $form->addElement('html', '<br />');
+        $defaults[self :: APPLICATION_NAME . '_opt_forever'] = 1;
+        $defaults[self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET_OPTION] = 0;
+        $form->setDefaults($defaults);
+    }	
 
 }
 ?>
