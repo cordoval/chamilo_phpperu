@@ -44,6 +44,8 @@ interface AdminDataManagerInterface
 
     function retrieve_language_from_english_name($english_name);
 
+    function retrieve_language($id);
+
     function retrieve_feedback_publications($pid, $cid, $application);
 
     function retrieve_feedback_publication($id);

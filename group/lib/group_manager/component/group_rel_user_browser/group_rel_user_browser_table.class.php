@@ -11,8 +11,6 @@ require_once dirname(__FILE__) . '/group_rel_user_browser_table_cell_renderer.cl
  */
 class GroupRelUserBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'group_browser_table';
-
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
@@ -22,16 +20,22 @@ class GroupRelUserBrowserTable extends ObjectTable
         $model = new GroupRelUserBrowserTableColumnModel();
         $renderer = new GroupRelUserBrowserTableCellRenderer($browser);
         $data_provider = new GroupRelUserBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, GroupRelUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(GroupManager :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);
+        $actions[] = new ObjectTableFormAction(GroupManager :: ACTION_UNSUBSCRIBE_USER_FROM_GROUP, Translation :: get('UnsubscribeSelected'), false);
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
 
+	static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(GroupManager :: PARAM_GROUP_REL_USER_ID, $ids);
+    }
+    
     /**
      * A typical ObjectTable would get the database-id of the object as a
      * unique identifier. GroupRelUser has no such field since it's
