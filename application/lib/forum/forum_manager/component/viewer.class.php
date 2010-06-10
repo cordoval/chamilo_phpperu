@@ -30,13 +30,7 @@ class ForumManagerViewerComponent extends ForumManager
     }
     
     function display_header($trail)
-    {
-       	if($trail)
-    	{
-    		$trail->remove(0);
-    		$this->trail->merge($trail);
-    	}
-    	
+    {    	
     	return parent :: display_header($this->trail);
     }
 

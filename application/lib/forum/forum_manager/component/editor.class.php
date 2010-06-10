@@ -21,6 +21,7 @@ class ForumManagerEditorComponent extends ForumManager
             
             $trail = BreadcrumbTrail :: get_instance();
             
+            $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
             $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('Edit')));
             $trail->add_help('forum general');
             

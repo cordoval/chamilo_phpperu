@@ -284,5 +284,23 @@ class GradebookManager extends WebApplication
     {
 //        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication_id));
     }
+    
+    function get_general_breadcrumbs()
+    {
+		$trail = BreadcrumbTrail :: get_instance();
+    	$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('Gradebook')));
+		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_BROWSE_GRADEBOOK)), Translation :: get('BrowsePublications')));
+		$application = Request :: get(GradebookManager :: PARAM_PUBLICATION_APP);
+		if($application)
+		{
+			$url_params = array();
+			$url_params[GradebookManager :: PARAM_ACTION] = GradebookManager :: ACTION_BROWSE_GRADEBOOK;
+			$url_params[GradebookManager :: PARAM_PUBLICATION_APP] = $application;
+			if(Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE))
+				$url_params[GradebookManager :: PARAM_PUBLICATION_TYPE] = Request :: get(GradebookManager :: PARAM_PUBLICATION_TYPE);
+			$trail->add(new Breadcrumb($this->get_url($url_params), ucfirst($application)));
+		}
+		return $trail;
+    }
 }
 ?>
