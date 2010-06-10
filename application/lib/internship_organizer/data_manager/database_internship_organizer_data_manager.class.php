@@ -13,6 +13,8 @@ require_once dirname(__FILE__) . '/../agreement.class.php';
 require_once dirname(__FILE__) . '/../moment.class.php';
 require_once dirname(__FILE__) . '/../region.class.php';
 require_once dirname(__FILE__) . '/../period.class.php';
+require_once dirname(__FILE__) . '/../period_rel_user.class.php';
+
 
 require_once 'MDB2.php';
 
@@ -23,16 +25,16 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     {
         parent :: initialize();
         $this->set_prefix('internship_organizer_');
-
+    
     }
 
     //	function create_storage_unit($name, $properties, $indexes) {
     //		return $this->create_storage_unit ( $name, $properties, $indexes );
     //	}
-
+    
 
     //internship planner locations
-
+    
 
     function create_internship_organizer_location($location)
     {
@@ -68,7 +70,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     }
 
     //internship planner organisations
-
+    
 
     function create_internship_organizer_organisation($organisation)
     {
@@ -104,7 +106,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     }
 
     //internship planner categories
-
+    
 
     function update_internship_organizer_category($category)
     {
@@ -116,18 +118,18 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     {
         $condition = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_ID, $category->get_id());
         $bool = $this->delete($category->get_table_name(), $condition);
-
+        
         $condition_subcategories = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_PARENT_ID, $category->get_id());
         $categories = $this->retrieve_categories($condition_subcategories);
         while ($gr = $categories->next_result())
         {
             $bool = $bool & $this->delete_internship_organizer_category($gr);
         }
-
+        
         $this->truncate_category($category);
-
+        
         return $bool;
-
+    
     }
 
     function truncate_category($category)
@@ -142,7 +144,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelLocation :: PROPERTY_CATEGORY_ID, $categoryrellocation->get_category_id());
         $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelLocation :: PROPERTY_LOCATION_ID, $categoryrellocation->get_location_id());
         $condition = new AndCondition($conditions);
-
+        
         return $this->delete($categoryrellocation->get_table_name(), $condition);
     }
 
@@ -174,34 +176,34 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function retrieve_full_category_rel_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-
+        
         $rel_alias = $this->get_alias(InternshipOrganizerCategoryRelLocation :: get_table_name());
-
+        
         $category_alias = $this->get_alias(InternshipOrganizerCategory :: get_table_name());
         $organisation_alias = $this->get_alias(InternshipOrganizerOrganisation :: get_table_name());
         $location_alias = $this->get_alias(InternshipOrganizerLocation :: get_table_name());
-
+        
         $query = 'SELECT ' . $category_rel_location_alias . ' * ';
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerCategoryRelLocation :: get_table_name()) . ' AS ' . $rel_alias;
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerLocation :: get_table_name()) . ' AS ' . $location_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerCategoryRelLocation :: PROPERTY_LOCATION_ID, $rel_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ID, $location_alias);
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerOrganisation :: get_table_name()) . ' AS ' . $organisation_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerOrganisation :: PROPERTY_ID, $organisation_alias);
-
+        
         return $this->retrieve_object_set($query, InternshipOrganizerCategoryRelLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerCategoryRelLocation :: CLASS_NAME);
     }
 
     function count_full_category_rel_locations($condition = null)
     {
         $rel_alias = $this->get_alias(InternshipOrganizerCategoryRelLocation :: get_table_name());
-
+        
         $category_alias = $this->get_alias(InternshipOrganizerCategory :: get_table_name());
         $organisation_alias = $this->get_alias(InternshipOrganizerOrganisation :: get_table_name());
         $location_alias = $this->get_alias(InternshipOrganizerLocation :: get_table_name());
-
+        
         $query = 'SELECT ' . $category_rel_location_alias . ' * ';
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerCategoryRelLocation :: get_table_name()) . ' AS ' . $rel_alias;
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerLocation :: get_table_name()) . ' AS ' . $location_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerCategoryRelLocation :: PROPERTY_LOCATION_ID, $rel_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ID, $location_alias);
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerOrganisation :: get_table_name()) . ' AS ' . $organisation_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerOrganisation :: PROPERTY_ID, $organisation_alias);
-
+        
         return $this->count_result_set($query, InternshipOrganizerCategoryRelLocation :: get_table_name(), $condition);
     }
 
@@ -233,7 +235,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     function is_categoryname_available($categoryname, $category_id = null)
     {
         $condition = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_NAME, $categoryname);
-
+        
         if ($category_id)
         {
             $conditions = array();
@@ -241,7 +243,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
             $conditions = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_ID, $category_id);
             $condition = new AndCondition($conditions);
         }
-
+        
         return ! ($this->count_objects(InternshipOrganizerCategory :: get_table_name(), $condition) == 1);
     }
 
@@ -262,7 +264,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     }
 
     //internship planner moments
-
+    
 
     function create_internship_organizer_moment($moment)
     {
@@ -298,7 +300,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     }
 
     //internship planner agreements
-
+    
 
     function create_internship_organizer_agreement($agreement)
     {
@@ -334,7 +336,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     }
 
     //internship planner regions##
-
+    
 
     function update_internship_organizer_region($region)
     {
@@ -346,7 +348,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     {
         $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_ID, $region->get_id());
         $bool = $this->delete($region->get_table_name(), $condition);
-
+        
         $condition_subregions = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, $region->get_id());
         $regions = $this->retrieve_regions($condition_subregions);
         while ($gr = $regions->next_result())
@@ -354,9 +356,9 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
             $bool = $bool & $this->delete_internship_organizer_region($gr);
             //mag dit? (i.e. recursieve oproep)
         }
-
+        
         return $bool;
-
+    
     }
 
     //
@@ -395,7 +397,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     function is_regionname_available($regionname, $region_id = null)
     {
         $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_NAME, $regionname);
-
+        
         if ($region_id)
         {
             $conditions = array();
@@ -403,43 +405,9 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
             $conditions = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_ID, $region_id);
             $condition = new AndCondition($conditions);
         }
-
+        
         return ! ($this->count_objects(InternshipOrganizerRegion :: get_table_name(), $condition) == 1);
     }
-
-    //	function add_internship_organizer_region_nested_values($node, $previous_visited, $number_of_elements = 1, $condition) {
-    //
-    //		return $this->add_nested_values ( $node, $previous_visited, $number_of_elements, $condition );
-    //	}
-    //
-    //	function delete_internship_organizer_region_nested_values($node, $previous_visited, $number_of_elements, $condition) {
-    //		return $this->add_nested_values ( $node, $previous_visited, $number_of_elements, $condition );
-    //	}
-    //
-    //	function count_internship_organizer_region_children($node, $condition) {
-    //		return $this->count_children ( $node, $condition );
-    //	}
-    //
-    //	function get_internship_organizer_region_children($node, $recursieve, $condition) {
-    //		return $this->get_children ( $node, $recursieve, $condition );
-    //	}
-    //
-    //	function count_internship_organizer_region_siblings($node, $include_object, $condition) {
-    //		return $this->count_siblings ( $node, $include_object, $condition );
-    //	}
-    //
-    //	function get_internship_organizer_region_siblings($node, $include_object, $condition) {
-    //		return $this->get_siblings ( $node, $include_object, $condition );
-    //	}
-    //
-    //	function count_internship_organizer_region_parents($node, $include_object, $condition) {
-    //		return $this->count_parents ( $node, $include_object, $condition );
-    //	}
-    //
-    //	function get_internship_organizer_region_parents($node, $recursieve, $include_object, $condition) {
-    //		return $this->get_parents ( $node, $recursieve, $include_object, $condition );
-    //	}
-
 
     function retrieve_root_region()
     {
@@ -453,13 +421,13 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
             $root_region->set_name(Translation :: get('World'));
             $root_region->set_parent_id(0);
             $root_region->create();
-
+        
         }
         return $root_region;
     }
 
     //internship planner mentors
-
+    
 
     function create_internship_organizer_mentor($mentor)
     {
@@ -495,7 +463,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     }
 
     //internship planner periods##
-
+    
 
     function update_internship_organizer_period($period)
     {
@@ -507,7 +475,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     {
         $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period->get_id());
         $bool = $this->delete($period->get_table_name(), $condition);
-
+        
         $condition_subperiods = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, $period->get_id());
         $periods = $this->retrieve_periods($condition_subperiods);
         while ($gr = $periods->next_result())
@@ -515,9 +483,9 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
             $bool = $bool & $this->delete_internship_organizer_period($gr);
             //mag dit? (i.e. recursieve oproep)
         }
-
+        
         return $bool;
-
+    
     }
 
     function create_internship_organizer_period($period)
@@ -550,7 +518,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     function is_periodname_available($periodname, $period_id = null)
     {
         $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_NAME, $periodname);
-
+        
         if ($period_id)
         {
             $conditions = array();
@@ -558,7 +526,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
             $conditions = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period_id);
             $condition = new AndCondition($conditions);
         }
-
+        
         return ! ($this->count_objects(InternshipOrganizerPeriod :: get_table_name(), $condition) == 1);
     }
 
@@ -574,6 +542,16 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
             $root_period->create();
         }
         return $root_period;
+    }
+
+    function count_period_rel_users($condition = null)
+    {
+        return $this->count_objects(InternshipOrganizerPeriodRelUser :: get_table_name(), $condition);
+    }
+
+    function retrieve_period_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(InternshipOrganizerPeriodRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPeriodRelUser :: CLASS_NAME);
     }
 
 }

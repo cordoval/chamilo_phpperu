@@ -11,13 +11,30 @@ class SurveyQuestionReportingBlock extends SurveyReportingBlock
     const COUNT = 'count';
     
     private $question;
-   
+
     public function count_data()
     {
         
         $question_id = $this->get_survey_question_id();
+        
+//        dump($question_id);
+//        
+//        //        $condition = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $this->get_survey_question_id());
+//        $tracker = new SurveyQuestionAnswerTracker();
+//        $count = $tracker->count_tracker_items($condition);
+//        dump($count);
+//        $trackers = $tracker->retrieve_tracker_items_result_set($condition);
+//        $questions_ids = array();
+//        while ($tracker = $trackers->next_result())
+//        {
+//            $questions_ids[] = $tracker->get_question_cid();
+//        }
+//        dump(count(array_unique($questions_ids)));
+//        
+//        exit();
+        
         $this->question = RepositoryDataManager :: get_instance()->retrieve_content_object($question_id);
-     
+        
         return $this->create_reporting_data();
     
     }
