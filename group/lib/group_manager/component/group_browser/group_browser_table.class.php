@@ -24,26 +24,17 @@ class GroupBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(GroupManager :: PARAM_REMOVE_SELECTED, Translation :: get('RemoveSelected'));
-        $actions[] = new ObjectTableFormAction(GroupManager :: PARAM_TRUNCATE_SELECTED, Translation :: get('TruncateSelected'));
+        $actions[] = new ObjectTableFormAction(GroupManager :: ACTION_DELETE_GROUP, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(GroupManager :: ACTION_TRUNCATE_GROUP, Translation :: get('TruncateSelected'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
     
-    static function handle_table_actions($table_action)
+    static function handle_table_actions()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
-        
-        switch($table_action)
-        {
-        	case GroupManager :: PARAM_REMOVE_SELECTED :
-                Request :: set_get(GroupManager :: PARAM_GROUP_ID, $ids);
-                return GroupManager :: ACTION_DELETE_GROUP;
-            case GroupManager :: PARAM_TRUNCATE_SELECTED :
-                Request :: set_get(GroupManager :: PARAM_GROUP_ID, $ids);
-                return GroupManager :: ACTION_TRUNCATE_GROUP;
-        }
+        Request :: set_get(GroupManager :: PARAM_GROUP_ID, $ids);
     }
 }
 ?>

@@ -12,8 +12,6 @@ require_once dirname(__FILE__) . '/subscribe_user_browser_table_cell_renderer.cl
  */
 class SubscribeUserBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'group_browser_table';
-
     /**
      * Constructor
      */
@@ -22,14 +20,20 @@ class SubscribeUserBrowserTable extends ObjectTable
         $model = new SubscribeUserBrowserTableColumnModel();
         $renderer = new SubscribeUserBrowserTableCellRenderer($browser);
         $data_provider = new SubscribeUserBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, SubscribeUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(GroupManager :: PARAM_SUBSCRIBE_SELECTED, Translation :: get('Subscribe'));
+        $actions[] = new ObjectTableFormAction(GroupManager :: ACTION_SUBSCRIBE_USER_TO_GROUP, Translation :: get('Subscribe'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+	static function handle_table_actions()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(GroupManager :: PARAM_USER_ID, $ids);
     }
 }
 ?>
