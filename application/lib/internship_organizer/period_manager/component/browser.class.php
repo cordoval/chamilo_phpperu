@@ -39,6 +39,8 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         $sub_period_table = new InternshipOrganizerPeriodBrowserTable($this, $this->get_parameters(), $this->get_condition());
         $rel_user_table = new InternshipOrganizerPeriodUserBrowserTable($this, $this->get_parameters(), $this->get_rel_user_condition());
         
+        $period = $this->retrieve_period($this->get_period());
+        
         $html = array();
         $html[] = '<div style="float: right; width: 80%;">';
         
