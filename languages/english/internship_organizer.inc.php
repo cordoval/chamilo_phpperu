@@ -155,6 +155,8 @@ $lang['internship_organizer']['Regions'] = 'Regions';
 $lang['internship_organizer']['Subregions'] = 'Subregions';
 $lang['internship_organizer']['Subperiods'] = 'Subperiods';
 
+$lang['internship_organizer']['InternshipOrganizer'] = 'Internship Organizer';
+
 $lang['internship_organizer']['Administration'] = 'Administration';
 $lang['internship_organizer']['NoObjectSelected'] = 'No Objects Selected';
 
