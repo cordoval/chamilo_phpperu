@@ -23,6 +23,11 @@ class Toolbar
     {
         $this->items = $items;
     }
+    
+    function get_items()
+    {
+    	return $this->items;
+    }
 
     function add_item($item)
     {

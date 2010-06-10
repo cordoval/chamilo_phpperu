@@ -21,14 +21,22 @@ class RepoViewerViewerComponent extends RepoViewerComponent
         if (Request :: get(RepoViewer :: PARAM_ID))
         {
             $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object(Request :: get(RepoViewer :: PARAM_ID));
-            $toolbar_data = array();
-            $toolbar_data[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $content_object->get_id())), false), 'img' => Theme :: get_common_image_path() . 'action_publish.png', 'label' => Translation :: get('Publish'), 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-            $toolbar_data[] = array('href' => $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_CREATOR, RepoViewer :: PARAM_EDIT_ID => $content_object->get_id()))), //, RepoViewer :: PARAM_EDIT => 1))),
-									'img' => Theme :: get_common_image_path() . 'action_editpublish.png', 'label' => Translation :: get('EditAndPublish'), 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-            $toolbar = Utilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
-
+            $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Publish'),
+	        		Theme :: get_common_image_path() . 'action_publish.png',
+	        		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $content_object->get_id())), false)
+	        ));
+	        
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('EditAndPublish'),
+	        		Theme :: get_common_image_path() . 'action_editpublish.png',
+	        		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_CREATOR, RepoViewer :: PARAM_EDIT_ID => $content_object->get_id())))
+	        ));
+            
             $html[] = ContentObjectDisplay :: factory($content_object)->get_full_html();
-            $html[] = $toolbar;
+            $html[] = $toolbar->as_html();
             $html[] = '<div class="clear"></div>';
         }
 
