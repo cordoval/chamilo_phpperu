@@ -72,7 +72,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         }
         else
         {
-        	$count = $search_source->count_search_results($query);
+        	$count = $search_source->count_search_results($query, $this->get_user());
             if ($count)
             {
             	$pager = $this->create_pager($count, self :: CONTENT_OBJECTS_PER_PAGE);  
@@ -88,7 +88,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
                 $i = 0;
                 $html[] = '<ul class="portal_search_results">';
                 
-                $results = $search_source->retrieve_search_results($query, $first, self :: CONTENT_OBJECTS_PER_PAGE);
+                $results = $search_source->retrieve_search_results($query, $first, self :: CONTENT_OBJECTS_PER_PAGE, $this->get_user());
                 
                 foreach($results as $result)
                 {
@@ -118,12 +118,22 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         $object->set_title(Text :: highlight($object->get_title(), $query, 'yellow'));
         $object->set_description(Text :: highlight($object->get_description(), $query, 'yellow'));
 
+    	$user =  UserDataManager :: get_instance()->retrieve_user($object->get_owner_id());
+        if($user)
+        {
+        	$fullname = $user->get_fullname();
+        }
+        else
+        {
+        	$fullname = Translation :: get('UserUnknown');
+        }
+        
         $html = array();
         $html[] = '<li class="portal_search_result" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_type() . '.png);">';
         $html[] = '<div class="portal_search_result_title">' . $object->get_title() . '</div>';
         $html[] = '<div class="portal_search_result_type">' . str_replace('_', ' ', $object->get_type()) . '</div>';
         $html[] = '<div class="portal_search_result_description">' . $object->get_description() . '</div>';
-        $html[] = '<div class="portal_search_result_owner">'. Translation :: get('ObjectOwner') . ': ' . UserDataManager :: get_instance()->retrieve_user($object->get_owner_id())->get_fullname() . '</div>';
+        $html[] = '<div class="portal_search_result_owner">'. Translation :: get('ObjectOwner') . ': ' . $fullname . '</div>';
         
     	if(PlatformSetting :: get('active_online_email_editor'))
         {

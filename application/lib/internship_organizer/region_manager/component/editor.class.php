@@ -10,7 +10,7 @@ class InternshipOrganizerRegionManagerEditorComponent extends InternshipOrganize
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('region general');
         $trail->add(new Breadcrumb($this->get_browse_regions_url(), Translation :: get('BrowseInternshipOrganizerRegions')));
         

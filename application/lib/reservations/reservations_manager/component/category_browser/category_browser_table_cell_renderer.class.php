@@ -48,36 +48,77 @@ class CategoryBrowserTableCellRenderer extends DefaultCategoryTableCellRenderer
      */
     private function get_modification_links($category)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar_data[] = array('href' => $this->browser->get_update_category_url($category->get_id()), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Edit'),
+        		Theme :: get_common_image_path() . 'action_edit.png',
+        		$this->browser->get_update_category_url($category->get_id()),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        $toolbar_data[] = array('href' => $this->browser->get_delete_category_url($category->get_id()), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$this->browser->get_delete_category_url($category->get_id()),
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
         
-        $toolbar_data[] = array('href' => $this->browser->get_modify_rights_url('category', $category->get_id()), 'label' => Translation :: get('ModifyRights'), 'img' => Theme :: get_common_image_path() . 'action_rights.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('ModifyRights'),
+        		Theme :: get_common_image_path() . 'action_rights.png',
+        		$this->browser->get_modify_rights_url('category', $category->get_id()),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        $url = $this->browser->get_browse_category_quota_boxes_url($category->get_id());
-        $toolbar_data[] = array('href' => $url, 'label' => Translation :: get('ManageQuota'), 'img' => Theme :: get_common_image_path() . 'action_statistics.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('ManageQuota'),
+        		Theme :: get_common_image_path() . 'action_statistics.png',
+        		$this->browser->get_browse_category_quota_boxes_url($category->get_id()),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        if ($category->get_display_order() > 1)
+    	if ($category->get_display_order() > 1)
         {
-            $toolbar_data[] = array('href' => $this->browser->get_move_category_url($category->get_id(), - 1), 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveUp'),
+	        		Theme :: get_common_image_path() . 'action_up.png',
+	        		$this->browser->get_move_category_url($category->get_id(), - 1),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveUpNA'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveUpNA'),
+	        		Theme :: get_common_image_path() . 'action_up_na.png',
+	        		null,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         
         if ($category->get_display_order() < $this->count)
         {
-            $toolbar_data[] = array('href' => $this->browser->get_move_category_url($category->get_id(), 1), 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveDown'),
+	        		Theme :: get_common_image_path() . 'action_down.png',
+	        		$this->browser->get_move_category_url($category->get_id(), 1),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         else
         {
-            $toolbar_data[] = array('label' => Translation :: get('MoveDownNA'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('MoveDownNA'),
+	        		Theme :: get_common_image_path() . 'action_down_na.png',
+	        		null,
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
+        
     }
 }
 ?>

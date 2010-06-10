@@ -10,7 +10,7 @@ class InternshipOrganizerPeriodManagerEditorComponent extends InternshipOrganize
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('period general');
         $trail->add(new Breadcrumb($this->get_browse_periods_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
         

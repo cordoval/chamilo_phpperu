@@ -58,13 +58,23 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
      */
     private function get_modification_links($event)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
-        $toolbar_data[] = array('href' => $this->browser->get_change_active_url('event', $event->get_id()), 'label' => ($event->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'), 'confirm' => false, 'img' => ($event->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png');
+        $toolbar->add_item(new ToolbarItem(
+        	($event->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'),
+        	($event->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png'), 
+			$this->browser->get_change_active_url('event', $event->get_id()),
+			ToolbarItem :: DISPLAY_ICON
+		));
+
+		$toolbar->add_item(new ToolbarItem(
+        	Translation :: get('Empty_event'),
+        	Theme :: get_common_image_path().'action_recycle_bin.png', 
+			$this->browser->get_empty_tracker_url('event', $event->get_id()),
+			ToolbarItem :: DISPLAY_ICON
+		));
         
-        $toolbar_data[] = array('href' => $this->browser->get_empty_tracker_url('event', $event->get_id()), 'label' => Translation :: get('Empty_event'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

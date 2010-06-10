@@ -20,7 +20,7 @@ class ReservationsManagerItemUpdaterComponent extends ReservationsManager
         $category_id = $_GET[ReservationsManager :: PARAM_CATEGORY_ID];
         $item_id = $_GET[ReservationsManager :: PARAM_ITEM_ID];
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('ViewItems')));
         $trail->add(new Breadcrumb($this->get_url(array(ReservationsManager :: PARAM_ITEM_ID => $item_id, ReservationsManager :: PARAM_CATEGORY_ID => $category_id)), Translation :: get('UpdateItem')));

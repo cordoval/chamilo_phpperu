@@ -222,7 +222,7 @@ class Display
     {
         if (is_null($trail))
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
         }
         self :: header($trail);
         $home_url = Path :: get(WEB_PATH);

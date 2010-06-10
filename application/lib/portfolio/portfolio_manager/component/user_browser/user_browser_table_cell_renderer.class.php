@@ -51,11 +51,16 @@ class UserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
      */
     private function get_modification_links($user)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar_data[] = array('href' => $this->browser->get_view_portfolio_url($user->get_id()), 'label' => Translation :: get('ViewPortfolio'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('ViewPortfolio'),
+        		Theme :: get_common_image_path() . 'action_browser.png',
+        		$this->browser->get_view_portfolio_url($user->get_id()),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

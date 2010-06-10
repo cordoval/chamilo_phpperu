@@ -20,7 +20,7 @@ class DistributeManagerViewerComponent extends DistributeManager
         {
             $announcement_distribution = $this->retrieve_announcement_distribution($id);
             
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => DistributeManager :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS)), Translation :: get('Distribute')));
             $trail->add(new Breadcrumb($this->get_url(array(DistributeManager :: PARAM_ANNOUNCEMENT_DISTRIBUTION => $id)), $announcement_distribution->get_distribution_object()->get_title()));
             $trail->add_help('distribute general');

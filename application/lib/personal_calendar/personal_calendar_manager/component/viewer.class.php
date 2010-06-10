@@ -18,7 +18,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
     {
         $id = Request :: get(PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
         
         if ($id)

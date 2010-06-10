@@ -59,20 +59,38 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
      */
     private function get_modification_links($wiki_publication)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar_data[] = array('href' => $this->browser->get_update_wiki_publication_url($wiki_publication), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Edit'),
+        		Theme :: get_common_image_path() . 'action_edit.png',
+        		$this->browser->get_update_wiki_publication_url($wiki_publication),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        $toolbar_data[] = array('href' => $this->browser->get_delete_wiki_publication_url($wiki_publication), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$this->browser->get_delete_wiki_publication_url($wiki_publication),
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
         
         if(WebApplication :: is_active('gradebook'))
         {
         	require_once dirname (__FILE__) . '/../../../../gradebook/evaluation_manager/evaluation_manager.class.php';
         	if(EvaluationManager :: retrieve_internal_item_by_publication(WikiManager :: APPLICATION_NAME, $wiki_publication->get_id()))
-        		$toolbar_data[] = array('href' => $this->browser->get_evaluation_publication_url($wiki_publication), 'label' => Translation :: get('Evaluation'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png');
+        	{
+        		$toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('Evaluation'),
+		        		Theme :: get_common_image_path() . 'action_evaluation.png',
+		        		$this->browser->get_evaluation_publication_url($wiki_publication),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+        	}
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

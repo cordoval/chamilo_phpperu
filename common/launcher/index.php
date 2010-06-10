@@ -23,7 +23,7 @@ try
 }
 catch (Exception $exception)
 {
-    Display :: header(new BreadcrumbTrail());
+    Display :: header(BreadcrumbTrail :: get_instance());
     Display :: error_message($exception->getMessage());
     Display :: footer();
 }

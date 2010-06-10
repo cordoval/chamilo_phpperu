@@ -18,24 +18,14 @@ class DefaultInternshipOrganizerOrganisationTableCellRenderer implements ObjectT
         switch ($column->get_name())
         {
             case InternshipOrganizerOrganisation :: PROPERTY_NAME :
-                return $organisation->get_name();
-/*            
- * 			case InternshipOrganizerOrganisation :: PROPERTY_ADDRESS :
-                return $organisation->get_address();    
-            case InternshipOrganizerOrganisation :: PROPERTY_POSTCODE :
-                return $organisation->get_postcode();    
-            case InternshipOrganizerOrganisation :: PROPERTY_CITY :
-                return $organisation->get_postcode() . ' ' . $organisation->get_city();
-            case InternshipOrganizerOrganisation :: PROPERTY_TELEPHONE :
-                return $organisation->get_telephone();    
-            case InternshipOrganizerOrganisation :: PROPERTY_FAX :
-                return $organisation->get_fax();    
-            case InternshipOrganizerOrganisation :: PROPERTY_EMAIL :
-                return $organisation->get_email();    
-*/
+            	//$organisation_string = Utilities :: truncate_string($organisation->get_name(), 100);
+                //return $organisation_string;
+				return $organisation->get_name();
+            	
             case InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION :
-                $description = Utilities :: truncate_string($organisation->get_description(), 200);
-                return $description;
+                //$description = Utilities :: truncate_string($organisation->get_description(), 100);
+                //return $description;
+                return $organisation->get_description();
             default :
                 return '&nbsp;';
         }

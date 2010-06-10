@@ -74,17 +74,29 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
      */
     private function get_modification_links($group)
     {
-        $toolbar_data = array();
-
-        $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE_GROUP_USERS;
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+    	$parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE_GROUP_USERS;
         $parameters[WeblcmsManager :: PARAM_GROUP] = $group->get_id();
-        $toolbar_data[] = array('href' => $this->browser->get_url($parameters), 'label' => Translation :: get('SubscribeUsersFromGroup'), 'img' => Theme :: get_common_image_path() . 'action_copy.png');
 
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('SubscribeUsersFromGroup'),
+        		Theme :: get_common_image_path() . 'action_copy.png',
+        		$this->browser->get_url($parameters),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
         $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE_GROUP;
         $parameters[WeblcmsManager :: PARAM_GROUP] = $group->get_id();
-        $toolbar_data[] = array('href' => $this->browser->get_url($parameters), 'label' => Translation :: get('SubscribeGroup'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
-
-        return Utilities :: build_toolbar($toolbar_data);
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('SubscribeGroup'),
+        		Theme :: get_common_image_path() . 'action_subscribe.png',
+        		$this->browser->get_url($parameters),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        return $toolbar->as_html();
     }
 }
 ?>

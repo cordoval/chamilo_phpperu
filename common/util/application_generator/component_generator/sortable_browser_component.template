@@ -16,7 +16,7 @@ class {APPLICATION_NAME}Manager{OBJECT_CLASSES}BrowserComponent extends {APPLICA
 	
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE)), Translation :: get('Browse{APPLICATION_NAME}')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Browse{OBJECT_CLASSES}')));
 

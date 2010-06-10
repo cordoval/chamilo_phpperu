@@ -31,7 +31,7 @@ class LaikaWizardDisplay extends HTML_QuickForm_Action_Display
      */
     function _renderForm($current_page)
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
         $trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_TAKE_TEST)), Translation :: get('TakeLaika')));
         

@@ -28,7 +28,7 @@ class ForumManagerBrowserComponent extends ForumManager
         
         $table = $this->get_table_html();
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseForum')));
         
         $this->display_header($trail);
@@ -142,38 +142,68 @@ class ForumManagerBrowserComponent extends ForumManager
 
     function get_forum_actions($publication, $first, $last)
     {
+    	$toolbar = new Toolbar();
         if ($this->is_allowed(DELETE_RIGHT))
         {
-            $delete = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_DELETE)), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+        	$delete = new ToolbarItem(Translation :: get('Delete'), 
+        					Theme :: get_common_image_path() . 'action_delete.png', 
+        					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_DELETE)),
+        					ToolbarItem :: DISPLAY_ICON, 
+        					true );
         }
         
         if ($this->is_allowed(EDIT_RIGHT))
         {
             if ($publication->is_hidden())
             {
-                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Show'), 'img' => Theme :: get_common_image_path() . 'action_invisible.png');
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('Show'), 
+        					Theme :: get_common_image_path() . 'action_invisible.png', 
+        					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)),
+        					ToolbarItem :: DISPLAY_ICON
+        					));
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)), 'label' => Translation :: get('Hide'), 'img' => Theme :: get_common_image_path() . 'action_visible.png');
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('Hide'), 
+        					Theme :: get_common_image_path() . 'action_visible.png', 
+        					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_TOGGLE_VISIBILITY)),
+        					ToolbarItem :: DISPLAY_ICON
+        					));
             }
             
             if ($first)
             {
-                $actions[] = array('label' => Translation :: get('MoveUpNA'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), 
+        					Theme :: get_common_image_path() . 'action_up_na.png', 
+        					null,
+        					ToolbarItem :: DISPLAY_ICON
+        					));
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_MOVE, ForumManager :: PARAM_MOVE => - 1)), 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), 
+        					Theme :: get_common_image_path() . 'action_up.png', 
+        					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_MOVE, ForumManager :: PARAM_MOVE => - 1)),
+        					ToolbarItem :: DISPLAY_ICON
+        					));
             }
             
             if ($last)
             {
-                $actions[] = array('label' => Translation :: get('MoveDownNA'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), 
+        					Theme :: get_common_image_path() . 'action_down_na.png', 
+        					null,
+        					ToolbarItem :: DISPLAY_ICON
+        					));
             }
             else
             {
-                $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_MOVE, ForumManager :: PARAM_MOVE => 1)), 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
+            	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), 
+        					Theme :: get_common_image_path() . 'action_down.png', 
+        					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id())),
+        					ToolbarItem :: DISPLAY_ICON
+        					));
+               
             }
             
             //			$actions[] = array(
@@ -182,21 +212,28 @@ class ForumManagerBrowserComponent extends ForumManager
             //				'img' => Theme :: get_common_image_path() . 'action_move.png'
             //			);
             
-
-            $actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT)), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), 
+        					Theme :: get_common_image_path() . 'action_edit.png', 
+        					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT)),
+        					ToolbarItem :: DISPLAY_ICON
+        					));
             
-            $actions[] = $delete;
+            $toolbar->add_item($delete);
             
 	        if(WebApplication :: is_active('gradebook'))
 	        {
 	        	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
         		if(EvaluationManager :: retrieve_internal_item_by_publication(ForumManager :: APPLICATION_NAME, $publication->get_id()))
-	        		$actions[] = array('href' => $this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EVALUATE)), 'label' => Translation :: get('Evaluation'), 'img' => Theme :: get_common_image_path() . 'action_evaluation.png');
+        			$toolbar->add_item(new ToolbarItem(Translation :: get('Evaluation'), 
+        					Theme :: get_common_image_path() . 'action_evaluation.png', 
+        					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EVALUATE)),
+        					ToolbarItem :: DISPLAY_ICON
+        					));
 	        }
         
         }
         
-        return '<div style="float: right;">' . Utilities :: build_toolbar($actions) . '</div>';
+        return '<div style="float: right;">' . $toolbar->as_html() . '</div>';
     }
 
     function get_action_bar()

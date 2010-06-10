@@ -50,9 +50,16 @@ class ObjectBrowserTableCellRenderer extends DefaultContentObjectTableCellRender
      */
     private function get_modification_links($content_object)
     {
-        $toolbar_data[] = array('href' => $this->browser->get_question_selector_url($content_object->get_id()), 'label' => Translation :: get('SelectQuestion'), 'img' => Theme :: get_common_image_path() . 'action_right.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+    	$toolbar = new Toolbar();
+    	
+    	$toolbar->add_item(new ToolbarItem(
+    			Translation :: get('SelectQuestion'), 
+    			Theme :: get_common_image_path().'action_right.png', 
+				$this->browser->get_question_selector_url($content_object->get_id()), 
+				ToolbarItem :: DISPLAY_ICON
+		));
+					
+		return $toolbar->as_html();
     }
 }
 ?>

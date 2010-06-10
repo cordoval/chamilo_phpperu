@@ -27,7 +27,7 @@ class SurveyManagerCreatorComponent extends SurveyManager
             $testcase = true;
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         if ($testcase)
         {
             $trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));

@@ -144,6 +144,35 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
 
     function get_content_object_type_counts($use_general_statistics = false)
     {
+//        $categories = array();
+//        $categories['assessment'] = array('assessment', 'assessment_hotspot_question', 'assessment_match_numeric_question', 'assessment_match_question', 'assessment_match_text_question', 'assessment_matching_question', 'assessment_matrix_question', 'assessment_multiple_choice_question', 'assessment_open_question', 'assessment_rating_question', 'assessment_select_question', 'fill_in_the_blanks', 'hot_potatoes', 'ordering_question');
+//        $categories['agenda'] = array('calendar_event', 'external_calendar', 'task');
+//        $categories['news'] = array('announcement', 'news_article', 'system_announcement');
+//        $categories['media'] = array('document', 'streaming_video_clip', 'youtube');
+//        $categories['collaboration'] = array('blog_post', 'forum', 'forum_post', 'forum_topic', 'glossary', 'glossary_item', 'learning_path', 'portfolio', 'profile', 'research_event', 'research_publication', 'template', 'wiki', 'wiki_page');
+//        $categories['survey'] = array('survey', 'survey_description', 'survey_matching_question', 'survey_matrix_question', 'survey_multiple_choice_question', 'survey_open_question', 'survey_page', 'survey_rating_question', 'survey_select_question');
+//        $categories['peer_assessment'] = array('competence', 'criteria', 'indicator', 'peer_assessment');
+//        $categories['general'] = array('comic_book', 'description', 'enclyclopedia', 'feedback', 'introduction', 'link', 'note', 'personal_message', 'physical_location', 'rss_feed');
+//
+//        $selection = array();
+//
+//        foreach($categories as $category => $object_types)
+//        {
+//            $selection[] = '<div class="create_category">';
+//            $selection[] = '<span class="title">' . Translation :: get(Utilities :: underscores_to_camelcase($category)) . '</span>';
+//
+//            foreach($object_types as $object_type)
+//            {
+//                $selection[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $object_type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object_type . '.png);">';
+//                $selection[] = Translation :: get(ContentObject :: type_to_class($object_type) . 'TypeName');
+//                $selection[] = '</div></a>';
+//            }
+//
+//            $selection[] = '</div>';
+//        }
+//
+//        return implode("\n", $selection);
+
         $type_counts = array();
         $most_used_type_count = 0;
 

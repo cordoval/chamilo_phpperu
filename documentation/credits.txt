@@ -1,0 +1,110 @@
+Chamilo 2.0 Analysis & Development - CREDITS
+-------------------------------------------
+Hogeschool Gent 
+* Sven Vanpoucke (lead developer)
+* Michel Panckoucke
+* Stefaan Vanbillemont
+* Pieter-Jan Brouckaert
+* Tom Goethals
+* Steven Willaert
+* Bart Mollet
+* Tom Brutin
+* Tim De Pauw
+* Dieter De Neef
+* David Van Wayenberg
+* Stefan Billiet
+* Nick De Feyter
+* Michael Kyndt
+* Nick Van Loocke
+* Ben Vanmassenhove
+* Johan Janssens
+* Tristan Verheecke
+* Yannick Meert
+
+Erasmus Hogeschool Brussel
+* Hans De Bisschop (lead developer)
+* Eduard Vossen
+* David De Vits
+* David Hosse
+* Magali Gillard
+* Shoira Mukhsinova
+* Sven Vanhoecke
+
+Vrije Universiteit Brussel
+* Nathalie Blocry
+* Jens Vanderheyden
+* Pieter Hens
+* Roel Neefs
+* Thijs Braem
+
+Université de Genève
+* Nicolas Rod
+* Laurent Opprecht
+* Joëlle Levi
+
+Beeznest 
+* Yannick Warnier
+
+DevelopIT
+* Thomas Corthals
+
+Independant
+* Ivan Tcholakov
+
+Chamilo 2.0 Testing & Debugging - CREDITS
+-----------------------------------------
+* Jean-Marie Maes
+* Koen Favere
+* Dominique De Guchtenaere
+* Geert Mys
+* Liesbeth De Blaere
+* Olivier Sourie
+* Patrick Roth
+* Tim Brouckaert
+* Jeremie Grepilloux
+* Hubert Borderiou
+* Alexander Hu
+* Julio Montoya
+* Luis Rodriguez
+* Isaac Flores
+* All people partipated in the Friday Sessions
+* All other people we may have forgotten (sorry!)
+
+Chamilo 2.0 Translations - CREDITS
+----------------------------------
+* Simon Georges
+* Stefaan Vanbillemont
+* Noa Orizales Orizales
+* Jan M. Maes
+* Hans De Bisschop
+* Sven Vanpoucke
+* Hubert Borderiou
+* Yannick Warnier
+* Marko Kastelic
+* Furio Petrossi
+* Nick Van Loocke
+* Andreu de Haro
+* grep jere
+* Emiliano Orizales Orizales
+* Juan Carlos Raña Trabado
+* David Auzeine
+* Garcia Gonzalez Jose
+* Carlos Vargas
+* Arthur jonnathan portugal guerrero
+* Ivan Tcholakov
+* Henri Hedman
+* Maarten Meuris
+* Frederic Raes
+* Guillaume Viguier-Just
+* Julio Montoya
+* Simon Peeters
+* Amilcar Zanetti
+* Ricardo Rodriguez
+* Bernard Brink
+* Ho Kyle
+* Youness BOUTYOUR
+* Jeroen Baten
+* Rodrigo Caballero
+* Maria R. Malmierca
+* Juan Pedro Lobaton
+* All other people we may have forgotten (sorry!)

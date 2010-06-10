@@ -16,7 +16,7 @@ class ReservationsManagerCategoryQuotaBoxBrowserComponent extends ReservationsMa
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
         $category_id = $this->get_category_id();
         

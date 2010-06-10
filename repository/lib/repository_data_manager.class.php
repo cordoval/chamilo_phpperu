@@ -60,11 +60,11 @@ class RepositoryDataManager
         if (! isset(self :: $instance))
         {
             self :: load_types();
-            
+
             $type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
             require_once dirname(__FILE__) . '/data_manager/' . strtolower($type) . '_repository_data_manager.class.php';
             $class = Utilities :: underscores_to_camelcase($type) . 'RepositoryDataManager';
-            
+
             self :: $instance = new $class();
         }
         return self :: $instance;
@@ -357,7 +357,7 @@ class RepositoryDataManager
      */
     public static function count_publication_attributes($user, $object_id, $condition = null)
     {
-    	$applications = self :: get_registered_applications();
+        $applications = self :: get_registered_applications();
         $info = 0;
         foreach ($applications as $index => $application_name)
         {
@@ -507,7 +507,24 @@ class RepositoryDataManager
             self :: $number_of_categories[$user_id] = self :: get_instance()->count_categories($condition);
         }
         return self :: $number_of_categories{$user_id};
+    }
 
+    public static function get_content_object_managers()
+    {
+        self :: load_types();
+        $active_objects = self :: get_registered_types(true);
+        $managers = array();
+
+        foreach ($active_objects as $active_object)
+        {
+            $active_object_managers = call_user_func(array(ContentObject :: type_to_class($active_object), 'get_managers'));
+            if (count($active_object_managers) > 0)
+            {
+                $managers[$active_object] = $active_object_managers;
+            }
+        }
+
+        return $managers;
     }
 }
 ?>

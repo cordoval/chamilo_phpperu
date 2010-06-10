@@ -19,7 +19,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
         $reply = Request :: get('reply');
         $user = Request :: get(PersonalMessengerManager :: PARAM_USER_ID);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('personal messenger general');
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: ACTION_FOLDER_INBOX)), Translation :: get('MyPersonalMessenger')));
         

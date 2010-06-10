@@ -102,6 +102,45 @@ class InternshipOrganizerOrganisation extends DataClass
 	{
 		return 'organisation';
 	}
+	
+    function count_locations()
+    {
+        $locations = $this->get_locations();
+        
+        return count($locations);
+    }
+    
+    function get_locations()
+    {
+        $dm = $this->get_data_manager();
+        
+        $organisation_id = $this->get_id();
+        
+//        if ($include_subcategories)
+//        {
+//            $subcategories = $dm->nested_tree_get_children($this, $recursive_subcategories);
+//            
+//            while ($subcategory = $subcategories->next_result())
+//            {
+//                $categories[] = $subcategory->get_id();
+//            }
+//        }
+        
+        $condition = new InCondition(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $organisation_id);
+        $organisation_rel_locations = $dm->retrieve_organisation_rel_locations($condition);
+        $locations = array();
+        
+        while ($organisation_rel_location = $organisation_rel_locations->next_result())
+        {
+            $location_id = $organisation_rel_location->get_id();
+            if (! in_array($location_id, $locations))
+            {
+                $locations[] = $location_id;
+            }
+        }
+        
+        return $locations;
+    }
 }
 
 ?>

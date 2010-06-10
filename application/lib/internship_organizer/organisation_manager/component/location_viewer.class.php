@@ -30,11 +30,11 @@ class InternshipOrganizerOrganisationManagerLocationViewerComponent extends Inte
 		$this->organisation = $this->retrieve_organisation($organisation_id);
 		$organisation = $this->organisation;
 		
-		$trail = new BreadcrumbTrail ();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerOrganisationManager::PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id) ), $this->organisation->get_name() ) );
 		$trail->add ( new Breadcrumb ( $this->get_url (
 						array(
-						InternshipOrganizerOrganisationManager::PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_LOCATION, 
+						InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_LOCATION, 
 						InternshipOrganizerOrganisationManager :: PARAM_LOCATION_ID => $location_id, 
 						InternshipOrganizerOrganisationManager :: PARAM_REGION_ID => $region_id,
 						InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id )), $this->location->get_name()) );

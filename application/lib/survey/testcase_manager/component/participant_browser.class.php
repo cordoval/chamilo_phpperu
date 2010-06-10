@@ -15,7 +15,7 @@ class TestcaseManagerParticipantBrowserComponent extends TestcaseManager
         {
             $this->pid = Request :: post(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         }
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_browse_survey_publication_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestCaseSurveyParticipants')));
         

@@ -13,7 +13,7 @@ class PeerAssessmentManagerViewerComponent extends PeerAssessmentManager
             Display :: not_allowed();
             return;
         }
-        $this->trail = $trail = new BreadcrumbTrail();
+        $this->trail = $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('PeerAssessment')));
         
         $this->set_parameter(PeerAssessmentManager :: PARAM_ACTION, PeerAssessmentManager :: ACTION_VIEW_PEER_ASSESSMENT);

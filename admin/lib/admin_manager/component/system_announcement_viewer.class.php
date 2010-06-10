@@ -50,18 +50,20 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager
     function get_toolbar($system_announcement_publication, $object)
     {
         $user = $this->get_user();
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
         if ($user->is_platform_admin())
         {
-            $edit_url = $this->get_system_announcement_publication_editing_url($system_announcement_publication);
-            $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-            
-            $delete_url = $this->get_system_announcement_publication_deleting_url($system_announcement_publication);
-            $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+        	
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', 
+					$this->get_system_announcement_publication_editing_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON));	
+
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', 
+					$this->get_system_announcement_publication_deleting_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON, true));	
+
         }
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

@@ -268,7 +268,7 @@ class ApplicationComponent
             
             $application_name = Application :: application_to_class($manager->get_application_name());
             
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
             
             Display :: header($trail);

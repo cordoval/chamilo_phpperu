@@ -46,18 +46,34 @@ class SubscriptionBrowserTableCellRenderer extends DefaultSubscriptionTableCellR
      */
     private function get_modification_links($subscription)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar_data[] = array('href' => $this->browser->get_delete_subscription_url($subscription->get_id()), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'confirm' => true);
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$this->browser->get_delete_subscription_url($subscription->get_id()),
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
         
-        if (get_class($this->browser) == 'ReservationsManagerAdminSubscriptionBrowserComponent' && $subscription->get_accepted() == 0)
+     	if (get_class($this->browser) == 'ReservationsManagerAdminSubscriptionBrowserComponent' && $subscription->get_accepted() == 0)
         {
-            $toolbar_data[] = array('href' => $this->browser->get_approve_subscription_url($subscription->get_id()), 'label' => Translation :: get('Accept'), 'img' => Theme :: get_common_image_path() . 'thumbs_up.png');
+            $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Accept'),
+	        		Theme :: get_common_image_path() . 'thumbs_up.png',
+	        		$this->browser->get_approve_subscription_url($subscription->get_id()),
+	        		ToolbarItem :: DISPLAY_ICON
+	        ));
         }
         
-        $toolbar_data[] = array('href' => $this->browser->get_subscription_user_browser_url($subscription->get_id()), 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_image_path() . 'action_browser.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Details'),
+        		Theme :: get_common_image_path() . 'action_browser.png',
+        		 $this->browser->get_subscription_user_browser_url($subscription->get_id()),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        return Utilities :: build_toolbar($toolbar_data);
+        return $toolbar->as_html();
     }
 }
 ?>

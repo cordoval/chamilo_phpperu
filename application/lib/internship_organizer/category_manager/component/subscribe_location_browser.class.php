@@ -13,7 +13,7 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
        
         $trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
         
@@ -59,6 +59,7 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         $category_rel_locations = $this->retrieve_category_rel_locations($condition);
 
         $conditions = array();
+        
         while ($category_rel_location = $category_rel_locations->next_result())
         {
             $conditions[] = new NotCondition(new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ID, $category_rel_location->get_location_id()));
@@ -68,10 +69,17 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
 
         if (isset($query) && $query != '')
         {
+        	
             $or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_NAME, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_CITY, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_STREET, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_ADDRESS, '*' . $query . '*');
+
+            $search_city_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*');
+            $search_city_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*');
+            $city_conditions = new OrCondition($search_city_conditions);
+            
+            $search_city_subselect_condition = new SubselectCondition(InternshipOrganizerLocation :: PROPERTY_REGION_ID, InternshipOrganizerRegion::PROPERTY_ID, InternshipOrganizerRegion::get_table_name(),$city_conditions);
+            $or_conditions[] = $search_city_subselect_condition; 
+ 
             $conditions[] = new OrCondition($or_conditions);
         }
 

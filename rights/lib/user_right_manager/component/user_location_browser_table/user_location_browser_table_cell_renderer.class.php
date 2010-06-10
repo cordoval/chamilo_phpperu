@@ -83,13 +83,16 @@ class UserLocationBrowserTableCellRenderer extends DefaultLocationTableCellRende
      */
     private function get_modification_links($location)
     {
-        $toolbar_data = array();
-        
-        //		$reset_url = $this->browser->get_user_right_reset_url($location);
-        $toolbar_data[] = array(//			'href' => $reset_url,
-        'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_reset.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar = new Toolbar();
+
+        $toolbar->add_item(new ToolbarItem(
+       		Translation :: get('Delete'),
+       		Theme :: get_common_image_path().'action_reset.png', 
+			null,
+			ToolbarItem :: DISPLAY_ICON
+		));
+
+        return $toolbar->as_html();
     }
 
     private function get_rights_column_value($column, $location)

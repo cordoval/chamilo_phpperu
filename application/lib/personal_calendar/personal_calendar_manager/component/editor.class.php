@@ -34,7 +34,7 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManager
             
             $content_object = $calendar_event_publication->get_publication_object();
             
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $id)), $content_object->get_title()));
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit')));

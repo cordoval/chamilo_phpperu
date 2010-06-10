@@ -57,28 +57,18 @@ class HistoricVariableTranslationBrowserTableCellRenderer extends DefaultHistori
 	 */
 	private function get_modification_links($historic_variable_translation)
 	{
-		$toolbar_data = array();
+		$toolbar = new Toolbar();
 
 		$can_delete = CdaRights :: is_allowed_in_languages_subtree(CdaRights :: EDIT_RIGHT, $historic_variable_translation->get_variable_translation()->get_language_id(), 'cda_language');
 
 		if ($can_delete)
 		{
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_delete_historic_variable_translation_url($historic_variable_translation),
-				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path() . 'action_delete.png',
-			    'confirm' => true
-			);
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_historic_variable_translation_url($historic_variable_translation), ToolbarItem :: DISPLAY_ICON, true));
 
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_revert_historic_variable_translation_url($historic_variable_translation),
-				'label' => Translation :: get('Revert'),
-				'img' => Theme :: get_common_image_path() . 'action_revert.png',
-			    'confirm' => true
-			);
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Revert'), Theme :: get_common_image_path() . 'action_revert.png', $this->browser->get_revert_historic_variable_translation_url($historic_variable_translation), ToolbarItem :: DISPLAY_ICON, true));
 		}
 
-		return Utilities :: build_toolbar($toolbar_data);
+		return $toolbar->as_html();
 	}
 }
 ?>

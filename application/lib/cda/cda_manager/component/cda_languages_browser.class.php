@@ -17,7 +17,7 @@ class CdaManagerCdaLanguagesBrowserComponent extends CdaManager
 
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseLanguages')));
 

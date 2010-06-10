@@ -41,6 +41,10 @@ class AssessmentManagerViewerComponent extends AssessmentManager
             $this->set_parameter(AssessmentManager :: PARAM_INVITATION_ID, Request :: get(AssessmentManager :: PARAM_INVITATION_ID));
         }
         
+        $this->trail = $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
+        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $this->pid)), Translation :: get('TakeAssessment')));
+        
         if ($this->pub && ! $this->pub->is_visible_for_target_user($this->get_user()))
         {
             $this->not_allowed($trail, false);
@@ -69,7 +73,9 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         
         if ($this->assessment->get_maximum_attempts() != 0 && $count >= $this->assessment->get_maximum_attempts())
         {
-            Display :: not_allowed();
+            $this->display_header();
+            $this->display_error_message(Translation :: get('YouHaveReachedYourMaximumAttempts'));
+            $this->display_footer();
             return;
         }
         
@@ -77,10 +83,6 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         {
             $this->active_tracker = $this->create_tracker();
         }
-        
-        $this->trail = $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $this->pid)), Translation :: get('TakeAssessment')));
         
         // Executing assessment
         

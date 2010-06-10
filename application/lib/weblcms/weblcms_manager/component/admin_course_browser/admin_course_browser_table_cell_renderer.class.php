@@ -60,24 +60,57 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
      */
     private function get_modification_links($course)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar_data[] = array('href' => $this->browser->get_course_viewing_url($course), 'label' => Translation :: get('CourseHome'), 'img' => Theme :: get_common_image_path() . 'action_home.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('CourseHome'),
+        		Theme :: get_common_image_path() . 'action_home.png',
+        		$this->browser->get_course_viewing_url($course),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        $toolbar_data[] = array('href' => $this->browser->get_course_editing_url($course), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        $toolbar_data[] = array('href' => $this->browser->get_course_deleting_url($course), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        $toolbar_data[] = array('href' => $this->browser->get_course_changing_course_type_url($course), 'label' => Translation :: get('ChangeCourseType'), 'img' => Theme :: get_common_image_path() . 'action_move.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Edit'),
+        		Theme :: get_common_image_path() . 'action_edit.png',
+        		$this->browser->get_course_editing_url($course),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
-        $toolbar_data[] = array('href' => $this->browser->get_course_maintenance_url($course), 'label' => Translation :: get('Maintenance'), 'img' => Theme :: get_common_image_path() . 'action_maintenance.png');
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Delete'),
+        		Theme :: get_common_image_path() . 'action_delete.png',
+        		$this->browser->get_course_deleting_url($course),
+        		ToolbarItem :: DISPLAY_ICON,
+        		true
+        ));
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('ChangeCourseType'),
+        		Theme :: get_common_image_path() . 'action_move.png',
+        		$this->browser->get_course_changing_course_type_url($course),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Maintenance'),
+        		Theme :: get_common_image_path() . 'action_maintenance.png',
+        		$this->browser->get_course_maintenance_url($course),
+        		ToolbarItem :: DISPLAY_ICON
+        ));
         
         $params = array();
         $params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();
         //$params[ReportingManager::PARAM_TEMPLATE_ID] = Reporting::get_name_registration('course_student_tracker_reporting_template', WeblcmsManager::APPLICATION_NAME)->get_id();
         $url = $this->browser->get_reporting_url($params);
-        //$unsubscribe_url = $this->browser->get_url($parameters);
-        $toolbar_data[] = array('href' => $url, 'label' => Translation :: get('Report'), 'img' => Theme :: get_common_image_path() . 'action_reporting.png');
         
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar->add_item(new ToolbarItem(
+        		Translation :: get('Report'),
+        		Theme :: get_common_image_path() . 'action_reporting.png',
+        		$url,
+        		ToolbarItem :: DISPLAY_ICON
+        ));
+        
+        return $toolbar->as_html();
     }
 }
 ?>

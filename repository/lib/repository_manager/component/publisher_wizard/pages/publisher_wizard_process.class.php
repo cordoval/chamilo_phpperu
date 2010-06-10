@@ -48,7 +48,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
         }
         
         // Display the page header
-        $this->parent->display_header(new BreadcrumbTrail(), false, true, 'repository publication wizard');
+        $this->parent->display_header(BreadcrumbTrail :: get_instance(), false, true, 'repository publication wizard');
         
         $previous_application = '';
         $message = '';

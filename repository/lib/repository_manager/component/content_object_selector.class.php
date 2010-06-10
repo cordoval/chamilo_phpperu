@@ -18,11 +18,10 @@ class RepositoryManagerContentObjectSelectorComponent extends RepositoryManager
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $cloi_id = Request :: get(RepositoryManager :: PARAM_CLOI_ID);
         $root_id = Request :: get(RepositoryManager :: PARAM_CLOI_ROOT_ID);
         
-        $trail = new BreadcrumbTrail();
         $trail->add_help('repository general');
         
         if (! Request :: get('publish'))

@@ -162,6 +162,10 @@ ul.tree-menu li div a.create {
 	background-image: url(../images/common/treemenu/create.png);
 }
 
+ul.tree-menu li div a.manage {
+	background-image: url(../images/common/treemenu/manage.png);
+}
+
 ul.tree-menu li div a.rights {
 	background-image: url(../images/common/treemenu/rights.png);
 }

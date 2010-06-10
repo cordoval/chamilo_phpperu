@@ -16,7 +16,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Alexia')));
         $trail->add_help('alexia general');
 
@@ -81,11 +81,11 @@ class AlexiaManagerBrowserComponent extends AlexiaManager
 
         $access = array();
         $access[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
-        $access[] = new InCondition(AlexiaPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_alias(AlexiaPublicationUser :: get_table_name()));
-        $access[] = new InCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_alias(AlexiaPublicationGroup :: get_table_name()));
+        $access[] = new InCondition(AlexiaPublicationUser :: PROPERTY_USER, $user_id, AlexiaPublicationUser :: get_table_name());
+        $access[] = new InCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, $groups, AlexiaPublicationGroup :: get_table_name());
         if (! empty($user_id) || ! empty($groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, $datamanager->get_alias(AlexiaPublicationUser :: get_table_name())), new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_alias(AlexiaPublicationGroup :: get_table_name()))));
+            $access[] = new AndCondition(array(new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, AlexiaPublicationUser :: get_table_name()), new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, AlexiaPublicationGroup :: get_table_name())));
         }
         $conditions[] = new OrCondition($access);
 
@@ -137,10 +137,9 @@ class AlexiaManagerBrowserComponent extends AlexiaManager
 
         if (isset($introduction))
         {
-
-            $tb_data[] = array('href' => $this->get_introduction_editing_url($introduction), 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON);
-
-            $tb_data[] = array('href' => $this->get_publication_deleting_url($introduction), 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path() . 'action_delete.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON);
+        	$toolbar = new Toolbar();
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_introduction_editing_url($introduction), ToolbarItem :: DISPLAY_ICON));
+			$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_publication_deleting_url($introduction), ToolbarItem :: DISPLAY_ICON, true));
 
             $object = $introduction->get_publication_object();
 
@@ -152,7 +151,7 @@ class AlexiaManagerBrowserComponent extends AlexiaManager
             $html[] = '<div class="description">';
             $html[] = $object->get_description();
             $html[] = '</div>';
-            $html[] = Utilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
+            $html[] = $toolbar->as_html() . '<div class="clear"></div>';
             $html[] = '</div>';
             $html[] = '<br />';
         }

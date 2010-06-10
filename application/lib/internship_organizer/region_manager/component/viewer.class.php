@@ -13,7 +13,7 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
 
         $id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
         $parent_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID);       
@@ -82,19 +82,20 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
         if (isset($query) && $query != '')
         {
             $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*');
             $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             $condition = new OrCondition($or_conditions);
 
             $regions = InternshipOrganizerDataManager::get_instance()->retrieve_regions($condition);
             while ($region = $regions->next_result())
             {
-                $region_conditions[] = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_REGION_ID, $region->get_id());
+                $region_conditions[] = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_ID, $region->get_id());
             }
 
             if (count($region_conditions))
                 $conditions[] = new OrCondition($region_conditions);
             else
-                $conditions[] = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_REGION_ID, 0);
+                $conditions[] = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_ID, 0);
 
         }
 

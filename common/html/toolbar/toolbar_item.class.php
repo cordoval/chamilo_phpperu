@@ -32,30 +32,60 @@ class ToolbarItem
     {
         return $this->label;
     }
+    
+    function set_label($label)
+    {
+    	$this->label = $label;
+    }
 
     function get_display()
     {
         return $this->display;
+    }
+    
+	function set_display($display)
+    {
+    	$this->display = $display;
     }
 
     function get_image()
     {
         return $this->image;
     }
+    
+	function image($label)
+    {
+    	$this->label = $label;
+    }
 
     function get_href()
     {
         return $this->href;
+    }
+    
+	function set_href($href)
+    {
+    	$this->href = $href;
     }
 
     function get_target()
     {
         return $this->target;
     }
+    
+	function set_target($target)
+    {
+    	$this->target = $target;
+    }
 
     function get_confirmation()
     {
         return $this->confirmation;
+    }
+    
+	function set_confirmation($confirmation)
+    {
+    	$this->confirmation = $confirmation;
     }
 
     function needs_confirmation()

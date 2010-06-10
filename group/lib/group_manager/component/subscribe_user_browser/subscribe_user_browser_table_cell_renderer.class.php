@@ -71,12 +71,16 @@ class SubscribeUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
     private function get_modification_links($user)
     {
         $group = $this->browser->get_group();
-        $toolbar_data = array();
-        
-        $subscribe_url = $this->browser->get_group_rel_user_subscribing_url($group, $user);
-        $toolbar_data[] = array('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_image_path() . 'action_subscribe.png');
-        
-        return Utilities :: build_toolbar($toolbar_data);
+
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Subscribe'),
+        			Theme :: get_common_image_path().'action_subscribe.png', 
+					$this->browser->get_group_rel_user_subscribing_url($group, $user),
+				 	ToolbarItem :: DISPLAY_ICON
+		));
+		        
+        return $toolbar->as_html();
     }
 }
 ?>
