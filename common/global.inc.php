@@ -205,6 +205,12 @@ else
  * (Previously in local.inc.php)
  */
 
+$language_interface = LocalSetting :: get('platform_language');
+if(!AdminDataManager :: is_language_active($language_interface))
+{
+	$language_interface = PlatformSetting :: get('platform_language');
+}
+
 // TODO: Are these includes still necessary ?
 
 // Login
@@ -286,12 +292,6 @@ $user = Session :: get_user_id();
 if ($user)
 {
 	Events :: trigger_event('online', 'admin', array('user' => $user));
-}
-
-$language_interface = LocalSetting :: get('platform_language');
-if(!AdminDataManager :: is_language_active($language_interface))
-{
-	$language_interface = PlatformSetting :: get('platform_language');
 }
 
 if (isset($_SESSION['_uid']))
