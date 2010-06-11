@@ -20,6 +20,7 @@ class PhrasesManagerTakerComponent extends PhrasesManager
      */
     function run()
     {
+        dump($_POST);
         $this->datamanager = PhrasesDataManager :: get_instance();
         $publication_id = Request :: get(PhrasesPublicationManager :: PARAM_PHRASES_PUBLICATION_ID);
         if ($publication_id)
@@ -33,7 +34,7 @@ class PhrasesManagerTakerComponent extends PhrasesManager
 
         // Checking statistics
         $track = new PhrasesAssessmentAttemptsTracker();
-        $conditions[] = new EqualityCondition(PhrasesAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->publication_id);
+        $conditions[] = new EqualityCondition(PhrasesAssessmentAttemptsTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
         $conditions[] = new EqualityCondition(PhrasesAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
@@ -80,9 +81,12 @@ class PhrasesManagerTakerComponent extends PhrasesManager
 
     function create_tracker()
     {
-        $args = array('assessment_id' => $this->publication_id, 'user_id' => $this->get_user_id(), 'total_score' => 0);
+        $arguments = array();
+        $arguments[PhrasesAssessmentAttemptsTracker :: PROPERTY_PUBLICATION_ID] = $this->publication_id;
+        $arguments[PhrasesAssessmentAttemptsTracker :: PROPERTY_USER_ID] = $this->get_user_id();
+        $arguments[PhrasesAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE] = 0;
 
-        $tracker = Events :: trigger_event('attempt_assessment', PhrasesManager :: APPLICATION_NAME, $args);
+        $tracker = Events :: trigger_event('attempt_assessment', PhrasesManager :: APPLICATION_NAME, $arguments);
 
         return $tracker[0];
     }

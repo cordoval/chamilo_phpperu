@@ -11,7 +11,7 @@ class PhrasesAssessmentAttemptsTracker extends MainTracker
 
     // Can be used for subscribsion of users / classes
     const PROPERTY_USER_ID = 'user_id';
-    const PROPERTY_ASSESSMENT_ID = 'assessment_id';
+    const PROPERTY_PUBLICATION_ID = 'publication_id';
     const PROPERTY_DATE = 'date';
     const PROPERTY_TOTAL_SCORE = 'total_score';
     const PROPERTY_STATUS = 'status';
@@ -33,16 +33,18 @@ class PhrasesAssessmentAttemptsTracker extends MainTracker
     function track($parameters = array())
     {
         $user = $parameters['user_id'];
-        $assessment = $parameters['assessment_id'];
+        $publication_id = $parameters['publication_id'];
         $total_score = $parameters['total_score'];
         $status = $parameters['status'];
 
         $this->set_user_id($user);
-        $this->set_assessment_id($assessment);
+        $this->set_publication_id($publication_id);
         $this->set_start_time(time());
 
         if ($status)
+        {
             $this->set_status($status);
+        }
 
         $this->set_date(time());
         $this->set_total_score($total_score);
@@ -66,7 +68,7 @@ class PhrasesAssessmentAttemptsTracker extends MainTracker
      */
     function get_default_property_names()
     {
-        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_ASSESSMENT_ID, self :: PROPERTY_DATE, self :: PROPERTY_TOTAL_SCORE, self :: PROPERTY_STATUS, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME));
+        return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_DATE, self :: PROPERTY_TOTAL_SCORE, self :: PROPERTY_STATUS, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME));
     }
 
     function get_user_id()
@@ -79,14 +81,14 @@ class PhrasesAssessmentAttemptsTracker extends MainTracker
         $this->set_property(self :: PROPERTY_USER_ID, $user_id);
     }
 
-    function get_assessment_id()
+    function get_publication_id()
     {
-        return $this->get_property(self :: PROPERTY_ASSESSMENT_ID);
+        return $this->get_property(self :: PROPERTY_PUBLICATION_ID);
     }
 
-    function set_assessment_id($assessment_id)
+    function set_publication_id($publication_id)
     {
-        $this->set_property(self :: PROPERTY_ASSESSMENT_ID, $assessment_id);
+        $this->set_property(self :: PROPERTY_PUBLICATION_ID, $publication_id);
     }
 
     function get_date()
@@ -146,7 +148,7 @@ class PhrasesAssessmentAttemptsTracker extends MainTracker
 
     function get_times_taken($publication, $user_id = null)
     {
-        $condition = new EqualityCondition(self :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+        $condition = new EqualityCondition(self :: PROPERTY_PUBLICATION_ID, $publication->get_id());
 
         if ($user_id)
         {
@@ -164,7 +166,7 @@ class PhrasesAssessmentAttemptsTracker extends MainTracker
     {
         parent :: delete();
 
-        $condition = new EqualityCondition(PhrasesQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_id());
+        $condition = new EqualityCondition(PhrasesQuestionAttemptsTracker :: PROPERTY_PUBLICATION_ID, $this->get_id());
         $dummy = new PhrasesQuestionAttemptsTracker();
         $trackers = $dummy->retrieve_tracker_items($condition);
         foreach ($trackers as $tracker)
@@ -175,7 +177,7 @@ class PhrasesAssessmentAttemptsTracker extends MainTracker
 
     function get_average_score($publication, $user_id = null)
     {
-        $condition = new EqualityCondition(self :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+        $condition = new EqualityCondition(self :: PROPERTY_PUBLICATION_ID, $publication->get_id());
 
         if ($user_id)
         {
