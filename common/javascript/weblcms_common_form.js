@@ -185,12 +185,14 @@ $(function ()
 		});
 	}
 	
-	function toggle_other_groups_by_id(id, elem_type_id, parent_class)
+	function toggle_other_groups_by_id(id, elem_type_id, parent_class, orig_elem)
 	{
 		$("[id|="+id+"]").each(function()
 		{
 			var elem_type = $(this);
-			if(elem_type.attr("id") == id)
+			if(orig_elem !== false)
+				orig_elem = elem_type[0] == orig_elem[0];
+			if(elem_type.attr("id") == id && !orig_elem)
 			{
 				var parent_type = elem_type.parent();
 				while(parent_type.attr("class") != "inactive_elements" && parent_type.attr("class") != "active_elements")
@@ -221,7 +223,7 @@ $(function ()
 			parent = parent.parent();
 		}
 		var elem_type_id = parent.attr("id").split('_')[1];
-		toggle_other_groups_by_id(id, elem_type_id, parent.attr("class"));
+		toggle_other_groups_by_id(id, elem_type_id, parent.attr("class"), elem);
 		if(parent.attr("class") == "inactive_elements")
 			setTimeout(function () { add_events(elem); }, 50);
 	}
@@ -232,7 +234,7 @@ $(function ()
 		{
 			var locked_groups = unserialize(fixed_groups);
 			$.each(locked_groups, function(i, group){
-				toggle_other_groups_by_id("group_" + group, "direct", "inactive_elements");
+				toggle_other_groups_by_id("group_" + group, "direct", "inactive_elements", false);
 			});
 		}
 	}
