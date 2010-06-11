@@ -200,7 +200,14 @@ class GroupManagerBrowserComponent extends GroupManager
         }
         
         $html[] = '<b>' . Translation :: get('Code') . '</b>: ' . $group->get_code() . '<br />';
-        $html[] = '<b>' . Translation :: get('Description') . '</b>: ' . $group->get_description() . '<br />';
+        
+        $description = $group->get_description();
+        if ($description)
+        {
+            $html[] = '<b>' . Translation :: get('Description') . '</b>: ' . $description . '<br />';
+        }
+        
+        $html[] = '<br />'; 
         $html[] = $toolbar->as_html();
         
         return implode("\n", $html);
