@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/../package_installer/source/package_info/pack
 class PackageDependencyVerifier
 {
     private $package;
-    private $message_logger;
+    protected $logger;
     
     const TYPE_REMOVE = 'remove';
     const TYPE_UPDATE = 'update';
@@ -17,7 +17,7 @@ class PackageDependencyVerifier
     function PackageDependencyVerifier($package)
     {
         $this->package = $package;
-        $this->message_logger = new MessageLogger();
+        $this->logger = MessageLogger :: get_instance(get_class($this));
     }
 
     function get_package()
@@ -25,9 +25,9 @@ class PackageDependencyVerifier
         return $this->package;
     }
 
-    function get_message_logger()
+    function get_logger()
     {
-        return $this->message_logger;
+        return $this->logger;
     }
 
     function is_installable()
@@ -40,12 +40,12 @@ class PackageDependencyVerifier
                 $package_dependency = PackageDependency :: factory($type, $detail);
                 if (! $package_dependency->check() && $package_dependency->is_severe())
                 {
-                    $this->get_message_logger()->add_message($package_dependency->get_message_logger()->render());
+                    $this->logger->add_message($package_dependency->get_logger()->render());
                     return false;
                 }
                 else
                 {
-                    $this->get_message_logger()->add_message($package_dependency->get_message_logger()->render());
+                    $this->logger->add_message($package_dependency->get_logger()->render());
                 }
             }
         }
@@ -103,7 +103,7 @@ class PackageDependencyVerifier
                             if ($type == self :: TYPE_REMOVE)
                             {
                                 $message = Translation :: get('PackageDependency') . ': <em>' . $package_data->get_name() . ' (' . $package_data->get_code() . ')</em>';
-                                $this->get_message_logger()->add_message($message);
+                                $this->logger->add_message($message);
                                 $failures ++;
                             }
                             elseif ($type == self :: TYPE_UPDATE)
@@ -115,14 +115,14 @@ class PackageDependencyVerifier
                             	if (! $result && $package_dependency->is_severe())
                             	{
                             		$failures ++;
-                            		$this->get_message_logger()->add_message($message, MessageLogger::TYPE_ERROR);
+                            		$this->logger->add_message($message, MessageLogger::TYPE_ERROR);
                             	}
                             	elseif (! $result && ! $package_dependency->is_severe())
                             	{
-                            		$this->get_message_logger()->add_message($message, MessageLogger::TYPE_WARNING);
+                            		$this->logger->add_message($message, MessageLogger::TYPE_WARNING);
                             	}
                             	else {
-                            		$this->get_message_logger()->add_message($message);
+                            		$this->logger->add_message($message);
                             	}
                             }
                             else
@@ -138,13 +138,13 @@ class PackageDependencyVerifier
         if ($failures > 0)
         {
             $message = Translation :: get('VerificationFailed');
-            $this->get_message_logger()->add_message($message, MessageLogger::TYPE_ERROR);
+            $this->logger->add_message($message, MessageLogger::TYPE_ERROR);
         	return false;
         }
         else
         {
         	$message = Translation :: get('VerificationSuccess');
-            $this->get_message_logger()->add_message($message, MessageLogger::TYPE_CONFIRM);
+            $this->logger->add_message($message, MessageLogger::TYPE_CONFIRM);
             return true;
         }
     }

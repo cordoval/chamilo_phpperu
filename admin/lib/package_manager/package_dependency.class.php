@@ -25,7 +25,7 @@ abstract class PackageDependency
 
     private $id;
     private $severity;
-    private $message_logger;
+    protected $logger;
 
     static function factory($type, $dependency)
     {
@@ -38,12 +38,7 @@ abstract class PackageDependency
     {
         $this->set_id($dependency['id']);
         $this->set_severity($dependency['severity']);
-        $this->message_logger = new MessageLogger();
-    }
-
-    function get_message_logger()
-    {
-        return $this->message_logger;
+        $this->logger = MessageLogger :: get_instance(get_class($this));
     }
 
     abstract function check();

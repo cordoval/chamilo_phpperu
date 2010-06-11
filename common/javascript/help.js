@@ -20,11 +20,11 @@
 	{
 		$(".help").bind('click', handle_help);
 		
-		$("#admin_tabs ul").css('display', 'block');
-		$("#admin_tabs h2").hide();
-		$("#admin_tabs").tabs();
-		var tabs = $('#admin_tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
-		tabs.tabs('select', tabnumber);
+//		$("#admin_tabs ul").css('display', 'block');
+//		$("#admin_tabs h2").hide();
+//		$("#admin_tabs").tabs();
+//		var tabs = $('#admin_tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
+//		tabs.tabs('select', tabnumber);
 		
 	});
 	

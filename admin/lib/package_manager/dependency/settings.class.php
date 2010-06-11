@@ -38,7 +38,7 @@ class SettingsPackageDependency extends PackageDependency
         $setting = ini_get($this->get_id());
         $message = Translation :: get('DependencyCheckSetting') . ': ' . $this->as_html() . ' ' . Translation :: get('Found') . ': ' . $setting;
         $value = $this->get_value();
-        $this->get_message_logger()->add_message($message);
+        $this->logger->add_message($message);
         return $this->compare($value['type'], $value['_content'], $setting);
     }
 

@@ -61,7 +61,7 @@ abstract class PackageInstallerType
 
         $verifier = new PackageDependencyVerifier($attributes);
         $success = $verifier->is_installable();
-        $this->add_message($verifier->get_message_logger()->render());
+        $this->add_message($verifier->get_logger()->render());
         if (!$success)
         {
             return false;

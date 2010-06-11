@@ -5,8 +5,31 @@ class MessageLogger
     const TYPE_CONFIRM = '2';
     const TYPE_WARNING = '3';
     const TYPE_ERROR = '4';
-
+    
+    private static $instances;
+    
     private $messages;
+
+    static function get_instance_by_name($instance_name)
+    {
+        if (! self :: $instances[$instance_name])
+        {
+            self :: $instances[$instance_name] = new MessageLogger();
+        }
+        
+        return self :: $instances[$instance_name];
+    }
+
+    static function get_instance(object $object)
+    {
+        $class_name = Utilities :: camelcase_to_underscores(get_class($object));
+        return self :: get_instance_by_name($class_name);
+    }
+    
+    static function get_instances()
+    {
+        return self :: $instances;
+    }
 
     function MessageLogger()
     {

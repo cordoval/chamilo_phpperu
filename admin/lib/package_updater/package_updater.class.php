@@ -92,7 +92,7 @@ class PackageUpdater
 
 	        $package_update_dependency = new PackageDependencyVerifier($package_remote);
 	        $success_update = $package_update_dependency->is_updatable();
-			$this->add_message($package_update_dependency->get_message_logger()->render());
+			$this->add_message($package_update_dependency->get_logger()->render());
 			
 			if (! $success_update)
 			{
@@ -104,7 +104,7 @@ class PackageUpdater
 			}
 
 	        $success_install = $package_update_dependency->is_installable();
-	        $this->add_message($package_update_dependency->get_message_logger()->render());
+	        $this->add_message($package_update_dependency->get_logger()->render());
 			if (! $success_install)
 			{
 				return $this->update_failed('dependencies', Translation :: get('DependenciesFailed'));

@@ -63,7 +63,7 @@ class ApplicationsPackageDependency extends PackageDependency
         if ($registrations->size() === 0)
         {
             $message .= '--' . Translation :: get('Nothing') . '--';
-            $this->get_message_logger()->add_message($message);
+            $this->logger->add_message($message);
             return false;
         }
         else
@@ -74,8 +74,8 @@ class ApplicationsPackageDependency extends PackageDependency
             if (! $application_version)
             {
                 $message .= '--' . Translation :: get('WrongVersion') . '--';
-                $this->get_message_logger()->add_message($message);
-                $this->get_message_logger()->add_message(Translation :: get('DependencyApplicationWrongVersion'), MessageLogger :: TYPE_WARNING);
+                $this->logger->add_message($message);
+                $this->logger->add_message(Translation :: get('DependencyApplicationWrongVersion'), MessageLogger :: TYPE_WARNING);
                 return false;
             }
             else
@@ -83,13 +83,13 @@ class ApplicationsPackageDependency extends PackageDependency
                 if (! $registration->is_active())
                 {
                     $message .= '--' . Translation :: get('InactiveApplication') . '--';
-                    $this->get_message_logger()->add_message($message);
-                    $this->get_message_logger()->add_message(Translation :: get('DependencyActivateObjectWarning'), MessageLogger :: TYPE_WARNING);
+                    $this->logger->add_message($message);
+                    $this->logger->add_message(Translation :: get('DependencyActivateObjectWarning'), MessageLogger :: TYPE_WARNING);
                 }
                 else
                 {
                     $message .= $registration->get_version();
-                    $this->get_message_logger()->add_message($message);
+                    $this->logger->add_message($message);
                 }
 
                 return true;

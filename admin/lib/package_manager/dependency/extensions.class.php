@@ -10,7 +10,7 @@ class ExtensionsPackageDependency extends PackageDependency
     function check()
     {
         $message = Translation :: get('DependencyCheckextension') . ': ' . $this->as_html();
-        $this->get_message_logger()->add_message($message);
+        $this->logger->add_message($message);
 
         return extension_loaded($this->get_id());
     }

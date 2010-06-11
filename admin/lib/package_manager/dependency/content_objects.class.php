@@ -62,7 +62,7 @@ class ContentObjectsPackageDependency extends PackageDependency
         if ($registrations->size() === 0)
         {
             $message .= '--' . Translation :: get('Nothing') . '--';
-            $this->get_message_logger()->add_message($message);
+            $this->logger->add_message($message);
             return false;
         }
         else
@@ -73,8 +73,8 @@ class ContentObjectsPackageDependency extends PackageDependency
             if (! $content_object_version)
             {
                 $message .= '--' . Translation :: get('WrongVersion') . '--';
-                $this->get_message_logger()->add_message($message);
-                $this->get_message_logger()->add_message(Translation :: get('DependencyObjectWrongVersion'), MessageLogger :: TYPE_WARNING);
+                $this->logger->add_message($message);
+                $this->logger->add_message(Translation :: get('DependencyObjectWrongVersion'), MessageLogger :: TYPE_WARNING);
                 return false;
             }
             else
@@ -82,13 +82,13 @@ class ContentObjectsPackageDependency extends PackageDependency
                 if (! $registration->is_active())
                 {
                     $message .= '--' . Translation :: get('InactiveObject') . '--';
-                    $this->get_message_logger()->add_message($message);
-                    $this->get_message_logger()->add_message(Translation :: get('DependencyActivateObjectWarning'), MessageLogger :: TYPE_WARNING);
+                    $this->logger->add_message($message);
+                    $this->logger->add_message(Translation :: get('DependencyActivateObjectWarning'), MessageLogger :: TYPE_WARNING);
                 }
                 else
                 {
                     $message .= $registration->get_version();
-                    $this->get_message_logger()->add_message($message);
+                    $this->logger->add_message($message);
                 }
 
                 return true;

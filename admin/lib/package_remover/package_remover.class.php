@@ -56,7 +56,7 @@ abstract class PackageRemover
 
         $verifier = new PackageDependencyVerifier($package);
         $success = $verifier->is_removable();
-        $this->add_message($verifier->get_message_logger()->render());
+        $this->add_message($verifier->get_logger()->render());
         if (! $success)
         {
             return false;

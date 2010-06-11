@@ -51,7 +51,7 @@ class ServerPackageDependency extends PackageDependency
         {
             case 'php' :
                 $message .= phpversion();
-                $this->get_message_logger()->add_message($message);
+                $this->logger->add_message($message);
                 return $this->version_compare($version['type'], $version['_content'], phpversion());
                 break;
             default :

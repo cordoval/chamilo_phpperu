@@ -92,7 +92,7 @@ class RegistrationDisplay
 	    	$html[] = '<div class="content_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path() . 'place_' . $type . '.png);">';
         	$html[] = '<div class="title">' . Translation :: get(DependenciesResultVerification) . '</div>';
         	$html[] = '<div class="description">';
-        	$html[] = $package_update_dependency->get_message_logger()->render();
+        	$html[] = $package_update_dependency->get_logger()->render();
         	$html[] = '</div>';
         	$html[] = '</div>';
 	    	return implode("\n", $html);
