@@ -24,8 +24,6 @@ abstract class Application
 
     function Application($user)
     {
-    	dump("app constructor");
-    	dump($this);
         $this->user = $user;
         $this->parameters = array();
         $this->search_parameters = array();
@@ -44,7 +42,7 @@ abstract class Application
     function handle_table_action()
     {
     	$table_name = Request :: post('table_name');
-    	dump($table_name);
+
         if(isset($table_name))
         {
         	$class = Utilities :: underscores_to_camelcase($table_name);
