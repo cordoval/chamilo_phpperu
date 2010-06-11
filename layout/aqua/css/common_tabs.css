@@ -1,8 +1,7 @@
 /*********************************************
  * jQuery CSS: Form tabs ElementFinder
  *********************************************/
-
-#form_tabs ul.tree-menu, #form_tabs ul.tree-menu ul {
+#form_tabs ul.tree-menu,#form_tabs ul.tree-menu ul {
 	display: block;
 }
 
@@ -51,6 +50,10 @@
 /*********************************************
  * jQuery CSS: Tabs
  *********************************************/
+ul.tabs-header {
+	display: none;
+}
+
 .ui-tabs {
 	padding: 0px;
 }
@@ -58,6 +61,9 @@
 .ui-tabs .ui-tabs-panel {
 	border: 1px solid #ebebeb;
 	background-color: #FAFCFC;
+}
+
+.ui-tabs .ui-tabs-panel.no-padding {
 	padding: 0px;
 }
 

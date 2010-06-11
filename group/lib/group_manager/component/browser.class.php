@@ -20,13 +20,13 @@ class GroupManagerBrowserComponent extends GroupManager
      */
     function run()
     {
-
+        
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupList')));
         $trail->add_help('group general');
-
+        
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -34,12 +34,12 @@ class GroupManagerBrowserComponent extends GroupManager
             $this->display_footer();
             exit();
         }
-
+        
         $this->ab = $this->get_action_bar();
-
+        
         $menu = $this->get_menu_html();
         $output = $this->get_user_html();
-
+        
         $this->display_header();
         echo $this->ab->as_html() . '<br />';
         echo $menu;
@@ -52,76 +52,41 @@ class GroupManagerBrowserComponent extends GroupManager
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
         $table = new GroupBrowserTable($this, $parameters, $this->get_condition());
-
+        
         $html = array();
         $html[] = '<div style="float: right; width: 80%;">';
-
-        $html[] = '<a name="top"></a>';
-        $html[] = '<div id="admin_tabs">';
-        $html[] = '<ul style="display: none;">';
-
-        // BEGIN TABS
-
-
+        
+        $tabs = new TabsRenderer('group');
+        
         $subgroup_count = $this->count_groups($this->get_condition());
         $user_condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $this->get_group());
         $user_count = $this->count_group_rel_users($user_condition);
-
+        
+        // Subgroups table tab
         if ($subgroup_count > 0)
         {
-            $html[] = '<li><a href="#admin_tabs-1">';
-            $html[] = '<span class="category">';
-            $html[] = '<img src="' . Theme :: get_image_path('admin') . 'place_mini_group.png" border="0" style="vertical-align: middle;" alt="User" title="User"/>';
-            $html[] = '<span class="title">Groups</span>';
-            $html[] = '</span>';
-            $html[] = '</a></li>';
+            $table = new GroupBrowserTable($this, $parameters, $this->get_condition());
+            $tabs->add_tab(new Tab(Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
         }
-
+        
+        // Users table tab
         if ($user_count > 0)
         {
-            $html[] = '<li><a href="#admin_tabs-2">';
-            $html[] = '<span class="category">';
-            $html[] = '<img src="' . Theme :: get_image_path('admin') . 'place_mini_user.png" border="0" style="vertical-align: middle;" alt="User" title="User"/>';
-            $html[] = '<span class="title">Users</span>';
-            $html[] = '</span>';
-            $html[] = '</a></li>';
+            $parameters = $this->get_parameters();
+            $parameters[GroupManager :: PARAM_GROUP_ID] = $id;
+            
+            $table = new GroupRelUserBrowserTable($this, $parameters, $user_condition);
+            $tabs->add_tab(new Tab(Translation :: get('Users'), Theme :: get_image_path('admin') . 'place_mini_user.png', $table->as_html()));
         }
-
-        $html[] = '</ul>';
-
-        // Groups
-        if ($subgroup_count > 0)
-        {
-            $html[] = '<h2><img src="' . Theme :: get_image_path('admin') . 'place_mini_group.png" border="0" style="vertical-align: middle;" alt="User" title="User"/>&nbsp;Subgroups</h2>';
-            $html[] = '<div class="admin_tab" style="padding: 15px;" id="admin_tabs-1">';
-            $html[] = '<a class="prev"></a>';
-            $html[] = $table->as_html();
-            $html[] = '<a class="next"></a>';
-            $html[] = '<div class="clear"></div>';
-            $html[] = '</div>';
-        }
-
-        // Users
-        if ($user_count > 0)
-        {
-            $html[] = '<h2><img src="' . Theme :: get_image_path('admin') . 'place_mini_user.png" border="0" style="vertical-align: middle;" alt="User" title="User"/>&nbsp;Users</h2>';
-            $html[] = '<div class="admin_tab" style="padding: 15px;" id="admin_tabs-2">';
-            $html[] = '<a class="prev"></a>';
-            $table = new GroupRelUserBrowserTable($this, array(), $user_condition);
-            $html[] = $table->as_html();
-            $html[] = '<a class="next"></a>';
-            $html[] = '<div class="clear"></div>';
-            $html[] = '</div>';
-        }
-
-        // END TABS
-
-
-        $html[] = '</div>';
-
+        
+        // Group info tab
+        $tabs->add_tab(new Tab(Translation :: get('Details'), Theme :: get_image_path('admin') . 'place_mini_help.png', $this->get_group_info()));
+        
+        $html[] = $tabs->render();
+        
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
-
+        
         return implode($html, "\n");
     }
 
@@ -133,7 +98,7 @@ class GroupManagerBrowserComponent extends GroupManager
         $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
         $html[] = $group_menu->render_as_tree();
         $html[] = '</div>';
-
+        
         return implode($html, "\n");
     }
 
@@ -142,14 +107,14 @@ class GroupManagerBrowserComponent extends GroupManager
         if (! $this->group)
         {
             $this->group = Request :: get(GroupManager :: PARAM_GROUP_ID);
-
+            
             if (! $this->group)
             {
                 $this->group = $this->get_root_group()->get_id();
             }
-
+        
         }
-
+        
         return $this->group;
     }
 
@@ -160,14 +125,14 @@ class GroupManagerBrowserComponent extends GroupManager
             $group = $this->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
             $this->root_group = $group;
         }
-
+        
         return $this->root_group;
     }
 
     function get_condition()
     {
         $condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_group());
-
+        
         $query = $this->ab->get_query();
         if (isset($query) && $query != '')
         {
@@ -176,27 +141,69 @@ class GroupManagerBrowserComponent extends GroupManager
             $or_conditions[] = new PatternMatchCondition(Group :: PROPERTY_DESCRIPTION, '*' . $query . '*');
             $or_conditions[] = new PatternMatchCondition(Group :: PROPERTY_CODE, '*' . $query . '*');
             $or_condition = new OrCondition($or_conditions);
-
+            
             $and_conditions = array();
             $and_conditions[] = $condition;
             $and_conditions[] = $or_condition;
             $condition = new AndCondition($and_conditions);
         }
-
+        
         return $condition;
     }
 
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
+        
         $action_bar->set_search_url($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())));
-
+        
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_group_url($this->get_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewRoot'), Theme :: get_common_image_path() . 'action_home.png', $this->get_group_viewing_url($this->get_root_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
+        
         return $action_bar;
+    }
+
+    function get_group_info()
+    {
+        $group_id = $this->get_group();
+        $group = $this->retrieve_group($group_id);
+        
+        $html = array();
+        
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+        //        $action_bar->set_search_url($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group->get_id())));
+        
+
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_group_editing_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        if ($this->group != $this->root_group)
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_manage_group_rights_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        $condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
+        $users = $this->retrieve_group_rel_users($condition);
+        $visible = ($users->size() > 0);
+        
+        if ($visible)
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $this->get_group_emptying_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        else
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_image_path() . 'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
+        $html[] = '<b>' . Translation :: get('Code') . '</b>: ' . $group->get_code() . '<br />';
+        $html[] = '<b>' . Translation :: get('Description') . '</b>: ' . $group->get_description() . '<br />';
+        $html[] = $toolbar->as_html();
+        
+        return implode("\n", $html);
     }
 }
 ?>

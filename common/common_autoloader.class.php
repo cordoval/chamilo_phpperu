@@ -79,6 +79,8 @@ class CommonAutoloader
 		$list = array('bbcode_parser' => 'bbcode_parser.class.php',
 					  'breadcrumb_trail' => 'breadcrumb_trail.class.php',
 					  'breadcrumb' => 'breadcrumb.class.php',
+					  'tabs_renderer' => 'tabs/tabs_renderer.class.php',
+					  'tab' => 'tabs/tab.class.php',
 					  'display' => 'display.class.php',
 					  'header' => 'header.class.php',
 					  'footer' => 'footer.class.php',
