@@ -108,7 +108,11 @@ class RepositoryManager extends CoreApplication
     const ACTION_EXTERNAL_REPOSITORY_CATALOG = 'ext_rep_catalog';
     const ACTION_BROWSE_TEMPLATES = 'templates';
     const ACTION_COPY_CONTENT_OBJECT = 'lo_copy';
+    const ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES = 'copy_co_to_templates';
+    const ACTION_COPY_CONTENT_OBJECT_FROM_TEMPLATES = 'copy_co_from_templates';
     const ACTION_MANAGE_CONTENT_OBJECT = 'manage_content_object';
+    const ACTION_RECYCLE_CONTENT_OBJECTS = 'recycle';
+    const ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY = 'delete_permanently';
 
     const ACTION_IMPORT_TEMPLATE = 'import_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
@@ -137,7 +141,6 @@ class RepositoryManager extends CoreApplication
     function RepositoryManager($user)
     {
         parent :: __construct($user);
-        $this->parse_input_from_table();
         $this->determine_search_settings();
     }
 
@@ -193,6 +196,14 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_DELETE_CONTENT_OBJECTS :
                 $component = $this->create_component('Deleter');
                 break;
+            case self :: ACTION_RECYCLE_CONTENT_OBJECTS:
+            	$component = $this->create_component('Deleter');
+            	Request :: set_get(self :: PARAM_DELETE_RECYCLED, 1);
+            	break;
+           case self :: ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY:
+            	$component = $this->create_component('Deleter');
+            	Request :: set_get(self :: PARAM_DELETE_PERMANENTLY, 1);
+            	break;
             case self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS :
                 $component = $this->create_component('PublicationDeleter');
                 break;
@@ -299,6 +310,14 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_COPY_CONTENT_OBJECT :
                 $component = $this->create_component('ContentObjectCopier');
                 break;
+            case self :: ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES:
+            	$component = $this->create_component('ContentObjectCopier');
+            	Request :: set_get(self :: PARAM_TARGET_USER, 0);
+                break;
+            case self :: ACTION_COPY_CONTENT_OBJECT_FROM_TEMPLATES:
+            	$component = $this->create_component('ContentObjectCopier');
+            	Request :: set_get(self :: PARAM_TARGET_USER, $this->get_user_id());
+            	break;
             case self :: ACTION_IMPORT_TEMPLATE :
                 $component = $this->create_component('TemplateImporter');
                 break;
@@ -322,95 +341,6 @@ class RepositoryManager extends CoreApplication
                 $component = $this->create_component('Browser');
         }
         $component->run();
-    }
-
-    /**
-     * @todo Clean this up. It's all SortableTable's fault. :-(
-     */
-    private function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $selected_ids = $_POST[RepositoryBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-
-            $template_ids = $_POST[TemplateBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            if (empty($template_ids))
-            {
-                $template_ids = array();
-            }
-            elseif (! is_array($template_ids))
-            {
-                $template_ids = array($template_ids);
-            }
-
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_RECYCLE_SELECTED :
-                    $this->set_action(self :: ACTION_DELETE_CONTENT_OBJECTS);
-                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
-                    Request :: set_get(self :: PARAM_DELETE_RECYCLED, 1);
-                    break;
-                case self :: PARAM_MOVE_SELECTED :
-                    $this->set_action(self :: ACTION_MOVE_CONTENT_OBJECTS);
-                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
-                    break;
-                case self :: PARAM_RESTORE_SELECTED :
-                    $this->set_action(self :: ACTION_RESTORE_CONTENT_OBJECTS);
-                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
-                    break;
-                case self :: PARAM_DELETE_SELECTED :
-                    $this->set_action(self :: ACTION_DELETE_CONTENT_OBJECTS);
-                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
-                    Request :: set_get(self :: PARAM_DELETE_PERMANENTLY, 1);
-                    break;
-                case self :: PARAM_REMOVE_SELECTED_CLOI :
-                    $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS);
-                    Request :: set_get(self :: PARAM_CLOI_ID, $selected_ids);
-                    break;
-                case self :: PARAM_ADD_OBJECTS :
-                    $this->set_action(self :: ACTION_ADD_CONTENT_OBJECT);
-                    Request :: set_get(self :: PARAM_CLOI_REF, $selected_ids);
-                    break;
-                case self :: PARAM_PUBLISH_SELECTED :
-                    $this->set_action(self :: ACTION_PUBLISH_CONTENT_OBJECT);
-                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
-                    break;
-                case self :: PARAM_DELETE_SELECTED_USER_VIEW :
-                    $this->set_action(self :: ACTION_DELETE_USER_VIEW);
-                    Request :: set_get(self :: PARAM_USER_VIEW, $selected_ids);
-                    break;
-                case self :: PARAM_COPY_TO_TEMPLATES :
-                    $this->set_action(self :: ACTION_COPY_CONTENT_OBJECT);
-                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
-                    Request :: set_get(self :: PARAM_TARGET_USER, 0);
-                    break;
-                case self :: PARAM_COPY_FROM_TEMPLATES :
-                    $this->set_action(self :: ACTION_COPY_CONTENT_OBJECT);
-                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $template_ids);
-                    Request :: set_get(self :: PARAM_TARGET_USER, $this->get_user_id());
-                    break;
-                case self :: PARAM_DELETE_TEMPLATES :
-                    $this->set_action(self :: ACTION_DELETE_TEMPLATE);
-                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $template_ids);
-                    break;
-                case self :: PARAM_EXPORT_SELECTED :
-                    $this->set_action(self :: ACTION_EXPORT_CONTENT_OBJECTS);
-                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
-                    break;
-                case self :: PARAM_EDIT_SELECTED_RIGHTS :
-                    $this->set_action(self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS);
-                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
-                    break;
-            }
-        }
     }
 
     /**

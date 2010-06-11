@@ -15,14 +15,7 @@ class UserManager extends CoreApplication
     
     const PARAM_USER_USER_ID = 'user_id';
     const PARAM_ACTIVE = 'active';
-    const PARAM_DEACTIVATE_SELECTED = 'deactivate_selected';
-    const PARAM_ACTIVATE_SELECTED = 'activate_selected';
-    const PARAM_RESET_PASSWORD_SELECTED = 'reset_pass_selected';
-    const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_FIRSTLETTER = 'firstletter';
-    const PARAM_APPROVE_SELECTED = 'approve_selected';
-    const PARAM_DENY_SELECTED = 'deny_selected';
-    const PARAM_EMAIL_SELECTED = 'email_selected';
     
     const ACTION_CREATE_USER = 'create';
     const ACTION_BROWSE_USERS = 'adminbrowse';
@@ -41,6 +34,8 @@ class UserManager extends CoreApplication
     const ACTION_VIEW_QUOTA = 'view_quota';
     const ACTION_USER_DETAIL = 'user_detail';
     const ACTION_CHANGE_ACTIVATION = 'change_activation';
+    const ACTION_ACTIVATE = 'activate';
+    const ACTION_DEACTIVATE = 'deactivate';
     const ACTION_RESET_PASSWORD_MULTI = 'reset_pass_multi';
     
     const ACTION_VIEW_BUDDYLIST = 'buddy_view';
@@ -57,6 +52,8 @@ class UserManager extends CoreApplication
     const ACTION_USER_SETTINGS = 'user_settings';
     const ACTION_USER_APPROVAL_BROWSER = 'user_approval_browser';
     const ACTION_USER_APPROVER = 'user_approver';
+    const ACTION_APPROVE_USER = 'approve_user';
+    const ACTION_DENY_USER = 'deny_user';
     
     const PARAM_BUDDYLIST_CATEGORY = 'buddylist_category';
     const PARAM_BUDDYLIST_ITEM = 'buddylist_item';
@@ -88,62 +85,8 @@ class UserManager extends CoreApplication
             }
         }
         $this->create_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_USER));
-        
-        $this->parse_input_from_table();
     }
     
- 	private function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $selected_ids = $_POST[AdminUserBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_REMOVE_SELECTED :
-                    $this->set_action(self :: ACTION_DELETE_USER);
-                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
-                    break;
-                case self :: PARAM_DEACTIVATE_SELECTED :
-                    $this->set_action(self :: ACTION_CHANGE_ACTIVATION);
-                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
-                    Request :: set_get(self :: PARAM_ACTIVE, 0);
-                    break;
-                case self :: PARAM_ACTIVATE_SELECTED :
-                    $this->set_action(self :: ACTION_CHANGE_ACTIVATION);
-                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
-                    Request :: set_get(self :: PARAM_ACTIVE, 1);
-                    break;
-                case self :: PARAM_RESET_PASSWORD_SELECTED :
-                    $this->set_action(self :: ACTION_RESET_PASSWORD_MULTI);
-                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
-                    break;
-                case self :: PARAM_APPROVE_SELECTED:
-                	$this->set_action(self :: ACTION_USER_APPROVER);
-                	Request :: set_get('choice', 1);
-                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
-                    break;
-                case self :: PARAM_DENY_SELECTED:
-                	$this->set_action(self :: ACTION_USER_APPROVER);
-                	Request :: set_get('choice', 0);
-                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
-                    break;
-                case self :: PARAM_EMAIL_SELECTED:
-                	$this->set_action(self :: ACTION_EMAIL);
-                    Request :: set_get(self :: PARAM_USER_USER_ID, $selected_ids);
-                    break;
-            }
-        }
-    }
-
     /**
      * Sets the current user based on the input passed on to the UserManager.
      * @param mixed $user The user.
@@ -273,6 +216,14 @@ class UserManager extends CoreApplication
             case self :: ACTION_CHANGE_ACTIVATION :
                 $component = $this->create_component('ActiveChanger');
                 break;
+            case self :: ACTION_ACTIVATE :
+                $component = $this->create_component('ActiveChanger');
+                Request :: set_get(self :: PARAM_ACTIVE, 1);
+                break;
+            case self :: ACTION_DEACTIVATE :
+                $component = $this->create_component('ActiveChanger');
+                Request :: set_get(self :: PARAM_ACTIVE, 0);
+                break;
             case self :: ACTION_RESET_PASSWORD_MULTI:
             	$component = $this->create_component('MultiPasswordResetter');
                 break;
@@ -290,6 +241,14 @@ class UserManager extends CoreApplication
                 break;
             case self :: ACTION_USER_APPROVER:
             	$component = $this->create_component('UserApprover');
+                break;
+            case self :: ACTION_APPROVE_USER:
+            	$component = $this->create_component('UserApprover');
+            	Request :: set_get('choice', '1');
+                break;
+            case self :: ACTION_DENY_USER:
+            	$component = $this->create_component('UserApprover');
+            	Request :: set_get('choice', '0');
                 break;
             case self :: ACTION_EMAIL:
             	$component = $this->create_component('Emailer');

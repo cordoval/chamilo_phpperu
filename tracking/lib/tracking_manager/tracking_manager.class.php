@@ -21,7 +21,10 @@ class TrackingManager extends CoreApplication
     const ACTION_BROWSE_EVENTS = 'browse_events';
     const ACTION_VIEW_EVENT = 'view_event';
     const ACTION_CHANGE_ACTIVE = 'changeactive';
+    const ACTION_ACTIVATE_EVENT = 'activate_event';
+    const ACTION_DEACTIVATE_EVENT = 'deactivate_event';
     const ACTION_EMPTY_TRACKER = 'empty_tracker';
+    const ACTION_EMPTY_EVENT_TRACKERS = 'empty_event_trackers';
     const ACTION_ARCHIVE = 'archive';
     
     private $tdm;
@@ -59,8 +62,22 @@ class TrackingManager extends CoreApplication
             case self :: ACTION_CHANGE_ACTIVE :
                 $component = $this->create_component('ActivityChanger');
                 break;
+            case self :: ACTION_ACTIVATE_EVENT :
+                $component = $this->create_component('ActivityChanger');
+                Request :: set_get(self :: PARAM_TYPE, 'event');
+                Request :: set_get(self :: PARAM_EXTRA, 'enable');
+                break;
+            case self :: ACTION_DEACTIVATE_EVENT :
+                $component = $this->create_component('ActivityChanger');
+                Request :: set_get(self :: PARAM_TYPE, 'event');
+                Request :: set_get(self :: PARAM_EXTRA, 'disable');
+                break;
             case self :: ACTION_EMPTY_TRACKER :
                 $component = $this->create_component('EmptyTracker');
+                break;
+            case self :: ACTION_EMPTY_EVENT_TRACKERS :
+                $component = $this->create_component('EmptyTracker');
+                Request :: set_get(self :: PARAM_TYPE, 'event');
                 break;
             case self :: ACTION_ARCHIVE :
                 $component = $this->create_component('Archiver');
@@ -213,33 +230,6 @@ class TrackingManager extends CoreApplication
     function retrieve_event_by_name($eventname)
     {
         return $this->tdm->retrieve_event_by_name($eventname);
-    }
-
-    private function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $action = $_POST['action'];
-            
-            $selected_ids = $_POST[EventTable :: DEFAULT_NAME . EventTable :: CHECKBOX_NAME_SUFFIX];
-            
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            if ($action == 'enable' || $action == 'disable')
-            {
-                $this->redirect('url', null, null, array(Application :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE, TrackingManager :: PARAM_EVENT_ID => $selected_ids, TrackingManager :: PARAM_TYPE => 'event', TrackingManager :: PARAM_EXTRA => $action));
-            }
-            else
-            {
-                $this->redirect('url', null, null, array(Application :: PARAM_ACTION => $action, TrackingManager :: PARAM_EVENT_ID => $selected_ids, TrackingManager :: PARAM_TYPE => 'event'));
-            }
-        }
     }
 
 }
