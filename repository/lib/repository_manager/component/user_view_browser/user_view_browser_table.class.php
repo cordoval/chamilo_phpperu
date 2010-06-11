@@ -11,8 +11,6 @@ require_once dirname(__FILE__) . '/user_view_browser_table_cell_renderer.class.p
  */
 class UserViewBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'repository_browser_table';
-
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
@@ -22,12 +20,18 @@ class UserViewBrowserTable extends ObjectTable
         $model = new UserViewBrowserTableColumnModel();
         $renderer = new UserViewBrowserTableCellRenderer($browser);
         $data_provider = new UserViewBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, UserViewBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-		$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_DELETE_SELECTED_USER_VIEW, Translation :: get('DeleteSelected'));
+		$actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_USER_VIEW, Translation :: get('DeleteSelected'));
 		$this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+	static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(RepositoryManager :: PARAM_USER_VIEW, $ids);
     }
 }
 ?>

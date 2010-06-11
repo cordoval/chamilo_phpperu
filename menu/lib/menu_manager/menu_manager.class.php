@@ -16,7 +16,6 @@ class MenuManager extends CoreApplication
     const PARAM_COMPONENT_ACTION = 'action';
     const PARAM_DIRECTION = 'direction';
     const PARAM_CATEGORY = 'category';
-    const PARAM_DELETE_SELECTED = 'delete_selected';
     
     const ACTION_RENDER_BAR = 'render_bar';
     const ACTION_RENDER_MINI_BAR = 'render_mini_bar';
@@ -39,7 +38,6 @@ class MenuManager extends CoreApplication
     function MenuManager($user)
     {
         parent :: __construct($user);
-        $this->parse_input_from_table();
     }
 
     /**
@@ -148,31 +146,6 @@ class MenuManager extends CoreApplication
     function get_navigation_item_moving_url($navigation_item, $direction)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_MOVE_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id(), self :: PARAM_DIRECTION => $direction));
-    }
-
-    private function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $selected_ids = $_POST[NavigationItemBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_DELETE_SELECTED :
-                    $this->set_action(self :: ACTION_SORT_MENU);
-                    Request :: set_get(self :: PARAM_COMPONENT_ACTION, self :: ACTION_COMPONENT_DELETE_CATEGORY);
-                    Request :: set_get(self :: PARAM_CATEGORY, $selected_ids);
-                    break;
-            }
-        }
     }
 
     /**

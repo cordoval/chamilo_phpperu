@@ -11,8 +11,6 @@ require_once dirname(__FILE__) . '/repository_shared_content_objects_browser_tab
  */
 class RepositorySharedContentObjectsBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'repository_browser_table';
-
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
@@ -22,22 +20,24 @@ class RepositorySharedContentObjectsBrowserTable extends ObjectTable
         $model = new RepositorySharedContentObjectsBrowserTableColumnModel();
         $renderer = new RepositorySharedContentObjectsBrowserTableCellRenderer($browser);
         $data_provider = new RepositorySharedContentObjectsBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, RepositorySharedContentObjectsBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         if (get_class($browser) == 'RepositoryManagerBrowserComponent')
         {
             $actions = array();
             //$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_RECYCLE_SELECTED, Translation :: get('RemoveSelected'));
             //$actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_MOVE_SELECTED, Translation :: get('MoveSelected'), false);
-            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_PUBLISH_SELECTED, Translation :: get('PublishSelected'), false);
+            $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_PUBLISH_CONTENT_OBJECT, Translation :: get('PublishSelected'), false);
         }
-        if (get_class($browser) == 'RepositoryManagerComplexBrowserComponent')
-        {
-            $actions = array();
-            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_ADD_OBJECTS, Translation :: get('AddObjects'), false);
-        }
+
         $this->set_additional_parameters($parameters);
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+	static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $ids);
     }
 }
 ?>

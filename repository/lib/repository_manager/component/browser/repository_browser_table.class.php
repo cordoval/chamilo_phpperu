@@ -30,15 +30,15 @@ class RepositoryBrowserTable extends ObjectTable
 			$actions[RepositoryManager :: PARAM_MOVE_SELECTED] = Translation :: get('MoveSelected');
 			$actions[RepositoryManager :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');*/
             
-            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_RECYCLE_SELECTED, Translation :: get('RemoveSelected'));
-            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_MOVE_SELECTED, Translation :: get('MoveSelected'), false);
-            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_PUBLISH_SELECTED, Translation :: get('PublishSelected'), false);
-            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_EXPORT_SELECTED, Translation :: get('ExportSelected'), false);
-            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_EDIT_SELECTED_RIGHTS, Translation :: get('EditSelectedRights'), false);
+            $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_RECYCLE_CONTENT_OBJECTS, Translation :: get('RemoveSelected'));
+            $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_MOVE_CONTENT_OBJECTS, Translation :: get('MoveSelected'), false);
+            $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_PUBLISH_CONTENT_OBJECT, Translation :: get('PublishSelected'), false);
+            $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_EXPORT_CONTENT_OBJECTS, Translation :: get('ExportSelected'), false);
+            $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, Translation :: get('EditSelectedRights'), false);
             
             if ($browser->get_user()->is_platform_admin())
             {
-                $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_COPY_TO_TEMPLATES, Translation :: get('CopySelectedToTemplates'), false);
+                $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES, Translation :: get('CopySelectedToTemplates'), false);
             }
         
         }
@@ -50,6 +50,12 @@ class RepositoryBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+	static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $ids);
     }
 }
 ?>

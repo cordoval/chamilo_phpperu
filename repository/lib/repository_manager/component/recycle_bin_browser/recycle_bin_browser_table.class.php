@@ -12,8 +12,6 @@ require_once dirname(__FILE__) . '/recycle_bin_browser_table_cell_renderer.class
  */
 class RecycleBinBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'repository_browser_table';
-
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
@@ -23,15 +21,21 @@ class RecycleBinBrowserTable extends ObjectTable
         $model = new RecycleBinBrowserTableColumnModel();
         $renderer = new RecycleBinBrowserTableCellRenderer($browser);
         $data_provider = new RecycleBinBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, RecycleBinBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_RESTORE_SELECTED, Translation :: get('RestoreSelected'));
-        $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_DELETE_SELECTED, Translation :: get('DeleteSelected'));
+        $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_RESTORE_CONTENT_OBJECTS, Translation :: get('RestoreSelected'));
+        $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY, Translation :: get('DeleteSelected'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+	static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $ids);
     }
 }
 ?>
