@@ -24,7 +24,7 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         $trail->add(new Breadcrumb($this->get_category_viewing_url($this->category), $this->category->get_name()));
       
 
-        $trail->add(new Breadcrumb($this->get_category_subscribe_location_browser_url($this->category), Translation :: get('CreateInternshipOrganizerLocation')));
+        $trail->add(new Breadcrumb($this->get_category_subscribe_location_browser_url($this->category), Translation :: get('AddInternshipOrganizerLocation')));
       	
         $trail->add_help('category subscribe locations');
         

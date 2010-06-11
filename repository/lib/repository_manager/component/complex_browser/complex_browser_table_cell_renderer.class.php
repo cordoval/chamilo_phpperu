@@ -41,7 +41,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
         {
             $content_object = $this->content_object;
         }
-        
+
         return $content_object;
     }
 
@@ -52,10 +52,10 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
         {
             return $this->get_modification_links($cloi);
         }
-        
+
         if (! $content_object)
             $content_object = $this->retrieve_content_object($cloi->get_ref());
-        
+
         switch ($column->get_name())
         {
             case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TYPE)) :
@@ -67,7 +67,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
                 $title = htmlspecialchars($content_object->get_title());
                 $title_short = $title;
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
-                
+
                 if ($content_object->is_complex_content_object())
                 {
                     $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $cloi->get_id())) . '">' . $title_short . '</a>';
@@ -76,7 +76,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
                 {
                 	$title_short = '<a href="' . $this->browser->get_complex_content_object_item_view_url($cloi->get_id()) . '">' . $title_short . '</a>';
                 }
-                
+
                 return $title_short; //'<a href="'.htmlentities($this->browser->get_content_object_viewing_url($content_object)).'" title="'.$title.'">'.$title_short.'</a>';
             case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_DESCRIPTION)) :
                 $description = strip_tags($content_object->get_description());
@@ -105,41 +105,41 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
     protected function get_modification_links($cloi, $additional_toolbar_items = array(), $no_move = false)
     {
     	$toolbar = new Toolbar();
-        
+
     	$toolbar->add_item(new ToolbarItem(
         			Translation :: get('Edit'),
-        			Theme :: get_common_image_path().'action_edit.png', 
+        			Theme :: get_common_image_path().'action_edit.png',
 					$this->browser->get_complex_content_object_item_edit_url($cloi->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON
 		));
-        
+
          $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Delete'),
-        			Theme :: get_common_image_path().'action_delete.png', 
+        			Theme :: get_common_image_path().'action_delete.png',
 					$this->browser->get_complex_content_object_item_delete_url($cloi->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON,
 				 	true
 		));
-        
+
         if($this->browser->show_menu())
-        {	
+        {
         	$toolbar->add_item(new ToolbarItem(
         			Translation :: get('ChangeParent'),
-        			Theme :: get_common_image_path().'action_move.png', 
+        			Theme :: get_common_image_path().'action_move.png',
 					$this->browser->get_complex_content_object_parent_changer_url($cloi->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON
 			));
         }
-        
+
         $allowed = $this->check_move_allowed($cloi);
-        
+
         if (! $no_move)
         {
             if ($allowed["moveup"])
             {
             	$toolbar->add_item(new ToolbarItem(
         			Translation :: get('MoveUp'),
-        			Theme :: get_common_image_path().'action_up.png', 
+        			Theme :: get_common_image_path().'action_up.png',
 					$this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_UP),
 				 	ToolbarItem :: DISPLAY_ICON
 				));
@@ -148,18 +148,18 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
             {
             	$toolbar->add_item(new ToolbarItem(
         			Translation :: get('MoveUpNA'),
-        			Theme :: get_common_image_path().'action_up_na.png', 
+        			Theme :: get_common_image_path().'action_up_na.png',
 					null,
 				 	ToolbarItem :: DISPLAY_ICON
 				));
-            
+
             }
-            
+
             if ($allowed["movedown"])
             {
             	$toolbar->add_item(new ToolbarItem(
         			Translation :: get('MoveDown'),
-        			Theme :: get_common_image_path().'action_down.png', 
+        			Theme :: get_common_image_path().'action_down.png',
 					$this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN),
 				 	ToolbarItem :: DISPLAY_ICON
 				));
@@ -168,7 +168,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
             {
             	$toolbar->add_item(new ToolbarItem(
         			Translation :: get('MoveDownNA'),
-        			Theme :: get_common_image_path().'action_down_na.png', 
+        			Theme :: get_common_image_path().'action_down_na.png',
 					null,
 				 	ToolbarItem :: DISPLAY_ICON
 				));
@@ -181,7 +181,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
     {
         $moveup_allowed = true;
         $movedown_allowed = true;
-        
+
         $count = $this->rdm->count_complex_content_object_items($this->condition);
         if ($count == 1)
         {
@@ -202,7 +202,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
                 }
             }
         }
-        
+
         return array('moveup' => $moveup_allowed, 'movedown' => $movedown_allowed);
     }
 }

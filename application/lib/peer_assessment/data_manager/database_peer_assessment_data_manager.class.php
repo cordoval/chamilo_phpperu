@@ -180,7 +180,7 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
 
     function retrieve_max_sort_value($table_name, $column, $condition)
     {
-        return $this->retrieve_max_sort_value($table_name, $column, $condition);
+        return parent :: retrieve_max_sort_value($table_name, $column, $condition);
     }
 
     

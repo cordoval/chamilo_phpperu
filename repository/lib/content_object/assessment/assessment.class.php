@@ -10,11 +10,11 @@
 class Assessment extends ContentObject
 {
     const PROPERTY_ASSESSMENT_TYPE = 'assessment_type';
-    
+
     const TYPE_EXERCISE = 1;
     const TYPE_ASSIGNMENT = 2;
     //const TYPE_SURVEY = 3;
-    
+
     const PROPERTY_TIMES_TAKEN = 'times_taken';
     const PROPERTY_AVERAGE_SCORE = 'average_score';
     const PROPERTY_MAXIMUM_SCORE = 'maximum_score';
@@ -25,11 +25,11 @@ class Assessment extends ContentObject
 
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-    
+
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_ASSESSMENT_TYPE, self :: PROPERTY_MAXIMUM_ATTEMPTS, self :: PROPERTY_QUESTIONS_PER_PAGE, self :: PROPERTY_MAXIMUM_TIME, self :: PROPERTY_RANDOM_QUESTIONS);
@@ -132,10 +132,15 @@ class Assessment extends ContentObject
         asort($types);
         return $types;
     }
-    
+
 	function is_versionable()
     {
         return false;
+    }
+
+    function count_questions()
+    {
+        return RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
     }
 }
 ?>

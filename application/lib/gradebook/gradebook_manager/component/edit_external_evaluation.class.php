@@ -6,7 +6,7 @@ class GradebookManagerEditExternalEvaluationComponent extends GradebookManager
 {
 	function run()
 	{
-		$trail = BreadcrumbTrail :: get_instance();
+		$trail = $this->get_general_breadcrumbs();
 		$trail->add(new Breadcrumb($this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL)), Translation :: get('CreatingExternal')));
 		
 		$form = new CreateExternalItemForm(CreateExternalItemForm :: TYPE_EDIT, $this->get_url(array(GradebookManager :: PARAM_ACTION => GradebookManager :: ACTION_CREATE_EXTERNAL, GradebookTreeMenuDataProvider :: PARAM_ID => Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID))), Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID),$this->get_user());
