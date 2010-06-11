@@ -21,7 +21,7 @@ class RightsManagerRightRequesterComponent extends RightsManager
         
         if (isset($user))
         {
-            $trail = BreadcrumbTrail :: get_instance();;
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_REQUEST_RIGHT)), Translation :: get('RightRequest')));
             
             $parameters = array();

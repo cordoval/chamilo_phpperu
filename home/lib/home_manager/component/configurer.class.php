@@ -17,7 +17,7 @@ class HomeManagerConfigurerComponent extends HomeManager
         Header :: set_section('admin');
         
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
-        $trail = BreadcrumbTrail :: get_instance();;
+        $trail = BreadcrumbTrail :: get_instance();
         
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => HomeManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Home')));

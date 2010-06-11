@@ -18,7 +18,7 @@ class HomeManagerDeleterComponent extends HomeManager
         
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
         $type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
-        $trail = BreadcrumbTrail :: get_instance();;
+        $trail = BreadcrumbTrail :: get_instance();
         
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeDeleter')));

@@ -17,7 +17,7 @@ class ReportingManagerDeleteComponent extends ReportingManager
     function run()
     {
 
-        $trail = BreadcrumbTrail :: get_instance();;
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Translation :: get('Reporting')))));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteTemplate')));
         $trail->add_help('reporting general');
