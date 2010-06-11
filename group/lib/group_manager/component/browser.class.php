@@ -7,7 +7,7 @@
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
 
-require_once dirname(__FILE__).'/../../group_tree_menu_data_provider.class.php';
+require_once dirname(__FILE__) . '/../../group_tree_menu_data_provider.class.php';
 
 class GroupManagerBrowserComponent extends GroupManager
 {
@@ -51,11 +51,74 @@ class GroupManagerBrowserComponent extends GroupManager
     {
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
-    	$table = new GroupBrowserTable($this, $parameters, $this->get_condition());
+        $table = new GroupBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
         $html[] = '<div style="float: right; width: 80%;">';
-        $html[] = $table->as_html();
+
+        $html[] = '<a name="top"></a>';
+        $html[] = '<div id="admin_tabs">';
+        $html[] = '<ul style="display: none;">';
+
+        // BEGIN TABS
+
+
+        $subgroup_count = $this->count_groups($this->get_condition());
+        $user_condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $this->get_group());
+        $user_count = $this->count_group_rel_users($user_condition);
+
+        if ($subgroup_count > 0)
+        {
+            $html[] = '<li><a href="#admin_tabs-1">';
+            $html[] = '<span class="category">';
+            $html[] = '<img src="' . Theme :: get_image_path('admin') . 'place_mini_group.png" border="0" style="vertical-align: middle;" alt="User" title="User"/>';
+            $html[] = '<span class="title">Groups</span>';
+            $html[] = '</span>';
+            $html[] = '</a></li>';
+        }
+
+        if ($user_count > 0)
+        {
+            $html[] = '<li><a href="#admin_tabs-2">';
+            $html[] = '<span class="category">';
+            $html[] = '<img src="' . Theme :: get_image_path('admin') . 'place_mini_user.png" border="0" style="vertical-align: middle;" alt="User" title="User"/>';
+            $html[] = '<span class="title">Users</span>';
+            $html[] = '</span>';
+            $html[] = '</a></li>';
+        }
+
+        $html[] = '</ul>';
+
+        // Groups
+        if ($subgroup_count > 0)
+        {
+            $html[] = '<h2><img src="' . Theme :: get_image_path('admin') . 'place_mini_group.png" border="0" style="vertical-align: middle;" alt="User" title="User"/>&nbsp;Subgroups</h2>';
+            $html[] = '<div class="admin_tab" style="padding: 15px;" id="admin_tabs-1">';
+            $html[] = '<a class="prev"></a>';
+            $html[] = $table->as_html();
+            $html[] = '<a class="next"></a>';
+            $html[] = '<div class="clear"></div>';
+            $html[] = '</div>';
+        }
+
+        // Users
+        if ($user_count > 0)
+        {
+            $html[] = '<h2><img src="' . Theme :: get_image_path('admin') . 'place_mini_user.png" border="0" style="vertical-align: middle;" alt="User" title="User"/>&nbsp;Users</h2>';
+            $html[] = '<div class="admin_tab" style="padding: 15px;" id="admin_tabs-2">';
+            $html[] = '<a class="prev"></a>';
+            $table = new GroupRelUserBrowserTable($this, array(), $user_condition);
+            $html[] = $table->as_html();
+            $html[] = '<a class="next"></a>';
+            $html[] = '<div class="clear"></div>';
+            $html[] = '</div>';
+        }
+
+        // END TABS
+
+
+        $html[] = '</div>';
+
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
 
@@ -76,14 +139,14 @@ class GroupManagerBrowserComponent extends GroupManager
 
     function get_group()
     {
-        if(!$this->group)
+        if (! $this->group)
         {
-    		$this->group = Request :: get(GroupManager :: PARAM_GROUP_ID);
+            $this->group = Request :: get(GroupManager :: PARAM_GROUP_ID);
 
-    		if(!$this->group)
-    		{
-    			$this->group = $this->get_root_group()->get_id();
-    		}
+            if (! $this->group)
+            {
+                $this->group = $this->get_root_group()->get_id();
+            }
 
         }
 
@@ -92,13 +155,13 @@ class GroupManagerBrowserComponent extends GroupManager
 
     function get_root_group()
     {
-    	if(!$this->root_group)
-    	{
-    		$group = $this->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
-    		$this->root_group = $group;
-    	}
+        if (! $this->root_group)
+        {
+            $group = $this->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
+            $this->root_group = $group;
+        }
 
-    	return $this->root_group;
+        return $this->root_group;
     }
 
     function get_condition()

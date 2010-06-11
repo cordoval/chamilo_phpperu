@@ -24,7 +24,7 @@ class PhrasesParticipantTracker extends MainTracker
     /**
      * Constructor sets the default values
      */
-    function SurveyParticipantTracker()
+    function PhrasesParticipantTracker()
     {
         parent :: MainTracker('phrases_participant_tracker');
     }
