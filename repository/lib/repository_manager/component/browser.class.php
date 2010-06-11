@@ -16,7 +16,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository general');
 
         $this->action_bar = $this->get_action_bar();

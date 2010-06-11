@@ -10,7 +10,7 @@ class RepositoryManagerExternalRepositoryImportComponent extends RepositoryManag
         
         try
         {
-            $trail = new BreadcrumbTrail(false);
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_BROWSE, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $co_id)), Translation :: get('ExternalRepository')));
             $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $co_id, RepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $export->get_id())), $export->get_title()));
             

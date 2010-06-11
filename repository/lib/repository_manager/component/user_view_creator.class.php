@@ -12,7 +12,7 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserViewList')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserViewCreate')));
         $trail->add_help('repository userviews');

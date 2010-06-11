@@ -14,7 +14,7 @@ class RepositoryManagerEditorComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository general');
         
         $id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);

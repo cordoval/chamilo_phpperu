@@ -1277,7 +1277,7 @@ class Course extends DataClass
 		if($course_type->get_rights()->get_direct_subscribe_fixed())
 			$this->get_rights()->set_direct_subscribe_available($course_type->get_rights()->get_direct_subscribe_available());
 		if($course_type->get_rights()->get_request_subscribe_fixed())
-			$this->get_rights()->set_request_subscribe_available($course_type->get_request_subscribe_available());
+			$this->get_rights()->set_request_subscribe_available($course_type->get_rights()->get_request_subscribe_available());
 		if($course_type->get_rights()->get_code_subscribe_fixed())
 			$this->get_rights()->set_code_subscribe_available($course_type->get_rights()->get_code_subscribe_available());
 		if($course_type->get_rights()->get_unsubscribe_fixed())

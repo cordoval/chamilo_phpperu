@@ -24,8 +24,8 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         if (! $this->type)
             $this->type = self :: TYPE_USER;
 
-        $trail = new BreadcrumbTrail(false);
-        $trail->add(new Breadcrumb($this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS)), Translation :: get('BrowseRights')));
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS, self :: PARAM_TYPE => Request :: get(self :: PARAM_TYPE))), Translation :: get('BrowseRights')));
 
         $this->action_bar = $this->get_action_bar();
 

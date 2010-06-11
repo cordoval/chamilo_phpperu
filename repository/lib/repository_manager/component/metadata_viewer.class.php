@@ -10,7 +10,7 @@ class RepositoryManagerMetadataViewerComponent extends RepositoryManagerMetadata
 
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository metadata');
         
         if ($this->check_content_object_from_params())

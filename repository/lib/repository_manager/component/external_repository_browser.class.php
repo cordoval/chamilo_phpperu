@@ -9,7 +9,7 @@ class RepositoryManagerExternalRepositoryBrowserComponent extends RepositoryMana
 
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
     
         $content_object = $this->get_content_object_from_params();
         

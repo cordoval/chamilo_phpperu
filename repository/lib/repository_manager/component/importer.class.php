@@ -15,7 +15,7 @@ class RepositoryManagerImporterComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ContentObjectImport')));
         $trail->add_help('repository importer');
         

@@ -18,7 +18,7 @@ class RepositoryManagerDoublesViewerComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewDoubles')));
         
     	$id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);

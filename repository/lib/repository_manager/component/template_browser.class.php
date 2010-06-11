@@ -17,7 +17,7 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManager
         $this->action_bar = $this->get_action_bar();
         $this->form = new RepositoryFilterForm($this, $this->get_url());
 
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTemplates')));
 
         $output = $this->get_table_html();

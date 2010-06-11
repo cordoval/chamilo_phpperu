@@ -23,7 +23,7 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
 		$this->view = Request :: get(self :: PARAM_VIEW_OBJECTS);
 		if(is_null($this->view)) $this->view = self :: VIEW_OTHERS_OBJECTS;
     	
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SharedObjects')));
         $trail->add_help('repository general');
 

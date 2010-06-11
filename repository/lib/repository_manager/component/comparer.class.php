@@ -14,7 +14,7 @@ class RepositoryManagerComparerComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         
         $object_id = Request :: get(RepositoryManager :: PARAM_COMPARE_OBJECT);
         $version_id = Request :: get(RepositoryManager :: PARAM_COMPARE_VERSION);

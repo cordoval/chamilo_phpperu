@@ -154,6 +154,7 @@ class RepositoryManager extends CoreApplication
         //$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
         $action = $this->get_action();
         $component = null;
+        BreadcrumbTrail :: get_instance()->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
         switch ($action)
         {
             case self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECTS :
@@ -426,18 +427,11 @@ class RepositoryManager extends CoreApplication
             $breadcrumbtrail = BreadcrumbTrail :: get_instance();
         }
 
-        $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
-
         if ($display_menu)
         {
             if (Request :: get('category'))
-                $trail->merge($this->get_category_menu()->get_breadcrumbs(false));
+                $breadcrumbtrail->merge($this->get_category_menu()->get_breadcrumbs(false));
         }
-
-        //$trail->merge($breadcrumbtrail);
-
-        $breadcrumbtrail = $trail;
 
         $title = $breadcrumbtrail->get_last()->get_name();
         $title_short = $title;

@@ -28,7 +28,7 @@ class RepositoryManagerViewerComponent extends RepositoryManager
             }
 
             $display = ContentObjectDisplay :: factory($object);
-            $trail = new BreadcrumbTrail(false);
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('repository general');
 
             if ($object->get_state() == ContentObject :: STATE_RECYCLED)
