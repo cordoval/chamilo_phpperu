@@ -21,16 +21,22 @@ class EventBrowserTable extends ObjectTable
         $model = new EventBrowserTableColumnModel();
         $renderer = new EventBrowserTableCellRenderer($browser);
         $data_provider = new EventBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, $name, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction('enable', Translation :: get('EnableSelectedEvents'), false);
-        $actions[] = new ObjectTableFormAction('disable', Translation :: get('DisableSelectedEvents'), false);
-        $actions[] = new ObjectTableFormAction(TrackingManager :: ACTION_EMPTY_TRACKER, Translation :: get('EmptySelectedEvents'));
+        $actions[] = new ObjectTableFormAction(TrackingManager :: ACTION_ACTIVATE_EVENT, Translation :: get('EnableSelectedEvents'), false);
+        $actions[] = new ObjectTableFormAction(TrackingManager :: ACTION_DEACTIVATE_EVENT, Translation :: get('DisableSelectedEvents'), false);
+        $actions[] = new ObjectTableFormAction(TrackingManager :: ACTION_EMPTY_EVENT_TRACKERS, Translation :: get('EmptySelectedEvents'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+	static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(TrackingManager :: PARAM_EVENT_ID, $ids);
     }
 }
 ?>

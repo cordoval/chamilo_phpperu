@@ -11,8 +11,6 @@ require_once dirname(__FILE__) . '/user_approval_browser_table_cell_renderer.cla
  */
 class UserApprovalBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'admin_user_browser_table';
-
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
@@ -22,14 +20,20 @@ class UserApprovalBrowserTable extends ObjectTable
         $model = new UserApprovalBrowserTableColumnModel();
         $renderer = new UserApprovalBrowserTableCellRenderer($browser);
         $data_provider = new UserApprovalBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, UserApprovalBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
         //Deactivated: What should happen when a user is removed ? Full remove or deactivation of account ?
-        $actions[] =  new ObjectTableFormAction(UserManager :: PARAM_APPROVE_SELECTED, Translation :: get('ApproveSelected'), false);
-        $actions[] =  new ObjectTableFormAction(UserManager :: PARAM_DENY_SELECTED, Translation :: get('DenySelected'), false);
+        $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_APPROVE_USER, Translation :: get('ApproveSelected'), false);
+        $actions[] =  new ObjectTableFormAction(UserManager :: ACTION_DENY_USER, Translation :: get('DenySelected'), false);
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+	static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(UserManager :: PARAM_USER_USER_ID, $ids);
     }
 }
 ?>

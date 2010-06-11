@@ -147,7 +147,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManager
         foreach ($events as $event)
         {
             if (! $this->empty_trackers_for_event($event))
-                $success = $false;
+                $success = false;
             
             $this->redirect(Translation :: get($success ? 'TrackerEmpty' : 'TrackerNotEmpty'), ($success ? false : true), array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
         }

@@ -62,7 +62,7 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
         
         $toolbar->add_item(new ToolbarItem(
         	($event->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'),
-        	($event->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png'), 
+        	($event->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png', 
 			$this->browser->get_change_active_url('event', $event->get_id()),
 			ToolbarItem :: DISPLAY_ICON
 		));
