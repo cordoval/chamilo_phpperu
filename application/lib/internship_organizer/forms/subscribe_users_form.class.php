@@ -43,7 +43,9 @@ class InternshipOrganizerSubscribeUsersForm extends FormValidator
     	$period = $this->period;
         $parent = $this->parent; 
     
-        
+        $this->addElement('select', InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, Translation :: get('City'), $this->get_regions());
+		$this->addRule(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
+		
         
     	$attributes = array();
         $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';

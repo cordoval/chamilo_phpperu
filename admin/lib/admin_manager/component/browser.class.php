@@ -27,8 +27,6 @@ class AdminManagerBrowserComponent extends AdminManager
         }
 
         $links = $this->get_application_platform_admin_links();
-
-        dump($links);
         
         $this->display_header();
         echo $this->get_application_platform_admin_tabs($links);

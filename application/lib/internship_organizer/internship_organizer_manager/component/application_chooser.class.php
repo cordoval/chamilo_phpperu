@@ -3,9 +3,9 @@
 class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOrganizerManager
 {
     
-    const ADMINISTRATIONTAB = 1;
-    const AGREEMENTTAB = 2;
-    const PERIODTAB = 3;
+    const ADMINISTRATIONTAB = 0;
+    const AGREEMENTTAB = 1;
+    const PERIODTAB = 2;
 
     /**
      * Runs this component and displays its output.
@@ -186,7 +186,7 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
     {
         
         $links = array();
-        for($index = 1; $index < 4; $index ++)
+        for($index = 0; $index < 3; $index ++)
         {
             $tab_links = $this->get_links_for_tab($index);
             $links[] = $tab_links;

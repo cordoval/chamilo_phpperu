@@ -181,5 +181,7 @@ $lang['internship_organizer']['RegionTab'] = 'Region';
 $lang['internship_organizer']['RegionLink'] = 'Region';
 $lang['internship_organizer']['RegionLinkDescription'] = 'RegionDescription';
 
+$lang['internship_organizer']['InternshipOrganiserSubPeriods'] = 'sub periods';
+$lang['internship_organizer']['InternshipOrganiserRelUsers'] = 'users';
 
 ?>
