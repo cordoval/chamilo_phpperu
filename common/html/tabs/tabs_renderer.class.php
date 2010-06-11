@@ -1,7 +1,7 @@
 <?php
 class TabsRenderer
 {
-    const PARAM_SELECTED_TAB = 'selected_tab';
+    const PARAM_SELECTED_TAB = 'selected';
     
     const TYPE_CONTENT = 1;
     const TYPE_ACTIONS = 2;
@@ -68,7 +68,7 @@ class TabsRenderer
         {
             if (Request :: get(self :: PARAM_SELECTED_TAB) == $key)
             {
-                $selected_tab = $index - 1;
+                $selected_tab = $key;
             }
             
             $html[] = $tab->get_header($this->name . '_' . $key);
@@ -84,14 +84,13 @@ class TabsRenderer
         $html[] = '</div>';
         $html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
         $html[] = '<script type="text/javascript">';
-        $html[] = 'var tabnumber = ' . $selected_tab . ';';
         $html[] = '$(document).ready(function ()';
         $html[] = '{';
         $html[] = '	$("#' . $this->get_name() . '_tabs ul").css(\'display\', \'block\');';
         $html[] = '	$("#' . $this->get_name() . '_tabs h2").hide();';
         $html[] = '	$("#' . $this->get_name() . '_tabs").tabs();';
         $html[] = '	var tabs = $(\'#' . $this->get_name() . '_tabs\').tabs(\'paging\', { cycle: false, follow: false, nextButton : "", prevButton : "" } );';
-        $html[] = '	tabs.tabs(\'select\', tabnumber);';
+        $html[] = '	tabs.tabs(\'select\', "' . $selected_tab . '");';
         $html[] = '});';
         $html[] = '</script>';
         
