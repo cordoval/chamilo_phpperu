@@ -160,4 +160,25 @@ $lang['internship_organizer']['InternshipOrganizer'] = 'Internship Organizer';
 $lang['internship_organizer']['Administration'] = 'Administration';
 $lang['internship_organizer']['NoObjectSelected'] = 'No Objects Selected';
 
+$lang['internship_organizer']['AdministrationTab'] = 'Administration';
+$lang['internship_organizer']['AgreementTab'] = 'Agreement';
+$lang['internship_organizer']['AgreementLink'] = 'Agreements';
+$lang['internship_organizer']['AgreementLinkDescription'] = 'AgreementDescription';
+$lang['internship_organizer']['PeriodTab'] = 'Period';
+$lang['internship_organizer']['PeriodLink'] = 'Periods';
+$lang['internship_organizer']['PeriodLinkDescription'] = 'PeriodDescription';
+$lang['internship_organizer']['MentorTab'] = 'Mentor';
+$lang['internship_organizer']['MentorLink'] = 'Mentor';
+$lang['internship_organizer']['MentorLinkDescription'] = 'MentorDescription';
+$lang['internship_organizer']['CategoryTab'] = 'Category';
+$lang['internship_organizer']['CategoryLink'] = 'Category';
+$lang['internship_organizer']['CategoryLinkDescription'] = 'CategoryDescription';
+$lang['internship_organizer']['OrganisationTab'] = 'Organisation';
+$lang['internship_organizer']['OrganisationLink'] = 'Organisation';
+$lang['internship_organizer']['OrganisationLinkDescription'] = 'OrganisationDescription';
+$lang['internship_organizer']['RegionTab'] = 'Region';
+$lang['internship_organizer']['RegionLink'] = 'Region';
+$lang['internship_organizer']['RegionLinkDescription'] = 'RegionDescription';
+
+
 ?>
