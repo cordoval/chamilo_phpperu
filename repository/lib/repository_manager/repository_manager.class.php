@@ -423,7 +423,7 @@ class RepositoryManager extends CoreApplication
     {
         if (is_null($breadcrumbtrail))
         {
-            $breadcrumbtrail = new BreadcrumbTrail();
+            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
         }
 
         $trail = new BreadcrumbTrail();
@@ -435,7 +435,7 @@ class RepositoryManager extends CoreApplication
                 $trail->merge($this->get_category_menu()->get_breadcrumbs(false));
         }
 
-        $trail->merge($breadcrumbtrail);
+        //$trail->merge($breadcrumbtrail);
 
         $breadcrumbtrail = $trail;
 

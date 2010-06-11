@@ -190,9 +190,10 @@ $(function ()
 		$("[id|="+id+"]").each(function()
 		{
 			var elem_type = $(this);
+			var skip_elem = orig_elem;
 			if(orig_elem !== false)
-				orig_elem = elem_type[0] == orig_elem[0];
-			if(elem_type.attr("id") == id && !orig_elem)
+				skip_elem = elem_type[0] == orig_elem[0];
+			if(elem_type.attr("id") == id && !skip_elem)
 			{
 				var parent_type = elem_type.parent();
 				while(parent_type.attr("class") != "inactive_elements" && parent_type.attr("class") != "active_elements")
