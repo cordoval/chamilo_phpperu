@@ -20,7 +20,7 @@ class WikiManagerWikiPublicationUpdaterComponent extends WikiManager
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('Wiki')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateWikiPublication')));
+        $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_WIKI_PUBLICATION => Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION))), Translation :: get('UpdateWikiPublication')));
         
         $wiki_publication = $this->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         

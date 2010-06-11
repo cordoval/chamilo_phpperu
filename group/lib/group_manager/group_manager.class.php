@@ -15,10 +15,6 @@ class GroupManager extends CoreApplication
     const PARAM_GROUP_ID = 'group_id';
     const PARAM_GROUP_REL_USER_ID = 'group_rel_user_id';
     const PARAM_USER_ID = 'user_id';
-    const PARAM_REMOVE_SELECTED = 'delete';
-    const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
-    const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
-    const PARAM_TRUNCATE_SELECTED = 'truncate';
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_COMPONENT_ACTION = 'action';
 

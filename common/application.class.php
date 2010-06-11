@@ -42,7 +42,6 @@ abstract class Application
     function handle_table_action()
     {
     	$table_name = Request :: post('table_name');
-
         if(isset($table_name))
         {
         	$class = Utilities :: underscores_to_camelcase($table_name);

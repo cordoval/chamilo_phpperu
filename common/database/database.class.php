@@ -212,7 +212,7 @@ class Database
         	return false;
         }
     }
-    
+
     /**
      * Creates a storage unit in the system
      * @param String $name the table name
