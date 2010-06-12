@@ -21,7 +21,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
     function run()
     {
         $component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
-
+        
         switch ($component_action)
         {
             case 'add' :
@@ -72,7 +72,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         $direction = Request :: get(WeblcmsManager :: PARAM_DIRECTION);
         $category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
         $course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
-
+        
         if (isset($direction) && isset($category) && isset($course_type_id))
         {
             $success = $this->move_category($category, $course_type_id, $direction);
@@ -153,7 +153,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
             $move_category->set_sort($sort + 1);
             $next_category->set_sort($sort);
         }
-       
+        
         if ($move_category->update() && $next_category->update())
         {
             return true;
@@ -212,105 +212,94 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
     {
         $course_user_category_id = Request :: get(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID);
         $course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
-
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_user_category_id);
         $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
         $condition = new AndCondition($conditions);
         $course_type_user_category = $this->retrieve_course_type_user_category($condition);
-
-       	$success = $course_type_user_category->delete();
-       	$this->redirect(Translation :: get($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view'));
+        
+        $success = $course_type_user_category->delete();
+        $this->redirect(Translation :: get($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view'));
     }
 
     function show_course_list()
     {
-    	$tabs = array();
-        $html = array();  
-
-       	$course_active_types = $this->retrieve_active_course_types();
-        while($course_type = $course_active_types->next_result())
-       	{
-       	    $conditions = array();
-       		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-       		$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
-       		$condition = new AndCondition($conditions);
-       		$order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, SORT_ASC, WeblcmsDataManager::get_instance()->get_alias(CourseUserRelation :: get_table_name()));
-       		$courses_result = $this->retrieve_user_courses($condition, 0, -1, $order_by);
-       	 	if($courses_result->size() > 0)
-       	 	{
-				$tabs[$course_type->get_id()][0] = $courses_result;
-				$tabs[$course_type->get_id()][1] = $course_type->get_name();
-       	 	}
-       	}
-       	
-       	$conditions = array();
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-        $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
-       	$condition = new AndCondition($conditions);
-       	$courses_result = $this->retrieve_user_courses($condition);
-       	if($courses_result->size() > 0)
-       	{
-       		$tab_name = Translation :: get('NoCourseType');
-       		if(count($tabs) == 0) $tab_name = null;
-			$tabs[0][0] = $courses_result;
-			$tabs[0][1] = $tab_name;
-       	}
-    	
+        $tabs = array();
+        $html = array();
+        
+        $course_active_types = $this->retrieve_active_course_types();
+        while ($course_type = $course_active_types->next_result())
+        {
+            $conditions = array();
+            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+            $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
+            $condition = new AndCondition($conditions);
+            $order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, SORT_ASC, WeblcmsDataManager :: get_instance()->get_alias(CourseUserRelation :: get_table_name()));
+            $courses_result = $this->retrieve_user_courses($condition, 0, - 1, $order_by);
+            if ($courses_result->size() > 0)
+            {
+                $tabs[$course_type->get_id()][0] = $courses_result;
+                $tabs[$course_type->get_id()][1] = $course_type->get_name();
+            }
+        }
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
         $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
-       	$condition = new AndCondition($conditions);
-       	$courses_result = $this->retrieve_user_courses($condition);
-       	if($courses_result->size() > 0)
+        $condition = new AndCondition($conditions);
+        $courses_result = $this->retrieve_user_courses($condition);
+        if ($courses_result->size() > 0)
         {
-       		$tab_name = Translation :: get('NoCourseType');
-       		if(count($tabs) == 0) $tab_name = null;
-			$tabs[0][0] = $courses_result;
-			$tabs[0][1] = $tab_name;
-       	}
-       	 
-       	if(count($tabs) != 0)
+            $tab_name = Translation :: get('NoCourseType');
+            if (count($tabs) == 0)
+            {
+                $tab_name = null;
+            }
+            $tabs[0][0] = $courses_result;
+            $tabs[0][1] = $tab_name;
+        }
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+        $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
+        $condition = new AndCondition($conditions);
+        $courses_result = $this->retrieve_user_courses($condition);
+        if ($courses_result->size() > 0)
         {
-        	$html[] = '<div id="admin_tabs">';
-       	 	$html[] = '<ul>';
-       	 			
-       	 	foreach($tabs as $index => $tab)
-			{
-				if(!is_null($tab))
-				{								
-	      			$html[] = '<li><a href="#admin_tabs-'.$index.'">';
-	          		$html[] = '<span class="category">';
-	        		$html[] = '<span class="title">'.$tab[1].'</span>';
-	        		$html[] = '</span>';
-	        		$html[] = '</a></li>';
-				}
-			}
-        	$html[] = '</ul>';
-
-        	foreach($tabs as $index => $tab)
-        	{
-        		$html[] = '<div class="admin_tab" id="admin_tabs-'.$index.'">';
-        		$html[] = $this->display_courses($tab[0], $index);
-        		$html[] = '<div class="clear"></div>';
-        		$html[] = '</div>';
-        	}
-        	
-        	$html[] = '</div>';
-        	$html[] = '<script type="text/javascript">';
-        	$html[] = '  var tabnumber = ' . $selected_tab . ';';
-        	$html[] = '</script>';
-
-        	$html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/admin_ajax.js' . '"></script>';
+            $tab_name = Translation :: get('NoCourseType');
+            if (count($tabs) == 0)
+            {
+                $tab_name = null;
+            }
+            $tabs[0][0] = $courses_result;
+            $tabs[0][1] = $tab_name;
+        }
+        
+        if (count($tabs) != 0)
+        {
+            $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+            $course_tabs = new DynamicTabsRenderer($renderer_name);
+            
+            foreach ($tabs as $index => $tab)
+            {
+                $course_tabs->add_tab(new DynamicContentTab($index, $tab[1], null, $this->display_courses($tab[0], $index)));
+            }
+            
+            $html[] = $course_tabs->render();
         }
         
         $this->display_page_header();
         echo $this->get_actionbar()->as_html();
         echo '<div class="clear"></div><br />';
-        if(count($tabs) == 0)
-        	$this->display_message(Translation :: get('NoCategoriesFound'));
+        if (count($tabs) == 0)
+        {
+            $this->display_message(Translation :: get('NoCategoriesFound'));
+        }
         else
-        	echo implode($html, "\n");
+        {
+            echo implode($html, "\n");
+        }
         $this->display_footer();
     }
 
@@ -318,8 +307,8 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
     {
         $trail = new BreadcrumbTrail();
         //$trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
-        $trail->add(new Breadcrumb($this->get_url(null,array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_COMPONENT_ACTION,WeblcmsManager :: PARAM_ACTION)),Translation :: get('MyCourses')));
-       	$trail->add(new Breadcrumb($this->get_url(null,array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT, WeblcmsManager :: PARAM_COMPONENT_ACTION, WeblcmsManager :: PARAM_COURSE)), Translation :: get('SortMyCourses')));
+        $trail->add(new Breadcrumb($this->get_url(null, array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_COMPONENT_ACTION, WeblcmsManager :: PARAM_ACTION)), Translation :: get('MyCourses')));
+        $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT, WeblcmsManager :: PARAM_COMPONENT_ACTION, WeblcmsManager :: PARAM_COURSE)), Translation :: get('SortMyCourses')));
         $trail->add_help('courses general');
         if (! empty($title))
         {
@@ -330,51 +319,51 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
     }
 
     function display_courses($courses, $course_type_id)
-    {  	
-    	$html = array();
-    	$courses_array = array();
-    	while($course = $courses->next_result())
-    		$courses_array[] = $course;
-    	
-    	$conditions = array();
-       	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $this->get_user_id());
-       	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
-       	$condition = new AndCondition($conditions);
-       	$order_by[] = new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT);
-       	$course_type_categories = $this->retrieve_course_type_user_categories($condition, null, null, $order_by);
-
-       	$courses = array();
-       	foreach($courses_array as $index => $course)
-       	{
-       		if($course->get_optional_property('user_course_cat') == 0)
-       		{
-       			$courses[] = $course;
-       			unset($courses_array[$index]);
-           	}
-       	}
+    {
+        $html = array();
+        $courses_array = array();
+        while ($course = $courses->next_result())
+            $courses_array[] = $course;
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $this->get_user_id());
+        $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
+        $condition = new AndCondition($conditions);
+        $order_by[] = new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT);
+        $course_type_categories = $this->retrieve_course_type_user_categories($condition, null, null, $order_by);
+        
+        $courses = array();
+        foreach ($courses_array as $index => $course)
+        {
+            if ($course->get_optional_property('user_course_cat') == 0)
+            {
+                $courses[] = $course;
+                unset($courses_array[$index]);
+            }
+        }
         
         $html[] = $this->display_course_digest($courses, $course_type_id);
         
         $cat_key = 0;
         while ($course_type_category = $course_type_categories->next_result())
         {
-			$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_type_category->get_course_user_category_id());
-			$course_user_category = $this->retrieve_course_user_category($condition);
-			
+            $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_type_category->get_course_user_category_id());
+            $course_user_category = $this->retrieve_course_user_category($condition);
+            
             $courses = array();
-		    foreach($courses_array as $index => $course)
-		    {
-		    	if($course->get_optional_property('user_course_cat') == $course_user_category->get_id())
-		    	{
-		    		$courses[] = $course;
-		       		unset($courses_array[$index]);
-				}
-			}
+            foreach ($courses_array as $index => $course)
+            {
+                if ($course->get_optional_property('user_course_cat') == $course_user_category->get_id())
+                {
+                    $courses[] = $course;
+                    unset($courses_array[$index]);
+                }
+            }
             
             $html[] = $this->display_course_digest($courses, $course_type_id, $course_user_category, $cat_key, $course_type_categories->size());
             $cat_key ++;
         }
-    	return implode("\n", $html);
+        return implode("\n", $html);
     }
 
     function get_actionbar()
@@ -443,58 +432,28 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         
         if ($key > 0 && $total > 1)
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveUp'),
-	        		Theme :: get_common_image_path() . 'action_up.png',
-	        		$this->get_course_user_move_url($course, $course_type_id, 'up'),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_course_user_move_url($course, $course_type_id, 'up'), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
             $toolbar_data[] = array('label' => Translation :: get('Up'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveUpNA'),
-	        		Theme :: get_common_image_path() . 'action_up_na.png',
-					null,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
         if ($key < ($total - 1) && $total > 1)
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveDown'),
-	        		Theme :: get_common_image_path() . 'action_down.png',
-	        		$this->get_course_user_move_url($course, $course_type_id, 'down'),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_course_user_move_url($course, $course_type_id, 'down'), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveDownNA'),
-	        		Theme :: get_common_image_path() . 'action_down_na.png',
-	        		null,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Move'),
-        		Theme :: get_common_image_path() . 'action_move.png',
-        		$this->get_course_user_edit_url($course),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_course_user_edit_url($course), ToolbarItem :: DISPLAY_ICON));
         
-        $toolbar->add_item(new ToolbarItem(
-        		null,
-        		Theme :: get_common_image_path() . 'spacer_tab.png',
-        		null,
-        		ToolbarItem :: DISPLAY_ICON
-        ));
+        $toolbar->add_item(new ToolbarItem(null, Theme :: get_common_image_path() . 'spacer_tab.png', null, ToolbarItem :: DISPLAY_ICON));
         
-    	return $toolbar->as_html();
+        return $toolbar->as_html();
     }
 
     function get_category_modification_links($courseusercategory, $course_type_id, $key, $total)
@@ -503,56 +462,25 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         
         if ($key > 0 && $total > 1)
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveUp'),
-	        		Theme :: get_common_image_path() . 'action_up.png',
-	        		$this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'up'),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'up'), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveUpNA'),
-	        		Theme :: get_common_image_path() . 'action_up_na.png',
-	        		null,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
         if ($key < ($total - 1) && $total > 1)
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveDown'),
-	        		Theme :: get_common_image_path() . 'action_down.png',
-	        		$this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'down'),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'down'), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('MoveDownNA'),
-	        		Theme :: get_common_image_path() . 'action_down_na.png',
-	        		null,
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Edit'),
-        		Theme :: get_common_image_path() . 'action_edit.png',
-        		$this->get_course_user_category_edit_url($courseusercategory),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_course_user_category_edit_url($courseusercategory), ToolbarItem :: DISPLAY_ICON));
         
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Delete'),
-        		Theme :: get_common_image_path() . 'action_delete.png',
-        		$this->get_course_user_category_delete_url($courseusercategory, $course_type_id),
-        		ToolbarItem :: DISPLAY_ICON,
-        		true
-        ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_course_user_category_delete_url($courseusercategory, $course_type_id), ToolbarItem :: DISPLAY_ICON, true));
         
         return $toolbar->as_html();
     }

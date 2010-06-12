@@ -40,6 +40,11 @@ abstract class PackageDependency
         $this->set_severity($dependency['severity']);
         $this->logger = MessageLogger :: get_instance(get_class($this));
     }
+    
+    function get_logger()
+    {
+        return $this->logger;
+    }
 
     abstract function check();
 

@@ -45,6 +45,11 @@ CKEDITOR.editorConfig = function( config )
 		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','Chamiloyoutube','Chamilodailymotion','Chamilovimeo','Chamilovideo','Chamiloaudio','-','Templates']
 		];
 	
+	config.toolbar_BasicMarkup =
+		[
+		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule']
+		];
+	
 	config.toolbar_WikiPage =
 		[
 		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','-','Templates']
@@ -52,7 +57,12 @@ CKEDITOR.editorConfig = function( config )
 
 	config.toolbar_RepositoryQuestion =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor','-','Image','Chamiloflash']
+		 	['Maximize','PasteFromWord','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','TextColor','BGColor','-','Image','Chamiloflash']
+		] ;
+		
+	config.toolbar_RepositorySurveyQuestion =
+		[
+		 	['Maximize','PasteFromWord','-','Bold','Italic','Underline','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','NumberedList', 'BulletedList','-','TextColor','BGColor']
 		] ;
 
 	config.toolbar_Assessment =

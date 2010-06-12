@@ -19,7 +19,7 @@ define('TEACHER_HTML_FULLPAGE', 5);
 class FormValidator extends HTML_QuickForm
 {
     private $no_errors;
-
+    
     /**
      * The HTML-editors in this form
      */
@@ -42,7 +42,7 @@ class FormValidator extends HTML_QuickForm
             $attributes = array();
         }
         $attributes['onreset'] = 'resetElements()';
-
+        
         $this->HTML_QuickForm($form_name, $method, $action, $target, $attributes, $trackSubmit);
         // Load some custom elements and rules
         $dir = dirname(__FILE__) . '/';
@@ -62,7 +62,7 @@ class FormValidator extends HTML_QuickForm
         $this->registerElementType('style_button', $dir . 'Element/style_button.php', 'HTML_QuickForm_stylebutton');
         $this->registerElementType('style_submit_button', $dir . 'Element/style_submit_button.php', 'HTML_QuickForm_stylesubmitbutton');
         $this->registerElementType('style_reset_button', $dir . 'Element/style_reset_button.php', 'HTML_QuickForm_styleresetbutton');
-
+        
         $this->registerRule('date', null, 'HTML_QuickForm_Rule_Date', $dir . 'Rule/Date.php');
         $this->registerRule('date_compare', null, 'HTML_QuickForm_Rule_DateCompare', $dir . 'Rule/DateCompare.php');
         $this->registerRule('html', null, 'HTML_QuickForm_Rule_HTML', $dir . 'Rule/HTML.php');
@@ -72,9 +72,9 @@ class FormValidator extends HTML_QuickForm
         $this->registerRule('filetype', null, 'HTML_QuickForm_Rule_Filetype', $dir . 'Rule/Filetype.php');
         $this->registerRule('disk_quota', null, 'HTML_QuickForm_Rule_DiskQuota', $dir . 'Rule/DiskQuota.php');
         $this->registerRule('max_value', null, 'HTML_QuickForm_Rule_MaxValue', $dir . 'Rule/MaxValue.php');
-
+        
         $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reset.js"></script>');
-
+        
         // Modify the default templates
         $renderer = $this->defaultRenderer();
         $form_template = <<<EOT
@@ -88,7 +88,7 @@ class FormValidator extends HTML_QuickForm
 
 EOT;
         $renderer->setFormTemplate($form_template);
-
+        
         $element_template = array();
         $element_template[] = '<div class="row">';
         $element_template[] = '<div class="label">';
@@ -100,17 +100,17 @@ EOT;
         $element_template[] = '<div class="clear">&nbsp;</div>';
         $element_template[] = '</div>';
         $element_template = implode("\n", $element_template);
-
+        
         $renderer->setElementTemplate($element_template);
-
+        
         $header_template = array();
         $header_template[] = '<div class="row">';
         $header_template[] = '<div class="form_header">{header}</div>';
         $header_template[] = '</div>';
         $header_template = implode("\n", $header_template);
-
+        
         $renderer->setHeaderTemplate($header_template);
-
+        
         HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="' . Theme :: get_common_image_path() . '/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
         $required_note_template = <<<EOT
 	<div class="row">
@@ -119,7 +119,7 @@ EOT;
 	</div>
 EOT;
         $renderer->setRequiredNoteTemplate($required_note_template);
-
+        
         foreach ($this->_submitValues as $index => & $value)
         {
             $value = Security :: remove_XSS($value);
@@ -171,7 +171,7 @@ EOT;
      * @param string $label The element label.
      * @param array $values Associative array of possible values.
      * @param boolean $required <code>true</code> if required (default),
-     *                          <code>false</code> otherwise.
+     * <code>false</code> otherwise.
      * @param array $attributes Element attributes (optional).
      * @return HTML_QuickForm_select The element.
      */
@@ -210,32 +210,42 @@ EOT;
      */
     function add_tabs($tabs, $selected_tab)
     {
-    	$this->addElement('html', '<div id="form_tabs">');
+//        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+//        $course_tabs = new DynamicTabsRenderer($renderer_name);
+//        
+//        foreach ($tabs as $index => $tab)
+//        {
+//            $course_tabs->add_tab(new DynamicContentTab($index, $tab[1], null, $this->display_courses($tab[0], $index)));
+//        }
+//        
+//        $html[] = $course_tabs->render();
+        
+        $this->addElement('html', '<div id="form_tabs">');
         $this->addElement('html', '<ul>');
-		foreach($tabs as $index => $tab)
-		{
-      		$this->addElement('html', '<li><a href="#form_tabs-'.$index.'">');
-        	$this->addElement('html', '<span class="category">');
-        	$this->addElement('html', '<span class="title">'.Translation :: get($tab->get_title()).'</span>');
-        	$this->addElement('html', '</span>');
-        	$this->addElement('html', '</a></li>');
-		}
-        $this->addElement('html', '</ul>');
-        foreach($tabs as $index => $tab)
+        foreach ($tabs as $index => $tab)
         {
-//            $this->addElement('html', '<h2>' . $tab->get_title() . '</h2>');
-        	$this->addElement('html', '<div class="form_tab" id="form_tabs-'.$index.'">');
-        	call_user_func(array($this, $tab->get_method()));
-        	$this->addElement('html','<div class="clear"></div>');
-        	$this->addElement('html', '</div>');
+            $this->addElement('html', '<li><a href="#form_tabs-' . $index . '">');
+            $this->addElement('html', '<span class="category">');
+            $this->addElement('html', '<span class="title">' . Translation :: get($tab->get_title()) . '</span>');
+            $this->addElement('html', '</span>');
+            $this->addElement('html', '</a></li>');
         }
-
+        $this->addElement('html', '</ul>');
+        foreach ($tabs as $index => $tab)
+        {
+            //            $this->addElement('html', '<h2>' . $tab->get_title() . '</h2>');
+            $this->addElement('html', '<div class="form_tab" id="form_tabs-' . $index . '">');
+            call_user_func(array($this, $tab->get_method()));
+            $this->addElement('html', '<div class="clear"></div>');
+            $this->addElement('html', '</div>');
+        }
+        
         $this->addElement('html', '</div>');
         $this->addElement('html', '<script type="text/javascript">');
         $this->addElement('html', '  var tabnumber = ' . $selected_tab . ';');
         $this->addElement('html', '</script>');
-
-        $this->addElement('html',  ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/form_tabs.js'));
+        
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/form_tabs.js'));
     }
 
     function create_html_editor($name, $label, $options = array(), $attributes = array())
@@ -253,7 +263,7 @@ EOT;
     function unregister_html_editor($name)
     {
         $key = array_search($name, $this->html_editors);
-
+        
         if ($key)
         {
             unset($this->html_editors[$key]);
@@ -297,7 +307,7 @@ EOT;
         $elements[] = $this->add_datepicker($name_1, $label_1, $include_time_picker);
         $elements[] = $this->add_datepicker($name_2, $label_2, $include_time_picker);
         $this->addRule(array($name_1, $name_2), Translation :: get('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');
-
+        
         return $elements;
     }
 
@@ -309,7 +319,7 @@ EOT;
         $elementName = $element_name_prefix . 'forever';
         $fromName = $element_name_prefix . 'from_date';
         $toName = $element_name_prefix . 'to_date';
-
+        
         $choices[] = $this->createElement('radio', $elementName, '', Translation :: get('Forever'), 1, array('id' => 'forever', 'onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
         $choices[] = $this->createElement('radio', $elementName, '', Translation :: get('LimitedPeriod'), 0, array('id' => 'limited', 'onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get($element_label), '<br />', false);
@@ -368,27 +378,27 @@ EOT;
     function add_receivers($elementName, $elementLabel, $attributes, $no_selection = 'Everybody', $legend = null)
     {
         $choices = array();
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($no_selection), '0', array('onclick' => 'javascript:receivers_hide(\'receivers_window_'.$elementName.'\')', 'id' => 'receiver_'.$elementName));
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'receivers_window_'.$elementName.'\')'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($no_selection), '0', array('onclick' => 'javascript:receivers_hide(\'receivers_window_' . $elementName . '\')', 'id' => 'receiver_' . $elementName));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'receivers_window_' . $elementName . '\')'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
-        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="receivers_window_'.$elementName.'">');
-
+        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="receivers_window_' . $elementName . '">');
+        
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
-
+        
         if ($legend)
         {
             $this->addElement('static', null, null, $legend->as_html());
         }
-
+        
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
-					var expiration_".$elementName." = document.getElementById('receiver_".$elementName."');
-					if (expiration_".$elementName.".checked)
+					var expiration_" . $elementName . " = document.getElementById('receiver_" . $elementName . "');
+					if (expiration_" . $elementName . ".checked)
 					{
-						receivers_hide('receivers_window_".$elementName."');
+						receivers_hide('receivers_window_" . $elementName . "');
 					}
 					function receivers_show(item) {
 						el = document.getElementById(item);
@@ -398,26 +408,24 @@ EOT;
 						el = document.getElementById(item);
 						el.style.display='none';
 					}
-					function reset_receivers_".$elementName."()
+					function reset_receivers_" . $elementName . "()
 					{
 						setTimeout(
 							function()
 							{
-								if (expiration_".$elementName.".checked)
-									receivers_hide('receivers_window_".$elementName."');
+								if (expiration_" . $elementName . ".checked)
+									receivers_hide('receivers_window_" . $elementName . "');
 								else
-									receivers_show('receivers_window_".$elementName."');
+									receivers_show('receivers_window_" . $elementName . "');
 							},30);	
     				}
     				$(document).ready(function ()
 					{
-						$(':reset').live('click', reset_receivers_".$elementName.");
+						$(':reset').live('click', reset_receivers_" . $elementName . ");
 					});
 					/* ]]> */
 					</script>\n");
     }
-
-
 
     function add_receivers_extended($elementName, $elementLabel, $attributes, $no_selection = 'Everybody')
     {
@@ -425,28 +433,28 @@ EOT;
         //addes options: "system defaults" & split "everybody" into "anonymous users" and "platform users"
         //maybe an option "only me" should also be added?
         $choices = array();
-
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SystemDefaultSettings'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver_1'));
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('AnonymousUsers'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver_2'));
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('PortalUsers'), '0', array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver_3'));
-
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\''. $elementName .'receivers_window\')'));
+        
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SystemDefaultSettings'), '0', array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver_1'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('AnonymousUsers'), '0', array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver_2'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('PortalUsers'), '0', array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver_3'));
+        
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'' . $elementName . 'receivers_window\')'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
-        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="'. $elementName .'receivers_window">');
-
+        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . $elementName . 'receivers_window">');
+        
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
-					var expiration_".$elementName."_1 = document.getElementById('". $elementName ."receiver_1');
-					var expiration_".$elementName."_2 = document.getElementById('". $elementName ."receiver_2');
-					var expiration_".$elementName."_3 = document.getElementById('". $elementName ."receiver_3');
+					var expiration_" . $elementName . "_1 = document.getElementById('" . $elementName . "receiver_1');
+					var expiration_" . $elementName . "_2 = document.getElementById('" . $elementName . "receiver_2');
+					var expiration_" . $elementName . "_3 = document.getElementById('" . $elementName . "receiver_3');
 					
-					if (expiration_".$elementName."_1.checked || expiration_".$elementName."_3.checked || expiration_".$elementName."_2.checked)
+					if (expiration_" . $elementName . "_1.checked || expiration_" . $elementName . "_3.checked || expiration_" . $elementName . "_2.checked)
 					{
-						receivers_hide('". $elementName ."receivers_window');
+						receivers_hide('" . $elementName . "receivers_window');
 					}
 					function receivers_show(item) {
 						el = document.getElementById(item);
@@ -456,54 +464,53 @@ EOT;
 						el = document.getElementById(item);
 						el.style.display='none';
 					}
-					function reset_receivers_".$elementName."()
+					function reset_receivers_" . $elementName . "()
 					{
 						setTimeout(
 							function()
 							{
-								if (expiration_".$elementName."_1.checked || expiration_".$elementName."_3.checked || expiration_".$elementName."_2.checked)
-									receivers_hide('receivers_window_".$elementName."');
+								if (expiration_" . $elementName . "_1.checked || expiration_" . $elementName . "_3.checked || expiration_" . $elementName . "_2.checked)
+									receivers_hide('receivers_window_" . $elementName . "');
 								else
-									receivers_show('receivers_window_".$elementName."');
+									receivers_show('receivers_window_" . $elementName . "');
 							},30);	
     				}
     				$(document).ready(function ()
 					{
-						$(':reset').live('click', reset_receivers_".$elementName.");
+						$(':reset').live('click', reset_receivers_" . $elementName . ");
 					});
 					/* ]]> */
 					</script>\n");
     }
 
-
     function add_receivers_variable($elementName, $elementLabel, $attributes, $radioArray, $defaultSelected)
     {
         $choices = array();
-        if(! is_array($radioArray))
+        if (! is_array($radioArray))
         {
             $radioArray = array($radioArray);
         }
         foreach ($radioArray as $radioType)
         {
-            $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($radioType), $radioType, array('onclick' => 'javascript:receivers_hide(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'receiver'));
-
+            $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($radioType), $radioType, array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver'));
+        
         }
-        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\''. $elementName .'receivers_window\')', 'id' => $elementName . 'group'));
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'group'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
         $idGroup = $elementName . 'group';
-        $nameWindow = $elementName .'receivers_window';
-        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="'. $elementName .'receivers_window">');
-
+        $nameWindow = $elementName . 'receivers_window';
+        $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . $elementName . 'receivers_window">');
+        
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
         $element_finder->excludeElements($attributes['exclude']);
-
+        
         $this->addElement($element_finder);
         $this->addElement('html', '</div>');
-
-            $this->addElement('html', "<script type=\"text/javascript\">
+        
+        $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
-					var expiration_".$elementName." = document.getElementById('$idGroup');
-					if (expiration_".$elementName.".checked)
+					var expiration_" . $elementName . " = document.getElementById('$idGroup');
+					if (expiration_" . $elementName . ".checked)
 					{
 						receivers_show('$nameWindow');
 					}
@@ -519,12 +526,12 @@ EOT;
 						el = document.getElementById(item);
 						el.style.display='none';
 					}
-					function reset_receivers_".$elementName."()
+					function reset_receivers_" . $elementName . "()
 					{
 						setTimeout(
 							function()
 							{
-								if (expiration_".$elementName.".checked)
+								if (expiration_" . $elementName . ".checked)
 									receivers_show('$nameWindow');
 								else
 									receivers_hide('$nameWindow');
@@ -532,18 +539,18 @@ EOT;
     				}
     				$(document).ready(function ()
 					{
-						$(':reset').live('click', reset_receivers_".$elementName.");
+						$(':reset').live('click', reset_receivers_" . $elementName . ");
 					});
 					/* ]]> */
 					</script>\n");
-
+    
     }
 
     function add_indicators($elementName, $elementLabel, $attributes)
     {
         $this->addElement('html', '<div style="display: block;" id="receivers_window">');
-		$element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
-		$element_finder->excludeElements($attributes['exclude']);
+        $element_finder = $this->createElement('element_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+        $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
@@ -559,7 +566,6 @@ EOT;
 					/* ]]> */
 					</script>\n");
     }
-
 
     /**
      * Add a button to the form to add resources.
@@ -606,13 +612,13 @@ EOT;
                         continue 2;
                     }
                 }
-
+                
                 if (! $result || (! empty($rule['howmany']) && $rule['howmany'] > (int) $result))
                 {
-
+                    
                     if (isset($rule['group']))
                     {
-
+                        
                         $this->_errors[$rule['group']] = $rule['message'];
                     }
                     else
@@ -657,17 +663,17 @@ EOT;
         $this->addElement('html', $html);
     }
 
-	function parse_checkbox_value($value = null)
-	{
-		if (isset($value) && $value == 1)
-		{
-		    return 1;
-		}
-		else
-		{
-		    return 0;
-		}
-	}
+    function parse_checkbox_value($value = null)
+    {
+        if (isset($value) && $value == 1)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
     /**
      * Adds javascript code to hide a certain element.
@@ -747,7 +753,7 @@ EOT;
         {
             $html[] = '</div>';
         }
-
+        
         if (isset($html))
         {
             $this->addElement('html', implode("\n", $html));

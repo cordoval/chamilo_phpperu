@@ -16,8 +16,7 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
         ;
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         $trail->add_help('internship_organizer');
-            
-
+        
         $links = $this->get_internship_organizer_links();
         
         $this->display_header();
@@ -31,39 +30,8 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
      */
     function get_internship_organizer_tabs($links)
     {
-        $html = array();
-        $html[] = '<a name="top"></a>';
-        $html[] = '<div id="internship_organizer_tabs">';
-        $html[] = '<ul>';
-        
-        // Render the tabs
-        $index = 0;
-        
-        $selected_tab = 0;
-        
-        foreach ($links as $sub_manager_links)
-        {
-            if (! count($sub_manager_links['links']))
-            {
-                continue;
-            }
-            
-            $index ++;
-            
-            if (Request :: get('selected') == $sub_manager_links['application']['class'])
-            {
-                $selected_tab = $index - 1;
-            }
-            
-            $html[] = '<li><a href="#internship_organizer_tabs-' . $index . '">';
-            $html[] = '<span class="category">';
-            $html[] = '<img src="' . Theme :: get_image_path('internship_organizer') . 'place_mini_' . $sub_manager_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $sub_manager_links['application']['name'] . '" title="' . $sub_manager_links['application']['name'] . '"/>';
-            $html[] = '<span class="title">' . $sub_manager_links['application']['name'] . '</span>';
-            $html[] = '</span>';
-            $html[] = '</a></li>';
-        }
-        
-        $html[] = '</ul>';
+        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $internship_organizer_tabs = new DynamicTabsRenderer($renderer_name);
         
         $index = 0;
         foreach ($links as $sub_manager_links)
@@ -71,11 +39,7 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
             if (count($sub_manager_links['links']))
             {
                 $index ++;
-                $html[] = '<h2><img src="' . Theme :: get_image_path('internship_organizer') . 'place_mini_' . $sub_manager_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $sub_manager_links['application']['name'] . '" title="' . $sub_manager_links['application']['name'] . '"/>&nbsp;' . $sub_manager_links['application']['name'] . '</h2>';
-                $html[] = '<div class="internship_organizer_tab" id="internship_organizer_tabs-' . $index . '">';
-                
-                $html[] = '<a class="prev"></a>';
-                
+                $html = array();
                 $html[] = '<div class="items">';
                 
                 if (isset($sub_manager_links['search']))
@@ -89,35 +53,6 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
                     $html[] = $search_form->display();
                     $html[] = '</div>';
                 }
-                
-//                $condition = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $sub_manager_links['application']['class']);
-//                $application_settings_count = AdminDataManager :: get_instance()->count_settings($condition);
-//                
-//                if ($application_settings_count)
-//                {
-//                    if (! isset($sub_manager_links['search']))
-//                    {
-//                        $html[] = '<div class="vertical_action" style="border-top: none;">';
-//                    }
-//                    else
-//                    {
-//                        $html[] = '<div class="vertical_action">';
-//                    }
-//                    
-//                    //                    $settings_url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM, self :: PARAM_WEB_APPLICATION => $sub_manager_links['application']['class']));
-//                    
-//
-//                    $settings_url = 'settingsurl';
-//                    
-//                    $html[] = '<div class="icon">';
-//                    $html[] = '<a href="' . $settings_url . '"><img src="' . Theme :: get_image_path('internship_organizer') . 'browse_manage.png" alt="' . Translation :: get('Settings') . '" title="' . Translation :: get('Settings') . '"/></a>';
-//                    $html[] = '</div>';
-//                    $html[] = '<div class="description">';
-//                    $html[] = '<h4><a href="' . $settings_url . '" ' . $onclick . '>' . Translation :: get('Settings') . '</a></h4>';
-//                    $html[] = Translation :: get('SettingsDescription');
-//                    $html[] = '</div>';
-//                    $html[] = '</div>';
-//                }
                 
                 $count = 1;
                 
@@ -149,37 +84,12 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
                     $html[] = '</div>';
                 }
                 
-                //                if (isset($sub_manager_links['search']))
-                //                {
-                //                    $search_form = new AdminSearchForm($this, $sub_manager_links['search'], $index);
-                //
-                //                    $html[] = '<div class="vertical_action">';
-                //                    $html[] = '<div class="icon">';
-                //                    $html[] = '<img src="' . Theme :: get_image_path() . 'browse_search.png" alt="' . Translation :: get('Search') . '" title="' . Translation :: get('Search') . '"/>';
-                //                    $html[] = '</div>';
-                //                    $html[] = $search_form->display();
-                //                    $html[] = '</div>';
-                //                }
-                
-
                 $html[] = '</div>';
-                
-                $html[] = '<a class="next"></a>';
-                
-                $html[] = '<div class="clear"></div>';
-                
-                $html[] = '</div>';
+                $internship_organizer_tabs->add_tab(new DynamicActionsTab($sub_manager_links['application']['class'], Translation :: get($sub_manager_links['application']['name']), Theme :: get_image_path() . 'place_mini_' . $sub_manager_links['application']['class'] . '.png', implode("\n", $html)));
             }
         }
         
-        $html[] = '</div>';
-        $html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
-        $html[] = '<script type="text/javascript">';
-        $html[] = '  var tabnumber = ' . $selected_tab . ';';
-        $html[] = '</script>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/internship_organizer_ajax.js');
-        
-        return implode("\n", $html);
+        return $internship_organizer_tabs->render();
     }
 
     function get_internship_organizer_links()
@@ -277,7 +187,7 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
                 $tab_links['links'] = $links;
                 break;
             default :
-               
+                
                 break;
         }
         

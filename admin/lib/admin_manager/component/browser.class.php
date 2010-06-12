@@ -39,7 +39,7 @@ class AdminManagerBrowserComponent extends AdminManager
      */
     function get_application_platform_admin_tabs($links)
     {
-        $tabs = new TabsRenderer('admin');
+        $tabs = new DynamicTabsRenderer('admin');
         
         $index = 0;
         foreach ($links as $application_links)
@@ -122,7 +122,7 @@ class AdminManagerBrowserComponent extends AdminManager
                 
                 $html[] = '</div>';
                 
-                $tabs->add_tab(new Tab(Translation :: get($application_links['application']['name']), Theme :: get_image_path('admin') . 'place_mini_' . $application_links['application']['class'] . '.png', implode("\n", $html), Tab :: TYPE_ACTIONS));
+                $tabs->add_tab(new DynamicActionsTab($application_links['application']['class'], Translation :: get($application_links['application']['name']), Theme :: get_image_path('admin') . 'place_mini_' . $application_links['application']['class'] . '.png', implode("\n", $html)));
             }
         }
         

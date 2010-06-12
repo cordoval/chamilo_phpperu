@@ -70,13 +70,13 @@ $(function () {
 		}
 	}
 
-	$(document).ready(function ()
-	{
-		$("#admin_tabs ul").css('display', 'block');
-		$("#admin_tabs h2").hide();
-		$("#admin_tabs").tabs();
-		var tabs = $('#admin_tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
-		tabs.tabs('select', tabnumber);
-	});
+//	$(document).ready(function ()
+//	{
+//		$("#admin_tabs ul").css('display', 'block');
+//		$("#admin_tabs h2").hide();
+//		$("#admin_tabs").tabs();
+//		var tabs = $('#admin_tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
+//		tabs.tabs('select', tabnumber);
+//	});
 
 });

@@ -164,34 +164,8 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
 
     function get_browse_period_tabs($links)
     {
-        $html = array();
-        $html[] = '<a name="top"></a>';
-        $html[] = '<div id="internship_organizer_tabs">';
-        $html[] = '<ul>';
-        
-        // Render the tabs
-        $index = 0;
-        
-        $selected_tab = 0;
-        
-        for($tab = 0; $tab < 3; $tab ++)
-        {
-           	$index ++;
-            
-            if (Request :: get('selected') == $sub_manager_links['application']['class'])
-            {
-                $selected_tab = $index - 1;
-            }
-            
-            $html[] = '<li><a href="#internship_organizer_tabs-' . $index . '">';
-            $html[] = '<span class="category">';
-            $html[] = '<img src="' . Theme :: get_image_path('internship_organizer') . 'place_mini_' . $sub_manager_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $sub_manager_links['application']['name'] . '" title="' . $sub_manager_links['application']['name'] . '"/>';
-            $html[] = '<span class="title">' . $sub_manager_links['application']['name'] . '</span>';
-            $html[] = '</span>';
-            $html[] = '</a></li>';
-        }
-        
-        $html[] = '</ul>';
+        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $browse_period_tabs = new DynamicTabsRenderer($renderer_name);
         
         $index = 0;
         foreach ($links as $sub_manager_links)
@@ -199,12 +173,7 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
             if (count($sub_manager_links['links']))
             {
                 $index ++;
-                $html[] = '<h2><img src="' . Theme :: get_image_path('internship_organizer') . 'place_mini_' . $sub_manager_links['application']['class'] . '.png" border="0" style="vertical-align: middle;" alt="' . $sub_manager_links['application']['name'] . '" title="' . $sub_manager_links['application']['name'] . '"/>&nbsp;' . $sub_manager_links['application']['name'] . '</h2>';
-                $html[] = '<div class="internship_organizer_tab" id="internship_organizer_tabs-' . $index . '">';
-                
-                $html[] = '<a class="prev"></a>';
-                
-                $html[] = '<div class="items">';
+                $html = array();
                 
                 if (isset($sub_manager_links['search']))
                 {
@@ -217,7 +186,7 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
                     $html[] = $search_form->display();
                     $html[] = '</div>';
                 }
-              
+                
                 $count = 1;
                 
                 foreach ($sub_manager_links['links'] as $link)
@@ -247,25 +216,12 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
                     $html[] = '</div>';
                     $html[] = '</div>';
                 }
-               
-                $html[] = '</div>';
                 
-                $html[] = '<a class="next"></a>';
-                
-                $html[] = '<div class="clear"></div>';
-                
-                $html[] = '</div>';
+                $browse_period_tabs->add_tab(new DynamicActionsTab($sub_manager_links['application']['class'], Translation :: get($sub_manager_links['application']['name']), Theme :: get_image_path() . 'place_mini_' . $sub_manager_links['application']['class'] . '.png', implode("\n", $html), Tab :: TYPE_ACTIONS));
             }
         }
         
-        $html[] = '</div>';
-        $html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
-        $html[] = '<script type="text/javascript">';
-        $html[] = '  var tabnumber = ' . $selected_tab . ';';
-        $html[] = '</script>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/internship_organizer_ajax.js');
-        
-        return implode("\n", $html);
+        return $browse_period_tabs->render();
     }
 
 }

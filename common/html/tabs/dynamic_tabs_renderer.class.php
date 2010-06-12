@@ -1,7 +1,7 @@
 <?php
-class TabsRenderer
+class DynamicTabsRenderer
 {
-    const PARAM_SELECTED_TAB = 'selected';
+    const PARAM_SELECTED_TAB = 'tab';
     
     const TYPE_CONTENT = 1;
     const TYPE_ACTIONS = 2;
@@ -9,7 +9,7 @@ class TabsRenderer
     private $name;
     private $tabs;
 
-    public function TabsRenderer($name)
+    public function DynamicTabsRenderer($name)
     {
         $this->name = $name;
         $this->tabs = array();
@@ -54,8 +54,8 @@ class TabsRenderer
 
     public function render()
     {
-        $selected_tab = 0;
         $tabs = $this->get_tabs();
+        $requested_tab = Request :: get(self :: PARAM_SELECTED_TAB);
         
         $html = array();
         
@@ -66,19 +66,19 @@ class TabsRenderer
         $html[] = '<ul class="tabs-header">';
         foreach ($tabs as $key => $tab)
         {
-            if (Request :: get(self :: PARAM_SELECTED_TAB) == $key)
+            if ($requested_tab == $tab->get_id() && ! is_null($requested_tab))
             {
                 $selected_tab = $key;
             }
             
-            $html[] = $tab->get_header($this->name . '_' . $key);
+            $html[] = $tab->header($this->name . '_' . $key);
         }
         $html[] = '</ul>';
         
         // Tab content
         foreach ($tabs as $key => $tab)
         {
-            $html[] = $tab->get_content($this->name . '_' . $key);
+            $html[] = $tab->body($this->name . '_' . $key);
         }
         
         $html[] = '</div>';
@@ -90,7 +90,10 @@ class TabsRenderer
         $html[] = '	$("#' . $this->get_name() . '_tabs h2").hide();';
         $html[] = '	$("#' . $this->get_name() . '_tabs").tabs();';
         $html[] = '	var tabs = $(\'#' . $this->get_name() . '_tabs\').tabs(\'paging\', { cycle: false, follow: false, nextButton : "", prevButton : "" } );';
-        $html[] = '	tabs.tabs(\'select\', "' . $selected_tab . '");';
+        if (isset($selected_tab))
+        {
+            $html[] = '	tabs.tabs(\'select\', "' . $selected_tab . '");';
+        }
         $html[] = '});';
         $html[] = '</script>';
         

@@ -11,7 +11,11 @@ require_once dirname(__FILE__) . '/../../group_tree_menu_data_provider.class.php
 
 class GroupManagerBrowserComponent extends GroupManager
 {
-    private $ab;
+    const TAB_SUBGROUPS = 0;
+    const TAB_USERS = 1;
+    const TAB_DETAILS = 2;
+    
+    private $action_bar;
     private $group;
     private $root_group;
 
@@ -35,13 +39,13 @@ class GroupManagerBrowserComponent extends GroupManager
             exit();
         }
         
-        $this->ab = $this->get_action_bar();
+        $this->action_bar = $this->get_action_bar();
         
         $menu = $this->get_menu_html();
         $output = $this->get_user_html();
         
         $this->display_header();
-        echo $this->ab->as_html() . '<br />';
+        echo $this->action_bar->as_html() . '<br />';
         echo $menu;
         echo $output;
         $this->display_footer();
@@ -49,24 +53,23 @@ class GroupManagerBrowserComponent extends GroupManager
 
     function get_user_html()
     {
-        $parameters = $this->get_parameters();
-        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
-        $table = new GroupBrowserTable($this, $parameters, $this->get_condition());
-        
         $html = array();
         $html[] = '<div style="float: right; width: 80%;">';
         
-        $tabs = new TabsRenderer('group');
+        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $tabs = new DynamicTabsRenderer($renderer_name);
         
-        $subgroup_count = $this->count_groups($this->get_condition());
-        $user_condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $this->get_group());
-        $user_count = $this->count_group_rel_users($user_condition);
+        $subgroup_count = $this->count_groups($this->get_subgroups_condition());
+        $user_count = $this->count_group_rel_users($this->get_users_condition());
         
         // Subgroups table tab
         if ($subgroup_count > 0)
         {
-            $table = new GroupBrowserTable($this, $parameters, $this->get_condition());
-            $tabs->add_tab(new Tab(Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
+            $parameters = $this->get_parameters();
+            $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+            
+            $table = new GroupBrowserTable($this, $parameters, $this->get_subgroups_condition());
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
         }
         
         // Users table tab
@@ -75,12 +78,12 @@ class GroupManagerBrowserComponent extends GroupManager
             $parameters = $this->get_parameters();
             $parameters[GroupManager :: PARAM_GROUP_ID] = $id;
             
-            $table = new GroupRelUserBrowserTable($this, $parameters, $user_condition);
-            $tabs->add_tab(new Tab(Translation :: get('Users'), Theme :: get_image_path('admin') . 'place_mini_user.png', $table->as_html()));
+            $table = new GroupRelUserBrowserTable($this, $parameters, $this->get_users_condition());
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users'), Theme :: get_image_path('admin') . 'place_mini_user.png', $table->as_html()));
         }
         
         // Group info tab
-        $tabs->add_tab(new Tab(Translation :: get('Details'), Theme :: get_image_path('admin') . 'place_mini_help.png', $this->get_group_info()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Details'), Theme :: get_image_path('admin') . 'place_mini_help.png', $this->get_group_info()));
         
         $html[] = $tabs->render();
         
@@ -129,11 +132,11 @@ class GroupManagerBrowserComponent extends GroupManager
         return $this->root_group;
     }
 
-    function get_condition()
+    function get_subgroups_condition()
     {
         $condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_group());
         
-        $query = $this->ab->get_query();
+        $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
             $or_conditions = array();
@@ -147,6 +150,42 @@ class GroupManagerBrowserComponent extends GroupManager
             $and_conditions[] = $or_condition;
             $condition = new AndCondition($and_conditions);
         }
+        
+        return $condition;
+    }
+
+    function get_users_condition()
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $this->get_group());
+        
+        $query = $this->action_bar->get_query();
+        
+        if (isset($query) && $query != '')
+        {
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
+            $condition = new OrCondition($or_conditions);
+            
+            $users = UserDataManager :: get_instance()->retrieve_users($condition);
+            while ($user = $users->next_result())
+            {
+                $userconditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user->get_id());
+            }
+            
+            if (count($userconditions))
+            {
+                $conditions[] = new OrCondition($userconditions);
+            }
+            else
+            {
+                $conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, 0);
+            }
+        
+        }
+        
+        $condition = new AndCondition($conditions);
         
         return $condition;
     }
@@ -207,7 +246,7 @@ class GroupManagerBrowserComponent extends GroupManager
             $html[] = '<b>' . Translation :: get('Description') . '</b>: ' . $description . '<br />';
         }
         
-        $html[] = '<br />'; 
+        $html[] = '<br />';
         $html[] = $toolbar->as_html();
         
         return implode("\n", $html);
