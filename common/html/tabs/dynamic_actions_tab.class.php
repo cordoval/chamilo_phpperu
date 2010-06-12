@@ -30,6 +30,11 @@ class DynamicActionsTab extends DynamicTab
         $this->actions = $actions;
     }
 
+    public function add_action(DynamicAction $action)
+    {
+        $this->actions[] = $action;
+    }
+
     /**
      * @param string $tab_name
      * @return string
@@ -50,7 +55,11 @@ class DynamicActionsTab extends DynamicTab
         $html[] = '<a class="prev"></a>';
         
         $html[] = '<div class="items">';
-        $html[] = $this->actions;
+        
+        foreach ($this->actions as $key => $action)
+        {
+            $html[] = $action->render($key == 0);
+        }
         $html[] = '</div>';
         
         $html[] = $this->body_footer($tab_name);

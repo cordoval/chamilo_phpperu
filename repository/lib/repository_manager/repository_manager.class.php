@@ -1132,7 +1132,7 @@ class RepositoryManager extends CoreApplication
     {
         $info = parent :: get_application_platform_admin_links();
 
-        $links[] = array('name' => Translation :: get('ImportTemplate'), 'description' => Translation :: get('ImportTemplateDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
+        $links[] = new DynamicAction(Translation :: get('ImportTemplate'), Translation :: get('ImportTemplateDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
 
         $info['search'] = $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS));
         $info['links'] = $links;

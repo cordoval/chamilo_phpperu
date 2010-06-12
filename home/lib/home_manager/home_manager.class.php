@@ -4,7 +4,6 @@
  * @package home.lib.home_manager
  */
 
-
 /**
  * A user manager provides some functionalities to the admin to manage
  * his users. For each functionality a component is available.
@@ -162,8 +161,8 @@ class HomeManager extends CoreApplication
     public function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = array('name' => Translation :: get('Manage'), 'description' => Translation :: get('ManageDescription'), 'action' => 'manage', 'url' => $this->get_link(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)));
-        $links[] = array('name' => Translation :: get('Build'), 'description' => Translation :: get('BuildDescription'), 'action' => 'build', 'url' => $this->get_link(array(Application :: PARAM_ACTION => HomeManager :: ACTION_BUILD_HOME)));
+        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_manage.png', $this->get_link(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)));
+        $links[] = new DynamicAction(Translation :: get('Build'), Translation :: get('BuildDescription'), Theme :: get_image_path() . 'browse_build.png', $this->get_link(array(Application :: PARAM_ACTION => HomeManager :: ACTION_BUILD_HOME)));
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
         

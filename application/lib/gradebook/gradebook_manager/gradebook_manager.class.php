@@ -92,7 +92,7 @@ class GradebookManager extends WebApplication
   	public function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = array('name' => Translation :: get('EvaluationFormatTypeList'), 'description' => Translation :: get('EvaluationFormatTypeListDescription'), 'action' => 'list', 'url' => $this->get_admin_browse_evaluation_format_types_link());
+        $links[] = new DynamicAction(Translation :: get('EvaluationFormatTypeList'), Translation :: get('EvaluationFormatTypeListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_admin_browse_evaluation_format_types_link());
 
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;

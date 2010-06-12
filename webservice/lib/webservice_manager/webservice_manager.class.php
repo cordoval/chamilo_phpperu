@@ -92,7 +92,7 @@ class WebserviceManager extends CoreApplication
     public function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
         

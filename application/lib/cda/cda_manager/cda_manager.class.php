@@ -206,10 +206,10 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
   	public function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = array('name' => Translation :: get('ManageLanguages'), 'description' => Translation :: get('ManageLanguagesDescription'), 'action' => 'list', 'url' => $this->get_admin_browse_cda_languages_link());
-        $links[] = array('name' => Translation :: get('ManageLanguagePacks'), 'description' => Translation :: get('ManageLanguagePacksDescription'), 'action' => 'add', 'url' => $this->get_admin_browse_language_packs_link());
-        $links[] = array('name' => Translation :: get('ManageTranslatorApplications'), 'description' => Translation :: get('ManageTranslatorApplicationsDescription'), 'action' => 'list', 'url' => $this->get_browse_translator_applications_link());
-        $links[] = array('name' => Translation :: get('ImportLanguageFiles'), 'description' => Translation :: get('ImportLanguageFilesDescription'), 'action' => 'list', 'url' => $this->get_admin_import_variable_translations_url());
+        $links[] = new DynamicAction(Translation :: get('ManageLanguages'), Translation :: get('ManageLanguagesDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_admin_browse_cda_languages_link());
+        $links[] = new DynamicAction(Translation :: get('ManageLanguagePacks'), Translation :: get('ManageLanguagePacksDescription'), Theme :: get_image_path() . 'browse_add.png', $this->get_admin_browse_language_packs_link());
+        $links[] = new DynamicAction(Translation :: get('ManageTranslatorApplications'), Translation :: get('ManageTranslatorApplicationsDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_browse_translator_applications_link());
+        $links[] = new DynamicAction(Translation :: get('ImportLanguageFiles'), Translation :: get('ImportLanguageFilesDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_admin_import_variable_translations_url());
 
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;

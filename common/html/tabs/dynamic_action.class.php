@@ -1,35 +1,35 @@
 <?php
-class DynamicActions
+class DynamicAction
 {
-    private $name;
+    private $title;
     private $description;
-    private $action;
+    private $image;
     private $url;
     private $confirm;
 
-    public function DynamicAction($name, $description, $action, $url, $confirm = false)
+    public function DynamicAction($title, $description, $image, $url, $confirm = false)
     {
-        $this->name = $name;
+        $this->title = $title;
         $this->description = $description;
-        $this->action = $action;
+        $this->image = $image;
         $this->url = $url;
         $this->confirm = $confirm;
     }
 
     /**
-     * @return the $name
+     * @return the $title
      */
-    public function getname()
+    public function get_title()
     {
-        return $this->name;
+        return $this->title;
     }
 
     /**
-     * @param $name the $name to set
+     * @param $title the $title to set
      */
-    public function set_name($name)
+    public function set_title($title)
     {
-        $this->name = $name;
+        $this->title = $title;
     }
 
     /**
@@ -49,19 +49,19 @@ class DynamicActions
     }
 
     /**
-     * @return the $action
+     * @return the $image
      */
-    public function get_action()
+    public function get_image()
     {
-        return $this->action;
+        return $this->image;
     }
 
     /**
-     * @param $action the $action to set
+     * @param $image the $image to set
      */
-    public function set_action($action)
+    public function set_image($image)
     {
-        $this->action = $action;
+        $this->image = $image;
     }
 
     /**
@@ -101,7 +101,54 @@ class DynamicActions
      */
     public function needs_confirmation()
     {
-        return $this->get_confirm();
+        $confirmation = $this->get_confirm();
+        return $confirmation ? true : false;
+    }
+
+    public function render($is_first = false)
+    {
+        $html = array();
+        
+        if ($this->needs_confirmation())
+        {
+            $onclick = 'onclick = "return confirm(\'' . $this->get_confirm() . '\')"';
+        }
+        else
+        {
+            $onclick = '';
+        }
+        
+        if ($is_first)
+        {
+            $html[] = '<div class="vertical_action" style="border-top: none;">';
+        }
+        else
+        {
+            $html[] = '<div class="vertical_action">';
+        }
+        
+        $html[] = '<div class="icon">';
+        $html[] = '<a href="' . $this->get_url() . '" ' . $onclick . '><img src="' . $this->get_image() . '" alt="' . $this->get_title() . '" title="' . $this->get_title() . '"/></a>';
+        $html[] = '</div>';
+        
+        $title = $this->get_title();
+        
+        if (isset($title))
+        {
+            $html[] = '<div class="description">';
+            $html[] = '<h4><a href="' . $this->get_url() . '" ' . $onclick . '>' . $this->get_title() . '</a></h4>';
+        }
+        
+        $html[] = $this->get_description();
+        
+        if (isset($title))
+        {
+            $html[] = '</div>';
+        }
+        
+        $html[] = '</div>';
+        
+        return implode("\n", $html);
     }
 
 }

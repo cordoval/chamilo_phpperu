@@ -310,10 +310,10 @@ class ReservationsManager extends WebApplication
     public function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = array('name' => Translation :: get('Categories'), 'action' => 'category', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CATEGORIES)));
-        $links[] = array('name' => Translation :: get('Items'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_ITEMS)));
-        $links[] = array('name' => Translation :: get('Quotas'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTAS)));
-        $links[] = array('name' => Translation :: get('QuotaBoxes'), 'action' => 'list', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTA_BOXES)));
+        $links[] = new DynamicAction(Translation :: get('Categories'), Theme :: get_image_path() . 'browse_category.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CATEGORIES)));
+        $links[] = new DynamicAction(Translation :: get('Items'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_ITEMS)));
+        $links[] = new DynamicAction(Translation :: get('Quotas'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTAS)));
+        $links[] = new DynamicAction(Translation :: get('QuotaBoxes'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTA_BOXES)));
 
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;

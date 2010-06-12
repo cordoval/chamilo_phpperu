@@ -47,7 +47,10 @@ class DynamicTabsRenderer
         $this->tabs = $tabs;
     }
 
-    public function add_tab(Tab $tab)
+    /**
+     * @param DynamicTab $tab
+     */
+    public function add_tab(DynamicTab $tab)
     {
         $this->tabs[] = $tab;
     }
@@ -55,6 +58,7 @@ class DynamicTabsRenderer
     public function render()
     {
         $tabs = $this->get_tabs();
+        
         $requested_tab = Request :: get(self :: PARAM_SELECTED_TAB);
         
         $html = array();

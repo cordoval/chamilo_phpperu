@@ -110,7 +110,7 @@ class MenuManager extends CoreApplication
     public function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = array('name' => Translation :: get('Manage'), 'description' => Translation :: get('ManageDescription'), 'action' => 'sort', 'url' => $this->get_link(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)));
+        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_sort.png', $this->get_link(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)));
         
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;

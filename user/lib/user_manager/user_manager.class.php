@@ -321,17 +321,17 @@ class UserManager extends CoreApplication
     public function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
         
         if(PlatformSetting :: get('allow_registration', 'user') == 2)
         {
-			$links[] = array('name' => Translation :: get('ApproveList'), 'description' => Translation :: get('ApproveListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)));        	
+			$links[] = new DynamicAction(Translation :: get('ApproveList'), Translation :: get('ApproveListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)));        	
         }
         
-        $links[] = array('name' => Translation :: get('Create'), 'description' => Translation :: get('CreateDescription'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
-        $links[] = array('name' => Translation :: get('Export'), 'description' => Translation :: get('ExportDescription'), 'action' => 'export', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
-        $links[] = array('name' => Translation :: get('Import'), 'description' => Translation :: get('ImportDescription'), 'action' => 'import', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
-        $links[] = array('name' => Translation :: get('BuildUserFields'), 'description' => Translation :: get('BuildUserFieldsDescription'), 'action' => 'build', 'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BUILD_USER_FIELDS)));
+        $links[] = new DynamicAction(Translation :: get('Create'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'browse_add.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
+        $links[] = new DynamicAction(Translation :: get('Export'), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'browse_export.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
+        $links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
+        $links[] = new DynamicAction(Translation :: get('BuildUserFields'), Translation :: get('BuildUserFieldsDescription'), Theme :: get_image_path() . 'browse_build.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BUILD_USER_FIELDS)));
         
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;

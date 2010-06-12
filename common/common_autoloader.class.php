@@ -81,6 +81,7 @@ class CommonAutoloader
 					  'breadcrumb' => 'breadcrumb.class.php',
 					  'dynamic_tabs_renderer' => 'tabs/dynamic_tabs_renderer.class.php',
 					  'dynamic_tab' => 'tabs/dynamic_tab.class.php',
+					  'dynamic_action' => 'tabs/dynamic_action.class.php',
 					  'dynamic_actions_tab' => 'tabs/dynamic_actions_tab.class.php',
 					  'dynamic_content_tab' => 'tabs/dynamic_content_tab.class.php',
 					  'display' => 'display.class.php',

@@ -97,9 +97,9 @@ class TrackingManager extends CoreApplication
     public function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = array('name' => Translation :: get('List'), 'description' => Translation :: get('ListDescription'), 'action' => 'list', 'url' => $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)));
-        $links[] = array('name' => Translation :: get('Archive'), 'description' => Translation :: get('ArchiveDescription'), 'action' => 'archive', 'url' => $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
-        
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)));
+        $links[] = new DynamicAction(Translation :: get('Archive'), Translation :: get('ArchiveDescription'), Theme :: get_image_path() . 'browse_archive.png', $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
+                
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
         

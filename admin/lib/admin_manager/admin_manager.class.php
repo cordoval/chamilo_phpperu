@@ -154,13 +154,12 @@ class AdminManager extends CoreApplication
 
         // 1. Admin-core components
         $links = array();
-//        $links[] = array('name' => Translation :: get('Settings'), 'description' => Translation :: get('SettingsDescription'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
-        $links[] = array('name' => Translation :: get('Importer'), 'description' => Translation :: get('ImporterDescription'), 'action' => 'import', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORTER)));
-        $links[] = array('name' => Translation :: get('ManagePackages'), 'description' => Translation :: get('ManagePackagesDescription'), 'action' => 'build', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_PACKAGES)));
-        $links[] = array('name' => Translation :: get('SystemAnnouncements'), 'description' => Translation :: get('SystemAnnouncementsDescription'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
-        $links[] = array('name' => Translation :: get('ManageCategories'), 'description' => Translation :: get('ManageCategoriesDescription'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES)));
-        $links[] = array('name' => Translation :: get('Diagnose'), 'description' => Translation :: get('DiagnoseDescription'), 'action' => 'information', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
-        $links[] = array('name' => Translation :: get('LogsViewer'), 'description' => Translation :: get('LogsViewerDescription'), 'action' => 'information', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_LOGS)));
+        $links[] = new DynamicAction(Translation :: get('Importer'), Translation :: get('ImporterDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORTER)));
+        $links[] = new DynamicAction(Translation :: get('ManagePackages'), Translation :: get('ManagePackagesDescription'), Theme :: get_image_path() . 'browse_build.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_PACKAGES)));
+        $links[] = new DynamicAction(Translation :: get('SystemAnnouncements'), Translation :: get('SystemAnnouncementsDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
+        $links[] = new DynamicAction(Translation :: get('ManageCategories'), Translation :: get('ManageCategoriesDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES)));
+        $links[] = new DynamicAction(Translation :: get('Diagnose'), Translation :: get('DiagnoseDescription'), Theme :: get_image_path() . 'browse_information.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
+        $links[] = new DynamicAction(Translation :: get('LogsViewer'), Translation :: get('LogsViewerDescription'), Theme :: get_image_path() . 'browse_information.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_LOGS)));
 
         $admin_info = parent :: get_application_platform_admin_links();
         $admin_info['links'] = $links;
