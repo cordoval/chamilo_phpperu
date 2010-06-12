@@ -39,53 +39,20 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
             if (count($sub_manager_links['links']))
             {
                 $index ++;
-                $html = array();
-                $html[] = '<div class="items">';
+                $actions_tab = new DynamicActionsTab($sub_manager_links['application']['class'], Translation :: get($sub_manager_links['application']['name']), Theme :: get_image_path() . 'place_mini_' . $sub_manager_links['application']['class'] . '.png', implode("\n", $html));
                 
-                if (isset($sub_manager_links['search']))
+                if (isset($application_links['search']))
                 {
                     $search_form = new AdminSearchForm($this, $sub_manager_links['search'], $index);
-                    
-                    $html[] = '<div class="vertical_action" style="border-top: none;">';
-                    $html[] = '<div class="icon">';
-                    $html[] = '<img src="' . Theme :: get_image_path('internship_organizer') . 'browse_search.png" alt="' . Translation :: get('Search') . '" title="' . Translation :: get('Search') . '"/>';
-                    $html[] = '</div>';
-                    $html[] = $search_form->display();
-                    $html[] = '</div>';
+                    $actions_tab->add_action(new DynamicAction(null, $search_form->display(), Theme :: get_image_path() . 'browse_search.png'));
                 }
                 
-                $count = 1;
-                
-                foreach ($sub_manager_links['links'] as $link)
+                foreach ($sub_manager_links['links'] as $action)
                 {
-                    $count ++;
-                    
-                    if ($link['confirm'])
-                    {
-                        $onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
-                    }
-                    
-                    if (! isset($sub_manager_links['search']) && $application_settings_count == 0 && $count == 2)
-                    {
-                        $html[] = '<div class="vertical_action" style="border-top: none;">';
-                    }
-                    else
-                    {
-                        $html[] = '<div class="vertical_action">';
-                    }
-                    
-                    $html[] = '<div class="icon">';
-                    $html[] = '<a href="' . $link['url'] . '" ' . $onclick . '><img src="' . Theme :: get_image_path('internship_organizer') . 'browse_' . $link['action'] . '.png" alt="' . $link['name'] . '" title="' . $link['name'] . '"/></a>';
-                    $html[] = '</div>';
-                    $html[] = '<div class="description">';
-                    $html[] = '<h4><a href="' . $link['url'] . '" ' . $onclick . '>' . $link['name'] . '</a></h4>';
-                    $html[] = $link['description'];
-                    $html[] = '</div>';
-                    $html[] = '</div>';
+                    $actions_tab->add_action($action);
                 }
                 
-                $html[] = '</div>';
-                $internship_organizer_tabs->add_tab(new DynamicActionsTab($sub_manager_links['application']['class'], Translation :: get($sub_manager_links['application']['name']), Theme :: get_image_path() . 'place_mini_' . $sub_manager_links['application']['class'] . '.png', implode("\n", $html)));
+                $internship_organizer_tabs->add_tab($actions_tab);
             }
         }
         
@@ -116,46 +83,46 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
                 
                 $tab_links['application'] = array('name' => Translation :: get('AdministrationTab'), 'class' => 'administration');
                 
-                $agreement_link = array();
-                $agreement_link['name'] = Translation :: get('AgreementLink');
-                $agreement_link['description'] = Translation :: get('AgreementLinkDescription');
-                $agreement_link['action'] = 'agreement';
-                $agreement_link['url'] = $this->get_agreement_application_url();
+                $agreement_link = new DynamicAction();
+                $agreement_link->set_title(Translation :: get('AgreementLink'));
+                $agreement_link->set_description(Translation :: get('AgreementLinkDescription'));
+                $agreement_link->set_image(Theme :: get_image_path() . 'browse_agreement.png');
+                $agreement_link->set_url($this->get_agreement_application_url());
                 $links[] = $agreement_link;
                 
-                $category_link = array();
-                $category_link['name'] = Translation :: get('CategoryLink');
-                $category_link['description'] = Translation :: get('CategoryLinkDescription');
-                $category_link['action'] = 'category';
-                $category_link['url'] = $this->get_category_application_url();
+                $category_link = new DynamicAction();
+                $category_link->set_title(Translation :: get('CategoryLink'));
+                $category_link->set_description(Translation :: get('CategoryLinkDescription'));
+                $category_link->set_image(Theme :: get_image_path() . 'browse_category.png');
+                $category_link->set_url($this->get_category_application_url());
                 $links[] = $category_link;
                 
-                $mentor_link = array();
-                $mentor_link['name'] = Translation :: get('MentorLink');
-                $mentor_link['description'] = Translation :: get('MentorLinkDescription');
-                $mentor_link['action'] = 'mentor';
-                $mentor_link['url'] = $this->get_mentor_application_url();
+                $mentor_link = new DynamicAction();
+                $mentor_link->set_title(Translation :: get('MentorLink'));
+                $mentor_link->set_description(Translation :: get('MentorLinkDescription'));
+                $mentor_link->set_image(Theme :: get_image_path() . 'browse_mentor.png');
+                $mentor_link->set_url($this->get_mentor_application_url());
                 $links[] = $mentor_link;
                 
-                $organisation_link = array();
-                $organisation_link['name'] = Translation :: get('OrganisationLink');
-                $organisation_link['description'] = Translation :: get('OrganisationLinkDescription');
-                $organisation_link['action'] = 'organisation';
-                $organisation_link['url'] = $this->get_organisation_application_url();
+                $organisation_link = new DynamicAction();
+                $organisation_link->set_title(Translation :: get('OrganisationLink'));
+                $organisation_link->set_description(Translation :: get('OrganisationLinkDescription'));
+                $organisation_link->set_image(Theme :: get_image_path() . 'browse_organisation.png');
+                $organisation_link->set_url($this->get_organisation_application_url());
                 $links[] = $organisation_link;
                 
-                $period_link = array();
-                $period_link['name'] = Translation :: get('PeriodLink');
-                $period_link['description'] = Translation :: get('PeriodLinkDescription');
-                $period_link['action'] = 'period';
-                $period_link['url'] = $this->get_period_application_url();
+                $period_link = new DynamicAction();
+                $period_link->set_title(Translation :: get('PeriodLink'));
+                $period_link->set_description(Translation :: get('PeriodLinkDescription'));
+                $period_link->set_image(Theme :: get_image_path() . 'browse_period.png');
+                $period_link->set_url($this->get_period_application_url());
                 $links[] = $period_link;
                 
-                $region_link = array();
-                $region_link['name'] = Translation :: get('RegionLink');
-                $region_link['description'] = Translation :: get('RegionLinkDescription');
-                $region_link['action'] = 'region';
-                $region_link['url'] = $this->get_region_application_url();
+                $region_link = new DynamicAction();
+                $region_link->set_title(Translation :: get('RegionLink'));
+                $region_link->set_description(Translation :: get('RegionLinkDescription'));
+                $region_link->set_image(Theme :: get_image_path() . 'browse_region.png');
+                $region_link->set_url($this->get_region_application_url());
                 $links[] = $region_link;
                 
                 $tab_links['links'] = $links;
@@ -164,11 +131,11 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
                 
                 $tab_links['application'] = array('name' => Translation :: get('AgreementTab'), 'class' => 'agreement');
                 
-                $agreement_link = array();
-                $agreement_link['name'] = Translation :: get('AgreementLink');
-                $agreement_link['description'] = Translation :: get('AgreementLinkDescription');
-                $agreement_link['action'] = 'agreement';
-                $agreement_link['url'] = $this->get_agreement_application_url();
+                $agreement_link = new DynamicAction();
+                $agreement_link->set_title(Translation :: get('AgreementLink'));
+                $agreement_link->set_description(Translation :: get('AgreementLinkDescription'));
+                $agreement_link->set_image(Theme :: get_image_path() . 'browse_agreement.png');
+                $agreement_link->set_url($this->get_agreement_application_url());
                 $links[] = $agreement_link;
                 
                 $tab_links['links'] = $links;
@@ -177,11 +144,11 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
                 
                 $tab_links['application'] = array('name' => Translation :: get('PeriodTab'), 'class' => 'period');
                 
-                $period_link = array();
-                $period_link['name'] = Translation :: get('PeriodLink');
-                $period_link['description'] = Translation :: get('PeriodLinkDescription');
-                $period_link['action'] = 'period';
-                $period_link['url'] = $this->get_period_application_url();
+                $period_link = new DynamicAction();
+                $period_link->set_title(Translation :: get('PeriodLink'));
+                $period_link->set_description(Translation :: get('PeriodLinkDescription'));
+                $period_link->set_image(Theme :: get_image_path() . 'browse_period.png');
+                $period_link->set_url($this->get_period_application_url());
                 $links[] = $period_link;
                 
                 $tab_links['links'] = $links;
