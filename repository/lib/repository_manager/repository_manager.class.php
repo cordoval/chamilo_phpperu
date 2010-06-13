@@ -532,6 +532,16 @@ class RepositoryManager extends CoreApplication
     {
         return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $order_by, $offset, $max_objects);
     }
+    
+    function retrieve_content_object_versions_resultset($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_content_object_versions_resultset($condition, $order_by, $offset, $max_objects);
+    }
+    
+    function count_content_object_versions_resultset($condition = null)
+    {
+        return RepositoryDataManager :: get_instance()->count_content_object_versions_resultset($condition);
+    }
 
     /**
      * @see RepositoryDataManager::retrieve_type_content_objects()

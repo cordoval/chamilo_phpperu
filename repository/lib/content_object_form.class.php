@@ -228,18 +228,18 @@ EOT;
         {
             $object = $this->content_object;
 
-            if ($object->is_latest_version())
-            {
-                $html[] = '<div class="versions" style="margin-top: 1em;">';
-            }
-            else
-            {
-                $html[] = '<div class="versions_na" style="margin-top: 1em;">';
-            }
+//            if ($object->is_latest_version())
+//            {
+//                $html[] = '<div class="versions" style="margin-top: 1em;">';
+//            }
+//            else
+//            {
+//                $html[] = '<div class="versions_na" style="margin-top: 1em;">';
+//            }
 
-            $html[] = '<div class="versions_title">' . htmlentities(Translation :: get('Versions')) . '</div>';
+//            $html[] = '<div class="versions_title">' . htmlentities(Translation :: get('Versions')) . '</div>';
 
-            $this->addElement('html', implode("\n", $html));
+//            $this->addElement('html', implode("\n", $html));
             $this->add_element_hider('script_radio', $object);
 
             $i = 0;
@@ -265,7 +265,7 @@ EOT;
             $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CompareVersions'), array('class' => 'normal compare'));
             $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
-            $this->addElement('html', '</div>');
+//            $this->addElement('html', '</div>');
         }
     }
 

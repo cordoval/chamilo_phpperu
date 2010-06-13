@@ -76,6 +76,7 @@ class RepositoryAutoloader
 	static function check_for_tables($classname)
 	{
 		$list = array('repository_browser_table' => 'browser/repository_browser_table.class.php',
+					  'repository_version_browser_table' => 'version_browser/repository_version_browser_table.class.php',
 					  'template_browser_table' => 'browser/template_browser/template_browser_table.class.php',
 					  'repository_shared_content_objects_browser_table' => 'browser/shared_content_objects_browser/repository_shared_content_objects_browser_table.class.php',
 					  'complex_browser_table' => 'complex_browser/complex_browser_table.class.php',

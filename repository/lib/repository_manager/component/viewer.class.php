@@ -91,23 +91,27 @@ class RepositoryManagerViewerComponent extends RepositoryManager
                 }
                 
                 $version_tab_content = array();
-                $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_COMPARE, $object, 'compare', 'post', $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id())), array('version_data' => $version_data));
-                if ($form->validate())
-                {
-                    $params = $form->compare_content_object();
-                    $params[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_COMPARE_CONTENT_OBJECTS;
-                    $this->redirect(null, false, $params);
-                }
-                else
-                {
+//                $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_COMPARE, $object, 'compare', 'post', $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id())), array('version_data' => $version_data));
+//                if ($form->validate())
+//                {
+//                    $params = $form->compare_content_object();
+//                    $params[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_COMPARE_CONTENT_OBJECTS;
+//                    $this->redirect(null, false, $params);
+//                }
+//                else
+//                {
                     $this->display_header($trail, false, true);
                     
                     if ($this->action_bar)
+                    {
                         echo '<br />' . $this->action_bar->as_html();
+                    }
                     
                     echo $display->get_full_html();
-                    $version_tab_content[] = $form->toHtml();
-                }
+//                    $version_tab_content[] = $form->toHtml();
+//                }
+                $version_browser = new RepositoryVersionBrowserTable($this, array(), new EqualityCondition(ContentObject::PROPERTY_OBJECT_NUMBER, $object->get_object_number()));
+                $version_tab_content[] = $version_browser->as_html();
                 $version_tab_content[] = $display->get_version_quota_as_html($version_data);
                 $this->tabs->add_tab(new DynamicContentTab('versions', Translation :: get('Versions'), Theme :: get_image_path() . 'place_mini_versions.png', implode("\n", $version_tab_content)));
             }
@@ -116,18 +120,20 @@ class RepositoryManagerViewerComponent extends RepositoryManager
                 $this->display_header($trail, false, true);
                 
                 if ($this->action_bar)
+                {
                     echo '<br />' . $this->action_bar->as_html();
+                }
                 
                 echo $display->get_full_html();
-                /*echo Utilities :: add_block_hider();
-                echo Utilities :: build_block_hider('content_object_extras');*/
             }
             else
             {
                 $this->display_header($trail, false, true);
                 
                 if ($this->action_bar)
+                {
                     echo '<br />' . $this->action_bar->as_html();
+                }
                 
                 echo $display->get_full_html();
             }
@@ -240,25 +246,26 @@ class RepositoryManagerViewerComponent extends RepositoryManager
     {
         $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
         $tabs = new DynamicTabsRenderer($renderer_name);
+        $parameters = array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(), RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS);
         
         // LINKS | PUBLICATIONS
-        $browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(), RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS), null, LinkBrowserTable :: TYPE_PUBLICATIONS);
+        $browser = new LinkBrowserTable($this, $parameters, null, LinkBrowserTable :: TYPE_PUBLICATIONS);
         $this->tabs->add_tab(new DynamicContentTab(LinkBrowserTable :: TYPE_PUBLICATIONS, Translation :: get('Publications'), Theme :: get_image_path() . 'place_mini_publications.png', $browser->as_html()));
         
         // LINKS | PARENTS
-        $browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(), RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS), null, LinkBrowserTable :: TYPE_PARENTS);
+        $browser = new LinkBrowserTable($this, $parameters, null, LinkBrowserTable :: TYPE_PARENTS);
         $this->tabs->add_tab(new DynamicContentTab(LinkBrowserTable :: TYPE_PARENTS, Translation :: get('Parents'), Theme :: get_image_path() . 'place_mini_parents.png', $browser->as_html()));
         
         // LINKS | CHILDREN
-        $browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(), RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS), null, LinkBrowserTable :: TYPE_CHILDREN);
+        $browser = new LinkBrowserTable($this, $parameters, null, LinkBrowserTable :: TYPE_CHILDREN);
         $this->tabs->add_tab(new DynamicContentTab(LinkBrowserTable :: TYPE_CHILDREN, Translation :: get('Children'), Theme :: get_image_path() . 'place_mini_children.png', $browser->as_html()));
         
         // LINKS | ATTACHED TO
-        $browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(), RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS), null, LinkBrowserTable :: TYPE_ATTACHMENTS);
+        $browser = new LinkBrowserTable($this, $parameters, null, LinkBrowserTable :: TYPE_ATTACHMENTS);
         $this->tabs->add_tab(new DynamicContentTab(LinkBrowserTable :: TYPE_ATTACHMENTS, Translation :: get('AttachedTo'), Theme :: get_image_path() . 'place_mini_attached.png', $browser->as_html()));
         
         // LINKS | INCLUDED IN
-        $browser = new LinkBrowserTable($this, array(RepositoryManager :: PARAM_APPLICATION => RepositoryManager :: APPLICATION_NAME, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $this->object->get_id(), RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS), null, LinkBrowserTable :: TYPE_INCLUDES);
+        $browser = new LinkBrowserTable($this, $parameters, null, LinkBrowserTable :: TYPE_INCLUDES);
         $this->tabs->add_tab(new DynamicContentTab(LinkBrowserTable :: TYPE_INCLUDES, Translation :: get('IncludedIn'), Theme :: get_image_path() . 'place_mini_included.png', $browser->as_html()));
     }
 

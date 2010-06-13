@@ -558,6 +558,16 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         return $versions;
     }
+    
+    function retrieve_content_object_versions_resultset($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
+    {
+        return $this->retrieve_objects(ContentObject :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+    
+    function count_content_object_versions_resultset($condition = null)
+    {
+        return $this->count_objects(ContentObject :: get_table_name(), $condition);
+    }
 
     function get_latest_version_id($object)
     {
