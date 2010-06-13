@@ -35,8 +35,8 @@ class RepositoryVersionBrowserTableCellRenderer extends DefaultContentObjectTabl
 
         switch ($column->get_name())
         {
-            case ContentObject :: PROPERTY_TYPE :
-                return '<a href="' . htmlentities($this->browser->get_type_filter_url($content_object->get_type())) . '">' . parent :: render_cell($column, $content_object) . '</a>';
+//            case ContentObject :: PROPERTY_TYPE :
+//                return '<a href="' . htmlentities($this->browser->get_type_filter_url($content_object->get_type())) . '">' . parent :: render_cell($column, $content_object) . '</a>';
             case ContentObject :: PROPERTY_TITLE :
                 $title = parent :: render_cell($column, $content_object);
                 $title_short = Utilities :: truncate_string($title, 53, false);
@@ -58,19 +58,45 @@ class RepositoryVersionBrowserTableCellRenderer extends DefaultContentObjectTabl
     {
         $toolbar = new Toolbar();
         
-        $toolbar->add_item(new ToolbarItem(
-    			Translation :: get('Delete'),
-    			Theme :: get_common_image_path().'action_delete.png', 
-				$this->browser->get_content_object_moving_url($content_object),
-			 	ToolbarItem :: DISPLAY_ICON
-		));
+        $remove_url = $this->browser->get_content_object_deletion_url($content_object, 'version');
+        if($remove_url)
+        {
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Delete'),
+        			Theme :: get_common_image_path().'action_remove.png', 
+    				$remove_url,
+    			 	ToolbarItem :: DISPLAY_ICON
+    		));
+        }
+        else
+        {
+            $toolbar->add_item(new ToolbarItem(
+        			Translation :: get('DeleteNotPossible'),
+        			Theme :: get_common_image_path().'action_remove_na.png', 
+    				null,
+    			 	ToolbarItem :: DISPLAY_ICON
+    		));
+        }
 		
-		$toolbar->add_item(new ToolbarItem(
-    			Translation :: get('Revert'),
-    			Theme :: get_common_image_path().'action_revert.png', 
-				$this->browser->get_content_object_metadata_editing_url($content_object),
-			 	ToolbarItem :: DISPLAY_ICON
-		));
+		$revert_url = $this->browser->get_content_object_revert_url($content_object, 'version');
+		if($revert_url)
+        {
+    		$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('Revert'),
+        			Theme :: get_common_image_path().'action_revert.png', 
+    				$revert_url,
+    			 	ToolbarItem :: DISPLAY_ICON
+    		));
+        }
+        else
+        {
+    		$toolbar->add_item(new ToolbarItem(
+        			Translation :: get('RevertNotPossible'),
+        			Theme :: get_common_image_path().'action_revert_na.png', 
+    				null,
+    			 	ToolbarItem :: DISPLAY_ICON
+    		));
+        }
 		
         return $toolbar->as_html();
     }

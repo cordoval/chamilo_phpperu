@@ -22,11 +22,10 @@ class RepositoryVersionBrowserTableColumnModel extends DefaultContentObjectTable
         parent :: __construct();
         $this->set_default_order_column(0);
         
-        $columns = $this->get_columns();
-        $columns = array_merge(array(new StaticTableColumn(Translation :: get('CompareWith'))), $columns);
-        $this->set_columns($columns);
+        //$columns = $this->get_columns();
+        //$columns = array_merge(array(new StaticTableColumn(Translation :: get('CompareWith'))), $columns);
+        //$this->set_columns($columns);
         
-//        $this->add_column(new StaticTableColumn(Translation :: get('CompareWith')));
         $this->add_column(new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE));
         $this->add_column(self :: get_modification_column());
     }
