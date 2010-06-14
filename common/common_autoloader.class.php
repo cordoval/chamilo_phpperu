@@ -120,7 +120,6 @@ class CommonAutoloader
 					  'xml_tree_menu_renderer' => 'menu/xml_tree_menu_renderer.class.php',
 					  'wizard_page_validator' => 'formvalidator/wizard_page_validator.class.php',
 					  'form_validator' => 'formvalidator/form_validator.class.php',
-					  'tabbed_form_validator' => 'formvalidator/tabbed_form_validator.class.php',
 					  'form_validator_page' => 'formvalidator/form_validator_page.class.php',
 					  'form_validator_tab' => 'formvalidator/form_validator_tab.class.php',
 					  'form_validator_html_editor' => 'formvalidator/form_validator_html_editor.class.php',

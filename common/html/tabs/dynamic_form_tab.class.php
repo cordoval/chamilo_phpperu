@@ -2,6 +2,7 @@
 class DynamicFormTab extends DynamicTab
 {
     private $method;
+    private $form;
 
     /**
      * @param integer $id
@@ -32,22 +33,30 @@ class DynamicFormTab extends DynamicTab
         $this->method = $method;
     }
 
-    public function body($tab_name)
+    /**
+     * @return the $form
+     */
+    public function get_form()
     {
+        return $this->form;
+    }
 
+    /**
+     * @param $form the $form to set
+     */
+    public function set_form($form)
+    {
+        $this->form = $form;
     }
 
     /**
      * @param string $tab_name
      * @return string
      */
-    public function body_form($tab_name, $form)
+    public function body($tab_name)
     {
-        //        $html = array();
-        $form->addElement('html', $this->body_header($tab_name));
-                call_user_func(array($form, $this->get_method()));
-//        $form->addElement('html', 'Body');
-        $form->addElement('html', $this->body_footer($tab_name));
-        //        return implode("\n", $html);
+        $this->get_form()->addElement('html', $this->body_header($tab_name));
+        call_user_func(array($this->get_form(), $this->get_method()));
+        $this->get_form()->addElement('html', $this->body_footer($tab_name));
     }
 }

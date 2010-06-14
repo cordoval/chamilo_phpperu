@@ -29,17 +29,13 @@ class DynamicFormTabsRenderer extends DynamicTabsRenderer
     {
         $this->form->addElement('html', $this->header());
 
-        // Tab content
-        $tabs = $this->get_tabs();
-
-        foreach ($tabs as $key => $tab)
+        foreach ($this->get_tabs() as $key => $tab)
         {
-            $tab->body_form($this->get_name() . '_' . $key, $this->form);
+            $tab->set_form($this->form);
+            $tab->body($this->get_name() . '_' . $key);
         }
 
         $this->form->addElement('html', $this->footer());
-
-//        return implode("\n", $html);
     }
 
 }
