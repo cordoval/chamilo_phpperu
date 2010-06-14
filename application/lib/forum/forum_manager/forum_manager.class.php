@@ -156,6 +156,7 @@ class ForumManager extends WebApplication
 
     function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
+    	return ForumDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
     }
 
     function get_content_object_publication_attribute($object_id)
