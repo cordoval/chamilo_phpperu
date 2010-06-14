@@ -75,27 +75,18 @@ class DynamicTabsRenderer
         return implode("\n", $html);
     }
 
-    public function get_selected_tab($return_key = true)
+    public function get_selected_tab()
     {
-        $tabs = $this->get_tabs();
-        return Request :: get(self :: PARAM_SELECTED_TAB);
+        $selected_tab = Request :: get(self :: PARAM_SELECTED_TAB);
 
-//        foreach ($tabs as $key => $tab)
-//        {
-//            $tab_name = $this->get_name() . '_' . $tab->get_id();
-//            dump($tab_name);
-//            if ($requested_tab == $tab->get_id() && ! is_null($requested_tab))
-//            {
-//                if ($return_key)
-//                {
-//                    return $key;
-//                }
-//                else
-//                {
-//                    return $tab->get_id();
-//                }
-//            }
-//        }
+        if ($selected_tab)
+        {
+            return $this->get_name() . '_' . $selected_tab;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public function footer()
@@ -105,11 +96,14 @@ class DynamicTabsRenderer
         $html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
         $html[] = '<script type="text/javascript">';
 
-    	$html[] = 'function setSearchTab(e, ui)
+//        dump($this->get_name());
+
+        $html[] = 'function setSearchTab(e, ui)
 	{
 		var searchForm = $("div.action_bar div.search_form form");
 		var url = $.query.load(searchForm.attr(\'action\'));
-		searchForm.attr(\'action\', url.set("tab", $("div.admin_tab:visible").attr(\'id\')).toString());
+		var currentTabId = $("div.admin_tab:visible").attr(\'id\').replace("'. $this->get_name() .'_", "");
+		searchForm.attr(\'action\', url.set("tab", currentTabId).toString());
 	}';
 
         $html[] = '$(document).ready(function ()';
@@ -122,14 +116,15 @@ class DynamicTabsRenderer
         $selected_tab = $this->get_selected_tab();
         if (isset($selected_tab))
         {
-            $html[] = '	$(\'#' . $this->get_name() . '_tabs\').tabs( "option", "selected", "'. $selected_tab .'" );';
+            $html[] = '	$(\'#' . $this->get_name() . '_tabs\').tabs( "option", "selected", "' . $selected_tab . '" );';
         }
 
         $html[] = '	$("#' . $this->get_name() . '_tabs").live(\'tabsshow\', setSearchTab);';
 
         $html[] = '});';
         $html[] = '</script>';
-//        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/dynamic_tabs.js');
+        //        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/dynamic_tabs.js');
+
 
         return implode("\n", $html);
     }
