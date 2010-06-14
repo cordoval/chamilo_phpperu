@@ -54,9 +54,9 @@ class YoutubeStreamingMediaConnector
             }
         }
 
-        $config = array('adapter' => 'Zend_Http_Client_Adapter_Proxy', 'proxy_host' => '192.168.0.202', 'proxy_port' => 8080);
+        //$config = array('adapter' => 'Zend_Http_Client_Adapter_Proxy', 'proxy_host' => '192.168.0.202', 'proxy_port' => 8080);
         $httpClient = Zend_Gdata_AuthSub :: getHttpClient($session_token);
-        $httpClient->setConfig($config);
+        //$httpClient->setConfig($config);
 
         $client = '';
         $application = PlatformSetting :: get('site_name');

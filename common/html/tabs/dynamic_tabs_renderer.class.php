@@ -2,10 +2,10 @@
 class DynamicTabsRenderer
 {
     const PARAM_SELECTED_TAB = 'tab';
-    
+
     const TYPE_CONTENT = 1;
     const TYPE_ACTIONS = 2;
-    
+
     private $name;
     private $tabs;
 
@@ -55,17 +55,17 @@ class DynamicTabsRenderer
         $this->tabs[] = $tab;
     }
 
-    public function render()
+    public function header()
     {
         $tabs = $this->get_tabs();
-        
+
         $requested_tab = Request :: get(self :: PARAM_SELECTED_TAB);
-        
+
         $html = array();
-        
+
         $html[] = '<a name="top"></a>';
         $html[] = '<div id="' . $this->name . '_tabs">';
-        
+
         // Tab headers
         $html[] = '<ul class="tabs-header">';
         foreach ($tabs as $key => $tab)
@@ -74,17 +74,17 @@ class DynamicTabsRenderer
             {
                 $selected_tab = $key;
             }
-            
+
             $html[] = $tab->header($this->name . '_' . $key);
         }
         $html[] = '</ul>';
-        
-        // Tab content
-        foreach ($tabs as $key => $tab)
-        {
-            $html[] = $tab->body($this->name . '_' . $key);
-        }
-        
+
+        return implode("\n", $html);
+    }
+
+    public function footer()
+    {
+        $html = array();
         $html[] = '</div>';
         $html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
         $html[] = '<script type="text/javascript">';
@@ -100,7 +100,25 @@ class DynamicTabsRenderer
         }
         $html[] = '});';
         $html[] = '</script>';
-        
+
+        return implode("\n", $html);
+    }
+
+    public function render()
+    {
+        $html = array();
+        $html[] = $this->header();
+
+        // Tab content
+        $tabs = $this->get_tabs();
+
+        foreach ($tabs as $key => $tab)
+        {
+            $html[] = $tab->body($this->name . '_' . $key);
+        }
+
+        $html[] = $this->footer();
+
         return implode("\n", $html);
     }
 
