@@ -15,6 +15,7 @@ require_once dirname(__FILE__) . '/../region.class.php';
 require_once dirname(__FILE__) . '/../period.class.php';
 require_once dirname(__FILE__) . '/../period_rel_user.class.php';
 require_once dirname(__FILE__) . '/../period_rel_group.class.php';
+require_once dirname(__FILE__) . '/../user_type.class.php';
 
 require_once 'MDB2.php';
 

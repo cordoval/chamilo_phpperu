@@ -14,8 +14,10 @@ class DefaultInternshipOrganizerPeriodUserTableColumnModel extends ObjectTableCo
 	{
 		
 		$columns = array();
-		$columns[] = new ObjectTableColumn(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, true);
-		$columns[] = new ObjectTableColumn(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, true);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, false, User :: get_table_name());
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, false, User :: get_table_name());
+//		$columns[] = new ObjectTableColumn(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, true);
+//		$columns[] = new ObjectTableColumn(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, true);
 		$columns[] = new ObjectTableColumn(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, true);
 		return $columns;
 		
