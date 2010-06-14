@@ -19,7 +19,7 @@ class ReportingManagerAddComponent extends ReportingManager
 
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, 'selected' => ReportingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Reporting')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => ReportingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Reporting')));
         $trail->add(new Breadcrumb($this->get_url(array(Translation :: get('Reporting')))));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddTemplate')));
         $trail->add_help('reporting general');
