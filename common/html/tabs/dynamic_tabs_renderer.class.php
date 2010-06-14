@@ -2,10 +2,10 @@
 class DynamicTabsRenderer
 {
     const PARAM_SELECTED_TAB = 'tab';
-    
+
     const TYPE_CONTENT = 1;
     const TYPE_ACTIONS = 2;
-    
+
     private $name;
     private $tabs;
 
@@ -55,52 +55,95 @@ class DynamicTabsRenderer
         $this->tabs[] = $tab;
     }
 
-    public function render()
+    public function header()
     {
         $tabs = $this->get_tabs();
-        
-        $requested_tab = Request :: get(self :: PARAM_SELECTED_TAB);
-        
+
         $html = array();
-        
+
         $html[] = '<a name="top"></a>';
         $html[] = '<div id="' . $this->name . '_tabs">';
-        
+
         // Tab headers
         $html[] = '<ul class="tabs-header">';
         foreach ($tabs as $key => $tab)
         {
-            if ($requested_tab == $tab->get_id() && ! is_null($requested_tab))
-            {
-                $selected_tab = $key;
-            }
-            
-            $html[] = $tab->header($this->name . '_' . $key);
+            $html[] = $tab->header($this->name . '_' . $tab->get_id());
         }
         $html[] = '</ul>';
-        
-        // Tab content
-        foreach ($tabs as $key => $tab)
+
+        return implode("\n", $html);
+    }
+
+    public function get_selected_tab()
+    {
+        $selected_tab = Request :: get(self :: PARAM_SELECTED_TAB);
+
+        if ($selected_tab)
         {
-            $html[] = $tab->body($this->name . '_' . $key);
+            return $this->get_name() . '_' . $selected_tab;
         }
-        
+        else
+        {
+            return null;
+        }
+    }
+
+    public function footer()
+    {
+        $html = array();
         $html[] = '</div>';
         $html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
         $html[] = '<script type="text/javascript">';
+
+//        dump($this->get_name());
+
+        $html[] = 'function setSearchTab(e, ui)
+	{
+		var searchForm = $("div.action_bar div.search_form form");
+		var url = $.query.load(searchForm.attr(\'action\'));
+		var currentTabId = $("div.admin_tab:visible").attr(\'id\').replace("'. $this->get_name() .'_", "");
+		searchForm.attr(\'action\', url.set("tab", currentTabId).toString());
+	}';
+
         $html[] = '$(document).ready(function ()';
         $html[] = '{';
         $html[] = '	$("#' . $this->get_name() . '_tabs ul").css(\'display\', \'block\');';
         $html[] = '	$("#' . $this->get_name() . '_tabs h2").hide();';
         $html[] = '	$("#' . $this->get_name() . '_tabs").tabs();';
         $html[] = '	var tabs = $(\'#' . $this->get_name() . '_tabs\').tabs(\'paging\', { cycle: false, follow: false, nextButton : "", prevButton : "" } );';
+
+        $selected_tab = $this->get_selected_tab();
         if (isset($selected_tab))
         {
-            $html[] = '	tabs.tabs(\'select\', "' . $selected_tab . '");';
+            $html[] = '	$(\'#' . $this->get_name() . '_tabs\').tabs( "option", "selected", "' . $selected_tab . '" );';
         }
+
+        $html[] = '	$("#' . $this->get_name() . '_tabs").live(\'tabsshow\', setSearchTab);';
+
         $html[] = '});';
         $html[] = '</script>';
-        
+        //        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/dynamic_tabs.js');
+
+
+        return implode("\n", $html);
+    }
+
+    public function render()
+    {
+        $html = array();
+        $html[] = $this->header();
+
+        // Tab content
+        $tabs = $this->get_tabs();
+
+        foreach ($tabs as $key => $tab)
+        {
+            $html[] = $tab->body($this->name . '_' . $tab->get_id());
+        }
+
+        $html[] = $this->footer();
+
         return implode("\n", $html);
     }
 

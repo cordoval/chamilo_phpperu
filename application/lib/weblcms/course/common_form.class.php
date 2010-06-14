@@ -16,19 +16,19 @@ abstract class CommonForm extends FormValidator
     const RESULT_ERROR = 'ObjectUpdateFailed';
 
    	const UNLIMITED_MEMBERS = 'unlimited_members';
-   	
+
    	const SUBSCRIBE_DIRECT_TARGET = 'direct_target_groups';
    	const SUBSCRIBE_DIRECT_TARGET_ELEMENTS = 'direct_target_groups_elements';
    	const SUBSCRIBE_DIRECT_TARGET_OPTION = 'direct_target_groups_option';
-   	
+
    	const SUBSCRIBE_REQUEST_TARGET = 'request_target_groups';
    	const SUBSCRIBE_REQUEST_TARGET_ELEMENTS = 'request_target_groups_elements';
    	const SUBSCRIBE_REQUEST_TARGET_OPTION = 'request_target_groups_option';
-   	
+
    	const SUBSCRIBE_CODE_TARGET = 'code_target_groups';
    	const SUBSCRIBE_CODE_TARGET_ELEMENTS = 'code_target_groups_elements';
    	const SUBSCRIBE_CODE_TARGET_OPTION = 'code_target_groups_option';
-   	
+
    	const UNSUBSCRIBE_TARGET = 'unsubscribe_target_groups';
    	const UNSUBSCRIBE_TARGET_ELEMENTS = 'unsubscribe_target_groups_elements';
    	const UNSUBSCRIBE_TARGET_OPTION = 'unsubscribe_target_groups_option';
@@ -44,7 +44,7 @@ abstract class CommonForm extends FormValidator
         $this->object = $object;
 		$this->parent = $parent;
         $this->form_type = $form_type;
-        
+
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -81,13 +81,13 @@ abstract class CommonForm extends FormValidator
     }
 
     abstract function build_basic_form();
-    
+
     abstract function build_general_settings_form();
-    
+
 	abstract function build_layout_form();
 
 	abstract function build_tools_form();
-	
+
 	abstract function build_rights_form();
 
 	function save()
@@ -156,7 +156,7 @@ abstract class CommonForm extends FormValidator
 	}
 
 	abstract function fill_tools($tools);
-	
+
 	function fill_rights()
 	{
 		$object = $this->object;
@@ -176,17 +176,17 @@ abstract class CommonForm extends FormValidator
 			return $object->get_rights();
 		}
 	}
-	
+
 	function fill_subscribe_rights()
 	{
 		$values = $this->exportValues();
 		$groups_array = array();
 		$group_key_check = array();
 		$wdm = WeblcmsDataManager::get_instance();
-		
+
 		$class = get_class($this->object) . "GroupSubscribeRight";
 		$id_method = "set_" . Utilities :: camelcase_to_underscores(get_class($this->object)) . "_id";
-		
+
 
 		for($i=0;$i<3;$i++)
 		{
@@ -252,7 +252,7 @@ abstract class CommonForm extends FormValidator
 		}
 		return $groups_array;
 	}
-	
+
 	function fill_unsubscribe_rights()
 	{
 		$values = $this->exportValues();
@@ -323,40 +323,40 @@ abstract class CommonForm extends FormValidator
 		$defaults[CourseRights :: PROPERTY_REQUEST_SUBSCRIBE_AVAILABLE] = !is_null($rights->get_request_subscribe_available())? $rights->get_request_subscribe_available():0;
 		$defaults[CourseRights :: PROPERTY_CODE_SUBSCRIBE_AVAILABLE] = !is_null($rights->get_code_subscribe_available())? $rights->get_code_subscribe_available():0;
 		$defaults[CourseRights :: PROPERTY_UNSUBSCRIBE_AVAILABLE] = !is_null($rights->get_unsubscribe_available())? $rights->get_unsubscribe_available():1;
-		
+
 		$defaults[self :: SUBSCRIBE_DIRECT_TARGET_OPTION] = '0';
 		$defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '0';
 		$defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '0';
 		$defaults[self :: UNSUBSCRIBE_TARGET_OPTION] = '0';
-		
+
 		if(!is_null($object->get_id()) || (get_class($object)=="Course" && !is_null($object->get_course_type()->get_id())))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			
+
 			$retrieve_subscribe_method = "";
 			$retrieve_unsubscribe_method = "";
-			
+
 			for($i=1;$i<3;$i++)
-			{				
+			{
 				switch($i)
 				{
-					case 1: $retrieve_subscribe_method = "retrieve_course_type_group_subscribe_rights"; 
+					case 1: $retrieve_subscribe_method = "retrieve_course_type_group_subscribe_rights";
 							$retrieve_unsubscribe_method = "retrieve_course_type_group_unsubscribe_rights";
 							if(get_class($object) == "Course")
 							break;
 					case 2: if(get_class($object) == "CourseType")
 								continue;
-							$retrieve_subscribe_method = "retrieve_course_group_subscribe_rights"; 
+							$retrieve_subscribe_method = "retrieve_course_group_subscribe_rights";
 							$retrieve_unsubscribe_method = "retrieve_course_group_unsubscribe_rights";
 							break;
 				}
-				
+
 				$id = $object->get_id();
 				if($i == 1 && get_class($object) == "Course")
 					$id = $object->get_course_type()->get_id();
 				$group_subscribe_rights = $wdm->$retrieve_subscribe_method($id);
 				$group_unsubscribe_rights = $wdm->$retrieve_unsubscribe_method($id);
-				
+
 				while($right = $group_subscribe_rights->next_result())
 				{
 					if($right->get_group_id() != 0)
@@ -365,15 +365,15 @@ abstract class CommonForm extends FormValidator
 						$check_fixed = null;
 						switch($right->get_subscribe())
 						{
-							case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT: 
+							case CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT:
 								$element = self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS;
 								$check_fixed = "get_direct_subscribe_fixed";
 								break;
-							case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST: 
+							case CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST:
 								$element = self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS;
 								$check_fixed = "get_request_subscribe_fixed";
 								break;
-							case CourseGroupSubscribeRight :: SUBSCRIBE_CODE: 
+							case CourseGroupSubscribeRight :: SUBSCRIBE_CODE:
 								$element = self :: SUBSCRIBE_CODE_TARGET_ELEMENTS;
 								$check_fixed = "get_code_subscribe_fixed";
 								break;
@@ -385,7 +385,7 @@ abstract class CommonForm extends FormValidator
 						}
 					}
 				}
-				
+
 				while($right = $group_unsubscribe_rights->next_result())
 				{
 					if($right->get_group_id() != 0)
@@ -405,33 +405,33 @@ abstract class CommonForm extends FormValidator
 	            $active = $this->getElement(self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS);
 	        	$active->setValue($defaults[self :: SUBSCRIBE_DIRECT_TARGET_ELEMENTS]);
 			}
-	        
+
 	    	if (count($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]) > 0 && !(get_class($object) == "Course" && $object->get_request_subscribe_fixed()))
 	    	{
 	            $defaults[self :: SUBSCRIBE_REQUEST_TARGET_OPTION] = '1';
 	            $active = $this->getElement(self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS);
 	        	$active->setValue($defaults[self :: SUBSCRIBE_REQUEST_TARGET_ELEMENTS]);
 	    	}
-	        
+
 	    	if (count($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]) > 0 && !(get_class($object) == "Course" && $object->get_code_subscribe_fixed()))
 	        {
 	            $defaults[self :: SUBSCRIBE_CODE_TARGET_OPTION] = '1';
 	            $active = $this->getElement(self :: SUBSCRIBE_CODE_TARGET_ELEMENTS);
 	        	$active->setValue($defaults[self :: SUBSCRIBE_CODE_TARGET_ELEMENTS]);
 	        }
-	        
+
 			if (count($defaults[self :: UNSUBSCRIBE_TARGET_ELEMENTS]) > 0 && !(get_class($object) == "Course" && $object->get_unsubscribe_fixed()))
 	        {
 	            $defaults[self :: UNSUBSCRIBE_TARGET_OPTION] = '1';
 	            $active = $this->getElement(self :: UNSUBSCRIBE_TARGET_ELEMENTS);
 	        	$active->setValue($defaults[self :: UNSUBSCRIBE_TARGET_ELEMENTS]);
 	        }
-			
+
 		}
-		
+
         parent :: setDefaults($defaults);
     }
-    
+
     function get_group_array($group_id)
     {
     	$gdm = GroupDataManager :: get_instance();
