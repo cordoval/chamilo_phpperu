@@ -1232,6 +1232,68 @@ class Course extends DataClass
 			
 		if(!$this->get_data_manager()->create_course_modules($course_modules, $this->get_id()))
 			return false;
+		
+		for($i = 0; $i < 4; $i++)
+		{
+			$method = null;
+			$right = null;
+			$course_type_rights = null;
+			switch($i)
+			{
+				case 0: $method = get_direct_subscribe_fixed;
+						$right = CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT;
+						break;
+				case 1: $method = get_request_subscribe_fixed;
+						$right = CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST;
+						break;
+				case 2: $method = get_code_subscribe_fixed;
+						$right = CourseGroupSubscribeRight :: SUBSCRIBE_CODE;
+						break;
+				case 3: $method = get_unsubscribe_fixed;
+						$right = CourseGroupSubscribeRight :: UNSUBSCRIBE;
+						break;   		 
+			}
+			if($course_type->get_rights()->$method())
+			{
+				$course_type_rights = $this->get_data_manager()->retrieve_course_type_group_rights_by_type($course_type->get_id(), $right);
+				$course_rights = $this->get_data_manager()->retrieve_course_group_rights_by_type($this->get_id(), $right)->as_array();
+				$course_type_rights_to_add = array();
+				while($course_type_right = $course_type_rights->next_result())
+				{
+					$validation = true;
+					foreach($course_rights as $index => $right)
+					{
+						if($right->get_group_id() == $course_type_right->get_group_id())
+						{
+							$validation = false;
+							unset($course_rights[$index]);
+						}
+					}
+					if($validation)
+						$course_type_rights_to_add[] = $course_type_right;
+				}
+				
+				foreach($course_type_rights_to_add as $course_type_right)
+				{
+					if($right != CourseGroupSubscribeRight :: UNSUBSCRIBE)
+					{
+						$course_right = CourseGroupSubscribeRight :: convert_course_type_right_to_course_right($course_type_right, $this->get_id());
+						$this->get_data_manager()->delete_course_group_subscribe_right($course_right);
+						$this->get_data_manager()->create_course_group_subscribe_right($course_right);
+					}
+					else
+						$this->get_data_manager()->create_course_group_unsubscribe_right(CourseGroupUnsubscribeRight :: convert_course_type_right_to_course_right($course_type_right, $this->get_id()));
+				}
+				
+				foreach($course_rights as $right)
+				{
+					if($right != CourseGroupSubscribeRight :: UNSUBSCRIBE)
+						$this->get_data_manager()->delete_course_group_subscribe_right($right);
+					else
+						$this->get_data_manager()->delete_course_group_unsubscribe_right($right);
+				}
+			}
+		}
 			
 		return true;
     }
