@@ -181,7 +181,13 @@ $lang['internship_organizer']['RegionTab'] = 'Region';
 $lang['internship_organizer']['RegionLink'] = 'Region';
 $lang['internship_organizer']['RegionLinkDescription'] = 'RegionDescription';
 
-$lang['internship_organizer']['InternshipOrganiserSubPeriods'] = 'sub periods';
-$lang['internship_organizer']['InternshipOrganiserRelUsers'] = 'users';
+$lang['internship_organizer']['InternshipOrganizerSubPeriods'] = 'sub periods';
+$lang['internship_organizer']['InternshipOrganizerRelUsers'] = 'users';
+
+$lang['internship_organizer']['InternshipOrganizerUserType'] = 'Type Of User';
+$lang['internship_organizer']['InternshipOrganizerCoordinator'] = 'Coördinator';
+$lang['internship_organizer']['InternshipOrganizerMentor'] = 'Mentor';
+$lang['internship_organizer']['InternshipOrganizerCoach'] = 'Coach';
+$lang['internship_organizer']['InternshipOrganizerStudent'] = 'Student';
 
 ?>
