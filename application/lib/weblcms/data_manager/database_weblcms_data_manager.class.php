@@ -863,7 +863,24 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
         return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
-
+ 	
+    function retrieve_course_group_rights_by_type($course_id, $type)
+    {
+        if (CourseGroupSubscribeRight :: UNSUBSCRIBE == $type)
+        {
+            $condition = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_id);
+            return $this->retrieve_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition);
+        }
+        else
+        {
+            $conditions = array();
+            $conditions[] = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course_id);
+            $conditions[] = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_SUBSCRIBE, $type);
+            $condition = new AndCondition($conditions);
+            return $this->retrieve_objects(CourseGroupSubscribeRight :: get_table_name(), $condition);
+        }
+    }
+    
     function retrieve_course_subscribe_groups_by_right($right, $course, $condition=null, $offset=null, $count=null, $order_property=null)
     {
     	$groups_result = GroupDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property);
