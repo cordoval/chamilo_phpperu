@@ -210,7 +210,10 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManager
             }
         }
 
-        $visibility_condition = new EqualityCondition(CourseSettings :: PROPERTY_VISIBILITY, '1', CourseSettings :: get_table_name());
+        $visibility_conditions = array();
+        $visibility_conditions[] = new EqualityCondition(CourseSettings :: PROPERTY_VISIBILITY, '1', CourseSettings :: get_table_name());
+        $visibility_conditions[] = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, '1', CourseType :: get_table_name());
+        $visibility_condition = new AndCondition($visibility_conditions);
         if(is_null($condition))
         	$condition = $visibility_condition;
         else
