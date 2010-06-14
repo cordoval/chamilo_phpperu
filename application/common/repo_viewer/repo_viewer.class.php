@@ -63,7 +63,7 @@ class RepoViewer
      * Constructor.
      * @param array $types The learning object types that may be repoviewered.
      */
-    function RepoViewer($parent, $types, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true)
+    function RepoViewer($parent, $types, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array())
     {
         $this->maximum_select = $maximum_select;
         $this->parent = $parent;
@@ -73,10 +73,7 @@ class RepoViewer
         $this->set_repo_viewer_actions(array(self :: ACTION_CREATOR, self :: ACTION_BROWSER));
         $this->excluded_objects = $excluded_objects;
         $this->set_parameter(RepoViewer :: PARAM_ACTION, (Request :: get(RepoViewer :: PARAM_ACTION) ? Request :: get(RepoViewer :: PARAM_ACTION) : self :: ACTION_CREATOR));
-        if ($parse_input)
-        {
-            $this->parse_input_from_table();
-        }
+        $this->parse_input_from_table();
     }
 
     function as_html()
@@ -299,15 +296,12 @@ class RepoViewer
                         if (count($selected_publication_ids) > $this->get_maximum_select())
                         {
                             Request :: set_get('message', sprintf(Translation :: get('MaximumSelectableContentObjectsReached'), count($selected_publication_ids), $this->get_maximum_select()));
-                            $_POST['action'] = null;
-                            Request :: set_get('action', null);
+                            $this->set_action(null);
                             return;
                         }
                     }
-                    $redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer:: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $selected_publication_ids));
-
-                    $this->redirect(null, false, $redirect_params);
-                    break;
+                    $this->set_action(self :: ACTION_PUBLISHER);
+                    Request :: set_get(RepoViewer :: PARAM_ID, $selected_publication_ids);
             }
         }
     }
