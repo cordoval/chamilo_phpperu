@@ -43,7 +43,7 @@ class Import
             $row = array();
             foreach ($row_tmp as $index => $value)
             {
-                $row[$keys[$index]] = utf8_decode(trim($value));
+                $row[$keys[$index]] = (trim($value));
             }
             $result[] = $row;
         }
