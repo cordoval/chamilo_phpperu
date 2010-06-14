@@ -15,6 +15,8 @@ class InternshipOrganizerAgreement extends DataClass {
 	const PROPERTY_STUDENT_ID = 'student_id'; //owner
 	const PROPERTY_STATUS = 'status';
 	
+	const STATUS_START = 1;
+	
 	/**
 	 * Get the default properties
 	 * @return array The property names.
