@@ -185,10 +185,10 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
             $info = new ContentObjectPublicationAttributes();
             $info->set_id($record[ForumPublication :: PROPERTY_ID]);
             $info->set_publisher_user_id($record[ForumPublication :: PROPERTY_AUTHOR]);
-            $info->set_application('alexia');
+            $info->set_application(ForumManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('Forum'));
-            $info->set_url('run.php?application=alexia&go=browse');
+            $info->set_url('run.php?application=forum&go=view_forum_publications&publication_id=' . $record[ForumPublication :: PROPERTY_ID]);
             $info->set_publication_object_id($record[ForumPublication :: PROPERTY_FORUM_ID]);
 
             $publication_attr[] = $info;
@@ -217,10 +217,10 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[ForumPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[ForumPublication :: PROPERTY_AUTHOR]);
-        $publication_attr->set_application('forum');
+        $publication_attr->set_application(ForumManager :: APPLICATION_NAME);
         //TODO: i8n location string
         $publication_attr->set_location(Translation :: get('Forum'));
-        $publication_attr->set_url('run.php?application=forum&go=browse');
+        $publication_attr->set_url('run.php?application=forum&go=view_forum_publications&publication_id=' . $record[ForumPublication :: PROPERTY_ID]);
         $publication_attr->set_publication_object_id($record[ForumPublication :: PROPERTY_FORUM_ID]);
 
         return $publication_attr;

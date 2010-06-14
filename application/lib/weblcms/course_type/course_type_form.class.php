@@ -399,6 +399,7 @@ class CourseTypeForm extends CommonForm
 			//update all course related to the coursetype
 			$condition = new EqualityCondition(CourseTypeSettings :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
 			$courses = $wdm->retrieve_courses($condition);
+			$course_type->set_tools($selected_tools);
 			while($course = $courses->next_result())
 			{
 				$course = $wdm->retrieve_course($course->get_id());

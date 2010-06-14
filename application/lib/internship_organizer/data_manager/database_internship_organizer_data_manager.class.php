@@ -14,6 +14,7 @@ require_once dirname(__FILE__) . '/../moment.class.php';
 require_once dirname(__FILE__) . '/../region.class.php';
 require_once dirname(__FILE__) . '/../period.class.php';
 require_once dirname(__FILE__) . '/../period_rel_user.class.php';
+require_once dirname(__FILE__) . '/../period_rel_group.class.php';
 
 require_once 'MDB2.php';
 
@@ -225,11 +226,11 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->retrieve_object(InternshipOrganizerCategoryRelLocation :: get_table_name(), $condition, array(), InternshipOrganizerCategoryRelLocation :: CLASS_NAME);
     }
 
-	function retrieve_organisation_rel_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    function retrieve_organisation_rel_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(InternshipOrganizerLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerLocation :: CLASS_NAME);
     }
-    
+
     function retrieve_category_by_name($name)
     {
         $condition = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_NAME, $name);
@@ -548,6 +549,22 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $root_period;
     }
 
+    function delete_internship_organizer_period_rel_user($period_rel_user)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $period_rel_user->get_user_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $period_rel_user->get_period_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, $period_rel_user->get_user_type());
+        $condition = new AndCondition($conditions);
+        $bool = $this->delete($period_rel_user->get_table_name(), $condition);
+        return $bool;
+    }
+
+    function create_internship_organizer_period_rel_user($period_rel_user)
+    {
+        return $this->create($period_rel_user);
+    }
+
     function count_period_rel_users($condition = null)
     {
         return $this->count_objects(InternshipOrganizerPeriodRelUser :: get_table_name(), $condition);
@@ -558,6 +575,32 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->retrieve_objects(InternshipOrganizerPeriodRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPeriodRelUser :: CLASS_NAME);
     }
 
+    function delete_internship_organizer_period_rel_group($period_rel_group)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_GROUP_ID, $period_rel_group->get_group_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_PERIOD_ID, $period_rel_group->get_period_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_USER_TYPE, $period_rel_group->get_user_type());
+        $condition = new AndCondition($conditions);
+        $bool = $this->delete($period_rel_group->get_table_name(), $condition);
+        return $bool;
+    }
+
+    function create_internship_organizer_period_rel_group($period_rel_group)
+    {
+        return $this->create($period_rel_group);
+    }
+
+    function count_period_rel_groups($condition = null)
+    {
+        return $this->count_objects(InternshipOrganizerPeriodRelGroup :: get_table_name(), $condition);
+    }
+
+    function retrieve_period_rel_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(InternshipOrganizerPeriodRelGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPeriodRelGroup :: CLASS_NAME);
+    }
+
     function content_object_is_published($object_id)
     {
         return $this->any_content_object_is_published(array($object_id));
@@ -565,8 +608,8 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function any_content_object_is_published($object_ids)
     {
-//        $condition = new InCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $object_ids);
-//        return $this->count_objects(SurveyPublication :: get_table_name(), $condition) >= 1;
+        //        $condition = new InCondition(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $object_ids);
+    //        return $this->count_objects(SurveyPublication :: get_table_name(), $condition) >= 1;
     }
 
     function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null)

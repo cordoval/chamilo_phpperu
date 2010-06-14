@@ -386,7 +386,7 @@ class SortableTable extends HTML_Table
     function get_page_select_form()
     {
         $total_number_of_items = $this->total_number_of_items;
-        if ($total_number_of_items <= $this->default_items_per_page)
+        if ($total_number_of_items <= $this->per_page)
         {
             return '';
         }
