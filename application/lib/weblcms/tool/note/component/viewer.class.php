@@ -15,10 +15,10 @@ class NoteToolViewerComponent extends NoteTool
 
     function run()
     {
-        xdebug_break();
-        /*$browser = ToolComponent :: factory(ToolComponent :: ACTION_VIEW, $this);
-        $browser->run();*/
-        if (! $this->is_allowed(VIEW_RIGHT))
+        //xdebug_break();
+       $viewer = ToolComponent :: factory(ToolComponent :: ACTION_VIEW, $this);
+        $viewer->run();
+        /*if (! $this->is_allowed(VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
@@ -60,7 +60,7 @@ class NoteToolViewerComponent extends NoteTool
         echo $html;
         echo '</div>';
 
-        $this->display_footer();
+        $this->display_footer();*/
     }
 
     function add_actionbar_item($item)

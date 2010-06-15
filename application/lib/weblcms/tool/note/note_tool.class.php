@@ -27,16 +27,34 @@ class NoteTool extends Tool
         switch ($action)
         {
             case self :: ACTION_VIEW_NOTES :
-//                $component = NoteToolComponent :: factory('Viewer', $this);
                 $component = $this->create_component('Viewer');
+                break;
+            case self :: ACTION_BROWSE :
+                $component = $this->create_component('Browse');
                 break;
             case self :: ACTION_PUBLISH :
-//                $component = NoteToolComponent :: factory('Publisher', $this);
                 $component = $this->create_component('Publisher');
                 break;
+            case self :: ACTION_PUBLISH_INTRODUCTION :
+                $component = $this->create_component('IntroductionPublisher');
+                break;
+            case self :: ACTION_UPDATE :
+                $component = $this->create_component('Updater');
+                break;
+            case self :: ACTION_TOGGLE_VISIBILITY :
+                $component = $this->create_component('ToggleVisibility');
+                break;
+            case self :: ACTION_MOVE_UP :
+                $component = $this->create_component('MoveUp');
+                break;
+            case self :: ACTION_MOVE_DOWN :
+                $component = $this->create_component('MoveDown');
+                break;
+            case self :: ACTION_DELETE :
+                $component = $this->create_component('Deleter');
+                break;
             default :
-//                $component = NoteToolComponent :: factory('Viewer', $this);
-                $component = $this->create_component('Viewer');
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }
