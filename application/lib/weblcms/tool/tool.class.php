@@ -3,7 +3,6 @@
  * $Id: tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool
  */
-require_once Path :: get_library_path() . 'utilities.class.php';
 
 /**
 ==============================================================================
