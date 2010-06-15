@@ -15,7 +15,7 @@ class ToolBrowserComponent extends ToolComponent
         $this->action_bar = $this->get_action_bar();
 
         $this->display_header();
-
+        
         $renderer = ContentObjectPublicationListRenderer :: factory($this->get_browser_type(), $this);
 
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
@@ -161,9 +161,14 @@ class ToolBrowserComponent extends ToolComponent
             $action_bar->set_tool_actions($this->get_parent()->get_tool_actions());
         }
 
-        foreach ($this->get_browser_types() as $browser_type)
+        $browser_types = $this->get_browser_types();
+        
+        if (count($this->get_browser_types()) > 1)
         {
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($browser_type) . 'View'), Theme :: get_image_path() . 'view_'. $browser_type .'.png', $this->get_url(array(Tool :: PARAM_BROWSER_TYPE => $browser_type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            foreach ($this->get_browser_types() as $browser_type)
+            {
+                $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($browser_type) . 'View'), Theme :: get_image_path() . 'view_'. $browser_type .'.png', $this->get_url(array(Tool :: PARAM_BROWSER_TYPE => $browser_type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            }
         }
 
         return $action_bar;

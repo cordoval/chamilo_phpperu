@@ -708,6 +708,7 @@ $lang['common']['TableView'] = 'Table view';
 $lang['common']['MonthCalendarView'] = 'Month view';
 $lang['common']['WeekCalendarView'] = 'Week view';
 $lang['common']['DayCalendarView'] = 'Day view';
+$lang['common']['CalendarView'] = 'Calendar view';
 $lang['common']['Today'] = 'today';
 $lang['common']['NotAllowed'] = 'Not allowed';
 $lang['common']['NoCalendarEventPublicationSelected'] = 'No calendar event publication selected';

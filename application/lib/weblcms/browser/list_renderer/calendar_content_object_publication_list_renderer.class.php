@@ -12,6 +12,12 @@ require_once dirname(__FILE__) . '/../content_object_publication_list_renderer.c
  */
 class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicationListRenderer
 {
+    const CALENDAR_MONTH_VIEW = 'month';
+    const CALENDAR_WEEK_VIEW = 'week';
+    const CALENDAR_DAY_VIEW = 'day';
+    
+    const PARAM_CALENDAR_VIEW = 'view';
+    
     /**
      * The current time displayed in the calendar
      */
@@ -26,108 +32,207 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
         $this->display_time = $time;
     }
 
-    /**
-     * Returns the HTML output of this renderer.
-     * @return string The HTML output
-     */
-    function as_html()
+    function get_display_time()
     {
-        $calendar_table = new WeekCalendar($this->display_time);
-        $start_time = $calendar_table->get_start_time();
-        $end_time = $calendar_table->get_end_time();
-
-        $publications = $this->get_calendar_events($start_time, $end_time);
-
-        $table_date = $start_time;
-        while ($table_date <= $end_time)
-        {
-            $next_table_date = strtotime('+' . $calendar_table->get_hour_step() . ' Hours', $table_date);
-
-            foreach ($publications as $index => $publication)
-            {
-                $object = $publication->get_content_object();
-
-                $start_date = $object->get_start_date();
-                $end_date = $object->get_end_date();
-
-                if ($table_date < $start_date && $start_date < $next_table_date || $table_date < $end_date && $end_date < $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
-                {
-                    $cell_contents = $this->render_publication($publication, $table_date, $calendar_table->get_hour_step());
-                    $calendar_table->add_event($table_date, $cell_contents);
-                }
-            }
-
-            $table_date = $next_table_date;
-        }
-        $url_format = $this->get_url(array('time' => '-TIME-', 'view' => Request :: get('view')));
-        $calendar_table->add_calendar_navigation($url_format);
-        $html[] = $calendar_table->render();
-        return implode("\n", $html);
+        return $this->display_time;
     }
 
-    function get_calendar_events($from_time, $to_time)
+    function get_view()
+    {
+        return Request :: get(self :: PARAM_CALENDAR_VIEW);
+    }
+
+    function get_calendar_events($from_time, $to_time, $limit = 0)
     {
         $publications = $this->get_publications();
-
+        
         $events = array();
         foreach ($publications as $index => $publication)
         {
             if (method_exists($this->get_browser()->get_parent(), 'convert_content_object_publication_to_calendar_event'))
             {
-                $events[] = $this->get_browser()->get_parent()->convert_content_object_publication_to_calendar_event($publication);
+                $publication = $this->get_browser()->get_parent()->convert_content_object_publication_to_calendar_event($publication, $from_time, $to_time);
             }
-            else
+            
+            $object = $publication->get_content_object();
+            
+            if ($object->repeats())
             {
-                $events[] = $publication;
+                $repeats = $object->get_repeats($from_time, $to_time);
+                
+                foreach ($repeats as $repeat)
+                {
+                    $the_publication = clone $publication;
+                    $the_publication->set_content_object($repeat);
+                    
+                    $events[$repeat->get_start_date()] = $the_publication;
+                }
+            }
+            elseif ($from_time <= $object->get_start_date() && $object->get_start_date() <= $to_time || $from_time <= $object->get_end_date() && $object->get_end_date() <= $to_time || $object->get_start_date() <= $from_time && $to_time <= $object->get_end_date())
+            {
+                $events[$object->get_start_date()] = $publication;
             }
         }
-
+        
         return $events;
     }
 
-    /**
-     * Renders a publication
-     * @param ContentObjectPublication $publication The publication to render
-     * @param int $table_start_date The current date displayed in the table.
-     */
-    function render_publication($publication, $table_start_date, $calendar_hour_step)
+    function as_html()
     {
-        static $color_cache;
-        $table_end_date = strtotime('+' . $calendar_hour_step . '  hours', $table_start_date);
-        $event = $publication->get_content_object();
-        $event_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
-        $start_date = $event->get_start_date();
-        $end_date = $event->get_end_date();
-        if ($start_date >= $table_end_date || $end_date <= $table_start_date)
+        $time = Request :: get('time') ? intval(Request :: get('time')) : time();
+        $this->set_display_time($time);
+        
+        $mini_month_calendar = ContentObjectPublicationListRenderer :: factory(ContentObjectPublicationListRenderer :: TYPE_MINI_MONTH, $this->get_browser());
+        $mini_month_calendar->set_display_time($this->get_display_time());
+        $html[] = '<div class="mini_calendar">';
+        $html[] = $mini_month_calendar->as_html();
+        $html[] = '<br />';
+        $html[] = $this->list_views();
+        $html[] = $this->render_upcoming_events();
+        $html[] = '</div>';
+        //style="margin-left: 0px; float: right; width: 70%;"
+        $html[] = '<div class="normal_calendar">';
+        
+        $view = $this->get_view();
+        
+        switch ($view)
         {
-            return;
+            case self :: CALENDAR_DAY_VIEW :
+                $calendar = ContentObjectPublicationListRenderer :: factory(ContentObjectPublicationListRenderer :: TYPE_DAY, $this->get_browser());
+                break;
+            case self :: CALENDAR_WEEK_VIEW :
+                $calendar = ContentObjectPublicationListRenderer :: factory(ContentObjectPublicationListRenderer :: TYPE_WEEK, $this->get_browser());
+                break;
+            case self :: CALENDAR_MONTH_VIEW :
+                $calendar = ContentObjectPublicationListRenderer :: factory(ContentObjectPublicationListRenderer :: TYPE_MONTH, $this->get_browser());
+                break;
+            default :
+                $calendar = ContentObjectPublicationListRenderer :: factory(ContentObjectPublicationListRenderer :: TYPE_MONTH, $this->get_browser());
+                break;
         }
-        if (! isset($color_cache[$event->get_id()]))
-        {
-            $rgb = $this->object2color($event);
-            $color_cache[$event->get_id()] = 'rgb(' . $rgb['r'] . ',' . $rgb['g'] . ',' . $rgb['b'] . ')';
-        }
-        $html[] = '';
-        $html[] = '<div class="event" style="border-right: 4px solid ' . $color_cache[$event->get_id()] . ';">';
-        if ($start_date >= $table_start_date && $start_date < $table_end_date)
-        {
-            $html[] = date('H:i', $start_date);
-        }
-        else
-        {
-            $html[] = '&darr;';
-        }
-        $html[] = '<a href="' . $event_url . '">' . htmlspecialchars($event->get_title()) . '</a>';
-        if ($end_date > $table_start_date && $end_date <= $table_end_date)
-        {
-            $html[] = date('H:i', $end_date);
-        }
-        else
-        {
-            $html[] = '&darr;';
-        }
+        
+        $calendar->set_display_time($time);
+        $html[] = $calendar->as_html();
+        
         $html[] = '</div>';
         return implode("\n", $html);
+    }
+
+    function get_filter_targets()
+    {
+        $course = $this->get_course_id();
+        
+        $targets = array();
+        
+        $user_conditions = array();
+        $user_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course);
+        $user_conditions[] = new NotCondition(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id()));
+        $user_condition = new AndCondition($user_conditions);
+        
+        $user_relations = WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($user_condition);
+        if ($user_relations->size() > 0)
+        {
+            $targets[] = Translation :: get('Users');
+            $targets[] = '----------';
+            
+            while ($user_relation = $user_relations->next_result())
+            {
+                $user = $user_relation->get_user_object();
+                
+                $targets['user|' . $user->get_id()] = $user->get_fullname() . ' (' . $user->get_username() . ')';
+            }
+        }
+        
+        $groups = WeblcmsDataManager :: get_instance()->retrieve_course_groups(new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $course));
+        if ($groups->size() > 0)
+        {
+            if ($user_relations->size() > 0)
+            {
+                $targets[] = '';
+            }
+            
+            $targets[] = Translation :: get('Groups');
+            $targets[] = '----------';
+            
+            while ($group = $groups->next_result())
+            {
+                $targets['group|' . $group->get_id()] = $group->get_name();
+            }
+        }
+        
+        return $targets;
+    }
+
+    function list_views()
+    {
+        $toolbar = new Toolbar(Toolbar :: TYPE_VERTICAL);
+        $toolbar->add_item(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_image_path() . 'tool_calendar_month.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_MONTH_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_image_path() . 'tool_calendar_week.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_WEEK_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => self :: CALENDAR_DAY_VIEW, 'time' => $this->get_display_time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(self :: PARAM_CALENDAR_VIEW => $this->get_view(), 'time' => time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        $html = array();
+        $html[] = '<div class="content_object" style="padding: 10px;">';
+        $html[] = '<div class="description">';
+        
+        if ($this->is_allowed(EDIT_RIGHT))
+        {
+            $form = new FormValidator('user_filter', 'post', $this->get_url());
+            $renderer = $form->defaultRenderer();
+            $renderer->setElementTemplate('{element}');
+            $form->addElement('select', 'filter', Translation :: get('FilterTarget'), $this->get_filter_targets());
+            $form->addElement('submit', 'submit', Translation :: get('Ok'));
+            
+            $html[] = $form->toHtml();
+            $html[] = '<br />';
+        }
+        
+        $html[] = $toolbar->as_html();
+        $html[] = '</div>';
+        $html[] = '</div>';
+        
+        return implode("\n", $html);
+    }
+
+    function render_upcoming_events()
+    {
+        $html = array();
+        
+        $amount_to_show = 5;
+        $publications = $this->get_calendar_events(time(), strtotime('+1 Year', time()), $amount_to_show);
+        ksort($publications);
+        $count = count($publications);
+        $total = $count < $amount_to_show ? $count : $amount_to_show;
+        
+        if (count($publications) > 0)
+        {
+            $html[] = '<div class="content_object" style="padding: 10px;">';
+            $html[] = '<div class="title">' . Translation :: get('UpcomingEvents') . '</div>';
+            $html[] = '<div class="description">';
+            
+            $i = 0;
+            foreach ($publications as $publication)
+            {
+                $html[] = $this->render_small_publication($publication);
+                $i ++;
+                
+                if ($i >= $amount_to_show)
+                {
+                    break;
+                }
+            }
+            $html[] = '</div>';
+            $html[] = '</div>';
+        }
+        
+        return implode("\n", $html);
+    }
+
+    function render_small_publication($publication)
+    {
+        $feedback_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW), array(), true);
+        
+        return '<a href="' . $feedback_url . '">' . date('d/m/y H:i:s -', $publication->get_content_object()->get_start_date()) . ' ' . $publication->get_content_object()->get_title() . '</a><br />';
     }
 }
 ?>
