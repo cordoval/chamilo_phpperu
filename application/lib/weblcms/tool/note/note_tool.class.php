@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.note
  */
 
-require_once dirname(__FILE__) . '/note_tool_component.class.php';
 /**
  * This tool allows a user to publish notes in his or her course.
  */
@@ -44,5 +43,10 @@ class NoteTool extends Tool
     {
         return array(Note :: get_type_name());
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

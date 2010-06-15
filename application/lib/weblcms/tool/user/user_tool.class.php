@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.user.component
  */
 
-require_once dirname(__FILE__) . '/user_tool_component.class.php';
 /**
  * This tool allows a user to publish users in his or her course.
  */
@@ -53,5 +52,10 @@ class UserTool extends Tool
         }
         $component->run();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

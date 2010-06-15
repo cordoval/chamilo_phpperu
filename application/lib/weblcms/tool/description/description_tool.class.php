@@ -3,7 +3,6 @@
  * $Id: description_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.description
  */
-require_once dirname(__FILE__) . '/description_tool_component.class.php';
 
 /**
  * This tool allows a user to publish descriptions in his or her course.
@@ -39,5 +38,10 @@ class DescriptionTool extends Tool
     {
         return array(Description :: get_type_name());
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

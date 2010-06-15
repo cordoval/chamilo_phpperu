@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.search
  */
 
-require_once dirname(__FILE__) . '/search_tool_component.class.php';
 /**
  * This tool allows a user to publish course_settingss in his or her course.
  */
@@ -33,5 +32,10 @@ class SearchTool extends Tool
         }
         $component->run();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

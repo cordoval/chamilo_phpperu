@@ -3,7 +3,6 @@
  * $Id: survey_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment
  */
-require_once dirname(__FILE__) . '/survey_tool_component.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/tool/tool.class.php';
 /**
  * This tool allows a user to publish assessments in his or her course.
@@ -193,5 +192,10 @@ class SurveyTool extends Tool
 //        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_SURVEY, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
 //    }
 //    
+
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

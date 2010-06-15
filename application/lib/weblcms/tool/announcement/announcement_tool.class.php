@@ -18,25 +18,19 @@ class AnnouncementTool extends Tool
     function run()
     {
         $action = $this->get_action();
-//        $component = parent :: run();
-//
-//        if ($component)
-//        {
-//            return;
-//        }
-
+        
         switch ($action)
         {
             case self :: ACTION_VIEW_ANNOUNCEMENTS :
                 $component = $this->create_component('Viewer');
                 break;
-//            case self :: ACTION_PUBLISH :
-//                $component = AnnouncementToolComponent :: factory('Publisher', $this);
-//                break;
-
+            case self :: ACTION_PUBLISH :
+                $component = $this->create_component('Publisher');
+                break;
             default :
                 $component = $this->create_component('Viewer');
         }
+        
         $component->run();
     }
 

@@ -29,5 +29,10 @@ class MaintenanceTool extends Tool
         $wizard = new MaintenanceWizard($this);
         $wizard->run();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

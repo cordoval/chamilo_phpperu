@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.forum
  */
 
-require_once dirname(__FILE__) . '/forum_tool_component.class.php';
 /**
  * This tool allows a user to publish forums in his or her course.
  */
@@ -68,5 +67,10 @@ class ForumTool extends Tool
         
         return $parents;
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.link
  */
 
-require_once dirname(__FILE__) . '/link_tool_component.class.php';
 /**
  * This tool allows a user to publish links in his or her course.
  */
@@ -41,5 +40,10 @@ class LinkTool extends Tool
     {
         return array(Link :: get_type_name());
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>
