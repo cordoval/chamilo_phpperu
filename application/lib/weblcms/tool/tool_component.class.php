@@ -26,6 +26,7 @@ abstract class ToolComponent extends SubManager
     const INTRODUCTION_PUBLISHER_COMPONENT = 'introduction_publisher';
     const MANAGE_CATEGORIES_COMPONENT = 'category_manager';
     const VIEW_REPORTING_COMPONENT = 'reporting_viewer';
+    const BUILD_COMPLEX_CONTENT_OBJECT_COMPONENT = 'complex_builder';
 
     static function factory($type, $tool_component)
     {
