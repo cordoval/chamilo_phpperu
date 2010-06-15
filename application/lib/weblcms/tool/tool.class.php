@@ -32,6 +32,8 @@ abstract class Tool extends SubManager
     const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
     const ACTION_PUBLISH_INTRODUCTION = 'publish_introduction';
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
+    const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
+    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
     
     const ACTION_EDIT_CLOI = 'edit_cloi';
     const ACTION_EDIT_FEEDBACK = 'edit_feedback';
@@ -47,8 +49,7 @@ abstract class Tool extends SubManager
     
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
-    const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
-    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
+    
     const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
 
     /**
@@ -611,7 +612,6 @@ abstract class Tool extends SubManager
     {
         if (Request :: get(self :: PARAM_PUBLICATION_ID))
         {
-            //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
             $url = $this->get_parent()->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID),
             	ReportingManager :: PARAM_TEMPLATE_NAME => 'publication_detail_reporting_template'));
             return new ToolbarItem(Translation :: get('AccessDetails'), Theme :: get_common_image_path() . 'action_reporting.png', $url);

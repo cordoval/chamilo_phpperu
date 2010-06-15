@@ -46,6 +46,9 @@ class AnnouncementTool extends Tool
             case self :: ACTION_PUBLISH_INTRODUCTION:
             	$component = $this->create_component('IntroductionPublisher');
                 break;
+            case self :: ACTION_VIEW_REPORTING_TEMPLATE:
+            	$component = $this->create_component('ReportingViewer');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }

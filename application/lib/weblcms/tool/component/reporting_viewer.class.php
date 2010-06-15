@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: access_details_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
+ * $Id: reporting_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
  */
 
@@ -10,7 +10,7 @@
  * @author Soliber
  */
 
-class ToolAccessDetailsViewerComponent extends ToolComponent
+class ToolReportingViewerComponent extends ToolComponent
 {
 
     /**
