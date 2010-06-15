@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.course_settings
  */
 
-require_once dirname(__FILE__) . '/course_settings_tool_component.class.php';
 /**
  * This tool allows a user to publish course_settingss in his or her course.
  */
@@ -33,5 +32,10 @@ class CourseSettingsTool extends Tool
         }
         $component->run();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

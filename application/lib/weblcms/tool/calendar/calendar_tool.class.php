@@ -6,7 +6,6 @@
 require_once Path :: get_repository_path() . 'lib/content_object/calendar_event/calendar_event.class.php';
 require_once Path :: get_library_path() . 'utilities.class.php';
 require_once dirname(__FILE__) . '/../../content_object_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/calendar_tool_component.class.php';
 /**
  * This tool allows a user to publish events in his or her course.
  * There are 4 calendar views available:
@@ -48,5 +47,10 @@ class CalendarTool extends Tool
     {
         return array(CalendarEvent :: get_type_name());
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

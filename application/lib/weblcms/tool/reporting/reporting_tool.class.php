@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.reporting
  * @author Michael Kyndt
  */
-require_once dirname(__FILE__) . '/reporting_tool_component.class.php';
 
 class ReportingTool extends Tool
 {
@@ -31,5 +30,10 @@ class ReportingTool extends Tool
         }
         $component->run();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

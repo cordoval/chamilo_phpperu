@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.glossary
  */
 
-require_once dirname(__FILE__) . '/glossary_tool_component.class.php';
 /**
  * This tool allows a user to publish glossarys in his or her course.
  */
@@ -48,5 +47,10 @@ class GlossaryTool extends Tool
     {
         return array(Glossary :: get_type_name());
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>
