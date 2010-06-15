@@ -16,6 +16,7 @@
 abstract class ToolComponent extends SubManager
 {
     const ACTION_VIEW = 'viewer';
+    const ACTION_BROWSE = 'browser';
     const ACTION_PUBLISH = 'publisher';
 
     static function factory($type, $tool_component)
@@ -92,6 +93,26 @@ abstract class ToolComponent extends SubManager
 
     function get_application_component_path()
     {
+    }
+
+    function get_course()
+    {
+        return $this->get_parent()->get_course();
+    }
+
+    function get_course_id()
+    {
+        return $this->get_parent()->get_course_id();
+    }
+
+    function get_user_info($user_id)
+    {
+        return $this->get_parent()->get_user_info($user_id);
+    }
+
+    function get_tool_id()
+    {
+        return $this->get_parent()->get_tool_id();
     }
 
 }
