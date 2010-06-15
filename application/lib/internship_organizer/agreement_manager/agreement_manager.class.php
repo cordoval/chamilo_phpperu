@@ -164,6 +164,7 @@ class InternshipOrganizerAgreementManager extends SubManager
 	
 	private function parse_input_from_table() 
 	{
+		
 		if (isset ( $_POST ['action'] )) 
 		{
 			if (isset ( $_POST [InternshipOrganizerAgreementBrowserTable::DEFAULT_NAME . ObjectTable::CHECKBOX_NAME_SUFFIX] )) 
