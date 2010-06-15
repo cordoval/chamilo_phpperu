@@ -5,6 +5,9 @@
  *
  * @author jevdheyd
  */
+
+
+
 class MediamosaStreamingMediaManagerBrowserComponent extends MediaMosaStreamingMediaManager{
 
     function run()

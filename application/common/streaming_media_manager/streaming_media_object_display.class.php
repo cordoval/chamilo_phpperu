@@ -1,14 +1,14 @@
 <?php
 abstract class StreamingMediaObjectDisplay
 {
-	private $object;
+    private $object;
+
+    function StreamingMediaObjectDisplay($object)
+    {
+            $this->object = $object;
+    }
 	
-	function StreamingMediaObjectDisplay($object)
-	{
-		$this->object = $object;
-	}
-	
-	static function factory(&$object)
+    static function factory(&$object)
     {
     	$type = $object->get_type();
         $class = Utilities :: underscores_to_camelcase($type) . 'StreamingMediaObjectDisplay';

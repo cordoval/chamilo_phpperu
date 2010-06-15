@@ -6,14 +6,18 @@
 require_once dirname(__FILE__) . '/../note_tool.class.php';
 require_once dirname(__FILE__) . '/../note_tool_component.class.php';
 require_once dirname(__FILE__) . '/note_viewer/note_browser.class.php';
+/*require_once dirname(__FILE__) . '/../../component/viewer.class.php';*/
 
-class NoteToolViewerComponent extends NoteToolComponent
+class NoteToolViewerComponent extends NoteTool
 {
     private $action_bar;
     private $introduction_text;
 
     function run()
     {
+        xdebug_break();
+        /*$browser = ToolComponent :: factory(ToolComponent :: ACTION_VIEW, $this);
+        $browser->run();*/
         if (! $this->is_allowed(VIEW_RIGHT))
         {
             Display :: not_allowed();
