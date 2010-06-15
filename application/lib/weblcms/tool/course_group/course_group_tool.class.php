@@ -38,42 +38,52 @@ class CourseGroupTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
-        
-        if ($component)
-            return;
+//        $component = parent :: run();
+//        
+//        if ($component)
+//            return;
         
         switch ($action)
         {
             case self :: ACTION_VIEW_GROUPS :
-                $component = CourseGroupToolComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
+//            	$component = CourseGroupToolComponent :: factory('Browser', $this);
                 break;
             case self :: ACTION_SUBSCRIBE :
-                $component = CourseGroupToolComponent :: factory('SubscribeBrowser', $this);
+                $component = $this->create_component('SubscribeBrowser');
+//            	$component = CourseGroupToolComponent :: factory('SubscribeBrowser', $this);
                 break;
             case self :: ACTION_UNSUBSCRIBE :
-                $component = CourseGroupToolComponent :: factory('UnsubscribeBrowser', $this);
+                $component = $this->create_component('UnsubscribeBrowser');
+//            	$component = CourseGroupToolComponent :: factory('UnsubscribeBrowser', $this);
                 break;
             case self :: ACTION_ADD_COURSE_GROUP :
-                $component = CourseGroupToolComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
+//            	$component = CourseGroupToolComponent :: factory('Creator', $this);
                 break;
             case self :: ACTION_EDIT_COURSE_GROUP :
-                $component = CourseGroupToolComponent :: factory('Editor', $this);
+                $component = $this->create_component('Editor');
+//            	$component = CourseGroupToolComponent :: factory('Editor', $this);
                 break;
             case self :: ACTION_DELETE_COURSE_GROUP :
-                $component = CourseGroupToolComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
+//            	$component = CourseGroupToolComponent :: factory('Deleter', $this);
                 break;
             case self :: ACTION_USER_SELF_SUBSCRIBE :
-                $component = CourseGroupToolComponent :: factory('SelfSubscriber', $this);
+                $component = $this->create_component('SelfSubscriber');
+//            	$component = CourseGroupToolComponent :: factory('SelfSubscriber', $this);
                 break;
             case self :: ACTION_USER_SELF_UNSUBSCRIBE :
-                $component = CourseGroupToolComponent :: factory('SelfUnsubscriber', $this);
+                $component = $this->create_component('SelfUnsubscriber');
+//            	$component = CourseGroupToolComponent :: factory('SelfUnsubscriber', $this);
                 break;
             case self :: ACTION_MANAGE_SUBSCRIPTIONS :
-                $component = CourseGroupToolComponent :: factory('ManageSubscriptions', $this);
+                $component = $this->create_component('ManageSubscriptions');
+//            	$component = CourseGroupToolComponent :: factory('ManageSubscriptions', $this);
                 break;
             default :
-                $component = CourseGroupToolComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
+//            	$component = CourseGroupToolComponent :: factory('Browser', $this);
         }
         $component->run();
     }

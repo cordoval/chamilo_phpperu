@@ -4,10 +4,10 @@
  * @package application.lib.weblcms.tool.course_group.component
  */
 require_once dirname(__FILE__) . '/../course_group_tool.class.php';
-require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
+//require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
 require_once dirname(__FILE__) . '/../../../course_group/course_group_subscriptions_form.class.php';
 
-class CourseGroupToolManageSubscriptionsComponent extends CourseGroupToolComponent
+class CourseGroupToolManageSubscriptionsComponent extends CourseGroupTool
 {
     private $action_bar;
 
