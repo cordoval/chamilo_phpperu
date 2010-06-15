@@ -658,16 +658,6 @@ abstract class Tool extends SubManager
     	return new $class($parent);
     }
 
-    function get_content_object_publication_list_cell_renderer($browser)
-    {
-        return null;
-    }
-
-    function get_content_object_publication_list_column_model()
-    {
-        return null;
-    }
-
     function convert_content_object_publication_to_calendar_event($publication)
     {
         return $publication;
