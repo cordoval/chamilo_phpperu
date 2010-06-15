@@ -689,16 +689,16 @@ class WeblcmsManager extends WebApplication
 	 */
 	function load_tools()
 	{
-//		if (! is_null($this->get_course_id()))
-//		{
-//			$wdm = WeblcmsDataManager :: get_instance();
-//			$this->tools = $wdm->get_course_modules($this->get_course_id());
-//
-//			foreach ($this->tools as $index => $tool)
-//			{
-//				require_once dirname(__FILE__) . '/../tool/' . $tool->name . '/' . $tool->name . '_tool.class.php';
-//			}
-//		}
+		if (! is_null($this->get_course_id()))
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			$this->tools = $wdm->get_course_modules($this->get_course_id());
+
+			foreach ($this->tools as $index => $tool)
+			{
+				require_once dirname(__FILE__) . '/../tool/' . $tool->name . '/' . $tool->name . '_tool.class.php';
+			}
+		}
 	}
 
 	/**
