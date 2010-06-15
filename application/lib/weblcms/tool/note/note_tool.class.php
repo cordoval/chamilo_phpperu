@@ -17,7 +17,7 @@ class NoteTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
+//        $component = parent :: run();
         
         if ($component)
         {
