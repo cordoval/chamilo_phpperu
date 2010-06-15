@@ -4,10 +4,9 @@
  * @package application.lib.weblcms.tool.chat.component
  */
 require_once dirname(__FILE__) . '/../chat_tool.class.php';
-require_once dirname(__FILE__) . '/../chat_tool_component.class.php';
 require_once Path :: get_plugin_path() . '/phpfreechat/src/phpfreechat.class.php';
 
-class ChatToolViewerComponent extends ChatToolComponent
+class ChatToolViewerComponent extends ChatTool
 {
 
     function run()
