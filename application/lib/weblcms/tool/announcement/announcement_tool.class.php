@@ -43,6 +43,9 @@ class AnnouncementTool extends Tool
             case self :: ACTION_MOVE_DOWN:
             	$component = $this->create_component('MoveDown');
                 break;
+            case self :: ACTION_PUBLISH_INTRODUCTION:
+            	$component = $this->create_component('IntroductionPublisher');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }
