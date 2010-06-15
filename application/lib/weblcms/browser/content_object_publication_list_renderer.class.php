@@ -15,6 +15,7 @@ abstract class ContentObjectPublicationListRenderer
     const TYPE_TABLE = 'table';
     const TYPE_CALENDAR = 'calendar';
     const TYPE_MONTH = 'month_calendar';
+    const TYPE_MINI_MONTH = 'mini_month_calendar';
     const TYPE_WEEK = 'week_calendar';
     const TYPE_DAY = 'day_calendar';
 
@@ -554,6 +555,11 @@ abstract class ContentObjectPublicationListRenderer
     function get_user()
     {
         return $this->browser->get_user();
+    }
+    
+    function get_user_id()
+    {
+        return $this->browser->get_user_id();
     }
 
     function get_course_id()
