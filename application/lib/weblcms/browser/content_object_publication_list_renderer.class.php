@@ -255,7 +255,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_edit_action($publication)
     {
-        $edit_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+        $edit_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
         $edit_link = '<a href="' . $edit_url . '"><img src="' . Theme :: get_common_image_path() . 'action_edit.png"  alt=""/></a>';
         return $edit_link;
     }
