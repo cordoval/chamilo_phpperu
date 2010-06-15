@@ -4,11 +4,11 @@
  * @package application.lib.weblcms.tool.course_group.component
  */
 require_once dirname(__FILE__) . '/../course_group_tool.class.php';
-require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
+//require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
 require_once dirname(__FILE__) . '/user_table/course_group_subscribed_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/user_table/course_group_unsubscribed_user_browser_table.class.php';
 
-class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponent
+class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
 {
     private $action_bar;
     private $course_group;
@@ -28,7 +28,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 
         $this->action_bar = $this->get_action_bar();
         $html[] = '<div style="clear: both;">&nbsp;</div>';
-
+        
         if (Request :: get(WeblcmsManager :: PARAM_USERS))
         {
             $udm = UserDataManager :: get_instance();
@@ -36,7 +36,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
             $users = Request :: get(WeblcmsManager :: PARAM_USERS);
             if(!is_array($users))
             {
-            	$users = array();
+            	$users = array($users);
             }
 
             foreach($users as $user)

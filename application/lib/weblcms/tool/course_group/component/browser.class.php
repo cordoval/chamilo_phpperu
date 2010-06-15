@@ -4,14 +4,14 @@
  * @package application.lib.weblcms.tool.course_group.component
  */
 require_once dirname(__FILE__) . '/../course_group_tool.class.php';
-require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
+//require_once dirname(__FILE__) . '/../course_group_tool_component.class.php';
 require_once dirname(__FILE__) . '/../course_group_menu.class.php';
 require_once dirname(__FILE__) . '/course_group_table/course_group_table.class.php';
 require_once dirname(__FILE__) . '/course_group_table/default_course_group_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/course_group_table/default_course_group_table_column_model.class.php';
 require_once dirname(__FILE__) . '/course_group_table/course_group_table_data_provider.class.php';
 
-class CourseGroupToolBrowserComponent extends CourseGroupToolComponent
+class CourseGroupToolBrowserComponent extends CourseGroupTool
 {
     private $action_bar;
     private $introduction_text;
@@ -39,6 +39,8 @@ class CourseGroupToolBrowserComponent extends CourseGroupToolComponent
         $this->action_bar = $this->get_action_bar();
 
         $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(WebApplication::PARAM_ACTION=> 'home'), array(WeblcmsManager::PARAM_COURSE,WeblcmsManager :: PARAM_TOOL )), Translation :: get('MyCourses')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseCourseGroup')));
         $trail->add_help('courses group');
 
         $this->display_header($trail, true);
