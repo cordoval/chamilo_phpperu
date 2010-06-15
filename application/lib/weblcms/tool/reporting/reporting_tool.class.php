@@ -15,18 +15,14 @@ class ReportingTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
-        
-        if ($component)
-            return;
         
         switch ($action)
         {
             case self :: ACTION_VIEW_REPORT :
-                $component = ReportingToolComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             default :
-                $component = ReportingToolComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
         }
         $component->run();
     }

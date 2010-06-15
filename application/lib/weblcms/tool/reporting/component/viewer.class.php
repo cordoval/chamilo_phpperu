@@ -7,7 +7,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingToolViewerComponent extends ReportingToolComponent
+class ReportingToolViewerComponent extends ReportingTool
 {
 
     function run()
@@ -33,7 +33,7 @@ class ReportingToolViewerComponent extends ReportingToolComponent
         $rtv->run();
     }
     
-    function display_header($trail)
+    /*function display_header($trail)
     {
     	$parameters = $this->get_parameters();
     	
@@ -44,6 +44,6 @@ class ReportingToolViewerComponent extends ReportingToolComponent
     	parent :: display_header($trail);
     	
     	$this->set_parameters($parameters);
-    }
+    }*/
 }
 ?>
