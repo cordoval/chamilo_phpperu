@@ -24,6 +24,7 @@ abstract class ToolComponent extends SubManager
     const ACTION_MOVE = 'mover';
     const MOVE_TO_CATEGORY_COMPONENT = 'category_mover';
     const INTRODUCTION_PUBLISHER_COMPONENT = 'introduction_publisher';
+    const MANAGE_CATEGORIES_COMPONENT = 'category_manager';
 
     static function factory($type, $tool_component)
     {
