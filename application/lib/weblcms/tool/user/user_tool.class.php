@@ -21,34 +21,28 @@ class UserTool extends Tool
      */
     function run()
     {
-        $action = $this->get_action();
-        $component = parent :: run();
-
-        if ($component)
-            return;
-
-        switch ($action)
+        switch ($this->get_action())
         {
             case self :: ACTION_SUBSCRIBE_USERS :
-                $component = UserToolComponent :: factory('SubscribeBrowser', $this);
+                $component = $this->create_component('SubscribeBrowser');
                 break;
             case self :: ACTION_UNSUBSCRIBE_USERS :
-                $component = UserToolComponent :: factory('UnsubscribeBrowser', $this);
+                $component = $this->create_component('UnsubscribeBrowser');
                 break;
             case self :: ACTION_USER_DETAILS :
-                $component = UserToolComponent :: factory('Details', $this);
+                $component = $this->create_component('Details');
                 break;
             case self :: ACTION_SUBSCRIBE_GROUPS :
-                $component = UserToolComponent :: factory('GroupSubscribeBrowser', $this);
+                $component = $this->create_component('GroupSubscribeBrowser');
                 break;
            	case self :: ACTION_REQUEST_SUBSCRIBE_USER :
-                $component = UserToolComponent :: factory('RequestSubscribeUser', $this);
+                $component = $this->create_component('RequestSubscribeUser');
                 break;
             case self :: ACTION_EMAIL :
-            	$component = UserToolComponent :: factory('Emailer', $this);
+            	$component = $this->create_component('Emailer');
             	break;
             default :
-                $component = UserToolComponent :: factory('UnsubscribeBrowser', $this);
+                $component = $this->create_component('UnsubscribeBrowser');
         }
         $component->run();
     }

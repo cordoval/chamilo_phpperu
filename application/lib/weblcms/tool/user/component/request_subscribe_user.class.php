@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../../../course/course_request_form.class.php';
 
-class UserToolRequestSubscribeUserComponent extends UserToolComponent
+class UserToolRequestSubscribeUserComponent extends UserTool
 {
 
     /**

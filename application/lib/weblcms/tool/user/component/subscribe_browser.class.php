@@ -4,10 +4,9 @@
  * @package application.lib.weblcms.tool.user.component
  */
 require_once dirname(__FILE__) . '/../user_tool.class.php';
-require_once dirname(__FILE__) . '/../user_tool_component.class.php';
 require_once dirname(__FILE__) . '/../../../weblcms_manager/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
 
-class UserToolSubscribeBrowserComponent extends UserToolComponent
+class UserToolSubscribeBrowserComponent extends UserTool
 {
     private $action_bar;
 
