@@ -13,9 +13,8 @@ class DescriptionToolPublisherComponent extends DescriptionTool
 
     function run()
     {
-        $publisher = ToolComponent :: factory(ToolComponent :: ACTION_PUBLISH, $this);
-        
-        $publisher->run();
+        $component = ToolComponent :: factory(ToolComponent :: ACTION_PUBLISH, $this);
+        $component->run();
     }
 
 //    function run()

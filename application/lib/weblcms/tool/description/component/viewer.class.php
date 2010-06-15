@@ -5,9 +5,8 @@ class DescriptionToolViewerComponent extends DescriptionTool
 
 function run()
 	{
-		$viewer = ToolComponent::factory(ToolComponent::ACTION_VIEW, $this);
-		
-		$viewer->run();
+		$component = ToolComponent::factory(ToolComponent::ACTION_VIEW, $this);
+		$component->run();
 	}
     
     
