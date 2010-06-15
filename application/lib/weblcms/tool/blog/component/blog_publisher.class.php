@@ -17,7 +17,7 @@ class BlogToolPublisherComponent extends BlogToolComponent
 			return;
 		}*/
         
-        $trail = new BreadcrumbTrail();
+/*        $trail = new BreadcrumbTrail();
         
         if (Request :: get('tool') == 'blog' && isset($_SESSION['blog_breadcrumbs']))
         {
@@ -28,24 +28,10 @@ class BlogToolPublisherComponent extends BlogToolComponent
             }
         }
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publisher')));
-        $trail->add_help('courses blog tool');
+        $trail->add_help('courses blog tool');*/
         
-        $pub = new ContentObjectRepoViewer($this, BlogItem :: get_type_name());
-        
-        if (!$pub->is_ready_to_be_published())
-        {
-            $html[] = $pub->as_html();
-        }
-        else
-        {
-            $publisher = new ContentObjectPublisher($pub);
-            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
-        }
-        
-        $this->display_header($trail, true);
-        
-        echo implode("\n", $html);
-        $this->display_footer();
+        $component = ToolComponent :: factory(ToolComponent :: ACTION_PUBLISH, $this);
+        $component->run();
     }
 }
 ?>

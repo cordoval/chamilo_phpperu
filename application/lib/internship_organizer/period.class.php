@@ -128,7 +128,7 @@ class InternshipOrganizerPeriod extends NestedTreeNode
     
     static function get_table_name()
     {
-        //		 return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+//        	 return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
         return 'period';
     }
 

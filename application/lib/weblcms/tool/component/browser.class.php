@@ -16,7 +16,7 @@ class ToolBrowserComponent extends ToolComponent
 
         $this->display_header();
 
-        $renderer = ContentObjectPublicationListRenderer :: factory(ContentObjectPublicationListRenderer :: TYPE_LIST, $this);
+        $renderer = ContentObjectPublicationListRenderer :: factory($this->get_browser_type(), $this);
 
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
@@ -99,9 +99,12 @@ class ToolBrowserComponent extends ToolComponent
 
             $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
 
-            foreach ($this->get_parent()->get_tool_conditions() as $tool_condition)
+            if (method_exists($this->get_parent(), 'get_tool_conditions'))
             {
-                $conditions[] = $tool_condition;
+                foreach ($this->get_parent()->get_tool_conditions() as $tool_condition)
+                {
+                    $conditions[] = $tool_condition;
+                }
             }
 
             $condition = new AndCondition($conditions);
@@ -153,7 +156,15 @@ class ToolBrowserComponent extends ToolComponent
             }
         }
 
-        $action_bar->set_tool_actions($this->get_parent()->get_tool_actions());
+        if (method_exists($this->get_parent(), 'get_tool_actions'))
+        {
+            $action_bar->set_tool_actions($this->get_parent()->get_tool_actions());
+        }
+
+        foreach ($this->get_browser_types() as $browser_type)
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($browser_type) . 'View'), Theme :: get_image_path() . 'view_'. $browser_type .'.png', $this->get_url(array(Tool :: PARAM_BROWSER_TYPE => $browser_type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
 
         return $action_bar;
     }
@@ -171,5 +182,41 @@ class ToolBrowserComponent extends ToolComponent
         return null;
     }
 
+    function get_browser_type()
+    {
+        $browser_type = Request :: get(Tool :: PARAM_BROWSER_TYPE);
+
+        if ($browser_type && in_array($browser_type, $this->get_browser_types()))
+        {
+            return $browser_type;
+        }
+        else
+        {
+            if (method_exists($this->get_parent(), 'get_browser_type'))
+            {
+                return $this->get_parent()->get_browser_type();
+            }
+            else
+            {
+                return ContentObjectPublicationListRenderer :: TYPE_LIST;
+            }
+        }
+    }
+
+    function get_browser_types()
+    {
+        if (method_exists($this->get_parent(), 'get_browser_types'))
+        {
+            return $this->get_parent()->get_browser_types();
+        }
+        else
+        {
+            $browser_types = array();
+            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
+            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+//            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_MONTH;
+            return $browser_types;
+        }
+    }
 }
 ?>

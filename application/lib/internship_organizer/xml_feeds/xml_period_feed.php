@@ -16,27 +16,10 @@ if (Authentication :: is_valid())
 {
     $conditions = array();
     
-    $dm = InternshipOrganizerDataManager :: get_instance();
-    
-//    if (isset($_GET[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID]))
-//    {
-//        
-//        $period = $dm->retrieve_period($_GET[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID]);
-//    
-//    }
-    
-    if (isset($_GET['query']))
+    $query_condition = Utilities :: query_to_condition($_GET['query'], array(InternshipOrganizerPeriod :: PROPERTY_NAME, InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION));
+    if (isset($query_condition))
     {
-        $q = '*' . $_GET['query'] . '*';
-        $query_conditions = array();
-        $query_conditions[] = new PatternMatchCondition(InternshipOrganizerPeriod :: PROPERTY_NAME, $q);
-        $query_conditions[] = new PatternMatchCondition(InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION, $q);
-        $and_condition = new AndCondition($query_conditions);
-        
-        if (isset($and_condition))
-        {
-            $conditions[] = $and_condition;
-        }
+        $conditions[] = $query_condition;
     }
     
     if (is_array($_GET['exclude']))
@@ -49,7 +32,7 @@ if (Authentication :: is_valid())
         $conditions[] = new NotCondition(new OrCondition($c));
     }
     
-    if (isset($_GET['query']) || is_array($_GET['exclude']))
+    if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
     }
@@ -58,12 +41,14 @@ if (Authentication :: is_valid())
         $condition = null;
     }
     
+    $dm = InternshipOrganizerDataManager :: get_instance();
     $objects = $dm->retrieve_periods($condition);
     
     while ($period = $objects->next_result())
     {
         $periods[] = $period;
     }
+
 }
 
 header('Content-Type: text/xml');
@@ -77,12 +62,19 @@ function dump_tree($periods)
 {
     if (contains_results($periods))
     {
-        echo '<node classes="type_category unlinked" id="categories" title="' . Translation :: get('Periods') . '">';
+        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Periods'), '">', "\n";
+        
         foreach ($periods as $period)
         {
-            echo '<leaf id="' . $period->get_id() . '" classes="' . 'type type_internship_organiser_period' . '" title="' . htmlspecialchars($period->get_name()) . '" description="' . htmlspecialchars($period->get_name()) . '"/>' . "\n";
+            $id = $period->get_id();
+            $name = $period->get_name();
+            $description = $period->get_description();
+            
+            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlentities($name), '" description="', htmlentities(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
         }
-        echo '</node>';
+        
+        echo '</node>', "\n";
+    
     }
 }
 

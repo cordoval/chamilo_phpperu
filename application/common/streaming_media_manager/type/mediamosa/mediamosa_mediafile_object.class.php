@@ -20,6 +20,7 @@ class MediamosaMediafileObject {
     const PROPERTY_COLORSPACE = 'colorspace';
     const PROPERTY_SAMPLE_RATE = 'sample_rate';
     const PROPERTY_CHANNELS = 'channels';
+    const PROPERTY_IS_DEFAULT = 'is_default';
 
     /**
      * @return the $default_properties
@@ -117,7 +118,7 @@ class MediamosaMediafileObject {
 
     function set_id($id)
     {
-        $this->set_default_property(self :: PROPERTY_ID);
+        $this->set_default_property(self :: PROPERTY_ID, $id);
     }
 
     function get_id()
@@ -233,6 +234,17 @@ class MediamosaMediafileObject {
     function get_channels()
     {
         return $this->get_default_property(self :: PROPERTY_CHANNELS);
+    }
+
+    function set_is_default($is_default = true) //set automatically
+    {
+        $this->set_default_property(self :: PROPERTY_IS_DEFAULT, $is_default);
+    }
+
+
+    function get_is_default()
+    {
+        return $this->get_default_property(self :: PROPERTY_IS_DEFAULT);
     }
 
 }

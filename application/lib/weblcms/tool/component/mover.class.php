@@ -13,20 +13,16 @@ class ToolMoveComponent extends ToolComponent
     {
         if ($this->is_allowed(EDIT_RIGHT))
         {
-            $move = 0;
-            if (Request :: get(Tool :: PARAM_MOVE))
-            {
-                $move = Request :: get(Tool :: PARAM_MOVE);
-            }
+                   	
+        	$move = $this->get_parent()->get_move_direction();
             
             $datamanager = WeblcmsDataManager :: get_instance();
             $publication = $datamanager->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
             if ($publication->move($move))
             {
                 $message = htmlentities(Translation :: get('ContentObjectPublicationMoved'));
-                //$this->redirect($message, false, array());
             }
-            $this->redirect($message, false, array('tool_action' => null));
+            $this->redirect($message, false, array(Tool :: PARAM_ACTION => null));
         }
     }
 }

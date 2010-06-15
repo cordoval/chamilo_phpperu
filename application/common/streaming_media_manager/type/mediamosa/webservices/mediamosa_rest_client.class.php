@@ -14,7 +14,11 @@ class MediamosaRestClient extends RestClient{
     private $mediamosa_url;
     private $header_data;
     private $connector_cookie = null;
+    private $proxy;
 
+    const METHOD_POST = 'POST';
+    const METHOD_GET = 'GET';
+    const METHOD_PUT = 'PUT';
 
     const PARAM_CONNECTOR_COOKIE = 'mediamosa_connector_cookie';
     
@@ -30,7 +34,6 @@ class MediamosaRestClient extends RestClient{
         {
             $this->set_connector_cookie($the_cookie);
         }
-
     }
 
     /*
@@ -43,34 +46,34 @@ class MediamosaRestClient extends RestClient{
      */
     function login($username, $password)
     {
-        $username = $username;
-        $password = $password;
+       if($username && $password)
+       {
+           // step 1: request the challenge
+            $response = $this->request(self :: METHOD_POST, '/login', array('dbus' => 'AUTH DBUS_COOKIE_SHA1 '. $username));
 
-        // step 1: request the challenge
-        $response = $this->request('POST', '/login', array('dbus' => 'AUTH DBUS_COOKIE_SHA1 '. $username));
- 
-        //TODO:jens--> set cookie ???
-        $cookies = $response->get_response_cookies();
-        $this->set_connector_cookie($cookies[0]['name'],$cookies[0]['value']);
-        
-        //get challenge code
-        $data = $response->get_response_content_xml();
-        preg_match('@DATA vpx 0 (.*)@', $data->items->item->dbus, $matches);
-        $challenge = $matches[1];
+            //TODO:jens--> set cookie ???
+            $cookies = $response->get_response_cookies();
+            $this->set_connector_cookie($cookies[0]['name'],$cookies[0]['value']);
 
-        //generate something random
-        $random = substr(md5(microtime(true)),0,10);
-        
-        // step 2: send credentials
-        $challenge_response = sha1(sprintf('%s:%s:%s', $challenge, $random, $password));
-        $response = $this->request('POST', '/login', array('dbus' => sprintf('DATA %s %s', $random, $challenge_response)));
+            //get challenge code
+            preg_match('@DATA vpx 0 (.*)@', $response->get_response_content_xml()->items->item->dbus, $matches);
+            $challenge = $matches[1];
 
-        // parse the response
-        preg_match('@(.*)@', $response->get_response_content_xml()->items->item->dbus, $matches);
-        $result = $matches[1];
+            //generate something random
+            $random = substr(md5(microtime(true)),0,10);
 
-        // return TRUE or FALSE
-        return (substr($result, 0, 2) === 'OK');
+            // step 2: send credentials
+            $challenge_response = sha1(sprintf('%s:%s:%s', $challenge, $random, $password));
+            $response = $this->request(self :: METHOD_POST, '/login', array('dbus' => sprintf('DATA %s %s', $random, $challenge_response)));
+
+            // parse the response
+            preg_match('@(.*)@', $response->get_response_content_xml()->items->item->dbus, $matches);
+            $result = $matches[1];
+
+            // return TRUE or FALSE
+            return (substr($result, 0, 2) === 'OK');
+       }
+       return false;
     }
 
     /*
@@ -128,12 +131,35 @@ class MediamosaRestClient extends RestClient{
      * @param data array
      * @return MediaMosaRestResult object
      */
-    function request($method, $url, $data)
+    function request($method, $url, $data = null)
     {
         $this->set_http_method($method);
+
+        $this->set_data_to_send('');
+
+        //different method need different handling of data
+        if(($method == self :: METHOD_POST) || ($method == self :: METHOD_PUT))
+        {
+            if(is_array($data)) $this->set_data_to_send($data);
+        }
+        elseif($method == self :: METHOD_GET)
+        {
+            if(is_array($data)) 
+            {
+                $tmp = array();
+
+                foreach($data as $key => $value)
+                {
+                    $tmp[] = $key .  '=' . $value;
+                }
+
+                $get_string = implode('&', $tmp);
+                $url .= '?' . $get_string;
+            }
+        }
+        
         $this->set_url($this->mediamosa_url.$url);
-        if(is_array($data)) $this->set_data_to_send($data);
-xdebug_break();
+        
         //add connector cookie to headers if set
         if($this->get_connector_cookie())
         {
@@ -141,7 +167,9 @@ xdebug_break();
             $this->set_header_data('Cookie', $connector_cookie['name'].'='.$connector_cookie['value']);
         }
         
-        return $this->send_request();
+        $response = $this->send_request();
+        $response->set_response_content_xml();
+        return $response;
     }
 
     /*override of parent function
@@ -164,6 +192,9 @@ xdebug_break();
         $request_properties['pass']   = $this->get_basic_password();
 
         $request = new HTTP_Request($this->get_url(), $request_properties);
+
+        //possibly set a proxy
+        if($proxy = $this->get_proxy()) $request->setProxy($proxy['server'], $proxy['port']);
 
        //add data
         $data_to_send = $this->get_data_to_send();
@@ -239,7 +270,7 @@ xdebug_break();
              * OVERRIDE
              */
             /*add additional headers*/
-             xdebug_break();
+            
             if(is_array($this->get_header_data()))
             {
                 foreach($this->get_header_data() as $n => $header)
@@ -424,6 +455,23 @@ xdebug_break();
         curl_close($curl);
 
         return $result;
+    }
+
+    function set_proxy($server, $port, $username = null, $password = null)
+    {
+        $proxy = array();
+        $proxy['server'] = $server;
+        $proxy['port'] = $port;
+        
+        if($username)$proxy['username'];
+        if($password)$proxy['password'];
+
+        $this->proxy = $proxy;
+    }
+
+    function get_proxy()
+    {
+        return (is_array($this->proxy)) ? $this->proxy : false;
     }
 }
 ?>

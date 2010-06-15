@@ -4,85 +4,89 @@
  *
  * @author jevdheyd
  */
+
+require_once Path :: get_application_path() . '/common/streaming_video/type/mediamosa/mediamosa_streaming_video_connector.class.php';
+
 class StreamingVideoClipDisplay extends ContentObjectDisplay
 {
-    const PARAM_PROFILE_NAME = 'ovis_profile';
-
-    const SESSION_KEY_PROFILE_NAME = 'ovis_profile';
-
-    const OBJECT_ID = 'ovis_player';
+    private $mediamosa_object;
 
     function get_full_html()
     {
         $html = parent :: get_full_html();
         $object = $this->get_content_object();
-        $conversion_state = $object->get_conversion_state();
+        
+        $html = array();
+        $html[] = '<h3>' . $object->get_title() . ' (' . Utilities :: format_seconds_to_minutes($object->get_duration()) . ')</h3>';
+        $html[] = $this->get_video_player_as_html() . '<br/>';
+        $html[] = $this->get_properties_table() . '<br/>';
 
-        //if the clip is ready for streaming
-        if($conversion_state == StreamingVideoClip :: STATE_PUBLIC)
+        return implode("\n", $html);
+    }
+
+    function get_video_player_as_html()
+    {
+        xdebug_break();
+        
+        $object = $this->get_mediamosa_object();
+
+        if($object->get_status() == StreamingMediaObject :: STATUS_AVAILABLE)
         {
-            //get different transcoding profiles
-           $svdm = StreamingVideoDataManager :: get_instance();
-           $result = $svdm->retrieve_transcoding_profiles();
+            //see which mediafile to play
+            if(Request :: get(MediamosaStreamingMediaManager :: PARAM_MEDIAFILE))
+            {
+                $mediafile_id = Request :: get(MediamosaStreamingMediaManager :: PARAM_MEDIAFILE);
+            }
+            else
+            {
+                $mediafile_id = $object->get_default_mediafile();
+            }
 
-           $profiles = array();
-
-           while($profile = $result->next_result())
-           {
-               $profiles[] = $profile;
-
-           }
-
-           if($p = self :: find_profile(Request :: get(self :: PARAM_PROFILE_NAME), $profiles))
-           {
-                Session::register(self :: PARAM_PROFILE_NAME, $p->get_name());
-                $profile = $p;
-           }
-           elseif ($p = self :: find_profile(Session :: retrieve(self :: PARAM_PROFILE_NAME), $profiles))
-           {
-                $profile = $p;
-           }
-           else
-           {
-               $profile = $profiles->next_result();
-           }
-           
-
+            if($mediafile_id)
+            {
+                //get player
+                $output = $connector->mediamosa_play_proxy_request($object->get_id(), $mediafile_id);
+            }
+            else{
+                $output = '';
+            }
         }
         else
         {
-            $state_html = '<div class="video_clip_state video_clip_state' . $conversion_state . '">' . "\r\n"
-                    . htmlspecialchars(self::translate_conversion_state($conversion_state)) . "\r\n"
-                    . '</div>' . "\r\n";
-            $html = str_replace(self :: TITLE_MARKER, $state_html . self :: TITLE_MARKER, $html);
+            $output = Translation :: get('video_not_available');
         }
-
-        return $html;
+        return $output;
     }
 
-    static function translate_conversion_state($state)
+    function get_properties_table()
     {
-        switch ($state)
+        //get different mediafiles (+status)
+        $mediamosa_object = $this->get_mediamosa_object();
+        $mediafiles = $mediamosa_object->get_mediafiles();
+
+        $html[] = array();
+
+        if(is_array($mediafiles))
         {
-            case StreamingVideoClip :: STATE_PUBLIC: return Translation::get('VideoClipStatePublic');
-            case StreamingVideoClip :: STATE_QUEUED: return Translation::get('VideoClipStateQueuedForConversion');
-            case StreamingVideoClip :: STATE_TRANSCODING: return Translation::get('VideoClipStateConversionInProgress');
-            case StreamingVideoClip :: STATE_ERRONEOUS: return Translation::get('VideoClipStateConversionFailed');
-	}
+            foreach($mediafiles as $mediafile)
+            {
+                //TODO:jens -> get_link
+                $html[] = '<li><a href="">' . $mediafile->get_title() . '</a></li>';
+            }
+            return '<ul>' . implode("\n", $html) . '</ul>';
+        }
     }
-
-    private static function find_profile($name, $profiles)
-    {
-       foreach($profiles as $profile)
-       {
-           if($profile->get_name())
-           {
-               return $profile;
-           }
-       }
-
-       return null;
     
+    function get_mediamosa_object()
+    {
+        if(!$this->mediamosa_object)
+        {
+            $connector = MediamosaStreamingMediaConnector :: get_instance($this);
+            $object = $this->get_content_object();
+            $this->mediamosa_object = $connector->retrieve_mediamosa_asset($object->get_asset_id());
+        }
+        return $this->mediamosa_object;
     }
+   
 }
 ?>

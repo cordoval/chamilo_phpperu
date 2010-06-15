@@ -59,5 +59,19 @@ class AnnouncementToolBrowserComponent extends AnnouncementTool
 
         return $publication;
     }
+
+    function get_browser_type()
+    {
+        return ContentObjectPublicationListRenderer :: TYPE_LIST;
+    }
+
+//    function get_browser_types()
+//    {
+//        $browser_types = array();
+//        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
+//        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+//        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_MONTH;
+//        return $browser_types;
+//    }
 }
 ?>

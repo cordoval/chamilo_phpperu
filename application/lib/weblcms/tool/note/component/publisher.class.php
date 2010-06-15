@@ -3,17 +3,20 @@
  * $Id: note_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.note.component
  */
-require_once dirname(__FILE__) . '/../note_tool.class.php';
+/*require_once dirname(__FILE__) . '/../note_tool.class.php';
 require_once dirname(__FILE__) . '/../note_tool_component.class.php';
 require_once dirname(__FILE__) . '/../../../content_object_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
+require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';*/
+require_once dirname(__FILE__) . '/../../component/publisher.class.php';
 
-class NoteToolPublisherComponent extends NoteToolComponent
+class NoteToolPublisherComponent extends NoteTool
 {
 
     function run()
     {
-        if (! $this->is_allowed(ADD_RIGHT))
+        $publisher = ToolComponent :: factory(ToolComponent :: ACTION_PUBLISH, $this);
+        $publisher->run();
+       /* if (! $this->is_allowed(ADD_RIGHT))
         {
             Display :: not_allowed();
             return;
@@ -36,7 +39,7 @@ class NoteToolPublisherComponent extends NoteToolComponent
         
         $this->display_header($trail, true);
         echo implode("\n", $html);
-        $this->display_footer();
+        $this->display_footer();*/
     }
 }
 ?>
