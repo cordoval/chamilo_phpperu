@@ -10,7 +10,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
 {
     
     const APPLICATION_NAME = 'internship_organizer';
-	const PARAM_TARGET = 'target_users_and_groups';
+    const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
     
     const TYPE_CREATE = 1;
@@ -46,32 +46,55 @@ class InternshipOrganizerAgreementForm extends FormValidator
         $this->addRule(InternshipOrganizerAgreement :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $this->add_html_editor(InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);
-
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_feed.php';
-               
-        $attributes = array();
-//        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
-        $attributes['search_url'] = $url;
         
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_feed.php';
+        
+        //        $url = $this->get_path(WEB_PATH) . 'repository/xml_feed.php';
+        //            $locale = array();
+        //            $locale['Display'] = Translation :: get('AddPeriods');
+        //            $locale['Searching'] = Translation :: get('Searching');
+        //            $locale['NoResults'] = Translation :: get('NoResults');
+        //            $locale['Error'] = Translation :: get('Error');
+        //            
+        //
+        //            $elem = $this->addElement('element_finder', 'periods', Translation :: get('SelectPeriods'), $url, $locale, $attachments, $options);
+        //            $this->addElement('category');
+        //			$defaults = array();
+        //            $elem->setDefaults($defaults);
+        //             $elem->excludeElements(array($this->agreement->get_period_id()));
+        //         
+        //$elem->setDefaultCollapsed(count($attachments) == 0);
+        
+
+        $attributes = array();
+        //        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+        //        $attributes['search_url'] = $url;
+        
+
         $locale = array();
         $locale['Display'] = Translation :: get('ShareWith');
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
+        
         $attributes['locale'] = $locale;
         $attributes['defaults'] = array();
         $attributes['options'] = array('load_elements' => false);
         
-//        $this->add_(self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('Period'), $attributes);
+        //        $this->add_(self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('Period'), $attributes);
         
+
         $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_feed.php';
+//        dump($url);
         
-                
-//        $actions = $this->parent->get_selected_actions();
-        
-        $elem = $this->addElement('element_finder', 'periods', Translation :: get('Periods'), $url, $attributes, $actions);
+        //        $periods = $this->parent->get_selected_periods();
+         $url = Path :: get(WEB_PATH) . 'rights/xml_feeds/xml_rights_template_feed.php';
+
+        $elem = $this->addElement('element_finder', 'periods', Translation :: get('Periods'), $url, $locale, array());
+        $defaults = array();
+        $elem->setDefaults($defaults);
         $elem->setDefaultCollapsed(false);
-        
+    
     }
 
     function build_editing_form()
