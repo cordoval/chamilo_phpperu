@@ -10,24 +10,33 @@ require_once dirname(__FILE__) . '/../object_publication_table/object_publicatio
  */
 class TableContentObjectPublicationListRenderer extends ContentObjectPublicationListRenderer
 {
+
     /**
      * Returns the HTML output of this renderer.
      * @return string The HTML output
      */
     function as_html()
     {
-        $table = new ObjectPublicationTable($this, $this->get_user(), $this->get_allowed_types(), $this->get_search_condition(), $this->get_content_object_publication_list_cell_renderer($this->get_browser()), $this->get_content_object_publication_list_column_model());
+        if (method_exists($this->get_browser()->get_parent(), 'get_object_publication_table_cell_renderer'))
+        {
+            $object_publication_table_cell_renderer = $this->get_browser()->get_parent()->get_content_object_publication_table_cell_renderer($this->get_browser());
+        }
+        else
+        {
+            $object_publication_table_cell_renderer = null;
+        }
+
+        if (method_exists($this->get_browser()->get_parent(), 'get_content_object_publication_table_column_model'))
+        {
+            $object_publication_table_column_model = $this->get_browser()->get_parent()->get_content_object_publication_table_column_model($this->get_browser());
+        }
+        else
+        {
+            $object_publication_table_column_model = null;
+        }
+
+        $table = new ObjectPublicationTable($this, $this->get_user(), $this->get_allowed_types(), $this->get_search_condition(), $object_publication_table_cell_renderer, $object_publication_table_column_model);
         return $table->as_html();
-    }
-
-    function get_content_object_publication_list_cell_renderer($browser)
-    {
-        return $this->get_browser()->get_parent()->get_content_object_publication_list_cell_renderer($browser);
-    }
-
-    function get_content_object_publication_list_column_model()
-    {
-        return $this->get_browser()->get_parent()->get_content_object_publication_list_column_model();
     }
 }
 ?>

@@ -15,6 +15,8 @@ abstract class ContentObjectPublicationListRenderer
     const TYPE_TABLE = 'table';
     const TYPE_CALENDAR = 'calendar';
     const TYPE_MONTH = 'month_calendar';
+    const TYPE_WEEK = 'week_calendar';
+    const TYPE_DAY = 'day_calendar';
 
     protected $browser;
     private $parameters;

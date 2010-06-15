@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../content_object_publication_list_renderer.c
 /**
  * Renderer to display events in a week calendar
  */
-class WeekCalendarContentObjectPublicationListRenderer extends ContentObjectPublicationListRenderer
+class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicationListRenderer
 {
     /**
      * The current time displayed in the calendar

@@ -73,33 +73,14 @@ class MonthCalendarContentObjectPublicationListRenderer extends ContentObjectPub
         $events = array();
         foreach ($publications as $index => $publication)
         {
-            $events[] = $this->get_browser()->get_parent()->convert_content_object_publication_to_calendar_event($publication);
-
-//            $object = $publication->get_content_object();
-
-            //            if ($object->repeats())
-            //            {
-            //                $repeats = $object->get_repeats($from_time, $to_time);
-            //
-            //                foreach ($repeats as $repeat)
-            //                {
-            //                    $the_publication = clone $publication;
-            //                    $the_publication->set_content_object($repeat);
-            //
-            //                    $events[] = $the_publication;
-            //                }
-            //            }
-            //            elseif ($from_time <= $object->get_start_date() && $object->get_start_date() <= $to_time || $from_time <= $object->get_end_date() && $object->get_end_date() <= $to_time || $object->get_start_date() <= $from_time && $to_time <= $object->get_end_date())
-            //            {
-//            $object_publication = new ContentObjectPublication();
-//            $calendar_event = ContentObject :: factory(CalendarEvent :: get_type_name());
-//            $calendar_event->set_title($object->get_title());
-//            $calendar_event->set_description($object->get_description());
-//            $calendar_event->set_start_date(time());
-//            $calendar_event->set_end_date(time());
-//            $object_publication->set_content_object($calendar_event);
-//            $events[] = $object_publication;
-            //            }
+            if (method_exists($this->get_browser()->get_parent(), 'convert_content_object_publication_to_calendar_event'))
+            {
+                $events[] = $this->get_browser()->get_parent()->convert_content_object_publication_to_calendar_event($publication);
+            }
+            else
+            {
+                $events[] = $publication;
+            }
         }
 
         return $events;
