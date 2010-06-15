@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.browser.list_renderer
  */
 require_once dirname(__FILE__) . '/../content_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__) . '/list_publication_feedback_list_renderer.class.php';
+//require_once dirname(__FILE__) . '/list_publication_feedback_list_renderer.class.php';
 require_once dirname(__FILE__) . '../../../content_object_repo_viewer.class.php';
 /**
  * Renderer to display all details of learning object publication
@@ -27,14 +27,14 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         $dm = WeblcmsDataManager :: get_instance();
         $publication = $dm->retrieve_content_object_publication($publication_id);
         $this->browser->get_parent()->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
-        
+
         $html[] = '<h3>' . Translation :: get('ContentObjectPublicationDetails') . '</h3>';
         $html[] = $this->render_publication($publication);
         $html[] = '<br />';
         $html[] = $this->get_feedback($publication_id);
         return implode("\n", $html);
     }
-    
+
     function get_feedback($publication_id)
     {
         if($this->browser->get_parent()->get_course()->get_feedback())
@@ -62,7 +62,7 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         {
             $icon_suffix = '_new';
         }
-        
+
         $html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
         $html[] = '<div class="title' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
         $html[] = $this->render_title($publication);
@@ -78,7 +78,7 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         $html[] = $this->render_publication_actions($publication, $first, $last);
         $html[] = '</div>';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 
@@ -86,7 +86,7 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
     {
         $html = array();
         $icons = array();
-        
+
         $html[] = '<span style="white-space: nowrap;">';
         if ($this->is_allowed(DELETE_RIGHT))
         {

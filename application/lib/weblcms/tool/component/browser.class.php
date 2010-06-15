@@ -4,7 +4,7 @@
  * @package repository.lib.complex_display.assessment.component
  */
 
-require_once dirname(__FILE__) . '/../../browser/list_renderer/content_object_publication_details_renderer.class.php';
+require_once dirname(__file__) . '/../../browser/content_object_publication_list_renderer.class.php';
 
 class ToolBrowserComponent extends ToolComponent
 {
@@ -16,7 +16,7 @@ class ToolBrowserComponent extends ToolComponent
 
         $this->display_header();
 
-        $renderer = new ListContentObjectPublicationListRenderer($this);
+        $renderer = ContentObjectPublicationListRenderer :: factory($this->get_browser_type(), $this);
 
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
@@ -99,23 +99,13 @@ class ToolBrowserComponent extends ToolComponent
 
             $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
 
-            //            $filter = Request :: get(AnnouncementToolViewerComponent :: PARAM_FILTER);
-            //            switch($filter)
-            //            {
-            //            	case AnnouncementToolViewerComponent :: FILTER_TODAY:
-            //            		$time = mktime(0, 0, 0, date('m', time()), date('d', time()), date('Y', time()));
-            //            		$conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $time);
-            //            		break;
-            //            	case AnnouncementToolViewerComponent :: FILTER_THIS_WEEK:
-            //            		$time = strtotime('Next Monday', strtotime('-1 Week', time()));
-            //            		$conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $time);
-            //            		break;
-            //            	case AnnouncementToolViewerComponent :: FILTER_THIS_MONTH:
-            //            		$time = mktime(0, 0, 0, date('m', time()), 1, date('Y', time()));
-            //            		$conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $time);
-            //            		break;
-            //            }
-
+            if (method_exists($this->get_parent(), 'get_tool_conditions'))
+            {
+                foreach ($this->get_parent()->get_tool_conditions() as $tool_condition)
+                {
+                    $conditions[] = $tool_condition;
+                }
+            }
 
             $condition = new AndCondition($conditions);
 
@@ -135,6 +125,15 @@ class ToolBrowserComponent extends ToolComponent
 
         return $this->publications;
 
+    }
+
+    /**
+     * Retrieves the number of published content objects
+     * @return int
+     */
+    function get_publication_count()
+    {
+        return count($this->get_publications());
     }
 
     function get_action_bar()
@@ -157,15 +156,15 @@ class ToolBrowserComponent extends ToolComponent
             }
         }
 
-        if ($this->is_allowed(EDIT_RIGHT))
+        if (method_exists($this->get_parent(), 'get_tool_actions'))
         {
-            $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
+            $action_bar->set_tool_actions($this->get_parent()->get_tool_actions());
         }
 
-        //        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowToday'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_TODAY)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        //        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowThisWeek'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_THIS_WEEK)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        //        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowThisMonth'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null, self :: PARAM_FILTER => self :: FILTER_THIS_MONTH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
+        foreach ($this->get_browser_types() as $browser_type)
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($browser_type) . 'View'), Theme :: get_image_path() . 'view_'. $browser_type .'.png', $this->get_url(array(Tool :: PARAM_BROWSER_TYPE => $browser_type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
 
         return $action_bar;
     }
@@ -183,5 +182,41 @@ class ToolBrowserComponent extends ToolComponent
         return null;
     }
 
+    function get_browser_type()
+    {
+        $browser_type = Request :: get(Tool :: PARAM_BROWSER_TYPE);
+
+        if ($browser_type && in_array($browser_type, $this->get_browser_types()))
+        {
+            return $browser_type;
+        }
+        else
+        {
+            if (method_exists($this->get_parent(), 'get_browser_type'))
+            {
+                return $this->get_parent()->get_browser_type();
+            }
+            else
+            {
+                return ContentObjectPublicationListRenderer :: TYPE_LIST;
+            }
+        }
+    }
+
+    function get_browser_types()
+    {
+        if (method_exists($this->get_parent(), 'get_browser_types'))
+        {
+            return $this->get_parent()->get_browser_types();
+        }
+        else
+        {
+            $browser_types = array();
+            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
+            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+//            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_MONTH;
+            return $browser_types;
+        }
+    }
 }
 ?>

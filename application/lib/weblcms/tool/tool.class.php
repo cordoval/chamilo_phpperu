@@ -20,6 +20,7 @@ abstract class Tool extends SubManager
     const PARAM_MOVE = 'move';
     const PARAM_VISIBILITY = 'visible';
     const PARAM_OBJECT_ID = 'object_id';
+    const PARAM_BROWSER_TYPE = 'browser';
 
     const ACTION_BROWSE = 'browse';
     const ACTION_VIEW = 'view';
@@ -34,11 +35,11 @@ abstract class Tool extends SubManager
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
     const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
-    
+
     const ACTION_EDIT_CLOI = 'edit_cloi';
     const ACTION_EDIT_FEEDBACK = 'edit_feedback';
     const ACTION_CREATE_CLOI = 'create_cloi';
-    
+
     const ACTION_MOVE_SELECTED_TO_CATEGORY = 'move_selected_to_category';
     const ACTION_MOVE = 'move';
     const ACTION_DELETE_CLOI = 'delete_cloi';
@@ -46,10 +47,10 @@ abstract class Tool extends SubManager
     const ACTION_SHOW = 'show';
     const ACTION_HIDE = 'hide';
     const ACTION_PUBLISH_FEEDBACK = 'publish_feedback';
-    
+
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
-    
+
     const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
 
     /**
@@ -655,6 +656,21 @@ abstract class Tool extends SubManager
     	$class = self :: type_to_class($tool_name);
 
     	return new $class($parent);
+    }
+
+    function get_content_object_publication_list_cell_renderer($browser)
+    {
+        return null;
+    }
+
+    function get_content_object_publication_list_column_model()
+    {
+        return null;
+    }
+
+    function convert_content_object_publication_to_calendar_event($publication)
+    {
+        return $publication;
     }
 }
 ?>
