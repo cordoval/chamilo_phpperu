@@ -14,6 +14,9 @@ class StreamingVideoClipForm extends ContentObjectForm {
         
         parent :: build_creation_form();
 
+        $this->addElement('hidden', StreamingVideoClip :: PROPERTY_SERVER_ID);
+        $this->addElement('hidden', StreamingVideoClip :: PROPERTY_ASSET_ID);
+
         $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\''. $link .'\');"> '. Translation :: get('BrowseStreamingVideo') .'</a>');
     }
 

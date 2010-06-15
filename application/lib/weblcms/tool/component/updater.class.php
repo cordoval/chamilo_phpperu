@@ -44,19 +44,18 @@ class ToolUpdaterComponent extends ToolComponent
                 if (! Request :: get('validated'))
                 {
                     $form->update_content_object();
-                }
-                
-                if ($form->is_version())
-                {
-                    $publication->set_content_object($content_object->get_latest_version());
-                    $publication->update();
+	                if ($form->is_version())
+	                {
+	                    $publication->set_content_object_id($content_object->get_latest_version()->get_id());
+	                    $publication->update();
+	                }
                 }
                 
                 $publication_form = new ContentObjectPublicationForm(ContentObjectPublicationForm :: TYPE_SINGLE, $content_object, $this, false, $this->get_parent()->get_course(), false, array(Tool :: PARAM_PUBLICATION_ID => $pid, 'validated' => 1));
                 $publication_form->set_publication($publication);
                 
                 if ($publication_form->validate())
-                {
+                { 
                     $publication_form->update_content_object_publication();
                     $message = htmlentities(Translation :: get('ContentObjectUpdated'));
                     
@@ -85,7 +84,7 @@ class ToolUpdaterComponent extends ToolComponent
                     {
                         $filter = array();
                     }
-                    
+                 
                     $this->redirect($message, false, $params, $filter);
                 }
                 else

@@ -206,7 +206,7 @@ class GalleryTable extends HTML_Table
 	 */
 	function as_html($empty_table = false)
 	{
-		$empty_table = false;
+                $empty_table = false;
 		if ($this->get_total_number_of_items() == 0)
 		{
 			$cols = $this->getColCount();
@@ -322,8 +322,8 @@ class GalleryTable extends HTML_Table
 		$pager = $this->get_pager();
 		$offset = $pager->getOffsetByPageId();
 		$from = $offset[0] - 1;
-		$table_data = $this->get_table_data($from);
-		foreach ($table_data as $index => $row)
+                $table_data = $this->get_table_data($from);
+		 foreach ($table_data as $index => $row)
 		{
 			$row = $this->filter_data($row);
 			$this->addRow($row);

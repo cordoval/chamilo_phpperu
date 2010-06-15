@@ -8,18 +8,19 @@ require_once dirname(__FILE__) . '/../../streaming_media_object.class.php';
 
 class MediamosaStreamingMediaObject extends StreamingMediaObject {
 
+    private $mediafiles;
+
     const PROPERTY_CONVERSION_STATE = 'conversion_state';
     const PROPERTY_DATE_PUBLISHED = 'date'; //date of publishing
+    const PROPERTY_DATE_CREATED = 'creation_date'; //date of creation
     const PROPERTY_PUBLISHER = 'publisher';
     const PROPERTY_CREATOR = 'creator';
     const PROPERTY_DEFAULT_MEDIAFILE = 'default_mediafile';
+
     const STATE_PUBLIC = 0;
     const STATE_QUEUED = 1;
     const STATE_TRANSCODING = 2;
     const STATE_ERRONEOUS = 3;
-    
-    private $mediafiles;
-    
 
     function get_type()
     {
@@ -48,7 +49,7 @@ class MediamosaStreamingMediaObject extends StreamingMediaObject {
 
     function get_date()
     {
-        $this->get_additional_property(self :: PROPERTY_DATE_PUBLISHED);
+        return $this->get_additional_property(self :: PROPERTY_DATE_PUBLISHED);
     }
 
     function set_publisher($publisher)
@@ -58,7 +59,7 @@ class MediamosaStreamingMediaObject extends StreamingMediaObject {
 
     function get_publisher()
     {
-        $this->get_additional_property(self::PROPERTY_PUBLISHER);
+        return $this->get_additional_property(self::PROPERTY_PUBLISHER);
     }
 
     function set_creator($creator)
@@ -80,6 +81,16 @@ class MediamosaStreamingMediaObject extends StreamingMediaObject {
         $this->mediafiles[$mediafile->get_id()] = $mediafile;
     }
 
+    function get_mediafiles()
+    {
+        return $this->mediafiles;
+    }
+
+    function get_mediafile($mediafile_id)
+    {
+        return isset($this->mediafiles[$mediafile_id]) ? $this->mediafiles[$mediafile_id] : false;
+    }
+
     function set_default_mediafile($default_mediafile)
     {
         $this->set_default_property(self ::PROPERTY_DEFAULT_MEDIAFILE,$default_mediafile);
@@ -87,7 +98,7 @@ class MediamosaStreamingMediaObject extends StreamingMediaObject {
 
     function get_default_mediafile()
     {
-        $this->get_default_property(self :: PROPERTY_DEFAULT_MEDIAFILE);
+        return $this->get_default_property(self :: PROPERTY_DEFAULT_MEDIAFILE);
     }
 
 }

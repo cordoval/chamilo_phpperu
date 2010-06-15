@@ -19,7 +19,7 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
     //TODO: jens ->implement?? const VIDEO_TAGS = 'tags';
     const VIDEO_DESCRIPTION = 'description';
 
-    function MediamosaStreamingMediaManagerForm($form_type, $atcion, $application)
+    function MediamosaStreamingMediaManagerForm($form_type, $action, $application)
     {
         parent :: __construct('mediamosa_upload', 'post', $action);
 
@@ -40,34 +40,16 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
 
     function set_streaming_media_object($object)
     {
-        $this->streaming_media_object = $object;
-        
+       $this->streaming_media_object = $object;
+
         $this->addElement(MediamosaStreamingMediaObject :: PROPERTY_ID);
         $defaults[MediamosaStreamingMediaObject :: PROPERTY_TITLE] = $object->get_title();
         $defaults[MediamosaStreamingMediaObject :: PROPERTY_DESCRIPTION] = $object->get_description();
         $defaults[MediamosaStreamingMediaObject :: PROPERTY_CREATOR] = $object->get_creator();
         //$defaults[MediamosaStreamingMediaObject :: PROPERTY_TAGS] = $object->get_tags();
-
-        if(is_null($object->get_publisher))
-        {
-            $udm = UserDataManager :: get_instance();
-            $user = $udm->retrieve_user(Session :: get_user_id());
-            $defaults[MediamosaStreamingMediaObject :: PROPERTY_PUBLISHER] = $user->get_firstname().' '.$user->get_lastname();
-        }
-        else
-        {
-            $defaults[MediamosaStreamingMediaObject :: PROPERTY_PUBLISHER] = $object->get_publisher();
-        }
-        
-        if(is_null($object->get_date()))
-        {
-            $defaults[MediamosaStreamingMediaObject :: PROPERTY_DATE_PUBLISHED] = date('Y-m-d H:i:s');
-        }
-        else
-        {
-            $defaults[MediamosaStreamingMediaObject :: PROPERTY_DATE_PUBLISHED] = $object->get_date();
-        }
-
+        $defaults[MediamosaStreamingMediaObject :: PROPERTY_PUBLISHER] = $object->get_publisher();
+        $defaults[MediamosaStreamingMediaObject :: PROPERTY_DATE_PUBLISHED] = $object->get_date();
+       
         $this->setDefaults($defaults);
     }
 
@@ -89,6 +71,17 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
 
     function build_creation_form()
     {
+        $defaults = array();
+            
+        $udm = UserDataManager :: get_instance();
+
+        //create values for hidden forms 
+        $user = $udm->retrieve_user(Session :: get_user_id());
+        $defaults[MediamosaStreamingMediaObject :: PROPERTY_PUBLISHER] = $user->get_firstname().' '.$user->get_lastname();
+        $defaults[MediamosaStreamingMediaObject :: PROPERTY_DATE_PUBLISHED] = date('Y-m-d H:i:s');
+
+        $this->setDefaults($defaults);
+
         $this->build_basic_form();
         
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
@@ -109,7 +102,74 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
 
     function setDefaults($defaults = array())
     {
-        parent :: setDefaults($defaults);
+       parent :: setDefaults($defaults);
+    }
+
+    /*
+     * creates all necessary objects on mediamosa server to prepare upload
+     * -asset
+     * -mediafile + acl-rights +medtadata
+     * -upload ticket
+     * @return array reponse --> asset_id, action, uploadprogress_url
+     */
+   function prepare_upload()
+   {
+       $connector = MediamosaStreamingMediaConnector::get_instance($this);
+
+       //create asset
+       if($asset_id = $connector->create_mediamosa_asset())
+       {
+           if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id))
+            {
+                //on succes add rights ??
+                //TODO:jens-> ACL rights
+                //$connector->add_mediamosa_mediafile_rights($mediafile_id, $rights);
+
+                //on success -> add metadata
+                $metadata['title'] = $this->exportValue(MediamosaStreamingMediaObject::PROPERTY_TITLE);
+                $metadata['description'] = $this->exportValue(MediamosaStreamingMediaObject::PROPERTY_DESCRIPTION);
+                //TODO : extract creation date from file metadata
+                $metadata['date'] = $this->exportValue(MediamosaStreamingMediaObject::PROPERTY_DATE_PUBLISHED);
+                $metadata['creator'] = $this->exportValue(MediamosaStreamingMediaObject::PROPERTY_CREATOR);
+                $metadata['publisher'] = $this->exportValue(MediamosaStreamingMediaObject::PROPERTY_PUBLISHER);
+                //TODO:legal notice should be included??
+
+                if($connector->add_mediamosa_metadata($asset_id, $metadata))
+                {
+                    //on success -> get and return ticket
+                    if($ticket_response = $connector->create_mediamosa_upload_ticket($mediafile_id))
+                    {
+                        $ticket_return = array();
+
+                        $ticket_return['asset_id'] = $asset_id;
+                        $ticket_return['action'] = $ticket_response->items->item->action;
+                        $ticket_return['uploadprogress_url'] = $ticket_response->items->item->uploadprogress_url;
+
+                        return $ticket_return;
+                    }
+                    //on fail -> rollback
+                    else
+                    {
+                        //remove asset and everything attached
+                        $connector->remove_mediamosa_asset($asset_id);
+                    }
+                }
+            }
+       }
+       return false;
+    }
+
+    function update_video_entry($id)
+    {
+        $connector = MediamosaStreamingMediaConnector::get_instance($this);
+
+        $data = $this->exportValues();
+
+        if($connector->add_mediamosa_metadata($this->streaming_media_object->get_id(), $data))
+        {
+            return true;
+        }
+        return false;
     }
 
 }
