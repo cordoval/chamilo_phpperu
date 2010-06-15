@@ -66,7 +66,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_repo_viewer($publication)
     {
-        $user = $this->browser->get_user_info($publication->get_publisher_id());
+        $user = $this->browser->get_parent()->get_user_info($publication->get_publisher_id());
         return $user->get_firstname() . ' ' . $user->get_lastname();
     }
 
@@ -104,7 +104,7 @@ abstract class ContentObjectPublicationListRenderer
             {
                 if (count($users) == 1)
                 {
-                    $user = $this->browser->get_user_info($users[0]);
+                    $user = $this->browser->get_parent()->get_user_info($users[0]);
                     return $user->get_firstname() . ' ' . $user->get_lastname() . $email_suffix;
                 }
                 elseif(count($groups) == 1)
@@ -124,7 +124,7 @@ abstract class ContentObjectPublicationListRenderer
             $target_list[] = '<select>';
             foreach ($users as $index => $user_id)
             {
-                $user = $this->browser->get_user_info($user_id);
+                $user = $this->browser->get_parent()->get_user_info($user_id);
                 $target_list[] = '<option>' . $user->get_firstname() . ' ' . $user->get_lastname() . '</option>';
             }
             foreach ($course_groups as $index => $course_group_id)
@@ -167,7 +167,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_publication_information($publication)
     {
-        $repo_viewer = $this->browser->get_user_info($publication->get_publisher_id());
+        $repo_viewer = $this->browser->get_parent()->get_user_info($publication->get_publisher_id());
         $html = array();
         $html[] = htmlentities(Translation :: get('PublishedOn')) . ' ' . $this->render_publication_date($publication);
         $html[] = htmlentities(Translation :: get('By')) . ' ' . $this->render_repo_viewer($publication);

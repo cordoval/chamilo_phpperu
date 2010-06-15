@@ -16,7 +16,7 @@
 abstract class ToolComponent extends SubManager
 {
     const ACTION_VIEW = 'viewer';
-    const ACTION_PUBLISH = 'publish';
+    const ACTION_PUBLISH = 'publisher';
 
     static function factory($type, $tool_component)
     {

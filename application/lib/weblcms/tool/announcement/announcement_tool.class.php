@@ -18,7 +18,7 @@ class AnnouncementTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        
+    
         switch ($action)
         {
             case self :: ACTION_VIEW_ANNOUNCEMENTS :

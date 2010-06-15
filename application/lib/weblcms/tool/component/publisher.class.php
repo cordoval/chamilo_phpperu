@@ -3,7 +3,7 @@
  * $Id: announcement_publisher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.announcement.component
  */
-require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
+require_once dirname(__FILE__) . '/../../publisher/content_object_publisher.class.php';
 
 class ToolPublisherComponent extends ToolComponent
 {
@@ -25,7 +25,7 @@ class ToolPublisherComponent extends ToolComponent
         else
         {
             $object = $pub->get_selected_objects();
-            $publisher = new ContentObjectPublisher($pub);
+            $publisher = new ContentObjectPublisher($this->get_parent());
             $html[] = $publisher->get_publications_form($object);
         }
         

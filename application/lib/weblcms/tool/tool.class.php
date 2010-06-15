@@ -69,14 +69,15 @@ abstract class Tool extends SubManager
      * @param Application $parent The application that the tool is associated
      *                            with.
      */
-//    function Tool($parent)
-//    {
-//        $this->parent = $parent;
-//        $this->properties = $parent->get_tool_properties($this->get_tool_id());
-//        $this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : Request :: get(self :: PARAM_ACTION));
-//        $this->set_parameter(self :: PARAM_ACTION, $this->get_action());
-//        $this->parse_input_from_table();
-//    }
+    function Tool($parent)
+    {
+        //$this->get_parent() = $parent;
+        parent :: __construct($parent);
+        $this->properties = $parent->get_tool_properties($this->get_tool_id());
+        $this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : Request :: get(self :: PARAM_ACTION));
+        $this->set_parameter(self :: PARAM_ACTION, $this->get_action());
+        //$this->parse_input_from_table();
+    }
 
     private function parse_input_from_table()
     {
@@ -235,7 +236,7 @@ abstract class Tool extends SubManager
 //     */
 //    function get_parent()
 //    {
-//        return $this->parent;
+//        return $this->get_parent();
 //    }
 
     /**
@@ -250,10 +251,10 @@ abstract class Tool extends SubManager
 //    /**
 //     * @see Application :: get_tool_id()
 //     */
-//    function get_tool_id()
-//    {
-//        return $this->get_parent()->get_tool_id();
-//    }
+    function get_tool_id()
+    {
+        return $this->get_parent()->get_tool_id();
+    }
 
 //    /**
 //     * @see Application :: display_header()
@@ -262,19 +263,19 @@ abstract class Tool extends SubManager
 //    {
 //        $trail = new BreadcrumbTrail();
 //        //$trail->set_help_items($breadcrumbtrail->get_help_items());
-//        switch ($this->parent->get_course()->get_breadcrumb())
+//        switch ($this->get_parent()->get_course()->get_breadcrumb())
 //        {
 //            case CourseLayout :: BREADCRUMB_TITLE :
-//                $title = $this->parent->get_course()->get_name();
+//                $title = $this->get_parent()->get_course()->get_name();
 //                break;
 //            case CourseLayout :: BREADCRUMB_CODE :
-//                $title = $this->parent->get_course()->get_visual();
+//                $title = $this->get_parent()->get_course()->get_visual();
 //                break;
 //            case CourseLayout :: BREADCRUMB_COURSE_HOME :
 //                $title = Translation :: get('CourseHome');
 //                break;
 //            default :
-//                $title = $this->parent->get_course()->get_visual();
+//                $title = $this->get_parent()->get_course()->get_visual();
 //                break;
 //        }
 //
@@ -284,21 +285,21 @@ abstract class Tool extends SubManager
 //        // TODO: do this by overriding display_header in the course_group tool
 //
 //
-//        if (! is_null($this->parent->get_course_group()))
+//        if (! is_null($this->get_parent()->get_course_group()))
 //        {
-//            $course_group = $this->parent->get_course_group();
+//            $course_group = $this->get_parent()->get_course_group();
 //            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COURSE_GROUP => null)), Translation :: get('CourseGroups')));
 //            //if(Request :: get('tool_action') != null)
 //        //$trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'course_group_unsubscribe')), $course_group->get_name()));
 //        }
 //        elseif ($this->get_tool_id() == 'course_group')
 //        {
-//            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
+//            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->get_parent()->get_tool_id()) . 'Title')));
 //        }
 //        // TODO: make this the default
 //        if ($this->get_tool_id() != 'course_group')
 //        {
-//            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null, 'view' => null, 'time' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
+//            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null, 'view' => null, 'time' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get(Tool :: type_to_class($this->get_parent()->get_tool_id()) . 'Title')));
 //        }
 //
 //        $breadcrumbs = BreadcrumbTrail::get_instance()->get_breadcrumbs();
@@ -312,13 +313,13 @@ abstract class Tool extends SubManager
 //            }
 //        }
 //        Breadcrumbtrail :: get_instance()->set_breadcrumbtrail($trail->get_breadcrumbtrail());
-//        $this->parent->display_header(Breadcrumbtrail :: get_instance(), false, $display_title, $display_tools, $display_student_view);
+//        $this->get_parent()->display_header(Breadcrumbtrail :: get_instance(), false, $display_title, $display_tools, $display_student_view);
 //        //echo '<div class="clear"></div>';
 //
 //
-//        if ($this->parent->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON)
+//        if ($this->get_parent()->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON)
 //        {
-//            $renderer = ToolListRenderer :: factory('Shortcut', $this->parent);
+//            $renderer = ToolListRenderer :: factory('Shortcut', $this->get_parent());
 //            echo '<div style="width: 100%; text-align: right;">';
 //            $renderer->display();
 //            echo '</div>';
@@ -328,17 +329,17 @@ abstract class Tool extends SubManager
 //
 //        if ($msg = Request :: get(Application :: PARAM_MESSAGE))
 //        {
-//            $this->parent->display_message($msg);
+//            $this->get_parent()->display_message($msg);
 //        }
 //        if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
 //        {
-//            $this->parent->display_error_message($msg);
+//            $this->get_parent()->display_error_message($msg);
 //        }
 //
-//        $menu_style = $this->parent->get_course()->get_menu();
+//        $menu_style = $this->get_parent()->get_course()->get_menu();
 //        if ($menu_style != CourseLayout :: MENU_OFF)
 //        {
-//            $renderer = ToolListRenderer :: factory('Menu', $this->parent);
+//            $renderer = ToolListRenderer :: factory('Menu', $this->get_parent());
 //            $renderer->display();
 //            echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && ! $renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
 //        }
@@ -355,7 +356,7 @@ abstract class Tool extends SubManager
 //    function display_footer()
 //    {
 //        echo '</div>';
-//        $this->parent->display_footer();
+//        $this->get_parent()->display_footer();
 //    }
 
     function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
@@ -373,7 +374,7 @@ abstract class Tool extends SubManager
 //
 //	function get_application_name()
 //	{
-//        return $this->parent->get_application_name();
+//        return $this->get_parent()->get_application_name();
 //	}
 //
 //    /**
@@ -381,7 +382,7 @@ abstract class Tool extends SubManager
 //     */
 //    function get_user()
 //    {
-//        return $this->parent->get_user();
+//        return $this->get_parent()->get_user();
 //    }
 //
 //    /**
@@ -389,13 +390,13 @@ abstract class Tool extends SubManager
 //     */
 //    function get_user_id()
 //    {
-//        return $this->parent->get_user_id();
+//        return $this->get_parent()->get_user_id();
 //    }
 //
-//    function get_user_info($user_id)
-//    {
-//        return $this->parent->get_user_info($user_id);
-//    }
+    function get_user_info($user_id)
+    {
+        return $this->get_parent()->get_user_info($user_id);
+    }
 
     /**
      * @see WebApplication :: get_course_id()
@@ -431,7 +432,7 @@ abstract class Tool extends SubManager
 //     */
 //    function get_parameters()
 //    {
-//        return $this->parent->get_parameters();
+//        return $this->get_parent()->get_parameters();
 //    }
 //
 //    /**
@@ -439,7 +440,7 @@ abstract class Tool extends SubManager
 //     */
 //    function get_parameter($name)
 //    {
-//        return $this->parent->get_parameter($name);
+//        return $this->get_parent()->get_parameter($name);
 //    }
 //
 //    /**
@@ -447,12 +448,12 @@ abstract class Tool extends SubManager
 //     */
 //    function set_parameter($name, $value)
 //    {
-//        $this->parent->set_parameter($name, $value);
+//        $this->get_parent()->set_parameter($name, $value);
 //    }
 //
 //	function set_parameters($parameters)
 //    {
-//        $this->parent->set_parameters($parameters);
+//        $this->get_parent()->set_parameters($parameters);
 //    }
 
 //    /**
@@ -461,7 +462,7 @@ abstract class Tool extends SubManager
 //
 //    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
 //    {
-//        return $this->parent->get_url($parameters, $filter, $encode_entities);
+//        return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
 //    }
 //
 //    /**
@@ -511,7 +512,7 @@ abstract class Tool extends SubManager
      */
     function get_last_visit_date()
     {
-        return $this->parent->get_last_visit_date();
+        return $this->get_parent()->get_last_visit_date();
     }
 
 //    function get_path($path_type)
@@ -609,7 +610,7 @@ abstract class Tool extends SubManager
         if (Request :: get(self :: PARAM_PUBLICATION_ID))
         {
             //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
-            $url = $this->parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID),
+            $url = $this->get_parent()->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID),
             	ReportingManager :: PARAM_TEMPLATE_NAME => 'publication_detail_reporting_template'));
             return new ToolbarItem(Translation :: get('AccessDetails'), Theme :: get_common_image_path() . 'action_reporting.png', $url);
         }

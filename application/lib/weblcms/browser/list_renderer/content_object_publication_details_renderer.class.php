@@ -39,7 +39,7 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
     {
         if($this->browser->get_parent()->get_course()->get_feedback())
         {
-    		$fbm = new FeedbackManager($this->browser->get_parent(), WeblcmsManager :: APPLICATION_NAME, $publication_id);
+    		$fbm = new FeedbackManager($this->browser, WeblcmsManager :: APPLICATION_NAME, $publication_id);
         	return $fbm->as_html();
         }
     }
