@@ -28,7 +28,6 @@ class ToolIntroductionPublisherComponent extends ToolComponent
         
         if (!$repo_viewer->is_ready_to_be_published())
         {
-            $html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
             $html[] = $repo_viewer->as_html();
         }
         else
