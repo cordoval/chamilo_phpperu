@@ -16,21 +16,17 @@ class ChatTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
-        
+             
         if ($component)
             return;
         
         switch ($action)
         {
             case self :: ACTION_VIEW_CHAT :
-                $component = ChatToolComponent :: factory('Viewer', $this);
-                break;
-            case self :: ACTION_PUBLISH :
-                $component = ChatToolComponent :: factory('Publisher', $this);
+                $component = $this->create_component('Viewer');
                 break;
             default :
-                $component = ChatToolComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
         }
         $component->run();
     }
