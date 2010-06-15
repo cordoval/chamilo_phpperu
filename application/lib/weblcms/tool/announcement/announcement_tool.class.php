@@ -10,27 +10,28 @@
  */
 class AnnouncementTool extends Tool
 {
-    const ACTION_VIEW_ANNOUNCEMENTS = 'view';
-
     /**
      * Inherited.
      */
     function run()
     {
         $action = $this->get_action();
-        
+
         switch ($action)
         {
-            case self :: ACTION_VIEW_ANNOUNCEMENTS :
+            case self :: ACTION_VIEW :
                 $component = $this->create_component('Viewer');
+                break;
+            case self :: ACTION_BROWSE :
+                $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_PUBLISH :
                 $component = $this->create_component('Publisher');
                 break;
             default :
-                $component = $this->create_component('Viewer');
+                $component = $this->create_component('Browser');
         }
-        
+
         $component->run();
     }
 

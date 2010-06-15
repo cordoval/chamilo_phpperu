@@ -22,7 +22,6 @@ abstract class Tool extends SubManager
     const PARAM_VISIBILITY = 'visible';
     const PARAM_OBJECT_ID = 'object_id';
 
-    const ACTION_PUBLISH = 'publish';
     const ACTION_EDIT = 'edit';
     const ACTION_EDIT_CLOI = 'edit_cloi';
     const ACTION_EDIT_FEEDBACK = 'edit_feedback';
@@ -45,8 +44,12 @@ abstract class Tool extends SubManager
     const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
     const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
-    const ACTION_VIEW = 'view';
     const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
+
+
+    const ACTION_BROWSE = 'browse';
+    const ACTION_VIEW = 'view';
+    const ACTION_PUBLISH = 'publish';
 
     /**
      * The action of the tool
@@ -247,13 +250,13 @@ abstract class Tool extends SubManager
         return $this->properties;
     }
 
-//    /**
-//     * @see Application :: get_tool_id()
-//     */
-//    function get_tool_id()
-//    {
-//        return $this->get_parent()->get_tool_id();
-//    }
+    /**
+     * @see Application :: get_tool_id()
+     */
+    function get_tool_id()
+    {
+        return $this->get_parent()->get_tool_id();
+    }
 
 //    /**
 //     * @see Application :: display_header()
@@ -392,10 +395,10 @@ abstract class Tool extends SubManager
 //        return $this->parent->get_user_id();
 //    }
 //
-//    function get_user_info($user_id)
-//    {
-//        return $this->parent->get_user_info($user_id);
-//    }
+    function get_user_info($user_id)
+    {
+        return $this->get_parent()->get_user_info($user_id);
+    }
 
     /**
      * @see WebApplication :: get_course_id()
@@ -511,7 +514,7 @@ abstract class Tool extends SubManager
      */
     function get_last_visit_date()
     {
-        return $this->parent->get_last_visit_date();
+        return $this->get_parent()->get_last_visit_date();
     }
 
 //    function get_path($path_type)
