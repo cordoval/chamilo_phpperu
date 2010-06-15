@@ -105,6 +105,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 
         $course = $this->get_parameter(WeblcmsManager :: PARAM_COURSE);
         $tool = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
+        if (!$tool)
+        {
+            $tool = 'home';
+        }
+
         $action = $this->get_parameter(Application :: PARAM_ACTION);
         $component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
         $category = $this->get_parameter(WeblcmsManager :: PARAM_CATEGORY);

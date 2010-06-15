@@ -247,13 +247,13 @@ abstract class Tool extends SubManager
         return $this->properties;
     }
 
-    /**
-     * @see Application :: get_tool_id()
-     */
-    function get_tool_id()
-    {
-        return $this->parent->get_tool_id();
-    }
+//    /**
+//     * @see Application :: get_tool_id()
+//     */
+//    function get_tool_id()
+//    {
+//        return $this->get_parent()->get_tool_id();
+//    }
 
 //    /**
 //     * @see Application :: display_header()
@@ -358,56 +358,51 @@ abstract class Tool extends SubManager
 //        $this->parent->display_footer();
 //    }
 
-    function display_error_message($message)
-    {
-        $this->parent->display_error_message($message);
-    }
-
     function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
     {
-        return $this->parent->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
+        return $this->get_parent()->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
     }
 
-    /**
-     * Informs the user that access to the page was denied.
-     */
-    function disallow()
-    {
-        Display :: not_allowed();
-    }
-
-	function get_application_name()
-	{
-        return $this->parent->get_application_name();
-	}
-
-    /**
-     * @see WebApplication :: get_user()
-     */
-    function get_user()
-    {
-        return $this->parent->get_user();
-    }
-
-    /**
-     * @see WebApplication :: get_user_id()
-     */
-    function get_user_id()
-    {
-        return $this->parent->get_user_id();
-    }
-
-    function get_user_info($user_id)
-    {
-        return $this->parent->get_user_info($user_id);
-    }
+//    /**
+//     * Informs the user that access to the page was denied.
+//     */
+//    function disallow()
+//    {
+//        Display :: not_allowed();
+//    }
+//
+//	function get_application_name()
+//	{
+//        return $this->parent->get_application_name();
+//	}
+//
+//    /**
+//     * @see WebApplication :: get_user()
+//     */
+//    function get_user()
+//    {
+//        return $this->parent->get_user();
+//    }
+//
+//    /**
+//     * @see WebApplication :: get_user_id()
+//     */
+//    function get_user_id()
+//    {
+//        return $this->parent->get_user_id();
+//    }
+//
+//    function get_user_info($user_id)
+//    {
+//        return $this->parent->get_user_info($user_id);
+//    }
 
     /**
      * @see WebApplication :: get_course_id()
      */
     function get_course()
     {
-        return $this->parent->get_course();
+        return $this->get_parent()->get_course();
     }
 
     /**
@@ -415,7 +410,7 @@ abstract class Tool extends SubManager
      */
     function get_course_id()
     {
-        return $this->parent->get_course_id();
+        return $this->get_parent()->get_course_id();
     }
 
     /**
@@ -423,64 +418,64 @@ abstract class Tool extends SubManager
      */
     function get_course_groups()
     {
-        return $this->parent->get_course_groups();
+        return $this->get_parent()->get_course_groups();
     }
 
     function get_course_group()
     {
-        return $this->parent->get_course_group();
+        return $this->get_parent()->get_course_group();
     }
 
-    /**
-     * @see WebApplication :: get_parameters()
-     */
-    function get_parameters()
-    {
-        return $this->parent->get_parameters();
-    }
+//    /**
+//     * @see WebApplication :: get_parameters()
+//     */
+//    function get_parameters()
+//    {
+//        return $this->parent->get_parameters();
+//    }
+//
+//    /**
+//     * @see WebApplication :: get_parameter()
+//     */
+//    function get_parameter($name)
+//    {
+//        return $this->parent->get_parameter($name);
+//    }
+//
+//    /**
+//     * @see WebApplication :: set_parameter()
+//     */
+//    function set_parameter($name, $value)
+//    {
+//        $this->parent->set_parameter($name, $value);
+//    }
+//
+//	function set_parameters($parameters)
+//    {
+//        $this->parent->set_parameters($parameters);
+//    }
 
-    /**
-     * @see WebApplication :: get_parameter()
-     */
-    function get_parameter($name)
-    {
-        return $this->parent->get_parameter($name);
-    }
-
-    /**
-     * @see WebApplication :: set_parameter()
-     */
-    function set_parameter($name, $value)
-    {
-        $this->parent->set_parameter($name, $value);
-    }
-
-	function set_parameters($parameters)
-    {
-        $this->parent->set_parameters($parameters);
-    }
-
-    /**
-     * @see WebApplication :: get_url()
-     */
-
-    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
-    {
-        return $this->parent->get_url($parameters, $filter, $encode_entities);
-    }
-
-    /**
-     * @see WebApplication :: redirect()
-     */
-    function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
-    {
-        return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
-    }
-
-    function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $redirect_type = Redirect :: TYPE_URL, $application_type = Redirect :: TYPE_APPLICATION)
-    {
-        return $this->get_parent()->simple_redirect($parameters, $filter, $encode_entities, $redirect_type, $application_type);
-    }
+//    /**
+//     * @see WebApplication :: get_url()
+//     */
+//
+//    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+//    {
+//        return $this->parent->get_url($parameters, $filter, $encode_entities);
+//    }
+//
+//    /**
+//     * @see WebApplication :: redirect()
+//     */
+//    function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
+//    {
+//        return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
+//    }
+//
+//    function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $redirect_type = Redirect :: TYPE_URL, $application_type = Redirect :: TYPE_APPLICATION)
+//    {
+//        return $this->get_parent()->simple_redirect($parameters, $filter, $encode_entities, $redirect_type, $application_type);
+//    }
     /**
      * Check if the current user has a given right in this tool
      * @param int $right
@@ -519,10 +514,10 @@ abstract class Tool extends SubManager
         return $this->parent->get_last_visit_date();
     }
 
-    function get_path($path_type)
-    {
-        return $this->get_parent()->get_path($path_type);
-    }
+//    function get_path($path_type)
+//    {
+//        return $this->get_parent()->get_path($path_type);
+//    }
 
     /** Dummy functions so we can use the same component class for both tool and repositorytool **/
     function perform_requested_action()
