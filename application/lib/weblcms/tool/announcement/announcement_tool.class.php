@@ -37,6 +37,12 @@ class AnnouncementTool extends Tool
             case self :: ACTION_TOGGLE_VISIBILITY:
             	$component = $this->create_component('ToggleVisibility');
                 break;
+            case self :: ACTION_MOVE_UP:
+            	$component = $this->create_component('MoveUp');
+                break;
+            case self :: ACTION_MOVE_DOWN:
+            	$component = $this->create_component('MoveDown');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }

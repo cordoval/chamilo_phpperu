@@ -35,7 +35,7 @@ class ToolViewerComponent extends ToolComponent
 
         if ($this->is_allowed(EDIT_RIGHT))
         {
-            $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
+            $action_bar->add_common_action($this->get_access_details_toolbar_item($this));
         }
 
         return $action_bar;
@@ -43,7 +43,7 @@ class ToolViewerComponent extends ToolComponent
     
 	function add_actionbar_item($item)
     {
-        $this->action_bar->add_tool_action($item);
+        $this->action_bar->add_common_action($item);
     }
 }
 ?>
