@@ -22,6 +22,7 @@ abstract class ToolComponent extends SubManager
     const ACTION_DELETE = 'deleter';
     const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
     const ACTION_MOVE = 'mover';
+    const MOVE_TO_CATEGORY_COMPONENT = 'category_mover';
 
     static function factory($type, $tool_component)
     {

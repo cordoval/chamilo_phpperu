@@ -30,11 +30,12 @@ abstract class Tool extends SubManager
     const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
     const ACTION_MOVE_DOWN = 'move_down';
     const ACTION_MOVE_UP = 'move_up';
+    const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
     
     const ACTION_EDIT_CLOI = 'edit_cloi';
     const ACTION_EDIT_FEEDBACK = 'edit_feedback';
     const ACTION_CREATE_CLOI = 'create_cloi';
-    const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
+    
     const ACTION_MOVE_SELECTED_TO_CATEGORY = 'move_selected_to_category';
     const ACTION_MOVE = 'move';
     const ACTION_DELETE_CLOI = 'delete_cloi';
