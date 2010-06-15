@@ -51,6 +51,9 @@ class BlogTool extends Tool
             case self :: ACTION_PUBLISH_INTRODUCTION:
             	$component = $this->create_component('IntroductionPublisher');
                 break;
+            case self :: ACTION_MANAGE_CATEGORIES:
+            	$component = $this->create_component('CategoryManager');
+                break;
             default :
                 $component = $this->create_component('Browser');
             	break;
