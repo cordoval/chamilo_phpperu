@@ -7,6 +7,7 @@ require_once dirname(__FILE__) . '/weblcms_search_form.class.php';
 require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__) . '/../category_manager/content_object_publication_category.class.php';
 require_once dirname(__FILE__) . '/../tool/tool.class.php';
+require_once dirname(__FILE__) . '/../tool/tool_component.class.php';
 require_once dirname(__FILE__) . '/../tool_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
 require_once dirname(__FILE__) . '/../course/course_request.class.php';
@@ -64,7 +65,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_TYPE = 'type';
 	const PARAM_ACTIVE = 'active';
 	const PARAM_TOOL = 'tool';
-	const PARAM_COMPONENT_ACTION = 'action';	
+	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_DIRECTION = 'direction';
 	const PARAM_REMOVE_SELECTED = 'remove_selected';
 	const PARAM_REMOVE_SELECTED_COURSE_TYPES = 'remove selected coursetypes';
@@ -83,7 +84,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_ALLOW_SELECTED_REQUESTS = 'allow_selected_requests';
 	const PARAM_REFUSE_SELECTED_REQUESTS = 'refuse_selected_requests';
 
-	
+
 	const ACTION_SUBSCRIBE = 'subscribe';
 	const ACTION_CHANGE_COURSE_TYPE_FROM_COURSE = 'coursechangecoursetype';
 	const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
@@ -111,10 +112,10 @@ class WeblcmsManager extends WebApplication
 	const ACTION_ADMIN_COURSE_TYPE_BROWSER = 'admincoursetypebrowser';
 	const ACTION_COURSE_EDITOR_REQUEST = 'course_editor_request';
 	const ACTION_COURSE_SUBSCRIBE_CREATE_REQUEST = 'course_subscribe_request_creator';
-	const ACTION_ADMIN_REQUEST_BROWSER = 'adminrequestbrowser';	
+	const ACTION_ADMIN_REQUEST_BROWSER = 'adminrequestbrowser';
 	const ACTION_COURSE_REQUEST_DELETER = 'course_request_deleter';
-	const ACTION_COURSE_ALLOWING_REQUEST = 'course_allowing_request';	
-	const ACTION_COURSE_REFUSE_REQUEST = 'course_refuse_request';	
+	const ACTION_COURSE_ALLOWING_REQUEST = 'course_allowing_request';
+	const ACTION_COURSE_REFUSE_REQUEST = 'course_refuse_request';
 	const ACTION_VIEW_REQUEST = 'view_request';
 	const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
@@ -153,7 +154,7 @@ class WeblcmsManager extends WebApplication
 	private $course_group;
 
 	private $search_form;
-	
+
 	private $request;
 
 	/**
@@ -196,7 +197,7 @@ class WeblcmsManager extends WebApplication
 		{
 			case self :: ACTION_VIEW_COURSE :
 				$component = $this->create_component('CourseViewer', $this);
-				break;			
+				break;
 			case self :: ACTION_CREATE_COURSE :
 				$component = $this->create_component('CourseCreator', $this);
 				break;
@@ -232,7 +233,7 @@ class WeblcmsManager extends WebApplication
 				break;
 			case self :: ACTION_ADMIN_COURSE_BROWSER :
 				$component = $this->create_component('AdminCourseBrowser', $this);
-				break;		   
+				break;
 			case self :: ACTION_DELETE_COURSE :
 				$component = $this->create_component('CourseDeleter', $this);
 				break;
@@ -244,13 +245,13 @@ class WeblcmsManager extends WebApplication
                 break;
 			case self :: ACTION_ADMIN_COURSE_TYPE_CREATOR :
 				$component = $this->create_component('AdminCourseTypeCreator', $this);
-				break;			
+				break;
 			case self :: ACTION_DELETE_COURSE_TYPE :
 				$component = $this->create_component('CourseTypeDeleter', $this);
 				break;
 			case self :: ACTION_DELETE_COURSES_BY_COURSE_TYPE :
 				$component = $this->create_component('CourseTypeCoursesDeleter', $this);
-				break;			
+				break;
 			case self :: ACTION_VIEW_COURSE_TYPE :
 				$component = $this->create_component('CourseTypeViewer', $this);
 				break;
@@ -262,7 +263,7 @@ class WeblcmsManager extends WebApplication
 				break;
 			case self :: ACTION_EDIT_INTRODUCTION :
 				$component = $this->create_component('IntroductionEditor', $this);
-				break;			
+				break;
 			case self :: ACTION_REPORTING :
 				$component = $this->create_component('Reporting', $this);
 				break;
@@ -272,19 +273,19 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_CHANGE_ACTIVE :
 				$component = $this->create_component('ActivityChanger', $this);
 				break;
-			case self :: ACTION_COURSE_CODE : 
+			case self :: ACTION_COURSE_CODE :
 				$component = $this->create_component('CourseCodeSubscriber', $this);
 				break;
 			case self :: ACTION_COURSE_EDITOR_REQUEST :
 				$component = $this->create_component('CourseRequestEditor', $this);
 				break;
-			case self :: ACTION_COURSE_SUBSCRIBE_CREATE_REQUEST : 
+			case self :: ACTION_COURSE_SUBSCRIBE_CREATE_REQUEST :
 				$component = $this->create_component('CourseSubscribeRequestCreator', $this);
 				break;
-			case self :: ACTION_ADMIN_REQUEST_BROWSER : 
+			case self :: ACTION_ADMIN_REQUEST_BROWSER :
 				$component = $this->create_component('AdminRequestBrowser', $this);
 				break;
-			case self :: ACTION_COURSE_REQUEST_DELETER : 
+			case self :: ACTION_COURSE_REQUEST_DELETER :
 				$component = $this->create_component('CourseRequestDeleter', $this);
 				break;
 			case self :: ACTION_COURSE_ALLOWING_REQUEST :
@@ -296,7 +297,7 @@ class WeblcmsManager extends WebApplication
 			case self :: ACTION_VIEW_REQUEST :
 				$component = $this->create_component('CourseRequestViewer', $this);
 				break;
-			case self :: ACTION_COURSE_CREATE_REQUEST_CREATOR : 
+			case self :: ACTION_COURSE_CREATE_REQUEST_CREATOR :
 				$component = $this->create_component('CourseCreateRequestCreator', $this);
 				break;
 			default :
@@ -375,7 +376,7 @@ class WeblcmsManager extends WebApplication
 	{
 		$this->course_type = $course_type;
 	}
-	
+
 	function set_request($request)
 	{
 		$this->request = $request;
@@ -428,7 +429,7 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->course_type;
 	}
-	
+
 	function get_request()
 	{
 		return $this->request;
@@ -448,7 +449,7 @@ class WeblcmsManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_COURSE_TYPE_CREATOR, self :: PARAM_COURSE_TYPE => $course_type->get_id(), self :: PARAM_TOOL => 'course_type_settings', 'previous' => 'admin'));
     }
-    
+
 	function get_course_request_deleting_url($request, $request_type, $request_view)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_REQUEST_DELETER,
@@ -456,25 +457,25 @@ class WeblcmsManager extends WebApplication
     								self :: PARAM_REQUEST_TYPE => $request_type,
     								self :: PARAM_REQUEST_VIEW => $request_view));
     }
-    
+
     function get_course_request_allowing_url($request, $request_type, $request_view)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_ALLOWING_REQUEST,
     								self :: PARAM_REQUEST => $request->get_id(),
     								self :: PARAM_REQUEST_TYPE => $request_type,
-    								self :: PARAM_REQUEST_VIEW => $request_view));  	 
+    								self :: PARAM_REQUEST_VIEW => $request_view));
     }
-    
+
     function get_course_request_viewing_url($request, $request_type, $request_view)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_REQUEST,
     								self :: PARAM_REQUEST => $request->get_id(),
     								self :: PARAM_REQUEST_TYPE => $request_type));
     }
-    
+
     function get_course_request_refuse_url($request, $request_type, $request_view)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_REFUSE_REQUEST, 
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_REFUSE_REQUEST,
     								self :: PARAM_REQUEST => $request->get_id(),
     								self :: PARAM_REQUEST_TYPE => $request_type,
     								self :: PARAM_REQUEST_VIEW => $request_view));
@@ -688,16 +689,16 @@ class WeblcmsManager extends WebApplication
 	 */
 	function load_tools()
 	{
-		if (! is_null($this->get_course_id()))
-		{
-			$wdm = WeblcmsDataManager :: get_instance();
-			$this->tools = $wdm->get_course_modules($this->get_course_id());
-
-			foreach ($this->tools as $index => $tool)
-			{
-				require_once dirname(__FILE__) . '/../tool/' . $tool->name . '/' . $tool->name . '_tool.class.php';
-			}
-		}
+//		if (! is_null($this->get_course_id()))
+//		{
+//			$wdm = WeblcmsDataManager :: get_instance();
+//			$this->tools = $wdm->get_course_modules($this->get_course_id());
+//
+//			foreach ($this->tools as $index => $tool)
+//			{
+//				require_once dirname(__FILE__) . '/../tool/' . $tool->name . '/' . $tool->name . '_tool.class.php';
+//			}
+//		}
 	}
 
 	/**
@@ -858,14 +859,14 @@ class WeblcmsManager extends WebApplication
 	{
 		$locations = array();
 		$type = $content_object->get_type();
-		
+
 		//$courses = $this->retrieve_courses($user->get_id());
 		$courses = $this->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user->get_id(), CourseUserRelation :: get_table_name()));
 		while ($course = $courses->next_result()){
-			if($course->is_course_admin($user) || $content_object->get_type() == 'document') //u can only publish in the course of u are course admin/ also documents in dropboxes 
+			if($course->is_course_admin($user) || $content_object->get_type() == 'document') //u can only publish in the course of u are course admin/ also documents in dropboxes
 				$c[] = $course;
-		}	
-		
+		}
+
 		$directory = dirname(__FILE__) . '/../tool/';
 		$tools = Filesystem :: get_directory_content($directory, Filesystem :: LIST_DIRECTORIES, false);
 		foreach ($tools as $tool)
@@ -953,24 +954,24 @@ class WeblcmsManager extends WebApplication
     {
         return WeblcmsDataManager :: get_instance()->count_course_types($condition);
     }
-    
+
     function count_requests($condition = null)
     {
     	return WeblcmsDataManager :: get_instance()->count_requests($condition);
     }
-    
+
     function count_course_create_requests($condition = null)
     {
     	return WeblcmsDataManager :: get_instance()->count_course_create_requests($condition);
     }
-    
+
     function count_requests_by_course($condition = null)
     {
     	return WeblcmsDataManager :: get_instance()->count_requests_by_course($condition);
     }
-    
+
     function subscribe_user_to_allowed_courses($user_id)
-    {       			
+    {
         return WeblcmsDataManager :: get_instance()->subscribe_user_to_allowed_courses($user_id);
     }
 
@@ -1031,7 +1032,7 @@ class WeblcmsManager extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_user_category($condition);
 	}
-	
+
 	function retrieve_course_type_user_category($condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_type_user_category($condition);
@@ -1058,7 +1059,7 @@ class WeblcmsManager extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course($course_code);
 	}
-	
+
 	function retrieve_requests_by_course($id)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_requests_by_course($id);
@@ -1073,17 +1074,17 @@ class WeblcmsManager extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_type_user_categories($condition, $offset, $count, $order_property);
 	}
-	
+
     function retrieve_course_types($condition = null, $offset = null, $count = null, $order_property = null)
     {
     	return WeblcmsDataManager :: get_instance()->retrieve_course_types($condition, $offset, $count, $order_property);
     }
-    
+
     function retrieve_requests($condition = null, $offset = null, $count = null, $order_property = null)
     {
     	return WeblcmsDataManager :: get_instance()->retrieve_requests($condition, $offset, $count, $order_property);
     }
-    
+
     function retrieve_course_create_requests($condition = null, $offset = null, $count = null, $order_property = null)
     {
     	return WeblcmsDataManager :: get_instance()->retrieve_course_create_requests($condition, $offset, $count, $order_property);
@@ -1271,12 +1272,12 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
 	}
-	
+
 	function retrieve_request($id)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_request($id);
 	}
-	
+
 	function retrieve_course_create_request($id)
 	{
 		return WeblcmsDataManager :: get_instance()->retrieve_course_create_request($id);
@@ -1331,13 +1332,13 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SUBSCRIBE, self :: PARAM_COURSE => $course->get_id()));
 	}
-	
+
 	function get_course_request_form_url($course)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_SUBSCRIBE_CREATE_REQUEST, self :: PARAM_COURSE => $course->get_id()));
-   
+
 	}
-	
+
 	function get_course_code_url($course)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COURSE_CODE, self :: PARAM_COURSE => $course->get_id()));
@@ -1474,13 +1475,13 @@ class WeblcmsManager extends WebApplication
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->is_subscribed($course, $user_id);
 	}
-	
+
 	function is_teacher($course, $user)
 	{
 		if ($user != null && $course != null)
 		{
 			$relation = $this->retrieve_course_user_relation($course->get_id(), $user->get_id());
-			
+
 			if (($relation && $relation->get_status() == 1) || $user->is_platform_admin())
 				return true;
 
@@ -1549,7 +1550,7 @@ class WeblcmsManager extends WebApplication
 		if (isset($action))
 		{
 			$action = $_POST['action'];
-		
+
 			$selected_request_id = $_POST[AdminRequestBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty($selected_request_id))
 			{
@@ -1559,7 +1560,7 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_request_id = array($selected_request_id);
 			}
-			
+
 			$selected_course_ids = $_POST[AdminCourseBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty($selected_course_ids))
 			{
@@ -1569,7 +1570,7 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_course_ids = array($selected_course_ids);
 			}
-			
+
 			$selected_user_ids = $_POST[SubscribedUserBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty($selected_user_ids))
 			{
@@ -1660,11 +1661,11 @@ class WeblcmsManager extends WebApplication
 					$this->set_action(self :: ACTION_COURSE_REQUEST_DELETER);
 					Request :: set_get(self :: PARAM_REQUEST, $selected_request_id);
 					break;
-				case self :: PARAM_ALLOW_SELECTED_REQUESTS : 
+				case self :: PARAM_ALLOW_SELECTED_REQUESTS :
 					$this->set_action(self :: ACTION_COURSE_ALLOWING_REQUEST);
 					Request :: set_get(self :: PARAM_REQUEST, $selected_request_id);
 					break;
-				case self :: PARAM_REFUSE_SELECTED_REQUESTS : 
+				case self :: PARAM_REFUSE_SELECTED_REQUESTS :
 					$this->set_action(self :: ACTION_COURSE_REFUSE_REQUEST);
 					Request :: set_get(self :: PARAM_REQUEST, $selected_request_id);
 					break;

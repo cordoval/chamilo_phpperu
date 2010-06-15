@@ -22,7 +22,7 @@ class AssessmentTool extends Tool
     const ACTION_PUBLISH_SURVEY = 'publish_survey';
     const ACTION_VIEW = 'view';
     const ACTION_DELETE_RESULTS = 'delete_results';
-    
+
     const PARAM_USER_ASSESSMENT = 'uaid';
     const PARAM_QUESTION_ATTEMPT = 'qaid';
     const PARAM_ASSESSMENT = 'aid';
@@ -37,10 +37,10 @@ class AssessmentTool extends Tool
     {
         $action = $this->get_action();
         $component = parent :: run();
-        
+
         if ($component)
             return;
-        
+
         switch ($action)
         {
             case self :: ACTION_PUBLISH :
@@ -81,7 +81,7 @@ class AssessmentTool extends Tool
                 $component = AssessmentToolComponent :: factory('Viewer', $this);
                 break;
         }
-        
+
         $component->run();
     }
 

@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.tool.announcement.component
  */
 
-require_once dirname(__FILE__) . '/announcement_tool_component.class.php';
+//require_once dirname(__FILE__) . '/announcement_tool_component.class.php';
 /**
  * This tool allows a user to publish announcements in his or her course.
  */
@@ -18,24 +18,24 @@ class AnnouncementTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
-        
-        if ($component)
-        {
-            return;
-        }
-        
+//        $component = parent :: run();
+//
+//        if ($component)
+//        {
+//            return;
+//        }
+
         switch ($action)
         {
             case self :: ACTION_VIEW_ANNOUNCEMENTS :
-                $component = AnnouncementToolComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
-            case self :: ACTION_PUBLISH :
-                $component = AnnouncementToolComponent :: factory('Publisher', $this);
-                break;
-            
+//            case self :: ACTION_PUBLISH :
+//                $component = AnnouncementToolComponent :: factory('Publisher', $this);
+//                break;
+
             default :
-                $component = AnnouncementToolComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
         }
         $component->run();
     }
@@ -44,5 +44,10 @@ class AnnouncementTool extends Tool
     {
         return array(Announcement :: get_type_name());
     }
+
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>
