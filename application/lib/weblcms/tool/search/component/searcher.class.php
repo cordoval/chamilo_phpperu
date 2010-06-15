@@ -3,7 +3,6 @@
  * $Id: search_searcher.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.search.component
  */
-require_once dirname(__FILE__) . '/../search_tool_component.class.php';
 require_once 'Pager/Pager.php';
 /**
  * Tool to search in the course.
@@ -11,7 +10,7 @@ require_once 'Pager/Pager.php';
  * @todo: Advanced search (only in recent publications, only certain types of
  * publications, only in a given tool,...)
  */
-class SearchToolSearcherComponent extends SearchToolComponent
+class SearchToolSearcherComponent extends SearchTool
 {
     /**
      * Number of results per page

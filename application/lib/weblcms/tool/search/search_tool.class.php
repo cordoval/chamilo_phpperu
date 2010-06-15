@@ -17,19 +17,16 @@ class SearchTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
-        
-        if ($component)
-            return;
         
         switch ($action)
         {
             case self :: ACTION_SEARCH :
-                $component = SearchToolComponent :: factory('Searcher', $this);
+                $component = $this->create_component('Searcher');
                 break;
             default :
-                $component = SearchToolComponent :: factory('Searcher', $this);
+                $component = $this->create_component('Searcher');
         }
+        
         $component->run();
     }
     
