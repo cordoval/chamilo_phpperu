@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.blog
  */
 
-require_once dirname(__FILE__) . '/blog_tool_component.class.php';
 /**
  * This tool allows a user to publish learning paths in his or her course.
  */
@@ -43,5 +42,10 @@ class BlogTool extends Tool
     {
         return array(BlogItem :: get_type_name());
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

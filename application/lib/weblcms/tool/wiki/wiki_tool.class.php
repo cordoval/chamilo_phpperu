@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.wiki
  */
 
-require_once dirname(__FILE__) . '/wiki_tool_component.class.php';
 /**
  * This tool allows a user to publish wikis in his or her course.
  */
@@ -109,5 +108,9 @@ class WikiTool extends Tool
         return $wiki_homepage;
     }
 
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

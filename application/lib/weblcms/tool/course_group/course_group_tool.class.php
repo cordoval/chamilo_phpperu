@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.course_group
  */
 
-require_once dirname(__FILE__) . '/course_group_tool_component.class.php';
 require_once dirname(__FILE__) . '/component/course_group_table/course_group_table.class.php';
 /**
  * This tool allows a course_group to publish course_groups in his or her course.
@@ -115,5 +114,10 @@ class CourseGroupTool extends Tool
         $wdm = WeblcmsDataManager :: get_instance();
         return $wdm->retrieve_course_group($course_group_id);
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

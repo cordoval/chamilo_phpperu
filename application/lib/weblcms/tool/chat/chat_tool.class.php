@@ -3,7 +3,6 @@
  * $Id: chat_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.chat
  */
-require_once dirname(__FILE__) . '/chat_tool_component.class.php';
 /**
  * This tool allows a user to publish chatboxes in his or her course.
  */
@@ -35,5 +34,10 @@ class ChatTool extends Tool
         }
         $component->run();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>
