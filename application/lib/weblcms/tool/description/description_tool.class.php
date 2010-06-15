@@ -25,19 +25,22 @@ class DescriptionTool extends Tool
                 $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_DELETE :
-                 $component = $this->create_component('Deleter');
-                break;      
+                $component = $this->create_component('Deleter');
+                break;
             case self :: ACTION_UPDATE :
-                 $component = $this->create_component('Updater');
-                break;    
+                $component = $this->create_component('Updater');
+                break;
+            case self :: ACTION_MOVE_UP :
+                $component = $this->create_component('Mover');
+                break;
             case self :: ACTION_PUBLISH :
-                 $component = $this->create_component('Publisher');
+                $component = $this->create_component('Publisher');
                 break;
             case self :: ACTION_BROWSE :
-                 $component = $this->create_component('Browser');
-                break;    
+                $component = $this->create_component('Browser');
+                break;
             default :
-                 $component = $this->create_component('Browser');
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }
@@ -46,10 +49,10 @@ class DescriptionTool extends Tool
     {
         return array(Description :: get_type_name());
     }
-    
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
 }
 ?>

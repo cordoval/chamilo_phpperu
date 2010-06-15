@@ -13,7 +13,8 @@ class ToolMoverComponent extends ToolComponent
     {
         if ($this->is_allowed(EDIT_RIGHT))
         {
-            $move = $this->get_parent()->get_move_direction();
+                   	
+        	$move = $this->get_parent()->get_move_direction();
             
             $datamanager = WeblcmsDataManager :: get_instance();
             $publication = $datamanager->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
