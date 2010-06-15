@@ -6,19 +6,22 @@
 require_once dirname(__FILE__) . '/../../../content_object_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/blog_viewer/blog_browser.class.php';
 
-class BlogToolViewerComponent extends BlogToolComponent
+class BlogToolViewerComponent extends BlogTool
 {
     private $action_bar;
 
     function run()
     {
-        if (! $this->is_allowed(VIEW_RIGHT))
+/*        if (! $this->is_allowed(VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
-        }
-
-        $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+        }*/
+        $viewer = ToolComponent :: factory(ToolComponent :: ACTION_VIEW, $this);
+        $viewer->run();
+    }
+}
+        /*$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
@@ -74,9 +77,9 @@ class BlogToolViewerComponent extends BlogToolComponent
         echo '</div>';
 
         $this->display_footer();
-    }
+    }*/
 
-    function add_actionbar_item($item)
+/*    function add_actionbar_item($item)
     {
         $this->action_bar->add_tool_action($item);
     }
@@ -142,7 +145,7 @@ class BlogToolViewerComponent extends BlogToolComponent
             $trail->add(new Breadcrumb($this->get_url(array('pcattree' => $categorie->get_id())), $categorie->get_name()));
         }
     }
+*/
 
 
-}
 ?>
