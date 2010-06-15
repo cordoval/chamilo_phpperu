@@ -11,16 +11,19 @@
  */
 abstract class ContentObjectPublicationListRenderer
 {
+    const TYPE_LIST = 'list';
+    const TYPE_TABLE = 'table';
+    const TYPE_CALENDAR = 'calendar';
+    const TYPE_MONTH = 'month_calendar';
+
     protected $browser;
-
     private $parameters;
-
     private $actions;
 
     /**
      * Constructor.
      * @param PublicationBrowser $browser The browser to associate this list
-     *                                    renderer with.
+     * renderer with.
      * @param array $parameters The parameters to pass to the renderer.
      */
     function ContentObjectPublicationListRenderer($browser, $parameters = array (), $actions)
@@ -107,7 +110,7 @@ abstract class ContentObjectPublicationListRenderer
                     $user = $this->browser->get_parent()->get_user_info($users[0]);
                     return $user->get_firstname() . ' ' . $user->get_lastname() . $email_suffix;
                 }
-                elseif(count($groups) == 1)
+                elseif (count($groups) == 1)
                 {
                     $gdm = GroupDataManager :: get_instance();
                     $group = $gdm->retrieve_group($groups[0]);
@@ -183,7 +186,7 @@ abstract class ContentObjectPublicationListRenderer
      * Renders the means to move the given publication up one place.
      * @param ContentObjectPublication $publication The publication.
      * @param boolean $first True if the publication is the first in the list
-     *                       it is a part of.
+     * it is a part of.
      * @return string The HTML rendering.
      */
     function render_up_action($publication, $first = false)
@@ -205,7 +208,7 @@ abstract class ContentObjectPublicationListRenderer
      * Renders the means to move the given publication down one place.
      * @param ContentObjectPublication $publication The publication.
      * @param boolean $last True if the publication is the last in the list
-     *                      it is a part of.
+     * it is a part of.
      * @return string The HTML rendering.
      */
     function render_down_action($publication, $last = false)
@@ -255,7 +258,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_edit_action($publication)
     {
-        $edit_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+        $edit_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
         $edit_link = '<a href="' . $edit_url . '"><img src="' . Theme :: get_common_image_path() . 'action_edit.png"  alt=""/></a>';
         return $edit_link;
     }
@@ -288,15 +291,15 @@ abstract class ContentObjectPublicationListRenderer
         $feedback_link = '<a href="' . $feedback_url . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt=""/></a>';
         return $feedback_link;
     }
-    
+
     function render_evaluation_action($publication)
     {
-        require_once dirname (__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
-        if(EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
+        require_once dirname(__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
+        if (EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id()))
         {
-	    	$evaluation_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION), array(), true);
-	    	$evaluation_link = '<a href="' . $evaluation_url . '"><img src="' . Theme :: get_common_image_path() . 'action_evaluation.png" alt=""/></a>';
-	    	return $evaluation_link;
+            $evaluation_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION), array(), true);
+            $evaluation_link = '<a href="' . $evaluation_url . '"><img src="' . Theme :: get_common_image_path() . 'action_evaluation.png" alt=""/></a>';
+            return $evaluation_link;
         }
     }
 
@@ -383,9 +386,9 @@ abstract class ContentObjectPublicationListRenderer
      * Renders publication actions for the given publication.
      * @param ContentObjectPublication $publication The publication.
      * @param boolean $first True if the publication is the first in the list
-     *                       it is a part of.
+     * it is a part of.
      * @param boolean $last True if the publication is the last in the list
-     *                      it is a part of.
+     * it is a part of.
      * @return string The rendered HTML.
      */
     function render_publication_actions($publication, $first, $last)
@@ -409,10 +412,10 @@ abstract class ContentObjectPublicationListRenderer
         }
 
         $icons[] = $this->render_feedback_action($publication);
-        
+
         if (WebApplication :: is_active('gradebook'))
-			$icons[] = $this->render_evaluation_action($publication);
-			
+            $icons[] = $this->render_evaluation_action($publication);
+
         //dump($icons);
         $html[] = implode('&nbsp;', $icons);
         $html[] = '</span>';
@@ -515,6 +518,50 @@ abstract class ContentObjectPublicationListRenderer
         $rgb['fb'] = round(($rgb['b'] + 234) / 2);
 
         return $rgb;
+    }
+
+    static function factory($type, $tool_browser)
+    {
+        $file = dirname(__FILE__) . '/list_renderer/' . $type . '_content_object_publication_list_renderer.class.php';
+        if (! file_exists($file))
+        {
+            throw new Exception(Translation :: get('ContentObjectPublicationListRendererTypeDoesNotExist', array('type' => $type)));
+        }
+
+        require_once $file;
+
+        $class = Utilities :: underscores_to_camelcase($type) . 'ContentObjectPublicationListRenderer';
+        return new $class($tool_browser);
+    }
+
+    function get_browser()
+    {
+        return $this->browser;
+    }
+
+    function get_allowed_types()
+    {
+        return $this->browser->get_allowed_types();
+    }
+
+    function get_search_condition()
+    {
+        return $this->browser->get_search_condition();
+    }
+
+    function get_user()
+    {
+        return $this->browser->get_user();
+    }
+
+    function get_course_id()
+    {
+        return $this->browser->get_course_id();
+    }
+
+    function get_tool_id()
+    {
+        return $this->browser->get_tool_id();
     }
 }
 ?>

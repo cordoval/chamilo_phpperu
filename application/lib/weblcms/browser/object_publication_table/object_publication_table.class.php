@@ -17,22 +17,30 @@ class ObjectPublicationTable extends ObjectTable
     function ObjectPublicationTable($parent, $owner, $types, $condition, $cell_renderer = null, $column_model = null)
     {
         $data_provider = new ObjectPublicationTableDataProvider($parent, $owner, $types, $condition);
-        
+
         if (! $column_model)
+        {
             $column_model = new ObjectPublicationTableColumnModel();
-        
+        }
+
         if (! $cell_renderer)
+        {
             $cell_renderer = new ObjectPublicationTableCellRenderer($parent);
-        
+        }
+
         parent :: __construct($data_provider, ObjectPublicationTable :: DEFAULT_NAME, $column_model, $cell_renderer);
-        
+
         $cell_renderer->set_object_count($this->get_object_count());
         $actions = array();
         if($parent->is_allowed(DELETE_RIGHT))
+        {
         	$actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected'));
-		if($parent->is_allowed(EDIT_RIGHT))        	
+        }
+		if($parent->is_allowed(EDIT_RIGHT))
+		{
         	$actions[] = new ObjectTableFormAction(Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY, Translation :: get('MoveSelected'), false);
-        
+		}
+
         $this->set_form_actions($actions);
     }
 }
