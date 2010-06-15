@@ -28,6 +28,15 @@ class AnnouncementTool extends Tool
             case self :: ACTION_PUBLISH :
                 $component = $this->create_component('Publisher');
                 break;
+            case self :: ACTION_UPDATE:
+            	$component = $this->create_component('Updater');
+                break;
+            case self :: ACTION_DELETE:
+            	$component = $this->create_component('Deleter');
+                break;
+            case self :: ACTION_TOGGLE_VISIBILITY:
+            	$component = $this->create_component('ToggleVisibility');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }

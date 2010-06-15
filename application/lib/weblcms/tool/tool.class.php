@@ -22,7 +22,13 @@ abstract class Tool extends SubManager
     const PARAM_VISIBILITY = 'visible';
     const PARAM_OBJECT_ID = 'object_id';
 
-    const ACTION_EDIT = 'edit';
+    const ACTION_BROWSE = 'browse';
+    const ACTION_VIEW = 'view';
+    const ACTION_PUBLISH = 'publish';
+    const ACTION_DELETE = 'delete';
+    const ACTION_UPDATE = 'update';
+    const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
+    
     const ACTION_EDIT_CLOI = 'edit_cloi';
     const ACTION_EDIT_FEEDBACK = 'edit_feedback';
     const ACTION_CREATE_CLOI = 'create_cloi';
@@ -31,10 +37,8 @@ abstract class Tool extends SubManager
     const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
     const ACTION_MOVE_SELECTED_TO_CATEGORY = 'move_selected_to_category';
     const ACTION_MOVE = 'move';
-    const ACTION_DELETE = 'delete';
     const ACTION_DELETE_CLOI = 'delete_cloi';
     const ACTION_DELETE_FEEDBACK = 'delete_feedback';
-    const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
     const ACTION_SHOW = 'show';
     const ACTION_HIDE = 'hide';
     const ACTION_PUBLISH_INTRODUCTION = 'publish_introduction';
@@ -45,11 +49,6 @@ abstract class Tool extends SubManager
     const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
     const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
-
-
-    const ACTION_BROWSE = 'browse';
-    const ACTION_VIEW = 'view';
-    const ACTION_PUBLISH = 'publish';
 
     /**
      * The action of the tool

@@ -3,12 +3,11 @@
  * $Id: delete.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
  */
-class ToolDeleteComponent extends ToolComponent
+class ToolDeleterComponent extends ToolComponent
 {
-
     function run()
     {
-        if ($this->is_allowed(DELETE_RIGHT) /*&& !WikiTool :: is_wiki_locked(Request :: get(Tool :: PARAM_PUBLICATION_ID))*/)
+        if ($this->is_allowed(DELETE_RIGHT))
 		{
             if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
                 $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);

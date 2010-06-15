@@ -5,9 +5,8 @@
  */
 require_once dirname(__FILE__) . '/../../content_object_publication_form.class.php';
 
-class ToolEditComponent extends ToolComponent
+class ToolUpdaterComponent extends ToolComponent
 {
-
     function run()
     {
         if ($this->is_allowed(EDIT_RIGHT))
@@ -15,17 +14,10 @@ class ToolEditComponent extends ToolComponent
             $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
             
             $datamanager = WeblcmsDataManager :: get_instance();
-            /*if(Request :: get('tool') == 'learning_path')
-			{
-				$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($pid);
-			}
-			else*/
-            {
-                $publication = $datamanager->retrieve_content_object_publication($pid);
-                $content_object = $publication->get_content_object(); //RepositoryDataManager :: get_instance()->retrieve_content_object($publication->get_content_object()->get_id());
-            }
+            $publication = $datamanager->retrieve_content_object_publication($pid);
+            $content_object = $publication->get_content_object();
             
-            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $pid)));
+            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $pid)));
             
             $trail = BreadcrumbTrail :: get_instance();
             
@@ -60,7 +52,7 @@ class ToolEditComponent extends ToolComponent
                     $publication->update();
                 }
                 
-                $publication_form = new ContentObjectPublicationForm(ContentObjectPublicationForm :: TYPE_SINGLE, $content_object, $this, false, $this->get_course(), false, array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $pid, 'validated' => 1));
+                $publication_form = new ContentObjectPublicationForm(ContentObjectPublicationForm :: TYPE_SINGLE, $content_object, $this, false, $this->get_parent()->get_course(), false, array(Tool :: PARAM_PUBLICATION_ID => $pid, 'validated' => 1));
                 $publication_form->set_publication($publication);
                 
                 if ($publication_form->validate())
@@ -75,12 +67,12 @@ class ToolEditComponent extends ToolComponent
                     if ($show_details == 1)
                     {
                         $params[Tool :: PARAM_PUBLICATION_ID] = $pid;
-                        $params['tool_action'] = 'view';
+                        $params[Tool :: PARAM_ACTION] = Tool :: ACTION_VIEW;
                     }
                     
                     if ($tool == 'learning_path')
                     {
-                        $params['tool_action'] = null;
+                        $params[Tool :: PARAM_ACTION] = null;
                         $params['display_action'] = 'view';
                         $params[Tool :: PARAM_PUBLICATION_ID] = Request :: get(Tool :: PARAM_PUBLICATION_ID);
                     }
