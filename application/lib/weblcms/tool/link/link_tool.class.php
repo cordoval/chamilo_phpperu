@@ -9,12 +9,12 @@
  */
 class LinkTool extends Tool
 {
- 
-	
+
+
     function run()
     {
         $action = $this->get_action();
-        
+
         switch ($action)
         {
             case self :: ACTION_VIEW :
@@ -61,10 +61,15 @@ class LinkTool extends Tool
     {
         return array(Link :: get_type_name());
     }
-    
+
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
+	}
+
+	function is_category_management_enabled()
+	{
+	    return true;
 	}
 }
 ?>
