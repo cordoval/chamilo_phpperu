@@ -341,6 +341,32 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->retrieve_objects(InternshipOrganizerAgreement :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreement :: CLASS_NAME);
     }
 
+    function delete_internship_organizer_agreement_rel_user($agreement_rel_user)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $agreement_rel_user->get_user_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_PERIOD_ID, $agreement_rel_user->get_period_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, $agreement_rel_user->get_user_type());
+        $condition = new AndCondition($conditions);
+        $bool = $this->delete($agreement_rel_user->get_table_name(), $condition);
+        return $bool;
+    }
+
+    function create_internship_organizer_agreement_rel_user($agreement_rel_user)
+    {
+        return $this->create($agreement_rel_user);
+    }
+
+    function count_agreement_rel_users($condition = null)
+    {
+        return $this->count_objects(InternshipOrganizerAgreementRelUser :: get_table_name(), $condition);
+    }
+
+    function retrieve_agreement_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(InternshipOrganizerAgreementRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelUser :: CLASS_NAME);
+    }
+
     //internship planner regions##
     
 
@@ -508,12 +534,13 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     {
         return $this->retrieve_objects(InternshipOrganizerPeriod :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPeriod :: CLASS_NAME);
     }
-	
-    function retrieve_period($period_id){
-    	$condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period_id);
+
+    function retrieve_period($period_id)
+    {
+        $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period_id);
         return $this->retrieve_object(InternshipOrganizerPeriod :: get_table_name(), $condition, array(), InternshipOrganizerPeriod :: CLASS_NAME);
     }
-    
+
     function retrieve_internship_organizer_period($id)
     {
         $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $id);

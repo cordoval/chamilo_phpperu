@@ -126,7 +126,7 @@ class InternshipOrganizerSubscribeUsersForm extends FormValidator
                         $succes = $period_rel_user->create();
                         if ($succes)
                         {
-                            //                        Events :: trigger_event('create', 'period_rel_user', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
+                            //                   Events :: trigger_event('create', 'period_rel_user', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
                         }
                     }
                 }
