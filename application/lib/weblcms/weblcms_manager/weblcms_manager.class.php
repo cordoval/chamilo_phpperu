@@ -54,7 +54,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_REQUEST = 'request';
 	const PARAM_REMOVE_SELECTED_REQUESTS = 'removed selected requests';
 	const PARAM_COURSE = 'course';
-	const PARAM_CATEGORY = 'pcattree';
+	const PARAM_CATEGORY = 'publication_category';
 	const PARAM_COURSE_CATEGORY_ID = 'category';
 	const PARAM_COURSE_USER = 'course';
 	const PARAM_COURSE_GROUP = 'course_group';

@@ -20,7 +20,7 @@ class ToolBrowserComponent extends ToolComponent
         $this->introduction_text = $this->get_introduction_text();
         $this->action_bar = $this->get_action_bar();
 
-        $tree_id = 'publication_category_tree';
+        $tree_id = WeblcmsManager :: PARAM_CATEGORY;
         $this->publication_category_tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
         $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_browser_type(), $this);
 
@@ -67,20 +67,10 @@ class ToolBrowserComponent extends ToolComponent
     {
         if (empty($this->publications))
         {
+            $datamanager = WeblcmsDataManager :: get_instance();
             $condition = $this->get_publication_conditions();
 
-            $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC));
-            $visible_publications = array();
-            while ($publication = $publications->next_result())
-            {
-                // If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
-                if (! $publication->is_visible_for_target_users() && ! ($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
-                {
-                    continue;
-                }
-                $visible_publications[] = $publication;
-            }
-            $this->publications = $visible_publications;
+            $this->publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC))->as_array();
         }
 
         return $this->publications;
@@ -155,7 +145,6 @@ class ToolBrowserComponent extends ToolComponent
 
     function get_publication_conditions()
     {
-        $datamanager = WeblcmsDataManager :: get_instance();
         if ($this->is_allowed(EDIT_RIGHT))
         {
             $user_id = array();
@@ -221,6 +210,19 @@ class ToolBrowserComponent extends ToolComponent
             {
                 $conditions[] = $tool_condition;
             }
+        }
+
+        if (! ($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+        {
+            $time_conditions = array();
+            $time_conditions[] = new NotCondition(new EqualityCondition(ContentObjectPublication :: PROPERTY_HIDDEN, 0));
+
+            $forever_condition = new AndCondition(array(new EqualityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, 0), new EqualityCondition(ContentObjectPublication :: PROPERTY_TO_DATE)));
+            $between_condition = new AndCondition(array(new InequalityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time()), new InequalityCondition(ContentObjectPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time())));
+
+            $time_conditions[] = new OrCondition(array($forever_condition, $between_condition));
+
+            $conditions[] = new AndCondition($time_conditions);
         }
 
         return new AndCondition($conditions);

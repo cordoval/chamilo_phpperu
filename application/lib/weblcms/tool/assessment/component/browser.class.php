@@ -7,7 +7,7 @@ class AssessmentToolBrowserComponent extends AssessmentTool
         $tool_component->run();
     }
 
-    function convert_content_object_publication_to_calendar_event(ContentObjectPublication $publication, $from_time, $to_time)
+    function convert_content_object_publication_to_calendar_event($publication, $from_time, $to_time)
     {
         $object = $publication->get_content_object();
 
@@ -40,6 +40,7 @@ class AssessmentToolBrowserComponent extends AssessmentTool
     {
         $browser_types = array();
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
         return $browser_types;
     }
