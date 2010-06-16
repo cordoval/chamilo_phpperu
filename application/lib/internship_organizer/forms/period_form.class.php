@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__) . '/../period.class.php';
+require_once dirname(__FILE__) . '/../category_rel_period.class.php';
 
 class InternshipOrganizerPeriodForm extends FormValidator
 {
@@ -8,9 +10,12 @@ class InternshipOrganizerPeriodForm extends FormValidator
     const RESULT_SUCCESS = 'InternshipOrganizerPeriodUpdated';
     const RESULT_ERROR = 'InternshipOrganizerPeriodUpdateFailed';
     
+    const APPLICATION_NAME = 'internship_organizer';
+    const PARAM_TARGET = 'target_categories';
+    
     private $parent;
     private $period;
-   	private $user;
+    private $user;
 
     function InternshipOrganizerPeriodForm($form_type, $period, $action, $user)
     {
@@ -35,8 +40,8 @@ class InternshipOrganizerPeriodForm extends FormValidator
     {
         $this->addElement('text', InternshipOrganizerPeriod :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
         $this->addRule(InternshipOrganizerPeriod :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-               
-        $this->addElement('select', InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, Translation :: get('Period'), $this->get_periods());
+        
+        $this->addElement('select', InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, Translation :: get('ParentPeriod'), $this->get_periods());
         $this->addRule(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $this->add_html_editor(InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
@@ -46,7 +51,6 @@ class InternshipOrganizerPeriodForm extends FormValidator
         
         $this->add_datepicker(InternshipOrganizerPeriod :: PROPERTY_END, Translation :: get('End'), false);
         $this->addRule(InternshipOrganizerPeriod :: PROPERTY_END, Translation :: get('ThisFieldIsRequired'), 'required');
-        
     
     }
 
@@ -69,6 +73,18 @@ class InternshipOrganizerPeriodForm extends FormValidator
     {
         $this->build_basic_form();
         
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_category_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('ChooseCategories');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        
+        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Categories'), $url, $locale, array());
+        $defaults = array();
+        $elem->setDefaults($defaults);
+        $elem->setDefaultCollapsed(false);
+        
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
@@ -89,12 +105,13 @@ class InternshipOrganizerPeriodForm extends FormValidator
         {
             $period->move($new_parent);
         }
-               
-//        if ($value)
-//        {
-//            Events :: trigger_event('update', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
-//        }
         
+        //        if ($value)
+        //        {
+        //            Events :: trigger_event('update', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
+        //        }
+        
+
         return $value;
     }
 
@@ -105,17 +122,32 @@ class InternshipOrganizerPeriodForm extends FormValidator
         
         $period->set_name($values[InternshipOrganizerPeriod :: PROPERTY_NAME]);
         $period->set_description($values[InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION]);
-        $period->set_begin(Utilities :: time_from_datepicker_without_timepicker( $values[InternshipOrganizerPeriod :: PROPERTY_BEGIN]));
+        $period->set_begin(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerPeriod :: PROPERTY_BEGIN]));
         $period->set_end(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerPeriod :: PROPERTY_END]));
         $period->set_parent_id($values[InternshipOrganizerPeriod :: PROPERTY_PARENT_ID]);
         
         $value = $period->create();
-               
-//        if ($value)
-//        {
-//            Events :: trigger_event('create', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
-//        }
         
+        if ($value)
+        {
+            $categories = $values[self :: PARAM_TARGET];
+                      
+            $period_id = $period->get_id();
+            foreach ($categories as $category_id)
+            {
+                $category_rel_period = new InternshipOrganizerCategoryRelPeriod();
+                $category_rel_period->set_category_id($category_id);
+                $category_rel_period->set_period_id($period_id);
+                $category_rel_period->create();
+            }
+        }
+        
+        //        if ($value)
+        //        {
+        //            Events :: trigger_event('create', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
+        //        }
+        
+
         return $value;
     }
 
