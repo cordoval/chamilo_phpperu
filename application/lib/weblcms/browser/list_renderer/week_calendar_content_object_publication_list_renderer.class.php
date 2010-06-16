@@ -12,6 +12,7 @@ require_once dirname(__FILE__) . '/calendar_content_object_publication_list_rend
  */
 class WeekCalendarContentObjectPublicationListRenderer extends CalendarContentObjectPublicationListRenderer
 {
+
     /**
      * Returns the HTML output of this renderer.
      * @return string The HTML output

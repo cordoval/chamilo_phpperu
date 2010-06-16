@@ -313,20 +313,28 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_move_to_category_action($publication)
     {
-        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->tool_browser->get_parent()->get_course_id());
-        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->tool_browser->get_parent()->get_tool_id());
-        $count = WeblcmsDataManager :: get_instance()->count_content_object_publication_categories(new AndCondition($conditions));
-        $count ++;
-        if ($count > 1)
+        if ($this->get_tool_browser()->is_category_management_enabled())
         {
-            $url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
-            $link = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'action_move.png"  alt=""/></a>';
+
+            $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->tool_browser->get_parent()->get_course_id());
+            $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->tool_browser->get_parent()->get_tool_id());
+            $count = WeblcmsDataManager :: get_instance()->count_content_object_publication_categories(new AndCondition($conditions));
+            $count ++;
+            if ($count > 1)
+            {
+                $url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+                $link = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'action_move.png"  alt=""/></a>';
+            }
+            else
+            {
+                $link = '<img src="' . Theme :: get_common_image_path() . 'action_move_na.png"  alt=""/>';
+            }
+            return $link;
         }
         else
         {
-            $link = '<img src="' . Theme :: get_common_image_path() . 'action_move_na.png"  alt=""/>';
+            return null;
         }
-        return $link;
     }
 
     /**

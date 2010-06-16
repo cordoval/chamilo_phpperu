@@ -19,7 +19,7 @@ class ToolBrowserComponent extends ToolComponent
         $this->introduction_text = $this->get_introduction_text();
         $this->action_bar = $this->get_action_bar();
 
-        $tree_id = 'pcattree';
+        $tree_id = 'publication_category_tree';
         $publication_category_tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
         $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_browser_type(), $this);
 

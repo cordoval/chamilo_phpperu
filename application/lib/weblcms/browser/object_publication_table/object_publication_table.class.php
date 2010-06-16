@@ -32,14 +32,14 @@ class ObjectPublicationTable extends ObjectTable
 
         $cell_renderer->set_object_count($this->get_object_count());
         $actions = array();
-        if($table_renderer->is_allowed(DELETE_RIGHT))
+        if ($table_renderer->is_allowed(DELETE_RIGHT))
         {
-        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected'));
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('RemoveSelected'));
         }
-		if($table_renderer->is_allowed(EDIT_RIGHT) && $table_renderer->get_tool_browser()->is_category_management_enabled())
-		{
-        	$actions[] = new ObjectTableFormAction(Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY, Translation :: get('MoveSelected'), false);
-		}
+        if ($table_renderer->is_allowed(EDIT_RIGHT) && $table_renderer->get_tool_browser()->is_category_management_enabled())
+        {
+            $actions[] = new ObjectTableFormAction(Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY, Translation :: get('MoveSelected'), false);
+        }
 
         $this->set_form_actions($actions);
     }
