@@ -565,6 +565,11 @@ abstract class ContentObjectPublicationListRenderer
         return $this->tool_browser->get_search_condition();
     }
 
+    function get_publication_conditions()
+    {
+        return $this->tool_browser->get_publication_conditions();
+    }
+
     function get_user()
     {
         return $this->tool_browser->get_user();

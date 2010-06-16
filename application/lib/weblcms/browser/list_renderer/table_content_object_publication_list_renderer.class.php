@@ -35,7 +35,7 @@ class TableContentObjectPublicationListRenderer extends ContentObjectPublication
             $object_publication_table_column_model = null;
         }
 
-        $table = new ObjectPublicationTable($this, $this->get_user(), $this->get_allowed_types(), $this->get_search_condition(), $object_publication_table_cell_renderer, $object_publication_table_column_model);
+        $table = new ObjectPublicationTable($this, $this->get_user(), $this->get_allowed_types(), $this->get_publication_conditions(), $object_publication_table_cell_renderer, $object_publication_table_column_model);
         return $table->as_html();
     }
 }

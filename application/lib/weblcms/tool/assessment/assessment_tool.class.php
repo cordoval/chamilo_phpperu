@@ -117,6 +117,15 @@ class AssessmentTool extends Tool
             case self :: ACTION_VIEW_REPORTING_TEMPLATE:
             	$component = $this->create_component('ReportingViewer');
                 break;
+            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT:
+                $component = $this->create_component('Builder');
+                break;
+            case self :: ACTION_MOVE_TO_CATEGORY:
+                $component = $this->create_component('CategoryMover');
+                break;
+            case self :: ACTION_MANAGE_CATEGORIES:
+                $component = $this->create_component('CategoryManager');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }

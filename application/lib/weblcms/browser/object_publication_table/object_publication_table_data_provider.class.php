@@ -20,7 +20,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
      * The search query, or null if none.
      */
     private $condition;
-    
+
     private $parent;
 
     /**
@@ -34,6 +34,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
     {
         $this->types = $types;
         $this->owner = $owner;
+
         $this->condition = $condition;
         $this->parent = $parent;
     }
@@ -50,7 +51,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
     function get_publications($from, $count, $column, $direction)
     {
         $datamanager = WeblcmsDataManager :: get_instance();
-        $publications = $datamanager->retrieve_content_object_publications_new($this->get_conditions(), $column, $from, $count);
+        $publications = $datamanager->retrieve_content_object_publications_new($this->condition, $column, $from, $count);
         return $publications;
     }
 
@@ -60,7 +61,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
     function get_object_count()
     {
         $datamanager = WeblcmsDataManager :: get_instance();
-        $publications = $datamanager->count_content_object_publications_new($this->get_conditions());
+        $publications = $datamanager->count_content_object_publications_new($this->condition);
         return $publications;
     }
 
@@ -76,16 +77,16 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
         {
        		$user_id = $this->parent->get_user_id();
             $course_groups = $this->parent->get_course_groups();
-                
+
             $course_group_ids = array();
-               
+
             foreach($course_groups as $course_group)
             {
              	$course_group_ids[] = $course_group->get_id();
             }
         }
         $course = $this->parent->get_course_id();
-        
+
         if ($this->parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY))
         {
             $category = $this->parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
@@ -94,7 +95,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
         {
             $category = 0;
         }
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course);
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $this->parent->get_tool_id());
@@ -105,29 +106,29 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
         {
     		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
         }
-    	
+
     	if(count($course_group_ids) > 0)
     	{
         	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
     	}
-        	
+
         if (! empty($user_id) || ! empty($course_group_ids))
         {
             $access[] = new AndCondition(array(
-            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), 
+            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()),
             			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
         }
 
         $conditions[] = new OrCondition($access);
-        
+
         $subselect_conditions = array();
         $subselect_conditions[] = $this->get_subselect_condition();
         $subselect_condition = new AndCondition($subselect_conditions);
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, ContentObjectPublication :: get_table_name(), RepositoryDataManager :: get_instance());
-        
+
         if ($this->condition)
             $conditions[] = $this->condition;
-        
+
         $condition = new AndCondition($conditions);
         //dump($condition);
         return $condition;
@@ -146,7 +147,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
             $type_cond[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
         }
         $condition = new OrCondition($type_cond);
-        
+
         return $condition;
     }
 }

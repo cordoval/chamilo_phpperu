@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../tool_component.class.php';
 
-class ToolMoveSelectedToCategoryComponent extends ToolComponent
+class ToolCategoryMoverComponent extends ToolComponent
 {
 
     function run()
@@ -19,7 +19,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
                 $this->display_error_message('CategoryFormCouldNotBeBuild');
                 $this->display_footer();
             }
-            
+
             $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             if (! is_array($publication_ids))
             {
@@ -52,14 +52,14 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
                 //$message = $form->toHtml();
                 $trail = new BreadcrumbTrail();
                 $trail->add_help('courses general');
-                
+
                 $this->display_header($trail, true);
                 $form->display();
                 $this->display_footer();
             }
         }
     }
-    
+
     private $tree;
 
     function build_move_to_category_form()
@@ -69,7 +69,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
         {
             $publication_ids = array($publication_ids);
         }
-        
+
         if (count($publication_ids) > 0)
         {
             $pub = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_ids[0]);
@@ -79,19 +79,19 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
                 if ($cat != 0)
                     $this->tree[0] = Translation :: get('Root');
                 $this->build_category_tree(0, $cat);
-                $form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => 'move_selected_to_category', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))));
+                $form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))));
                 $form->addElement('select', 'category', Translation :: get('Category'), $this->tree);
                 //$form->addElement('submit', 'submit', Translation :: get('Ok'));
                 $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));
                 $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-                
+
                 $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
                 return $form;
-            
+
             }
         }
     }
-    
+
     private $level = 1;
 
     function build_category_tree($parent_id, $exclude)
@@ -102,12 +102,14 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
         $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_tool_id());
         $condition = new AndCondition($conditions);
         $categories = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication_categories($condition);
-        
+
         $tree = array();
         while ($cat = $categories->next_result())
         {
             if ($cat->get_id() != $exclude)
+            {
                 $this->tree[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
+            }
             $this->level ++;
             $this->build_category_tree($cat->get_id(), $exclude);
             $this->level --;

@@ -11,6 +11,7 @@ class ToolBrowserComponent extends ToolComponent
 {
     private $action_bar;
     private $introduction_text;
+    private $publication_category_tree;
 
     function run()
     {
@@ -20,7 +21,7 @@ class ToolBrowserComponent extends ToolComponent
         $this->action_bar = $this->get_action_bar();
 
         $tree_id = 'publication_category_tree';
-        $publication_category_tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
+        $this->publication_category_tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
         $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_browser_type(), $this);
 
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
@@ -42,7 +43,7 @@ class ToolBrowserComponent extends ToolComponent
         if ($this->is_category_management_enabled())
         {
             echo '<div style="width:18%; float: left; overflow: auto;">';
-            echo $publication_category_tree->as_html();
+            echo $this->publication_category_tree->as_html();
             echo '</div>';
             echo '<div style="width:80%; padding-left: 1%; float:right; ">';
         }
@@ -66,74 +67,7 @@ class ToolBrowserComponent extends ToolComponent
     {
         if (empty($this->publications))
         {
-            $datamanager = WeblcmsDataManager :: get_instance();
-            if ($this->is_allowed(EDIT_RIGHT))
-            {
-                $user_id = array();
-                $course_group_ids = array();
-            }
-            else
-            {
-                $user_id = $this->get_user_id();
-                $course_groups = $this->get_course_groups();
-
-                $course_group_ids = array();
-
-                foreach ($course_groups as $course_group)
-                {
-                    $course_group_ids[] = $course_group->get_id();
-                }
-            }
-
-            $conditions = array();
-            $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-            $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $this->get_tool_id());
-
-            /* $access = array();
-            $access[] = new InCondition('user_id', $user_id, $datamanager->get_alias('content_object_publication_user'));
-            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
-            if (! empty($user_id) || ! empty($course_groups))
-            {
-                $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
-            }*/
-
-            $access = array();
-            if ($user_id)
-            {
-                $access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
-            }
-
-            if (count($course_group_ids) > 0)
-            {
-                $access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
-            }
-
-            if (! empty($user_id) || ! empty($course_group_ids))
-            {
-                $access[] = new AndCondition(array(new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
-            }
-
-            $conditions[] = new OrCondition($access);
-
-            $subselect_conditions = array();
-            $subselect_conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->get_allowed_types());
-            if ($this->get_search_condition())
-            {
-                $subselect_conditions[] = $this->get_search_condition();
-            }
-            $subselect_condition = new AndCondition($subselect_conditions);
-
-            $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
-
-            if (method_exists($this->get_parent(), 'get_tool_conditions'))
-            {
-                foreach ($this->get_parent()->get_tool_conditions() as $tool_condition)
-                {
-                    $conditions[] = $tool_condition;
-                }
-            }
-
-            $condition = new AndCondition($conditions);
+            $condition = $this->get_publication_conditions();
 
             $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC));
             $visible_publications = array();
@@ -217,6 +151,79 @@ class ToolBrowserComponent extends ToolComponent
 
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
         return $publications->next_result();
+    }
+
+    function get_publication_conditions()
+    {
+        $datamanager = WeblcmsDataManager :: get_instance();
+        if ($this->is_allowed(EDIT_RIGHT))
+        {
+            $user_id = array();
+            $course_group_ids = array();
+        }
+        else
+        {
+            $user_id = $this->get_user_id();
+            $course_groups = $this->get_course_groups();
+
+            $course_group_ids = array();
+
+            foreach ($course_groups as $course_group)
+            {
+                $course_group_ids[] = $course_group->get_id();
+            }
+        }
+
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $this->get_tool_id());
+        $conditions[] = new InCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $this->publication_category_tree->get_current_category_id());
+
+        /* $access = array();
+            $access[] = new InCondition('user_id', $user_id, $datamanager->get_alias('content_object_publication_user'));
+            $access[] = new InCondition('course_group_id', $course_group_ids, $datamanager->get_alias('content_object_publication_course_group'));
+            if (! empty($user_id) || ! empty($course_groups))
+            {
+                $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $datamanager->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $datamanager->get_alias('content_object_publication_course_group'))));
+            }*/
+
+        $access = array();
+        if ($user_id)
+        {
+            $access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
+        }
+
+        if (count($course_group_ids) > 0)
+        {
+            $access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
+        }
+
+        if (! empty($user_id) || ! empty($course_group_ids))
+        {
+            $access[] = new AndCondition(array(new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+        }
+
+        $conditions[] = new OrCondition($access);
+
+        $subselect_conditions = array();
+        $subselect_conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, $this->get_allowed_types());
+        if ($this->get_search_condition())
+        {
+            $subselect_conditions[] = $this->get_search_condition();
+        }
+        $subselect_condition = new AndCondition($subselect_conditions);
+
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
+
+        if (method_exists($this->get_parent(), 'get_tool_conditions'))
+        {
+            foreach ($this->get_parent()->get_tool_conditions() as $tool_condition)
+            {
+                $conditions[] = $tool_condition;
+            }
+        }
+
+        return new AndCondition($conditions);
     }
 
     function get_search_condition()
