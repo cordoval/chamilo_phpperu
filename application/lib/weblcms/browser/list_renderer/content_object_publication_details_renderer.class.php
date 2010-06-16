@@ -23,10 +23,10 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
      */
     function as_html()
     {
-        $publication_id = $this->browser->get_publication_id();
+        $publication_id = $this->get_tool_browser()->get_publication_id();
         $dm = WeblcmsDataManager :: get_instance();
         $publication = $dm->retrieve_content_object_publication($publication_id);
-        $this->browser->get_parent()->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
+        $this->get_tool_browser()->get_parent()->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
 
         $html[] = '<h3>' . Translation :: get('ContentObjectPublicationDetails') . '</h3>';
         $html[] = $this->render_publication($publication);
@@ -37,9 +37,9 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
 
     function get_feedback($publication_id)
     {
-        if($this->browser->get_parent()->get_course()->get_feedback())
+        if($this->get_tool_browser()->get_parent()->get_course()->get_feedback())
         {
-    		$fbm = new FeedbackManager($this->browser, WeblcmsManager :: APPLICATION_NAME, $publication_id);
+    		$fbm = new FeedbackManager($this->get_tool_browser(), WeblcmsManager :: APPLICATION_NAME, $publication_id);
         	return $fbm->as_html();
         }
     }
@@ -52,7 +52,7 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
     function render_publication($publication, $first = false, $last = false)
     {
         $html = array();
-        $last_visit_date = $this->browser->get_last_visit_date();
+        $last_visit_date = $this->get_tool_browser()->get_last_visit_date();
         $icon_suffix = '';
         if ($publication->is_hidden())
         {

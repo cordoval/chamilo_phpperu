@@ -19,20 +19,20 @@ abstract class ContentObjectPublicationListRenderer
     const TYPE_WEEK = 'week_calendar';
     const TYPE_DAY = 'day_calendar';
 
-    protected $browser;
+    protected $tool_browser;
     private $parameters;
     private $actions;
 
     /**
      * Constructor.
-     * @param PublicationBrowser $browser The browser to associate this list
+     * @param PublicationBrowser $tool_browser The tool_browser to associate this list
      * renderer with.
      * @param array $parameters The parameters to pass to the renderer.
      */
-    function ContentObjectPublicationListRenderer($browser, $parameters = array (), $actions)
+    function ContentObjectPublicationListRenderer($tool_browser, $parameters = array (), $actions)
     {
         $this->parameters = $parameters;
-        $this->browser = $browser;
+        $this->tool_browser = $tool_browser;
     }
 
     function get_actions()
@@ -72,7 +72,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_repo_viewer($publication)
     {
-        $user = $this->browser->get_parent()->get_user_info($publication->get_publisher_id());
+        $user = $this->tool_browser->get_parent()->get_user_info($publication->get_publisher_id());
         return $user->get_firstname() . ' ' . $user->get_lastname();
     }
 
@@ -110,7 +110,7 @@ abstract class ContentObjectPublicationListRenderer
             {
                 if (count($users) == 1)
                 {
-                    $user = $this->browser->get_parent()->get_user_info($users[0]);
+                    $user = $this->tool_browser->get_parent()->get_user_info($users[0]);
                     return $user->get_firstname() . ' ' . $user->get_lastname() . $email_suffix;
                 }
                 elseif (count($groups) == 1)
@@ -130,7 +130,7 @@ abstract class ContentObjectPublicationListRenderer
             $target_list[] = '<select>';
             foreach ($users as $index => $user_id)
             {
-                $user = $this->browser->get_parent()->get_user_info($user_id);
+                $user = $this->tool_browser->get_parent()->get_user_info($user_id);
                 $target_list[] = '<option>' . $user->get_firstname() . ' ' . $user->get_lastname() . '</option>';
             }
             foreach ($course_groups as $index => $course_group_id)
@@ -173,7 +173,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_publication_information($publication)
     {
-        $repo_viewer = $this->browser->get_parent()->get_user_info($publication->get_publisher_id());
+        $repo_viewer = $this->tool_browser->get_parent()->get_user_info($publication->get_publisher_id());
         $html = array();
         $html[] = htmlentities(Translation :: get('PublishedOn')) . ' ' . $this->render_publication_date($publication);
         $html[] = htmlentities(Translation :: get('By')) . ' ' . $this->render_repo_viewer($publication);
@@ -313,20 +313,28 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_move_to_category_action($publication)
     {
-        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->browser->get_parent()->get_course_id());
-        $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
-        $count = WeblcmsDataManager :: get_instance()->count_content_object_publication_categories(new AndCondition($conditions));
-        $count ++;
-        if ($count > 1)
+        if ($this->get_tool_browser()->is_category_management_enabled())
         {
-            $url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
-            $link = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'action_move.png"  alt=""/></a>';
+
+            $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->tool_browser->get_parent()->get_course_id());
+            $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->tool_browser->get_parent()->get_tool_id());
+            $count = WeblcmsDataManager :: get_instance()->count_content_object_publication_categories(new AndCondition($conditions));
+            $count ++;
+            if ($count > 1)
+            {
+                $url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
+                $link = '<a href="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'action_move.png"  alt=""/></a>';
+            }
+            else
+            {
+                $link = '<img src="' . Theme :: get_common_image_path() . 'action_move_na.png"  alt=""/>';
+            }
+            return $link;
         }
         else
         {
-            $link = '<img src="' . Theme :: get_common_image_path() . 'action_move_na.png"  alt=""/>';
+            return null;
         }
-        return $link;
     }
 
     /**
@@ -376,7 +384,7 @@ abstract class ContentObjectPublicationListRenderer
                 $html[] = '<ul>';
                 foreach ($attachments as $attachment)
                 {
-                    $html[] = '<li><a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_ATTACHMENT, Tool :: PARAM_OBJECT_ID => $attachment->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
+                    $html[] = '<li><a href="' . $this->tool_browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_ATTACHMENT, Tool :: PARAM_OBJECT_ID => $attachment->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
                 }
                 $html[] = '</ul>';
                 return implode("\n", $html);
@@ -452,7 +460,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function get_publications()
     {
-        return $this->browser->get_publications();
+        return $this->tool_browser->get_publications();
     }
 
     /**
@@ -460,7 +468,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function get_publication_count()
     {
-        return $this->browser->get_publication_count();
+        return $this->tool_browser->get_publication_count();
     }
 
     /**
@@ -494,7 +502,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
-        return $this->browser->get_url($parameters, $filter, $encode_entities);
+        return $this->tool_browser->get_url($parameters, $filter, $encode_entities);
     }
 
     /**
@@ -502,7 +510,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function is_allowed($right)
     {
-        return $this->browser->is_allowed($right);
+        return $this->tool_browser->is_allowed($right);
     }
 
     /**
@@ -537,39 +545,39 @@ abstract class ContentObjectPublicationListRenderer
         return new $class($tool_browser);
     }
 
-    function get_browser()
+    function get_tool_browser()
     {
-        return $this->browser;
+        return $this->tool_browser;
     }
 
     function get_allowed_types()
     {
-        return $this->browser->get_allowed_types();
+        return $this->tool_browser->get_allowed_types();
     }
 
     function get_search_condition()
     {
-        return $this->browser->get_search_condition();
+        return $this->tool_browser->get_search_condition();
     }
 
     function get_user()
     {
-        return $this->browser->get_user();
+        return $this->tool_browser->get_user();
     }
-    
+
     function get_user_id()
     {
-        return $this->browser->get_user_id();
+        return $this->tool_browser->get_user_id();
     }
 
     function get_course_id()
     {
-        return $this->browser->get_course_id();
+        return $this->tool_browser->get_course_id();
     }
 
     function get_tool_id()
     {
-        return $this->browser->get_tool_id();
+        return $this->tool_browser->get_tool_id();
     }
 }
 ?>

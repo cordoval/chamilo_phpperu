@@ -21,12 +21,12 @@ class ForumTool extends Tool
     {
         $action = $this->get_action();
         $component = parent :: run();
-        
+
         if ($component)
         {
             return;
         }
-        
+
         switch ($action)
         {
             case self :: ACTION_PUBLISH_FORUM :
@@ -55,7 +55,7 @@ class ForumTool extends Tool
     static function get_subforum_parents($subforum_id)
     {
         $rdm = RepositoryDataManager :: get_instance();
-        
+
         $parent = $rdm->retrieve_complex_content_object_item($subforum_id);
         while (! empty($parent))
         {
@@ -64,13 +64,18 @@ class ForumTool extends Tool
             $parent = $parent[0];
         }
         $parents = array_reverse($parents);
-        
+
         return $parents;
     }
-    
+
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
+	}
+
+	function is_category_management_enabled()
+	{
+	    return true;
 	}
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: learningobjectpublicationcategorytree.class.php 216 2009-11-13 14:08:06Z kariboe $
+ * $Id: content_object_publication_category_tree.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser
  */
 require_once 'HTML/Menu.php';
@@ -10,7 +10,7 @@ require_once 'HTML/Menu.php';
 class ContentObjectPublicationCategoryTree extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
-    
+
     /**
      * The browser to which this category tree is associated
      */
@@ -19,9 +19,9 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
      * An id for this tree
      */
     private $tree_id;
-    
+
     private $data_manager;
-    
+
     private $url_params;
 
     /**
@@ -41,16 +41,16 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
         $this->forceCurrentUrl($this->get_category_url($tree_id));
     }
 
-	function as_html()
+    function as_html()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 
     /**
@@ -66,7 +66,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
     {
         $menu = array();
         $menu_item = array();
-        $menu_item['title'] = Translation :: get('Root') . $this->get_category_count(0);
+        $menu_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($this->browser->get_tool_id()) . 'Title') . $this->get_category_count(0);
         $menu_item['url'] = $this->get_category_url(0);
         $sub_menu_items = $this->get_sub_menu_items(0);
         if (count($sub_menu_items) > 0)
@@ -80,7 +80,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
         {
             $menu = array_merge($menu, $extra_items);
         }
-        
+
         return $menu;
     }
 
@@ -90,7 +90,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
         $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->browser->get_parent()->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
         $condition = new AndCondition($conditions);
-        
+
         $objects = $this->data_manager->retrieve_content_object_publication_categories($condition);
         $categories = array();
         while ($category = $objects->next_result())
@@ -119,22 +119,22 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
     private function get_publication_count($category)
     {
         $dm = WeblcmsDataManager :: get_instance();
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->browser->get_parent()->get_course_id());
         $conditions[] = $this->get_condition($category);
-        
-    	$user_id = $this->browser->get_user_id();
+
+        $user_id = $this->browser->get_user_id();
         $course_groups = $this->browser->get_course_groups();
-                
+
         $course_group_ids = array();
-                
-        foreach($course_groups as $course_group)
+
+        foreach ($course_groups as $course_group)
         {
-           	$course_group_ids[] = $course_group->get_id();
+            $course_group_ids[] = $course_group->get_id();
         }
-        
-       /* $access = array();
+
+        /* $access = array();
         $access[] = new InCondition('user_id', $user_id, $dm->get_alias('content_object_publication_user'));
         $access[] = new InCondition('course_group_id', $course_group_ids, $dm->get_alias('content_object_publication_course_group'));
         if (! empty($user_id) || ! empty($course_group_ids))
@@ -142,31 +142,29 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
             $access[] = new AndCondition(array(new EqualityCondition('user_id', null, $dm->get_alias('content_object_publication_user')), new EqualityCondition('course_group_id', null, $dm->get_alias('content_object_publication_course_group'))));
         }
         */
-        
-    	$access = array();
-        if($user_id)
+
+        $access = array();
+        if ($user_id)
         {
-    		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
+            $access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user_id, ContentObjectPublicationUser :: get_table_name());
         }
-    	
-    	if(count($course_group_ids) > 0)
-    	{
-        	$access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
-    	}
-        	
+
+        if (count($course_group_ids) > 0)
+        {
+            $access[] = new InCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, $course_group_ids, ContentObjectPublicationCourseGroup :: get_table_name());
+        }
+
         if (! empty($user_id) || ! empty($course_group_ids))
         {
-            $access[] = new AndCondition(array(
-            			new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), 
-            			new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
+            $access[] = new AndCondition(array(new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser :: get_table_name()), new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_COURSE_GROUP_ID, null, ContentObjectPublicationCourseGroup :: get_table_name())));
         }
-        
+
         $conditions[] = new OrCondition($access);
         $subselect_condition = new InCondition('type', $this->browser->get_allowed_types());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
-        
+
         $condition = new AndCondition($conditions);
-        
+
         return $dm->count_content_object_publications_new($condition);
     }
 

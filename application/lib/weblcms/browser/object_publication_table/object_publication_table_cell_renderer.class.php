@@ -11,12 +11,12 @@ require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_asse
  */
 class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRenderer
 {
-    protected $browser;
+    protected $table_renderer;
     private $object_count;
 
-    function ObjectPublicationTableCellRenderer($browser)
+    function ObjectPublicationTableCellRenderer($table_renderer)
     {
-        $this->browser = $browser;
+        $this->table_renderer = $table_renderer;
     }
 
     function set_object_count($count)
@@ -137,19 +137,19 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
     		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         }
 
-    	if ($this->browser->is_allowed(EDIT_RIGHT))
+    	if ($this->table_renderer->is_allowed(EDIT_RIGHT))
         {
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Edit'),
 	        		Theme :: get_common_image_path() . 'action_edit.png',
-	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		$this->table_renderer->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
 
 	        $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Delete'),
 	        		Theme :: get_common_image_path() . 'action_delete.png',
-	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		$this->table_renderer->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 	        		ToolbarItem :: DISPLAY_ICON,
 	        		true
 	        ));
@@ -159,7 +159,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
                 $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('BuildComplex'),
 		        		Theme :: get_common_image_path() . 'action_bar.png',
-		        		$this->browser->get_complex_builder_url($publication->get_id()),
+		        		$this->table_renderer->get_complex_builder_url($publication->get_id()),
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
             }
@@ -177,7 +177,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 	            	$toolbar->add_item(new ToolbarItem(
 			        		Translation :: get('MoveUp'),
 			        		Theme :: get_common_image_path() . 'action_up.png',
-			        		$this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			        		$this->table_renderer->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 			        		ToolbarItem :: DISPLAY_ICON
 			        ));
 	            }
@@ -196,7 +196,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 	            	$toolbar->add_item(new ToolbarItem(
 			        		Translation :: get('MoveDown'),
 			        		Theme :: get_common_image_path() . 'action_down.png',
-			        		$this->browser->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			        		$this->table_renderer->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 			        		ToolbarItem :: DISPLAY_ICON
 			        ));
 	            }
@@ -214,16 +214,16 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Visible'),
 	        		Theme :: get_common_image_path() . $img,
-	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		$this->table_renderer->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
 
-	        if($show_parent_change_action)
+	        if($this->table_renderer->get_tool_browser()->is_category_management_enabled())
 	        {
 		        $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('Move'),
 		        		Theme :: get_common_image_path() . 'action_move.png',
-		        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+		        		$this->table_renderer->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
 	        }
@@ -232,7 +232,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 
         if($show_feedback_option)
         {
-	        $feedback_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
+	        $feedback_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
 	        $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Feedback'),
 	        		Theme :: get_common_image_path() . 'action_browser.png',
@@ -247,7 +247,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         	$internal_item = EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id());
         	if($internal_item && $internal_item->get_calculated() != 1)
         	{
-        		$evaluate_url = $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
+        		$evaluate_url = $this->table_renderer->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
 
 				$toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('Evaluate'),

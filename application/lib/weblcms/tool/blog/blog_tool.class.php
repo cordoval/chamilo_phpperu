@@ -10,7 +10,7 @@
 class BlogTool extends Tool
 {
 /*    const ACTION_VIEW_BLOGS = 'view';
-    
+
     const PARAM_BLOG = 'blog';*/
 
     // Inherited.
@@ -18,10 +18,10 @@ class BlogTool extends Tool
     {
         $action = $this->get_action();
         /*$component = parent :: run();
-        
+
         if ($component)
             return;*/
-        
+
         switch ($action)
         {
             case self :: ACTION_VIEW :
@@ -68,10 +68,15 @@ class BlogTool extends Tool
     {
         return array(BlogItem :: get_type_name());
     }
-    
+
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
+	}
+
+	function is_category_management_enabled()
+	{
+	    return true;
 	}
 }
 ?>
