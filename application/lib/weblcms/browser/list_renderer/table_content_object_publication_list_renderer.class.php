@@ -17,9 +17,9 @@ class TableContentObjectPublicationListRenderer extends ContentObjectPublication
      */
     function as_html()
     {
-        if (method_exists($this->get_tool_browser()->get_parent(), 'get_object_publication_table_cell_renderer'))
+        if (method_exists($this->get_tool_browser()->get_parent(), 'get_content_object_publication_table_cell_renderer'))
         {
-            $object_publication_table_cell_renderer = $this->get_tool_browser()->get_parent()->get_content_object_publication_table_cell_renderer($this->get_tool_browser());
+            $object_publication_table_cell_renderer = $this->get_tool_browser()->get_parent()->get_content_object_publication_table_cell_renderer($this);
         }
         else
         {
@@ -28,7 +28,7 @@ class TableContentObjectPublicationListRenderer extends ContentObjectPublication
 
         if (method_exists($this->get_tool_browser()->get_parent(), 'get_content_object_publication_table_column_model'))
         {
-            $object_publication_table_column_model = $this->get_tool_browser()->get_parent()->get_content_object_publication_table_column_model($this->get_tool_browser());
+            $object_publication_table_column_model = $this->get_tool_browser()->get_parent()->get_content_object_publication_table_column_model();
         }
         else
         {

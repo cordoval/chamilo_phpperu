@@ -15,7 +15,7 @@ class ActionBarRenderer
     const ACTION_BAR_TOOL = 'tool';
     const ACTION_BAR_SEARCH = 'search';
 
-    const TYPE_HORIZONTAL = 'hoirzontal';
+    const TYPE_HORIZONTAL = 'horizontal';
     const TYPE_VERTICAL = 'vertical';
 
     private $name;

@@ -253,8 +253,7 @@ class AssessmentForm extends ContentObjectForm
         if ($object->get_random_questions() == null)
             $object->set_random_questions(0);
         
-        $ass_types = $object->get_types();
-        $object->set_assessment_type($ass_types[$values[Assessment :: PROPERTY_ASSESSMENT_TYPE]]);
+        $object->set_assessment_type($values[Assessment :: PROPERTY_ASSESSMENT_TYPE]);
         $this->set_content_object($object);
         return parent :: create_content_object();
     }
@@ -283,8 +282,7 @@ class AssessmentForm extends ContentObjectForm
         if ($object->get_random_questions() == null)
             $object->set_random_questions(0);
         
-        $ass_types = $object->get_types();
-        $object->set_assessment_type($ass_types[$values[Assessment :: PROPERTY_ASSESSMENT_TYPE]]);
+        $object->set_assessment_type($values[Assessment :: PROPERTY_ASSESSMENT_TYPE]);
         
         $this->set_content_object($object);
         return parent :: update_content_object();

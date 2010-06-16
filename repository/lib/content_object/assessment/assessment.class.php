@@ -10,11 +10,10 @@
 class Assessment extends ContentObject
 {
     const PROPERTY_ASSESSMENT_TYPE = 'assessment_type';
-
+    
     const TYPE_EXERCISE = 1;
     const TYPE_ASSIGNMENT = 2;
-    //const TYPE_SURVEY = 3;
-
+    
     const PROPERTY_TIMES_TAKEN = 'times_taken';
     const PROPERTY_AVERAGE_SCORE = 'average_score';
     const PROPERTY_MAXIMUM_SCORE = 'maximum_score';
@@ -22,13 +21,13 @@ class Assessment extends ContentObject
     const PROPERTY_QUESTIONS_PER_PAGE = 'questions_per_page';
     const PROPERTY_MAXIMUM_TIME = 'max_time';
     const PROPERTY_RANDOM_QUESTIONS = 'random_questions';
+    
+    const CLASS_NAME = __CLASS__;
 
-	const CLASS_NAME = __CLASS__;
-
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
 
     static function get_additional_property_names()
     {
@@ -85,7 +84,7 @@ class Assessment extends ContentObject
         $this->set_additional_property(self :: PROPERTY_RANDOM_QUESTIONS, $random_questions);
     }
 
-	function get_allowed_types()
+    function get_allowed_types()
     {
         $allowed_types = array();
         $allowed_types[] = AssessmentRatingQuestion :: get_type_name();
@@ -133,7 +132,22 @@ class Assessment extends ContentObject
         return $types;
     }
 
-	function is_versionable()
+    function get_assessment_type_name()
+    {
+        $type = $this->get_assessment_type();
+        
+        switch ($type)
+        {
+            case self :: TYPE_EXERCISE :
+                return Translation :: get('Exercise');
+                break;
+            case self :: TYPE_ASSIGNMENT :
+                return Translation :: get('Assignment');
+                break;
+        }
+    }
+
+    function is_versionable()
     {
         return false;
     }

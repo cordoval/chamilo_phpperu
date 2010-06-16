@@ -1223,7 +1223,7 @@ div.action_bar .common_menu,
 div.action_bar .tool_menu,
 div.action_bar .search_menu
 {
-	padding: 5px 5px 10px 5px;
+	padding: 5px 5px 5px 5px;
 	width: 33%;
 	vertical-align: top;
 }
@@ -1231,6 +1231,11 @@ div.action_bar .search_menu
 div.action_bar .tool_menu
 {
 	width: 34%;	
+}
+
+div.action_bar .search_menu
+{
+	padding-right: 20px;
 }
 
 div.action_bar .search_menu div.search_form {
@@ -1248,18 +1253,18 @@ div.action_bar .action_bar_hide_container {
 	background-image: url(../images/common/background_ajax_hide.png);
 	background-repeat: no-repeat;
 	background-position: center center;
-	height: 18px;
-	width: 36px;
+	height: 26px;
+	width: 12px;
 	position: absolute;
-	left: 50%;
-	bottom: 0px;
-	margin-left: -18px;
-	margin-bottom: -1px;
+	right: 0px;
+	top: 50%;
+	margin-right: -1px;
+	margin-top: -13px;
 	overflow: visible;
 }
 
 .action_bar_hide img {
-	margin: 4px 10px 6px 11px;
+	margin: 7px 1px 7px 4px;
 }
 
 div.action_bar div.simple_search {
