@@ -67,8 +67,8 @@ function dump_tree($periods)
         foreach ($periods as $period)
         {
             $id = $period->get_id();
-            $name = $period->get_name();
-            $description = $period->get_description();
+            $name = strip_tags($period->get_name());
+            $description = strip_tags($period->get_description());
             
             echo '<leaf id="', $id, '" classes="', '', '" title="', htmlentities($name), '" description="', htmlentities(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
         }

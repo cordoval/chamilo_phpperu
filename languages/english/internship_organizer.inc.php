@@ -151,6 +151,7 @@ $lang['internship_organizer']['City'] = 'City';
 $lang['internship_organizer']['Begin'] = 'Begin';
 $lang['internship_organizer']['End'] = 'End';
 $lang['internship_organizer']['Period'] = 'Period';
+$lang['internship_organizer']['InternshipOrganizerPeriodName'] = 'Period';
 $lang['internship_organizer']['Region'] = 'Region';
 $lang['internship_organizer']['Regions'] = 'Regions';
 $lang['internship_organizer']['Subregions'] = 'Subregions';
@@ -196,5 +197,10 @@ $lang['internship_organizer']['InternshipOrganizerCoordinator'] = 'Coördinator'
 $lang['internship_organizer']['InternshipOrganizerMentor'] = 'Mentor';
 $lang['internship_organizer']['InternshipOrganizerCoach'] = 'Coach';
 $lang['internship_organizer']['InternshipOrganizerStudent'] = 'Student';
+
+$lang['internship_organizer']['InternshipOrganizerAgreementNew'] = 'New';
+$lang['internship_organizer']['InternshipOrganizerAgreementAddLocation'] = 'Add location';
+$lang['internship_organizer']['InternshipOrganizerAgreementAdMentor'] = 'Add mentor';
+$lang['internship_organizer']['InternshipOrganizerAgreementComplete'] = 'Complete';
 
 ?>
