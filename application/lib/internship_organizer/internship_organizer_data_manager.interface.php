@@ -52,6 +52,14 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_category_rel_location($location_id, $category_id);
 
     function retrieve_category_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    function delete_internship_organizer_category_rel_period($category_rel_period);
+
+    function create_internship_organizer_category_rel_period($category_rel_period);
+
+    function count_category_rel_periods($conditions = null);
+
+    function retrieve_category_rel_periods($condition = null, $offset = null, $count = null, $order_property = null);
 
     function create_internship_organizer_moment($moment);
 

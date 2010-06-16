@@ -269,6 +269,32 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $root_category;
     }
 
+    
+function delete_internship_organizer_category_rel_period($category_rel_period)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelPeriod :: PROPERTY_CATEGORY_ID, $category_rel_period->get_category_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelPeriod :: PROPERTY_PERIOD_ID, $category_rel_period->get_period_id());
+        $condition = new AndCondition($conditions);
+        $bool = $this->delete($category_rel_period->get_table_name(), $condition);
+        return $bool;
+    }
+
+    function create_internship_organizer_category_rel_period($category_rel_period)
+    {
+        return $this->create($category_rel_period);
+    }
+
+    function count_category_rel_periods($condition = null)
+    {
+        return $this->count_objects(InternshipOrganizerCategoryRelPeriod :: get_table_name(), $condition);
+    }
+
+    function retrieve_category_rel_periods($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(InternshipOrganizerCategoryRelPeriod :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerCategoryRelPeriod :: CLASS_NAME);
+    }
+    
     //internship planner moments
     
 

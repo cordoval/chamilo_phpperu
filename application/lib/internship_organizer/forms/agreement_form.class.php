@@ -53,6 +53,12 @@ class InternshipOrganizerAgreementForm extends FormValidator
     {
         $this->build_basic_form();
         
+        $this->add_datepicker(InternshipOrganizerAgreement :: PROPERTY_BEGIN, Translation :: get('Begin'), false);
+        $this->addRule(InternshipOrganizerAgreement :: PROPERTY_BEGIN, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        $this->add_datepicker(InternshipOrganizerAgreement :: PROPERTY_END, Translation :: get('End'), false);
+        $this->addRule(InternshipOrganizerAgreement :: PROPERTY_END, Translation :: get('ThisFieldIsRequired'), 'required');
+        
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
@@ -88,6 +94,8 @@ class InternshipOrganizerAgreementForm extends FormValidator
         
         $agreement->set_name($values[InternshipOrganizerAgreement :: PROPERTY_NAME]);
         $agreement->set_description($values[InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION]);
+        $agreement->set_begin(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerAgreement :: PROPERTY_BEGIN]));
+        $agreement->set_end(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerAgreement :: PROPERTY_END]));
         
         return $agreement->update();
     }
@@ -123,7 +131,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
                     $agreement->set_end($period->get_end());
                     $agreement->set_status(InternshipOrganizerAgreement :: STATUS_NEW);
                     $succes = $agreement->create();
-                                       
+                    
                     if ($succes)
                     {
                         $agreement_id = $agreement->get_id();
@@ -132,7 +140,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
                         $agreement_rel_user->set_user_id($student_id);
                         $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: STUDENT);
                         $agreement_rel_user->create();
-                                              
+                        
                         $coordinators = $period->get_user_ids(InternshipOrganizerUserType :: COORDINATOR);
                         foreach ($coordinators as $coordinator_id)
                         {
@@ -140,7 +148,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
                             $agreement_rel_user->set_agreement_id($agreement_id);
                             $agreement_rel_user->set_user_id($coordinator_id);
                             $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COORDINATOR);
-                        	$agreement_rel_user->create();
+                            $agreement_rel_user->create();
                         }
                         $coaches = $period->get_user_ids(InternshipOrganizerUserType :: COACH);
                         
