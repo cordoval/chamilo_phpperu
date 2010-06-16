@@ -14,6 +14,8 @@ class ToolBrowserComponent extends ToolComponent
 
     function run()
     {
+        $this->set_parameter(Tool :: PARAM_BROWSER_TYPE, $this->get_browser_type());
+
         $this->introduction_text = $this->get_introduction_text();
         $this->action_bar = $this->get_action_bar();
 
