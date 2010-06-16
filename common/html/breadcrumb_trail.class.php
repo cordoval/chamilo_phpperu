@@ -153,7 +153,8 @@ class BreadcrumbTrail
         {
 			$html[] = '<div id="extra_item">';
 			$toolbar = new Toolbar();
-			$toolbar->set_items($extra_items);
+			$toolbar->add_item(new ToolbarItem(Translation :: get('ShowActionBar'), Theme :: get_common_image_path() . 'action_bar.png', '#', ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'action_bar_text'));
+			$toolbar->add_items($extra_items);
 			$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
 			$html[] = $toolbar->as_html();
 			$html[] = '</div>';

@@ -9,10 +9,8 @@ $(document).ready(function()
 	{
 		var id = $(this).attr('id').replace('_action_bar_text', '');
 		
-		$("#"+ id +"_action_bar_text").slideToggle(300, function()
-		{
-			$("#"+ id +"_action_bar").slideToggle(300);
-		});
+		$(".action_bar_text").hide();
+			$(".action_bar").slideToggle(300);
 		
 		return false;
 	}
@@ -21,9 +19,9 @@ $(document).ready(function()
 	{
 		var id = $(this).attr('id').replace('_action_bar_hide', '');
 		
-		$("#"+ id +"_action_bar").slideToggle(300, function()
+		$(".action_bar").slideToggle(300, function()
 		{
-			$("#"+ id +"_action_bar_text").slideToggle(300);
+			$(".action_bar_text").show();
 		});
 		
 		return false;
