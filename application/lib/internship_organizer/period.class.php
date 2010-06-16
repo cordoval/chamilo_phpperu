@@ -139,7 +139,7 @@ class InternshipOrganizerPeriod extends NestedTreeNode {
 		$period_rel_groups = $this->get_data_manager ()->retrieve_period_rel_groups ( $condition );
 		
 		while ( $period_rel_group = $period_rel_groups->next_result () ) {
-			$target_groups [] = $period_rel_user->get_group_id ();
+			$target_groups [] = $period_rel_group->get_group_id ();
 		}
 		
 		if (count ( $target_groups ) != 0) {

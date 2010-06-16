@@ -643,6 +643,7 @@ $lang['common']['Recipients'] = 'Recipients';
 $lang['common']['Send'] = 'Send';
 $lang['common']['ContentObjectCreated'] = 'Content object created';
 $lang['common']['dateFormatShort'] = '%b %d, %y';
+$lang['common']['dateFormatLong'] = '%d %B %Y';
 $lang['common']['timeNoSecFormat'] = '%I:%M %p';
 $lang['common']['Reply'] = 'Reply';
 $lang['common']['Message'] = 'message';

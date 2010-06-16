@@ -1,9 +1,9 @@
 <?php
 
-class DefaultInternshipOrganizerPeriodUserTableCellRenderer implements ObjectTableCellRenderer
+class DefaultInternshipOrganizerPeriodRelUserTableCellRenderer implements ObjectTableCellRenderer
 {
 
-    function DefaultInternshipOrganizerPeriodUserTableCellRenderer()
+    function DefaultInternshipOrganizerPeriodRelUserTableCellRenderer()
     {
     }
 

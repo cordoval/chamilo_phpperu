@@ -3,12 +3,12 @@
 require_once dirname(__FILE__).'/rel_user_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../tables/period_rel_user_table/default_period_rel_user_table_cell_renderer.class.php';
 
-class InternshipOrganizerPeriodUserBrowserTableCellRenderer extends DefaultInternshipOrganizerPeriodUserTableCellRenderer
+class InternshipOrganizerPeriodRelUserBrowserTableCellRenderer extends DefaultInternshipOrganizerPeriodRelUserTableCellRenderer
 {
 	
 	private $browser;
 	
-	function InternshipOrganizerPeriodUserBrowserTableCellRenderer($browser)
+	function InternshipOrganizerPeriodRelUserBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
@@ -16,7 +16,7 @@ class InternshipOrganizerPeriodUserBrowserTableCellRenderer extends DefaultInter
 	// Inherited
 	function render_cell($column, $rel_user)
 	{
-		if ($column === InternshipOrganizerPeriodUserBrowserTableColumnModel :: get_modification_column())
+		if ($column === InternshipOrganizerPeriodRelUserBrowserTableColumnModel :: get_modification_column())
 		{
 			//return $this->get_modification_links( $rel_user);
 		}

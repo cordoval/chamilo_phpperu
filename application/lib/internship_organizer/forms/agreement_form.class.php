@@ -110,6 +110,9 @@ class InternshipOrganizerAgreementForm extends FormValidator {
 					$agreement->set_status(InternshipOrganizerAgreement :: STATUS_NEW);
 					$succes = $agreement->create ();
 				}
+//      $agreement->set_period_id($values[InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID]);
+
+//        $agreement->create();
 			
 			}
 		}

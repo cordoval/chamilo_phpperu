@@ -69,7 +69,7 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
             $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
             $parameters[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID] = $id;
             
-            $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_rel_users_condition());
+            $table = new InternshipOrganizerPeriodRelUserBrowserTable($this, $parameters, $this->get_rel_users_condition());
             $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         }
         
