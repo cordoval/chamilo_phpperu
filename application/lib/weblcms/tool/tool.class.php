@@ -3,7 +3,6 @@
  * $Id: tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool
  */
-require_once Path :: get_library_path() . 'utilities.class.php';
 
 /**
 ==============================================================================
@@ -13,7 +12,7 @@ require_once Path :: get_library_path() . 'utilities.class.php';
 ==============================================================================
  */
 
-abstract class Tool
+abstract class Tool extends SubManager
 {
     const PARAM_ACTION = 'tool_action';
     const PARAM_PUBLICATION_ID = 'publication';
@@ -21,31 +20,37 @@ abstract class Tool
     const PARAM_MOVE = 'move';
     const PARAM_VISIBILITY = 'visible';
     const PARAM_OBJECT_ID = 'object_id';
+    const PARAM_BROWSER_TYPE = 'browser';
 
+    const ACTION_BROWSE = 'browse';
+    const ACTION_VIEW = 'view';
     const ACTION_PUBLISH = 'publish';
-    const ACTION_EDIT = 'edit';
+    const ACTION_DELETE = 'delete';
+    const ACTION_UPDATE = 'update';
+    const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
+    const ACTION_MOVE_DOWN = 'move_down';
+    const ACTION_MOVE_UP = 'move_up';
+    const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
+    const ACTION_PUBLISH_INTRODUCTION = 'publish_introduction';
+    const ACTION_MANAGE_CATEGORIES = 'manage_categories';
+    const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
+    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
+
     const ACTION_EDIT_CLOI = 'edit_cloi';
     const ACTION_EDIT_FEEDBACK = 'edit_feedback';
     const ACTION_CREATE_CLOI = 'create_cloi';
-    const ACTION_MOVE_UP = 'move_up';
-    const ACTION_MOVE_DOWN = 'move_down';
-    const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
+
     const ACTION_MOVE_SELECTED_TO_CATEGORY = 'move_selected_to_category';
     const ACTION_MOVE = 'move';
-    const ACTION_DELETE = 'delete';
     const ACTION_DELETE_CLOI = 'delete_cloi';
     const ACTION_DELETE_FEEDBACK = 'delete_feedback';
-    const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
     const ACTION_SHOW = 'show';
     const ACTION_HIDE = 'hide';
-    const ACTION_PUBLISH_INTRODUCTION = 'publish_introduction';
     const ACTION_PUBLISH_FEEDBACK = 'publish_feedback';
-    const ACTION_MANAGE_CATEGORIES = 'managecategories';
+
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
-    const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
-    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
-    const ACTION_VIEW = 'view';
+
     const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
 
     /**
@@ -71,11 +76,11 @@ abstract class Tool
      */
     function Tool($parent)
     {
-        $this->parent = $parent;
+        parent :: __construct($parent);
         $this->properties = $parent->get_tool_properties($this->get_tool_id());
         $this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : Request :: get(self :: PARAM_ACTION));
         $this->set_parameter(self :: PARAM_ACTION, $this->get_action());
-        $this->parse_input_from_table();
+        //$this->parse_input_from_table();
     }
 
     private function parse_input_from_table()
@@ -137,106 +142,106 @@ abstract class Tool
         return $this->action;
     }
 
-    /**
-     * Runs the tool, performing whatever actions are necessary.
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
+//    /**
+//     * Runs the tool, performing whatever actions are necessary.
+//     */
+//    function run()
+//    {
+//        $action = $this->get_action();
+//        $component = null;
+//
+//        switch ($action)
+//        {
+//            case self :: ACTION_EVALUATE_TOOL_PUBLICATION :
+//        		$component = ToolComponent :: factory('', 'ToolEvaluate', $this);
+//        		break;
+//            case self :: ACTION_EDIT :
+//                $component = ToolComponent :: factory('', 'Edit', $this);
+//                break;
+//            case self :: ACTION_PUBLISH_INTRODUCTION :
+//                $component = ToolComponent :: factory('', 'IntroductionPublisher', $this);
+//                break;
+//            case self :: ACTION_PUBLISH_FEEDBACK :
+//                $component = ToolComponent :: factory('', 'FeedbackPublisher', $this);
+//                break;
+//            case self :: ACTION_FEEDBACK_CLOI :
+//                $component = ToolComponent :: factory('', 'ComplexFeedback', $this);
+//                break;
+//            case self :: ACTION_MANAGE_CATEGORIES :
+//                $component = ToolComponent :: factory('', 'CategoryManager', $this);
+//                break;
+//            case self :: ACTION_MOVE_UP :
+//                Request :: set_get(self :: PARAM_MOVE, -1);
+//                $component = ToolComponent :: factory('', 'Move', $this);
+//                break;
+//            case self :: ACTION_MOVE_DOWN :
+//                Request :: set_get(self :: PARAM_MOVE, 1);
+//                $component = ToolComponent :: factory('', 'Move', $this);
+//                break;
+//            case self :: ACTION_MOVE :
+//                $component = ToolComponent :: factory('', 'Move', $this);
+//                break;
+//            case self :: ACTION_MOVE_TO_CATEGORY :
+//                $component = ToolComponent :: factory('', 'MoveSelectedToCategory', $this);
+//                break;
+//            case self :: ACTION_MOVE_SELECTED_TO_CATEGORY :
+//                $component = ToolComponent :: factory('', 'MoveSelectedToCategory', $this);
+//                break;
+//            case self :: ACTION_DELETE :
+//                $component = ToolComponent :: factory('', 'Delete', $this);
+//                break;
+//            case self :: ACTION_DELETE_CLOI :
+//                $component = ToolComponent :: factory('', 'ComplexDeleter', $this);
+//                break;
+//            case self :: ACTION_DELETE_FEEDBACK :
+//                $component = ToolComponent :: factory('', 'FeedbackDeleter', $this);
+//                break;
+//            case self :: ACTION_EDIT_CLOI :
+//                $component = ToolComponent :: factory('', 'ComplexEdit', $this);
+//                break;
+//            case self :: ACTION_EDIT_FEEDBACK :
+//                $component = ToolComponent :: factory('', 'FeedbackEdit', $this);
+//                break;
+//            case self :: ACTION_CREATE_CLOI :
+//                $component = ToolComponent :: factory('', 'ComplexCreator', $this);
+//                break;
+//            case self :: ACTION_TOGGLE_VISIBILITY :
+//                $component = ToolComponent :: factory('', 'ToggleVisibility', $this);
+//                break;
+//            case self :: ACTION_SHOW :
+//                Request :: set_get(PARAM_VISIBILITY, 0);
+//                $component = ToolComponent :: factory('', 'ToggleVisibility', $this);
+//                break;
+//            case self :: ACTION_HIDE :
+//                Request :: set_get(PARAM_VISIBILITY, 1);
+//                $component = ToolComponent :: factory('', 'ToggleVisibility', $this);
+//                break;
+//            case self :: ACTION_VIEW_ATTACHMENT :
+//                $component = ToolComponent :: factory('', 'AttachmentViewer', $this);
+//                break;
+//            case self :: ACTION_VIEW_REPORTING_TEMPLATE :
+//                $component = ToolComponent :: factory('', 'AccessDetailsViewer', $this);
+//                break;
+//            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
+//                $component = ToolComponent :: factory('', 'ComplexBuilder', $this);
+//                break;
+//        }
+//        if ($component)
+//        {
+//            $component->run();
+//        }
+//
+//        return $component;
+//    }
 
-        switch ($action)
-        {
-            case self :: ACTION_EVALUATE_TOOL_PUBLICATION :
-        		$component = ToolComponent :: factory('', 'ToolEvaluate', $this);
-        		break;
-            case self :: ACTION_EDIT :
-                $component = ToolComponent :: factory('', 'Edit', $this);
-                break;
-            case self :: ACTION_PUBLISH_INTRODUCTION :
-                $component = ToolComponent :: factory('', 'IntroductionPublisher', $this);
-                break;
-            case self :: ACTION_PUBLISH_FEEDBACK :
-                $component = ToolComponent :: factory('', 'FeedbackPublisher', $this);
-                break;
-            case self :: ACTION_FEEDBACK_CLOI :
-                $component = ToolComponent :: factory('', 'ComplexFeedback', $this);
-                break;
-            case self :: ACTION_MANAGE_CATEGORIES :
-                $component = ToolComponent :: factory('', 'CategoryManager', $this);
-                break;
-            case self :: ACTION_MOVE_UP :
-                Request :: set_get(self :: PARAM_MOVE, -1);
-                $component = ToolComponent :: factory('', 'Move', $this);
-                break;
-            case self :: ACTION_MOVE_DOWN :
-                Request :: set_get(self :: PARAM_MOVE, 1);
-                $component = ToolComponent :: factory('', 'Move', $this);
-                break;
-            case self :: ACTION_MOVE :
-                $component = ToolComponent :: factory('', 'Move', $this);
-                break;
-            case self :: ACTION_MOVE_TO_CATEGORY :
-                $component = ToolComponent :: factory('', 'MoveSelectedToCategory', $this);
-                break;
-            case self :: ACTION_MOVE_SELECTED_TO_CATEGORY :
-                $component = ToolComponent :: factory('', 'MoveSelectedToCategory', $this);
-                break;
-            case self :: ACTION_DELETE :
-                $component = ToolComponent :: factory('', 'Delete', $this);
-                break;
-            case self :: ACTION_DELETE_CLOI :
-                $component = ToolComponent :: factory('', 'ComplexDeleter', $this);
-                break;
-            case self :: ACTION_DELETE_FEEDBACK :
-                $component = ToolComponent :: factory('', 'FeedbackDeleter', $this);
-                break;
-            case self :: ACTION_EDIT_CLOI :
-                $component = ToolComponent :: factory('', 'ComplexEdit', $this);
-                break;
-            case self :: ACTION_EDIT_FEEDBACK :
-                $component = ToolComponent :: factory('', 'FeedbackEdit', $this);
-                break;
-            case self :: ACTION_CREATE_CLOI :
-                $component = ToolComponent :: factory('', 'ComplexCreator', $this);
-                break;
-            case self :: ACTION_TOGGLE_VISIBILITY :
-                $component = ToolComponent :: factory('', 'ToggleVisibility', $this);
-                break;
-            case self :: ACTION_SHOW :
-                Request :: set_get(PARAM_VISIBILITY, 0);
-                $component = ToolComponent :: factory('', 'ToggleVisibility', $this);
-                break;
-            case self :: ACTION_HIDE :
-                Request :: set_get(PARAM_VISIBILITY, 1);
-                $component = ToolComponent :: factory('', 'ToggleVisibility', $this);
-                break;
-            case self :: ACTION_VIEW_ATTACHMENT :
-                $component = ToolComponent :: factory('', 'AttachmentViewer', $this);
-                break;
-            case self :: ACTION_VIEW_REPORTING_TEMPLATE :
-                $component = ToolComponent :: factory('', 'AccessDetailsViewer', $this);
-                break;
-            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
-                $component = ToolComponent :: factory('', 'ComplexBuilder', $this);
-                break;
-        }
-        if ($component)
-        {
-            $component->run();
-        }
-
-        return $component;
-    }
-
-    /**
-     * Returns the application that this tool is associated with.
-     * @return Application The application.
-     */
-    function get_parent()
-    {
-        return $this->parent;
-    }
+//    /**
+//     * Returns the application that this tool is associated with.
+//     * @return Application The application.
+//     */
+//    function get_parent()
+//    {
+//        return $this->get_parent();
+//    }
 
     /**
      * Returns the properties of this tool within the specified course.
@@ -252,154 +257,149 @@ abstract class Tool
      */
     function get_tool_id()
     {
-        return $this->parent->get_tool_id();
+        return $this->get_parent()->get_tool_id();
     }
 
-    /**
-     * @see Application :: display_header()
-     */
-    function display_header($breadcrumbtrail, $display_title, $display_tools = true, $display_student_view = true)
-    {
-        $trail = new BreadcrumbTrail();
-        //$trail->set_help_items($breadcrumbtrail->get_help_items());
-        switch ($this->parent->get_course()->get_breadcrumb())
-        {
-            case CourseLayout :: BREADCRUMB_TITLE :
-                $title = $this->parent->get_course()->get_name();
-                break;
-            case CourseLayout :: BREADCRUMB_CODE :
-                $title = $this->parent->get_course()->get_visual();
-                break;
-            case CourseLayout :: BREADCRUMB_COURSE_HOME :
-                $title = Translation :: get('CourseHome');
-                break;
-            default :
-                $title = $this->parent->get_course()->get_visual();
-                break;
-        }
-		
-        $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'tool' => null, 'course' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get('MyCourses')));
-        $trail->add(new Breadcrumb($this->get_url(array('tool' => null, 'tool_action' => null, self :: PARAM_PUBLICATION_ID => null)), $title));
+//    /**
+//     * @see Application :: display_header()
+//     */
+//    function display_header($breadcrumbtrail, $display_title, $display_tools = true, $display_student_view = true)
+//    {
+//        $trail = new BreadcrumbTrail();
+//        //$trail->set_help_items($breadcrumbtrail->get_help_items());
+//        switch ($this->get_parent()->get_course()->get_breadcrumb())
+//        {
+//            case CourseLayout :: BREADCRUMB_TITLE :
+//                $title = $this->get_parent()->get_course()->get_name();
+//                break;
+//            case CourseLayout :: BREADCRUMB_CODE :
+//                $title = $this->get_parent()->get_course()->get_visual();
+//                break;
+//            case CourseLayout :: BREADCRUMB_COURSE_HOME :
+//                $title = Translation :: get('CourseHome');
+//                break;
+//            default :
+//                $title = $this->get_parent()->get_course()->get_visual();
+//                break;
+//        }
+//
+//        $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'tool' => null, 'course' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get('MyCourses')));
+//        $trail->add(new Breadcrumb($this->get_url(array('tool' => null, 'tool_action' => null, self :: PARAM_PUBLICATION_ID => null)), $title));
+//
+//        // TODO: do this by overriding display_header in the course_group tool
+//
+//
+//        if (! is_null($this->get_parent()->get_course_group()))
+//        {
+//            $course_group = $this->get_parent()->get_course_group();
+//            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COURSE_GROUP => null)), Translation :: get('CourseGroups')));
+//            //if(Request :: get('tool_action') != null)
+//        //$trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'course_group_unsubscribe')), $course_group->get_name()));
+//        }
+//        elseif ($this->get_tool_id() == 'course_group')
+//        {
+//            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->get_parent()->get_tool_id()) . 'Title')));
+//        }
+//        // TODO: make this the default
+//        if ($this->get_tool_id() != 'course_group')
+//        {
+//            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null, 'view' => null, 'time' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get(Tool :: type_to_class($this->get_parent()->get_tool_id()) . 'Title')));
+//        }
+//
+//        $breadcrumbs = BreadcrumbTrail::get_instance()->get_breadcrumbs();
+//
+//        if (count($breadcrumbs))
+//        {
+//            foreach ($breadcrumbs as $i => $breadcrumb)
+//            {
+//                if ($i != 0)
+//                    $trail->add($breadcrumb);
+//            }
+//        }
+//        Breadcrumbtrail :: get_instance()->set_breadcrumbtrail($trail->get_breadcrumbtrail());
+//        $this->get_parent()->display_header(Breadcrumbtrail :: get_instance(), false, $display_title, $display_tools, $display_student_view);
+//        //echo '<div class="clear"></div>';
+//
+//
+//        if ($this->get_parent()->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON)
+//        {
+//            $renderer = ToolListRenderer :: factory('Shortcut', $this->get_parent());
+//            echo '<div style="width: 100%; text-align: right;">';
+//            $renderer->display();
+//            echo '</div>';
+//        }
+//
+//        echo '<div class="clear"></div>';
+//
+//        if ($msg = Request :: get(Application :: PARAM_MESSAGE))
+//        {
+//            $this->get_parent()->display_message($msg);
+//        }
+//        if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
+//        {
+//            $this->get_parent()->display_error_message($msg);
+//        }
+//
+//        $menu_style = $this->get_parent()->get_course()->get_menu();
+//        if ($menu_style != CourseLayout :: MENU_OFF)
+//        {
+//            $renderer = ToolListRenderer :: factory('Menu', $this->get_parent());
+//            $renderer->display();
+//            echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && ! $renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
+//        }
+//        else
+//        {
+//            echo '<div id="tool_browser">';
+//        }
+//
+//    }
 
-        // TODO: do this by overriding display_header in the course_group tool
+//    /**
+//     * @see Application :: display_footer()
+//     */
+//    function display_footer()
+//    {
+//        echo '</div>';
+//        $this->get_parent()->display_footer();
+//    }
 
-
-        if (! is_null($this->parent->get_course_group()))
-        {
-            $course_group = $this->parent->get_course_group();
-            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COURSE_GROUP => null)), Translation :: get('CourseGroups')));
-            //if(Request :: get('tool_action') != null)
-        //$trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'course_group_unsubscribe')), $course_group->get_name()));
-        }
-        elseif ($this->get_tool_id() == 'course_group')
-        {
-            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
-        }
-        // TODO: make this the default
-        if ($this->get_tool_id() != 'course_group')
-        {
-            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null, 'view' => null, 'time' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
-        }
-
-        $breadcrumbs = BreadcrumbTrail::get_instance()->get_breadcrumbs();
-
-        if (count($breadcrumbs))
-        {
-            foreach ($breadcrumbs as $i => $breadcrumb)
-            {
-                if ($i != 0)
-                    $trail->add($breadcrumb);
-            }
-        }
-        Breadcrumbtrail :: get_instance()->set_breadcrumbtrail($trail->get_breadcrumbtrail());
-        $this->parent->display_header(Breadcrumbtrail :: get_instance(), false, $display_title, $display_tools, $display_student_view);
-        //echo '<div class="clear"></div>';
-
-
-        if ($this->parent->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON)
-        {
-            $renderer = ToolListRenderer :: factory('Shortcut', $this->parent);
-            echo '<div style="width: 100%; text-align: right;">';
-            $renderer->display();
-            echo '</div>';
-        }
-
-        echo '<div class="clear"></div>';
-
-        if ($msg = Request :: get(Application :: PARAM_MESSAGE))
-        {
-            $this->parent->display_message($msg);
-        }
-        if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
-        {
-            $this->parent->display_error_message($msg);
-        }
-
-        $menu_style = $this->parent->get_course()->get_menu();
-        if ($menu_style != CourseLayout :: MENU_OFF)
-        {
-            $renderer = ToolListRenderer :: factory('Menu', $this->parent);
-            $renderer->display();
-            echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && ! $renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
-        }
-        else
-        {
-            echo '<div id="tool_browser">';
-        }
-
-    }
-
-    /**
-     * @see Application :: display_footer()
-     */
-    function display_footer()
-    {
-        echo '</div>';
-        $this->parent->display_footer();
-    }
-
-    function display_error_message($message)
-    {
-        $this->parent->display_error_message($message);
-    }
-    
     function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
     {
-        return $this->parent->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
+        return $this->get_parent()->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
     }
 
-    /**
-     * Informs the user that access to the page was denied.
-     */
-    function disallow()
-    {
-        Display :: not_allowed();
-    }
-    
-	function get_application_name()
-	{
-        return $this->parent->get_application_name();
-	}
-	
-    /**
-     * @see WebApplication :: get_user()
-     */
-    function get_user()
-    {
-        return $this->parent->get_user();
-    }
-
-    /**
-     * @see WebApplication :: get_user_id()
-     */
-    function get_user_id()
-    {
-        return $this->parent->get_user_id();
-    }
-
+//    /**
+//     * Informs the user that access to the page was denied.
+//     */
+//    function disallow()
+//    {
+//        Display :: not_allowed();
+//    }
+//
+//	function get_application_name()
+//	{
+//        return $this->get_parent()->get_application_name();
+//	}
+//
+//    /**
+//     * @see WebApplication :: get_user()
+//     */
+//    function get_user()
+//    {
+//        return $this->get_parent()->get_user();
+//    }
+//
+//    /**
+//     * @see WebApplication :: get_user_id()
+//     */
+//    function get_user_id()
+//    {
+//        return $this->get_parent()->get_user_id();
+//    }
+//
     function get_user_info($user_id)
     {
-        return $this->parent->get_user_info($user_id);
+        return $this->get_parent()->get_user_info($user_id);
     }
 
     /**
@@ -407,7 +407,7 @@ abstract class Tool
      */
     function get_course()
     {
-        return $this->parent->get_course();
+        return $this->get_parent()->get_course();
     }
 
     /**
@@ -415,7 +415,7 @@ abstract class Tool
      */
     function get_course_id()
     {
-        return $this->parent->get_course_id();
+        return $this->get_parent()->get_course_id();
     }
 
     /**
@@ -423,64 +423,64 @@ abstract class Tool
      */
     function get_course_groups()
     {
-        return $this->parent->get_course_groups();
+        return $this->get_parent()->get_course_groups();
     }
 
     function get_course_group()
     {
-        return $this->parent->get_course_group();
+        return $this->get_parent()->get_course_group();
     }
 
-    /**
-     * @see WebApplication :: get_parameters()
-     */
-    function get_parameters()
-    {
-        return $this->parent->get_parameters();
-    }
+//    /**
+//     * @see WebApplication :: get_parameters()
+//     */
+//    function get_parameters()
+//    {
+//        return $this->get_parent()->get_parameters();
+//    }
+//
+//    /**
+//     * @see WebApplication :: get_parameter()
+//     */
+//    function get_parameter($name)
+//    {
+//        return $this->get_parent()->get_parameter($name);
+//    }
+//
+//    /**
+//     * @see WebApplication :: set_parameter()
+//     */
+//    function set_parameter($name, $value)
+//    {
+//        $this->get_parent()->set_parameter($name, $value);
+//    }
+//
+//	function set_parameters($parameters)
+//    {
+//        $this->get_parent()->set_parameters($parameters);
+//    }
 
-    /**
-     * @see WebApplication :: get_parameter()
-     */
-    function get_parameter($name)
-    {
-        return $this->parent->get_parameter($name);
-    }
-
-    /**
-     * @see WebApplication :: set_parameter()
-     */
-    function set_parameter($name, $value)
-    {
-        $this->parent->set_parameter($name, $value);
-    }
-    
-	function set_parameters($parameters)
-    {
-        $this->parent->set_parameters($parameters);
-    }
-
-    /**
-     * @see WebApplication :: get_url()
-     */
-
-    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
-    {
-        return $this->parent->get_url($parameters, $filter, $encode_entities);
-    }
-
-    /**
-     * @see WebApplication :: redirect()
-     */
-    function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
-    {
-        return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
-    }
-    
-    function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $redirect_type = Redirect :: TYPE_URL, $application_type = Redirect :: TYPE_APPLICATION)
-    {
-        return $this->get_parent()->simple_redirect($parameters, $filter, $encode_entities, $redirect_type, $application_type);
-    }
+//    /**
+//     * @see WebApplication :: get_url()
+//     */
+//
+//    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+//    {
+//        return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+//    }
+//
+//    /**
+//     * @see WebApplication :: redirect()
+//     */
+//    function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
+//    {
+//        return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
+//    }
+//
+//    function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $redirect_type = Redirect :: TYPE_URL, $application_type = Redirect :: TYPE_APPLICATION)
+//    {
+//        return $this->get_parent()->simple_redirect($parameters, $filter, $encode_entities, $redirect_type, $application_type);
+//    }
     /**
      * Check if the current user has a given right in this tool
      * @param int $right
@@ -516,13 +516,13 @@ abstract class Tool
      */
     function get_last_visit_date()
     {
-        return $this->parent->get_last_visit_date();
+        return $this->get_parent()->get_last_visit_date();
     }
 
-    function get_path($path_type)
-    {
-        return $this->get_parent()->get_path($path_type);
-    }
+//    function get_path($path_type)
+//    {
+//        return $this->get_parent()->get_path($path_type);
+//    }
 
     /** Dummy functions so we can use the same component class for both tool and repositorytool **/
     function perform_requested_action()
@@ -572,14 +572,14 @@ abstract class Tool
             if ($this->is_allowed(EDIT_RIGHT))
             {
                 $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-                
+
             	$toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('Edit'),
 		        		Theme :: get_common_image_path() . 'action_edit.png',
 		        		$this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
-        
+
 		        $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('Delete'),
 		        		Theme :: get_common_image_path() . 'action_delete.png',
@@ -613,8 +613,7 @@ abstract class Tool
     {
         if (Request :: get(self :: PARAM_PUBLICATION_ID))
         {
-            //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
-            $url = $this->parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID), 
+            $url = $this->get_parent()->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(self :: PARAM_PUBLICATION_ID),
             	ReportingManager :: PARAM_TEMPLATE_NAME => 'publication_detail_reporting_template'));
             return new ToolbarItem(Translation :: get('AccessDetails'), Theme :: get_common_image_path() . 'action_reporting.png', $url);
         }
@@ -643,12 +642,7 @@ abstract class Tool
 
         return $parents;
     }
-    
-    function create_component($type, $application)
-    {
-    	return $this->parent->create_component($type, $application);
-    }
-    
+
     static function factory($tool_name, $parent)
     {
     	$file = dirname(__FILE__) . '/' . $tool_name . '/' . $tool_name . '_tool.class.php';
@@ -656,12 +650,17 @@ abstract class Tool
     	{
     		throw new Exception(Translation :: get('ToolDoesNotExist', array('toolname' => $tool_name)));
     	}
-    	
+
     	require_once $file;
-    	
+
     	$class = self :: type_to_class($tool_name);
-    	
+
     	return new $class($parent);
+    }
+
+    function convert_content_object_publication_to_calendar_event($publication)
+    {
+        return $publication;
     }
 }
 ?>

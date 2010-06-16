@@ -136,16 +136,16 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         {
     		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         }
-        
+
     	if ($this->browser->is_allowed(EDIT_RIGHT))
         {
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Edit'),
 	        		Theme :: get_common_image_path() . 'action_edit.png',
-	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
-	        
+
 	        $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Delete'),
 	        		Theme :: get_common_image_path() . 'action_delete.png',
@@ -153,7 +153,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 	        		ToolbarItem :: DISPLAY_ICON,
 	        		true
 	        ));
-            
+
             if ($publication->get_content_object()->is_complex_content_object())
             {
                 $toolbar->add_item(new ToolbarItem(
@@ -190,7 +190,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 			        		ToolbarItem :: DISPLAY_ICON
 			        ));
 	            }
-	
+
 	            if($publication->get_display_order_index() < $this->object_count)
 	            {
 	            	$toolbar->add_item(new ToolbarItem(
@@ -217,7 +217,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 	        		$this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
-	        
+
 	        if($show_parent_change_action)
 	        {
 		        $toolbar->add_item(new ToolbarItem(
@@ -240,7 +240,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
         }
-        
+
         if(WebApplication :: is_active('gradebook'))
         {
         	require_once dirname (__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
@@ -257,7 +257,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 		        ));
         	}
         }
-        
+
         return $toolbar;
     }
 }

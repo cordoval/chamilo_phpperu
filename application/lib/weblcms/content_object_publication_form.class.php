@@ -71,6 +71,8 @@ class ContentObjectPublicationForm extends FormValidator
         if ($repo_viewer)
         {
             $pub_param = $repo_viewer->get_parameters();
+            $pub_param[RepoViewer :: PARAM_ID] = $content_object;
+            $pub_param[RepoViewer :: PARAM_ACTION] = RepoViewer :: ACTION_PUBLISHER;
         }
 
         $this->form_type = $form_type;
@@ -100,11 +102,11 @@ class ContentObjectPublicationForm extends FormValidator
 
         if ($in_repo_viewer)
         {
-            $this->tool = $repo_viewer->get_parent()->get_parent();
+            $this->tool = $repo_viewer;
         }
         else
         {
-            $this->tool = $repo_viewer->get_parent();
+            $this->tool = $repo_viewer;
         }
         $this->content_object = $content_object;
         $this->email_option = $email_option;
@@ -465,7 +467,7 @@ class ContentObjectPublicationForm extends FormValidator
             }
 
             $course = $this->course->get_id();
-            $tool = $this->repo_viewer->get_tool()->get_tool_id();
+            $tool = $this->repo_viewer->get_tool_id();
             $tool = (is_null($tool) ? 'introduction' : $tool);
             $category = $values[self :: PARAM_CATEGORY_ID];
             if (! $category)

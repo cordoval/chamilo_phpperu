@@ -15,7 +15,10 @@ class InternshipOrganizerAgreement extends DataClass {
 	const PROPERTY_STUDENT_ID = 'student_id'; //owner
 	const PROPERTY_STATUS = 'status';
 	
-	const STATUS_START = 1;
+	const STATUS_NEW = 1;
+	const STATUS_COACH = 2;
+	const STATUS_LOCATION = 3;
+	const STATUS_MENTOR = 4;
 	
 	/**
 	 * Get the default properties
@@ -178,6 +181,28 @@ class InternshipOrganizerAgreement extends DataClass {
 	function set_status($status) {
 		$this->set_default_property ( self::PROPERTY_STATUS, $status );
 	}	
+	
+	
+	function get_status_name($index){
+	switch ($index)
+        {
+            case 1 :
+                return Translation :: get('InternshipOrganizerNewAgreement');
+//                break;
+            case 2 :
+                return Translation :: get('InternshipOrganizerCoachAgreement');
+//                break;
+            case 3 :
+                return Translation :: get('InternshipOrganizerLocationAgreement');
+//                break;
+            case 4 :
+                return Translation :: get('InternshipOrganizerMentorAgreement');
+//                break;
+            default :
+                //no default
+                break;
+        }
+	}
 	
 	static function get_table_name() {
 		return 'agreement';

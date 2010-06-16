@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.course_sections
  */
 
-require_once dirname(__FILE__) . '/course_sections_tool_component.class.php';
 /**
  * This tool allows a user to publish course_sectionss in his or her course.
  */
@@ -65,5 +64,10 @@ class CourseSectionsTool extends Tool
         }
         $component->run();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

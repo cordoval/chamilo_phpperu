@@ -3,7 +3,6 @@
  * $Id: learning_path_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.learning_path
  */
-require_once dirname(__FILE__) . '/learning_path_tool_component.class.php';
 /**
  * This tool allows a user to publish learning paths in his or her course.
  */
@@ -83,5 +82,10 @@ class LearningPathTool extends Tool
     {
         return array(LearningPath :: get_type_name());
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

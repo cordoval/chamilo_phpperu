@@ -69,7 +69,7 @@ class StreamingMediaBrowserComponent extends StreamingMediaComponent
             $this->set_parameter(StreamingMediaSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, $query);
         }
         
-        $streaming_media_objects = $this->retrieve_streaming_media_objects();
+        //$streaming_media_objects = $this->retrieve_streaming_media_objects();
         $this->display_header();
         
         if ($this->get_menu() == null)

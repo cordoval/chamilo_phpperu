@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../announcement_tool.class.php';
 require_once dirname(__FILE__) . '/../announcement_tool_component.class.php';
 require_once dirname(__FILE__) . '/announcement_viewer/announcement_browser.class.php';
 
-class AnnouncementToolViewerComponent extends AnnouncementToolComponent
+class AnnouncementToolViewerComponent extends AnnouncementTool
 {
     private $action_bar;
     private $introduction_text;
@@ -48,9 +48,9 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), $publication->get_content_object()->get_title()));
         }
         $trail->add_help('courses announcement tool');
-        
+
         $html = $browser->as_html();
-        
+
         $this->display_header($trail, true);
 
         //echo $this->perform_requested_actions();

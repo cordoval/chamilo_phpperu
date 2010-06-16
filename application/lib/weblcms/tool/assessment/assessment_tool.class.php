@@ -3,7 +3,6 @@
  * $Id: assessment_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.assessment
  */
-require_once dirname(__FILE__) . '/assessment_tool_component.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/tool/tool.class.php';
 /**
  * This tool allows a user to publish assessments in his or her course.
@@ -22,7 +21,7 @@ class AssessmentTool extends Tool
     const ACTION_PUBLISH_SURVEY = 'publish_survey';
     const ACTION_VIEW = 'view';
     const ACTION_DELETE_RESULTS = 'delete_results';
-    
+
     const PARAM_USER_ASSESSMENT = 'uaid';
     const PARAM_QUESTION_ATTEMPT = 'qaid';
     const PARAM_ASSESSMENT = 'aid';
@@ -37,10 +36,10 @@ class AssessmentTool extends Tool
     {
         $action = $this->get_action();
         $component = parent :: run();
-        
+
         if ($component)
             return;
-        
+
         switch ($action)
         {
             case self :: ACTION_PUBLISH :
@@ -81,7 +80,7 @@ class AssessmentTool extends Tool
                 $component = AssessmentToolComponent :: factory('Viewer', $this);
                 break;
         }
-        
+
         $component->run();
     }
 
@@ -89,5 +88,10 @@ class AssessmentTool extends Tool
     {
         return array(Assessment :: get_type_name(), Hotpotatoes :: get_type_name());
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.geolocation
  */
 
-require_once dirname(__FILE__) . '/geolocation_tool_component.class.php';
 /**
  * This tool allows a user to publish announcements in his or her course.
  */
@@ -41,5 +40,10 @@ class GeolocationTool extends Tool
     {
         return array(PhysicalLocation :: get_type_name());
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

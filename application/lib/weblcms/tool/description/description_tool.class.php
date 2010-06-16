@@ -3,7 +3,6 @@
  * $Id: description_tool.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.description
  */
-require_once dirname(__FILE__) . '/description_tool_component.class.php';
 
 /**
  * This tool allows a user to publish descriptions in his or her course.
@@ -16,7 +15,6 @@ class DescriptionTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
         
         if ($component)
             return;
@@ -24,13 +22,34 @@ class DescriptionTool extends Tool
         switch ($action)
         {
             case self :: ACTION_VIEW_DESCRIPTIONS :
-                $component = DescriptionToolComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
+                break;
+            case self :: ACTION_DELETE :
+                $component = $this->create_component('Deleter');
+                break;
+            case self :: ACTION_UPDATE :
+                $component = $this->create_component('Updater');
+                break;
+            case self :: ACTION_MOVE_UP :
+                $component = $this->create_component('MoveUp');
+                break;
+            case self :: ACTION_MOVE_DOWN :
+                $component = $this->create_component('MoveDown');
+                break;
+            case self :: ACTION_TOGGLE_VISIBILITY :
+                $component = $this->create_component('ToggleVisibility');
                 break;
             case self :: ACTION_PUBLISH :
-                $component = DescriptionToolComponent :: factory('Publisher', $this);
+                $component = $this->create_component('Publisher');
+                break;
+            case self :: ACTION_BROWSE :
+                $component = $this->create_component('Browser');
+                break;
+            case self :: ACTION_PUBLISH_INTRODUCTION :
+                $component = $this->create_component('IntroductionPublisher');
                 break;
             default :
-                $component = DescriptionToolComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }
@@ -38,6 +57,11 @@ class DescriptionTool extends Tool
     static function get_allowed_types()
     {
         return array(Description :: get_type_name());
+    }
+
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
     }
 }
 ?>

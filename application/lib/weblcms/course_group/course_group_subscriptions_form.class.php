@@ -75,9 +75,7 @@ class CourseGroupSubscriptionsForm extends FormValidator
         $elem = $this->addElement('user_group_finder', 'users', Translation :: get('SubscribeUsers'), $url, $locale, $current, array('load_elements' => true));
 		$elem->setDefaults($defaults);
 
-
-
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Subscribe'), array('class' => 'positive subscribe'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Subscribe'), array('class' => 'positive subscribe'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);

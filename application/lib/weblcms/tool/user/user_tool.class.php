@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.user.component
  */
 
-require_once dirname(__FILE__) . '/user_tool_component.class.php';
 /**
  * This tool allows a user to publish users in his or her course.
  */
@@ -22,36 +21,35 @@ class UserTool extends Tool
      */
     function run()
     {
-        $action = $this->get_action();
-        $component = parent :: run();
-
-        if ($component)
-            return;
-
-        switch ($action)
+        switch ($this->get_action())
         {
             case self :: ACTION_SUBSCRIBE_USERS :
-                $component = UserToolComponent :: factory('SubscribeBrowser', $this);
+                $component = $this->create_component('SubscribeBrowser');
                 break;
             case self :: ACTION_UNSUBSCRIBE_USERS :
-                $component = UserToolComponent :: factory('UnsubscribeBrowser', $this);
+                $component = $this->create_component('UnsubscribeBrowser');
                 break;
             case self :: ACTION_USER_DETAILS :
-                $component = UserToolComponent :: factory('Details', $this);
+                $component = $this->create_component('Details');
                 break;
             case self :: ACTION_SUBSCRIBE_GROUPS :
-                $component = UserToolComponent :: factory('GroupSubscribeBrowser', $this);
+                $component = $this->create_component('GroupSubscribeBrowser');
                 break;
            	case self :: ACTION_REQUEST_SUBSCRIBE_USER :
-                $component = UserToolComponent :: factory('RequestSubscribeUser', $this);
+                $component = $this->create_component('RequestSubscribeUser');
                 break;
             case self :: ACTION_EMAIL :
-            	$component = UserToolComponent :: factory('Emailer', $this);
+            	$component = $this->create_component('Emailer');
             	break;
             default :
-                $component = UserToolComponent :: factory('UnsubscribeBrowser', $this);
+                $component = $this->create_component('UnsubscribeBrowser');
         }
         $component->run();
     }
+    
+	function get_application_component_path()
+	{
+		return dirname(__FILE__) . '/component/';
+	}
 }
 ?>

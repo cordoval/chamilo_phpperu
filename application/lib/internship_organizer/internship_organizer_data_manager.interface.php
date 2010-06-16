@@ -114,7 +114,9 @@ interface InternshipOrganizerDataManagerInterface
     
 
     function retrieve_periods($condition = null, $offset = null, $count = null, $order_property = null);
-
+	
+    function retrieve_period($period_id);
+    
     function retrieve_root_period();
 
     function delete_internship_organizer_period_rel_user($period_rel_user);

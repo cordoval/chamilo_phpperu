@@ -19,4 +19,7 @@ class NoteToolComponent extends ToolComponent
     {
         return parent :: factory('Note', $component_name, $note_tool);
     }
+
+    function run()
+    {}
 }

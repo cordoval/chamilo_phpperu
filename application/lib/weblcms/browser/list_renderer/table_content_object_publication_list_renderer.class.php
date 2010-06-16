@@ -4,50 +4,12 @@
  * @package application.lib.weblcms.browser.list_renderer
  */
 require_once dirname(__FILE__) . '/../content_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__) . '/../object_publication_table/object_publication_table.class.php';
 /**
  * Renderer to display a sortable table with learning object publications.
  */
 class TableContentObjectPublicationListRenderer extends ContentObjectPublicationListRenderer
 {
-    /**
-     * The table with all learning object publications to be displayed
-     */
-    protected $table;
-
-    /**
-     * Create a new table renderer
-     * @param PublicationBrowser $browser The browser to associate this table
-     * renderer with.
-     */
-    function TableContentObjectPublicationListRenderer($browser)
-    {
-        parent :: __construct($browser);
-        // TODO: Assign a dynamic table name.
-        $name = 'pubtbl';
-        $this->table = new SortableTable($name, array($browser, 'get_publication_count'), array($browser, 'get_publications'));
-        $this->table->set_additional_parameters($browser->get_parameters());
-        if ($browser->is_allowed(EDIT_RIGHT) || $browser->is_allowed(DELETE_RIGHT))
-        {
-            if ($browser->is_allowed(EDIT_RIGHT))
-            {
-                $actions[] = new ObjectTableFormAction(Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY, Translation :: get('Move'), false);
-            }
-            if ($browser->is_allowed(DELETE_RIGHT))
-            {
-                $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('Delete'));
-            }
-            $this->table->set_form_actions($actions, $name . '_id', Tool :: PARAM_ACTION);
-        }
-    }
-
-    /**
-     * Sets a header of the table
-     * @see SortableTable::set_header()
-     */
-    function set_header($column, $label, $sortable = true)
-    {
-        return $this->table->set_header($column, $label, $sortable);
-    }
 
     /**
      * Returns the HTML output of this renderer.
@@ -55,7 +17,26 @@ class TableContentObjectPublicationListRenderer extends ContentObjectPublication
      */
     function as_html()
     {
-        return $this->table->as_html();
+        if (method_exists($this->get_browser()->get_parent(), 'get_object_publication_table_cell_renderer'))
+        {
+            $object_publication_table_cell_renderer = $this->get_browser()->get_parent()->get_content_object_publication_table_cell_renderer($this->get_browser());
+        }
+        else
+        {
+            $object_publication_table_cell_renderer = null;
+        }
+
+        if (method_exists($this->get_browser()->get_parent(), 'get_content_object_publication_table_column_model'))
+        {
+            $object_publication_table_column_model = $this->get_browser()->get_parent()->get_content_object_publication_table_column_model($this->get_browser());
+        }
+        else
+        {
+            $object_publication_table_column_model = null;
+        }
+
+        $table = new ObjectPublicationTable($this, $this->get_user(), $this->get_allowed_types(), $this->get_search_condition(), $object_publication_table_cell_renderer, $object_publication_table_column_model);
+        return $table->as_html();
     }
 }
 ?>
