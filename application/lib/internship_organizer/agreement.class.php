@@ -17,8 +17,8 @@ class InternshipOrganizerAgreement extends DataClass
     const PROPERTY_STATUS = 'status';
     
     const STATUS_NEW = 1;
-    const STATUS_LOCATION = 2;
-    const STATUS_MENTOR = 3;
+    const STATUS_ADD_LOCATION = 2;
+    const STATUS_ADD_MENTOR = 3;
     const STATUS_COMPLETE = 4;
 
     /**
@@ -197,7 +197,7 @@ class InternshipOrganizerAgreement extends DataClass
         $this->set_default_property(self :: PROPERTY_STATUS, $status);
     }
 
-    function get_status_name($index)
+    static function get_status_name($index)
     {
         switch ($index)
         {
@@ -205,10 +205,10 @@ class InternshipOrganizerAgreement extends DataClass
                 return Translation :: get('InternshipOrganizerAgreementNew');
             //                break;
             case 2 :
-                return Translation :: get('InternshipOrganizerLocationAgreement');
+                return Translation :: get('InternshipOrganizerAgreementAddLocation');
             //                break;
             case 3 :
-                return Translation :: get('InternshipOrganizerMentorAgreement');
+                return Translation :: get('InternshipOrganizerAgreementAdMentor');
             //                break;
             case 3 :
                 return Translation :: get('InternshipOrganizerAgreementComplete');

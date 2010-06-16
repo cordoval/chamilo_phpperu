@@ -7,7 +7,7 @@ require_once Path :: get_library_path() . 'condition/equality_condition.class.ph
 require_once Path :: get_library_path() . 'condition/not_condition.class.php';
 require_once Path :: get_library_path() . 'condition/and_condition.class.php';
 require_once Path :: get_library_path() . 'condition/or_condition.class.php';
-require_once Path :: get_application_path() . '/lib/internship_organizer/period.class.php';
+require_once Path :: get_application_path() . '/lib/internship_organizer/category.class.php';
 require_once Path :: get_application_path() . '/lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
 
 Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
@@ -16,7 +16,7 @@ if (Authentication :: is_valid())
 {
     $conditions = array();
     
-    $query_condition = Utilities :: query_to_condition($_GET['query'], array(InternshipOrganizerPeriod :: PROPERTY_NAME, InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION));
+    $query_condition = Utilities :: query_to_condition($_GET['query'], array(InternshipOrganizerCategory :: PROPERTY_NAME, InternshipOrganizerCategory :: PROPERTY_DESCRIPTION));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
@@ -27,7 +27,7 @@ if (Authentication :: is_valid())
         $c = array();
         foreach ($_GET['exclude'] as $id)
         {
-            $c[] = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $id);
+            $c[] = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_ID, $id);
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
@@ -42,11 +42,11 @@ if (Authentication :: is_valid())
     }
     
     $dm = InternshipOrganizerDataManager :: get_instance();
-    $objects = $dm->retrieve_periods($condition);
+    $objects = $dm->retrieve_categories($condition);
     
-    while ($period = $objects->next_result())
+    while ($category = $objects->next_result())
     {
-        $periods[] = $period;
+        $categories[] = $category;
     }
 
 }
@@ -54,21 +54,21 @@ if (Authentication :: is_valid())
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="utf-8"?>', "\n", '<tree>', "\n";
 
-dump_tree($periods);
+dump_tree($categories);
 
 echo '</tree>';
 
-function dump_tree($periods)
+function dump_tree($categories)
 {
-    if (contains_results($periods))
+    if (contains_results($categories))
     {
-        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Periods'), '">', "\n";
+        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Categories'), '">', "\n";
         
-        foreach ($periods as $period)
+        foreach ($categories as $category)
         {
-            $id = $period->get_id();
-            $name = strip_tags($period->get_name());
-            $description = strip_tags($period->get_description());
+            $id = $category->get_id();
+            $name = $category->get_name();
+            $description = $category->get_description();
             
             echo '<leaf id="', $id, '" classes="', '', '" title="', htmlentities($name), '" description="', htmlentities(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
         }
