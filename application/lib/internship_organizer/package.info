@@ -20,7 +20,7 @@
 			<server>
 				<dependency>
 					<id>php</id>
-					<version type="4">5.3.0</version>
+					<version type="4">5.2.0</version>
 					<severity>1</severity>
 				</dependency>
 			</server>
