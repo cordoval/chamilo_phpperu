@@ -505,6 +505,11 @@ abstract class ContentObjectPublicationListRenderer
         return $this->tool_browser->get_url($parameters, $filter, $encode_entities);
     }
 
+    function get_complex_builder_url($publication_id)
+    {
+        return $this->tool_browser->get_complex_builder_url($publication_id);
+    }
+
     /**
      * @see ContentObjectPublicationBrowser :: is_allowed()
      */
