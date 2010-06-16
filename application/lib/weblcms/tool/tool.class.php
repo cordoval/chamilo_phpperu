@@ -650,5 +650,10 @@ abstract class Tool extends SubManager
     {
         return $publication;
     }
+
+    function is_category_management_enabled()
+    {
+        return false;
+    }
 }
 ?>

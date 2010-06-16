@@ -54,10 +54,15 @@ class DocumentTool extends Tool
     {
         return array(Document :: get_type_name());
     }
-    
+
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
+	}
+
+	function is_category_management_enabled()
+	{
+	    return true;
 	}
 }
 ?>

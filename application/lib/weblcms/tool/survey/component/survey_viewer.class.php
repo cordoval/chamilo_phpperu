@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.tool.assessment.component
  */
 
-require_once dirname(__FILE__) . '/../../../browser/learningobjectpublicationcategorytree.class.php';
+require_once dirname(__FILE__) . '/../../../browser/content_object_publication_category_tree.class.php';
 require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';
 require_once dirname(__FILE__) . '/survey_browser/survey_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/survey_browser/survey_column_model.class.php';
@@ -34,7 +34,7 @@ class SurveyToolViewerComponent extends SurveyToolComponent
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, ContentObjectPublication :: get_table_name(), RepositoryDataManager :: get_instance());
         $condition = new AndCondition($conditions);
 
-        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition); 
+        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
         $this->introduction_text = $publications->next_result();
 
         $tree_id = WeblcmsManager :: PARAM_CATEGORY;

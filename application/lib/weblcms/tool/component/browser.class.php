@@ -5,6 +5,7 @@
  */
 
 require_once dirname(__file__) . '/../../browser/content_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__) . '/../../browser/content_object_publication_category_tree.class.php';
 
 class ToolBrowserComponent extends ToolComponent
 {
@@ -13,10 +14,11 @@ class ToolBrowserComponent extends ToolComponent
 
     function run()
     {
+        $this->introduction_text = $this->get_introduction_text();
         $this->action_bar = $this->get_action_bar();
 
-        $this->display_header();
-
+        $tree_id = 'pcattree';
+        $publication_category_tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
         $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_browser_type(), $this);
 
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
@@ -25,14 +27,30 @@ class ToolBrowserComponent extends ToolComponent
 
         $publication_renderer->set_actions($actions);
 
+        $this->display_header();
+
         if ($this->get_course()->get_intro_text())
         {
-            echo $this->display_introduction_text();
+            echo $this->get_parent()->display_introduction_text($this->introduction_text);
         }
 
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
+
+        if ($this->is_category_management_enabled())
+        {
+            echo '<div style="width:18%; float: left; overflow: auto;">';
+            echo $publication_category_tree->as_html();
+            echo '</div>';
+            echo '<div style="width:80%; padding-left: 1%; float:right; ">';
+        }
+
         echo $publication_renderer->as_html();
+
+        if ($this->is_category_management_enabled())
+        {
+            echo '</div>';
+        }
         echo '</div>';
 
         $this->display_footer();
@@ -154,6 +172,11 @@ class ToolBrowserComponent extends ToolComponent
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
+        if ($this->is_allowed(EDIT_RIGHT) && $this->is_category_management_enabled())
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+
         if (! $this->introduction_text && $this->get_course()->get_intro_text())
         {
             if ($this->is_allowed(EDIT_RIGHT))
@@ -180,23 +203,7 @@ class ToolBrowserComponent extends ToolComponent
         return $action_bar;
     }
 
-    //
-    //    function get_introduction_text()
-    //    {
-    //        $conditions = array();
-    //        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-    //        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $this->get_tool_id());
-    //
-    //        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
-    //        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
-    //        $condition = new AndCondition($conditions);
-    //
-    //        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
-    //        $this->introduction_text = $publications->next_result();
-    //    }
-
-
-    function display_introduction_text()
+    function get_introduction_text()
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
@@ -207,9 +214,7 @@ class ToolBrowserComponent extends ToolComponent
         $condition = new AndCondition($conditions);
 
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
-        $introduction_text = $publications->next_result();
-
-        return $this->get_parent()->display_introduction_text($introduction_text);
+        return $publications->next_result();
     }
 
     function get_search_condition()
