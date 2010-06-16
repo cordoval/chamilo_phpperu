@@ -571,25 +571,13 @@ abstract class Tool extends SubManager
         {
             if ($this->is_allowed(EDIT_RIGHT))
             {
-                $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+                $toolbar = new Toolbar();
 
-            	$toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('Edit'),
-		        		Theme :: get_common_image_path() . 'action_edit.png',
-		        		$this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
-		        		ToolbarItem :: DISPLAY_ICON
-		        ));
-
-		        $toolbar->add_item(new ToolbarItem(
-		        		Translation :: get('Delete'),
-		        		Theme :: get_common_image_path() . 'action_delete.png',
-		        		$this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
-		        		ToolbarItem :: DISPLAY_ICON,
-		        		true
-		        ));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON));
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON, true));
             }
 
-            $html[] = '<div class="announcements level_1">';
+            $html[] = '<div class="announcements level_1" style="background-image: url('. Theme :: get_common_image_path() .'content_object/introduction.png);">';
             $html[] = '<div class="title">';
             $html[] = $introduction_text->get_content_object()->get_title();
             $html[] = '</div><div class="clear">&nbsp;</div>';
@@ -661,6 +649,11 @@ abstract class Tool extends SubManager
     function convert_content_object_publication_to_calendar_event($publication)
     {
         return $publication;
+    }
+
+    function is_category_management_enabled()
+    {
+        return false;
     }
 }
 ?>

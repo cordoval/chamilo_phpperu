@@ -11,16 +11,16 @@ class HomeToolViewerComponent extends HomeTool
 
         $title = CourseLayout :: get_title($this->get_course());
 
-        if (Request :: get('previous') == 'admin')
-        {
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
-        }
-        else
-        {
-            $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
-        }
-        $trail->add(new Breadcrumb($this->get_url(), $title));
+//        if (Request :: get('previous') == 'admin')
+//        {
+//            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+//            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
+//        }
+//        else
+//        {
+//            $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
+//        }
+//        $trail->add(new Breadcrumb($this->get_url(), $title));
         $trail->add_help('courses general');
 
         $wdm = WeblcmsDataManager :: get_instance();
@@ -41,7 +41,22 @@ class HomeToolViewerComponent extends HomeTool
         }
         if ($this->get_course()->get_intro_text())
         {
-            echo $this->display_introduction_text();
+            $introduction_text = $this->display_introduction_text();
+            if (! $introduction_text)
+            {
+                if ($this->is_allowed(EDIT_RIGHT))
+                {
+                    $toolbar = new Toolbar();
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('PublishIntroductionText'), null, $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_LABEL));
+                    echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 0.6em;">';
+                    echo $toolbar->as_html();
+                    echo '</div>';
+                }
+            }
+            else
+            {
+                echo $introduction_text;
+            }
             echo '<div class="clear"></div>';
         }
 
@@ -50,11 +65,11 @@ class HomeToolViewerComponent extends HomeTool
         echo '</div>';
         $this->display_footer();
         $wdm->log_course_module_access($this->get_course_id(), $this->get_user_id(), 'course_home');
-//
-//        $this->display_header();
-//        dump($this->get_parent()->get_course());
-//        echo 'Homepage goes here';
-//        $this->display_footer();
+        //
+    //        $this->display_header();
+    //        dump($this->get_parent()->get_course());
+    //        echo 'Homepage goes here';
+    //        $this->display_footer();
     }
 
     function get_registered_tools()

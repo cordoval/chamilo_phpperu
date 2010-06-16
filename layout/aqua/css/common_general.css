@@ -1191,7 +1191,7 @@ div.action_bar {
 	-moz-border-radius-bottomright: 15px;
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
-	height: 60px;
+	/*height: 60px;*/
 	background: #d4e0f1 url(../images/common/background_action_bar.png)
 		no-repeat;
 }
@@ -1211,33 +1211,33 @@ div.action_bar_text div.bevel {
 	padding: 5px 10px 5px 10px;
 }
 
-div.action_bar div.common_menu {
-	padding: 5px;
-	float: left;
-	width: 31%;
-	height: 40px;
+div.action_bar table
+{
+	border-spacing: 0px;
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
 }
 
-div.action_bar div.tool_menu {
-	padding: 5px;
-	float: left;
-	width: 31%;
-	height: 40px;
+div.action_bar .common_menu,
+div.action_bar .tool_menu,
+div.action_bar .search_menu
+{
+	padding: 5px 5px 10px 5px;
+	width: 33%;
+	vertical-align: top;
 }
 
-div.action_bar div.search_menu {
-	padding: 5px;
-	float: left;
-	width: 31%;
-	height: 40px;
+div.action_bar .tool_menu
+{
+	width: 34%;	
 }
 
-div.action_bar div.search_menu div.search_form {
+div.action_bar .search_menu div.search_form {
 	float: right;
-	margin-top: -2px;
 }
 
-div.action_bar div.search_menu div.help_item {
+div.action_bar .search_menu div.help_item {
 	float: left;
 }
 
@@ -1266,11 +1266,11 @@ div.action_bar div.simple_search {
 	margin: 0px 0px 0px 0px;
 }
 
-div.action_bar div.split {
+div.action_bar .split {
 	border-right: 1px solid #b5cae7;
 }
 
-div.action_bar div.split_bevel {
+div.action_bar .split_bevel {
 	border-left: 1px solid white;
 }
 

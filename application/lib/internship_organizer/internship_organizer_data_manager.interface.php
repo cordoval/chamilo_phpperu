@@ -76,7 +76,16 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_agreement($id);
 
     function retrieve_agreements($condition = null, $offset = null, $count = null, $order_property = null);
+	
+    function delete_internship_organizer_agreement_rel_user($agreement_rel_user);
 
+    function create_internship_organizer_agreement_rel_user($agreement_rel_user);
+
+    function count_agreement_rel_users($conditions = null);
+
+    function retrieve_agreement_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    
     function delete_internship_organizer_region($region);
 
     function update_internship_organizer_region($region);

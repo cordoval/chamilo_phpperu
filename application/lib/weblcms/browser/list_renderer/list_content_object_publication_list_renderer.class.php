@@ -91,7 +91,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
     {
         // TODO: split into separate overrideable methods
         $html = array();
-        $last_visit_date = $this->browser->get_last_visit_date();
+        $last_visit_date = $this->get_tool_browser()->get_last_visit_date();
         $icon_suffix = '';
         if ($publication->is_hidden())
         {

@@ -114,6 +114,11 @@ abstract class ToolComponent extends SubManager
         return $this->get_parent()->get_course_id();
     }
 
+    function get_course_groups()
+    {
+        return $this->get_parent()->get_course_groups();
+    }
+
     function get_user_info($user_id)
     {
         return $this->get_parent()->get_user_info($user_id);
@@ -122,6 +127,11 @@ abstract class ToolComponent extends SubManager
     function get_tool_id()
     {
         return $this->get_parent()->get_tool_id();
+    }
+
+    function is_category_management_enabled()
+    {
+        return $this->get_parent()->is_category_management_enabled();
     }
 
 }

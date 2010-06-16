@@ -4,7 +4,7 @@
  * @package application.lib.weblcms
  */
 require_once dirname(__FILE__) . '/browser/content_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__) . '/browser/learningobjectpublicationcategorytree.class.php';
+require_once dirname(__FILE__) . '/browser/content_object_publication_category_tree.class.php';
 
 /**
 ==============================================================================
@@ -20,27 +20,27 @@ abstract class ContentObjectPublicationBrowser
      * displayed.
      */
     private $types;
-    
+
     /**
      * The ID of the category that is currently active.
      */
     private $category;
-    
+
     /**
      * The list renderer used to display objects.
      */
     protected $listRenderer;
-    
+
     /**
      * The tree view used to display categories.
      */
     private $categoryTree;
-    
+
     /**
      * The tool that instantiated this browser.
      */
     private $parent;
-    
+
     private $publication_id;
 
     /**
