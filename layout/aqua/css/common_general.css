@@ -1238,11 +1238,6 @@ div.action_bar .tool_menu
 	width: 34%;	
 }
 
-div.action_bar .search_menu
-{
-	padding-right: 20px;
-}
-
 div.action_bar .search_menu div.search_form {
 	float: right;
 }
