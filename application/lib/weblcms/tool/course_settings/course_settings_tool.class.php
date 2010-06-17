@@ -9,26 +9,20 @@
  */
 class CourseSettingsTool extends Tool
 {
-    const ACTION_UPDATE_COURSE_SETTINGS = 'update';
-
     /**
      * Inherited.
      */
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
-        
-        if ($component)
-            return;
         
         switch ($action)
         {
-            case self :: ACTION_UPDATE_COURSE_SETTINGS :
-                $component = CourseSettingsToolComponent :: factory('Updater', $this);
+            case self :: ACTION_UPDATE :
+                $component = $this->create_component('Updater');
                 break;
             default :
-                $component = CourseSettingsToolComponent :: factory('Updater', $this);
+                $component = $this->create_component('Updater');
         }
         $component->run();
     }
