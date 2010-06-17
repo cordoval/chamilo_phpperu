@@ -56,6 +56,11 @@ class ToolBrowserComponent extends ToolComponent
         }
         echo '</div>';
 
+        if(method_exists($this->get_parent(), 'show_additional_information'))
+        {
+        	$this->get_parent()->show_additional_information($this);
+        }
+        
         $this->display_footer();
     }
 
