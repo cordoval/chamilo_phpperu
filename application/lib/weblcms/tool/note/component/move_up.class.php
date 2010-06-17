@@ -11,7 +11,7 @@ class NoteToolMoveUpComponent extends NoteTool
 
     function get_move_direction()
     {
-        return 1;
+        return -1;
     }
 }
 ?>

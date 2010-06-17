@@ -32,6 +32,15 @@ class GlossaryTool extends Tool
             case self :: ACTION_DELETE :
                 $component = $this->create_component('Deleter');
                 break;
+            case self :: ACTION_MOVE_DOWN :
+                $component = $this->create_component('MoveDown');
+                break;
+            case self :: ACTION_MOVE_UP :
+                $component = $this->create_component('MoveUp');
+                break;
+            case self :: ACTION_TOGGLE_VISIBILITY :
+                $component = $this->create_component('ToggleVisibility');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }
