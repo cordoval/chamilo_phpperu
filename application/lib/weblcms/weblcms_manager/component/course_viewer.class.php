@@ -49,8 +49,20 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
         }
 
         $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add_help('courses general');
+        
+    	if ($this->is_teacher() && $this->get_course()->get_student_view() == 1)
+        {
+            $studentview = Session :: retrieve('studentview');
 
+            if ($studentview == 1)
+            {
+                $trail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array('studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            }
+            else
+            {
+                $trail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array('studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            }
+        }
 
         if (! $this->is_teacher() && (! $this->is_subscribed($this->get_course(), $this->get_user_id()) || ! $this->get_course()->get_access()))
         {
@@ -103,16 +115,15 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 			exit;
 			}*/
 
-        $course = $this->get_parameter(WeblcmsManager :: PARAM_COURSE);
-        $tool = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
+        $course = Request :: get(WeblcmsManager :: PARAM_COURSE);
+        $tool = Request :: get(WeblcmsManager :: PARAM_TOOL);
         if (! $tool)
         {
             $tool = 'home';
         }
 
-        $action = $this->get_parameter(Application :: PARAM_ACTION);
-        $component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
-        $category = $this->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
+        $action = Request :: get(Application :: PARAM_ACTION);
+        $category = Request :: get(WeblcmsManager :: PARAM_CATEGORY);
 
         if (! $category)
         {
@@ -121,55 +132,61 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 
         if ($course)
         {
-            if ($component_action)
-            {
-                $parameters[WeblcmsManager :: PARAM_COMPONENT_ACTION] = null;
-                $parameters[Tool :: PARAM_PUBLICATION_ID] = null;
-                $parameters[WeblcmsManager :: PARAM_TOOL] = null;
-
-                $wdm = WeblcmsDataManager :: get_instance();
-                switch ($component_action)
-                {
-                    case 'make_visible' :
-                        $wdm->set_module_visible($this->get_course_id(), $tool, 1);
-                        $this->load_tools();
-                        $this->redirect(Translation :: get('ToolVisibilityChanged'), false, $parameters);
-                        break;
-                    case 'make_invisible' :
-                        $wdm->set_module_visible($this->get_course_id(), $tool, 0);
-                        $this->load_tools();
-                        $this->redirect(Translation :: get('ToolVisibilityChanged'), false, $parameters);
-                        break;
-                    case 'make_publication_invisible' :
-                        $publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
-                        $publication->set_hidden(1);
-                        $publication->update();
-                        $this->redirect(Translation :: get('PublicationVisibilityChanged'), false, $parameters);
-                        break;
-                    case 'make_publication_visible' :
-                        $publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
-                        $publication->set_hidden(0);
-                        $publication->update();
-                        $this->redirect(Translation :: get('PublicationVisibilityChanged'), false, $parameters);
-                        break;
-                    case 'delete_publication' :
-                        $publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
-                        $publication->set_show_on_homepage(0);
-                        $publication->update();
-                        $this->redirect(Translation :: get('PublicationDeleted'), false, $parameters);
-                        break;
-                }
-                $this->set_parameter(WeblcmsManager :: PARAM_TOOL, null);
-            }
-            if ($tool && ! $component_action)
+//            if ($component_action)
+//            {
+//                $parameters[WeblcmsManager :: PARAM_COMPONENT_ACTION] = null;
+//                $parameters[Tool :: PARAM_PUBLICATION_ID] = null;
+//                $parameters[WeblcmsManager :: PARAM_TOOL] = null;
+//
+//                $wdm = WeblcmsDataManager :: get_instance();
+//                switch ($component_action)
+//                {
+//                    case 'make_visible' :
+//                        $wdm->set_module_visible($this->get_course_id(), $tool, 1);
+//                        $this->load_tools();
+//                        $this->redirect(Translation :: get('ToolVisibilityChanged'), false, $parameters);
+//                        break;
+//                    case 'make_invisible' :
+//                        $wdm->set_module_visible($this->get_course_id(), $tool, 0);
+//                        $this->load_tools();
+//                        $this->redirect(Translation :: get('ToolVisibilityChanged'), false, $parameters);
+//                        break;
+//                    case 'make_publication_invisible' :
+//                        $publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
+//                        $publication->set_hidden(1);
+//                        $publication->update();
+//                        $this->redirect(Translation :: get('PublicationVisibilityChanged'), false, $parameters);
+//                        break;
+//                    case 'make_publication_visible' :
+//                        $publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
+//                        $publication->set_hidden(0);
+//                        $publication->update();
+//                        $this->redirect(Translation :: get('PublicationVisibilityChanged'), false, $parameters);
+//                        break;
+//                    case 'delete_publication' :
+//                        $publication = $wdm->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));
+//                        $publication->set_show_on_homepage(0);
+//                        $publication->update();
+//                        $this->redirect(Translation :: get('PublicationDeleted'), false, $parameters);
+//                        break;
+//                }
+//                $this->set_parameter(WeblcmsManager :: PARAM_TOOL, null);
+//            }
+            if ($tool)
             {
                 $title = CourseLayout :: get_title($this->get_course());
-                $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
                 $trail->add(new Breadcrumb($this->get_url(), $title));
 
                 if ($tool != 'course_group')
                 {
                     $this->set_parameter('course_group', null);
+                }
+                
+                $this->set_parameter(self :: PARAM_TOOL, $tool);
+                
+                if($tool != 'home')
+                {
+                	$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($tool) . 'Title')));
                 }
 
                 $wdm = WeblcmsDataManager :: get_instance();
@@ -177,60 +194,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
                 /*$toolObj = new $class($this);*/
 
                 $toolObj = Tool :: factory($tool, $this);
-
+				
                 $this->set_tool_class($class);
                 $toolObj->run();
                 $wdm->log_course_module_access($this->get_course_id(), $this->get_user_id(), $tool, $category);
             }
-            //            else
-        //            {
-        //                $trail = BreadcrumbTrail :: get_instance();
-        //                $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, null);
-        //                $this->set_parameter('tool_action', null);
-        //                $this->set_parameter('course_group', null);
-        //
-        //                $title = CourseLayout :: get_title($this->get_course());
-        //
-        //                if (Request :: get('previous') == 'admin')
-        //                {
-        //                    $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        //                    $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
-        //                }
-        //                else
-        //                {
-        //                    $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
-        //                }
-        //                $trail->add(new Breadcrumb($this->get_url(), $title));
-        //                $trail->add_help('courses general');
-        //
-        //                $wdm = WeblcmsDataManager :: get_instance();
-        //
-        //                $this->display_header($trail, false, true);
-        //
-        //                //Display menu
-        //                $menu_style = $this->get_course()->get_menu();
-        //                if ($menu_style != CourseLayout :: MENU_OFF)
-        //                {
-        //                    $renderer = ToolListRenderer :: factory('Menu', $this);
-        //                    $renderer->display();
-        //                    echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && ! $renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
-        //                }
-        //                else
-        //                {
-        //                    echo '<div id="tool_browser">';
-        //                }
-        //                if ($this->get_course()->get_intro_text())
-        //                {
-        //                    echo $this->display_introduction_text();
-        //                    echo '<div class="clear"></div>';
-        //                }
-        //
-        //                $renderer = ToolListRenderer :: factory('FixedLocation', $this);
-        //                $renderer->display();
-        //                echo '</div>';
-        //                $this->display_footer();
-        //                $wdm->log_course_module_access($this->get_course_id(), $this->get_user_id(), 'course_home');
-        //            }
         }
         else
         {
@@ -331,108 +299,108 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
      * Displays the header of this application
      * @param array $breadcrumbs The breadcrumbs which should be displayed
      */
-    function display_header($breadcrumbtrail = null, $display_search = false, $display_title = true, $display_tools = true, $display_student_view = true)
-    {
-        if (is_null($breadcrumbtrail))
-        {
-            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
-        }
-
-        $tool_class = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
-        $course = $this->get_parameter(WeblcmsManager :: PARAM_COURSE);
-        $action = $this->get_parameter(WeblcmsManager :: PARAM_ACTION);
-
-        $title = $breadcrumbtrail->get_last()->get_name();
-        $title_short = $title;
-        if (strlen($title_short) > 53)
-        {
-            $title_short = substr($title_short, 0, 50) . '&hellip;';
-        }
-
-        $wdm = WeblcmsDataManager :: get_instance();
-        $tools = WeblcmsDataManager :: get_tools('course_admin');
-        $admin_tool = false;
-        foreach ($tools as $tool)
-        {
-            if ($tool_class == $tool)
-            {
-                $admin_tool = true;
-            }
-        }
-
-        if ($this->is_teacher() && $this->get_course()->get_student_view() == 1 && ! $admin_tool && $display_student_view)
-        {
-            $studentview = Session :: retrieve('studentview');
-
-            if ($studentview == 1)
-            {
-                $breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array('studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-                //echo '<a href="' . $this->get_url(array('studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))) . '">' . Translation :: get('TeacherView') . '</a>';
-            }
-            else
-            {
-                $breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array('studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-                //echo '<a href="' . $this->get_url(array('studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))) . '">' . Translation :: get('StudentView') . '</a>';
-            }
-        }
-
-        Display :: header($breadcrumbtrail);
-
-        if (isset($tool_class))
-        {
-            if ($display_title)
-            {
-                echo '<div>';
-                Display :: tool_title(Utilities :: htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($tool_class) . 'Title')));
-                echo '</div>';
-            }
-
-        }
-        else
-        {
-            if ($course && is_object($this->get_course()) && $action == WeblcmsManager :: ACTION_VIEW_COURSE)
-            {
-
-                //echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
-                echo '<h3>' . Utilities :: htmlentities($title) . '</h3>';
-                // TODO: Add department name and url here somewhere ?
-            }
-            else
-            {
-                echo '<h3>' . Utilities :: htmlentities($title) . '</h3>';
-                if ($display_search)
-                {
-                    $this->display_search_form();
-                }
-            }
-
-            if ($this->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON && $display_tools)
-            {
-                $renderer = ToolListRenderer :: factory('Shortcut', $this);
-                echo '<div id="tool_shortcuts">';
-                $renderer->display();
-                echo '</div>';
-            }
-
-            echo '<div class="clear">&nbsp;</div>';
-        }
-
-        if (! isset($tool_class))
-        {
-            if ($msg = Request :: get(Application :: PARAM_MESSAGE))
-            {
-                //                echo '<br />';
-                $this->display_message($msg);
-            }
-            if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
-            {
-                //                echo '<br />';
-                $this->display_error_message($msg);
-            }
-        }
-
-    //echo 'Last visit: '.date('r',$this->get_last_visit_date());
-    }
+//    function display_header($breadcrumbtrail = null, $display_search = false, $display_title = true, $display_tools = true, $display_student_view = true)
+//    {
+//        if (is_null($breadcrumbtrail))
+//        {
+//            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
+//        }
+//
+//        $tool_class = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
+//        $course = $this->get_parameter(WeblcmsManager :: PARAM_COURSE);
+//        $action = $this->get_parameter(WeblcmsManager :: PARAM_ACTION);
+//
+//        $title = $breadcrumbtrail->get_last()->get_name();
+//        $title_short = $title;
+//        if (strlen($title_short) > 53)
+//        {
+//            $title_short = substr($title_short, 0, 50) . '&hellip;';
+//        }
+//
+//        $wdm = WeblcmsDataManager :: get_instance();
+//        $tools = WeblcmsDataManager :: get_tools('course_admin');
+//        $admin_tool = false;
+//        foreach ($tools as $tool)
+//        {
+//            if ($tool_class == $tool)
+//            {
+//                $admin_tool = true;
+//            }
+//        }
+//
+//        if ($this->is_teacher() && $this->get_course()->get_student_view() == 1 && ! $admin_tool && $display_student_view)
+//        {
+//            $studentview = Session :: retrieve('studentview');
+//
+//            if ($studentview == 1)
+//            {
+//                $breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array('studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//                //echo '<a href="' . $this->get_url(array('studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))) . '">' . Translation :: get('TeacherView') . '</a>';
+//            }
+//            else
+//            {
+//                $breadcrumbtrail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array('studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//                //echo '<a href="' . $this->get_url(array('studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))) . '">' . Translation :: get('StudentView') . '</a>';
+//            }
+//        }
+//
+//        Display :: header($breadcrumbtrail);
+//
+//        if (isset($tool_class))
+//        {
+//            if ($display_title)
+//            {
+//                echo '<div>';
+//                Display :: tool_title(Utilities :: htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($tool_class) . 'Title')));
+//                echo '</div>';
+//            }
+//
+//        }
+//        else
+//        {
+//            if ($course && is_object($this->get_course()) && $action == WeblcmsManager :: ACTION_VIEW_COURSE)
+//            {
+//
+//                //echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
+//                echo '<h3>' . Utilities :: htmlentities($title) . '</h3>';
+//                // TODO: Add department name and url here somewhere ?
+//            }
+//            else
+//            {
+//                echo '<h3>' . Utilities :: htmlentities($title) . '</h3>';
+//                if ($display_search)
+//                {
+//                    $this->display_search_form();
+//                }
+//            }
+//
+//            if ($this->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON && $display_tools)
+//            {
+//                $renderer = ToolListRenderer :: factory('Shortcut', $this);
+//                echo '<div id="tool_shortcuts">';
+//                $renderer->display();
+//                echo '</div>';
+//            }
+//
+//            echo '<div class="clear">&nbsp;</div>';
+//        }
+//
+//        if (! isset($tool_class))
+//        {
+//            if ($msg = Request :: get(Application :: PARAM_MESSAGE))
+//            {
+//                //                echo '<br />';
+//                $this->display_message($msg);
+//            }
+//            if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
+//            {
+//                //                echo '<br />';
+//                $this->display_error_message($msg);
+//            }
+//        }
+//
+//    //echo 'Last visit: '.date('r',$this->get_last_visit_date());
+//    }
 
     function is_allowed($right)
     {

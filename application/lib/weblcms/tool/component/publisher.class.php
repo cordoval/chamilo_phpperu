@@ -16,6 +16,9 @@ class ToolPublisherComponent extends ToolComponent
             return;
         }
         
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
+        
         $pub = new RepoViewer($this, $this->get_parent()->get_allowed_types());
         
         if (!$pub->is_ready_to_be_published())

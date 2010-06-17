@@ -12,7 +12,10 @@ class ToolViewerComponent extends ToolComponent
     
 	function run()
     {
-        $this->action_bar = $this->get_action_bar();
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('Details')));
+        
+    	$this->action_bar = $this->get_action_bar();
         $renderer = new ContentObjectPublicationDetailsRenderer($this);
         $html = $renderer->as_html();
         
