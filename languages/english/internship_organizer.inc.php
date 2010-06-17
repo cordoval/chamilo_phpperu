@@ -199,10 +199,10 @@ $lang['internship_organizer']['InternshipOrganizerCoordinator'] = 'Coördinator'
 $lang['internship_organizer']['InternshipOrganizerMentor'] = 'Mentor';
 $lang['internship_organizer']['InternshipOrganizerCoach'] = 'Coach';
 $lang['internship_organizer']['InternshipOrganizerStudent'] = 'Student';
+$lang['internship_organizer']['InternshipOrganizerOrganisations'] = 'Organisation';
 
-$lang['internship_organizer']['InternshipOrganizerAgreementNew'] = 'New';
-$lang['internship_organizer']['InternshipOrganizerAgreementAddLocation'] = 'Add location';
-$lang['internship_organizer']['InternshipOrganizerAgreementAdMentor'] = 'Add mentor';
-$lang['internship_organizer']['InternshipOrganizerAgreementComplete'] = 'Complete';
+$lang['internship_organizer']['InternshipOrganizerAgreementAddLocation'] = 'To add organisation';
+$lang['internship_organizer']['InternshipOrganizerAgreementToApprove'] = 'To be approved';
+$lang['internship_organizer']['InternshipOrganizerAgreementApproved'] = 'Approved';
 
 ?>

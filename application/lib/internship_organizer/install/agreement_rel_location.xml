@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="agreement_rel_location">
+	<properties>
+		<property name="agreement_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="location_id" type="integer" unsigned="1" notnull="1" />
+		<property name="location_type" type="integer" unsigned="1" notnull="1" />
+		<property name="preference_order" type="integer" unsigned="1" notnull="1" />
+	</properties>
+	<index name="agreement_group_id" type="primary">
+		<indexproperty name="agreement_id" />
+		<indexproperty name="location_id" />
+		<indexproperty name="preference_order" />
+	</index>
+</object>
