@@ -29,7 +29,7 @@ abstract class ContentObjectPublicationListRenderer
      * renderer with.
      * @param array $parameters The parameters to pass to the renderer.
      */
-    function ContentObjectPublicationListRenderer($tool_browser, $parameters = array (), $actions)
+    function ContentObjectPublicationListRenderer($tool_browser, $parameters = array ())
     {
         $this->parameters = $parameters;
         $this->tool_browser = $tool_browser;
@@ -407,32 +407,30 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_publication_actions($publication, $first, $last)
     {
+        //        return $this->get_publication_actions($publication)->as_html();
         $html = array();
-        $icons = array();
-
-        $html[] = '<span style="white-space: nowrap;">';
-
-        if ($this->is_allowed(DELETE_RIGHT))
-        {
-            $icons[] = $this->render_delete_action($publication);
-        }
-        if ($this->is_allowed(EDIT_RIGHT))
-        {
-            $icons[] = $this->render_edit_action($publication);
-            $icons[] = $this->render_visibility_action($publication);
-            $icons[] = $this->render_up_action($publication, $first);
-            $icons[] = $this->render_down_action($publication, $last);
-            $icons[] = $this->render_move_to_category_action($publication, $last);
-        }
-
-        $icons[] = $this->render_feedback_action($publication);
-
-        if (WebApplication :: is_active('gradebook'))
-            $icons[] = $this->render_evaluation_action($publication);
-
-        //dump($icons);
-        $html[] = implode('&nbsp;', $icons);
-        $html[] = '</span>';
+        //
+        //        if ($this->is_allowed(DELETE_RIGHT))
+        //        {
+        //            $icons[] = $this->render_delete_action($publication);
+        //        }
+        //        if ($this->is_allowed(EDIT_RIGHT))
+        //        {
+        //            $icons[] = $this->render_edit_action($publication);
+        //            $icons[] = $this->render_visibility_action($publication);
+        //            $icons[] = $this->render_up_action($publication, $first);
+        //            $icons[] = $this->render_down_action($publication, $last);
+        //            $icons[] = $this->render_move_to_category_action($publication, $last);
+        //        }
+        //
+        //        $icons[] = $this->render_feedback_action($publication);
+        //
+        //        if (WebApplication :: is_active('gradebook'))
+        //            $icons[] = $this->render_evaluation_action($publication);
+        //
+        //        //dump($icons);
+        //        $html[] = implode('&nbsp;', $icons);
+        $html[] = $this->get_publication_actions($publication)->as_html();
         return implode($html);
     }
 
@@ -591,6 +589,93 @@ abstract class ContentObjectPublicationListRenderer
     function get_tool_id()
     {
         return $this->tool_browser->get_tool_id();
+    }
+
+    function get_publication_actions($publication)
+    {
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+
+        if ($this->is_allowed(EDIT_RIGHT))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
+
+            if ($publication->get_content_object()->is_complex_content_object())
+            {
+                $toolbar->add_item(new ToolbarItem(Translation :: get('BuildComplex'), Theme :: get_common_image_path() . 'action_bar.png', $this->get_complex_builder_url($publication->get_id()), ToolbarItem :: DISPLAY_ICON));
+            }
+
+            if ($show_move_action)
+            {
+                if ($publication->get_display_order_index() > 1)
+                {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+                }
+                else
+                {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                }
+
+                if ($publication->get_display_order_index() < $this->object_count)
+                {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+                }
+                else
+                {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                }
+            }
+
+            $visibility_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
+            if ($publication->is_hidden())
+            {
+                $visibility_image = 'action_invisible.png';
+            }
+            elseif ($publication->is_forever())
+            {
+                $visibility_image = 'action_visible.png';
+            }
+            else
+            {
+                $visibility_image = 'action_period.png';
+                $visibility_url = '#';
+            }
+
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Visible'), Theme :: get_common_image_path() . $visibility_image, $visibility_url, ToolbarItem :: DISPLAY_ICON));
+
+            if ($this->get_tool_browser()->is_category_management_enabled())
+            {
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+            }
+
+        }
+
+        if ($show_feedback_option)
+        {
+            $feedback_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Feedback'), Theme :: get_common_image_path() . 'action_browser.png', $feedback_url, ToolbarItem :: DISPLAY_ICON));
+        }
+
+        if (WebApplication :: is_active('gradebook'))
+        {
+            require_once dirname(__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+            $internal_item = EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id());
+            if ($internal_item && $internal_item->get_calculated() != 1)
+            {
+                $evaluate_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EVALUATE_TOOL_PUBLICATION, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
+
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Evaluate'), Theme :: get_common_image_path() . 'action_evaluation.png', $evaluate_url, ToolbarItem :: DISPLAY_ICON));
+            }
+        }
+
+        if (method_exists($this->get_tool_browser()->get_parent(), 'get_content_object_publication_actions'))
+        {
+            $content_object_publication_actions = $this->get_tool_browser()->get_parent()->get_content_object_publication_actions($publication);
+            $toolbar->add_items($content_object_publication_actions);
+        }
+
+        return $toolbar;
     }
 }
 ?>
