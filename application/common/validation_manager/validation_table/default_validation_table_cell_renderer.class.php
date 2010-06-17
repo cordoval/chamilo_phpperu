@@ -5,7 +5,7 @@
  */
 //require_once dirname(__FILE__) . '/../../../lib/profiler/profile_publication.class.php';
 
-class DefaultValidationTableCellRend implements ObjectTableCellRenderer
+class DefaultValidationTableCellRend extends ObjectTableCellRenderer
 {
 
     /**

@@ -7,7 +7,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultWebserviceTableCellRenderer implements ObjectTableCellRenderer
+class DefaultWebserviceTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

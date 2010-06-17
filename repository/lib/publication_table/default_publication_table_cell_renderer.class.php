@@ -7,7 +7,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

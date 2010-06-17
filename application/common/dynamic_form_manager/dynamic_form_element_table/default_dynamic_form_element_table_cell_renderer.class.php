@@ -5,7 +5,7 @@
  */
 
 
-class DefaultDynamicFormElementTableCellRenderer implements ObjectTableCellRenderer
+class DefaultDynamicFormElementTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

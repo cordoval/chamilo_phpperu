@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../assessment_publication.class.php';
  * @author Sven Vanpoucke
  * @author 
  */
-class DefaultAssessmentPublicationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultAssessmentPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

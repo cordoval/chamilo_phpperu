@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../language_pack.class.php';
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class DefaultLanguagePackTableCellRenderer implements ObjectTableCellRenderer
+class DefaultLanguagePackTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

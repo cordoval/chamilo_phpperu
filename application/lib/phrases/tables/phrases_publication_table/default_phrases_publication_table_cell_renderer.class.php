@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../phrases_publication.class.php';
  * @author Hans De Bisschop
  * @author
  */
-class DefaultPhrasesPublicationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultPhrasesPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

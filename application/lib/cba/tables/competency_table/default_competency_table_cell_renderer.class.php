@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../../competency.class.php';
  *
  * @author Nick Van Loocke
  */
-class DefaultCompetencyTableCellRenderer implements ObjectTableCellRenderer
+class DefaultCompetencyTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

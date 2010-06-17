@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../profile_publication.class.php';
 
-class DefaultProfilePublicationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultProfilePublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

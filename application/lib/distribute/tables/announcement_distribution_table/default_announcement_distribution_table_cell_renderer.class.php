@@ -6,7 +6,7 @@
 
 require_once Path :: get_application_path() . 'lib/distribute/announcement_distribution.class.php';
 
-class DefaultAnnouncementDistributionTableCellRenderer implements ObjectTableCellRenderer
+class DefaultAnnouncementDistributionTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

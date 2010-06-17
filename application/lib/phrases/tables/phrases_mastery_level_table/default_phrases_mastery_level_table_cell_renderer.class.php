@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../phrases_mastery_level.class.php';
  * @author Hans De Bisschop
  * @author
  */
-class DefaultPhrasesMasteryLevelTableCellRenderer implements ObjectTableCellRenderer
+class DefaultPhrasesMasteryLevelTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

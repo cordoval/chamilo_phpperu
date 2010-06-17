@@ -137,7 +137,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 
     function get_actions($publication)
     {
-        return $this->table_renderer->get_publication_actions($this, $publication);
+        return $this->table_renderer->get_publication_actions($publication, $this->is_display_order_column());
     }
 }
 ?>

@@ -113,22 +113,28 @@ class ObjectTableColumnModel
         $this->order_direction = $direction;
     }
 
-    function get_display_order_column_property($column_number = null)
+    function get_display_order_column_property()
     {
         return null;
     }
 
-    function is_display_order_column($column_number)
+    function is_display_order_column()
     {
         $display_order_column_property = $this->get_display_order_column_property();
-//        return =
-//        $this->column = isset($_SESSION[$this->param_prefix . 'column']) ? $_SESSION[$this->param_prefix . 'column'] : $default_column;
-//        $this->column = ! is_null(Request :: get($this->param_prefix . 'column')) ? Request :: get($this->param_prefix . 'column') : $this->column;
+        $current_column = $this->get_column($this->order_column);
+
+        if ($current_column && $display_order_column_property)
+        {
+            $current_column_property = $current_column->get_property();
+
+            if ($current_column_property == $display_order_column_property)
+            {
+                return true;
+            }
+        }
 
         return false;
     }
-
-//    function get_current_order_column()
 
     function get_order_column($column_number, $order_direction)
     {
@@ -137,7 +143,6 @@ class ObjectTableColumnModel
         // If it's an ObjectTableColumn AND sorting is allowed for it, then return the property
         if ($column instanceof ObjectTableColumn && $column->is_sortable())
         {
-            //$this->order_column = $column_number;
             return new ObjectTableOrder($column->get_property(), $order_direction, $column->get_storage_unit_alias());
         }
         // If not, return the default order property

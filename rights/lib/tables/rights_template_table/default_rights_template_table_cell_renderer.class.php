@@ -5,7 +5,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultRightsTemplateTableCellRenderer implements ObjectTableCellRenderer
+class DefaultRightsTemplateTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

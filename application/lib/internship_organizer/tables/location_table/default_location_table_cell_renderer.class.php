@@ -5,7 +5,7 @@
 require_once dirname(__FILE__) . '/../../location.class.php';
 require_once dirname(__FILE__) . '/../../region.class.php';
 
-class DefaultInternshipOrganizerLocationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultInternshipOrganizerLocationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

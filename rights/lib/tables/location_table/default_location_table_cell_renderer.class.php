@@ -6,7 +6,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultLocationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultLocationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

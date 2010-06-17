@@ -7,7 +7,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultLinkTableCellRenderer implements ObjectTableCellRenderer
+class DefaultLinkTableCellRenderer extends ObjectTableCellRenderer
 {
 	protected $type;
 	private $browser;

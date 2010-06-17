@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../cda_language.class.php';
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class DefaultCdaLanguageTableCellRenderer implements ObjectTableCellRenderer
+class DefaultCdaLanguageTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

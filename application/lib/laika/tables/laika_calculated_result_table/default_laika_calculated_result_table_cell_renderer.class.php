@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../laika_calculated_result.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultLaikaCalculatedResultTableCellRenderer implements ObjectTableCellRenderer
+class DefaultLaikaCalculatedResultTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

@@ -12,6 +12,7 @@ class ToolBrowserComponent extends ToolComponent
     private $action_bar;
     private $introduction_text;
     private $publication_category_tree;
+    private $publications;
 
     function run()
     {

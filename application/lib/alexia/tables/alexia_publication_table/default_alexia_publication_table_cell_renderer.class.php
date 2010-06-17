@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../../alexia_publication.class.php';
 
-class DefaultAlexiaPublicationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultAlexiaPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../platform_category.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
+class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
 {
     /**
      * The repository browser component

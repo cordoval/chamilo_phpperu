@@ -32,7 +32,7 @@
  * @see DefaultContentObjectTableColumnModel
  * @author Tim De Pauw
  */
-class DefaultContentObjectTableCellRenderer implements ObjectTableCellRenderer
+class DefaultContentObjectTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

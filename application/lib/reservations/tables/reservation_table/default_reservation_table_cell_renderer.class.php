@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../reservation.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultReservationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultReservationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

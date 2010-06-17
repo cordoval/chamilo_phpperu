@@ -323,11 +323,14 @@ class ObjectTable
      */
     function get_objects($offset, $count, $order_column, $order_direction)
     {
-        $objects = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0), $order_direction));
+        $column_model = $this->get_column_model();
+
+        $objects = $this->get_data_provider()->get_objects($offset, $count, $column_model->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0), $order_direction));
         $table_data = array();
-        $column_count = $this->get_column_model()->get_column_count();
+        $column_count = $column_model->get_column_count();
+        $column_model->set_default_order_column($order_column - ($this->has_form_actions() ? 1 : 0));
         $cell_renderer = $this->get_cell_renderer();
-//        $cell_renderer->set_current_column($order_column);
+        $cell_renderer->set_column_model($column_model);
 
         while ($object = $objects->next_result())
         {

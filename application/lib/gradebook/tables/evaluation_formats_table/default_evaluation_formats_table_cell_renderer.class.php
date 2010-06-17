@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../../format.class.php';
 
-class DefaultEvaluationFormatsTableCellRenderer implements ObjectTableCellRenderer
+class DefaultEvaluationFormatsTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

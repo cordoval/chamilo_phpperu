@@ -8,7 +8,7 @@
 
 
 
-class DefaultNavigationItemTableCellRenderer implements ObjectTableCellRenderer
+class DefaultNavigationItemTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

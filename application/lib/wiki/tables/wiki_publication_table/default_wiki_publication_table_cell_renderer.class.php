@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../wiki_publication.class.php';
  * Default cell renderer for the wiki_publication table
  * @author Sven Vanpoucke & Stefan Billiet
  */
-class DefaultWikiPublicationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultWikiPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

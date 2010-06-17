@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../peer_assessment_publication.class.php';
  * Default cell renderer for the peer_assessment_publication table
  * @author Nick Van Loocke
  */
-class DefaultPeerAssessmentPublicationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultPeerAssessmentPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

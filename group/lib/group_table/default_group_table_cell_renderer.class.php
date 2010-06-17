@@ -6,7 +6,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultGroupTableCellRenderer implements ObjectTableCellRenderer
+class DefaultGroupTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

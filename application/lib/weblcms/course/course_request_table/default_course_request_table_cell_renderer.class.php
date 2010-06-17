@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../course_request.class.php';
 
-class DefaultCourseRequestTableCellRenderer implements ObjectTableCellRenderer
+class DefaultCourseRequestTableCellRenderer extends ObjectTableCellRenderer
 {	
 	const USER_NAME = 'user_name';
 	const COURSE_NAME = 'course_name';

@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../{L_OBJECT_CLASS}.class.php';
  * @author Sven Vanpoucke
  * @author {AUTHOR}
  */
-class Default{OBJECT_CLASS}TableCellRenderer implements ObjectTableCellRenderer
+class Default{OBJECT_CLASS}TableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

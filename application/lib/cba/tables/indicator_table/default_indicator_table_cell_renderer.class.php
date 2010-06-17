@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../../indicator.class.php';
  *
  * @author Nick Van Loocke
  */
-class DefaultIndicatorTableCellRenderer implements ObjectTableCellRenderer
+class DefaultIndicatorTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
