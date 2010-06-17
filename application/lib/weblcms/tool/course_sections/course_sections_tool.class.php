@@ -28,39 +28,35 @@ class CourseSectionsTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
-        
-        if ($component)
-            return;
         
         switch ($action)
         {
             case self :: ACTION_VIEW_COURSE_SECTIONS :
-                $component = CourseSectionsToolComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_CREATE_COURSE_SECTION :
-                $component = CourseSectionsToolComponent :: factory('Creator', $this);
+                $component = $this->create_component('Creator');
                 break;
             case self :: ACTION_REMOVE_COURSE_SECTION :
-                $component = CourseSectionsToolComponent :: factory('Deleter', $this);
+                $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_UPDATE_COURSE_SECTION :
-                $component = CourseSectionsToolComponent :: factory('Updater', $this);
+                $component = $this->create_component('Updater');
                 break;
             case self :: ACTION_MOVE_COURSE_SECTION :
-                $component = CourseSectionsToolComponent :: factory('Mover', $this);
+                $component = $this->create_component('Mover');
                 break;
             case self :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY :
-                $component = CourseSectionsToolComponent :: factory('VisibilityChanger', $this);
+                $component = $this->create_component('VisibilityChanger');
                 break;
             case self :: ACTION_SELECT_TOOLS_COURSE_SECTION :
-                $component = CourseSectionsToolComponent :: factory('ToolSelector', $this);
+                $component = $this->create_component('ToolSelector');
                 break;
             case self :: ACTION_CHANGE_SECTION :
-                $component = CourseSectionsToolComponent :: factory('ChangeSection', $this);
+                $component = $this->create_component('ChangeSection');
                 break;
             default :
-                $component = CourseSectionsToolComponent :: factory('Viewer', $this);
+                $component = $this->create_component('Viewer');
         }
         $component->run();
     }
@@ -69,5 +65,10 @@ class CourseSectionsTool extends Tool
 	{
 		return dirname(__FILE__) . '/component/';
 	}
+	function is_category_management_enabled()
+	{
+	    return false;
+	}
+	
 }
 ?>

@@ -3,10 +3,9 @@
  * $Id: course_sections_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_sections.component
  */
-require_once dirname(__FILE__) . '/../course_sections_tool_component.class.php';
 require_once dirname(__FILE__) . '/course_sections_browser/course_sections_browser_table.class.php';
 
-class CourseSectionsToolViewerComponent extends CourseSectionsToolComponent
+class CourseSectionsToolViewerComponent extends CourseSectionsTool
 {
     private $action_bar;
 

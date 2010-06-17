@@ -3,9 +3,6 @@
  * $Id: blog_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.blog.component
  */
-require_once dirname(__FILE__) . '/../../../content_object_repo_viewer.class.php';
-require_once dirname(__FILE__) . '/blog_viewer/blog_browser.class.php';
-
 class BlogToolViewerComponent extends BlogTool
 {
     private $action_bar;

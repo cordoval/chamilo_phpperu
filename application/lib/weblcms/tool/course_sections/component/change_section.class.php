@@ -4,10 +4,9 @@
  * @package application.lib.weblcms.tool.course_sections.component
  */
 require_once dirname(__FILE__) . '/../course_sections_tool.class.php';
-require_once dirname(__FILE__) . '/../course_sections_tool_component.class.php';
 require_once dirname(__FILE__) . '/../course_section_form.class.php';
 
-class CourseSectionsToolChangeSectionComponent extends CourseSectionsToolComponent
+class CourseSectionsToolChangeSectionComponent extends CourseSectionsTool
 {
 
     /**
