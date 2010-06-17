@@ -6,7 +6,7 @@ class StreamingVideoClip extends ContentObject
 {
     const PROPERTY_SERVER_ID = 'server_id';
     const PROPERTY_ASSET_ID = 'asset_id';
-    const PROPERTY_APPLICATION = 'application';
+
     const CLASS_NAME = __CLASS__;
 
     static function get_type_name()
@@ -16,7 +16,7 @@ class StreamingVideoClip extends ContentObject
 	
     static function get_additional_property_names()
     {
-            return array(self :: PROPERTY_APPLICATION);
+            return array(self :: PROPERTY_SERVER_ID, self :: PROPERTY_ASSET_ID);
     }
 
     function set_server_id($server_id)
@@ -44,5 +44,7 @@ class StreamingVideoClip extends ContentObject
     {
         return false;
     }
+
+   
 }
 ?>
