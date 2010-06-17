@@ -11,6 +11,7 @@
 
 class ForumDisplay extends ComplexDisplay
 {
+
     const ACTION_VIEW_FORUM = 'view_forum';
     const ACTION_VIEW_TOPIC = 'view_topic';
     const ACTION_PUBLISH_FORUM = 'publish';
