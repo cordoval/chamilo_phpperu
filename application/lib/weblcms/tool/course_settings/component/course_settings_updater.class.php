@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../course_settings_tool_component.class.php';
 require_once dirname(__FILE__) . '/../../../course/course_form.class.php';
 
-class CourseSettingsToolUpdaterComponent extends CourseSettingsToolComponent
+class CourseSettingsToolUpdaterComponent extends CourseSettingsTool
 {
 
     function run()
