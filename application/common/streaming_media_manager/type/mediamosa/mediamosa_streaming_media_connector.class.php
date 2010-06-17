@@ -38,9 +38,13 @@ class MediamosaStreamingMediaConnector {
         //connector cookie takes care of login persistence
         if(!$this->mediamosa->get_connector_cookie())
         {
-            //if(PlatformSetting :: get('proxy_server', 'admin')) $this->mediamosa->set_proxy(PlatformSetting :: get('proxy_server', 'admin'), PlatformSetting :: get('proxy_port', 'admin'), PlatformSetting :: get('proxy_username', 'admin'), PlatformSetting :: get('proxy_password', 'admin'));
-            //TODO:jens->throw error if fails
-            $this->mediamosa->login(PlatformSetting::get('mediamosa_username','admin'), PlatformSetting::get('mediamosa_password','admin'));
+            //set proxy if necessary
+            if(PlatformSetting :: get('proxy_settings_active', 'admin')) $this->mediamosa->set_proxy(PlatformSetting :: get('proxy_server', 'admin'), PlatformSetting :: get('proxy_port', 'admin'), PlatformSetting :: get('proxy_username', 'admin'), PlatformSetting :: get('proxy_password', 'admin'));
+
+            if(!$this->mediamosa->login(PlatformSetting::get('mediamosa_username','admin'), PlatformSetting::get('mediamosa_password','admin')))
+            {
+                exit('Connection to Mediamosa server at '.Platformsetting::get('mediamosa_url','admin').' failed');
+            }
         }
     }
 
