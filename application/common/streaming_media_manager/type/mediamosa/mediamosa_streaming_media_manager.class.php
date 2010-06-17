@@ -68,6 +68,9 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
     	return $connector->is_editable($id);
     }
 
+    /*function is_standalone()
+    {}*/
+
     function run()
     {
          $parent = $this->get_parameter(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION);
@@ -95,7 +98,7 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
             case self :: ACTION_CLEAN_STREAMING_MEDIA :
                 $component = $this->create_component('Cleaner', $this);
                 break;
-
+            
             case self::ACTION_SET_MEDIAMOSA_DEFAULTS :
                 $component = $this->create_component('AdminDefaultSettingsCreator', $application);
 
@@ -110,7 +113,8 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
 
     function get_streaming_media_actions()
     {
-            return array(parent :: ACTION_BROWSE_STREAMING_MEDIA, parent :: ACTION_UPLOAD_STREAMING_MEDIA, self :: ACTION_CLEAN_STREAMING_MEDIA);
+            //return array(parent :: ACTION_BROWSE_STREAMING_MEDIA, parent :: ACTION_UPLOAD_STREAMING_MEDIA, self :: ACTION_CLEAN_STREAMING_MEDIA);
+        return array(parent :: ACTION_BROWSE_STREAMING_MEDIA, parent :: ACTION_UPLOAD_STREAMING_MEDIA);
     }
 
     /**
