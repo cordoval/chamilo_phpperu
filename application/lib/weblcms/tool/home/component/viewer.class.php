@@ -10,17 +10,6 @@ class HomeToolViewerComponent extends HomeTool
         $this->set_parameter('course_group', null);
 
         $title = CourseLayout :: get_title($this->get_course());
-
-//        if (Request :: get('previous') == 'admin')
-//        {
-//            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-//            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
-//        }
-//        else
-//        {
-//            $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
-//        }
-//        $trail->add(new Breadcrumb($this->get_url(), $title));
         $trail->add_help('courses general');
 
         $wdm = WeblcmsDataManager :: get_instance();
@@ -41,13 +30,13 @@ class HomeToolViewerComponent extends HomeTool
         }
         if ($this->get_course()->get_intro_text())
         {
-            $introduction_text = $this->display_introduction_text();
+            $introduction_text = $this->display_introduction_text($this->get_introduction_text());
             if (! $introduction_text)
             {
                 if ($this->is_allowed(EDIT_RIGHT))
                 {
                     $toolbar = new Toolbar();
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('PublishIntroductionText'), null, $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_LABEL));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('PublishIntroductionText'), null, $this->get_url(array(Tool :: PARAM_ACTION => HomeTool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_LABEL));
                     echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 0.6em;">';
                     echo $toolbar->as_html();
                     echo '</div>';
@@ -65,11 +54,6 @@ class HomeToolViewerComponent extends HomeTool
         echo '</div>';
         $this->display_footer();
         $wdm->log_course_module_access($this->get_course_id(), $this->get_user_id(), 'course_home');
-        //
-    //        $this->display_header();
-    //        dump($this->get_parent()->get_course());
-    //        echo 'Homepage goes here';
-    //        $this->display_footer();
     }
 
     function get_registered_tools()
@@ -80,6 +64,20 @@ class HomeToolViewerComponent extends HomeTool
     function tool_has_new_publications($tool_name)
     {
         return $this->get_parent()->tool_has_new_publications($tool_name);
+    }
+    
+	function get_introduction_text()
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $this->get_tool_id());
+
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
+        $condition = new AndCondition($conditions);
+
+        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
+        return $publications->next_result();
     }
 }
 ?>

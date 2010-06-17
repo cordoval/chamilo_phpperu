@@ -1,5 +1,5 @@
 <?php
-class HomeToolVisibilityChangerComponent extends HomeTool
+class HomeToolToolVisibilityChangerComponent extends HomeTool
 {
     function run()
     {

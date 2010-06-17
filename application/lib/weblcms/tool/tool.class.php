@@ -35,6 +35,8 @@ abstract class Tool extends SubManager
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
     const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
+    const ACTION_SHOW_PUBLICATION = 'show';
+    const ACTION_HIDE_PUBLICATION = 'hide';
 
     const ACTION_EDIT_CLOI = 'edit_cloi';
     const ACTION_EDIT_FEEDBACK = 'edit_feedback';
@@ -44,8 +46,6 @@ abstract class Tool extends SubManager
     const ACTION_MOVE = 'move';
     const ACTION_DELETE_CLOI = 'delete_cloi';
     const ACTION_DELETE_FEEDBACK = 'delete_feedback';
-    const ACTION_SHOW = 'show';
-    const ACTION_HIDE = 'hide';
     const ACTION_PUBLISH_FEEDBACK = 'publish_feedback';
 
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';

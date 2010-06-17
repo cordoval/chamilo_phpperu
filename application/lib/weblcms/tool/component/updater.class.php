@@ -54,7 +54,7 @@ class ToolUpdaterComponent extends ToolComponent
                 $publication_form = new ContentObjectPublicationForm(ContentObjectPublicationForm :: TYPE_SINGLE, $content_object, $this, false, $this->get_parent()->get_course(), false, array(Tool :: PARAM_PUBLICATION_ID => $pid, 'validated' => 1));
                 $publication_form->set_publication($publication);
                 
-                if ($publication_form->validate())
+                if ($publication_form->validate() || $content_object->get_type() == 'introduction')
                 { 
                     $publication_form->update_content_object_publication();
                     $message = htmlentities(Translation :: get('ContentObjectUpdated'));

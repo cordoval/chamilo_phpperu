@@ -1,6 +1,6 @@
 <?php
 
-class HomeToolDeleterComponent extends HomeTool
+class HomeToolLinksDeleterComponent extends HomeTool
 {
     function run()
     {

@@ -148,14 +148,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         {
             if ($publication->is_visible_for_target_users())
             {
-                $lcms_action = 'make_publication_invisible';
+                $lcms_action = HomeTool :: ACTION_HIDE_PUBLICATION;
                 $visible_image = 'action_visible.png';
                 $tool_image = 'tool_' . $publication->get_tool() . '.png';
                 $link_class = '';
             }
             else
             {
-                $lcms_action = 'make_publication_visible';
+                $lcms_action = HomeTool :: ACTION_SHOW_PUBLICATION;
                 $visible_image = 'action_invisible.png';
                 $tool_image = 'tool_' . $publication->get_tool() . '_na.png';
                 $link_class = ' class="invisible"';
@@ -169,8 +169,8 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 // Show visibility-icon
                 if ($parent->is_allowed(EDIT_RIGHT))
                 {
-                    $html[] = '<a href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => $lcms_action, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'tool_action' => null)) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
-                    $html[] = '<a href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'delete_publication', Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'tool_action' => null)) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
+                    $html[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => $lcms_action, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
+                    $html[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => HomeTool :: ACTION_DELETE_LINKS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
                     $html[] = '&nbsp;&nbsp;&nbsp;';
                 }
                 
@@ -256,7 +256,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         {
             if ($tool->visible || $section->get_name() == 'course_admin')
             {
-                $lcms_action = 'make_invisible';
+                $lcms_action = HomeTool :: ACTION_MAKE_TOOL_INVISIBLE;
                 $visible_image = 'action_visible.png';
                 $new = '';
                 if ($parent->tool_has_new_publications($tool->name))
@@ -268,7 +268,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             }
             else
             {
-                $lcms_action = 'make_visible';
+                $lcms_action = HomeTool :: ACTION_MAKE_TOOL_VISIBLE;
                 $visible_image = 'action_invisible.png';
                 $tool_image = 'tool_' . $tool->name . '_na.png';
                 $link_class = ' class="invisible"';
@@ -293,7 +293,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 // Show visibility-icon
                 if ($this->is_course_admin && $section->get_type() != CourseSection :: TYPE_ADMIN)
                 {
-                    $html[] = '<a href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => $lcms_action, WeblcmsManager :: PARAM_TOOL => $tool->name, 'tool_action' => null)) . '"><img class="tool_visible" src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
+                    $html[] = '<a href="' . $parent->get_url(array(HomeTool :: PARAM_ACTION => $lcms_action, HomeTool :: PARAM_TOOL => $tool->name)) . '"><img class="tool_visible" src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
                     $html[] = '&nbsp;&nbsp;&nbsp;';
                 }
                 
