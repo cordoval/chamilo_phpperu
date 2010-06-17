@@ -30,7 +30,7 @@ class LearningPathToolViewerComponent extends LearningPathTool
             return;
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses learnpath tool');
         
         // Check and retrieve publication

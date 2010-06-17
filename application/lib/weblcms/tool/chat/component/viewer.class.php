@@ -45,7 +45,7 @@ class ChatToolViewerComponent extends ChatTool
         
         $chat = new phpFreeChat($params);
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses chat tool');
         
         $this->display_header($trail, true);

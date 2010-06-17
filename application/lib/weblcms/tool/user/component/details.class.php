@@ -16,7 +16,7 @@ class UserToolDetailsComponent extends UserTool
             Display :: not_allowed();
             return;
         }
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses user');
         
         if (Request :: get('users') != null)

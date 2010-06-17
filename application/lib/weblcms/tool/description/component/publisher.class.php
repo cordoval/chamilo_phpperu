@@ -25,7 +25,7 @@ class DescriptionToolPublisherComponent extends DescriptionTool
 //            return;
 //        }
 //        
-//        $trail = new BreadcrumbTrail();
+//        $trail = BreadcrumbTrail :: get_instance();
 //        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publisher')));
 //        $trail->add_help('courses description tool');
 //        

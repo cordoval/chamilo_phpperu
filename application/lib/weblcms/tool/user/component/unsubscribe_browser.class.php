@@ -32,7 +32,7 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
         $this->introduction_text = $publications->next_result();
 
         $this->action_bar = $this->get_action_bar();
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses user');
 
         $this->display_header($trail, true);

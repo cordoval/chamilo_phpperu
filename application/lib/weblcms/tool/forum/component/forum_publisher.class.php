@@ -18,7 +18,7 @@ class ForumToolPublisherComponent extends ForumToolComponent
             Display :: not_allowed();
             return;
         }
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses forum tool');
         
         $pub = new ContentObjectRepoViewer($this, Forum :: get_type_name());

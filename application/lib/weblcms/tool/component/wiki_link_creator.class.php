@@ -11,7 +11,7 @@ class ToolWikiLinkCreatorComponent extends ToolComponent
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses general');
         
         if ($this->is_allowed(ADD_RIGHT))

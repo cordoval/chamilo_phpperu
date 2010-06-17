@@ -126,7 +126,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
         $user_assessments = $track->retrieve_tracker_items($condition);
         $this->user_assessment = $user_assessments[0];
 
-        $this->trail = $trail = new BreadcrumbTrail();
+        $this->trail = $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults')));
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $this->user_assessment->get_assessment_id())), Translation :: get('AssessmentResults')));
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid)), Translation :: get('Details')));
@@ -208,7 +208,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
                 return false;
             }
         }
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         foreach ($breadcrumbs as $breadcrumb)
         {
             $trail->add($breadcrumb);

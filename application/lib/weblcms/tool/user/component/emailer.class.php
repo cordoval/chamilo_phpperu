@@ -50,7 +50,7 @@ class UserToolEmailerComponent extends UserTool
         
     	$this->set_parameter(WeblcmsManager :: PARAM_USERS, null);
     	
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         //$trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USERS)), Translation :: get('UserList')));
         $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_USERS => $ids)), Translation :: get('EmailUsers')));
         $trail->add_help('courses user');

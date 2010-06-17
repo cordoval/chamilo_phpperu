@@ -23,7 +23,7 @@ class DocumentToolSlideshowComponent extends DocumentTool
         $browser = new DocumentSlideshowBrowser($this);
         $this->action_bar = $this->get_action_bar();
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses document tool');
         
         $html = $browser->as_html();

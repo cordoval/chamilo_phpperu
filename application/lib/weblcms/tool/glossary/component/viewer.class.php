@@ -26,7 +26,7 @@ class GlossaryToolViewerComponent extends GlossaryTool
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
 		$this->object = $publication->get_content_object();
 	
-        $this->trail = $trail = new BreadcrumbTrail();
+        $this->trail = $trail = BreadcrumbTrail :: get_instance();
         
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
         

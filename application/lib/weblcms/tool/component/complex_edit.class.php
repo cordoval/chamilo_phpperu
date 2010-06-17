@@ -24,7 +24,7 @@ class ToolComplexEditComponent extends ToolComponent
                 $content_object = $datamanager->retrieve_content_object($cloi->get_ref());
                 $content_object->set_default_property('owner', $this->get_user_id());
                 $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => Request :: get('details'))));
-                $trail = new BreadcrumbTrail();
+                $trail = BreadcrumbTrail :: get_instance();
                 if (Request :: get('tool') == 'learning_path')
                 {
                     $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_clo', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), $datamanager->retrieve_content_object(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_title()));

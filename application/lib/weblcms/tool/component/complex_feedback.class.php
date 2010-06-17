@@ -17,7 +17,7 @@ class ToolComplexFeedbackComponent extends ToolComponent
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses general');
         
         $this->pub = new ContentObjectRepoViewer($this, Feedback :: get_type_name());

@@ -18,7 +18,7 @@ class CourseGroupToolCreatorComponent extends CourseGroupToolComponent
             return;
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses group');
         $this->display_header($trail, true);
         

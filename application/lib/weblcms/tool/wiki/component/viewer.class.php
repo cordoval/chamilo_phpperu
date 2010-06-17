@@ -20,7 +20,7 @@ class WikiToolViewerComponent extends WikiTool
             return;
         }
         
-        $this->trail = $trail = new BreadcrumbTrail();
+        $this->trail = $trail = BreadcrumbTrail :: get_instance();
         
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, Request :: get(Tool :: PARAM_PUBLICATION_ID));
         $this->complex_display = ComplexDisplay :: factory($this, Wiki :: get_type_name());

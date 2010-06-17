@@ -38,7 +38,7 @@ class CalendarToolViewerComponent extends CalendarToolComponent
         $this->set_parameter('view', $view);
         $browser = new CalendarBrowser($this);
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses calendar tool');
 
         if (Request :: get('view') != null)

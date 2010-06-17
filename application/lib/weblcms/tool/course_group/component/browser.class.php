@@ -38,7 +38,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
 
         $this->action_bar = $this->get_action_bar();
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(WebApplication::PARAM_ACTION=> 'home'), array(WeblcmsManager::PARAM_COURSE,WeblcmsManager :: PARAM_TOOL )), Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseCourseGroup')));
         $trail->add_help('courses group');

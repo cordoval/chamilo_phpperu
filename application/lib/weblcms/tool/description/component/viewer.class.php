@@ -32,7 +32,7 @@ function run()
 //        $this->action_bar = $this->get_action_bar();
 //
 //        $browser = new DescriptionBrowser($this);
-//        $trail = new BreadcrumbTrail();
+//        $trail = BreadcrumbTrail :: get_instance();
 //        $trail->add_help('courses description tool');
 //
 //        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null && Request :: get('tool_action') == 'view')

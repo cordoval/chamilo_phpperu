@@ -50,7 +50,7 @@ class ToolCategoryMoverComponent extends ToolComponent
             else
             {
                 //$message = $form->toHtml();
-                $trail = new BreadcrumbTrail();
+                $trail = BreadcrumbTrail :: get_instance();
                 $trail->add_help('courses general');
 
                 $this->display_header($trail, true);

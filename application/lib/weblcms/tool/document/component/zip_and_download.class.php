@@ -15,7 +15,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentTool
             Display :: not_allowed();
             return;
         }
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses document tool');
         //$this->display_header($trail, true);
         $archive_url = $this->create_document_archive();

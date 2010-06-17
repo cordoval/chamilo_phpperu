@@ -66,7 +66,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
         $html[] = '<div class="title">' . Translation :: get('Users') . '</div>';
         $html[] = $table->as_html();
         $html[] = '</div>';
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id)), $course_group->get_name()));
         $trail->add_help('courses group');
 

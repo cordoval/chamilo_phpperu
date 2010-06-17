@@ -14,7 +14,7 @@ class CourseSectionsToolToolSelectorComponent extends CourseSectionsTool
      */
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses sections');
         
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))

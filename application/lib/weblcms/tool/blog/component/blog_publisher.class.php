@@ -17,7 +17,7 @@ class BlogToolPublisherComponent extends BlogToolComponent
 			return;
 		}*/
         
-/*        $trail = new BreadcrumbTrail();
+/*        $trail = BreadcrumbTrail :: get_instance();
         
         if (Request :: get('tool') == 'blog' && isset($_SESSION['blog_breadcrumbs']))
         {

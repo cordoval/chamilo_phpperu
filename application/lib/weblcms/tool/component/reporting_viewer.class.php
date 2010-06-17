@@ -20,7 +20,7 @@ class ToolReportingViewerComponent extends ToolComponent
     {      
         $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses reporting');
         
         if (Request :: get('pcattree') != null && Request :: get('pcattree') > 0)

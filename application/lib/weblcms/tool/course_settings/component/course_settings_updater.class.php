@@ -11,7 +11,7 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsTool
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses settings');
         
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))

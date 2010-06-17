@@ -16,7 +16,7 @@ class UserToolRequestSubscribeUserComponent extends UserTool
     {
         $failures = 0;
                 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)), Translation :: get('SubscribeUsers')));
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_REQUEST_SUBSCRIBE_USER)), Translation :: get('RequestSubscribeUser')));
         $trail->add_help('course request');

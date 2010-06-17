@@ -12,7 +12,7 @@ class ReportingToolViewerComponent extends ReportingTool
 
     function run()
     {        
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
 		$rtv = new ReportingViewer($this);
 		

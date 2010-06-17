@@ -19,7 +19,7 @@ class LinkToolPublisherComponent extends LinkToolComponent
             return;
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses link tool');
         
         if (Request :: get('pcattree') != null)

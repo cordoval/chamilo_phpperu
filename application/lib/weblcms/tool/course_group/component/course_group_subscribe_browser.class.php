@@ -20,7 +20,7 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
             return;
         }
 
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses group');
 
         $html = array();

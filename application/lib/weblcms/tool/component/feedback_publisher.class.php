@@ -19,7 +19,7 @@ class ToolFeedbackPublisherComponent extends ToolComponent
             return;
         }
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         
         if (Request :: get('pcattree') > 0)
         {

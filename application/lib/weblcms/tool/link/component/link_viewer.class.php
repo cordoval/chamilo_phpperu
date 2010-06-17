@@ -35,7 +35,7 @@ class LinkToolViewerComponent extends LinkToolComponent
         $this->action_bar = $this->get_action_bar();
 
         $browser = new LinkBrowser($this);
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses link tool');
 
         /*if(Request :: get('pcattree') != null)

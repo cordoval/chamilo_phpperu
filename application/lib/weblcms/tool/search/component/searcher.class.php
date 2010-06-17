@@ -21,7 +21,7 @@ class SearchToolSearcherComponent extends SearchTool
     // Inherited
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses search tool');
 
         $this->action_bar = $this->get_action_bar();

@@ -19,7 +19,7 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
             Display :: not_allowed();
             return;
         }
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses assessment tool');
         $toolbar = $this->get_toolbar();
         

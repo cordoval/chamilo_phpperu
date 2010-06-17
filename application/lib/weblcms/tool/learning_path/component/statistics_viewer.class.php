@@ -21,7 +21,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool
 
     function run()
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses learnpath tool');
         
         $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);

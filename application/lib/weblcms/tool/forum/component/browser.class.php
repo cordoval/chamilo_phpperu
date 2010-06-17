@@ -45,7 +45,7 @@ class ForumToolBrowserComponent extends ForumTool
         
         $table = $this->get_table_html();
         
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses forum tool');
         $this->display_header($trail, true);
         

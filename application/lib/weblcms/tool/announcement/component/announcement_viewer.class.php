@@ -41,7 +41,7 @@ class AnnouncementToolViewerComponent extends AnnouncementTool
         $browser = new AnnouncementBrowser($this);
         //$announcements = $browser->get_publications();
         //dump($announcements);
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         if (Request :: get('tool_action') == 'view')
         {
             $publication = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID));

@@ -34,7 +34,7 @@ class BlogToolViewerComponent extends BlogTool
         $this->action_bar = $this->get_action_bar(Request :: get(Tool :: PARAM_PUBLICATION_ID));
 
         $browser = new BlogBrowser($this);
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses blog tool');
 
         if ($browser->get_publication_category_tree() != null)

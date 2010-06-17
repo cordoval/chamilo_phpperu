@@ -25,7 +25,7 @@ class DocumentToolSlideshowSettingsComponent extends DocumentTool
         }
         else
         {
-	        $trail = new BreadcrumbTrail();
+	        $trail = BreadcrumbTrail :: get_instance();
 	        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_SLIDESHOW)), Translation :: get('Slideshow')));
 	        $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('SlideshowSettings')));
 	        

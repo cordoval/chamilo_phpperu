@@ -17,7 +17,7 @@ class CourseSectionsToolMoverComponent extends CourseSectionsTool
         
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('courses sections');
             $this->display_header($trail, true);
             Display :: error_message(Translation :: get("NotAllowed"));
