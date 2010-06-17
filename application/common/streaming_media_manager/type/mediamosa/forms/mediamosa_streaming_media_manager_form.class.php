@@ -26,7 +26,7 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
         $this->application = $application;
         $this->form_type = $form_type;
 
-         if ($this->form_type == self :: TYPE_EDIT)
+        if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
         }
@@ -114,8 +114,9 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
      */
    function prepare_upload()
    {
-       $connector = MediamosaStreamingMediaConnector::get_instance($this);
 
+       $connector = MediamosaStreamingMediaConnector::get_instance($this);
+       xdebug_break();
        //create asset
        if($asset_id = $connector->create_mediamosa_asset())
        {
