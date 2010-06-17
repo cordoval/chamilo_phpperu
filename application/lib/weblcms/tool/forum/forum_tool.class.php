@@ -13,36 +13,30 @@ class ForumTool extends Tool
     const ACTION_VIEW_FORUM = 'view';
     const ACTION_PUBLISH_FORUM = 'publish';
     const ACTION_MANAGE_CATEGORIES = 'manage_forum_categories';
-
+	const ACTION_EDIT_FORUM = 'edit';
     /**
      * Inherited.
      */
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
-
-        if ($component)
-        {
-            return;
-        }
 
         switch ($action)
         {
             case self :: ACTION_PUBLISH_FORUM :
-                $component = ForumToolComponent :: factory('Publisher', $this);
+                $component = $this->create_component('Publisher');
                 break;
             case self :: ACTION_BROWSE_FORUMS :
-                $component = ForumToolComponent :: factory('Browser', $this);
+            	$component = $this->create_component('Browser');
                 break;
             case self :: ACTION_VIEW_FORUM :
-                $component = ForumToolComponent :: factory('Viewer', $this);
+            	$component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_MANAGE_CATEGORIES:
-            	$component = ForumToolComponent :: factory('CategoryManager', $this);
+            	$component = $this->create_component('CategoryManager');
                 break;
             default :
-                $component = ForumToolComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }

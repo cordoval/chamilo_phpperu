@@ -4,12 +4,12 @@
  * @package application.lib.weblcms.tool.forum.component
  */
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
-require_once dirname(__FILE__) . '/../forum_tool_component.class.php';
+
 require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/forum/display/forum_display.class.php';
 require_once 'HTML/Table.php';
 
-class ForumToolBrowserComponent extends ForumToolComponent
+class ForumToolBrowserComponent extends ForumTool
 {
     private $action_bar;
     private $introduction_text;
@@ -318,7 +318,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Edit'),
 	        		Theme :: get_common_image_path() . 'action_edit.png',
-	        		$this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT)),
+	        		$this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE)),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
 	        

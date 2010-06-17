@@ -4,9 +4,8 @@
  * @package application.lib.weblcms.tool.forum.component
  */
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
-require_once dirname(__FILE__) . '/../forum_tool_component.class.php';
 
-class ForumToolViewerComponent extends ForumToolComponent
+class ForumToolViewerComponent extends ForumTool
 {
 	private $trail;
 	private $root_content_object;
