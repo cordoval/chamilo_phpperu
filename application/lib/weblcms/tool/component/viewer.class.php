@@ -45,5 +45,12 @@ class ToolViewerComponent extends ToolComponent
     {
         $this->action_bar->add_common_action($item);
     }
+
+    function set_action_bar($action_bar)
+    {
+        $this->action_bar = $action_bar;
+    }
+
+    
 }
 ?>

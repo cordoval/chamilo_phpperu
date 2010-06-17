@@ -1,6 +1,6 @@
 <?php
 
-class GeolocationToolDeleterComponent extends AnnouncementTool
+class GeolocationToolDeleterComponent extends GeolocationTool
 {
     function run()
     {

@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../document_tool.class.php';
 require_once dirname(__FILE__) . '/../document_tool_component.class.php';
 
-class DocumentToolDownloaderComponent extends DocumentToolComponent
+class DocumentToolDownloaderComponent extends DocumentTool
 {
     private $action_bar;
 

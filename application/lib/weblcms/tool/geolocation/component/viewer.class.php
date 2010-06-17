@@ -1,5 +1,5 @@
 <?php
-class GeolocationToolViewerComponent extends AnnouncementTool
+class GeolocationToolViewerComponent extends GeolocationTool
 {
     function run()
     {

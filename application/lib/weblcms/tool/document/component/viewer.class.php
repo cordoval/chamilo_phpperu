@@ -3,75 +3,29 @@
  * $Id: document_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component
  */
-require_once dirname(__FILE__) . '/../document_tool.class.php';
-require_once dirname(__FILE__) . '/../../../browser/object_publication_table/object_publication_table.class.php';
-require_once dirname(__FILE__) . '/../document_tool_component.class.php';
-require_once dirname(__FILE__) . '/document_viewer/document_browser.class.php';
-require_once dirname(__FILE__) . '/document_viewer/document_cell_renderer.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/document/document.class.php';
 
-class DocumentToolViewerComponent extends DocumentToolComponent
+class DocumentToolViewerComponent extends DocumentTool
 {
     private $action_bar;
     private $introduction_text;
 
     function run()
     {
-    	
-        if (! $this->is_allowed(VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
+    	 
+       $viewer = ToolComponent :: factory(ToolComponent :: ACTION_VIEW, $this);
+         $viewer->set_action_bar($this->get_action_bar());
+        $renderer = new ContentObjectPublicationDetailsRenderer($viewer);
+        $html = $renderer->as_html();
 
-        $conditions = array();
-        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'document');
-
-        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
-        $condition = new AndCondition($conditions);
-
-        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
-        $this->introduction_text = $publications->next_result();
-
-        $this->action_bar = $this->get_action_bar();
-        $trail = new BreadcrumbTrail();
-
-        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
-        {
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
-            $browser = new DocumentBrowser($this, Document :: get_type_name());
-            $html = $browser->as_html();
-        }
-        else
-        {
-            $table = new ObjectPublicationTable($this, $this->get_user(), array(Document :: get_type_name()), $this->get_condition(), new DocumentCellRenderer($this));
-            $tree = new ContentObjectPublicationCategoryTree($this, Request :: get('pcattree'));
-            $html = '<div style="width: 18%; overflow: auto; float:left;">';
-            $html .= $tree->as_html();
-            $html .= '</div>';
-            $html .= '<div style="width: 80%; overflow: auto;">';
-            $html .= $table->as_html();
-            $html .= '</div>';
-        }
-
-        $trail->add_help('courses document tool');
-        $this->display_header($trail, true);
-
-        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
-        {
-            if ($this->get_course()->get_intro_text())
-            {
-                echo $this->display_introduction_text($this->introduction_text);
-            }
-        }
-        echo $this->action_bar->as_html();
+    	$viewer->display_header();
+        echo $viewer->get_action_bar()->as_html();
+        echo '<div id="action_bar_browser">';
         echo $html;
-        $this->display_footer();
+        echo '</div>';
+        $viewer->display_footer();
     }
 
-    function add_actionbar_item($item)
+  function add_actionbar_item($item)
     {
         $this->action_bar->add_tool_action($item);
     }

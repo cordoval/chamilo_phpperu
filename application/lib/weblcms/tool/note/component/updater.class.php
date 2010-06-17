@@ -1,11 +1,4 @@
 <?php
-/**
- * Description of updaterclass
- *
- * @author jevdheyd
- */
-require_once dirname(__FILE__) . '/../../component/updater.class.php';
-
 class NoteToolUpdaterComponent extends NoteTool
 {
 

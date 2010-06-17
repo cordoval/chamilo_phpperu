@@ -1,11 +1,4 @@
 <?php
-/**
- * Description of toggle_visibilityclass
- *
- * @author jevdheyd
- */
-require_once dirname(__FILE__) . '/../../component/toggle_visibility.class.php';
-
 class NoteToolToggleVisibilityComponent extends NoteTool
 {
     function run()

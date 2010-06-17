@@ -3,12 +3,12 @@
  * $Id: document_slideshow.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component
  */
-require_once dirname(__FILE__) . '/../document_tool.class.php';
-require_once dirname(__FILE__) . '/../document_tool_component.class.php';
+/*require_once dirname(__FILE__) . '/../document_tool.class.php';
+require_once dirname(__FILE__) . '/../document_tool_component.class.php';*/
 require_once dirname(__FILE__) . '/document_slideshow/document_slideshow_browser.class.php';
 require_once dirname(__FILE__) . '/../../../category_manager/content_object_publication_category_manager.class.php';
 
-class DocumentToolSlideshowComponent extends DocumentToolComponent
+class DocumentToolSlideshowComponent extends DocumentTool
 {
     private $action_bar;
 

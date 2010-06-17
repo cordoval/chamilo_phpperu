@@ -3,10 +3,6 @@
  * $Id: note_viewer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.note.component
  */
-require_once dirname(__FILE__) . '/../note_tool.class.php';
-require_once dirname(__FILE__) . '/../note_tool_component.class.php';
-require_once dirname(__FILE__) . '/note_viewer/note_browser.class.php';
-/*require_once dirname(__FILE__) . '/../../component/viewer.class.php';*/
 
 class NoteToolViewerComponent extends NoteTool
 {
@@ -15,55 +11,11 @@ class NoteToolViewerComponent extends NoteTool
 
     function run()
     {
-        //xdebug_break();
-       $viewer = ToolComponent :: factory(ToolComponent :: ACTION_VIEW, $this);
+        $viewer = ToolComponent :: factory(ToolComponent :: ACTION_VIEW, $this);
         $viewer->run();
-        /*if (! $this->is_allowed(VIEW_RIGHT))
-        {
-            Display :: not_allowed();
-            return;
-        }
-
-        $conditions = array();
-        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
-        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'note');
-
-        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
-        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
-        $condition = new AndCondition($conditions);
-
-        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
-        $this->introduction_text = $publications->next_result();
-
-        $this->action_bar = $this->get_action_bar();
-
-        $browser = new NoteBrowser($this);
-        $trail = new BreadcrumbTrail();
-        if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), WebLcmsDataManager :: get_instance()->retrieve_content_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_content_object()->get_title()));
-        $trail->add_help('courses note tool');
-
-        $html = $browser->as_html();
-        
-        $this->display_header($trail, true);
-
-        //echo $this->perform_requested_actions();
-        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))
-        {
-            if ($this->get_course()->get_intro_text())
-            {
-                echo $this->display_introduction_text($this->introduction_text);
-            }
-        }
-        echo $this->action_bar->as_html();
-        echo '<div id="action_bar_browser">';
-        echo $html;
-        echo '</div>';
-
-        $this->display_footer();*/
     }
 
-    function add_actionbar_item($item)
+    /*function add_actionbar_item($item)
     {
         $this->action_bar->add_tool_action($item);
     }
@@ -112,7 +64,7 @@ class NoteToolViewerComponent extends NoteTool
         }
 
         return null;
-    }
+    }*/
 
 }
 ?>

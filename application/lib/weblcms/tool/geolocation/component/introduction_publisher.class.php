@@ -1,6 +1,6 @@
 <?php
 
-class GeolocationToolIntroductionPublisherComponent extends AnnouncementTool
+class GeolocationToolIntroductionPublisherComponent extends GeolocationTool
 {
     function run()
     {

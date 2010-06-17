@@ -1,5 +1,5 @@
 <?php
-class GeolocationToolMoveUpComponent extends AnnouncementTool
+class GeolocationToolMoveUpComponent extends GeolocationTool
 {
     function run()
     {

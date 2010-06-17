@@ -3,10 +3,8 @@
  * $Id: document_zip_and_download.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.document.component
  */
-require_once dirname(__FILE__) . '/../document_tool.class.php';
-require_once dirname(__FILE__) . '/../document_tool_component.class.php';
 
-class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
+class DocumentToolZipAndDownloadComponent extends DocumentTool
 {
     private $action_bar;
 

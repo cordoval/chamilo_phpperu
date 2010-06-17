@@ -1,6 +1,6 @@
 <?php
 
-class GeoLocationToolToggleVisibilityComponent extends AnnouncementTool
+class GeoLocationToolToggleVisibilityComponent extends GeolocationTool
 {
     function run()
     {

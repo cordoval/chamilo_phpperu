@@ -1,11 +1,4 @@
 <?php
-/**
- * Description of moverclass
- *
- * @author jevdheyd
- */
-require_once dirname(__FILE__) . '/../../component/mover.class.php';
-
 class NoteToolMoveUpComponent extends NoteTool
 {
 
