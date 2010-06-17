@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/survey_browser/survey_column_model.class.php'
  * Represents the view component for the assessment tool.
  *
  */
-class SurveyToolViewerComponent extends SurveyToolComponent
+class SurveyToolViewerComponent extends SurveyTool
 {
     private $action_bar;
     private $introduction_text;

@@ -1,7 +1,7 @@
 <?php
 /**
  * $Id: survey_cell_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
- * @package application.lib.weblcms.tool.assessment.component.assessment_browser
+ * @package application.lib.weblcms.tool.survey.component.survey_browser
  */
 require_once dirname(__FILE__) . '/../../../../browser/object_publication_table/object_publication_table_cell_renderer.class.php';
 /**
@@ -22,7 +22,7 @@ class SurveyCellRenderer extends ObjectPublicationTableCellRenderer
     {
         if ($column === ObjectPublicationTableColumnModel :: get_action_column())
         {
-             return $this->get_actions($publication)->as_html();
+            return $this->get_actions($publication)->as_html();
         }
         
         return parent :: render_cell($column, $publication);
@@ -32,20 +32,11 @@ class SurveyCellRenderer extends ObjectPublicationTableCellRenderer
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('TakeSurvey'),
-        		Theme :: get_common_image_path() . 'action_next.png',
-        		$this->browser->get_survey_publication_viewer_url($publication),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next.png', $this->table_renderer->get_url(array(Tool :: PARAM_ACTION => SurveyTool :: ACTION_TAKE_SURVEY, SurveyTool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
         
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('InviteParticipants'),
-        		Theme :: get_common_image_path() . 'action_invite_users.png',
-        		$this->browser->get_mail_survey_participant_url($publication),
-        		ToolbarItem :: DISPLAY_ICON,
-        		true
-        ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('InviteParticipants'), Theme :: get_common_image_path() . 'action_invite_users.png', $this->table_renderer->get_url(array(Tool :: PARAM_ACTION => SurveyTool :: ACTION_MAIL_SURVEY_PARTICIPANTS, SurveyTool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
+
+        ToolbarItem :: DISPLAY_ICON, true));
         
         return parent :: get_actions($publication, $toolbar);
     }
