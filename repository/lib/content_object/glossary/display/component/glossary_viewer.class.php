@@ -5,7 +5,6 @@
  */
 
 require_once dirname(__FILE__) . '/glossary_viewer/glossary_viewer_table.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/browser/learningobjectpublicationcategorytree.class.php';
 
 /**
  * Represents the view component for the assessment tool.
