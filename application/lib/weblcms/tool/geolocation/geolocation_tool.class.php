@@ -17,10 +17,7 @@ class GeolocationTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        
-        if ($component)
-            return;
-        
+
         switch ($action)
         {
             case self :: ACTION_BROWSE :
@@ -49,9 +46,6 @@ class GeolocationTool extends Tool
                 break;
             case self :: ACTION_VIEW :
                 $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_VIEW_REPORTING_TEMPLATE :
-                $component = $this->create_component('ReportingViewer');
                 break;
             default :
                 $component = $this->create_component('Browser');
