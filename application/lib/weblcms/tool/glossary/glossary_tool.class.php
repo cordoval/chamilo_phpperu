@@ -9,36 +9,31 @@
  */
 class GlossaryTool extends Tool
 {
-    const ACTION_BROWSE_GLOSSARIES = 'browse';
-    const ACTION_VIEW_GLOSSARY = 'view';
-
     /**
      * Inherited.
      */
     function run()
     {
         $action = $this->get_action();
-        $component = parent :: run();
-        
-        if ($component)
-        {
-            return;
-        }
-        
         switch ($action)
         {
-            case self :: ACTION_BROWSE_GLOSSARIES :
-                $component = GlossaryToolComponent :: factory('Browser', $this);
+            case self :: ACTION_BROWSE :
+                $component = $this->create_component('Browser');
                 break;
-            case self :: ACTION_VIEW_GLOSSARY :
-                $component = GlossaryToolComponent :: factory('Viewer', $this);
+            case self :: ACTION_VIEW :
+                $component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_PUBLISH :
-                $component = GlossaryToolComponent :: factory('Publisher', $this);
+                $component = $this->create_component('Publisher');
                 break;
-            
+            case self :: ACTION_UPDATE :
+                $component = $this->create_component('Updater');
+                break;
+            case self :: ACTION_DELETE :
+                $component = $this->create_component('Deleter');
+                break;
             default :
-                $component = GlossaryToolComponent :: factory('Browser', $this);
+                $component = $this->create_component('Browser');
         }
         $component->run();
     }
