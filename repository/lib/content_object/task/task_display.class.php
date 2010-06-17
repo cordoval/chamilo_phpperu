@@ -10,22 +10,15 @@
  */
 class TaskDisplay extends ContentObjectDisplay
 {
-
-    // Inherited
-    function get_full_html()
-    {
-        return parent :: get_full_html();
-    }
-
     function get_description()
     {
         $description = parent :: get_description();
-        $object = $this->get_content_object();             
+        $object = $this->get_content_object();
         $date_format = Translation :: get('dateTimeFormatLong');
-        
-        $prepend = array();       
+
+        $prepend = array();
         $repeats = $object->repeats();
-        
+
         if ($repeats)
         {
             $prepend[] = '<div class="task_range" style="font-weight: bold;">';
@@ -54,7 +47,7 @@ class TaskDisplay extends ContentObjectDisplay
         $html[] = 'priority : ' . $object->get_task_priority_as_string() . '<br/>';
         $html[] = 'type of the task : ' . $object->get_task_type_as_string();
         $prepend[] = '</div>';
-        
+
         return implode('', $prepend) . $description . implode("\n", $html);
     }
 }

@@ -45,14 +45,17 @@ class ContentObjectTableCellRenderer extends DefaultContentObjectTableCellRender
     protected function get_publish_links($content_object)
     {
         $toolbar = $this->get_table_actions();
-        
+
         $table_actions = $toolbar->get_items();
+        $object_toolbar = new Toolbar();
         foreach ($table_actions as $table_action)
         {
-            $table_action->set_href(str_replace('%d', $content_object->get_id(), $table_action->get_href()));
+            $object_table_action = clone $table_action;
+            $object_table_action->set_href(str_replace('%d', $content_object->get_id(), $table_action->get_href()));
+            $object_toolbar->add_item($object_table_action);
         }
 
-        return $toolbar->as_html();
+        return $object_toolbar->as_html();
     }
 
     protected function get_table_actions()

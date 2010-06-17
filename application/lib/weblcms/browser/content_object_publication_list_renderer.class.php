@@ -62,7 +62,10 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_description($publication)
     {
-        return $publication->get_content_object()->get_description();
+        $content_object = $publication->get_content_object();
+        $display = ContentObjectDisplay :: factory($content_object);
+
+        return $display->get_description();
     }
 
     /**

@@ -10,14 +10,14 @@ class DocumentDisplay extends ContentObjectDisplay
 {
 
     //Inherited
-    function get_full_html()
+    function get_description()
     {
-        $html = parent :: get_full_html();
+        $html = parent :: get_description();
         $object = $this->get_content_object();
         $name = $object->get_filename();
-        
+
         $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
-        
+
         $img_extensions = array('jpg', 'jpeg', 'bmp', 'png', 'gif');
         $extension = strtolower(substr($name, strrpos($name, '.') + 1));
         if(in_array($extension, $img_extensions))
@@ -35,7 +35,7 @@ class DocumentDisplay extends ContentObjectDisplay
                 $html = preg_replace('|</div>\s*$|s', '<br /><div class="document_link" style="margin-top: 1em;"><a href="' . Utilities :: htmlentities($url) . '">' . Utilities :: htmlentities($name) . '</a> (' . Filesystem :: format_file_size($object->get_filesize()) . ')</div></div>', $html);
             }
         }
-        
+
         return $html;
     }
 
@@ -44,7 +44,7 @@ class DocumentDisplay extends ContentObjectDisplay
     {
         $object = $this->get_content_object();
         $url = RepositoryManager :: get_document_downloader_url($object->get_id());
-        
+
         return '<span class="content_object"><a href="' . Utilities :: htmlentities($url) . '">' . Utilities :: htmlentities($object->get_title()) . '</a></span>';
     }
 }

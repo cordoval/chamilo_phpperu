@@ -9,9 +9,9 @@
 class TemplateDisplay extends ContentObjectDisplay
 {
 
-    function get_full_html()
+    function get_description()
     {
-        $html = parent :: get_full_html();
+        $html = parent :: get_description();
         $object = $this->get_content_object();
         return str_replace(self :: DESCRIPTION_MARKER, '<div class="template_design" style="margin-top: 1em;">' . $object->get_design() . '</div>' . self :: DESCRIPTION_MARKER, $html);
     }
