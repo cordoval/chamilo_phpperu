@@ -4,6 +4,8 @@ require_once dirname(__FILE__) . '/../agreement_manager.class.php';
 
 //require_once dirname ( __FILE__ ) . '/rel_moment_browser/rel_moment_browser_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/moment_browser/browser_table.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/rel_location_browser/rel_location_browser_table.class.php';
+
 
 class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrganizerAgreementManager
 {
@@ -53,12 +55,15 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
         $tabs = new DynamicTabsRenderer($renderer_name);
         
+        $parameters = $this->get_parameters();
+        $parameters[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID] = $this->agreement->get_id();
+        $table = new InternshipOrganizerAgreementRelLocationBrowserTable($this, $parameters, $this->get_location_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_LOCATIONS, Translation :: get('InternshipOrganizerOrganisations'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         
         $parameters = $this->get_parameters();
         $parameters[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID] = $this->agreement->get_id();
-        $table = new InternshipOrganizerMomentBrowserTable($this, $parameters, $this->get_condition());
+        $table = new InternshipOrganizerMomentBrowserTable($this, $parameters, $this->get_moment_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_MOMENTS, Translation :: get('InternshipOrganizerOrganisations'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         $html[] = $tabs->render();
@@ -80,7 +85,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         return $action_bar;
     }
 
-    function get_condition()
+    function get_moment_condition()
     {
         
         $query = $this->action_bar->get_query();
@@ -100,5 +105,28 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         }
         return new AndCondition($conditions);
     }
+    
+	function get_location_condition()
+    {
+        
+        $query = $this->action_bar->get_query();
+        $conditions = array();
+        $agreement_id = $this->agreement->get_id();
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_id);
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_TYPE, InternshipOrganizerAgreementRelLocation :: TO_APPROVE);
+        
+//        if (isset($query) && $query != '')
+//        {
+//            $search_conditions = array();
+//            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_NAME, '*' . $query . '*');
+//            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_STREET, '*' . $query . '*');
+//            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
+//            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_CITY, '*' . $query . '*');
+//            
+//            $conditions[] = new OrCondition($search_conditions);
+//        }
+        return new AndCondition($conditions);
+    }
+    
 }
 ?>
