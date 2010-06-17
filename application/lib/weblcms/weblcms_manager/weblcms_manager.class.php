@@ -165,13 +165,10 @@ class WeblcmsManager extends WebApplication
 	function WeblcmsManager($user)
 	{
 		parent :: __construct($user);
+		
 		$this->set_parameter(self :: PARAM_ACTION, Request :: get(self :: PARAM_ACTION));
-		$this->set_parameter(self :: PARAM_COMPONENT_ACTION, Request :: get(self :: PARAM_COMPONENT_ACTION));
 		$this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
 		$this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
-		$this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
-		$this->set_parameter(self :: PARAM_TOOL, Request :: get(self :: PARAM_TOOL));
-
 		$this->parse_input_from_table();
 
 		$this->course_type = $this->load_course_type();
@@ -191,6 +188,9 @@ class WeblcmsManager extends WebApplication
 	 */
 	function run()
 	{
+		$trail = BreadcrumbTrail :: get_instance();
+		$trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => null, self :: PARAM_COURSE => null)), Translation :: get('MyCourses')));
+		
 		$action = $this->get_action();
 
 		switch ($action)
@@ -649,7 +649,7 @@ class WeblcmsManager extends WebApplication
 				$this->display_error_message($msg);
 			}
 		}
-
+		echo '<div class="clear">&nbsp;</div>';
 		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
 	}
 
