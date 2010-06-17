@@ -5,7 +5,6 @@
  */
 
 require_once dirname(__FILE__) . '/wiki_actionbar.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/tool/wiki/wiki_tool_component.class.php';
 /**
  * This tool allows a user to publish wikis in his or her course.
  */
