@@ -4,10 +4,9 @@
  * @package application.lib.weblcms.tool.wiki.component
  */
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
-require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_display.class.php';
 
-class WikiToolViewerComponent extends WikiToolComponent
+class WikiToolViewerComponent extends WikiTool
 {
     private $complex_display;
 	private $content_object;

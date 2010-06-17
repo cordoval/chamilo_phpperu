@@ -211,5 +211,11 @@
                     <setting name="mediamosa_username" field="text" default="" />
                     <setting name="mediamosa_password" field="text" default="" />
                 </category>
+                 <category name="proxy settings">
+                    <setting name="proxy_server" field="text" default="http://" />
+                    <setting name="proxy_port" field="text" default="" />
+                    <setting name="proxy_username" field="text" default="" />
+                    <setting name="proxy_password" field="text" default="" />
+                </category>
 	</settings>
 </application>

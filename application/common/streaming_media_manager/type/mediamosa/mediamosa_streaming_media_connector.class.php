@@ -28,6 +28,7 @@ class MediamosaStreamingMediaConnector {
 
     function MediamosaStreamingMediaConnector($manager)
     {
+        xdebug_break();
         $this->manager = $manager;
         $url = Platformsetting::get('mediamosa_url','admin');
         $this->mediamosa = new MediamosaRestClient($url);
@@ -37,6 +38,7 @@ class MediamosaStreamingMediaConnector {
         //connector cookie takes care of login persistence
         if(!$this->mediamosa->get_connector_cookie())
         {
+            //if(PlatformSetting :: get('proxy_server', 'admin')) $this->mediamosa->set_proxy(PlatformSetting :: get('proxy_server', 'admin'), PlatformSetting :: get('proxy_port', 'admin'), PlatformSetting :: get('proxy_username', 'admin'), PlatformSetting :: get('proxy_password', 'admin'));
             //TODO:jens->throw error if fails
             $this->mediamosa->login(PlatformSetting::get('mediamosa_username','admin'), PlatformSetting::get('mediamosa_password','admin'));
         }
@@ -70,6 +72,7 @@ class MediamosaStreamingMediaConnector {
         {
             return $this->server_id;
         }
+        return 0;
     }
     
     function request_mediamosa_asset($asset_id)
@@ -115,6 +118,7 @@ class MediamosaStreamingMediaConnector {
      */
     function retrieve_mediamosa_assets($condition = null, $order_property = null, $offset = null, $count = '10')
     {
+        xdebug_break();
         $params = array();
 
         if($order_property)
@@ -186,7 +190,7 @@ class MediamosaStreamingMediaConnector {
             $mediamosa_asset->set_status(StreamingMediaObject :: STATUS_UNAVAILABLE);
 
             $mediamosa_transcoding_profiles = $this->retrieve_mediamosa_transcoding_profiles();
-
+            xdebug_break();
             //add mediafiles
             foreach($asset->mediafiles->mediafile as  $mediafile)
             {
@@ -195,7 +199,14 @@ class MediamosaStreamingMediaConnector {
                 if((string) $mediafile->is_original_file == 'TRUE'){
                     $this->remove_mediamosa_original_mediafile($asset);
                 }
-
+               
+                //duration is retrieved from one of the mediafiles
+                if(!$mediamosa_asset->get_duration())
+                {
+                    $duration = substr((string) $mediafile->metadata->file_duration, 3, 5);
+                    $mediamosa_asset->set_duration($duration);
+                }
+                
                 if((string) $mediafile->transcode_profile_id)
                 {
                     $mediamosa_mediafile = new MediamosaMediafileObject();
