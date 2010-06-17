@@ -53,6 +53,9 @@ class LearningPathTool extends Tool
             case self :: ACTION_VIEW_DOCUMENT :
                 $component = $this->create_component('DocumentViewer');
                 break;
+            case self :: ACTION_UPDATE:
+            	$component = $this->create_component('Updater');
+                break;
             default :
                 $component = $this->create_component('Browser');
                 break;
