@@ -7,7 +7,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultRemotePackageTableCellRenderer implements ObjectTableCellRenderer
+class DefaultRemotePackageTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

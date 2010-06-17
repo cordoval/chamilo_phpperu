@@ -5,7 +5,7 @@
  */
 
 
-class DefaultUserTableCellRenderer implements ObjectTableCellRenderer
+class DefaultUserTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

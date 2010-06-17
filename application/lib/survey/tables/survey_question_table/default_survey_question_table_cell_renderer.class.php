@@ -1,6 +1,6 @@
 <?php
 
-class DefaultSurveyQuestionTableCellRenderer implements ObjectTableCellRenderer
+class DefaultSurveyQuestionTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

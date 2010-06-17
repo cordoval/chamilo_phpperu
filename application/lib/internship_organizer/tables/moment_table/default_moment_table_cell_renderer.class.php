@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../moment.class.php';
 
-class DefaultInternshipOrganizerMomentTableCellRenderer implements ObjectTableCellRenderer
+class DefaultInternshipOrganizerMomentTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

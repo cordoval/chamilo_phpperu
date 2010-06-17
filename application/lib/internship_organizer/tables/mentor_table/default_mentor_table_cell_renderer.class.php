@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../mentor.class.php';
 
-class DefaultInternshipOrganizerMentorTableCellRenderer implements ObjectTableCellRenderer
+class DefaultInternshipOrganizerMentorTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

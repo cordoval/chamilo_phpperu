@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../webconference.class.php';
  * Default cell renderer for the webconference table
  * @author Stefaan Vanbillemont
  */
-class DefaultWebconferenceTableCellRenderer implements ObjectTableCellRenderer
+class DefaultWebconferenceTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

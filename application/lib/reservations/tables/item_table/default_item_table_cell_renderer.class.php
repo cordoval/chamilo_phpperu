@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../item.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultItemTableCellRenderer implements ObjectTableCellRenderer
+class DefaultItemTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

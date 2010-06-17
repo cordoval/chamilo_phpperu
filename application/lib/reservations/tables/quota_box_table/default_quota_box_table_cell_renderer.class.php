@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../quota_box.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultQuotaBoxTableCellRenderer implements ObjectTableCellRenderer
+class DefaultQuotaBoxTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

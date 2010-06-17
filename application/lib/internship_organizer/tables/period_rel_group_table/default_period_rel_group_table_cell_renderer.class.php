@@ -1,6 +1,6 @@
 <?php
 
-class DefaultInternshipOrganizerPeriodGroupTableCellRenderer implements ObjectTableCellRenderer
+class DefaultInternshipOrganizerPeriodGroupTableCellRenderer extends ObjectTableCellRenderer
 {
 	
 	function DefaultInternshipOrganizerPeriodGroupTableCellRenderer()

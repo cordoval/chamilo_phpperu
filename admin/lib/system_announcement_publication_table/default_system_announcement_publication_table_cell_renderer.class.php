@@ -5,7 +5,7 @@
  */
 
 
-class DefaultSystemAnnouncementPublicationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultSystemAnnouncementPublicationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

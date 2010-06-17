@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../course_type.class.php';
 
-class DefaultCourseTypeTableCellRenderer implements ObjectTableCellRenderer
+class DefaultCourseTypeTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

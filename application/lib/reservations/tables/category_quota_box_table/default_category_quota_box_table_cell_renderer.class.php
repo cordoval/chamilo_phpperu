@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/../../quota_box_rel_category.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultCategoryQuotaBoxTableCellRenderer implements ObjectTableCellRenderer
+class DefaultCategoryQuotaBoxTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

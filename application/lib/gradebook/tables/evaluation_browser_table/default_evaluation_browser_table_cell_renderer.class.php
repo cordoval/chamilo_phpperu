@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../evaluation.class.php';
 
-class DefaultEvaluationBrowserTableCellRenderer implements ObjectTableCellRenderer
+class DefaultEvaluationBrowserTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

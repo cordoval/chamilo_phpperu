@@ -1,6 +1,6 @@
 <?php
 
-class DefaultTestCaseManagerUserTableCellRenderer implements ObjectTableCellRenderer
+class DefaultTestCaseManagerUserTableCellRenderer extends ObjectTableCellRenderer
 {
 	
 	function DefaultTestCaseManagerUserTableCellRenderer()

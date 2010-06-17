@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/user_view_browser_table_column_model.class.ph
 /**
  * Cell rendere for the learning object browser table
  */
-class UserViewBrowserTableCellRenderer implements ObjectTableCellRenderer
+class UserViewBrowserTableCellRenderer extends ObjectTableCellRenderer
 {
     /**
      * The repository browser component

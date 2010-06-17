@@ -1,6 +1,6 @@
 <?php
 
-class DefaultSurveyContextTemplateRelPageTableCellRenderer implements ObjectTableCellRenderer
+class DefaultSurveyContextTemplateRelPageTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

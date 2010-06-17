@@ -6,7 +6,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultRegistrationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultRegistrationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

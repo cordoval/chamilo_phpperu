@@ -6,7 +6,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultInternshipOrganizerPeriodTableCellRenderer implements ObjectTableCellRenderer
+class DefaultInternshipOrganizerPeriodTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

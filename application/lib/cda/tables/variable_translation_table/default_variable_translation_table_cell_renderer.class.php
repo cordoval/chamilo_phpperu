@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../variable_translation.class.php';
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class DefaultVariableTranslationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultVariableTranslationTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

@@ -434,3 +434,17 @@ div.student_view {
 	float: right;
 	margin-bottom: 10px;
 }
+
+div.publication_actions div.toolbar
+{
+	display: inline;
+	clear: none;
+	float: right;
+}
+
+div.publication_actions div.toolbar ul.toolbar_horizontal,
+div.publication_actions div.toolbar ul.toolbar_vertical
+{
+	display: inline;
+	float: right;
+}

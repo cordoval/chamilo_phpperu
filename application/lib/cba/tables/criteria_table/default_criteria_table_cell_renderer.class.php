@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../../criteria.class.php';
  *
  * @author Nick Van Loocke
  */
-class DefaultCriteriaTableCellRenderer implements ObjectTableCellRenderer
+class DefaultCriteriaTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../survey_publication.class.php';
  * @author Sven Vanpoucke
  * @author 
  */
-class DefaultResultQuestionTableCellRenderer implements ObjectTableCellRenderer
+class DefaultResultQuestionTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

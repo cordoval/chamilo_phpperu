@@ -7,7 +7,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultHelpItemTableCellRenderer implements ObjectTableCellRenderer
+class DefaultHelpItemTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

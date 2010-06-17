@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../translator_application.class.php';
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class DefaultTranslatorApplicationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultTranslatorApplicationTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

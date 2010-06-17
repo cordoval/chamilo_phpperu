@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../../survey_publication.class.php';
 
 
-class DefaultParticipantTableCellRenderer implements ObjectTableCellRenderer
+class DefaultParticipantTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

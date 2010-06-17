@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../historic_variable_translation.class.php';
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class DefaultHistoricVariableTranslationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultHistoricVariableTranslationTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

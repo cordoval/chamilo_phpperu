@@ -8,7 +8,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultReportingTemplateRegistrationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultReportingTemplateRegistrationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

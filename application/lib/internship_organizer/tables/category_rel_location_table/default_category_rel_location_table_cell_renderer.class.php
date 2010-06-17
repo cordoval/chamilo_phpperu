@@ -7,7 +7,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultInternshipOrganizerCategoryRelLocationTableCellRenderer implements ObjectTableCellRenderer
+class DefaultInternshipOrganizerCategoryRelLocationTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

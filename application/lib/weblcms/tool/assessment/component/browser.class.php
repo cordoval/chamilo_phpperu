@@ -18,7 +18,7 @@ class AssessmentToolBrowserComponent extends AssessmentTool
         {
             $tool_actions[] = new ToolbarItem(Translation :: get('ImportQti'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
         }
-        
+
         if ($this->is_allowed(EDIT_RIGHT))
         {
             $action_name = Translation :: get('ViewResultsSummary');
@@ -28,14 +28,14 @@ class AssessmentToolBrowserComponent extends AssessmentTool
             $action_name = Translation :: get('ViewResults');
         }
         $tool_actions[] = new ToolbarItem($action_name, Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
-        
+
         return $tool_actions;
     }
 
     function convert_content_object_publication_to_calendar_event($publication, $from_time, $to_time)
     {
         $object = $publication->get_content_object();
-        
+
         $calendar_event = ContentObject :: factory(CalendarEvent :: get_type_name());
         $calendar_event->set_title($object->get_title());
         $calendar_event->set_description($object->get_description());
@@ -50,9 +50,9 @@ class AssessmentToolBrowserComponent extends AssessmentTool
             $calendar_event->set_end_date($publication->get_to_date());
         }
         $calendar_event->set_repeat_type(CalendarEvent :: REPEAT_TYPE_NONE);
-        
+
         $publication->set_content_object($calendar_event);
-        
+
         return $publication;
     }
 
@@ -78,6 +78,44 @@ class AssessmentToolBrowserComponent extends AssessmentTool
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
         return $browser_types;
+    }
+
+    function get_content_object_publication_actions($publication)
+    {
+        $assessment = $publication->get_content_object();
+        $track = new WeblcmsAssessmentAttemptsTracker();
+        $condition_t = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+        $condition_u = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
+        $condition = new AndCondition(array($condition_t, $condition_u));
+        $trackers = $track->retrieve_tracker_items($condition);
+
+        $count = count($trackers);
+
+        foreach ($trackers as $tracker)
+        {
+            if ($tracker->get_status() == 'not attempted')
+            {
+                $this->active_tracker = $tracker;
+                $count --;
+                break;
+            }
+        }
+
+        $extra_toolbar_items = array();
+
+        if ($assessment->get_maximum_attempts() == 0 || $count < $assessment->get_maximum_attempts())
+        {
+            $extra_toolbar_items[] = new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_right.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
+        }
+        else
+        {
+            $extra_toolbar_items[] = new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_right_na.png', null, ToolbarItem :: DISPLAY_ICON);
+        }
+
+        $extra_toolbar_items[] = new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
+        $extra_toolbar_items[] = new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_QTI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
+
+        return $extra_toolbar_items;
     }
 }
 ?>

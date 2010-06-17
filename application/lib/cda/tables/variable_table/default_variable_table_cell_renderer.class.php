@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../../variable.class.php';
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class DefaultVariableTableCellRenderer implements ObjectTableCellRenderer
+class DefaultVariableTableCellRenderer extends ObjectTableCellRenderer
 {
 	/**
 	 * Constructor

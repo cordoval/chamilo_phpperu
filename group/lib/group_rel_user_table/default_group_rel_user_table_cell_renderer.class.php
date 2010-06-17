@@ -7,7 +7,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultGroupRelUserTableCellRenderer implements ObjectTableCellRenderer
+class DefaultGroupRelUserTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

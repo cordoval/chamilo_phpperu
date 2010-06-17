@@ -323,20 +323,26 @@ class ObjectTable
      */
     function get_objects($offset, $count, $order_column, $order_direction)
     {
-        $objects = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0), $order_direction));
+        $column_model = $this->get_column_model();
+
+        $objects = $this->get_data_provider()->get_objects($offset, $count, $column_model->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0), $order_direction));
         $table_data = array();
-        $column_count = $this->get_column_model()->get_column_count();
+        $column_count = $column_model->get_column_count();
+        $column_model->set_default_order_column($order_column - ($this->has_form_actions() ? 1 : 0));
+        $cell_renderer = $this->get_cell_renderer();
+        $cell_renderer->set_column_model($column_model);
+
         while ($object = $objects->next_result())
         {
             $row = array();
             if ($this->has_form_actions())
             {
-                $row[] = $this->get_cell_renderer()->render_id_cell($object);
+                $row[] = $cell_renderer->render_id_cell($object);
                 //$row[] = $object->get_id();
             }
             for($i = 0; $i < $column_count; $i ++)
             {
-                $row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $object);
+                $row[] = $cell_renderer->render_cell($this->get_column_model()->get_column($i), $object);
             }
             $table_data[] = $row;
         }
@@ -351,7 +357,7 @@ class ObjectTable
     {
         return $this->get_data_provider()->get_object_count();
     }
-    
+
     static function get_selected_ids($table_name)
     {
     	$selected_ids = Request :: post($table_name . self :: CHECKBOX_NAME_SUFFIX);
@@ -364,7 +370,7 @@ class ObjectTable
         {
             $selected_ids = array($selected_ids);
         }
-        
+
         return $selected_ids;
     }
 }

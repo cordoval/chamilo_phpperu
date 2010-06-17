@@ -7,7 +7,7 @@
 /**
  * TODO: Add comment
  */
-class DefaultEventTableCellRenderer implements ObjectTableCellRenderer
+class DefaultEventTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**

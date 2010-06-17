@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../subscription_user.class.php';
 /**
  * TODO: Add comment
  */
-class DefaultSubscriptionUserTableCellRenderer implements ObjectTableCellRenderer
+class DefaultSubscriptionUserTableCellRenderer extends ObjectTableCellRenderer
 {
 
     /**
