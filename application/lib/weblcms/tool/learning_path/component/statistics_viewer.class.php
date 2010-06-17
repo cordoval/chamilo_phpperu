@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/../../../trackers/weblcms_lpi_attempt_objecti
 require_once dirname(__FILE__) . '/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_tree.class.php';
 
-class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponent
+class LearningPathToolStatisticsViewerComponent extends LearningPathTool
 {
     
     const PARAM_STAT = 'stats_action';

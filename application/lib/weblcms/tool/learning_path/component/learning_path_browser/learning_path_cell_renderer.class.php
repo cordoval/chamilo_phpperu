@@ -10,7 +10,6 @@ require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_lp_a
  */
 class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
 {
-
     function LearningPathCellRenderer($browser)
     {
         parent :: __construct($browser);
@@ -37,9 +36,9 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
 
     function get_progress($publication)
     {
-        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->browser->get_course_id());
+        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->table_renderer->get_course_id());
         $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $publication->get_id());
-        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, $this->browser->get_user_id());
+        $conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, $this->table_renderer->get_user_id());
         //$conditions[] = new NotCondition(new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS, 100));
         $condition = new AndCondition($conditions);
 
@@ -57,7 +56,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         }
 
         $bar = $this->get_progress_bar($progress);
-        $url = $this->browser->get_url(array('tool_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'lp_action' => 'view_progress'));
+        $url = $this->table_renderer->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'lp_action' => 'view_progress'));
         return Text :: create_link($url, $bar);
     }
 
@@ -76,7 +75,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         $progress = $this->get_progress($publication);
 		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 		
-        $view_url = $this->browser->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
+        $view_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW));
         
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get(($progress > 0 ? 'ContinueLearningPath' : 'StartLearningPath')),
@@ -89,7 +88,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get('Statistics'),
         		Theme :: get_common_image_path() . 'action_reporting.png',
-        		$this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+        		$this->table_renderer->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
         		ToolbarItem :: DISPLAY_ICON
         ));
         

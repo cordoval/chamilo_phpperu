@@ -8,8 +8,6 @@
  */
 class LearningPathTool extends Tool
 {
-    const ACTION_VIEW_LEARNING_PATH = 'view';
-    const ACTION_BROWSE_LEARNING_PATHS = 'browse';
     const ACTION_EXPORT_SCORM = 'exp_scorm';
     const ACTION_IMPORT_SCORM = 'import';
     const ACTION_VIEW_STATISTICS = 'stats';
@@ -26,53 +24,38 @@ class LearningPathTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        
         switch ($action)
         {
-            case Tool :: ACTION_DELETE :
-                $component = LearningPathToolComponent :: factory('Deleter', $this);
+        	case self :: ACTION_PUBLISH :
+                $component = $this->create_component('Publisher');
                 break;
-        }
-        
-        if (! $component)
-        {
-            $component = parent :: run();
-            if ($component)
-                return;
-            
-            switch ($action)
-            {
-                case self :: ACTION_PUBLISH :
-                    $component = LearningPathToolComponent :: factory('Publisher', $this);
-                    break;
-                case self :: ACTION_VIEW_LEARNING_PATH :
-                    $component = LearningPathToolComponent :: factory('Viewer', $this);
-                    break;
-                case self :: ACTION_BROWSE_LEARNING_PATHS :
-                    $component = LearningPathToolComponent :: factory('Browser', $this);
-                    break;
-                case self :: ACTION_EXPORT_SCORM :
-                    $component = LearningPathToolComponent :: factory('ScormExporter', $this);
-                    break;
-                case self :: ACTION_VIEW_STATISTICS :
-                    $component = LearningPathToolComponent :: factory('StatisticsViewer', $this);
-                    break;
-                case self :: ACTION_IMPORT_SCORM :
-                    $component = LearningPathToolComponent :: factory('ScormImporter', $this);
-                    break;
-                case self :: ACTION_VIEW_CLO :
-                    $component = LearningPathToolComponent :: factory('CloViewer', $this);
-                    break;
-                case self :: ACTION_VIEW_ASSESSMENT_CLO :
-                    $component = LearningPathToolComponent :: factory('AssessmentCloViewer', $this);
-                    break;
-                case self :: ACTION_VIEW_DOCUMENT :
-                    $component = LearningPathToolComponent :: factory('DocumentViewer', $this);
-                    break;
-                default :
-                    $component = LearningPathToolComponent :: factory('Browser', $this);
-                    break;
-            }
+            case self :: ACTION_VIEW :
+                $component = $this->create_component('Viewer');
+                break;
+            case self :: ACTION_BROWSE :
+                $component = $this->create_component('Browser');
+                break;
+            case self :: ACTION_EXPORT_SCORM :
+                $component = $this->create_component('ScormExporter');
+                break;
+            case self :: ACTION_VIEW_STATISTICS :
+                $component = $this->create_component('StatisticsViewer');
+                break;
+            case self :: ACTION_IMPORT_SCORM :
+                $component = $this->create_component('ScormImporter');
+                break;
+            case self :: ACTION_VIEW_CLO :
+                $component = $this->create_component('CloViewer');
+                break;
+            case self :: ACTION_VIEW_ASSESSMENT_CLO :
+                $component = $this->create_component('AssessmentCloViewer');
+                break;
+            case self :: ACTION_VIEW_DOCUMENT :
+                $component = $this->create_component('DocumentViewer');
+                break;
+            default :
+                $component = $this->create_component('Browser');
+                break;
         }
         
         $component->run();

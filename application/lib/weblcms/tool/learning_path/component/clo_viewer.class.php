@@ -4,9 +4,8 @@
  * @package application.lib.weblcms.tool.learning_path.component
  */
 
-class LearningPathToolCloViewerComponent extends LearningPathToolComponent
+class LearningPathToolCloViewerComponent extends LearningPathTool
 {
-
 	private $object;
 	
     function run()
@@ -15,7 +14,6 @@ class LearningPathToolCloViewerComponent extends LearningPathToolComponent
         $object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $object_id);
         $display = ComplexDisplay :: factory($this, $object->get_type());
-        //$display->set_root_content_object($object);
         $this->object=$object;
         $display->run();
     

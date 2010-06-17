@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.tool.learning_path.component
  */
 
-class LearningPathToolScormExporterComponent extends LearningPathToolComponent
+class LearningPathToolScormExporterComponent extends LearningPathTool
 {
 
     function run()
