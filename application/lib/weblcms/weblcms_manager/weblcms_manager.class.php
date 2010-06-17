@@ -636,7 +636,7 @@ class WeblcmsManager extends WebApplication
 			//echo '<div class="clear">&nbsp;</div>';
 		}
 
-		if (! isset($this->tool_class))
+		//if (! isset($this->tool_class))
 		{
 			if ($msg = Request :: get(Application :: PARAM_MESSAGE))
 			{
