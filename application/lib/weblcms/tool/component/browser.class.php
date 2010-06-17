@@ -25,8 +25,8 @@ class ToolBrowserComponent extends ToolComponent
         $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_browser_type(), $this);
 
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
-        $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
-        $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW, Translation :: get('Show'), false);
+        $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE_PUBLICATION, Translation :: get('Hide'), false);
+        $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW_PUBLICATION, Translation :: get('Show'), false);
 
         $publication_renderer->set_actions($actions);
 
