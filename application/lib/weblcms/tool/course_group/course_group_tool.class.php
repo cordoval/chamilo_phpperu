@@ -29,6 +29,7 @@ class CourseGroupTool extends Tool
     function CourseGroupTool($parent)
     {
     	parent :: __construct($parent);
+    	$this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
     	$this->parse_input_from_table();
     }
     

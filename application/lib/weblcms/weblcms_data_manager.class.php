@@ -50,35 +50,40 @@ class WeblcmsDataManager implements DataManagerInterface
     static function get_tools($requested_section = 'all')
     {
         $course_modules = Array();
-        $tool_dir = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'tool'));
-        if ($handle = opendir($tool_dir))
+        
+        $options = array('forceEnum' => array('properties'));
+        
+        $dir = dirname(__FILE__) . '/tool/';
+        $tools = FileSystem :: get_directory_content($dir, FileSystem :: LIST_DIRECTORIES, false);
+        foreach($tools as $tool)
         {
-            while (false !== ($file = readdir($handle)))
-            {
-                if (substr($file, 0, 1) != '.' && $file != 'component')
-                {
-                    $file_path = $tool_dir . DIRECTORY_SEPARATOR . $file;
-                    if (is_dir($file_path))
-                    {
-                        // TODO: Move to an XML format for tool properties, instead of .hidden, .section and whatnot
-                        $section_file = $file_path . DIRECTORY_SEPARATOR . '.section';
-                        if (file_exists($section_file))
-                        {
-                            $contents = file($section_file);
-                            $section = rtrim($contents[0]);
-                        }
-                        else
-                        {
-                            $section = 'basic';
-                        }
+        	$properties_file = $dir . $tool . '/properties.xml';
+        	if(!file_exists($properties_file))
+        	{
+        		continue;
+        	}
+        	
+        	$doc = new DOMDocument();
 
-                        if ($section == $requested_section || $requested_section == 'all')
-                            $course_modules[] = $file;
-                    }
-                }
-            }
-            closedir($handle);
+	        $doc->load($properties_file);
+	        $xml_properties = $doc->getElementsByTagname('property');
+	        $properties = array();
+	
+	        foreach ($xml_properties as $index => $property)
+	        {
+	            if($property->getAttribute('name') == 'section')
+	            {
+	            	$section = $property->getAttribute('value');
+	            	break;
+	            }
+	        }
+	
+	        if ($section == $requested_section || $requested_section == 'all')
+	        {
+            	$course_modules[] = $tool;
+	        }
         }
+        
         return $course_modules;
     }
 

@@ -14,6 +14,9 @@ class BreadcrumbTrail
     
     private $extra_items;
 
+    /**
+     * @return BreadcrumbTrail
+     */
     static function get_instance()
     {
     	if(self :: $instance == null)
