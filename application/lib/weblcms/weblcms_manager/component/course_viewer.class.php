@@ -49,8 +49,9 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
         }
 
         $trail = BreadcrumbTrail :: get_instance();
+        $tool_action = Request :: get(Tool :: PARAM_ACTION);
         
-    	if ($this->is_teacher() && $this->get_course()->get_student_view() == 1)
+    	if ($this->is_teacher() && $this->get_course()->get_student_view() == 1 && !isset($tool_action))
         {
             $studentview = Session :: retrieve('studentview');
 
