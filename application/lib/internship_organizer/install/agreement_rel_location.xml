@@ -10,6 +10,5 @@
 	<index name="agreement_group_id" type="primary">
 		<indexproperty name="agreement_id" />
 		<indexproperty name="location_id" />
-		<indexproperty name="preference_order" />
 	</index>
 </object>

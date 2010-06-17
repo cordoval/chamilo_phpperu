@@ -29,12 +29,13 @@ class DefaultInternshipOrganizerAgreementRelLocationTableColumnModel extends Obj
         $location_alias = $dm->get_alias(InternshipOrganizerLocation :: get_table_name());
         
     	$columns = array();
-        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_NAME, true, $location_alias);
-        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_ADDRESS, true, $location_alias);
-        $region_column = new ObjectTableColumn ( InternshipOrganizerLocation :: PROPERTY_REGION_ID, true );
+    	 $columns[] = new ObjectTableColumn(InternshipOrganizerAgreementRelLocation :: PROPERTY_PREFERENCE_ORDER, true);
+        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_NAME, false);
+        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_ADDRESS, false);
+        $region_column = new ObjectTableColumn ( InternshipOrganizerLocation :: PROPERTY_REGION_ID, false );
 		$region_column->set_title(Translation :: get('City'));
 		$columns [] = $region_column;
-        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, true, $location_alias);
+        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, false);
         
        // $columns[] = new ObjectTableColumn(InternshipOrganizerLocation:: PROPERTY_CITY, true, $location_alias);
 //        $columns[] = new ObjectTableColumn(InternshipOrganizerLocation:: PROPERTY_STREET, true, $location_alias);

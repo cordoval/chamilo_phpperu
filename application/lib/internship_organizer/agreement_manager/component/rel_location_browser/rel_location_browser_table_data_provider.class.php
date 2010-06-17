@@ -22,7 +22,7 @@ class InternshipOrganizerAgreementRelLocationBrowserTableDataProvider extends Ob
      */
     function get_objects($offset, $count, $order_property = null)
     {
-       return $this->get_browser()->retrieve_full_agreement_rel_locations($this->get_condition(), $offset, $count, $order_property);
+       return $this->get_browser()->retrieve_agreement_rel_locations($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -31,7 +31,7 @@ class InternshipOrganizerAgreementRelLocationBrowserTableDataProvider extends Ob
      */
     function get_object_count()
     {
-        return $this->get_browser()->count_full_agreement_rel_locations($this->get_condition());
+        return $this->get_browser()->count_agreement_rel_locations($this->get_condition());
     }
 }
 ?>
