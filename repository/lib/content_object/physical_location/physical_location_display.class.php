@@ -9,12 +9,12 @@
 class PhysicalLocationDisplay extends ContentObjectDisplay
 {
 
-    function get_full_html()
+    function get_description()
     {
-        $html = parent :: get_full_html();
+        $html = parent :: get_description();
         $object = $this->get_content_object();
         $replace = array();
-        
+
         $replace[] = '<div class="content_object">';
         $replace[] = '<div class="title">';
         $replace[] = $object->get_location();
@@ -23,7 +23,7 @@ class PhysicalLocationDisplay extends ContentObjectDisplay
         $replace[] = $this->get_javascript($object);
         $replace[] = '</div>';
         $replace[] = '</div>';
-        
+
         return str_replace(self :: DESCRIPTION_MARKER, implode("\n", $replace), $html);
     }
 
@@ -36,7 +36,7 @@ class PhysicalLocationDisplay extends ContentObjectDisplay
     function get_javascript($object)
     {
         $html = array();
-        
+
         $html[] = '<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/google_maps.js');
         $html[] = '<div id="map_canvas" style="width:100%; border: 1px solid black; height:500px"></div>';
@@ -44,7 +44,7 @@ class PhysicalLocationDisplay extends ContentObjectDisplay
         $html[] = 'initialize(12);';
         $html[] = 'codeAddress(\'' . $object->get_location() . '\', \'' . $object->get_title() . '\');';
         $html[] = '</script>';
-        
+
         return implode("\n", $html);
     }
 }

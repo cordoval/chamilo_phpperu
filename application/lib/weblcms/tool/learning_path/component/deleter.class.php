@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../../trackers/weblcms_lpi_attempt_tracker
 //require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_assessment_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 
-class LearningPathToolDeleterComponent extends LearningPathToolComponent
+class LearningPathToolDeleterComponent extends LearningPathTool
 {
 
     function run()

@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../../../publisher/content_object_publisher.class.php';
 
-class LearningPathToolScormImporterComponent extends LearningPathToolComponent
+class LearningPathToolScormImporterComponent extends LearningPathTool
 {
 
     function run()

@@ -5,12 +5,11 @@
  */
 class LinkDisplay extends ContentObjectDisplay
 {
-
-    function get_full_html()
+    function get_description()
     {
-        $html = parent :: get_full_html();
+        $description = parent :: get_description();
         $object = $this->get_content_object();
-        return str_replace(self :: DESCRIPTION_MARKER, '<div class="link_url" style="margin-top: 1em;"><a href="' . htmlentities($object->get_url()) . '">' . htmlentities($object->get_url()) . '</a></div>' . self :: DESCRIPTION_MARKER, $html);
+        return str_replace(self :: DESCRIPTION_MARKER, '<div class="link_url" style="margin-top: 1em;"><a href="' . htmlentities($object->get_url()) . '">' . htmlentities($object->get_url()) . '</a></div>' . self :: DESCRIPTION_MARKER, $description);
     }
 
     function get_short_html()

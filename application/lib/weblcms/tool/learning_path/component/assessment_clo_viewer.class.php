@@ -5,7 +5,7 @@
  */
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_lpi_attempt_tracker.class.php';
 
-class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolComponent
+class LearningPathToolAssessmentCloViewerComponent extends LearningPathTool
 {
     private $lpi_attempt_id;
 	private $object;
