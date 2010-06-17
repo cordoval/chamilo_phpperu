@@ -12,7 +12,8 @@ class ForumTool extends Tool
     const ACTION_BROWSE_FORUMS = 'browse';
     const ACTION_VIEW_FORUM = 'view';
     const ACTION_PUBLISH_FORUM = 'publish';
-    const ACTION_MANAGE_CATEGORIES = 'manage_forum_categories';
+    const ACTION_MANAGE_CATEGORIES = 'manage_categories';
+    
 	const ACTION_EDIT_FORUM = 'edit';
     /**
      * Inherited.
@@ -20,9 +21,10 @@ class ForumTool extends Tool
     function run()
     {
         $action = $this->get_action();
-
+xdebug_break();
         switch ($action)
         {
+            
             case self :: ACTION_PUBLISH_FORUM :
                 $component = $this->create_component('Publisher');
                 break;
@@ -34,6 +36,24 @@ class ForumTool extends Tool
                 break;
             case self :: ACTION_MANAGE_CATEGORIES:
             	$component = $this->create_component('CategoryManager');
+                break;
+            case self :: ACTION_UPDATE :
+            	$component = $this->create_component('Updater');
+                break;
+            case self :: ACTION_DELETE :
+            	$component = $this->create_component('Deleter');
+                break;
+            case self :: ACTION_TOGGLE_VISIBILITY:
+            	$component = $this->create_component('ToggleVisibility');
+                break;
+            case self :: ACTION_MOVE_DOWN:
+            	$component = $this->create_component('MoveDown');
+                break;
+            case self :: ACTION_MOVE_UP:
+            	$component = $this->create_component('MoveUp');
+                break;
+            case self :: ACTION_MOVE_TO_CATEGORY:
+            	$component = $this->create_component('CategoryMover');
                 break;
             default :
                 $component = $this->create_component('Browser');

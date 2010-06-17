@@ -46,32 +46,38 @@ class MediamosaRestClient extends RestClient{
      */
     function login($username, $password)
     {
+       xdebug_break();
        if($username && $password)
        {
            // step 1: request the challenge
             $response = $this->request(self :: METHOD_POST, '/login', array('dbus' => 'AUTH DBUS_COOKIE_SHA1 '. $username));
 
-            //TODO:jens--> set cookie ???
-            $cookies = $response->get_response_cookies();
-            $this->set_connector_cookie($cookies[0]['name'],$cookies[0]['value']);
+            if($response->check_result())
+            {
+                $cookies = $response->get_response_cookies();
+                $this->set_connector_cookie($cookies[0]['name'],$cookies[0]['value']);
 
-            //get challenge code
-            preg_match('@DATA vpx 0 (.*)@', $response->get_response_content_xml()->items->item->dbus, $matches);
-            $challenge = $matches[1];
+                //get challenge code
+                preg_match('@DATA vpx 0 (.*)@', $response->get_response_content_xml()->items->item->dbus, $matches);
+                $challenge = $matches[1];
 
-            //generate something random
-            $random = substr(md5(microtime(true)),0,10);
+                //generate something random
+                $random = substr(md5(microtime(true)),0,10);
 
-            // step 2: send credentials
-            $challenge_response = sha1(sprintf('%s:%s:%s', $challenge, $random, $password));
-            $response = $this->request(self :: METHOD_POST, '/login', array('dbus' => sprintf('DATA %s %s', $random, $challenge_response)));
+                // step 2: send credentials
+                $challenge_response = sha1(sprintf('%s:%s:%s', $challenge, $random, $password));
+                $response = $this->request(self :: METHOD_POST, '/login', array('dbus' => sprintf('DATA %s %s', $random, $challenge_response)));
 
-            // parse the response
-            preg_match('@(.*)@', $response->get_response_content_xml()->items->item->dbus, $matches);
-            $result = $matches[1];
+                if($response->check_result())
+                {
+                    // parse the response
+                    preg_match('@(.*)@', $response->get_response_content_xml()->items->item->dbus, $matches);
+                    $result = $matches[1];
 
-            // return TRUE or FALSE
-            return (substr($result, 0, 2) === 'OK');
+                    // return TRUE or FALSE
+                    return (substr($result, 0, 2) === 'OK');
+                }
+            }
        }
        return false;
     }
@@ -280,7 +286,7 @@ class MediamosaRestClient extends RestClient{
             }
 
         }
-
+xdebug_break();
         $req_result = $request->sendRequest(true);
         if($req_result === true)
         {
@@ -291,7 +297,7 @@ class MediamosaRestClient extends RestClient{
         }
         else
         {
-            $result->set_response_http_code();
+            $result->set_response_http_code($request->getResponseCode());
             $result->set_response_error($request->getResponseReason());
         }
 

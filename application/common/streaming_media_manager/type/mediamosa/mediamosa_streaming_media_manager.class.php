@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/mediamosa_streaming_media_connector.class.php
 
 class MediamosaStreamingMediaManager extends StreamingMediaManager{
 
-    const ACTION_SET_MEDIAMOSA_DEFAULTS = 'set_defaults';
+    const ACTION_SET_MEDIAMOSA_SETTINGS = 'settings';
     const ACTION_CLEAN_STREAMING_MEDIA = 'clean';
 
     const PARAM_MEDIAFILE = 'mediafile_id';
@@ -98,9 +98,8 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
             case self :: ACTION_CLEAN_STREAMING_MEDIA :
                 $component = $this->create_component('Cleaner', $this);
                 break;
-            
-            case self::ACTION_SET_MEDIAMOSA_DEFAULTS :
-                $component = $this->create_component('AdminDefaultSettingsCreator', $application);
+            case self::ACTION_SET_MEDIAMOSA_SETTINGS :
+                $component = $this->create_component('SettingsCreator', $application);
 
             default :
                 $component = $this->create_component('Browser', $this);
@@ -114,7 +113,7 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
     function get_streaming_media_actions()
     {
             //return array(parent :: ACTION_BROWSE_STREAMING_MEDIA, parent :: ACTION_UPLOAD_STREAMING_MEDIA, self :: ACTION_CLEAN_STREAMING_MEDIA);
-        return array(parent :: ACTION_BROWSE_STREAMING_MEDIA, parent :: ACTION_UPLOAD_STREAMING_MEDIA);
+        return array(parent :: ACTION_BROWSE_STREAMING_MEDIA, parent :: ACTION_UPLOAD_STREAMING_MEDIA, self :: ACTION_SET_MEDIAMOSA_SETTINGS);
     }
 
     /**

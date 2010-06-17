@@ -23,9 +23,12 @@ class MediamosaRestResult extends RestResult {
     
     function set_response_content_xml()
     {
-        if($this->get_response_content())
+        if($this->check_result())
         {
-            $this->response_content_xml = new SimpleXMLElement($this->get_response_content());
+            if($this->get_response_content())
+            {
+                $this->response_content_xml = new SimpleXMLElement($this->get_response_content());
+            }
         }
     }
     
