@@ -5,6 +5,11 @@ require_once dirname(__FILE__) . '/browser/browser_table.class.php';
 
 class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrganizerAgreementManager
 {
+    
+    const TAB_NEW = 0;
+    const TAB_ADD_LOCATION = 1;
+    const TAB_COMPLETE = 2;
+    
     private $action_bar;
 
     function run()
@@ -21,17 +26,35 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
         echo '<div id="action_bar_browser">';
         
         echo '<div>';
-        echo $this->get_table();
+        
+        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $tabs = new DynamicTabsRenderer($renderer_name);
+        
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+              
+        $table = $this->get_table(InternshipOrganizerAgreement::STATUS_NEW);
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_NEW, Translation :: get('InternshipOrganizerAgreementNew'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+        
+        $table = $this->get_table(InternshipOrganizerAgreement::STATUS_ADD_LOCATION);
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_LOCATION, Translation :: get('InternshipOrganizerAgreementAddLocation'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+        
+        $table = $this->get_table(InternshipOrganizerAgreement::STATUS_COMPLETE);
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_COMPLETE, Translation :: get('InternshipOrganizerAgreementComplete'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+        
+        
+        echo $tabs->render();
+//        echo $this->get_table();
         echo '</div>';
         echo '</div>';
         $this->display_footer();
     }
 
-    function get_table()
+    function get_table($agreement_type)
     {
         $parameters = $this->get_parameters();
-        $table = new InternshipOrganizerAgreementBrowserTable($this, $parameters, $this->get_condition());
-        return $table->as_html();
+        $table = new InternshipOrganizerAgreementBrowserTable($this, $parameters, $this->get_condition($agreement_type));
+        return $table;
     }
 
     function get_action_bar()
@@ -45,18 +68,18 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
         return $action_bar;
     }
 
-    function get_condition()
+    function get_condition($agreement_type)
     {
         
         $query = $this->action_bar->get_query();
-        $condition = null;
+        $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_STATUS, $agreement_type);
         
         if (isset($query) && $query != '')
         {
             $search_conditions = array();
             $search_conditions[] = new PatternMatchCondition(InternshipOrganizerAgreement :: PROPERTY_NAME, '*' . $query . '*');
             $search_conditions[] = new PatternMatchCondition(InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION, '*' . $query . '*');
-                        
+            
             $user_conditions = array();
             $user_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
             $user_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
@@ -78,8 +101,8 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
                 $search_conditions[] = new InCondition(InternshipOrganizerAgreement :: PROPERTY_STUDENT_ID, $user_ids);
             
             }
-                       
-            $dm = InternshipOrganizerDataManager::get_instance();
+            
+            $dm = InternshipOrganizerDataManager :: get_instance();
             $period_condition = new PatternMatchCondition(InternshipOrganizerPeriod :: PROPERTY_NAME, '*' . $query . '*');
             $periods = $dm->retrieve_periods($period_condition);
             
@@ -96,9 +119,10 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
             
             }
             
-            $condition = new OrCondition($search_conditions);
-        
+            $or_condition = new OrCondition($search_conditions);
+        	return new AndCondition(array($condition, $or_condition));
         }
+        
         return $condition;
     }
 }
