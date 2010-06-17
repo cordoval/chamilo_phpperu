@@ -6,7 +6,7 @@
 //require_once dirname(__PATH__).'../tool_component.class.php';
 
 
-class ToolMoveComponent extends ToolComponent
+class ToolMoverComponent extends ToolComponent
 {
 
     function run()
