@@ -4,13 +4,12 @@
  * @package common.html.table.object_table
  */
 /**
- * 
+ *
  * TODO: Add comment
- * 
+ *
  */
 interface ObjectTableCellRenderer
 {
-
     /**
      * TODO: Add comment
      */

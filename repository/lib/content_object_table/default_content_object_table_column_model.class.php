@@ -49,5 +49,10 @@ class DefaultContentObjectTableColumnModel extends ObjectTableColumnModel
 		$columns[] = new StaticTableColumn(Translation :: get('Versions'));*/
         return $columns;
     }
+
+    function get_display_order_column_property()
+    {
+        return ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX;
+    }
 }
 ?>

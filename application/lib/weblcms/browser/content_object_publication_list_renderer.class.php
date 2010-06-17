@@ -591,7 +591,7 @@ abstract class ContentObjectPublicationListRenderer
         return $this->tool_browser->get_tool_id();
     }
 
-    function get_publication_actions($publication)
+    function get_publication_actions($cell_renderer, $publication)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
@@ -606,8 +606,8 @@ abstract class ContentObjectPublicationListRenderer
                 $toolbar->add_item(new ToolbarItem(Translation :: get('BuildComplex'), Theme :: get_common_image_path() . 'action_bar.png', $this->get_complex_builder_url($publication->get_id()), ToolbarItem :: DISPLAY_ICON));
             }
 
-            if ($show_move_action)
-            {
+//            if ($show_move_action)
+//            {
                 if ($publication->get_display_order_index() > 1)
                 {
                     $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
@@ -617,7 +617,7 @@ abstract class ContentObjectPublicationListRenderer
                     $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
                 }
 
-                if ($publication->get_display_order_index() < $this->object_count)
+                if ($publication->get_display_order_index() < $cell_renderer->get_object_count())
                 {
                     $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
                 }
@@ -625,7 +625,7 @@ abstract class ContentObjectPublicationListRenderer
                 {
                     $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
                 }
-            }
+//            }
 
             $visibility_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()));
             if ($publication->is_hidden())

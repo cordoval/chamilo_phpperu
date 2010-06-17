@@ -24,6 +24,11 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         $this->object_count = $count;
     }
 
+    function get_object_count()
+    {
+        return $this->object_count;
+    }
+
     /*
 	 * Inherited
 	 */
@@ -132,7 +137,7 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 
     function get_actions($publication)
     {
-        return $this->table_renderer->get_publication_actions($publication);
+        return $this->table_renderer->get_publication_actions($this, $publication);
     }
 }
 ?>
