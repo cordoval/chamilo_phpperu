@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../survey_publication_mailer_form.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_participant_mail_tracker.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_survey_participant_tracker.class.php';
 
-class SurveyToolMailerComponent extends SurveyToolComponent
+class SurveyToolMailerComponent extends SurveyTool
 {
 	private $not_started;
     private $started;
@@ -18,7 +18,7 @@ class SurveyToolMailerComponent extends SurveyToolComponent
         
 
         $ids = Request :: get(SurveyTool :: PARAM_PUBLICATION_ID);
-        
+               
         if (! empty($ids))
         {
             if (! is_array($ids))
@@ -116,7 +116,7 @@ class SurveyToolMailerComponent extends SurveyToolComponent
         }
         else
         {
-            $this->redirect(Translation :: get('NoParticipantSelected'), false, array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+            $this->redirect(Translation :: get('NoParticipantSelected'), false, array(SurveyTool :: PARAM_ACTION => SurveyTool :: ACTION_BROWSE));
         }
     
     }
