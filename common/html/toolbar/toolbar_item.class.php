@@ -53,9 +53,9 @@ class ToolbarItem
         return $this->image;
     }
     
-	function image($label)
+	function set_image($image)
     {
-    	$this->label = $label;
+    	$this->image = $image;
     }
 
     function get_href()

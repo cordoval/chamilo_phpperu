@@ -11,11 +11,29 @@ class LearningPathToolBrowserComponent extends LearningPathTool
         $tool_component->run();
     }
 
-/*    function get_browser_type()
+    function get_browser_type()
     {
         return ContentObjectPublicationListRenderer :: TYPE_TABLE;
-    }*/
+    }
+    
+    function get_tool_actions()
+    {
+    	$actions[] = new ToolbarItem(
+        		Translation :: get('ImportScorm'),
+        		Theme :: get_common_image_path() . 'action_import.png',
+        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_IMPORT_SCORM))
+        );
+        
+        return $actions;
+    }
 
+    function get_browser_types()
+    {
+        $browser_types = array();
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+        return $browser_types;
+    }
     
 	function get_content_object_publication_table_cell_renderer($tool_browser)
     {
