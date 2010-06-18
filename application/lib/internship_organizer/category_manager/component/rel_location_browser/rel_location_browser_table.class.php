@@ -21,10 +21,10 @@ class InternshipOrganizerCategoryRelLocationBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(InternshipOrganizerCategoryManager :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);
+        $actions[] = new ObjectTableFormAction(InternshipOrganizerCategoryManager :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), true);
         
         $this->set_form_actions($actions);
-//        $this->set_default_row_count(20);
+        $this->set_default_row_count(20);
     }
 
     /**

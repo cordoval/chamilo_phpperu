@@ -15,7 +15,6 @@ class InternshipOrganizerCategoryManagerSubscriberComponent extends InternshipOr
 		$user = $this->get_user ();
 		$category_id = Request::get ( InternshipOrganizerCategoryManager::PARAM_CATEGORY_ID );
 		$locations = Request::get ( InternshipOrganizerCategoryManager::PARAM_LOCATION_ID );
-		
 		$failures = 0;
 		
 		if (! empty ( $locations )) 
@@ -69,9 +68,7 @@ class InternshipOrganizerCategoryManagerSubscriberComponent extends InternshipOr
 					$message = 'SelectedLocationsAddedToInternshipOrganizerCategory' . ($contains_dupes ? 'Dupes' : '');
 				}
 			}
-			
 			$this->redirect ( Translation::get ( $message ), ($failures ? true : false), array (InternshipOrganizerCategoryManager::PARAM_ACTION => InternshipOrganizerCategoryManager::ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager::PARAM_CATEGORY_ID => $category_id ) );
-			exit ();
 		} else 
 		{
 			$this->display_error_page ( htmlentities ( Translation::get ( 'NoInternshipOrganizerCategoryRelLocationSelected' ) ) );

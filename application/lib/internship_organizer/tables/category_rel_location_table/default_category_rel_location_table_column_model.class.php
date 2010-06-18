@@ -27,13 +27,20 @@ class DefaultInternshipOrganizerCategoryRelLocationTableColumnModel extends Obje
         $dm = InternshipOrganizerDataManager :: get_instance();
         $organisation_alias = $dm->get_alias(InternshipOrganizerOrganisation :: get_table_name());
         $location_alias = $dm->get_alias(InternshipOrganizerLocation :: get_table_name());
+        $region_alias = $dm->get_alias(InternshipOrganizerRegion :: get_table_name());
         
     	$columns = array();
         $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_NAME, true, $location_alias);
         $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_ADDRESS, true, $location_alias);
-        $region_column = new ObjectTableColumn ( InternshipOrganizerLocation :: PROPERTY_REGION_ID, true );
+        
+        $region_column = new ObjectTableColumn ( InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, true, $region_alias );
+		$region_column->set_title(Translation :: get('ZipCode'));
+		$columns [] = $region_column;
+		
+		$region_column = new ObjectTableColumn ( InternshipOrganizerRegion :: PROPERTY_CITY_NAME, true, $region_alias );
 		$region_column->set_title(Translation :: get('City'));
 		$columns [] = $region_column;
+		
         $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, true, $location_alias);
         
        // $columns[] = new ObjectTableColumn(InternshipOrganizerLocation:: PROPERTY_CITY, true, $location_alias);

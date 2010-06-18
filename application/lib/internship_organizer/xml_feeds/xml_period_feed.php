@@ -43,7 +43,7 @@ if (Authentication :: is_valid())
     
     $dm = InternshipOrganizerDataManager :: get_instance();
     $objects = $dm->retrieve_periods($condition);
-    
+
     while ($period = $objects->next_result())
     {
         $periods[] = $period;
@@ -62,19 +62,17 @@ function dump_tree($periods)
 {
     if (contains_results($periods))
     {
-        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Periods'), '">', "\n";
-        
+        echo '<node id="n0" classes="category unlinked" title="', Translation :: get('Periods'), '">', "\n";
         foreach ($periods as $period)
         {
             $id = $period->get_id();
             $name = strip_tags($period->get_name());
             $description = strip_tags($period->get_description());
             
-            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlentities($name), '" description="', htmlentities(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
+            echo '<leaf id="p_', $id, '" classes="', '', '" title="', htmlentities($name), '" description="', htmlentities(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
         }
         
-        echo '</node>', "\n";
-    
+        echo '</node>', "\n";   
     }
 }
 

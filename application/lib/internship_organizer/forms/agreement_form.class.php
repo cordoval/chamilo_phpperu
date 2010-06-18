@@ -70,6 +70,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
         $this->build_basic_form();
         
         $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_feed.php';
+        //dump($url);
         $locale = array();
         $locale['Display'] = Translation :: get('ChoosePeriods');
         $locale['Searching'] = Translation :: get('Searching');
@@ -104,17 +105,18 @@ class InternshipOrganizerAgreementForm extends FormValidator
     {
         $agreement = $this->agreement;
         $values = $this->exportValues();
-        
+//        dump($values);
+//        exit;
         $agreement->set_name($values[InternshipOrganizerAgreement :: PROPERTY_NAME]);
         $agreement->set_description($values[InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION]);
         
         $dm = InternshipOrganizerDataManager :: get_instance();
         $periods = $values[self :: PARAM_TARGET];
+
         $students_ids = array();
         $succes = false;
         foreach ($periods as $period_id)
-        {
-            $period = $dm->retrieve_period($period_id);
+        { 	$period = $dm->retrieve_period($period_id);
             $students_ids = $period->get_user_ids(InternshipOrganizerUserType :: STUDENT);
             foreach ($students_ids as $student_id)
             {

@@ -1921,11 +1921,12 @@ class HTML_QuickForm extends HTML_Common
         if (null === $elementList) {
             // iterate over all elements, calling their exportValue() methods
             foreach (array_keys($this->_elements) as $key) {
-//            	dump($this->_elements[$key]->_name);
+            	//dump($this->_elements[$key]->_name);
                 $value = $this->_elements[$key]->exportValue($this->_submitValues, true);
                 if (is_array($value)) {
                     // This shit throws a bogus warning in PHP 4.3.x
                     $values = HTML_QuickForm::arrayMerge($values, $value);
+                    //dump($values);
                 }
             }
         } else {
