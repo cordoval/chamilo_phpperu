@@ -10,10 +10,14 @@ require_once dirname(__FILE__) . '/mediamosa_streaming_media_connector.class.php
 
 class MediamosaStreamingMediaManager extends StreamingMediaManager{
 
-    const ACTION_SET_MEDIAMOSA_SETTINGS = 'settings';
+    const ACTION_MANAGE_SETTINGS = 'settings';
     const ACTION_CLEAN_STREAMING_MEDIA = 'clean';
+    const ACTION_ADD_SETTING = 'add_setting';
+    const ACTION_UPDATE_SETTING = 'update_setting';
+    const ACTION_DELETE_SETTING = 'delete_setting';
 
     const PARAM_MEDIAFILE = 'mediafile_id';
+    const PARAM_STREAMING_MEDIA_SETTING_ID = 'setting_id';
 
     function MediamosaStreamingVideoManager($application)
     {
@@ -98,13 +102,16 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
             case self :: ACTION_CLEAN_STREAMING_MEDIA :
                 $component = $this->create_component('Cleaner', $this);
                 break;
-            case self::ACTION_SET_MEDIAMOSA_SETTINGS :
-                $component = $this->create_component('SettingsCreator', $application);
-
+            case self::ACTION_MANAGE_SETTINGS :
+                $component = $this->create_component('SettingsManager');
+                break;
+            case self::ACTION_ADD_SETTING :
+                $component = $this->create_component('SettingCreator');
+                break;
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION, StreamingMediaManager :: ACTION_BROWSE_STREAMING_MEDIA);
-                break;
+                
         }
 
         $component->run();

@@ -21,10 +21,9 @@ class ForumTool extends Tool
     function run()
     {
         $action = $this->get_action();
-xdebug_break();
+
         switch ($action)
         {
-            
             case self :: ACTION_PUBLISH_FORUM :
                 $component = $this->create_component('Publisher');
                 break;

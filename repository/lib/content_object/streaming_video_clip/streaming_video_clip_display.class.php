@@ -67,7 +67,6 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
 
        function get_additional_properties(){
             //get different mediafiles (+status)
-            xdebug_break();
             $mediafiles = $this->mediamosa_object->get_mediafiles();
 
             $html = array();

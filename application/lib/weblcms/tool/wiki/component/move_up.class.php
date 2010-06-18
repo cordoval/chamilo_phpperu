@@ -1,5 +1,5 @@
 <?php
-class NoteToolMoveUpComponent extends NoteTool
+class WikiToolMoveUpComponent extends WikiTool
 {
 
     function run()
