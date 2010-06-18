@@ -54,14 +54,14 @@ class InternshipOrganizerAgreementManagerAddLocationBrowserComponent extends Int
 		$dm = InternshipOrganizerDataManager::get_instance();
 		$period_id = $this->agreement->get_period_id ();
 		$condition = new EqualityCondition ( InternshipOrganizerCategoryRelPeriod::PROPERTY_PERIOD_ID, $period_id );
-		$category_rel_periods = $dm->retieve_category_rel_periods($condition);
+		$category_rel_periods = $dm->retrieve_category_rel_periods($condition);
 		$category_ids = array();
 		while($category_rel_period = $category_rel_periods->next_result() ){
 			$category_ids[] = $category_rel_period->get_category_id();
 		}
 		
 		$conditions = array ();
-		$conditions [] = new EqualityCondition ( InternshipOrganizerAgreementRelLocation::PROPERTY_LOCATION_TYPE, $location_type );
+//		$conditions [] = new EqualityCondition ( InternshipOrganizerAgreementRelLocation::PROPERTY_LOCATION_TYPE, $location_type );
 		
 		//        if (isset($query) && $query != '')
 		//        {
@@ -73,7 +73,8 @@ class InternshipOrganizerAgreementManagerAddLocationBrowserComponent extends Int
 		//            
 		//            $conditions[] = new OrCondition($search_conditions);
 		//        }
-		return new AndCondition ( $conditions );
+		return null;
+//		return new AndCondition ( $conditions );
 	}
 
 }

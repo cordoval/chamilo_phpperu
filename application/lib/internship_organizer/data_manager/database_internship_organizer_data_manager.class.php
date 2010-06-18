@@ -8,6 +8,7 @@ require_once dirname ( __FILE__ ) . '/../internship_organizer_data_manager.inter
 require_once dirname ( __FILE__ ) . '/../category.class.php';
 require_once dirname ( __FILE__ ) . '/../location.class.php';
 require_once dirname ( __FILE__ ) . '/../category_rel_location.class.php';
+require_once dirname ( __FILE__ ) . '/../category_rel_period.class.php';
 require_once dirname ( __FILE__ ) . '/../organisation.class.php';
 require_once dirname ( __FILE__ ) . '/../agreement.class.php';
 require_once dirname ( __FILE__ ) . '/../agreement_rel_location.class.php';

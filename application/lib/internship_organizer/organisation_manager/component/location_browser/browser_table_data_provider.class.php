@@ -24,7 +24,7 @@ class InternshipOrganizerLocationBrowserTableDataProvider extends ObjectTableDat
     {
         $order_property = $this->get_order_property($order_property);
         
-        return $this->get_browser()->retrieve_locations($this->get_condition(), $offset, $count, $order_property);
+        return InternshipOrganizerDataManager::get_instance()->retrieve_locations($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -33,7 +33,7 @@ class InternshipOrganizerLocationBrowserTableDataProvider extends ObjectTableDat
      */
     function get_object_count()
     {
-        return $this->get_browser()->count_locations($this->get_condition());
+        return InternshipOrganizerDataManager::get_instance()->count_locations($this->get_condition());
     }
 }
 ?>

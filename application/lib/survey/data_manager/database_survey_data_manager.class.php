@@ -338,7 +338,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         {
             $survey_page_ids[] = $complex_content_object->get_ref();
         }
-
+	        
         if (count($survey_page_ids) == 0)
         {
             $survey_page_ids[] = 0;
@@ -355,7 +355,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
             $condition = $survey_page_condition;
         }
 
-        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $offset, $max_objects, $order_by, SurveyPage :: CLASS_NAME);
+        return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $offset, $max_objects, $order_by);
     }
 
     function count_survey_questions($page_ids, $condition = null)
