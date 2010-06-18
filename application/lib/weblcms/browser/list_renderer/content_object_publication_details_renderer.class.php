@@ -75,7 +75,8 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         $html[] = $this->render_publication_information($publication);
         $html[] = '</div>';
         $html[] = '<div class="publication_actions">';
-        $html[] = $this->render_publication_actions($publication, $first, $last);
+        $html[] = $this->get_publication_actions($publication)->as_html();
+//        $html[] = $this->render_publication_actions($publication, $first, $last);
         $html[] = '</div>';
         $html[] = '</div>';
 
