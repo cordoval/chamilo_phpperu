@@ -13,6 +13,7 @@ abstract class ContentObjectPublicationListRenderer
 {
     const TYPE_LIST = 'list';
     const TYPE_TABLE = 'table';
+    const TYPE_GALLERY = 'gallery_table';
     const TYPE_CALENDAR = 'calendar';
     const TYPE_MONTH = 'month_calendar';
     const TYPE_MINI_MONTH = 'mini_month_calendar';
