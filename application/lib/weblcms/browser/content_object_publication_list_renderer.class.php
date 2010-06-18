@@ -606,7 +606,7 @@ abstract class ContentObjectPublicationListRenderer
                 $toolbar->add_item(new ToolbarItem(Translation :: get('BuildComplex'), Theme :: get_common_image_path() . 'action_bar.png', $this->get_complex_builder_url($publication->get_id()), ToolbarItem :: DISPLAY_ICON));
             }
 
-            if ($show_move && $this->get_publication_count() > 2)
+            if ($show_move && $this->get_publication_count() > 1)
             {
                 if ($publication->get_display_order_index() > 1)
                 {
