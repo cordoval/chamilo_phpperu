@@ -32,7 +32,7 @@ class RepositoryBrowserTable extends ObjectTable
             
             $actions[] = new ObjectTableFormAction(MediamosaStreamingMediaManager:: ACTION_ADD_SETTING, Translation :: get('Add'));
         }
-        if (get_class($browser) == 'RepositoryManagerComplexBrowserComponent')
+        if (get_class($browser) == 'SettingsManagerComplexBrowserComponent')
         {
             $actions = array();
             $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_ADD_OBJECTS, Translation :: get('AddObjects'), false);
