@@ -20,7 +20,7 @@ class PeerAssessmentManagerBuilderComponent extends PeerAssessmentManager
     
     function display_header($trail)
     {
-    	$new_trail = new BreadcrumbTrail();
+    	$new_trail = BreadcrumbTrail :: get_instance();
     	$new_trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowsePeerAssessmentPublications')));
     	
     	if($trail)

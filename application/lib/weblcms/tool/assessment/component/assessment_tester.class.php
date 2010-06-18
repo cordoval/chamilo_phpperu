@@ -99,7 +99,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
             $this->trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('TakeAssessment')));
         	$display = ComplexDisplay :: factory($this, $this->assessment->get_type());
             
-            //$this->display_header(new BreadcrumbTrail());
+            //$this->display_header(BreadcrumbTrail :: get_instance());
             $display->run();
             //$this->display_footer();
         }

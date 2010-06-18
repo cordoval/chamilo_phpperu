@@ -12,7 +12,7 @@ class DynamicFormManagerBuilderComponent extends DynamicFormManager
 {
     function run()
     {
-    	$trail = new BreadcrumbTrail(false);
+    	$trail = BreadcrumbTrail :: get_instance();
     	$this->display_header($trail);
     	
     	$this->display_element_types();

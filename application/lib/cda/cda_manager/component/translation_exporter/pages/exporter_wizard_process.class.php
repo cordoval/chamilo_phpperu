@@ -21,7 +21,7 @@ class ExporterWizardProcess extends HTML_QuickForm_Action
 
     function perform($page, $actionName)
     {
-    	$this->parent->display_header(new BreadcrumbTrail(false));
+    	$this->parent->display_header(BreadcrumbTrail :: get_instance(false));
     	
     	$values = $page->controller->exportValues();
     	

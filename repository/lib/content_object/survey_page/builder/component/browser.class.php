@@ -17,7 +17,7 @@ class SurveyPageBuilderBrowserComponent extends SurveyPageBuilder {
 
 //	function run() {
 //		$menu_trail = $this->get_content_object_breadcrumbs ();
-//		$trail = new BreadcrumbTrail ( false );
+//		$trail = BreadcrumbTrail :: get_instance ( false );
 //		$trail->merge ( $menu_trail );
 //		$trail->add_help ( 'repository survey_page builder' );
 //		

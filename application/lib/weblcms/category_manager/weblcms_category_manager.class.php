@@ -11,7 +11,7 @@ class WeblcmsCategoryManager extends CategoryManager
 
     function WeblcmsCategoryManager($parent)
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         if ($parent->get_user()->is_platform_admin())
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb($parent->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));

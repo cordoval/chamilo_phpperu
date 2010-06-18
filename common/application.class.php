@@ -502,7 +502,7 @@ abstract class Application
 
             $application_name = Application :: application_to_class($this->get_application_name());
 
-            $trail = new BreadcrumbTrail();
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
 
             Display :: header($trail);

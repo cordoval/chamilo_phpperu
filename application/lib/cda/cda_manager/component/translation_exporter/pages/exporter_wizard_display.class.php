@@ -37,7 +37,7 @@ class ExporterWizardDisplay extends HTML_QuickForm_Action_Display
         HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>' . Translation :: get('ThisFieldIsRequired') . '</small>');
         $current_page->accept($renderer);
         
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         
         $this->parent->display_header($trail);
         

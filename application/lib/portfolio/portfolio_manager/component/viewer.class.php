@@ -232,7 +232,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
         if($current_user_id == 1)
         {
-            $this->display_header(new BreadcrumbTrail(), false);
+            $this->display_header(BreadcrumbTrail :: get_instance(), false);
         }
         else
         {

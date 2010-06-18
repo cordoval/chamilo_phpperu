@@ -71,7 +71,7 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
                     }
                     else
                     {
-                        $this->display_header(new BreadcrumbTrail());
+                        $this->display_header(BreadcrumbTrail :: get_instance());
                     	$cloi_form->display();
                     	$this->display_footer();
                     }

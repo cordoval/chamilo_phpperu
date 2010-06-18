@@ -16,7 +16,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         $topic = $this->get_complex_content_object_item();
     	$this->retrieve_children($topic->get_ref());
         
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $this->get_root_content_object()->get_title()));
         
         $forums = $this->retrieve_children_trail($this->get_root_content_object());

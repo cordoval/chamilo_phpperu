@@ -16,7 +16,7 @@ class SurveyBuilderContextTemplateSubscribePageBrowserComponent extends SurveyBu
     function run()
     {
             	
-    	$trail = new BreadcrumbTrail(false);
+    	$trail = BreadcrumbTrail :: get_instance();
        
         $trail->add(new Breadcrumb($this->get_configure_context_url(), Translation :: get('BrowseContexts')));
         

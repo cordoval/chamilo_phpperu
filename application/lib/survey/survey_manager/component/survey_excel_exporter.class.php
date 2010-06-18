@@ -273,7 +273,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
 		//		$question_id = Request :: get(SurveyManager :: PARAM_SURVEY_QUESTION);
 		//		$this->set_parameter(SurveyManager :: PARAM_SURVEY_QUESTION, $question_id);
 		//
-		//		$trail = new BreadcrumbTrail();
+		//		$trail = BreadcrumbTrail :: get_instance();
 		//		$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
 		//		$trail->add_help('survey reporting');
 		//
