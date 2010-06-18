@@ -11,6 +11,7 @@
  *	@author Tim De Pauw
 ==============================================================================
  */
+require_once dirname(__file__) . '/../browser/content_object_publication_list_renderer.class.php';
 
 abstract class Tool extends SubManager
 {
@@ -80,9 +81,17 @@ abstract class Tool extends SubManager
         $this->properties = $parent->get_tool_properties($this->get_tool_id());
         $this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : Request :: get(self :: PARAM_ACTION));
         $this->set_parameter(self :: PARAM_ACTION, $this->get_action());
+        $this->set_optional_parameters();
+//        $this->set_browser_type(Request :: get(self :: PARAM_BROWSER_TYPE));
+//        $this->set_parameter(self :: PARAM_BROWSER_TYPE, $this->get_browser_type());
+
         //$this->parse_input_from_table();
     }
-
+	
+    function set_optional_parameters()
+    {
+       	$this->set_parameter(Tool :: PARAM_BROWSER_TYPE, $this->get_browser_type());
+    }
     private function parse_input_from_table()
     {
         if (isset($_POST['action']) || isset($_POST['tool_action']))
@@ -140,6 +149,45 @@ abstract class Tool extends SubManager
     function get_action()
     {
         return $this->action;
+    }
+    
+	function get_browser_type()
+    {
+    	if(Request::get(Tool::PARAM_BROWSER_TYPE))
+    		$browser_type=Request::get(Tool::PARAM_BROWSER_TYPE);
+    		else
+    		$browser_type=$this->get_parameter(Tool :: PARAM_BROWSER_TYPE);
+        if ($browser_type && in_array($browser_type, $this->get_browser_types()))
+        {
+            return $browser_type;
+        }
+        else
+        {
+           /* if (method_exists($this->get_parent(), 'get_browser_type'))
+            {
+                return $this->get_parent()->get_browser_type();
+            }
+            else
+            {*/
+                return ContentObjectPublicationListRenderer :: TYPE_LIST;
+            //}
+        }
+    }
+
+    function get_browser_types()
+    {
+/*        if (method_exists($this->get_parent(), 'get_browser_types'))
+        {
+            return $this->get_parent()->get_browser_types();
+        }
+        else
+        {*/
+            $browser_types = array();
+            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
+            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+            //$browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
+            return $browser_types;
+       // }
     }
 
 //    /**

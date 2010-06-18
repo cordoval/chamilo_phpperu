@@ -14,15 +14,14 @@ class ToolBrowserComponent extends ToolComponent
     private $publication_category_tree;
 
     function run()
-    {
-        $this->set_parameter(Tool :: PARAM_BROWSER_TYPE, $this->get_browser_type());
-
+    {    		
         $this->introduction_text = $this->get_introduction_text();
         $this->action_bar = $this->get_action_bar();
 
         $tree_id = WeblcmsManager :: PARAM_CATEGORY;
         $this->publication_category_tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
-        $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_browser_type(), $this);
+        
+        $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_parent()->get_browser_type(), $this);
 
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
         $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE, Translation :: get('Hide'), false);
@@ -116,11 +115,11 @@ class ToolBrowserComponent extends ToolComponent
             $action_bar->set_tool_actions($this->get_parent()->get_tool_actions());
         }
 
-        $browser_types = $this->get_browser_types();
+        $browser_types = $this->get_parent()->get_browser_types();
 
-        if (count($this->get_browser_types()) > 1)
+        if (count($browser_types) > 1)
         {
-            foreach ($this->get_browser_types() as $browser_type)
+            foreach ($browser_types as $browser_type)
             {
                 $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($browser_type) . 'View'), Theme :: get_image_path() . 'view_' . $browser_type . '.png', $this->get_url(array(Tool :: PARAM_BROWSER_TYPE => $browser_type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
@@ -239,43 +238,6 @@ class ToolBrowserComponent extends ToolComponent
         }
 
         return null;
-    }
-
-    function get_browser_type()
-    {
-        $browser_type = Request :: get(Tool :: PARAM_BROWSER_TYPE);
-
-        if ($browser_type && in_array($browser_type, $this->get_browser_types()))
-        {
-            return $browser_type;
-        }
-        else
-        {
-            if (method_exists($this->get_parent(), 'get_browser_type'))
-            {
-                return $this->get_parent()->get_browser_type();
-            }
-            else
-            {
-                return ContentObjectPublicationListRenderer :: TYPE_LIST;
-            }
-        }
-    }
-
-    function get_browser_types()
-    {
-        if (method_exists($this->get_parent(), 'get_browser_types'))
-        {
-            return $this->get_parent()->get_browser_types();
-        }
-        else
-        {
-            $browser_types = array();
-            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
-            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
-            //            $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
-            return $browser_types;
-        }
     }
 }
 ?>

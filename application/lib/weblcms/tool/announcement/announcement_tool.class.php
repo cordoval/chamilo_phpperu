@@ -55,7 +55,16 @@ class AnnouncementTool extends Tool
 
         $component->run();
     }
-
+	
+	function get_browser_types()
+    {
+        $browser_types = array();
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
+        return $browser_types;
+    }
+    
     static function get_allowed_types()
     {
         return array(Announcement :: get_type_name());

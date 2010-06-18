@@ -66,7 +66,7 @@ class AssessmentToolBrowserComponent extends AssessmentTool
         return new AssessmentColumnModel();
     }
 
-    function get_browser_type()
+/*    function get_browser_type()
     {
         return ContentObjectPublicationListRenderer :: TYPE_TABLE;
     }
@@ -78,6 +78,6 @@ class AssessmentToolBrowserComponent extends AssessmentTool
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
         return $browser_types;
-    }
+    }*/
 }
 ?>

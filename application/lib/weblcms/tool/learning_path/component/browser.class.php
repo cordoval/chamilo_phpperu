@@ -11,18 +11,11 @@ class LearningPathToolBrowserComponent extends LearningPathTool
         $tool_component->run();
     }
 
-    function get_browser_type()
+/*    function get_browser_type()
     {
         return ContentObjectPublicationListRenderer :: TYPE_TABLE;
-    }
+    }*/
 
-    function get_browser_types()
-    {
-        $browser_types = array();
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
-        return $browser_types;
-    }
     
 	function get_content_object_publication_table_cell_renderer($tool_browser)
     {

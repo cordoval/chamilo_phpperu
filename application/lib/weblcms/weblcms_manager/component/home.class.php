@@ -39,9 +39,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         echo $this->display_menu();
         
         echo '<div id="tool_browser_right">';
-        
         echo $this->get_active_course_type_tabs();
-        
         echo '</div>';
         
         $this->display_footer();
@@ -88,7 +86,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         {
             $this->display_message($this->message);
         }
-        
         if (count($tabs) == 0)
         {
             $this->display_message(Translation :: get('NoCoursesFound'));
@@ -97,7 +94,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         {
             $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
             $course_tabs = new DynamicTabsRenderer($renderer_name);
-            
             foreach ($tabs as $index => $tab)
             {
                 $course_tabs->add_tab(new DynamicContentTab($index, $tab[1], null, $this->display_courses($tab[0], $index)));
@@ -105,8 +101,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
             
             $html[] = $course_tabs->render();
         }
+
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
-        
         $toolbar_state = Session :: retrieve('toolbar_state');
         if ($toolbar_state == 'hide')
         {
@@ -161,14 +157,12 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         $html[] = '</div>';
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
         $html[] = '<div class="clear"></div>';
-        
         return implode($html, "\n");
     }
 
     function display_courses($courses, $course_type_id)
     {
         $setting = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
-        
         $category_0 = null;
         $category_1 = null;
         
@@ -186,14 +180,12 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
                 $category_0 = $this->category_factory($setting);
                 break;
         }
-        
         $courses_category_0 = array();
         $courses_category_1 = array();
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
         while ($course_result = $courses->next_result())
         {
-            
             $course = $wdm->retrieve_course($course_result->get_id());
             $course->set_optional_properties($course_result->get_optional_properties());
             if ($course)
@@ -369,7 +361,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
             {
                 $wdm = WeblcmsDataManager :: get_instance();
                 $course = $wdm->retrieve_course($course->get_id());
-                $tools = $course->get_tools();
+                //$tools = $course->get_tools();
                 
                 if ($course->get_access() || $this->is_teacher($course, $this->get_user()))
                 {
