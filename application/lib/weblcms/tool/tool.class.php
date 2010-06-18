@@ -584,7 +584,10 @@ abstract class Tool extends SubManager
             $html[] = '<div class="description">';
             $html[] = $introduction_text->get_content_object()->get_description();
             $html[] = '</div>';
-            $html[] = $toolbar->as_html() . '<div class="clear"></div>';
+            if($toolbar)
+            {
+            	$html[] = $toolbar->as_html() . '<div class="clear"></div>';
+            }
             $html[] = '</div>';
             $html[] = '<br />';
         }
