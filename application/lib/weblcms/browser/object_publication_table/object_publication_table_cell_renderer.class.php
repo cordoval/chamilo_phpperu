@@ -41,6 +41,10 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
 
         switch ($column->get_name())
         {
+            case ContentObject :: PROPERTY_TITLE:
+                $details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
+                return '<a href="'. $details_url .'">' . parent :: render_cell($column, $publication->get_content_object()) . '</a>';
+                break;
             case ContentObjectPublication :: PROPERTY_PUBLICATION_DATE :
                 $date_format = Translation :: get('dateTimeFormatLong');
                 $data = DatetimeUtilities :: format_locale_date($date_format, $publication->get_publication_date());
@@ -58,7 +62,9 @@ class ObjectPublicationTableCellRenderer extends DefaultContentObjectTableCellRe
         }
 
         if (! $data)
+        {
             $data = parent :: render_cell($column, $publication->get_content_object());
+        }
 
         if ($publication->is_hidden())
         {

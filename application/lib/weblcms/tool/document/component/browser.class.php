@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__) . '/document_browser/document_cell_renderer.class.php';
+
 class DocumentToolBrowserComponent extends DocumentTool
 {
     const PARAM_FILTER = 'filter';
@@ -63,9 +65,14 @@ class DocumentToolBrowserComponent extends DocumentTool
         return $publication;
     }
 
+    function get_content_object_publication_table_cell_renderer($tool_browser)
+    {
+        return new DocumentCellRenderer($tool_browser);
+    }
+
     function get_browser_type()
     {
-        return ContentObjectPublicationListRenderer :: TYPE_LIST;
+        return ContentObjectPublicationListRenderer :: TYPE_TABLE;
     }
 
     function get_browser_types()
