@@ -9,9 +9,9 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	
-    config.extraPlugins = 'chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo';
+    config.extraPlugins = 'chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo,latex';
 	config.removePlugins = 'flash,elementspath,resize';
-	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo';
+	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo,latex';
 	
 	
 	
@@ -42,7 +42,7 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.toolbar_Basic =
 		[
-		 	['Maximize','-','Styles','Format','Font','FontSize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','Chamiloyoutube','Chamilodailymotion','Chamilovimeo','Chamilovideo','Chamiloaudio','-','Templates','-','Source']
+		 	['Maximize','-','Styles','Format','Font','FontSize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Table','Image','Chamiloflash','Chamiloyoutube','Chamilovideo','Chamiloaudio','latex','-','Templates','-','Source']
 		];
 	
 	config.toolbar_BasicMarkup =
@@ -76,7 +76,8 @@ CKEDITOR.editorConfig = function( config )
 	config.filebrowserChamilovideoBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=video&repoviewer_action=browser';
 	config.filebrowserChamiloaudioBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=audio&repoviewer_action=browser';
 	config.filebrowserChamilodailymotionBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=dailymotion&repoviewer_action=browser';
-	config.filebrowserChamilovimeoBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=vimeo&repoviewer_action=browser';	
+	config.filebrowserChamilovimeoBrowseUrl = web_path + 'common/launcher/index.php?application=html_editor_file&plugin=vimeo&repoviewer_action=browser';
+	config.latexDialogUrl = web_path + 'plugin/html_editor/ckeditor/plugins/latex/dialogs/latex.html?a=b';
 	
 	
 };

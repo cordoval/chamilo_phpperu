@@ -595,6 +595,9 @@ abstract class ContentObjectPublicationListRenderer
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
+        $feedback_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Details'), Theme :: get_common_image_path() . 'action_details.png', $feedback_url, ToolbarItem :: DISPLAY_ICON));
+
         if ($this->is_allowed(EDIT_RIGHT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
@@ -649,12 +652,6 @@ abstract class ContentObjectPublicationListRenderer
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
             }
 
-        }
-
-        if ($show_feedback_option)
-        {
-            $feedback_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Feedback'), Theme :: get_common_image_path() . 'action_browser.png', $feedback_url, ToolbarItem :: DISPLAY_ICON));
         }
 
         if (WebApplication :: is_active('gradebook'))

@@ -9,16 +9,16 @@ require_once dirname(__FILE__) . '/../../browser/list_renderer/content_object_pu
 class ToolViewerComponent extends ToolComponent
 {
     private $action_bar;
-    
+
 	function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('Details')));
-        
+
     	$this->action_bar = $this->get_action_bar();
         $renderer = new ContentObjectPublicationDetailsRenderer($this);
         $html = $renderer->as_html();
-        
+
     	$this->display_header();
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
@@ -26,12 +26,17 @@ class ToolViewerComponent extends ToolComponent
         echo '</div>';
         $this->display_footer();
     }
-    
+
     function get_publication_id()
     {
     	return Request :: get(Tool :: PARAM_PUBLICATION_ID);
     }
-    
+
+    function get_publication_count()
+    {
+        return 1;
+    }
+
 	function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
@@ -43,7 +48,7 @@ class ToolViewerComponent extends ToolComponent
 
         return $action_bar;
     }
-    
+
 	function add_actionbar_item($item)
     {
         $this->action_bar->add_common_action($item);
@@ -54,6 +59,6 @@ class ToolViewerComponent extends ToolComponent
         $this->action_bar = $action_bar;
     }
 
-    
+
 }
 ?>
