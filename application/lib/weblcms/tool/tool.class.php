@@ -77,7 +77,7 @@ abstract class Tool extends SubManager
 
         //$this->parse_input_from_table();
     }
-	
+
     function set_optional_parameters()
     {
        	$this->set_parameter(Tool :: PARAM_BROWSER_TYPE, $this->get_browser_type());
@@ -140,7 +140,7 @@ abstract class Tool extends SubManager
     {
         return $this->action;
     }
-    
+
 	function get_browser_type()
     {
     	if(Request::get(Tool::PARAM_BROWSER_TYPE))

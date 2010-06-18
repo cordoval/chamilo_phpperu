@@ -120,7 +120,7 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
             $document = $publication->get_content_object();
             $path = $document->get_full_path();
             $thumbnail_path = $this->get_thumbnail_path($path);
-            $thumbnail_url = $this->browser->get_path(WEB_TEMP_PATH) . basename($thumbnail_path);
+            $thumbnail_url = $this->get_tool_browser()->get_path(WEB_TEMP_PATH) . basename($thumbnail_path);
             $html[] = '<a href="' . $this->get_url(array('tool_action' => 'slideshow', 'slideshow_index' => $index)) . '" style="border:1px solid #F0F0F0;margin: 2px;text-align: center;width:110px;height:110px;padding:5px;float:left;">';
             $html[] = '<img src="' . $thumbnail_url . '" style="margin: 5px;"/>';
             $html[] = '</a>';
@@ -130,7 +130,7 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
 
     private function get_thumbnail_path($image_path)
     {
-        $thumbnail_path = $this->browser->get_path(SYS_TEMP_PATH) . md5($image_path) . basename($image_path);
+        $thumbnail_path = $this->get_tool_browser()->get_path(SYS_TEMP_PATH) . md5($image_path) . basename($image_path);
         if (! is_file($thumbnail_path))
         {
             $thumbnail_creator = ImageManipulation :: factory($image_path);

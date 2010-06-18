@@ -140,6 +140,7 @@ class DayCalendar extends CalendarTable
      */
     private function add_events()
     {
+        
         $events = $this->get_events_to_show();
         
     	$working_start = LocalSetting :: get('working_hours_start');

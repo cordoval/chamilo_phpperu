@@ -73,6 +73,7 @@ class ToolBrowserComponent extends ToolComponent
      */
     function get_publications($from, $count, $column, $direction)
     {
+        
         if (empty($this->publications))
         {
             $datamanager = WeblcmsDataManager :: get_instance();

@@ -6,7 +6,7 @@
 /**
  * This class represents a data provider for a publication candidate table
  */
-class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
+class ObjectPublicationGalleryTableDataProvider extends ObjectTableDataProvider
 {
     /**
      * The user id of the current active user.
@@ -30,7 +30,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
      * selected.
      * @param string $query The search query.
      */
-    function ObjectPublicationTableDataProvider($parent, $owner, $types, $condition = null)
+    function ObjectPublicationGalleryTableDataProvider($parent, $owner, $types, $condition = null)
     {
         $this->types = $types;
         $this->owner = $owner;
@@ -45,7 +45,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        return $this->get_publications($offset, $count, $order_property);
+        return $this->get_publications($offset, $count, $order_property)->as_array();
     }
 
     function get_publications($from, $count, $column, $direction)
@@ -75,7 +75,7 @@ class ObjectPublicationTableDataProvider extends ObjectTableDataProvider
         }
         else
         {
-            $user_id = $this->parent->get_user_id();
+       		$user_id = $this->parent->get_user_id();
             $course_groups = $this->parent->get_course_groups();
 
             $course_group_ids = array();

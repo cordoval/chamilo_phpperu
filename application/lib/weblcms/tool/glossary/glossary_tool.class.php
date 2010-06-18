@@ -41,6 +41,9 @@ class GlossaryTool extends Tool
             case self :: ACTION_TOGGLE_VISIBILITY :
                 $component = $this->create_component('ToggleVisibility');
                 break;
+            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
+                $component = $this->create_component('ComplexBuilder');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }

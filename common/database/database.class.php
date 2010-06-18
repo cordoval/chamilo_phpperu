@@ -538,6 +538,7 @@ class Database
         {
             $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
             $res->free();
+//            dump($res);
             return $record[0];
         }
     }
@@ -607,7 +608,7 @@ class Database
     function retrieve_object_set($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
     {
         $res = $this->retrieve_result($query, $table_name, $condition, $offset, $max_objects, $order_by);
-
+        
         if (is_null($class_name))
         {
             $class_name = Utilities :: underscores_to_camelcase($table_name);

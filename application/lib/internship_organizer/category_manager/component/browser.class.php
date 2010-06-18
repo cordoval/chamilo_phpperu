@@ -5,7 +5,7 @@ require_once dirname ( __FILE__ ) . '/browser/browser_table.class.php';
 class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrganizerCategoryManager 
 {
 	private $ab;
-	private $category;
+	private $category_id;
 	private $root_category;
 	
 	/**
@@ -57,18 +57,17 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 	
 	function get_category() 
 	{
-		if (! $this->category) 
+		if (! $this->category_id) 
 		{
-			$this->category = Request::get ( InternshipOrganizerCategoryManager::PARAM_CATEGORY_ID );
+			$this->category_id = Request::get ( InternshipOrganizerCategoryManager::PARAM_CATEGORY_ID );
 			
-			if (! $this->category) 
+			if (! $this->category_id) 
 			{
-				$this->category = $this->get_root_category ()->get_id ();
+				$this->category_id = $this->get_root_category ()->get_id ();
 			}
 		
 		}
-		
-		return $this->category;
+		return $this->category_id;
 	}
 	
 	function get_root_category() 
@@ -111,6 +110,12 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'CreateInternshipOrganizerCategory' ), Theme::get_common_image_path () . 'action_add.png', $this->get_create_category_url ( $this->get_category () ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ShowAll' ), Theme::get_common_image_path () . 'action_browser.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
+		
+		if($this->category_id != ( $this->root_category || null ) )
+		{
+			$category_obj = InternshipOrganizerDataManager :: get_instance()->retrieve_internship_organizer_category($this->category_id);
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewInternshipOrganizerCategory'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_category_viewing_url($category_obj), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
 		
 		return $action_bar;
 	}
