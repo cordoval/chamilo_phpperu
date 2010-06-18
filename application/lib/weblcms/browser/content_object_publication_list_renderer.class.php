@@ -656,7 +656,7 @@ abstract class ContentObjectPublicationListRenderer
 
         if (WebApplication :: is_active('gradebook'))
         {
-            require_once dirname(__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
+            require_once dirname(__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';
             $internal_item = EvaluationManager :: retrieve_internal_item_by_publication(WeblcmsManager :: APPLICATION_NAME, $publication->get_id());
             if ($internal_item && $internal_item->get_calculated() != 1)
             {

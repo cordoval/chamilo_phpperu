@@ -1,5 +1,5 @@
 <?php
-class NoteToolMoveUpComponent extends NoteTool
+class LearningPathToolMoveUpComponent extends LearningPathTool
 {
 
     function run()

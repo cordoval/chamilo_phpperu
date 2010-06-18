@@ -1,5 +1,5 @@
 <?php
-class NoteToolMoveUpComponent extends NoteTool
+class WikiToolMoveDownComponent extends WikiTool
 {
 
     function run()
@@ -10,7 +10,7 @@ class NoteToolMoveUpComponent extends NoteTool
 
     function get_move_direction()
     {
-        return -1;
+        return 1;
     }
 }
 ?>

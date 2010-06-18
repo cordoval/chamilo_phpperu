@@ -57,11 +57,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 
             if ($studentview == 1)
             {
-                $trail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array('studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $trail->add_extra(new ToolbarItem(Translation :: get('TeacherView'), Theme :: get_image_path() . 'action_teacher_view.png', $this->get_url(array(WeblcmsManager :: PARAM_TOOL => Request :: get(WeblcmsManager :: PARAM_TOOL), 'studentview' => '0', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
             else
             {
-                $trail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array('studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                $trail->add_extra(new ToolbarItem(Translation :: get('StudentView'), Theme :: get_image_path() . 'action_student_view.png', $this->get_url(array(WeblcmsManager :: PARAM_TOOL => Request :: get(WeblcmsManager :: PARAM_TOOL), 'studentview' => '1', Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
         }
 

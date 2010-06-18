@@ -22,7 +22,6 @@ class StreamingVideoClipForm extends ContentObjectForm {
 
     function create_content_object()
     {
-        xdebug_break();
         $object = new StreamingVideoClip();
 
         $object->set_server_id($this->exportValue(StreamingVideoClip :: PROPERTY_SERVER_ID));

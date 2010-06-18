@@ -5,9 +5,9 @@
  */
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
 
-/*require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
+require_once Path :: get_repository_path() . '/lib/content_object/forum/forum.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/forum/display/forum_display.class.php';
-require_once 'HTML/Table.php';*/
+require_once 'HTML/Table.php';
 
 class ForumToolBrowserComponent extends ForumTool
 {
@@ -18,16 +18,6 @@ class ForumToolBrowserComponent extends ForumTool
     
     function run()
     {
-
-        $tool_component = ToolComponent :: factory(ToolComponent :: ACTION_BROWSE, $this);
-        $tool_component->run();
-        /*
-
-        {
-            Display :: not_allowed();
-            return;
-        }
-        
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'forum');
@@ -61,8 +51,6 @@ class ForumToolBrowserComponent extends ForumTool
             echo '<br><div style="text-align: center"><h3>' . Translation :: get('NoPublications') . '</h3></div>';
         
         $this->display_footer();
-         * 
-         */
     }
 
     function get_table_html()

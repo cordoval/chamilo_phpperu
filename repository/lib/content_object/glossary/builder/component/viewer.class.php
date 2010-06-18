@@ -28,8 +28,6 @@ class GlossaryBuilderViewerComponent extends GlossaryBuilder
 
     function get_video_player_as_html()
     {
-        xdebug_break();
-
         $object = $this->get_mediamosa_object();
 
         if($object->get_status() == StreamingMediaObject :: STATUS_AVAILABLE)

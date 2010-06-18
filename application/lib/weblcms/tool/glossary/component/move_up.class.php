@@ -1,5 +1,5 @@
 <?php
-class NoteToolMoveUpComponent extends NoteTool
+class GlossaryToolMoveUpComponent extends GlossaryTool
 {
 
     function run()
