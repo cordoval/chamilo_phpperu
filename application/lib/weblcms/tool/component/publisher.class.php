@@ -10,6 +10,7 @@ class ToolPublisherComponent extends ToolComponent
 
     function run()
     {
+        xdebug_break();
         if (! $this->is_allowed(ADD_RIGHT))
         {
             Display :: not_allowed();

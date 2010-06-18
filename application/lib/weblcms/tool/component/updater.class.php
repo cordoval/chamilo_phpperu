@@ -9,6 +9,7 @@ class ToolUpdaterComponent extends ToolComponent
 {
     function run()
     {
+        xdebug_break();
         if ($this->is_allowed(EDIT_RIGHT))
         {
             $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];

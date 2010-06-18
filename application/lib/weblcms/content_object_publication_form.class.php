@@ -68,6 +68,7 @@ class ContentObjectPublicationForm extends FormValidator
      */
     function ContentObjectPublicationForm($form_type, $content_object, $repo_viewer, $email_option = false, $course, $in_repo_viewer = true, $extra_parameters = array())
     {
+        xdebug_break();
         if ($repo_viewer)
         {
             $pub_param = $repo_viewer->get_parameters();
@@ -85,7 +86,8 @@ class ContentObjectPublicationForm extends FormValidator
                 }
                 else
                 {
-                    $parameters = array_merge($pub_param, array(ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer ? Tool :: ACTION_PUBLISH : null));
+                    //$parameters = array_merge($pub_param, array(ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id(), Tool :: PARAM_ACTION => $in_repo_viewer ? Tool :: ACTION_PUBLISH : null));
+                    $parameters = array_merge($pub_param, array(ContentObjectRepoViewer :: PARAM_ID => $content_object->get_id()));
                 }
                 break;
             case self :: TYPE_MULTI :
