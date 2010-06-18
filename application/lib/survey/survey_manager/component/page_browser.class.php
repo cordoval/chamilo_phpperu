@@ -24,6 +24,7 @@ class SurveyManagerPageBrowserComponent extends SurveyManager
         {
             $ids = array();
         }
+               
         
         $this->survey_ids = $ids;
         
