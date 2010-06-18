@@ -48,9 +48,11 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
         if (count($types) > 1)
         {
             $type = Request :: post(RepoViewer :: PARAM_CONTENT_OBJECT_TYPE);
-            if(!$type)
-            	$type = Request :: get(RepoViewer :: PARAM_CONTENT_OBJECT_TYPE);
-            	
+            if (! $type)
+            {
+                $type = Request :: get(RepoViewer :: PARAM_CONTENT_OBJECT_TYPE);
+            }
+
             return $type;
         }
         else
@@ -65,18 +67,34 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
      */
     protected function get_type_selector()
     {
-        $types = array();
+        $selection_types = array();
+        $html = array();
+
+        $html[] = '<div class="content_object_selection">';
 
         foreach ($this->get_types() as $object_type)
         {
-            $types[$object_type] = Translation :: get(ContentObject :: type_to_class($object_type) . 'TypeName');
+            $selection_types[$object_type] = Translation :: get(ContentObject :: type_to_class($object_type) . 'TypeName');
+            $object_type_parameters = $this->get_parameters();
+            $object_type_parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $object_type;
+
+            $html[] = '<a href="' . $this->get_url($object_type_parameters) . '">';
+            $html[] = '<div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $object_type . '.png);">';
+            $html[] = Translation :: get(ContentObject :: type_to_class($object_type) . 'TypeName');
+            $html[] = '</div>';
+            $html[] = '</a>';
         }
+
+        $html[] = '<div class="clear"></div>';
+        $html[] = '</div>';
 
         $form = new FormValidator('select_type', 'post', $this->get_url($this->get_parameters()));
         $form->addElement('hidden', 'tool');
         $form->addElement('hidden', RepoViewer :: PARAM_ACTION);
-        $form->addElement('select', RepoViewer :: PARAM_CONTENT_OBJECT_TYPE, '', $types);
-        $form->addElement('submit', 'submit', Translation :: get('Ok'));
+        $form->addElement('select', RepoViewer :: PARAM_CONTENT_OBJECT_TYPE, Translation :: get('CreateANew'), $selection_types, array('class' => 'learning-object-creation-type postback'));
+        $form->addElement('static', '', '', implode("\n", $html));
+        $form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal select'));
+        $form->addElement('html', '<br /><br />' . ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
         $form->setDefaults(array(RepoViewer :: PARAM_ACTION => Request :: get(RepoViewer :: PARAM_ACTION)));
 
         if ($form->validate())

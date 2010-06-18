@@ -10,6 +10,7 @@
  */
 class StreamingVideoTool extends Tool
 {
+
     /**
      * Inherited.
      */
@@ -28,26 +29,26 @@ class StreamingVideoTool extends Tool
             case self :: ACTION_PUBLISH :
                 $component = $this->create_component('Publisher');
                 break;
-            case self :: ACTION_UPDATE:
-            	$component = $this->create_component('Updater');
+            case self :: ACTION_UPDATE :
+                $component = $this->create_component('Updater');
                 break;
-            case self :: ACTION_DELETE:
-            	$component = $this->create_component('Deleter');
+            case self :: ACTION_DELETE :
+                $component = $this->create_component('Deleter');
                 break;
-            case self :: ACTION_TOGGLE_VISIBILITY:
-            	$component = $this->create_component('ToggleVisibility');
+            case self :: ACTION_TOGGLE_VISIBILITY :
+                $component = $this->create_component('ToggleVisibility');
                 break;
-            case self :: ACTION_MOVE_UP:
-            	$component = $this->create_component('MoveUp');
+            case self :: ACTION_MOVE_UP :
+                $component = $this->create_component('MoveUp');
                 break;
-            case self :: ACTION_MOVE_DOWN:
-            	$component = $this->create_component('MoveDown');
+            case self :: ACTION_MOVE_DOWN :
+                $component = $this->create_component('MoveDown');
                 break;
-            case self :: ACTION_PUBLISH_INTRODUCTION:
-            	$component = $this->create_component('IntroductionPublisher');
+            case self :: ACTION_PUBLISH_INTRODUCTION :
+                $component = $this->create_component('IntroductionPublisher');
                 break;
-            case self :: ACTION_VIEW_REPORTING_TEMPLATE:
-            	$component = $this->create_component('ReportingViewer');
+            case self :: ACTION_VIEW_REPORTING_TEMPLATE :
+                $component = $this->create_component('ReportingViewer');
                 break;
             default :
                 $component = $this->create_component('Browser');
@@ -58,12 +59,12 @@ class StreamingVideoTool extends Tool
 
     static function get_allowed_types()
     {
-        return array(Youtube :: get_type_name());
+        return array(Youtube :: get_type_name(), StreamingVideoClip :: get_type_name(), Dailymotion :: get_type_name(), Vimeo :: get_type_name());
     }
 
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
 }
 ?>

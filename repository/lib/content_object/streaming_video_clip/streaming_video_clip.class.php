@@ -11,12 +11,12 @@ class StreamingVideoClip extends ContentObject
 
     static function get_type_name()
     {
-            return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-	
+
     static function get_additional_property_names()
     {
-            return array(self :: PROPERTY_SERVER_ID, self :: PROPERTY_ASSET_ID);
+        return array(self :: PROPERTY_SERVER_ID, self :: PROPERTY_ASSET_ID);
     }
 
     function set_server_id($server_id)
@@ -38,13 +38,12 @@ class StreamingVideoClip extends ContentObject
     {
         return $this->get_additional_property(self :: PROPERTY_ASSET_ID);
     }
-    
+
     //Inherited
     function supports_attachments()
     {
         return false;
     }
 
-   
 }
 ?>
