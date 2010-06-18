@@ -231,7 +231,7 @@ class InternshipOrganizerCategoryManager extends SubManager
             }
                         
             switch ($_POST['action'])
-            {
+            {   
                 case self :: PARAM_UNSUBSCRIBE_SELECTED :
                     $this->set_category_action(self :: ACTION_UNSUBSCRIBE_LOCATION_FROM_CATEGORY);
                     Request :: set_get(self :: PARAM_CATEGORY_REL_LOCATION_ID, $selected_ids);

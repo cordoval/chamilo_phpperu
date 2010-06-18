@@ -46,7 +46,11 @@ class InternshipOrganizerCategoryManagerViewerComponent extends InternshipOrgani
             echo '</div>';
             echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';
             echo '<div class="title">' . Translation :: get('Locations') . '</div>';
-            $table = new InternshipOrganizerCategoryRelLocationBrowserTable($this, array(Application :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $id), $this->get_condition());
+            $parameters = $this->get_parameters();
+            $parameters [InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID] = $id;
+            //dump($parameters);
+            $table = new InternshipOrganizerCategoryRelLocationBrowserTable($this, $parameters, $this->get_condition());
+            
             echo $table->as_html();
             echo '</div>';
 
@@ -68,6 +72,20 @@ class InternshipOrganizerCategoryManagerViewerComponent extends InternshipOrgani
         if (isset($query) && $query != '')
         {
             $or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_NAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_ADDRESS, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+            
+            $search_city_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*');
+            $search_city_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*');
+            $city_conditions = new OrCondition($search_city_conditions);
+            
+            $search_city_subselect_condition = new SubselectCondition(InternshipOrganizerLocation :: PROPERTY_REGION_ID, InternshipOrganizerRegion::PROPERTY_ID, InternshipOrganizerRegion::get_table_name(),$city_conditions);
+            $or_conditions[] = $search_city_subselect_condition; 
+            
+            
+//            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*');
+//            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*');
+
             //$or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_CITY, '*' . $query . '*');
             //$or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_STREET, '*' . $query . '*');
             //$or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_STREET_NUMBER, '*' . $query . '*');

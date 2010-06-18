@@ -62,9 +62,9 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         
         while ($category_rel_location = $category_rel_locations->next_result())
         {
-            $conditions[] = new NotCondition(new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ID, $category_rel_location->get_location_id()));
+            $conditions[] = new NotCondition(new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ID, $category_rel_location->get_location_id()));       
         }
-
+        
         $query = $this->ab->get_query();
 
         if (isset($query) && $query != '')

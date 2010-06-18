@@ -28,6 +28,8 @@ class InternshipOrganizerCategoryRelLocationBrowserTableCellRenderer extends Def
             return $this->get_modification_links($categoryrellocation);
         }
         
+//        return parent :: render_cell($column, $region);
+    
        
         // Add special features here
 //        switch ($column->get_name())
