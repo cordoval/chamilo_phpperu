@@ -22,7 +22,10 @@ class ToolMoverComponent extends ToolComponent
             {
                 $message = htmlentities(Translation :: get('ContentObjectPublicationMoved'));
             }
-            $this->redirect($message, false, array(Tool :: PARAM_ACTION => null));
+
+            $this->redirect($message, false, array(Tool :: PARAM_ACTION => null, Tool :: PARAM_BROWSER_TYPE => Request :: get(Tool :: PARAM_BROWSER_TYPE)));
+            //$this->redirect($message, false, array(Tool :: PARAM_ACTION => null, Tool :: PARAM_BROWSER_TYPE => Request :: get(Tool :: PARAM_BROWSER_TYPE)));
+            
         }
     }
 }

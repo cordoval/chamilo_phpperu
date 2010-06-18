@@ -59,7 +59,11 @@ class HomeTool extends Tool
         }
         $component->run();
     }
-
+	
+    function set_optional_parameters()
+    {
+		
+    }
     function get_application_component_path()
     {
         return dirname(__FILE__) . '/component/';

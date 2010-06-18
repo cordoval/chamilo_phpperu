@@ -36,7 +36,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
     {
         $parent = $this->get_parent();
         $tools = array();
-        
         foreach ($parent->get_registered_tools() as $tool)
         {
             if ($this->group_inactive)
@@ -60,7 +59,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 $tools[$tool->section][] = $tool;
             }
         }
-        
+
         //$section_types = $parent->get_registered_sections();
         //dump($section_types);
         
@@ -91,7 +90,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		}*/
         
         echo '<div id="coursecode" style="display: none;">' . $this->course->get_id() . '</div>';
-        
         $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('course_id', $this->course->get_id()));
         while ($section = $sections->next_result())
         {
@@ -117,7 +115,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 }
             }
         }
-        
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/course_home.js' . '"></script>';
     }
@@ -259,10 +256,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 $lcms_action = HomeTool :: ACTION_MAKE_TOOL_INVISIBLE;
                 $visible_image = 'action_visible.png';
                 $new = '';
-                if ($parent->tool_has_new_publications($tool->name))
+                /*if ($parent->tool_has_new_publications($tool->name))
                 {
                     $new = '_new';
-                }
+                }*/
                 $tool_image = 'tool_' . $tool->name . $new . '.png';
                 $link_class = '';
             }
