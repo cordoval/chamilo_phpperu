@@ -34,7 +34,7 @@ class SurveyPageBuilderCreatorComponent extends SurveyPageBuilder
 //        
 //        if (count($question_ids) == 0)
 //        {
-//            $this->display_header(new BreadcrumbTrail());
+//            $this->display_header(BreadcrumbTrail :: get_instance());
 //            $this->display_error_message(Translation :: get('NoQuestionsSelected'));
 //            $this->display_footer();
 //        }

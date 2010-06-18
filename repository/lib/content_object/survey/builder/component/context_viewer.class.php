@@ -14,7 +14,7 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilder
      */
     function run()
     {
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         
         $id = Request :: get(SurveyBuilder :: PARAM_TEMPLATE_ID);
         

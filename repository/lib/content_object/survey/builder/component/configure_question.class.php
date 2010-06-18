@@ -16,7 +16,7 @@ class SurveyBuilderConfigureQuestionComponent extends SurveyBuilder {
 		$this->page_id = $complex_item->get_parent ();
 		
 		$menu_trail = $this->get_complex_content_object_breadcrumbs ();
-		$trail = new BreadcrumbTrail ( false );
+		$trail = BreadcrumbTrail :: get_instance ( false );
 		$trail->merge ( $menu_trail );
 		$trail->add_help ( 'repository survey_page question configurer' );
 		$trail->add ( new Breadcrumb ( $this->get_url ( array (SurveyBuilder::PARAM_BUILDER_ACTION => SurveyBuilder::ACTION_CONFIGURE_PAGE, SurveyBuilder::PARAM_SURVEY_PAGE_ID => $this->page_id ) ), Translation::get ( 'SurveyPageConfigure' ) ) );

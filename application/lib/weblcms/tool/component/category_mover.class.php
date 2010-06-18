@@ -15,7 +15,7 @@ class ToolCategoryMoverComponent extends ToolComponent
             $form = $this->build_move_to_category_form();
             if (! $form)
             {
-                $this->display_header(new BreadcrumbTrail());
+                $this->display_header(BreadcrumbTrail :: get_instance());
                 $this->display_error_message('CategoryFormCouldNotBeBuild');
                 $this->display_footer();
             }

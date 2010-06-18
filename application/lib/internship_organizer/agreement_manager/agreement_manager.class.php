@@ -66,6 +66,9 @@ class InternshipOrganizerAgreementManager extends SubManager {
 			case self::ACTION_BROWSE_MOMENTS :
 				$component = $this->create_component ( 'MomentBrowser' );
 				break;
+			case self::ACTION_ADD_LOCATION :
+				$component = $this->create_component ( 'AddLocationBrowser' );
+				break;	
 			default :
 				$component = $this->create_component ( 'Browser' );
 				break;
@@ -151,8 +154,8 @@ class InternshipOrganizerAgreementManager extends SubManager {
 		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_BROWSE_MOMENTS ) );
 	}
 	
-	function get_add_location_url() {
-		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_ADD_LOCATION ) );
+	function get_add_location_url($agreement) {
+		return $this->get_url ( array (self::PARAM_ACTION => self::ACTION_ADD_LOCATION, self::PARAM_AGREEMENT_ID => $agreement->get_id () ) );
 	}
 	
 	private function parse_input_from_table() {

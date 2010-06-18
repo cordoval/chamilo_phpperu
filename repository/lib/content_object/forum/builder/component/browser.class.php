@@ -16,7 +16,7 @@ class ForumBuilderBrowserComponent extends ForumBuilder
     function run()
     {   
         $menu_trail = $this->get_complex_content_object_breadcrumbs();
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->merge($menu_trail);
         $trail->add_help('repository forum builder');
         

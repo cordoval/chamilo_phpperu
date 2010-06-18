@@ -63,11 +63,6 @@ class DocumentToolBrowserComponent extends DocumentTool
         return $publication;
     }
 
-    function get_browser_type()
-    {
-        return ContentObjectPublicationListRenderer :: TYPE_LIST;
-    }
-
     function get_browser_types()
     {
         $browser_types = array();

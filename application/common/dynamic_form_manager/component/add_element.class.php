@@ -14,7 +14,7 @@ class DynamicFormManagerAddElementComponent extends DynamicFormManager
         $type = Request :: get(DynamicFormManager :: PARAM_DYNAMIC_FORM_ELEMENT_TYPE);
         $parameters = array(DynamicFormManager :: PARAM_DYNAMIC_FORM_ELEMENT_TYPE => $type);
         
-    	$trail = new BreadcrumbTrail(false);
+    	$trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('AddElement')));
         $trail->add_help('dynamic form general');
 

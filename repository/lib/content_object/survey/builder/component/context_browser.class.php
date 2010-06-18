@@ -26,7 +26,7 @@ class SurveyBuilderContextBrowserComponent extends SurveyBuilder
             $this->template = $current_template;
         }
         
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseContext')));
         $this->ab = $this->get_action_bar();

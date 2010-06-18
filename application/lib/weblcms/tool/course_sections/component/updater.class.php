@@ -49,7 +49,7 @@ class CourseSectionsToolUpdaterComponent extends CourseSectionsTool
         }
         else
         {
-            $this->display_header(new BreadcrumbTrail());
+            $this->display_header(BreadcrumbTrail :: get_instance());
             $this->display_error_message(Translation :: get('NoCourseSectionSelected')); //display_error_page(htmlentities(Translation :: get('NoCourseSectionSelected')));
             $this->display_footer();
         }

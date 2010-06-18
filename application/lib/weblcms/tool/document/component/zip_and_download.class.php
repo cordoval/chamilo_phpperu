@@ -110,7 +110,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentTool
         
         if ($count == 0)
         {
-            $this->display_header(new BreadcrumbTrail());
+            $this->display_header(BreadcrumbTrail :: get_instance());
             $this->get_parent()->display_warning_message(Translation :: get('NoDocumentsPublished'));
             $this->display_footer();
             exit();

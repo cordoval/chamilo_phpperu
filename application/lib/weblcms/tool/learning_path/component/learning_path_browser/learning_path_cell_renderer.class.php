@@ -72,19 +72,10 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
 
     function get_actions($publication)
     {
-        $progress = $this->get_progress($publication);
-		$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-		
-        $view_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW));
-        
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get(($progress > 0 ? 'ContinueLearningPath' : 'StartLearningPath')),
-        		Theme :: get_common_image_path() . 'action_start.png',
-        		$view_url,
-        		ToolbarItem :: DISPLAY_ICON
-        ));
-        
-        $toolbar = parent :: get_actions($publication, $toolbar, true, false, false);
+		$toolbar = parent :: get_actions($publication);
+		$items = $toolbar->get_items();
+		$items[0]->set_image(Theme :: get_common_image_path() . 'action_start.png');
+       
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get('Statistics'),
         		Theme :: get_common_image_path() . 'action_reporting.png',

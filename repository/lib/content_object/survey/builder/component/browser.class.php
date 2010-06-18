@@ -26,7 +26,7 @@ function run()
 //	
 //	function run() {
 //		$menu_trail = $this->get_clo_breadcrumbs ();
-//		$trail = new BreadcrumbTrail ( false );
+//		$trail = BreadcrumbTrail :: get_instance ( false );
 //		$trail->merge ( $menu_trail );
 //		$trail->add_help ( 'repository survey builder' );
 //		

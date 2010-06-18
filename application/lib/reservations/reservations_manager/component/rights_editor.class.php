@@ -51,7 +51,7 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManager
 
     function display_header($old_trail)
     {
-        $trail = new BreadcrumbTrail();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb(parent :: get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
         
         $type = Request :: get('type');

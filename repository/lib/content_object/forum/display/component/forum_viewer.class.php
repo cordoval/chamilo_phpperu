@@ -30,7 +30,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
         $topics_table = $this->get_topics_table_html();
         $forum_table = $this->get_forums_table_html();
         
-        $trail = new BreadcrumbTrail(false);
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array()), $forum->get_title()));
         
         if ($this->get_complex_content_object_item())

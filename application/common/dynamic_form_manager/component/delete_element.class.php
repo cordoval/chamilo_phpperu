@@ -18,7 +18,7 @@ class DynamicFormManagerDeleteElementComponent extends DynamicFormManager
         
 	    if (! $this->get_user()->is_platform_admin())
         {
-            $trail = new BreadcrumbTrail(false);
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('dynamic form manager general');
             $this->display_header($trail);
             Display :: error_message(Translation :: get("NotAllowed"));
