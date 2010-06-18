@@ -376,6 +376,9 @@ class ContentObjectPublication extends DataClass
             $this->set_category_id(0);
         }
 
+        $display_order = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool(), $this->get_category_id());
+        $this->set_display_order_index($display_order);
+        
         return $dm->create_content_object_publication($this);
     }
 
