@@ -15,13 +15,13 @@ Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 if (Authentication :: is_valid())
 {
     $conditions = array();
-    
+
     $query_condition = Utilities :: query_to_condition($_GET['query'], array(InternshipOrganizerPeriod :: PROPERTY_NAME, InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
     }
-    
+
     if (is_array($_GET['exclude']))
     {
         $c = array();
@@ -31,7 +31,7 @@ if (Authentication :: is_valid())
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
+
     if (count($conditions) > 0)
     {
         $condition = new AndCondition($conditions);
@@ -40,7 +40,7 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-    
+
     $dm = InternshipOrganizerDataManager :: get_instance();
     $objects = $dm->retrieve_periods($condition);
 
@@ -62,17 +62,20 @@ function dump_tree($periods)
 {
     if (contains_results($periods))
     {
-        echo '<node id="n0" classes="category unlinked" title="', Translation :: get('Periods'), '">', "\n";
+        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Periods'), '">', "\n";
+
         foreach ($periods as $period)
         {
             $id = $period->get_id();
             $name = strip_tags($period->get_name());
             $description = strip_tags($period->get_description());
-            
-            echo '<leaf id="p_', $id, '" classes="', '', '" title="', htmlentities($name), '" description="', htmlentities(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
+            $description = preg_replace("/[\n\r]/","",$description);
+
+            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlspecialchars($name), '" description="', htmlspecialchars(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
         }
-        
-        echo '</node>', "\n";   
+
+        echo '</node>', "\n";
+
     }
 }
 

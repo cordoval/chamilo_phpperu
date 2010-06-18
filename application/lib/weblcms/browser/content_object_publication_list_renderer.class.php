@@ -13,6 +13,7 @@ abstract class ContentObjectPublicationListRenderer
 {
     const TYPE_LIST = 'list';
     const TYPE_TABLE = 'table';
+    const TYPE_GALLERY = 'gallery_table';
     const TYPE_CALENDAR = 'calendar';
     const TYPE_MONTH = 'month_calendar';
     const TYPE_MINI_MONTH = 'mini_month_calendar';
@@ -595,8 +596,8 @@ abstract class ContentObjectPublicationListRenderer
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        $feedback_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Details'), Theme :: get_common_image_path() . 'action_details.png', $feedback_url, ToolbarItem :: DISPLAY_ICON));
+        $details_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Details'), Theme :: get_common_image_path() . 'action_details.png', $details_url, ToolbarItem :: DISPLAY_ICON));
 
         if ($this->is_allowed(EDIT_RIGHT))
         {
