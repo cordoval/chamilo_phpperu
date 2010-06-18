@@ -6,6 +6,8 @@
  */
 class Dailymotion extends ContentObject
 {
+    const CLASS_NAME = __CLASS__;
+
     const PROPERTY_URL = 'url';
     const PROPERTY_HEIGHT = 'height';
     const PROPERTY_WIDTH = 'width';
@@ -51,12 +53,17 @@ class Dailymotion extends ContentObject
         $video_url_components = parse_url($video_url);
         $video_query_components = Text :: parse_query_string($video_url_components['query']);
 
-        return str_replace ("video", "swf", $video_url_components["path"]);
+        return str_replace("video", "swf", $video_url_components["path"]);
     }
 
     function get_video_url()
     {
         return 'http://www.dailymotion.com/' . $this->get_video_id();
+    }
+
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>
