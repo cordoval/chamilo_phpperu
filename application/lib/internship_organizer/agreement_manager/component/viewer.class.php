@@ -87,7 +87,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
 		
 		} else {
 			//add locations
-			$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'AddInternshipOrganizerAgreementLocation' ), Theme::get_common_image_path () . 'action_add.png', $this->get_add_location_url ( $this->agreement ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
+			$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'SubscribeInternshipOrganizerAgreementLocation' ), Theme::get_common_image_path () . 'action_add.png', $this->get_subscribe_location_url ( $this->agreement ), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 			
 		}
 		
@@ -135,6 +135,8 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
 		//        }
 		return new AndCondition ( $conditions );
 	}
+	
 
+	
 }
 ?>

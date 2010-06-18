@@ -28,11 +28,12 @@ class DefaultInternshipOrganizerAgreementRelLocationTableCellRenderer extends Ob
     {
         
         //$columns[] = new ObjectTableColumn(InternshipOrganizerOrganisation :: PROPERTY_NAME, true, $organisation_alias);
-       // $columns[] = new ObjectTableColumn(InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION, true, $organisation_alias);
+        // $columns[] = new ObjectTableColumn(InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION, true, $organisation_alias);
         //$columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_NAME, true, $location_alias);
         //$columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_CITY, true, $location_alias);
-       // $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_STREET, true, $location_alias);
+        // $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_STREET, true, $location_alias);
         
+
         $location_id = $agreementrellocation->get_location_id();
         $location = InternshipOrganizerDataManager :: get_instance()->retrieve_location($location_id);
         $organisation = $location->get_organisation();
@@ -40,19 +41,21 @@ class DefaultInternshipOrganizerAgreementRelLocationTableCellRenderer extends Ob
         
         switch ($column->get_name())
         {
+            case InternshipOrganizerAgreementRelLocation :: PROPERTY_PREFERENCE_ORDER :
+                return $agreementrellocation->get_preference_order();
             case InternshipOrganizerLocation :: PROPERTY_NAME :
                 return $location->get_name();
             case InternshipOrganizerLocation :: PROPERTY_ADDRESS :
-                return $location->get_address();    
+                return $location->get_address();
             case InternshipOrganizerLocation :: PROPERTY_DESCRIPTION :
                 return $location->get_description();
             case InternshipOrganizerLocation :: PROPERTY_REGION_ID :
-            	$city_string = $region->get_zip_code() . '  ' . $region->get_city_name();
+                $city_string = $region->get_zip_code() . '  ' . $region->get_city_name();
                 return $city_string;
             //case InternshipOrganizerLocation :: PROPERTY_CITY :
-              //  return $location->get_city();
-           // case InternshipOrganizerLocation :: PROPERTY_STREET :
-           //     return $location->get_street();
+            //  return $location->get_city();
+            // case InternshipOrganizerLocation :: PROPERTY_STREET :
+            //     return $location->get_street();
             default :
                 return '&nbsp;';
         }

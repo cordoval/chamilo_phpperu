@@ -202,7 +202,7 @@ $lang['internship_organizer']['InternshipOrganizerStudent'] = 'Student';
 $lang['internship_organizer']['InternshipOrganizerOrganisations'] = 'Organisation';
 $lang['internship_organizer']['InternshipOrganizerMoments'] = 'Moments';
 $lang['internship_organizer']['PreferenceOrder'] = 'Preference Order';
-$lang['internship_organizer']['AddInternshipOrganizerAgreementLocation'] = 'Choose Organisation';
+$lang['internship_organizer']['SubscribeInternshipOrganizerAgreementLocation'] = 'Choose Organisation';
 
 $lang['internship_organizer']['InternshipOrganizerAgreementAddLocation'] = 'To add organisation';
 $lang['internship_organizer']['InternshipOrganizerAgreementToApprove'] = 'To be approved';

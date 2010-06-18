@@ -1,10 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../../tables/location_table/default_location_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../tables/region_table/default_region_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../location.class.php';
 
-class InternshipOrganizerAddLocationBrowserTableColumnModel extends DefaultInternshipOrganizerLocationTableColumnModel
+
+class InternshipOrganizerSubscribeLocationBrowserTableColumnModel extends DefaultInternshipOrganizerLocationTableColumnModel
 {
     /**
      * The tables modification column
@@ -14,16 +13,13 @@ class InternshipOrganizerAddLocationBrowserTableColumnModel extends DefaultInter
     /**
      * Constructor
      */
-    function InternshipOrganizerAddLocationBrowserTableColumnModel()
+    function InternshipOrganizerSubscribeLocationBrowserTableColumnModel()
     {
         parent :: __construct();
         $this->set_default_order_column(0);
         $this->add_column(self :: get_modification_column());
-                        
-		
     }
 
-    
     /**
      * Gets the modification column
      * @return ContentObjectTableColumn
