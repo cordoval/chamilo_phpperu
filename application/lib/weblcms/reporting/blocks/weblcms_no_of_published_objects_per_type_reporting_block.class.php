@@ -15,7 +15,7 @@ class WeblcmsNoOfPublishedObjectsPerTypeReportingBlock extends WeblcmsCourseRepo
         }
 
         $wdm = WeblcmsDataManager :: get_instance();
-        $content_objects = $wdm->retrieve_content_object_publications_new();
+        $content_objects = $wdm->retrieve_content_object_publications();
         while ($content_object = $content_objects->next_result())
         {
             $arr[$content_object->get_content_object()->get_type()] ++;

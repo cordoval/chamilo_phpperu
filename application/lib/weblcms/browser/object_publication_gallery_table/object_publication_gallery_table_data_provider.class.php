@@ -45,14 +45,9 @@ class ObjectPublicationGalleryTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        return $this->get_publications($offset, $count, $order_property)->as_array();
-    }
-
-    function get_publications($from, $count, $column, $direction)
-    {
+        
         $datamanager = WeblcmsDataManager :: get_instance();
-        $publications = $datamanager->retrieve_content_object_publications_new($this->condition, $column, $from, $count);
-        return $publications;
+        return $datamanager->retrieve_content_object_publications($this->condition, $order_property, $offset, $count)->as_array();
     }
 
     /*
@@ -61,8 +56,7 @@ class ObjectPublicationGalleryTableDataProvider extends ObjectTableDataProvider
     function get_object_count()
     {
         $datamanager = WeblcmsDataManager :: get_instance();
-        $publications = $datamanager->count_content_object_publications_new($this->condition);
-        return $publications;
+        return $datamanager->count_content_object_publications($this->condition);
     }
 
     function get_conditions()

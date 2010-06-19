@@ -1255,7 +1255,7 @@ class WeblcmsManager extends WebApplication
 			$conditions[] = new OrCondition($access);
 			$condition = new AndCondition($conditions);
 
-			$new_items = $wdm->count_content_object_publications_new($condition);
+			$new_items = $wdm->count_content_object_publications($condition);
 
 			return $new_items > 0;
 		}

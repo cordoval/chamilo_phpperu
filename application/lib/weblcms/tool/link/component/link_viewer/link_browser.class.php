@@ -112,7 +112,7 @@ class LinkBrowser extends ContentObjectPublicationBrowser
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         $condition = new AndCondition($conditions);
 
-        $publications = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Link :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
+        $publications = $datamanager->retrieve_content_object_publications($condition, new ObjectTableOrder(Link :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
 
         while ($publication = $publications->next_result())
         {
@@ -182,7 +182,7 @@ class LinkBrowser extends ContentObjectPublicationBrowser
 
         $condition = new AndCondition($conditions);
 
-        return $dm->count_content_object_publications_new($condition);
+        return $dm->count_content_object_publications($condition);
     }
 }
 ?>

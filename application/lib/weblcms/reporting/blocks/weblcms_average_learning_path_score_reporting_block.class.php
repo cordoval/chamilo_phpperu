@@ -16,7 +16,7 @@ class WeblcmsAverageLearningPathScoreReportingBlock extends WeblcmsCourseReporti
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'learning_path');
-        $lops = $wdm->retrieve_content_object_publications_new($condition, $params['order_by']);
+        $lops = $wdm->retrieve_content_object_publications($condition, $params['order_by']);
 
         while ($lop = $lops->next_result())
         {

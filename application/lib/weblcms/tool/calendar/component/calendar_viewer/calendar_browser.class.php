@@ -149,7 +149,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
         {
         	$order = new ObjectTableOrder($column, $direction);
         }
-        $this->publications = $datamanager->retrieve_content_object_publications_new($condition, $order)->as_array();
+        $this->publications = $datamanager->retrieve_content_object_publications($condition, $order)->as_array();
         return $this->publications;
     }
 

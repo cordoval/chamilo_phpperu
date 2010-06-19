@@ -76,7 +76,7 @@ class HomeToolViewerComponent extends HomeTool
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         $condition = new AndCondition($conditions);
 
-        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
+        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
         return $publications->next_result();
     }
 }

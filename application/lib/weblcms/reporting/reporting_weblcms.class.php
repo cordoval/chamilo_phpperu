@@ -87,8 +87,8 @@ class ReportingWeblcms
         $conditions[] = new OrCondition($access);
         $condition = new AndCondition($conditions);
 
-        $series = $wdm->count_content_object_publications_new($condition);
-        $lops = $wdm->retrieve_content_object_publications_new($condition);
+        $series = $wdm->count_content_object_publications($condition);
+        $lops = $wdm->retrieve_content_object_publications($condition);
     }
 
     /**
@@ -344,7 +344,7 @@ class ReportingWeblcms
             $lastpublication = 0;
 
             $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
-            $publications = $datamanager->retrieve_content_object_publications_new($condition);
+            $publications = $datamanager->retrieve_content_object_publications($condition);
 
             while ($publication = $publications->next_result())
             {
@@ -408,7 +408,7 @@ class ReportingWeblcms
             }
 
             $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
-            $publications = $datamanager->retrieve_content_object_publications_new($condition);
+            $publications = $datamanager->retrieve_content_object_publications($condition);
 
             while ($publication = $publications->next_result())
             {
@@ -438,7 +438,7 @@ class ReportingWeblcms
         }
 
         $wdm = WeblcmsDataManager :: get_instance();
-        $content_objects = $wdm->retrieve_content_object_publications_new();
+        $content_objects = $wdm->retrieve_content_object_publications();
         while ($content_object = $content_objects->next_result())
         {
             //dump($content_object);
@@ -492,7 +492,7 @@ class ReportingWeblcms
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'learning_path');
-        $lops = $wdm->retrieve_content_object_publications_new($condition, $params['order_by']);
+        $lops = $wdm->retrieve_content_object_publications($condition, $params['order_by']);
 
         while ($lop = $lops->next_result())
         {
@@ -671,7 +671,7 @@ class ReportingWeblcms
         }
         $conditions[] = new OrCondition($access);
         $condition = new AndCondition($conditions);
-        $lops = $wdm->retrieve_content_object_publications_new($condition, $params['order_by']);
+        $lops = $wdm->retrieve_content_object_publications($condition, $params['order_by']);
 
         while ($lop = $lops->next_result())
         {

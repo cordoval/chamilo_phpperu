@@ -35,7 +35,7 @@ class DocumentCellRenderer extends ObjectPublicationTableCellRenderer
                 }
 
                 $data[] = '<div style="float: left;" title="' . $content_object->get_title() . '">';
-                $data[] = '<a href="' . $feedback_url . '">' . Utilities :: truncate_string($content_object->get_title(), 50) . '</a>';
+                $data[] = '<a href="' . $details_url . '">' . Utilities :: truncate_string($content_object->get_title(), 50) . '</a>';
                 $data[] = '</div> ';
                 $data[] = '<div style="float: right;">';
                 $data[] = '<a href="' . $download_url . '">' . Theme :: get_common_image($icon) . '</a>';

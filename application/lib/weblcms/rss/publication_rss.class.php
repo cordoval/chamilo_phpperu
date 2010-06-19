@@ -13,7 +13,7 @@ class WeblcmsPublicationRSS extends PublicationRSS
 	
 	function retrieve_items($user, $min_date = '')
 	{
-		$pubs = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($this->get_access_condition($user), new ObjectTableOrder(ContentObjectPublication :: PROPERTY_PUBLICATION_DATE, SORT_DESC), 0, 20);//, array('id', SORT_DESC));
+		$pubs = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($this->get_access_condition($user), new ObjectTableOrder(ContentObjectPublication :: PROPERTY_PUBLICATION_DATE, SORT_DESC), 0, 20);//, array('id', SORT_DESC));
 		$publications = array();
 		while ($pub = $pubs->next_result())
 		{

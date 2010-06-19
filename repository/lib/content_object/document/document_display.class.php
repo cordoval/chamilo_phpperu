@@ -15,12 +15,12 @@ class DocumentDisplay extends ContentObjectDisplay
         $html = parent :: get_description();
         $object = $this->get_content_object();
         $name = $object->get_filename();
-
+        
         $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
-
+        
         $img_extensions = array('jpg', 'jpeg', 'bmp', 'png', 'gif');
         $extension = strtolower(substr($name, strrpos($name, '.') + 1));
-        if(in_array($extension, $img_extensions))
+        if (in_array($extension, $img_extensions))
         {
             $html = preg_replace('|</div>\s*$|s', '<br /><a href="' . Utilities :: htmlentities($url) . '"><img style="max-width: 100%" src="' . $url . '" /></a></div>', $html);
         }
@@ -35,7 +35,7 @@ class DocumentDisplay extends ContentObjectDisplay
                 $html = preg_replace('|</div>\s*$|s', '<br /><div class="document_link" style="margin-top: 1em;"><a href="' . Utilities :: htmlentities($url) . '">' . Utilities :: htmlentities($name) . '</a> (' . Filesystem :: format_file_size($object->get_filesize()) . ')</div></div>', $html);
             }
         }
-
+        
         return $html;
     }
 
@@ -44,8 +44,31 @@ class DocumentDisplay extends ContentObjectDisplay
     {
         $object = $this->get_content_object();
         $url = RepositoryManager :: get_document_downloader_url($object->get_id());
-
+        
         return '<span class="content_object"><a href="' . Utilities :: htmlentities($url) . '">' . Utilities :: htmlentities($object->get_title()) . '</a></span>';
+    }
+
+    function get_thumbnail()
+    {
+        $object = $this->get_content_object();
+        
+        if ($object->is_image())
+        {
+            
+            $thumbnail_path = Path :: get_temp_path() . md5($object->get_full_path()) . basename($object->get_full_path());
+            $thumbnal_web_path = Path :: get(WEB_TEMP_PATH) . md5($object->get_full_path()) . basename($object->get_full_path());
+            if (! is_file($thumbnail_path))
+            {
+                $thumbnail_creator = ImageManipulation :: factory($object->get_full_path());
+                $thumbnail_creator->scale(200, 200);
+                $thumbnail_creator->write_to_file($thumbnail_path);
+            }
+            return '<img src="' . $thumbnal_web_path . '" title="' . $object->get_title() . '" class="thumbnail" />';
+        }
+        else
+        {
+            return parent :: get_thumbnail();
+        }
     }
 }
 ?>

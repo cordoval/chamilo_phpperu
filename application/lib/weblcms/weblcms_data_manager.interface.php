@@ -96,9 +96,9 @@ interface WeblcmsDataManagerInterface
      * @param int $max_objects The maximum number of objects to retrieve.
      * @return ResultSet A set of ContentObjectPublications.
      */
-    function retrieve_content_object_publications_new($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
+    function retrieve_content_object_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
-    function count_content_object_publications_new($condition);
+    function count_content_object_publications($condition);
 
     //--Course_type_items--
     

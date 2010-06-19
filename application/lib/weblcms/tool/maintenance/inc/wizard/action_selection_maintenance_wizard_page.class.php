@@ -57,14 +57,14 @@ class ActionSelectionMaintenanceWizardPage extends MaintenanceWizardPage
             case self :: ACTION_BACKUP :
             case self :: ACTION_EMPTY :
                 $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
-                if ($dm->count_content_object_publications_new($condition) == 0)
+                if ($dm->count_content_object_publications($condition) == 0)
                 {
                     return false;
                 }
                 return true;
             case self :: ACTION_COPY :
                 $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
-                if ($dm->count_content_object_publications_new($condition) == 0)
+                if ($dm->count_content_object_publications($condition) == 0)
                 {
                     return false;
                 }

@@ -79,7 +79,7 @@ class SearchToolSearcherComponent extends SearchTool
 	        $conditions[] = new OrCondition($access);
             
             $condition = new AndCondition($conditions);
-            $publications = $datamanager->retrieve_content_object_publications_new($condition);
+            $publications = $datamanager->retrieve_content_object_publications($condition);
             $tools = array();
 
             while ($publication = $publications->next_result())

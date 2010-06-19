@@ -25,11 +25,48 @@ class DocumentToolBrowserComponent extends DocumentTool
         return $tool_actions;
     }
 
+    /**
+     * WARNING !
+     * Remember to write a specialized TableDataProvider if you
+     * plan on using type-specific properties as they are NOT
+     * available by default when retrieving publications
+     */
+    function filter_content_objects()
+    {
+//        $filtered_publications = array();
+//        
+//        foreach($publications as $publication)
+//        {
+//            $document = $publication->get_content_object();
+//            if ($document->is_image())
+//            {
+//                $filtered_publications[] = $publication;
+//            }
+//        }
+//        
+//        return $filtered_publications;
+        
+        $browser_type = $this->get_browser_type();
+        $conditions = array();
+        if ($browser_type == ContentObjectPublicationListRenderer :: TYPE_GALLERY)
+        {
+            $image_types = Document :: get_image_types();
+            $image_conditions = array();
+            foreach ($image_types as $image_type)
+            {
+                $image_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $image_type, Document :: get_type_name());
+            }
+            
+            $conditions[] = new OrCondition($image_conditions);
+        }
+        return $conditions;
+    }
+
     function get_tool_conditions()
     {
         $conditions = array();
         $filter = Request :: get(self :: PARAM_FILTER);
-
+        
         switch ($filter)
         {
             case self :: FILTER_TODAY :
@@ -45,38 +82,29 @@ class DocumentToolBrowserComponent extends DocumentTool
                 $conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $time);
                 break;
         }
-
+        
         return $conditions;
     }
 
     function convert_content_object_publication_to_calendar_event($publication, $from_time, $to_time)
     {
         $object = $publication->get_content_object();
-
+        
         $calendar_event = ContentObject :: factory(CalendarEvent :: get_type_name());
         $calendar_event->set_title($object->get_title());
         $calendar_event->set_description($object->get_description());
         $calendar_event->set_start_date($publication->get_modified_date());
         $calendar_event->set_end_date($publication->get_modified_date());
         $calendar_event->set_repeat_type(CalendarEvent :: REPEAT_TYPE_NONE);
-
+        
         $publication->set_content_object($calendar_event);
-
+        
         return $publication;
     }
-
-    function get_content_object_publication_table_cell_renderer($tool_browser)
-    {
-        return new DocumentCellRenderer($tool_browser);
-    }
-
-    function get_available_browser_types()
-    {
-        $browser_types = array();
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
-        return $browser_types;
-    }
+    
+//    function get_content_object_publication_table_cell_renderer($tool_browser)
+//    {
+//        return new DocumentCellRenderer($tool_browser);
+//    }
 }
 ?>

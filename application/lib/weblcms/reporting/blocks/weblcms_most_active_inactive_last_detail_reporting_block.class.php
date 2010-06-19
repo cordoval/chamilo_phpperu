@@ -27,7 +27,7 @@ class WeblcmsMostActiveInactiveLastDetailReportingBlock extends WeblcmsCourseRep
             }
 
             $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
-            $publications = $wdm->retrieve_content_object_publications_new($condition);
+            $publications = $wdm->retrieve_content_object_publications($condition);
 
             while ($publication = $publications->next_result())
             {

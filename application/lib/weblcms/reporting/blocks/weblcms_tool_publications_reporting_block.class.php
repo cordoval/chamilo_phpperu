@@ -30,7 +30,7 @@ class WeblcmsToolPublicationsReportingBlock extends WeblcmsToolReportingBlock
         }
         $conditions[] = new OrCondition($access);
         $condition = new AndCondition($conditions);
-        $lops = $wdm->retrieve_content_object_publications_new($condition, $params['order_by']);
+        $lops = $wdm->retrieve_content_object_publications($condition, $params['order_by']);
 		$i = 1;
         
         while ($lop = $lops->next_result())

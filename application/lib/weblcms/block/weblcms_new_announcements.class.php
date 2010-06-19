@@ -46,7 +46,7 @@ class WeblcmsNewAnnouncements extends WeblcmsBlock
             $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
             $condition = new AndCondition($conditions);
             
-            $publications = $dm->retrieve_content_object_publications_new($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
+            $publications = $dm->retrieve_content_object_publications($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
             
             while ($publication = $publications->next_result())
             {

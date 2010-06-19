@@ -165,7 +165,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
 
         $condition = new AndCondition($conditions);
 
-        return $dm->count_content_object_publications_new($condition);
+        return $dm->count_content_object_publications($condition);
     }
 
     private function get_condition($category = null)

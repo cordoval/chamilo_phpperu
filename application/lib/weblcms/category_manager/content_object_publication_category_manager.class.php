@@ -42,7 +42,7 @@ class ContentObjectPublicationCategoryManager extends CategoryManager
         $conditions[] = new EqualityCondition('tool', $this->get_parent()->get_tool_id());
         $condition = new AndCondition($conditions);
         
-        $count = $wdm->count_content_object_publications_new($condition);
+        $count = $wdm->count_content_object_publications($condition);
         return ($count == 0);
     }
 

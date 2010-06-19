@@ -119,7 +119,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
         
         $condition = new AndCondition($conditions);
         
-        $publications = $datamanager->retrieve_content_object_publications_new($condition);
+        $publications = $datamanager->retrieve_content_object_publications($condition);
         
         while ($publication = $publications->next_result())
         {

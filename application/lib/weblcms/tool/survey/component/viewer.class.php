@@ -34,7 +34,7 @@ class SurveyToolViewerComponent extends SurveyTool
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, ContentObjectPublication :: get_table_name(), RepositoryDataManager :: get_instance());
         $condition = new AndCondition($conditions);
 
-        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
+        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
         $this->introduction_text = $publications->next_result();
 
         $tree_id = WeblcmsManager :: PARAM_CATEGORY;

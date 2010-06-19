@@ -97,7 +97,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentTool
             $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
             $condition = new AndCondition($conditions);
             
-            $publications = $datamanager->retrieve_content_object_publications_new($condition);
+            $publications = $datamanager->retrieve_content_object_publications($condition);
             $count += $publications->size();
             while ($publication = $publications->next_result())
             {

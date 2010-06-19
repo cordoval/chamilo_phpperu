@@ -21,7 +21,7 @@ class DocumentTool extends Tool
     function run()
     {
         $action = $this->get_action();
-
+        
         switch ($action)
         {
             case self :: ACTION_VIEW_DOCUMENTS :
@@ -80,14 +80,24 @@ class DocumentTool extends Tool
         return array(Document :: get_type_name());
     }
 
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
 
-	function is_category_management_enabled()
-	{
-	    return true;
-	}
+    function get_available_browser_types()
+    {
+        $browser_types = array();
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_GALLERY;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
+        return $browser_types;
+    }
+
+    function is_category_management_enabled()
+    {
+        return true;
+    }
 }
 ?>

@@ -191,7 +191,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->count_objects(ContentObjectPublication :: get_table_name(), $condition);
     }
 
-    function retrieve_content_object_publications_new($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
+    function retrieve_content_object_publications($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         $publication_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
         $publication_user_alias = $this->get_alias('content_object_publication_user');
@@ -206,7 +206,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->retrieve_object_set($query, ContentObjectPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
-    function count_content_object_publications_new($condition)
+    function count_content_object_publications($condition)
     {
         $publication_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
         $publication_user_alias = $this->get_alias('content_object_publication_user');
@@ -514,7 +514,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function delete_content_object_publications($object_id)
     {
         $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
-        $publications = $this->retrieve_content_object_publications_new($condition);
+        $publications = $this->retrieve_content_object_publications($condition);
 
         while ($publication = $publications->next_result())
         {

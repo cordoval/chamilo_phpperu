@@ -131,7 +131,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
         $condition = new AndCondition($conditions);
         
-        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications_new($condition);
+        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
         
         if ($publications->size() > 0)
         {

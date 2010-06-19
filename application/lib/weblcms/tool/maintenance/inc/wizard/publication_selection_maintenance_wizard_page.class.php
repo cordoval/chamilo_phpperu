@@ -14,7 +14,7 @@ class PublicationSelectionMaintenanceWizardPage extends MaintenanceWizardPage
     {
         $datamanager = WeblcmsDataManager :: get_instance();
         $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
-        $publications_set = $datamanager->retrieve_content_object_publications_new($condition, new ObjectTableOrder(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
+        $publications_set = $datamanager->retrieve_content_object_publications($condition, new ObjectTableOrder(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC));
         while ($publication = $publications_set->next_result())
         {
             $publications[$publication->get_tool()][] = $publication;

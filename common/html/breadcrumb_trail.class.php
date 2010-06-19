@@ -7,7 +7,7 @@ class BreadcrumbTrail
 {
     // Singleton
     private static $instance;
-	
+    
     private $breadcrumbtrail;
     
     private $help_items;
@@ -19,14 +19,14 @@ class BreadcrumbTrail
      */
     static function get_instance()
     {
-    	if(self :: $instance == null)
-    	{
-    		self :: $instance = new BreadcrumbTrail();
-    	}
-    	
-    	return self :: $instance;
+        if (self :: $instance == null)
+        {
+            self :: $instance = new BreadcrumbTrail();
+        }
+        
+        return self :: $instance;
     }
-    
+
     function BreadcrumbTrail($include_main_index = true)
     {
         $this->breadcrumbtrail = array();
@@ -47,7 +47,7 @@ class BreadcrumbTrail
     {
         $this->help_items[] = $help_item;
     }
-    
+
     function add_extra($extra_item)
     {
         $this->extra_items[] = $extra_item;
@@ -146,22 +146,24 @@ class BreadcrumbTrail
         
         return implode("\n", $html);
     }
-    
+
     function render_extra()
     {
-    	$html = array();
+        $html = array();
         $extra_items = $this->extra_items;
+        
+        $html[] = '<div id="extra_item">';
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ShowActionBar'), Theme :: get_common_image_path() . 'action_bar.png', '#', ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'action_bar_text'));
         
         if (is_array($extra_items) && count($extra_items) > 0)
         {
-			$html[] = '<div id="extra_item">';
-			$toolbar = new Toolbar();
-			$toolbar->add_item(new ToolbarItem(Translation :: get('ShowActionBar'), Theme :: get_common_image_path() . 'action_bar.png', '#', ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'action_bar_text'));
-			$toolbar->add_items($extra_items);
-			$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
-			$html[] = $toolbar->as_html();
-			$html[] = '</div>';
+            $toolbar->add_items($extra_items);
+            $toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
         }
+        
+        $html[] = $toolbar->as_html();
+        $html[] = '</div>';
         
         return implode("\n", $html);
     }
