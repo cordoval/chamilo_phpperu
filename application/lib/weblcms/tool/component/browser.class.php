@@ -210,14 +210,6 @@ class ToolBrowserComponent extends ToolComponent
             $subselect_conditions[] = $this->get_search_condition();
         }
         
-        if (method_exists($this->get_parent(), 'get_content_object_conditions'))
-        {
-            foreach ($this->get_parent()->get_content_object_conditions() as $content_object_condition)
-            {
-                $subselect_conditions[] = $content_object_condition;
-            }
-        }
-        
         $subselect_condition = new AndCondition($subselect_conditions);
         
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());

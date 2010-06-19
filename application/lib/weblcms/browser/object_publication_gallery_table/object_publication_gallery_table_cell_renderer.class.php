@@ -1,7 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/default_object_publication_gallery_table_cell_renderer.class.php';
-
-class ObjectPublicationGalleryTableCellRenderer extends DefaultObjectPublicationGalleryTableCellRenderer
+class ObjectPublicationGalleryTableCellRenderer implements GalleryObjectTableCellRenderer
 {
     private $table_renderer;
 
@@ -11,7 +9,6 @@ class ObjectPublicationGalleryTableCellRenderer extends DefaultObjectPublication
      */
     function ObjectPublicationGalleryTableCellRenderer($table_renderer)
     {
-        parent :: __construct();
         $this->table_renderer = $table_renderer;
     }
 
@@ -35,34 +32,12 @@ class ObjectPublicationGalleryTableCellRenderer extends DefaultObjectPublication
     {
         $toolbar = $this->table_renderer->get_publication_actions($publication, false);
         $toolbar->set_type(Toolbar :: TYPE_VERTICAL);
-        
-        //        $toolbar = new Toolbar(Toolbar :: TYPE_VERTICAL);
-        //		$id = $object->get_id();
-        //
-        //        if ($this->browser->get_parent()->is_editable($id))
-        //        {
-        //            $toolbar_item_edit = new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION => StreamingMediaManager :: ACTION_EDIT_STREAMING_MEDIA, StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $id)), ToolbarItem::DISPLAY_ICON);
-        //            $toolbar->add_item($toolbar_item_edit);
-        //
-        //        	$toolbar_item_delete = new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION => StreamingMediaManager :: ACTION_DELETE_STREAMING_MEDIA, StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $id)), ToolbarItem::DISPLAY_ICON);
-        //        	$toolbar->add_item($toolbar_item_delete);
-        //        }
-        //
-        //        if ($object->is_usable() && $object->get_url() != null){
-        //	        if ($this->browser->get_parent()->is_stand_alone())
-        //	        {
-        //	            $toolbar_item_select = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->browser->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION => StreamingMediaManager :: ACTION_SELECT_STREAMING_MEDIA, StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $id)), ToolbarItem::DISPLAY_ICON);
-        //	            $toolbar->add_item($toolbar_item_select);
-        //	        }
-        //	        else
-        //	        {
-        //	            $toolbar_item_select = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->browser->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION => StreamingMediaManager :: ACTION_IMPORT_STREAMING_MEDIA, StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $id)), ToolbarItem::DISPLAY_ICON);
-        //	            $toolbar->add_item($toolbar_item_select);
-        //	        }
-        //        }
-        
-
         return $toolbar->as_html();
+    }
+    
+    function render_id_cell($object)
+    {
+        return $object->get_id();
     }
 }
 ?>

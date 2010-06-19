@@ -30,9 +30,9 @@ class GalleryObjectTable
 	 */
 	private $cell_renderer;
 	/**
-	 * The available sort properties
+	 * The property_model
 	 */
-	private $properties;
+	private $property_model;
 	/**
 	 * Additional parameters
 	 */
@@ -41,7 +41,7 @@ class GalleryObjectTable
 	 * The form actions to use in this table
 	 */
 	private $form_actions;
-
+	
 	private $ajax_enabled;
 	private $enable_order_directions;
 
@@ -61,12 +61,12 @@ class GalleryObjectTable
 	 *                                                       Omit to use the
 	 *                                                       default renderer.
 	 */
-	function GalleryObjectTable($data_provider, $table_name = null, $cell_renderer = null, $properties = array())
+	function GalleryObjectTable($data_provider, $table_name = null, $cell_renderer = null, $property_model = null)
 	{
 		$this->set_data_provider($data_provider);
 		$this->set_name($table_name);
 		$this->set_cell_renderer($cell_renderer);
-		$this->set_properties($properties);
+		$this->set_property_model($property_model);
 		$this->set_default_row_count(10);
 		$this->set_default_column_count(3);
 		$this->set_order_directions_enabled(true);
@@ -98,8 +98,8 @@ class GalleryObjectTable
 	function as_html()
 	{
 		$count = $this->get_default_column_count() * $this->get_default_row_count();
-		$table = new GalleryTable($this->get_name(), array ($this, 'get_object_count'), array ($this, 'get_objects'), array ($this, 'get_properties'), $count, 0, SORT_ASC, $this->get_order_directions_enabled(), $this->get_ajax_enabled());
-
+		$table = new GalleryTable($this->get_name(), array ($this, 'get_object_count'), array ($this, 'get_objects'), array ($this, 'get_property_model'), $count, 0, SORT_ASC, $this->get_order_directions_enabled(), $this->get_ajax_enabled());
+		
 		$table->set_additional_parameters($this->get_additional_parameters());
 		if ($this->has_form_actions())
 		{
@@ -116,7 +116,7 @@ class GalleryObjectTable
 	{
 		return $this->default_row_count;
 	}
-
+	
 	/**
 	 * Gets the default column count of the table.
 	 * @return int The number of columns.
@@ -134,7 +134,7 @@ class GalleryObjectTable
 	{
 		$this->default_row_count = $default_row_count;
 	}
-
+	
 	/**
 	 * Sets the default column count of the table.
 	 * @param int $default_column_count The number of columns.
@@ -161,7 +161,7 @@ class GalleryObjectTable
 	{
 		$this->table_name = $name;
 	}
-
+	
 	/**
      * Gets whether the table is ajax enabled.
      * @return string The ajax_enabled property.
@@ -179,7 +179,7 @@ class GalleryObjectTable
     {
         $this->ajax_enabled = $ajax_enabled;
     }
-
+    
     function get_order_directions_enabled()
     {
     	return $this->enable_order_directions;
@@ -206,7 +206,7 @@ class GalleryObjectTable
 	{
 		$this->data_provider = $data_provider;
 	}
-
+	
 	/**
 	 * Gets the table's cell renderer.
 	 * @return MichelangeloTableCellRenderer The cell renderer.
@@ -215,14 +215,14 @@ class GalleryObjectTable
 	{
 		return $this->cell_renderer;
 	}
-
+	
 	/**
 	 * Gets the table's properties.
 	 * @return Array The properties.
 	 */
-	function get_properties()
+	function get_property_model()
 	{
-		return $this->properties;
+		return $this->property_model;
 	}
 
 	/**
@@ -233,14 +233,14 @@ class GalleryObjectTable
 	{
 		$this->cell_renderer = $renderer;
 	}
-
+	
 	/**
 	 * Sets the table's properties.
 	 * @param Array $properties The properties.
 	 */
-	function set_properties($properties)
+	function set_property_model($property_model)
 	{
-		$this->properties = $properties;
+		$this->property_model = $property_model;
 	}
 
 	/**
@@ -305,13 +305,13 @@ class GalleryObjectTable
 	 * of technical limitations.
 	 */
 	function get_objects($offset, $count, $order_property, $order_direction)
-	{
-		$property = $this->get_properties();
-		$objects = $this->get_data_provider()->get_objects($offset, $count, $property[$order_property], $order_direction);
-
+	{	    
+		$property_model = $this->get_property_model();
+		$objects = $this->get_data_provider()->get_objects($offset, $count, $property_model->get_order_property($order_property - ($this->has_form_actions() ? 1 : 0), $order_direction));
+		
 		$column_count = $this->get_default_column_count();
 		$row_count = $this->get_default_row_count();
-
+		
 		$table_data = array ();
 		$row = array ();
 		$i = 0;
@@ -321,7 +321,7 @@ class GalleryObjectTable
 			{
 				$table_data[] = $row;
 				$row = array();
-
+				
 				$row[] = array($object->get_id(), $this->get_cell_renderer()->render_cell($object));
 				$i = 1;
 			}

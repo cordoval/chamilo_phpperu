@@ -25,43 +25,6 @@ class DocumentToolBrowserComponent extends DocumentTool
         return $tool_actions;
     }
 
-    /**
-     * WARNING !
-     * Remember to write a specialized TableDataProvider if you
-     * plan on using type-specific properties as they are NOT
-     * available by default when retrieving publications
-     */
-    function filter_content_objects()
-    {
-//        $filtered_publications = array();
-//        
-//        foreach($publications as $publication)
-//        {
-//            $document = $publication->get_content_object();
-//            if ($document->is_image())
-//            {
-//                $filtered_publications[] = $publication;
-//            }
-//        }
-//        
-//        return $filtered_publications;
-        
-        $browser_type = $this->get_browser_type();
-        $conditions = array();
-        if ($browser_type == ContentObjectPublicationListRenderer :: TYPE_GALLERY)
-        {
-            $image_types = Document :: get_image_types();
-            $image_conditions = array();
-            foreach ($image_types as $image_type)
-            {
-                $image_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $image_type, Document :: get_type_name());
-            }
-            
-            $conditions[] = new OrCondition($image_conditions);
-        }
-        return $conditions;
-    }
-
     function get_tool_conditions()
     {
         $conditions = array();
@@ -81,6 +44,21 @@ class DocumentToolBrowserComponent extends DocumentTool
                 $time = mktime(0, 0, 0, date('m', time()), 1, date('Y', time()));
                 $conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_MODIFIED_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $time);
                 break;
+        }
+        
+        $browser_type = $this->get_browser_type();
+        if ($browser_type == ContentObjectPublicationListRenderer :: TYPE_GALLERY)
+        {
+            $image_types = Document :: get_image_types();
+            $image_conditions = array();
+            foreach ($image_types as $image_type)
+            {
+                $image_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $image_type, Document :: get_type_name());
+            }
+            
+            $image_condition = new OrCondition($image_conditions);
+            
+            $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, Document :: get_type_name(), $image_condition, null, RepositoryDataManager :: get_instance());
         }
         
         return $conditions;

@@ -393,10 +393,10 @@ class GalleryTable extends HTML_Table
 	 */
 	function get_sort_select_form()
 	{
-		$properties = $this->get_table_properties();
+		$property_model = $this->get_table_properties();
 		$result = array();
 		
-		if (count($properties) > 1)
+		if ($property_model)
 		{
 			$result[] = '<form method="get" action="'.$_SERVER['PHP_SELF'].'" style="display:inline;">';
 			$param[$this->param_prefix.'page_nr'] = $this->page_nr;
@@ -418,9 +418,10 @@ class GalleryTable extends HTML_Table
 			
 			$result[] = '<select name="'.$this->param_prefix.'property" onchange="javascript:this.form.submit();">';
 			
+			$properties = $property_model->get_properties();
 			foreach ($properties as $index => $property)
 			{
-				$result[] = '<option value="'.$index.'" '. ($index == $this->property ? 'selected="selected"' : '').'>'. Translation :: get('Sort' . ucfirst($property)) .'</option>';
+				$result[] = '<option value="'.$index.'" '. ($index == $this->property ? 'selected="selected"' : '').'>'. Translation :: get(Utilities :: underscores_to_camelcase($property->get_name())) .'</option>';
 			}
 
 			$result[] = '</select>';
@@ -656,7 +657,7 @@ class GalleryTable extends HTML_Table
 		{
 			return call_user_func($this->get_properties_function);
 		}
-		return array ();
+		return null;
 	}
 	/**
 	 * Serializes a URL parameter passed as an array into a query string or

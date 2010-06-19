@@ -112,6 +112,8 @@ class CommonAutoloader
 					  'object_table_order' => 'table/object_table/object_table_order.class.php',
 					  'object_table' => 'table/object_table/object_table.class.php',
 					  'gallery_object_table_cell_renderer' => 'table/gallery_object_table/gallery_object_table_cell_renderer.class.php',
+					  'gallery_object_table_property_model' => 'table/gallery_object_table/gallery_object_table_property_model.class.php',
+					  'gallery_object_table_property' => 'table/gallery_object_table/gallery_object_table_property.class.php',
 					  'gallery_object_table_data_provider' => 'table/gallery_object_table/gallery_object_table_data_provider.class.php',
 					  'gallery_object_table' => 'table/gallery_object_table/gallery_object_table.class.php',
 					  'drag_and_drop_tree_menu_renderer' => 'menu/drag_and_drop_tree_menu_renderer.class.php',
