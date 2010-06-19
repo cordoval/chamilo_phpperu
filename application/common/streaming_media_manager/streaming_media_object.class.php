@@ -252,9 +252,9 @@ abstract class StreamingMediaObject
         $this->set_default_property(self :: PROPERTY_DURATION, $duration);
     }
     
-    static function get_sort_properties()
-    {
-    	return array(self :: PROPERTY_DESCRIPTION, self :: PROPERTY_DURATION, self :: PROPERTY_TITLE);
-    }
+//    static function get_sort_properties()
+//    {
+//    	return array(self :: PROPERTY_DESCRIPTION, self :: PROPERTY_DURATION, self :: PROPERTY_TITLE);
+//    }
 }
 ?>

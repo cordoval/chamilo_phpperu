@@ -228,7 +228,7 @@ class YoutubeStreamingMediaConnector
         $query = $this->youtube->newVideoQuery();
         if (count($order_property) > 0)
         {
-            $query->setOrderBy($order_property[0]);
+            $query->setOrderBy($order_property[0]->get_property());
         }
         $query->setVideoQuery($condition);
 

@@ -135,9 +135,9 @@ abstract class StreamingMediaManager extends SubManager
 	
 	abstract function retrieve_streaming_media_objects($condition, $order_property, $offset, $count);
 	
-	function get_sort_properties()
+	function get_property_model()
 	{
-		return StreamingMediaObject::get_sort_properties();
+		return null;
 	}
 	
 	function support_sorting_direction()

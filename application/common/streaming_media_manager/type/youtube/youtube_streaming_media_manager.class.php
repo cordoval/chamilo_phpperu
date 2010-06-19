@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/youtube_streaming_media_connector.class.php';
+require_once dirname(__FILE__) . '/table/youtube_streaming_media_browser_table_property_model.class.php';
 
 class YoutubeStreamingMediaManager extends StreamingMediaManager
 {
@@ -50,9 +51,9 @@ class YoutubeStreamingMediaManager extends StreamingMediaManager
         return $connector->export_youtube_video($object);
     }
 
-    function get_sort_properties()
+    function get_property_model()
     {
-        return YoutubeStreamingMediaConnector :: get_sort_properties();
+        return new YoutubeStreamingMediaBrowserPropertyModel();
     }
 
     function support_sorting_direction()
