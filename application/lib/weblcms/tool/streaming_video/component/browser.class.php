@@ -60,18 +60,5 @@ class StreamingVideoToolBrowserComponent extends StreamingVideoTool
 
         return $publication;
     }
-
-    function get_browser_type()
-    {
-        return ContentObjectPublicationListRenderer :: TYPE_TABLE;
-    }
-
-	function get_browser_types()
-    {
-        $browser_types = array();
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_GALLERY;
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
-        return $browser_types;
-    }
 }
 ?>

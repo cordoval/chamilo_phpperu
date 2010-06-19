@@ -14,18 +14,6 @@ class GeolocationToolBrowserComponent extends GeolocationTool
         $browser = ToolComponent :: factory(ToolComponent :: ACTION_BROWSE, $this);
         $browser->run();
     }
-
-    function get_browser_type()
-    {
-        return ContentObjectPublicationListRenderer :: TYPE_TABLE;
-    }
-
-    function get_browser_types()
-    {
-        $browser_types = array();
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
-        return $browser_types;
-    }
     
     function show_additional_information($browser)
     {

@@ -125,7 +125,7 @@ class ToolBrowserComponent extends ToolComponent
             $action_bar->set_tool_actions($this->get_parent()->get_tool_actions());
         }
 
-        $browser_types = $this->get_parent()->get_browser_types();
+        $browser_types = $this->get_parent()->get_available_browser_types();
 
         if (count($browser_types) > 1)
         {

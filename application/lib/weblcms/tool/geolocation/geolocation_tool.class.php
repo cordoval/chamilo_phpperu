@@ -17,7 +17,7 @@ class GeolocationTool extends Tool
     function run()
     {
         $action = $this->get_action();
-
+        
         switch ($action)
         {
             case self :: ACTION_BROWSE :
@@ -57,10 +57,15 @@ class GeolocationTool extends Tool
     {
         return array(PhysicalLocation :: get_type_name());
     }
-    
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
+
+    function get_available_browser_types()
+    {
+        return array(ContentObjectPublicationListRenderer :: TYPE_TABLE);
+    }
 }
 ?>

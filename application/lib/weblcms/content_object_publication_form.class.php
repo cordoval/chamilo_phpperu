@@ -68,7 +68,6 @@ class ContentObjectPublicationForm extends FormValidator
      */
     function ContentObjectPublicationForm($form_type, $content_object, $repo_viewer, $email_option = false, $course, $in_repo_viewer = true, $extra_parameters = array())
     {
-        xdebug_break();
         if ($repo_viewer)
         {
             $pub_param = $repo_viewer->get_parameters();

@@ -60,12 +60,6 @@ class AnnouncementToolBrowserComponent extends AnnouncementTool
 
         return $publication;
     }
-
-/*  function get_browser_type()
-    {
-        return ContentObjectPublicationListRenderer :: TYPE_BROWSER;
-    }
-*/
     
 }
 ?>

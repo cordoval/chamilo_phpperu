@@ -56,7 +56,7 @@ class AnnouncementTool extends Tool
         $component->run();
     }
 
-	function get_browser_types()
+	function get_available_browser_types()
     {
         $browser_types = array();
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;

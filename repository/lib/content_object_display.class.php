@@ -11,7 +11,7 @@ abstract class ContentObjectDisplay
 {
     const TITLE_MARKER = '<!-- /title -->';
     const DESCRIPTION_MARKER = '<!-- /description -->';
-
+    
     /**
      * The learning object.
      */
@@ -34,7 +34,7 @@ abstract class ContentObjectDisplay
      */
     protected function __construct($content_object, $url_format = null)
     {
-
+        
         $this->content_object = $content_object;
         if (! isset($url_format))
         {
@@ -84,7 +84,7 @@ abstract class ContentObjectDisplay
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
-
+        
         return implode("\n", $html);
     }
 
@@ -97,6 +97,11 @@ abstract class ContentObjectDisplay
         $object = $this->get_content_object();
         return '<span class="content_object">' . htmlentities($object->get_title()) . '</span>';
     }
+    
+    function get_thumbnail()
+    {
+        return Theme :: get_common_image('thumbnail');
+    }
 
     /**
      * Returns a HTML view of the description
@@ -106,7 +111,7 @@ abstract class ContentObjectDisplay
     {
         $description = $this->get_content_object()->get_description();
         $parsed_description = BbcodeParser :: get_instance()->parse($description);
-
+        
         $html[] = '<div class="description">';
         $html[] = $parsed_description;
         $html[] = '<div class="clear"></div>';
@@ -130,7 +135,7 @@ abstract class ContentObjectDisplay
         }
         $html[] = $this->get_attached_content_objects_as_html();
         $html[] = '</div>';
-
+        
         return implode("\n", $html);
     }
 
@@ -160,7 +165,7 @@ abstract class ContentObjectDisplay
                 $html[] = '</ul>';
                 $html[] = '</div>';
                 return implode("\n", $html);*/
-
+                
                 //$html[] = '<h4>Attachments</h4>';
                 $html[] = '<div class="attachments" style="margin-top: 1em;">';
                 $html[] = '<div class="attachments_title">' . htmlentities(Translation :: get('Attachments')) . '</div>';
@@ -185,7 +190,7 @@ abstract class ContentObjectDisplay
     function get_version_as_html($version_entry)
     {
         $object = $this->get_content_object();
-
+        
         if ($object->get_id() == $version_entry['id'])
         {
             $html[] = '<span class="current">';
@@ -203,7 +208,7 @@ abstract class ContentObjectDisplay
         {
             $html[] = '<img src="' . Theme :: get_common_image_path() . 'action_remove_na.png" alt="' . htmlentities(Translation :: get('Delete')) . '"/>';
         }
-
+        
         if (isset($version_entry['revert_link']))
         {
             $html[] = '&nbsp;<a href="' . $version_entry['revert_link'] . '" title="' . Translation :: get('Revert') . '" onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_revert.png" alt="' . htmlentities(Translation :: get('Revert')) . '"/></a>';
@@ -212,7 +217,7 @@ abstract class ContentObjectDisplay
         {
             $html[] = '&nbsp;<img src="' . Theme :: get_common_image_path() . 'action_revert_na.png" alt="' . htmlentities(Translation :: get('Revert')) . '"/>';
         }
-
+        
         //		if (isset($version_entry['comment']) && $version_entry['comment'] != '')
         //		{
         //			$html[] = '&nbsp;<img src="'.Theme :: get_common_image_path().'comment_small.png"  onmouseover="return escape(\''. str_replace(array("\n", "\r", "\r\n"), '', htmlentities($version_entry['comment'])) .'\')" />';
@@ -221,19 +226,19 @@ abstract class ContentObjectDisplay
         //		{
         //			$html[] = '&nbsp;<img src="'.Theme :: get_common_image_path().'empty.png" alt="'. Translation :: get('NoComment') .'"/>';
         //		}
-
+        
 
         $html[] = '&nbsp;<a href="' . htmlentities($version_entry['viewing_link']) . '">' . $version_entry['title'] . '</a>';
-
+        
         if (isset($version_entry['comment']) && $version_entry['comment'] != '')
         {
             $html[] = '&nbsp;<span class="version_comment">' . $version_entry['comment'] . '</span>';
         }
         $html[] = '</span>';
-
+        
         $result['id'] = $version_entry['id'];
         $result['html'] = implode("\n", $html);
-
+        
         return $result;
     }
 
@@ -244,7 +249,7 @@ abstract class ContentObjectDisplay
     function get_version_quota_as_html($version_data)
     {
         $object = $this->get_content_object();
-
+        
         $html = array();
         if ($object->is_latest_version())
         {
@@ -255,10 +260,10 @@ abstract class ContentObjectDisplay
             $html[] = '<div class="version_stats_na">';
         }
         $html[] = '<div class="version_stats_title">' . htmlentities(Translation :: get('VersionQuota')) . '</div>';
-
+        
         $percent = $object->get_version_count() / ($object->get_version_count() + $object->get_available_version_count()) * 100;
         $status = $object->get_version_count() . ' / ' . ($object->get_version_count() + $object->get_available_version_count());
-
+        
         $html[] = self :: get_bar($percent, $status);
         $html[] = '</div>';
         return implode("\n", $html);
@@ -267,7 +272,7 @@ abstract class ContentObjectDisplay
     function get_publications_as_html($publication_attributes)
     {
         $object = $this->get_content_object();
-
+        
         $html = array();
         if ($object->is_latest_version())
         {
@@ -353,7 +358,7 @@ abstract class ContentObjectDisplay
     static function factory(&$object)
     {
         $type = $object->get_type();
-
+        
         $class = ContentObject :: type_to_class($type) . 'Display';
         require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_display.class.php';
         return new $class($object);

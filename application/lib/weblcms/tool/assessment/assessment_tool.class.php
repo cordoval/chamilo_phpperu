@@ -17,7 +17,6 @@ class AssessmentTool extends Tool
     const ACTION_EXPORT_QTI = 'export_qti';
     const ACTION_IMPORT_QTI = 'import_qti';
     
-    
     const ACTION_DELETE_PUBLICATION = 'delete_pub';
     const ACTION_VIEW_ASSESSMENTS = 'view';
     const ACTION_VIEW_USER_ASSESSMENTS = 'view_user';
@@ -170,6 +169,15 @@ class AssessmentTool extends Tool
     function is_category_management_enabled()
     {
         return true;
+    }
+
+    function get_available_browser_types()
+    {
+        $browser_types = array();
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
+        return $browser_types;
     }
 }
 ?>

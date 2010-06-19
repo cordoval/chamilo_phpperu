@@ -706,6 +706,7 @@ $lang['common']['MonthView'] = 'Month view';
 $lang['common']['WeekView'] = 'Week view';
 $lang['common']['DayView'] = 'Day view';
 $lang['common']['TableView'] = 'Table view';
+$lang['common']['GalleryTableView'] = 'Gallery view';
 $lang['common']['MonthCalendarView'] = 'Month view';
 $lang['common']['WeekCalendarView'] = 'Week view';
 $lang['common']['DayCalendarView'] = 'Day view';

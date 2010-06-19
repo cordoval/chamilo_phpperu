@@ -52,17 +52,8 @@ class CalendarTool extends Tool
     {
         return dirname(__FILE__) . '/component/';
     }
-    function get_browser_type()
-    {
-		if(!$this->get_parameter(Tool::PARAM_BROWSER_TYPE) && !Request::get(Tool::PARAM_BROWSER_TYPE)){
-			return ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
-		}
-		else
-    		return parent :: get_browser_type();
-    	
-    }
-
-    function get_browser_types()
+    
+    function get_available_browser_types()
     {
         $browser_types = array();
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;

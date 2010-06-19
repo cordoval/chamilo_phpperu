@@ -65,19 +65,5 @@ class SurveyToolBrowserComponent extends SurveyTool
     {
         return new SurveyColumnModel();
     }
-
-    function get_browser_type()
-    {
-        return ContentObjectPublicationListRenderer :: TYPE_TABLE;
-    }
-
-    function get_browser_types()
-    {
-        $browser_types = array();
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
-        return $browser_types;
-    }
 }
 ?>
