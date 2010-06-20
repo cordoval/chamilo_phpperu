@@ -10,7 +10,7 @@ class InternshipOrganizerCategoryForm extends FormValidator
     
     private $parent;
     private $category;
-   	private $user;
+    private $user;
 
     function InternshipOrganizerCategoryForm($form_type, $category, $action, $user)
     {
@@ -35,15 +35,16 @@ class InternshipOrganizerCategoryForm extends FormValidator
     {
         $this->addElement('text', InternshipOrganizerCategory :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
         $this->addRule(InternshipOrganizerCategory :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-               
+        
         $this->addElement('select', InternshipOrganizerCategory :: PROPERTY_PARENT_ID, Translation :: get('Category'), $this->get_categories());
         $this->addRule(InternshipOrganizerCategory :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
         //$this->add_html_editor(InternshipOrganizerCategory :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
-    
-        $this->addElement('textarea', InternshipOrganizerCategory :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "5", "cols" => "40"));
-		$this->addRule(InternshipOrganizerCategory :: PROPERTY_DESCRIPTION); 
         
+
+        $this->addElement('textarea', InternshipOrganizerCategory :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "5", "cols" => "40"));
+        $this->addRule(InternshipOrganizerCategory :: PROPERTY_DESCRIPTION);
+    
     }
 
     function build_editing_form()
@@ -85,12 +86,13 @@ class InternshipOrganizerCategoryForm extends FormValidator
         {
             $category->move($new_parent);
         }
-               
-//        if ($value)
-//        {
-//            Events :: trigger_event('update', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $this->user->get_id()));
-//        }
         
+        //        if ($value)
+        //        {
+        //            Events :: trigger_event('update', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $this->user->get_id()));
+        //        }
+        
+
         return $value;
     }
 
@@ -104,12 +106,13 @@ class InternshipOrganizerCategoryForm extends FormValidator
         $category->set_parent_id($values[InternshipOrganizerCategory :: PROPERTY_PARENT_ID]);
         
         $value = $category->create();
-               
-//        if ($value)
-//        {
-//            Events :: trigger_event('create', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $this->user->get_id()));
-//        }
         
+        //        if ($value)
+        //        {
+        //            Events :: trigger_event('create', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $this->user->get_id()));
+        //        }
+        
+
         return $value;
     }
 

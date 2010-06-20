@@ -13,7 +13,7 @@ class InternshipOrganizerCategoryMoveForm extends FormValidator
     {
         parent :: __construct('category_move', 'post', $action);
         $this->category = $category;
-               
+        
         $this->build_form();
         
         $this->setDefaults();

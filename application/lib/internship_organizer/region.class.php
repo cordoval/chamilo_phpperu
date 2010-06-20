@@ -26,11 +26,7 @@ class InternshipOrganizerRegion extends NestedTreeNode
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(
-        						self :: PROPERTY_ID, 
-        						self :: PROPERTY_CITY_NAME, 
-        						self :: PROPERTY_ZIP_CODE,
-        						self :: PROPERTY_DESCRIPTION));
+        return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_CITY_NAME, self :: PROPERTY_ZIP_CODE, self :: PROPERTY_DESCRIPTION));
     }
 
     /**
@@ -86,8 +82,7 @@ class InternshipOrganizerRegion extends NestedTreeNode
     {
         $this->set_default_property(self :: PROPERTY_ZIP_CODE, $zip_code);
     }
-    
-    
+
     /**
      * Returns the description of this Region.
      * @return the description.

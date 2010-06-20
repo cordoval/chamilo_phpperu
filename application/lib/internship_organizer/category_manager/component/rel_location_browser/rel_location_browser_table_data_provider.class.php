@@ -22,7 +22,7 @@ class InternshipOrganizerCategoryRelLocationBrowserTableDataProvider extends Obj
      */
     function get_objects($offset, $count, $order_property = null)
     {
-       return $this->get_browser()->retrieve_full_category_rel_locations($this->get_condition(), $offset, $count, $order_property);
+        return $this->get_browser()->retrieve_full_category_rel_locations($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**

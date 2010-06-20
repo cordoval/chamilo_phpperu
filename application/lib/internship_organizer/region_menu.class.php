@@ -37,10 +37,10 @@ class InternshipOrganizerRegionMenu extends HTML_Menu
      * this menu.
      * @param int $current_region The ID of the current region in the menu.
      * @param string $url_format The format to use for the URL of a region.
-     *                           Passed to sprintf(). Defaults to the string
-     *                           "?region=%s".
+     * Passed to sprintf(). Defaults to the string
+     * "?region=%s".
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      */
     function InternshipOrganizerRegionMenu($current_region, $url_format = '?application=internship_organizer&go=region&region_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_region = false)
     {
@@ -102,10 +102,10 @@ class InternshipOrganizerRegionMenu extends HTML_Menu
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
-     *                           root.
+     * root.
      * @return array An array with all menu items. The structure of this array
-     *               is the structure needed by PEAR::HTML_Menu, on which this
-     *               class is based.
+     * is the structure needed by PEAR::HTML_Menu, on which this
+     * class is based.
      */
     private function get_menu_items($parent_id = 0)
     {
@@ -188,16 +188,16 @@ class InternshipOrganizerRegionMenu extends HTML_Menu
      * Renders the menu as a tree
      * @return string The HTML formatted tree
      */
-	function render_as_tree()
+    function render_as_tree()
     {
         $renderer = new TreeMenuRenderer($this->get_tree_name());
         $treename = $this->get_tree_name();
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
+        return Utilities :: camelcase_to_underscores(self :: TREE_NAME);
     }
 }

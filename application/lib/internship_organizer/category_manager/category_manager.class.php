@@ -210,7 +210,6 @@ class InternshipOrganizerCategoryManager extends SubManager
         if (isset($_POST['action']))
         {
             
-                 
             if (isset($_POST[InternshipOrganizerCategoryRelLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
             {
                 $selected_ids = $_POST[InternshipOrganizerCategoryRelLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
@@ -229,9 +228,9 @@ class InternshipOrganizerCategoryManager extends SubManager
             {
                 $selected_ids = array($selected_ids);
             }
-                        
+            
             switch ($_POST['action'])
-            {   
+            {
                 case self :: PARAM_UNSUBSCRIBE_SELECTED :
                     $this->set_category_action(self :: ACTION_UNSUBSCRIBE_LOCATION_FROM_CATEGORY);
                     Request :: set_get(self :: PARAM_CATEGORY_REL_LOCATION_ID, $selected_ids);

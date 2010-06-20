@@ -12,23 +12,24 @@ class InternshipOrganizerAgreementManagerUnsubscriberComponent extends Internshi
      */
     function run()
     {
-      $user = $this->get_user();
-//        
-//        if (! $user->is_platform_admin())
-//        {
-//            $trail = BreadcrumbTrail :: get_instance();
-//            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-//            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('InternshipOrganizerAgreement')));
-//            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
-//            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UnsubscribeFromInternshipOrganizerAgreement')));
-//            $trail->add_help('category unsubscribe users');
-//            
-//            $this->display_header($trail);
-//            Display :: error_message(Translation :: get('NotAllowed'));
-//            $this->display_footer();
-//            exit();
-//        }
+        $user = $this->get_user();
+        //        
+        //        if (! $user->is_platform_admin())
+        //        {
+        //            $trail = BreadcrumbTrail :: get_instance();
+        //            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+        //            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('InternshipOrganizerAgreement')));
+        //            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        //            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UnsubscribeFromInternshipOrganizerAgreement')));
+        //            $trail->add_help('category unsubscribe users');
+        //            
+        //            $this->display_header($trail);
+        //            Display :: error_message(Translation :: get('NotAllowed'));
+        //            $this->display_footer();
+        //            exit();
+        //        }
         
+
         $ids = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_REL_LOCATION_ID);
         $failures = 0;
         
@@ -55,7 +56,7 @@ class InternshipOrganizerAgreementManagerUnsubscriberComponent extends Internshi
                     }
                     else
                     {
-//                        Events :: trigger_event('unsubscribe_location', 'agreement', array('target_agreement_id' => $agreementrellocation->get_agreement_id(), 'target_agreement_id' => $agreementrellocation->get_location_id(), 'action_location_id' => $user->get_id()));
+                        //                        Events :: trigger_event('unsubscribe_location', 'agreement', array('target_agreement_id' => $agreementrellocation->get_agreement_id(), 'target_agreement_id' => $agreementrellocation->get_location_id(), 'action_location_id' => $user->get_id()));
                     }
                 }
                 else

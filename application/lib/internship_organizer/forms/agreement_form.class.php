@@ -105,18 +105,19 @@ class InternshipOrganizerAgreementForm extends FormValidator
     {
         $agreement = $this->agreement;
         $values = $this->exportValues();
-//        dump($values);
-//        exit;
+        //        dump($values);
+        //        exit;
         $agreement->set_name($values[InternshipOrganizerAgreement :: PROPERTY_NAME]);
         $agreement->set_description($values[InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION]);
         
         $dm = InternshipOrganizerDataManager :: get_instance();
         $periods = $values[self :: PARAM_TARGET];
-
+        
         $students_ids = array();
         $succes = false;
         foreach ($periods as $period_id)
-        { 	$period = $dm->retrieve_period($period_id);
+        {
+            $period = $dm->retrieve_period($period_id);
             $students_ids = $period->get_user_ids(InternshipOrganizerUserType :: STUDENT);
             foreach ($students_ids as $student_id)
             {

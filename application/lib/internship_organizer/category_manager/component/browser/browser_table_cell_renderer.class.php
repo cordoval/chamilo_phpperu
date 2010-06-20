@@ -67,8 +67,8 @@ class InternshipOrganizerCategoryBrowserTableCellRenderer extends DefaultInterns
     private function get_modification_links($category)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_category_editing_url($category), ToolbarItem :: DISPLAY_ICON ));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('CreateInternshipOrganizerLocation'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->browser->get_category_subscribe_location_browser_url($category), ToolbarItem :: DISPLAY_ICON ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_category_editing_url($category), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('CreateInternshipOrganizerLocation'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->browser->get_category_subscribe_location_browser_url($category), ToolbarItem :: DISPLAY_ICON));
         
         $condition = new EqualityCondition(InternshipOrganizerCategoryRelLocation :: PROPERTY_CATEGORY_ID, $category->get_id());
         $locations = $this->browser->retrieve_category_rel_locations($condition);
@@ -76,15 +76,15 @@ class InternshipOrganizerCategoryBrowserTableCellRenderer extends DefaultInterns
         
         if ($visible)
         {
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $this->browser->get_category_emptying_url($category), ToolbarItem :: DISPLAY_ICON ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $this->browser->get_category_emptying_url($category), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_image_path() . 'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON ));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_image_path() . 'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_category_delete_url($category), ToolbarItem :: DISPLAY_ICON, true ));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_move_category_url($category), ToolbarItem :: DISPLAY_ICON, true ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_category_delete_url($category), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_move_category_url($category), ToolbarItem :: DISPLAY_ICON, true));
         
         return $toolbar->as_html();
     }

@@ -114,13 +114,14 @@ class InternshipOrganizerPublication extends DataClass
     {
         $context_type = $template->get_context_type();
         $key_type = $template->get_key_type();
-               
+        
         $context = SurveyContext :: factory($context_type);
         $contexts = $context->create_contexts_for_user($user_id, $key, $key_type);
         
-//        dump($contexts);
-//        exit;
+        //        dump($contexts);
+        //        exit;
         
+
         $args = array();
         $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
         $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
@@ -134,11 +135,11 @@ class InternshipOrganizerPublication extends DataClass
             $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
             if ($template->has_children())
             {
-               	$temps = $template->get_children(false);
-            	while ($temp = $temps->next_result())
+                $temps = $template->get_children(false);
+                while ($temp = $temps->next_result())
                 {
-                	$key = $cont->get_additional_property($temp->get_key_type());
-                	$this->create_contexts($user_id, $temp, $key, $tracker[0]->get_id());
+                    $key = $cont->get_additional_property($temp->get_key_type());
+                    $this->create_contexts($user_id, $temp, $key, $tracker[0]->get_id());
                 }
             }
         }
@@ -520,8 +521,8 @@ class InternshipOrganizerPublication extends DataClass
         return count($user_ids);
     
     }
-    
-	function get_excluded_participants()
+
+    function get_excluded_participants()
     {
         $dummy = new SurveyParticipantTracker();
         $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());

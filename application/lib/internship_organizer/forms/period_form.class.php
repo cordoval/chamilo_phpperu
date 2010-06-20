@@ -131,7 +131,7 @@ class InternshipOrganizerPeriodForm extends FormValidator
         if ($value)
         {
             $categories = $values[self :: PARAM_TARGET];
-                      
+            
             $period_id = $period->get_id();
             foreach ($categories as $category_id)
             {

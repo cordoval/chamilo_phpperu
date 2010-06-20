@@ -9,9 +9,9 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
     function run()
     {
         $user = $this->get_user();
-             
+        
         $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
-
+        
         $failures = 0;
         $parent_id = 0;
         
@@ -32,7 +32,7 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
                 }
                 else
                 {
-//                    Events :: trigger_event('delete', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $user->get_id()));
+                    //                    Events :: trigger_event('delete', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $user->get_id()));
                 }
             }
             

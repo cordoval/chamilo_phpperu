@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="moment">
 	<properties>
-		<property name="id" type="integer" unsigned="1" notnull="1"
-			autoincrement="true" />
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
 		<property name="name" type="text" notnull="1" />
 		<property name="description" type="text" />
 		<property name="begin" type="integer" unsigned="1" notnull="1" />
 		<property name="end" type="integer" unsigned="1" notnull="1" />
-		<property name="agreement_id" type="integer" unsigned="1"
-			notnull="1" />
+		<property name="agreement_id" type="integer" unsigned="1" notnull="1" />
 	</properties>
 </object>

@@ -13,8 +13,8 @@ class SubscribeLocationBrowserTable extends ObjectTable
      */
     function SubscribeLocationBrowserTable($browser, $parameters, $condition)
     {
-         	
-    	$model = new SubscribeLocationBrowserTableColumnModel();
+        
+        $model = new SubscribeLocationBrowserTableColumnModel();
         $renderer = new SubscribeLocationBrowserTableCellRenderer($browser);
         $data_provider = new SubscribeLocationBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, SubscribeLocationBrowserTable :: DEFAULT_NAME, $model, $renderer);

@@ -22,7 +22,7 @@ class InternshipOrganizerAgreementRelLocationBrowserTableDataProvider extends Ob
      */
     function get_objects($offset, $count, $order_property = null)
     {
-       return $this->get_browser()->retrieve_agreement_rel_locations($this->get_condition(), $offset, $count, $order_property);
+        return $this->get_browser()->retrieve_agreement_rel_locations($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**

@@ -13,8 +13,8 @@ class InternshipOrganizerSubscribeLocationBrowserTable extends ObjectTable
      */
     function InternshipOrganizerSubscribeLocationBrowserTable($browser, $parameters, $condition)
     {
-         	
-    	$model = new InternshipOrganizerSubscribeLocationBrowserTableColumnModel();
+        
+        $model = new InternshipOrganizerSubscribeLocationBrowserTableColumnModel();
         $renderer = new InternshipOrganizerSubscribeLocationBrowserTableCellRenderer($browser);
         $data_provider = new InternshipOrganizerSubscribeLocationBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, InternshipOrganizerSubscribeLocationBrowserTable :: DEFAULT_NAME, $model, $renderer);

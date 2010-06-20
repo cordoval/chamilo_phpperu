@@ -13,7 +13,7 @@ class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrg
     function run()
     {
         $user = $this->get_user();
-               
+        
         $ids = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
         $failures = 0;
         
@@ -31,10 +31,10 @@ class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrg
                 {
                     $failures ++;
                 }
-//                else
-//                {
-//                    Events :: trigger_event('empty', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
-//                }
+                //                else
+            //                {
+            //                    Events :: trigger_event('empty', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
+            //                }
             }
             
             if ($failures)

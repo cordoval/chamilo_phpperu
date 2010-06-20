@@ -10,7 +10,7 @@ class InternshipOrganizerRegionForm extends FormValidator
     
     private $parent;
     private $region;
-   	private $user;
+    private $user;
 
     function InternshipOrganizerRegionForm($form_type, $region, $action, $user)
     {
@@ -35,7 +35,7 @@ class InternshipOrganizerRegionForm extends FormValidator
     {
         $this->addElement('text', InternshipOrganizerRegion :: PROPERTY_CITY_NAME, Translation :: get('Name'), array("size" => "50"));
         $this->addRule(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-               
+        
         $this->addElement('select', InternshipOrganizerRegion :: PROPERTY_PARENT_ID, Translation :: get('Region'), $this->get_regions());
         $this->addRule(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
@@ -76,7 +76,7 @@ class InternshipOrganizerRegionForm extends FormValidator
         $region = $this->region;
         $values = $this->exportValues();
         
-        $region->set_name($values[InternshipOrganizerRegion :: PROPERTY_CITY_NAME]);
+        $region->set_city_name($values[InternshipOrganizerRegion :: PROPERTY_CITY_NAME]);
         $region->set_zip_code($values[InternshipOrganizerRegion :: PROPERTY_ZIP_CODE]);
         $region->set_description($values[InternshipOrganizerRegion :: PROPERTY_DESCRIPTION]);
         $value = $region->update();
@@ -86,12 +86,13 @@ class InternshipOrganizerRegionForm extends FormValidator
         {
             $region->move($new_parent);
         }
-               
-//        if ($value)
-//        {
-//            Events :: trigger_event('update', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $this->user->get_id()));
-//        }
         
+        //        if ($value)
+        //        {
+        //            Events :: trigger_event('update', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $this->user->get_id()));
+        //        }
+        
+
         return $value;
     }
 
@@ -100,18 +101,19 @@ class InternshipOrganizerRegionForm extends FormValidator
         $region = $this->region;
         $values = $this->exportValues();
         
-        $region->set_name($values[InternshipOrganizerRegion :: PROPERTY_CITY_NAME]);
+        $region->set_city_name($values[InternshipOrganizerRegion :: PROPERTY_CITY_NAME]);
         $region->set_zip_code($values[InternshipOrganizerRegion :: PROPERTY_ZIP_CODE]);
         $region->set_description($values[InternshipOrganizerRegion :: PROPERTY_DESCRIPTION]);
         $region->set_parent_id($values[InternshipOrganizerRegion :: PROPERTY_PARENT_ID]);
         
         $value = $region->create();
-               
-//        if ($value)
-//        {
-//            Events :: trigger_event('create', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $this->user->get_id()));
-//        }
         
+        //        if ($value)
+        //        {
+        //            Events :: trigger_event('create', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $this->user->get_id()));
+        //        }
+        
+
         return $value;
     }
 

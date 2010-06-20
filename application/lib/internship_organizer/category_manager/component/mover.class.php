@@ -2,7 +2,6 @@
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/category_move_form.class.php';
 
-
 class InternshipOrganizerCategoryManagerMoverComponent extends InternshipOrganizerCategoryManager
 {
 
@@ -12,9 +11,9 @@ class InternshipOrganizerCategoryManagerMoverComponent extends InternshipOrganiz
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-      
+        
         $trail->add_help('category general');
-                
+        
         $category = $this->retrieve_categories(new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_ID, Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID)))->next_result();
         
         $trail->add(new Breadcrumb($this->get_category_viewing_url($category), $category->get_name()));

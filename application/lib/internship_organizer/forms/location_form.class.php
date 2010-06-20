@@ -19,7 +19,7 @@ class InternshipOrganizerLocationForm extends FormValidator
     function InternshipOrganizerLocationForm($form_type, $location, $action, $user)
     {
         parent :: __construct('location_settings', 'post', $action);
-            
+        
         $this->location = $location;
         $this->user = $user;
         $this->region_id = $location->get_region_id();
@@ -39,35 +39,36 @@ class InternshipOrganizerLocationForm extends FormValidator
 
     function build_basic_form()
     {
-
-    	$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
-		$this->addRule(InternshipOrganizerLocation :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-		$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_ADDRESS, Translation :: get('Address'), array("size" => "50"));
-		$this->addRule(InternshipOrganizerLocation :: PROPERTY_ADDRESS, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-		$this->addElement('select', InternshipOrganizerLocation :: PROPERTY_REGION_ID, Translation :: get('City'), $this->get_regions());
-		$this->addRule(InternshipOrganizerLocation :: PROPERTY_REGION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-		//$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_POSTCODE, Translation :: get('Postcode'), array("size" => "6"));
-		//$this->addRule(InternshipOrganizerLocation :: PROPERTY_POSTCODE, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-		//$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_CITY, Translation :: get('City'), array("size" => "50"));
-		//$this->addRule(InternshipOrganizerLocation :: PROPERTY_CITY, Translation :: get('ThisFieldIsRequired'), 'required');
-		
-		$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_TELEPHONE, Translation :: get('Telephone'), array("size" => "20"));
-		$this->addRule(InternshipOrganizerLocation :: PROPERTY_TELEPHONE, Translation :: get('ThisFieldIsRequired'));
-				
-		$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_FAX, Translation :: get('Fax'), array("size" => "20"));
-		$this->addRule(InternshipOrganizerLocation :: PROPERTY_FAX, Translation :: get('ThisFieldIsRequired'));
-				
-		$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
-		$this->addRule(InternshipOrganizerLocation :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'));
-		
-		$this->addElement('textarea', InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "5", "cols" => "17"));
-		$this->addRule(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'));
-    	
         
+        $this->addElement('text', InternshipOrganizerLocation :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
+        $this->addRule(InternshipOrganizerLocation :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        $this->addElement('text', InternshipOrganizerLocation :: PROPERTY_ADDRESS, Translation :: get('Address'), array("size" => "50"));
+        $this->addRule(InternshipOrganizerLocation :: PROPERTY_ADDRESS, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        $this->addElement('select', InternshipOrganizerLocation :: PROPERTY_REGION_ID, Translation :: get('City'), $this->get_regions());
+        $this->addRule(InternshipOrganizerLocation :: PROPERTY_REGION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        //$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_POSTCODE, Translation :: get('Postcode'), array("size" => "6"));
+        //$this->addRule(InternshipOrganizerLocation :: PROPERTY_POSTCODE, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+
+        //$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_CITY, Translation :: get('City'), array("size" => "50"));
+        //$this->addRule(InternshipOrganizerLocation :: PROPERTY_CITY, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+
+        $this->addElement('text', InternshipOrganizerLocation :: PROPERTY_TELEPHONE, Translation :: get('Telephone'), array("size" => "20"));
+        $this->addRule(InternshipOrganizerLocation :: PROPERTY_TELEPHONE, Translation :: get('ThisFieldIsRequired'));
+        
+        $this->addElement('text', InternshipOrganizerLocation :: PROPERTY_FAX, Translation :: get('Fax'), array("size" => "20"));
+        $this->addRule(InternshipOrganizerLocation :: PROPERTY_FAX, Translation :: get('ThisFieldIsRequired'));
+        
+        $this->addElement('text', InternshipOrganizerLocation :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
+        $this->addRule(InternshipOrganizerLocation :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'));
+        
+        $this->addElement('textarea', InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "5", "cols" => "17"));
+        $this->addRule(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'));
+    
     }
 
     function build_editing_form()
@@ -97,7 +98,7 @@ class InternshipOrganizerLocationForm extends FormValidator
     {
         $location = $this->location;
         $values = $this->exportValues();
-              
+        
         $location->set_name($values[InternshipOrganizerLocation :: PROPERTY_NAME]);
         $location->set_address($values[InternshipOrganizerLocation :: PROPERTY_ADDRESS]);
         $location->set_region_id($values[InternshipOrganizerLocation :: PROPERTY_REGION_ID]);
@@ -107,7 +108,7 @@ class InternshipOrganizerLocationForm extends FormValidator
         $location->set_fax($values[InternshipOrganizerLocation :: PROPERTY_FAX]);
         $location->set_email($values[InternshipOrganizerLocation :: PROPERTY_EMAIL]);
         $location->set_description($values[InternshipOrganizerLocation :: PROPERTY_DESCRIPTION]);
-                
+        
         return $location->update();
     }
 
@@ -116,7 +117,7 @@ class InternshipOrganizerLocationForm extends FormValidator
         $location = $this->location;
         $values = $this->exportValues();
         
-       	$location->set_name($values[InternshipOrganizerLocation :: PROPERTY_NAME]);
+        $location->set_name($values[InternshipOrganizerLocation :: PROPERTY_NAME]);
         $location->set_address($values[InternshipOrganizerLocation :: PROPERTY_ADDRESS]);
         $location->set_region_id($values[InternshipOrganizerLocation :: PROPERTY_REGION_ID]);
         //$location->set_postcode($values[InternshipOrganizerLocation :: PROPERTY_POSTCODE]);
@@ -125,7 +126,7 @@ class InternshipOrganizerLocationForm extends FormValidator
         $location->set_fax($values[InternshipOrganizerLocation :: PROPERTY_FAX]);
         $location->set_email($values[InternshipOrganizerLocation :: PROPERTY_EMAIL]);
         $location->set_description($values[InternshipOrganizerLocation :: PROPERTY_DESCRIPTION]);
-	     
+        
         return $location->create();
     }
 
@@ -147,10 +148,9 @@ class InternshipOrganizerLocationForm extends FormValidator
         $defaults[InternshipOrganizerLocation :: PROPERTY_EMAIL] = $location->get_email();
         $defaults[InternshipOrganizerLocation :: PROPERTY_DESCRIPTION] = $location->get_description();
         
-        
         parent :: setDefaults($defaults);
     }
-    
+
     function get_regions()
     {
         $region_id = $this->region_id;

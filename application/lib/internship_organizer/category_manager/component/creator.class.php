@@ -1,7 +1,6 @@
 <?php
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/category_form.class.php';
 
-
 class InternshipOrganizerCategoryManagerCreatorComponent extends InternshipOrganizerCategoryManager
 {
 
@@ -15,7 +14,7 @@ class InternshipOrganizerCategoryManagerCreatorComponent extends InternshipOrgan
         
         $trail->add(new Breadcrumb($this->get_category_create_url, Translation :: get('CreateInternshipOrganizerCategory')));
         $trail->add_help('category general');
-             
+        
         $category = new InternshipOrganizerCategory();
         $category->set_parent_id(Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID));
         $form = new InternshipOrganizerCategoryForm(InternshipOrganizerCategoryForm :: TYPE_CREATE, $category, $this->get_url(array(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID))), $this->get_user());

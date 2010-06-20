@@ -21,16 +21,15 @@ class InternshipOrganizerAgreementRelLocationBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        
         $this->set_form_actions($actions);
-//        $this->set_default_row_count(20);
+        //        $this->set_default_row_count(20);
     }
 
-    /**
-     * A typical ObjectTable would get the database-id of the object as a
-     * unique identifier. InternshipOrganizerAgreementRelLocation has no such field since it's
-     * a relation, so we need to overwrite this function here.
-     */
+/**
+ * A typical ObjectTable would get the database-id of the object as a
+ * unique identifier. InternshipOrganizerAgreementRelLocation has no such field since it's
+ * a relation, so we need to overwrite this function here.
+ */
 //    function get_objects($offset, $count, $order_column)
 //    {
 //        $agreementrellocations = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)));

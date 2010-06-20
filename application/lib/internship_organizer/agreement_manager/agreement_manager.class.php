@@ -9,7 +9,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     const PARAM_ACTION = 'action';
     const PARAM_AGREEMENT_ID = 'agreement_id';
     const PARAM_LOCATION_ID = 'location_id';
-     const PARAM_AGREEMENT_REL_LOCATION_ID = 'agreement_rel_location_id';
+    const PARAM_AGREEMENT_REL_LOCATION_ID = 'agreement_rel_location_id';
     const PARAM_DELETE_SELECTED_AGREEMENTS = 'delete_agreements';
     
     const PARAM_MOMENT_ID = 'moment_id';
@@ -22,8 +22,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     const ACTION_DELETE_AGREEMENT = 'delete';
     const ACTION_VIEW_AGREEMENT = 'view';
     const ACTION_SUBSCRIBE_LOCATION_TO_AGREEMENT = 'subscribe';
-    const ACTION_UNSUBSCRIBE_LOCATION_FROM_AGREEMENT  = 'unsubscribe';
-    
+    const ACTION_UNSUBSCRIBE_LOCATION_FROM_AGREEMENT = 'unsubscribe';
     
     const ACTION_CREATE_MOMENT = 'create_moment';
     const ACTION_BROWSE_MOMENTS = 'browse_moments';
@@ -80,9 +79,9 @@ class InternshipOrganizerAgreementManager extends SubManager
             case self :: ACTION_SUBSCRIBE_LOCATION :
                 $component = $this->create_component('SubscribeLocationBrowser');
                 break;
-             case self :: ACTION_UNSUBSCRIBE_LOCATION_FROM_AGREEMENT :
+            case self :: ACTION_UNSUBSCRIBE_LOCATION_FROM_AGREEMENT :
                 $component = $this->create_component('Unsubscriber');
-                break;    
+                break;
             case self :: ACTION_SUBSCRIBE_LOCATION_TO_AGREEMENT :
                 $component = $this->create_component('Subscriber');
                 break;

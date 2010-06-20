@@ -99,10 +99,10 @@ class InternshipOrganizerSubscribeUsersForm extends FormValidator
         }
         else
         {
-
-        	$user_ids = $values[self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET . '_elements']['user'];
+            
+            $user_ids = $values[self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET . '_elements']['user'];
             $group_ids = $values[self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET . '_elements']['group'];
-          
+            
             if (count($user_ids))
             {
                 foreach ($user_ids as $user_id)
@@ -161,7 +161,7 @@ class InternshipOrganizerSubscribeUsersForm extends FormValidator
             }
         
         }
-             
+        
         return $succes;
     }
 

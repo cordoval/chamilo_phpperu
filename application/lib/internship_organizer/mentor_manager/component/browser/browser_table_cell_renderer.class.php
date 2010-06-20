@@ -36,15 +36,13 @@ class InternshipOrganizerMentorBrowserTableCellRenderer extends DefaultInternshi
     private function get_modification_links($mentor)
     {
         
-        $toolbar= new Toolbar();
-        
-        
+        $toolbar = new Toolbar();
         
         $user = $this->browser->get_user();
         
-		$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_mentor_url($mentor), ToolbarItem :: DISPLAY_ICON ));      
-		$toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_mentor_url($mentor), ToolbarItem :: DISPLAY_ICON, true ));
-		$toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_mentor_url($mentor), ToolbarItem :: DISPLAY_ICON, true ));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_mentor_url($mentor), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_mentor_url($mentor), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_mentor_url($mentor), ToolbarItem :: DISPLAY_ICON, true));
         
         return $toolbar->as_html();
     }

@@ -17,22 +17,22 @@ class InternshipOrganizerInstaller extends Installer
     {
         parent :: __construct($values, InternshipOrganizerDataManager :: get_instance());
     }
-	
- /**
+
+    /**
      * Additional installation steps.
      */
     function install_extra()
     {
-    	$success = true;
-        if (!$this->create_root_category())
+        $success = true;
+        if (! $this->create_root_category())
         {
             $success &= false;
         }
-    	if (!$this->create_root_region())
+        if (! $this->create_root_region())
         {
             $success &= false;
         }
-    	if (!$this->create_root_period())
+        if (! $this->create_root_period())
         {
             $success &= false;
         }
@@ -50,12 +50,13 @@ class InternshipOrganizerInstaller extends Installer
         
         return $succes;
     }
-	function create_root_region()
+
+    function create_root_region()
     {
         $values = $this->get_form_values();
         
         $region = new InternshipOrganizerRegion();
-        $region->set_city_name(Translation::get('World'));
+        $region->set_city_name(Translation :: get('World'));
         $region->set_parent_id(0);
         $succes = $region->create();
         
@@ -67,12 +68,13 @@ class InternshipOrganizerInstaller extends Installer
         $values = $this->get_form_values();
         
         $period = new InternshipOrganizerPeriod();
-        $period->set_name(Translation::get('EhB'));
+        $period->set_name(Translation :: get('EhB'));
         $period->set_parent_id(0);
         $succes = $period->create();
         
         return $succes;
     }
+
     function get_path()
     {
         return dirname(__FILE__);

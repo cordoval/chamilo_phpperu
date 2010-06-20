@@ -9,7 +9,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
     function run()
     {
         $user = $this->get_user();
-             
+        
         $ids = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
         $failures = 0;
         
@@ -22,7 +22,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
             
             foreach ($ids as $id)
             {
-               $category = $this->retrieve_category($id);
+                $category = $this->retrieve_category($id);
                 
                 if (! $category->delete())
                 {
@@ -30,7 +30,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
                 }
                 else
                 {
-//                    Events :: trigger_event('delete', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
+                    //                    Events :: trigger_event('delete', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
                 }
             }
             

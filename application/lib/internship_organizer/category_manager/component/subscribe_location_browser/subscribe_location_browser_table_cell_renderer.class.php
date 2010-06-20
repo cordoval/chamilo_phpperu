@@ -7,7 +7,7 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
 {
     
     private $browser;
-   
+
     function SubscribeLocationBrowserTableCellRenderer($browser)
     {
         parent :: __construct();
@@ -21,15 +21,16 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
         {
             return $this->get_modification_links($location);
         }
-           
+        
         return parent :: render_cell($column, $location);
     }
 
-    function render_id_cell($location){
-    	$category = $this->browser->get_category();
-    	return $category->get_id() . '|' . $location->get_id();
+    function render_id_cell($location)
+    {
+        $category = $this->browser->get_category();
+        return $category->get_id() . '|' . $location->get_id();
     }
-    
+
     /**
      * Gets the action links to display
      * @param Location $user The user for which the
@@ -39,11 +40,11 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
     private function get_modification_links($location)
     {
         $category = $this->browser->get_category();
-        $toolbar= new Toolbar();
+        $toolbar = new Toolbar();
         
         $subscribe_url = $this->browser->get_category_rel_location_subscribing_url($category, $location);
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON ));
-       
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
+        
         return $toolbar->as_html();
     }
 }

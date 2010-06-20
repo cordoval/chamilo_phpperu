@@ -469,13 +469,14 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $condition = new AndCondition($conditions);
         return $this->retrieve_object(InternshipOrganizerAgreementRelLocation :: get_table_name(), $condition, array(), InternshipOrganizerAgreementRelLocation :: CLASS_NAME);
     }
-	
-    function get_next_agreement_rel_location_preference_order($agreement_id){
-    	
+
+    function get_next_agreement_rel_location_preference_order($agreement_id)
+    {
+        
         $condition = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_id);
         return $this->retrieve_next_sort_value(InternshipOrganizerAgreementRelLocation :: get_table_name(), InternshipOrganizerAgreementRelLocation :: PROPERTY_PREFERENCE_ORDER, $condition);
     }
-    
+
     //internship planner regions##
     
 

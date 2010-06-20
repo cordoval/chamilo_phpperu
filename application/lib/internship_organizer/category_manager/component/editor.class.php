@@ -19,8 +19,8 @@ class InternshipOrganizerCategoryManagerEditorComponent extends InternshipOrgani
         {
             $category = $this->retrieve_category($id);
             $trail->add(new Breadcrumb($this->get_category_viewing_url($category), $category->get_name()));
-            $trail->add(new Breadcrumb($this->get_category_editing_url($category), Translation :: get('UpdateInternshipOrganizerCategory').' '.$category->get_name()));
-                                  
+            $trail->add(new Breadcrumb($this->get_category_editing_url($category), Translation :: get('UpdateInternshipOrganizerCategory') . ' ' . $category->get_name()));
+            
             $form = new InternshipOrganizerCategoryForm(InternshipOrganizerCategoryForm :: TYPE_EDIT, $category, $this->get_category_editing_url($category), $this->get_user());
             
             if ($form->validate())

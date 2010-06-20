@@ -106,11 +106,11 @@ class InternshipOrganizerPeriodManager extends SubManager
         return InternshipOrganizerDataManager :: get_instance()->count_period_rel_groups($conditions);
     }
 
-	function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null)
+    function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return InternshipOrganizerDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property);
     }
-    
+
     //url
     
 

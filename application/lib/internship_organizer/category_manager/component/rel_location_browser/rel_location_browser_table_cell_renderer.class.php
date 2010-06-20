@@ -28,17 +28,17 @@ class InternshipOrganizerCategoryRelLocationBrowserTableCellRenderer extends Def
             return $this->get_modification_links($categoryrellocation);
         }
         
-//        return parent :: render_cell($column, $region);
-    
-       
+        //        return parent :: render_cell($column, $region);
+        
+
         // Add special features here
-//        switch ($column->get_name())
-//        {
-//            // Exceptions that need post-processing go here ...
-//            case InternshipOrganizerCategoryRelLocation :: PROPERTY_LOCATION_ID :
-//               
-//                return $location->get_name();
-//        }
+        //        switch ($column->get_name())
+        //        {
+        //            // Exceptions that need post-processing go here ...
+        //            case InternshipOrganizerCategoryRelLocation :: PROPERTY_LOCATION_ID :
+        //               
+        //                return $location->get_name();
+        //        }
         return parent :: render_cell($column, $categoryrellocation);
     }
 
@@ -50,15 +50,16 @@ class InternshipOrganizerCategoryRelLocationBrowserTableCellRenderer extends Def
      */
     private function get_modification_links($categoryrellocation)
     {
-        $toolbar= new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_category_rel_location_unsubscribing_url($categoryrellocation), ToolbarItem :: DISPLAY_ICON, true ));
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_category_rel_location_unsubscribing_url($categoryrellocation), ToolbarItem :: DISPLAY_ICON, true));
         
         return $toolbar->as_html();
     }
-    
-    function render_id_cell($categoryrellocation){
-    	return $categoryrellocation->get_location_id();
+
+    function render_id_cell($categoryrellocation)
+    {
+        return $categoryrellocation->get_location_id();
     }
-    
+
 }
 ?>

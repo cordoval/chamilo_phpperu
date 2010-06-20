@@ -27,11 +27,11 @@ class InternshipOrganizerCategoryRelLocationBrowserTable extends ObjectTable
         $this->set_default_row_count(20);
     }
 
-    /**
-     * A typical ObjectTable would get the database-id of the object as a
-     * unique identifier. InternshipOrganizerCategoryRelLocation has no such field since it's
-     * a relation, so we need to overwrite this function here.
-     */
+/**
+ * A typical ObjectTable would get the database-id of the object as a
+ * unique identifier. InternshipOrganizerCategoryRelLocation has no such field since it's
+ * a relation, so we need to overwrite this function here.
+ */
 //    function get_objects($offset, $count, $order_column)
 //    {
 //        $categoryrellocations = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)));

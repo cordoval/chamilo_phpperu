@@ -19,8 +19,8 @@ class InternshipOrganizerPeriodManagerEditorComponent extends InternshipOrganize
         {
             $period = $this->retrieve_period($id);
             $trail->add(new Breadcrumb($this->get_period_viewing_url($period), $period->get_name()));
-            $trail->add(new Breadcrumb($this->get_period_editing_url($period), Translation :: get('UpdateInternshipOrganizerPeriod').' '.$period->get_name()));
-                                  
+            $trail->add(new Breadcrumb($this->get_period_editing_url($period), Translation :: get('UpdateInternshipOrganizerPeriod') . ' ' . $period->get_name()));
+            
             $form = new InternshipOrganizerPeriodForm(InternshipOrganizerPeriodForm :: TYPE_EDIT, $period, $this->get_period_editing_url($period), $this->get_user());
             
             if ($form->validate())

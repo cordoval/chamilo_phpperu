@@ -21,27 +21,25 @@ class InternshipOrganizerUserType
     static function get_user_type_name($index)
     {
         
-    	    	
         switch ($index)
         {
             case 1 :
                 return Translation :: get('InternshipOrganizerCoordinator');
-//                break;
+            //                break;
             case 2 :
                 return Translation :: get('InternshipOrganizerStudent');
-//                break;
+            //                break;
             case 3 :
                 return Translation :: get('InternshipOrganizerMentor');
-//                break;
+            //                break;
             case 4 :
                 return Translation :: get('InternshipOrganizerCoach');
-//                break;
+            //                break;
             default :
                 //no default
                 break;
         }
     
     }
-    
-    
+
 }

@@ -5,19 +5,20 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/forms/or
 
 class InternshipOrganizerOrganisationManagerCreatorComponent extends InternshipOrganizerOrganisationManager
 {
-	/**
-	 * Runs this component and displays its output.
-	 */
-	function run()
-	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateInternshipOrganizerOrganisation')));
 
-		$organisation = new InternshipOrganizerOrganisation();
-		$form = new InternshipOrganizerOrganisationForm(InternshipOrganizerOrganisationForm :: TYPE_CREATE, $organisation, $this->get_url(), $this->get_user());
-
-/*		if($form->validate())
+    /**
+     * Runs this component and displays its output.
+     */
+    function run()
+    {
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateInternshipOrganizerOrganisation')));
+        
+        $organisation = new InternshipOrganizerOrganisation();
+        $form = new InternshipOrganizerOrganisationForm(InternshipOrganizerOrganisationForm :: TYPE_CREATE, $organisation, $this->get_url(), $this->get_user());
+        
+        /*		if($form->validate())
 		{
 			$success = $form->create_organisation();
 			if ($succes)
@@ -27,18 +28,18 @@ class InternshipOrganizerOrganisationManagerCreatorComponent extends InternshipO
 			else
             {
             	  	/*$fout = $organisation->get_id();*/
-            		/*$this->redirect($succes, (true), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_CREATE_ORGANISATION));*/
-            		/*$this->redirect(Translation :: get('InternshipOrganizerOrganisationNotCreated'), (true), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_CREATE_ORGANISATION));*/
-/*            }		
+        /*$this->redirect($succes, (true), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_CREATE_ORGANISATION));*/
+        /*$this->redirect(Translation :: get('InternshipOrganizerOrganisationNotCreated'), (true), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_CREATE_ORGANISATION));*/
+        /*            }		
 		}*/
-/*		else
+        /*		else
 		{
 			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}
-*/		
-		if ($form->validate())
+*/
+        if ($form->validate())
         {
             $success = $form->create_organisation();
             if ($success)
@@ -57,8 +58,7 @@ class InternshipOrganizerOrganisationManagerCreatorComponent extends InternshipO
             $form->display();
             $this->display_footer();
         }
-		
-		
-	}
+    
+    }
 }
 ?>

@@ -9,9 +9,9 @@ class InternshipOrganizerRegionManagerDeleterComponent extends InternshipOrganiz
     function run()
     {
         $user = $this->get_user();
-             
+        
         $ids = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
-
+        
         $failures = 0;
         $parent_id = 0;
         
@@ -32,7 +32,7 @@ class InternshipOrganizerRegionManagerDeleterComponent extends InternshipOrganiz
                 }
                 else
                 {
-//                    Events :: trigger_event('delete', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $user->get_id()));
+                    //                    Events :: trigger_event('delete', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $user->get_id()));
                 }
             }
             

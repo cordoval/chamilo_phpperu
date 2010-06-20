@@ -52,7 +52,7 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_category_rel_location($location_id, $category_id);
 
     function retrieve_category_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
-    
+
     function delete_internship_organizer_category_rel_period($category_rel_period);
 
     function create_internship_organizer_category_rel_period($category_rel_period);
@@ -84,7 +84,7 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_agreement($id);
 
     function retrieve_agreements($condition = null, $offset = null, $count = null, $order_property = null);
-	
+
     function delete_internship_organizer_agreement_rel_user($agreement_rel_user);
 
     function create_internship_organizer_agreement_rel_user($agreement_rel_user);
@@ -92,8 +92,7 @@ interface InternshipOrganizerDataManagerInterface
     function count_agreement_rel_users($conditions = null);
 
     function retrieve_agreement_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
-    
-    
+
     function delete_internship_organizer_region($region);
 
     function update_internship_organizer_region($region);
@@ -131,9 +130,9 @@ interface InternshipOrganizerDataManagerInterface
     
 
     function retrieve_periods($condition = null, $offset = null, $count = null, $order_property = null);
-	
+
     function retrieve_period($period_id);
-    
+
     function retrieve_root_period();
 
     function delete_internship_organizer_period_rel_user($period_rel_user);
