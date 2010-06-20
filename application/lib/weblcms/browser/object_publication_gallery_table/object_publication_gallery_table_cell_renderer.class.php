@@ -21,10 +21,9 @@ class ObjectPublicationGalleryTableCellRenderer implements GalleryObjectTableCel
         $html[] = $this->get_modification_links($publication);
         $html[] = '</div>';
         $html[] = '<h3>' . Utilities :: truncate_string($object->get_title(), 25) . '</h3>';
+        $details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
         $display = ContentObjectDisplay :: factory($object);
-        $html[] = $display->get_thumbnail();
-        //        $html[] = '<a href="' . $this->browser->get_streaming_media_object_viewing_url($object) . '"><img class="thumbnail" src="' . $object->get_thumbnail() . '"/></a> <br/>';
-        //        $html[] = '<i>' . Utilities :: truncate_string($object->get_description(), 100) . '</i><br/>';
+        $html[] = '<a href="'. $details_url .'">' . $display->get_preview(true) . '</a>';
         return implode("\n", $html);
     }
 
@@ -34,7 +33,7 @@ class ObjectPublicationGalleryTableCellRenderer implements GalleryObjectTableCel
         $toolbar->set_type(Toolbar :: TYPE_VERTICAL);
         return $toolbar->as_html();
     }
-    
+
     function render_id_cell($object)
     {
         return $object->get_id();

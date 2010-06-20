@@ -125,8 +125,8 @@ div.level_1 {
 	color: #000000;
 }
 
-div.level_2 { /*background-color: #EDEAF6;*/
-	background-color: #FAFAEB;
+div.level_2 {
+	background-color: #ecf4f8;
 	color: #000000;
 }
 
@@ -447,4 +447,34 @@ div.publication_actions div.toolbar ul.toolbar_vertical
 {
 	display: inline;
 	float: right;
+}
+
+div.slideshow
+{
+	background-color: #f9f9f9;
+}
+
+div.slideshow div.description
+{
+	text-align: center;
+}
+
+div.slideshow img
+{
+	border: 1px solid #f0f0f0;
+}
+
+table.data_table#slideshow th.actions div.toolbar
+{
+	float: left;
+}
+
+table.data_table#slideshow th.navigation div.toolbar
+{
+	float: right;
+}
+
+table.data_table#slideshow td.header
+{
+	text-align: center;
 }

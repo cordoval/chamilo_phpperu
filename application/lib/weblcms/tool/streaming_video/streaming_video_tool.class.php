@@ -71,6 +71,7 @@ class StreamingVideoTool extends Tool
     {
         $browser_types = array();
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_GALLERY;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_SLIDESHOW;
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
         return $browser_types;
     }

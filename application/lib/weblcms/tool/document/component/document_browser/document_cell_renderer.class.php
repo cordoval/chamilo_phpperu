@@ -26,12 +26,12 @@ class DocumentCellRenderer extends ObjectPublicationTableCellRenderer
 
                 if ($publication->is_hidden())
                 {
-                    $icon = 'action_export_na';
+                    $icon = 'action_download_na';
                     $data[] = '<div class="invisible">';
                 }
                 else
                 {
-                    $icon = 'action_export';
+                    $icon = 'action_download';
                 }
 
                 $data[] = '<div style="float: left;" title="' . $content_object->get_title() . '">';

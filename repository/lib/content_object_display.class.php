@@ -98,7 +98,7 @@ abstract class ContentObjectDisplay
         return '<span class="content_object">' . htmlentities($object->get_title()) . '</span>';
     }
     
-    function get_thumbnail()
+    function get_preview($is_thumbnail = false)
     {
         return Theme :: get_common_image('thumbnail');
     }

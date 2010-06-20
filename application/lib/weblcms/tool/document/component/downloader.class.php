@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.document.component
  */
 require_once dirname(__FILE__) . '/../document_tool.class.php';
-require_once dirname(__FILE__) . '/../document_tool_component.class.php';
 
 class DocumentToolDownloaderComponent extends DocumentTool
 {
@@ -17,6 +16,7 @@ class DocumentToolDownloaderComponent extends DocumentTool
             Display :: not_allowed();
             return;
         }
+        
         $dm = WeblcmsDataManager :: get_instance();
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $publication = $dm->retrieve_content_object_publication($publication_id);

@@ -11,11 +11,11 @@ require_once dirname(__FILE__) . '../../../content_object_repo_viewer.class.php'
  */
 class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationListRenderer
 {
-
-    function ContentObjectPublicationDetailsRenderer($browser, $parameters = array (), $actions)
-    {
-        parent :: ContentObjectPublicationListRenderer($browser, $parameters, $actions);
-    }
+//
+//    function ContentObjectPublicationDetailsRenderer($browser, $parameters = array (), $actions)
+//    {
+//        parent :: ContentObjectPublicationListRenderer($browser, $parameters, $actions);
+//    }
 
     /**
      * Returns the HTML output of this renderer.

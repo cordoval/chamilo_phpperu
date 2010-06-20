@@ -48,26 +48,35 @@ class DocumentDisplay extends ContentObjectDisplay
         return '<span class="content_object"><a href="' . Utilities :: htmlentities($url) . '">' . Utilities :: htmlentities($object->get_title()) . '</a></span>';
     }
 
-    function get_thumbnail()
+    function get_preview($is_thumbnail = false)
     {
         $object = $this->get_content_object();
-        
         if ($object->is_image())
         {
-            
-            $thumbnail_path = Path :: get_temp_path() . md5($object->get_full_path()) . basename($object->get_full_path());
-            $thumbnal_web_path = Path :: get(WEB_TEMP_PATH) . md5($object->get_full_path()) . basename($object->get_full_path());
-            if (! is_file($thumbnail_path))
+            if ($is_thumbnail)
             {
-                $thumbnail_creator = ImageManipulation :: factory($object->get_full_path());
-                $thumbnail_creator->scale(200, 200);
-                $thumbnail_creator->write_to_file($thumbnail_path);
+                $width = 200;
+                $height = 200;
+                
+                $thumbnail_path = Path :: get_temp_path() . md5($object->get_full_path()) . basename($object->get_full_path());
+                $thumbnal_web_path = Path :: get(WEB_TEMP_PATH) . md5($object->get_full_path()) . basename($object->get_full_path());
+                if (! is_file($thumbnail_path))
+                {
+                    $thumbnail_creator = ImageManipulation :: factory($object->get_full_path());
+                    $thumbnail_creator->scale($width, $height);
+                    $thumbnail_creator->write_to_file($thumbnail_path);
+                }
+                return '<img src="' . $thumbnal_web_path . '" title="' . $object->get_title() . '" class="thumbnail" />';
             }
-            return '<img src="' . $thumbnal_web_path . '" title="' . $object->get_title() . '" class="thumbnail" />';
+            else
+            {
+                $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
+                return '<img src="' . $url . '" alt="" style="max-width: 800px; border: 1px solid #f0f0f0;"/>';
+            }
         }
         else
         {
-            return parent :: get_thumbnail();
+            return parent :: get_thumbnail($width, $height);
         }
     }
 }

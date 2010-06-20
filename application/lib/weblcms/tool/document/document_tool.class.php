@@ -90,6 +90,7 @@ class DocumentTool extends Tool
         $browser_types = array();
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_GALLERY;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_SLIDESHOW;
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
         return $browser_types;
@@ -98,6 +99,13 @@ class DocumentTool extends Tool
     function is_category_management_enabled()
     {
         return true;
+    }
+    
+    function get_content_object_publication_actions($publication)
+    {
+        $extra_toolbar_items = array();
+        $extra_toolbar_items[] = new ToolbarItem(Translation :: get('Download'), Theme :: get_common_image_path() . 'action_download.png', $this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_DOWNLOAD, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
+        return $extra_toolbar_items;
     }
 }
 ?>

@@ -42,5 +42,17 @@ class YoutubeDisplay extends ContentObjectDisplay
     {
         return $this->get_video_element(280, 226);
     }
+    
+    function get_preview($is_thumbnail = false)
+    {
+        if ($is_thumbnail)
+        {
+            return $this->get_video_element(280, 226);
+        }
+        else
+        {
+            return $this->get_video_element();
+        }
+    }
 }
 ?>

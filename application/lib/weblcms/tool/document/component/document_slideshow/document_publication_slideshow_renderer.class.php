@@ -103,7 +103,7 @@ class DocumentPublicationSlideshowRenderer extends ListContentObjectPublicationL
         	$aditionalstyles = 'width: ' . $width . 'px; height: ' . $height . 'px;'; 
         }
         
-        $html[] = '<a href="' . $url . '" target="about:blank"><img src="' . $url . '" alt="" style="max-width: 800px; border:1px solid black;padding:5px;' . $aditionalstyles . '"/></a>';
+//        $html[] = '<a href="' . $url . '" target="about:blank"><img src="' . $url . '" alt="" style="max-width: 800px; border:1px solid black;padding:5px;' . $aditionalstyles . '"/></a>';
         $html[] = '<div class="description' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
         $html[] = $this->render_description($publication);
         $html[] = $this->render_attachments($publication);

@@ -14,6 +14,7 @@ abstract class ContentObjectPublicationListRenderer
     const TYPE_LIST = 'list';
     const TYPE_TABLE = 'table';
     const TYPE_GALLERY = 'gallery_table';
+    const TYPE_SLIDESHOW = 'slideshow';
     const TYPE_CALENDAR = 'calendar';
     const TYPE_MONTH = 'month_calendar';
     const TYPE_MINI_MONTH = 'mini_month_calendar';
@@ -65,7 +66,6 @@ abstract class ContentObjectPublicationListRenderer
     {
         $content_object = $publication->get_content_object();
         $display = ContentObjectDisplay :: factory($content_object);
-
         return $display->get_description();
     }
 
@@ -460,9 +460,14 @@ abstract class ContentObjectPublicationListRenderer
     /**
      * @see ContentObjectPublicationBrowser :: get_publications()
      */
-    function get_publications()
+    function get_publications($offset = 0, $max_objects = -1, ObjectTableOrder $object_table_order = null)
     {
-        return $this->tool_browser->get_publications();
+        if (!$object_table_order)
+        {
+            $object_table_order = new ObjectTableOrder(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC);
+        }
+        
+        return $this->tool_browser->get_publications($offset, $max_objects, $object_table_order);
     }
 
     /**
@@ -669,6 +674,7 @@ abstract class ContentObjectPublicationListRenderer
 
         if (method_exists($this->get_tool_browser()->get_parent(), 'get_content_object_publication_actions'))
         {
+            
             $content_object_publication_actions = $this->get_tool_browser()->get_parent()->get_content_object_publication_actions($publication);
             $toolbar->add_items($content_object_publication_actions);
         }

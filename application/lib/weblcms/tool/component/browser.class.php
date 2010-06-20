@@ -45,10 +45,10 @@ class ToolBrowserComponent extends ToolComponent
         
         if ($this->is_category_management_enabled())
         {
-            echo '<div style="width:18%; float: left; overflow: auto;">';
+            echo '<div style="width:15%; float: left; overflow: auto;">';
             echo $this->publication_category_tree->as_html();
             echo '</div>';
-            echo '<div style="width:80%; padding-left: 1%; float:right; ">';
+            echo '<div style="width:83%; padding-left: 1%; float:right; ">';
         }
         
         echo $publication_renderer->as_html();
@@ -71,15 +71,14 @@ class ToolBrowserComponent extends ToolComponent
      * Retrieves the publications
      * @return array An array of ContentObjectPublication objects
      */
-    function get_publications($from, $count, $column, $direction)
+    function get_publications($offset, $max_objects, ObjectTableOrder $object_table_order)
     {
-        
         if (empty($this->publications))
         {
             $datamanager = WeblcmsDataManager :: get_instance();
             $condition = $this->get_publication_conditions();
             
-            $this->publications = $datamanager->retrieve_content_object_publications($condition, new ObjectTableOrder(Announcement :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC))->as_array();
+            $this->publications = $datamanager->retrieve_content_object_publications($condition, $object_table_order, $offset, $max_objects)->as_array();
         }
         
         return $this->publications;
@@ -91,8 +90,8 @@ class ToolBrowserComponent extends ToolComponent
      * @return int
      */
     function get_publication_count()
-    {
-        return count($this->get_publications());
+    {    
+        return WeblcmsDataManager :: get_instance()->count_content_object_publications($this->get_publication_conditions());
     }
 
     function get_action_bar()
