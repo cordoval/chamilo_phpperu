@@ -20,7 +20,8 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
      */
     function run()
     {
-        $component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
+        $component_action = Request :: get(WeblcmsManager :: PARAM_COMPONENT_ACTION);
+        $this->set_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION, $component_action);
         
         switch ($component_action)
         {

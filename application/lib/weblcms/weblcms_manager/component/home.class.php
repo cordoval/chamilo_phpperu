@@ -101,7 +101,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
             
             $html[] = $course_tabs->render();
         }
-
+        
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
         $toolbar_state = Session :: retrieve('toolbar_state');
         if ($toolbar_state == 'hide')
@@ -182,7 +182,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         }
         $courses_category_0 = array();
         $courses_category_1 = array();
-
+        
         $wdm = WeblcmsDataManager :: get_instance();
         while ($course_result = $courses->next_result())
         {
@@ -293,13 +293,20 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         if (count($courses) > 0)
         {
             $title = $view_category->get_title();
-            $html[] = '<div class="coursehomeblock block" id="courses_' . $title . '_' . $course_type_id . '" style="background-image: url(' . Theme :: get_image_path('weblcms') . 'block_weblcms.png);">';
-            $html[] = '<div class="title"><div style="float: left;">';
+            //$html[] = '<div class="coursehomeblock block" id="courses_' . $title . '_' . $course_type_id . '" style="background-image: url(' . Theme :: get_image_path('weblcms') . 'block_weblcms.png);">';
+            $html[] = '<div class="block course_home_block" id="courses_' . $title . '_' . $course_type_id . '">';
             
-            $html[] = htmlentities($title);
+            $setting = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
             
-            $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
-            $html[] = '<div style="clear: both;"></div></div>';
+            if ($setting == self :: SEPERATED)
+            {
+                $html[] = '<div class="title" style="background-image: url('. Theme :: get_image_path() .'course_status_'. Utilities :: camelcase_to_underscores($view_category->get_title()) .'.png);"><div style="float: left;">';
+//                $html[] = '<img src="'. Theme :: get_image_path() .'course_status_'. Utilities :: camelcase_to_underscores($view_category->get_title()) .'.png"/> ';
+                $html[] = htmlentities($title);
+                
+                $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
+                $html[] = '<div style="clear: both;"></div></div>';
+            }
             $html[] = '<div class="description">';
             
             $conditions = array();
@@ -341,7 +348,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         if (count($courses) > 0)
         {
             $title = $course_category ? $course_category->get_title() : 'general';
-            $html[] = '<div class="user_category_block block" id="courses_' . $title . '">';
+            $html[] = '<div class="block user_category_block" id="courses_' . $title . '">';
             $html[] = '<div class="user_category_title title"><div style="float: left;">';
             
             if (isset($course_category))
@@ -363,6 +370,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
                 $course = $wdm->retrieve_course($course->get_id());
                 //$tools = $course->get_tools();
                 
+
                 if ($course->get_access() || $this->is_teacher($course, $this->get_user()))
                 {
                     $html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_home.png);"><a style="top: -2px; position: relative;" href="' . $this->get_course_viewing_url($course) . '">' . $course->get_name() . '</a>';
