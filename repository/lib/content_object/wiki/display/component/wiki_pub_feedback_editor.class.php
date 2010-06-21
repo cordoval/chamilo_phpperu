@@ -67,7 +67,7 @@ class WikiDisplayWikiPubFeedbackEditorComponent extends WikiDisplay
                     $trail = $this->get_breadcrumbtrail();
                     $trail->add_help('courses general');
                      
-                    $this->display_header($trail);
+                    $this->display_header();
                     $form->display();
 					$this->display_footer();
                 }

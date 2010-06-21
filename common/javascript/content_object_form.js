@@ -28,10 +28,10 @@ $(function ()
 		
 		if(typeof support_attachments != 'undefined')
 		{
-			$('#uploadify').fileUpload ({
-				'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/uploader-cms.swf',
+			$('#uploadify').uploadify ({
+				'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
 				'script': getPath('WEB_PATH') + 'common/javascript/ajax/upload_image.php',
-				'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/cancel.png',
+				'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/cancel.png',
 				'folder': 'not_important',
 				'auto': true,
 				'displayData': 'percentage',

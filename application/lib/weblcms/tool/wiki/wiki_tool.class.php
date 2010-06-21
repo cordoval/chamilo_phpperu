@@ -27,24 +27,27 @@ class WikiTool extends Tool
         	case self :: ACTION_PUBLISH:
         		$component = $this->create_component('Publisher');
         		break;
-                case self :: ACTION_UPDATE:
-        		$component = $this->create_component('Updater');
-        		break;
-                case self :: ACTION_DELETE:
-        		$component = $this->create_component('Deleter');
-        		break;
-                case self :: ACTION_TOGGLE_VISIBILITY:
-                        $component = $this->create_component('ToggleVisibility');
-                        break;
-                case self :: ACTION_MOVE_DOWN:
-                        $component = $this->create_component('MoveDown');
-                        break;
-                case self :: ACTION_MOVE_UP:
-                        $component = $this->create_component('MoveUp');
-                        break;
-                case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT:
-                        $component = $this->create_component('ComplexBuilder');
-                        break;
+            case self :: ACTION_UPDATE:
+		        $component = $this->create_component('Updater');
+		        break;
+            case self :: ACTION_DELETE:
+		        $component = $this->create_component('Deleter');
+		        break;
+            case self :: ACTION_TOGGLE_VISIBILITY:
+                $component = $this->create_component('ToggleVisibility');
+                break;
+            case self :: ACTION_MOVE_DOWN:
+                $component = $this->create_component('MoveDown');
+                break;
+            case self :: ACTION_MOVE_UP:
+                $component = $this->create_component('MoveUp');
+                break;
+            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT:
+                $component = $this->create_component('ComplexBuilder');
+                break;
+            case self :: ACTION_PUBLISH_INTRODUCTION:
+            	$component = $this->create_component('IntroductionPublisher');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }

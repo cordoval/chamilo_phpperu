@@ -54,6 +54,9 @@ class ForumTool extends Tool
             case self :: ACTION_MOVE_TO_CATEGORY:
             	$component = $this->create_component('CategoryMover');
                 break;
+            case self :: ACTION_PUBLISH_INTRODUCTION:
+            	$component = $this->create_component('IntroductionPublisher');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }

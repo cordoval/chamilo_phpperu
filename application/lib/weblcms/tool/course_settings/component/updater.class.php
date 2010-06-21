@@ -3,7 +3,6 @@
  * $Id: course_settings_updater.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_settings.component
  */
-require_once dirname(__FILE__) . '/../course_settings_tool_component.class.php';
 require_once dirname(__FILE__) . '/../../../course/course_form.class.php';
 
 class CourseSettingsToolUpdaterComponent extends CourseSettingsTool
@@ -22,7 +21,6 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsTool
             exit();
         }
         
-        $parameters = array(Tool :: PARAM_ACTION => CourseSettingsTool :: ACTION_UPDATE_COURSE_SETTINGS);
         $course_type_id = Request :: get('course_type');
         
         if (! is_null($course_type_id))

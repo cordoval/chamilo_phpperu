@@ -22,7 +22,10 @@ class ContentObjectPublicationCategory extends PlatformCategory
     {
         $wdm = WeblcmsDataManager :: get_instance();
 
-        $condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $this->get_parent());
+        $conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $this->get_parent());
+        $conditions[] = new EqualityCondition(self :: PROPERTY_COURSE, $this->get_course());
+        $conditions[] = new EqualityCondition(self :: PROPERTY_TOOL, $this->get_tool());
+        $condition = new AndCondition($conditions);
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
         $this->set_display_order($sort + 1);
 

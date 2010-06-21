@@ -27,7 +27,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
         {
             $html[] = $this->publisher->as_html();
            
-            $this->display_header($this->get_breadcrumbtrail());
+            $this->display_header();
             echo implode("\n", $html);
             $this->display_footer();
 
@@ -49,7 +49,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
             }
             else
             {
-                $this->display_header($this->get_breadcrumbtrail());
+                $this->display_header();
                 $this->display_error_message(Translation :: get('WikiPageTitleError'));
                 echo $this->publisher->as_html();
                 $this->display_footer();

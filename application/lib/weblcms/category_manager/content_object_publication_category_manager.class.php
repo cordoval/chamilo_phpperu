@@ -95,7 +95,7 @@ class ContentObjectPublicationCategoryManager extends CategoryManager
         $category = $this->get_category();
         $category->set_parent($parent_id);
         
-        return $wdm->select_next_content_object_publication_category_display_order($category);
+        return $wdm->get_next_content_object_publication_category_display_order($category->get_course(), $category->get_tool(), $parent_id);
     }
 }
 ?>

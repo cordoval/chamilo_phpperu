@@ -632,8 +632,8 @@ class CourseForm extends CommonForm
 
     function update()
     {
-        dump($_POST);
-        exit;
+        /*dump($_POST);
+        exit;*/
         $course = $this->fill_general_settings();
 
         if (! $course->update())

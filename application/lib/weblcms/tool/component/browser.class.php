@@ -224,9 +224,9 @@ class ToolBrowserComponent extends ToolComponent
         if (! ($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
         {
             $time_conditions = array();
-            $time_conditions[] = new NotCondition(new EqualityCondition(ContentObjectPublication :: PROPERTY_HIDDEN, 0));
+            $time_conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_HIDDEN, 0);
             
-            $forever_condition = new AndCondition(array(new EqualityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, 0), new EqualityCondition(ContentObjectPublication :: PROPERTY_TO_DATE)));
+            $forever_condition = new AndCondition(array(new EqualityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, 0), new EqualityCondition(ContentObjectPublication :: PROPERTY_TO_DATE, 0)));
             $between_condition = new AndCondition(array(new InequalityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time()), new InequalityCondition(ContentObjectPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time())));
             
             $time_conditions[] = new OrCondition(array($forever_condition, $between_condition));

@@ -28,27 +28,50 @@ class HomeToolViewerComponent extends HomeTool
         {
             echo '<div id="tool_browser">';
         }
+        
+        $tool_shortcut = $this->get_course()->get_tool_shortcut();
+        
+        if ($this->get_course()->get_intro_text() || $tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON)
+        {
+        	echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 2em;">';
+        }
+        
         if ($this->get_course()->get_intro_text())
         {
-            $introduction_text = $this->display_introduction_text($this->get_introduction_text());
+        	$introduction_text = $this->display_introduction_text($this->get_introduction_text());
             if (! $introduction_text)
             {
                 if ($this->is_allowed(EDIT_RIGHT))
                 {
                     $toolbar = new Toolbar();
                     $toolbar->add_item(new ToolbarItem(Translation :: get('PublishIntroductionText'), null, $this->get_url(array(Tool :: PARAM_ACTION => HomeTool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_LABEL));
-                    echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 0.6em;">';
+                    echo '<div style="float: left;">';
                     echo $toolbar->as_html();
                     echo '</div>';
                 }
             }
-            else
-            {
-                echo $introduction_text;
-            }
-            echo '<div class="clear"></div>';
+        }
+        
+        if($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON)
+        {
+        	$renderer = ToolListRenderer :: factory('Shortcut', $this);
+        	echo '<div style="float:right;">';
+            $renderer->display();
+            echo '</div>';
+        }
+        
+        if ($this->get_course()->get_intro_text() || $tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON)
+        {
+        	echo '</div>';
         }
 
+        echo '<div class="clear"></div>';
+        
+        if($introduction_text)
+        {
+        	echo $introduction_text;
+        }
+        
         $renderer = ToolListRenderer :: factory('FixedLocation', $this);
         $renderer->display();
         echo '</div>';

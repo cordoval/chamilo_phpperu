@@ -278,7 +278,7 @@ class ForumToolBrowserComponent extends ForumTool
                 $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('MoveUp'),
 		        		Theme :: get_common_image_path() . 'action_up.png',
-		        		$this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => - 1)),
+		        		$this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP)),
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
             }
@@ -297,7 +297,7 @@ class ForumToolBrowserComponent extends ForumTool
                 $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('MoveDown'),
 		        		Theme :: get_common_image_path() . 'action_down.png',
-		        		$this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => 1)),
+		        		$this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN)),
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
             }

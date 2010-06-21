@@ -173,7 +173,9 @@ abstract class ContentObjectDisplay
                 $html[] = '<ul class="attachments_list">';
                 foreach ($attachments as $attachment)
                 {
-                    $html[] = '<li><a href="' . Path :: get(WEB_PATH) . 'core.php?application=repository&go=view_attachment&object=' . $attachment->get_id() . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
+                    $url = Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=attachment_viewer&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $attachment->get_id();
+                	$url = 'javascript:openPopup(\'' . $url . '\'); return false;';
+                	$html[] = '<li><a href="#" onClick="' . $url . '"><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $attachment->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()) . 'TypeName')) . '"/> ' . $attachment->get_title() . '</a></li>';
                 }
                 $html[] = '</ul>';
                 $html[] = '</div>';
