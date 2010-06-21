@@ -715,6 +715,31 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->retrieve_objects(InternshipOrganizerMentor :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMentor :: CLASS_NAME);
     }
 
+function delete_internship_organizer_mentor_rel_user($mentor_rel_user)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerMentorRelUser :: PROPERTY_USER_ID, $mentor_rel_user->get_user_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerMentorRelUser :: PROPERTY_MENTOR_ID, $mentor_rel_user->get_mentor_id());
+        $condition = new AndCondition($conditions);
+        $bool = $this->delete($mentor_rel_user->get_table_name(), $condition);
+        return $bool;
+    }
+
+    function create_internship_organizer_mentor_rel_user($mentor_rel_user)
+    {
+        return $this->create($mentor_rel_user);
+    }
+
+    function count_mentor_rel_users($condition = null)
+    {
+        return $this->count_objects(InternshipOrganizerMentorRelUser :: get_table_name(), $condition);
+    }
+
+    function retrieve_mentor_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(InternshipOrganizerMentorRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMentorRelUser :: CLASS_NAME);
+    }
+    
     //internship planner periods##
     
 
