@@ -118,11 +118,31 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_root_region();
 
+    //mentors
+    
+
+    function delete_internship_organizer_mentor($mentor);
+
+    function update_internship_organizer_mentor($mentor);
+
+    function create_internship_organizer_mentor($mentor);
+
     function count_mentors($conditions = null);
 
     function retrieve_mentor($id);
 
     function retrieve_mentors($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function delete_internship_organizer_mentor_rel_user($organisation_rel_user);
+
+    function create_internship_organizer_mentor_rel_user($organisation_rel_user);
+
+    function count_mentor_rel_users($conditions = null);
+
+    function retrieve_mentor_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
+
+    //periods
+    
 
     function delete_internship_organizer_period($period);
 

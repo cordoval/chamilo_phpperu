@@ -1,5 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../mentor.class.php';
+require_once dirname(__FILE__) . '/../mentor_rel_user.class.php';
+
 
 /**
  * This class describes the form for a Mentor object.
@@ -10,6 +12,7 @@ class InternshipOrganizerMentorForm extends FormValidator
 {
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
+    const PARAM_TARGET = 'target_users';
     
     private $mentor;
     private $user;
@@ -47,9 +50,20 @@ class InternshipOrganizerMentorForm extends FormValidator
         $this->addElement('text', InternshipOrganizerMentor :: PROPERTY_EMAIL, Translation :: get('Email'));
         
         $this->addElement('text', InternshipOrganizerMentor :: PROPERTY_TELEPHONE, Translation :: get('Telephone'));
-       	
+        
         $this->addElement('hidden', InternshipOrganizerMentor :: PROPERTY_ORGANISATION_ID);
         
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_organisation_user_feed.php?organisation_id=' . $this->mentor->get_organisation_id();
+        $locale = array();
+        $locale['Display'] = Translation :: get('ChooseUsers');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        
+        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Users'), $url, $locale, array());
+        $defaults = array();
+        $elem->setDefaults($defaults);
+        $elem->setDefaultCollapsed(false);
     }
 
     function build_editing_form()
@@ -102,9 +116,26 @@ class InternshipOrganizerMentorForm extends FormValidator
         $mentor->set_lastname($values[InternshipOrganizerMentor :: PROPERTY_LASTNAME]);
         $mentor->set_email($values[InternshipOrganizerMentor :: PROPERTY_EMAIL]);
         $mentor->set_telephone($values[InternshipOrganizerMentor :: PROPERTY_TELEPHONE]);
-       	$mentor->set_organisation_id($values[InternshipOrganizerMentor :: PROPERTY_ORGANISATION_ID]);
+        $mentor->set_organisation_id($values[InternshipOrganizerMentor :: PROPERTY_ORGANISATION_ID]);
         
-        return $mentor->create();
+        $value = $mentor->create();
+               
+        if ($value)
+        {
+            $users = $values[self :: PARAM_TARGET];
+            
+            $mentor_id = $mentor->get_id();
+          
+            foreach ($users as $user_id)
+            {
+               	$organisation_rel_user = new InternshipOrganizerMentorRelUser();
+                $organisation_rel_user->set_mentor_id($mentor_id);
+                $organisation_rel_user->set_user_id($user_id);
+                $organisation_rel_user->create();
+            }
+        }
+        
+        return $value;
     }
 
     /**
@@ -125,6 +156,6 @@ class InternshipOrganizerMentorForm extends FormValidator
         
         parent :: setDefaults($defaults);
     }
-            
+
 }
 ?>

@@ -30,11 +30,11 @@ class InternshipOrganizerOrganisationManagerSubscribeUsersComponent extends Inte
             $success = $form->create_organisation_rel_users();
             if ($success)
             {
-                $this->redirect(Translation :: get('InternshipOrganizerOrganisationRelUsersCreated'), (false), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $this->organisation->get_id()));
+                $this->redirect(Translation :: get('InternshipOrganizerOrganisationRelUsersCreated'), (false), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $this->organisation->get_id(), DynamicTabsRenderer::PARAM_SELECTED_TAB => 2));
             }
             else
             {
-                $this->redirect(Translation :: get('InternshipOrganizerOrganisationRelUsersNotCreated'), (true), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATIONS));
+                $this->redirect(Translation :: get('InternshipOrganizerOrganisationRelUsersNotCreated'), (true), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $this->organisation->get_id(), DynamicTabsRenderer::PARAM_SELECTED_TAB => 2));
             }
         }
         else
