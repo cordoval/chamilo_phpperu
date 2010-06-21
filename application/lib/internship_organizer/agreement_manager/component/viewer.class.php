@@ -43,7 +43,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
 	
 	function get_tabs() {
 		
-		$html [] = array ();
+		$html = array ();
 		$html [] = '<div>';
 		
 		$renderer_name = Utilities::camelcase_to_underscores ( get_class ( $this ) );
@@ -52,11 +52,17 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
 		$count = $this->count_agreement_rel_locations ( $this->get_location_condition ( InternshipOrganizerAgreementRelLocation::APPROVED ) );
 		if ($count == 1) {
 			//the agreement is aproved so it is possible to add moments and create publications
+			
+			$parameters = $this->get_parameters ();
+			$parameters [InternshipOrganizerAgreementManager::PARAM_AGREEMENT_ID] = $this->agreement->get_id ();
+			$table = new InternshipOrganizerAgreementRelLocationBrowserTable ( $this, $parameters, $this->get_location_condition ( InternshipOrganizerAgreementRelLocation::APPROVED ) );
+			$tabs->add_tab ( new DynamicContentTab ( self::TAB_LOCATIONS, Translation::get ( 'InternshipOrganizerOrganisations' ), Theme::get_image_path ( 'internship_organizer' ) . 'place_mini_period.png', $table->as_html () ) );
+					
 			$parameters = $this->get_parameters ();
 			$parameters [InternshipOrganizerAgreementManager::PARAM_AGREEMENT_ID] = $this->agreement->get_id ();
 			$table = new InternshipOrganizerMomentBrowserTable ( $this, $parameters, $this->get_moment_condition () );
 			$tabs->add_tab ( new DynamicContentTab ( self::TAB_MOMENTS, Translation::get ( 'InternshipOrganizerMoments' ), Theme::get_image_path ( 'internship_organizer' ) . 'place_mini_period.png', $table->as_html () ) );
-		
+			
 		} else {
 			$parameters = $this->get_parameters ();
 			$parameters [InternshipOrganizerAgreementManager::PARAM_AGREEMENT_ID] = $this->agreement->get_id ();

@@ -5,10 +5,10 @@ require_once dirname(__FILE__) . '/browser/browser_table.class.php';
 
 class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrganizerAgreementManager
 {
-    
-    const TAB_NEW = 0;
-    const TAB_ADD_LOCATION = 1;
-    const TAB_COMPLETE = 2;
+      
+	const TAB_ADD_LOCATION = 1;
+    const TAB_TO_APPROVE = 2;
+    const TAB_APPROVED = 3;
     
     private $action_bar;
 
@@ -34,13 +34,13 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
               
         $table = $this->get_table(InternshipOrganizerAgreement::STATUS_ADD_LOCATION);
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_NEW, InternshipOrganizerAgreement :: get_status_name(InternshipOrganizerAgreement::STATUS_ADD_LOCATION), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_LOCATION, InternshipOrganizerAgreement :: get_status_name(InternshipOrganizerAgreement::STATUS_ADD_LOCATION), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         $table = $this->get_table(InternshipOrganizerAgreement::STATUS_TO_APPROVE);
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_ADD_LOCATION, InternshipOrganizerAgreement :: get_status_name(InternshipOrganizerAgreement::STATUS_TO_APPROVE), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_TO_APPROVE, InternshipOrganizerAgreement :: get_status_name(InternshipOrganizerAgreement::STATUS_TO_APPROVE), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         $table = $this->get_table(InternshipOrganizerAgreement::STATUS_APPROVED);
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_COMPLETE, InternshipOrganizerAgreement :: get_status_name(InternshipOrganizerAgreement::STATUS_APPROVED), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_APPROVED, InternshipOrganizerAgreement :: get_status_name(InternshipOrganizerAgreement::STATUS_APPROVED), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         
         echo $tabs->render();

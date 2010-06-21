@@ -84,7 +84,51 @@ class InternshipOrganizerAgreementRelLocation extends DataClass
 	 */
 	function set_location_type($location_type)
 	{
+
+	$dm = $this->get_data_manager();
+		
+	 switch ($location_type)
+        {
+            case 1 :
+				
+            	//If 1 relation is set to aprove, all reletions have to be of approve type and the status of the agreement has to be in "to approve"
+            	
+            	$query = 'UPDATE ' . $dm->escape_table_name ( 'agreement_rel_location' ) . ' SET ' . $dm->escape_column_name ( InternshipOrganizerAgreementRelLocation::PROPERTY_LOCATION_TYPE ) . '= 1 WHERE ' . $dm->escape_column_name ( InternshipOrganizerAgreementRelLocation::PROPERTY_AGREEMENT_ID ) . '=' . $dm->quote ( $this->get_agreement_id () );
+				$res = $dm->query ( $query );
+				$res->free ();
+            	
+            	$this->get_agreement()->update_status();
+            break;
+            case 2 :
+				
+            	// if 1  relation get approved all other relations has to be in type denied and the agreement status has to be updated to "approved"
+            	
+            	$query = 'UPDATE ' . $dm->escape_table_name ( 'agreement_rel_location' ) . ' SET ' . $dm->escape_column_name ( InternshipOrganizerAgreementRelLocation::PROPERTY_LOCATION_TYPE ) . '= 3 WHERE ' . $dm->escape_column_name ( InternshipOrganizerAgreementRelLocation::PROPERTY_AGREEMENT_ID ) . '=' . $dm->quote ( $this->get_agreement_id ()).'AND NOT'. $dm->escape_column_name ( InternshipOrganizerAgreementRelLocation::PROPERTY_LOCATION_ID ) . ' =' . $dm->quote ( $this->get_location_id ()  );
+				$res = $dm->query ( $query );
+				$res->free ();
+
+				$query = 'UPDATE ' . $dm->escape_table_name ( 'agreement_rel_location' ) . ' SET ' . $dm->escape_column_name ( InternshipOrganizerAgreementRelLocation::PROPERTY_LOCATION_TYPE ) . '= 2 WHERE ' . $dm->escape_column_name ( InternshipOrganizerAgreementRelLocation::PROPERTY_AGREEMENT_ID ) . '=' . $dm->quote ( $this->get_agreement_id ()) .'AND'. $dm->escape_column_name ( InternshipOrganizerAgreementRelLocation::PROPERTY_LOCATION_ID ) . '=' . $dm->quote ( $this->get_location_id ()  );
+				$res = $dm->query ( $query );
+				$res->free ();
+				
+				
+            	$this->get_agreement()->update_status();
+          break;
+            case 3 :
+				
+            	//a relation will never be set in type denied alone, this type will only exist when there is just 1 other relation that is in type approved, all others have to be in type denied
+            	
+            break;
+            default :
+                //no default
+                break;
+        }
+		
 		$this->set_default_property(self :: PROPERTY_LOCATION_TYPE, $location_type);
+	}
+	
+	function get_agreement(){
+		return InternshipOrganizerDataManager::get_instance()->retrieve_agreement($this->get_agreement_id());
 	}
 	
 /**
@@ -104,6 +148,11 @@ class InternshipOrganizerAgreementRelLocation extends DataClass
 	{
 		$this->set_default_property(self :: PROPERTY_PREFERENCE_ORDER, $preference_order);
 	}
+	
+ 	function move($move_direction)
+    {
+        return InternshipOrganizerDataManager :: get_instance()->move_agreement_rel_location($this, $move_direction);
+    }
 	
 	static function get_table_name()
 	{

@@ -33,11 +33,8 @@ class InternshipOrganizerAgreementManagerSubscriberComponent extends InternshipO
 					$agreementrellocation = new InternshipOrganizerAgreementRelLocation ();
 					$agreementrellocation->set_agreement_id ( $agreement_id );
 					$agreementrellocation->set_location_id ( $location_id );
-					$agreementrellocation->set_location_type ( InternshipOrganizerAgreementRelLocation :: TO_APPROVE );
-					$preference_order = InternshipOrganizerDataManager::get_instance()->get_next_agreement_rel_location_preference_order($agreement_id);
-					$agreementrellocation->set_preference_order($preference_order);
 					
-					
+										
 					if (! $agreementrellocation->create ()) 
 					{
 						$failures ++;

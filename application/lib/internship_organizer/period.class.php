@@ -121,12 +121,16 @@ class InternshipOrganizerPeriod extends NestedTreeNode {
 		return $this->get_data_manager ()->truncate_period ( $this );
 	}
 	
-	function get_user_ids($user_type) {
+	function get_user_ids($user_types) {
+		
+		if (! is_array ( $user_types )) {
+			$user_types = array ($user_types );
+		}
 		
 		$target_users = array ();
 		$type_index = $conditions = array ();
 		$conditions [] = new EqualityCondition ( InternshipOrganizerPeriodRelUser::PROPERTY_PERIOD_ID, $this->get_id () );
-		$conditions [] = new EqualityCondition ( InternshipOrganizerPeriodRelUser::PROPERTY_USER_TYPE, $user_type );
+		$conditions [] = new InCondition ( InternshipOrganizerPeriodRelUser::PROPERTY_USER_TYPE, $user_types );
 		$condition = new AndCondition ( $conditions );
 		
 		$period_rel_users = $this->get_data_manager ()->retrieve_period_rel_users ( $condition );
@@ -150,7 +154,13 @@ class InternshipOrganizerPeriod extends NestedTreeNode {
 				$target_users = array_merge ( $target_users, $group->get_users ( true, true ) );
 			}
 		}
-	 return array_unique($target_users);
+		return array_unique ( $target_users );
+	}
+	
+	function is_user_type($use_type, $user_id) {
+		
+		return in_array ( $user_id, $this->get_user_ids ( $use_type ) );
+	
 	}
 
 }

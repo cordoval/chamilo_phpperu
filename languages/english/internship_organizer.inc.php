@@ -210,4 +210,7 @@ $lang['internship_organizer']['InternshipOrganizerAgreementAddLocation'] = 'To a
 $lang['internship_organizer']['InternshipOrganizerAgreementToApprove'] = 'To be approved';
 $lang['internship_organizer']['InternshipOrganizerAgreementApproved'] = 'Approved';
 
+$lang['internship_organizer']['InternshipOrganizerAgreementRelLocationPreferenceUp'] = 'favorised Organisation';
+$lang['internship_organizer']['InternshipOrganizerAgreementRelLocationPreferenceDown'] = 'Lowered preference for organisation';
+
 ?>
