@@ -77,6 +77,7 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerMentor'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_mentor_url($this->organisation), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $this->organisation->get_id())));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_organisation_subscribe_users_url($this->organisation), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
     }

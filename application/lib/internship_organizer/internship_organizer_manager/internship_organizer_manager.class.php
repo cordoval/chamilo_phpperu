@@ -9,7 +9,6 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/organisa
 require_once Path :: get_application_path() . 'lib/internship_organizer/category_manager/category_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/agreement_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/region_manager/region_manager.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/mentor_manager/mentor_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/period_manager.class.php';
 
 class InternshipOrganizerManager extends WebApplication
@@ -21,7 +20,6 @@ class InternshipOrganizerManager extends WebApplication
     const ACTION_CATEGORY = 'category';
     const ACTION_APPLICATION_CHOOSER = 'chooser';
     const ACTION_REGION = 'region';
-    const ACTION_MENTOR = 'mentor';
     const ACTION_PERIOD = 'period';
 
     /**
@@ -60,9 +58,6 @@ class InternshipOrganizerManager extends WebApplication
                 break;
             case self :: ACTION_REGION :
                 $component = $this->create_component('Region');
-                break;
-            case self :: ACTION_MENTOR :
-                $component = $this->create_component('Mentor');
                 break;
             case self :: ACTION_PERIOD :
                 $component = $this->create_component('Period');
@@ -103,12 +98,6 @@ class InternshipOrganizerManager extends WebApplication
     function get_region_application_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REGION));
-    
-    }
-
-    function get_mentor_application_url()
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MENTOR));
     
     }
 

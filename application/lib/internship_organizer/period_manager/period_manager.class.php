@@ -21,7 +21,7 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_DELETE_PERIOD = 'delete';
     const ACTION_VIEW_PERIOD = 'view';
     const ACTION_SUBSCRIBE_USERS = 'subscribe_users';
-    const ACTION_SUBSCRIBE_USERS_TO_PERIOD = 'subscribe';
+//    const ACTION_SUBSCRIBE_USERS_TO_PERIOD = 'subscribe';
 
     function InternshipOrganizerPeriodManager($internship_manager)
     {
@@ -56,9 +56,9 @@ class InternshipOrganizerPeriodManager extends SubManager
             case self :: ACTION_BROWSE_PERIODS :
                 $component = $this->create_component('Browser');
                 break;
-            case self :: ACTION_SUBSCRIBE_USERS_TO_PERIOD :
-                $component = $this->create_component('Subscriber');
-                break;
+//            case self :: ACTION_SUBSCRIBE_USERS_TO_PERIOD :
+//                $component = $this->create_component('Subscriber');
+//                break;
             case self :: ACTION_SUBSCRIBE_USERS :
                 $component = $this->create_component('SubscribeUsers');
                 break;

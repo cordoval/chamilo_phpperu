@@ -25,16 +25,18 @@ class InternshipOrganizerOrganisationManager extends SubManager
     const ACTION_VIEW_ORGANISATION = 'view';
     
     const ACTION_CREATE_LOCATION = 'create_location';
-//    const ACTION_BROWSE_LOCATIONS = 'browse_locations';
+    //    const ACTION_BROWSE_LOCATIONS = 'browse_locations';
     const ACTION_EDIT_LOCATION = 'edit_location';
     const ACTION_DELETE_LOCATION = 'delete_location';
     const ACTION_VIEW_LOCATION = 'view_location';
     
     const ACTION_CREATE_MENTOR = 'create_mentor';
-//    const ACTION_BROWSE_MENTOR = 'browse_mentor';
+    //    const ACTION_BROWSE_MENTOR = 'browse_mentor';
     const ACTION_UPDATE_MENTOR = 'update_mentor';
     const ACTION_DELETE_MENTOR = 'delete_mentor';
     const ACTION_VIEW_MENTOR = 'view_mentor';
+    
+    const ACTION_SUBSCRIBE_USERS = 'subscribe_users';
 
     function InternshipOrganizerOrganisationManager($internship_manager)
     {
@@ -82,9 +84,9 @@ class InternshipOrganizerOrganisationManager extends SubManager
             case self :: ACTION_VIEW_LOCATION :
                 $component = $this->create_component('LocationViewer');
                 break;
-//            case self :: ACTION_BROWSE_LOCATIONS :
-//                $component = $this->create_component('LocationBrowser');
-//                break;
+            //            case self :: ACTION_BROWSE_LOCATIONS :
+            //                $component = $this->create_component('LocationBrowser');
+            //                break;
             case self :: ACTION_UPDATE_MENTOR :
                 $component = $this->create_component('MentorUpdater');
                 break;
@@ -97,9 +99,12 @@ class InternshipOrganizerOrganisationManager extends SubManager
             case self :: ACTION_VIEW_MENTOR :
                 $component = $this->create_component('MentorViewer');
                 break;
-//            case self :: ACTION_BROWSE_MENTOR :
-//                $component = $this->create_component('MentorBrowser');
-//                break;
+            //            case self :: ACTION_BROWSE_MENTOR :
+            //                $component = $this->create_component('MentorBrowser');
+            //                break;
+            case self :: ACTION_SUBSCRIBE_USERS :
+                $component = $this->create_component('SubscribeUsers');
+                break;
             default :
                 $component = $this->create_component('Browser');
                 break;
@@ -216,10 +221,11 @@ class InternshipOrganizerOrganisationManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_LOCATION, self :: PARAM_LOCATION_ID => $location->get_id()));
     }
 
-//    function get_browse_locations_url()
-//    {
-//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LOCATIONS));
-//    }
+    //    function get_browse_locations_url()
+    //    {
+    //        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LOCATIONS));
+    //    }
+    
 
     function get_create_mentor_url($organisation)
     {
@@ -236,14 +242,20 @@ class InternshipOrganizerOrganisationManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_MENTOR, self :: PARAM_MENTOR_ID => $mentor->get_id()));
     }
 
-//    function get_browse_mentors_url()
-//    {
-//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_MENTOR));
-//    }
+    //    function get_browse_mentors_url()
+    //    {
+    //        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_MENTOR));
+    //    }
+    
 
     function get_view_mentor_url($mentor)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MENTOR, self :: PARAM_MENTOR_ID => $mentor->get_id()));
+    }
+
+    function get_organisation_subscribe_users_url($organisation)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USERS, self :: PARAM_ORGANISATION_ID => $organisation->get_id()));
     }
 
     private function parse_input_from_table()
@@ -283,10 +295,10 @@ class InternshipOrganizerOrganisationManager extends SubManager
                     $this->set_organisation_action(self :: ACTION_DELETE_ORGANISATION);
                     $_GET[self :: PARAM_ORGANISATION_ID] = $selected_ids;
                     break;
-               case self :: PARAM_DELETE_SELECTED_MENTORS :
+                case self :: PARAM_DELETE_SELECTED_MENTORS :
                     $this->set_organisation_action(self :: ACTION_DELETE_MENTOR);
                     $_GET[self :: PARAM_MENTOR_ID] = $selected_ids;
-                    break;     
+                    break;
             }
         }
     }

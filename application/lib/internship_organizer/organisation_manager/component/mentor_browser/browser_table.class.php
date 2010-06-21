@@ -3,7 +3,6 @@
 require_once dirname(__FILE__) . '/browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/browser_table_cell_renderer.class.php';
-//require_once dirname(__FILE__) . '/../../mentor_manager.class.php';
 
 class InternshipOrganizerMentorBrowserTable extends ObjectTable
 {
@@ -21,7 +20,7 @@ class InternshipOrganizerMentorBrowserTable extends ObjectTable
         $this->set_additional_parameters($parameters);
         $actions = array();
         
-        $actions[] = new ObjectTableFormAction(InternshipOrganizerMentorManager :: PARAM_DELETE_SELECTED_MENTORS, Translation :: get('RemoveSelected'));
+        $actions[] = new ObjectTableFormAction(InternshipOrganizerOrganisationManager :: PARAM_DELETE_SELECTED_MENTORS, Translation :: get('RemoveSelected'));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
