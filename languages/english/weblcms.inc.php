@@ -1,5 +1,16 @@
 <?php
+$lang['weblcms']['CategoryNotMoved'] = 'Category not moved';
+$lang['weblcms']['TopicImportant'] = 'Topic marked as Important';
+$lang['weblcms']['TopicUnImportant'] = 'Topic unimportant';
+$lang['weblcms']['TopicStickied'] = 'Topic marked as Sticky';
+$lang['weblcms']['TopicUnStickied'] = 'Topic unstickied';
+$lang['weblcms']['FeedbackPublicationDeleted'] = 'Feedback deleted';
+$lang['weblcms']['FeedbackCreated'] = 'Feedback created';
+$lang['weblcms']['ExportToExcel'] = 'Export to Excel';
+$lang['weblcms']['Excel'] = 'Excel';
 $lang['weblcms']['For'] = 'For';
+$lang['weblcms']['StreamingVideoToolTitle'] = 'Streaming Video';
+$lang['weblcms']['HomeToolTitle'] = 'Home';
 $lang['weblcms']['NoPublicationsAvailable'] = 'No Publications Available';
 $lang['weblcms']['ContentObjectPublicationDetails'] = 'Publication details';
 $lang['weblcms']['ContentObjectPublicationAddFeedback'] = 'Publication add feedback';
