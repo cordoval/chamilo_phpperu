@@ -27,7 +27,7 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
     {
         if (! $this->is_allowed(VIEW_RIGHT))
         {
-            $this->display_header(BreadcrumbTrail :: get_instance());
+            $this->display_header();
         	Display :: not_allowed();
         	$this->display_footer();
             return;
@@ -53,7 +53,7 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
         }
         $wiki_page = $data_manager->retrieve_content_object($this->wiki_page_id);
         
-        $this->display_header(BreadcrumbTrail :: get_instance());
+        $this->display_header();
         
         $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), $this->complex_id); //$this->get_toolbar();
         echo '<div id="trailbox2" style="padding:0px;">' . $this->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
