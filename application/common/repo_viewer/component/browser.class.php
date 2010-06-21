@@ -3,13 +3,12 @@
  * $Id: browser.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.repo_viewer.component
  */
-require_once dirname(__FILE__) . '/../repo_viewer_component.class.php';
 require_once dirname(__FILE__) . '/content_object_table/content_object_table.class.php';
 /**
  * This class represents a encyclopedia repo_viewer component which can be used
  * to browse through the possible learning objects to publish.
  */
-class RepoViewerBrowserComponent extends RepoViewerComponent
+class RepoViewerBrowserComponent extends RepoViewer
 {
     const SHARED_BROWSER = 'shared';
 
@@ -49,7 +48,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
     /*
 	 * Inherited
 	 */
-    function as_html()
+    function run()
     {
         $this->renderer = clone $this->form->defaultRenderer();
         $this->renderer->setElementTemplate('<span>{element}</span> ');
@@ -63,7 +62,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         $html[] = '</div>';
 
     	$toolbar = $this->get_default_browser_actions();
-        
+
         $table_actions = $toolbar->get_items();
         foreach ($table_actions as $table_action)
         {
@@ -89,7 +88,9 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         $html[] = '</div>';
         $html[] = '<div class="clear">&nbsp;</div>';
 
-        return implode("\n", $html);
+        $this->display_header();
+        echo implode("\n", $html);
+        $this->display_footer();
     }
 
     protected function get_object_table($actions)
@@ -206,14 +207,14 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
         		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => '__ID__')), false),
         		ToolbarItem :: DISPLAY_ICON
         ));
-        
+
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get('Preview'),
         		Theme :: get_common_image_path() . 'action_browser.png',
         		$this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_VIEWER, RepoViewer :: PARAM_ID => '__ID__')), false),
         		ToolbarItem :: DISPLAY_ICON
         ));
-        
+
         if (!$this->is_shared_object_browser())
         {
         	$toolbar->add_item(new ToolbarItem(
@@ -223,7 +224,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
         }
-        
+
         return $toolbar;
     }
 

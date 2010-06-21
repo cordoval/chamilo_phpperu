@@ -18,23 +18,18 @@ class AlexiaManagerPublisherComponent extends AlexiaManager
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AlexiaManager :: ACTION_BROWSE_PUBLICATIONS)), Translation :: get('Alexia')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
         $trail->add_help('alexia general');
-        
-        $pub = new RepoViewer($this, Link :: get_type_name());
-        
-        if (! $pub->is_ready_to_be_published())
+
+        $repo_viewer = new RepoViewer($this, Link :: get_type_name());
+
+        if (! $repo_viewer->is_ready_to_be_published())
         {
-            $html[] = $pub->as_html();
+            $repo_viewer->run();
         }
         else
         {
-            $publisher = new AlexiaPublisher($pub);
-            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
+            $publisher = new AlexiaPublisher($this);
+            $publisher->get_publications_form($repo_viewer->get_selected_objects());
         }
-        
-        $this->display_header($trail);
-        echo implode("\n", $html);
-        echo '<div style="clear: both;"></div>';
-        $this->display_footer();
     }
 }
 ?>

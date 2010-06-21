@@ -18,25 +18,34 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
      */
     function run()
     {
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
 
-        $pub = new RepoViewer($this, Portfolio :: get_type_name(), RepoViewer :: SELECT_MULTIPLE);
+        $udm = UserDataManager :: get_instance();
+        $user = $udm->retrieve_user($this->get_user_id());
+        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
+
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
+        $trail->add_help('portfolio create');
+
+        $repo_viewer = new RepoViewer($this, Portfolio :: get_type_name(), RepoViewer :: SELECT_MULTIPLE);
         $html = array();
-        if (!$pub->is_ready_to_be_published())
+        if (! $repo_viewer->is_ready_to_be_published())
         {
-            $html[] = $pub->as_html();
+            $repo_viewer->run();
         }
         else
         {
-            $object = $pub->get_selected_objects();
-            
-        	if (! is_array($object))
-            { 
+            $object = $repo_viewer->get_selected_objects();
+
+            if (! is_array($object))
+            {
                 $object = array($object);
             }
 
             $portfolio_publication = new PortfolioPublication();
 
-            $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_CREATE, $portfolio_publication, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $object)), $this->get_user(), PortfolioRights::TYPE_PORTFOLIO_FOLDER);
+            $form = new PortfolioPublicationForm(PortfolioPublicationForm :: TYPE_CREATE, $portfolio_publication, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $object)), $this->get_user(), PortfolioRights :: TYPE_PORTFOLIO_FOLDER);
 
             if ($form->validate())
             {
@@ -45,8 +54,6 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
             }
             else
             {
-                
-
                 $condition = new InCondition(ContentObject :: PROPERTY_ID, $object, ContentObject :: get_table_name());
                 $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
 
@@ -64,22 +71,13 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
                 $html[] = '</div>';
                 $html[] = '</div>';
                 $html[] = $form->toHtml();
+                $html[] = '<div style="clear: both;"></div>';
 
+                $this->parent->display_header();
+                echo implode("\n", $html);
+                $this->parent->display_footer();
             }
         }
-        $trail = BreadcrumbTrail::get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolio')));
-
-        $udm = UserDataManager::get_instance();
-        $user = $udm->retrieve_user($this->get_user_id());
-        $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
-            
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
-        $trail->add_help('portfolio create');
-
-         $this->display_header();
-         echo implode("\n", $html);
-          $this->display_footer();
     }
 }
 ?>

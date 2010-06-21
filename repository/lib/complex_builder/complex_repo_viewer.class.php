@@ -18,13 +18,12 @@ class ComplexRepoViewer extends RepoViewer
     /**
      * The default learning objects, which are used for form defaults.
      */
-    
+
     function ComplexRepoViewer($parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE)
     {
         parent :: __construct($parent, $types, $maximum_select, array(), false);
-        $this->set_repo_viewer_actions(array('creator', 'browser'));
     }
-    
+
     function parse_input()
     {
         $this->parse_input_from_table();
