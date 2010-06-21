@@ -50,10 +50,6 @@ class HomeToolViewerComponent extends HomeTool
                     echo '</div>';
                 }
             }
-            else
-            {
-                echo $introduction_text;
-            }
         }
         
         if($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON)
@@ -70,6 +66,11 @@ class HomeToolViewerComponent extends HomeTool
         }
 
         echo '<div class="clear"></div>';
+        
+        if($introduction_text)
+        {
+        	echo $introduction_text;
+        }
         
         $renderer = ToolListRenderer :: factory('FixedLocation', $this);
         $renderer->display();

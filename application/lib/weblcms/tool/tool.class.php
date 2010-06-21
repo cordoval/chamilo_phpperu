@@ -608,7 +608,7 @@ abstract class Tool extends SubManager
             }
             
             $html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/introduction.png);">';
-            $html[] = '<div class="title">';
+            $html[] = '<div class="title" style="border-bottom: 1px dotted #D3D3D3; width:100%;">';
             $html[] = $introduction_text->get_content_object()->get_title();
             $html[] = '</div><div class="clear">&nbsp;</div>';
             $html[] = '<div class="description">';
