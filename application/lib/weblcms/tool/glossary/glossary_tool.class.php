@@ -44,6 +44,9 @@ class GlossaryTool extends Tool
             case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
                 $component = $this->create_component('ComplexBuilder');
                 break;
+            case self :: ACTION_PUBLISH_INTRODUCTION:
+            	$component = $this->create_component('IntroductionPublisher');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }
