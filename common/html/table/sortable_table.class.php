@@ -8,8 +8,8 @@ require_once 'table_sort.class.php';
  * split the data in several pages.
  * Using this class you can:
  * - automatically create checkboxes of the first table column
- *     - a "select all" and "deselect all" link is added
- *     - only if you provide a list of actions for the selected items
+ * - a "select all" and "deselect all" link is added
+ * - only if you provide a list of actions for the selected items
  * - click on the table header to sort the data
  * - choose how many items you see per page
  * - navigate through all data-pages
@@ -114,7 +114,7 @@ class SortableTable extends HTML_Table
         $this->page_nr = isset($_SESSION[$this->param_prefix . 'page_nr']) ? $_SESSION[$this->param_prefix . 'page_nr'] : 1;
         $this->page_nr = Request :: get($this->param_prefix . 'page_nr') ? Request :: get($this->param_prefix . 'page_nr') : $this->page_nr;
         $this->column = isset($_SESSION[$this->param_prefix . 'column']) ? $_SESSION[$this->param_prefix . 'column'] : $default_column;
-        $this->column = !is_null(Request :: get($this->param_prefix . 'column')) ? Request :: get($this->param_prefix . 'column') : $this->column;
+        $this->column = ! is_null(Request :: get($this->param_prefix . 'column')) ? Request :: get($this->param_prefix . 'column') : $this->column;
         $this->direction = isset($_SESSION[$this->param_prefix . 'direction']) ? $_SESSION[$this->param_prefix . 'direction'] : $default_order_direction;
         $this->direction = Request :: get($this->param_prefix . 'direction') ? Request :: get($this->param_prefix . 'direction') : $this->direction;
         $this->per_page = isset($_SESSION[$this->param_prefix . 'per_page']) ? $_SESSION[$this->param_prefix . 'per_page'] : $default_items_per_page;
@@ -128,17 +128,17 @@ class SortableTable extends HTML_Table
         $this->default_items_per_page = $default_items_per_page;
         $this->total_number_of_items = - 1;
         $this->get_total_number_function = $get_total_number_function;
-        $this->total_number_of_items = $this->get_total_number_of_items();        
+        $this->total_number_of_items = $this->get_total_number_of_items();
         $this->get_data_function = $get_data_function;
-        
+
         if ($this->per_page == 'all')
         {
-        	$this->per_page = $this->total_number_of_items;
+            $this->per_page = $this->total_number_of_items;
         }
 
         $this->ajax_enabled = $ajax_enabled;
         $this->column_filters = array();
-        $this->form_actions = array();
+        $this->form_actions = new ObjectTableFormActions();
         $this->checkbox_name = null;
         $this->td_attributes = array();
         $this->th_attributes = array();
@@ -234,7 +234,7 @@ class SortableTable extends HTML_Table
             $html[] = '</td>';
             $html[] = '</tr>';
             $html[] = '</table>';
-            if (count($this->form_actions))
+            if ($this->form_actions->has_form_actions())
             {
                 $html[] = '<script type="text/javascript">
 							/* <![CDATA[ */
@@ -274,7 +274,7 @@ class SortableTable extends HTML_Table
             $html[] = '<table style="width:100%;">';
             $html[] = '<tr>';
             $html[] = '<td colspan="2">';
-            if (count($this->form_actions))
+            if ($this->form_actions->has_form_actions())
             {
                 $html[] = '<div class="sortable_table_selection_controls">';
                 $html[] = '<span class="sortable_table_selection_controls_options">';
@@ -282,8 +282,8 @@ class SortableTable extends HTML_Table
                 $html[] = '&nbsp;-&nbsp;';
                 $html[] = '<a href="?' . $params . '"  onclick="javascript: setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a> ';
                 $html[] = '</span>';
-                $html[] = '<select id="actions_' . $this->table_name . '" name="' . $this->form_actions_select_name . '">';
-                foreach ($this->form_actions as $form_action)
+                $html[] = '<select id="actions_' . $this->table_name . '" name="' . $this->table_name . '_action_value">';
+                foreach ($this->form_actions->get_form_actions() as $form_action)
                 {
                     if (get_class($form_action) == 'ObjectTableFormAction')
                     {
@@ -291,6 +291,8 @@ class SortableTable extends HTML_Table
                     }
                 }
                 $html[] = '</select>';
+
+                $html[] = '<input type="hidden" name="'. $this->table_name .'_action_name" value="' . $this->form_actions->get_action() . '"/>';
                 $html[] = '<input type="hidden" name="table_name" value="' . $this->table_name . '"/>';
                 //                $html[] = '<button class="normal start" type="submit" value="' . Translation :: get('Ok') . '">' . Translation :: get('Ok') . '</button>';
                 $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
@@ -306,7 +308,7 @@ class SortableTable extends HTML_Table
             $html[] = '</td>';
             $html[] = '</tr>';
             $html[] = '</table>';
-            if (count($this->form_actions) > 0)
+            if ($this->form_actions->has_form_actions())
             {
                 $html[] = '</form>';
             }
@@ -338,9 +340,7 @@ class SortableTable extends HTML_Table
         $pager = $this->get_pager();
         $pager_links = $pager->getLinks();
         $showed_items = $pager->getOffsetByPageId();
-        return $pager_links['first'] . ' ' . $pager_links['back'] .
-            ' ' . $pager->getCurrentPageId() . ' / ' . $pager->numPages() . ' ' .
-            $pager_links['next'] . ' ' . $pager_links['last'];
+        return $pager_links['first'] . ' ' . $pager_links['back'] . ' ' . $pager->getCurrentPageId() . ' / ' . $pager->numPages() . ' ' . $pager_links['next'] . ' ' . $pager_links['last'];
     }
 
     /**
@@ -408,7 +408,7 @@ class SortableTable extends HTML_Table
             }
         }
         $result[] = '<select name="' . $this->param_prefix . 'per_page" onchange="javascript:this.form.submit();">';
-        for ($nr = 10; $nr <= min(50, $total_number_of_items); $nr += 10)
+        for($nr = 10; $nr <= min(50, $total_number_of_items); $nr += 10)
         {
             $result[] = '<option value="' . $nr . '" ' . ($nr == $this->per_page ? 'selected="selected"' : '') . '>' . $nr . '</option>';
         }
@@ -571,7 +571,7 @@ class SortableTable extends HTML_Table
      * @param string $checkbox_name The name of the generated checkboxes. The
      * value of the checkbox will be the value of the first column.
      */
-    function set_form_actions($actions, $checkbox_name = 'id', $select_name = 'action')
+    function set_form_actions(ObjectTableFormActions $actions, $checkbox_name = 'id', $select_name = 'action')
     {
         $this->form_actions = $actions;
         $this->checkbox_name = $checkbox_name;
@@ -614,7 +614,7 @@ class SortableTable extends HTML_Table
         {
             $row[$column] = call_user_func($function, $row[$column], $url_params);
         }
-        if (count($this->form_actions) > 0)
+        if ($this->form_actions->has_form_actions())
         {
             if (strlen($row[0]) > 0)
             {
@@ -628,7 +628,7 @@ class SortableTable extends HTML_Table
         }
         foreach ($row as $index => & $value)
         {
-            if (!is_numeric($value) && empty($value))
+            if (! is_numeric($value) && empty($value))
             {
                 $value = '-';
             }
@@ -677,10 +677,10 @@ class SortableTable extends HTML_Table
      * @param array $params The parameter's value.
      * @param string $key The parameter's name.
      * @param boolean $as_query_string True to format the result as a query
-     *                                 string, false for hidden inputs.
+     * string, false for hidden inputs.
      * @return array The query string parts (to be joined by ampersands or
-     *               another separator), or the hidden inputs as HTML, each
-     *               array element containing a single input.
+     * another separator), or the hidden inputs as HTML, each
+     * array element containing a single input.
      */
     private function serialize_array($params, $key, $as_query_string = false)
     {

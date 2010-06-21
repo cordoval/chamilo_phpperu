@@ -35,18 +35,27 @@ abstract class Application
             $this->set_action(Request :: get(self :: PARAM_ACTION));
         }
 
-        if(Request :: get(self :: PARAM_APPLICATION) == $this->get_application_name())
-        	$this->handle_table_action();
+        if (Request :: get(self :: PARAM_APPLICATION) == $this->get_application_name())
+        {
+            $this->handle_table_action();
+        }
     }
 
     function handle_table_action()
     {
-    	$table_name = Request :: post('table_name');
-        if(isset($table_name))
+        $table_name = Request :: post('table_name');
+        if (isset($table_name))
         {
-        	$class = Utilities :: underscores_to_camelcase($table_name);
-        	call_user_func(array($class, 'handle_table_action'));
-        	$this->set_action(Request :: post('action'));
+            $class = Utilities :: underscores_to_camelcase($table_name);
+            if (class_exists($class))
+            {
+                call_user_func(array($class, 'handle_table_action'));
+
+                $table_action_name = Request :: post($table_name . '_action_name');
+                $table_action_value = Request :: post($table_name . '_action_value');
+                $this->set_parameter($table_action_name, $table_action_value);
+                Request :: set_get($table_action_name, $table_action_value);
+            }
         }
     }
 
@@ -214,9 +223,9 @@ abstract class Application
         if (is_null($breadcrumbtrail))
         {
             $breadcrumbtrail = BreadcrumbTrail :: get_instance();
-            if($breadcrumbtrail->size() == 1)
+            if ($breadcrumbtrail->size() == 1)
             {
-            	$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
+                $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($this->get_application_name()))));
             }
         }
 
@@ -532,8 +541,6 @@ abstract class Application
     abstract function run();
 
     abstract static function get_application_path($application_name);
-
-
 
     abstract static function get_application_manager_path($application_name);
 

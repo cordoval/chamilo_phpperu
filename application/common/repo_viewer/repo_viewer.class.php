@@ -65,6 +65,7 @@ class RepoViewer
      */
     function RepoViewer($parent, $types, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array())
     {
+        $this->handle_table_action();
         $this->maximum_select = $maximum_select;
         $this->parent = $parent;
         $this->default_content_objects = array();
@@ -76,6 +77,22 @@ class RepoViewer
         $this->parse_input_from_table();
     }
 
+    function handle_table_action()
+    {
+        $table_name = Request :: post('table_name');
+        if (isset($table_name))
+        {
+            $class = Utilities :: underscores_to_camelcase($table_name);
+            $result = call_user_func(array($class, 'handle_table_action'));
+
+            $table_action_name = Request :: post($table_name . '_action_name');
+            $table_action_value = Request :: post($table_name . '_action_value');
+
+            $this->set_parameter($table_action_name, $table_action_value);
+            Request :: set_get($table_action_name, $table_action_value);
+        }
+    }
+
     function as_html()
     {
         $action = $this->get_action();
@@ -83,12 +100,12 @@ class RepoViewer
 
         $html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
         $repo_viewer_actions = $this->get_repo_viewer_actions();
-        
+
         if($action == self :: ACTION_VIEWER)
         {
         	$repo_viewer_actions[] = self :: ACTION_VIEWER;
         }
-        
+
         foreach ($repo_viewer_actions as $repo_viewer_action)
         {
             $html[] = '<li><a';
@@ -103,12 +120,12 @@ class RepoViewer
 
             $parameters = $this->get_parameters();
             $parameters[self :: PARAM_ACTION] = $repo_viewer_action;
-            
+
 	        if($repo_viewer_action == self :: ACTION_VIEWER)
 	        {
 	        	$parameters[self :: PARAM_ID] = Request :: get(self :: PARAM_ID);
 	        }
-            
+
             $html[] = ' href="' . $this->get_url($parameters, true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
         }
         $html[] = '</ul><div class="tabbed-pane-content">';

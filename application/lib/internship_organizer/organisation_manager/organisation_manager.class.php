@@ -5,21 +5,21 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/organisa
 
 class InternshipOrganizerOrganisationManager extends SubManager
 {
-    
+
     const PARAM_ACTION = 'action';
     const PARAM_ORGANISATION_ID = 'organisation_id';
     const PARAM_DELETE_SELECTED_ORGANISATIONS = 'delete_organisations';
-    
+
     const PARAM_LOCATION_ID = 'location_id';
     const PARAM_REGION_ID = 'region_id';
     const PARAM_DELETE_SELECTED_LOCATIONS = 'delete_locations';
-    
+
     const ACTION_CREATE_ORGANISATION = 'create';
     const ACTION_BROWSE_ORGANISATION = 'browse';
     const ACTION_UPDATE_ORGANISATION = 'update';
     const ACTION_DELETE_ORGANISATION = 'delete';
     const ACTION_VIEW_ORGANISATION = 'view';
-    
+
     const ACTION_CREATE_LOCATION = 'create_location';
     const ACTION_BROWSE_LOCATIONS = 'browse_locations';
     const ACTION_EDIT_LOCATION = 'edit_location';
@@ -35,16 +35,16 @@ class InternshipOrganizerOrganisationManager extends SubManager
             $this->set_parameter(self :: PARAM_ACTION, $action);
         }
         $this->parse_input_from_table();
-    
+
     }
 
     function run()
     {
         $action = $this->get_parameter(self :: PARAM_ACTION);
-        
+
         switch ($action)
         {
-            
+
             case self :: ACTION_UPDATE_ORGANISATION :
                 $component = $this->create_component('Updater');
                 break;
@@ -79,7 +79,7 @@ class InternshipOrganizerOrganisationManager extends SubManager
                 $component = $this->create_component('Browser');
                 break;
         }
-        
+
         $component->run();
     }
 
@@ -89,7 +89,7 @@ class InternshipOrganizerOrganisationManager extends SubManager
     }
 
     //organisations
-    
+
 
     function count_organisations($condition)
     {
@@ -186,12 +186,12 @@ class InternshipOrganizerOrganisationManager extends SubManager
             {
                 $selected_ids = $_POST[InternshipOrganizerOrganisationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
             }
-            
+
             if (isset($_POST[InternshipOrganizerLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
             {
                 $selected_ids = $_POST[InternshipOrganizerLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
             }
-            
+
             if (empty($selected_ids))
             {
                 $selected_ids = array();

@@ -18,9 +18,9 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
         $trail->add_help('personal calender general');
-        
+
         $pub = new RepoViewer($this, array(CalendarEvent :: get_type_name(), Task :: get_type_name(), 'external_calendar'));
-        
+
         if (!$pub->is_ready_to_be_published())
         {
             $html[] = $pub->as_html();
@@ -30,7 +30,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager
             $publisher = new PersonalCalendarPublisher($pub);
             $html[] = $publisher->get_publications_form($pub->get_selected_objects());
         }
-        
+
         $this->display_header($trail);
         //echo $publisher;
         echo implode("\n", $html);

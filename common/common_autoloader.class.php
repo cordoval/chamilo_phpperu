@@ -109,6 +109,7 @@ class CommonAutoloader
 					  'object_table_column' => 'table/object_table/object_table_column.class.php',
 					  'object_table_data_provider' => 'table/object_table/object_table_data_provider.class.php',
 					  'object_table_form_action' => 'table/object_table/object_table_form_action.class.php',
+					  'object_table_form_actions' => 'table/object_table/object_table_form_actions.class.php',
 					  'object_table_order' => 'table/object_table/object_table_order.class.php',
 					  'object_table' => 'table/object_table/object_table.class.php',
 					  'gallery_object_table_cell_renderer' => 'table/gallery_object_table/gallery_object_table_cell_renderer.class.php',
