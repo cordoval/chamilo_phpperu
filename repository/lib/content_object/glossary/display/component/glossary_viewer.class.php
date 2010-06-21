@@ -28,7 +28,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplay
         
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), $object->get_title()));
-        $this->display_header($trail);
+        $this->display_header();
 
         echo $this->action_bar->as_html();
         
