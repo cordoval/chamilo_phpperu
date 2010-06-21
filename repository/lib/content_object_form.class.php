@@ -331,10 +331,11 @@ EOT;
             $locale['Error'] = Translation :: get('Error');
             $hidden = true;
 
-            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
+            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
+        	$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
             $this->addElement('category', Translation :: get('Attachments'), 'content_object_attachments');
             $this->addElement('static', 'uploadify', Translation :: get('UploadDocument'), '<div id="uploadify"></div>');
-            $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments, $options);
+            $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments);
             $this->addElement('category');
 
             $elem->setDefaults($defaults);
