@@ -11,17 +11,13 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplay
     { 
         if ($this->get_parent()->is_allowed(ADD_RIGHT))
         {
-            $pub = new RepoViewer($this, Forum :: get_type_name(), RepoViewer :: SELECT_SINGLE, array(), false);
-            $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_SUBFORUM);
-            $pub->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
+            $repo_viewer = new RepoViewer($this, Forum :: get_type_name(), RepoViewer :: SELECT_SINGLE, array(), false);
+            $repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_SUBFORUM);
+            $repo_viewer->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
             
-            if (!$pub->is_ready_to_be_published())
+            if (!$repo_viewer->is_ready_to_be_published())
             {
-                $html[] = $pub->as_html();
-                
-                $this->display_header($this->get_complex_content_object_breadcrumbs());
-                echo implode("\n", $html);
-                $this->display_footer();
+                $repo_viewer->run();
             }
             else
             {
@@ -36,7 +32,7 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplay
                     $cloi->set_parent($this->get_root_content_object_id());
                 }
                 
-                $cloi->set_ref($pub->get_selected_objects());
+                $cloi->set_ref($repo_viewer->get_selected_objects());
                 $cloi->set_user_id($this->get_user_id());
                 $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($cloi->get_parent()));
                 
