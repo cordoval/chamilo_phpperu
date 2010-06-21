@@ -19,7 +19,8 @@ class ToolReportingViewerComponent extends ToolComponent
     function run()
     {      
         $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
-
+        $this->set_parameter(ReportingManager :: PARAM_TEMPLATE_NAME, $classname);
+                
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses reporting');
         
