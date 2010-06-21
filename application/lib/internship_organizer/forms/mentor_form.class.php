@@ -47,9 +47,9 @@ class InternshipOrganizerMentorForm extends FormValidator
         $this->addElement('text', InternshipOrganizerMentor :: PROPERTY_EMAIL, Translation :: get('Email'));
         
         $this->addElement('text', InternshipOrganizerMentor :: PROPERTY_TELEPHONE, Translation :: get('Telephone'));
+       	
+        $this->addElement('hidden', InternshipOrganizerMentor :: PROPERTY_ORGANISATION_ID);
         
-        $this->addElement('text', InternshipOrganizerMentor :: PROPERTY_USER_ID, Translation :: get('UserId'));
-    
     }
 
     function build_editing_form()
@@ -86,7 +86,7 @@ class InternshipOrganizerMentorForm extends FormValidator
         $mentor->set_lastname($values[InternshipOrganizerMentor :: PROPERTY_LASTNAME]);
         $mentor->set_email($values[InternshipOrganizerMentor :: PROPERTY_EMAIL]);
         $mentor->set_telephone($values[InternshipOrganizerMentor :: PROPERTY_TELEPHONE]);
-        $mentor->set_user_id($values[InternshipOrganizerMentor :: PROPERTY_USER_ID]);
+        $mentor->set_organisation_id($values[InternshipOrganizerMentor :: PROPERTY_ORGANISATION_ID]);
         
         return $mentor->update();
     }
@@ -102,7 +102,7 @@ class InternshipOrganizerMentorForm extends FormValidator
         $mentor->set_lastname($values[InternshipOrganizerMentor :: PROPERTY_LASTNAME]);
         $mentor->set_email($values[InternshipOrganizerMentor :: PROPERTY_EMAIL]);
         $mentor->set_telephone($values[InternshipOrganizerMentor :: PROPERTY_TELEPHONE]);
-        $mentor->set_user_id($values[InternshipOrganizerMentor :: PROPERTY_USER_ID]);
+       	$mentor->set_organisation_id($values[InternshipOrganizerMentor :: PROPERTY_ORGANISATION_ID]);
         
         return $mentor->create();
     }
@@ -121,9 +121,10 @@ class InternshipOrganizerMentorForm extends FormValidator
         $defaults[InternshipOrganizerMentor :: PROPERTY_LASTNAME] = $mentor->get_lastname();
         $defaults[InternshipOrganizerMentor :: PROPERTY_EMAIL] = $mentor->get_email();
         $defaults[InternshipOrganizerMentor :: PROPERTY_TELEPHONE] = $mentor->get_telephone();
-        $defaults[InternshipOrganizerMentor :: PROPERTY_USER_ID] = $mentor->get_user_id();
+        $defaults[InternshipOrganizerMentor :: PROPERTY_ORGANISATION_ID] = $mentor->get_organisation_id();
         
         parent :: setDefaults($defaults);
     }
+            
 }
 ?>

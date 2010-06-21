@@ -27,6 +27,14 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_organisations($condition = null, $offset = null, $count = null, $order_property = null);
 
+    function delete_internship_organizer_organisation_rel_user($organisation_rel_user);
+
+    function create_internship_organizer_organisation_rel_user($organisation_rel_user);
+
+    function count_organisation_rel_users($conditions = null);
+
+    function retrieve_organisation_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
+
     function delete_internship_organizer_category($category);
 
     function delete_category_rel_location($categoryrellocation);

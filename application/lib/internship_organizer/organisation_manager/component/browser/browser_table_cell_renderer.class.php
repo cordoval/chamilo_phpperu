@@ -84,7 +84,7 @@ class InternshipOrganizerOrganisationBrowserTableCellRenderer extends DefaultInt
         //                $toolbar_data[] = array('label' => Translation :: get('TruncateNA'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png');
         //            }
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_organisation_url($organisation), ToolbarItem :: DISPLAY_ICON, true));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_organisation_url($organisation), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_organisation_url($organisation), ToolbarItem :: DISPLAY_ICON));
         
         return $toolbar->as_html();
     }

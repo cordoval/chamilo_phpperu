@@ -95,14 +95,7 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
                 $category_link->set_image(Theme :: get_image_path() . 'browse_category.png');
                 $category_link->set_url($this->get_category_application_url());
                 $links[] = $category_link;
-                
-                $mentor_link = new DynamicAction();
-                $mentor_link->set_title(Translation :: get('MentorLink'));
-                $mentor_link->set_description(Translation :: get('MentorLinkDescription'));
-                $mentor_link->set_image(Theme :: get_image_path() . 'browse_mentor.png');
-                $mentor_link->set_url($this->get_mentor_application_url());
-                $links[] = $mentor_link;
-                
+                               
                 $organisation_link = new DynamicAction();
                 $organisation_link->set_title(Translation :: get('OrganisationLink'));
                 $organisation_link->set_description(Translation :: get('OrganisationLinkDescription'));

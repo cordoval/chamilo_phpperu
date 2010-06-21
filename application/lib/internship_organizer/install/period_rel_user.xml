@@ -2,8 +2,10 @@
 <object name="period_rel_user">
 	<properties>
 		<property name="user_id" type="integer" unsigned="1" notnull="1" />
-		<property name="period_id" type="integer" unsigned="1" notnull="1" />
-		<property name="user_type" type="integer" unsigned="1" notnull="1" />
+		<property name="period_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="user_type" type="integer" unsigned="1"
+			notnull="1" />
 	</properties>
 	<index name="period_user_id" type="primary">
 		<indexproperty name="user_id" />
