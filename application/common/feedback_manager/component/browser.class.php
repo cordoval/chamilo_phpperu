@@ -147,7 +147,8 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
 
     function get_description($feedback)
     {
-        $description = $feedback->get_description();
+        $display = ContentObjectDisplay :: factory($feedback);
+        $description = $display->get_description();
         $parsed_description = BbcodeParser :: get_instance()->parse($description);
         return '<div class="description">' . $parsed_description . '</div>';
     }
