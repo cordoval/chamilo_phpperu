@@ -54,7 +54,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
         }
         
         //$this->display_header($trail);
-        $this->display_header($this->get_complex_content_object_breadcrumbs());
+        $this->display_header();
         echo $this->action_bar->as_html();
         echo $topics_table->toHtml();
         

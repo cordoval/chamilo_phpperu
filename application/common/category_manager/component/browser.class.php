@@ -20,12 +20,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
         $this->ab = $this->get_action_bar(); //new ActionBarRenderer($this->get_left_toolbar_data(), array(), );
         $menu = new CategoryMenu(Request :: get(CategoryManager :: PARAM_CATEGORY_ID), $this->get_parent());
 
-        $trail = $this->get_breadcrumb_trail();
-        $trail->merge($menu->get_breadcrumbs());
-        //$trail = $menu->get_breadcrumbs();
-
-
-        echo $this->display_header($trail);
+        echo $this->display_header();
         echo $this->ab->as_html() . '<br />';
         
         if($this->get_subcategories_allowed())
