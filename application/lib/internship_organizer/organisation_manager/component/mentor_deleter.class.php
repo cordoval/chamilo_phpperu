@@ -2,7 +2,7 @@
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
 
-class InternshipOrganizerMentorManagerDeleterComponent extends InternshipOrganizerMentorManager
+class InternshipOrganizerOrganisationManagerDeleterComponent extends InternshipOrganizerOrganisationManager
 {
 
     /**
@@ -10,7 +10,7 @@ class InternshipOrganizerMentorManagerDeleterComponent extends InternshipOrganiz
      */
     function run()
     {
-        $ids = $_GET[InternshipOrganizerMentorManager :: PARAM_MENTOR_ID];
+        $ids = $_GET[InternshipOrganizerOrganisationManager :: PARAM_MENTOR_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -53,7 +53,7 @@ class InternshipOrganizerMentorManagerDeleterComponent extends InternshipOrganiz
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerMentorManager :: PARAM_ACTION => InternshipOrganizerMentorManager :: ACTION_BROWSE_MENTOR));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_MENTOR));
         }
         else
         {

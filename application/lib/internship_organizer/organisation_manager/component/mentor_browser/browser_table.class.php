@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/browser_table_data_provider.class.php';
 require_once dirname(__FILE__) . '/browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/browser_table_cell_renderer.class.php';
-require_once dirname(__FILE__) . '/../../mentor_manager.class.php';
+//require_once dirname(__FILE__) . '/../../mentor_manager.class.php';
 
 class InternshipOrganizerMentorBrowserTable extends ObjectTable
 {

@@ -21,7 +21,7 @@ class InternshipOrganizerMentor extends DataClass
     const PROPERTY_LASTNAME = 'lastname';
     const PROPERTY_EMAIL = 'email';
     const PROPERTY_TELEPHONE = 'telephone';
-    const PROPERTY_USER_ID = 'user_id';
+    const PROPERTY_ORGANISATION_ID = 'organisation_id';
 
     /**
      * Get the default properties
@@ -29,7 +29,7 @@ class InternshipOrganizerMentor extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_LASTNAME, self :: PROPERTY_EMAIL, self :: PROPERTY_TELEPHONE, self :: PROPERTY_USER_ID);
+        return array(self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_LASTNAME, self :: PROPERTY_EMAIL, self :: PROPERTY_TELEPHONE, self :: PROPERTY_ORGANISATION_ID);
     }
 
     function get_data_manager()
@@ -146,21 +146,21 @@ class InternshipOrganizerMentor extends DataClass
     }
 
     /**
-     * Returns the user_id of this Mentor.
-     * @return the user_id.
+     * Returns the organisation_id of this Mentor.
+     * @return the organisation_id.
      */
-    function get_user_id()
+    function get_organisation_id()
     {
-        return $this->get_default_property(self :: PROPERTY_USER_ID);
+        return $this->get_default_property(self :: PROPERTY_ORGANISATION_ID);
     }
 
     /**
-     * Sets the user_id of this Mentor.
-     * @param user_id
+     * Sets the organisation_id of this Mentor.
+     * @param organisation_id
      */
-    function set_user_id($user_id)
+    function set_organisation_id($organisation_id)
     {
-        $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
+        $this->set_default_property(self :: PROPERTY_ORGANISATION_ID, $organisation_id);
     }
 
     static function get_table_name()
