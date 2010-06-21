@@ -1,5 +1,11 @@
 <?php
+$lang['weblcms']['FeedbackPublicationDeleted'] = 'Feedback deleted';
+$lang['weblcms']['FeedbackCreated'] = 'Feedback created';
+$lang['weblcms']['ExportToExcel'] = 'Export to Excel';
+$lang['weblcms']['Excel'] = 'Excel';
 $lang['weblcms']['For'] = 'For';
+$lang['weblcms']['StreamingVideoToolTitle'] = 'Streaming Video';
+$lang['weblcms']['HomeToolTitle'] = 'Home';
 $lang['weblcms']['NoPublicationsAvailable'] = 'No Publications Available';
 $lang['weblcms']['ContentObjectPublicationDetails'] = 'Publication details';
 $lang['weblcms']['ContentObjectPublicationAddFeedback'] = 'Publication add feedback';
