@@ -20,10 +20,10 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
 	 */
     function render_cell($column, $publication)
     {
-        if ($column === ObjectPublicationTableColumnModel :: get_action_column())
+        /*if ($column === ObjectPublicationTableColumnModel :: get_action_column())
         {
         	return $this->get_actions($publication)->as_html();
-        }
+        }*/
 
         switch ($column->get_name())
         {
@@ -70,7 +70,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         return implode("\n", $html);
     }
 
-    function get_actions($publication)
+    /*function get_actions($publication)
     {
 		$toolbar = parent :: get_actions($publication);
 		$items = $toolbar->get_items();
@@ -84,7 +84,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         ));
         
        return $toolbar;
-    }
+    }*/
 
 }
 ?>

@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../../trackers/weblcms_lpi_attempt_objecti
 require_once dirname(__FILE__) . '/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/prerequisites_translator.class.php';
 
-class LearningPathToolViewerComponent extends LearningPathTool
+class LearningPathToolAttemptComponent extends LearningPathTool
 {
     private $pid;
     private $trackers;

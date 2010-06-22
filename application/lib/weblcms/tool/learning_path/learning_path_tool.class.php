@@ -14,6 +14,7 @@ class LearningPathTool extends Tool
     const ACTION_VIEW_CLO = 'view_clo';
     const ACTION_VIEW_ASSESSMENT_CLO = 'view_assessment_clo';
     const ACTION_VIEW_DOCUMENT = 'view_document';
+    const ACTION_ATTEMPT = 'attempt';
     
     const PARAM_LEARNING_PATH = 'lp';
     const PARAM_LP_STEP = 'step';
@@ -74,6 +75,9 @@ class LearningPathTool extends Tool
             case self :: ACTION_PUBLISH_INTRODUCTION:
             	$component = $this->create_component('IntroductionPublisher');
                 break;
+            case self :: ACTION_ATTEMPT:
+            	$component = $this->create_component('Attempt');
+                break;
             default :
                 $component = $this->create_component('Browser');
                 break;
@@ -99,5 +103,24 @@ class LearningPathTool extends Tool
 	{
 		return dirname(__FILE__) . '/component/';
 	}
+	
+	function get_content_object_publication_actions($publication)
+    {
+        $items[] = new ToolbarItem(
+        		Translation :: get('AttemptLearningPath'),
+        		Theme :: get_common_image_path() . 'action_start.png',
+        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+        		ToolbarItem :: DISPLAY_ICON
+        );
+        
+    	$items[] = new ToolbarItem(
+        		Translation :: get('Statistics'),
+        		Theme :: get_common_image_path() . 'action_reporting.png',
+        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+        		ToolbarItem :: DISPLAY_ICON
+        );
+        
+       return $items;
+    }
 }
 ?>
