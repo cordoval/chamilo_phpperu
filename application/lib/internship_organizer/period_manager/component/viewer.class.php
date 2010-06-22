@@ -8,8 +8,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
 {
     const TAB_COORDINATOR = 0;
     const TAB_STUDENT = 1;
-    const TAB_MENTOR = 2;
-    const TAB_COACH = 3;
+    const TAB_COACH = 2;
     
     private $period;
     private $ab;
@@ -156,10 +155,6 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         // Student table tab
         $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_type_users_condition(InternshipOrganizerUserType :: STUDENT));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_STUDENT, Translation :: get('InternshipOrganizerStudent'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-        
-        // Mentor table tab
-        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_type_users_condition(InternshipOrganizerUserType :: MENTOR));
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_MENTOR, Translation :: get('InternshipOrganizerMentor'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         // Coach table tab
         $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_type_users_condition(InternshipOrganizerUserType :: COACH));
