@@ -1,23 +1,14 @@
 <?php
-/**
- * $Id: survey_publication_group.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey
- */
 
-/**
- * This class describes a SurveyPublicationGroup data object
- * @author Sven Vanpoucke
- * @author 
- */
-class SurveyPublicationGroup extends DataClass
+class InternshipOrganizerPublicationGroup extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication_group';
     
     /**
-     * SurveyPublicationGroup properties
+     * InternshipOrganizerPublicationGroup properties
      */
-    const PROPERTY_SURVEY_PUBLICATION = 'survey_publication_id';
+    const PROPERTY_PUBLICATION_ID = 'publication_id';
     const PROPERTY_GROUP_ID = 'group_id';
 
     /**
@@ -26,34 +17,34 @@ class SurveyPublicationGroup extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_SURVEY_PUBLICATION, self :: PROPERTY_GROUP_ID);
+        return array(self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_GROUP_ID);
     }
 
     function get_data_manager()
     {
-        return SurveyDataManager :: get_instance();
+        return InternshipOrganizerDataManager :: get_instance();
     }
 
     /**
-     * Returns the survey_publication of this SurveyPublicationGroup.
-     * @return the survey_publication.
+     * Returns the publication_id of this InternshipOrganizerPublicationGroup.
+     * @return the publication_id.
      */
-    function get_survey_publication()
+    function get_publication_id()
     {
-        return $this->get_default_property(self :: PROPERTY_SURVEY_PUBLICATION);
+        return $this->get_default_property(self :: PROPERTY_PUBLICATION_ID);
     }
 
     /**
-     * Sets the survey_publication of this SurveyPublicationGroup.
-     * @param survey_publication
+     * Sets the publication_id of this InternshipOrganizerPublicationGroup.
+     * @param publication_id
      */
-    function set_survey_publication($survey_publication)
+    function set_survey_publication($publication_id)
     {
-        $this->set_default_property(self :: PROPERTY_SURVEY_PUBLICATION, $survey_publication);
+        $this->set_default_property(self :: PROPERTY_PUBLICATION_ID, $publication_id);
     }
 
     /**
-     * Returns the group_id of this SurveyPublicationGroup.
+     * Returns the group_id of this InternshipOrganizerPublicationGroup.
      * @return the group_id.
      */
     function get_group_id()
@@ -62,7 +53,7 @@ class SurveyPublicationGroup extends DataClass
     }
 
     /**
-     * Sets the group_id of this SurveyPublicationGroup.
+     * Sets the group_id of this InternshipOrganizerPublicationGroup.
      * @param group_id
      */
     function set_group_id($group_id)

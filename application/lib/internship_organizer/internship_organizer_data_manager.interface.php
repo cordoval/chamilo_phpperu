@@ -186,6 +186,20 @@ interface InternshipOrganizerDataManagerInterface
     function count_period_rel_groups($conditions = null);
 
     function retrieve_period_rel_groups($condition = null, $offset = null, $count = null, $order_property = null);
+	
+    //publications
+    
+    function create_publication($publication);
 
+    function update_publication($publication);
+
+    function delete_publication($publication);
+
+    function count_publications($conditions = null);
+
+    function retrieve_publication($publication_id);
+
+    function retrieve_publications($condition = null, $offset = null, $count = null, $order_property = null);
+    
 }
 ?>

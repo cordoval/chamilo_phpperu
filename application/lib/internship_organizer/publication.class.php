@@ -4,22 +4,19 @@ class InternshipOrganizerPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
-    const PARTICIPANT_ROOTCONTEXT = 'ROOT';
+    
     /**
      * InternshipOrganizerPublication properties
      */
-    const PROPERTY_CONTENT_OBJECT = 'content_object_id';
+    const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
-    const PROPERTY_PUBLISHER = 'publisher_id';
+    const PROPERTY_PUBLISHER_ID = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
-
     const PROPERTY_PUBLISHER_TYPE = 'publisher_type';
-    const PROPERTY_PUBLICATION_TYPE = 'publisher_type';
+    const PROPERTY_PUBLICATION_TYPE = 'publication_type';
+    const PROPERTY_PUBLICATION_PLACE = 'publication_place';
     
-    //Locations : period, agreement, moment, location, organisation
-    const PROPERTY_LOCATION = 'location';
-        
     private $target_groups;
     private $target_users;
 
@@ -28,152 +25,32 @@ class InternshipOrganizerPublication extends DataClass
      * @return array The property names.
      */
     
-    public function create()
-    {
-        $succes = parent :: create();
-        if ($succes)
-        {
-            foreach ($this->get_target_user_ids() as $user_id)
-            {
-                $this->create_participant_trackers($user_id);
-            }
-        
-        }
-        return $succes;
-    }
-
-    public function update()
-    {
-        
-        $succes = parent :: update();
-        if ($succes)
-        {
-            
-            $dummy = new SurveyParticipantTracker();
-            $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
-            $trackers = $dummy->retrieve_tracker_items($condition);
-            
-            $user_ids = $this->get_target_user_ids();
-            $tracker_user_ids = array();
-            
-            foreach ($trackers as $tracker)
-            {
-                $user_id = $tracker->get_user_id();
-                $key = array_search($user_id, $user_ids);
-                
-                if ($key == false)
-                {
-                    
-                    $tracker->delete();
-                }
-                else
-                {
-                    
-                    $tracker_user_ids[] = $user_id;
-                }
-            }
-            
-            $new_tracker_user_ids = array_diff($user_ids, $tracker_user_ids);
-            foreach ($new_tracker_user_ids as $user_id)
-            {
-                $this->create_participant_trackers($user_id);
-            }
-        
-        }
-        
-        return $succes;
-    }
-
-    public function delete()
-    {
-        $succes = parent :: delete();
-        if ($succes)
-        {
-            $dummy = new SurveyParticipantTracker();
-            $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
-            $trackers = $dummy->retrieve_tracker_items($condition);
-            
-            foreach ($trackers as $tracker)
-            {
-                $tracker->delete();
-            }
-        
-        }
-        
-        return $succes;
-    }
-
-    private function create_participant_trackers($user_id)
-    {
-        $dm = UserDataManager :: get_instance();
-        $user_name = $dm->retrieve_user($user_id)->get_email();
-        $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_content_object());
-        
-        $template = $survey->get_context_template();
-        $this->create_contexts($user_id, $template, $user_name);
-    }
-
-    private function create_contexts($user_id, $template, $key, $parent_participant_id = 0)
-    {
-        $context_type = $template->get_context_type();
-        $key_type = $template->get_key_type();
-        
-        $context = SurveyContext :: factory($context_type);
-        $contexts = $context->create_contexts_for_user($user_id, $key, $key_type);
-        
-        //        dump($contexts);
-        //        exit;
-        
-
-        $args = array();
-        $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
-        $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
-        $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_participant_id;
-        $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $template->get_id();
-        
-        foreach ($contexts as $cont)
-        {
-            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
-            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $cont->get_name();
-            $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
-            if ($template->has_children())
-            {
-                $temps = $template->get_children(false);
-                while ($temp = $temps->next_result())
-                {
-                    $key = $cont->get_additional_property($temp->get_key_type());
-                    $this->create_contexts($user_id, $temp, $key, $tracker[0]->get_id());
-                }
-            }
-        }
-    }
-
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_CATEGORY, self :: PROPERTY_TEST));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER_ID, self :: PROPERTY_PUBLISHED, self :: PROPERTY_PUBLICATION_TYPE, self :: PROPERTY_PUBLISHER_TYPE, self :: PROPERTY_PUBLICATION_PLACE));
     }
 
     function get_data_manager()
     {
-        return SurveyDataManager :: get_instance();
+        return InternshipOrganizerDataManager :: get_instance();
     }
 
     /**
-     * Returns the content_object of this InternshipOrganizerPublication.
-     * @return the content_object.
+     * Returns the content_object_id of this InternshipOrganizerPublication.
+     * @return the content_object_id.
      */
-    function get_content_object()
+    function get_content_object_id()
     {
-        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT);
+        return $this->get_default_property(self :: PROPERTY_CONTENT_OBJECT_ID);
     }
 
     /**
-     * Sets the content_object of this InternshipOrganizerPublication.
-     * @param content_object
+     * Sets the content_object_id of this InternshipOrganizerPublication.
+     * @param content_object_id
      */
-    function set_content_object($content_object)
+    function set_content_object($content_object_id)
     {
-        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT, $content_object);
+        $this->set_default_property(self :: PROPERTY_CONTENT_OBJECT_ID, $content_object_id);
     }
 
     /**
@@ -213,49 +90,75 @@ class InternshipOrganizerPublication extends DataClass
     }
 
     /**
-     * Returns the hidden of this InternshipOrganizerPublication.
-     * @return the hidden.
+     * Returns the publisher_id of this InternshipOrganizerPublication.
+     * @return the publisher_id.
      */
-    function get_hidden()
+    function get_publisher_id()
     {
-        return $this->get_default_property(self :: PROPERTY_HIDDEN);
-    }
-
-    function get_test()
-    {
-        return $this->get_default_property(self :: PROPERTY_TEST);
+        return $this->get_default_property(self :: PROPERTY_PUBLISHER_ID);
     }
 
     /**
-     * Sets the hidden of this InternshipOrganizerPublication.
-     * @param hidden
+     * Sets the publisher_id of this InternshipOrganizerPublication.
+     * @param publisher_id
      */
-    function set_hidden($hidden)
+    function set_publisher_id($publisher_id)
     {
-        $this->set_default_property(self :: PROPERTY_HIDDEN, $hidden);
-    }
-
-    function set_test($test)
-    {
-        $this->set_default_property(self :: PROPERTY_TEST, $test);
+        $this->set_default_property(self :: PROPERTY_PUBLISHER_ID, $publisher_id);
     }
 
     /**
-     * Returns the publisher of this InternshipOrganizerPublication.
-     * @return the publisher.
+     * Returns the publisher_type of this InternshipOrganizerPublication.
+     * @return the publisher_type.
      */
-    function get_publisher()
+    function get_publisher_type()
     {
-        return $this->get_default_property(self :: PROPERTY_PUBLISHER);
+        return $this->get_default_property(self :: PROPERTY_PUBLICATION_TYPE);
     }
 
     /**
-     * Sets the publisher of this InternshipOrganizerPublication.
-     * @param publisher
+     * Sets the publisher_type of this InternshipOrganizerPublication.
+     * @param publisher_type
      */
-    function set_publisher($publisher)
+    function set_publisher_type($publisher_type)
     {
-        $this->set_default_property(self :: PROPERTY_PUBLISHER, $publisher);
+        $this->set_default_property(self :: PROPERTY_PUBLICATION_TYPE, $publisher_type);
+    }
+
+    /**
+     * Returns the publication_type of this InternshipOrganizerPublication.
+     * @return the publication_type.
+     */
+    function get_publication_type()
+    {
+        return $this->get_default_property(self :: PROPERTY_PUBLICATION_TYPE);
+    }
+
+    /**
+     * Sets the publication_type of this InternshipOrganizerPublication.
+     * @param publication_type
+     */
+    function set_publication_type($publication_type)
+    {
+        $this->set_default_property(self :: PROPERTY_PUBLICATION_TYPE, $publication_type);
+    }
+
+    /**
+     * Returns the publication_place of this InternshipOrganizerPublication.
+     * @return the publication_place.
+     */
+    function get_publication_place()
+    {
+        return $this->get_default_property(self :: PROPERTY_PUBLICATION_PLACE);
+    }
+
+    /**
+     * Sets the publication_place of this InternshipOrganizerPublication.
+     * @param publication_place
+     */
+    function set_publication_place($publication_place)
+    {
+        $this->set_default_property(self :: PROPERTY_PUBLICATION_PLACE, $publication_place);
     }
 
     /**
@@ -276,24 +179,6 @@ class InternshipOrganizerPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
     }
 
-    /**
-     * Returns the category of this InternshipOrganizerPublication.
-     * @return the category.
-     */
-    function get_category()
-    {
-        return $this->get_default_property(self :: PROPERTY_CATEGORY);
-    }
-
-    /**
-     * Sets the category of this InternshipOrganizerPublication.
-     * @param category
-     */
-    function set_category($category)
-    {
-        $this->set_default_property(self :: PROPERTY_CATEGORY, $category);
-    }
-
     function set_target_groups($target_groups)
     {
         $this->target_groups = $target_groups;
@@ -304,31 +189,12 @@ class InternshipOrganizerPublication extends DataClass
         $this->target_users = $target_users;
     }
 
-    function toggle_visibility()
-    {
-        $this->set_hidden(! $this->get_hidden());
-    }
-
-    /**
-     * Determines whether this publication is hidden or not
-     * @return boolean True if the publication is hidden.
-     */
-    function is_hidden()
-    {
-        return $this->get_default_property(self :: PROPERTY_HIDDEN);
-    }
-
-    function is_test()
-    {
-        return $this->get_default_property(self :: PROPERTY_TEST);
-    }
-
     function get_target_groups()
     {
         if (! $this->target_groups)
         {
             $condition = new EqualityCondition(InternshipOrganizerPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $this->get_id());
-            $groups = $this->get_data_manager()->retrieve_survey_publication_groups($condition);
+            $groups = $this->get_data_manager()->retrieve_publication_groups($condition);
             
             while ($group = $groups->next_result())
             {
@@ -345,7 +211,7 @@ class InternshipOrganizerPublication extends DataClass
         {
             $this->target_users = array();
             $condition = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $this->get_id());
-            $users = $this->get_data_manager()->retrieve_survey_publication_users($condition);
+            $users = $this->get_data_manager()->retrieve_publication_users($condition);
             
             while ($user = $users->next_result())
             {
@@ -439,12 +305,6 @@ class InternshipOrganizerPublication extends DataClass
             }
         }
         
-        if ($this->get_hidden())
-        {
-            
-            return false;
-        }
-        
         if (! $this->is_publication_period())
         {
             
@@ -482,7 +342,7 @@ class InternshipOrganizerPublication extends DataClass
         return self :: TABLE_NAME;
     }
 
-    function get_publication_object()
+    function get_content_object()
     {
         $rdm = RepositoryDataManager :: get_instance();
         return $rdm->retrieve_content_object($this->get_content_object());
@@ -492,53 +352,6 @@ class InternshipOrganizerPublication extends DataClass
     {
         $udm = UserDataManager :: get_instance();
         return $udm->retrieve_user($this->get_publisher());
-    }
-
-    function count_unique_participants()
-    {
-        $dummy = new SurveyParticipantTracker();
-        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
-        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
-        $user_ids = array();
-        while ($tracker = $trackers->next_result())
-        {
-            $user_ids[] = $tracker->get_user_id();
-        }
-        $user_ids = array_unique($user_ids);
-        return count($user_ids);
-    
-    }
-
-    function count_excluded_participants()
-    {
-        $dummy = new SurveyParticipantTracker();
-        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
-        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
-        $user_ids = array();
-        while ($tracker = $trackers->next_result())
-        {
-            $user_ids[] = $tracker->get_user_id();
-        }
-        $user_ids = array_unique($user_ids);
-        $user_ids = array_diff($this->get_target_user_ids(), $user_ids);
-        return count($user_ids);
-    
-    }
-
-    function get_excluded_participants()
-    {
-        $dummy = new SurveyParticipantTracker();
-        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
-        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
-        $user_ids = array();
-        while ($tracker = $trackers->next_result())
-        {
-            $user_ids[] = $tracker->get_user_id();
-        }
-        $user_ids = array_unique($user_ids);
-        $user_ids = array_diff($this->get_target_user_ids(), $user_ids);
-        return $user_ids;
-    
     }
 
 }
