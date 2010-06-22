@@ -28,7 +28,7 @@ class ToolBrowserComponent extends ToolComponent
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected')));
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_HIDE_PUBLICATION, Translation :: get('Hide'), false));
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_SHOW_PUBLICATION, Translation :: get('Show'), false));
-        if ($this->is_allowed(EDIT_RIGHT) && $this->is_category_management_enabled())
+        if ($this->is_allowed(EDIT_RIGHT) && $this->is_category_management_enabled() && $this->count_tool_categories() > 0)
         {
             $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_MOVE_TO_CATEGORY, Translation :: get('MoveSelected'), false));
         }
@@ -250,5 +250,16 @@ class ToolBrowserComponent extends ToolComponent
         
         return null;
     }
+    
+	function count_tool_categories()
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->get_tool_id());
+    	$conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->get_course_id());
+		$condition = new AndCondition($conditions);
+	
+		return WeblcmsDataManager :: get_instance()->count_content_object_publication_categories($condition);
+    }
+    
 }
 ?>
