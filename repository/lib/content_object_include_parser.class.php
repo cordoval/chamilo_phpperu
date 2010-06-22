@@ -43,29 +43,26 @@ abstract class ContentObjectIncludeParser
     {
         $content_object = $form->get_content_object();
 
-        if ($content_object->supports_includes())
-        {
-            $form_type = $form->get_form_type();
+        $form_type = $form->get_form_type();
 
-            if ($form_type == ContentObjectForm :: TYPE_EDIT)
-            {
-                /*
+        if ($form_type == ContentObjectForm :: TYPE_EDIT)
+        {
+            /*
 				 * TODO: Make this faster by providing a function that matches the
 				 *      existing IDs against the ones that need to be added, and
 				 *      attaches and detaches accordingly.
 				 */
-                foreach ($content_object->get_included_content_objects() as $included_object)
-                {
-                    $content_object->exclude_content_object($included_object->get_id());
-                }
-            }
-
-            $include_types = self :: get_include_types();
-            foreach ($include_types as $include_type)
+            foreach ($content_object->get_included_content_objects() as $included_object)
             {
-                $parser = self :: factory($include_type, $form);
-                $parser->parse_editor();
+                $content_object->exclude_content_object($included_object->get_id());
             }
+        }
+
+        $include_types = self :: get_include_types();
+        foreach ($include_types as $include_type)
+        {
+            $parser = self :: factory($include_type, $form);
+            $parser->parse_editor();
         }
     }
 

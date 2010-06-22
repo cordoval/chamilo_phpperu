@@ -10,11 +10,11 @@ class Profile extends ContentObject
 {
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
 	/**
      * The start date of the calendar event
      */
@@ -175,20 +175,6 @@ class Profile extends ContentObject
             $picture = 0;
         }
         return $this->set_additional_property(self :: PROPERTY_PICTURE, $picture);
-    }
-
-    /**
-     * Attachments are supported by calendar events
-     * @return boolean Always true
-     */
-    function supports_attachments()
-    {
-        return false;
-    }
-
-    function is_versionable()
-    {
-        return false;
     }
 
     static function get_additional_property_names()

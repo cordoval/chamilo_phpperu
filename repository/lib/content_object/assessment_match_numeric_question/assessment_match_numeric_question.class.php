@@ -3,29 +3,29 @@
 /**
   * @package repository.lib.content_object.match_numeric_question
  */
-require_once dirname(__FILE__) . '/main.php'; 
+require_once dirname(__FILE__) . '/main.php';
 
-class AssessmentMatchNumericQuestion extends ContentObject
+class AssessmentMatchNumericQuestion extends ContentObject implements Versionable
 {
 	const CLASS_NAME = __CLASS__;
-	
+
     const PROPERTY_OPTIONS = 'options';
 	const PROPERTY_TOLERANCE_TYPE = 'tolerance_type';
-	
+
 	const TOLERANCE_TYPE_ABSOLUTE = 'absolute';
 	const TOLERANCE_TYPE_RELATIVE = 'relative';
-	
+
 	public static function get_type_name() {
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     public static function get_additional_property_names(){
     	$result = array();
     	$result[] = self :: PROPERTY_TOLERANCE_TYPE;
     	$result[] = self :: PROPERTY_OPTIONS;
     	return $result;
     }
-     
+
     public function ContentObject($defaultProperties = array (), $additionalProperties = null){
         parent :: __construct($defaultProperties, $additionalProperties);
     	if(!isset($additionalProperties[self::PROPERTY_TOLERANCE_TYPE])){

@@ -6,7 +6,7 @@
  * @author Hans De Bisschop
  */
 
-class ComicBook extends ContentObject
+class ComicBook extends ContentObject implements Versionable
 {
 	const CLASS_NAME = __CLASS__;
 

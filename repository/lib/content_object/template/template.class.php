@@ -11,11 +11,11 @@ class Template extends ContentObject
     const PROPERTY_DESIGN = 'design';
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     function get_design()
     {
         return $this->get_additional_property(self :: PROPERTY_DESIGN);
@@ -24,11 +24,6 @@ class Template extends ContentObject
     function set_design($design)
     {
         return $this->set_additional_property(self :: PROPERTY_DESIGN, $design);
-    }
-
-    function is_versionable()
-    {
-        return false;
     }
 
     static function get_additional_property_names()

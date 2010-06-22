@@ -6,16 +6,16 @@
 /**
  * This class represents an physical_location
  */
-class PhysicalLocation extends ContentObject
+class PhysicalLocation extends ContentObject implements Versionable
 {
     const PROPERTY_LOCATION = 'location';
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     function get_location()
     {
         return $this->get_additional_property(self :: PROPERTY_LOCATION);

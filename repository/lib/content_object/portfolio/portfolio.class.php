@@ -10,19 +10,14 @@ class Portfolio extends ContentObject
 {
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     function get_allowed_types()
     {
         return array(Portfolio :: get_type_name(), PortfolioItem :: get_type_name());
-    }
-    
-	function is_versionable()
-    {
-        return false;
     }
 }
 ?>

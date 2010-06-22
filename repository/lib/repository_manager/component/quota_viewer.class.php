@@ -26,7 +26,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Quota')));
         $trail->add_help('repository quota');
-        
+
         $this->display_header($trail, false, true);
         $quotamanager = new QuotaManager($this->get_user());
         echo '<h3>' . htmlentities(Translation :: get('DiskSpace')) . '</h3>';
@@ -89,9 +89,9 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
         $user = $this->get_user();
         $user_version_quota = $user->get_version_quota();
         $html = array();
-        
+
         $html[] = '<h3>' . htmlentities(Translation :: get('VersionQuota')) . '</h3>';
-        
+
         $table = new SortableTable('version_quota', array($this, 'get_registered_types_cout'), array($this, 'get_registered_types_data'), 1, 30, SORT_ASC);
         $table->set_additional_parameters($this->get_parameters());
         $table->set_header(0, null, false);
@@ -99,10 +99,10 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
         $table->set_header(2, Translation :: get('Quota'), false);
         $this->table = $table;
         $html[] = $table->as_html();
-        
+
         return implode("\n", $html);
     }
-    
+
     private $table;
 
     function get_registered_types_count()
@@ -115,19 +115,19 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
         $pager = $this->table->get_pager();
         $current_page = $pager->_currentPage;
         $items_per_page = $pager->_perPage;
-        
+
         $start = ($current_page - 1) * $items_per_page;
         $stop = $start + $items_per_page;
         //dump($start);
-        
+
 
         $user = $this->get_user();
         $user_version_quota = $user->get_version_quota();
         $types = $this->get_registered_types();
         $quota_data = array();
-        
+
         $counter = - 1;
-        
+
         if ($start == 0)
         {
             $quota_data_row = array();
@@ -137,20 +137,20 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
             $quota_data[] = $quota_data_row;
             $counter ++;
         }
-        
+
         foreach ($types as $type)
         {
             $counter ++;
-            
+
             if ($counter < $start || $counter >= $stop)
                 continue;
-            
+
             $quota_data_row = array();
-            
+
             $quota_data_row[] = '<img src="' . Theme :: get_common_image_path() . 'content_object/' . $type . '.png" alt="' . $type . '"/>';
             $quota_data_row[] = Translation :: get(self :: type_to_class($type) . 'TypeName');
             $object = new AbstractContentObject($type, $this->get_user_id());
-            if ($object->is_versionable())
+            if ($object instanceof Versionable)
             {
                 $quota_data_row[] = $user->get_version_type_quota($type);
             }
@@ -158,9 +158,9 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
             {
                 $quota_data_row[] = Translation :: get('NotVersionable');
             }
-            
+
             $quota_data[] = $quota_data_row;
-        
+
         }
         return $quota_data;
     }

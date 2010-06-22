@@ -349,7 +349,7 @@ abstract class ContentObjectPublicationListRenderer
     /*function render_attachments($publication)
     {
         $object = $publication->get_content_object();
-        if ($object->supports_attachments())
+        if ($object instanceof AttachmentSupport)
         {
             $attachments = $object->get_attached_content_objects();
             if(count($attachments)>0)
@@ -378,7 +378,7 @@ abstract class ContentObjectPublicationListRenderer
     function render_attachments($publication)
     {
         $object = $publication->get_content_object();
-        if ($object->supports_attachments())
+        if ($object instanceof AttachmentSupport)
         {
             $attachments = $object->get_attached_content_objects();
             if (count($attachments) > 0)
