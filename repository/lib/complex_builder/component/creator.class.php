@@ -56,7 +56,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
             $this->type = $content_object->get_allowed_types();
         }
 
-        $complex_repository_viewer = new ComplexRepoViewer($this, $this->type);
+        $complex_repository_viewer = new RepoViewer($this, $this->type);
         if ($rtype)
         {
             $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
