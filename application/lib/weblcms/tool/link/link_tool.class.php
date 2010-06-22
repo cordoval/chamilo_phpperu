@@ -7,7 +7,7 @@
 /**
  * This tool allows a user to publish links in his or her course.
  */
-class LinkTool extends Tool
+class LinkTool extends Tool implements Categorizable
 {
 
 
@@ -65,11 +65,6 @@ class LinkTool extends Tool
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
-	}
-
-	function is_category_management_enabled()
-	{
-	    return true;
 	}
 }
 ?>

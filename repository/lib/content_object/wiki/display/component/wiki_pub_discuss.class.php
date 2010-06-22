@@ -32,9 +32,9 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
         	$this->display_footer();
             return;
         }
-        
+
         $data_manager = RepositoryDataManager :: get_instance();
-        
+
         /*
          * publication and complex object id are requested.
          * These are used to retrieve
@@ -42,9 +42,9 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
          *  2) the learning object ( actual inforamation about a wiki_page is stored here )
          *
          */
-        
+
         $this->complex_id = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-        
+
         $complexObject = $data_manager->retrieve_complex_content_object_item($this->complex_id);
         if (isset($complexObject))
         {
@@ -52,14 +52,14 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
             $data_manager->retrieve_content_object($this->wiki_page_id);
         }
         $wiki_page = $data_manager->retrieve_content_object($this->wiki_page_id);
-        
+
         $this->display_header();
-        
+
         $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), $this->complex_id); //$this->get_toolbar();
         echo '<div id="trailbox2" style="padding:0px;">' . $this->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
         echo '<div style="float:left; width: 135px;">' . $this->action_bar->as_html() . '</div>';
         echo '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">' . Translation :: get('DiscussThe') . ' ' . $wiki_page->get_title() . ' ' . Translation :: get('Page') . '<hr style="height:1px;color:#4271B5;width:100%;"></div>';
-        
+
         /*
          *  We make use of the existing ContentObjectDisplay class, changing the type to wiki_page
          */
@@ -68,26 +68,26 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
          *  Here we make the call to the wiki_parser.
          *  For more information about the parser, please read the information in the wiki_parser class.
          */
-        
+
         $parser = new WikiDisplayWikiParserComponent($this->get_root_content_object()->get_id(), $display->get_full_html(), $this->complex_id);
         $parser->parse_wiki_text();
-        
+
         $this->set_script();
         echo '<a id="showhide" href="#">[' . Translation :: get('Hide') . ']</a><br /><br />';
         echo '<div id="content" style="line-height: 110%;">' . $parser->get_wiki_text() . '</div><br />';
-        
+
         /*
          *  We make use of the existing condition framework to show the data we want.
          *  If the publication id , and the compled object id are equal to the ones passed the feedback will be shown.
          */
-        
+
         if (isset($this->complex_id) && $this->get_root_content_object()->get_id() != null)
         {
             $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_PUBLICATION_ID, Request :: get('pid'));
             $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_CLOI_ID, $this->complex_id);
             $condition = new AndCondition($conditions);
             $feedbacks = $data_manager->retrieve_content_object_pub_feedback($condition);
-            
+
             while ($feedback = $feedbacks->next_result())
             {
                 if ($i == 0)
@@ -101,15 +101,15 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
                  *  We then display it using the ContentObjectDisplay and setting the type to feedback
                  */
                 $feedback_display = $data_manager->retrieve_content_object($this->feedback_id);
-                
+
                 echo $this->show_feedback($feedback_display);
                 $i ++;
-            
+
             }
         }
-        
+
         echo '</div>';
-    
+
         $this->display_footer();
     }
 
@@ -119,18 +119,19 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
        	$toolbar = New Toolbar();
         $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Delete'),
-        			Theme :: get_common_image_path().'action_delete.png', 
+        			Theme :: get_common_image_path().'action_delete.png',
 					$this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_FEEDBACK, ' WikiPubFeedback :: PROPERTY_FEEDBACK_ID' => $this->feedback_id, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id, 'pid' => Request :: get('pid'))),
 				 	ToolbarItem :: DISPLAY_ICON,
 				 	true
 		));
 		$toolbar->add_item(new ToolbarItem(
         			Translation :: get('Edit'),
-        			Theme :: get_common_image_path().'action_edit.png', 
+        			Theme :: get_common_image_path().'action_edit.png',
 					$this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_EDIT_FEEDBACK, ' WikiPubFeedback :: PROPERTY_FEEDBACK_ID' => $this->feedback_id, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id, 'pid' => Request :: get('pid'))),
-				 	ToolbarItem :: DISPLAY_ICON));
+				 	ToolbarItem :: DISPLAY_ICON
+		));
         return $toolbar->as_html();
-    
+
     }
 
     function show_add_feedback()
@@ -138,18 +139,18 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
 		$toolbar = New Toolbar();
         $toolbar->add_item(new ToolbarItem(
         			Translation :: get('AddFeedback'),
-        			Theme :: get_common_image_path().'action_add.png', 
+        			Theme :: get_common_image_path().'action_add.png',
 					$this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)),
 				 	ToolbarItem :: DISPLAY_ICON
 		));
         return $toolbar->as_html();
-        
+
     }
 
     private function show_feedback($object)
     {
         $creationDate = $object->get_creation_date();
-        
+
         $html = array();
         $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object->get_icon_name() . ($object->is_latest_version() ? '' : '_na') . '.png);">';
         $html[] = '<div class="title">' . htmlentities($object->get_title()) . ' | ' . htmlentities(date("F j, Y, H:i:s", $creationDate)) . '</div>';
@@ -160,7 +161,7 @@ class WikiDisplayWikiPubDiscussComponent extends WikiDisplay
         $html[] = '<div style="float:right">' . $this->build_feedback_actions() . '</div>';
         $html[] = '<br />';
         $html[] = '</div>';
-        
+
         return implode("\n", $html);
     }
 

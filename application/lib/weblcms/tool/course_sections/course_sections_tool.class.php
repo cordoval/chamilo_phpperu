@@ -17,7 +17,7 @@ class CourseSectionsTool extends Tool
     const ACTION_CHANGE_COURSE_SECTION_VISIBILITY = 'change_visibility';
     const ACTION_SELECT_TOOLS_COURSE_SECTION = 'tool_selector';
     const ACTION_CHANGE_SECTION = 'change_section';
-    
+
     const PARAM_COURSE_SECTION_ID = 'course_section_id';
     const PARAM_DIRECTION = 'direction';
     const PARAM_REMOVE_SELECTED = 'remove_selected';
@@ -28,7 +28,7 @@ class CourseSectionsTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        
+
         switch ($action)
         {
             case self :: ACTION_VIEW_COURSE_SECTIONS :
@@ -60,15 +60,11 @@ class CourseSectionsTool extends Tool
         }
         $component->run();
     }
-    
+
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
 	}
-	function is_category_management_enabled()
-	{
-	    return false;
-	}
-	
+
 }
 ?>
