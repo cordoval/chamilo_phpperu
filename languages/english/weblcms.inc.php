@@ -1,4 +1,18 @@
 <?php
+$lang['weblcms']['DocumentAudioFormTitle'] = 'Title';
+$lang['weblcms']['DocumentAudioFormDescription'] = 'Description';
+$lang['weblcms']['DocumentAudioFormProperties'] = 'Properties';
+$lang['weblcms']['SurveyTitle'] = 'Title';
+$lang['weblcms']['SurveyFinishText'] = 'Finishing text';
+$lang['weblcms']['WikiItemCreated'] = 'Wiki item created';
+$lang['weblcms']['ShowCompareLegend'] = 'Show compare legend';
+$lang['weblcms']['HideCompareLegend'] = 'Hide compare legend';
+$lang['weblcms']['PublicationRemovedFromHomepage'] = 'Publication removed from homepage';
+$lang['weblcms']['CourseSectionUpdated'] = 'Course section updated';
+$lang['weblcms']['ASC'] = 'Ascending';
+$lang['weblcms']['DSC'] = 'Descending';
+$lang['weblcms']['RequestUser'] = 'Request user';
+$lang['weblcms']['RequestSubscribeUser'] = 'Request subscribe user';
 $lang['weblcms']['CategoryNotMoved'] = 'Category not moved';
 $lang['weblcms']['TopicImportant'] = 'Topic marked as Important';
 $lang['weblcms']['TopicUnImportant'] = 'Topic unimportant';
