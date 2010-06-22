@@ -48,6 +48,9 @@ class WikiTool extends Tool
             case self :: ACTION_PUBLISH_INTRODUCTION:
             	$component = $this->create_component('IntroductionPublisher');
                 break;
+            case self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT:
+            	$component = $this->create_component('ComplexDisplay');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }
@@ -57,8 +60,8 @@ class WikiTool extends Tool
     function get_available_browser_types()
     {
         $browser_types = array();
-        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
         return $browser_types;
     }
     
