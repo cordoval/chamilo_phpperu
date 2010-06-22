@@ -8,7 +8,7 @@ require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_asse
 /**
  * This tool allows a user to publish assessments in his or her course.
  */
-class AssessmentTool extends Tool
+class AssessmentTool extends Tool implements Categorizable
 {
     const ACTION_TAKE_ASSESSMENT = 'take';
     const ACTION_VIEW_RESULTS = 'result';
@@ -17,13 +17,13 @@ class AssessmentTool extends Tool
     const ACTION_DELETE_RESULTS = 'delete_results';
     const ACTION_EXPORT_QTI = 'export_qti';
     const ACTION_IMPORT_QTI = 'import_qti';
-    
+
     const ACTION_DELETE_PUBLICATION = 'delete_pub';
     const ACTION_VIEW_ASSESSMENTS = 'view';
     const ACTION_VIEW_USER_ASSESSMENTS = 'view_user';
     const ACTION_PUBLISH_SURVEY = 'publish_survey';
     const ACTION_VIEW = 'view';
-    
+
     const PARAM_USER_ASSESSMENT = 'uaid';
     const PARAM_QUESTION_ATTEMPT = 'qaid';
     const PARAM_ASSESSMENT = 'aid';
@@ -37,7 +37,7 @@ class AssessmentTool extends Tool
     function run()
     {
         $action = $this->get_action();
-       
+
         switch ($action)
         {
             case self :: ACTION_VIEW :
@@ -109,7 +109,7 @@ class AssessmentTool extends Tool
             default :
                 $component = $this->create_component('Browser');
         }
-        
+
         $component->run();
     }
 
@@ -123,11 +123,6 @@ class AssessmentTool extends Tool
         return dirname(__FILE__) . '/component/';
     }
 
-    function is_category_management_enabled()
-    {
-        return true;
-    }
-
     function get_available_browser_types()
     {
         $browser_types = array();
@@ -136,7 +131,7 @@ class AssessmentTool extends Tool
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_CALENDAR;
         return $browser_types;
     }
-    
+
     function get_content_object_publication_actions($publication)
     {
         $assessment = $publication->get_content_object();

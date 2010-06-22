@@ -7,13 +7,13 @@
 /**
  * This tool allows a user to publish forums in his or her course.
  */
-class ForumTool extends Tool
+class ForumTool extends Tool implements Categorizable
 {
     const ACTION_BROWSE_FORUMS = 'browse';
     const ACTION_VIEW_FORUM = 'view';
     const ACTION_PUBLISH_FORUM = 'publish';
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
-    
+
 	const ACTION_EDIT_FORUM = 'edit';
     /**
      * Inherited.
@@ -87,11 +87,6 @@ class ForumTool extends Tool
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
-	}
-
-	function is_category_management_enabled()
-	{
-	    return true;
 	}
 }
 ?>

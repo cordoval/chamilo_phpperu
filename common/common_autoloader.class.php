@@ -22,6 +22,11 @@ class CommonAutoloader
 			return true;
 		}
 
+		if(self :: check_for_interface_files($classname))
+		{
+			return true;
+		}
+
 		if(self :: check_for_general_files($classname))
 		{
 			return true;
@@ -138,6 +143,24 @@ class CommonAutoloader
 		{
 			$url = $list[$lower_case];
 			require_once dirname(__FILE__) . '/html/' . $url;
+			return true;
+		}
+
+		return false;
+	}
+
+	static function check_for_interface_files($classname)
+	{
+		$list = array('categorizable' => 'categorizable.class.php',
+					  'serializable' => 'serializable.class.php'
+		);
+
+		$lower_case = Utilities :: camelcase_to_underscores($classname);
+
+		if(key_exists($lower_case, $list))
+		{
+			$url = $list[$lower_case];
+			require_once dirname(__FILE__) . '/interface/' . $url;
 			return true;
 		}
 

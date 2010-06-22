@@ -317,7 +317,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_move_to_category_action($publication)
     {
-        if ($this->get_tool_browser()->is_category_management_enabled())
+        if ($this->get_tool_browser() instanceof Categorizable)
         {
 
             $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->tool_browser->get_parent()->get_course_id());
@@ -466,7 +466,7 @@ abstract class ContentObjectPublicationListRenderer
         {
             $object_table_order = new ObjectTableOrder(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC);
         }
-        
+
         return $this->tool_browser->get_publications($offset, $max_objects, $object_table_order);
     }
 
@@ -653,7 +653,7 @@ abstract class ContentObjectPublicationListRenderer
 
             $toolbar->add_item(new ToolbarItem(Translation :: get('Visible'), Theme :: get_common_image_path() . $visibility_image, $visibility_url, ToolbarItem :: DISPLAY_ICON));
 
-            if ($this->get_tool_browser()->is_category_management_enabled())
+            if ($this->get_tool_browser() instanceof Categorizable)
             {
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
             }
@@ -674,7 +674,7 @@ abstract class ContentObjectPublicationListRenderer
 
         if (method_exists($this->get_tool_browser()->get_parent(), 'get_content_object_publication_actions'))
         {
-            
+
             $content_object_publication_actions = $this->get_tool_browser()->get_parent()->get_content_object_publication_actions($publication);
             $toolbar->add_items($content_object_publication_actions);
         }

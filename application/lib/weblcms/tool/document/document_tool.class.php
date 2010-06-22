@@ -7,7 +7,7 @@
 /**
  * This tool allows a user to publish announcements in his or her course.
  */
-class DocumentTool extends Tool
+class DocumentTool extends Tool implements Categorizable
 {
     const ACTION_VIEW_DOCUMENTS = 'view';
     const ACTION_DOWNLOAD = 'download';
@@ -21,7 +21,7 @@ class DocumentTool extends Tool
     function run()
     {
         $action = $this->get_action();
-        
+
         switch ($action)
         {
             case self :: ACTION_VIEW_DOCUMENTS :
@@ -96,11 +96,6 @@ class DocumentTool extends Tool
         return $browser_types;
     }
 
-    function is_category_management_enabled()
-    {
-        return true;
-    }
-    
     function get_content_object_publication_actions($publication)
     {
         $extra_toolbar_items = array();
