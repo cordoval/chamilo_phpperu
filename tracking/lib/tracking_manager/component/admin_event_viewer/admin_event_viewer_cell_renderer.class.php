@@ -27,23 +27,23 @@ class AdminEventViewerCellRenderer
 
     /**
      * Creates the modification links for the given tracker
-     * @param Tracker $tracker the tracker 
+     * @param Tracker $tracker the tracker
      * @return string The modification links for the given tracker
      */
     function get_modification_links($tracker)
     {
         $toolbar = new Toolbar();
-        
+
        	$toolbar->add_item(new ToolbarItem(
         	($tracker->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'),
-        	($tracker->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png', 
+        	($tracker->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png',
 			$this->eventviewer->get_change_active_url('tracker', $this->event->get_id(), $tracker->get_id()),
 		 	ToolbarItem :: DISPLAY_ICON
 		));
-		
+
     	$toolbar->add_item(new ToolbarItem(
         	Translation :: get('Empty_Tracker'),
-        	Theme :: get_common_image_path() . 'action_recycle_bin.png', 
+        	Theme :: get_common_image_path() . 'action_recycle_bin.png',
 			$this->eventviewer->get_empty_tracker_url('tracker', $this->event->get_id()),
 		 	ToolbarItem :: DISPLAY_ICON,
 		 	true
@@ -61,9 +61,9 @@ class AdminEventViewerCellRenderer
     {
         switch ($property)
         {
-        
+
         }
-        
+
         return $tracker->get_default_property($property);
     }
 
