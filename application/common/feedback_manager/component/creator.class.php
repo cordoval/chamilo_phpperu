@@ -27,7 +27,7 @@ class FeedbackManagerCreatorComponent extends FeedbackManager
 
         if (! $repo_viewer->is_ready_to_be_published())
         {
-            $pub->run();
+            $repo_viewer->run();
         }
         else
         {
