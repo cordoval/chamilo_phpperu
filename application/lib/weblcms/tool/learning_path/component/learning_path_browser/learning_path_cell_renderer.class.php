@@ -28,7 +28,20 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         switch ($column->get_name())
         {
             case 'progress' :
-                return $this->get_progress($publication);
+            {
+                $object = $publication->get_content_object_id();
+                $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object);
+                $count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
+                
+                if($count > 0)
+                {
+            		return $this->get_progress($publication);
+                }
+                else
+                {
+                	return Translation :: get('EmptyLearningPath');
+                }
+            }
         }
 
         return parent :: render_cell($column, $publication);
@@ -56,7 +69,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         }
 
         $bar = $this->get_progress_bar($progress);
-        $url = $this->table_renderer->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'lp_action' => 'view_progress'));
+        $url = $this->table_renderer->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'lp_action' => 'view_progress'));
         return Text :: create_link($url, $bar);
     }
 
@@ -69,22 +82,6 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
 
         return implode("\n", $html);
     }
-
-    /*function get_actions($publication)
-    {
-		$toolbar = parent :: get_actions($publication);
-		$items = $toolbar->get_items();
-		$items[0]->set_image(Theme :: get_common_image_path() . 'action_start.png');
-       
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Statistics'),
-        		Theme :: get_common_image_path() . 'action_reporting.png',
-        		$this->table_renderer->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
-        
-       return $toolbar;
-    }*/
 
 }
 ?>

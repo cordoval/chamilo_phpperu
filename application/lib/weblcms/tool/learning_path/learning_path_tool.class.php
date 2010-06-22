@@ -106,12 +106,28 @@ class LearningPathTool extends Tool implements Categorizable
 	
 	function get_content_object_publication_actions($publication)
     {
-        $items[] = new ToolbarItem(
-        		Translation :: get('AttemptLearningPath'),
-        		Theme :: get_common_image_path() . 'action_start.png',
-        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-        		ToolbarItem :: DISPLAY_ICON
-        );
+        $object = $publication->get_content_object_id();
+        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object);
+        $count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
+
+        if($count > 0)
+        {
+	    	$items[] = new ToolbarItem(
+	        		Translation :: get('AttemptLearningPath'),
+	        		Theme :: get_common_image_path() . 'action_start.png',
+	        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		ToolbarItem :: DISPLAY_ICON
+	        );
+        }
+        else
+        {
+        	$items[] = new ToolbarItem(
+	        		Translation :: get('AttemptLearningPathNA'),
+	        		Theme :: get_common_image_path() . 'action_right_na.png',
+					null,
+	        		ToolbarItem :: DISPLAY_ICON
+	        );
+        }
         
     	$items[] = new ToolbarItem(
         		Translation :: get('Statistics'),
