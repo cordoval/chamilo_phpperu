@@ -9,7 +9,7 @@
  * Represents the view component for the assessment tool.
  *
  */
-class GlossaryToolViewerComponent extends GlossaryTool
+class GlossaryToolComplexDisplayComponent extends GlossaryTool
 {
 	private $trail;
 	private $object;
