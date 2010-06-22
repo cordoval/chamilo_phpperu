@@ -24,12 +24,13 @@ class ToolBrowserComponent extends ToolComponent
         
         $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_parent()->get_browser_type(), $this);
         
-        $actions[] = new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected'));
-        $actions[] = new ObjectTableFormAction(Tool :: ACTION_HIDE_PUBLICATION, Translation :: get('Hide'), false);
-        $actions[] = new ObjectTableFormAction(Tool :: ACTION_SHOW_PUBLICATION, Translation :: get('Show'), false);
+        $actions = new ObjectTableFormActions(Tool :: PARAM_ACTION);
+        $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected')));
+        $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_HIDE_PUBLICATION, Translation :: get('Hide'), false));
+        $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_SHOW_PUBLICATION, Translation :: get('Show'), false));
         if ($this->is_allowed(EDIT_RIGHT) && $this->is_category_management_enabled())
         {
-            $actions[] = new ObjectTableFormAction(Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY, Translation :: get('MoveSelected'), false);
+            $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY, Translation :: get('MoveSelected'), false));
         }
         $publication_renderer->set_actions($actions);
         
