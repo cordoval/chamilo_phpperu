@@ -12,6 +12,7 @@
 ==============================================================================
  */
 require_once dirname(__file__) . '/../browser/content_object_publication_list_renderer.class.php';
+require_once dirname(__file__) . '/../browser/object_publication_table/object_publication_table.class.php';
 
 abstract class Tool extends SubManager
 {
@@ -38,10 +39,6 @@ abstract class Tool extends SubManager
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
     const ACTION_SHOW_PUBLICATION = 'show';
     const ACTION_HIDE_PUBLICATION = 'hide';
-
-    const ACTION_MOVE_SELECTED_TO_CATEGORY = 'move_selected_to_category';
-    const ACTION_MOVE = 'move';
-    const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
 
     /**
@@ -69,12 +66,13 @@ abstract class Tool extends SubManager
     {
         parent :: __construct($parent);
         $this->properties = $parent->get_tool_properties($this->get_tool_id());
-        $this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : Request :: get(self :: PARAM_ACTION));
-        $this->set_parameter(self :: PARAM_ACTION, $this->get_action());
+        
+        $this->handle_table_action();
+        
+       	$this->set_action(Request :: get(self :: PARAM_ACTION));
+       	$this->set_parameter(self :: PARAM_ACTION, $this->get_action());
+        
         $this->set_optional_parameters();
-        //$this->set_browser_type(Request :: get(self :: PARAM_BROWSER_TYPE));
-        //$this->set_parameter(self :: PARAM_BROWSER_TYPE, $this->get_browser_type());
-        //$this->parse_input_from_table();
     }
 
     function set_optional_parameters()

@@ -32,9 +32,9 @@ class ToolToggleVisibilityComponent extends ToolComponent
 	            {
 	                $publication = $datamanager->retrieve_content_object_publication($pid);
 	                
-	                if (Request :: get(PARAM_VISIBILITY))
+	                if (method_exists($this->get_parent(), 'get_hidden'))
 	                {
-	                    $publication->set_hidden(Request :: get(PARAM_VISIBILITY));
+	                    $publication->set_hidden(call_user_func(array($this->get_parent(), 'get_hidden')));
 	                }
 	                else
 	                {
