@@ -118,6 +118,13 @@ class LearningPathTool extends Tool implements Categorizable
 	        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 	        		ToolbarItem :: DISPLAY_ICON
 	        );
+	        
+	        $items[] = new ToolbarItem(
+	        		Translation :: get('Statistics'),
+	        		Theme :: get_common_image_path() . 'action_statistics.png',
+	        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+	        		ToolbarItem :: DISPLAY_ICON
+       	 	);
         }
         else
         {
@@ -127,14 +134,14 @@ class LearningPathTool extends Tool implements Categorizable
 					null,
 	        		ToolbarItem :: DISPLAY_ICON
 	        );
+	        
+	        $items[] = new ToolbarItem(
+	        		Translation :: get('StatisticsNA'),
+	        		Theme :: get_common_image_path() . 'action_statistics_na.png',
+					null,
+	        		ToolbarItem :: DISPLAY_ICON
+	        );
         }
-        
-    	$items[] = new ToolbarItem(
-        		Translation :: get('Statistics'),
-        		Theme :: get_common_image_path() . 'action_reporting.png',
-        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-        		ToolbarItem :: DISPLAY_ICON
-        );
         
        return $items;
     }
