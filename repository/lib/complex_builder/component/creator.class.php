@@ -4,29 +4,39 @@
  * @package repository.lib.complex_builder.component
  */
 require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
-require_once dirname(__FILE__) . '/../complex_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../complex_repo_viewer/complex_repo_viewer.class.php';
 
 class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 {
     private $rdm;
+    private $root_content_object_id;
+    private $type;
+
+    function display_header()
+    {
+        parent :: display_header();
+        $type = is_array($this->type) ? implode(',', $this->type) : $this->type;
+        $content_object = $this->rdm->retrieve_content_object($this->root_content_object_id);
+        echo '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities :: underscores_to_camelcase($type)), Translation :: get(Utilities :: underscores_to_camelcase($content_object->get_type())), $content_object->get_title()) . '</h4><br />';
+    }
 
     function run()
     {
-    	$menu_trail = $this->get_complex_content_object_breadcrumbs();
+        $menu_trail = $this->get_complex_content_object_breadcrumbs();
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository builder');
 
         $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-        $type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
+        $this->type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
 
         $this->rdm = RepositoryDataManager :: get_instance();
 
-        $parent = $this->get_parent()->get_root_content_object_id();
-        
+        $this->root_content_object_id = $this->get_parent()->get_root_content_object_id();
+
         if ($complex_content_object_item_id)
         {
             $parent_complex_content_object_item = $this->rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
-            $parent = $parent_complex_content_object_item->get_ref();
+            $this->root_content_object_id = $parent_complex_content_object_item->get_ref();
         }
 
         if ($this->get_complex_content_object_item())
@@ -41,12 +51,12 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
 
-        if (! $type)
+        if (! $this->type)
         {
-            $type = $content_object->get_allowed_types();
+            $this->type = $content_object->get_allowed_types();
         }
 
-        $complex_repository_viewer = new ComplexRepoViewer($this, $type);
+        $complex_repository_viewer = new ComplexRepoViewer($this, $this->type);
         if ($rtype)
         {
             $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
@@ -54,20 +64,11 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 
         $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
         $complex_repository_viewer->set_excluded_objects($exclude);
-        $complex_repository_viewer->parse_input();
 
         if (! $complex_repository_viewer->is_ready_to_be_published())
         {
-            $t = is_array($type) ? implode(',', $type) : $type;
-            $p = $this->rdm->retrieve_content_object($parent);
-            $html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities :: underscores_to_camelcase($t)), Translation :: get(Utilities :: underscores_to_camelcase($p->get_type())), $p->get_title()) . '</h4><br />';
-            $html[] = $complex_repository_viewer->as_html();
-
             $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'))), Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))));
-
-            $this->display_header($trail);
-            echo implode("\n", $html);
-            $this->display_footer();
+            $complex_repository_viewer->run();
         }
         else
         {
@@ -87,8 +88,8 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
                 $complex_content_object_item = ComplexContentObjectItem :: factory($type);
                 $complex_content_object_item->set_ref($object);
 
-                $complex_content_object_item->set_parent($parent);
-                $complex_content_object_item->set_display_order($rdm->select_next_display_order($parent));
+                $complex_content_object_item->set_parent($this->root_content_object_id);
+                $complex_content_object_item->set_display_order($rdm->select_next_display_order($this->root_content_object_id));
                 $complex_content_object_item->set_user_id($this->get_user_id());
                 $complex_content_object_item->create();
             }

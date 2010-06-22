@@ -6,9 +6,9 @@
 
 /**
 ==============================================================================
- *	This class provides the means to publish a learning object.
+ * This class provides the means to publish a learning object.
  *
- *	@author Tim De Pauw
+ * @author Tim De Pauw
 ==============================================================================
  */
 
@@ -27,6 +27,11 @@ class ComplexRepoViewer extends RepoViewer
     function parse_input()
     {
         $this->parse_input_from_table();
+    }
+
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
     }
 }
 ?>
