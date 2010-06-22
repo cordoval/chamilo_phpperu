@@ -15,26 +15,22 @@ class ToolPublisherComponent extends ToolComponent
             Display :: not_allowed();
             return;
         }
-        
+
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
-        
-        $pub = new RepoViewer($this, $this->get_parent()->get_allowed_types());
-        
-        if (!$pub->is_ready_to_be_published())
+
+        $repo_viewer = new RepoViewer($this, $this->get_parent()->get_allowed_types());
+
+        if (!$repo_viewer->is_ready_to_be_published())
         {
-            $html[] = $pub->as_html();
+            $repo_viewer->run();
         }
         else
         {
-            $object = $pub->get_selected_objects();
-            $publisher = new ContentObjectPublisher($this->get_parent());
-            $html[] = $publisher->get_publications_form($object);
+            $object = $repo_viewer->get_selected_objects();
+            $publisher = new ContentObjectPublisher($this);
+            $publisher->get_publications_form($object);
         }
-        
-        $this->display_header();
-        echo implode("\n", $html);
-        $this->display_footer();
     }
 }
 ?>

@@ -134,7 +134,7 @@ class ObjectTable
      */
     function as_html()
     {
-        
+
         $table = new SortableTable($this->get_name(), array($this, 'get_object_count'), array($this, 'get_objects'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction(), $this->get_ajax_enabled());
         $table->set_additional_parameters($this->get_additional_parameters());
 
@@ -290,10 +290,14 @@ class ObjectTable
 
     /**
      * Sets the actions for the mass-update form at the bottom of the table.
-     * @param array $actions The actions as an associative array.
+     * @param ObjectTableFormActions $actions The actions as an associative array.
      */
-    function set_form_actions($actions)
+    function set_form_actions(ObjectTableFormActions $actions)
     {
+        if (is_array($actions))
+        {
+            $actions = new ObjectTableFormActions();
+        }
         $this->form_actions = $actions;
     }
 
@@ -304,7 +308,7 @@ class ObjectTable
      */
     function has_form_actions()
     {
-        return count($this->get_form_actions());
+        return isset($this->form_actions) && $this->form_actions->has_form_actions();
     }
 
     /**

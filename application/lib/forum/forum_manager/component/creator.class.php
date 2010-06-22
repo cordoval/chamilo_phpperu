@@ -23,25 +23,18 @@ class ForumManagerCreatorComponent extends ForumManager
         $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
         //$trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForumPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishForum')));
-        
-        $pub = new RepoViewer($this, Forum :: get_type_name());
-        
-        if (!$pub->is_ready_to_be_published())
+
+        $repo_viewer = new RepoViewer($this, Forum :: get_type_name());
+
+        if (!$repo_viewer->is_ready_to_be_published())
         {
-            
-            $html[] = $pub->as_html();
+            $repo_viewer->run();
         }
         else
         {
-            $publisher = new ForumPublicationPublisher($pub);
-            $html[] = $publisher->publish($pub->get_selected_objects());
+            $publisher = new ForumPublicationPublisher($this);
+            $publisher->publish($repo_viewer->get_selected_objects());
         }
-        
-        $this->display_header($trail);
-        
-        echo implode("\n", $html);
-        echo '<div style="clear: both;"></div>';
-        $this->display_footer();
     }
 }
 ?>

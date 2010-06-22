@@ -19,17 +19,17 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
     {
         $dm = WeblcmsDataManager :: get_instance();
         $condition = $this->get_conditions($user);
-        
-        $publications = $dm->retrieve_content_object_publications_new($condition, array(), 0, - 1);
+
+        $publications = $dm->retrieve_content_object_publications($condition, array(), 0, - 1);
         $result = array();
         while ($publication = $publications->next_result())
         {
             $object = $publication->get_content_object();
-            
+
             if ($object->repeats())
             {
                 $repeats = $object->get_repeats($from_date, $to_date);
-                
+
                 foreach ($repeats as $repeat)
                 {
                     $event = new PersonalCalendarEvent();
@@ -39,7 +39,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
                     $event->set_title($repeat->get_title());
                     $event->set_content($repeat->get_description());
                     $event->set_source('weblcms');
-                    
+
                     $result[] = $event;
                 }
             }
@@ -58,7 +58,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
         }
         return $result;
     }
-    
+
 	private function is_visible_event($event, $from_date, $end_date)
     {
     	return ($event->get_start_date() >= $from_date && $event->get_start_date() <= $end_date) ||
@@ -70,13 +70,13 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
     {
         $dm = WeblcmsDataManager :: get_instance();
         $course_groups = $dm->retrieve_course_groups_from_user($user)->as_array();
-        
+
         $conditions = array();
         $conditions[] = new EqualityCondition('tool', 'calendar');
         $conditions[] = new EqualityCondition('hidden', 0);
-        
+
         $user_id = $user->get_id();
-        
+
         $access = array();
         $access[] = new InCondition('user_id', $user_id, 'content_object_publication_user');
         $access[] = new InCondition('course_group_id', $course_groups, 'content_object_publication_course_group');
@@ -84,11 +84,11 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
         {
             $access[] = new AndCondition(array(new EqualityCondition('user_id', null, 'content_object_publication_user'), new EqualityCondition('course_group_id', null, 'content_object_publication_course_group')));
         }
-        
+
         $conditions[] = new OrCondition($access);
         $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, CalendarEvent :: get_type_name());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
-        
+
         return new AndCondition($conditions);
     }
 }

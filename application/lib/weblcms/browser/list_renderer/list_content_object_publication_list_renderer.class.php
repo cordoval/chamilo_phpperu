@@ -63,7 +63,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
             $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll') . '</a><br />';
             $html[] = '<select id="tool_actions" name="tool_action">';
-            foreach ($this->get_actions() as $form_action)
+            foreach ($this->get_actions()->get_form_actions() as $form_action)
             {
                 //$html[] = '<option value="' . $action . '">' . $label . '</option>';
                 $html[] = '<option value="' . $form_action->get_action() . '" class="' . ($form_action->get_confirm() ? 'confirm' : '') . '">' . $form_action->get_title() . '</option>';

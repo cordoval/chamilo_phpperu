@@ -78,9 +78,12 @@ class AnnouncementDistributor
         else
         {
             $html[] = $form->toHtml();
-        }
+            $html[] = '<div style="clear: both;"></div>';
 
-        return implode("\n", $html);
+            $this->parent->display_header();
+            echo implode("\n", $html);
+            $this->parent->display_footer();
+        }
     }
 }
 ?>

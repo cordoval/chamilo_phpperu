@@ -31,17 +31,7 @@ class ContentObjectPublicationDetailsRenderer extends ContentObjectPublicationLi
         $html[] = '<h3>' . Translation :: get('ContentObjectPublicationDetails') . '</h3>';
         $html[] = $this->render_publication($publication);
         $html[] = '<br />';
-        $html[] = $this->get_feedback($publication_id);
         return implode("\n", $html);
-    }
-
-    function get_feedback($publication_id)
-    {
-        if($this->get_tool_browser()->get_parent()->get_course()->get_feedback())
-        {
-    		$fbm = new FeedbackManager($this->get_tool_browser(), WeblcmsManager :: APPLICATION_NAME, $publication_id);
-        	return $fbm->as_html();
-        }
     }
 
     /**

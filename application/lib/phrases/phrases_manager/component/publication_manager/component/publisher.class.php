@@ -19,23 +19,17 @@ class PhrasesPublicationManagerPublisherComponent extends PhrasesPublicationMana
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
         $trail->add_help('phrases general');
 
-        $pub = new RepoViewer($this, array(Assessment :: get_type_name()));
+        $repo_viewer = new RepoViewer($this, array(Assessment :: get_type_name()));
 
-        if (! $pub->is_ready_to_be_published())
+        if (! $repo_viewer->is_ready_to_be_published())
         {
-            $html[] = $pub->as_html();
+            $repo_viewer->run();
         }
         else
         {
-            $publisher = new PhrasesPublisher($pub);
-            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
+            $publisher = new PhrasesPublisher($this);
+            $publisher->get_publications_form($repo_viewer->get_selected_objects());
         }
-
-        $this->display_header($trail);
-        //echo $publisher;
-        echo implode("\n", $html);
-        echo '<div style="clear: both;"></div>';
-        $this->display_footer();
     }
 }
 ?>

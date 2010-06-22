@@ -125,7 +125,7 @@ class ObjectTableColumnModel
 
         if ($current_column && $display_order_column_property)
         {
-            $current_column_property = $current_column->get_property();
+            $current_column_property = $current_column->get_name();
 
             if ($current_column_property == $display_order_column_property)
             {

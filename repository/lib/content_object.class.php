@@ -732,13 +732,13 @@ class ContentObject extends DataClass implements AccessibleContentObject
         {
             return false;
         }
-        $state = $this->get_state();
+        /*$state = $this->get_state();
         if ($state == $this->oldState)
         {
             return true;
         }
         $child_ids = self :: get_child_ids($this->get_id());
-        $dm->set_content_object_states($child_ids, $state);
+        $dm->set_content_object_states($child_ids, $state);*/
         /*
 		 * We return true here regardless of the result of the child update,
 		 * since the object itself did get updated.

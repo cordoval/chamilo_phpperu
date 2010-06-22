@@ -18,9 +18,9 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('SystemAnnouncements')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishSystemAnnouncement')));
         $trail->add_help('administration system announcements');
-        
+
         $publisher = $this->get_publisher_html();
-        
+
         $this->display_header();
         echo $publisher;
         echo '<div style="clear: both;"></div>';
@@ -29,21 +29,18 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager
 
     private function get_publisher_html()
     {
-        $pub = new RepoViewer($this, SystemAnnouncement :: get_type_name());
-        
-        if (!$pub->is_ready_to_be_published())
+        $repo_viewer = new RepoViewer($this, SystemAnnouncement :: get_type_name());
+
+        if (!$repo_viewer->is_ready_to_be_published())
         {
-            //$html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
-            $html[] = $pub->as_html();
+            $repo_viewer->run();
         }
         else
         {
             //$html[] = 'ContentObject: ';
-            $publisher = new SystemAnnouncerMultipublisher($pub);
-            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
+            $publisher = new SystemAnnouncerMultipublisher($this);
+            $publisher->get_publications_form($repo_viewer->get_selected_objects());
         }
-        
-        return implode($html, "\n");
     }
 }
 ?>

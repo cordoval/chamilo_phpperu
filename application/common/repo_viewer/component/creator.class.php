@@ -3,25 +3,24 @@
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.common.repo_viewer.component
  */
-require_once dirname(__FILE__) . '/../repo_viewer_component.class.php';
 /**
  * This class represents a encyclopedia repo_viewer component which can be used
  * to create a new learning object before publishing it.
  */
-class RepoViewerCreatorComponent extends RepoViewerComponent
+class RepoViewerCreatorComponent extends RepoViewer
 {
 
     /*
 	 * Inherited
 	 */
-    function as_html($params = array())
+    function run($params = array())
     {
-        $oid = Request :: get(RepoViewer :: PARAM_EDIT_ID);
-        if ($oid)
+        $content_object_id = Request :: get(RepoViewer :: PARAM_EDIT_ID);
+        if ($content_object_id)
         {
             //if (Request :: get(RepoViewer :: PARAM_EDIT))
             //{
-            return $this->get_editing_form($oid, $params);
+            echo $this->get_editing_form($content_object_id);
             //}
         }
         else
@@ -29,11 +28,13 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
             $type = $this->get_type();
             if ($type)
             {
-                return $this->get_creation_form($type);
+                echo $this->get_creation_form($type);
             }
             else
             {
-                return $this->get_type_selector();
+                $this->display_header();
+                echo $this->get_type_selector();
+                $this->display_footer();
             }
         }
     }
@@ -135,10 +136,10 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
     /**
      * Gets the editing form
      */
-    protected function get_editing_form($content_object_id, $params = array())
+    protected function get_editing_form($content_object_id)
     {
         $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($content_object_id);
-        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array_merge($this->get_parameters(), array_merge($params, array(RepoViewer :: PARAM_EDIT_ID => $content_object_id)))), null, array(), true, $this->get_object_form_variant());
+        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array_merge($this->get_parameters(), array(RepoViewer :: PARAM_EDIT_ID => $content_object_id))), null, array(), true, $this->get_object_form_variant());
         return $this->handle_form($form, ContentObjectForm :: TYPE_EDIT);
     }
 
@@ -177,7 +178,10 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
         }
         else
         {
-            return $form->toHtml();
+
+            $this->display_header();
+            echo $form->toHtml();
+            $this->display_footer();
         }
     }
 }

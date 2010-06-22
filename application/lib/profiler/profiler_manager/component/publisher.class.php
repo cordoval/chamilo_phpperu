@@ -18,23 +18,18 @@ class ProfilerManagerPublisherComponent extends ProfilerManager
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishProfile')));
         $trail->add_help('profiler general');
-        
-        $pub = new RepoViewer($this, Profile :: get_type_name());
-        
-        if (!$pub->is_ready_to_be_published())
+
+        $repo_viewer = new RepoViewer($this, Profile :: get_type_name());
+
+        if (!$repo_viewer->is_ready_to_be_published())
         {
-            $html[] = $pub->as_html();
+            $repo_viewer->run();
         }
         else
         {
-            $publisher = new ProfilePublisher($pub);
-            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
+            $publisher = new ProfilePublisher($this);
+            $publisher->get_publications_form($repo_viewer->get_selected_objects());
         }
-        
-        $this->display_header($trail);
-        echo implode("\n", $html);
-        echo '<div style="clear: both;"></div>';
-        $this->display_footer();
     }
 }
 ?>

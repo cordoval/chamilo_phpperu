@@ -6,9 +6,9 @@
 
 /**
 ==============================================================================
- *	This class provides the means to publish a learning object.
+ * This class provides the means to publish a learning object.
  *
- *	@author Tim De Pauw
+ * @author Tim De Pauw
 ==============================================================================
  */
 
@@ -30,11 +30,15 @@ class ContentObjectRepoViewer extends RepoViewer
             }
         }
         else
+        {
             $this->set_parameter(Tool :: PARAM_ACTION, $action);
+        }
+        
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID) != null)
+        {
             $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, Request :: get(Tool :: PARAM_PUBLICATION_ID));
-        $this->set_repo_viewer_actions(array('creator', 'browser'));
-        $this->parse_input_from_table();
+        }
+        //$this->parse_input_from_table();
     }
 
     /**

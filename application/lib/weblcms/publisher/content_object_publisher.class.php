@@ -23,13 +23,12 @@ class ContentObjectPublisher
 
     function get_publications_form($ids)
     {
-        //$ids = $_POST[PublicationCandidateTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-
-
         $html = array();
 
         if (is_null($ids))
+        {
             return '';
+        }
 
         if (! is_array($ids))
         {
@@ -40,8 +39,6 @@ class ContentObjectPublisher
         {
             $condition = new InCondition(ContentObject :: PROPERTY_ID, $ids, ContentObject :: get_table_name());
             $content_objects = RepositoryDataManager :: get_instance()->retrieve_content_objects($condition);
-            //Utilities :: order_content_objects_by_title($content_objects);
-
 
             $html[] = '<div class="content_object padding_10">';
             $html[] = '<div class="title">' . Translation :: get('SelectedContentObjects') . '</div>';
@@ -64,8 +61,6 @@ class ContentObjectPublisher
             $publication = $form->create_content_object_publications();
 
             $parameters = array();
-            //$parameters['pcattree'] = $publication->get_category_id();
-
 
             if (! $publication)
             {
@@ -76,12 +71,6 @@ class ContentObjectPublisher
                 $message = Translation :: get('ObjectPublished');
             }
 
-            /*if($publication->get_tool() == Introduction :: get_type_name()')
-			{
-				//$redirect_parms = array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE);
-				$parameters['go'] = WeblcmsManager :: ACTION_VIEW_COURSE;
-			}*/
-
             $parameters['tool_action'] = null;
 
             $this->parent->redirect($message, (! $publication ? true : false), $parameters);
@@ -89,9 +78,12 @@ class ContentObjectPublisher
         else
         {
             $html[] = $form->toHtml();
-        }
+            $html[] = '<div style="clear: both;"></div>';
 
-        return implode("\n", $html);
+            $this->parent->display_header();
+            echo implode("\n", $html);
+            $this->parent->display_footer();
+        }
     }
 }
 ?>

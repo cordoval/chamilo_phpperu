@@ -49,7 +49,7 @@ class ForumBuilderCreatorComponent extends ForumBuilder
             $type = $content_object->get_allowed_types();
         }
 
-        $pub = new ComplexRepoViewer($this, $type);
+        $pub = new RepoViewer($this, $type);
         if ($rtype)
         {
             $pub->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
@@ -81,18 +81,18 @@ class ForumBuilderCreatorComponent extends ForumBuilder
                 $type = $repository_data_manager->determine_content_object_type($obj);
 
                 $complex_content_object_item = ComplexContentObjectItem :: factory($type);
-                
+
                 $complex_content_object_item->set_ref($obj);
 
                 $complex_content_object_item->set_parent($parent);
-                
+
                 if ($type == Forum :: get_type_name())
                 {
                     $complex_content_object_item->set_display_order($repository_data_manager->select_next_display_order_forum($parent));
                 }
                 $complex_content_object_item->set_user_id($this->get_user_id());
                 $complex_content_object_item->create();
-             
+
             }
 
            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));        }
@@ -117,7 +117,7 @@ class ForumBuilderCreatorComponent extends ForumBuilder
         }
         return $items;
     }
-    
+
 }
 
 ?>

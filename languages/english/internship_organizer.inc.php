@@ -202,6 +202,11 @@ $lang['internship_organizer']['InternshipOrganizerMentor'] = 'Mentor';
 $lang['internship_organizer']['InternshipOrganizerCoach'] = 'Coach';
 $lang['internship_organizer']['InternshipOrganizerStudent'] = 'Student';
 $lang['internship_organizer']['InternshipOrganizerOrganisations'] = 'Organisation';
+$lang['internship_organizer']['InternshipOrganizerLocations'] = 'Locations';
+$lang['internship_organizer']['InternshipOrganizerMentors'] = 'Mentors';
+$lang['internship_organizer']['InternshipOrganizerUsers'] = 'Users';
+
+
 $lang['internship_organizer']['InternshipOrganizerMoments'] = 'Moments';
 $lang['internship_organizer']['PreferenceOrder'] = 'Preference Order';
 $lang['internship_organizer']['SubscribeInternshipOrganizerAgreementLocation'] = 'Choose Organisation';

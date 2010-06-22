@@ -19,51 +19,46 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
     {
         $parent = Request :: get('parent');
         //TODO: HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
-        $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), 
-        			   Description :: get_type_name(), Document :: get_type_name(), Link :: get_type_name(), Note :: get_type_name(), RssFeed :: get_type_name(), Profile :: get_type_name(), Youtube :: get_type_name());
-        
-        $pub = new RepoViewer($this, $types, RepoViewer :: SELECT_MULTIPLE, array(), false);
-        $pub->set_parameter('parent', $parent);
-        $pp = Request :: get(PortfolioManager::PARAM_PARENT_PORTFOLIO);
-        $pub->set_parameter(PortfolioManager::PARAM_PARENT_PORTFOLIO, $pp);
-        $pub->parse_input_from_table();
-        
-        if (!$pub->is_ready_to_be_published())
-        {
+        $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), Description :: get_type_name(), Document :: get_type_name(), Link :: get_type_name(), Note :: get_type_name(), RssFeed :: get_type_name(), Profile :: get_type_name(), Youtube :: get_type_name());
 
-            $html[] =  $pub->as_html();
-            $trail = BreadcrumbTrail::get_instance();
+        $repo_viewer = new RepoViewer($this, $types, RepoViewer :: SELECT_MULTIPLE, array(), false);
+        $repo_viewer->set_parameter('parent', $parent);
+        $pp = Request :: get(PortfolioManager :: PARAM_PARENT_PORTFOLIO);
+        $repo_viewer->set_parameter(PortfolioManager :: PARAM_PARENT_PORTFOLIO, $pp);
+        $repo_viewer->parse_input_from_table();
+
+        if (! $repo_viewer->is_ready_to_be_published())
+        {
+            $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
 
-            $udm = UserDataManager::get_instance();
+            $udm = UserDataManager :: get_instance();
             $user = $udm->retrieve_user($this->get_user_id());
             $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id())), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
-            
+
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolioItem')));
             $trail->add_help('portfolio general');
-            $this->display_header();
-            echo implode("\n", $html);
-            $this->display_footer();
+
+            $repo_viewer->run();
         }
         else
         {
-            $objects = $pub->get_selected_objects();
-        	if (! is_array($objects))
-        	{
+            $objects = $repo_viewer->get_selected_objects();
+            if (! is_array($objects))
+            {
                 $objects = array($objects);
-        	}
-            
+            }
+
             $rdm = RepositoryDataManager :: get_instance();
             $success = true;
-            
+
             foreach ($objects as $object_id)
             {
-                
-                $rdm = RepositoryDataManager::get_instance();
+
+                $rdm = RepositoryDataManager :: get_instance();
                 $object = $rdm->retrieve_content_object($object_id);
 
-
-                if($object->get_type() != Portfolio::get_type_name())
+                if ($object->get_type() != Portfolio :: get_type_name())
                 {
                     $new_object = ContentObject :: factory(PortfolioItem :: get_type_name());
                     $new_object->set_owner_id($this->get_user_id());
@@ -77,7 +72,8 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
                 {
                     $new_object = $object;
                 }
-//
+                //
+
 
                 $wrapper = new ComplexContentObjectItem();
                 $wrapper->set_ref($new_object->get_id());
@@ -86,37 +82,36 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
                 $wrapper->set_display_order($rdm->select_next_display_order($parent));
                 $success &= $wrapper->create();
 
-                
-                if($success)
+                if ($success)
                 {
                     $typeObject = $rdm->determine_content_object_type($object_id);
                     $user = $this->get_user_id();
                     $possible_types = array();
-                    $possible_types[] = PortfolioRights::TYPE_PORTFOLIO_FOLDER;
-                    $possible_types[] = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
-                    $parent_location = PortfolioRights::get_location_id_by_identifier_from_portfolio_subtree($possible_types, $pp, $user);
-                    
-                   if($typeObject == Portfolio :: get_type_name())
-                   {
-                       $type = PortfolioRights::TYPE_PORTFOLIO_SUB_FOLDER;
-                   }
-                   else
-                   {
-                       $type = PortfolioRights::TYPE_PORTFOLIO_ITEM;
-                   }
-                   $success &= PortfolioRights::create_location_in_portfolio_tree(PortfolioRights::TYPE_PORTFOLIO_ITEM, $type, $wrapper->get_id(), $parent_location, $user, true, false, true);
+                    $possible_types[] = PortfolioRights :: TYPE_PORTFOLIO_FOLDER;
+                    $possible_types[] = PortfolioRights :: TYPE_PORTFOLIO_SUB_FOLDER;
+                    $parent_location = PortfolioRights :: get_location_id_by_identifier_from_portfolio_subtree($possible_types, $pp, $user);
 
-                   if($success)
+                    if ($typeObject == Portfolio :: get_type_name())
+                    {
+                        $type = PortfolioRights :: TYPE_PORTFOLIO_SUB_FOLDER;
+                    }
+                    else
+                    {
+                        $type = PortfolioRights :: TYPE_PORTFOLIO_ITEM;
+                    }
+                    $success &= PortfolioRights :: create_location_in_portfolio_tree(PortfolioRights :: TYPE_PORTFOLIO_ITEM, $type, $wrapper->get_id(), $parent_location, $user, true, false, true);
+
+                    if ($success)
                     {
                         $dm = PortfolioDataManager :: get_instance();
-                        $success &=  PortfolioManager::update_portfolio_info($object_id, $type, PortfolioInformation::ACTION_ITEM_ADDED, $user);
+                        $success &= PortfolioManager :: update_portfolio_info($object_id, $type, PortfolioInformation :: ACTION_ITEM_ADDED, $user);
 
                         $info = $dm->retrieve_portfolio_information_by_user($user);
 
                     }
                 }
             }
-            
+
             $this->redirect($success ? Translation :: get('PortfolioItemCreated') : Translation :: get('PortfolioItemNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
         }
     }

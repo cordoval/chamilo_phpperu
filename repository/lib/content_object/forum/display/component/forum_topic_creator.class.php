@@ -11,22 +11,22 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplay
 
     function run()
     {
-        $pub = new RepoViewer($this, ForumTopic :: get_type_name(), RepoViewer :: SELECT_MULTIPLE, array(), false);
-        $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_TOPIC);
-        $pub->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
-        $pub->parse_input_from_table();
+        $repo_viewer = new RepoViewer($this, ForumTopic :: get_type_name(), RepoViewer :: SELECT_MULTIPLE, array(), false);
+        $repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_TOPIC);
+        $repo_viewer->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
+        $repo_viewer->parse_input_from_table();
             
-        if (!$pub->is_ready_to_be_published())
+        if (!$repo_viewer->is_ready_to_be_published())
         {
-            $html[] = $pub->as_html();
+            $repo_viewer->run();
                 
-            $this->display_header($this->get_complex_content_object_breadcrumbs());
-            echo implode("\n", $html);
-            $this->display_footer();
+//            $this->display_header($this->get_complex_content_object_breadcrumbs());
+//            echo implode("\n", $html);
+//            $this->display_footer();
         }
         else
         {
-            $object_id = $pub->get_selected_objects();
+            $object_id = $repo_viewer->get_selected_objects();
                 
             if (! is_array($object_id))
             {

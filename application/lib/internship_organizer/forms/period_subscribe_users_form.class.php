@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../user_type.class.php';
 
-class InternshipOrganizerSubscribeUsersForm extends FormValidator
+class InternshipOrganizerPeriodSubscribeUsersForm extends FormValidator
 {
     
     const APPLICATION_NAME = 'internship_organizer';
@@ -12,7 +12,7 @@ class InternshipOrganizerSubscribeUsersForm extends FormValidator
     private $period;
     private $user;
 
-    function InternshipOrganizerSubscribeUsersForm($period, $action, $user)
+    function InternshipOrganizerPeriodSubscribeUsersForm($period, $action, $user)
     {
         parent :: __construct('create_period', 'post', $action);
         

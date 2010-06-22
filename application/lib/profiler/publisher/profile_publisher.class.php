@@ -78,6 +78,11 @@ class ProfilePublisher
         else
         {
             $html[] = $form->toHtml();
+            $html[] = '<div style="clear: both;"></div>';
+
+            $this->parent->display_header();
+            echo implode("\n", $html);
+            $this->parent->display_footer();
         }
 
         return implode("\n", $html);
