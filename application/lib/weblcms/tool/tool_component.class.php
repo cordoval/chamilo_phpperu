@@ -35,9 +35,9 @@ abstract class ToolComponent extends SubManager
         {
             throw new Exception(Translation :: get('ToolComponentTypeDoesNotExist', array('type' => $type)));
         }
-        
+
         require_once $file;
-        
+
         $class = 'Tool' . Utilities :: underscores_to_camelcase($type) . 'Component';
         return new $class($tool_component);
     }
@@ -127,10 +127,5 @@ abstract class ToolComponent extends SubManager
     function get_tool_id()
     {
         return $this->get_parent()->get_tool_id();
-    }
-
-    function is_category_management_enabled()
-    {
-        return $this->get_parent()->is_category_management_enabled();
     }
 }
