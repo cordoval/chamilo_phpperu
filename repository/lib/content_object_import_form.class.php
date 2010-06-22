@@ -63,7 +63,15 @@ class ContentObjectImportForm extends FormValidator
         	$this->addElement('hidden', RepositoryManager :: PARAM_CATEGORY_ID);	
         }
         
-        $this->add_select('type', Translation :: get('Type'), $this->get_types());
+        if($this->import_type == null)
+        {
+        	$this->add_select('type', Translation :: get('Type'), $this->get_types());
+        }
+        else
+        {
+        	$this->addElement('hidden', 'type');	
+        }
+        
         $this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
         //$this->addElement('submit', 'content_object_import', Translation :: get('Ok'));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
@@ -105,6 +113,7 @@ class ContentObjectImportForm extends FormValidator
     function setDefaults($defaults = array ())
     {
         $defaults[RepositoryManager :: PARAM_CATEGORY_ID] = $this->get_category();
+        $defaults['type'] = $this->import_type;
         parent :: setDefaults($defaults);
     }
 
