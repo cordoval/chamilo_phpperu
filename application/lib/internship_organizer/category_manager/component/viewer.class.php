@@ -20,7 +20,7 @@ class InternshipOrganizerCategoryManagerViewerComponent extends InternshipOrgani
         {
             $this->category = $this->retrieve_category($id);
             
-            $this->root_category = $tset_city_namehis->retrieve_categories(new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_PARENT_ID, 0))->next_result();
+            $this->root_category = $this->retrieve_categories(new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_PARENT_ID, 0))->next_result();
             
             $category = $this->category;
             
