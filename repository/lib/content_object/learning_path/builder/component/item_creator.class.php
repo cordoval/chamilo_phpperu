@@ -3,7 +3,6 @@
  * $Id: item_creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path.component
  */
-require_once dirname(__FILE__) . '/../../../../complex_builder/complex_repo_viewer.class.php';
 
 class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
 {
@@ -54,14 +53,13 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
 
         $pub->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
         $pub->set_excluded_objects($exclude);
-        $pub->parse_input();
 
         if (!$pub->is_ready_to_be_published())
         {
             $t = is_array($type) ? implode(',', $type) : $type;
             $p = $this->rdm->retrieve_content_object($parent);
-        	$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />';
-        	$html[] = $pub->as_html();
+        	//$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />';
+        	$pub->run();
         }
         else
         {
@@ -97,9 +95,6 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
             $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
 
-        $this->display_header($trail);
-        echo '<br />' . implode("\n", $html);
-        $this->display_footer();
     }
 
     private function retrieve_used_items($parent)
