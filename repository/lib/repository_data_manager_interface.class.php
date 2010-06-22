@@ -260,15 +260,6 @@ interface RepositoryDataManagerInterface
     function delete_all_content_objects();
 
     /**
-     * Gets the next available index in the display order.
-     * @param int $parent The numeric identifier of the learning object's
-     * parent learning object.
-     * @param string $type The type of learning object.
-     * @return int The requested display order index.
-     */
-    function get_next_content_object_display_order_index($parent, $type);
-
-    /**
      * Returns the learning objects that are attached to the learning object
      * with the given ID.
      * @param ContentObject $object The learning object for which to retrieve

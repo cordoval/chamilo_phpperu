@@ -15,7 +15,7 @@ class Survey extends ContentObject
     const PROPERTY_FOOTER = 'footer';
     const PROPERTY_FINISH_TEXT = 'finish_text';
     const PROPERTY_ANONYMOUS = 'anonymous';
-//    const PROPERTY_CONTEXT = 'context';
+    //    const PROPERTY_CONTEXT = 'context';
     const PROPERTY_CONTEXT_TEMPLATE_ID = 'context_template_id';
 
     const CLASS_NAME = __CLASS__;
@@ -31,7 +31,7 @@ class Survey extends ContentObject
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_HEADER, self :: PROPERTY_FOOTER, self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_ANONYMOUS,  self :: PROPERTY_CONTEXT_TEMPLATE_ID);
+        return array(self :: PROPERTY_HEADER, self :: PROPERTY_FOOTER, self :: PROPERTY_FINISH_TEXT, self :: PROPERTY_ANONYMOUS, self :: PROPERTY_CONTEXT_TEMPLATE_ID);
     }
 
     function get_header()
@@ -74,21 +74,22 @@ class Survey extends ContentObject
         return $this->set_additional_property(self :: PROPERTY_ANONYMOUS, $value);
     }
 
-//    function get_context()
-//    {
-//        $type = $this->get_additional_property(self :: PROPERTY_CONTEXT);
-//        return SurveyContext :: factory($type);
-//    }
-//
-//    function get_context_type()
-//    {
-//        return $this->get_additional_property(self :: PROPERTY_CONTEXT);
-//    }
-//
-//    function set_context($value)
-//    {
-//        $this->set_additional_property(self :: PROPERTY_CONTEXT, $value);
-//    }
+    //    function get_context()
+    //    {
+    //        $type = $this->get_additional_property(self :: PROPERTY_CONTEXT);
+    //        return SurveyContext :: factory($type);
+    //    }
+    //
+    //    function get_context_type()
+    //    {
+    //        return $this->get_additional_property(self :: PROPERTY_CONTEXT);
+    //    }
+    //
+    //    function set_context($value)
+    //    {
+    //        $this->set_additional_property(self :: PROPERTY_CONTEXT, $value);
+    //    }
+
 
     function set_context_instance($context)
     {
@@ -106,16 +107,16 @@ class Survey extends ContentObject
 
     }
 
-	function get_context_template_name()
+    function get_context_template_name()
     {
-        $template = SurveyContextDataManager::get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
-    	return empty($template) ? '' : $template->get_name();
+        $template = SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
+        return empty($template) ? '' : $template->get_name();
 
     }
 
-	function get_context_template()
+    function get_context_template()
     {
-        return SurveyContextDataManager::get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
+        return SurveyContextDataManager :: get_instance()->retrieve_survey_context_template($this->get_additional_property(self :: PROPERTY_CONTEXT_TEMPLATE_ID));
 
     }
 
@@ -136,18 +137,14 @@ class Survey extends ContentObject
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
-    function is_versionable()
-    {
-        return false;
-    }
-
     function get_pages($complex_items = false)
     {
 
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
 
-        if($complex_items){
-        	return $complex_content_objects;
+        if ($complex_items)
+        {
+            return $complex_content_objects;
         }
 
         //        $survey_page_ids = array();
@@ -175,7 +172,7 @@ class Survey extends ContentObject
     {
         $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()))->as_array();
 
-        if(isset($complex_content_objects[$index - 1]))
+        if (isset($complex_content_objects[$index - 1]))
         {
             return RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_objects[$index - 1]->get_ref());
         }

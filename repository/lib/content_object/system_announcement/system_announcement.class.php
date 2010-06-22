@@ -6,7 +6,7 @@
 /**
  * This class represents a system announcement
  */
-class SystemAnnouncement extends ContentObject
+class SystemAnnouncement extends ContentObject implements Versionable
 {
     const PROPERTY_ICON = 'icon';
 
@@ -18,11 +18,11 @@ class SystemAnnouncement extends ContentObject
     const ICON_CONFIG = 6;
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     function get_icon()
     {
         return $this->get_additional_property(self :: PROPERTY_ICON);
@@ -31,11 +31,6 @@ class SystemAnnouncement extends ContentObject
     function set_icon($icon)
     {
         return $this->set_additional_property(self :: PROPERTY_ICON, $icon);
-    }
-
-    function supports_attachments()
-    {
-        return false;
     }
 
     function get_icon_name()

@@ -8,14 +8,14 @@
 /**
  * A Description
  */
-class Description extends ContentObject
+class Description extends ContentObject implements Versionable
 {
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
 }
 
 ?>

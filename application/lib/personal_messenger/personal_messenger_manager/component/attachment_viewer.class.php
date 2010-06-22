@@ -20,9 +20,9 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPersonalMessageAttachments')));
         $trail->add_help('personal messenger general');
-        
+
         $id = Request :: get(PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID);
-        
+
         if ($id)
         {
             $this->publication = $this->retrieve_personal_message_publication($id);
@@ -34,7 +34,7 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
                 $this->display_footer();
                 exit();
             }
-            
+
             $this->display_header($trail);
             echo $this->get_publication_as_html();
             $this->display_footer();
@@ -50,8 +50,8 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
         $publication = $this->publication;
         $message = $publication->get_publication_object();
         $html = array();
-        
-        if ($message->supports_attachments())
+
+        if ($message instanceof AttachmentSupport)
         {
             $attachments = $message->get_attached_content_objects();
             if (count($attachments))
@@ -68,7 +68,7 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
                 }
             }
         }
-        
+
         return implode("\n", $html);
     }
 }

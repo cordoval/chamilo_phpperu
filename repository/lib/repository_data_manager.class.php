@@ -427,19 +427,6 @@ class RepositoryDataManager
     }
 
     /**
-     * Sets the given learning object's display order index to the next
-     * available index in the display order. This is a convenience function.
-     * @param ContentObject $object The learning object.
-     * @return int The newly assigned index.
-     */
-    public static function assign_content_object_display_order_index($object)
-    {
-        $index = self :: get_instance()->get_next_content_object_display_order_index($object->get_parent_id(), $object->get_type());
-        $object->set_display_order_index($index);
-        return $index;
-    }
-
-    /**
      * Automagically loads all the available types of learning objects
      * and registers them with this data manager.
      * @todo This function now parses the XML-files of every learning object

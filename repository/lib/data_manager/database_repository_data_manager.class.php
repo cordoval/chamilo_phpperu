@@ -12,19 +12,19 @@ require_once 'MDB2.php';
 
 /**
 ==============================================================================
- *	This is a data manager that uses a database for storage. It was written
- *	for MySQL, but should be compatible with most SQL flavors.
+ * This is a data manager that uses a database for storage. It was written
+ * for MySQL, but should be compatible with most SQL flavors.
  *
- *	@author Tim De Pauw
- *	@author Bart Mollet
- *  @author Hans De Bisschop
- *  @author Dieter De Neef
+ * @author Tim De Pauw
+ * @author Bart Mollet
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
 ==============================================================================
  */
 
 class DatabaseRepositoryDataManager extends Database implements RepositoryDataManagerInterface
 {
-	const ALIAS_CONTENT_OBJECT_VERSION_TABLE = 'lov';
+    const ALIAS_CONTENT_OBJECT_VERSION_TABLE = 'lov';
     const ALIAS_CONTENT_OBJECT_ATTACHMENT_TABLE = 'loa';
     const ALIAS_TYPE_TABLE = 'tt';
 
@@ -32,7 +32,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function initialize()
     {
         parent :: initialize();
-//        PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array(get_class(), 'handle_error'));
+        //        PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array(get_class(), 'handle_error'));
         $this->set_prefix('repository_');
     }
 
@@ -47,7 +47,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     // Inherited.
     function retrieve_content_object($id, $type = null)
     {
-        if(!isset($id) || strlen($id) == 0 || $id == DataClass :: NO_UID)
+        if (! isset($id) || strlen($id) == 0 || $id == DataClass :: NO_UID)
         {
             return null;
         }
@@ -80,23 +80,18 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     // TODO: Extract methods.
     function retrieve_content_objects($condition = null, $order_by = array (), $offset = 0, $max_objects = -1, $query = null)
     {
-    	if(is_null($query))
-    	{
-        	$query = 'SELECT * FROM ';
-        	$query .= $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
-       		$query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
-    	}
-		
+        if (is_null($query))
+        {
+            $query = 'SELECT * FROM ';
+            $query .= $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
+            $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+        }
+
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
-
-        /*
-		 * Always respect display order as a last resort.
-		 */
-        $order_by[] = new ObjectTableOrder(ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX);
 
         $orders = array();
         foreach ($order_by as $order)
@@ -112,8 +107,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $max_objects = null;
         }
-//        echo $query; dump($params);
-      
+        //        echo $query; dump($params);
+
+
         $this->set_limit(intval($max_objects), intval($offset));
         $res = $this->query($query);
         return new DatabaseContentObjectResultSet($this, $res, false);
@@ -196,12 +192,12 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     // TODO: Extract methods; share stuff with retrieve_content_objects.
     function count_content_objects($condition = null, $query = null)
     {
-    	if(is_null($query))
-    	{
-        	$query = 'SELECT COUNT(' . $this->get_alias(ContentObject :: get_table_name()). '.' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . ') FROM ' . $this->escape_table_name('content_object') . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
+        if (is_null($query))
+        {
+            $query = 'SELECT COUNT(' . $this->get_alias(ContentObject :: get_table_name()) . '.' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . ') FROM ' . $this->escape_table_name('content_object') . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
 
-        	$query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
-    	}
+            $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
+        }
 
         return $this->count_result_set($query, ContentObject :: get_table_name(), $condition);
     }
@@ -333,6 +329,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         }
         // Delete children
 
+
         // Delete all attachments (only the links, not the actual objects)
         $conditions = array();
         $conditions[] = new EqualityCondition('content_object_id', $object->get_id());
@@ -375,8 +372,6 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
             $this->delete_objects('content_object_version', $condition);
         }
-
-
 
         return true;
     }
@@ -457,17 +452,6 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     }
 
     // Inherited.
-    function get_next_content_object_display_order_index($parent, $type)
-    {
-        $conditions = array();
-        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $parent);
-        $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
-        $condition = new AndCondition($conditions);
-
-        return $this->retrieve_next_sort_value(ContentObject :: get_table_name(), ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX, $condition);
-    }
-
-    // Inherited.
     function retrieve_attached_content_objects($object)
     {
         $subselect_condition = new EqualityCondition('content_object_id', $object->get_id());
@@ -475,30 +459,30 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->retrieve_content_objects($condition)->as_array();
     }
 
-	function count_objects_to_which_object_is_attached($object)
+    function count_objects_to_which_object_is_attached($object)
     {
-    	$subselect_condition = new EqualityCondition('attachment_id', $object->get_id());
+        $subselect_condition = new EqualityCondition('attachment_id', $object->get_id());
         $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', 'content_object_attachment', $subselect_condition, ContentObject :: get_table_name());
         return $this->count_content_objects($condition);
     }
 
     function retrieve_objects_to_which_object_is_attached($object)
     {
-    	$subselect_condition = new EqualityCondition('attachment_id', $object->get_id());
+        $subselect_condition = new EqualityCondition('attachment_id', $object->get_id());
         $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', 'content_object_attachment', $subselect_condition, ContentObject :: get_table_name());
         return $this->retrieve_content_objects($condition);
     }
 
-	function count_objects_in_which_object_is_included($object)
+    function count_objects_in_which_object_is_included($object)
     {
-    	$subselect_condition = new EqualityCondition('include_id', $object->get_id());
+        $subselect_condition = new EqualityCondition('include_id', $object->get_id());
         $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', 'content_object_include', $subselect_condition, ContentObject :: get_table_name());
         return $this->count_content_objects($condition);
     }
 
- 	function retrieve_objects_in_which_object_is_included($object)
+    function retrieve_objects_in_which_object_is_included($object)
     {
-    	$subselect_condition = new EqualityCondition('include_id', $object->get_id());
+        $subselect_condition = new EqualityCondition('include_id', $object->get_id());
         $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', 'content_object_include', $subselect_condition, ContentObject :: get_table_name());
         return $this->retrieve_content_objects($condition);
     }
@@ -509,6 +493,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $subselect_condition = new EqualityCondition('content_object_id', $object->get_id());
         $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'include_id', 'content_object_include', $subselect_condition, ContentObject :: get_table_name());
         //return $this->retrieve_content_objects($condition)->as_array();;
+
 
         return $this->retrieve_objects(ContentObject :: get_table_name(), $condition)->as_array();
     }
@@ -539,31 +524,31 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $object_number);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, $object->get_state());
 
-        if(!$include_last)
+        if (! $include_last)
         {
-        	$subcond = new EqualityCondition('object_number', $object_number);
-        	$conditions[] = new NotCondition(new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', 'content_object_version', $subcond));
+            $subcond = new EqualityCondition('object_number', $object_number);
+            $conditions[] = new NotCondition(new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', 'content_object_version', $subcond));
         }
 
         $condition = new AndCondition($conditions);
 
-        $query = 'SELECT * FROM ' . $this->escape_table_name( ContentObject :: get_table_name()) . ' AS ' . $this->get_alias( ContentObject :: get_table_name());
-        
+        $query = 'SELECT * FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
+
         $objects = $this->retrieve_record_set($query, ContentObject :: get_table_name(), $condition);
 
-        while($object = $objects->next_result())
+        while ($object = $objects->next_result())
         {
-        	$versions[] = $this->retrieve_content_object($object[ContentObject::PROPERTY_ID]);
+            $versions[] = $this->retrieve_content_object($object[ContentObject :: PROPERTY_ID]);
         }
 
         return $versions;
     }
-    
+
     function retrieve_content_object_versions_resultset($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         return $this->retrieve_objects(ContentObject :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
-    
+
     function count_content_object_versions_resultset($condition = null)
     {
         return $this->count_objects(ContentObject :: get_table_name(), $condition);
@@ -589,9 +574,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     // Inherited.
     function detach_content_object($object, $attachment_id)
     {
-        $query = 'DELETE FROM ' . $this->escape_table_name('content_object_attachment') . ' WHERE ' .
-        		 $this->escape_column_name('content_object_id') . '=' . $this->quote($object->get_id()) . ' AND ' .
-        		 $this->escape_column_name('attachment_id') . '=' . $this->quote($attachment_id);
+        $query = 'DELETE FROM ' . $this->escape_table_name('content_object_attachment') . ' WHERE ' . $this->escape_column_name('content_object_id') . '=' . $this->quote($object->get_id()) . ' AND ' . $this->escape_column_name('attachment_id') . '=' . $this->quote($attachment_id);
         $affectedRows = $this->query($query);
         return ($affectedRows > 0);
     }
@@ -609,9 +592,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     // Inherited.
     function exclude_content_object($object, $include_id)
     {
-        $query = 'DELETE FROM ' . $this->escape_table_name('content_object_include') . ' WHERE ' .
-        		 $this->escape_column_name('content_object_id') . '=' . $this->quote($object->get_id()) . ' AND ' .
-        		 $this->escape_column_name('include_id') . '=' . $this->quote($include_id);
+        $query = 'DELETE FROM ' . $this->escape_table_name('content_object_include') . ' WHERE ' . $this->escape_column_name('content_object_id') . '=' . $this->quote($object->get_id()) . ' AND ' . $this->escape_column_name('include_id') . '=' . $this->quote($include_id);
         $affectedRows = $this->query($query);
         return ($affectedRows > 0);
     }
@@ -707,9 +688,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
      * learning object.
      * @param array $record The associative array.
      * @param boolean $additional_properties_known True if the additional
-     *                                             properties of the
-     *                                             learning object were
-     *                                             fetched.
+     * properties of the
+     * learning object were
+     * fetched.
      * @return ContentObject The learning object.
      */
     function record_to_content_object($record, $additional_properties_known = false)
@@ -792,7 +773,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition_owner = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner);
         $types = RepositoryDataManager :: get_registered_types();
         $co_alias = $this->get_alias(ContentObject :: get_table_name());
-        
+
         foreach ($types as $index => $type)
         {
             $class = ContentObject :: type_to_class($type);
@@ -838,7 +819,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     private static function is_content_object_column($name)
     {
-        return ContentObject :: is_default_property_name($name) || $name == ContentObject :: PROPERTY_TYPE || $name == ContentObject :: PROPERTY_DISPLAY_ORDER_INDEX || $name == ContentObject :: PROPERTY_ID;
+        return ContentObject :: is_default_property_name($name) || $name == ContentObject :: PROPERTY_TYPE || $name == ContentObject :: PROPERTY_ID;
     }
 
     function ExecuteQuery($sql)
@@ -1034,6 +1015,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         // Determine type
 
+
         $res->free();
 
         $ref = $record[ComplexContentObjectItem :: PROPERTY_REF];
@@ -1159,24 +1141,24 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $max_objects = null;
         }
-               
+
         $this->set_limit(intval($max_objects), intval($offset));
         $res = $this->query($query);
 
         return new DatabaseComplexContentObjectItemResultSet($this, $res, true);
         //return $this->retrieve_objects('complex_content_object_item', $condition, $offset, $max_objects, $order_by, 'DatabaseComplexContentObjectItemResultSet');
     }
-    
+
     function select_next_display_order_forum($parent_id)
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent_id);
         $subcondition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Forum :: get_type_name());
-	    $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
-	    $condition = new AndCondition($conditions);
+        $conditions[] = new SubSelectcondition(ComplexContentObjectItem :: PROPERTY_REF, ContentObject :: PROPERTY_ID, 'content_object', $subcondition);
+        $condition = new AndCondition($conditions);
         return $this->retrieve_next_sort_value(ComplexContentObjectItem :: get_table_name(), ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, $condition);
     }
-    
+
     function select_next_display_order($parent_id)
     {
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent_id);
@@ -1362,8 +1344,8 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $object_reference = $record[ComplexContentObjectItem :: PROPERTY_REF];
         $object_type = $this->determine_content_object_type($object_reference);
 
-        if($record)
-        	return $this->record_to_complex_content_object_item($record, $object_type, true);
+        if ($record)
+            return $this->record_to_complex_content_object_item($record, $object_type, true);
     }
 
     function create_content_object_metadata($content_object_metadata)
@@ -1403,10 +1385,10 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value)
     {
-        if(StringUtilities :: has_value($catalog_name) && StringUtilities :: has_value($entry_value))
+        if (StringUtilities :: has_value($catalog_name) && StringUtilities :: has_value($entry_value))
         {
             $catalog_name = StringUtilities :: escape_mysql($catalog_name);
-            $entry_value  = StringUtilities :: escape_mysql($entry_value);
+            $entry_value = StringUtilities :: escape_mysql($entry_value);
 
             $query = 'SELECT count(*) as total, content_object_id FROM repository_content_object_metadata
                 WHERE
@@ -1544,9 +1526,11 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         //DebugUtilities::show($record);
 
-        if($record !== false)
+
+        if ($record !== false)
         {
             //$object = new $object_class_name;
+
 
             $properties = call_user_func(array($object_class_name, 'get_default_property_names'));
 
@@ -1554,7 +1538,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
             foreach ($properties as $property)
             {
-                if(array_key_exists($property, $record))
+                if (array_key_exists($property, $record))
                 {
                     $default_properties[$property] = $record[$property];
                 }
@@ -1570,51 +1554,50 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function delete_content_object_includes($object)
     {
-    	$query = 'DELETE FROM ' . $this->escape_table_name('content_object_include') . ' WHERE ' .
-        		 $this->escape_column_name('include_id') . '=' . $this->quote($object->get_id());
+        $query = 'DELETE FROM ' . $this->escape_table_name('content_object_include') . ' WHERE ' . $this->escape_column_name('include_id') . '=' . $this->quote($object->get_id());
         $affectedRows = $this->query($query);
         return ($affectedRows > 0);
     }
 
     function delete_assisting_content_objects($object)
     {
-    	$assisting_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
+        $assisting_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
 
-    	$failures = 0;
+        $failures = 0;
 
-    	foreach($assisting_types as $type)
-    	{
-    		$sub_condition = new EqualityCondition('reference_id', $object->get_id());
-    		$condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', $type, $sub_condition, ContentObject :: get_table_name());
-    		$assisting_objects = $this->retrieve_content_objects($condition);
+        foreach ($assisting_types as $type)
+        {
+            $sub_condition = new EqualityCondition('reference_id', $object->get_id());
+            $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', $type, $sub_condition, ContentObject :: get_table_name());
+            $assisting_objects = $this->retrieve_content_objects($condition);
 
-    		while($assisting_object = $assisting_objects->next_result())
-    		{
-    			if(!RepositoryDataManager :: delete_clois_for_content_object($assisting_object))
-    			{
-    				$failures++;
-    			}
+            while ($assisting_object = $assisting_objects->next_result())
+            {
+                if (! RepositoryDataManager :: delete_clois_for_content_object($assisting_object))
+                {
+                    $failures ++;
+                }
 
-    			if(!$assisting_object->delete())
-	    		{
-	    			$failures++;
-	    		}
-    		}
+                if (! $assisting_object->delete())
+                {
+                    $failures ++;
+                }
+            }
 
-    	}
+        }
 
-    	return ($failures == 0);
+        return ($failures == 0);
     }
 
     function retrieve_doubles_in_repository($condition, $order_property, $offset, $count)
     {
-    	$co_table = $this->escape_table_name(ContentObject :: get_table_name());
-    	$co_alias = $this->get_alias(ContentObject :: get_table_name());
-    	$version_table = $this->escape_table_name('content_object_version');
-    	$version_alias = $this->get_alias('content_object_version');
+        $co_table = $this->escape_table_name(ContentObject :: get_table_name());
+        $co_alias = $this->get_alias(ContentObject :: get_table_name());
+        $version_table = $this->escape_table_name('content_object_version');
+        $version_alias = $this->get_alias('content_object_version');
 
-    	$sql = 'SELECT ' . $co_alias . '.id, title, description, type, count(content_hash) as content_hash FROM ' . $co_table . ' as ' . $co_alias . '
-				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias  . '.id = ' . $version_alias . '.id';
+        $sql = 'SELECT ' . $co_alias . '.id, title, description, type, count(content_hash) as content_hash FROM ' . $co_table . ' as ' . $co_alias . '
+				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias . '.id = ' . $version_alias . '.id';
 
         if (isset($condition))
         {
@@ -1624,20 +1607,20 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         $sql .= ' GROUP BY content_hash HAVING count(content_hash) > 1';
 
-    	return $this->retrieve_object_set($sql, ContentObject :: get_table_name(), null, $offset, $count, $order_property);
+        return $this->retrieve_object_set($sql, ContentObject :: get_table_name(), null, $offset, $count, $order_property);
     }
 
     function count_doubles_in_repository($condition)
     {
-    	$co_table = $this->escape_table_name(ContentObject :: get_table_name());
-    	$co_alias = $this->get_alias(ContentObject :: get_table_name());
-    	$version_table = $this->escape_table_name('content_object_version');
-    	$version_alias = $this->get_alias('content_object_version');
+        $co_table = $this->escape_table_name(ContentObject :: get_table_name());
+        $co_alias = $this->get_alias(ContentObject :: get_table_name());
+        $version_table = $this->escape_table_name('content_object_version');
+        $version_alias = $this->get_alias('content_object_version');
 
-    	$sql = 'SELECT COUNT(*) FROM ' . $co_table . ' as ' . $co_alias . '
-				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias  . '.id = ' . $version_alias . '.id';
+        $sql = 'SELECT COUNT(*) FROM ' . $co_table . ' as ' . $co_alias . '
+				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias . '.id = ' . $version_alias . '.id';
 
-    	if (isset($condition))
+        if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $co_alias);
             $sql .= $translator->render_query($condition);
@@ -1645,7 +1628,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         $sql .= ' GROUP BY content_hash HAVING count(content_hash) > 1';
 
-    	return $this->count_result_set($sql, ContentObject :: get_table_name());
+        return $this->count_result_set($sql, ContentObject :: get_table_name());
     }
 
 }

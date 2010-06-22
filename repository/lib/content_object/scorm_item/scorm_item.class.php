@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/objectives/objectives.class.php';
 require_once dirname(__FILE__) . '/condition_rules/condition_rules.class.php';
 
-class ScormItem extends ContentObject
+class ScormItem extends ContentObject implements Versionable
 {
     const PROPERTY_PATH = 'path';
     const PROPERTY_VISIBLE = 'visible';
@@ -24,16 +24,16 @@ class ScormItem extends ContentObject
     const PROPERTY_IDENTIFIER = 'identifier';
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-    
+
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_PATH, self :: PROPERTY_VISIBLE, self :: PROPERTY_PARAMETERS, self :: PROPERTY_TIME_LIMIT_ACTION, self :: PROPERTY_DATA_FROM_LMS, self :: PROPERTY_COMPLETION_TRESHOLD, self :: PROPERTY_HIDE_LMS_UI, self :: PROPERTY_CONTROL_MODE, self :: PROPERTY_TIME_LIMIT, self :: PROPERTY_OBJECTIVES, self :: PROPERTY_CONDITION_RULES, self :: PROPERTY_COMPLETION_SET_BY_CONTENT, self :: PROPERTY_OBJECTIVE_SET_BY_CONTENT, self :: PROPERTY_IDENTIFIER);
     }
-    
+
     private $prerequisites;
     private $mastery_score;
 
@@ -146,7 +146,7 @@ class ScormItem extends ContentObject
     {
         if (! is_array($control_mode))
             $control_mode = array($control_mode);
-        
+
         $this->set_additional_property(self :: PROPERTY_CONTROL_MODE, serialize($control_mode));
     }
 
@@ -165,7 +165,7 @@ class ScormItem extends ContentObject
         $objectives = $this->get_objectives();
         if (! $objectives)
             $objectives = new Objectives();
-        
+
         $objectives->add_objective($objective, $primary);
         $this->set_objectives($objectives);
     }
@@ -185,7 +185,7 @@ class ScormItem extends ContentObject
         $condition_rules = $this->get_condition_rules();
         if (! $condition_rules)
             $condition_rules = new ConditionRules();
-        
+
         $condition_rules->add_condition_rule($condition_rule, $type);
         $this->set_condition_rules($condition_rules);
     }
@@ -223,10 +223,10 @@ class ScormItem extends ContentObject
     function get_url($include_parameters = false)
     {
         $url = Path :: get(WEB_SCORM_PATH) . $this->get_path();
-        
+
         if ($include_parameters)
             $url = $this->add_parameters_to_url($url);
-        
+
         return $url;
     }
 
@@ -238,12 +238,12 @@ class ScormItem extends ContentObject
     function add_parameters_to_url($url)
     {
         $parameters = $this->get_parameters();
-        
+
         while ((substr($parameters, 0, 1) == '&') || (substr($parameters, 0, 1) == '?'))
         {
             $parameters = substr($parameters, 1, strlen($parameters) - 1);
         }
-        
+
         if (substr($parameters, 0, 1) == '#')
         {
             if (substr($url, 0, 1) == '#')
@@ -255,7 +255,7 @@ class ScormItem extends ContentObject
                 return $url . $parameters;
             }
         }
-        
+
         if (substr_count($url, '?') > 0)
         {
             return $url . '&' . $parameters;

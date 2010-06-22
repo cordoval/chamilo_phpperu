@@ -7,16 +7,16 @@ class LearningPath extends ContentObject
 {
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     function get_allowed_types()
     {
         return array(LearningPath :: get_type_name(), LearningPathItem :: get_type_name());
     }
-    
+
     const PROPERTY_CONTROL_MODE = 'control_mode';
     const PROPERTY_VERSION = 'version';
     const PROPERTY_PATH = 'path';
@@ -35,7 +35,7 @@ class LearningPath extends ContentObject
     {
         if (! is_array($control_mode))
             $control_mode = array($control_mode);
-        
+
         $this->set_additional_property(self :: PROPERTY_CONTROL_MODE, serialize($control_mode));
     }
 
@@ -62,11 +62,6 @@ class LearningPath extends ContentObject
     function get_full_path()
     {
         return Path :: get(SYS_SCORM_PATH) . $this->get_owner_id() . '/' . $this->get_path() . '/';
-    }
-    
-	function is_versionable()
-    {
-        return false;
     }
 }
 ?>

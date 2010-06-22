@@ -6,10 +6,10 @@
 /**
  * A feedback
  */
-class Feedback extends ContentObject
+class Feedback extends ContentObject implements Versionable, AttachmentSupport
 {
     const PROPERTY_ICON = 'icon';
-    
+
     const ICON_THUMBS_UP = 1;
     const ICON_THUMBS_DOWN = 2;
     const ICON_WRONG = 3;
@@ -18,11 +18,11 @@ class Feedback extends ContentObject
 
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-    
+
     function get_icon()
     {
         return $this->get_additional_property(self :: PROPERTY_ICON);
@@ -31,11 +31,6 @@ class Feedback extends ContentObject
     function set_icon($icon)
     {
         return $this->set_additional_property(self :: PROPERTY_ICON, $icon);
-    }
-
-    function supports_attachments()
-    {
-        return true;
     }
 
     function get_icon_name()

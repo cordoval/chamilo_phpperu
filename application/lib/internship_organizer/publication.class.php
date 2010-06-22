@@ -11,12 +11,15 @@ class InternshipOrganizerPublication extends DataClass
     const PROPERTY_CONTENT_OBJECT = 'content_object_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
-    const PROPERTY_HIDDEN = 'hidden';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
-    const PROPERTY_CATEGORY = 'category_id';
-    const PROPERTY_TEST = 'test';
+
+    const PROPERTY_PUBLISHER_TYPE = 'publisher_type';
+    const PROPERTY_PUBLICATION_TYPE = 'publisher_type';
     
+    //Locations : period, agreement, moment, location, organisation
+    const PROPERTY_LOCATION = 'location';
+        
     private $target_groups;
     private $target_users;
 

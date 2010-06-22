@@ -2,7 +2,7 @@
 /*
  * @author jevdheyd
  */
-class StreamingVideoClip extends ContentObject
+class StreamingVideoClip extends ContentObject implements Versionable
 {
     const PROPERTY_SERVER_ID = 'server_id';
     const PROPERTY_ASSET_ID = 'asset_id';
@@ -37,12 +37,6 @@ class StreamingVideoClip extends ContentObject
     function get_asset_id()
     {
         return $this->get_additional_property(self :: PROPERTY_ASSET_ID);
-    }
-
-    //Inherited
-    function supports_attachments()
-    {
-        return false;
     }
 
 }

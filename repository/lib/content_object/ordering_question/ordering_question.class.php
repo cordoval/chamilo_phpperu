@@ -5,16 +5,16 @@
  */
 require_once dirname(__FILE__) . '/ordering_question_option.class.php';
 
-class OrderingQuestion extends ContentObject
+class OrderingQuestion extends ContentObject implements Versionable
 {
     const PROPERTY_OPTIONS = 'options';
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     public function add_option($option)
     {
         $options = $this->get_options();

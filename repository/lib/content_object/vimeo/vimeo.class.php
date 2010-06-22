@@ -4,7 +4,7 @@
  * package repository.lib.content_object.vimeo
  * @author Shoira Mukhsinova
  */
-class Vimeo extends ContentObject
+class Vimeo extends ContentObject implements Versionable
 {
     const CLASS_NAME = __CLASS__;
 

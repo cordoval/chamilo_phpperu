@@ -7,16 +7,16 @@
 /**
  * This class represents an peer_assessment
  */
-class PeerAssessment extends ContentObject
+class PeerAssessment extends ContentObject implements Versionable
 {
 	function get_allowed_types()
     {
         return array(Competence :: get_type_name());
     }
-    
+
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
