@@ -28,7 +28,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         if ($this->get_actions() && $this->is_allowed(EDIT_RIGHT))
         {
             $html[] = '<div style="clear: both;">';
-            $html[] = '<form class="publication_list" name="publication_list" action="' . $this->get_url() . '" method="GET" >';
+            $html[] = '<form class="publication_list" name="publication_list" action="' . $this->get_url() . '" method="POST" >';
         }
         $i = 0;
         
@@ -42,9 +42,13 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         
         if ($this->get_actions() && count($publications) > 0 && $this->is_allowed(EDIT_RIGHT))
         {
-            foreach ($_GET as $parameter => $value)
+            $table_name = Utilities :: camelcase_to_underscores(__CLASS__);
+        	foreach ($_GET as $parameter => $value)
             {
-                $html[] = '<input type="hidden" name="' . $parameter . '" value="' . $value . '" />';
+                if($parameter == 'message')
+                	continue;
+                	
+            	$html[] = '<input type="hidden" name="' . $parameter . '" value="' . $value . '" />';
             }
             $html[] = '<script type="text/javascript">
 							/* <![CDATA[ */
@@ -62,13 +66,14 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $html[] = '<div style="text-align: right;">';
             $html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">' . Translation :: get('SelectAll') . '</a>';
             $html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">' . Translation :: get('UnSelectAll') . '</a><br />';
-            $html[] = '<select id="tool_actions" name="tool_action">';
+            $html[] = '<select id="tool_actions" name="' . $table_name . '_action_value">';
             foreach ($this->get_actions()->get_form_actions() as $form_action)
             {
-                //$html[] = '<option value="' . $action . '">' . $label . '</option>';
                 $html[] = '<option value="' . $form_action->get_action() . '" class="' . ($form_action->get_confirm() ? 'confirm' : '') . '">' . $form_action->get_title() . '</option>';
             }
             $html[] = '</select>';
+            $html[] = '<input type="hidden" name="'. $table_name .'_action_name" value="' . $this->get_actions()->get_action() . '"/>';
+            $html[] = '<input type="hidden" name="table_name" value="' . $table_name . '"/>';
             $html[] = ' <input type="submit" value="' . Translation :: get('Ok') . '"/>';
             $html[] = '</div>';
             $html[] = '</form>';
@@ -76,6 +81,21 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         }
         
         return implode("\n", $html);
+    }
+    
+	static function handle_table_action()
+    {
+    	$selected_ids = Request :: post(WeblcmsManager :: PARAM_PUBLICATION);
+
+        if (empty($selected_ids))
+        {
+            $selected_ids = array();
+        }
+        elseif (! is_array($selected_ids))
+        {
+            $selected_ids = array($selected_ids);
+        }
+        Request :: set_get(Tool :: PARAM_PUBLICATION_ID, $selected_ids);
     }
 
     /**

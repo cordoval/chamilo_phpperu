@@ -13,6 +13,7 @@
  */
 require_once dirname(__file__) . '/../browser/content_object_publication_list_renderer.class.php';
 require_once dirname(__file__) . '/../browser/object_publication_table/object_publication_table.class.php';
+require_once dirname(__file__) . '/../browser/list_renderer/list_content_object_publication_list_renderer.class.php';
 
 abstract class Tool extends SubManager
 {
@@ -66,7 +67,7 @@ abstract class Tool extends SubManager
     {
         parent :: __construct($parent);
         $this->properties = $parent->get_tool_properties($this->get_tool_id());
-        
+
         $this->handle_table_action();
         
        	$this->set_action(Request :: get(self :: PARAM_ACTION));
