@@ -19,7 +19,7 @@ class LearningPathToolCloViewerComponent extends LearningPathTool
     
     }
     
-	function display_header($trail)
+	function display_header()
     {
     	return Display :: small_header();
     }

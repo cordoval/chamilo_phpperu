@@ -39,7 +39,7 @@ class LearningPathToolViewerComponent extends LearningPathTool
         
         if (! $pid)
         {
-            $this->display_header($trail, true);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NoObjectSelected'));
             $this->display_footer();
         }
@@ -71,7 +71,7 @@ class LearningPathToolViewerComponent extends LearningPathTool
         $this->trackers['lp_tracker']->set_progress($this->menu->get_progress());
         $this->trackers['lp_tracker']->update();
         
-        $trail->merge($this->menu->get_breadcrumbs());
+        //$trail->merge($this->menu->get_breadcrumbs());
         
         $this->navigation = $this->get_navigation_menu($this->menu->count_steps(), $step, $object, $this->menu);
         $objects = $this->menu->get_objects();
@@ -158,7 +158,7 @@ class LearningPathToolViewerComponent extends LearningPathTool
                     
                     $display = LearningPathContentObjectDisplay :: factory($this, $object->get_type())->display_content_object($object, $lpi_attempt_data[$cloi->get_id()], $this->menu->get_continue_url(), $this->menu->get_previous_url(), $this->menu->get_jump_urls());
                 }
-                $this->display_header($trail, true);
+                $this->display_header();
 
                 if (get_class($display) == 'AssessmentDisplay')
                 {
@@ -172,7 +172,7 @@ class LearningPathToolViewerComponent extends LearningPathTool
             }
             else
             {
-                $this->display_header($trail, true);
+                $this->display_header();
                 $this->display_error_message(Translation :: get('EmptyLearningPath'));
                 $this->display_footer();
                 exit();
@@ -201,9 +201,9 @@ class LearningPathToolViewerComponent extends LearningPathTool
     //        $this->display_footer();
     }
 
-    function display_header($breadcrumb)
+    function display_header()
     {
-        parent :: display_header($breadcrumb, true);
+        parent :: display_header();
         echo '<div style="width: 17%; overflow: auto; float: left;">';
         echo $this->menu->render_as_tree() . '<br /><br />';
         echo $this->get_progress_bar($this->menu->get_progress());
