@@ -152,7 +152,7 @@ class CommonAutoloader
 	static function check_for_interface_files($classname)
 	{
 		$list = array('categorizable' => 'categorizable.class.php',
-					  'serializable' => 'serializable.class.php',
+					  'versionable' => 'versionable.class.php',
 					  'attachment_support' => 'attachment_support.class.php'
 		);
 
