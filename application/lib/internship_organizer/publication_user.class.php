@@ -1,24 +1,15 @@
 <?php
-/**
- * $Id: survey_publication_user.class.php 193 2009-11-13 11:53:37Z chellee $
- * @package application.lib.survey
- */
 
-/**
- * This class describes a SurveyPublicationUser data object
- * @author Sven Vanpoucke
- * @author 
- */
-class SurveyPublicationUser extends DataClass
+class InternshipOrganizerPublicationUser extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication_user';
     
     /**
-     * SurveyPublicationUser properties
+     * InternshipOrganizerPublicationUser properties
      */
-    const PROPERTY_SURVEY_PUBLICATION = 'survey_publication_id';
-    const PROPERTY_USER = 'user_id';
+    const PROPERTY_PUBLICATION_ID = 'publication_id';
+    const PROPERTY_USER_ID = 'user_id';
 
     /**
      * Get the default properties
@@ -26,48 +17,48 @@ class SurveyPublicationUser extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_SURVEY_PUBLICATION, self :: PROPERTY_USER);
+        return array(self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_USER_ID);
     }
 
     function get_data_manager()
     {
-        return SurveyDataManager :: get_instance();
+        return InternshipOrganizerDataManager :: get_instance();
     }
 
     /**
-     * Returns the survey_publication of this SurveyPublicationUser.
-     * @return the survey_publication.
+     * Returns the publication_id of this InternshipOrganizerPublicationUser.
+     * @return the publication_id.
      */
-    function get_survey_publication()
+    function get_publication_id()
     {
-        return $this->get_default_property(self :: PROPERTY_SURVEY_PUBLICATION);
+        return $this->get_default_property(self :: PROPERTY_PUBLICATION_ID);
     }
 
     /**
-     * Sets the survey_publication of this SurveyPublicationUser.
-     * @param survey_publication
+     * Sets the publication_id of this InternshipOrganizerPublicationUser.
+     * @param publication_id
      */
-    function set_survey_publication($survey_publication)
+    function set_publication_id($publication_id)
     {
-        $this->set_default_property(self :: PROPERTY_SURVEY_PUBLICATION, $survey_publication);
+        $this->set_default_property(self :: PROPERTY_PUBLICATION_ID, $publication_id);
     }
 
     /**
-     * Returns the user of this SurveyPublicationUser.
-     * @return the user.
+     * Returns the user_id of this InternshipOrganizerPublicationUser.
+     * @return the user_id.
      */
-    function get_user()
+    function get_user_id()
     {
-        return $this->get_default_property(self :: PROPERTY_USER);
+        return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
 
     /**
-     * Sets the user of this SurveyPublicationUser.
-     * @param user
+     * Sets the user_id of this InternshipOrganizerPublicationUser.
+     * @param user_id
      */
-    function set_user($user)
+    function set_user_id($user_id)
     {
-        $this->set_default_property(self :: PROPERTY_USER, $user);
+        $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
     }
 
     function create()
