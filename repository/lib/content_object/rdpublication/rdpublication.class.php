@@ -6,18 +6,18 @@
 /**
  * This class represents an announcement
  */
-class Rdpublication extends ContentObject
+class Rdpublication extends ContentObject implements Versionable
 {
     const PROPERTY_REF_ID = 'ref_id';
     const PROPERTY_PUB_TYPE = 'pub_type';
     const PROPERTY_PUBLISHER = 'publisher';
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	    
+
     private $defaultProperties;
 
     /**
@@ -61,7 +61,7 @@ class Rdpublication extends ContentObject
 	{
 		return $this->set_additional_property(self :: PROPERTY_VALIDATE, $validate);
 	}*/
-    
+
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_REF_ID, self :: PROPERTY_PUB_TYPE);

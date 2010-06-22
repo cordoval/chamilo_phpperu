@@ -6,15 +6,15 @@
 /**
  * This class represents an note
  */
-class Note extends ContentObject
+class Note extends ContentObject implements Versionable
 {
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     //Inherited
     function supports_attachments()
     {

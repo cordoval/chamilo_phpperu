@@ -6,7 +6,7 @@
  * @author Hans De Bisschop
  */
 
-class EncyclopediaItem extends ContentObject
+class EncyclopediaItem extends ContentObject implements Versionable
 {
 	const CLASS_NAME = __CLASS__;
 

@@ -1,8 +1,8 @@
 <?php
 /**
- *  $Id: criteria.class.php 200 2009-11-13 12:30:04Z kariboe $
- *  @package repository.lib.content_object.criteria
- *  @author Sven Vanpoucke
+ * $Id: criteria.class.php 200 2009-11-13 12:30:04Z kariboe $
+ * @package repository.lib.content_object.criteria
+ * @author Sven Vanpoucke
  */
 
 require_once dirname(__FILE__) . '/criteria_option.class.php';
@@ -10,17 +10,17 @@ require_once dirname(__FILE__) . '/criteria_option.class.php';
 /**
  * This class represents an criteria
  */
-class Criteria extends ContentObject
+class Criteria extends ContentObject implements Versionable
 {
-	const PROPERTY_OPTIONS = 'options';
+    const PROPERTY_OPTIONS = 'options';
 
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
-	
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+
     public function add_option($option)
     {
         $options = $this->get_options();
@@ -46,7 +46,7 @@ class Criteria extends ContentObject
     {
         return count($this->get_options());
     }
-    
+
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_OPTIONS);

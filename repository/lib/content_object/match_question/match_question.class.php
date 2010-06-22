@@ -5,18 +5,18 @@
  */
 require_once dirname(__FILE__) . '/match_question_option.class.php';
 
-class MatchQuestion extends ContentObject
+class MatchQuestion extends ContentObject implements Versionable
 {
     const PROPERTY_ANSWER_TYPE = 'answer_type';
     const PROPERTY_OPTIONS = 'options';
-	
+
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-    
+
     public function add_option($option)
     {
         $options = $this->get_options();

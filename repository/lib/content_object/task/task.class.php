@@ -6,7 +6,7 @@
 /**
  * This class represents a task
  */
-class Task extends ContentObject
+class Task extends ContentObject implements Versionable
 {
 	/**
      * The start date of the calendar event
@@ -68,27 +68,27 @@ class Task extends ContentObject
     const TYPE_MEETING = '17';
     const TYPE_MONITORING = '18';
     const TYPE_TRAVEL = '19';
-    
+
     const PRIORITY_LOW = '0';
     const PRIORITY_NORMAL = '1';
     const PRIORITY_HIGH = '2';
-    
+
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
 	/**
  	* Gets the type of this task
  	* @return int task type
  	*/
     function get_task_type()
     {
-    	return $this->get_additional_property(self :: PROPERTY_TASK_TYPE);	
+    	return $this->get_additional_property(self :: PROPERTY_TASK_TYPE);
     }
-    
+
     /**
      * Sets the type of this task
      * @param int The type
@@ -97,16 +97,16 @@ class Task extends ContentObject
     {
     	return $this->set_additional_property(self :: PROPERTY_TASK_TYPE, $task_type);
     }
-    
+
    /**
  	* Gets the priority of this task
  	* @return String task priority
  	*/
     function get_task_priority()
     {
-    	return $this->get_additional_property(self :: PROPERTY_TASK_PRIORITY);	
+    	return $this->get_additional_property(self :: PROPERTY_TASK_PRIORITY);
     }
-    
+
     /**
      * Sets the priority of this task
      * @param String The priority
@@ -115,7 +115,7 @@ class Task extends ContentObject
     {
     	return $this->set_additional_property(self :: PROPERTY_TASK_PRIORITY, $task_priority);
     }
-    
+
 	/**
      * Gets the start date of this calendar event
      * @return int The start date
@@ -375,7 +375,7 @@ class Task extends ContentObject
             return $this->get_type();
         }
     }
-	
+
     static function get_priority_options()
     {
         $options = array();
@@ -390,7 +390,7 @@ class Task extends ContentObject
 	static function get_types_options()
     {
         $types = array();
-        
+
         $types[self :: TYPE_ANNIVERSARY] = Translation :: get('Anniversary');
         $types[self :: TYPE_BUSINESS] = Translation :: get('Business');
         $types[self :: TYPE_CALL] = Translation :: get('Call');
@@ -414,7 +414,7 @@ class Task extends ContentObject
         asort($types);
         return $types;
     }
-    
+
     /**
      * Return the task-priority as a string
      */
@@ -436,7 +436,7 @@ class Task extends ContentObject
         }
         return $string;
     }
- 
+
 	/**
      * Return the task-type as a string
      */
@@ -481,31 +481,31 @@ class Task extends ContentObject
                 break;
              case self :: TYPE_PUBLIC_HOLIDAY :
                 $string = Translation :: get('PublicHoliday');
-                break;               
+                break;
              case self :: TYPE_PRIVATE :
                 $string = Translation :: get('Private');
-                break;               
+                break;
             case self :: TYPE_FAVORITE :
                 $string = Translation :: get('Favorite');
-                break;                
+                break;
             case self :: TYPE_PROBLEMS :
                 $string = Translation :: get('Problems');
-                break;  
+                break;
             case self :: TYPE_PROFESSIONAL :
                 $string = Translation :: get('Professional');
-                break;  
+                break;
             case self :: TYPE_PROJECTS :
                 $string = Translation :: get('Projects');
-                break;                  
+                break;
             case self :: TYPE_MEETING :
                 $string = Translation :: get('Meeting');
-                break;                  
+                break;
             case self :: TYPE_MONITORING :
                 $string = Translation :: get('Monitoring');
-                break;                  
+                break;
             case self :: TYPE_TRAVEL :
                 $string = Translation :: get('Travel');
-                break;                            
+                break;
         }
         return $string;
     }

@@ -6,7 +6,7 @@
  * @author Hans De Bisschop
  */
 
-class NewsArticle extends ContentObject
+class NewsArticle extends ContentObject implements Versionable
 {
 	const CLASS_NAME = __CLASS__;
 

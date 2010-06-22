@@ -5,11 +5,11 @@
  */
 require_once dirname(__FILE__) . '/multiple_choice_question_option.class.php';
 
-abstract class MultipleChoiceQuestion extends ContentObject
+abstract class MultipleChoiceQuestion extends ContentObject implements Versionable
 {
     const PROPERTY_ANSWER_TYPE = 'answer_type';
     const PROPERTY_OPTIONS = 'options';
-    
+
     const ANSWER_TYPE_RADIO = 1;
     const ANSWER_TYPE_CHECKBOX = 2;
 

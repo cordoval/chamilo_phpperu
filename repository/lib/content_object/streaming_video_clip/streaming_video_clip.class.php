@@ -2,7 +2,7 @@
 /*
  * @author jevdheyd
  */
-class StreamingVideoClip extends ContentObject
+class StreamingVideoClip extends ContentObject implements Versionable
 {
     const PROPERTY_SERVER_ID = 'server_id';
     const PROPERTY_ASSET_ID = 'asset_id';

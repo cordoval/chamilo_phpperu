@@ -6,7 +6,7 @@
 /**
  * This class represents a topic in a discussion forum.
  */
-class ForumTopic extends ContentObject
+class ForumTopic extends ContentObject implements Versionable
 {
     const PROPERTY_LOCKED = 'locked';
     const PROPERTY_TOTAL_POSTS = 'total_posts';
@@ -14,46 +14,46 @@ class ForumTopic extends ContentObject
 
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-    
+
     private $first_post;
-    
+
     function create()
     {
         $succes = parent :: create();
         $children = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id()));
-        
+
         if ($children == 0)
         {
             $content_object = new AbstractContentObject(ForumPost :: get_type_name(), $this->get_owner_id());
             $content_object->set_title($this->get_title());
             $content_object->set_description($this->get_description());
             $content_object->set_owner_id($this->get_owner_id());
-            
+
             $content_object->create();
 
             $this->first_post = $content_object;
-           
+
             $cloi = ComplexContentObjectItem :: factory(ForumPost :: get_type_name());
-            
+
             $cloi->set_ref($content_object->get_id());
             $cloi->set_user_id($this->get_owner_id());
             $cloi->set_parent($this->get_id());
             $cloi->set_display_order(1);
-            
+
             $cloi->create();
         }
-        
+
         return $succes;
     }
-    
+
     function attach_content_object($aid)
     {
     	parent :: attach_content_object($aid);
-    	
+
     	if($this->first_post)
     	{
     		$this->first_post->attach_content_object($aid);
@@ -109,12 +109,12 @@ class ForumTopic extends ContentObject
     {
         $this->set_last_post($last_post);
         $this->update();
-        
+
         $rdm = RepositoryDataManager :: get_instance();
-        
+
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
         $wrappers = $rdm->retrieve_complex_content_object_items($condition);
-        
+
         while ($item = $wrappers->next_result())
         {
             $lo = $rdm->retrieve_content_object($item->get_parent());
@@ -125,21 +125,21 @@ class ForumTopic extends ContentObject
     function recalculate_last_post()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        
+
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name());
         $children = $rdm->retrieve_complex_content_object_items($condition, array(new ObjectTableOrder('add_date', SORT_DESC)), 0, 1);
         $lp = $children->next_result();
-        
+
         $id = ($lp) ? $lp->get_id() : 0;
-        
+
         if ($this->get_last_post() != $id)
         {
             $this->set_last_post($id);
             $this->update();
-            
+
             $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
             $wrappers = $rdm->retrieve_complex_content_object_items($condition);
-            
+
             while ($item = $wrappers->next_result())
             {
                 $lo = $rdm->retrieve_content_object($item->get_parent());
@@ -152,12 +152,12 @@ class ForumTopic extends ContentObject
     {
         $this->set_total_posts($this->get_total_posts() + $posts);
         $this->update();
-        
+
         $rdm = RepositoryDataManager :: get_instance();
-        
+
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
         $wrappers = $rdm->retrieve_complex_content_object_items($condition);
-        
+
         while ($item = $wrappers->next_result())
         {
             $lo = $rdm->retrieve_content_object($item->get_parent());
@@ -169,12 +169,12 @@ class ForumTopic extends ContentObject
     {
         $this->set_total_posts($this->get_total_posts() - $posts);
         $this->update();
-        
+
         $rdm = RepositoryDataManager :: get_instance();
-        
+
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
         $wrappers = $rdm->retrieve_complex_content_object_items($condition);
-        
+
         while ($item = $wrappers->next_result())
         {
             $lo = $rdm->retrieve_content_object($item->get_parent());

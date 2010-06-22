@@ -173,7 +173,7 @@ abstract class ContentObjectForm extends FormValidator
 
         $this->addElement('category', Translation :: get('GeneralProperties'));
         $this->build_basic_form($htmleditor_options);
-        if ($object->is_versionable()) // && $this->allow_new_version)
+        if ($object instanceof Versionable) // && $this->allow_new_version)
         {
             if ($object->get_version_count() < $quotamanager->get_max_versions($object->get_type()))
             {
@@ -496,7 +496,7 @@ EOT;
     {
         $object = $this->content_object;
         $values = $this->exportValues();
-        
+
         $object->set_title($values[ContentObject :: PROPERTY_TITLE]);
 
         $desc = $values[ContentObject :: PROPERTY_DESCRIPTION] ? $values[ContentObject :: PROPERTY_DESCRIPTION] : '';
@@ -559,7 +559,7 @@ EOT;
             {
                 $object->detach_content_object($o->get_id());
             }
-            
+
             foreach ($values['attachments'] as $aid)
             {
                 $aid = str_replace('lo_', '', $aid);

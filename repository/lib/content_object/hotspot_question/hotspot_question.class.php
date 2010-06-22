@@ -7,23 +7,23 @@ require_once dirname(__FILE__) . '/hotspot_question_answer.class.php';
 /**
  * This class represents a hotspot question
  */
-class HotspotQuestion extends ContentObject
+class HotspotQuestion extends ContentObject implements Versionable
 {
     const PROPERTY_ANSWERS = 'answers';
     const PROPERTY_IMAGE = 'image';
 
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-    
+
     public function supports_attachments()
     {
     	return false;
     }
-    
+
     public function add_answer($answer)
     {
         $answers = $this->get_answers();
@@ -68,7 +68,7 @@ class HotspotQuestion extends ContentObject
     function get_image_object()
     {
         $image = $this->get_image();
-        
+
         if (isset($image) && $image != 0)
         {
             return RepositoryDataManager :: get_instance()->retrieve_content_object($image);

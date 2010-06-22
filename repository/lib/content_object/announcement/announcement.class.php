@@ -7,15 +7,15 @@
 /**
  * This class represents an announcement
  */
-class Announcement extends ContentObject
+class Announcement extends ContentObject implements Versionable
 {
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     //Inherited
     function supports_attachments()
     {

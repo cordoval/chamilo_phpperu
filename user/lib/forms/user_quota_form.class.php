@@ -151,7 +151,7 @@ class UserQuotaForm extends FormValidator
         foreach ($content_object_types as $type)
         {
             $object = new AbstractContentObject($type, $user->get_id());
-            if ($object->is_versionable() && ! in_array($object->get_type(), $hidden_types))
+            if ($object instanceof Versionable && ! in_array($object->get_type(), $hidden_types))
             {
                 $filtered_object_types[] = $type;
             }

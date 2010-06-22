@@ -6,11 +6,11 @@
 require PATH :: get_plugin_path() . 'icalcreator/iCalcreator.class.php';
 require PATH :: get_plugin_path() . 'ical/ical_recurrence.class.php';
 
-class ExternalCalendar extends ContentObject
+class ExternalCalendar extends ContentObject implements Versionable
 {
     const PROPERTY_URL = 'url';
     const CACHE_TIME = 3600;
-    
+
     const REPEAT_TYPE_NONE = 'NONE';
     const REPEAT_TYPE_DAY = 'DAILY';
     const REPEAT_TYPE_WEEK = 'WEEKLY';
@@ -18,9 +18,9 @@ class ExternalCalendar extends ContentObject
     const REPEAT_TYPE_YEAR = 'YEARLY';
     const REPEAT_START = 'start';
     const REPEAT_END = 'end';
-    
-    const PARAM_EVENT_ID = 'event_id'; 
-        
+
+    const PARAM_EVENT_ID = 'event_id';
+
     private $calendar;
 
     function get_url()
@@ -37,79 +37,80 @@ class ExternalCalendar extends ContentObject
     {
         return array(self :: PROPERTY_URL);
     }
-    
+
     function get_calendar()
     {
-    	$ical_id = md5('ical_' . serialize($this->get_url()));
+        $ical_id = md5('ical_' . serialize($this->get_url()));
         $path = Path :: get(SYS_FILE_PATH) . 'temp/ical/' . $ical_id . '.ics';
         $timedif = @(time() - filemtime($path));
-        
+
         //if (! file_exists($path) || $timedif > self :: CACHE_TIME)
         //{
-            if ($f = @fopen($this->get_url(), 'r'))
-            {
-                $calendar_content = '';
-                while (! feof($f))
-                {
-                    $calendar_content .= fgets($f, 4096);
-                }
-                fclose($f);
-            }
-            Filesystem :: write_to_file($path, $calendar_content);
-        //}
-		
-        if (!isset($this->calendar))
+        if ($f = @fopen($this->get_url(), 'r'))
         {
-        	$calendar = new vcalendar();
-        	$calendar->parse($path);
-        	$calendar->sort();
+            $calendar_content = '';
+            while (! feof($f))
+            {
+                $calendar_content .= fgets($f, 4096);
+            }
+            fclose($f);
         }
-        
+        Filesystem :: write_to_file($path, $calendar_content);
+        //}
+
+
+        if (! isset($this->calendar))
+        {
+            $calendar = new vcalendar();
+            $calendar->parse($path);
+            $calendar->sort();
+        }
+
         return $calendar;
     }
-    
+
     function get_events()
     {
-    	$evnets = array();
-    	foreach($this->get_calendar()->components as $component)
-    	{
-    		if (get_class($component) == 'vevent')
-    		{
-    			$events[] = $component;
-    		}
-    	}
-    	return $events;
+        $evnets = array();
+        foreach ($this->get_calendar()->components as $component)
+        {
+            if (get_class($component) == 'vevent')
+            {
+                $events[] = $component;
+            }
+        }
+        return $events;
     }
-    
+
     function count_events()
     {
-    	$events = $this->get_events();
-    	return count($events);
+        $events = $this->get_events();
+        return count($events);
     }
-    
+
     function get_event($event_id)
     {
-    	$events = $this->get_events();
-    	foreach($events as $event)
-   		{	
-   			if ($event->uid['value'] = $event_id)
-   			{
-   				return $event;
-   			}
-   		}
+        $events = $this->get_events();
+        foreach ($events as $event)
+        {
+            if ($event->uid['value'] = $event_id)
+            {
+                return $event;
+            }
+        }
     }
-     
+
     function get_occurences(vevent $event, $start_date, $end_date)
     {
-		
-    	$ical_recurrence = new IcalRecurrence($event, $start_date, $end_date);
-    	$test = $ical_recurrence->get_occurences();
-    	return $test;
-    }  
-    
+
+        $ical_recurrence = new IcalRecurrence($event, $start_date, $end_date);
+        $test = $ical_recurrence->get_occurences();
+        return $test;
+    }
+
     static function get_type_name()
     {
-    	return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

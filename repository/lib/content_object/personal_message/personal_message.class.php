@@ -6,22 +6,17 @@
 /**
  * This class represents a personal message
  */
-class PersonalMessage extends ContentObject
+class PersonalMessage extends ContentObject implements Versionable
 {
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     //Inherited
     function supports_attachments()
-    {
-        return true;
-    }
-
-    function is_versionable()
     {
         return true;
     }

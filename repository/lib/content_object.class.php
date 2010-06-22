@@ -62,7 +62,7 @@
  *  @author Dieter De Neef
  */
 
-class ContentObject extends DataClass implements AccessibleContentObject
+class ContentObject extends DataClass
 {
     const CLASS_NAME = __CLASS__;
 
@@ -474,10 +474,11 @@ class ContentObject extends DataClass implements AccessibleContentObject
     /**
      * Determines whether this learning object can have versions.
      * @return boolean True if the object is versionable, false otherwise.
+     * @deprecated
      */
     function is_versionable()
     {
-        return true;
+        return $this instanceof Versionable;
     }
 
     /**
