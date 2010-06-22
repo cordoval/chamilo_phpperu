@@ -4,7 +4,7 @@
  * @package repository.lib.complex_builder.component
  */
 require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
-require_once dirname(__FILE__) . '/../complex_repo_viewer.class.php';
+//require_once dirname(__FILE__) . '/../complex_repo_viewer.class.php';
 
 class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 {

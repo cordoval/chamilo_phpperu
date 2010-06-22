@@ -7,7 +7,7 @@
 /**
  * This tool allows a user to publish learning paths in his or her course.
  */
-class BlogTool extends Tool
+class BlogTool extends Tool implements Categorizable
 {
 /*    const ACTION_VIEW_BLOGS = 'view';
 
@@ -72,11 +72,6 @@ class BlogTool extends Tool
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
-	}
-
-	function is_category_management_enabled()
-	{
-	    return true;
 	}
 }
 ?>

@@ -1,4 +1,9 @@
 <?php
+$lang['common']['DocumentImageFormTitle'] = 'Title';
+$lang['common']['DocumentImageFormDescription'] = 'Description';
+$lang['common']['DocumentImageFormProperties'] = 'Properties';
+$lang['common']['Preview'] = 'Preview';
+$lang['common']['ViewerTitle'] = 'Preview';
 $lang['common']['Teacher'] = 'Teacher';
 $lang['common']['Unsubscribe'] = 'Unsubscribe';
 $lang['common']['UnsubscribeSelected'] = 'Unsubscribe selected';

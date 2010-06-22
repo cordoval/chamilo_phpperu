@@ -12,7 +12,6 @@
 
 require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/publisher/content_object_publisher.class.php';
-require_once Path :: get_repository_path() . 'lib/complex_builder/complex_repo_viewer.class.php';
 
 class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
 {

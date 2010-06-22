@@ -80,7 +80,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('SubscribeAsStudent'),
-	        		Theme :: get_common_image_path() . 'action_subscribe_student.png',
+	        		Theme :: get_image_path($this->browser->get_application_name()) . 'action_subscribe_student.png',
 	        		$subscribe_url,
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
@@ -90,10 +90,9 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $parameters[WeblcmsManager :: PARAM_STATUS] = 1;
             $subscribe_url = $this->browser->get_url($parameters);
-            
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('SubscribeAsTeacher'),
-	        		Theme :: get_common_image_path() . 'action_subscribe_teacher.png',
+	        		Theme :: get_image_path($this->browser->get_application_name()) . 'action_subscribe_teacher.png',
 	        		$subscribe_url,
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));

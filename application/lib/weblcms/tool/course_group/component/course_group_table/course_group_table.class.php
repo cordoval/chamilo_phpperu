@@ -69,7 +69,7 @@ class CourseGroupTable
         if($parent->is_allowed(EDIT_RIGHT))
         {
 	    	$actions[] = new ObjectTableFormAction(CourseGroupTool :: PARAM_DELETE_COURSE_GROUPS, Translation :: get('RemoveSelected'));
-	    	$this->set_form_actions($actions);
+	    	$this->set_form_actions(new ObjectTableFormActions(null,$actions));
         }
     }
 

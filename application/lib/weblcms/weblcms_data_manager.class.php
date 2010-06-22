@@ -30,7 +30,7 @@ class WeblcmsDataManager implements DataManagerInterface
     /**
      * Creates the shared instance of the configured data manager if
      * necessary and returns it. Uses a factory pattern.
-     * @return WeblcmsDataManager The instance.
+     * @return WeblcmsDataManagerInterface The instance.
      */
     static function get_instance()
     {

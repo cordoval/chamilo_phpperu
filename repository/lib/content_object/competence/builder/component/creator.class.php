@@ -22,22 +22,22 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
     //}
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository builder');
-        
+
         $root_content_object = $this->get_root_content_object(); //Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
         $complex_content_object_item_id = $this->get_complex_content_object_item_id();//Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
-        
+
         //$publish = Request :: get('publish');
         $type = Request :: get(ComplexBuilder :: PARAM_TYPE);
         $this->repository_data_manager = RepositoryDataManager :: get_instance();
-        
+
     	$parent = $this->get_root_content_object()->get_id();
-    	
+
         if ($complex_content_object_item_id)
         {
             $parent_complex_content_object_item = $this->repository_data_manager->retrieve_complex_content_object_item($complex_content_object_item_id);
             $parent = $parent_complex_content_object_item->get_ref();
         }
-        
+
         if ($this->get_complex_content_object_item())
         {
             $content_object = $this->repository_data_manager->retrieve_content_object($this->get_complex_content_object_item_id()->get_ref());
@@ -46,69 +46,69 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
         {
             $content_object = $this->get_root_content_object();
         }
-        
+
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
-        
+
         if (! $type)
         {
             $type = $content_object->get_allowed_types();
         }
-        
+
         if($type == Indicator :: get_type_name())
         {
         	$publication = new CompetenceRepoViewer($this, $type);
         }
         else
         {
-        	$publication = new ComplexRepoViewer($this, $type);
+        	$publication = new RepoViewer($this, $type);
         }
-        
+
         if ($type)
         {
             $publication->set_parameter(ComplexBuilder :: PARAM_TYPE, $type);
         }
-        
+
         $publication->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
         $publication->set_excluded_objects($exclude);
         $publication->parse_input_from_table();
-        
+
         if (!$publication->is_ready_to_be_published())
         {
             $t = is_array($type) ? implode(',', $type) : $type;
             $p = $this->repository_data_manager->retrieve_content_object($parent);
-        	$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities:: underscores_to_camelcase($t)), Translation :: get(Utilities:: underscores_to_camelcase($p->get_type())), $p->get_title()) . '</h4><br />'; 
+        	$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities:: underscores_to_camelcase($t)), Translation :: get(Utilities:: underscores_to_camelcase($p->get_type())), $p->get_title()) . '</h4><br />';
         	$html[] = $publication->as_html();
         }
         else
         {
             $object = $publication->get_selected_objects();
-            
+
         	if (! is_array($object))
             {
                 $object = array($object);
             }
-            
+
             $repository_data_manager = $this->repository_data_manager;
-            
+
             foreach ($object as $obj)
             {
                 $type = $repository_data_manager->determine_content_object_type($obj);
-                
+
                 $complex_content_object_item = ComplexContentObjectItem :: factory($type);
                 $complex_content_object_item->set_ref($obj);
-                
+
                 $complex_content_object_item->set_parent($parent);
                 $complex_content_object_item->set_display_order($repository_data_manager->select_next_display_order($parent));
                 $complex_content_object_item->set_user_id($this->get_user_id());
                 $complex_content_object_item->create();
             }
-            
+
             $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
         $trail->add(new Breadcrumb($this->get_url(array('builder_action' => null)), $root_content_object->get_title()));
         $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'))), Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))));
-        
+
         $this->display_header($trail);
         echo '<br />' . implode("\n", $html);
         $this->display_footer();
@@ -117,7 +117,7 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
     private function retrieve_used_items($parent)
     {
         $items = array();
-        
+
         $complex_content_object_items = $this->repository_data_manager->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent, ComplexContentObjectItem :: get_table_name()));
         while ($complex_content_object_item = $complex_content_object_items->next_result())
         {
@@ -127,7 +127,7 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
                 $items = array_merge($items, $this->retrieve_used_items($complex_content_object_item->get_ref()));
             }
         }
-        
+
         return $items;
     }
 }

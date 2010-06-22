@@ -39,14 +39,14 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
         {
             return $this->get_modification_links($event);
         }
-        
+
         $property = $column->get_property();
-        
+
         if ($property == Event :: PROPERTY_NAME && $event->get_active() == 1)
         {
             return '<a href="' . $this->browser->get_event_viewer_url($event) . '">' . $event->get_default_property($property) . '</a>';
         }
-        
+
         return parent :: render_cell($column, $event);
     }
 
@@ -59,21 +59,21 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
     private function get_modification_links($event)
     {
         $toolbar = new Toolbar();
-        
+
         $toolbar->add_item(new ToolbarItem(
         	($event->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'),
-        	($event->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png', 
+        	($event->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png',
 			$this->browser->get_change_active_url('event', $event->get_id()),
 			ToolbarItem :: DISPLAY_ICON
 		));
 
 		$toolbar->add_item(new ToolbarItem(
         	Translation :: get('Empty_event'),
-        	Theme :: get_common_image_path().'action_recycle_bin.png', 
+        	Theme :: get_common_image_path().'action_recycle_bin.png',
 			$this->browser->get_empty_tracker_url('event', $event->get_id()),
 			ToolbarItem :: DISPLAY_ICON
 		));
-        
+
         return $toolbar->as_html();
     }
 }

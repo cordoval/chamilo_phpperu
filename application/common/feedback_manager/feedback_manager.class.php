@@ -59,11 +59,6 @@ class FeedbackManager extends SubManager
         return $this->get_component()->run();
     }
 
-    function as_html()
-    {
-        return $this->get_component()->as_html();
-    }
-    
     function get_component()
     {
     	$action = $this->get_action();

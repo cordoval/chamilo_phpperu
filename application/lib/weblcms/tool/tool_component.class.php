@@ -27,6 +27,7 @@ abstract class ToolComponent extends SubManager
     const MANAGE_CATEGORIES_COMPONENT = 'category_manager';
     const VIEW_REPORTING_COMPONENT = 'reporting_viewer';
     const BUILD_COMPLEX_CONTENT_OBJECT_COMPONENT = 'complex_builder';
+    const DISPLAY_COMPLEX_CONTENT_OBJECT_COMPONENT = 'complex_display';
 
     static function factory($type, $tool_component)
     {
@@ -35,9 +36,9 @@ abstract class ToolComponent extends SubManager
         {
             throw new Exception(Translation :: get('ToolComponentTypeDoesNotExist', array('type' => $type)));
         }
-        
+
         require_once $file;
-        
+
         $class = 'Tool' . Utilities :: underscores_to_camelcase($type) . 'Component';
         return new $class($tool_component);
     }
@@ -127,10 +128,5 @@ abstract class ToolComponent extends SubManager
     function get_tool_id()
     {
         return $this->get_parent()->get_tool_id();
-    }
-
-    function is_category_management_enabled()
-    {
-        return $this->get_parent()->is_category_management_enabled();
     }
 }
