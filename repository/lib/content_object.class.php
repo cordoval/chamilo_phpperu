@@ -4,62 +4,62 @@
  * @package repository.lib
  */
 /**
- *	This class represents a learning object in the repository. Every object
- *	that can be associated with a module is in fact a learning object.
+ * This class represents a learning object in the repository. Every object
+ * that can be associated with a module is in fact a learning object.
  *
- *	Learning objects have a number of default properties:
- *	- id: the numeric ID of the learning object;
- *	- owner: the ID of the user who owns the learning object;
- *	- title: the title of the learning object;
- *	- description: a brief description of the learning object; may also be
- *	  used to store its content in select cases;
- *	- parent: the numeric ID of the parent object of this learning object;
- *    this is a learning object by itself, usually a category;
- *  - display_order: a number giving the learning object a position among its
- *    siblings; only applies if the learning object is ordered;
- *	- created: the date when the learning object was created, as returned by
- *	  PHP's time() function (UNIX time, seconds since the epoch);
- *	- modified: the date when the learning object was last modified, as
- *	  returned by PHP's time() function;
- *  - state: the state the learning object is in; currently only used to mark
- *    learning objects as "recycled", i.e. moved to the Recycle Bin.
+ * Learning objects have a number of default properties:
+ * - id: the numeric ID of the learning object;
+ * - owner: the ID of the user who owns the learning object;
+ * - title: the title of the learning object;
+ * - description: a brief description of the learning object; may also be
+ * used to store its content in select cases;
+ * - parent: the numeric ID of the parent object of this learning object;
+ * this is a learning object by itself, usually a category;
+ * - display_order: a number giving the learning object a position among its
+ * siblings; only applies if the learning object is ordered;
+ * - created: the date when the learning object was created, as returned by
+ * PHP's time() function (UNIX time, seconds since the epoch);
+ * - modified: the date when the learning object was last modified, as
+ * returned by PHP's time() function;
+ * - state: the state the learning object is in; currently only used to mark
+ * learning objects as "recycled", i.e. moved to the Recycle Bin.
  *
- *	Actual learning objects must be instances of extensions of this class.
- *	They may define additional properties which are specific to that
- *	particular type of learning object, e.g. the path to a document. This
- *	class provides a framework for that purpose.
+ * Actual learning objects must be instances of extensions of this class.
+ * They may define additional properties which are specific to that
+ * particular type of learning object, e.g. the path to a document. This
+ * class provides a framework for that purpose.
  *
  * To access the values of the properties, this class and its subclasses
  * should provide accessor methods. The names of the properties should be
  * defined as class constants, for standardization purposes. It is recommended
  * that the names of these constants start with the string "PROPERTY_".
  *
- *	To create your own type of learning object, you should follow these steps:
- *	- Decide on a name for the type, e.g. "MyType".
- *	- Create a new subdirectory in /repository/lib/content_object. For
- *	  "MyType", it would be called "my_type".
- *	- Create two files in that subdirectory:
- *	  - The properties file (e.g. "my_type.properties") is a plain text list
- *	    of the names of all the properties of your type, one name per line.
- *	    This file may be omitted if your type does not require additional
- *	    properties.
- *	  - The class file (e.g. "my_type.class.php") is a PHP class that may
- *	    provide specific methods for the type. Even if the type does not
- *	    require additional methods, you must still define the class. Take
- *	    a look at the types that are already defined for examples.
- *	- The data manager will now automagically be aware of the type. All that's
- *	  left for you to do is create the physical storage for the type. This
- *	  will heavily depend on the type of data manager you are using. As MySQL
- *	  is the default, you will probably have to create a table named after the
- *	  type you are defining. This table should contain a numeric "id" column,
- *	  as well as columns for all the properties in the properties file. You do
- *	  not need columns for the default properties! These are stored elsewhere.
- *	When you've completed these steps, you should be able to instantiate the
- *	class and manipulate the objects at will.
+ * To create your own type of learning object, you should follow these steps:
+ * - Decide on a name for the type, e.g. "MyType".
+ * - Create a new subdirectory in /repository/lib/content_object. For
+ * "MyType", it would be called "my_type".
+ * - Create two files in that subdirectory:
+ * - The properties file (e.g. "my_type.properties") is a plain text list
+ * of the names of all the properties of your type, one name per line.
+ * This file may be omitted if your type does not require additional
+ * properties.
+ * - The class file (e.g. "my_type.class.php") is a PHP class that may
+ * provide specific methods for the type. Even if the type does not
+ * require additional methods, you must still define the class. Take
+ * a look at the types that are already defined for examples.
+ * - The data manager will now automagically be aware of the type. All that's
+ * left for you to do is create the physical storage for the type. This
+ * will heavily depend on the type of data manager you are using. As MySQL
+ * is the default, you will probably have to create a table named after the
+ * type you are defining. This table should contain a numeric "id" column,
+ * as well as columns for all the properties in the properties file. You do
+ * not need columns for the default properties! These are stored elsewhere.
+ * When you've completed these steps, you should be able to instantiate the
+ * class and manipulate the objects at will.
  *
- *	@author Tim De Pauw
- *  @author Hans De Bisschop
- *  @author Dieter De Neef
+ * @author Tim De Pauw
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 
 class ContentObject extends DataClass
@@ -87,7 +87,6 @@ class ContentObject extends DataClass
     const PROPERTY_TITLE = 'title';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_PARENT_ID = 'parent_id';
-    const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
     const PROPERTY_CREATION_DATE = 'created';
     const PROPERTY_MODIFICATION_DATE = 'modified';
     const PROPERTY_OBJECT_NUMBER = 'object_number';
@@ -122,15 +121,15 @@ class ContentObject extends DataClass
     /**
      * Creates a new learning object.
      * @param int $id The numeric ID of the learning object. May be omitted
-     *                if creating a new object.
+     * if creating a new object.
      * @param array $defaultProperties The default properties of the learning
-     *                                 object. Associative array.
+     * object. Associative array.
      * @param array $additionalProperties The properties specific for this
-     *                                    type of learning object.
-     *                                    Associative array. Null if they are
-     *                                    unknown at construction of the
-     *                                    object; in this case, they will be
-     *                                    retrieved when needed.
+     * type of learning object.
+     * Associative array. Null if they are
+     * unknown at construction of the
+     * object; in this case, they will be
+     * retrieved when needed.
      */
     function ContentObject($defaultProperties = array (), $additionalProperties = null)
     {
@@ -154,12 +153,12 @@ class ContentObject extends DataClass
     function get_type()
     {
         $type = $this->get_default_property(self :: PROPERTY_TYPE);
-    	if($type)
+        if ($type)
         {
-        	return $type;
+            return $type;
         }
 
-    	return self :: class_to_type(get_class($this));
+        return self :: class_to_type(get_class($this));
     }
 
     /**
@@ -237,16 +236,6 @@ class ContentObject extends DataClass
     function get_parent_id()
     {
         return $this->get_default_property(self :: PROPERTY_PARENT_ID);
-    }
-
-    /**
-     * Returns the display order index of the learning object among its
-     * siblings.
-     * @return int The display order index.
-     */
-    function get_display_order_index()
-    {
-        return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER_INDEX);
     }
 
     /**
@@ -412,15 +401,6 @@ class ContentObject extends DataClass
     }
 
     /**
-     * Sets the display order index of the learning object among its siblings.
-     * @param int $index The index.
-     */
-    function set_display_order_index($index)
-    {
-        $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER_INDEX, $index);
-    }
-
-    /**
      * Sets the date when this learning object was created.
      * @param int $created The creation date, as returned by time().
      */
@@ -440,35 +420,23 @@ class ContentObject extends DataClass
 
     function get_content_hash()
     {
-    	return $this->get_default_property(self :: PROPERTY_CONTENT_HASH);
+        return $this->get_default_property(self :: PROPERTY_CONTENT_HASH);
     }
 
     function set_content_hash($content_hash)
     {
-    	$this->set_default_property(self :: PROPERTY_CONTENT_HASH, $content_hash);
+        $this->set_default_property(self :: PROPERTY_CONTENT_HASH, $content_hash);
     }
 
     /**
      * Returns whether or not this learning object is extended, i.e. whether
      * its type defines additional properties.
      * @return boolean True if the learning object is extended, false
-     *                 otherwise.
+     * otherwise.
      */
     function is_extended()
     {
         return self :: is_extended_type($this->get_type());
-    }
-
-    /**
-     * Determines whether this learning object is ordered, i.e. whether its
-     * order within its parent learning object is fixed. The order is stored
-     * in the display order index property, which is automatically maintained
-     * by the learning object class.
-     * @return boolean True if the object is ordered, false otherwise.
-     */
-    function is_ordered()
-    {
-        return false;
     }
 
     /**
@@ -545,9 +513,9 @@ class ContentObject extends DataClass
      * Removes the learning object with the given ID from this learning
      * object's attachment list.
      * @param int $id The ID of the learning object to remove from the
-     *                attachment list.
+     * attachment list.
      * @return boolean True if the attachment was removed, false if it did not
-     *                 exist.
+     * exist.
      */
     function detach_content_object($id)
     {
@@ -559,9 +527,9 @@ class ContentObject extends DataClass
      * Removes the learning object with the given ID from this learning
      * object's include list.
      * @param int $id The ID of the learning object to remove from the
-     *                include list.
+     * include list.
      * @return boolean True if the include was removed, false if it did not
-     *                 exist.
+     * exist.
      */
     function exclude_content_object($id)
     {
@@ -614,26 +582,6 @@ class ContentObject extends DataClass
     }
 
     /**
-     * Assigns the learning object a display order index. Only applicable
-     * if this type allows ordering. This also happens automatically upon
-     * invocation of {@link #create()}.
-     * @return int The learning object's display index, or -1 if not applicable.
-     */
-    function assign_display_order_index()
-    {
-        if ($this->is_ordered())
-        {
-            $index = $this->get_display_order_index();
-            if (! $index)
-            {
-                return RepositoryDataManager :: assign_content_object_display_order_index($this);
-            }
-            return $index;
-        }
-        return - 1;
-    }
-
-    /**
      * Instructs the data manager to create the learning object, making it
      * persistent. Also assigns a unique ID to the learning object and sets
      * the learning object's creation date to the current time.
@@ -645,7 +593,6 @@ class ContentObject extends DataClass
         $dm = RepositoryDataManager :: get_instance();
         $now = time();
 
-        $this->assign_display_order_index();
         $this->set_creation_date($now);
         $this->set_modification_date($now);
         $this->set_object_number($dm->get_next_content_object_number());
@@ -668,7 +615,7 @@ class ContentObject extends DataClass
             $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree('repository_category', $this->get_parent_id(), $this->get_owner_id());
         }
 
-    	if (!RepositoryRights :: create_location_in_user_tree($this->get_title(), 'content_object', $this->get_id(), $parent_id, $this->get_owner_id()))
+        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), 'content_object', $this->get_id(), $parent_id, $this->get_owner_id()))
         {
             return false;
         }
@@ -678,8 +625,6 @@ class ContentObject extends DataClass
 
     function create_all()
     {
-
-        $this->assign_display_order_index();
         $dm = RepositoryDataManager :: get_instance();
         $object_number = $dm->get_next_content_object_number();
         $this->set_object_number($object_number);
@@ -692,7 +637,7 @@ class ContentObject extends DataClass
         if ($this->get_owner_id() == 0)
             return true;
 
-     	$parent = $this->get_parent_id();
+        $parent = $this->get_parent_id();
         if (! $parent)
         {
             $parent_id = RepositoryRights :: get_user_root_id($this->get_owner_id());
@@ -702,7 +647,7 @@ class ContentObject extends DataClass
             $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree('repository_category', $this->get_parent_id(), $this->get_owner_id());
         }
 
-    	if (!RepositoryRights :: create_location_in_user_tree($this->get_title(), 'content_object', $this->get_id(), $parent_id, $this->get_owner_id()))
+        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), 'content_object', $this->get_id(), $parent_id, $this->get_owner_id()))
         {
             return false;
         }
@@ -718,7 +663,7 @@ class ContentObject extends DataClass
      * learning object itself; changing the learning object's category, for
      * instance, should not change the last modification date.
      * @param boolean $trueUpdate True if the update is a true update
-     *                            (default), false otherwise.
+     * (default), false otherwise.
      * @return boolean True if the update succeeded, false otherwise.
      */
     function update($trueUpdate = true)
@@ -749,17 +694,17 @@ class ContentObject extends DataClass
 
     function recycle()
     {
-    	$this->set_modification_date(time());
-    	$this->set_state(self :: STATE_RECYCLED);
+        $this->set_modification_date(time());
+        $this->set_state(self :: STATE_RECYCLED);
 
-    	$dm = RepositoryDataManager :: get_instance();
+        $dm = RepositoryDataManager :: get_instance();
         return $dm->update_content_object($this);
     }
 
     function move($new_parent_id)
     {
-    	$this->set_parent_id($new_parent_id);
-    	$dm = RepositoryDataManager :: get_instance();
+        $this->set_parent_id($new_parent_id);
+        $dm = RepositoryDataManager :: get_instance();
         return $dm->update_content_object($this);
     }
 
@@ -826,8 +771,7 @@ class ContentObject extends DataClass
     {
         $rdm = RepositoryDataManager :: get_instance();
 
-        if (RepositoryDataManager :: delete_content_object_publications($this) && $rdm->delete_content_object_attachments($this) &&
-        	$rdm->delete_content_object_includes($this) && RepositoryDataManager :: delete_clois_for_content_object($this) && $rdm->delete_assisting_content_objects($this))
+        if (RepositoryDataManager :: delete_content_object_publications($this) && $rdm->delete_content_object_attachments($this) && $rdm->delete_content_object_includes($this) && RepositoryDataManager :: delete_clois_for_content_object($this) && $rdm->delete_assisting_content_objects($this))
         {
             return true;
         }
@@ -986,10 +930,9 @@ class ContentObject extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE,
-        								self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE,
-        								self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE,
-        								self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE,
+                self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
     }
 
     static function get_additional_property_names()
@@ -1002,14 +945,14 @@ class ContentObject extends DataClass
      * property.
      * @param string $name The identifier.
      * @return boolean True if the identifier is a property name, false
-     *                 otherwise.
+     * otherwise.
      */
     static function is_default_property_name($name)
     {
         return in_array($name, self :: get_default_property_names());
     }
 
-	static function is_additional_property_name($name)
+    static function is_additional_property_name($name)
     {
         return in_array($name, self :: get_additional_property_names());
     }
@@ -1018,7 +961,7 @@ class ContentObject extends DataClass
      * Get all properties of this type of learning object that should be taken
      * into account to calculate the used disk space.
      * @return mixed The property names. Either a string, an array of strings,
-     *               or null if no properties affect disk quota.
+     * or null if no properties affect disk quota.
      */
     static function get_disk_space_properties()
     {
@@ -1066,23 +1009,23 @@ class ContentObject extends DataClass
      * @param string $type The learning object type.
      * @param int $id The ID of the learning object.
      * @param array $defaultProperties An associative array containing the
-     *                                 default properties of the learning
-     *                                 object.
+     * default properties of the learning
+     * object.
      * @param array $additionalProperties An associative array containing the
-     *                                    additional (type-specific)
-     *                                    properties of the learning object.
-     *                                    Null if unknown; this implies JIT
-     *                                    retrieval.
+     * additional (type-specific)
+     * properties of the learning object.
+     * Null if unknown; this implies JIT
+     * retrieval.
      * @return ContentObject The newly instantiated learning object.
      */
     static function factory($type, $defaultProperties = array(), $additionalProperties = array())
     {
-        if(!AdminDataManager :: is_registered($type, 'content_object'))
+        if (! AdminDataManager :: is_registered($type, 'content_object'))
         {
-        	return null;//here is the problem with the repository
+            return null; //here is the problem with the repository
         }
 
-    	$class = self :: type_to_class($type);
+        $class = self :: type_to_class($type);
         require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
     }
@@ -1093,7 +1036,7 @@ class ContentObject extends DataClass
         require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '.class.php';
 
         $properties = call_user_func(array($class, 'get_additional_property_names'));
-        return !empty($properties);
+        return ! empty($properties);
     }
 
     function get_path($path_type)
@@ -1135,9 +1078,9 @@ class ContentObject extends DataClass
         return $rdm->retrieve_content_object($content_object_id);
     }
 
-	static function get_type_name()
+    static function get_type_name()
     {
-    	return $this->get_type();
+        return $this->get_type();
     }
 
     static function get_managers()
