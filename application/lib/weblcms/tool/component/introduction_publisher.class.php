@@ -23,12 +23,12 @@ class ToolIntroductionPublisherComponent extends ToolComponent
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), Translation :: get('PublishIntroductionText')));
         $trail->add_help('courses general');
         
-        $repo_viewer = new ContentObjectRepoViewer($this, Introduction :: get_type_name(), RepoViewer :: SELECT_SINGLE);
+        $repo_viewer = new RepoViewer($this, Introduction :: get_type_name(), RepoViewer :: SELECT_SINGLE);
         $repo_viewer->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_INTRODUCTION);
         
         if (!$repo_viewer->is_ready_to_be_published())
         {
-            $html[] = $repo_viewer->as_html();
+            $repo_viewer->run();
         }
         else
         {
@@ -59,10 +59,6 @@ class ToolIntroductionPublisherComponent extends ToolComponent
             
             $this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
         }
-        
-        $this->display_header($trail, true);
-        echo implode("\n", $html);
-        $this->display_footer();
     }
 }
 ?>
