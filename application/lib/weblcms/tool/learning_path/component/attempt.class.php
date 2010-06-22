@@ -20,6 +20,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
     private $cloi;
     private $menu;
     private $navigation;
+    private $empty_learning_path;
 
     function run()
     {
@@ -271,7 +272,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-    	if (! $current_step)
+    	if (! $current_step )
         {
             $previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $total_steps));
             
@@ -338,7 +339,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
             
             $add_continue_na = false;
             
-            if (($current_step < $total_steps))
+            /*if (($current_step < $total_steps))
             {
                 //$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), 'step' => $current_step + 1));
                 
@@ -377,17 +378,29 @@ class LearningPathToolAttemptComponent extends LearningPathTool
                 {
                     $add_continue_na = true;
                 }
-            }
+            }*/
             
-            if ($add_continue_na)
+        	$continue_url = $this->menu->get_continue_url();
+                
+            if (! in_array('continue', $hide_lms_ui) && $total_steps > 0)
             {
-		        $toolbar->add_item(new ToolbarItem(
+                $toolbar->add_item(new ToolbarItem(
+		    		Translation :: get('Next'),
+		       		Theme :: get_common_image_path() . 'action_next.png',
+		       		$continue_url,
+		       		ToolbarItem :: DISPLAY_ICON
+		    	));
+            }
+            else
+            {
+                $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('NextNA'),
 		        		Theme :: get_common_image_path() . 'action_next_na.png',
 		        		null,
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
             }
+ 
         }
         
         return $toolbar->as_html();
