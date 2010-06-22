@@ -29,11 +29,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         {
             case 'progress' :
             {
-                $object = $publication->get_content_object_id();
-                $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object);
-                $count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
-                
-                if($count > 0)
+                if(!$this->table_renderer->get_tool_browser()->get_parent()->is_empty_learning_path($publication))
                 {
             		return $this->get_progress($publication);
                 }
@@ -42,6 +38,17 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
                 	return Translation :: get('EmptyLearningPath');
                 }
             }
+            case ContentObject :: PROPERTY_TITLE:
+            	if(!$this->table_renderer->get_tool_browser()->get_parent()->is_empty_learning_path($publication))
+            	{
+                	$details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT));
+                	return '<a href="'. $details_url .'">' . DefaultContentObjectTableCellRenderer :: render_cell($column, $publication->get_content_object()) . '</a>';
+            	}
+            	else
+            	{
+            		return parent :: render_cell($column, $publication);
+            	}
+                break;
         }
 
         return parent :: render_cell($column, $publication);

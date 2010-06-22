@@ -106,11 +106,7 @@ class LearningPathTool extends Tool implements Categorizable
 	
 	function get_content_object_publication_actions($publication)
     {
-        $object = $publication->get_content_object_id();
-        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object);
-        $count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
-
-        if($count > 0)
+        if(!$this->is_empty_learning_path($publication))
         {
 	    	$items[] = new ToolbarItem(
 	        		Translation :: get('AttemptLearningPath'),
@@ -144,6 +140,22 @@ class LearningPathTool extends Tool implements Categorizable
         }
         
        return $items;
+    }
+    
+    private static $checked_publications = array();
+    
+    function is_empty_learning_path($publication)
+    {
+    	if(!array_key_exists($publication->get_id(), self :: $checked_publications))
+    	{
+	    	$object = $publication->get_content_object_id();
+	        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object);
+	        $count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
+	        
+        	self :: $checked_publications[$publication->get_id()] = $count == 0;
+    	}
+    	
+    	return self :: $checked_publications[$publication->get_id()];
     }
 }
 ?>
