@@ -861,16 +861,6 @@ class ContentObject extends DataClass
     }
 
     /**
-     * Determines whether this learning object supports includes, i.e.
-     * whether other learning objects may be included into it.
-     * @return boolean True if includes are supported, false otherwise.
-     */
-    function supports_includes()
-    {
-        return true;
-    }
-
-    /**
      * Determines whether this learning object is a complex learning object
      * @return boolean True if the LO is a CLO
      */

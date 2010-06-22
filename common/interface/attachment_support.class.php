@@ -1,6 +1,6 @@
 <?php
 /**
- * A class implements the <code>AttachmentSupprot</code> interface to
+ * A class implements the <code>AttachmentSupport</code> interface to
  * indicate that it supports attachments
  *
  * @author  Hans De Bisschop
