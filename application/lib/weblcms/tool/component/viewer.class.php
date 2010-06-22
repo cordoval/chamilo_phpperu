@@ -9,6 +9,7 @@ require_once dirname(__FILE__) . '/../../browser/list_renderer/content_object_pu
 class ToolViewerComponent extends ToolComponent
 {
     private $action_bar;
+    private $html;
 
 	function run()
     {
@@ -17,14 +18,27 @@ class ToolViewerComponent extends ToolComponent
 
     	$this->action_bar = $this->get_action_bar();
         $renderer = new ContentObjectPublicationDetailsRenderer($this);
-        $html = $renderer->as_html();
-
-    	$this->display_header();
+        $this->html = $renderer->as_html();
+        
+    	if($this->get_course()->get_feedback())
+        {
+    		$feedback_manager = new FeedbackManager($this, WeblcmsManager :: APPLICATION_NAME, $this->get_publication_id());
+        	return $feedback_manager->run();
+        }
+    }
+    
+    function display_header()
+    {
+    	parent :: display_header();
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
-        echo $html;
-        echo '</div>';
-        $this->display_footer();
+        echo $this->html;
+    }
+    
+    function display_footer()
+    {
+    	echo '</div>';
+        parent :: display_footer();
     }
 
     function get_publication_id()
