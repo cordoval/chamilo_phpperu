@@ -27,7 +27,7 @@ class AdminEventViewerTrackingTableCellRenderer
 
     /**
      * Creates the modification links for the given tracker
-     * @param Tracker $tracker the tracker 
+     * @param Tracker $tracker the tracker
      * @return string The modification links for the given tracker
      */
     function get_modification_links($tracker)
@@ -36,7 +36,7 @@ class AdminEventViewerTrackingTableCellRenderer
 
         $toolbar->add_item(new ToolbarItem(
    			($tracker->get_active() == 1) ? Translation :: get('Hide') : Translation :: get('Visible'),
-   			($tracker->get_active() == 1) ? (Theme :: get_common_image_path() . 'action_visible.png') : (Theme :: get_common_image_path() . 'action_invisible.png'), 
+   			($tracker->get_active() == 1) ? (Theme :: get_common_image_path() . 'action_visible.png') : (Theme :: get_common_image_path() . 'action_invisible.png'),
 			$this->eventviewer->get_change_active_url('tracker', $this->event->get_id(), $tracker->get_id()),
 		 	ToolbarItem :: DISPLAY_ICON
 		));
@@ -48,9 +48,9 @@ class AdminEventViewerTrackingTableCellRenderer
 		 	ToolbarItem :: DISPLAY_ICON,
 		 	true
 		));
-        
+
         return $toolbar->as_html();
-    
+
     }
 
     /**
@@ -62,11 +62,11 @@ class AdminEventViewerTrackingTableCellRenderer
     {
         switch ($property)
         {
-            /*case Event :: PROPERTY_NAME: return '<a href="' . 
-				$this->browser->get_event_viewer_url($event) . '">' . 
+            /*case Event :: PROPERTY_NAME: return '<a href="' .
+				$this->browser->get_event_viewer_url($event) . '">' .
 				$event->get_default_property($property) . '</a>';*/
         }
-        
+
         return $tracker->get_default_property($property);
     }
 
