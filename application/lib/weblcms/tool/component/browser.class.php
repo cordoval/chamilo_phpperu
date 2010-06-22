@@ -30,7 +30,7 @@ class ToolBrowserComponent extends ToolComponent
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_SHOW_PUBLICATION, Translation :: get('Show'), false));
         if ($this->is_allowed(EDIT_RIGHT) && $this->is_category_management_enabled())
         {
-            $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY, Translation :: get('MoveSelected'), false));
+            $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_MOVE_TO_CATEGORY, Translation :: get('MoveSelected'), false));
         }
         $publication_renderer->set_actions($actions);
         
