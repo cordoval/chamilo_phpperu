@@ -6,7 +6,7 @@
 /**
  * This class represents an announcement
  */
-class Rdevent extends ContentObject implements Versionable
+class Rdevent extends ContentObject implements Versionable, AttachmentSupport
 {
     const PROPERTY_EVENT_ID = 'event_id';
     const PROPERTY_REF_ID = '';
@@ -45,12 +45,6 @@ class Rdevent extends ContentObject implements Versionable
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_REF_ID, self :: PROPERTY_PUB_TYPE);
-    }
-
-    //Inherited
-    function supports_attachments()
-    {
-        return true;
     }
 
     static function get_table_name()

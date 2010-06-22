@@ -33,11 +33,6 @@ class SystemAnnouncement extends ContentObject implements Versionable
         return $this->set_additional_property(self :: PROPERTY_ICON, $icon);
     }
 
-    function supports_attachments()
-    {
-        return false;
-    }
-
     function get_icon_name()
     {
         switch ($this->get_icon())

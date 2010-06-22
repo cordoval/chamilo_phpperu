@@ -39,11 +39,5 @@ class StreamingVideoClip extends ContentObject implements Versionable
         return $this->get_additional_property(self :: PROPERTY_ASSET_ID);
     }
 
-    //Inherited
-    function supports_attachments()
-    {
-        return false;
-    }
-
 }
 ?>

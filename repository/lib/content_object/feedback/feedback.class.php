@@ -6,7 +6,7 @@
 /**
  * A feedback
  */
-class Feedback extends ContentObject implements Versionable
+class Feedback extends ContentObject implements Versionable, AttachmentSupport
 {
     const PROPERTY_ICON = 'icon';
 
@@ -31,11 +31,6 @@ class Feedback extends ContentObject implements Versionable
     function set_icon($icon)
     {
         return $this->set_additional_property(self :: PROPERTY_ICON, $icon);
-    }
-
-    function supports_attachments()
-    {
-        return true;
     }
 
     function get_icon_name()

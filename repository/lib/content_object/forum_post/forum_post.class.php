@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage forum
  */
-class ForumPost extends ContentObject implements Versionable
+class ForumPost extends ContentObject implements Versionable, AttachmentSupport
 {
     // Stores whether the user should get notified if
     // someone replies to the topic.
@@ -17,11 +17,6 @@ class ForumPost extends ContentObject implements Versionable
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-
-    function supports_attachments()
-    {
-        return true;
-    }
 
     // Inherited
     function is_master_type()

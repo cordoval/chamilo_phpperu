@@ -6,7 +6,7 @@
 /**
  * This class represents an announcement
  */
-class Rdpublication extends ContentObject implements Versionable
+class Rdpublication extends ContentObject implements Versionable, AttachmentSupport
 {
     const PROPERTY_REF_ID = 'ref_id';
     const PROPERTY_PUB_TYPE = 'pub_type';
@@ -65,12 +65,6 @@ class Rdpublication extends ContentObject implements Versionable
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_REF_ID, self :: PROPERTY_PUB_TYPE);
-    }
-
-    //Inherited
-    function supports_attachments()
-    {
-        return true;
     }
 
     static function get_table_name()

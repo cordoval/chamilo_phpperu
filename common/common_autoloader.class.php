@@ -152,7 +152,8 @@ class CommonAutoloader
 	static function check_for_interface_files($classname)
 	{
 		$list = array('categorizable' => 'categorizable.class.php',
-					  'serializable' => 'serializable.class.php'
+					  'serializable' => 'serializable.class.php',
+					  'attachment_support' => 'attachment_support.class.php'
 		);
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);

@@ -14,12 +14,12 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
     private $content_objects;
     private $type;
 	private $apps;
-    
+
     public function LocationSelectionPublisherWizardPage($name, $parent)
     {
         parent :: PublisherWizardPage($name, $parent);
         $ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
-        
+
         if (empty($ids))
         {
             Request :: set_get('message', Translation :: get('NoObjectSelected'));
@@ -27,10 +27,10 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
             $this->get_parent()->display_footer();
             exit();
         }
-        
+
         if (! is_array($ids))
             $ids = array($ids);
-        
+
         foreach ($ids as $id)
         {
             $lo = $this->get_parent()->retrieve_content_object($id);
@@ -86,7 +86,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 
 	function render_attachments($content_object)
 	{
-		if ($content_object->supports_attachments())
+		if ($content_object instanceof AttachmentSupport)
 		{
 			$attachments = $content_object->get_attached_content_objects();
 			if(count($attachments)>0)
@@ -104,11 +104,11 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 		}
 		return '';
 	}*/
-    
+
     function buildForm()
     {
         $this->_formBuilt = true;
-        
+
         $html = '<script type="text/javascript">
 							/* <![CDATA[ */
 							function setCheckbox(app_name, value) {
@@ -124,29 +124,29 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 							/* ]]> */
 							</script>';
         $this->addElement('html', $html);
-        
+
         $applications = WebApplication :: load_all_from_filesystem(true, true);
-               
+
         $this->apps = array();
-        
+
         $location_count = 0;
-        
+
         $adm = AdminDataManager :: get_instance();
-              
+
         foreach ($applications as $application_name)
         {
         	$application = Application :: factory($application_name);
             $locations = $application->get_content_object_publication_locations($this->content_objects[0], $this->get_parent()->get_user());
             $location_count += count($locations);
-            
+
             $this->add_locations($application, $application_name, $locations);
         }
-        
+
         $admin = new AdminManager();
         $locations = $admin->get_content_object_publication_locations($this->content_objects[0], $this->get_parent()->get_user());
         $location_count += count($locations);
         $this->add_locations($admin, 'admin', $locations);
-        
+
         if ($location_count > 0)
         {
             $this->addElement('html', '<br /><br />');
@@ -158,32 +158,32 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         {
             $this->addElement('html', '<div class="warning-message">' . Translation :: get('NoLocationsFound') . '</div>');
         }
-        
+
         if (count($this->apps) > 1)
         {
             $this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%"  onclick="setCheckbox(\'\', true); return false;">' . Translation :: get('SelectAll') . '</a>');
             $this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'\', false); return false;">' . Translation :: get('UnSelectAll') . '</a>');
         }
-        
+
         $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>');
-        
+
         $this->setDefaultAction('next');
         //$this->setDefaults($appDefaults);
     }
-    
+
     function add_locations($application, $application_name, $locations)
-    {    	
+    {
     	if (count($locations) == 0){
     		return;
     	}
-		
+
     	$this->apps[] = $application;
-    	
+
     	$this->addElement('html', '<div class="block" id="block_introduction" style="background-image: url(' . Theme :: get_image_path('home') . 'block_' . $application_name . '.png);">');
         $this->addElement('html', '<div class="title"><div style="float:left;">' . Translation :: get(Application :: application_to_class($application_name)));
         $this->addElement('html', '</div><div style="float:right;"><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png" /><img class="invisible" style="display: none;") src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a></div><div class="clear">&nbsp;</div></div>');
         $this->addElement('html', '<div class="description"><br />');
-            
+
         /*$application_name = Utilities :: underscores_to_camelcase($application_name);
         $application_name = strtolower($application_name);*/
         $application->add_publication_attributes_elements($this);
@@ -199,7 +199,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
         {
         	$this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a>');
         	$this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a>');
-        }  
+        }
         $this->addElement('html', '<div style="clear: both;"></div></div></div><br />');
     }
 }

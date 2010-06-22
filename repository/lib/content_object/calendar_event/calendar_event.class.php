@@ -8,7 +8,7 @@
 /**
  * This class represents a calendar event
  */
-class CalendarEvent extends ContentObject implements Versionable
+class CalendarEvent extends ContentObject implements Versionable, AttachmentSupport
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -278,15 +278,6 @@ class CalendarEvent extends ContentObject implements Versionable
         $options[self :: REPEAT_TYPE_YEAR] = Translation :: get('Yearly');
 
         return $options;
-    }
-
-    /**
-     * Attachments are supported by calendar events
-     * @return boolean Always true
-     */
-    function supports_attachments()
-    {
-        return true;
     }
 
     static function get_additional_property_names()

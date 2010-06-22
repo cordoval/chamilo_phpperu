@@ -6,7 +6,7 @@
 /**
  * This class represents a task
  */
-class Task extends ContentObject implements Versionable
+class Task extends ContentObject implements Versionable, AttachmentSupport
 {
 	/**
      * The start date of the calendar event
@@ -348,15 +348,6 @@ class Task extends ContentObject implements Versionable
         $options[self :: REPEAT_TYPE_YEAR] = Translation :: get('Yearly');
 
         return $options;
-    }
-
-    /**
-     * Attachments are supported by calendar events
-     * @return boolean Always true
-     */
-    function supports_attachments()
-    {
-        return true;
     }
 
     static function get_additional_property_names()

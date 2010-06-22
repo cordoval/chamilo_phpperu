@@ -19,11 +19,6 @@ class HotspotQuestion extends ContentObject implements Versionable
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 
-    public function supports_attachments()
-    {
-    	return false;
-    }
-
     public function add_answer($answer)
     {
         $answers = $this->get_answers();

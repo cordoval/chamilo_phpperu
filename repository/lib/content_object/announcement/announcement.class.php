@@ -7,7 +7,7 @@
 /**
  * This class represents an announcement
  */
-class Announcement extends ContentObject implements Versionable
+class Announcement extends ContentObject implements Versionable, AttachmentSupport
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -15,12 +15,6 @@ class Announcement extends ContentObject implements Versionable
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-
-    //Inherited
-    function supports_attachments()
-    {
-        return true;
-    }
 
 }
 ?>

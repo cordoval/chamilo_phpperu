@@ -6,7 +6,7 @@
 /**
  * This class represents a topic in a discussion forum.
  */
-class ForumTopic extends ContentObject implements Versionable
+class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
 {
     const PROPERTY_LOCKED = 'locked';
     const PROPERTY_TOTAL_POSTS = 'total_posts';
@@ -58,11 +58,6 @@ class ForumTopic extends ContentObject implements Versionable
     	{
     		$this->first_post->attach_content_object($aid);
     	}
-    }
-
-    function supports_attachments()
-    {
-        return true;
     }
 
     function get_locked()

@@ -909,10 +909,11 @@ class ContentObject extends DataClass
      * Determines whether this learning object supports attachments, i.e.
      * whether other learning objects may be attached to it.
      * @return boolean True if attachments are supported, false otherwise.
+     * @deprecated
      */
     function supports_attachments()
     {
-        return false;
+        return $this instanceof AttachmentSupport;
     }
 
     /**

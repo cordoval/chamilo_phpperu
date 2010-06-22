@@ -8,19 +8,13 @@
 /**
  * This class represents an blog_item
  */
-class BlogItem extends ContentObject implements Versionable
+class BlogItem extends ContentObject implements Versionable, AttachmentSupport
 {
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
-
-    //Inherited
-    function supports_attachments()
+    static function get_type_name()
     {
-        return true;
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

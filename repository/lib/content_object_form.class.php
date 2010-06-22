@@ -300,7 +300,7 @@ EOT;
         //$elem = $this->addElement('advmultiselect', 'ihsTest', 'Hierarchical select:', array("test"), array('style' => 'width: 20em;'), '<br />');
 
 
-        if ($this->supports_attachments())
+        if ($object instanceof AttachmentSupport)
         {
 
             $html[] = '<script type="text/javascript">';
@@ -466,7 +466,7 @@ EOT;
         ContentObjectIncludeParser :: parse_includes($this);
 
         // Process attachments
-        if ($object->supports_attachments())
+        if ($object instanceof AttachmentSupport)
         {
             foreach ($values['attachments'] as $aid)
             {
@@ -548,7 +548,7 @@ EOT;
 
 
         // Process attachments
-        if ($object->supports_attachments())
+        if ($object instanceof AttachmentSupport)
         {
             /*
 			 * TODO: Make this faster by providing a function that matches the
@@ -573,17 +573,6 @@ EOT;
     {
         $values = $this->exportValues();
         return (isset($values['version']) && $values['version'] == 1);
-    }
-
-    /**
-     * Checks whether the learning object that is being created or edited may
-     * have learning objects attached to it.
-     * @return boolean True if attachments are supported, false otherwise.
-     */
-    function supports_attachments()
-    {
-        $lo = $this->content_object;
-        return $lo->supports_attachments();
     }
 
     /**
