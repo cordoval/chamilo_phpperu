@@ -6,7 +6,7 @@
 /**
  * This tool allows a user to publish learning paths in his or her course.
  */
-class LearningPathTool extends Tool
+class LearningPathTool extends Tool implements Categorizable
 {
     const ACTION_EXPORT_SCORM = 'exp_scorm';
     const ACTION_IMPORT_SCORM = 'import';
