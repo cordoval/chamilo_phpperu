@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="agreement_rel_mentor">
+	<properties>
+		<property name="agreement_id" type="integer" unsigned="1"
+			notnull="1" />
+		<property name="mentor_id" type="integer" unsigned="1" notnull="1" />
+	</properties>
+	<index name="agreement_mentor_id" type="primary">
+		<indexproperty name="agreement_id" />
+		<indexproperty name="mentor_id" />
+	</index>
+</object>

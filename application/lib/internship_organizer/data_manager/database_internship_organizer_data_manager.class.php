@@ -14,7 +14,11 @@ require_once dirname(__FILE__) . '/../organisation_rel_user.class.php';
 require_once dirname(__FILE__) . '/../agreement.class.php';
 require_once dirname(__FILE__) . '/../agreement_rel_location.class.php';
 require_once dirname(__FILE__) . '/../agreement_rel_user.class.php';
+require_once dirname(__FILE__) . '/../agreement_rel_mentor.class.php';
+
 require_once dirname(__FILE__) . '/../moment.class.php';
+require_once dirname(__FILE__) . '/../mentor.class.php';
+require_once dirname(__FILE__) . '/../mentor_rel_user.class.php';
 require_once dirname(__FILE__) . '/../region.class.php';
 require_once dirname(__FILE__) . '/../period.class.php';
 require_once dirname(__FILE__) . '/../period_rel_user.class.php';
@@ -441,7 +445,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $agreement_rel_user->get_user_id());
-        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_PERIOD_ID, $agreement_rel_user->get_period_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_AGREEMENT_ID, $agreement_rel_user->get_agreement_id());
         $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, $agreement_rel_user->get_user_type());
         $condition = new AndCondition($conditions);
         $bool = $this->delete($agreement_rel_user->get_table_name(), $condition);
@@ -588,6 +592,31 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->update_objects(InternshipOrganizerAgreementRelLocation :: get_table_name(), $properties, $condition, null, 1);
     }
 
+    function delete_internship_organizer_agreement_rel_mentor($agreement_rel_mentor)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelMentor :: PROPERTY_MENTOR_ID, $agreement_rel_mentor->get_mentor_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelMentor :: PROPERTY_AGREEMENT_ID, $agreement_rel_mentor->get_agreement_id());
+        $condition = new AndCondition($conditions);
+        $bool = $this->delete($agreement_rel_mentor->get_table_name(), $condition);
+        return $bool;
+    }
+
+    function create_internship_organizer_agreement_rel_mentor($agreement_rel_mentor)
+    {
+        return $this->create($agreement_rel_mentor);
+    }
+
+    function count_agreement_rel_mentors($condition = null)
+    {
+        return $this->count_objects(InternshipOrganizerAgreementRelMentor :: get_table_name(), $condition);
+    }
+
+    function retrieve_agreement_rel_mentors($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(InternshipOrganizerAgreementRelMentor :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelMentor :: CLASS_NAME);
+    }
+
     //internship planner regions##
     
 
@@ -715,7 +744,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->retrieve_objects(InternshipOrganizerMentor :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMentor :: CLASS_NAME);
     }
 
-function delete_internship_organizer_mentor_rel_user($mentor_rel_user)
+    function delete_internship_organizer_mentor_rel_user($mentor_rel_user)
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(InternshipOrganizerMentorRelUser :: PROPERTY_USER_ID, $mentor_rel_user->get_user_id());
@@ -739,7 +768,7 @@ function delete_internship_organizer_mentor_rel_user($mentor_rel_user)
     {
         return $this->retrieve_objects(InternshipOrganizerMentorRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMentorRelUser :: CLASS_NAME);
     }
-    
+
     //internship planner periods##
     
 

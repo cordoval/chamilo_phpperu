@@ -179,7 +179,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
             $conditions = array();
             $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
             $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
-            $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
+//            $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
             $user_condition = new OrCondition($conditions);
             
             $udm = UserDataManager :: get_instance();
