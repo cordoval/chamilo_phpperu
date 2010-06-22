@@ -20,15 +20,35 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
 	 */
     function render_cell($column, $publication)
     {
-        if ($column === ObjectPublicationTableColumnModel :: get_action_column())
+        /*if ($column === ObjectPublicationTableColumnModel :: get_action_column())
         {
         	return $this->get_actions($publication)->as_html();
-        }
+        }*/
 
         switch ($column->get_name())
         {
             case 'progress' :
-                return $this->get_progress($publication);
+            {
+                if(!$this->table_renderer->get_tool_browser()->get_parent()->is_empty_learning_path($publication))
+                {
+            		return $this->get_progress($publication);
+                }
+                else
+                {
+                	return Translation :: get('EmptyLearningPath');
+                }
+            }
+            case ContentObject :: PROPERTY_TITLE:
+            	if(!$this->table_renderer->get_tool_browser()->get_parent()->is_empty_learning_path($publication))
+            	{
+                	$details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT));
+                	return '<a href="'. $details_url .'">' . DefaultContentObjectTableCellRenderer :: render_cell($column, $publication->get_content_object()) . '</a>';
+            	}
+            	else
+            	{
+            		return parent :: render_cell($column, $publication);
+            	}
+                break;
         }
 
         return parent :: render_cell($column, $publication);
@@ -56,7 +76,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         }
 
         $bar = $this->get_progress_bar($progress);
-        $url = $this->table_renderer->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'lp_action' => 'view_progress'));
+        $url = $this->table_renderer->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'lp_action' => 'view_progress'));
         return Text :: create_link($url, $bar);
     }
 
@@ -68,22 +88,6 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         $html[] = '<div style="width: 100px; text-align: center; position: absolute; top: 0px;">' . round($progress) . '%</div></div>';
 
         return implode("\n", $html);
-    }
-
-    function get_actions($publication)
-    {
-		$toolbar = parent :: get_actions($publication);
-		$items = $toolbar->get_items();
-		$items[0]->set_image(Theme :: get_common_image_path() . 'action_start.png');
-       
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Statistics'),
-        		Theme :: get_common_image_path() . 'action_reporting.png',
-        		$this->table_renderer->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-        		ToolbarItem :: DISPLAY_ICON
-        ));
-        
-       return $toolbar;
     }
 
 }

@@ -299,7 +299,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 
                 $html[] = '<img class="tool_image"' . $id . ' src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $html[] = '&nbsp;';
-                $html[] = '<a id="tool_text" href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $tool->name, 'tool_action' => null), array(), true) . '" ' . $link_class . '>';
+                $html[] = '<a id="tool_text" href="' . $parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $tool->name, 'tool_action' => null, Tool :: PARAM_BROWSER_TYPE => null), array(), true) . '" ' . $link_class . '>';
                 $html[] = $title;
                 $html[] = '</a>';
                 

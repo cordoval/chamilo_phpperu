@@ -134,28 +134,9 @@ class AssessmentTool extends Tool implements Categorizable
 
     function get_content_object_publication_actions($publication)
     {
-        $assessment = $publication->get_content_object();
-        $track = new WeblcmsAssessmentAttemptsTracker();
-        $condition_t = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
-        $condition_u = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
-        $condition = new AndCondition(array($condition_t, $condition_u));
-        $trackers = $track->retrieve_tracker_items($condition);
-
-        $count = count($trackers);
-
-        foreach ($trackers as $tracker)
-        {
-            if ($tracker->get_status() == 'not attempted')
-            {
-                $this->active_tracker = $tracker;
-                $count --;
-                break;
-            }
-        }
-
         $extra_toolbar_items = array();
 
-        if ($assessment->get_maximum_attempts() == 0 || $count < $assessment->get_maximum_attempts())
+        if ($this->is_content_object_attempt_possible($publication))
         {
             $extra_toolbar_items[] = new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_right.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
         }
@@ -168,6 +149,37 @@ class AssessmentTool extends Tool implements Categorizable
         $extra_toolbar_items[] = new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_QTI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
 
         return $extra_toolbar_items;
+    }
+    
+    private static $checked_publications = array();
+    
+    function is_content_object_attempt_possible($publication)
+    {  
+    	if(!array_key_exists($publication->get_id(), self :: $checked_publications))
+    	{
+	    	$assessment = $publication->get_content_object();
+	        $track = new WeblcmsAssessmentAttemptsTracker();
+	        $condition_t = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+	        $condition_u = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
+	        $condition = new AndCondition(array($condition_t, $condition_u));
+	        $trackers = $track->retrieve_tracker_items($condition);
+	
+	        $count = count($trackers);
+	
+	        foreach ($trackers as $tracker)
+	        {
+	            if ($tracker->get_status() == 'not attempted')
+	            {
+	                $this->active_tracker = $tracker;
+	                $count --;
+	                break;
+	            }
+	        }
+	        
+	        self :: $checked_publications[$publication->get_id()] = ($assessment->get_maximum_attempts() == 0 || $count < $assessment->get_maximum_attempts());
+    	}
+    	
+    	return self :: $checked_publications[$publication->get_id()];
     }
 }
 ?>

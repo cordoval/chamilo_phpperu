@@ -1,10 +1,9 @@
 <?php
+
+require_once dirname(__FILE__) . '/browser/wiki_publication_cell_renderer.class.php';
+
 class WikiToolBrowserComponent extends WikiTool
 {
-    const PARAM_FILTER = 'filter';
-    const FILTER_TODAY = 'today';
-    const FILTER_THIS_WEEK = 'week';
-    const FILTER_THIS_MONTH = 'month';
 
     function run()
     {
@@ -12,6 +11,10 @@ class WikiToolBrowserComponent extends WikiTool
         $tool_component->run();
     }
 
+	function get_content_object_publication_table_cell_renderer($tool_browser)
+    {
+        return new WikiPublicationCellRenderer($tool_browser);
+    }
 
 }
 ?>

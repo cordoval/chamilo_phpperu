@@ -7,7 +7,7 @@ require_once Path :: get_library_path() . 'condition/equality_condition.class.ph
 require_once Path :: get_library_path() . 'condition/not_condition.class.php';
 require_once Path :: get_library_path() . 'condition/and_condition.class.php';
 require_once Path :: get_library_path() . 'condition/or_condition.class.php';
-require_once Path :: get_application_path() . '/lib/internship_organizer/organisation_rel_user.class.php';
+require_once Path :: get_application_path() . '/lib/internship_organizer/mentor.class.php';
 require_once Path :: get_application_path() . '/lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
 
 Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
@@ -15,8 +15,12 @@ Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 if (Authentication :: is_valid())
 {
     $conditions = array();
-       
-    $query_condition = Utilities :: query_to_condition($_GET['query'], array(User :: PROPERTY_FIRSTNAME, User :: PROPERTY_LASTNAME, User :: PROPERTY_USERNAME));
+    
+    $organisation_id =  $_GET[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID];
+    $conditions[] = new EqualityCondition(InternshipOrganizerMentor::PROPERTY_ORGANISATION_ID, $organisation_id);
+    
+    
+    $query_condition = Utilities :: query_to_condition($_GET['query'], array(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME, InternshipOrganizerMentor :: PROPERTY_LASTNAME, InternshipOrganizerMentor :: PROPERTY_TITLE, InternshipOrganizerMentor :: PROPERTY_EMAIL));
     if (isset($query_condition))
     {
         $conditions[] = $query_condition;
@@ -27,27 +31,10 @@ if (Authentication :: is_valid())
         $c = array();
         foreach ($_GET['exclude'] as $id)
         {
-            $c[] = new EqualityCondition(User :: PROPERTY_ID, $id);
+            $c[] = new EqualityCondition(InternshipOrganizerMentor :: PROPERTY_ID, $id);
         }
         $conditions[] = new NotCondition(new OrCondition($c));
     }
-    
-    $organisation_id =  $_GET[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID];
-    $organisation_condition = new EqualityCondition(InternshipOrganizerOrganisationRelUser::PROPERTY_ORGANISATION_ID, $organisation_id);
-    
-    $organisation_rel_users = InternshipOrganizerDataManager::get_instance()->retrieve_organisation_rel_users($organisation_condition);
- 	$user_ids = array();
-    while ($organisation_rel_user = $organisation_rel_users->next_result())
-    {
-        $user_ids[] = $organisation_rel_user->get_user_id();
-    }
-   	
-    if(count($user_ids)){
-    	$conditions[] = new InCondition(User :: PROPERTY_ID, $user_ids);
-    }else{
-    	$conditions[] = new EqualityCondition(User :: PROPERTY_ID, 0);
-    }
-    
     
     if (count($conditions) > 0)
     {
@@ -58,12 +45,12 @@ if (Authentication :: is_valid())
         $condition = null;
     }
     
-    $dm = UserDataManager :: get_instance();
-    $objects = $dm->retrieve_users($condition);
+    $dm = InternshipOrganizerDataManager :: get_instance();
+    $objects = $dm->retrieve_mentors($condition);
     
-    while ($user = $objects->next_result())
+    while ($mentor = $objects->next_result())
     {
-        $users[] = $user;
+        $mentors[] = $mentor;
     }
 
 }
@@ -71,22 +58,22 @@ if (Authentication :: is_valid())
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="utf-8"?>', "\n", '<tree>', "\n";
 
-dump_tree($users);
+dump_tree($mentors);
 
 echo '</tree>';
 
-function dump_tree($users)
+function dump_tree($mentors)
 {
-    if (contains_results($users))
+    if (contains_results($mentors))
     {
-        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Users'), '">', "\n";
+        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Periods'), '">', "\n";
         
-        foreach ($users as $user)
+        foreach ($mentors as $mentor)
         {
-            $id = $user->get_id();
-            $name = strip_tags($user->get_firstname().' '.$user->get_lastname());
-//            $description = strip_tags($period->get_description());
-//            $description = preg_replace("/[\n\r]/", "", $description);
+            $id = $mentor->get_id();
+            $name = strip_tags($mentor->get_firstname().' '.$mentor->get_lastname());
+            $description = strip_tags($mentor->get_title().' '.$mentor->get_email());
+            $description = preg_replace("/[\n\r]/", "", $description);
             
             echo '<leaf id="', $id, '" classes="', '', '" title="', htmlspecialchars($name), '" description="', htmlspecialchars(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
         }

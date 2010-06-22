@@ -70,7 +70,7 @@ class InternshipOrganizerAgreementManagerSubscriberComponent extends InternshipO
 				}
 			}
 			
-			$this->redirect ( Translation::get ( $message ), ($failures ? true : false), array (InternshipOrganizerAgreementManager::PARAM_ACTION => InternshipOrganizerAgreementManager::ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager::PARAM_AGREEMENT_ID => $agreement_id ) );
+			$this->redirect ( Translation::get ( $message ), ($failures ? true : false), array (InternshipOrganizerAgreementManager::PARAM_ACTION => InternshipOrganizerAgreementManager::ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager::PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer::PARAM_SELECTED_TAB => 'loc_tab' ) );
 			exit ();
 		} else 
 		{
