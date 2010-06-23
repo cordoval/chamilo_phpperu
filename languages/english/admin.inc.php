@@ -1,4 +1,6 @@
 <?php
+$lang['admin']['Initilization'] = 'Initilization';
+$lang['admin']['CoursesTreeCreated'] = 'Courses tree created';
 $lang['admin']['EditSystemAnnouncement'] = 'Edit system announcement';
 $lang['admin']['NoSystemAnnouncementSelected'] = 'No system announcement selected';
 $lang['admin']['ViewSystemAnnouncement'] = 'View system announcement';

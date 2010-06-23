@@ -1,4 +1,7 @@
 <?php
+$lang['repository']['AssessmentRatingQuestion'] = 'Question';
+$lang['repository']['AssessmentRatingQuestionFormProperties'] = 'Properties';
+$lang['repository']['type'] = 'type';
 $lang['repository']['AllSelectedObjectsMoved'] = 'All selected objects moved';
 $lang['repository']['Duplicates'] = 'Duplicated';
 $lang['repository']['Typecpo'] = 'CPO';
