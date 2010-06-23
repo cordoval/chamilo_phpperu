@@ -186,12 +186,12 @@ class InternshipOrganizerCategoryManager extends SubManager
 
     function get_category_rel_location_subscribing_url($category, $location)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_LOCATION_TO_CATEGORY, self :: PARAM_CATEGORY_ID => $category->get_id(), self :: PARAM_LOCATION_ID => $location->get_id()));
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_LOCATION_TO_CATEGORY, self :: PARAM_CATEGORY_ID => $category->get_id(), self :: PARAM_LOCATION_ID => $location->get_id()));
     }
 
     function get_category_subscribe_location_browser_url($category)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_LOCATION_BROWSER, self :: PARAM_CATEGORY_ID => $category->get_id()));
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_LOCATION_BROWSER, self :: PARAM_CATEGORY_ID => $category->get_id()));
     }
 
     function get_category_delete_url($category)

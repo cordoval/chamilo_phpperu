@@ -37,7 +37,7 @@ interface InternshipOrganizerDataManagerInterface
 
     function delete_internship_organizer_category($category);
 
-    function delete_category_rel_location($categoryrellocation);
+    function delete_internship_organizer_category_rel_location($categoryrellocation);
 
     function update_internship_organizer_category($category);
 

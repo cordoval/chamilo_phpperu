@@ -209,6 +209,10 @@ abstract class DataClass
         $class_name = $this->get_object_name();
 
         $func = 'delete_' . $class_name;
+//        dump($dm);
+//        dump($class_name);
+//        dump($func);
+//        exit;
         return call_user_func(array($dm, $func), $this);
     }
 

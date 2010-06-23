@@ -161,6 +161,7 @@ $lang['internship_organizer']['Regions'] = 'Regions';
 $lang['internship_organizer']['Subregions'] = 'Subregions';
 $lang['internship_organizer']['Subperiods'] = 'Subperiods';
 $lang['internship_organizer']['ViewPeriod'] = 'View Period';
+$lang['internship_organizer']['Agreement'] = 'Agreement';
 
 
 $lang['internship_organizer']['InternshipOrganizer'] = 'Internship Organizer';

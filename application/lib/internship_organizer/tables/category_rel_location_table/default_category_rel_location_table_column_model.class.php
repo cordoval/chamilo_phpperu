@@ -33,11 +33,11 @@ class DefaultInternshipOrganizerCategoryRelLocationTableColumnModel extends Obje
         $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_NAME, true, $location_alias);
         $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_ADDRESS, true, $location_alias);
         
-        $region_column = new ObjectTableColumn ( InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, true, $region_alias );
+        $region_column = new ObjectTableColumn ( InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, false, $region_alias );
 		$region_column->set_title(Translation :: get('ZipCode'));
 		$columns [] = $region_column;
 		
-		$region_column = new ObjectTableColumn ( InternshipOrganizerRegion :: PROPERTY_CITY_NAME, true, $region_alias );
+		$region_column = new ObjectTableColumn ( InternshipOrganizerRegion :: PROPERTY_CITY_NAME, false, $region_alias );
 		$region_column->set_title(Translation :: get('City'));
 		$columns [] = $region_column;
 		

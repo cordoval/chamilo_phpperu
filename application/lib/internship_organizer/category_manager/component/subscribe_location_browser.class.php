@@ -42,7 +42,7 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         $parameters[InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID] = $this->category->get_id();
         
         $table = new SubscribeLocationBrowserTable($this, $parameters, $this->get_subscribe_condition());
-        
+
         $html = array();
         $html[] = $table->as_html();
         

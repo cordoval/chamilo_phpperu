@@ -17,7 +17,7 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
         
         $id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
         $parent_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID);
-        
+
         if ($id)
         {
             $this->region = $this->retrieve_region($id);
