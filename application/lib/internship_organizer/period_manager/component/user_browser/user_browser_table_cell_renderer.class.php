@@ -21,7 +21,6 @@ class InternshipOrganizerPeriodUserBrowserTableCellRenderer extends DefaultUserT
         {
             //return $this->get_modification_links( $user);
         }
-        
         return parent :: render_cell($column, $user);
     }
 

@@ -161,6 +161,8 @@ interface InternshipOrganizerDataManagerInterface
     function count_periods($conditions = null);
 
     function retrieve_internship_organizer_period($id);
+    
+    function retrieve_users_from_period($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
     //     function truncate_period($id);
     

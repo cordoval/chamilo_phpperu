@@ -172,18 +172,17 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
 
 
         // Coordinator table tab
-//        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_type_users_condition(InternshipOrganizerUserType :: COORDINATOR));
         $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_rel_users_condition(InternshipOrganizerUserType :: COORDINATOR));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COORDINATOR, Translation :: get('InternshipOrganizerCoordinator'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         // Student table tab
-        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_type_users_condition(InternshipOrganizerUserType :: STUDENT));
+        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_rel_users_condition(InternshipOrganizerUserType :: STUDENT));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_STUDENT, Translation :: get('InternshipOrganizerStudent'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-        
+           
         // Coach table tab
-        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_type_users_condition(InternshipOrganizerUserType :: COACH));
+        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_rel_users_condition(InternshipOrganizerUserType :: COACH));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COACH, Translation :: get('InternshipOrganizerCoach'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-        
+         
         $html[] = $tabs->render();
         
         $html[] = '</div>';
@@ -196,76 +195,51 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
     function get_rel_users_condition($user_type)
     {
         $conditions = array();
-    	$conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $this->period->get_id());
+    	$conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $this->period->get_id(), InternshipOrganizerPeriodRelUser::get_table_name());
         
         $query = $this->ab->get_query();
         if (isset($query) && $query != '')
         {
+        	$udm = UserDataManager :: get_instance();
+        	$user_alias = $udm->get_alias(User :: get_table_name());
+        	$user_table_name = User::get_table_name();
+
             $or_conditions = array();
-            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', $user_table_name);
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', $user_table_name);
 
             $user_conditions = new OrCondition($or_conditions);
             
-            $search_user_subselect_condition = new SubselectCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, User :: PROPERTY_ID, User :: get_table_name(), $user_conditions);
+            $search_user_subselect_condition = new SubselectCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, User :: PROPERTY_ID, $user_table_name, $user_conditions, null, $udm);
             
-            
-            $users = $this->period->get_user_ids($user_type);
-        	//		dump($users);
-        	if (count($users))
-        	{
-            //        	$conditions = array();
-            //        	$conditions[]=new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, $user_type);
-            //        	$conditions[]=new InCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $users);
-            //        	$type_users_condition = new AndCondition($conditions);
-            	$type_users_condition = new InCondition(User :: PROPERTY_ID, $users);
-        	}
-        	else
-        	{
-            //        	$type_users_condition = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, 0);
-          	  	$type_users_condition = new EqualityCondition(User :: PROPERTY_ID, 0);
-        	}
-        
-            $and_conditions = array();
-            $and_conditions[] = $search_user_subselect_condition;
-            $and_conditions[] = $type_users_condition;;
-            
-            $conditions[] = new AndCondition($and_conditions);
         }   
+        
+        $users = $this->period->get_user_ids($user_type);
+
+        if (count($users))
+        {
+            $type_users_condition = new InCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $users, InternshipOrganizerPeriodRelUser::get_table_name());
+
+        }
+        else
+        {
+         	$type_users_condition = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, 0, InternshipOrganizerPeriodRelUser::get_table_name());
+        }
+        
+       	$and_conditions = array();
+       	if ($search_user_subselect_condition)
+       	{
+       		$and_conditions[] = $search_user_subselect_condition;
+       	}
+        $and_conditions[] = $type_users_condition;
+            
+        $conditions[] = new AndCondition($and_conditions);
+        
 
         $condition = new AndCondition($conditions);
         
         return $condition;
             
-//            $udm = UserDataManager :: get_instance();
-//            $users = $udm->retrieve_users($user_condition);
-//            
-//            $user_ids = array();
-//            while ($user = $users->next_result())
-//            {
-//                $user_ids[] = $user->get_id();
-//            }
-//            
-//            if (count($user_ids))
-//            {
-//                
-//                $rel_user_condition = new InCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $user_ids);
-//            
-//            }
-//            else
-//            {
-//                $rel_user_condition = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, 0);
-//            
-//            }
-//            
-//            $and_conditions = array();
-//            $and_conditions[] = $condition;
-//            $and_conditions[] = $rel_user_condition;
-//            
-//            return new AndCondition($and_conditions);
-//        }
-//        
-//        return $condition;
     }
 
     function get_rel_groups_condition()

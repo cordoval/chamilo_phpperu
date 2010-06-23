@@ -292,6 +292,23 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->count_result_set($query, InternshipOrganizerCategoryRelLocation :: get_table_name(), $condition);
     }
 
+    function retrieve_users_from_period($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+    	$udm = UserDataManager :: get_instance();
+        $user_alias = $udm->get_alias(User :: get_table_name());
+		$user_table_name = $udm->escape_table_name(User :: get_table_name());
+        
+        $period_alias = $this->get_alias(InternshipOrganizerPeriod :: get_table_name());
+        $period_rel_user_alias = $this->get_alias(InternshipOrganizerPeriodRelUser :: get_table_name());
+        
+        $query = 'SELECT DISTINCT ' . $user_alias . ' .* ';
+        $query .= ' FROM ' . $user_table_name . ' AS ' . $user_alias;
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerPeriodRelUser :: get_table_name()) . ' AS ' . $period_rel_user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $period_rel_user_alias) . ' = ' . $udm->escape_column_name(User :: PROPERTY_ID, $user_alias);
+
+        return $this->retrieve_object_set($query, $user_table_name, $condition, $offset, $max_objects, $order_by, User :: CLASS_NAME);
+//    	return $this->retrieve_objects(InternshipOrganizerLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerLocation :: CLASS_NAME);
+    }
+    
     function count_category_rel_locations($condition = null)
     {
         return $this->count_objects(InternshipOrganizerCategoryRelLocation :: get_table_name(), $condition);
