@@ -38,7 +38,7 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
             if (count($sub_manager_links['links']))
             {
                 $index ++;
-                $actions_tab = new DynamicActionsTab($sub_manager_links['application']['class'], Translation :: get($sub_manager_links['application']['name']), Theme :: get_image_path() . 'place_mini_' . $sub_manager_links['application']['class'] . '.png', implode("\n", $html));
+                $actions_tab = new DynamicActionsTab($sub_manager_links['application']['class'], $sub_manager_links['application']['name'], Theme :: get_image_path() . 'place_mini_' . $sub_manager_links['application']['class'] . '.png', implode("\n", $html));
                 
                 if (isset($application_links['search']))
                 {

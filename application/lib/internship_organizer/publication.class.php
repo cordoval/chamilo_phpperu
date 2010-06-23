@@ -13,9 +13,10 @@ class InternshipOrganizerPublication extends DataClass
     const PROPERTY_TO_DATE = 'to_date';
     const PROPERTY_PUBLISHER_ID = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
-    const PROPERTY_PUBLISHER_TYPE = 'publisher_type';
     const PROPERTY_PUBLICATION_TYPE = 'publication_type';
     const PROPERTY_PUBLICATION_PLACE = 'publication_place';
+    const PROPERTY_PLACE_ID = 'place_id';
+    
     
     private $target_groups;
     private $target_users;
@@ -27,7 +28,7 @@ class InternshipOrganizerPublication extends DataClass
     
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER_ID, self :: PROPERTY_PUBLISHED, self :: PROPERTY_PUBLICATION_TYPE, self :: PROPERTY_PUBLISHER_TYPE, self :: PROPERTY_PUBLICATION_PLACE));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER_ID, self :: PROPERTY_PUBLISHED, self :: PROPERTY_PUBLICATION_TYPE, self :: PROPERTY_PUBLICATION_PLACE, self :: PROPERTY_PLACE_ID));
     }
 
     function get_data_manager()
@@ -108,24 +109,6 @@ class InternshipOrganizerPublication extends DataClass
     }
 
     /**
-     * Returns the publisher_type of this InternshipOrganizerPublication.
-     * @return the publisher_type.
-     */
-    function get_publisher_type()
-    {
-        return $this->get_default_property(self :: PROPERTY_PUBLICATION_TYPE);
-    }
-
-    /**
-     * Sets the publisher_type of this InternshipOrganizerPublication.
-     * @param publisher_type
-     */
-    function set_publisher_type($publisher_type)
-    {
-        $this->set_default_property(self :: PROPERTY_PUBLICATION_TYPE, $publisher_type);
-    }
-
-    /**
      * Returns the publication_type of this InternshipOrganizerPublication.
      * @return the publication_type.
      */
@@ -160,7 +143,25 @@ class InternshipOrganizerPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_PUBLICATION_PLACE, $publication_place);
     }
+	
+/**
+     * Returns the place_id of this InternshipOrganizerPublication.
+     * @return the place_id.
+     */
+    function get_place_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_PLACE_ID);
+    }
 
+    /**
+     * Sets the place_id of this InternshipOrganizerPublication.
+     * @param place_id
+     */
+    function set_place_id($place_id)
+    {
+        $this->set_default_property(self :: PROPERTY_PLACE_ID, $place_id);
+    }
+    
     /**
      * Returns the published of this InternshipOrganizerPublication.
      * @return the published.
@@ -193,8 +194,8 @@ class InternshipOrganizerPublication extends DataClass
     {
         if (! $this->target_groups)
         {
-            $condition = new EqualityCondition(InternshipOrganizerPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $this->get_id());
-            $groups = $this->get_data_manager()->retrieve_publication_groups($condition);
+            $condition = new EqualityCondition(InternshipOrganizerPublicationGroup :: PROPERTY_PUBLICATION_ID, $this->get_id());
+            $groups = $this->get_data_manager()->retrieve_internship_organizer_publication_groups($condition);
             
             while ($group = $groups->next_result())
             {
@@ -210,8 +211,8 @@ class InternshipOrganizerPublication extends DataClass
         if (! isset($this->target_users))
         {
             $this->target_users = array();
-            $condition = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $this->get_id());
-            $users = $this->get_data_manager()->retrieve_publication_users($condition);
+            $condition = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_PUBLICATION_ID, $this->get_id());
+            $users = $this->get_data_manager()->retrieve_internship_organizer_publication_users($condition);
             
             while ($user = $users->next_result())
             {
@@ -345,7 +346,7 @@ class InternshipOrganizerPublication extends DataClass
     function get_content_object()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        return $rdm->retrieve_content_object($this->get_content_object());
+        return $rdm->retrieve_content_object($this->get_content_object_id());
     }
 
     function get_publication_publisher()

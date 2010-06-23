@@ -38,7 +38,7 @@ class InternshipOrganizerPublicationGroup extends DataClass
      * Sets the publication_id of this InternshipOrganizerPublicationGroup.
      * @param publication_id
      */
-    function set_survey_publication($publication_id)
+    function set_publication_id($publication_id)
     {
         $this->set_default_property(self :: PROPERTY_PUBLICATION_ID, $publication_id);
     }
@@ -60,11 +60,7 @@ class InternshipOrganizerPublicationGroup extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
     }
-
-    function create()
-    {
-        return $this->get_data_manager()->create_survey_publication_group($this);
-    }
+   
 
     static function get_table_name()
     {

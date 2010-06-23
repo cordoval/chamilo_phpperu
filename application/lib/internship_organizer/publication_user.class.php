@@ -61,11 +61,6 @@ class InternshipOrganizerPublicationUser extends DataClass
         $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
     }
 
-    function create()
-    {
-        return $this->get_data_manager()->create_survey_publication_user($this);
-    }
-
     static function get_table_name()
     {
         return self :: TABLE_NAME;

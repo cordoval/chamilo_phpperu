@@ -24,6 +24,11 @@ require_once dirname(__FILE__) . '/../period.class.php';
 require_once dirname(__FILE__) . '/../period_rel_user.class.php';
 require_once dirname(__FILE__) . '/../period_rel_group.class.php';
 require_once dirname(__FILE__) . '/../user_type.class.php';
+require_once dirname(__FILE__) . '/../publication.class.php';
+require_once dirname(__FILE__) . '/../publication_group.class.php';
+require_once dirname(__FILE__) . '/../publication_user.class.php';
+require_once dirname(__FILE__) . '/../publication_type.class.php';
+require_once dirname(__FILE__) . '/../publication_place.class.php';
 
 require_once 'MDB2.php';
 
@@ -909,7 +914,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->retrieve_objects(InternshipOrganizerPeriodRelGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPeriodRelGroup :: CLASS_NAME);
     }
 
-    function create_publication($publication)
+    function create_internship_organizer_publication($publication)
     {
         $succes = $this->create($publication);
         
@@ -925,14 +930,14 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         {
             $publication_user = new InternshipOrganizerPublicationUser();
             $publication_user->set_publication_id($publication->get_id());
-            $survey_publication_user->set_user_id($user);
-            $succes &= $survey_publication_user->create();
+            $publication_user->set_user_id($user);
+            $succes &= $publication_user->create();
         }
         
         return $succes;
     }
 
-    function update_publication($publication)
+    function update_internship_organizer_publication($publication)
     {
         
         $condition = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_ID, $publication->get_id());
@@ -963,7 +968,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $succes;
     }
 
-    function delete_publication($publication)
+    function delete_internship_organizer_publication($publication)
     {
         
         $user_condition = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $publication->get_id());
@@ -975,13 +980,13 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->delete($publication->get_table_name(), $publication_condition);
     }
 
-    function retrieve_publication($publication_id)
+    function retrieve_internship_organizer_publication($publication_id)
     {
         $condition = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_ID, $id);
         return $this->retrieve_object(InternshipOrganizerPublication :: get_table_name(), $condition, array(), InternshipOrganizerPublication :: CLASS_NAME);
     }
 
-    function retrieve_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    function retrieve_internship_organizer_publications($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
         $publication_alias = $this->get_alias(InternshipOrganizerPublication :: get_table_name());
@@ -997,12 +1002,12 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->retrieve_object_set($query, InternshipOrganizerPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPublication :: CLASS_NAME);
     }
 
-    function count_publications($condition = null)
+    function count_internship_organizer_publications($condition = null)
     {
         $rdm = RepositoryDataManager :: get_instance();
         $publication_alias = $this->get_alias(InternshipOrganizerPublication :: get_table_name());
-        $publication_user_alias = $this->get_alias(SurveyPublicationUser :: get_table_name());
-        $publication_group_alias = $this->get_alias(SurveyPublicationGroup :: get_table_name());
+        $publication_user_alias = $this->get_alias(InternshipOrganizerPublicationUser :: get_table_name());
+        $publication_group_alias = $this->get_alias(InternshipOrganizerPublicationGroup :: get_table_name());
         $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
         
         $query = 'SELECT COUNT(DISTINCT ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_ID, $publication_alias) . ') FROM ' . $this->escape_table_name(InternshipOrganizerPublication :: get_table_name()) . ' AS ' . $publication_alias;
@@ -1011,6 +1016,62 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' LEFT JOIN ' . $this->escape_table_name(InternshipOrganizerPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(InternshipOrganizerPublicationGroup :: PROPERTY_PUBLICATION_ID, $publication_group_alias);
         
         return $this->count_result_set($query, InternshipOrganizerPublication :: get_table_name(), $condition);
+    }
+
+    function create_internship_organizer_publication_group($survey_publication_group)
+    {
+        return $this->create($survey_publication_group);
+    }
+
+    //    function update_internship_organizer_publication_group($survey_publication_group)
+    //    {
+    //        $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_ID, $survey_publication_group->get_id());
+    //        return $this->update($survey_publication_group, $condition);
+    //    }
+    //
+    //    function delete_internship_organizer_publication_group($survey_publication_group)
+    //    {
+    //        $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_ID, $survey_publication_group->get_id());
+    //        return $this->delete($survey_publication_group->get_table_name(), $condition);
+    //    }
+    
+
+    function count_internship_organizer_publication_groups($condition = null)
+    {
+        return $this->count_objects(InternshipOrganizerPublicationGroup :: get_table_name(), $condition);
+    }
+
+    function retrieve_internship_organizer_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(InternshipOrganizerPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPublicationGroup :: CLASS_NAME);
+    }
+
+    function create_internship_organizer_publication_user($survey_publication_user)
+    {
+        return $this->create($survey_publication_user);
+    }
+
+    //    function update_internship_organizer_publication_user($survey_publication_user)
+    //    {
+    //        $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_ID, $survey_publication_user->get_id());
+    //        return $this->update($survey_publication_user, $condition);
+    //    }
+    //
+    //    function delete_internship_organizer_publication_user($survey_publication_user)
+    //    {
+    //        $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_ID, $survey_publication_user->get_id());
+    //        return $this->delete($survey_publication_user->get_table_name(), $condition);
+    //    }
+    
+
+    function count_internship_organizer_publication_users($condition = null)
+    {
+        return $this->count_objects(InternshipOrganizerPublicationUser :: get_table_name(), $condition);
+    }
+
+    function retrieve_internship_organizer_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(InternshipOrganizerPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPublicationUser :: CLASS_NAME);
     }
 
 }
