@@ -14,10 +14,10 @@ require_once dirname(__FILE__). '/mediamosa_mediafile_object.class.php';
 class MediamosaStreamingMediaConnector {
 
     private static $instance;
-    private $manager;
+    //private $manager;
     private $mediamosa;
     private $profiles;
-    private $server_id;
+    private $server;
 
     const METHOD_POST = MediamosaRestClient :: METHOD_POST;
     const METHOD_GET = MediamosaRestClient :: METHOD_GET;
@@ -26,57 +26,98 @@ class MediamosaStreamingMediaConnector {
     //TODO: find correct settings
     const PLACEHOLDER_URL = 'http://localhost/chamilo_2.0/layout/aqua/images/common/content_object/big/streaming_video_clip.png';
 
-    function MediamosaStreamingMediaConnector($manager)
+    function MediamosaStreamingMediaConnector($server_id = null, $do_login = true)
     {
-        xdebug_break();
-        $this->manager = $manager;
-        $url = Platformsetting::get('mediamosa_url','admin');
-        $this->mediamosa = new MediamosaRestClient($url);
-        //TODO: jens -> implement curl request
-        $this->mediamosa->set_connexion_mode(RestClient :: MODE_PEAR);
-        //login if connector cookie doesn't exist
-        //connector cookie takes care of login persistence
-        if(!$this->mediamosa->get_connector_cookie())
+        
+        if(!$server_id) $server_id = Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER);
+        
+        if($server_id)
         {
-            //set proxy if necessary
-            if(PlatformSetting :: get('proxy_settings_active', 'admin')) $this->mediamosa->set_proxy(PlatformSetting :: get('proxy_server', 'admin'), PlatformSetting :: get('proxy_port', 'admin'), PlatformSetting :: get('proxy_username', 'admin'), PlatformSetting :: get('proxy_password', 'admin'));
+            $this->set_server($server_id);
 
-            if(!$this->mediamosa->login(PlatformSetting::get('mediamosa_username','admin'), PlatformSetting::get('mediamosa_password','admin')))
+            if($do_login)
             {
-                exit('Connection to Mediamosa server at '.Platformsetting::get('mediamosa_url','admin').' failed');
+                if(!$this->login())
+                {
+                    exit('Connection to Mediamosa server  failed');
+                }
             }
         }
+        else
+        {
+            exit(Translation :: get('No server selected'));
+        }
+        /*if($server_id)
+        {
+            $server = $dm->retrieve_streaming_media_server_object($server_id);
+
+            if($server->get_id())
+            {
+                $url = $server->get_url();
+                $this->mediamosa = new MediamosaRestClient($url);
+                //TODO: jens -> implement curl request
+                $this->mediamosa->set_connexion_mode(RestClient :: MODE_PEAR);
+                //login if connector cookie doesn't exist
+                //connector cookie takes care of login persistence
+                if(!$this->mediamosa->get_connector_cookie())
+                {
+                    //set proxy if necessary
+                    if(PlatformSetting :: get('proxy_settings_active', 'admin')) $this->mediamosa->set_proxy(PlatformSetting :: get('proxy_server', 'admin'), PlatformSetting :: get('proxy_port', 'admin'), PlatformSetting :: get('proxy_username', 'admin'), PlatformSetting :: get('proxy_password', 'admin'));
+
+                    if(!$this->mediamosa->login($server->get_login(), $server->get_password()))
+                    {
+                        exit('Connection to Mediamosa server (' .$server->get_title(). '@'.$server->get_url().') failed');
+                    }
+                }
+            }
+        }*/
+    }
+
+    function set_server($server_id)
+    {
+        $dm = MediamosaStreamingMediaDataManager :: get_instance();
+        if($server = $dm->retrieve_streaming_media_server_object($server_id))
+        {
+            $this->server = $server;
+        }
+    }
+
+    function get_server()
+    {
+        return ($this->server) ? $this->server : false;
+    }
+
+    function login()
+    {
+        if($this->get_server())
+        {
+            $url = $this->server->get_url();
+            $this->mediamosa = new MediamosaRestClient($url);
+            //TODO: jens -> implement curl request
+            $this->mediamosa->set_connexion_mode(RestClient :: MODE_PEAR);
+            //login if connector cookie doesn't exist
+            //connector cookie takes care of login persistence
+            if(!$this->mediamosa->get_connector_cookie())
+            {
+                //set proxy if necessary
+                if(PlatformSetting :: get('proxy_settings_active', 'admin')) $this->mediamosa->set_proxy(PlatformSetting :: get('proxy_server', 'admin'), PlatformSetting :: get('proxy_port', 'admin'), PlatformSetting :: get('proxy_username', 'admin'), PlatformSetting :: get('proxy_password', 'admin'));
+
+                if($this->mediamosa->login($this->server->get_login(), $this->server->get_password()))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     static function get_instance($manager)
     {
         if (! isset(self :: $instance))
         {
-            self :: $instance = new MediamosaStreamingMediaConnector($manager);
+            self :: $instance = new MediamosaStreamingMediaConnector();
         }
         return self :: $instance;
-    }
-
-    /*
-     * set the server's id
-     * @param int server id
-     */
-    function set_server_id($server_id)
-    {
-        $this->server_id = $server_id;
-    }
-
-    /*
-     * if a server isset return it's id
-     * @return server_id
-     */
-    function get_server_id()
-    {
-        if($this->server_id)
-        {
-            return $this->server_id;
-        }
-        return 0;
     }
     
     function request_mediamosa_asset($asset_id)
@@ -122,7 +163,6 @@ class MediamosaStreamingMediaConnector {
      */
     function retrieve_mediamosa_assets($condition = null, $order_property = null, $offset = null, $count = '10')
     {
-        xdebug_break();
         $params = array();
 
         if($order_property)
@@ -136,8 +176,7 @@ class MediamosaStreamingMediaConnector {
                 $params['order_by'] = $order_property;
             }
         }
-        if($offset) $params['offset'] = $offset;
-
+        $params['offset'] = $offset;
         $params['limit'] = $count;
 
         if($condition) $condition = sprintf('&%'.$condition);
@@ -194,7 +233,7 @@ class MediamosaStreamingMediaConnector {
             $mediamosa_asset->set_status(StreamingMediaObject :: STATUS_UNAVAILABLE);
 
             $mediamosa_transcoding_profiles = $this->retrieve_mediamosa_transcoding_profiles();
-            xdebug_break();
+
             //add mediafiles
             foreach($asset->mediafiles->mediafile as  $mediafile)
             {
@@ -255,15 +294,16 @@ class MediamosaStreamingMediaConnector {
             //get original mediafile
             if((string) $mediafile->is_original_file == 'TRUE')
             {
-                $original_mediafile_id = $mediafile->mediafile_id;
+                $original_mediafile_id = (string) $mediafile->mediafile_id;
             }
         }
 
         //if all files are transcoded
-        if($n_transcoded == count($mediamosa_transcoding_profile))
+        if($n_transcoded == count($mediamosa_transcoding_profiles))
         {
+
             //if there still is an original mediafile
-            if($original_file)
+            if($original_mediafile_id)
             {
                 //remove original mediafile
                 $this->remove_mediamosa_mediafile($original_mediafile_id);

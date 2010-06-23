@@ -8,12 +8,13 @@ class MediamosaStreamingMediaManagerUploadForm extends FormValidator {
 
     private $redirect_uri;
     private $uploadprogress_url;
+    private $application;
     
-    function MediamosaStreamingMediaManagerUploadForm($action, $redirect_uri, $uploadprogress_url)
+    function MediamosaStreamingMediaManagerUploadForm($action, $redirect_uri, $uploadprogress_url, $application)
     {
         $this->redirect_uri = $redirect_uri;
         $this->uploadprogress_url = $uploadprogress_url;
-
+        $this->application = $application;
         parent :: __construct('mediamosa_upload', 'post', $action);
 
         $this->build_upload_form();
@@ -21,7 +22,7 @@ class MediamosaStreamingMediaManagerUploadForm extends FormValidator {
 
     function build_upload_form()
     {
-        $connector = MediamosaStreamingMediaConnector::get_instance($this);
+        $connector = MediamosaStreamingMediaConnector::get_instance($this->application);
 
         //token
         //$this->addElement('hidden', 'token', $this->token);

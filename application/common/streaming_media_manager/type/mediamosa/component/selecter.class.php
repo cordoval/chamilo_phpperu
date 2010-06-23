@@ -22,7 +22,7 @@ class MediamosaStreamingMediaManagerSelecterComponent extends MediamosaStreaming
 
         $html[] = '<script type="text/javascript">';
         $connector = MediamosaStreamingMediaConnector :: get_instance($this);
-        $html[] = 'window.opener.$("input[name=server_id]").val("'.$connector->get_server_id().'");';
+        $html[] = 'window.opener.$("input[name=server_id]").val("'.Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER).'");';
         $html[] = 'window.opener.$("input[name=asset_id]").val("'.$object->get_id().'");';
         $html[] = 'window.opener.$("input#title").val("'. addslashes($object->get_title()) .'");';
 
