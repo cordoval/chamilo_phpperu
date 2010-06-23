@@ -4,28 +4,35 @@
  *
  * @author jevdheyd
  */
-class MediamosaStreamingMediaManagerSettingDeleterComponent extends MediamosaStreamingMediaManager {
+
+require_once dirname(__FILE__) . '/../mediamosa_streaming_media_server_object.class.php';
+require_once dirname(__FILE__) . '/../forms/mediamosa_streaming_media_manager_settings_form.class.php';
+require_once dirname(__FILE__) . '/../mediamosa_streaming_media_data_manager.class.php';
+
+class MediamosaStreamingMediaManagerSettingUpdaterComponent extends MediamosaStreamingMediaManager {
 
     function run()
     {
-        $form = MediamosaStreamingMediaManagerSettingsForm(MediamosaStreamingMediaManagerSettingsForm :: TYPE_EDIT, $this->get_url());
+        $form = new MediamosaStreamingMediaManagerSettingsForm(MediamosaStreamingMediaManagerSettingsForm :: TYPE_EDIT, $this->get_url());
 
         //TODO:jens iplement setting retrieval
-        $setting = $this->retrieve_setting(Request :: get(MediamosaStreamingMediaManager :: PARAM_STREAMING_MEDIA_SETTING_ID));
+        $dm = MediamosaStreamingMediaDataManager :: get_instance();
+        $setting = $dm->retrieve_streaming_media_server_object(Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER));
+
         $form->set_server_object($setting);
 
-        if($form->validate)
+        if($form->validate())
         {
             $parameters = array();
             $parameters[StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = MediamosaStreamingMediaManager :: ACTION_MANAGE_SETTINGS;
 
-            if($form->create_setting())
+            if($form->update_setting())
             {
-                $this->redirect(Translation :: get('Setting updated'), false, $parameters);
+                $this->redirect(Translation :: get('Setting updated'), true, $parameters);
             }
             else
             {
-                $this->redirect(Translation :: get('Setting not update'), true, $parameters);
+                $this->redirect(Translation :: get('Setting not update'), false, $parameters);
             }
         }else{
             $this->display_header($trail, false);
@@ -33,5 +40,8 @@ class MediamosaStreamingMediaManagerSettingDeleterComponent extends MediamosaStr
             $this->display_footer();
         }
     }
+
+
+
 }
 ?>

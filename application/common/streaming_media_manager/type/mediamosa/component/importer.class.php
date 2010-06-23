@@ -1,12 +1,10 @@
 <?php
-
 /**
- * Description of browserclass
+ * Description of importerclass
  *
  * @author jevdheyd
  */
-
-class MediamosaStreamingMediaManagerBrowserComponent extends MediaMosaStreamingMediaManager{
+class MediamosaStreamingMediaManagerImporterComponent extends MediamosaStreamingMediaManager{
 
     function run()
     {
@@ -21,8 +19,12 @@ class MediamosaStreamingMediaManagerBrowserComponent extends MediaMosaStreamingM
             $this->redirect(Translation :: get('Server_selected'), false, $parameters);
         }
 
-        $browser = StreamingMediaComponent::factory(StreamingMediaComponent::BROWSER_COMPONENT, $this);
-        $browser->run();
+        if(request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER))
+        {
+            $importer = StreamingMediaComponent::factory(StreamingMediaComponent::IMPORTER_COMPONENT, $this);
+            $importer->run();
+        }
     }
+
 }
 ?>

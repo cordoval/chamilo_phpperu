@@ -29,8 +29,6 @@ class MediamosaStreamingMediaObjectDisplay  extends StreamingMediaObjectDisplay
 
             $object = $this->get_object();
 
-            xdebug_break();
-            
             if($object->get_status() == StreamingMediaObject :: STATUS_AVAILABLE)
             {
                 //see which mediafile to play

@@ -4,13 +4,17 @@
  *
  * @author jevdheyd
  */
-
+require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_server_object.class.php';
+require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_data_manager.class.php';
 require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_connector.class.php';
 require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_object.class.php';
 
 class StreamingVideoClipDisplay extends ContentObjectDisplay
 {
     private $mediamosa_object;
+    private $mediamosa_streaming_media_connector;
+
+    const PARAM_MEDIAFILE = 'mediafile_id';
 
     function get_full_html()
     {
@@ -25,11 +29,12 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
     
     function set_mediamosa_object()
     {
+       
         if(!$this->mediamosa_object)
         {
-            $this->connector = MediamosaStreamingMediaConnector :: get_instance($this);
             $object = $this->get_content_object();
-            $this->mediamosa_object = $this->connector->retrieve_mediamosa_asset($object->get_asset_id());
+            $this->mediamosa_streaming_media_connector = MediamosaStreamingMediaConnector :: get_instance($object->get_server_id());
+            $this->mediamosa_object = $this->mediamosa_streaming_media_connector->retrieve_mediamosa_asset($object->get_asset_id());
         }
     }
 
@@ -39,20 +44,20 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
             
             if($this->mediamosa_object->get_status() == StreamingMediaObject :: STATUS_AVAILABLE)
             {
-                /*//see which mediafile to play
-                if(Request :: get(MediamosaStreamingMediaManager :: PARAM_MEDIAFILE))
+                //see which mediafile to play
+                if(Request :: get(self :: PARAM_MEDIAFILE))
                 {
-                    $mediafile_id = Request :: get(MediamosaStreamingMediaManager :: PARAM_MEDIAFILE);
+                    $mediafile_id = Request :: get(self :: PARAM_MEDIAFILE);
                 }
                 else
-                {*/
+                {
                     $mediafile_id = $this->mediamosa_object->get_default_mediafile();
-                //}
+                }
 
                 if($mediafile_id)
                 {
                     //get player
-                    $output = $this->connector->mediamosa_play_proxy_request($this->mediamosa_object->get_id(), $mediafile_id);
+                    $output = $this->mediamosa_streaming_media_connector->mediamosa_play_proxy_request($this->mediamosa_object->get_id(), $mediafile_id);
                 }
                 else{
                     $output = '';
@@ -78,12 +83,15 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
                 foreach($mediafiles as $mediafile)
                 {
                     //TODO:jens -> get_link
-                    $html[] = '<tr><td>' . $mediafile->get_title() . '</td></tr>';
+                    $object = $this->get_content_object();
+                    $url = $this->get_content_object_url($object);
+                    $html[] = '<tr><td><a href="' .$url. '&' .self :: PARAM_MEDIAFILE. '=' .$mediafile->get_id(). '">' . $mediafile->get_title() . '</a></td></tr>';
 
                     $i++;
                 }
                 return '<table class="data_table data_table_no_header">' . implode("\n",$html) . '</table>';
             }
         }
+
 }
 ?>
