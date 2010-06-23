@@ -139,13 +139,12 @@ class WikiParser
             $this->set_script();
             $html = array();
 
-            $html[] = '<div id="top" name="top">';
-            $html[] = '<div id="contentbox">' . Translation :: get('Contents');
-            $html[] = '<a id="showhide" href="#">[' . Translation :: get(Hide) . ']</a><br /></div>';
-            $html[] = '<br />';
-            $html[] = '<div id="content">';
+            $html[] = '<div name="top" class="wiki-pane-content-toc">';
+            $html[] = '<div class="wiki-pane-content-toc-title">' . Translation :: get('Contents') . ' <a id="showhide" href="#">[' . Translation :: get(Hide) . ']</a></div>';
+            $html[] = '<div class="wiki-pane-content-toc-content">';
             $html[] = $this->fill_content_box($list);
-            $html[] = '</div></div>';
+            $html[] = '</div>';
+            $html[] = '</div>';
 
             return implode("\n", $html);
 
@@ -206,7 +205,7 @@ class WikiParser
                     <img alt="" src="' . Theme :: get_common_image_path() . '/action_ajax_add.png"/>
                     </a>
                     </div>';
-            $value = $top . '<p class="head' . $head . '" id ="' . str_replace(' ', '', $value) . '">' . $value . '</p><hr>';
+            $value = $top . '<p class="head' . $head . ' wiki-pane-content-head" id ="' . str_replace(' ', '', $value) . '">' . $value . '</p>';
             $this->wikiText = str_replace($old_link, $value, $this->wikiText);
         }
         return $index;

@@ -103,20 +103,17 @@ tr.recycled td a:hover {
 	-webkit-border-top-right-radius: 10px;
 	-webkit-border-bottom-left-radius: 10px;
 	border-top: 1px solid #ebebeb;
+	line-height: 1.5em;
 }
 
 .wiki-pane-content-title {
-	border-bottom: 1px solid #2e6e9e;
 	font-size: 20px;
-	clear: both;
-	padding-bottom: 5px;
-	margin-bottom: 5px;
 }
 
 .wiki-pane-content-subtitle {
 	font-size: 98%;
 	clear: both;
-	margin-bottom: 0.3em;
+	margin-bottom: 1.5em;
 }
 
 .wiki-pane-top {
@@ -124,9 +121,45 @@ tr.recycled td a:hover {
 	float: right;
 }
 
-.wiki-menu
-{
+.wiki-menu {
 	width: 10%;
 	float: left;
 	padding-top: 75px;
+}
+
+.wiki-pane-content-head,.wiki-pane-content-title {
+	border-bottom: 1px solid #2e6e9e;
+	clear: both;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+}
+
+.wiki-pane-content-toc {
+	background-color: #f9f9f9;
+	padding: 5px;
+	font-size: 95%;
+	border: 1px solid #aaaaaa;
+	margin: 1.5em 0;
+}
+
+.wiki-pane-content-toc .wiki-pane-content-toc-title {
+	text-align: center;
+	width: 100%;
+	clear: both;
+	font-size: 100%;
+	font-weight: bold;
+}
+
+.wiki-pane-content-toc .wiki-pane-content-toc-title a {
+	font-weight: normal;
+}
+
+.wiki-pane-content-toc .wiki-pane-content-toc-content {
+	font-size: 100%;
+	font-weight: normal;
+}
+
+.wiki-pane-content-toc .wiki-pane-content-toc-content a {
+	font-size: 100%;
+	font-weight: normal;
 }

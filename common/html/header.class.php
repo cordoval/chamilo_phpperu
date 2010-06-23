@@ -41,8 +41,8 @@ class Header
         $this->add_http_header('Content-Type: text/html; charset=UTF-8');
         $this->add_css_file_header(Theme :: get_theme_path() . 'plugin/jquery/jquery.css');
         $this->add_css_file_header(Theme :: get_common_css_path());
-        $this->add_css_file_header(Theme :: get_theme_path() . 'css/repository.css');
         $this->add_css_file_header(Theme :: get_css_path());
+        $this->add_css_file_header(Theme :: get_theme_path() . 'css/repository.css');
         //$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.min.js');
         $this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH) . 'jquery/jquery.dimensions.min.js');
