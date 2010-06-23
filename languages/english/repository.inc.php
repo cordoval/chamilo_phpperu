@@ -851,4 +851,8 @@ $lang['repository']['ShowOwnSharedObjects'] = 'Show own';
 $lang['repository']['ShowOthersSharedObjects'] = 'Show others';
 $lang['repository']['ManageContentObjects'] = 'Management';
 $lang['repository']['SurveyContextManager'] = 'Survey contexts';
+$lang['repository']['Agenda'] = 'Agenda';
+$lang['repository']['PeerAssessment'] = 'Peer Assessment';
+$lang['repository']['Media'] = 'Media';
+$lang['repository']['MostUsed'] = 'Most Used';
 ?>

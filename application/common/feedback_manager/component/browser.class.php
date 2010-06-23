@@ -78,7 +78,7 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
             }
             else
             {
-                $html[] = '<h3>' . Translation :: get('PublicationFeedback') . '</h3>';
+                $html[] = '<h3>' . Translation :: get('Feedback') . '</h3>';
                 $this->render_create_action();
 
                 $feedbackpublications = $this->retrieve_feedback_publications($publication_id, $complex_wrapper_id, $application);

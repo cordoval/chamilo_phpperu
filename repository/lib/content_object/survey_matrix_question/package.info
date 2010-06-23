@@ -4,9 +4,10 @@
 		<name>Survey Matrix Question</name>
 		<code>survey_matrix_question</code>
 		<section>content_object</section>
+		<category>survey</category>
 		<author></author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/m/survey_matrix_question/survey_matrix_question-1.0.0.zip</filename>
+		<filename>pool/main/objects/s/survey_matrix_question/survey_matrix_question-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

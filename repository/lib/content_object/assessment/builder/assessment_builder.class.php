@@ -16,14 +16,14 @@ class AssessmentBuilder extends ComplexBuilder
     function AssessmentBuilder($parent)
     {
         parent :: __construct($parent);
-        
+
         $this->parse_input_from_object_browser_table();
     }
 
     function run()
     {
         $action = $this->get_action();
-        
+
         switch ($action)
         {
             case ComplexBuilder :: ACTION_BROWSE :
@@ -37,8 +37,8 @@ class AssessmentBuilder extends ComplexBuilder
                 break;
             case ComplexBuilder::ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM :
                 $component = $this->create_component('Creator');
-                break; 
-            case ComplexBuilder::ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM : 
+                break;
+            case ComplexBuilder::ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
             	$component = $this->create_component('Deleter');
             	break;
             case ComplexBuilder::ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM :
@@ -50,19 +50,19 @@ class AssessmentBuilder extends ComplexBuilder
             case ComplexBuilder::ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
             	$component = $this->create_component('Updater');
             	break;
-            default : 
+            default :
             	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
             	$component = $this->create_component('Browser');
         }
 
             $component->run();
     }
-    
+
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
 	}
-	
+
     function parse_input_from_object_browser_table()
     {
     	if (isset($_POST['action']))
@@ -85,11 +85,6 @@ class AssessmentBuilder extends ComplexBuilder
             }
         }
     }
-
-	function show_menu()
-	{
-		return false;
-	}
 }
 
 ?>

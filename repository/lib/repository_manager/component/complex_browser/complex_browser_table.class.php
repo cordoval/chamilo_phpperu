@@ -11,43 +11,47 @@ require_once dirname(__FILE__) . '/complex_browser_table_cell_renderer.class.php
  */
 class ComplexBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'repository_browser_table';
-
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
      */
     function ComplexBrowserTable($browser, $parameters, $condition, $show_subitems_column = true, $model = null, $renderer = null, $name = null)
     {
-        $name = $name ? $name : (self :: DEFAULT_NAME);
-        
-    	if (! $model)
+        $name = (Utilities :: camelcase_to_underscores(__CLASS__));
+
+        if (! $model)
             $model = new ComplexBrowserTableColumnModel($browser);
         if (! $renderer)
             $renderer = new ComplexBrowserTableCellRenderer($browser, $condition);
-        
+
         $data_provider = new ComplexBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, $name, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = array();
-        
-        $action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM;
-		if($name != self :: DEFAULT_NAME)
-			$action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
-				
-        $actions[] = new ObjectTableFormAction($action, Translation :: get('RemoveSelected'));
-       
-        if($browser->show_menu())
+        $actions = new ObjectTableFormActions(ComplexBuilder :: PARAM_BUILDER_ACTION);
+
+        $action = ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM;
+//        if ($name != self :: DEFAULT_NAME)
+//            $action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
+
+        $actions->add_form_action(new ObjectTableFormAction($action, Translation :: get('RemoveSelected')));
+
+        if ($browser instanceof ComplexMenuSupport)
         {
-	        $action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM;
-			if($name != self :: DEFAULT_NAME)
-				$action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
-	        
-	        $actions[] = new ObjectTableFormAction($action, Translation :: get('MoveSelected'), false);
+            $action = ComplexBuilder :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM;
+//            if ($name != self :: DEFAULT_NAME)
+//                $action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
+
+            $actions->add_form_action(new ObjectTableFormAction($action, Translation :: get('MoveSelected'), false));
         }
-         
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+    static function handle_table_action()
+    {
+    	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+    	Request :: set_get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $ids);
     }
 }
 ?>

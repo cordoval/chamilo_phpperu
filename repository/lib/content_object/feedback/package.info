@@ -4,6 +4,7 @@
 		<name>Feedback</name>
 		<code>feedback</code>
 		<section>content_object</section>
+		<category>general</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/f/feedback/feedback-1.0.0.zip</filename>

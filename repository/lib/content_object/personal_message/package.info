@@ -4,6 +4,7 @@
 		<name>Personal Message</name>
 		<code>personal_message</code>
 		<section>content_object</section>
+		<category>general</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/p/personal_message/personal_message-1.0.0.zip</filename>

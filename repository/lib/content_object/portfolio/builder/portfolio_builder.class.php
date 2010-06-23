@@ -4,14 +4,14 @@
  * @package repository.lib.complex_builder.portfolio
  */
 
-class PortfolioBuilder extends ComplexBuilder
+class PortfolioBuilder extends ComplexBuilder implements ComplexMenuSupport
 {
     const ACTION_CREATE_PORTFOLIO_ITEM = 'create_item';
 
     function run()
     {
         $action = $this->get_action();
-        
+
         switch ($action)
         {
             case ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM:
@@ -29,11 +29,11 @@ class PortfolioBuilder extends ComplexBuilder
             case ComplexBuilder :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM:
             	$component = $this->create_component('Updater');
                 break;
-          
+
             case PortfolioBuilder :: ACTION_CREATE_PORTFOLIO_ITEM :
                 $component = $this->create_component('ItemCreator');
                 break;
-            case ComplexBuilder :: ACTION_BROWSE : 
+            case ComplexBuilder :: ACTION_BROWSE :
             	$component = $this->create_component('Browser');
                 break;
             default:
@@ -41,7 +41,7 @@ class PortfolioBuilder extends ComplexBuilder
                 $component = $this->create_component('Browser');
                 break;
         }
-        
+
             $component->run();
     }
 

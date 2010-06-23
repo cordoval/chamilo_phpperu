@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Match Text Question</name>
+		<name>Assessment Match Text Question</name>
 		<code>assessment_match_text_question</code>
 		<section>content_object</section>
+		<category>assessment</category>
 		<author></author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/m/match_text_question/match_text_question-1.0.0.zip</filename>
+		<filename>pool/main/objects/a/assessment_match_text_question/assessment_match_text_question-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

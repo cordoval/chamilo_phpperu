@@ -5,16 +5,16 @@
  */
 //require_once dirname(__FILE__) . '/learning_path_builder_component.class.php';
 
-class LearningPathBuilder extends ComplexBuilder
+class LearningPathBuilder extends ComplexBuilder implements ComplexMenuSupport
 {
     const ACTION_CREATE_LP_ITEM = 'create_item';
     const ACTION_BUILD_PREREQUISITES = 'prerequisites';
     const ACTION_SET_MASTERY_SCORE = 'mastery_score';
-    
+
     function run()
     {
         $action = $this->get_action();
-        
+
         switch ($action)
         {
             case ComplexBuilder :: ACTION_BROWSE :
@@ -54,7 +54,7 @@ class LearningPathBuilder extends ComplexBuilder
         }
 
         $component->run();
-        
+
     }
 
     function get_prerequisites_url($selected_complex_content_object_item)

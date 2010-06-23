@@ -38,13 +38,13 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager
         }
         else
         {
-            $form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $pub->get_selected_objects())), $this->get_user());
+            $form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $repo_viewer->get_selected_objects())), $this->get_user());
             if ($form->validate())
             {
                 $values = $form->exportValues();
             	$failures = 0;
 
-            	$objects = $pub->get_selected_objects();
+            	$objects = $repo_viewer->get_selected_objects();
 
             	if(!is_array($objects))
             	{

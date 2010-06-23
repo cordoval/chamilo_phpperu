@@ -4,6 +4,7 @@
 		<name>RSS Feed</name>
 		<code>rss_feed</code>
 		<section>content_object</section>
+		<category>news</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/r/rss_feed/rss_feed-1.0.0.zip</filename>

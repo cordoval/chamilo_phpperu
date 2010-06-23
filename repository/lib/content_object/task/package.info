@@ -4,6 +4,7 @@
 		<name>Calendar Event</name>
 		<code>calendar_event</code>
 		<section>content_object</section>
+		<category>agenda</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/c/calendar_event/calendar_event-1.0.0.zip</filename>

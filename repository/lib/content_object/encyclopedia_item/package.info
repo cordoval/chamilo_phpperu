@@ -4,6 +4,7 @@
 		<name>Encyclopedia Item</name>
 		<code>encyclopedia_item</code>
 		<section>content_object</section>
+		<category>general</category>
 		<author>Hans De Bisschop</author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/e/encyclopedia_item/encyclopedia_item-1.0.0.zip</filename>

@@ -4,6 +4,7 @@
 		<name>Ordering Question</name>
 		<code>ordering_question</code>
 		<section>content_object</section>
+		<category>assessment</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/o/ordering_question/ordering_question-1.0.0.zip</filename>
