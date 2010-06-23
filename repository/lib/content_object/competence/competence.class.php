@@ -7,7 +7,7 @@
 /**
  * This class represents an competence
  */
-class Competence extends ContentObject implements Versionable
+class Competence extends ContentObject implements Versionable, ComplexContentObjectSupport
 {
 	const CLASS_NAME = __CLASS__;
 

@@ -7,7 +7,7 @@
 /**
  * This class represents an assessment
  */
-class Assessment extends ContentObject
+class Assessment extends ContentObject implements ComplexContentObjectSupport
 {
     const PROPERTY_ASSESSMENT_TYPE = 'assessment_type';
 

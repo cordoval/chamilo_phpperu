@@ -4,6 +4,7 @@
 		<name>Comic Book</name>
 		<code>comic_book</code>
 		<section>content_object</section>
+		<category>general</category>
 		<author>Hans De Bisschop</author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/c/comic_book/comic_book-1.0.0.zip</filename>

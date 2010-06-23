@@ -23,7 +23,7 @@ class AssessmentMatchingQuestionForm extends MatchingQuestionForm
     function setDefaults($defaults = array ())
     {
         $object = $this->get_content_object();
-        if (! is_null($object))
+        if ($object->get_number_of_options() != 0)
         {
             $options = $object->get_options();
             foreach ($options as $index => $option)

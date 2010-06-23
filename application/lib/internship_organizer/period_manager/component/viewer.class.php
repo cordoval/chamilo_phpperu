@@ -16,6 +16,8 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
     private $period;
     private $ab;
     private $root_period;
+    private $parent_period;
+    private $parent_parent_id;
 
     /**
      * Runs this component and displays its output.
@@ -25,21 +27,41 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         $trail = BreadcrumbTrail :: get_instance();
         
         $id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+        $parent_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID);
+        
         if ($id)
         {
             $this->period = $this->retrieve_period($id);
             
             $this->root_period = $this->retrieve_periods(new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, 0))->next_result();
             
+            $this->parent_period = $this->retrieve_period($parent_id);
+            
+            if ($parent_id)
+            {
+            	$this->parent_parent_id = $this->parent_period->get_parent_id();
+            }
+            
             $period = $this->period;
+            
+            $parent_period = $this->parent_period;
+            
+            $parent_parent_id = $this->parent_parent_id;
             
             if (! $this->get_user()->is_platform_admin())
             {
                 Display :: not_allowed();
             }
             
+            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
             $trail->add(new Breadcrumb($this->get_browse_periods_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
-            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $id)), $period->get_name()));
+            
+            if ($parent_id && $parent_parent_id)
+            {
+                $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $parent_id, InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID => $parent_parent_id)), $parent_period->get_name()));
+            }
+            
+            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $id, InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID => $parent_id)), $period->get_name()));
             $trail->add_help('period general');
             
             $this->display_header($trail);
@@ -140,6 +162,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
     	$tabs = new DynamicTabsRenderer($renderer_name);
              
         $parameters = $this->get_parameters();
+        $parameters[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID] = $this->period->get_id();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
         $parameters[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID] = $id;
         
@@ -176,23 +199,77 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
     function get_type_users_condition($user_type)
     {
         
-        $users = $this->period->get_user_ids($user_type);
+       $conditions = array();
+    	$conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $this->period->get_id());
         
-        if (count($users))
+        $query = $this->ab->get_query();
+        if (isset($query) && $query != '')
         {
+            $or_conditions = array();
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+
+            $user_conditions = new OrCondition($or_conditions);
+            
+            $search_user_subselect_condition = new SubselectCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, User :: PROPERTY_ID, User :: get_table_name(), $user_conditions);
+            
+            
+            $users = $this->period->get_user_ids($user_type);
+        	//		dump($users);
+        	if (count($users))
+        	{
             //        	$conditions = array();
             //        	$conditions[]=new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, $user_type);
             //        	$conditions[]=new InCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $users);
             //        	$type_users_condition = new AndCondition($conditions);
-            $type_users_condition = new InCondition(User :: PROPERTY_ID, $users);
-        }
-        else
-        {
+            	$type_users_condition = new InCondition(User :: PROPERTY_ID, $users);
+        	}
+        	else
+        	{
             //        	$type_users_condition = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, 0);
-            $type_users_condition = new EqualityCondition(User :: PROPERTY_ID, 0);
-        }
+          	  	$type_users_condition = new EqualityCondition(User :: PROPERTY_ID, 0);
+        	}
         
-        return $type_users_condition;
+            $and_conditions = array();
+            $and_conditions[] = $search_user_subselect_condition;
+            $and_conditions[] = $type_users_condition;;
+            
+            $conditions[] = new AndCondition($and_conditions);
+        }   
+
+        $condition = new AndCondition($conditions);
+        
+        return $condition;
+            
+//            $udm = UserDataManager :: get_instance();
+//            $users = $udm->retrieve_users($user_condition);
+//            
+//            $user_ids = array();
+//            while ($user = $users->next_result())
+//            {
+//                $user_ids[] = $user->get_id();
+//            }
+//            
+//            if (count($user_ids))
+//            {
+//                
+//                $rel_user_condition = new InCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $user_ids);
+//            
+//            }
+//            else
+//            {
+//                $rel_user_condition = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, 0);
+//            
+//            }
+//            
+//            $and_conditions = array();
+//            $and_conditions[] = $condition;
+//            $and_conditions[] = $rel_user_condition;
+//            
+//            return new AndCondition($and_conditions);
+//        }
+//        
+//        return $condition;
     }
 
 }

@@ -11,3 +11,43 @@ tr.recycled td a {
 tr.recycled td a:hover {
 	color: #ff7777;
 }
+
+/**
+ * WIKI PANES
+ */
+.wiki-pane-content {
+	clear: both;
+	border-top-width: 1px;
+	border-right-width-value: 1px;
+	border-right-width-ltr-source: physical;
+	border-right-width-rtl-source: physical;
+	border-bottom-width: 1px;
+	border-left-width-value: 1px;
+	border-left-width-ltr-source: physical;
+	border-left-width-rtl-source: physical;
+	border-top-style: solid;
+	border-right-style-value: solid;
+	border-right-style-ltr-source: physical;
+	border-right-style-rtl-source: physical;
+	border-bottom-style: solid;
+	border-left-style-value: solid;
+	border-left-style-ltr-source: physical;
+	border-left-style-rtl-source: physical;
+	border-top-color: #4271b5;
+	border-right-color-value: #4271b5;
+	border-right-color-ltr-source: physical;
+	border-right-color-rtl-source: physical;
+	border-bottom-color: #4271b5;
+	border-left-color-value: #4271b5;
+	border-left-color-ltr-source: physical;
+	border-left-color-rtl-source: physical;
+	margin-top: 0pt;
+	margin-right: 0pt;
+	margin-bottom: 0pt;
+	margin-left: 0pt;
+	padding-top: 1em;
+	padding-right: 1em;
+	padding-bottom: 1em;
+	padding-left: 1em;
+	min-height: 15em;
+}

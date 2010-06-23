@@ -4,6 +4,7 @@
 		<name>Assessment</name>
 		<code>assessment</code>
 		<section>content_object</section>
+		<category>assessment</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/a/assessment/assessment-1.0.0.zip</filename>

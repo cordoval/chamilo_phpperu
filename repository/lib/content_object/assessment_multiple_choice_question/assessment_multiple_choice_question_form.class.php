@@ -26,7 +26,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
-            if (! is_null($object))
+            if ($object->get_number_of_options() != 0)
             {
                 $options = $object->get_options();
 
@@ -127,7 +127,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
             $_SESSION['mc_answer_type'] = $_SESSION['mc_answer_type'] == AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO ? AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX : AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO;
         }
         $object = $this->get_content_object();
-        if (! $this->isSubmitted() && ! is_null($object))
+        if (! $this->isSubmitted() && $object->get_number_of_options() != 0)
         {
             $_SESSION['mc_number_of_options'] = $object->get_number_of_options();
             $_SESSION['mc_answer_type'] = $object->get_answer_type();

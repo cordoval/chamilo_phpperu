@@ -7,7 +7,7 @@
 /**
  * This class represents an peer_assessment
  */
-class PeerAssessment extends ContentObject implements Versionable
+class PeerAssessment extends ContentObject implements Versionable, ComplexContentObjectSupport
 {
 	function get_allowed_types()
     {

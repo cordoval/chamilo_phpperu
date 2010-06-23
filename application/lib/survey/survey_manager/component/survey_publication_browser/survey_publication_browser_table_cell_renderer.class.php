@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../survey_manager.class.php';
  * Cell rendere for the learning object browser table
  *
  * @author Sven Vanpoucke
- * @author 
+ * @author
  */
 
 class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublicationTableCellRenderer
@@ -36,14 +36,14 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
     // Inherited
     function render_cell($column, $survey_publication)
     {
-        
-    	 
-    	
+
+
+
     	if ($column === SurveyPublicationBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($survey_publication);
         }
-        
+
        switch ($column->get_name())
         {
             case ContentObject :: PROPERTY_TITLE :
@@ -56,19 +56,19 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         		}else{
         			$url = $title;
         		}
-            	          	
-            	
+
+
             	if ($survey_publication->get_hidden())
                 {
                     return '<span style="color: #999999;">' . $url . '</span>';
                 }
-                
-                return $url;   
-        }   	
-        
-        
+
+                return $url;
+        }
+
+
         return parent :: render_cell($column, $survey_publication);
-   
+
     }
     /**
      * Gets the action links to display
@@ -80,9 +80,9 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
     {
         $survey = $survey_publication->get_publication_object();
         $user = $this->browser->get_user();
-        
+
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         if ($survey_publication->is_visible_for_target_user($user, true))
         {
             $toolbar->add_item(new ToolbarItem(
@@ -100,9 +100,9 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
 	        		null,
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
-        
+
         }
-        
+
         if ($user->is_platform_admin() || $user->get_id() == $survey_publication->get_publisher())
         {
             $toolbar->add_item(new ToolbarItem(
@@ -111,7 +111,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
 	        		$this->browser->get_update_survey_publication_url($survey_publication),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
-	        
+
 	        $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('Delete'),
 	        		Theme :: get_common_image_path() . 'action_delete.png',
@@ -119,7 +119,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
 	        		ToolbarItem :: DISPLAY_ICON,
 	        		true
 	        ));
-            
+
             if ($survey_publication->get_hidden())
             {
                 $toolbar->add_item(new ToolbarItem(
@@ -138,14 +138,14 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
             }
-            
+
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('ViewReport'),
 	        		Theme :: get_common_image_path() . 'action_view_results.png',
 	        		$this->browser->get_reporting_survey_publication_url($survey_publication),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
-            
+
             //TO DO implement survey exporter !!
             //$toolbar_data[] = array('href' => $this->browser->get_export_survey_url($survey_publication), 'label' => Translation :: get('Export'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
             $toolbar->add_item(new ToolbarItem(
@@ -154,22 +154,22 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
 	        		$this->browser->get_move_survey_publication_url($survey_publication),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
-	        
+
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('InviteParticipants'),
 	        		Theme :: get_common_image_path() . 'action_invite_users.png',
 	        		$this->browser->get_mail_survey_participant_url($survey_publication),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
-            
+
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('BrowseSurveyPages'),
 	        		Theme :: get_common_image_path() . 'action_view_results.png',
 	        		$this->browser->get_browse_survey_pages_url($survey_publication),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
-            
-            if ($survey->is_complex_content_object())
+
+            if ($survey instanceof ComplexContentObjectSupport)
             {
                 $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('BrowseSurvey'),
@@ -179,14 +179,14 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
 		        ));
             }
         }
-        
+
         $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('ExportToExcel'),
 	        		Theme :: get_common_image_path() . 'export_excel.png',
 	        		$this->browser->get_survey_publication_export_excel_url($survey_publication),
 	        		ToolbarItem :: DISPLAY_ICON
 	        ));
-	        
+
         return $toolbar->as_html();
     }
 }

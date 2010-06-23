@@ -14,16 +14,16 @@ class SettingsManagerTableDataProvider extends ObjectTableDataProvider
 
     /**
      * Constructor
-     * @param RepositoryManagerComponent $browser
+     * @param MediamosaStreamingMediaManagerComponent $component
      * @param Condition $condition
      */
-    function RepositoryBrowserTableDataProvider($browser, $condition)
+    function RepositoryBrowserTableDataProvider($component, $condition)
     {
-    	parent :: __construct($browser, $condition);
+    	parent :: __construct($component, $condition);
     }
 
     /**
-     * Gets the learning objects
+     * Gets the server settings
      * @param int $offset
      * @param int $count
      * @param string $order_property
@@ -31,13 +31,15 @@ class SettingsManagerTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
+        $dm = MediamosaStreamingMediaDataManager :: get_instance();
+
         $order_property = $this->get_order_property($order_property);
 
         // We always use title as second sorting parameter
         //		$order_property[] = ContentObject :: PROPERTY_TITLE;
 
 
-        return $this->get_browser()->retrieve_content_objects($this->get_condition(), $order_property, $offset, $count);
+        return $dm->retrieve_streaming_media_server_objects($this->get_condition(), $order_property, $offset, $count);
     }
 
     /**
@@ -46,7 +48,8 @@ class SettingsManagerTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        return $this->get_browser()->count_content_objects($this->get_condition());
+        $dm = MediamosaStreamingMediaDataManager :: get_instance();
+        return $dm->count_streaming_media_server_objects();
     }
 }
 ?>

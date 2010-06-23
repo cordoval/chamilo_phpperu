@@ -115,8 +115,8 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
    function prepare_upload()
    {
 
-       $connector = MediamosaStreamingMediaConnector::get_instance($this);
-       xdebug_break();
+       $connector = MediamosaStreamingMediaConnector::get_instance();
+
        //create asset
        if($asset_id = $connector->create_mediamosa_asset())
        {
@@ -162,7 +162,7 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
 
     function update_video_entry($id)
     {
-        $connector = MediamosaStreamingMediaConnector::get_instance($this);
+        $connector = MediamosaStreamingMediaConnector::get_instance($this->application);
 
         $data = $this->exportValues();
 

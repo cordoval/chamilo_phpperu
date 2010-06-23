@@ -4,6 +4,7 @@
 		<name>Learning Path Item</name>
 		<code>learning_path_item</code>
 		<section>content_object</section>
+		<category>collaboration</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/l/learning_path_item/learning_path_item-1.0.0.zip</filename>

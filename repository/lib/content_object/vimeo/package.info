@@ -4,9 +4,10 @@
 		<name>Vimeo Video</name>
 		<code>vimeo</code>
 		<section>content_object</section>
+		<category>media</category>
 		<author></author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/y/vimeo/vimeo-1.0.0.zip</filename>
+		<filename>pool/main/objects/v/vimeo/vimeo-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

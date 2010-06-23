@@ -30,11 +30,11 @@ class InternshipOrganizerPeriodManagerSubscribeUsersComponent extends Internship
             $success = $form->create_period_rel_users();
             if ($success)
             {
-                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelUsersCreated'), (false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id()));
+                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelUsersCreated'), (false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id(), InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID => $this->period->get_parent_id()));
             }
             else
             {
-                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelUsersNotCreated'), (true), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS));
+                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelUsersNotCreated'), (true), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id(), InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID => $this->period->get_parent_id()));
             }
         }
         else

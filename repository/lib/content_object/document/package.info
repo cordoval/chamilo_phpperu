@@ -4,6 +4,7 @@
 		<name>Document</name>
 		<code>document</code>
 		<section>content_object</section>
+		<category>media</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/d/document/document-1.0.0.zip</filename>

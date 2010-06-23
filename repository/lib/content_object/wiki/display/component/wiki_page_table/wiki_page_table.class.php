@@ -13,8 +13,6 @@ require_once dirname(__FILE__) . '/wiki_page_table_cell_renderer.class.php';
  */
 class WikiPageTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'page_table';
-
     /**
      * Constructor.
      * @param int $owner The id of the current user.
@@ -33,11 +31,11 @@ class WikiPageTable extends ObjectTable
         $model = new WikiPageTableColumnModel();
         $renderer = new WikiPageTableCellRenderer($parent);
         $data_provider = new WikiPageTableDataProvider($parent, $owner);
-        parent :: __construct($data_provider, WikiPageTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         
-        $actions = array();
+        $actions = new ObjectTableFormActions(ComplexDisplay :: PARAM_DISPLAY_ACTION);
         
-        $actions[] = new ObjectTableFormAction(ComplexDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, Translation :: get('RemoveSelected'));
+        $actions->add_form_action(new ObjectTableFormAction(ComplexDisplay :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM, Translation :: get('RemoveSelected')));
         $this->set_form_actions($actions);
     
     }
@@ -66,6 +64,12 @@ class WikiPageTable extends ObjectTable
         }
         return $table_data;
     
+    }
+    
+    function handle_table_action()
+    {
+    	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+    	Request :: set_get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $ids);	
     }
 }
 ?>

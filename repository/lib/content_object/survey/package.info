@@ -4,6 +4,7 @@
 		<name>Survey</name>
 		<code>survey</code>
 		<section>content_object</section>
+		<category>survey</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/s/survey/survey-1.0.0.zip</filename>

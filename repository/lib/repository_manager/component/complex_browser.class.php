@@ -84,7 +84,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManager
         $html[] = '<h3>' . Translation :: get('SelectedContentObject') . '</h3><br />';
         $html[] = ContentObjectDisplay :: factory($object)->get_full_html();
 
-        if (! $object->is_complex_content_object())
+        if (! $object instanceof ComplexContentObjectSupport)
         {
             $this->action_bar = $this->get_action_bar();
             return implode("\n", $html);

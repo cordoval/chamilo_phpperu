@@ -135,7 +135,7 @@ class InternshipOrganizerManagerApplicationChooserComponent extends InternshipOr
             case self :: PERIODTAB :
                 
                 $tab_links['application'] = array('name' => Translation :: get('PeriodTab'), 'class' => 'period');
-                
+
                 $period_link = new DynamicAction();
                 $period_link->set_title(Translation :: get('PeriodLink'));
                 $period_link->set_description(Translation :: get('PeriodLinkDescription'));

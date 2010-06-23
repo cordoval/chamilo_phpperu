@@ -6,7 +6,7 @@
 /**
  * This class represents a topic in a discussion forum.
  */
-class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
+class ForumTopic extends ContentObject implements Versionable, AttachmentSupport, ComplexContentObjectSupport
 {
     const PROPERTY_LOCKED = 'locked';
     const PROPERTY_TOTAL_POSTS = 'total_posts';

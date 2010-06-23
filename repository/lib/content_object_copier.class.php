@@ -52,11 +52,11 @@ class ContentObjectCopier
      * @var String[]
      */
     private $file_references;
-    
+
     /**
      * Used to save the references in the object numbers
      * @var int[]
-     * 
+     *
      * Example:
      * $object_numbers[60] = 1;
      */
@@ -122,7 +122,7 @@ class ContentObjectCopier
         		return $this->create_content_object($co->get_latest_version());
         	}
         }
-            
+
         // Retrieve includes and attachments
         $includes = $co->get_included_content_objects();
         $attachments = $co->get_attached_content_objects();
@@ -158,7 +158,7 @@ class ContentObjectCopier
         $this->created_content_objects[$old_co_id] = $co;
 
         // Process the children
-        if ($co->is_complex_content_object())
+        if ($co instanceof ComplexContentObjectSupport)
         {
             $this->copy_complex_children($old_co_id, $co->get_id());
         }

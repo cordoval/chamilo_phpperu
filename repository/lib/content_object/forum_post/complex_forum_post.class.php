@@ -26,24 +26,24 @@ class ComplexForumPost extends ComplexContentObjectItem
     function create()
     {
         parent :: create();
-        
+
         $parent = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_parent());
         $parent->add_post();
         $parent->add_last_post($this->get_id());
         $parent->recalculate_last_post();
-        
+
         return true;
     }
 
     function delete()
     {
         parent :: delete();
-        
+
         $datamanager = RepositoryDataManager :: get_instance();
-        
+
         $parent = $datamanager->retrieve_content_object($this->get_parent());
         $parent->remove_post();
-        
+
         $siblings = $datamanager->count_complex_content_object_items(new EqualityCondition('parent_id', $this->get_parent()));
         if ($siblings == 0)
         {
@@ -52,17 +52,12 @@ class ComplexForumPost extends ComplexContentObjectItem
             {
                 $wrapper->delete();
             }
-            
+
             $parent->delete();
         }
-        
+
         return ture;
         //$parent->recalculate_last_post();
     }
-    
-/*function get_allowed_types()
-	{
-		return array(ForumPost :: get_type_name());
-	}*/
 }
 ?>

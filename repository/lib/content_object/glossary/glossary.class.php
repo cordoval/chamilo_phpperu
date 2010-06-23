@@ -6,7 +6,7 @@
 /**
  * This class represents an glossary
  */
-class Glossary extends ContentObject
+class Glossary extends ContentObject implements ComplexContentObjectSupport
 {
 	const CLASS_NAME = __CLASS__;
 

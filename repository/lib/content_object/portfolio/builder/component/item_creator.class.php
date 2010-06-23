@@ -4,7 +4,6 @@
  * @package repository.lib.complex_builder.portfolio.component
  */
 
-require_once dirname(__FILE__) . '/../../../../complex_builder/complex_repo_viewer.class.php';
 
 class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
 {
@@ -25,7 +24,7 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
     	$parent = $root_content_object->get_id();
         if ($complex_content_object_item_id)
         {
-            $parent_complex_content_object_item = $rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
+            $parent_complex_content_object_item = $this->rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
             $parent = $parent_complex_content_object_item->get_ref();
         }
 
@@ -55,14 +54,14 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
         $pub->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
 
         $pub->set_excluded_objects($exclude);
-        $pub->parse_input();
 
         if (!$pub->is_ready_to_be_published())
         {
-            $type = is_array($type) ? implode(',', $type) : $type;
-            $parent = $this->rdm->retrieve_content_object($parent);
-        	$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $type, $parent->get_type(), $parent->get_title()) . '</h4><br />';
-        	$html[] = $pub->as_html();
+            //$type = is_array($type) ? implode(',', $type) : $type;
+            //$parent = $this->rdm->retrieve_content_object($parent);
+        	//$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $type, $parent->get_type(), $parent->get_title()) . '</h4><br />';
+        	
+        	$pub->run();
         }
         else
         {
@@ -97,9 +96,6 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
             $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id));
         }
 
-        $this->display_header();
-        echo '<br />' . implode("\n", $html);
-        $this->display_footer();
     }
 
     private function retrieve_used_items($parent)

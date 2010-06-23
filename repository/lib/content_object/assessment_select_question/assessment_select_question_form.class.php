@@ -26,7 +26,7 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
-            if (! is_null($object))
+            if ($object->get_number_of_options() != 0)
             {
                 $options = $object->get_options();
                 foreach ($options as $index => $option)
@@ -136,7 +136,7 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
             $_SESSION['select_answer_type'] = $_SESSION['select_answer_type'] == 'radio' ? 'checkbox' : 'radio';
         }
         $object = $this->get_content_object();
-        if (! $this->isSubmitted() && ! is_null($object))
+        if (! $this->isSubmitted() && $object->get_number_of_options() != 0)
         {
             $_SESSION['select_number_of_options'] = $object->get_number_of_options();
             $_SESSION['select_answer_type'] = $object->get_answer_type();
@@ -181,7 +181,7 @@ class AssessmentSelectQuestionForm extends SelectQuestionForm
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
-        
+
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
             if (! in_array($option_number, $_SESSION['select_skip_options']))

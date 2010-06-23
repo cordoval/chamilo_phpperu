@@ -37,7 +37,7 @@ class MatchingQuestionForm extends ContentObjectForm
 //        dump($object->get_options());
 //        dump($object->get_matches());
 
-        if (! is_null($object))
+        if ($object->get_number_of_options() != 0)
         {
             $options = $object->get_options();
             foreach ($options as $index => $option)
@@ -164,7 +164,7 @@ class MatchingQuestionForm extends ContentObjectForm
             $_SESSION['mq_skip_matches'][] = $indexes[0];
         }
         $object = $this->get_content_object();
-        if (! $this->isSubmitted() && ! is_null($object))
+        if (! $this->isSubmitted() && $object->get_number_of_options() != 0)
         {
             $_SESSION['mq_number_of_options'] = $object->get_number_of_options();
             $_SESSION['mq_number_of_matches'] = $object->get_number_of_matches();

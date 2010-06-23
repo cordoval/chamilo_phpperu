@@ -1,4 +1,6 @@
 <?php
+require_once 'XML/Unserializer.php';
+
 class PackageInfo
 {
 	private $package_name;

@@ -3,7 +3,7 @@
 /**
   * @package repository.lib.content_object.match_text_question
  */
-require_once dirname(__FILE__) . '/main.php'; 
+require_once dirname(__FILE__) . '/main.php';
 
 class AssessmentMatchTextQuestionForm extends ContentObjectForm
 {
@@ -23,7 +23,7 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
-        
+
     }
 
     function setDefaults($defaults = array ())
@@ -31,7 +31,7 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
-            if (! is_null($object))
+            if ($object->get_number_of_options() != 0)
             {
                 $options = $object->get_options();
                 foreach ($options as $index => $option)
@@ -128,7 +128,7 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
             $_SESSION['match_skip_options'][] = $indexes[0];
         }
         $object = $this->get_content_object();
-        if (! $this->isSubmitted() && ! is_null($object))
+        if (! $this->isSubmitted() && $object->get_number_of_options() != 0)
         {
             $_SESSION['match_number_of_options'] = $object->get_number_of_options();
         }
@@ -136,14 +136,14 @@ class AssessmentMatchTextQuestionForm extends ContentObjectForm
 
         $this->addElement('hidden', 'match_number_of_options', $_SESSION['match_number_of_options'], array('id' => 'match_number_of_options'));
 
-        $use_wildcard_group = array();  
+        $use_wildcard_group = array();
         $use_wildcard_group[] = & $this->createElement('checkbox', AssessmentMatchTextQuestion::PROPERTY_USE_WILDCARDS, Translation::get('UseWildcards'));//, '', array('class' => MultipleChoiceQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
         $this->addGroup($use_wildcard_group, 'use_wildcards', Translation::get('UseWildcards'), '', false);
-        
-        $use_wildcard_group = array();  
+
+        $use_wildcard_group = array();
         $use_wildcard_group[] = & $this->createElement('checkbox', AssessmentMatchTextQuestion::PROPERTY_IGNORE_CASE, Translation::get('IgnoreCase'));//, '', array('class' => MultipleChoiceQuestionOption :: PROPERTY_VALUE, 'id' => AssessmentMultipleChoiceQuestionOption :: PROPERTY_CORRECT . '[' . $option_number . ']'));
         $this->addGroup($use_wildcard_group, 'ignore_case', Translation::get('IgnoreCase'), '', false);
-        
+
         $buttons = array();
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddItem'), array('class' => 'normal add', 'id' => 'add_option'));

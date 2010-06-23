@@ -14,8 +14,6 @@ require_once dirname(__FILE__) . '/../../wiki_manager.class.php';
  */
 class WikiPublicationBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'wiki_publication_browser_table';
-
     /**
      * Constructor
      */
@@ -24,11 +22,11 @@ class WikiPublicationBrowserTable extends ObjectTable
         $model = new WikiPublicationBrowserTableColumnModel();
         $renderer = new WikiPublicationBrowserTableCellRenderer($browser);
         $data_provider = new WikiPublicationBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = array();
+        $actions = new ObjectTableFormActions();
         
-        $actions[] = new ObjectTableFormAction(WikiManager :: PARAM_DELETE_SELECTED_WIKI_PUBLICATIONS, Translation :: get('RemoveSelected'));
+        $actions->add_form_action(new ObjectTableFormAction(WikiManager :: ACTION_DELETE_WIKI_PUBLICATION, Translation :: get('RemoveSelected')));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
@@ -55,6 +53,12 @@ class WikiPublicationBrowserTable extends ObjectTable
         }
         return $table_data;
     
+    }
+    
+    function handle_table_action()
+    {
+    	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+    	Request :: set_get(WikiManager :: PARAM_WIKI_PUBLICATION, $ids);
     }
 }
 ?>

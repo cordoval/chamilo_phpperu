@@ -41,21 +41,25 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
             
             foreach ($ids as $id)
             {
-                $categoryreluser_ids = explode('|', $id);
-                $categoryreluser = $this->retrieve_category_rel_user($categoryreluser_ids[1], $categoryreluser_ids[0]);
+//                $categoryreluser_ids = explode('|', $id);
+//                $categoryreluser = $this->retrieve_category_rel_user($categoryreluser_ids[1], $categoryreluser_ids[0]);
+
+                $categoryrellocation_ids = explode('|', $id);
+                $categoryrellocation = $this->retrieve_category_rel_location($categoryrellocation_ids[1], $categoryrellocation_ids[0]);
                 
-                if (! isset($categoryreluser))
+                
+                if (! isset($categoryrellocation))
                     continue;
                 
-                if ($categoryreluser_ids[0] == $categoryreluser->get_category_id())
+                if ($categoryrellocation_ids[0] == $categoryrellocation->get_category_id())
                 {
-                    if (! $categoryreluser->delete())
-                    {
+                    if (! $categoryrellocation->delete())
+                    {	
                         $failures ++;
                     }
                     else
                     {
-                        Events :: trigger_event('unsubscribe_user', 'category', array('target_category_id' => $categoryreluser->get_category_id(), 'target_user_id' => $categoryreluser->get_user_id(), 'action_user_id' => $user->get_id()));
+//                        Events :: trigger_event('unsubscribe', 'category', array('target_category_id' => $categoryrellocation->get_category_id(), 'target_location_id' => $categoryrellocation->get_location_id(), 'action_location_id' => $location->get_location_id()));
                     }
                 }
                 else
@@ -67,7 +71,7 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
             if ($failures)
             {
                 if (count($ids) == 1)
-                {
+                {	
                     $message = 'SelectedInternshipOrganizerCategoryRelLocationNotDeleted';
                 }
                 else
@@ -87,7 +91,8 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $categoryreluser_ids[0]));
+//            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $categoryreluser_ids[0]));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $categoryrellocation_ids[0]));
         }
         else
         {
