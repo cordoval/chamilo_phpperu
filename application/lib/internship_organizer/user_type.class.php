@@ -37,5 +37,8 @@ class InternshipOrganizerUserType
         }
     
     }
-
+	
+    static function get_user_types(){
+    	return array(self :: COACH, self ::COORDINATOR, self ::STUDENT);
+    }
 }
