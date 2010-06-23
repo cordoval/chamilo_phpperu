@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__) . '/../../publisher/period_publisher.class.php';
+
 class InternshipOrganizerPeriodManagerPublisherComponent extends InternshipOrganizerPeriodManager
 {
 
@@ -21,8 +23,8 @@ class InternshipOrganizerPeriodManagerPublisherComponent extends InternshipOrgan
         }
         else
         {
-//            $publisher = new PersonalCalendarPublisher($this);
-//            $publisher->get_publications_form($repo_viewer->get_selected_objects());
+            $publisher = new InternshipOrganizerPeriodPublisher($this);
+            $publisher->get_publications_form($repo_viewer->get_selected_objects());
         }
     }
 }
