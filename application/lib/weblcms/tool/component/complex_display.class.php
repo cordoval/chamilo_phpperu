@@ -5,7 +5,7 @@
  */
 class ToolComplexDisplayComponent extends ToolComponent
 {
-	private $object;
+	private $publication;
 	
     function run()
     {
@@ -18,16 +18,20 @@ class ToolComplexDisplayComponent extends ToolComponent
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
         $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $publication_id);
          
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
-		$this->object = $publication->get_content_object();
+		$this->publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
 	
-        $display = ComplexDisplay :: factory($this, $this->object->get_type());
+        $display = ComplexDisplay :: factory($this, $this->publication->get_content_object()->get_type());
         $display->run();
     }
     
     function get_root_content_object()
     {
-    	return $this->object;
+    	return $this->publication->get_content_object();
+    }
+    
+    function get_publication()
+    {
+    	return $this->publication;
     }
 }
 ?>
