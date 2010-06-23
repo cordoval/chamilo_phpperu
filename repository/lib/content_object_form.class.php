@@ -38,8 +38,6 @@ abstract class ContentObjectForm extends FormValidator
      *                       ContentObjectForm :: TYPE_CREATE or
      *                       ContentObjectForm :: TYPE_EDIT.
      * @param ContentObject $content_object The object to create or update.
-     *                                        May be an AbstractContentObject
-     *                                        upon creation.
      * @param string $form_name The name to use in the form tag.
      * @param string $method The method to use ('post' or 'get').
      * @param string $action The URL to which the form should be submitted.
@@ -100,19 +98,6 @@ abstract class ContentObjectForm extends FormValidator
      */
     function get_content_object()
     {
-        /*
-		 * For creation forms, $this->content_object is the default learning
-		 * object and therefore may be abstract. In this case, we do not
-		 * return it.
-		 * For this reason, methods of this class itself will want to access
-		 * $this->content_object directly, so as to take both the learning
-		 * object that is being updated and the default learning object into
-		 * account.
-		 */
-        if ($this->content_object instanceof AbstractContentObject)
-        {
-            return null;
-        }
         return $this->content_object;
     }
 
@@ -603,8 +588,6 @@ EOT;
      *                       ContentObjectForm :: TYPE_CREATE or
      *                       ContentObjectForm :: TYPE_EDIT.
      * @param ContentObject $content_object The object to create or update.
-     *                                        May be an AbstractContentObject
-     *                                        upon creation.
      * @param string $form_name The name to use in the form tag.
      * @param string $method The method to use ('post' or 'get').
      * @param string $action The URL to which the form should be submitted.
@@ -624,8 +607,6 @@ EOT;
             require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_form.class.php';
         }
 
-//        $class = ContentObject :: type_to_class($type) . 'Form';
-//        require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_form.class.php';
         return new $class($form_type, $content_object, $form_name, $method, $action, $extra, $additional_elements, $allow_new_version);
     }
 

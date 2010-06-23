@@ -12,12 +12,12 @@ class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
     const PROPERTY_TOTAL_POSTS = 'total_posts';
     const PROPERTY_LAST_POST = 'last_post_id';
 
-	const CLASS_NAME = __CLASS__;
+    const CLASS_NAME = __CLASS__;
 
-	static function get_type_name()
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
 
     private $first_post;
 
@@ -28,7 +28,7 @@ class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
 
         if ($children == 0)
         {
-            $content_object = new AbstractContentObject(ForumPost :: get_type_name(), $this->get_owner_id());
+            $content_object = ContentObject :: factory(ForumPost :: get_type_name());
             $content_object->set_title($this->get_title());
             $content_object->set_description($this->get_description());
             $content_object->set_owner_id($this->get_owner_id());
@@ -52,12 +52,12 @@ class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
 
     function attach_content_object($aid)
     {
-    	parent :: attach_content_object($aid);
+        parent :: attach_content_object($aid);
 
-    	if($this->first_post)
-    	{
-    		$this->first_post->attach_content_object($aid);
-    	}
+        if ($this->first_post)
+        {
+            $this->first_post->attach_content_object($aid);
+        }
     }
 
     function get_locked()

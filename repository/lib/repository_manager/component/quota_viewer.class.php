@@ -149,7 +149,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
 
             $quota_data_row[] = '<img src="' . Theme :: get_common_image_path() . 'content_object/' . $type . '.png" alt="' . $type . '"/>';
             $quota_data_row[] = Translation :: get(self :: type_to_class($type) . 'TypeName');
-            $object = new AbstractContentObject($type, $this->get_user_id());
+            $object = ContentObject :: factory($type);
             if ($object instanceof Versionable)
             {
                 $quota_data_row[] = $user->get_version_type_quota($type);

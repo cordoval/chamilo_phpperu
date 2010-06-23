@@ -121,7 +121,9 @@ class RepoViewerCreatorComponent extends RepoViewer
      */
     protected function get_creation_form($type)
     {
-        $default_object = $this->get_default_content_object($type);
+        $default_object = ContentObject :: factory($type);
+        $default_object->set_owner_id($this->get_user_id());
+
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $default_object, 'create', 'post', $this->get_url(array_merge(array(RepoViewer :: PARAM_CONTENT_OBJECT_TYPE => $type), $this->get_parameters())), null, array(), true, $this->get_object_form_variant());
 
         $creation_defaults = $this->get_creation_defaults();
