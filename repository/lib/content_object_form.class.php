@@ -162,7 +162,7 @@ abstract class ContentObjectForm extends FormValidator
         {
             if ($object->get_version_count() < $quotamanager->get_max_versions($object->get_type()))
             {
-                if ($object->is_versioning_required())
+                if ($object instanceof ForcedVersionSupport)
                 {
                     $this->addElement('hidden', 'version');
                 }
@@ -387,20 +387,20 @@ EOT;
      */
     function setDefaults($defaults = array ())
     {
-        $lo = $this->content_object;
-        $defaults[ContentObject :: PROPERTY_ID] = $lo->get_id();
+        $content_object = $this->content_object;
+        $defaults[ContentObject :: PROPERTY_ID] = $content_object->get_id();
 
         if ($this->form_type == self :: TYPE_REPLY)
         {
-            $defaults[ContentObject :: PROPERTY_TITLE] = Translation :: get('ReplyShort') . ' ' . $lo->get_title();
+            $defaults[ContentObject :: PROPERTY_TITLE] = Translation :: get('ReplyShort') . ' ' . $content_object->get_title();
         }
         else
         {
-            $defaults[ContentObject :: PROPERTY_TITLE] = $defaults[ContentObject :: PROPERTY_TITLE] == null ? $lo->get_title() : $defaults[ContentObject :: PROPERTY_TITLE];
-            $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
+            $defaults[ContentObject :: PROPERTY_TITLE] = $defaults[ContentObject :: PROPERTY_TITLE] == null ? $content_object->get_title() : $defaults[ContentObject :: PROPERTY_TITLE];
+            $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $$content_object->get_description();
         }
 
-        if ($lo->is_versioning_required() && $this->form_type == self :: TYPE_EDIT)
+        if ($content_object instanceof ForcedVersionSupport && $this->form_type == self :: TYPE_EDIT)
         {
             $defaults['version'] = 1;
         }

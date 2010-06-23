@@ -6,7 +6,7 @@
 /**
  * This class represents a personal message
  */
-class PersonalMessage extends ContentObject implements Versionable, AttachmentSupport
+class PersonalMessage extends ContentObject implements Versionable, AttachmentSupport, ForcedVersionSupport
 {
 	const CLASS_NAME = __CLASS__;
 
@@ -14,10 +14,5 @@ class PersonalMessage extends ContentObject implements Versionable, AttachmentSu
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-
-    function is_versioning_required()
-    {
-        return true;
-    }
 }
 ?>

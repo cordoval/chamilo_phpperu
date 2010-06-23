@@ -17,16 +17,5 @@ class ForumPost extends ContentObject implements Versionable, AttachmentSupport
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-
-    // Inherited
-    function is_master_type()
-    {
-        return false;
-    }
-
-/*function get_allowed_types()
-	{
-		return array(ForumPost :: get_type_name());
-	}*/
 }
 ?>
