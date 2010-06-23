@@ -90,19 +90,6 @@ abstract class RepoViewerComponent
         $this->get_parent()->set_parameter($name, $value);
     }
 
-    function set_default_content_object($type, $content_object)
-    {
-        $this->get_parent()->set_default_content_object($type, $content_object);
-    }
-
-    /**
-     * @see ObjectRepoViewer::get_default_object()
-     */
-    function get_default_content_object($type)
-    {
-        return $this->get_parent()->get_default_content_object($type);
-    }
-
     function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
     {
         return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);

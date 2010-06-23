@@ -37,11 +37,6 @@ class RepoViewer extends SubManager
      */
     private $types;
 
-    /**
-     * The default learning objects, which are used for form defaults.
-     */
-    private $default_content_objects;
-
     private $parent;
 
     private $repo_viewer_actions;
@@ -256,28 +251,6 @@ class RepoViewer extends SubManager
     function get_creation_defaults()
     {
         return $this->creation_defaults;
-    }
-
-    /**
-     * Sets a default learning object. When the creator component of this
-     * repo_viewer is displayed, the properties of the given learning object will
-     * be used as the default form values.
-     * @param string $type The learning object type.
-     * @param ContentObject $content_object The learning object to use as the
-     * default for the given type.
-     */
-    function set_default_content_object($type, $content_object)
-    {
-        $this->default_content_objects[$type] = $content_object;
-    }
-
-    function get_default_content_object($type)
-    {
-        if (isset($this->default_content_objects[$type]))
-        {
-            return $this->default_content_objects[$type];
-        }
-        return new AbstractContentObject($type, $this->get_user_id());
     }
 
     function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)

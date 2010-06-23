@@ -62,7 +62,7 @@ class ValidationManagerComponent
      */
     function get_url($parameters = array(), $encode = false)
     {
-        
+
         return $this->parent->get_url($parameters, $encode);
     }
 
@@ -91,19 +91,6 @@ class ValidationManagerComponent
         $this->parent->set_parameter($name, $value);
     }
 
-    function set_default_content_object($type, $content_object)
-    {
-        $this->parent->set_default_content_object($type, $content_object);
-    }
-
-    /**
-     * @see ObjectPublisher::get_default_object()
-     */
-    function get_default_content_object($type)
-    {
-        return $this->parent->get_default_content_object($type);
-    }
-
     function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
     {
         return $this->parent->redirect($action, $message, $error_message, $extra_params);
@@ -128,11 +115,11 @@ class ValidationManagerComponent
         return $this->parent->retrieve_validations($pid,$cid,$application);
 
     }*/
-    
+
     function retrieve_validations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         return $this->parent->retrieve_validations($condition, $order_by, $offset, $max_objects);
-    
+
     }
 
     function count_validations($condition = null)
@@ -152,7 +139,7 @@ class ValidationManagerComponent
 
     static function factory($type, $parent)
     {
-        
+
         $filename = dirname(__FILE__) . '/component/' . Utilities :: camelcase_to_underscores($type) . '.class.php';
         if (! file_exists($filename) || ! is_file($filename))
         {
@@ -160,7 +147,7 @@ class ValidationManagerComponent
         }
         $class = 'ValidationManager' . $type . 'Component';
         require_once $filename;
-        
+
         return new $class($parent);
     }
 }
