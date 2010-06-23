@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Feedback</name>
-		<code>feedback</code>
+		<name>Research Event</name>
+		<code>rdevent</code>
 		<section>content_object</section>
-		<category>general</category>
+		<category>collaboration</category>
 		<author></author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/f/feedback/feedback-1.0.0.zip</filename>
+		<filename>pool/main/objects/r/rdevent/rdevent-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
@@ -24,6 +24,18 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
+			<content_objects>
+				<dependency>
+		  			<id>forum_topic</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+				<dependency>
+		  			<id>forum_post</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</content_objects>
 		</dependencies>
 	</package>
 </packages>

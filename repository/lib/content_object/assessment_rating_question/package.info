@@ -4,6 +4,7 @@
 		<name>Rating Question</name>
 		<code>rating_question</code>
 		<section>content_object</section>
+		<category>assessment</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/r/rating_question/rating_question-1.0.0.zip</filename>

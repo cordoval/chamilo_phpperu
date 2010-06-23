@@ -4,6 +4,7 @@
 		<name>Fill-in-the-blanks Question</name>
 		<code>fill_in_blanks_question</code>
 		<section>content_object</section>
+		<category>assessment</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/f/fill_in_blanks_question/fill_in_blanks_question-1.0.0.zip</filename>

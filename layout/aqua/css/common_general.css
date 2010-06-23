@@ -2194,7 +2194,6 @@ div.complex_browser_display div.content_object div.title {
 	color: #4271B5;
 }
 
-/**
 div.create_block {
 	background-repeat: no-repeat;	
 	background-position: 0px center;
@@ -2218,12 +2217,12 @@ div.create_category {
 	padding: 10px 10px 10px 10px;
 	-moz-border-radius: 5px;
 	-webkit-border--radius: 5px;
-	overflow: hidden;
+	/*overflow: hidden;*/
 	width: 132px;
 	font-weight: bold;
 	color: #565656;
 	font-size: 11px;
-	height: 200px;
+	/*height: 200px;*/
 }
 
 div.create_category span.title
@@ -2236,8 +2235,7 @@ div.create_category span.title
 	width: 132px;
 	overflow: hidden;
 }
-*/
-
+/*
 div.create_block {
 	background-repeat: no-repeat;
 	background-position: center 10px;
@@ -2255,7 +2253,7 @@ div.create_block {
 	font-size: 11px;
 	min-height: 29px;
 }
-
+*/
 .content_object_selection {
 	clear: both;
 	margin-top: 10px;

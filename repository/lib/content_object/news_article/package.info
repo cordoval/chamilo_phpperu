@@ -4,6 +4,7 @@
 		<name>News Article</name>
 		<code>news_article</code>
 		<section>content_object</section>
+		<category>news</category>
 		<author>Hans De Bisschop</author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/n/news_article/news_article-1.0.0.zip</filename>

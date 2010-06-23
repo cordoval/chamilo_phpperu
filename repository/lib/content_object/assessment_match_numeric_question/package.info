@@ -4,6 +4,7 @@
 		<name>Match numeric Question</name>
 		<code>assessment_match_numeric_question</code>
 		<section>content_object</section>
+		<category>assessment</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/m/match_numeric_question/match_numeric_question-1.0.0.zip</filename>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Feedback</name>
-		<code>feedback</code>
+		<name>Streaming Video Clip</name>
+		<code>streaming_video_clip</code>
 		<section>content_object</section>
-		<category>general</category>
+		<category>media</category>
 		<author></author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/f/feedback/feedback-1.0.0.zip</filename>
+		<filename>pool/main/objects/s/streaming_video_clip/streaming_video_clip-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

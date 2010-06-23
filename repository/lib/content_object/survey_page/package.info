@@ -4,6 +4,7 @@
 		<name>SurveyPage</name>
 		<code>survey_page</code>
 		<section>content_object</section>
+		<category>survey</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/s/survey_page/survey_page-1.0.0.zip</filename>

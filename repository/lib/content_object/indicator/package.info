@@ -4,6 +4,7 @@
 		<name>Indicator</name>
 		<code>indicator</code>
 		<section>content_object</section>
+		<category>peer_assessment</category>
 		<author>Sven Vanpoucke</author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/i/indicator/indicator-1.0.0.zip</filename>
