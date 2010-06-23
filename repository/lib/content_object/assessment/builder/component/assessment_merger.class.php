@@ -20,7 +20,7 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilder
         $repo_viewer = new RepoViewer($this, Assessment :: get_type_name(), RepoViewer :: SELECT_SINGLE, array(), false);
         $repo_viewer->set_parameter(RepoViewer :: PARAM_ID, Request :: get(RepoViewer :: PARAM_ID));
         
-        $repo_viewer->parse_input_from_table();
+        $repo_viewer->get_parent()->parse_input_from_table();
         
         if (! $repo_viewer->is_ready_to_be_published())
         {
