@@ -1,4 +1,6 @@
 <?php
+$lang['install']['NoWebApplicationSelected'] = 'No web application selected';
+$lang['install']['WebApplication'] = 'Web application';
 $lang['install']['PostProcessingCoreApplications'] = 'Post processing Core Applications ';
 $lang['install']['WebserviceSubTreeCreated'] = 'Webservice subtree created ';
 $lang['install']['LanguageAdded'] = 'Language added';

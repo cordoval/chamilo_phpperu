@@ -1,4 +1,18 @@
 <?php
+$lang['repository']['AssessmentRatingQuestion'] = 'Question';
+$lang['repository']['AssessmentRatingQuestionFormProperties'] = 'Properties';
+$lang['repository']['type'] = 'type';
+$lang['repository']['AllSelectedObjectsMoved'] = 'All selected objects moved';
+$lang['repository']['Duplicates'] = 'Duplicated';
+$lang['repository']['Typecpo'] = 'CPO';
+$lang['repository']['Typezip'] = 'ZIP';
+$lang['repository']['Typescorm'] = 'SCORM';
+$lang['repository']['Typedocument'] = 'Document';
+$lang['repository']['Typeical'] = 'Ical';
+$lang['repository']['Typeqti'] = 'QTI';
+$lang['repository']['InheritedTrue'] = 'Inheritence';
+$lang['repository']['InheritedFalse'] = 'No inheritence';
+$lang['repository']['Tool'] = 'Tool';
 $lang['repository']['URLOfIcal'] = 'iCal URL location';
 $lang['repository']['AssessmentMatchNumericQuestionTypeName'] = 'Assessment Match Numeric Question';
 $lang['repository']['AssessmentMatchNumericQuestionCreationFormTitle'] = 'Create Assessment Match Numeric Question';
