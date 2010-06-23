@@ -35,8 +35,8 @@ abstract class ContentObjectForm extends FormValidator
     /**
      * Constructor.
      * @param int $form_type The form type; either
-     *                       ContentObjectForm :: TYPE_CREATE or
-     *                       ContentObjectForm :: TYPE_EDIT.
+     * ContentObjectForm :: TYPE_CREATE or
+     * ContentObjectForm :: TYPE_EDIT.
      * @param ContentObject $content_object The object to create or update.
      * @param string $form_name The name to use in the form tag.
      * @param string $method The method to use ('post' or 'get').
@@ -99,16 +99,7 @@ abstract class ContentObjectForm extends FormValidator
      */
     function get_content_object()
     {
-        $content_object_id = $this->content_object->get_id();
-
-        if (!$content_object_id)
-        {
-            return null;
-        }
-        else
-        {
-            return $this->content_object;
-        }
+        return $this->content_object;
     }
 
     protected function get_content_object_type()
@@ -223,18 +214,20 @@ EOT;
         {
             $object = $this->content_object;
 
-//            if ($object->is_latest_version())
-//            {
-//                $html[] = '<div class="versions" style="margin-top: 1em;">';
-//            }
-//            else
-//            {
-//                $html[] = '<div class="versions_na" style="margin-top: 1em;">';
-//            }
+            //            if ($object->is_latest_version())
+            //            {
+            //                $html[] = '<div class="versions" style="margin-top: 1em;">';
+            //            }
+            //            else
+            //            {
+            //                $html[] = '<div class="versions_na" style="margin-top: 1em;">';
+            //            }
 
-//            $html[] = '<div class="versions_title">' . htmlentities(Translation :: get('Versions')) . '</div>';
 
-//            $this->addElement('html', implode("\n", $html));
+            //            $html[] = '<div class="versions_title">' . htmlentities(Translation :: get('Versions')) . '</div>';
+
+
+            //            $this->addElement('html', implode("\n", $html));
             $this->add_element_hider('script_radio', $object);
 
             $i = 0;
@@ -260,7 +253,7 @@ EOT;
             $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CompareVersions'), array('class' => 'normal compare'));
             $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
-//            $this->addElement('html', '</div>');
+        //            $this->addElement('html', '</div>');
         }
     }
 
@@ -299,10 +292,10 @@ EOT;
         {
 
             $html[] = '<script type="text/javascript">';
-            $html[] =   'var support_attachments = true';
+            $html[] = 'var support_attachments = true';
             $html[] = '</script>';
-        	$this->addElement('html', implode("\n", $html));
-        	if ($this->form_type != self :: TYPE_REPLY)
+            $this->addElement('html', implode("\n", $html));
+            if ($this->form_type != self :: TYPE_REPLY)
             {
                 $attached_objects = $object->get_attached_content_objects();
                 $attachments = Utilities :: content_objects_for_element_finder($attached_objects);
@@ -327,7 +320,7 @@ EOT;
             $hidden = true;
 
             $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js'));
-        	$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
+            $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js'));
             $this->addElement('category', Translation :: get('Attachments'), 'content_object_attachments');
             $this->addElement('static', 'uploadify', Translation :: get('UploadDocument'), '<div id="uploadify"></div>');
             $elem = $this->addElement('element_finder', 'attachments', Translation :: get('SelectAttachment'), $url, $locale, $attachments);
@@ -450,7 +443,7 @@ EOT;
 
         $object->create();
 
-        if($object->has_errors())
+        if ($object->has_errors())
         {
             //TODO: display errors
             //DebugUtilities :: show($object->get_errors());
@@ -529,7 +522,7 @@ EOT;
             $result = $object->update();
         }
 
-        if($object->has_errors())
+        if ($object->has_errors())
         {
             //TODO: display errors
             //DebugUtilities :: show($object->get_errors());
@@ -595,8 +588,8 @@ EOT;
     /**
      * Creates a form object to manage a learning object.
      * @param int $form_type The form type; either
-     *                       ContentObjectForm :: TYPE_CREATE or
-     *                       ContentObjectForm :: TYPE_EDIT.
+     * ContentObjectForm :: TYPE_CREATE or
+     * ContentObjectForm :: TYPE_EDIT.
      * @param ContentObject $content_object The object to create or update.
      * @param string $form_name The name to use in the form tag.
      * @param string $method The method to use ('post' or 'get').
@@ -609,7 +602,7 @@ EOT;
         if ($form_variant)
         {
             $class = ContentObject :: type_to_class($type) . ContentObject :: type_to_class($form_variant) . 'Form';
-            require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_'. $form_variant .'_form.class.php';
+            require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '_' . $form_variant . '_form.class.php';
         }
         else
         {

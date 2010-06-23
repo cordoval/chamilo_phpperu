@@ -130,7 +130,7 @@ class MatchQuestionForm extends ContentObjectForm
             $_SESSION['match_answer_type'] = $_SESSION['match_answer_type'] == 'radio' ? 'checkbox' : 'radio';
         }
         $object = $this->get_content_object();
-        if (! $this->isSubmitted() && ! is_null($object))
+        if (! $this->isSubmitted() && $object->get_number_of_options() != 0)
         {
             $_SESSION['match_number_of_options'] = $object->get_number_of_options();
             $_SESSION['match_answer_type'] = $object->get_answer_type();
