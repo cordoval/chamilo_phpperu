@@ -19,7 +19,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
 
     function run()
     {
-        $this->repo_viewer = new RepoViewer($this, WikiPage :: get_type_name(), RepoViewer :: SELECT_SINGLE);
+        $this->repo_viewer = new RepoViewer($this, WikiPage :: get_type_name());
         $this->repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
         
         if (! $this->repo_viewer->is_ready_to_be_published())
@@ -43,10 +43,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
             }
             else
             {
-//                $this->display_header();
-//                $this->display_error_message(Translation :: get('WikiPageTitleError'));
                 $this->repo_viewer->run();
-//                $this->display_footer();
             }
         }
     
