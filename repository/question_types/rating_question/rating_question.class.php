@@ -11,11 +11,6 @@ abstract class RatingQuestion extends ContentObject implements Versionable
     const PROPERTY_LOW = 'low';
     const PROPERTY_HIGH = 'high';
 
-    function get_allowed_types()
-    {
-        return array();
-    }
-
     function get_low()
     {
         return $this->get_additional_property(self :: PROPERTY_LOW);

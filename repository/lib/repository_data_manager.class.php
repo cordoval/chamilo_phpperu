@@ -313,7 +313,7 @@ class RepositoryDataManager
             $nitem->set_ref($item->get_ref());
             $nitem->create();
             $lo = self :: get_instance()->retrieve_content_object($item->get_ref());
-            if ($lo->is_complex_content_object())
+            if ($lo instanceof ComplexContentObjectSupport)
             {
                 $lo->create_all();
                 $nitem->set_ref($lo->get_id());

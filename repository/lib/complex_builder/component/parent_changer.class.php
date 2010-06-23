@@ -16,7 +16,7 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
         $complex_content_object_item_ids = Request :: get(ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $parent_complex_content_object_item = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
 		$root_content_object = $this->get_root_content_object();
-        
+
         $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $parent_complex_content_object_item, ComplexBuilder :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_ids);
 
         $rdm = $this->rdm = RepositoryDataManager :: get_instance();
@@ -75,7 +75,7 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
                         {
                             $failures++ ;
                         }
-                        
+
                     }
 
                     $this->fix_display_order_values($old_parent);
@@ -152,7 +152,7 @@ class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
             $ref_id = $child->get_ref();
             $ref_object = $rdm->retrieve_content_object($ref_id);
 
-            if (! $ref_object->is_complex_content_object())
+            if (! $ref_object instanceof ComplexContentObjectSupport)
             {
                 continue;
             }

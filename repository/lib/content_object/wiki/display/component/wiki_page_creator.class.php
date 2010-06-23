@@ -21,7 +21,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
     {
         $this->repo_viewer = new RepoViewer($this, WikiPage :: get_type_name());
         $this->repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
-        
+
         if (! $this->repo_viewer->is_ready_to_be_published())
         {
             $this->repo_viewer->run();
@@ -29,6 +29,12 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
         else
         {
             $objects = $this->repo_viewer->get_selected_objects();
+
+            if (!is_array($objects))
+            {
+                $objects = array($objects);
+            }
+
             foreach($objects as $object)
             {
             	$complex_content_object_item = ComplexContentObjectItem :: factory(WikiPage :: get_type_name());
@@ -37,12 +43,12 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
                 $complex_content_object_item->set_user_id($this->get_user_id());
                 $complex_content_object_item->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($this->get_root_content_object()->get_id()));
                 $complex_content_object_item->set_is_homepage(0);
-                $complex_content_object_item->create();
+                $result = $complex_content_object_item->create();
             }
-            
+
             $this->redirect(Translation :: get('WikiItemCreated'), '', array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_BROWSE_WIKIS));
         }
-    
+
     }
 }
 ?>

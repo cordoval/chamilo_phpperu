@@ -442,7 +442,7 @@ class ContentObject extends DataClass
     /**
      * Determines whether this learning object can have versions.
      * @return boolean True if the object is versionable, false otherwise.
-     * @deprecated
+     * @deprecated Use instanceof Versionable directly from now on
      */
     function is_versionable()
     {
@@ -853,7 +853,7 @@ class ContentObject extends DataClass
      * Determines whether this learning object supports attachments, i.e.
      * whether other learning objects may be attached to it.
      * @return boolean True if attachments are supported, false otherwise.
-     * @deprecated
+     * @deprecated Use instanceof AttachmentSupport directly from now on
      */
     function supports_attachments()
     {
@@ -863,27 +863,11 @@ class ContentObject extends DataClass
     /**
      * Determines whether this learning object is a complex learning object
      * @return boolean True if the LO is a CLO
+     * @deprecated Use instanceof ComplexContentObjectSupport directly from now on
      */
     function is_complex_content_object()
     {
-        //		$file = dirname(__FILE__) . '/content_object/' . $this->get_type() . '/complex_' . $this->get_type() . '.class.php';
-        //
-        //		if(file_exists($file))
-        //		{
-        //			require_once($file);
-        //			$class = 'Complex' . $this->type_to_class($this->get_type());
-        //			$object = new $class();
-        //			return count($object->get_allowed_types()) > 0;
-        //		}
-        //		return false;
-
-
-        return count($this->get_allowed_types()) > 0;
-    }
-
-    function get_allowed_types()
-    {
-        return array();
+        return $this instanceof ComplexContentObjectSupport;
     }
 
     /**

@@ -56,18 +56,18 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
 
         $toolbar= new Toolbar();
         $toolbar->add_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_assessment_publication_viewer_url($assessment_publication), ToolbarItem :: DISPLAY_ICON ));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_assessment_results_viewer_url($assessment_publication), ToolbarItem :: DISPLAY_ICON));			
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_assessment_results_viewer_url($assessment_publication), ToolbarItem :: DISPLAY_ICON));
         $user = $this->browser->get_user();
 
         if ($user->is_platform_admin() || $user->get_id() == $assessment_publication->get_publisher())
-        {            
+        {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_assessment_publication_url($assessment_publication), ToolbarItem :: DISPLAY_ICON, true));
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_assessment_publication_url($assessment_publication), ToolbarItem :: DISPLAY_ICON));
 
             if ($assessment_publication->get_hidden())
             {
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Show'), Theme :: get_common_image_path() . 'action_visible_na.png', $this->browser->get_change_assessment_publication_visibility_url($assessment_publication), ToolbarItem :: DISPLAY_ICON));
-                
+
             }
             else
             {
@@ -77,7 +77,7 @@ class AssessmentPublicationBrowserTableCellRenderer extends DefaultAssessmentPub
             $toolbar->add_item(new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->browser->get_export_qti_url($assessment_publication), ToolbarItem :: DISPLAY_ICON));
             $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->browser->get_move_assessment_publication_url($assessment_publication), ToolbarItem :: DISPLAY_ICON));
 
-            if ($assessment->is_complex_content_object())
+            if ($assessment instanceof ComplexContentObjectSupport)
             {
                 $toolbar->add_item(new ToolbarItem(Translation :: get('BuildComplex'), Theme :: get_common_image_path() . 'action_build.png', $this->browser->get_build_assessment_url($assessment_publication), ToolbarItem :: DISPLAY_ICON));
             }

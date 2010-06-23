@@ -610,7 +610,7 @@ abstract class ContentObjectPublicationListRenderer
 
             $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
 
-            if ($publication->get_content_object()->is_complex_content_object())
+            if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
             {
                 $toolbar->add_item(new ToolbarItem(Translation :: get('BuildComplex'), Theme :: get_common_image_path() . 'action_bar.png', $this->get_complex_builder_url($publication->get_id()), ToolbarItem :: DISPLAY_ICON));
             }

@@ -68,7 +68,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
                 $title_short = $title;
                 $title_short = Utilities :: truncate_string($title_short, 53, false);
 
-                if ($content_object->is_complex_content_object())
+                if ($content_object instanceof ComplexContentObjectSupport)
                 {
                     $title_short = '<a href="' . $this->browser->get_url(array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $cloi->get_id())) . '">' . $title_short . '</a>';
                 }

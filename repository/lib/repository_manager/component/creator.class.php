@@ -66,7 +66,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
                     $this->redirect(Translation :: get('FileCouldNotBeUploaded'), true, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_CREATE_CONTENT_OBJECTS, 'type' => $type));
                 }
 
-                if (! is_array($object) && ($object->is_complex_content_object() || count($extra_params) == 2 || count($extra_params) == 3))
+                if (! is_array($object) && ($object instanceof ComplexContentObjectSupport || count($extra_params) == 2 || count($extra_params) == 3))
                 {
                     $parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object->get_id());
                     $filter = array('category');

@@ -298,7 +298,7 @@ abstract class ComplexBuilder extends SubManager
 
 	/**
 	 * @return boolean
-	 * @deprecated
+	 * @deprecated Use instanceof ComplexMenuSupport directly from now on
 	 */
 	function show_menu()
 	{

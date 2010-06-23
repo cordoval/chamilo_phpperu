@@ -7,7 +7,7 @@
 /**
  * This class represents an indicator
  */
-class Indicator extends ContentObject implements Versionable
+class Indicator extends ContentObject implements Versionable, ComplexContentObjectSupport
 {
 	function get_allowed_types()
     {
