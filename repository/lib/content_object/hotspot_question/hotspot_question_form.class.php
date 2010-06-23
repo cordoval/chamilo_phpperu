@@ -76,7 +76,7 @@ class HotspotQuestionForm extends ContentObjectForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
-            if (! is_null($object))
+            if ($object->get_number_of_options() != 0)
             {
                 $answers = $object->get_answers();
                 foreach ($answers as $i => $answer)
@@ -194,7 +194,7 @@ class HotspotQuestionForm extends ContentObjectForm
         $html[] = '<br />';
         $html[] = '<div class="clear"></div>';
 
-        if (! is_null($object))
+        if ($object->get_image())
         {
             $image_id = $object->get_image();
             $image_object = RepositoryDataManager :: get_instance()->retrieve_content_object($image_id);
