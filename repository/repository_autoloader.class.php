@@ -23,23 +23,23 @@ class RepositoryAutoloader
 		{
 			return true;
 		}
-		
+
 		if(self :: check_for_special_files($classname))
 		{
 			return true;
 		}
-		
+
 		if(self :: check_for_content_objects($classname))
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	static function check_for_general_files($classname)
 	{
-		$list = array('abstract_content_object', 'accessible_content_object', 'catalog', 'complex_content_object_item_form', 'complex_content_object_item',
+		$list = array('abstract_content_object', 'catalog', 'complex_content_object_item_form', 'complex_content_object_item',
 					  'complex_content_object_menu', 'content_object_category_menu', 'content_object_copier', 'content_object_difference_display',
 					  'content_object_difference', 'content_object_display', 'content_object_form', 'content_object_import_form', 'content_object_include_parser',
 					  'content_object_metadata_catalog', 'content_object_metadata', 'content_object_pub_feedback', 'content_object_publication_attributes',
@@ -111,14 +111,14 @@ class RepositoryAutoloader
 		              'base_external_repository_connector' => 'export/external_export/base_external_repository_connector.class.php',
 					  'rest_external_repository_connector' => 'export/external_export/rest_external_repository_connector.class.php',
 				      'fedora_external_repository_connector' => 'export/external_export/fedora/fedora_external_repository_connector.class.php',
-				      
+
 				      'repository_manager_external_repository_component' => 'repository_manager/component/external_repository_component.class.php',
             		  'repository_manager_external_repository_browser_component' => 'repository_manager/component/external_repository_browser.class.php',
             		  'repository_manager_external_repository_export_component' => 'repository_manager/component/external_repository_export.class.php',
             		  'repository_manager_external_repository_import_component' => 'repository_manager/component/external_repository_import.class.php',
 					  'repository_manager_external_repository_list_objects_component' => 'repository_manager/component/external_repository_list_objects.class.php',
 					  'repository_manager_metadata_component' => 'repository_manager/component/metadata_component.class.php',
-		
+
 					  'repository_manager' => 'repository_manager/repository_manager.class.php',
 					  'repository_manager_component' => 'repository_manager/repository_manager_component.class.php',
 					  'repository_search_form' => 'repository_manager/repository_search_form.class.php',
@@ -135,20 +135,20 @@ class RepositoryAutoloader
 
 		return false;
 	}
-	
+
 	static $content_objects;
-	
+
 	static function check_for_content_objects($classname)
 	{
 		$dir = dirname(__FILE__) . '/lib/content_object/';
-		
+
 		if(!self :: $content_objects)
 		{
 			self :: $content_objects = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
 		}
-		
+
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
-		
+
 		if(in_array($lower_case, self :: $content_objects))
 		{
 			require_once $dir . $lower_case . '/' . $lower_case . '.class.php';

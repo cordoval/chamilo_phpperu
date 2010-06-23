@@ -6,23 +6,23 @@
 /**
  * This class represents an open question
  */
-class Hotpotatoes extends ContentObject
+class Hotpotatoes extends ContentObject implements Versionable
 {
     const PROPERTY_PATH = 'path';
     const PROPERTY_MAXIMUM_ATTEMPTS = 'max_attempts';
 
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-    
+
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_PATH, self :: PROPERTY_MAXIMUM_ATTEMPTS);
     }
-    
+
     const TYPE_HOTPOTATOES = 3;
 
     function get_assessment_type()
@@ -93,14 +93,14 @@ class Hotpotatoes extends ContentObject
         $content = $this->read_file_content();
         $js_content = $this->replace_javascript($content, $postback_url, $goback_url, $tracker_id);
         $path = $this->write_file_content($js_content);
-        
+
         return $path;
     }
 
     private function read_file_content()
     {
         $full_file_path = $this->get_full_path();
-        
+
         if (is_file($full_file_path))
         {
             if (! ($fp = fopen(urldecode($full_file_path), "r")))
@@ -118,13 +118,13 @@ class Hotpotatoes extends ContentObject
         $full_file_path = $this->get_full_path() . '.t.htm';
         $full_web_path = $this->get_full_url() . '.t.htm';
         Filesystem :: remove($full_file_path);
-        
+
         if (($fp = fopen(urldecode($full_file_path), "w")))
         {
             fwrite($fp, $content);
             fclose($fp);
         }
-        
+
         return $full_web_path;
     }
 
@@ -133,7 +133,7 @@ class Hotpotatoes extends ContentObject
         $mit = "function Finish(){";
         $js_content = "var SaveScoreVariable = 0; // This variable included by Chamilo System\n" . "function mySaveScore() // This function included by Chamilo System\n" . "{\n" . "   if (SaveScoreVariable==0)\n" . "		{\n" . "			SaveScoreVariable = 1;\n" . "			var result=jQuery.ajax({type: 'POST', url:'" . $postback_url . "', data: {id: " . $tracker_id . ", score: Score}, async: false}).responseText;\n";
         //"			alert(result);";
-        
+
 
         if ($goback_url)
         {
@@ -141,19 +141,19 @@ class Hotpotatoes extends ContentObject
             "				document.parent.location.href=\"" . $goback_url . "\"\n" . "			}\n" . "			else\n" . "			{\n" . //	"				window.alert(Score);\n".
             "				window.parent.location.href=\"" . $goback_url . "\"\n" . "			}\n";
         }
-        
-        $js_content .= "		}\n" . " }\n" . 
+
+        $js_content .= "		}\n" . " }\n" .
 
         "// Must be included \n" . "function Finish(){\n" . " mySaveScore();";
         $newcontent = str_replace($mit, $js_content, $content);
         $prehref = "<!-- BeginTopNavButtons -->";
         $posthref = "<!-- BeginTopNavButtons --><!-- edited by Chamilo -->";
         $newcontent = str_replace($prehref, $posthref, $newcontent);
-        
+
         $jquery_content = "<head>\n<script src='" . Path :: get(WEB_PATH) . "plugin/jquery/jquery.min.js' type='text/javascript'></script>";
         $add_to = '<head>';
         $newcontent = str_replace($add_to, $jquery_content, $newcontent);
-        
+
         return $newcontent;
     }
 }

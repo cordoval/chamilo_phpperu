@@ -17,7 +17,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     public function render()
     {
         // Range from start (0) to 10 years in the future...
-        
+
         $events = $this->get_events(0, strtotime('+10 Years', time()));
         $dm = RepositoryDataManager :: get_instance();
         $html = array();
@@ -80,21 +80,21 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
     function get_publication_actions($event)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get('View'),
         		Theme :: get_common_image_path() . 'action_browser.png',
         		$this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $event->get_id())),
         		ToolbarItem :: DISPLAY_ICON
         ));
-        
+
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get('Edit'),
         		Theme :: get_common_image_path() . 'action_edit.png',
         		$this->get_parent()->get_publication_editing_url($event),
         		ToolbarItem :: DISPLAY_ICON
         ));
-        
+
         $toolbar->add_item(new ToolbarItem(
         		Translation :: get('Delete'),
         		Theme :: get_common_image_path() . 'action_delete.png',
@@ -102,21 +102,21 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
         		ToolbarItem :: DISPLAY_ICON,
         		true
         ));
-        
+
         return $toolbar->as_html();
     }
 
  	function get_external_publication_actions($event)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
+
     	$toolbar->add_item(new ToolbarItem(
         		Translation :: get('View'),
         		Theme :: get_common_image_path() . 'action_browser.png',
         		html_entity_decode($event->get_url()),
         		ToolbarItem :: DISPLAY_ICON
         ));
-        
+
         return $toolbar->as_html();
     }
 
@@ -136,7 +136,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
             $object = $publication->get_publication_object();
         }
 
-        if ($object->supports_attachments())
+        if ($object instanceof AttachmentSupport)
         {
             $attachments = $object->get_attached_content_objects();
             if (count($attachments) > 0)

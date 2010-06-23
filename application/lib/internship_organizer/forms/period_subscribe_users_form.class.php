@@ -43,7 +43,7 @@ class InternshipOrganizerPeriodSubscribeUsersForm extends FormValidator
         
         $this->add_receivers(self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('AddInternshipOrganizerUsers'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         

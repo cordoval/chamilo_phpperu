@@ -173,7 +173,7 @@ abstract class ContentObjectForm extends FormValidator
 
         $this->addElement('category', Translation :: get('GeneralProperties'));
         $this->build_basic_form($htmleditor_options);
-        if ($object->is_versionable()) // && $this->allow_new_version)
+        if ($object instanceof Versionable) // && $this->allow_new_version)
         {
             if ($object->get_version_count() < $quotamanager->get_max_versions($object->get_type()))
             {
@@ -300,7 +300,7 @@ EOT;
         //$elem = $this->addElement('advmultiselect', 'ihsTest', 'Hierarchical select:', array("test"), array('style' => 'width: 20em;'), '<br />');
 
 
-        if ($this->supports_attachments())
+        if ($object instanceof AttachmentSupport)
         {
 
             $html[] = '<script type="text/javascript">';
@@ -466,7 +466,7 @@ EOT;
         ContentObjectIncludeParser :: parse_includes($this);
 
         // Process attachments
-        if ($object->supports_attachments())
+        if ($object instanceof AttachmentSupport)
         {
             foreach ($values['attachments'] as $aid)
             {
@@ -496,7 +496,7 @@ EOT;
     {
         $object = $this->content_object;
         $values = $this->exportValues();
-        
+
         $object->set_title($values[ContentObject :: PROPERTY_TITLE]);
 
         $desc = $values[ContentObject :: PROPERTY_DESCRIPTION] ? $values[ContentObject :: PROPERTY_DESCRIPTION] : '';
@@ -548,7 +548,7 @@ EOT;
 
 
         // Process attachments
-        if ($object->supports_attachments())
+        if ($object instanceof AttachmentSupport)
         {
             /*
 			 * TODO: Make this faster by providing a function that matches the
@@ -559,7 +559,7 @@ EOT;
             {
                 $object->detach_content_object($o->get_id());
             }
-            
+
             foreach ($values['attachments'] as $aid)
             {
                 $aid = str_replace('lo_', '', $aid);
@@ -573,17 +573,6 @@ EOT;
     {
         $values = $this->exportValues();
         return (isset($values['version']) && $values['version'] == 1);
-    }
-
-    /**
-     * Checks whether the learning object that is being created or edited may
-     * have learning objects attached to it.
-     * @return boolean True if attachments are supported, false otherwise.
-     */
-    function supports_attachments()
-    {
-        $lo = $this->content_object;
-        return $lo->supports_attachments();
     }
 
     /**

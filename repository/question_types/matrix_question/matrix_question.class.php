@@ -5,15 +5,15 @@
  */
 require_once dirname(__FILE__) . '/matrix_question_option.class.php';
 
-abstract class MatrixQuestion extends ContentObject
+abstract class MatrixQuestion extends ContentObject implements Versionable
 {
 	const PROPERTY_OPTIONS = 'options';
     const PROPERTY_MATCHES = 'matches';
     const PROPERTY_MATRIX_TYPE = 'matrix_type';
-    
+
     const MATRIX_TYPE_RADIO = 1;
     const MATRIX_TYPE_CHECKBOX = 2;
-    
+
     public function add_option($option)
     {
         $options = $this->get_options();

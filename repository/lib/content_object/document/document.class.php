@@ -6,7 +6,7 @@
 /**
  * A Document.
  */
-class Document extends ContentObject
+class Document extends ContentObject implements Versionable
 {
     const PROPERTY_PATH = 'path';
     const PROPERTY_FILENAME = 'filename';
@@ -20,11 +20,11 @@ class Document extends ContentObject
 
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-    
+
     /**
     * In memory file content. Will be saved on disk if it doesn't exist yet. Mainly used to create a new Document.
     *
@@ -545,7 +545,7 @@ class Document extends ContentObject
     function send_as_download()
     {
         $filename = str_replace(' ', '_', $this->get_filename());
-        
+
     	header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
         header('Cache-Control: public');
         header('Pragma: no-cache');
@@ -713,7 +713,7 @@ class Document extends ContentObject
                     		}
                     	}
                     }
-                	
+
                 }
                 elseif(StringUtilities :: has_value($this->in_memory_file) && Filesystem :: write_to_file($path_to_save, $this->in_memory_file))
                 {
@@ -721,7 +721,7 @@ class Document extends ContentObject
                 }
 
                 if($save_success)
-                { 
+                {
                     Filesystem :: chmod($path_to_save, PlatformSetting :: get('permissions_new_files'));
 
                     $file_bytes = Filesystem :: get_disk_space($path_to_save);

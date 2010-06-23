@@ -7,16 +7,16 @@
 /**
  * This class represents an indicator
  */
-class Indicator extends ContentObject
+class Indicator extends ContentObject implements Versionable
 {
 	function get_allowed_types()
     {
         return array(Criteria :: get_type_name());
     }
-    
+
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}

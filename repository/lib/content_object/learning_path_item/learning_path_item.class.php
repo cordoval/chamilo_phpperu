@@ -3,19 +3,19 @@
  * $Id: learning_path_item.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.content_object.learning_path_item
  */
-class LearningPathItem extends ContentObject
+class LearningPathItem extends ContentObject implements Versionable
 {
     const PROPERTY_REFERENCE = 'reference_id';
     const PROPERTY_MAX_ATTEMPTS = 'max_attempts';
     const PROPERTY_MASTERY_SCORE = 'mastery_score';
-	
-	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
-	{
-		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
-    
+    const CLASS_NAME = __CLASS__;
+
+    static function get_type_name()
+    {
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+
     static function get_additional_property_names()
     {
         return array(self :: PROPERTY_REFERENCE, self :: PROPERTY_MAX_ATTEMPTS, self :: PROPERTY_MASTERY_SCORE);

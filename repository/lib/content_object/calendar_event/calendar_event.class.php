@@ -8,15 +8,15 @@
 /**
  * This class represents a calendar event
  */
-class CalendarEvent extends ContentObject
+class CalendarEvent extends ContentObject implements Versionable, AttachmentSupport
 {
 	const CLASS_NAME = __CLASS__;
 
-	static function get_type_name() 
+	static function get_type_name()
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
     /**
      * The start date of the calendar event
      */
@@ -278,15 +278,6 @@ class CalendarEvent extends ContentObject
         $options[self :: REPEAT_TYPE_YEAR] = Translation :: get('Yearly');
 
         return $options;
-    }
-
-    /**
-     * Attachments are supported by calendar events
-     * @return boolean Always true
-     */
-    function supports_attachments()
-    {
-        return true;
     }
 
     static function get_additional_property_names()

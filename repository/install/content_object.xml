@@ -2,24 +2,17 @@
 <object name="content_object">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
-		<property name="owner_id" type="integer" unsigned="1"
-			notnull="1" />
-		<property name="object_number" type="integer" unsigned="1"
-			notnull="1" />
+		<property name="owner_id" type="integer" unsigned="1" notnull="1" />
+		<property name="object_number" type="integer" unsigned="1" notnull="1" />
 		<property name="comment" type="text" length="60" fixed="true" />
-		<property name="type" type="text" length="100" fixed="true"
-			notnull="1" />
+		<property name="type" type="text" length="100" fixed="true" notnull="1" />
 		<property name="title" type="text" notnull="1" />
 		<property name="description" type="text" />
 		<property name="content_hash" type="text" length="32" fixed="true" />
-		<property name="parent_id" type="integer" unsigned="1"
-			notnull="1" default="0" />
-		<property name="display_order" type="integer" unsigned="1"
-			notnull="1" default="0" />
+		<property name="parent_id" type="integer" unsigned="1" notnull="1" default="0" />
 		<property name="created" type="integer" unsigned="1" notnull="1" />
 		<property name="modified" type="integer" unsigned="1" notnull="1" />
-		<property name="state" type="integer" length="1" unsigned="1"
-			notnull="1" default="0" />
+		<property name="state" type="integer" length="1" unsigned="1" notnull="1" default="0" />
 	</properties>
 	<index name="owner_id">
 		<indexproperty name="owner_id" />
@@ -33,9 +26,6 @@
 	<index name="parent_id">
 		<indexproperty name="parent_id" />
 	</index>
-	<index name="display_order">
-		<indexproperty name="display_order" />
-	</index>
 	<index name="state">
 		<indexproperty name="state" />
 	</index>
@@ -43,8 +33,5 @@
 		<indexproperty name="owner_id" />
 		<indexproperty name="type" />
 		<indexproperty name="title" length="50" />
-	</index>
-	<index name="display_order">
-		<indexproperty name="display_order" />
 	</index>
 </object>

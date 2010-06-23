@@ -4,7 +4,7 @@
  * package repository.lib.content_object.dailymotion
  * @author Shoira Mukhsinova
  */
-class Dailymotion extends ContentObject
+class Dailymotion extends ContentObject implements Versionable
 {
     const CLASS_NAME = __CLASS__;
 
