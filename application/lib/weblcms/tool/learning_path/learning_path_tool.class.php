@@ -78,6 +78,12 @@ class LearningPathTool extends Tool implements Categorizable
             case self :: ACTION_ATTEMPT:
             	$component = $this->create_component('Attempt');
                 break;
+            case self :: ACTION_SHOW_PUBLICATION:
+            	$component = $this->create_component('ShowPublication');
+                break;
+            case self :: ACTION_HIDE_PUBLICATION:
+            	$component = $this->create_component('HidePublication');
+                break;
             default :
                 $component = $this->create_component('Browser');
                 break;

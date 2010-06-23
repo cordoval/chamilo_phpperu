@@ -53,6 +53,12 @@ class NoteTool extends Tool
             case self :: ACTION_DELETE :
                 $component = $this->create_component('Deleter');
                 break;
+            case self :: ACTION_SHOW_PUBLICATION:
+            	$component = $this->create_component('ShowPublication');
+                break;
+            case self :: ACTION_HIDE_PUBLICATION:
+            	$component = $this->create_component('HidePublication');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }

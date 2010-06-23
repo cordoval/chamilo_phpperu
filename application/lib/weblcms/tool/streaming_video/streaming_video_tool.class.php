@@ -50,6 +50,12 @@ class StreamingVideoTool extends Tool
             case self :: ACTION_VIEW_REPORTING_TEMPLATE :
                 $component = $this->create_component('ReportingViewer');
                 break;
+            case self :: ACTION_SHOW_PUBLICATION:
+            	$component = $this->create_component('ShowPublication');
+                break;
+            case self :: ACTION_HIDE_PUBLICATION:
+            	$component = $this->create_component('HidePublication');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }
