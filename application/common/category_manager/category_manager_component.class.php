@@ -85,19 +85,6 @@ abstract class CategoryManagerComponent
         $this->parent->set_parameter($name, $value);
     }
 
-    function set_default_content_object($type, $content_object)
-    {
-        $this->parent->set_default_content_object($type, $content_object);
-    }
-
-    /**
-     * @see ObjectPublisher::get_default_object()
-     */
-    function get_default_content_object($type)
-    {
-        return $this->parent->get_default_content_object($type);
-    }
-
     function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
     {
         return $this->parent->redirect($action, $message, $error_message, $extra_params);
@@ -192,12 +179,12 @@ abstract class CategoryManagerComponent
     {
         return $this->get_parent()->get_breadcrumb_trail();
     }
-    
+
 	function set_subcategories_allowed($subcategories_allowed)
     {
     	return $this->get_parent()->set_subcategories_allowed($subcategories_allowed);
     }
-    
+
     function get_subcategories_allowed()
     {
     	return $this->get_parent()->get_subcategories_allowed();

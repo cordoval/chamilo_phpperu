@@ -8,7 +8,7 @@ class ForumBuilder extends ComplexBuilder
 {
     const ACTION_STICKY_COMPLEX_CONTENT_OBJECT_ITEM = 'sticky_complex_content_object_item';
     const ACTION_IMPORTANT_COMPLEX_CONTENT_OBJECT_ITEM = 'important_complex_content_object_item';
-	
+
     function ForumBuilder($parent)
     {
     	$action = Request :: post('action');
@@ -16,11 +16,11 @@ class ForumBuilder extends ComplexBuilder
     	parent :: __construct($parent);
     	$this->parse_input_from_table($action);
     }
-    
+
     function run()
     {
         $action = $this->get_action();
-        
+
         switch ($action)
         {
             case ComplexBuilder :: ACTION_BROWSE :
@@ -29,16 +29,16 @@ class ForumBuilder extends ComplexBuilder
             case ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM :
                 $component = $this->create_component('Creator');
                 break;
-            case ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM : 
+            case ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
             	$component = $this->create_component('Deleter');
                 break;
-            case ComplexBuilder :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM : 
+            case ComplexBuilder :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM :
             	$component = $this->create_component('Mover');
                 break;
-            case ComplexBuilder :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM : 
+            case ComplexBuilder :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
             	$component = $this->create_component('Updater');
                 break;
-            case ComplexBuilder :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM : 
+            case ComplexBuilder :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM :
             	$component = $this->create_component('Viewer');
                 break;
             case self :: ACTION_STICKY_COMPLEX_CONTENT_OBJECT_ITEM :
@@ -51,10 +51,10 @@ class ForumBuilder extends ComplexBuilder
                 $component = $this->create_component('Browser');
                 break;
         }
-        
+
         $component->run();
     }
-    
+
 	protected function parse_input_from_table($action)
     {
         if ($action)
@@ -68,7 +68,7 @@ class ForumBuilder extends ComplexBuilder
 		        	$selected_ids = $_POST['topic_table' . ObjectTable :: CHECKBOX_NAME_SUFFIX];
                     break;
             }
-            
+
             if (empty($selected_ids))
             {
                 $selected_ids = array();
@@ -77,7 +77,7 @@ class ForumBuilder extends ComplexBuilder
             {
                 $selected_ids = array($selected_ids);
             }
-            
+
             $this->set_action(self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM);
             Request :: set_get(self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $selected_ids);
         }
@@ -92,15 +92,10 @@ class ForumBuilder extends ComplexBuilder
     {
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_IMPORTANT_COMPLEX_CONTENT_OBJECT_ITEM, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
     }
- 
+
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
-	}
- 
-	function show_menu()
-	{
-		return false;
 	}
 }
 

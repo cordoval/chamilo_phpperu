@@ -21,7 +21,7 @@ abstract class CategoryManager
     const PARAM_DIRECTION = 'direction';
     const PARAM_REMOVE_SELECTED_CATEGORIES = 'remove_selected_categories';
     const PARAM_MOVE_SELECTED_CATEGORIES = 'move_selected_categories';
-    
+
     const ACTION_BROWSE_CATEGORIES = 'browse_categories';
     const ACTION_CREATE_CATEGORY = 'create_category';
     const ACTION_UPDATE_CATEGORY = 'update_category';
@@ -31,15 +31,15 @@ abstract class CategoryManager
     const ACTION_COPY_GENERAL_CATEGORIES = 'copy_general_categories';
     const ACTION_AJAX_MOVE_CATEGORIES = 'ajax_move_categories';
     const ACTION_AJAX_DELETE_CATEGORIES = 'ajax_delete_categories';
-    
+
     private $parent;
-    
+
     private $publisher_actions;
-    
+
     private $parameters;
-    
+
     private $trail;
-    
+
     private $subcategories_allowed;
 
     /**
@@ -59,7 +59,7 @@ abstract class CategoryManager
 
     function run()
     {
-        
+
         $action = $this->get_action();
         $component = null;
         switch ($action)
@@ -95,7 +95,7 @@ abstract class CategoryManager
                 $component = CategoryManagerComponent :: factory('Browser', $this);
         }
         $component->run();
-    
+
     }
 
     /**
@@ -152,28 +152,6 @@ abstract class CategoryManager
     function set_parameter($name, $value)
     {
         $this->parent->set_parameter($name, $value);
-    }
-
-    /**
-     * Sets a default learning object. When the creator component of this
-     * publisher is displayed, the properties of the given learning object will
-     * be used as the default form values.
-     * @param string $type The learning object type.
-     * @param ContentObject $content_object The learning object to use as the
-     *                                        default for the given type.
-     */
-    function set_default_content_object($type, $content_object)
-    {
-        $this->default_content_objects[$type] = $content_object;
-    }
-
-    function get_default_content_object($type)
-    {
-        if (isset($this->default_content_objects[$type]))
-        {
-            return $this->default_content_objects[$type];
-        }
-        return new AbstractContentObject($type, $this->get_user_id());
     }
 
     function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
@@ -256,7 +234,7 @@ abstract class CategoryManager
         if (isset($_POST['action']))
         {
             $selected_ids = $_POST['category_table' . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            
+
             if (empty($selected_ids))
             {
                 $selected_ids = array();
@@ -290,12 +268,12 @@ abstract class CategoryManager
     {
     	$this->subcategories_allowed = $subcategories_allowed;
     }
-    
+
     function get_subcategories_allowed()
     {
     	return $this->subcategories_allowed;
     }
-    
+
     abstract function count_categories($condition);
 
     abstract function retrieve_categories($condition, $offset, $count, $order_property);

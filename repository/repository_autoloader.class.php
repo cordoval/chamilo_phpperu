@@ -39,7 +39,7 @@ class RepositoryAutoloader
 
 	static function check_for_general_files($classname)
 	{
-		$list = array('abstract_content_object', 'catalog', 'complex_content_object_item_form', 'complex_content_object_item',
+		$list = array('catalog', 'complex_content_object_item_form', 'complex_content_object_item',
 					  'complex_content_object_menu', 'content_object_category_menu', 'content_object_copier', 'content_object_difference_display',
 					  'content_object_difference', 'content_object_display', 'content_object_form', 'content_object_import_form', 'content_object_include_parser',
 					  'content_object_metadata_catalog', 'content_object_metadata', 'content_object_pub_feedback', 'content_object_publication_attributes',

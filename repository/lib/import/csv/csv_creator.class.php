@@ -40,7 +40,7 @@ class CsvCreator
         $errorarray = array();
         $objectarray = array();
         $errorarray[0] = '';
-        
+
         //elke regel in het csvbestand aflopen
         for($i = 0; $i < count($csvarray); $i ++)
         {
@@ -54,8 +54,11 @@ class CsvCreator
                 $user = Session :: get_user_id();
                 //$categorystring= $dataManager->retrieve_root_category($user);
                 $category = $this->parent_split($categorystring);
-                //create the abstract learning object			
-                $object = new AbstractContentObject($type, $user, $category);
+                //create the content object
+                $object = ContentObject :: factory($type);
+                $object->set_owner_id($this->get_user_id());
+                $object->set_parent_id($category);
+
                 $message = '';
                 //Create a form for the Learning object
                 $lo_form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_CREATE, $object, 'create');
@@ -69,9 +72,9 @@ class CsvCreator
                     }
                     array_push($valuearray, $csvarray[$i][$j]);
                 }
-                
+
                 $lo_form->set_csv_values($valuearray);
-                
+
                 if ($lo_form->validate_csv($valuearray))
                 {
                     array_push($objectarray, $lo_form);
@@ -81,7 +84,7 @@ class CsvCreator
                     $errorarray[0] = 'faultyarrayreturn';
                     array_push($errorarray, ($i + 1));
                 }
-            
+
             }
             //Type not found in our list
             else
@@ -89,7 +92,7 @@ class CsvCreator
                 $errorarray[0] = 'faultyarrayreturn';
                 array_push($errorarray, ($i + 1));
             }
-        
+
         }
         //return the errorarray if its filled
         if ($errorarray[0] == 'faultyarrayreturn')
@@ -100,7 +103,7 @@ class CsvCreator
         {
             return $objectarray;
         }
-    
+
     }
 
 }

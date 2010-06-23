@@ -42,7 +42,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
         echo $this->get_creation_links($content_object);
         echo '<div class="clear">&nbsp;</div><br />';
 
-        if ($this->get_parent()->show_menu())
+        if ($this->get_parent() instanceof ComplexMenuSupport)
         {
             echo '<div style="width: 18%; overflow: auto; float: left;">';
             echo $this->get_complex_content_object_menu();

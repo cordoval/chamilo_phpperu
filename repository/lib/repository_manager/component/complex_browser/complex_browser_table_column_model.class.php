@@ -42,18 +42,18 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
         $columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)));
         $columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_DESCRIPTION)));
         //$columns[] = new ObjectTableColumn(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER);
-        
 
-        if ($browser->show_menu())
+
+        if ($browser instanceof ComplexMenuSupport)
         {
             $columns[] = new StaticTableColumn(Translation :: get('Subitems'));
         }
-        
+
         foreach ($additional_columns as $additional_column)
         {
             $columns[] = $additional_column;
         }
-        
+
         //$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE);
         $columns[] = self :: get_modification_column();
         return $columns;

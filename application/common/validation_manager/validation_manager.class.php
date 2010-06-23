@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/validation_form.class.php';
 
 class ValidationManager
 {
-    
+
     const PARAM_ACTION = 'validation_action';
     const PARAM_VALIDATION_ID = 'validation_id';
     //const PARAM_REMOVE_VALIDATION = 'remove_validation';
@@ -23,11 +23,11 @@ class ValidationManager
     const ACTION_CREATE_VALIDATION = 'create_validation';
     //const ACTION_UPDATE_VALIDATION = 'update_validation';
     const ACTION_DELETE_VALIDATION = 'delete_validation';
-    
+
     private $parent;
-    
+
     private $parameters;
-    
+
     private $application;
 
     function ValidationManager($parent, $application)
@@ -40,7 +40,7 @@ class ValidationManager
 
     function run()
     {
-        
+
         $action = $this->get_action();
         $component = null;
         switch ($action)
@@ -49,7 +49,7 @@ class ValidationManager
                 $component = ValidationManagerComponent :: factory('Browser', $this);
                 break;
             case self :: ACTION_CREATE_VALIDATION :
-                
+
                 $component = ValidationManagerComponent :: factory('Creator', $this);
                 break;
             /*case self :: ACTION_UPDATE_VALIDATION :
@@ -62,7 +62,7 @@ class ValidationManager
                 $component = ValidationManagerComponent :: factory('Browser', $this);
         }
         $component->run();
-    
+
     }
 
     /**
@@ -132,20 +132,11 @@ class ValidationManager
      * be used as the default form values.
      * @param string $type The learning object type.
      * @param ContentObject $content_object The learning object to use as the
-     *                                        default for the given type.
+     * default for the given type.
      */
     function set_default_content_object($type, $content_object)
     {
         $this->default_content_objects[$type] = $content_object;
-    }
-
-    function get_default_content_object($type)
-    {
-        if (isset($this->default_content_objects[$type]))
-        {
-            return $this->default_content_objects[$type];
-        }
-        return new AbstractContentObject($type, $this->get_user_id());
     }
 
     function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
@@ -174,7 +165,7 @@ class ValidationManager
             return $adm->retrieve_validations($pid,$cid,$application);
 
         }*/
-    
+
     function retrieve_validation($id)
     {
         $adm = AdminDataManager :: get_instance();
@@ -183,7 +174,7 @@ class ValidationManager
 
     function get_validate_button($pid, $cid, $application, $user_id, $action)
     {
-        
+
         $adm = AdminDataManager :: get_instance();
         $conditions = array();
         $conditions[] = new EqualityCondition(Validation :: PROPERTY_PID, $pid);
@@ -202,7 +193,7 @@ class ValidationManager
     {
         $adm = AdminDataManager :: get_instance();
         return $adm->retrieve_validations($condition, $order_by, $offset, $max_objects);
-    
+
     }
 
     function count_validations($condition = null)
@@ -213,7 +204,9 @@ class ValidationManager
 
     function get_publication_deleting_url($validation)
     {
-        return $this->get_url(array(ValidationManager :: PARAM_ACTION => ValidationManager :: ACTION_DELETE_VALIDATION, 'pid' => $validation->get_pid(), 'cid' => $validation->get_cid(), 'user_id' => Request :: get('user_id'), 'action' => 'validation', 'deleteitem' => $validation->get_id()));
+        return $this->get_url(array(
+                ValidationManager :: PARAM_ACTION => ValidationManager :: ACTION_DELETE_VALIDATION, 'pid' => $validation->get_pid(), 'cid' => $validation->get_cid(), 'user_id' => Request :: get('user_id'), 'action' => 'validation',
+                'deleteitem' => $validation->get_id()));
     }
 
 }

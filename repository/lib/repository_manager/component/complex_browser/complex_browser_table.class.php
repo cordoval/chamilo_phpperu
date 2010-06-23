@@ -20,32 +20,32 @@ class ComplexBrowserTable extends ObjectTable
     function ComplexBrowserTable($browser, $parameters, $condition, $show_subitems_column = true, $model = null, $renderer = null, $name = null)
     {
         $name = $name ? $name : (self :: DEFAULT_NAME);
-        
-    	if (! $model)
+
+        if (! $model)
             $model = new ComplexBrowserTableColumnModel($browser);
         if (! $renderer)
             $renderer = new ComplexBrowserTableCellRenderer($browser, $condition);
-        
+
         $data_provider = new ComplexBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, $name, $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-        
+
         $action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM;
-		if($name != self :: DEFAULT_NAME)
-			$action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
-				
+        if ($name != self :: DEFAULT_NAME)
+            $action = ComplexBuilder :: PARAM_DELETE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
+
         $actions[] = new ObjectTableFormAction($action, Translation :: get('RemoveSelected'));
-       
-        if($browser->show_menu())
+
+        if ($browser instanceof ComplexMenuSupport)
         {
-	        $action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM;
-			if($name != self :: DEFAULT_NAME)
-				$action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
-	        
-	        $actions[] = new ObjectTableFormAction($action, Translation :: get('MoveSelected'), false);
+            $action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM;
+            if ($name != self :: DEFAULT_NAME)
+                $action = ComplexBuilder :: PARAM_MOVE_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM . '_' . $name;
+
+            $actions[] = new ObjectTableFormAction($action, Translation :: get('MoveSelected'), false);
         }
-         
+
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     }
