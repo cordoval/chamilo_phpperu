@@ -153,7 +153,9 @@ class CommonAutoloader
 	{
 		$list = array('categorizable' => 'categorizable.class.php',
 					  'versionable' => 'versionable.class.php',
-					  'attachment_support' => 'attachment_support.class.php'
+					  'attachment_support' => 'attachment_support.class.php',
+					  'forced_version_support' => 'forced_version_support.class.php',
+					  'complex_menu_support' => 'complex_menu_support.class.php'
 		);
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);

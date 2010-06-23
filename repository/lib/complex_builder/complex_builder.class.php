@@ -296,9 +296,13 @@ abstract class ComplexBuilder extends SubManager
 		return Path :: get_repository_path() . 'lib/complex_builder/component/';
 	}
 
+	/**
+	 * @return boolean
+	 * @deprecated
+	 */
 	function show_menu()
 	{
-		return true;
+		return $this instanceof ComplexMenuSupport;
 	}
 
 	function redirect_away_from_complex_builder($message, $error_message)
