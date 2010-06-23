@@ -23,13 +23,13 @@ class ComplexDisplayDeleterComponent extends ComplexDisplayComponent
                 $cloi_ids = $_POST['selected_cloi'];
             }*/
         	
-        	$complex_content_object_item_ids = $this->get_selected_complex_content_object_item_id();
-            
-            if (! is_array($complex_content_object_item_ids))
+        	$complex_content_object_item_ids = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+
+        	if (! is_array($complex_content_object_item_ids))
             {
                 $complex_content_object_item_ids = array($complex_content_object_item_ids);
             }
-            
+
             foreach ($complex_content_object_item_ids as $complex_content_object_item_id)
             {
                 $complex_content_object_item = new ComplexContentObjectItem();
