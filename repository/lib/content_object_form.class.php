@@ -99,7 +99,16 @@ abstract class ContentObjectForm extends FormValidator
      */
     function get_content_object()
     {
-        return $this->content_object;
+        $content_object_id = $this->content_object->get_id();
+
+        if (!$content_object_id)
+        {
+            return null;
+        }
+        else
+        {
+            return $this->content_object;
+        }
     }
 
     protected function get_content_object_type()

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Matrix Question</name>
-		<code>matrix_question</code>
+		<name>Assessment Matrix Question</name>
+		<code>assessment_matrix_question</code>
 		<section>content_object</section>
 		<category>assessment</category>
 		<author></author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/m/matrix_question/matrix_question-1.0.0.zip</filename>
+		<filename>pool/main/objects/a/assessment_matrix_question/assessment_matrix_question-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>

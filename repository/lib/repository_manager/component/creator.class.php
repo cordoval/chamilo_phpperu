@@ -10,8 +10,11 @@
  * can be selected. Afterwards, the form to create the actual learning object
  * will be displayed.
  */
+require_once Path :: get_admin_path() . 'lib/package_installer/source/package_info/package_info.class.php';
+
 class RepositoryManagerCreatorComponent extends RepositoryManager
 {
+    const TAB_MOST_USED = 'most_used';
 
     /**
      * Runs this component and displays its output.
@@ -29,7 +32,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
         foreach ($this->get_content_object_types(true) as $type)
         {
             $setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
-            if (($setting || $this->get_user()->is_platform_admin()) && !in_array($type, $this->forbidden_types))
+            if (($setting || $this->get_user()->is_platform_admin()) && ! in_array($type, $this->forbidden_types))
             {
                 $type_options[$type] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
             }
@@ -150,36 +153,39 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
 
     function get_content_object_type_counts($use_general_statistics = false)
     {
-        $categories = array();
-        $categories['assessment'] = array('assessment', 'assessment_hotspot_question', 'assessment_match_numeric_question', 'assessment_match_question', 'assessment_match_text_question', 'assessment_matching_question', 'assessment_matrix_question', 'assessment_multiple_choice_question', 'assessment_open_question', 'assessment_rating_question', 'assessment_select_question', 'fill_in_the_blanks', 'hot_potatoes', 'ordering_question');
-        $categories['agenda'] = array('calendar_event', 'external_calendar', 'task');
-        $categories['news'] = array('announcement', 'news_article', 'system_announcement');
-        $categories['media'] = array('document', 'streaming_video_clip', 'youtube');
-        $categories['collaboration'] = array('blog_post', 'forum', 'forum_post', 'forum_topic', 'glossary', 'glossary_item', 'learning_path', 'portfolio', 'profile', 'research_event', 'research_publication', 'template', 'wiki', 'wiki_page');
-        $categories['survey'] = array('survey', 'survey_description', 'survey_matching_question', 'survey_matrix_question', 'survey_multiple_choice_question', 'survey_open_question', 'survey_page', 'survey_rating_question', 'survey_select_question');
-        $categories['peer_assessment'] = array('competence', 'criteria', 'indicator', 'peer_assessment');
-        $categories['general'] = array('comic_book', 'description', 'enclyclopedia', 'feedback', 'introduction', 'link', 'note', 'personal_message', 'physical_location', 'rss_feed');
+        //        $categories = array();
+        //        $categories['assessment'] = array('assessment', 'assessment_hotspot_question', 'assessment_match_numeric_question', 'assessment_match_question', 'assessment_match_text_question', 'assessment_matching_question', 'assessment_matrix_question', 'assessment_multiple_choice_question', 'assessment_open_question', 'assessment_rating_question', 'assessment_select_question', 'fill_in_the_blanks', 'hot_potatoes', 'ordering_question');
+        //        $categories['agenda'] = array('calendar_event', 'external_calendar', 'task');
+        //        $categories['news'] = array('announcement', 'news_article', 'system_announcement');
+        //        $categories['media'] = array('document', 'streaming_video_clip', 'youtube');
+        //        $categories['collaboration'] = array('blog_post', 'forum', 'forum_post', 'forum_topic', 'glossary', 'glossary_item', 'learning_path', 'portfolio', 'profile', 'research_event', 'research_publication', 'template', 'wiki', 'wiki_page');
+        //        $categories['survey'] = array('survey', 'survey_description', 'survey_matching_question', 'survey_matrix_question', 'survey_multiple_choice_question', 'survey_open_question', 'survey_page', 'survey_rating_question', 'survey_select_question');
+        //        $categories['peer_assessment'] = array('competence', 'criteria', 'indicator', 'peer_assessment');
+        //        $categories['general'] = array('comic_book', 'description', 'enclyclopedia', 'feedback', 'introduction', 'link', 'note', 'personal_message', 'physical_location', 'rss_feed');
+        //
+        //        $selection = array();
+        //
+        //        foreach($categories as $category => $object_types)
+        //        {
+        //            $selection[] = '<div class="create_category">';
+        //            $selection[] = '<span class="title">' . Translation :: get(Utilities :: underscores_to_camelcase($category)) . '</span>';
+        //
+        //            foreach ($object_types as $object_type)
+        //            {
+        //                $selection[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $object_type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object_type . '.png);">';
+        //                $selection[] = Translation :: get(ContentObject :: type_to_class($object_type) . 'TypeName');
+        //                $selection[] = '</div></a>';
+        //            }
+        //
+        //            $selection[] = '</div>';
+        //        }
+        //
+        //        return implode("\n", $selection);
 
-        $selection = array();
 
-        foreach($categories as $category => $object_types)
-        {
-            $selection[] = '<div class="create_category">';
-            $selection[] = '<span class="title">' . Translation :: get(Utilities :: underscores_to_camelcase($category)) . '</span>';
-
-            foreach($object_types as $object_type)
-            {
-                $selection[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $object_type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object_type . '.png);">';
-                $selection[] = Translation :: get(ContentObject :: type_to_class($object_type) . 'TypeName');
-                $selection[] = '</div></a>';
-            }
-
-            $selection[] = '</div>';
-        }
-
-        return implode("\n", $selection);
-
+        $type_categories = array();
         $type_counts = array();
+        $categories = array();
         $most_used_type_count = 0;
 
         if (! $use_general_statistics)
@@ -193,76 +199,82 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
 
         foreach ($this->get_content_object_types(true) as $type)
         {
-            $count = $this->count_type_content_objects($type, $condition);
-            $type_counts[$type] = $count;
-            if ($count > $most_used_type_count)
+            $setting = PlatformSetting :: get('allow_' . $type . '_creation', RepositoryManager :: APPLICATION_NAME);
+            if (($setting || $this->get_user()->is_platform_admin()) && ! in_array($type, $this->forbidden_types))
             {
-                $most_used_type_count = $count;
+
+                $package_info = PackageInfo :: factory(Registration :: TYPE_CONTENT_OBJECT, $type);
+                $package_info = $package_info->get_package_info();
+                $category = $package_info['package']['category'];
+                $category_name = Translation :: get(Utilities :: underscores_to_camelcase($category));
+
+                if (! in_array($category, array_keys($categories)))
+                {
+                    $categories[$category] = $category_name;
+                }
+
+                if (! is_array($type_categories[$category]))
+                {
+                    $type_categories[$category] = array();
+                }
+
+                $type_categories[$category][Translation :: get(ContentObject :: type_to_class($type) . 'TypeName')] = $type;
+
+                $count = $this->count_type_content_objects($type, $condition);
+                $type_counts[$type] = $count;
+                if ($count > $most_used_type_count)
+                {
+                    $most_used_type_count = $count;
+                }
             }
         }
 
         arsort($type_counts, SORT_STRING);
 
         $limit = round($most_used_type_count / 2);
-        $html = array();
-        $used_html = array();
-        $unused_html = array();
+        $type_counts = array_slice($type_counts, 0, 10);
+
+        $most_used_html = array();
 
         foreach ($type_counts as $type => $count)
         {
-            $object = array();
-            $setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
-            if (($setting || $this->get_user()->is_platform_admin()) && !in_array($type, $this->forbidden_types))
+            if ($count > 0)
             {
-                $object[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
-                $object[] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
-                $object[] = '</div></a>';
-            }
-
-            if ($count >= $limit)
-            {
-                $used_html[$type] = implode("\n", $object);
-            }
-            else
-            {
-                $unused_html[$type] = implode("\n", $object);
+                $most_used_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
+//                $most_used_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $type . '.png);">';
+                $most_used_html[] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
+                $most_used_html[] = '</div></a>';
             }
         }
 
-        ksort($used_html, SORT_STRING);
-        ksort($unused_html, SORT_STRING);
+        asort($categories);
 
-        if (! $use_general_statistics)
+        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $tabs = new DynamicTabsRenderer($renderer_name);
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_MOST_USED, Translation :: get('MostUsed'), Theme :: get_image_path() . 'place_mini_most_used.png', implode("\n", $most_used_html)));
+
+        foreach ($categories as $category => $category_name)
         {
-            $html[] = '<h3>' . Translation :: get('MostUsedObjectTypes') . '</h3>';
-        }
-        else
-        {
-            $html[] = '<h3>' . Translation :: get('MostUsedGeneralObjectTypes') . '</h3>';
-        }
+            $types = $type_categories[$category];
+            ksort($types);
 
-        $html[] = '<div class="content_object_selection">';
-        $html[] = implode("\n", $used_html);
-        $html[] = '<div class="clear"></div>';
-        $html[] = '</div>';
+            $types_html = array();
 
-        if (count($unused_html) > 0)
-        {
-            $html[] = Utilities :: add_block_hider();
-            $html[] = Utilities :: build_block_hider('other_content_object_types', null, true);
+            foreach ($types as $name => $type)
+            {
+                $types_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/big/' . $type . '.png);">';
+//                $types_html[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $type . '.png);">';
+                $types_html[] = $name;
+                $types_html[] = '</div></a>';
+            }
 
-            //$html[] = '<h3>'. Translation :: get('OtherObjectTypes') .'</h3>';
-            $html[] = '<div class="content_object_selection">';
-            $html[] = implode("\n", $unused_html);
-            $html[] = '<div class="clear"></div>';
-            $html[] = '</div>';
-            $html[] = Utilities :: build_block_hider();
+            $tabs->add_tab(new DynamicContentTab($category, $category_name, Theme :: get_image_path() . 'place_mini_' . $category . '.png', implode("\n", $types_html)));
         }
 
+        $html[] = $tabs->render();
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
 
         return implode("\n", $html);
-        ;
     }
 }
 ?>

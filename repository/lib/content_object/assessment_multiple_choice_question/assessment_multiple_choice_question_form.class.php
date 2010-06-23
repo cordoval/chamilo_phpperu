@@ -101,6 +101,7 @@ class AssessmentMultipleChoiceQuestionForm extends MultipleChoiceQuestionForm
             unset($_SESSION['mc_skip_options']);
             unset($_SESSION['mc_answer_type']);
         }
+
         if (! isset($_SESSION['mc_number_of_options']))
         {
             $_SESSION['mc_number_of_options'] = 3;
