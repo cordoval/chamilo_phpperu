@@ -46,6 +46,7 @@ abstract class ContentObjectForm extends FormValidator
     {
         parent :: __construct($form_name, $method, $action);
         $this->form_type = $form_type;
+
         $this->content_object = $content_object;
         $this->owner_id = $content_object->get_owner_id();
         $this->extra = $extra;
@@ -397,7 +398,7 @@ EOT;
         else
         {
             $defaults[ContentObject :: PROPERTY_TITLE] = $defaults[ContentObject :: PROPERTY_TITLE] == null ? $content_object->get_title() : $defaults[ContentObject :: PROPERTY_TITLE];
-            $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $$content_object->get_description();
+            $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $content_object->get_description();
         }
 
         if ($content_object instanceof ForcedVersionSupport && $this->form_type == self :: TYPE_EDIT)
