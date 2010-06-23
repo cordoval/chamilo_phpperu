@@ -16,9 +16,9 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
 
     // Inherited
     function render_cell($column, $location)
-    {
+    { 
         if ($column === SubscribeLocationBrowserTableColumnModel :: get_modification_column())
-        {
+        {   
             return $this->get_modification_links($location);
         }
         
@@ -38,12 +38,15 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
      * @return string A HTML representation of the action links
      */
     private function get_modification_links($location)
-    {
+    {   
         $category = $this->browser->get_category();
-        $toolbar = new Toolbar();
         
+        $toolbar = new Toolbar();
+
         $subscribe_url = $this->browser->get_category_rel_location_subscribing_url($category, $location);
+
         $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
+
         
         return $toolbar->as_html();
     }

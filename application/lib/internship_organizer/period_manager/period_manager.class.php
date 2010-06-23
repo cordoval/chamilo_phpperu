@@ -12,6 +12,7 @@ class InternshipOrganizerPeriodManager extends SubManager
     const PARAM_ACTION = 'action';
     
     const PARAM_PERIOD_ID = 'period_id';
+    const PARAM_PARENT_PERIOD_ID = 'parent_id';
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_TRUNCATE_SELECTED = 'truncate';
     
@@ -148,7 +149,7 @@ class InternshipOrganizerPeriodManager extends SubManager
 
     function get_period_viewing_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id(), self :: PARAM_PARENT_PERIOD_ID => $period->get_parent_id()));
     }
 
     function get_period_delete_url($period)

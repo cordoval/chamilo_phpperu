@@ -27,15 +27,9 @@ class DefaultInternshipOrganizerCategoryRelLocationTableCellRenderer extends Obj
     function render_cell($column, $categoryrellocation)
 //    function render_cell($column, $location)
     {
-        
-        //$columns[] = new ObjectTableColumn(InternshipOrganizerOrganisation :: PROPERTY_NAME, true, $organisation_alias);
-       // $columns[] = new ObjectTableColumn(InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION, true, $organisation_alias);
-        //$columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_NAME, true, $location_alias);
-        //$columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_CITY, true, $location_alias);
-       // $columns[] = new ObjectTableColumn(InternshipOrganizerLocation :: PROPERTY_STREET, true, $location_alias);
-//        dump($categoryrellocation);
         $location_id = $categoryrellocation->get_location_id();
         $location = InternshipOrganizerDataManager :: get_instance()->retrieve_location($location_id);
+        
         $organisation = $location->get_organisation();
         $region = $location->get_region();
 //        
