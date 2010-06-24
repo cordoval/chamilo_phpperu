@@ -14,8 +14,13 @@ class DefaultInternshipOrganizerAgreementTableCellRenderer extends ObjectTableCe
 
     function render_cell($column, $agreement)
     {
-        $user = UserDataManager::get_instance()->retrieve_user($agreement->get_student_id());
-    	$period = InternshipOrganizerDataManager::get_instance()->retrieve_period($agreement->get_period_id());
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, InternshipOrganizerUserType::STUDENT);
+        $condition = new AndCondition($conditions);
+        $agreement_rel_user = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement_rel_users($condition)->next_result();
+        $user = UserDataManager :: get_instance()->retrieve_user($agreement_rel_user->get_user_id());
+        $period = InternshipOrganizerDataManager :: get_instance()->retrieve_period($agreement->get_period_id());
         
         switch ($column->get_name())
         {
@@ -31,12 +36,12 @@ class DefaultInternshipOrganizerAgreementTableCellRenderer extends ObjectTableCe
             case User :: PROPERTY_FIRSTNAME :
                 return $user->get_firstname();
             case User :: PROPERTY_LASTNAME :
-                return $user->get_lastname();        
+                return $user->get_lastname();
             case Translation :: get('InternshipOrganizerPeriodName') :
-                return $period->get_name();  
+                return $period->get_name();
             case InternshipOrganizerAgreement :: PROPERTY_STATUS :
-                return InternshipOrganizerAgreement :: get_status_name($agreement->get_status());  
-                default :
+                return InternshipOrganizerAgreement :: get_status_name($agreement->get_status());
+            default :
                 return '&nbsp;';
         }
     }

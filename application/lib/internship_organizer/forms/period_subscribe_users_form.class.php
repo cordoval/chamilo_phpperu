@@ -27,7 +27,7 @@ class InternshipOrganizerPeriodSubscribeUsersForm extends FormValidator
         $period = $this->period;
         $parent = $this->parent;
         
-        $this->addElement('select', InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, Translation :: get('InternshipOrganizerUserType'), InternshipOrganizerUserType :: get_user_type_names());
+        $this->addElement('select', InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, Translation :: get('InternshipOrganizerUserType'), InternshipOrganizerUserType :: get_period_user_type_names());
         $this->addRule(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $attributes = array();
