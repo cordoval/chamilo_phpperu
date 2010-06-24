@@ -15,10 +15,7 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
             $rdm = RepositoryDataManager :: get_instance();
             
             $content_object = $rdm->retrieve_content_object($selected_complex_content_object_item->get_ref());
-            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', 
-            		$this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, 
-            					   ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_selected_complex_content_object_item_id(), 
-            					   ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id())));
+            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_selected_complex_content_object_item_id(), ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id())));
             
             if ($form->validate())
             {
@@ -49,14 +46,12 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
             }
             else
             {
-                $trail = $this->get_complex_content_object_breadcrumbs();
-                $trail->add(new Breadcrumb($this->get_url(
-                	array(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_selected_complex_content_object_item_id(),
-                		  ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id())), Translation :: get('EditWikiPage')));
-                		  
-            	$this->display_header($trail);
-            	$form->display();
-            	$this->display_footer();
+                $trail = BreadcrumbTrail :: get_instance();
+                $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_selected_complex_content_object_item_id(), ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id())), Translation :: get('EditWikiPage')));
+                
+                $this->display_header();
+                $form->display();
+                $this->display_footer();
             }
         }
     }

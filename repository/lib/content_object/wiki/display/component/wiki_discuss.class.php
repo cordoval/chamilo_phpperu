@@ -8,13 +8,10 @@
  * Author: Stefan Billiet
  * Author: Nick De Feyter
  */
-
-require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_parser.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_display.class.php';
+require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser.class.php';
 
 class WikiDisplayWikiDiscussComponent extends WikiDisplay
 {
-    private $action_bar;
     private $wiki_page_id;
     private $complex_id;
     private $feedback_id;
@@ -24,41 +21,54 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplay
 
     function run()
     {
-   		$this->action_bar = $this->get_toolbar($this, $this->get_root_content_object_id(), $this->get_root_content_object(), $this->get_selected_complex_content_object_item());
-
-   		$this->set_parameter(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_selected_complex_content_object_item_id());
-   		
-    	$feedback_manager = new FeedbackManager($this, $this->get_application_name(), $this->get_publication()->get_id(), $this->get_selected_complex_content_object_item_id());
-   		$feedback_manager->run();
+        $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object_id(), $this->get_root_content_object(), $this->get_selected_complex_content_object_item());
+        
+        $this->set_parameter(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_selected_complex_content_object_item_id());
+        
+        $feedback_manager = new FeedbackManager($this, $this->get_application_name(), $this->get_publication()->get_id(), $this->get_selected_complex_content_object_item_id());
+        $feedback_manager->run();
     }
-    
+
     function add_actionbar_item($item)
     {
-    	$this->action_bar->add_common_action($item);
+        $this->action_bar->add_common_action($item);
     }
-    
+
     function display_header()
     {
-    	parent :: display_header();
-    	
-    	$selected_complex_content_object_item = $this->get_selected_complex_content_object_item();
-    	$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($selected_complex_content_object_item->get_ref());
-    	
-    	echo '<div style="float:left; width: 135px;">' . $this->action_bar->as_html() . '</div>';
-        echo '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">' . Translation :: get('DiscussThe') . ' ' . $content_object->get_title() . ' ' . Translation :: get('Page') . '<hr style="height:1px;color:#4271B5;width:100%;"></div>';
-    	
-    	$display = ContentObjectDisplay :: factory($content_object);
-    	$parser = new WikiParser($this, $this->get_root_content_object_id(), $display->get_full_html(), $this->get_selected_complex_content_object_item_id());
-        $parser->parse_wiki_text();
+        $complex_wiki_page_id = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+        $complex_wiki_page = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_wiki_page_id);
+        $wiki_page = $complex_wiki_page->get_ref_object();
         
-        echo '<div id="content">' . $parser->get_wiki_text() . '</div><br />';
+        parent :: display_header($complex_wiki_page);
+        
+        $parser = new MediawikiParser($wiki_page);
+        
+        $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('Discuss') . ' ' . $wiki_page->get_title() . '</div>';
+        $html[] = '<div class="wiki-pane-content-subtitle">From: ' . $this->get_root_content_object()->get_title() . '</div>';
+        $html[] = '<div class="wiki-pane-content-discuss">';
+        
+        //                $html[] = $parser->parse_wiki_text();
+        //                $html[] = $parser->get_wiki_text();
+        $html[] = $parser->parse();
+        $html[] = '<div class="clear"></div>';
+        $html[] = '</div>';
+        
+        $html[] = '<div class="wiki-pane-content-feedback">';
+        
+        echo implode("\n", $html);
     }
     
 	function display_footer()
     {
-    	echo '</div>';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '</div>';
+        
+        echo implode("\n", $html);
+        
     	return parent :: display_footer();
     }
+
 
 }
 
