@@ -6,14 +6,24 @@ class InternshipOrganizerUserType
     const COORDINATOR = 1;
     const STUDENT = 2;
     const COACH = 3;
+    const MENTOR = 4;
 
-    static function get_user_type_names()
+    static function get_period_user_type_names()
     {
         $names = array();
         $names[1] = Translation :: get('InternshipOrganizerCoordinator');
         $names[2] = Translation :: get('InternshipOrganizerStudent');
-//        $names[3] = Translation :: get('InternshipOrganizerMentor');
         $names[3] = Translation :: get('InternshipOrganizerCoach');
+        return $names;
+    }
+
+    static function get_agreement_user_type_names()
+    {
+        $names = array();
+        $names[1] = Translation :: get('InternshipOrganizerCoordinator');
+        $names[2] = Translation :: get('InternshipOrganizerStudent');
+        $names[3] = Translation :: get('InternshipOrganizerCoach');
+        $names[4] = Translation :: get('InternshipOrganizerMentor');
         return $names;
     }
 
@@ -37,8 +47,9 @@ class InternshipOrganizerUserType
         }
     
     }
-	
-    static function get_user_types(){
-    	return array(self :: COACH, self ::COORDINATOR, self ::STUDENT);
+
+    static function get_user_types()
+    {
+        return array(self :: COACH, self :: COORDINATOR, self :: STUDENT);
     }
 }
