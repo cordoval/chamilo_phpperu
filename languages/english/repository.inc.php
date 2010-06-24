@@ -855,4 +855,5 @@ $lang['repository']['Agenda'] = 'Agenda';
 $lang['repository']['PeerAssessment'] = 'Peer Assessment';
 $lang['repository']['Media'] = 'Media';
 $lang['repository']['MostUsed'] = 'Most Used';
+$lang['repository']['MainPage'] = 'Main page';
 ?>

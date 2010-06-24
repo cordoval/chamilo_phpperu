@@ -13,7 +13,7 @@ class WikiDisplay extends ComplexDisplay
     const PARAM_WIKI_ID = 'wiki_id';
     const PARAM_WIKI_PAGE_ID = 'wiki_page_id';
 
-    const ACTION_BROWSE_WIKIS = 'browse';
+    const ACTION_BROWSE_WIKI = 'browse';
     const ACTION_VIEW_WIKI = 'view';
     const ACTION_VIEW_WIKI_PAGE = 'view_item';
     const ACTION_PUBLISH = 'publish';
@@ -51,6 +51,9 @@ class WikiDisplay extends ComplexDisplay
                 break;
             case self :: ACTION_VIEW_WIKI :
                 $component = $this->create_component('WikiViewer');
+                break;
+            case self :: ACTION_BROWSE_WIKI :
+                $component = $this->create_component('WikiBrowser');
                 break;
             case self :: ACTION_VIEW_WIKI_PAGE :
                 $component = $this->create_component('WikiItemViewer');

@@ -16,9 +16,10 @@ tr.recycled td a:hover {
  * WIKI TABBED PANES *
  *********************/
 .wiki-pane {
-	width: 89%;
+	width: 90%;
 	border-left: 1px solid #e5edf9;
 	float: right;
+	margin-left: -1px;
 }
 
 .wiki-pane-actions-bar {
@@ -77,6 +78,7 @@ tr.recycled td a:hover {
 
 .wiki-pane-actions-left {
 	float: left;
+	padding-right: 0;
 }
 
 .wiki-pane-actions-right {
@@ -88,20 +90,6 @@ tr.recycled td a:hover {
 	display: block;
 	margin: 0;
 	padding: 1.5em;
-	min-height: 15em;
-	min-height: 15em;
-	-moz-border-radius-topright: 10px;
-	-moz-border-radius-bottomleft: 10px;
-	-webkit-border-top-right-radius: 10px;
-	-webkit-border-bottom-left-radius: 10px;
-	border-top: 1px solid #ebebeb;
-	margin: 0;
-	padding: 1.5em;
-	min-height: 15em;
-	-moz-border-radius-topright: 10px;
-	-moz-border-radius-bottomleft: 10px;
-	-webkit-border-top-right-radius: 10px;
-	-webkit-border-bottom-left-radius: 10px;
 	border-top: 1px solid #ebebeb;
 	line-height: 1.5em;
 }
@@ -124,7 +112,29 @@ tr.recycled td a:hover {
 .wiki-menu {
 	width: 10%;
 	float: left;
-	padding-top: 75px;
+	padding-top: 88px;
+	background-position: 50% 20px;
+	background-image: url(../images/common/content_object/big/wiki.png);
+	background-repeat: no-repeat;
+}
+
+.wiki-menu a {
+	font-weight: normal;
+}
+
+.wiki-menu ul.toolbar_vertical li {
+	margin-bottom: 0.1em;
+	padding-bottom: 0.5em;
+}
+
+.wiki-menu ul.toolbar_vertical li img {
+	display: none;
+}
+
+.wiki-menu-section {
+	padding-top: 0.5em;
+	margin-top: 0.1em;
+	border-top: 1px solid #ebebeb;
 }
 
 .wiki-pane-content-head,.wiki-pane-content-title {
@@ -162,4 +172,35 @@ tr.recycled td a:hover {
 .wiki-pane-content-toc .wiki-pane-content-toc-content a {
 	font-size: 100%;
 	font-weight: normal;
+}
+
+.wiki-pane-search {
+	background-color: white;
+	border: 1px solid grey;
+	height: 18px;
+	overflow: hidden;
+	padding: 0;
+	margin-top: 3px;
+}
+
+.wiki-pane-search input.search_query {
+	border: 0px solid white;
+	background-image: none;
+	padding: 0px 2px 0px 2px;
+	height: 18px;
+}
+
+.wiki-pane-search button.search {
+	background-color: white;
+	border: 0px solid white;
+	background-image: none;
+	padding: 0px;
+	margin: 0px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.wiki-pane-search button.search img {
+	padding: 0px;
+	margin: 1px 2px 0px 2px;
 }
