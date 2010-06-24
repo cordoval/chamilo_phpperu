@@ -195,7 +195,7 @@ class InternshipOrganizerPublication extends DataClass
         if (! $this->target_groups)
         {
             $condition = new EqualityCondition(InternshipOrganizerPublicationGroup :: PROPERTY_PUBLICATION_ID, $this->get_id());
-            $groups = $this->get_data_manager()->retrieve_internship_organizer_publication_groups($condition);
+            $groups = $this->get_data_manager()->retrieve_publication_groups($condition);
             
             while ($group = $groups->next_result())
             {
@@ -212,7 +212,7 @@ class InternshipOrganizerPublication extends DataClass
         {
             $this->target_users = array();
             $condition = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_PUBLICATION_ID, $this->get_id());
-            $users = $this->get_data_manager()->retrieve_internship_organizer_publication_users($condition);
+            $users = $this->get_data_manager()->retrieve_publication_users($condition);
             
             while ($user = $users->next_result())
             {

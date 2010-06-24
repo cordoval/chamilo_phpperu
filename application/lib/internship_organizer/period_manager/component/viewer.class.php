@@ -3,8 +3,7 @@
 require_once dirname(__FILE__) . '/rel_user_browser/rel_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/rel_group_browser/rel_group_browser_table.class.php';
 require_once dirname(__FILE__) . '/user_browser/user_browser_table.class.php';
-require_once Path:: get_application_path(). 'lib/internship_organizer/publisher/publication_table/publication_table.class.php';
-
+require_once Path :: get_application_path() . 'lib/internship_organizer/publisher/publication_table/publication_table.class.php';
 
 class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganizerPeriodManager
 {
@@ -39,7 +38,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
             
             if ($parent_id)
             {
-            	$this->parent_parent_id = $this->parent_period->get_parent_id();
+                $this->parent_parent_id = $this->parent_period->get_parent_id();
             }
             
             $period = $this->period;
@@ -136,13 +135,12 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
     function get_users_types_table()
     {
         $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
-    	$tabs = new DynamicTabsRenderer($renderer_name);
+        $tabs = new DynamicTabsRenderer($renderer_name);
         
         $parameters = $this->get_parameters();
         $parameters[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID] = $this->period->get_id();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
-
-
+        
         // Coordinator table tab
         $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COORDINATOR));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COORDINATOR, Translation :: get('InternshipOrganizerCoordinator'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
@@ -150,15 +148,14 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         // Student table tab
         $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: STUDENT));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_STUDENT, Translation :: get('InternshipOrganizerStudent'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-           
+        
         // Coach table tab
         $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COACH));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COACH, Translation :: get('InternshipOrganizerCoach'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-         
+        
         // Publications table tab
         $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_PUBLICATIONS, Translation :: get('InternshipOrganizerPublications'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-         
         
         $html[] = $tabs->render();
         
@@ -168,14 +165,18 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         return implode($html, "\n");
     
     }
-	
-    function get_publications_condition(){
-    	
+
+    function get_publications_condition()
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: PERIOD);
+        $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $this->period->get_id());
+        return new AndCondition($conditions);
     }
-    
+
     function get_users_condition($user_type)
     {
-       $query = $this->ab->get_query();
+        $query = $this->ab->get_query();
         $conditions = array();
         
         $user_ids = $this->period->get_user_ids($user_type);
@@ -198,7 +199,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
             $conditions[] = new OrCondition($search_conditions);
         }
         return new AndCondition($conditions);
-            
+    
     }
 
 }

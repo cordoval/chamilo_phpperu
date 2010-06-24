@@ -925,7 +925,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->retrieve_objects(InternshipOrganizerPeriodRelGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPeriodRelGroup :: CLASS_NAME);
     }
 
-    function create_publication($publication)
+    function create_internship_organizer_publication($publication)
     {
         $succes = $this->create($publication);
         
@@ -941,14 +941,14 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         {
             $publication_user = new InternshipOrganizerPublicationUser();
             $publication_user->set_publication_id($publication->get_id());
-            $survey_publication_user->set_user_id($user);
-            $succes &= $survey_publication_user->create();
+            $publication_user->set_user_id($user);
+            $succes &= $publication_user->create();
         }
         
         return $succes;
     }
 
-    function update_publication($publication)
+    function update_internship_organizer_publication($publication)
     {
         
         $condition = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_ID, $publication->get_id());
@@ -979,7 +979,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $succes;
     }
 
-    function delete_publication($publication)
+    function delete_internship_organizer_publication($publication)
     {
         
         $user_condition = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $publication->get_id());
@@ -1028,6 +1028,61 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         return $this->count_result_set($query, InternshipOrganizerPublication :: get_table_name(), $condition);
     }
+	
+function create_internship_organizer_publication_group($publication_group)
+    {
+        return $this->create($publication_group);
+    }
 
+    function update_internship_organizer_publication_group($publication_group)
+    {
+        $condition = new EqualityCondition(InternshipOrganizerPublicationGroup :: PROPERTY_ID, $publication_group->get_id());
+        return $this->update($publication_group, $condition);
+    }
+
+    function delete_internship_organizer_publication_group($publication_group)
+    {
+        $condition = new EqualityCondition(InternshipOrganizerPublicationGroup :: PROPERTY_ID, $publication_group->get_id());
+        return $this->delete($publication_group->get_table_name(), $condition);
+    }
+
+    function count_publication_groups($condition = null)
+    {
+        return $this->count_objects(InternshipOrganizerPublicationGroup :: get_table_name(), $condition);
+    }
+
+    function retrieve_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(InternshipOrganizerPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPublicationGroup :: CLASS_NAME);
+    }
+
+    function create_internship_organizer_publication_user($publication_user)
+    {
+        return $this->create($publication_user);
+    }
+
+    function update_internship_organizer_publication_user($publication_user)
+    {
+        $condition = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_ID, $publication_user->get_id());
+        return $this->update($publication_user, $condition);
+    }
+
+    function delete_internship_organizer_publication_user($publication_user)
+    {
+        $condition = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_ID, $publication_user->get_id());
+        return $this->delete($publication_user->get_table_name(), $condition);
+    }
+
+    function count_publication_users($condition = null)
+    {
+        return $this->count_objects(InternshipOrganizerPublicationUser :: get_table_name(), $condition);
+    }
+
+    function retrieve_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(InternshipOrganizerPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPublicationUser :: CLASS_NAME);
+    }
+    
+    
 }
 ?>
