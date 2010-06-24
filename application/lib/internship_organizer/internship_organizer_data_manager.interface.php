@@ -117,7 +117,7 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_regions($condition = null, $offset = null, $count = null, $order_property = null);
 
     function retrieve_root_region();
-	
+
     function delete_internship_organizer_agreement_rel_mentor($agreement_rel_mentor);
 
     function create_internship_organizer_agreement_rel_mentor($agreement_rel_mentor);
@@ -125,7 +125,7 @@ interface InternshipOrganizerDataManagerInterface
     function count_agreement_rel_mentors($conditions = null);
 
     function retrieve_agreement_rel_mentors($condition = null, $offset = null, $count = null, $order_property = null);
-    
+
     //mentors
     
 
@@ -161,8 +161,6 @@ interface InternshipOrganizerDataManagerInterface
     function count_periods($conditions = null);
 
     function retrieve_internship_organizer_period($id);
-    
-    function retrieve_users_from_period($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
     //     function truncate_period($id);
     
@@ -188,20 +186,41 @@ interface InternshipOrganizerDataManagerInterface
     function count_period_rel_groups($conditions = null);
 
     function retrieve_period_rel_groups($condition = null, $offset = null, $count = null, $order_property = null);
-	
+
     //publications
     
-    function create_publication($publication);
 
-    function update_publication($publication);
+    function create_internship_organizer_publication($publication);
 
-    function delete_publication($publication);
+    function update_internship_organizer_publication($publication);
+
+    function delete_internship_organizer_publication($publication);
 
     function count_publications($conditions = null);
 
     function retrieve_publication($publication_id);
 
     function retrieve_publications($condition = null, $offset = null, $count = null, $order_property = null);
-    
+
+    function create_internship_organizer_publication_group($publication_group);
+
+    function update_internship_organizer_publication_group($publication_group);
+
+    function delete_internship_organizer_publication_group($publication_group);
+
+    function count_publication_groups($condition = null);
+
+    function retrieve_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
+    function create_internship_organizer_publication_user($publication_user);
+
+    function update_internship_organizer_publication_user($publication_user);
+
+    function delete_internship_organizer_publication_user($publication_user);
+
+    function count_publication_users($condition = null);
+
+    function retrieve_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
 }
 ?>

@@ -2,6 +2,8 @@
 require_once dirname(__FILE__) . '/../publication.class.php';
 require_once dirname(__FILE__) . '/../user_type.class.php';
 require_once dirname(__FILE__) . '/../publication_type.class.php';
+require_once dirname(__FILE__) . '/../publication_place.class.php';
+
 
 class InternshipOrganizerPeriodPublicationForm extends FormValidator
 {
@@ -86,7 +88,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
     function create_content_object_publications()
     {
         $values = $this->exportValues();
-        
+             
         $user_types = array();
         if ($values[self :: PARAM_COORDINATORS])
         {
@@ -100,6 +102,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
         {
             $user_types[] = InternshipOrganizerUserType :: STUDENT;
         }
+     
         
         $period_ids = $values[self :: PARAM_TARGET];
         $ids = unserialize($values['ids']);
@@ -112,7 +115,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
                 foreach ($period_ids as $period_id)
                 {
                     $period = InternshipOrganizerDataManager :: get_instance()->retrieve_period($period_id);
-                    
+                                      
                     $target_users = array();
                     $type_index = $conditions = array();
                     $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $period_id);
@@ -125,7 +128,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
                     {
                         $target_users[] = $period_rel_user->get_user_id();
                     }
-                    
+
                     $target_groups = array();
                     $period_rel_groups = InternshipOrganizerDataManager :: get_instance()->retrieve_period_rel_groups($condition);
                     
@@ -144,7 +147,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
                         $pub->set_to_date($period->get_end());
                         $pub->set_publication_place(InternshipOrganizerPublicationPlace :: PERIOD);
                         $pub->set_place_id($period->get_id());
-                        $pub->set_publication_type(InternshipOrganizerPublicationType :: CONTRACT);
+                        $pub->set_publication_type($values[InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE]);
                         $pub->set_target_users($target_users);
                         $pub->set_target_groups($target_groups);
                         

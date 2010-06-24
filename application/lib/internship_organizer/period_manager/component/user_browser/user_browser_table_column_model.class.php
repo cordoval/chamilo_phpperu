@@ -1,9 +1,8 @@
 <?php
 
-//require_once dirname(__FILE__).'/../../../tables/period_rel_user_table/default_period_rel_user_table_column_model.class.php';
-require_once Path :: get_user_path() . '/lib/user_table/default_user_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../tables/user_table/default_user_table_column_model.class.php';
 
-class InternshipOrganizerPeriodUserBrowserTableColumnModel extends DefaultUserTableColumnModel
+class InternshipOrganizerPeriodUserBrowserTableColumnModel extends DefaultInternshipOrganizerUserTableColumnModel
 {
     /**
      * The tables modification column

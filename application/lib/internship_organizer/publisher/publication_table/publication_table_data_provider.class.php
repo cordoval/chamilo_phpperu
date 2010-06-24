@@ -33,7 +33,7 @@ class InternshipOrganizerPublicationTableDataProvider extends ObjectTableDataPro
     {
         $order_property = $this->get_order_property($order_property);
         
-        return InternshipOrganizerDataManager::get_instance()->retrieve_internship_organizer_publications($this->get_condition(), $offset, $count, $order_property);
+        return InternshipOrganizerDataManager::get_instance()->retrieve_publications($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -42,7 +42,7 @@ class InternshipOrganizerPublicationTableDataProvider extends ObjectTableDataPro
      */
     function get_object_count()
     {
-        return InternshipOrganizerDataManager::get_instance()->count_internship_organizer_publications($this->get_condition());
+        return InternshipOrganizerDataManager::get_instance()->count_publications($this->get_condition());
     }
 }
 ?>
