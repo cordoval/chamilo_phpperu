@@ -84,7 +84,7 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
             $tabs->add_tab(new DynamicContentTab(self :: TAB_GROUPS, Translation :: get('Groups'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         }
         
-        // Group info tab
+        // Period info tab
         $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Details'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $this->get_period_info()));
         
         $html[] = $tabs->render();

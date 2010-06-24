@@ -3,12 +3,15 @@
 require_once dirname(__FILE__) . '/rel_user_browser/rel_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/rel_group_browser/rel_group_browser_table.class.php';
 require_once dirname(__FILE__) . '/user_browser/user_browser_table.class.php';
+require_once Path:: get_application_path(). 'lib/internship_organizer/publisher/publication_table/publication_table.class.php';
+
 
 class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganizerPeriodManager
 {
-    const TAB_COORDINATOR = 0;
-    const TAB_STUDENT = 1;
-    const TAB_COACH = 2;
+    const TAB_COORDINATOR = 'cot';
+    const TAB_STUDENT = 'stt';
+    const TAB_COACH = 'cat';
+    const TAB_PUBLICATIONS = 'put';
     
     private $period;
     private $ab;
@@ -152,6 +155,11 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COACH));
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COACH, Translation :: get('InternshipOrganizerCoach'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
          
+        // Publications table tab
+        $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_PUBLICATIONS, Translation :: get('InternshipOrganizerPublications'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+         
+        
         $html[] = $tabs->render();
         
         $html[] = '</div>';
@@ -160,7 +168,11 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         return implode($html, "\n");
     
     }
-
+	
+    function get_publications_condition(){
+    	
+    }
+    
     function get_users_condition($user_type)
     {
        $query = $this->ab->get_query();

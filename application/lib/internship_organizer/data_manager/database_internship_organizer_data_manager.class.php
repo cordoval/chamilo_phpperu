@@ -16,6 +16,13 @@ require_once dirname(__FILE__) . '/../agreement_rel_location.class.php';
 require_once dirname(__FILE__) . '/../agreement_rel_user.class.php';
 require_once dirname(__FILE__) . '/../agreement_rel_mentor.class.php';
 
+require_once dirname(__FILE__) . '/../publication.class.php';
+require_once dirname(__FILE__) . '/../publication_group.class.php';
+require_once dirname(__FILE__) . '/../publication_user.class.php';
+require_once dirname(__FILE__) . '/../publication_place.class.php';
+require_once dirname(__FILE__) . '/../publication_type.class.php';
+require_once dirname(__FILE__) . '/../publication_place.class.php';
+
 require_once dirname(__FILE__) . '/../moment.class.php';
 require_once dirname(__FILE__) . '/../mentor.class.php';
 require_once dirname(__FILE__) . '/../mentor_rel_user.class.php';
@@ -1010,8 +1017,8 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     {
         $rdm = RepositoryDataManager :: get_instance();
         $publication_alias = $this->get_alias(InternshipOrganizerPublication :: get_table_name());
-        $publication_user_alias = $this->get_alias(SurveyPublicationUser :: get_table_name());
-        $publication_group_alias = $this->get_alias(SurveyPublicationGroup :: get_table_name());
+        $publication_user_alias = $this->get_alias(InternshipOrganizerPublicationUser :: get_table_name());
+        $publication_group_alias = $this->get_alias(InternshipOrganizerPublicationGroup :: get_table_name());
         $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
         
         $query = 'SELECT COUNT(DISTINCT ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_ID, $publication_alias) . ') FROM ' . $this->escape_table_name(InternshipOrganizerPublication :: get_table_name()) . ' AS ' . $publication_alias;
