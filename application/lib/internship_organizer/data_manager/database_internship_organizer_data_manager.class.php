@@ -79,12 +79,12 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $location_alias = $this->get_alias(InternshipOrganizerLocation :: get_table_name());
         
         $query = 'SELECT ' . $location_alias . ' .* ';
-//        $query = 'SELECT * ';
+        //        $query = 'SELECT * ';
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerLocation :: get_table_name()) . ' AS ' . $location_alias;
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerRegion :: get_table_name()) . ' AS ' . $region_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_REGION_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ID, $region_alias);
-
+        
         return $this->retrieve_object_set($query, InternshipOrganizerLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerLocation :: CLASS_NAME);
-//    	return $this->retrieve_objects(InternshipOrganizerLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerLocation :: CLASS_NAME);
+        //    	return $this->retrieve_objects(InternshipOrganizerLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerLocation :: CLASS_NAME);
     }
 
     //internship planner organisations
@@ -187,7 +187,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelLocation :: PROPERTY_CATEGORY_ID, $categoryrellocation->get_category_id());
         $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelLocation :: PROPERTY_LOCATION_ID, $categoryrellocation->get_location_id());
         $condition = new AndCondition($conditions);
-
+        
         return $this->delete($categoryrellocation->get_table_name(), $condition);
     }
 
@@ -292,23 +292,6 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->count_result_set($query, InternshipOrganizerCategoryRelLocation :: get_table_name(), $condition);
     }
 
-    function retrieve_users_from_period($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-    	$udm = UserDataManager :: get_instance();
-        $user_alias = $udm->get_alias(User :: get_table_name());
-		$user_table_name = $udm->escape_table_name(User :: get_table_name());
-        
-        $period_alias = $this->get_alias(InternshipOrganizerPeriod :: get_table_name());
-        $period_rel_user_alias = $this->get_alias(InternshipOrganizerPeriodRelUser :: get_table_name());
-        
-        $query = 'SELECT DISTINCT ' . $user_alias . ' .* ';
-        $query .= ' FROM ' . $user_table_name . ' AS ' . $user_alias;
-        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerPeriodRelUser :: get_table_name()) . ' AS ' . $period_rel_user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $period_rel_user_alias) . ' = ' . $udm->escape_column_name(User :: PROPERTY_ID, $user_alias);
-
-        return $this->retrieve_object_set($query, $user_table_name, $condition, $offset, $max_objects, $order_by, User :: CLASS_NAME);
-//    	return $this->retrieve_objects(InternshipOrganizerLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerLocation :: CLASS_NAME);
-    }
-    
     function count_category_rel_locations($condition = null)
     {
         return $this->count_objects(InternshipOrganizerCategoryRelLocation :: get_table_name(), $condition);

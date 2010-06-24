@@ -184,10 +184,10 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         if (isset($query) && $query != '')
         {
             $search_conditions = array();
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_NAME, '*' . $query . '*');
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_STREET, '*' . $query . '*');
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_CITY, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_LASTNAME, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_TITLE, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_TELEPHONE, '*' . $query . '*');
          	
             
             $mentors = InternshipOrganizerDataManager::get_instance()->retrieve_mentors($search_conditions);
