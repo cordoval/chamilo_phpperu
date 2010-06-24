@@ -112,7 +112,9 @@ class LearningPathTool extends Tool implements Categorizable
 	
 	function get_content_object_publication_actions($publication)
     {
-        if(!$this->is_empty_learning_path($publication))
+        $allowed= $this->is_allowed(EDIT_RIGHT);
+        
+    	if(!$this->is_empty_learning_path($publication))
         {
 	    	$items[] = new ToolbarItem(
 	        		Translation :: get('AttemptLearningPath'),
@@ -121,12 +123,15 @@ class LearningPathTool extends Tool implements Categorizable
 	        		ToolbarItem :: DISPLAY_ICON
 	        );
 	        
-	        $items[] = new ToolbarItem(
-	        		Translation :: get('Statistics'),
-	        		Theme :: get_common_image_path() . 'action_statistics.png',
-	        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-	        		ToolbarItem :: DISPLAY_ICON
-       	 	);
+	        if($allowed)
+	        {
+		        $items[] = new ToolbarItem(
+		        		Translation :: get('Statistics'),
+		        		Theme :: get_common_image_path() . 'action_statistics.png',
+		        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+		        		ToolbarItem :: DISPLAY_ICON
+	       	 	);
+	        }
         }
         else
         {
@@ -137,12 +142,15 @@ class LearningPathTool extends Tool implements Categorizable
 	        		ToolbarItem :: DISPLAY_ICON
 	        );
 	        
-	        $items[] = new ToolbarItem(
-	        		Translation :: get('StatisticsNA'),
-	        		Theme :: get_common_image_path() . 'action_statistics_na.png',
-					null,
-	        		ToolbarItem :: DISPLAY_ICON
-	        );
+	        if($allowed)
+	        {
+		        $items[] = new ToolbarItem(
+		        		Translation :: get('StatisticsNA'),
+		        		Theme :: get_common_image_path() . 'action_statistics_na.png',
+						null,
+		        		ToolbarItem :: DISPLAY_ICON
+		        );
+	        }
         }
         
        return $items;
