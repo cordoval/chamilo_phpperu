@@ -21,10 +21,31 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
             Display :: not_allowed();
             return;
         }
-
+        
+        $complex_wiki_page_id = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
+        
+        if ($complex_wiki_page_id)
+        {
+            $complex_wiki_page = RepositoryDataManager::get_instance()->retrieve_complex_content_object_item($complex_wiki_page_id);
+            $wiki_page = $complex_wiki_page->get_ref_object();
+            $version_parameters = array();
+            
+            $version_browser = new RepositoryVersionBrowserTable($this, $version_parameters, new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $wiki_page->get_object_number()));
+            
+            $this->display_header($complex_wiki_page);
+            echo $version_browser->as_html();
+            echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+            $this->display_footer();
+        }
+        else
+        {
+            $this->redirect(null, false, array(Complexdisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI));
+        }
+        exit;
+        
         $data_manager = RepositoryDataManager :: get_instance();
         $repository_manager = new RepositoryManager();
-
+        
         /*
          * publication and complex object id are requested.
          * These are used to retrieve
@@ -32,22 +53,22 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
          *  2) the learning object ( actual inforamation about a wiki_page is stored here )
          *
          */
-
+        
         $this->complex_id = Request :: get(ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-
+        
         $complexObject = $data_manager->retrieve_complex_content_object_item($this->complex_id);
         if (isset($complexObject))
         {
             $this->wiki_page_id = $complexObject->get_ref();
         }
-
+        
         $wiki_page = $data_manager->retrieve_content_object($this->wiki_page_id);
-
+        
         /*
          *  We make use of the existing ContentObjectDisplay class, changing the type to wiki_page
          */
         $display = ContentObjectDisplay :: factory($wiki_page);
-
+        
         /*
          *  We make a new array called version_data, this will hold every version for a wiki_page.
          *  A new version is created after an edit to the page is made, and the user chose to create a new version.
@@ -55,14 +76,14 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
         $version_data = array();
         $publication_attr = array();
         $versions = $wiki_page->get_content_object_versions();
-
+        
         $this->display_header();
-
+        
         $this->action_bar = $this->get_toolbar($this, Request :: get('pid'), $this->get_root_content_object(), $this->complex_id);
         //echo '<div id="trailbox2" style="padding:0px;">' . $this->get_breadcrumbtrail()->render() . '<br /><br /><br /></div>';
         echo '<div style="float:left; width: 135px;">' . $this->action_bar->as_html() . '</div>';
         echo '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">' . Translation :: get('HistoryForThe') . ' ' . $wiki_page->get_title() . ' ' . Translation :: get('Page') . '</div><hr style="height:1px;color:#4271B5;width:100%;">';
-
+        
         /*
          * All versions for a wiki_page will be looped and the publications attributes are stored in the $publication_attr array
          */
@@ -72,7 +93,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
             $publications = RepositoryDataManager :: get_content_object_publication_attributes($this->get_user(), $version->get_id());
             $publication_attr = array_merge($publication_attr, $publications);
         }
-
+        
         /*
          *  If the page has more then version
          *  Every version will be looped and it's information stored in the version_entry array.
@@ -102,23 +123,23 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
                 {
                     $version_entry['delete_link'] = $delete_url;
                 }
-
+                
                 //$revert_url = $repository_manager->get_content_object_revert_url($version, 'version');
                 if (isset($revert_url))
                 {
                     $version_entry['revert_link'] = $revert_url;
                 }
-
+                
                 $version_data[] = $display->get_version_as_html($version_entry);
             }
-
+            
             /*
              *  Here the compare form is made. It will redirect to the history page passing the right parameters to compare.
              *  You can select 2 versions to compare.
              *  The first selected version ('object') will be compared with the second selected version ('compare') and it's differences shown using the ContentObjectDifferenceDisplay
              */
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool') == 'learning_path' ? 'view_clo' : 'view', 'display_action' => 'history', 'pid' => $this->get_root_content_object()->get_id(), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)), array('version_data' => $version_data));
-
+            
             if ($form->validate())
             {
                 $params = $form->compare_content_object();
@@ -128,26 +149,51 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
                 /*
                   *  A block hider is added to hide , and show the legend for the ContentObjectDifferenceDisplay
                   */
-
+                
                 echo $diff_display->get_diff_as_html();
                 echo Utilities :: add_block_hider();
                 echo Utilities :: build_block_hider('compare_legend');
                 echo $diff_display->get_legend();
                 echo Utilities :: build_block_hider();
                 echo '<br />' . $display->get_version_quota_as_html($version_data);
-
+            
             }
-
+            
             $form->display();
         }
         else
         {
             echo Translation :: get('NoModificationsMadeToThisPage');
         }
-
+        
         echo '</div>';
-
+        
         $this->display_footer();
+    }
+    
+    function count_content_object_versions_resultset($condition = null)
+    {
+        return RepositoryDataManager :: get_instance()->count_content_object_versions_resultset($condition);
+    }
+    
+    function retrieve_content_object_versions_resultset($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_content_object_versions_resultset($condition, $order_by, $offset, $max_objects);
+    }
+    
+    function get_content_object_viewing_url($content_object)
+    {
+        return null;
+    }
+    
+    function get_content_object_deletion_url($content_object, $type = null)
+    {
+        return null;
+    }
+    
+    function get_content_object_revert_url($content_object)
+    {
+        return null;
     }
 }
 ?>
