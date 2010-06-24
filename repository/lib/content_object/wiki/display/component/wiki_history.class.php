@@ -26,22 +26,28 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
         
         if ($complex_wiki_page_id)
         {
-            $complex_wiki_page = RepositoryDataManager::get_instance()->retrieve_complex_content_object_item($complex_wiki_page_id);
+            $complex_wiki_page = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_wiki_page_id);
             $wiki_page = $complex_wiki_page->get_ref_object();
             $version_parameters = array();
             
             $version_browser = new RepositoryVersionBrowserTable($this, $version_parameters, new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $wiki_page->get_object_number()));
             
             $this->display_header($complex_wiki_page);
-            echo $version_browser->as_html();
-            echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+            
+            $html = array();
+            $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('RevisionHistory') . ' ' . $wiki_page->get_title() . '</div>';
+            $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ': ' . $this->get_root_content_object()->get_title() . '</div>';
+            $html[] = $version_browser->as_html();
+            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+            
+            echo implode("\n", $html);
             $this->display_footer();
         }
         else
         {
             $this->redirect(null, false, array(Complexdisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI));
         }
-        exit;
+        exit();
         
         $data_manager = RepositoryDataManager :: get_instance();
         $repository_manager = new RepositoryManager();
@@ -170,27 +176,27 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
         
         $this->display_footer();
     }
-    
+
     function count_content_object_versions_resultset($condition = null)
     {
         return RepositoryDataManager :: get_instance()->count_content_object_versions_resultset($condition);
     }
-    
+
     function retrieve_content_object_versions_resultset($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         return RepositoryDataManager :: get_instance()->retrieve_content_object_versions_resultset($condition, $order_by, $offset, $max_objects);
     }
-    
+
     function get_content_object_viewing_url($content_object)
     {
         return null;
     }
-    
+
     function get_content_object_deletion_url($content_object, $type = null)
     {
         return null;
     }
-    
+
     function get_content_object_revert_url($content_object)
     {
         return null;

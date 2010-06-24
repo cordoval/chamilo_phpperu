@@ -45,7 +45,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplay
         $parser = new MediawikiParser($wiki_page);
         
         $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('Discuss') . ' ' . $wiki_page->get_title() . '</div>';
-        $html[] = '<div class="wiki-pane-content-subtitle">From: ' . $this->get_root_content_object()->get_title() . '</div>';
+        $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ': ' . $this->get_root_content_object()->get_title() . '</div>';
         $html[] = '<div class="wiki-pane-content-discuss">';
         
         //                $html[] = $parser->parse_wiki_text();
