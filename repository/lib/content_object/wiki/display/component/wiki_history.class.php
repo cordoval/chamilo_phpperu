@@ -35,12 +35,12 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
             $this->display_header($complex_wiki_page);
             
             $html = array();
-            $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('RevisionHistory') . ' ' . $wiki_page->get_title() . '</div>';
-            $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ': ' . $this->get_root_content_object()->get_title() . '</div>';
+            $html[] = '<div class="wiki-pane-content-title">' . Translation :: get('RevisionHistory') . ': ' . $wiki_page->get_title() . '</div>';
+            $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
             $html[] = $version_browser->as_html();
             $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
-            
             echo implode("\n", $html);
+            
             $this->display_footer();
         }
         else
@@ -144,7 +144,9 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplay
              *  You can select 2 versions to compare.
              *  The first selected version ('object') will be compared with the second selected version ('compare') and it's differences shown using the ContentObjectDifferenceDisplay
              */
-            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool') == 'learning_path' ? 'view_clo' : 'view', 'display_action' => 'history', 'pid' => $this->get_root_content_object()->get_id(), ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)), array('version_data' => $version_data));
+            $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(
+                    Tool :: PARAM_ACTION => Request :: get('tool') == 'learning_path' ? 'view_clo' : 'view', 'display_action' => 'history', 'pid' => $this->get_root_content_object()->get_id(),
+                    ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->complex_id)), array('version_data' => $version_data));
             
             if ($form->validate())
             {

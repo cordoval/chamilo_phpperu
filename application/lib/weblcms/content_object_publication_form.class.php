@@ -218,7 +218,7 @@ class ContentObjectPublicationForm extends FormValidator
         $defaults = array();
         $defaults[self :: PARAM_TARGET_OPTION] = 0;
         $defaults[self :: PARAM_FOREVER] = 1;
-        $defaults[self :: PARAM_CATEGORY_ID] = Request :: get('pcattree');
+        $defaults[self :: PARAM_CATEGORY_ID] = Request :: get(WeblcmsManager :: PARAM_CATEGORY);
         parent :: setDefaults($defaults);
     }
 
@@ -273,13 +273,21 @@ class ContentObjectPublicationForm extends FormValidator
         //$categories = $this->repo_viewer->get_categories(true);
         if (count($this->categories) > 1)
         {
-            // More than one category -> let user select one
-            $this->addElement('select', self :: PARAM_CATEGORY_ID, Translation :: get('Category'), $this->categories);
+            //TODO: changes this to real roles and rights
+            if($this->tool->is_allowed(EDIT_RIGHT))
+            {
+        		// More than one category -> let user select one
+            	$this->addElement('select', self :: PARAM_CATEGORY_ID, Translation :: get('Category'), $this->categories);
+            }
+            else
+            {
+            	$this->addElement('hidden', self :: PARAM_CATEGORY_ID);
+            }
         }
         else
         {
             // Only root category -> store object in root category
-            $this->addElement('hidden', ContentObjectPublication :: PROPERTY_CATEGORY_ID, 0);
+            $this->addElement('hidden', self :: PARAM_CATEGORY_ID, 0);
         }
 
         $attributes = array();
@@ -470,7 +478,7 @@ class ContentObjectPublicationForm extends FormValidator
             $course = $this->course->get_id();
             $tool = $this->repo_viewer->get_tool_id();
             $tool = (is_null($tool) ? 'introduction' : $tool);
-            $category = $values[self :: PARAM_CATEGORY_ID];
+            $category = $values[self :: PARAM_CATEGORY_ID]; 
             if (! $category)
                 $category = 0;
 

@@ -42,7 +42,7 @@ class InternshipOrganizerAgreementSubscribeMentorForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Mentors'), $url, $locale, array(), array('load_elements' => true));
+        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('InternshipOrganizerMentors'), $url, $locale, array(), array('load_elements' => true));
         $defaults = array();
         $elem->setDefaults($defaults);
         $elem->setDefaultCollapsed(false);

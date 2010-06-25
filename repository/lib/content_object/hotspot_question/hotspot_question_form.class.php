@@ -76,7 +76,7 @@ class HotspotQuestionForm extends ContentObjectForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
-            if ($object->get_number_of_options() != 0)
+            if ($object->get_number_of_answers() != 0)
             {
                 $answers = $object->get_answers();
                 foreach ($answers as $i => $answer)
@@ -247,7 +247,7 @@ class HotspotQuestionForm extends ContentObjectForm
             //$this->move_answer_arrays($indexes[0]);
         }
         $object = $this->get_content_object();
-        if (! $this->isSubmitted() && $object->get_number_of_options() != 0)
+        if (! $this->isSubmitted() && $object->get_number_of_answers() != 0)
         {
             $_SESSION['mc_number_of_options'] = $object->get_number_of_answers();
             //$_SESSION['mc_answer_type'] = $object->get_answer_type();

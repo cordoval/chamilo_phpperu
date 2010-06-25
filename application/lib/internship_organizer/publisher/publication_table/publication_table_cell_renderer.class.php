@@ -68,6 +68,13 @@ class InternshipOrganizerPublicationTableCellRenderer extends DefaultInternshipO
         
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
+        $toolbar->add_item(new ToolbarItem(
+        	        		Translation :: get('View'),
+        	        		Theme :: get_common_image_path() . 'action_edit.png',
+        	        		$this->browser->get_view_publication_url($publication),
+        	        		ToolbarItem :: DISPLAY_ICON
+        	        ));
+        
         //        if ($publication->is_visible_for_target_user($user, true))
         //        {
         //            $toolbar->add_item(new ToolbarItem(

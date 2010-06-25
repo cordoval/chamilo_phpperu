@@ -66,7 +66,7 @@ function dump_tree($mentors)
 {
     if (contains_results($mentors))
     {
-        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Periods'), '">', "\n";
+        echo '<node id="0" classes="category unlinked" title="', Translation :: get('InternshipOrganizerMentors'), '">', "\n";
         
         foreach ($mentors as $mentor)
         {

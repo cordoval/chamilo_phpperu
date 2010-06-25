@@ -11,12 +11,6 @@
 			notnull="1" default="" />
 		<property name="begin" type="integer" notnull="1" />
 		<property name="end" type="integer" notnull="1" />
-		<property name="location_id" type="integer" unsigned="1"
-			notnull="1" />
-		<property name="student_id" type="integer" unsigned="1"
-			notnull="1" />
-		<property name="mentor_id" type="integer" unsigned="1"
-			notnull="1" />
 		<property name="status" type="integer" unsigned="1" notnull="1" />
 	</properties>
 
