@@ -43,7 +43,7 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultContentOb
                 case Translation :: get(Assessment :: PROPERTY_TITLE) :
                     return $assessment->get_title();
                 case Translation :: get(Assessment :: PROPERTY_ASSESSMENT_TYPE) :
-                    return $assessment->get_assessment_type();
+                    return $assessment->get_assessment_type_name();
                 case Translation :: get(Assessment :: PROPERTY_AVERAGE_SCORE) :
                     $track = new WeblcmsAssessmentAttemptsTracker();
                     $avg = $track->get_average_score($publication, $this->browser->get_user_id());

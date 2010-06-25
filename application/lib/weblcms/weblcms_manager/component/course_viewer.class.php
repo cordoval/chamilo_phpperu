@@ -240,6 +240,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
         $this->rights[ADD_RIGHT] = false;
         $this->rights[DELETE_RIGHT] = false;
     }
+    
+    function set_right($right, $value)
+    {
+    	$this->rights[$right] = $value;
+    }
 
     private $is_teacher;
 
