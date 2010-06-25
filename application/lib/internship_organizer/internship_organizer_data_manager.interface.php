@@ -3,6 +3,7 @@
 interface InternshipOrganizerDataManagerInterface
 {
 
+    //locations
     function create_internship_organizer_location($location);
 
     function update_internship_organizer_location($location);
@@ -15,6 +16,7 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_locations($condition = null, $offset = null, $count = null, $order_property = null);
 
+    //organisations
     function create_internship_organizer_organisation($organisation);
 
     function update_internship_organizer_organisation($organisation);
@@ -35,6 +37,7 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_organisation_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
 
+    //categories
     function delete_internship_organizer_category($category);
 
     function delete_internship_organizer_category_rel_location($categoryrellocation);
@@ -69,6 +72,7 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_category_rel_periods($condition = null, $offset = null, $count = null, $order_property = null);
 
+    //moments
     function create_internship_organizer_moment($moment);
 
     function update_internship_organizer_moment($moment);
@@ -81,6 +85,11 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_moments($condition = null, $offset = null, $count = null, $order_property = null);
 
+    function count_moment_rel_users($conditions = null);
+
+    function retrieve_moment_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
+
+    //agreements
     function create_internship_organizer_agreement($organisation);
 
     function update_internship_organizer_agreement($organisation);
@@ -101,6 +110,15 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_agreement_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
 
+    function delete_internship_organizer_agreement_rel_mentor($agreement_rel_mentor);
+
+    function create_internship_organizer_agreement_rel_mentor($agreement_rel_mentor);
+
+    function count_agreement_rel_mentors($conditions = null);
+
+    function retrieve_agreement_rel_mentors($condition = null, $offset = null, $count = null, $order_property = null);
+
+    //regions
     function delete_internship_organizer_region($region);
 
     function update_internship_organizer_region($region);
@@ -118,17 +136,7 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_root_region();
 
-    function delete_internship_organizer_agreement_rel_mentor($agreement_rel_mentor);
-
-    function create_internship_organizer_agreement_rel_mentor($agreement_rel_mentor);
-
-    function count_agreement_rel_mentors($conditions = null);
-
-    function retrieve_agreement_rel_mentors($condition = null, $offset = null, $count = null, $order_property = null);
-
     //mentors
-    
-
     function delete_internship_organizer_mentor($mentor);
 
     function update_internship_organizer_mentor($mentor);

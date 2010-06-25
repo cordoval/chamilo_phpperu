@@ -4,24 +4,27 @@ require_once dirname(__FILE__) . '/../user_type.class.php';
 require_once dirname(__FILE__) . '/../publication_type.class.php';
 require_once dirname(__FILE__) . '/../publication_place.class.php';
 
-class InternshipOrganizerAgreementPublicationForm extends FormValidator
+class InternshipOrganizerMomentPublicationForm extends FormValidator
 {
     const TYPE_SINGLE = 1;
     const TYPE_MULTI = 2;
     
-    const PARAM_TARGET = 'agreement_rel_users';
+    const PARAM_TARGET = 'moment_rel_users';
     
     private $publication;
     private $content_object;
+    private $agreement_id;
     private $user;
 
-    function InternshipOrganizerAgreementPublicationForm($form_type, $content_object, $user, $action)
+    function InternshipOrganizerMomentPublicationForm($form_type, $content_object, $user, $action)
     {
         parent :: __construct('agreement_publication_settings', 'post', $action);
         
         $this->content_object = $content_object;
         $this->user = $user;
         $this->form_type = $form_type;
+        
+        $this->agreement_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
         
         switch ($this->form_type)
         {
@@ -57,8 +60,8 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
         $this->addElement('select', InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('InternshipOrganizerTypeOfPublication'), $this->get_type_of_documents());
         $this->addRule(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_agreement_feed.php';
-        
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_moment_feed.php?agreement_id='.$this->agreement_id;
+            
         $locale = array();
         $locale['Display'] = Translation :: get('ChoosePeriods');
         $locale['Searching'] = Translation :: get('Searching');
@@ -82,21 +85,21 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
     {
         $values = $this->exportValues();
         
-        $agreement_rel_user_ids = $values[self :: PARAM_TARGET];
+        $moment_rel_user_ids = $values[self :: PARAM_TARGET];
         $ids = unserialize($values['ids']);
         $succes = false;
         
-        if (count($agreement_rel_user_ids))
+        if (count($moment_rel_user_ids))
         {
             
-            foreach ($agreement_rel_user_ids as $agreement_rel_user_id)
+            foreach ($moment_rel_user_ids as $moment_rel_user_id)
             {
-                $ru_ids = explode( '|', $agreement_rel_user_id);
+                $mu_ids = explode( '|', $moment_rel_user_id);
             	
-            	$agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($ru_ids[0]);
+            	$moment = InternshipOrganizerDataManager :: get_instance()->retrieve_moment($mu_ids[0]);
                 
                 $target_users = array();
-				$target_users[] = $ru_ids[1];
+				$target_users[] = $mu_ids[1];
                 
                 foreach ($ids as $id)
                 {
@@ -104,10 +107,10 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
                     $pub->set_content_object($id);
                     $pub->set_publisher_id($this->user->get_id());
                     $pub->set_published(time());
-                    $pub->set_from_date($agreement->get_begin());
-                    $pub->set_to_date($agreement->get_end());
-                    $pub->set_publication_place(InternshipOrganizerPublicationPlace :: AGREEMENT);
-                    $pub->set_place_id($agreement->get_id());
+                    $pub->set_from_date($moment->get_begin());
+                    $pub->set_to_date($moment->get_end());
+                    $pub->set_publication_place(InternshipOrganizerPublicationPlace :: MOMENT);
+                    $pub->set_place_id($moment->get_id());
                     $pub->set_publication_type($values[InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE]);
                     $pub->set_target_users($target_users);
                     

@@ -568,11 +568,13 @@ class Database
             $translator = new ConditionTranslator($this, $this->get_alias($table_name));
             $query .= $translator->render_query($condition);
         }
-
+		
+    
+        
         $orders = array();
 
-        //                dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
-        //                dump($order_by);
+//                        dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
+//                        dump($order_by);
 
 
         if (is_null($order_by))
@@ -689,6 +691,7 @@ class Database
     function retrieve_record($table_name, $condition = null, $order_by = array())
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
+       
         return $this->retrieve_row($query, $table_name, $condition, $order_by);
     }
 
@@ -699,7 +702,7 @@ class Database
             $translator = new ConditionTranslator($this, $this->get_alias($table_name));
             $query .= $translator->render_query($condition);
         }
-
+		       
         $orders = array();
 
         foreach ($order_by as $order)

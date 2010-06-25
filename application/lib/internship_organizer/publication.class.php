@@ -8,6 +8,8 @@ class InternshipOrganizerPublication extends DataClass
     /**
      * InternshipOrganizerPublication properties
      */
+    const PROPERTY_NAME = 'name';
+    const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_FROM_DATE = 'from_date';
     const PROPERTY_TO_DATE = 'to_date';
@@ -16,7 +18,6 @@ class InternshipOrganizerPublication extends DataClass
     const PROPERTY_PUBLICATION_TYPE = 'publication_type';
     const PROPERTY_PUBLICATION_PLACE = 'publication_place';
     const PROPERTY_PLACE_ID = 'place_id';
-    
     
     private $target_groups;
     private $target_users;
@@ -28,12 +29,48 @@ class InternshipOrganizerPublication extends DataClass
     
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER_ID, self :: PROPERTY_PUBLISHED, self :: PROPERTY_PUBLICATION_TYPE, self :: PROPERTY_PUBLICATION_PLACE, self :: PROPERTY_PLACE_ID));
+        return parent :: get_default_property_names(array(self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_CONTENT_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_PUBLISHER_ID, self :: PROPERTY_PUBLISHED, self :: PROPERTY_PUBLICATION_TYPE, self :: PROPERTY_PUBLICATION_PLACE, self :: PROPERTY_PLACE_ID));
     }
 
     function get_data_manager()
     {
         return InternshipOrganizerDataManager :: get_instance();
+    }
+
+    /**
+     * Returns the name of this InternshipOrganizerPublication.
+     * @return the name.
+     */
+    function get_name()
+    {
+        return $this->get_default_property(self :: PROPERTY_NAME);
+    }
+
+    /**
+     * Sets the name of this InternshipOrganizerPublication.
+     * @param name
+     */
+    function set_name($name)
+    {
+        $this->set_default_property(self :: PROPERTY_NAME, $name);
+    }
+
+    /**
+     * Returns the description of this InternshipOrganizerPublication.
+     * @return the description.
+     */
+    function get_description()
+    {
+        return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
+    }
+
+    /**
+     * Sets the description of this InternshipOrganizerPublication.
+     * @param description
+     */
+    function set_description($description)
+    {
+        $this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
     }
 
     /**
@@ -143,8 +180,8 @@ class InternshipOrganizerPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_PUBLICATION_PLACE, $publication_place);
     }
-	
-/**
+
+    /**
      * Returns the place_id of this InternshipOrganizerPublication.
      * @return the place_id.
      */
@@ -161,7 +198,7 @@ class InternshipOrganizerPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_PLACE_ID, $place_id);
     }
-    
+
     /**
      * Returns the published of this InternshipOrganizerPublication.
      * @return the published.
