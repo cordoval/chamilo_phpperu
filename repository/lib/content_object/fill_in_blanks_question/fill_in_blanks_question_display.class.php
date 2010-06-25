@@ -16,39 +16,48 @@ class FillInBlanksQuestionDisplay extends ContentObjectDisplay
     {
         $object = $this->get_content_object();
         $answer_text = $object->get_answer_text();
+        $clear_text = preg_split(FillInBlanksQuestionAnswer::CLOZE_REGEX, $answer_text);
         $answers = $object->get_answers();
+        $questions = $object->get_number_of_questions();
+
+        $question_answers = array();
+        
+        foreach($answers as $answer)
+        {
+        	$question_answers[$answer->get_position()][] = $answer;
+        }
         
         $html = array();
-        
         $html[] = parent :: get_description();
         
-        if ($object->get_question_type() == FillInBlanksQuestion :: TYPE_SELECT)
+        for($i = 0; $i < $questions; $i++)
         {
-            $answer_select = array();
-            $answer_select[] = '<select name="answer">';
-            foreach ($answers as $answer)
-            {
-                $value = substr($answer->get_value(), 1, - 1);
-                $answer_select[] = '<option value="' . $value . '">' . $value . '</option>';
-            }
-            $answer_select[] = '</select>';
-            
-            foreach ($answers as $answer)
-            {
-                $answer_text = substr_replace($answer_text, implode("\n", $answer_select), strpos($answer_text, $answer->get_value(), $answer->get_position()), strlen($answer->get_value()));
-            }
+	        $html[] = $clear_text[$i];
+	        
+        	if ($object->get_question_type() == FillInBlanksQuestion :: TYPE_SELECT)
+	        {
+	            $answer_select = array();
+	            $answer_select[] = '<select name="answer">';
+	            foreach ($question_answers[$i] as $answer)
+	            {
+	                $value = trim($answer->get_value());
+	                $answer_select[] = '<option value="' . $value . '">' . $value . '</option>';
+	            }
+	            $answer_select[] = '</select>';
+	            
+	            $html[] = implode("\n", $answer_select);
+	        }
+	        else
+	        {
+	            foreach ($question_answers[$i] as $answer)
+	            {
+	                $repeat = $answer->get_size() == 0 ? strlen($answer->get_value()) : $answer->get_size();
+	                $replacement = str_repeat('_', $repeat);
+				    $html[] = $replacement;	            	
+	            	
+	            }
+	        }
         }
-        else
-        {
-            foreach ($answers as $answer)
-            {
-                $repeat = $answer->get_size() == 0 ? strlen($answer->get_value()) : $answer->get_size();
-                $replacement = str_repeat('_', $repeat);
-                $answer_text = substr_replace($answer_text, $replacement, strpos($answer_text, $answer->get_value(), $answer->get_position()), strlen($answer->get_value()));
-            }
-        }
-        
-        $html[] = $answer_text;
         
         return implode("\n", $html);
     }
