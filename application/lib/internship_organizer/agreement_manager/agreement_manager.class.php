@@ -23,12 +23,12 @@ class InternshipOrganizerAgreementManager extends SubManager
     const ACTION_UPDATE_AGREEMENT = 'update';
     const ACTION_DELETE_AGREEMENT = 'delete';
     const ACTION_VIEW_AGREEMENT = 'view';
+    const ACTION_PUBLISH_AGREEMENT = 'publish';
     const ACTION_SUBSCRIBE_LOCATION_TO_AGREEMENT = 'subscribe';
     const ACTION_UNSUBSCRIBE_LOCATION_FROM_AGREEMENT = 'unsubscribe';
     
     const ACTION_MOVE_AGREEMENT_REL_LOCATION = 'move';
     const ACTION_APPROVE_AGREEMENT_REL_LOCATION = 'approve';
-    
     
     const ACTION_CREATE_MOMENT = 'create_moment';
     const ACTION_BROWSE_MOMENTS = 'browse_moments';
@@ -37,8 +37,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     
     const ACTION_SUBSCRIBE_LOCATION = 'subscribe_location';
     const ACTION_SUBSCRIBE_MENTOR = 'subscribe_mentor';
-    
-    
+
     function InternshipOrganizerAgreementManager($internship_manager)
     {
         parent :: __construct($internship_manager);
@@ -72,6 +71,9 @@ class InternshipOrganizerAgreementManager extends SubManager
             case self :: ACTION_BROWSE_AGREEMENT :
                 $component = $this->create_component('Browser');
                 break;
+            case self :: ACTION_PUBLISH_AGREEMENT :
+                $component = $this->create_component('Publisher');
+                break;
             case self :: ACTION_EDIT_MOMENT :
                 $component = $this->create_component('MomentUpdater');
                 break;
@@ -101,7 +103,7 @@ class InternshipOrganizerAgreementManager extends SubManager
                 break;
             case self :: ACTION_SUBSCRIBE_MENTOR :
                 $component = $this->create_component('SubscribeMentor');
-                break;     
+                break;
             default :
                 $component = $this->create_component('Browser');
                 break;
@@ -253,6 +255,11 @@ class InternshipOrganizerAgreementManager extends SubManager
     function get_agreement_subscribe_mentor_url($agreement)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_MENTOR, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+    }
+
+    function get_agreement_publish_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_AGREEMENT));
     }
 
     private function parse_input_from_table()

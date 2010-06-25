@@ -64,9 +64,12 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
         
         $this->addElement('checkbox', self :: PARAM_COORDINATORS, Translation :: get('InternshipOrganizerCoordinators'));
         $this->addElement('checkbox', self :: PARAM_COACHES, Translation :: get('InternshipOrganizerCoaches'));
-        $this->addElement('checkbox', self :: PARAM_STUDENT, Translation :: get('InternshipOrganizerStudents'));
+        $this->addElement('checkbox', self :: PARAM_STUDENT, Translation :: get('InternshipOrganizerStudent'));
+        $this->addElement('checkbox', self :: PARAM_MENTORS, Translation :: get('InternshipOrganizerMentors'));
+        
         
         $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_agreement_feed.php';
+              
         $locale = array();
         $locale['Display'] = Translation :: get('ChoosePeriods');
         $locale['Searching'] = Translation :: get('Searching');

@@ -210,6 +210,7 @@ $lang['internship_organizer']['InternshipOrganizerMentors'] = 'Mentors';
 $lang['internship_organizer']['InternshipOrganizerStudents'] = 'Students';
 $lang['internship_organizer']['InternshipOrganizerCoordinators'] = 'Coordinators';
 $lang['internship_organizer']['InternshipOrganizerCoaches'] = 'Coaches';
+$lang['internship_organizer']['InternshipOrganizerAgreements'] = 'Agreements';
 $lang['internship_organizer']['InternshipOrganizerTypeOfPublication'] = 'Type of document';
 $lang['internship_organizer']['InternshipOrganizerContract'] = 'Contract';
 $lang['internship_organizer']['InternshipOrganizerPreparation'] = 'Preparation';

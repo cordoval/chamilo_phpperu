@@ -11,7 +11,7 @@ class InternshipOrganizerAgreementManagerPublisherComponent extends InternshipOr
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_PERIODS)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
         $trail->add_help('internship organizer general');
 
