@@ -45,7 +45,6 @@ class ConditionTranslator
         }
         else
         {
-            //			dump($condition);
             die('Need a Condition instance');
         }
 
@@ -57,9 +56,9 @@ class ConditionTranslator
      * @param AggregateCondition $condition The AggregateCondition object.
      * @param array $parameters A reference to the query's parameter list.
      * @param boolean $storage_unit Whether or not to
-     *                                                   prefix learning
-     *                                                   object properties
-     *                                                   to avoid collisions.
+     * prefix learning
+     * object properties
+     * to avoid collisions.
      * @return string The WHERE clause.
      */
     function translate_aggregate_condition($aggregate_condition)
@@ -79,30 +78,11 @@ class ConditionTranslator
                 if (! empty($translation))
                 {
                     $condition_translations[] = $translation;
-//                    $string .= $translation;
-//
-//                    if ($count < count($aggregate_condition->get_conditions()))
-//                    {
-//                        $string .= $aggregate_condition->get_operator();
-//                    }
                 }
-
-//                if ($count < count($aggregate_condition->get_conditions()))
-//                {
-//                    $conditions = $aggregate_condition->get_conditions();
-//                    $next_condition = $conditions[$key + 1];
-//
-//                    if (!($next_condition instanceof InCondition && $this->translate($next_condition) === ''))
-//                    {
-//                        $string .= $aggregate_condition->get_operator();
-//                    }
-//                }
             }
 
-//            if (!empty($string))
             if (count($condition_translations) > 0)
             {
-//                $string = '(' . $string . ')';
                 $string = '(' . implode($aggregate_condition->get_operator(), $condition_translations) . ')';
             }
         }
@@ -125,9 +105,9 @@ class ConditionTranslator
      * @param InCondition $condition The InCondition object.
      * @param array $parameters A reference to the query's parameter list.
      * @param boolean $storage_unit Whether or not to
-     *                                                   prefix learning
-     *                                                   object properties
-     *                                                   to avoid collisions.
+     * prefix learning
+     * object properties
+     * to avoid collisions.
      * @return string The WHERE clause.
      */
     function translate_in_condition($condition)
@@ -137,7 +117,14 @@ class ConditionTranslator
 
         if (! is_null($condition_storage_unit))
         {
-            $storage_unit = $this->data_manager->get_alias($condition_storage_unit);
+            if ($condition->is_alias())
+            {
+                $storage_unit = $condition_storage_unit;
+            }
+            else
+            {
+                $storage_unit = $this->data_manager->get_alias($condition_storage_unit);
+            }
         }
 
         if ($condition instanceof InCondition)
@@ -184,16 +171,16 @@ class ConditionTranslator
             $value = $condition->get_value();
             $table = $condition->get_storage_unit_value();
             $name_table = $condition->get_storage_unit_name();
-            
-            if($condition->get_data_manager())
+
+            if ($condition->get_data_manager())
             {
-            	$etable = $condition->get_data_manager()->escape_table_name($table);
+                $etable = $condition->get_data_manager()->escape_table_name($table);
             }
             else
             {
-            	$etable = $this->data_manager->escape_table_name($table);
+                $etable = $this->data_manager->escape_table_name($table);
             }
-          
+
             $sub_condition = $condition->get_condition();
 
             $alias = $this->data_manager->get_alias($table);
@@ -227,9 +214,9 @@ class ConditionTranslator
      * @param Condition $condition The Condition object.
      * @param array $parameters A reference to the query's parameter list.
      * @param boolean $storage_unit Whether or not to
-     *                                                   prefix learning
-     *                                                   object properties
-     *                                                   to avoid collisions.
+     * prefix learning
+     * object properties
+     * to avoid collisions.
      * @return string The WHERE clause.
      */
     function translate_simple_condition($condition)
@@ -242,7 +229,14 @@ class ConditionTranslator
 
         if (! is_null($condition_storage_unit))
         {
-            $storage_unit = $this->data_manager->get_alias($condition_storage_unit);
+            if ($condition->is_alias())
+            {
+                $storage_unit = $condition_storage_unit;
+            }
+            else
+            {
+                $storage_unit = $this->data_manager->get_alias($condition_storage_unit);
+            }
         }
 
         if ($condition instanceof EqualityCondition)
