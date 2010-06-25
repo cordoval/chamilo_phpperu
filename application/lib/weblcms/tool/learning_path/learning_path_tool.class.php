@@ -16,6 +16,7 @@ class LearningPathTool extends Tool implements Categorizable
     const ACTION_VIEW_DOCUMENT = 'view_document';
     const ACTION_ATTEMPT = 'attempt';
     
+    const PARAM_OBJECT_ID = 'object_id';
     const PARAM_LEARNING_PATH = 'lp';
     const PARAM_LP_STEP = 'step';
     const PARAM_LEARNING_PATH_ID = 'lpid';
