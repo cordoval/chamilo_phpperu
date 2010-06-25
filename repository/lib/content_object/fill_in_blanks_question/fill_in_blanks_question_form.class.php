@@ -47,7 +47,7 @@ class FillInBlanksQuestionForm extends ContentObjectForm
     function setDefaults($defaults = array ()){
         if (! $this->isSubmitted()){
             $object = $this->get_content_object();
-            if ($object->get_number_of_options() != 0){
+            if ($object->get_number_of_questions() != 0){
                 //$options = $object->get_answers();
                 $defaults['answer'] = $object->get_answer_text();
                 $defaults[FillInBlanksQuestion::PROPERTY_QUESTION_TYPE] = $object->get_question_type();
