@@ -16,13 +16,14 @@ if (Authentication :: is_valid())
 {
     $conditions = array();
     
-    $query_condition = Utilities :: query_to_condition($_GET['query'], array(User :: PROPERTY_FIRSTNAME, User :: PROPERTY_LASTNAME, User :: PROPERTY_USERNAME));
-    if (isset($query_condition))
+//    $query_condition = Utilities :: query_to_condition($_GET['query'], array(User :: PROPERTY_FIRSTNAME, User :: PROPERTY_LASTNAME, User :: PROPERTY_USERNAME));
+    if (isset($_GET['query']))
     {
         $search_conditions = array();
-        $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', User :: get_table_name());
-        $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', User :: get_table_name());
-        $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*', User :: get_table_name());
+        $user_alias = UserDataManager::get_instance()->get_alias(User :: get_table_name());
+        $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', $user_alias , true);
+        $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', $user_alias, true);
+        $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*', $user_alias , true);
         $search_conditions[] = new PatternMatchCondition(InternshipOrganizerAgreement :: PROPERTY_NAME, '*' . $query . '*', InternshipOrganizerAgreement :: get_table_name());
         $search_conditions[] = new PatternMatchCondition(InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION, '*' . $query . '*', InternshipOrganizerAgreement :: get_table_name());
         
@@ -75,14 +76,15 @@ function dump_tree($agreement_rel_users)
 {
     if (contains_results($agreement_rel_users))
     {
-        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Users'), '">', "\n";
+        echo '<node id="0" classes="category unlinked" title="', Translation :: get('InternshipOrganizerAgreements'), '">', "\n";
         
         foreach ($agreement_rel_users as $agreement_rel_user)
         {
             $id = $agreement_rel_user->get_agreement_id().'|'.$agreement_rel_user->get_user_id().'|'.$agreement_rel_user->get_user_type();
             $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreement_rel_user->get_agreement_id());
+            $user_type = InternshipOrganizerUserType::get_user_type_name($agreement_rel_user->get_user_type());
             $user = UserDataManager :: get_instance()->retrieve_user($agreement_rel_user->get_user_id());
-            $name = strip_tags($agreement->get_name() . ' ' . $user->get_firstname().' '.$user->get_lastname());
+            $name = strip_tags($agreement->get_name() . ' ' . $user->get_firstname().' '.$user->get_lastname().' - '.$user_type);
             //            $description = strip_tags($period->get_description());
             //            $description = preg_replace("/[\n\r]/", "", $description);
             
