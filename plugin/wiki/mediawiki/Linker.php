@@ -8,7 +8,7 @@
  *
  * @ingroup Skins
  */
-class MediaWikiLinker
+class MediawikiLinker
 {
 
     /**

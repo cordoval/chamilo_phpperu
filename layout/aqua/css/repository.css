@@ -252,7 +252,52 @@ tr.recycled td a:hover {
 	-webkit-border-top-bottom-radius: 10px;
 }
 
-.wiki-pane-content table {
+.wiki-pane-content .wiki-pane-content-body table {
 	border: 1px solid #8888aa;
 	background-color: #f7f8ff;
+}
+
+table.wikitable {
+	margin: 1em 1em 1em 0;
+	background: #f9f9f9;
+	border: 1px #aaa solid;
+	border-collapse: collapse;
+}
+
+.wikitable th,.wikitable td {
+	border: 1px #aaa solid;
+	padding: 0.2em;
+}
+
+.wikitable th {
+	background: #f2f2f2;
+	text-align: center;
+}
+
+.wikitable caption {
+	font-weight: bold;
+}
+
+.wiki-pane-content-history .sortable_table_selection_controls_options {
+	display: none;
+}
+
+/* hide initially collapsed collapsable tables */
+table.collapsed tr.collapsable {
+	display: none;
+}
+
+.wiki-pane-content-version
+{
+	border-width: 1px;
+	border-style: dotted;
+	background-repeat: no-repeat;
+	background-position: 10px 50%;
+	padding: 10px 36px 10px 36px;
+	text-align: justify;
+	background-image: url('../images/common/status_warning_mini.png');
+	border: 1px solid #ffd89b;
+	background-color: #fff8aa;
+	color: #996900;
+	margin-bottom: 1.5em;
 }

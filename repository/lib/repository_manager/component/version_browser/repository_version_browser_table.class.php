@@ -24,8 +24,8 @@ class RepositoryVersionBrowserTable extends ObjectTable
         $data_provider = new RepositoryVersionBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, RepositoryVersionBrowserTable :: DEFAULT_NAME, $model, $renderer);
         
-        $actions = array();
-        $actions[] = new ObjectTableFormAction(RepositoryManager :: ACTION_COMPARE_CONTENT_OBJECTS, Translation :: get('CompareSelected'));
+        $actions = new ObjectTableFormActions();
+        $actions->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_COMPARE_CONTENT_OBJECTS, Translation :: get('CompareSelected')));
         
         $this->set_additional_parameters($parameters);
         $this->set_form_actions($actions);
@@ -34,8 +34,8 @@ class RepositoryVersionBrowserTable extends ObjectTable
 
     static function handle_table_action()
     {
-//        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
-//        Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $ids);
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $ids);
     }
 }
 ?>

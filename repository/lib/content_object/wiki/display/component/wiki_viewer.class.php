@@ -43,7 +43,10 @@ class WikiDisplayWikiViewerComponent extends WikiDisplay
                 
                 //                $html[] = $parser->parse_wiki_text();
                 //                $html[] = $parser->get_wiki_text();
+                $html[] = '<div class="wiki-pane-content-body">';
                 $html[] = $parser->parse($wiki_homepage->get_description());
+                $html[] = '<div class="clear"></div>';
+                $html[] = '</div>';
                 
                 echo implode("\n", $html);
                 $this->display_footer();

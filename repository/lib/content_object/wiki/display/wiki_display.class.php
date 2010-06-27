@@ -28,6 +28,8 @@ class WikiDisplay extends ComplexDisplay
     const ACTION_ACCESS_DETAILS = 'access_details';
     const ACTION_LOCK = 'lock';
     const ACTION_ADD_LINK = 'add_wiki_link';
+    const ACTION_VERSION_REVERT = 'revert_version';
+    const ACTION_VERSION_DELETE = 'delete_version';
 
     private $search_form;
 
@@ -60,6 +62,9 @@ class WikiDisplay extends ComplexDisplay
                 break;
             case self :: ACTION_VIEW_WIKI :
                 $component = $this->create_component('WikiViewer');
+                break;
+            case self :: ACTION_COMPARE :
+                $component = $this->create_component('Comparer');
                 break;
             case self :: ACTION_BROWSE_WIKI :
                 $component = $this->create_component('WikiBrowser');
@@ -407,9 +412,9 @@ class WikiDisplay extends ComplexDisplay
                         ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM,
                         ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_wiki_page->get_id()));
 
-                $html[] = '<li><a' . (in_array($this->get_action(), array(self :: ACTION_VIEW_WIKI, self :: ACTION_VIEW_WIKI_PAGE)) ? ' class="current"' : '') . ' href="' . $read_url . '">' . Translation :: get('WikiRead') . '</a></li>';
+                $html[] = '<li><a' . (in_array($this->get_action(), array(self :: ACTION_VIEW_WIKI, self :: ACTION_VIEW_WIKI_PAGE)) && !Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID) ? ' class="current"' : '') . ' href="' . $read_url . '">' . Translation :: get('WikiRead') . '</a></li>';
                 $html[] = '<li><a' . ($this->get_action() == self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM ? ' class="current"' : '') . ' href="' . $edit_url . '">' . Translation :: get('WikiEdit') . '</a></li>';
-                $html[] = '<li><a' . ($this->get_action() == self :: ACTION_HISTORY ? ' class="current"' : '') . ' href="' . $history_url . '">' . Translation :: get('WikiHistory') . '</a></li>';
+                $html[] = '<li><a' . (($this->get_action() == self :: ACTION_HISTORY) || ($this->get_action() == self :: ACTION_VIEW_WIKI_PAGE && Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID)) ? ' class="current"' : '') . ' href="' . $history_url . '">' . Translation :: get('WikiHistory') . '</a></li>';
                 $html[] = '<li><a' . ($this->get_action() == self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM ? ' class="current"' : '') . ' href="' . $delete_url . '">' . Translation :: get('WikiDelete') . '</a></li>';
             }
             else

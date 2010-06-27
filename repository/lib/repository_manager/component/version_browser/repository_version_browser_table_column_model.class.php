@@ -20,7 +20,7 @@ class RepositoryVersionBrowserTableColumnModel extends DefaultContentObjectTable
     function RepositoryVersionBrowserTableColumnModel()
     {
         parent :: __construct();
-        $this->set_default_order_column(3);
+        $this->set_default_order_column(4);
         $this->set_default_order_direction(SORT_DESC);
         
         $this->add_column(new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE));
