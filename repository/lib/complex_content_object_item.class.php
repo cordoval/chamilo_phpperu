@@ -117,6 +117,11 @@ class ComplexContentObjectItem extends DataClass
         return $this->get_default_property(self :: PROPERTY_PARENT);
     }
 
+    function get_parent_object()
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_parent());
+    }
+
     function set_parent($parent)
     {
         $this->set_default_property(self :: PROPERTY_PARENT, $parent);

@@ -274,7 +274,7 @@ class MediaWikiTitle
      */
     public static function &makeTitle($ns, $title, $fragment = '')
     {
-        $t = new Title();
+        $t = new MediawikiTitle();
         $t->mInterwiki = '';
         $t->mFragment = $fragment;
         $t->mNamespace = $ns = intval($ns);
@@ -471,8 +471,7 @@ class MediaWikiTitle
      */
     public static function legalChars()
     {
-        global $wgLegalTitleChars;
-        return $wgLegalTitleChars;
+        return " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";
     }
 
     /**
@@ -577,12 +576,11 @@ class MediaWikiTitle
      */
     static function escapeFragmentForURL($fragment)
     {
-        global $wgEnforceHtmlIds;
         # Note that we don't urlencode the fragment.  urlencoded Unicode
         # fragments appear not to work in IE (at least up to 7) or in at least
         # one version of Opera 9.x.  The W3C validator, for one, doesn't seem
         # to care if they aren't encoded.
-        return Sanitizer :: escapeId($fragment, $wgEnforceHtmlIds ? 'noninitial' : 'xml');
+        return MediawikiSanitizer :: escapeId($fragment, 'noninitial');
     }
 
     #----------------------------------------------------------------------------
@@ -913,14 +911,6 @@ class MediaWikiTitle
             $query = wfArrayToCGI($query);
         }
 
-        // internal links should point to same variant as current page (only anonymous users)
-        if ($variant == false && $wgContLang->hasVariants() && ! $wgUser->isLoggedIn())
-        {
-            $pref = $wgContLang->getPreferredVariant(false);
-            if ($pref != $wgContLang->getCode())
-                $variant = $pref;
-        }
-
         if ($this->isExternal())
         {
             $url = $this->getFullURL();
@@ -986,14 +976,15 @@ class MediaWikiTitle
                 }
             }
 
-            // FIXME: this causes breakage in various places when we
-            // actually expected a local URL and end up with dupe prefixes.
-            if ($wgRequest->getVal('action') == 'render')
-            {
-                $url = $wgServer . $url;
-            }
+//            dump($url);
+
+//            // FIXME: this causes breakage in various places when we
+//            // actually expected a local URL and end up with dupe prefixes.
+//            if ($wgRequest->getVal('action') == 'render')
+//            {
+//                $url = $wgServer . $url;
+//            }
         }
-        wfRunHooks('GetLocalURL', array(&$this, &$url, $query));
         return $url;
     }
 
@@ -1013,10 +1004,8 @@ class MediaWikiTitle
      */
     public function getLinkUrl($query = array(), $variant = false)
     {
-        wfProfileIn(__METHOD__);
         if (! is_array($query))
         {
-            wfProfileOut(__METHOD__);
             throw new MWException('MediawikiTitle::getLinkUrl passed a non-array for ' . '$query');
         }
         if ($this->isExternal())
@@ -1031,7 +1020,6 @@ class MediaWikiTitle
         {
             $ret = $this->getLocalURL($query, $variant) . $this->getFragmentForURL();
         }
-        wfProfileOut(__METHOD__);
         return $ret;
     }
 
@@ -2354,7 +2342,7 @@ class MediaWikiTitle
         {
             return $this->mArticleID = 0;
         }
-        $linkCache = LinkCache :: singleton();
+        $linkCache = MediawikiLinkCache :: singleton();
         if ($flags & GAID_FOR_UPDATE)
         {
             $oldUpdate = $linkCache->forUpdate(true);
@@ -2387,7 +2375,7 @@ class MediaWikiTitle
         {
             return $this->mRedirect = false;
         }
-        $linkCache = LinkCache :: singleton();
+        $linkCache = MediawikiLinkCache :: singleton();
         $this->mRedirect = (bool) $linkCache->getGoodLinkFieldObj($this, 'redirect');
 
         return $this->mRedirect;
@@ -2558,71 +2546,72 @@ class MediaWikiTitle
             $dbkey = trim($dbkey, '_'); # remove any subsequent whitespace
         }
 
-        # Namespace or interwiki prefix
-        $firstPass = true;
-        $prefixRegexp = "/^(.+?)_*:_*(.*)$/S";
-        do
-        {
-            $m = array();
-            if (preg_match($prefixRegexp, $dbkey, $m))
-            {
-                $p = $m[1];
-                if ($ns = $wgContLang->getNsIndex($p))
-                {
-                    # Ordinary namespace
-                    $dbkey = $m[2];
-                    $this->mNamespace = $ns;
-                    # For Talk:X pages, check if X has a "namespace" prefix
-                    if ($ns == NS_TALK && preg_match($prefixRegexp, $dbkey, $x))
-                    {
-                        if ($wgContLang->getNsIndex($x[1]))
-                            return false; # Disallow Talk:File:x type titles...
-                        else
-                            if (Interwiki :: isValidInterwiki($x[1]))
-                                return false; # Disallow Talk:Interwiki:x type titles...
-                    }
-                }
-                elseif (Interwiki :: isValidInterwiki($p))
-                {
-                    if (! $firstPass)
-                    {
-                        # Can't make a local interwiki link to an interwiki link.
-                        # That's just crazy!
-                        return false;
-                    }
-
-                    # Interwiki link
-                    $dbkey = $m[2];
-                    $this->mInterwiki = $wgContLang->lc($p);
-
-                    # Redundant interwiki prefix to the local wiki
-                    if (0 == strcasecmp($this->mInterwiki, $wgLocalInterwiki))
-                    {
-                        if ($dbkey == '')
-                        {
-                            # Can't have an empty self-link
-                            return false;
-                        }
-                        $this->mInterwiki = '';
-                        $firstPass = false;
-                        # Do another namespace split...
-                        continue;
-                    }
-
-                    # If there's an initial colon after the interwiki, that also
-                    # resets the default namespace
-                    if ($dbkey !== '' && $dbkey[0] == ':')
-                    {
-                        $this->mNamespace = NS_MAIN;
-                        $dbkey = substr($dbkey, 1);
-                    }
-                }
-                # If there's no recognized interwiki or namespace,
-            # then let the colon expression be part of the title.
-            }
-            break;
-        }
-        while (true);
+//        # Namespace or interwiki prefix
+//        $firstPass = true;
+//        $prefixRegexp = "/^(.+?)_*:_*(.*)$/S";
+//        do
+//        {
+//            $m = array();
+//            if (preg_match($prefixRegexp, $dbkey, $m))
+//            {
+//                $p = $m[1];
+//                dump($p);
+//                if ($ns = $wgContLang->getNsIndex($p))
+//                {
+//                    # Ordinary namespace
+//                    $dbkey = $m[2];
+//                    $this->mNamespace = $ns;
+//                    # For Talk:X pages, check if X has a "namespace" prefix
+//                    if ($ns == NS_TALK && preg_match($prefixRegexp, $dbkey, $x))
+//                    {
+//                        if ($wgContLang->getNsIndex($x[1]))
+//                            return false; # Disallow Talk:File:x type titles...
+//                        else
+//                            if (Interwiki :: isValidInterwiki($x[1]))
+//                                return false; # Disallow Talk:Interwiki:x type titles...
+//                    }
+//                }
+//                elseif (Interwiki :: isValidInterwiki($p))
+//                {
+//                    if (! $firstPass)
+//                    {
+//                        # Can't make a local interwiki link to an interwiki link.
+//                        # That's just crazy!
+//                        return false;
+//                    }
+//
+//                    # Interwiki link
+//                    $dbkey = $m[2];
+//                    $this->mInterwiki = $wgContLang->lc($p);
+//
+//                    # Redundant interwiki prefix to the local wiki
+//                    if (0 == strcasecmp($this->mInterwiki, $wgLocalInterwiki))
+//                    {
+//                        if ($dbkey == '')
+//                        {
+//                            # Can't have an empty self-link
+//                            return false;
+//                        }
+//                        $this->mInterwiki = '';
+//                        $firstPass = false;
+//                        # Do another namespace split...
+//                        continue;
+//                    }
+//
+//                    # If there's an initial colon after the interwiki, that also
+//                    # resets the default namespace
+//                    if ($dbkey !== '' && $dbkey[0] == ':')
+//                    {
+//                        $this->mNamespace = NS_MAIN;
+//                        $dbkey = substr($dbkey, 1);
+//                    }
+//                }
+//                # If there's no recognized interwiki or namespace,
+//            # then let the colon expression be part of the title.
+//            }
+//            break;
+//        }
+//        while (true);
 
         # We already know that some pages won't be in the database!
         #

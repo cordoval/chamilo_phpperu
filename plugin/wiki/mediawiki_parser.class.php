@@ -5,6 +5,12 @@ require_once dirname(__FILE__) . '/mediawiki/StringUtils.php';
 require_once dirname(__FILE__) . '/mediawiki/Xml.php';
 require_once dirname(__FILE__) . '/mediawiki/StripState.php';
 require_once dirname(__FILE__) . '/mediawiki/Title.php';
+require_once dirname(__FILE__) . '/mediawiki/LinkHolderArray.php';
+require_once dirname(__FILE__) . '/mediawiki/Linker.php';
+require_once dirname(__FILE__) . '/mediawiki/LinkCache.php';
+require_once dirname(__FILE__) . '/mediawiki/Defines.php';
+require_once dirname(__FILE__) . '/mediawiki/ParserOutput.php';
+require_once dirname(__FILE__) . '/mediawiki/Namespace.php';
 
 function wfUrlProtocols()
 {
@@ -14,7 +20,7 @@ function wfUrlProtocols()
     $wgUrlProtocols = array('http://', 'https://', 'ftp://', 'irc://', 'gopher://', 'telnet://', // Well if we're going to support the above.. -ævar
 'nntp://', // @bug 3808 RFC 1738
 'worldwind://', 'mailto:', 'news:', 'svn://');
-    
+
     // Support old-style $wgUrlProtocols strings, for backwards compatibility
     // with LocalSettings files from 1.5
     if (is_array($wgUrlProtocols))
@@ -22,13 +28,115 @@ function wfUrlProtocols()
         $protocols = array();
         foreach ($wgUrlProtocols as $protocol)
             $protocols[] = preg_quote($protocol, '/');
-        
+
         return implode('|', $protocols);
     }
     else
     {
         return $wgUrlProtocols;
     }
+}
+
+function wfUrlencode($s)
+{
+    $s = urlencode($s);
+    $s = str_ireplace(array('%3B', '%3A', '%40', '%24', '%21', '%2A', '%28', '%29', '%2C', '%2F'), array(';', ':', '@', '$', '!', '*', '(', ')', ',', '/'), $s);
+
+    return $s;
+}
+
+/**
+ * This is the logical opposite of wfArrayToCGI(): it accepts a query string as
+ * its argument and returns the same string in array form.  This allows compa-
+ * tibility with legacy functions that accept raw query strings instead of nice
+ * arrays.  Of course, keys and values are urldecode()d.  Don't try passing in-
+ * valid query strings, or it will explode.
+ *
+ * @param $query string Query string
+ * @return array Array version of input
+ */
+function wfCgiToArray($query)
+{
+    if (isset($query[0]) and $query[0] == '?')
+    {
+        $query = substr($query, 1);
+    }
+    $bits = explode('&', $query);
+    $ret = array();
+    foreach ($bits as $bit)
+    {
+        if ($bit === '')
+        {
+            continue;
+        }
+        list($key, $value) = explode('=', $bit);
+        $key = urldecode($key);
+        $value = urldecode($value);
+        $ret[$key] = $value;
+    }
+    return $ret;
+}
+
+/**
+ * This function takes two arrays as input, and returns a CGI-style string, e.g.
+ * "days=7&limit=100". Options in the first array override options in the second.
+ * Options set to "" will not be output.
+ */
+function wfArrayToCGI($array1, $array2 = NULL)
+{
+    if (! is_null($array2))
+    {
+        $array1 = $array1 + $array2;
+    }
+
+    $cgi = '';
+    foreach ($array1 as $key => $value)
+    {
+        if ('' !== $value)
+        {
+            if ('' != $cgi)
+            {
+                $cgi .= '&';
+            }
+            if (is_array($value))
+            {
+                $firstTime = true;
+                foreach ($value as $v)
+                {
+                    $cgi .= ($firstTime ? '' : '&') . urlencode($key . '[]') . '=' . urlencode($v);
+                    $firstTime = false;
+                }
+            }
+            else
+                $cgi .= urlencode($key) . '=' . urlencode($value);
+        }
+    }
+    return $cgi;
+}
+
+/**
+ * Append a query string to an existing URL, which may or may not already
+ * have query string parameters already. If so, they will be combined.
+ *
+ * @param string $url
+ * @param string $query
+ * @return string
+ */
+function wfAppendQuery($url, $query)
+{
+    if ($query != '')
+    {
+        if (false === strpos($url, '?'))
+        {
+            $url .= '?';
+        }
+        else
+        {
+            $url .= '&';
+        }
+        $url .= $query;
+    }
+    return $url;
 }
 
 /**
@@ -50,18 +158,32 @@ class MediawikiParser
     const COLON_STATE_COMMENT = 5;
     const COLON_STATE_COMMENTDASH = 6;
     const COLON_STATE_COMMENTDASHDASH = 7;
-    
+
     const MARKER_SUFFIX = "-QINU\x7f";
-    
+
+    const VERSION = '1.6.4';
+
     // Flags for preprocessToDom
     const PTD_FOR_INCLUSION = 1;
-    
-    private $mUniqPrefix;
 
-    function MediawikiParser()
+    private $mUniqPrefix;
+    private $wiki_page;
+    private $complex_wiki_display;
+
+    function MediawikiParser($complex_wiki_display, $wiki_page)
     {
+        $this->complex_wiki_display = $complex_wiki_display;
+        $this->wiki_page = $wiki_page;
         $this->mUniqPrefix = "\x7fUNIQ" . self :: getRandomString();
+        $this->mLinkID = 0;
+        $this->mOutput = new MediawikiParserOutput();
         $this->mStripState = new MediawikiStripState();
+        $this->mLinkHolders = new MediawikiLinkHolderArray($this);
+    }
+
+    function get_complex_display()
+    {
+        return $this->complex_wiki_display;
     }
 
     /**
@@ -75,39 +197,49 @@ class MediawikiParser
         return dechex(mt_rand(0, 0x7fffffff)) . dechex(mt_rand(0, 0x7fffffff));
     }
 
-    function parse($text)
+    function parse()
     {
+        $text = $this->wiki_page->get_description();
         $text = $this->internalParse($text);
-        
+
         # Clean up special characters, only run once, next-to-last before doBlockLevels
         $fixtags = array(# french spaces, last one Guillemet-left
 # only if there is something before the space
         '/(.) (?=\\?|:|;|!|%|\\302\\273)/' => '\\1&nbsp;\\2', # french spaces, Guillemet-right
 '/(\\302\\253) /' => '\\1&nbsp;', '/&nbsp;(!\s*important)/' => ' \\1'); #Beware of CSS magic word !important, bug #11874.
-        
+
 
         $text = preg_replace(array_keys($fixtags), array_values($fixtags), $text);
-        
+
         $text = $this->doBlockLevels($text, $linestart);
-        
+
+        $this->replaceLinkHolders($text);
+
         return $text;
     }
 
     /**
-     * @see Parser | internalParse
+     * Replace <!--LINK--> link placeholders with actual links, in the buffer
+     * Placeholders created in Skin::makeLinkObj()
+     * Returns an array of link CSS classes, indexed by PDBK.
      */
+    function replaceLinkHolders(&$text, $options = 0)
+    {
+        return $this->mLinkHolders->replace($text);
+    }
+
     function internalParse($text)
     {
         $isMain = true;
         //$text = Sanitizer :: removeHTMLtags($text, array(&$this, 'attributeStripCallback'), false, array_keys($this->mTransparentTagHooks));
-        
+
 
         // Tables need to come after variable replacement for things to work
         // properly; putting them before other transformations should keep
         // exciting things like link expansions from showing up in surprising
         // places.
         $text = $this->doTableStuff($text);
-        
+
         $text = preg_replace('/(^|\n)-----*/', '\\1<hr />', $text);
         //
         //        $text = $this->doDoubleUnderscore($text);
@@ -118,7 +250,7 @@ class MediawikiParser
         //        //    $text = $df->reformat($this->mOptions->getDateFormat(), $text);
         //        //}
         $text = $this->doAllQuotes($text);
-        //        $text = $this->replaceInternalLinks($text);
+        $text = $this->replaceInternalLinks($text);
         //        $text = $this->replaceExternalLinks($text);
         //
         //        # replaceInternalLinks may sometimes leave behind
@@ -127,7 +259,7 @@ class MediawikiParser
         //
         //        $text = $this->doMagicLinks($text);
         $text = $this->formatHeadings($text, $isMain);
-        
+
         return $text;
     }
 
@@ -138,7 +270,7 @@ class MediawikiParser
      */
     function doTableStuff($text)
     {
-        
+
         $lines = MediawikiStringUtils :: explode("\n", $text);
         $out = '';
         $td_history = array(); // Is currently a td tag open?
@@ -147,12 +279,12 @@ class MediawikiParser
         $tr_attributes = array(); // history of tr attributes
         $has_opened_tr = array(); // Did this table open a <tr> element?
         $indent_level = 0; // indent level of the table
-        
+
 
         foreach ($lines as $outLine)
         {
             $line = trim($outLine);
-            
+
             if ($line == '')
             { // empty line, go to next line
                 $out .= $outLine . "\n";
@@ -160,15 +292,15 @@ class MediawikiParser
             }
             $first_character = $line[0];
             $matches = array();
-            
+
             if (preg_match('/^(:*)\{\|(.*)$/', $line, $matches))
             {
                 // First check if we are starting a new table
                 $indent_level = strlen($matches[1]);
-                
+
                 $attributes = $this->mStripState->unstripBoth($matches[2]);
                 $attributes = MediawikiSanitizer :: fixTagAttributes($attributes, 'table');
-                
+
                 $outLine = str_repeat('<dl><dd>', $indent_level) . "<table{$attributes}>";
                 array_push($td_history, false);
                 array_push($last_tag_history, '');
@@ -176,30 +308,30 @@ class MediawikiParser
                 array_push($tr_attributes, '');
                 array_push($has_opened_tr, false);
             }
-            else 
+            else
                 if (count($td_history) == 0)
                 {
                     // Don't do any of the following
                     $out .= $outLine . "\n";
                     continue;
                 }
-                else 
+                else
                     if (substr($line, 0, 2) === '|}')
                     {
                         // We are ending a table
                         $line = '</table>' . substr($line, 2);
                         $last_tag = array_pop($last_tag_history);
-                        
+
                         if (! array_pop($has_opened_tr))
                         {
                             $line = "<tr><td></td></tr>{$line}";
                         }
-                        
+
                         if (array_pop($tr_history))
                         {
                             $line = "</tr>{$line}";
                         }
-                        
+
                         if (array_pop($td_history))
                         {
                             $line = "</{$last_tag}>{$line}";
@@ -207,39 +339,39 @@ class MediawikiParser
                         array_pop($tr_attributes);
                         $outLine = $line . str_repeat('</dd></dl>', $indent_level);
                     }
-                    else 
+                    else
                         if (substr($line, 0, 2) === '|-')
                         {
                             // Now we have a table row
                             $line = preg_replace('#^\|-+#', '', $line);
-                            
+
                             // Whats after the tag is now only attributes
                             $attributes = $this->mStripState->unstripBoth($line);
                             $attributes = MediawikiSanitizer :: fixTagAttributes($attributes, 'tr');
                             array_pop($tr_attributes);
                             array_push($tr_attributes, $attributes);
-                            
+
                             $line = '';
                             $last_tag = array_pop($last_tag_history);
                             array_pop($has_opened_tr);
                             array_push($has_opened_tr, true);
-                            
+
                             if (array_pop($tr_history))
                             {
                                 $line = '</tr>';
                             }
-                            
+
                             if (array_pop($td_history))
                             {
                                 $line = "</{$last_tag}>{$line}";
                             }
-                            
+
                             $outLine = $line;
                             array_push($tr_history, false);
                             array_push($td_history, false);
                             array_push($last_tag_history, '');
                         }
-                        else 
+                        else
                             if ($first_character === '|' || $first_character === '!' || substr($line, 0, 2) === '|+')
                             {
                                 // This might be cell elements, td, th or captions
@@ -248,22 +380,22 @@ class MediawikiParser
                                     $first_character = '+';
                                     $line = substr($line, 1);
                                 }
-                                
+
                                 $line = substr($line, 1);
-                                
+
                                 if ($first_character === '!')
                                 {
                                     $line = str_replace('!!', '||', $line);
                                 }
-                                
+
                                 // Split up multiple cells on the same line.
                                 // FIXME : This can result in improper nesting of tags processed
                                 // by earlier parser steps, but should avoid splitting up eg
                                 // attribute values containing literal "||".
                                 $cells = MediawikiStringUtils :: explodeMarkup('||', $line);
-                                
+
                                 $outLine = '';
-                                
+
                                 // Loop through each table cell
                                 foreach ($cells as $cell)
                                 {
@@ -280,24 +412,24 @@ class MediawikiParser
                                         array_pop($has_opened_tr);
                                         array_push($has_opened_tr, true);
                                     }
-                                    
+
                                     $last_tag = array_pop($last_tag_history);
-                                    
+
                                     if (array_pop($td_history))
                                     {
                                         $previous = "</{$last_tag}>{$previous}";
                                     }
-                                    
+
                                     if ($first_character === '|')
                                     {
                                         $last_tag = 'td';
                                     }
-                                    else 
+                                    else
                                         if ($first_character === '!')
                                         {
                                             $last_tag = 'th';
                                         }
-                                        else 
+                                        else
                                             if ($first_character === '+')
                                             {
                                                 $last_tag = 'caption';
@@ -306,19 +438,19 @@ class MediawikiParser
                                             {
                                                 $last_tag = '';
                                             }
-                                    
+
                                     array_push($last_tag_history, $last_tag);
-                                    
+
                                     // A cell could contain both parameters and data
                                     $cell_data = explode('|', $cell, 2);
-                                    
+
                                     // Bug 553: Note that a '|' inside an invalid link should not
                                     // be mistaken as delimiting cell parameters
                                     if (strpos($cell_data[0], '[[') !== false)
                                     {
                                         $cell = "{$previous}<{$last_tag}>{$cell}";
                                     }
-                                    else 
+                                    else
                                         if (count($cell_data) == 1)
                                             $cell = "{$previous}<{$last_tag}>{$cell_data[0]}";
                                         else
@@ -327,14 +459,14 @@ class MediawikiParser
                                             $attributes = MediawikiSanitizer :: fixTagAttributes($attributes, $last_tag);
                                             $cell = "{$previous}<{$last_tag}{$attributes}>{$cell_data[1]}";
                                         }
-                                    
+
                                     $outLine .= $cell;
                                     array_push($td_history, true);
                                 }
                             }
             $out .= $outLine . "\n";
         }
-        
+
         // Closing open td, tr && table
         while (count($td_history) > 0)
         {
@@ -350,22 +482,22 @@ class MediawikiParser
             {
                 $out .= "<tr><td></td></tr>\n";
             }
-            
+
             $out .= "</table>\n";
         }
-        
+
         // Remove trailing line-ending (b/c)
         if (substr($out, - 1) === "\n")
         {
             $out = substr($out, 0, - 1);
         }
-        
+
         // special case: don't return empty table
         if ($out === "<table>\n<tr><td></td></tr>\n</table>")
         {
             $out = '';
         }
-        
+
         return $out;
     }
 
@@ -430,7 +562,7 @@ class MediawikiParser
                     }
                     # If there are more than 5 apostrophes in a row, assume they're all
                     # text except for the last 5.
-                    else 
+                    else
                         if (strlen($arr[$i]) > 5)
                         {
                             $arr[$i - 1] .= str_repeat("'", strlen($arr[$i]) - 5);
@@ -442,12 +574,12 @@ class MediawikiParser
                     {
                         $numitalics ++;
                     }
-                    else 
+                    else
                         if (strlen($arr[$i]) == 3)
                         {
                             $numbold ++;
                         }
-                        else 
+                        else
                             if (strlen($arr[$i]) == 5)
                             {
                                 $numitalics ++;
@@ -456,7 +588,7 @@ class MediawikiParser
                 }
                 $i ++;
             }
-            
+
             # If there is an odd number of both bold and italics, it is likely
             # that one of the bold ones was meant to be an apostrophe followed
             # by italics. Which one we cannot know for certain, but it is more
@@ -478,7 +610,7 @@ class MediawikiParser
                             if ($firstspace == - 1)
                                 $firstspace = $i;
                         }
-                        else 
+                        else
                             if ($x2 === ' ')
                             {
                                 if ($firstsingleletterword == - 1)
@@ -492,7 +624,7 @@ class MediawikiParser
                     }
                     $i ++;
                 }
-                
+
                 # If there is a single-letter word, use it!
                 if ($firstsingleletterword > - 1)
                 {
@@ -500,7 +632,7 @@ class MediawikiParser
                     $arr[$firstsingleletterword - 1] .= "'";
                 }
                 # If not, but there's a multi-letter word, use that one.
-                else 
+                else
                     if ($firstmultiletterword > - 1)
                     {
                         $arr[$firstmultiletterword] = "''";
@@ -509,14 +641,14 @@ class MediawikiParser
                     # ... otherwise use the first one that has neither.
                     # (notice that it is possible for all three to be -1 if, for example,
                     # there is only one pentuple-apostrophe in the line)
-                    else 
+                    else
                         if ($firstspace > - 1)
                         {
                             $arr[$firstspace] = "''";
                             $arr[$firstspace - 1] .= "'";
                         }
             }
-            
+
             # Now let's actually convert our apostrophic mush to HTML!
             $output = '';
             $buffer = '';
@@ -540,19 +672,19 @@ class MediawikiParser
                             $output .= '</i>';
                             $state = '';
                         }
-                        else 
+                        else
                             if ($state === 'bi')
                             {
                                 $output .= '</i>';
                                 $state = 'b';
                             }
-                            else 
+                            else
                                 if ($state === 'ib')
                                 {
                                     $output .= '</b></i><b>';
                                     $state = 'b';
                                 }
-                                else 
+                                else
                                     if ($state === 'both')
                                     {
                                         $output .= '<b><i>' . $buffer . '</i>';
@@ -564,7 +696,7 @@ class MediawikiParser
                                         $state .= 'i';
                                     }
                     }
-                    else 
+                    else
                         if (strlen($r) == 3)
                         {
                             if ($state === 'b')
@@ -572,19 +704,19 @@ class MediawikiParser
                                 $output .= '</b>';
                                 $state = '';
                             }
-                            else 
+                            else
                                 if ($state === 'bi')
                                 {
                                     $output .= '</i></b><i>';
                                     $state = 'i';
                                 }
-                                else 
+                                else
                                     if ($state === 'ib')
                                     {
                                         $output .= '</b>';
                                         $state = 'i';
                                     }
-                                    else 
+                                    else
                                         if ($state === 'both')
                                         {
                                             $output .= '<i><b>' . $buffer . '</b>';
@@ -596,7 +728,7 @@ class MediawikiParser
                                             $state .= 'b';
                                         }
                         }
-                        else 
+                        else
                             if (strlen($r) == 5)
                             {
                                 if ($state === 'b')
@@ -604,25 +736,25 @@ class MediawikiParser
                                     $output .= '</b><i>';
                                     $state = 'i';
                                 }
-                                else 
+                                else
                                     if ($state === 'i')
                                     {
                                         $output .= '</i><b>';
                                         $state = 'b';
                                     }
-                                    else 
+                                    else
                                         if ($state === 'bi')
                                         {
                                             $output .= '</i></b>';
                                             $state = '';
                                         }
-                                        else 
+                                        else
                                             if ($state === 'ib')
                                             {
                                                 $output .= '</b></i>';
                                                 $state = '';
                                             }
-                                            else 
+                                            else
                                                 if ($state === 'both')
                                                 {
                                                     $output .= '<i><b>' . $buffer . '</b></i>';
@@ -664,12 +796,12 @@ class MediawikiParser
         # and making lists from lines starting with * # : etc.
         #
         $textLines = MediawikiStringUtils :: explode("\n", $text);
-        
+
         $lastPrefix = $output = '';
         $this->mDTopen = $inBlockElem = false;
         $prefixLength = 0;
         $paragraphStack = false;
-        
+
         foreach ($textLines as $oLine)
         {
             # Fix up $linestart
@@ -679,7 +811,7 @@ class MediawikiParser
                 $linestart = true;
                 continue;
             }
-            
+
             $lastPrefixLength = strlen($lastPrefix);
             $preCloseMatch = preg_match('/<\\/pre/i', $oLine);
             $preOpenMatch = preg_match('/<pre/i', $oLine);
@@ -688,7 +820,7 @@ class MediawikiParser
                 # Multiple prefixes may abut each other for nested lists.
                 $prefixLength = strspn($oLine, '*#:;');
                 $prefix = substr($oLine, 0, $prefixLength);
-                
+
                 # eh?
                 $prefix2 = str_replace(';', ':', $prefix);
                 $t = substr($oLine, $prefixLength);
@@ -701,14 +833,14 @@ class MediawikiParser
                 $prefix = $prefix2 = '';
                 $t = $oLine;
             }
-            
+
             # List generation
             if ($prefixLength && $lastPrefix === $prefix2)
             {
                 # Same as the last item, so no need to deal with nesting or opening stuff
                 $output .= $this->nextItem(substr($prefix, - 1));
                 $paragraphStack = false;
-                
+
                 if (substr($prefix, - 1) === ';')
                 {
                     # The one nasty exception: definition lists work like this:
@@ -728,7 +860,7 @@ class MediawikiParser
                 # Either open or close a level...
                 $commonPrefixLength = $this->getCommon($prefix, $lastPrefix);
                 $paragraphStack = false;
-                
+
                 while ($commonPrefixLength < $lastPrefixLength)
                 {
                     $output .= $this->closeList($lastPrefix[$lastPrefixLength - 1]);
@@ -742,7 +874,7 @@ class MediawikiParser
                 {
                     $char = substr($prefix, $commonPrefixLength, 1);
                     $output .= $this->openList($char);
-                    
+
                     if (';' === $char)
                     {
                         # FIXME: This is dupe of code above
@@ -780,7 +912,7 @@ class MediawikiParser
                         $inBlockElem = true;
                     }
                 }
-                else 
+                else
                     if (! $inBlockElem && ! $this->mInPre)
                     {
                         if (' ' == substr($t, 0, 1) and ($this->mLastSection === 'pre' or trim($t) != ''))
@@ -827,7 +959,7 @@ class MediawikiParser
                                     $paragraphStack = false;
                                     $this->mLastSection = 'p';
                                 }
-                                else 
+                                else
                                     if ($this->mLastSection !== 'p')
                                     {
                                         $output .= $this->closeParagraph() . '<p>';
@@ -857,7 +989,7 @@ class MediawikiParser
             $output .= '</' . $this->mLastSection . '>';
             $this->mLastSection = '';
         }
-        
+
         return $output;
     }
 
@@ -867,7 +999,7 @@ class MediawikiParser
         {
             return '</li><li>';
         }
-        else 
+        else
             if (':' === $char || ';' === $char)
             {
                 $close = '</dd>';
@@ -905,7 +1037,7 @@ class MediawikiParser
             // Nothing to find!
             return false;
         }
-        
+
         $lt = strpos($str, '<');
         if ($lt === false || $lt > $pos)
         {
@@ -914,7 +1046,7 @@ class MediawikiParser
             $after = substr($str, $pos + 1);
             return $pos;
         }
-        
+
         // Ugly state machine to walk through avoiding tags.
         $state = self :: COLON_STATE_TEXT;
         $stack = 0;
@@ -922,7 +1054,7 @@ class MediawikiParser
         for($i = 0; $i < $len; $i ++)
         {
             $c = $str{$i};
-            
+
             switch ($state)
             {
                 // (Using the number is a performance hack for common cases)
@@ -1078,7 +1210,7 @@ class MediawikiParser
         {
             $shorter = $fl;
         }
-        
+
         for($i = 0; $i < $shorter; ++ $i)
         {
             if ($st1{$i} != $st2{$i})
@@ -1095,12 +1227,12 @@ class MediawikiParser
         {
             $text = '</li></ul>';
         }
-        else 
+        else
             if ('#' === $char)
             {
                 $text = '</li></ol>';
             }
-            else 
+            else
                 if (':' === $char)
                 {
                     if ($this->mDTopen)
@@ -1126,22 +1258,22 @@ class MediawikiParser
     function openList($char)
     {
         $result = $this->closeParagraph();
-        
+
         if ('*' === $char)
         {
             $result .= '<ul><li>';
         }
-        else 
+        else
             if ('#' === $char)
             {
                 $result .= '<ol><li>';
             }
-            else 
+            else
                 if (':' === $char)
                 {
                     $result .= '<dl><dd>';
                 }
-                else 
+                else
                     if (';' === $char)
                     {
                         $result .= '<dl><dt>';
@@ -1151,7 +1283,7 @@ class MediawikiParser
                     {
                         $result = '<!-- ERR 1 -->';
                     }
-        
+
         return $result;
     }
 
@@ -1189,19 +1321,19 @@ class MediawikiParser
     {
         $wgMaxTocLevel = 3;
         $doNumberHeadings = false;
-        
+
         # Get all headlines for numbering them and adding funky stuff like [edit]
         # links - this is for later, but we need the number of headlines right now
         $matches = array();
         $numMatches = preg_match_all('/<H(?P<level>[1-6])(?P<attrib>.*?' . '>)(?P<header>.*?)<\/H[1-6] *>/i', $text, $matches);
-        
+
         # if there are fewer than 4 headlines in the article, do not show TOC
         $enoughToc = ($numMatches >= 4);
-        
+
         # headline counter
         $headlineCount = 0;
         $numVisible = 0;
-        
+
         # Ugh .. the TOC should have neat indentation levels which can be
         # passed to the skin functions. These are determined here
         $toc = '';
@@ -1217,7 +1349,7 @@ class MediawikiParser
         $markerRegex = "{$this->mUniqPrefix}-h-(\d+)-" . self :: MARKER_SUFFIX;
         //        $baseTitleText = $this->mTitle->getPrefixedDBkey();
         $tocraw = array();
-        
+
         foreach ($matches[3] as $headline)
         {
             $isTemplate = false;
@@ -1232,7 +1364,7 @@ class MediawikiParser
             //                $isTemplate = ($titleText != $baseTitleText);
             //                $headline = preg_replace("/^$markerRegex/", "", $headline);
             //            }
-            
+
 
             if ($toclevel)
             {
@@ -1240,10 +1372,10 @@ class MediawikiParser
                 $prevtoclevel = $toclevel;
             }
             $level = $matches[1][$headlineCount];
-            
+
             if ($doNumberHeadings || $enoughToc)
             {
-                
+
                 if ($level > $prevlevel)
                 {
                     # Increase TOC level
@@ -1252,14 +1384,14 @@ class MediawikiParser
                     if ($toclevel < $wgMaxTocLevel)
                     {
                         $prevtoclevel = $toclevel;
-                        $toc .= "\n<ul>";
+                        $toc .= MediawikiLinker :: tocIndent();
                         $numVisible ++;
                     }
                 }
                 elseif ($level < $prevlevel && $toclevel > 1)
                 {
                     # Decrease TOC level, find level to jump to
-                    
+
 
                     if ($toclevel == 2 && $level <= $levelCount[1])
                     {
@@ -1289,13 +1421,12 @@ class MediawikiParser
                         if ($prevtoclevel < $wgMaxTocLevel)
                         {
                             # Unindent only if the previous toc level was shown :p
-                            $unindent_level = $prevtoclevel - $toclevel;
-                            $toc .= "</li>\n" . str_repeat("</ul>\n</li>\n", $unindent_level > 0 ? $unindent_level : 0);
+                            $toc .= MediawikiLinker :: tocUnindent($prevtoclevel - $toclevel);
                             $prevtoclevel = $toclevel;
                         }
                         else
                         {
-                            $toc .= "</li>\n";
+                            $toc .= MediawikiLinker :: tocLineEnd();
                         }
                     }
                 }
@@ -1304,12 +1435,12 @@ class MediawikiParser
                     # No change in level, end TOC line
                     if ($toclevel < $wgMaxTocLevel)
                     {
-                        $toc .= "</li>\n";
+                        $toc .= MediawikiLinker :: tocLineEnd();
                     }
                 }
-                
+
                 $levelCount[$toclevel] = $level;
-                
+
                 # count number of headlines for each level
                 @$sublevelCount[$toclevel] ++;
                 $dot = 0;
@@ -1327,32 +1458,32 @@ class MediawikiParser
                     }
                 }
             }
-            
+
             # The safe header is a version of the header text safe to use for links
             # Avoid insertion of weird stuff like <math> by expanding the relevant sections
             $safeHeadline = $this->mStripState->unstripBoth($headline);
-            
+
             # Remove link placeholders by the link text.
             #     <!--LINK number-->
             # turns into
             #     link text with suffix
             //$safeHeadline = $this->replaceLinkHoldersText($safeHeadline);
-            
+
 
             # Strip out HTML (other than plain <sup> and <sub>: bug 8393)
             $tocline = preg_replace(array('#<(?!/?(sup|sub)).*?' . '>#', '#<(/?(sup|sub)).*?' . '>#'), array('', '<$1>'), $safeHeadline);
             $tocline = trim($tocline);
-            
+
             # For the anchor, strip out HTML-y stuff period
             $safeHeadline = preg_replace('/<.*?' . '>/', '', $safeHeadline);
             $safeHeadline = trim($safeHeadline);
-            
+
             # Save headline for section edit hint before it's escaped
             $headlineHint = $safeHeadline;
-            
+
             $legacyHeadline = false;
             $safeHeadline = MediawikiSanitizer :: escapeId($safeHeadline, 'noninitial');
-            
+
             # HTML names must be case-insensitively unique (bug 10721).  FIXME:
             # Does this apply to Unicode characters?  Because we aren't
             # handling those here.
@@ -1365,7 +1496,7 @@ class MediawikiParser
             {
                 $legacyArrayKey = strtolower($legacyHeadline);
             }
-            
+
             # count how many in assoc. array so we can track dupes in anchors
             if (isset($refers[$arrayKey]))
             {
@@ -1383,14 +1514,14 @@ class MediawikiParser
             {
                 $refers[$legacyArrayKey] = 1;
             }
-            
+
             # Don't number the heading if it is the only one (looks silly)
             if ($doNumberHeadings && count($matches[3]) > 1)
             {
                 # the two are different if the line contains a link
                 $headline = $numbering . ' ' . $headline;
             }
-            
+
             # Create the anchor for linking from the TOC to the section
             $anchor = $safeHeadline;
             $legacyAnchor = $legacyHeadline;
@@ -1404,50 +1535,41 @@ class MediawikiParser
             }
             if ($enoughToc && (! isset($wgMaxTocLevel) || $toclevel < $wgMaxTocLevel))
             {
-                $toc .= "\n<li class=\"toclevel-$toclevel\"><a href=\"#" . $anchor . '"><span class="tocnumber">' . $numbering . '</span> <span class="toctext">' . $tocline . '</span></a>';
-                
+                $toc .= MediawikiLinker :: tocLine($anchor, $tocline, $numbering, $toclevel);
+
                 $tocraw[] = array('toclevel' => $toclevel, 'level' => $level, 'line' => $tocline, 'number' => $numbering);
             }
             # give headline the correct <h#> tag
-            $section_attribs = $matches['attrib'][$headlineCount];
-            
-            $section_headline = "<a name=\"$anchor\" id=\"$anchor\"></a>" . "<h$level$attribs><span class=\"mw-headline\">$headline</span>" . "</h$level>";
-            if ($legacyAnchor !== false)
-            {
-                $section_headline = "<a name=\"$legacyAnchor\" id=\"$legacyAnchor\"></a>$section_headline";
-            }
-            
-            $head[$headlineCount] = $section_headline;
-            
+            $head[$headlineCount] = MediawikiLinker :: makeHeadline($level, $matches['attrib'][$headlineCount], $anchor, $headline, $editlink, $legacyAnchor);
+
             $headlineCount ++;
         }
-        
+
         //        $this->mOutput->setSections($tocraw);
-        
+
 
         # Never ever show TOC if no headers
         if ($numVisible < 1)
         {
             $enoughToc = false;
         }
-        
+
         if ($enoughToc)
         {
             if ($prevtoclevel > 0 && $prevtoclevel < $wgMaxTocLevel)
             {
-                $level = $prevtoclevel - 1;
-                $toc .= "</li>\n" . str_repeat("</ul>\n</li>\n", $level > 0 ? $level : 0);
+                $toc .= MediawikiLinker :: tocUnindent($prevtoclevel - 1);
             }
-            
-            $toc = '<table id="toc" class="toc" summary="' . Translation :: get('Contents') . '"><tr><td>' . '<div id="toctitle"><h2>' . Translation :: get('Contents') . "</h2></div>\n" . $toc . "</ul>\n</td></tr></table>";
+
+            $toc = MediawikiLinker :: tocList($toc);
         }
-        
+
         # split up and insert constructed headlines
-        
+
 
         $blocks = preg_split('/<H[1-6].*?' . '>.*?<\/H[1-6]>/i', $text);
         $i = 0;
-        
+
         foreach ($blocks as $block)
         {
             $full .= $block;
@@ -1456,15 +1578,355 @@ class MediawikiParser
                 # Top anchor now in skin
                 $full = $full . $toc;
             }
-            
+
             if (! empty($head[$i]))
             {
                 $full .= $head[$i];
             }
             $i ++;
         }
-        
+
         return $full;
+    }
+
+    /**
+     * Process [[ ]] wikilinks
+     * @return processed text
+     *
+     * @private
+     */
+    function replaceInternalLinks($s)
+    {
+        $this->mLinkHolders->merge($this->replaceInternalLinks2($s));
+        return $s;
+    }
+
+    /**
+     * Process [[ ]] wikilinks (RIL)
+     * @return LinkHolderArray
+     *
+     * @private
+     */
+    function replaceInternalLinks2(&$s)
+    {
+
+        static $tc = FALSE, $e1, $e1_img;
+        # the % is needed to support urlencoded titles as well
+        if (! $tc)
+        {
+            $tc = MediawikiTitle :: legalChars() . '#%';
+            # Match a link having the form [[namespace:link|alternate]]trail
+            $e1 = "/^([{$tc}]+)(?:\\|(.+?))?]](.*)\$/sD";
+            # Match cases where there is no "]]", which might still be images
+            $e1_img = "/^([{$tc}]+)\\|(.*)\$/sD";
+        }
+
+        $holders = new MediawikiLinkHolderArray($this);
+
+        #split the entire text string on occurences of [[
+        $a = MediawikiStringUtils :: explode('[[', ' ' . $s);
+        #get the first element (all text up to first [[), and remove the space we added
+        $s = $a->current();
+        $a->next();
+        $line = $a->current(); # Workaround for broken ArrayIterator::next() that returns "void"
+        $s = substr($s, 1);
+
+        $e2 = null;
+
+        $prefix = '';
+
+        $selflink = array($this->wiki_page->get_title());
+
+        # Loop for each link
+        for(; $line !== false && $line !== null; $a->next(), $line = $a->current())
+        {
+            # Check for excessive memory usage
+            if ($holders->isBig())
+            {
+                # Too big
+                # Do the existence check, replace the link holders and clear the array
+                $holders->replace($s);
+                $holders->clear();
+            }
+
+            $might_be_img = false;
+
+            if (preg_match($e1, $line, $m))
+            { # page with normal text or alt
+                $text = $m[2];
+                # If we get a ] at the beginning of $m[3] that means we have a link that's something like:
+                # [[Image:Foo.jpg|[http://example.com desc]]] <- having three ] in a row fucks up,
+                # the real problem is with the $e1 regex
+                # See bug 1300.
+                #
+                # Still some problems for cases where the ] is meant to be outside punctuation,
+                # and no image is in sight. See bug 2095.
+                #
+                if ($text !== '' && substr($m[3], 0, 1) === ']' && strpos($text, '[') !== false)
+                {
+                    $text .= ']'; # so that replaceExternalLinks($text) works later
+                    $m[3] = substr($m[3], 1);
+                }
+                # fix up urlencoded title texts
+                if (strpos($m[1], '%') !== false)
+                {
+                    # Should anchors '#' also be rejected?
+                    $m[1] = str_replace(array('<', '>'), array('&lt;', '&gt;'), urldecode($m[1]));
+                }
+                $trail = $m[3];
+            }
+            elseif (preg_match($e1_img, $line, $m))
+            { # Invalid, but might be an image with a link in its caption
+                $might_be_img = true;
+                $text = $m[2];
+                if (strpos($m[1], '%') !== false)
+                {
+                    $m[1] = urldecode($m[1]);
+                }
+                $trail = "";
+            }
+            else
+            { # Invalid form; output directly
+                $s .= $prefix . '[[' . $line;
+                continue;
+            }
+
+            # Don't allow internal links to pages containing
+            # PROTO: where PROTO is a valid URL protocol; these
+            # should be external links.
+            if (preg_match('/^\b(?:' . wfUrlProtocols() . ')/', $m[1]))
+            {
+                $s .= $prefix . '[[' . $line;
+                continue;
+            }
+
+            $link = $m[1];
+
+            $noforce = (substr($m[1], 0, 1) !== ':');
+            if (! $noforce)
+            {
+                # Strip off leading ':'
+                $link = substr($link, 1);
+            }
+
+            $nt = MediawikiTitle :: newFromText($this->mStripState->unstripNoWiki($link));
+            if ($nt === NULL)
+            {
+                $s .= $prefix . '[[' . $line;
+                continue;
+            }
+
+            $ns = $nt->getNamespace();
+            $iw = $nt->getInterWiki();
+
+            if ($might_be_img)
+            { # if this is actually an invalid link
+                if ($ns == NS_FILE && $noforce)
+                { #but might be an image
+                    $found = false;
+                    while (true)
+                    {
+                        #look at the next 'line' to see if we can close it there
+                        $a->next();
+                        $next_line = $a->current();
+                        if ($next_line === false || $next_line === null)
+                        {
+                            break;
+                        }
+                        $m = explode(']]', $next_line, 3);
+                        if (count($m) == 3)
+                        {
+                            # the first ]] closes the inner link, the second the image
+                            $found = true;
+                            $text .= "[[{$m[0]}]]{$m[1]}";
+                            $trail = $m[2];
+                            break;
+                        }
+                        elseif (count($m) == 2)
+                        {
+                            #if there's exactly one ]] that's fine, we'll keep looking
+                            $text .= "[[{$m[0]}]]{$m[1]}";
+                        }
+                        else
+                        {
+                            #if $next_line is invalid too, we need look no further
+                            $text .= '[[' . $next_line;
+                            break;
+                        }
+                    }
+                    if (! $found)
+                    {
+                        # we couldn't find the end of this imageLink, so output it raw
+                        #but don't ignore what might be perfectly normal links in the text we've examined
+                        $holders->merge($this->replaceInternalLinks2($text));
+                        $s .= "{$prefix}[[$link|$text";
+                        # note: no $trail, because without an end, there *is* no trail
+                        continue;
+                    }
+                }
+                else
+                { #it's not an image, so output it raw
+                    $s .= "{$prefix}[[$link|$text";
+                    # note: no $trail, because without an end, there *is* no trail
+                    continue;
+                }
+            }
+
+            $wasblank = ('' == $text);
+            if ($wasblank)
+                $text = $link;
+
+            # Link not escaped by : , create the various objects
+            if ($noforce)
+            {
+
+                # Interwikis
+                if ($iw && $this->mOptions->getInterwikiMagic() && $wgContLang->getLanguageName($iw))
+                {
+                    $this->mOutput->addLanguageLink($nt->getFullText());
+                    $s = rtrim($s . $prefix);
+                    $s .= trim($trail, "\n") == '' ? '' : $prefix . $trail;
+                    continue;
+                }
+
+                if ($ns == NS_FILE)
+                {
+                    if (! wfIsBadImage($nt->getDBkey(), $this->mTitle))
+                    {
+                        # recursively parse links inside the image caption
+                        # actually, this will parse them in any other parameters, too,
+                        # but it might be hard to fix that, and it doesn't matter ATM
+                        $text = $this->replaceExternalLinks($text);
+                        $holders->merge($this->replaceInternalLinks2($text));
+
+                        # cloak any absolute URLs inside the image markup, so replaceExternalLinks() won't touch them
+                        $s .= $prefix . $this->armorLinks($this->makeImage($nt, $text, $holders)) . $trail;
+                    }
+                    $this->mOutput->addImage($nt->getDBkey());
+                    continue;
+
+                }
+
+                if ($ns == NS_CATEGORY)
+                {
+                    $s = rtrim($s . "\n"); # bug 87
+
+
+                    if ($wasblank)
+                    {
+                        $sortkey = $this->getDefaultSort();
+                    }
+                    else
+                    {
+                        $sortkey = $text;
+                    }
+                    $sortkey = Sanitizer :: decodeCharReferences($sortkey);
+                    $sortkey = str_replace("\n", '', $sortkey);
+                    $sortkey = $wgContLang->convertCategoryKey($sortkey);
+                    $this->mOutput->addCategory($nt->getDBkey(), $sortkey);
+
+                    /**
+                     * Strip the whitespace Category links produce, see bug 87
+                     * @todo We might want to use trim($tmp, "\n") here.
+                     */
+                    $s .= trim($prefix . $trail, "\n") == '' ? '' : $prefix . $trail;
+
+                    continue;
+                }
+            }
+
+            # Self-link checking
+            if ($nt->getFragment() === '' && $ns != NS_SPECIAL)
+            {
+                if (in_array($nt->getPrefixedText(), $selflink, true))
+                {
+                    $s .= $prefix . $sk->makeSelfLinkObj($nt, $text, '', $trail);
+                    continue;
+                }
+            }
+
+            # NS_MEDIA is a pseudo-namespace for linking directly to a file
+            # FIXME: Should do batch file existence checks, see comment below
+            if ($ns == NS_MEDIA)
+            {
+                # Give extensions a chance to select the file revision for us
+                $skip = $time = false;
+                if ($skip)
+                {
+                    $link = $sk->link($nt);
+                }
+                else
+                {
+                    $link = $sk->makeMediaLinkObj($nt, $text, $time);
+                }
+                # Cloak with NOPARSE to avoid replacement in replaceExternalLinks
+                $s .= $prefix . $this->armorLinks($link) . $trail;
+                $this->mOutput->addImage($nt->getDBkey());
+                continue;
+            }
+
+            # Some titles, such as valid special pages or files in foreign repos, should
+            # be shown as bluelinks even though they're not included in the page table
+            #
+            # FIXME: isAlwaysKnown() can be expensive for file links; we should really do
+            # batch file existence checks for NS_FILE and NS_MEDIA
+            if ($iw == '' && $nt->isAlwaysKnown())
+            {
+                $s .= $this->makeKnownLinkHolder($nt, $text, array(), $trail, $prefix);
+            }
+            else
+            {
+                # Links will be added to the output link list after checking
+                $s .= $holders->makeHolder($nt, $text, '', $trail, $prefix);
+            }
+        }
+        return $holders;
+    }
+
+    function nextLinkID()
+    {
+        return $this->mLinkID ++;
+    }
+
+    /**
+     * Render a forced-blue link inline; protect against double expansion of
+     * URLs if we're in a mode that prepends full URL prefixes to internal links.
+     * Since this little disaster has to split off the trail text to avoid
+     * breaking URLs in the following text without breaking trails on the
+     * wiki links, it's been made into a horrible function.
+     *
+     * @param Title $nt
+     * @param string $text
+     * @param string $query
+     * @param string $trail
+     * @param string $prefix
+     * @return string HTML-wikitext mix oh yuck
+     */
+    function makeKnownLinkHolder($nt, $text = '', $query = array(), $trail = '', $prefix = '')
+    {
+        list($inside, $trail) = MediawikiLinker :: splitTrail($trail);
+        $link = MediawikiLinker :: makeKnownLinkObj($nt, $text, $query, $inside, $prefix);
+        return $this->armorLinks($link) . $trail;
+    }
+
+    /**
+     * Insert a NOPARSE hacky thing into any inline links in a chunk that's
+     * going to go through further parsing steps before inline URL expansion.
+     *
+     * Not needed quite as much as it used to be since free links are a bit
+     * more sensible these days. But bracketed links are still an issue.
+     *
+     * @param string more-or-less HTML
+     * @return string less-or-more HTML with NOPARSE bits
+     */
+    function armorLinks($text)
+    {
+        return preg_replace('/\b(' . wfUrlProtocols() . ')/', "{$this->mUniqPrefix}NOPARSE$1", $text);
+    }
+
+    function getOutput()
+    {
+        return $this->mOutput;
     }
 }
 ?>

@@ -47,7 +47,7 @@ class Xml {
 			return null;
 		} elseif( is_array( $attribs ) ) {
 			foreach( $attribs as $name => $val )
-				$out .= " {$name}=\"" . Sanitizer::encodeAttribute( $val ) . '"';
+				$out .= " {$name}=\"" . MediawikiSanitizer::encodeAttribute( $val ) . '"';
 			return $out;
 		} else {
 			throw new MWException( 'Expected attribute array, got something else in ' . __METHOD__ );
@@ -172,7 +172,7 @@ class Xml {
 			. implode( "\n", $options )
 			. self::closeElement( 'select' );
 	}
-	
+
 	/**
 	 * @param $year Integer
 	 * @param $month Integer
@@ -247,7 +247,7 @@ class Xml {
 	 * @param $text content of the element, will be escaped
 	 * @param $class class name of the span element
 	 * @param $attribs other attributes
-	 * @return string 
+	 * @return string
 	 */
 	public static function span( $text, $class, $attribs=array() ) {
 		return self::element( 'span', array( 'class' => $class ) + $attribs, $text );
@@ -259,7 +259,7 @@ class Xml {
 	 * @param $class class name of the span element
 	 * @param $tag element name
 	 * @param $attribs other attributes
-	 * @return string 
+	 * @return string
 	 */
 	public static function wrapClass( $text, $class, $tag='span', $attribs=array() ) {
 		return self::tags( $tag, array( 'class' => $class ) + $attribs, $text );
@@ -335,7 +335,7 @@ class Xml {
 	/**
 	 * Convenience function to build an HTML form label
 	 * @param $label text of the label
-	 * @param $id 
+	 * @param $id
 	 * @return string HTML
 	 */
 	public static function label( $label, $id ) {
@@ -507,7 +507,7 @@ class Xml {
 
 		return $s;
 	}
-	
+
 	/**
 	 * Shortcut for creating textareas.
 	 *
@@ -657,7 +657,7 @@ class Xml {
 			array( '&quot;', '&gt;', '&lt;' ),
 			$in );
 	}
-	
+
 	/**
 	* Generate a form (without the opening form element).
 	* Output optionally includes a submit button.
@@ -668,7 +668,7 @@ class Xml {
 	public static function buildForm( $fields, $submitLabel = null ) {
 		$form = '';
 		$form .= "<table><tbody>";
-	
+
 		foreach( $fields as $labelmsg => $input ) {
 			$id = "mw-$labelmsg";
 			$form .= Xml::openElement( 'tr', array( 'id' => $id ) );
@@ -683,13 +683,13 @@ class Xml {
 			$form .= Xml::openElement( 'td', array( 'class' => 'mw-submit' ) ) . Xml::submitButton( wfMsg( $submitLabel ) ) . Xml::closeElement( 'td' );
 			$form .= Xml::closeElement( 'tr' );
 		}
-	
+
 		$form .= "</tbody></table>";
 
-	
+
 		return $form;
 	}
-	
+
 	/**
 	 * Build a table of data
 	 * @param array $rows An array of arrays of strings, each to be a row in a table
@@ -714,7 +714,7 @@ class Xml {
 		$s .= Xml::closeElement( 'table' );
 		return $s;
 	}
-	
+
 	/**
 	 * Build a row for a table
 	 * @param array $cells An array of strings to put in <td>

@@ -43,5 +43,36 @@ class Wiki extends ContentObject implements ComplexContentObjectSupport
     {
         return array(self :: PROPERTY_LOCKED, self :: PROPERTY_LINKS);
     }
+
+    function get_wiki_pages($return_complex_items = false)
+    {
+        $complex_content_objects = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
+
+        if ($return_complex_items)
+        {
+            return $complex_content_objects;
+        }
+
+        $wiki_pages = array();
+
+        while ($complex_content_object = $complex_content_objects->next_result())
+        {
+            $wiki_pages[] = RepositoryDataManager :: get_instance()->retrieve_content_object($complex_content_object->get_ref());
+        }
+
+        return $wiki_pages;
+    }
+
+    function get_wiki_pages_by_title(Condition $title_condition)
+    {
+        $complex_content_object_item_condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name());
+
+        $content_object_conditions = array();
+        $content_object_conditions[] = $title_condition;
+        $content_object_conditions[] = new SubselectCondition(ContentObject :: PROPERTY_ID, ComplexContentObjectItem :: PROPERTY_REF, ComplexContentObjectItem :: get_table_name(), $complex_content_object_item_condition, ContentObject :: get_table_name());
+        $content_object_condition = new AndCondition($content_object_conditions);
+
+        return RepositoryDataManager :: get_instance()->retrieve_content_objects($content_object_condition);
+    }
 }
 ?>

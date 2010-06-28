@@ -40,7 +40,7 @@ class MediawikiLinker
      */
     function getExternalLinkAttributes($title, $unused = null, $class = '')
     {
-        return $this->getLinkAttributesInternal($title, $class, 'external');
+        return self :: getLinkAttributesInternal($title, $class, 'external');
     }
 
     /**
@@ -63,7 +63,7 @@ class MediawikiLinker
         $title = $wgContLang->checkTitleEncoding($title);
         $title = preg_replace('/[\\x00-\\x1f]/', ' ', $title);
 
-        return $this->getLinkAttributesInternal($title, $class, 'external');
+        return self :: getLinkAttributesInternal($title, $class, 'external');
     }
 
     /**
@@ -79,7 +79,7 @@ class MediawikiLinker
     {
         $title = urldecode($title);
         $title = str_replace('_', ' ', $title);
-        return $this->getLinkAttributesInternal($title, $class);
+        return self :: getLinkAttributesInternal($title, $class);
     }
 
     /**
@@ -98,7 +98,7 @@ class MediawikiLinker
         {
             $title = $nt->getPrefixedText();
         }
-        return $this->getLinkAttributesInternal($title, $class);
+        return self :: getLinkAttributesInternal($title, $class);
     }
 
     /**
@@ -186,14 +186,13 @@ class MediawikiLinker
      */
     public function link($target, $text = null, $customAttribs = array(), $query = array(), $options = array())
     {
-        if (! $target instanceof Title)
+        if (! $target instanceof MediawikiTitle)
         {
             return "<!-- ERROR -->$text";
         }
         $options = (array) $options;
 
-        # Normalize the Title if it's a special page
-        $target = $this->normaliseSpecialPage($target);
+        $ret = null;
 
         # If we don't know whether the page exists, let's find out.
         if (! in_array('known', $options) and ! in_array('broken', $options))
@@ -216,25 +215,25 @@ class MediawikiLinker
         }
 
         # Note: we want the href attribute first, for prettiness.
-        $attribs = array('href' => $this->linkUrl($target, $query, $options));
+        $attribs = array('href' => self :: linkUrl($target, $query, $options));
         if (in_array('forcearticlepath', $options) && $oldquery)
         {
             $attribs['href'] = wfAppendQuery($attribs['href'], wfArrayToCgi($oldquery));
         }
 
-        $attribs = array_merge($attribs, $this->linkAttribs($target, $customAttribs, $options));
+        $attribs = array_merge($attribs, self :: linkAttribs($target, $customAttribs, $options));
         if (is_null($text))
         {
-            $text = $this->linkText($target);
+            $text = self :: linkText($target);
         }
 
         $ret = Xml :: openElement('a', $attribs) . $text . Xml :: closeElement('a');
+
         return $ret;
     }
 
     private function linkUrl($target, $query, $options)
     {
-        wfProfileIn(__METHOD__);
         # We don't want to include fragments for broken links, because they
         # generally make no sense.
         if (in_array('broken', $options) and $target->mFragment !== '')
@@ -248,23 +247,20 @@ class MediawikiLinker
         # (i.e., for a nonexistent special page).
         if (in_array('broken', $options) and empty($query['action']) and $target->getNamespace() != NS_SPECIAL)
         {
-            $query['action'] = 'edit';
-            $query['redlink'] = '1';
+            $query[ComplexDisplay :: PARAM_DISPLAY_ACTION] = WikiDisplay :: ACTION_CREATE_PAGE;
+            $query[ContentObject :: PROPERTY_TITLE] = $target->getText();
+            //$query['redlink'] = '1';
         }
         $ret = $target->getLinkUrl($query);
-        wfProfileOut(__METHOD__);
         return $ret;
     }
 
     private function linkAttribs($target, $attribs, $options)
     {
-        wfProfileIn(__METHOD__);
-        global $wgUser;
         $defaults = array();
 
         if (! in_array('noclasses', $options))
         {
-            wfProfileIn(__METHOD__ . '-getClasses');
             # Now build the classes.
             $classes = array();
 
@@ -286,7 +282,7 @@ class MediawikiLinker
             elseif ($target->isContentPage())
             {
                 # Check for stub.
-                $threshold = $wgUser->getOption('stubthreshold');
+                $threshold = 0;
                 if ($threshold > 0 and $target->exists() and $target->getLength() < $threshold)
                 {
                     $classes[] = 'stub';
@@ -296,7 +292,6 @@ class MediawikiLinker
             {
                 $defaults['class'] = implode(' ', $classes);
             }
-            wfProfileOut(__METHOD__ . '-getClasses');
         }
 
         # Get a default title attribute.
@@ -306,13 +301,13 @@ class MediawikiLinker
         }
         else
         {
-            $defaults['title'] = wfMsg('red-link-title', $target->getPrefixedText());
+            $defaults['title'] = $target->getPrefixedText();
         }
 
         # Finally, merge the custom attribs with the default ones, and iterate
         # over that, deleting all "false" attributes.
         $ret = array();
-        $merged = Sanitizer :: mergeAttributes($defaults, $attribs);
+        $merged = MediawikiSanitizer :: mergeAttributes($defaults, $attribs);
         foreach ($merged as $key => $val)
         {
             # A false value suppresses the attribute, and we don't want the
@@ -322,14 +317,13 @@ class MediawikiLinker
                 $ret[$key] = $val;
             }
         }
-        wfProfileOut(__METHOD__);
         return $ret;
     }
 
     private function linkText($target)
     {
         # We might be passed a non-Title by make*LinkObj().  Fail gracefully.
-        if (! $target instanceof Title)
+        if (! $target instanceof MediawikiTitle)
         {
             return '';
         }
@@ -358,19 +352,16 @@ class MediawikiLinker
      */
     function makeLink($title, $text = '', $query = '', $trail = '')
     {
-        wfProfileIn(__METHOD__);
-        $nt = Title :: newFromText($title);
-        if ($nt instanceof Title)
+        $nt = MediawikiTitle :: newFromText($title);
+        if ($nt instanceof MediawikiTitle)
         {
-            $result = $this->makeLinkObj($nt, $text, $query, $trail);
+            $result = self :: makeLinkObj($nt, $text, $query, $trail);
         }
         else
         {
-            wfDebug('Invalid title passed to Linker::makeLink(): "' . $title . "\"\n");
             $result = $text == "" ? $title : $text;
         }
 
-        wfProfileOut(__METHOD__);
         return $result;
     }
 
@@ -389,14 +380,13 @@ class MediawikiLinker
      */
     function makeKnownLink($title, $text = '', $query = '', $trail = '', $prefix = '', $aprops = '')
     {
-        $nt = Title :: newFromText($title);
-        if ($nt instanceof Title)
+        $nt = MediawikiTitle :: newFromText($title);
+        if ($nt instanceof MediawikiTitle)
         {
-            return $this->makeKnownLinkObj($nt, $text, $query, $trail, $prefix, $aprops);
+            return self :: makeKnownLinkObj($nt, $text, $query, $trail, $prefix, $aprops);
         }
         else
         {
-            wfDebug('Invalid title passed to Linker::makeKnownLink(): "' . $title . "\"\n");
             return $text == '' ? $title : $text;
         }
     }
@@ -416,14 +406,13 @@ class MediawikiLinker
      */
     function makeBrokenLink($title, $text = '', $query = '', $trail = '')
     {
-        $nt = Title :: newFromText($title);
-        if ($nt instanceof Title)
+        $nt = MediawikiTitle :: newFromText($title);
+        if ($nt instanceof MediawikiTitle)
         {
-            return $this->makeBrokenLinkObj($nt, $text, $query, $trail);
+            return self :: makeBrokenLinkObj($nt, $text, $query, $trail);
         }
         else
         {
-            wfDebug('Invalid title passed to Linker::makeBrokenLink(): "' . $title . "\"\n");
             return $text == '' ? $title : $text;
         }
     }
@@ -443,15 +432,13 @@ class MediawikiLinker
      */
     function makeStubLink($title, $text = '', $query = '', $trail = '')
     {
-        wfDeprecated(__METHOD__);
-        $nt = Title :: newFromText($title);
-        if ($nt instanceof Title)
+        $nt = MediawikiTitle :: newFromText($title);
+        if ($nt instanceof MediawikiTitle)
         {
-            return $this->makeStubLinkObj($nt, $text, $query, $trail);
+            return self :: makeStubLinkObj($nt, $text, $query, $trail);
         }
         else
         {
-            wfDebug('Invalid title passed to Linker::makeStubLink(): "' . $title . "\"\n");
             return $text == '' ? $title : $text;
         }
     }
@@ -474,19 +461,15 @@ class MediawikiLinker
      */
     function makeLinkObj($nt, $text = '', $query = '', $trail = '', $prefix = '')
     {
-        global $wgUser;
-        wfProfileIn(__METHOD__);
-
         $query = wfCgiToArray($query);
-        list($inside, $trail) = Linker :: splitTrail($trail);
+        list($inside, $trail) = MediawikiLinker :: splitTrail($trail);
         if ($text === '')
         {
-            $text = $this->linkText($nt);
+            $text = self :: linkText($nt);
         }
 
-        $ret = $this->link($nt, "$prefix$text$inside", array(), $query) . $trail;
+        $ret = self :: link($nt, "$prefix$text$inside", array(), $query) . $trail;
 
-        wfProfileOut(__METHOD__);
         return $ret;
     }
 
@@ -506,18 +489,20 @@ class MediawikiLinker
      * @param $style  String: style to apply - if empty, use getInternalLinkAttributesObj instead
      * @return the a-element
      */
-    function makeKnownLinkObj($title, $text = '', $query = '', $trail = '', $prefix = '', $aprops = '', $style = '')
+    function makeKnownLinkObj($title, $text = '', $query = array(), $trail = '', $prefix = '', $aprops = '', $style = '')
     {
+
+//        dump($query);
 
         if ($text == '')
         {
-            $text = $this->linkText($title);
+            $text = self :: linkText($title);
         }
         $attribs = MediawikiSanitizer :: mergeAttributes(MediawikiSanitizer :: decodeTagAttributes($aprops), MediawikiSanitizer :: decodeTagAttributes($style));
-        $query = wfCgiToArray($query);
+//        $query = wfCgiToArray($query);
         list($inside, $trail) = MediawikiLinker :: splitTrail($trail);
 
-        $ret = $this->link($title, "$prefix$text$inside", $attribs, $query, array('known', 'noclasses')) . $trail;
+        $ret = self :: link($title, "$prefix$text$inside", $attribs, $query, array('known', 'noclasses')) . $trail;
 
         return $ret;
     }
@@ -534,20 +519,17 @@ class MediawikiLinker
      * be included in the link text. Other characters will be appended after
      * the end of the link.
      */
-    function makeBrokenLinkObj($title, $text = '', $query = '', $trail = '', $prefix = '')
+    function makeBrokenLinkObj($title, $text = '', $query = array(), $trail = '', $prefix = '')
     {
-        wfProfileIn(__METHOD__);
-
-        list($inside, $trail) = Linker :: splitTrail($trail);
+        list($inside, $trail) = self :: splitTrail($trail);
         if ($text === '')
         {
-            $text = $this->linkText($title);
+            $text = self :: linkText($title);
         }
-        $nt = $this->normaliseSpecialPage($title);
 
-        $ret = $this->link($title, "$prefix$text$inside", array(), wfCgiToArray($query), 'broken') . $trail;
+        //$ret = self :: link($title, "$prefix$text$inside", array(), wfCgiToArray($query), 'broken') . $trail;
+        $ret = self :: link($title, "$prefix$text$inside", array(), $query, 'broken') . $trail;
 
-        wfProfileOut(__METHOD__);
         return $ret;
     }
 
@@ -565,8 +547,7 @@ class MediawikiLinker
      */
     function makeStubLinkObj($nt, $text = '', $query = '', $trail = '', $prefix = '')
     {
-        wfDeprecated(__METHOD__);
-        return $this->makeColouredLinkObj($nt, 'stub', $text, $query, $trail, $prefix);
+        return self :: makeColouredLinkObj($nt, 'stub', $text, $query, $trail, $prefix);
     }
 
     /**
@@ -582,15 +563,15 @@ class MediawikiLinker
      * be included in the link text. Other characters will be appended after
      * the end of the link.
      */
-    function makeColouredLinkObj($nt, $colour, $text = '', $query = '', $trail = '', $prefix = '')
+    function makeColouredLinkObj($nt, $colour, $text = '', $query = array(), $trail = '', $prefix = '')
     {
         if ($colour != '')
         {
-            $style = $this->getInternalLinkAttributesObj($nt, $text, $colour);
+            $style = self :: getInternalLinkAttributesObj($nt, $text, $colour);
         }
         else
             $style = '';
-        return $this->makeKnownLinkObj($nt, $text, $query, $trail, $prefix, '', $style);
+        return self :: makeKnownLinkObj($nt, $text, $query, $trail, $prefix, '', $style);
     }
 
     /**
@@ -607,10 +588,10 @@ class MediawikiLinker
      */
     function makeSizeLinkObj($size, $nt, $text = '', $query = '', $trail = '', $prefix = '')
     {
-        global $wgUser;
-        $threshold = intval($wgUser->getOption('stubthreshold'));
+
+        $threshold = 0;
         $colour = ($size < $threshold) ? 'stub' : '';
-        return $this->makeColouredLinkObj($nt, $colour, $text, $query, $trail, $prefix);
+        return self :: makeColouredLinkObj($nt, $colour, $text, $query, $trail, $prefix);
     }
 
     /**
@@ -663,8 +644,7 @@ class MediawikiLinker
     /** Obsolete alias */
     function makeImage($url, $alt = '')
     {
-        wfDeprecated(__METHOD__);
-        return $this->makeExternalImage($url, $alt);
+        return self :: makeExternalImage($url, $alt);
     }
 
     /** @todo document */
@@ -672,15 +652,9 @@ class MediawikiLinker
     {
         if ('' == $alt)
         {
-            $alt = $this->fnamePart($url);
+            $alt = self :: fnamePart($url);
         }
-        $img = '';
-        $success = wfRunHooks('LinkerMakeExternalImage', array(&$url, &$alt, &$img));
-        if (! $success)
-        {
-            wfDebug("Hook LinkerMakeExternalImage changed the output of external image with url {$url} and alt text {$alt} to {$img}\n", true);
-            return $img;
-        }
+
         return Xml :: element('img', array('src' => $url, 'alt' => $alt));
     }
 
@@ -1132,7 +1106,7 @@ class MediawikiLinker
             $key = strtolower($name);
         }
         $pn = $wgContLang->ucfirst($name);
-        return $this->makeKnownLink($wgContLang->specialPage($pn), wfMsg($key));
+        return self :: makeKnownLink($wgContLang->specialPage($pn), wfMsg($key));
     }
 
     /**
@@ -1153,440 +1127,18 @@ class MediawikiLinker
      */
     function makeExternalLink($url, $text, $escape = true, $linktype = '', $attribs = array())
     {
-        $attribsText = $this->getExternalLinkAttributes($url, $text, 'external ' . $linktype);
+        $attribsText = self :: getExternalLinkAttributes($url, $text, 'external ' . $linktype);
         $url = htmlspecialchars($url);
         if ($escape)
         {
             $text = htmlspecialchars($text);
         }
-        $link = '';
-        $success = wfRunHooks('LinkerMakeExternalLink', array(&$url, &$text, &$link, &$attribs, $linktype));
-        if (! $success)
-        {
-            wfDebug("Hook LinkerMakeExternalLink changed the output of link with url {$url} and text {$text} to {$link}\n", true);
-            return $link;
-        }
+
         if ($attribs)
         {
             $attribsText .= Xml :: expandAttributes($attribs);
         }
         return '<a href="' . $url . '"' . $attribsText . '>' . $text . '</a>';
-    }
-
-    /**
-     * Make user link (or user contributions for unregistered users)
-     * @param $userId   Integer: user id in database.
-     * @param $userText String: user name in database
-     * @return string HTML fragment
-     * @private
-     */
-    function userLink($userId, $userText)
-    {
-        if ($userId == 0)
-        {
-            $page = SpecialPage :: getTitleFor('Contributions', $userText);
-        }
-        else
-        {
-            $page = Title :: makeTitle(NS_USER, $userText);
-        }
-        return $this->link($page, htmlspecialchars($userText), array('class' => 'mw-userlink'));
-    }
-
-    /**
-     * Generate standard user tool links (talk, contributions, block link, etc.)
-     *
-     * @param int $userId User identifier
-     * @param string $userText User name or IP address
-     * @param bool $redContribsWhenNoEdits Should the contributions link be red if the user has no edits?
-     * @param int $flags Customisation flags (e.g. self::TOOL_LINKS_NOBLOCK)
-     * @param int $edits, user edit count (optional, for performance)
-     * @return string
-     */
-    public function userToolLinks($userId, $userText, $redContribsWhenNoEdits = false, $flags = 0, $edits = null)
-    {
-        global $wgUser, $wgDisableAnonTalk, $wgSysopUserBans, $wgLang;
-        $talkable = ! ($wgDisableAnonTalk && 0 == $userId);
-        $blockable = ($wgSysopUserBans || 0 == $userId) && ! $flags & self :: TOOL_LINKS_NOBLOCK;
-
-        $items = array();
-        if ($talkable)
-        {
-            $items[] = $this->userTalkLink($userId, $userText);
-        }
-        if ($userId)
-        {
-            // check if the user has an edit
-            $attribs = array();
-            if ($redContribsWhenNoEdits)
-            {
-                $count = ! is_null($edits) ? $edits : User :: edits($userId);
-                if ($count == 0)
-                {
-                    $attribs['class'] = 'new';
-                }
-            }
-            $contribsPage = SpecialPage :: getTitleFor('Contributions', $userText);
-
-            $items[] = $this->link($contribsPage, wfMsgHtml('contribslink'), $attribs);
-        }
-        if ($blockable && $wgUser->isAllowed('block'))
-        {
-            $items[] = $this->blockLink($userId, $userText);
-        }
-
-        if ($items)
-        {
-            return ' <span class="mw-usertoollinks">(' . $wgLang->pipeList($items) . ')</span>';
-        }
-        else
-        {
-            return '';
-        }
-    }
-
-    /**
-     * Alias for userToolLinks( $userId, $userText, true );
-     * @param int $userId User identifier
-     * @param string $userText User name or IP address
-     * @param int $edits, user edit count (optional, for performance)
-     */
-    public function userToolLinksRedContribs($userId, $userText, $edits = null)
-    {
-        return $this->userToolLinks($userId, $userText, true, 0, $edits);
-    }
-
-    /**
-     * @param $userId Integer: user id in database.
-     * @param $userText String: user name in database.
-     * @return string HTML fragment with user talk link
-     * @private
-     */
-    function userTalkLink($userId, $userText)
-    {
-        $userTalkPage = Title :: makeTitle(NS_USER_TALK, $userText);
-        $userTalkLink = $this->link($userTalkPage, wfMsgHtml('talkpagelinktext'));
-        return $userTalkLink;
-    }
-
-    /**
-     * @param $userId Integer: userid
-     * @param $userText String: user name in database.
-     * @return string HTML fragment with block link
-     * @private
-     */
-    function blockLink($userId, $userText)
-    {
-        $blockPage = SpecialPage :: getTitleFor('Blockip', $userText);
-        $blockLink = $this->link($blockPage, wfMsgHtml('blocklink'));
-        return $blockLink;
-    }
-
-    /**
-     * Generate a user link if the current user is allowed to view it
-     * @param $rev Revision object.
-     * @param $isPublic, bool, show only if all users can see it
-     * @return string HTML
-     */
-    function revUserLink($rev, $isPublic = false)
-    {
-        if ($rev->isDeleted(Revision :: DELETED_USER) && $isPublic)
-        {
-            $link = wfMsgHtml('rev-deleted-user');
-        }
-        else
-            if ($rev->userCan(Revision :: DELETED_USER))
-            {
-                $link = $this->userLink($rev->getUser(Revision :: FOR_THIS_USER), $rev->getUserText(Revision :: FOR_THIS_USER));
-            }
-            else
-            {
-                $link = wfMsgHtml('rev-deleted-user');
-            }
-        if ($rev->isDeleted(Revision :: DELETED_USER))
-        {
-            return '<span class="history-deleted">' . $link . '</span>';
-        }
-        return $link;
-    }
-
-    /**
-     * Generate a user tool link cluster if the current user is allowed to view it
-     * @param $rev Revision object.
-     * @param $isPublic, bool, show only if all users can see it
-     * @return string HTML
-     */
-    function revUserTools($rev, $isPublic = false)
-    {
-        if ($rev->isDeleted(Revision :: DELETED_USER) && $isPublic)
-        {
-            $link = wfMsgHtml('rev-deleted-user');
-        }
-        else
-            if ($rev->userCan(Revision :: DELETED_USER))
-            {
-                $userId = $rev->getUser(Revision :: FOR_THIS_USER);
-                $userText = $rev->getUserText(Revision :: FOR_THIS_USER);
-                $link = $this->userLink($userId, $userText) . ' ' . $this->userToolLinks($userId, $userText);
-            }
-            else
-            {
-                $link = wfMsgHtml('rev-deleted-user');
-            }
-        if ($rev->isDeleted(Revision :: DELETED_USER))
-        {
-            return ' <span class="history-deleted">' . $link . '</span>';
-        }
-        return $link;
-    }
-
-    /**
-     * This function is called by all recent changes variants, by the page history,
-     * and by the user contributions list. It is responsible for formatting edit
-     * comments. It escapes any HTML in the comment, but adds some CSS to format
-     * auto-generated comments (from section editing) and formats [[wikilinks]].
-     *
-     * @author Erik Moeller <moeller@scireview.de>
-     *
-     * Note: there's not always a title to pass to this function.
-     * Since you can't set a default parameter for a reference, I've turned it
-     * temporarily to a value pass. Should be adjusted further. --brion
-     *
-     * @param string $comment
-     * @param mixed $title Title object (to generate link to the section in autocomment) or null
-     * @param bool $local Whether section links should refer to local page
-     */
-    function formatComment($comment, $title = NULL, $local = false)
-    {
-        wfProfileIn(__METHOD__);
-
-        # Sanitize text a bit:
-        $comment = str_replace("\n", " ", $comment);
-        # Allow HTML entities (for bug 13815)
-        $comment = Sanitizer :: escapeHtmlAllowEntities($comment);
-
-        # Render autocomments and make links:
-        $comment = $this->formatAutoComments($comment, $title, $local);
-        $comment = $this->formatLinksInComment($comment);
-
-        wfProfileOut(__METHOD__);
-        return $comment;
-    }
-
-    /**
-     * The pattern for autogen comments is / * foo * /, which makes for
-     * some nasty regex.
-     * We look for all comments, match any text before and after the comment,
-     * add a separator where needed and format the comment itself with CSS
-     * Called by Linker::formatComment.
-     *
-     * @param string $comment Comment text
-     * @param object $title An optional title object used to links to sections
-     * @return string $comment formatted comment
-     *
-     * @todo Document the $local parameter.
-     */
-    private function formatAutocomments($comment, $title = null, $local = false)
-    {
-        // Bah!
-        $this->autocommentTitle = $title;
-        $this->autocommentLocal = $local;
-        $comment = preg_replace_callback('!(.*)/\*\s*(.*?)\s*\*/(.*)!', array($this, 'formatAutocommentsCallback'), $comment);
-        unset($this->autocommentTitle);
-        unset($this->autocommentLocal);
-        return $comment;
-    }
-
-    private function formatAutocommentsCallback($match)
-    {
-        $title = $this->autocommentTitle;
-        $local = $this->autocommentLocal;
-
-        $pre = $match[1];
-        $auto = $match[2];
-        $post = $match[3];
-        $link = '';
-        if ($title)
-        {
-            $section = $auto;
-
-            # Generate a valid anchor name from the section title.
-            # Hackish, but should generally work - we strip wiki
-            # syntax, including the magic [[: that is used to
-            # "link rather than show" in case of images and
-            # interlanguage links.
-            $section = str_replace('[[:', '', $section);
-            $section = str_replace('[[', '', $section);
-            $section = str_replace(']]', '', $section);
-            if ($local)
-            {
-                $sectionTitle = Title :: newFromText('#' . $section);
-            }
-            else
-            {
-                $sectionTitle = Title :: makeTitleSafe($title->getNamespace(), $title->getDBkey(), $section);
-            }
-            if ($sectionTitle)
-            {
-                $link = $this->link($sectionTitle, wfMsgForContent('sectionlink'), array(), array(), 'noclasses');
-            }
-            else
-            {
-                $link = '';
-            }
-        }
-        $auto = "$link$auto";
-        if ($pre)
-        {
-            # written summary $presep autocomment (summary /* section */)
-            $auto = wfMsgExt('autocomment-prefix', array('escapenoentities', 'content')) . $auto;
-        }
-        if ($post)
-        {
-            # autocomment $postsep written summary (/* section */ summary)
-            $auto .= wfMsgExt('colon-separator', array('escapenoentities', 'content'));
-        }
-        $auto = '<span class="autocomment">' . $auto . '</span>';
-        $comment = $pre . $auto . $post;
-        return $comment;
-    }
-
-    /**
-     * Formats wiki links and media links in text; all other wiki formatting
-     * is ignored
-     *
-     * @fixme doesn't handle sub-links as in image thumb texts like the main parser
-     * @param string $comment Text to format links in
-     * @return string
-     */
-    public function formatLinksInComment($comment)
-    {
-        return preg_replace_callback('/\[\[:?(.*?)(\|(.*?))*\]\]([^[]*)/', array($this, 'formatLinksInCommentCallback'), $comment);
-    }
-
-    protected function formatLinksInCommentCallback($match)
-    {
-        global $wgContLang;
-
-        $medians = '(?:' . preg_quote(MWNamespace :: getCanonicalName(NS_MEDIA), '/') . '|';
-        $medians .= preg_quote($wgContLang->getNsText(NS_MEDIA), '/') . '):';
-
-        $comment = $match[0];
-
-        # fix up urlencoded title texts (copied from Parser::replaceInternalLinks)
-        if (strpos($match[1], '%') !== false)
-        {
-            $match[1] = str_replace(array('<', '>'), array('&lt;', '&gt;'), urldecode($match[1]));
-        }
-
-        # Handle link renaming [[foo|text]] will show link as "text"
-        if ("" != $match[3])
-        {
-            $text = $match[3];
-        }
-        else
-        {
-            $text = $match[1];
-        }
-        $submatch = array();
-        if (preg_match('/^' . $medians . '(.*)$/i', $match[1], $submatch))
-        {
-            # Media link; trail not supported.
-            $linkRegexp = '/\[\[(.*?)\]\]/';
-            $thelink = $this->makeMediaLink($submatch[1], "", $text);
-        }
-        else
-        {
-            # Other kind of link
-            if (preg_match($wgContLang->linkTrail(), $match[4], $submatch))
-            {
-                $trail = $submatch[1];
-            }
-            else
-            {
-                $trail = "";
-            }
-            $linkRegexp = '/\[\[(.*?)\]\]' . preg_quote($trail, '/') . '/';
-            if (isset($match[1][0]) && $match[1][0] == ':')
-                $match[1] = substr($match[1], 1);
-            $thelink = $this->makeLink($match[1], $text, "", $trail);
-        }
-        $comment = preg_replace($linkRegexp, StringUtils :: escapeRegexReplacement($thelink), $comment, 1);
-
-        return $comment;
-    }
-
-    /**
-     * Wrap a comment in standard punctuation and formatting if
-     * it's non-empty, otherwise return empty string.
-     *
-     * @param string $comment
-     * @param mixed $title Title object (to generate link to section in autocomment) or null
-     * @param bool $local Whether section links should refer to local page
-     *
-     * @return string
-     */
-    function commentBlock($comment, $title = NULL, $local = false)
-    {
-        // '*' used to be the comment inserted by the software way back
-        // in antiquity in case none was provided, here for backwards
-        // compatability, acc. to brion -ævar
-        if ($comment == '' || $comment == '*')
-        {
-            return '';
-        }
-        else
-        {
-            $formatted = $this->formatComment($comment, $title, $local);
-            return " <span class=\"comment\">($formatted)</span>";
-        }
-    }
-
-    /**
-     * Wrap and format the given revision's comment block, if the current
-     * user is allowed to view it.
-     *
-     * @param Revision $rev
-     * @param bool $local Whether section links should refer to local page
-     * @param $isPublic, show only if all users can see it
-     * @return string HTML
-     */
-    function revComment(Revision $rev, $local = false, $isPublic = false)
-    {
-        if ($rev->isDeleted(Revision :: DELETED_COMMENT) && $isPublic)
-        {
-            $block = " <span class=\"comment\">" . wfMsgHtml('rev-deleted-comment') . "</span>";
-        }
-        else
-            if ($rev->userCan(Revision :: DELETED_COMMENT))
-            {
-                $block = $this->commentBlock($rev->getComment(Revision :: FOR_THIS_USER), $rev->getTitle(), $local);
-            }
-            else
-            {
-                $block = " <span class=\"comment\">" . wfMsgHtml('rev-deleted-comment') . "</span>";
-            }
-        if ($rev->isDeleted(Revision :: DELETED_COMMENT))
-        {
-            return " <span class=\"history-deleted\">$block</span>";
-        }
-        return $block;
-    }
-
-    public function formatRevisionSize($size)
-    {
-        if ($size == 0)
-        {
-            $stxt = wfMsgExt('historyempty', 'parsemag');
-        }
-        else
-        {
-            global $wgLang;
-            $stxt = wfMsgExt('nbytes', 'parsemag', $wgLang->formatNum($size));
-            $stxt = "($stxt)";
-        }
-        $stxt = htmlspecialchars($stxt);
-        return "<span class=\"history-size\">$stxt</span>";
     }
 
     /** @todo document */
@@ -1618,92 +1170,11 @@ class MediawikiLinker
     /** @todo document */
     function tocList($toc)
     {
-        global $wgJsMimeType;
-        $title = wfMsgHtml('toc');
-        return '<table id="toc" class="toc" summary="' . $title . '"><tr><td>' . '<div id="toctitle"><h2>' . $title . "</h2></div>\n" . $toc . # no trailing newline, script should not be wrapped in a
-# paragraph
-        "</ul>\n</td></tr></table>" . '<script type="' . $wgJsMimeType . '">' . ' if (window.showTocToggle) {' . ' var tocShowText = "' . Xml :: escapeJsString(wfMsg('showtoc')) . '";' . ' var tocHideText = "' . Xml :: escapeJsString(wfMsg('hidetoc')) . '";' . ' showTocToggle();' . ' } ' . "</script>\n";
-    }
-
-    /**
-     * Used to generate section edit links that point to "other" pages
-     * (sections that are really part of included pages).
-     *
-     * @param $title Title string.
-     * @param $section Integer: section number.
-     */
-    public function editSectionLinkForOther($title, $section)
-    {
-        wfDeprecated(__METHOD__);
-        $title = Title :: newFromText($title);
-        return $this->doEditSectionLink($title, $section);
-    }
-
-    /**
-     * @param $nt Title object.
-     * @param $section Integer: section number.
-     * @param $hint Link String: title, or default if omitted or empty
-     */
-    public function editSectionLink(Title $nt, $section, $hint = '')
-    {
-        wfDeprecated(__METHOD__);
-        if ($hint === '')
-        {
-            # No way to pass an actual empty $hint here!  The new interface al-
-            # lows this, so we have to do this for compatibility.
-            $hint = null;
-        }
-        return $this->doEditSectionLink($nt, $section, $hint);
-    }
-
-    /**
-     * Create a section edit link.  This supersedes editSectionLink() and
-     * editSectionLinkForOther().
-     *
-     * @param $nt      Title  The title being linked to (may not be the same as
-     * $wgTitle, if the section is included from a template)
-     * @param $section string The designation of the section being pointed to,
-     * to be included in the link, like "&section=$section"
-     * @param $tooltip string The tooltip to use for the link: will be escaped
-     * and wrapped in the 'editsectionhint' message
-     * @return         string HTML to use for edit link
-     */
-    public function doEditSectionLink(Title $nt, $section, $tooltip = null)
-    {
-        $attribs = array();
-        if (! is_null($tooltip))
-        {
-            $attribs['title'] = wfMsg('editsectionhint', $tooltip);
-        }
-        $link = $this->link($nt, wfMsg('editsection'), $attribs, array('action' => 'edit', 'section' => $section), array('noclasses', 'known'));
-
-        # Run the old hook.  This takes up half of the function . . . hopefully
-        # we can rid of it someday.
-        $attribs = '';
-        if ($tooltip)
-        {
-            $attribs = wfMsgHtml('editsectionhint', htmlspecialchars($tooltip));
-            $attribs = " title=\"$attribs\"";
-        }
-        $result = null;
-        wfRunHooks('EditSectionLink', array(&$this, $nt, $section, $attribs, $link, &$result));
-        if (! is_null($result))
-        {
-            # For reverse compatibility, add the brackets *after* the hook is
-            # run, and even add them to hook-provided text.  (This is the main
-            # reason that the EditSectionLink hook is deprecated in favor of
-            # DoEditSectionLink: it can't change the brackets or the span.)
-            $result = wfMsgHtml('editsection-brackets', $result);
-            return "<span class=\"editsection\">$result</span>";
-        }
-
-        # Add the brackets and the span, and *then* run the nice new hook, with
-        # clean and non-redundant arguments.
-        $result = wfMsgHtml('editsection-brackets', $link);
-        $result = "<span class=\"editsection\">$result</span>";
-
-        wfRunHooks('DoEditSectionLink', array($this, $nt, $section, $tooltip, &$result));
-        return $result;
+        //global $wgJsMimeType;
+        //$title = wfMsgHtml('toc');
+        $title = Translation :: get('Contents');
+        return '<table id="toc" class="toc" summary="' . $title . '"><tr><td>' . '<div id="toctitle"><h2>' . $title . "</h2></div>\n" . $toc . "</ul>\n</td></tr></table>";
+        //'<script type="' . $wgJsMimeType . '">' . ' if (window.showTocToggle) {' . ' var tocShowText = "' . Xml :: escapeJsString(wfMsg('showtoc')) . '";' . ' var tocHideText = "' . Xml :: escapeJsString(wfMsg('hidetoc')) . '";' . ' showTocToggle();' . ' } ' . "</script>\n";
     }
 
     /**
@@ -1757,159 +1228,6 @@ class MediawikiLinker
             }
         }
         return array($inside, $trail);
-    }
-
-    /**
-     * Generate a rollback link for a given revision.  Currently it's the
-     * caller's responsibility to ensure that the revision is the top one. If
-     * it's not, of course, the user will get an error message.
-     *
-     * If the calling page is called with the parameter &bot=1, all rollback
-     * links also get that parameter. It causes the edit itself and the rollback
-     * to be marked as "bot" edits. Bot edits are hidden by default from recent
-     * changes, so this allows sysops to combat a busy vandal without bothering
-     * other users.
-     *
-     * @param Revision $rev
-     */
-    function generateRollback($rev)
-    {
-        return '<span class="mw-rollback-link">[' . $this->buildRollbackLink($rev) . ']</span>';
-    }
-
-    /**
-     * Build a raw rollback link, useful for collections of "tool" links
-     *
-     * @param Revision $rev
-     * @return string
-     */
-    public function buildRollbackLink($rev)
-    {
-        global $wgRequest, $wgUser;
-        $title = $rev->getTitle();
-        $query = array('action' => 'rollback', 'from' => $rev->getUserText());
-        if ($wgRequest->getBool('bot'))
-        {
-            $query['bot'] = '1';
-            $query['hidediff'] = '1'; // bug 15999
-        }
-        $query['token'] = $wgUser->editToken(array($title->getPrefixedText(), $rev->getUserText()));
-        return $this->link($title, wfMsgHtml('rollbacklink'), array('title' => wfMsg('tooltip-rollback')), $query, array('known', 'noclasses'));
-    }
-
-    /**
-     * Returns HTML for the "templates used on this page" list.
-     *
-     * @param array $templates Array of templates from Article::getUsedTemplate
-     * or similar
-     * @param bool $preview Whether this is for a preview
-     * @param bool $section Whether this is for a section edit
-     * @return string HTML output
-     */
-    public function formatTemplates($templates, $preview = false, $section = false)
-    {
-        wfProfileIn(__METHOD__);
-
-        $outText = '';
-        if (count($templates) > 0)
-        {
-            # Do a batch existence check
-            $batch = new LinkBatch();
-            foreach ($templates as $title)
-            {
-                $batch->addObj($title);
-            }
-            $batch->execute();
-
-            # Construct the HTML
-            $outText = '<div class="mw-templatesUsedExplanation">';
-            if ($preview)
-            {
-                $outText .= wfMsgExt('templatesusedpreview', array('parse'));
-            }
-            elseif ($section)
-            {
-                $outText .= wfMsgExt('templatesusedsection', array('parse'));
-            }
-            else
-            {
-                $outText .= wfMsgExt('templatesused', array('parse'));
-            }
-            $outText .= "</div><ul>\n";
-
-            usort($templates, array('Title', 'compare'));
-            foreach ($templates as $titleObj)
-            {
-                $r = $titleObj->getRestrictions('edit');
-                if (in_array('sysop', $r))
-                {
-                    $protected = wfMsgExt('template-protected', array('parseinline'));
-                }
-                elseif (in_array('autoconfirmed', $r))
-                {
-                    $protected = wfMsgExt('template-semiprotected', array('parseinline'));
-                }
-                else
-                {
-                    $protected = '';
-                }
-                if ($titleObj->quickUserCan('edit'))
-                {
-                    $editLink = $this->makeLinkObj($titleObj, wfMsg('editlink'), 'action=edit');
-                }
-                else
-                {
-                    $editLink = $this->makeLinkObj($titleObj, wfMsg('viewsourcelink'), 'action=edit');
-                }
-                $outText .= '<li>' . $this->link($titleObj) . ' (' . $editLink . ') ' . $protected . '</li>';
-            }
-            $outText .= '</ul>';
-        }
-        wfProfileOut(__METHOD__);
-        return $outText;
-    }
-
-    /**
-     * Returns HTML for the "hidden categories on this page" list.
-     *
-     * @param array $hiddencats Array of hidden categories from Article::getHiddenCategories
-     * or similar
-     * @return string HTML output
-     */
-    public function formatHiddenCategories($hiddencats)
-    {
-        global $wgLang;
-        wfProfileIn(__METHOD__);
-
-        $outText = '';
-        if (count($hiddencats) > 0)
-        {
-            # Construct the HTML
-            $outText = '<div class="mw-hiddenCategoriesExplanation">';
-            $outText .= wfMsgExt('hiddencategories', array('parse'), $wgLang->formatnum(count($hiddencats)));
-            $outText .= "</div><ul>\n";
-
-            foreach ($hiddencats as $titleObj)
-            {
-                $outText .= '<li>' . $this->link($titleObj, null, array(), array(), 'known') . "</li>\n"; # If it's hidden, it must exist - no need to check with a LinkBatch
-            }
-            $outText .= '</ul>';
-        }
-        wfProfileOut(__METHOD__);
-        return $outText;
-    }
-
-    /**
-     * Format a size in bytes for output, using an appropriate
-     * unit (B, KB, MB or GB) according to the magnitude in question
-     *
-     * @param $size Size to format
-     * @return string
-     */
-    public function formatSize($size)
-    {
-        global $wgLang;
-        return htmlspecialchars($wgLang->formatSize($size));
     }
 
     /**
@@ -2019,23 +1337,5 @@ class MediawikiLinker
 
         wfProfileOut(__METHOD__);
         return false;
-    }
-
-    /**
-     * Creates a (show/hide) link for deleting revisions/log entries
-     *
-     * @param array $query  Query parameters to be passed to link()
-     * @param bool $restricted  Set to true to use a <strong> instead of a <span>
-     *
-     * @return string HTML <a> link to Special:Revisiondelete, wrapped in a
-     * span to allow for customization of appearance with CSS
-     */
-    public function revDeleteLink($query = array(), $restricted = false)
-    {
-        $sp = SpecialPage :: getTitleFor('Revisiondelete');
-        $text = wfMsgHtml('rev-delundel');
-        $tag = $restricted ? 'strong' : 'span';
-        $link = $this->link($sp, $text, array(), $query, array('known', 'noclasses'));
-        return Xml :: tags($tag, array('class' => 'mw-revdelundel-link'), "($link)");
     }
 }

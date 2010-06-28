@@ -107,8 +107,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $max_objects = null;
         }
-        //        echo $query; dump($params);
 
+        //dump($query);
+        //dump($params);
 
         $this->set_limit(intval($max_objects), intval($offset));
         $res = $this->query($query);

@@ -24,30 +24,31 @@ class WikiDisplayWikiViewerComponent extends WikiDisplay
     {
         $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), null);
         $this->get_breadcrumbtrail();
-        
+
         if ($this->get_root_content_object() != null)
         {
             $complex_wiki_homepage = $this->get_wiki_homepage($this->get_root_content_object_id());
-            
+            Request :: set_get(ComplexDisplay::PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_wiki_homepage->get_id());
+
             if (! is_null($complex_wiki_homepage))
             {
                 $this->display_header($complex_wiki_homepage);
-                
+
                 $wiki_homepage = $complex_wiki_homepage->get_ref_object();
-                
+
                 //                $parser = new WikiParser($this, $this->get_root_content_object()->get_id(), $wiki_homepage->get_description(), $complex_wiki_homepage->get_id());
-                $parser = new MediawikiParser();
-                
+                $parser = new MediawikiParser($this, $wiki_homepage);
+
                 $html[] = '<div class="wiki-pane-content-title">' . $wiki_homepage->get_title() . '</div>';
                 $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('From') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
-                
+
+                $html[] = '<div class="wiki-pane-content-body">';
                 //                $html[] = $parser->parse_wiki_text();
                 //                $html[] = $parser->get_wiki_text();
-                $html[] = '<div class="wiki-pane-content-body">';
-                $html[] = $parser->parse($wiki_homepage->get_description());
+                $html[] = $parser->parse();
                 $html[] = '<div class="clear"></div>';
                 $html[] = '</div>';
-                
+
                 echo implode("\n", $html);
                 $this->display_footer();
             }
