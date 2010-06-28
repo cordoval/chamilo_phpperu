@@ -18,7 +18,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     const PARAM_DELETE_SELECTED_MOMENTS = 'delete_moments';
     const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
     const PARAM_PUBLICATION_ID = 'publication_id';
-       
+    
     const ACTION_CREATE_AGREEMENT = 'create';
     const ACTION_BROWSE_AGREEMENT = 'browse';
     const ACTION_UPDATE_AGREEMENT = 'update';
@@ -38,6 +38,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     const ACTION_DELETE_MOMENT = 'delete_moment';
     const ACTION_VIEW_MOMENT = 'view_moment';
     const ACTION_PUBLISH_MOMENT = 'publish_moment';
+    const ACTION_REPORTING = 'reporting';
     
     const ACTION_SUBSCRIBE_LOCATION = 'subscribe_location';
     const ACTION_SUBSCRIBE_MENTOR = 'subscribe_mentor';
@@ -75,12 +76,15 @@ class InternshipOrganizerAgreementManager extends SubManager
             case self :: ACTION_BROWSE_AGREEMENT :
                 $component = $this->create_component('Browser');
                 break;
+            case self :: ACTION_REPORTING :
+                $component = $this->create_component('Reporting');
+                break;
             case self :: ACTION_PUBLISH_AGREEMENT :
                 $component = $this->create_component('Publisher');
                 break;
             case self :: ACTION_VIEW_PUBLICATION :
                 $component = $this->create_component('PublicationViewer');
-                break;    
+                break;
             case self :: ACTION_EDIT_MOMENT :
                 $component = $this->create_component('MomentUpdater');
                 break;
@@ -284,12 +288,17 @@ class InternshipOrganizerAgreementManager extends SubManager
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_MOMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
     }
-	
-	function get_view_publication_url($publication)
+
+    function get_view_publication_url($publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
-    
+
+    function get_agreement_reporting_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING));
+    }
+
     private function parse_input_from_table()
     {
         

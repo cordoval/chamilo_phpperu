@@ -23,6 +23,9 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_VIEW_PERIOD = 'view';
     const ACTION_PUBLISH_PERIOD = 'publish';
     const ACTION_SUBSCRIBE_USERS = 'subscribe_users';
+    const ACTION_REPORTING = 'reporting';
+    
+    
 //    const ACTION_SUBSCRIBE_USERS_TO_PERIOD = 'subscribe';
 
     function InternshipOrganizerPeriodManager($internship_manager)
@@ -58,6 +61,9 @@ class InternshipOrganizerPeriodManager extends SubManager
             case self :: ACTION_BROWSE_PERIODS :
                 $component = $this->create_component('Browser');
                 break;
+            case self :: ACTION_REPORTING :
+                $component = $this->create_component('Reporting');
+                break;    
             case self :: ACTION_PUBLISH_PERIOD :
                 $component = $this->create_component('Publisher');
                 break;    
@@ -157,6 +163,11 @@ class InternshipOrganizerPeriodManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 	
+	function get_period_reporting_url($period)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_PERIOD_ID => $period->get_id()));
+    }
+    
 	function get_period_publish_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_PERIOD));
