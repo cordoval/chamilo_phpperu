@@ -2087,6 +2087,21 @@ img.save_hotspot {
 	cursor: pointer;
 }
 
+div.time_left {
+	float: left;
+	padding: 6px 10px 6px 10px;
+	border: 1px solid #b5cae7;
+	background-color: #eef5fa;
+	border: 1px solid #ffd89b;
+	background-color: #fff8aa;
+	text-align: center;
+	margin-top: -10px;	
+}
+
+div.time {
+	display: inline;
+}
+
 /*
 Default style definitions for:
 

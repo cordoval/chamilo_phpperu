@@ -38,7 +38,7 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
         $this->setConstants($defaults);
         
         if ($defaults['max_time'] > 0)
-            $this->addElement('html', Translation :: get('TimeLeft') . ' <div class="time">' . $defaults['max_time'] . '</div>');
+            $this->addElement('html',' <div class="time_left">' . Translation :: get('TimeLeft') . '<br /><div class="time">' . $defaults['max_time'] . '</div>' . Translation :: get('SecondsShort') . '</div>');
             
         // Add buttons
         if ($this->page_number > 1)
