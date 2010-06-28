@@ -123,19 +123,13 @@ class InternshipOrganizerAgreementForm extends FormValidator
                 
                 $conditions = array();
                 $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period_id, InternshipOrganizerAgreement :: get_table_name());
+                $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $student_id);
                 $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, InternshipOrganizerUserType :: STUDENT);
                 $condition = new AndCondition($conditions);
                 $agreement_rel_user_count = InternshipOrganizerDataManager :: get_instance()->count_agreement_rel_users($condition);
                 
-                //                $conditions = array();
-                //                $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period_id);
-                //                $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_STUDENT_ID, $student_id);
-                //                $condition = new AndCondition($conditions);
-                //                $agreement_rel_student = $existing_agreements = $dm->retrieve_agreements($condition);
-                //                if ($existing_agreements->size() == 0)
                 if ($agreement_rel_user_count == 0)
                 {
-//                    $agreement->set_student_id($student_id);
                     $agreement->set_period_id($period_id);
                     $agreement->set_begin($period->get_begin());
                     $agreement->set_end($period->get_end());

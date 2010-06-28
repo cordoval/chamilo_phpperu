@@ -156,7 +156,19 @@ interface InternshipOrganizerDataManagerInterface
     function count_mentor_rel_users($conditions = null);
 
     function retrieve_mentor_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
+	
+    function delete_internship_organizer_mentor_rel_location($organisation_rel_location);
 
+    function create_internship_organizer_mentor_rel_location($organisation_rel_location);
+
+    function count_mentor_rel_locations($conditions = null);
+
+    function retrieve_mentor_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    function count_mentor_agreements($conditions = null);
+
+    function retrieve_mentor_agreements($condition = null, $offset = null, $count = null, $order_property = null);
+    
     //periods
     
 

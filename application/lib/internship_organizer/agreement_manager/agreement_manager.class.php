@@ -18,7 +18,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     const PARAM_DELETE_SELECTED_MOMENTS = 'delete_moments';
     const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
     const PARAM_PUBLICATION_ID = 'publication_id';
-    
+       
     const ACTION_CREATE_AGREEMENT = 'create';
     const ACTION_BROWSE_AGREEMENT = 'browse';
     const ACTION_UPDATE_AGREEMENT = 'update';
