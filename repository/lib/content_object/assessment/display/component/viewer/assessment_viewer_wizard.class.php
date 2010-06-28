@@ -34,10 +34,6 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 
     function addpages()
     {
-        // Not ideal, but if we don't do it, it causes a LOT of problems.
-        Session :: unregister('questions');
-        //unset($_SESSION['questions']);
-
         $assessment = $this->assessment;
         if ($assessment->get_random_questions() == 0)
         {
