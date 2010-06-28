@@ -253,8 +253,8 @@ tr.recycled td a:hover {
 }
 
 .wiki-pane-content .wiki-pane-content-body table {
-	border: 1px solid #8888aa;
-	background-color: #f7f8ff;
+	border: 1px solid #999999;
+	background-color: #fbfbfb;
 }
 
 table.wikitable {
@@ -300,4 +300,9 @@ table.collapsed tr.collapsable {
 	background-color: #fff8aa;
 	color: #996900;
 	margin-bottom: 1.5em;
+}
+
+.wiki-pane-content .wiki-pane-content-body a.new
+{
+	color: #e17009;
 }
