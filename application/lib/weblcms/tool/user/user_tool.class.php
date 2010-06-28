@@ -5,6 +5,7 @@
  */
 
 require_once dirname(__FILE__) . '/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
+require_once dirname(__FILE__) . '/component/subscribe_group_browser/subscribe_group_browser_table.class.php';
 
 /**
  * This tool allows a user to publish users in his or her course.
