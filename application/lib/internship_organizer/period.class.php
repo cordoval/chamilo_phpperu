@@ -145,10 +145,61 @@ class InternshipOrganizerPeriod extends NestedTreeNode
         }
         
         $target_users = array();
-        $type_index = $conditions = array();
+        $conditions = array();
         $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $this->get_id());
         $conditions[] = new InCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, $user_types);
         $condition = new AndCondition($conditions);
+        
+        $period_rel_users = $this->get_data_manager()->retrieve_period_rel_users($condition);
+        
+        while ($period_rel_user = $period_rel_users->next_result())
+        {
+            $target_users[] = $period_rel_user->get_user_id();
+        }
+        
+        $target_groups = array();
+        $period_rel_groups = $this->get_data_manager()->retrieve_period_rel_groups($condition);
+        
+        while ($period_rel_group = $period_rel_groups->next_result())
+        {
+            $target_groups[] = $period_rel_group->get_group_id();
+        }
+        
+        if (count($target_groups) != 0)
+        {
+            $gdm = GroupDataManager :: get_instance();
+            foreach ($target_groups as $group_id)
+            {
+                $group = $gdm->retrieve_group($group_id);
+                $target_users = array_merge($target_users, $group->get_users(true, true));
+            }
+        }
+        
+        return array_unique($target_users);
+    }
+
+    function get_unique_group_ids($user_types)
+    {
+        
+        $condition = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $this->get_id());
+        
+        $target_groups = array();
+        $period_rel_groups = $this->get_data_manager()->retrieve_period_rel_groups($condition);
+        
+        while ($period_rel_group = $period_rel_groups->next_result())
+        {
+            $target_groups[] = $period_rel_group->get_group_id();
+        }
+        
+        return array_unique($target_groups);
+    
+    }
+
+    function get_unique_user_ids()
+    {
+        
+        $target_users = array();
+        $condition = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $this->get_id());
         
         $period_rel_users = $this->get_data_manager()->retrieve_period_rel_users($condition);
         
