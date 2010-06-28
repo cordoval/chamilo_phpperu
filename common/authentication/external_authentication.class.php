@@ -639,28 +639,6 @@ abstract class ExternalAuthentication extends Authentication
         }
     }
 
-    /**
-     * Always returns false as the user's username
-     * is not stored in the Chamilo datasource
-     *
-     * @return bool false
-     */
-    function is_username_changeable()
-    {
-        return false;
-    }
-
-    /**
-     * Always returns false as the user's password
-     * is not stored in the Chamilo datasource
-     *
-     * @return bool false
-     */
-    function is_password_changeable($user)
-    {
-        return false;
-    }
-
     function get_password_requirements()
     {
         return null;

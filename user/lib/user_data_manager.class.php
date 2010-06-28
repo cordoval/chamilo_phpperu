@@ -65,7 +65,7 @@ class UserDataManager
                     $authentication_class = ucfirst($authentication_method) . 'Authentication';
                     require_once $authentication_class_file;
                     $authentication = new $authentication_class();
-                    if ($authentication->can_register_new_user())
+                    if ($authentication instanceof UserRegistrationSupport)
                     {
                         if ($authentication->register_new_user($username, $password))
                         {

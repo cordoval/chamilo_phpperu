@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../authentication.class.php';
  * note that the users in your database should have myldap as auth_source also
  * in that case.
  */
-class LdapAuthentication extends Authentication
+class LdapAuthentication extends Authentication implements UserRegistrationSupport
 {
     private $ldap_settings;
 
@@ -71,11 +71,6 @@ class LdapAuthentication extends Authentication
         }
     }
 
-    public function is_password_changeable($user)
-    {
-        return false;
-    }
-
     /**
      * Always returns false as the user's password
      * is not stored in the Chamilo datasource.
@@ -90,16 +85,6 @@ class LdapAuthentication extends Authentication
     function get_password_requirements()
     {
         return null;
-    }
-
-    public function is_username_changeable()
-    {
-        return false;
-    }
-
-    public function can_register_new_user()
-    {
-        return true;
     }
 
     public function register_new_user($username, $password = null)

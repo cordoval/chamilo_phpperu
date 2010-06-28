@@ -78,7 +78,7 @@ class UserManagerResetPasswordComponent extends UserManager
                     {
                         $auth_source = $user->get_auth_source();
                         $auth = Authentication :: factory($auth_source);
-                        if (! $auth->is_password_changeable())
+                        if (! $auth instanceof ChangeablePassword)
                         {
                             Display :: error_message('ResetPasswordNotPossibleForThisUser');
                         }

@@ -27,12 +27,6 @@ abstract class Authentication
     abstract function check_login($user, $username, $password = null);
 
     /**
-     * Checks if this authentication method allows the password to be changed.
-     * @return boolean
-     */
-    abstract function is_password_changeable($user);
-
-    /**
      * Changes the user's password
      * @param User The current user object
      * @param string The user's current password
@@ -48,20 +42,6 @@ abstract class Authentication
      * @return string Instructions for the password
      */
     abstract function get_password_requirements();
-
-    /**
-     * Checks if this authentication method allows the username to be changed.
-     */
-    abstract function is_username_changeable();
-
-    /**
-     * Checks if this authenticaion method is able to register new users based
-     * on a given username and password
-     */
-    public function can_register_new_user()
-    {
-        return false;
-    }
 
     /**
      * Registers a new user
