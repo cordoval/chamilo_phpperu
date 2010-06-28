@@ -43,7 +43,6 @@ class AssessmentManager extends WebApplication
     function AssessmentManager($user = null)
     {
         parent :: __construct($user);
-        $this->parse_input_from_table();
     }
 
     /**
@@ -106,33 +105,6 @@ class AssessmentManager extends WebApplication
         
         }
         $component->run();
-    }
-
-    private function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATIONS :
-                    
-                    $selected_ids = $_POST[AssessmentPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-                    
-                    if (empty($selected_ids))
-                    {
-                        $selected_ids = array();
-                    }
-                    elseif (! is_array($selected_ids))
-                    {
-                        $selected_ids = array($selected_ids);
-                    }
-                    
-                    $this->set_action(self :: ACTION_DELETE_ASSESSMENT_PUBLICATION);
-                    $_GET[self :: PARAM_ASSESSMENT_PUBLICATION] = $selected_ids;
-                    break;
-            }
-        
-        }
     }
 
     function get_application_name()

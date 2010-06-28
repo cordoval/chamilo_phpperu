@@ -524,8 +524,8 @@ class Database
             $query .= $translator->render_query($condition);
         }
 
-        //        dump($query);
-        //        exit;
+//              dump($query);
+//                exit;
 
 
         $res = $this->query($query);

@@ -14,8 +14,6 @@ class InternshipOrganizerLocation extends DataClass
     const PROPERTY_NAME = 'name';
     const PROPERTY_ADDRESS = 'address';
     const PROPERTY_REGION_ID = 'region_id';
-    //const PROPERTY_POSTCODE = 'postcode';
-    //const PROPERTY_CITY = 'city';
     const PROPERTY_TELEPHONE = 'telephone';
     const PROPERTY_FAX = 'fax';
     const PROPERTY_EMAIL = 'email';
@@ -27,9 +25,7 @@ class InternshipOrganizerLocation extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_ORGANISATION_ID, self :: PROPERTY_NAME, self :: PROPERTY_ADDRESS, self :: PROPERTY_REGION_ID, //						self::PROPERTY_POSTCODE, 
-        //						self::PROPERTY_CITY,
-        self :: PROPERTY_TELEPHONE, self :: PROPERTY_FAX, self :: PROPERTY_EMAIL, self :: PROPERTY_DESCRIPTION);
+        return array(self :: PROPERTY_ID, self :: PROPERTY_ORGANISATION_ID, self :: PROPERTY_NAME, self :: PROPERTY_ADDRESS, self :: PROPERTY_REGION_ID, self :: PROPERTY_TELEPHONE, self :: PROPERTY_FAX, self :: PROPERTY_EMAIL, self :: PROPERTY_DESCRIPTION);
     }
 
     function get_data_manager()

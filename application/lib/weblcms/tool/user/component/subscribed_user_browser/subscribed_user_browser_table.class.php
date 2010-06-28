@@ -21,33 +21,36 @@ class SubscribedUserBrowserTable extends ObjectTable
         $model = new SubscribedUserBrowserTableColumnModel();
         $renderer = new SubscribedUserBrowserTableCellRenderer($browser);
         $data_provider = new SubscribedUserBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, SubscribedUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = array();
+        $actions = new ObjectTableFormActions(Tool :: PARAM_ACTION);
 
         $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
 
         if (!isset($group_id ))
         {
-            if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) != WeblcmsManager :: ACTION_SUBSCRIBE)
+            if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) != UserTool :: ACTION_SUBSCRIBE_USER_BROWSER)
             {
-                $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_UNSUBSCRIBE_SELECTED, Translation :: get('UnsubscribeSelected'), false);
+                $actions->add_form_action(new ObjectTableFormAction(UserTool :: ACTION_UNSUBSCRIBE, Translation :: get('UnsubscribeSelected'), false));
             }
             else
             {
-                $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT, Translation :: get('SubscribeSelectedAsStudent'), false);
-                $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN, Translation :: get('SubscribeSelectedAsAdmin'), false);
+                $actions->add_form_action(new ObjectTableFormAction(UserTool :: ACTION_SUBSCRIBE, Translation :: get('SubscribeSelectedAsStudent'), false));
+                $actions->add_form_action(new ObjectTableFormAction(UserTool :: ACTION_SUBSCRIBE_AS_ADMIN, Translation :: get('SubscribeSelectedAsAdmin'), false));
             }
         }
-
-        //$actions[] = new ObjectTableFormAction(UserTool :: ACTION_USER_DETAILS, Translation :: get('Details'), false);
-
 
         if ($browser->get_course()->is_course_admin($browser->get_user()))
         {
             $this->set_form_actions($actions);
         }
         $this->set_default_row_count(20);
+    }
+    
+    function handle_table_action()
+    {
+    	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+    	Request :: set_get(UserTool :: PARAM_USERS, $ids);
     }
 }
 ?>

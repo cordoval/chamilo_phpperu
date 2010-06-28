@@ -11,12 +11,6 @@ class InternshipOrganizerOrganisation extends DataClass
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_NAME = 'name';
-    //	const PROPERTY_ADDRESS = 'address';
-    //	const PROPERTY_POSTCODE = 'postcode';
-    //	const PROPERTY_CITY = 'city';
-    //	const PROPERTY_TELEPHONE = 'telephone';
-    //	const PROPERTY_FAX = 'fax';
-    //	const PROPERTY_EMAIL = 'email';
     const PROPERTY_DESCRIPTION = 'description';
 
     /**
@@ -25,13 +19,7 @@ class InternshipOrganizerOrganisation extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_NAME, //						self :: PROPERTY_ADDRESS,
-        //						self :: PROPERTY_POSTCODE,
-        //						self :: PROPERTY_CITY,
-        //						self :: PROPERTY_TELEPHONE,
-        //						self :: PROPERTY_FAX,
-        //						self :: PROPERTY_EMAIL,
-        self :: PROPERTY_DESCRIPTION);
+        return array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION);
     }
 
     function get_data_manager()
@@ -108,35 +96,25 @@ class InternshipOrganizerOrganisation extends DataClass
     function get_locations()
     {
         $dm = $this->get_data_manager();
-        
         $organisation_id = $this->get_id();
-        
-        //        if ($include_subcategories)
-        //        {
-        //            $subcategories = $dm->nested_tree_get_children($this, $recursive_subcategories);
-        //            
-        //            while ($subcategory = $subcategories->next_result())
-        //            {
-        //                $categories[] = $subcategory->get_id();
-        //            }
-        //        }
-        
+        $condition = new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $organisation_id);
+        return $dm->retrieve_locations($condition);
+    }
 
-        $condition = new InCondition(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $organisation_id);
-        $organisation_rel_locations = $dm->retrieve_organisation_rel_locations($condition);
-        $locations = array();
+    function get_location_ids()
+    {
+        $locations = $this->get_locations();
+        $location_ids = array();
         
-        while ($organisation_rel_location = $organisation_rel_locations->next_result())
+        while ($location = $locations->next_result())
         {
-            $location_id = $organisation_rel_location->get_id();
-            if (! in_array($location_id, $locations))
-            {
-                $locations[] = $location_id;
-            }
+            $location_ids[] = $location->get_id();
+        
         }
         
-        return $locations;
+        return $location_ids;
     }
+
 }
 
 ?>

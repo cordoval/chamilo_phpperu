@@ -42,7 +42,7 @@ class AssessmentManagerBrowserComponent extends AssessmentManager
 
     function get_table()
     {
-        $table = new AssessmentPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => AssessmentManager :: PARAM_APPLICATION, Application :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS), $this->get_condition());
+        $table = new AssessmentPublicationBrowserTable($this, $this->get_parameters(), $this->get_condition());
         return $table->as_html();
     }
 

@@ -4,7 +4,7 @@
  * @package application.lib.weblcms.tool.user.component
  */
 require_once dirname(__FILE__) . '/../user_tool.class.php';
-require_once dirname(__FILE__) . '/../../../weblcms_manager/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
+require_once dirname(__FILE__) . '/subscribed_user_browser/subscribed_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/../course_group_user_menu.class.php';
 
 class UserToolUnsubscribeBrowserComponent extends UserTool
@@ -37,11 +37,9 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
 
         $this->display_header($trail, true);
 
-        //echo '<br /><a name="top"></a>';
-        //echo $this->perform_requested_actions();
         if ($this->get_course()->get_intro_text())
         {
-            echo $this->display_introduction_text();
+            echo $this->display_introduction_text($this->introduction_text);
         }
 
         echo $this->action_bar->as_html();
@@ -76,7 +74,8 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
 
     function get_user_unsubscribe_html()
     {
-        $table = new SubscribedUserBrowserTable($this, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => $this->get_tool_id(), UserTool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USERS, 'application' => 'weblcms'), $this->get_unsubscribe_condition());
+    	$parameters = $this->get_parameters();
+        $table = new SubscribedUserBrowserTable($this, $parameters, $this->get_unsubscribe_condition());
         return $table->as_html();
     }
 
@@ -92,7 +91,6 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $parameters = array();
-        $parameters['tool_action'] = UserTool :: ACTION_UNSUBSCRIBE_USERS;
 
         $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
         if (isset($group_id))
@@ -104,8 +102,8 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
 
         if ($this->is_allowed(EDIT_RIGHT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_image_path() . 'action_subscribe_user.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_image_path() . 'action_subscribe_group.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUPS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_image_path() . 'action_subscribe_user.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USER_BROWSER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_image_path() . 'action_subscribe_group.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUP_BROWSER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
             if (! $this->introduction_text)
             {
@@ -124,8 +122,14 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
         {
             $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
 
+            $users = $group->get_users(true, true);
+            if(count($users) == 0)
+            {
+            	return new EqualityCondition(User :: PROPERTY_ID, 0);
+            }
+            
             $conditions = array();
-            $conditions[] = new InCondition(User :: PROPERTY_ID, $group->get_users(true, true));
+            $conditions[] = new InCondition(User :: PROPERTY_ID, $users);
 
             if ($this->get_condition())
             {
@@ -170,43 +174,6 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
             $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
             return new OrCondition($conditions);
         }
-    }
-
-    function display_introduction_text()
-    {
-        $html = array();
-
-        $introduction_text = $this->introduction_text;
-
-        if ($introduction_text)
-        {
-            $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-                
-            $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Edit'),
-	        		Theme :: get_common_image_path() . 'action_edit.png',
-	        		$this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
-        
-	        $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Delete'),
-	        		Theme :: get_common_image_path() . 'action_delete.png',
-	        		$this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
-	        		ToolbarItem :: DISPLAY_ICON,
-	        		true
-	        ));
-            
-            $html[] = '<div class="content_object">';
-            $html[] = '<div class="description">';
-            $html[] = $introduction_text->get_content_object()->get_description();
-            $html[] = '</div>';
-            $html[] = $toolbar->as_html(). '<div class="clear"></div>';
-            $html[] = '</div>';
-            $html[] = '<br />';
-        }
-
-        return implode("\n", $html);
     }
 }
 ?>
