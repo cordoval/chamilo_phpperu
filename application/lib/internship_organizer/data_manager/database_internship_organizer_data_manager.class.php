@@ -475,8 +475,41 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function delete_internship_organizer_agreement($agreement)
     {
-        $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_ID, $agreement->get_id());
-        return $this->delete($agreement->get_table_name(), $condition);
+             
+        $condition = new EqualityCondition(InternshipOrganizerMoment :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
+        $moment_count = $this->count_moments($condition);
+        if ($moment_count == 0)
+        {
+            $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_ID, $agreement->get_id());
+	         $succes = $this->delete($agreement->get_table_name(), $condition);
+            
+            $condition = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
+            $agreement_rel_users = $this->retrieve_agreement_rel_users($condition);
+            while ($agreement_rel_user = $agreement_rel_users->next_result())
+            {
+            	$agreement_rel_user->delete();
+            }
+            
+            $condition = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
+            $agreement_rel_locations = $this->retrieve_agreement_rel_locations($condition);
+            while ($agreement_rel_location = $agreement_rel_locations->next_result())
+            {
+            	$agreement_rel_location->delete();
+            }
+            $condition = new EqualityCondition(InternshipOrganizerAgreementRelMentor :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
+            $agreement_rel_mentors = $this->retrieve_agreement_rel_mentors($condition);
+            while ($agreement_rel_mentor = $agreement_rel_mentors->next_result())
+            {
+                $agreement_rel_mentor->delete();
+            }
+            
+            return $succes;
+        }
+        else
+        {
+            return false;
+        }
+    
     }
 
     function retrieve_agreements($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -584,7 +617,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_AGREEMENT_ID, $agreement_rel_user->get_agreement_id());
         $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, $agreement_rel_user->get_user_type());
         $condition = new AndCondition($conditions);
-        $bool = $this->delete($agreement_rel_user->get_table_name(), $condition);
+       	$bool = $this->delete($agreement_rel_user->get_table_name(), $condition);
         return $bool;
     }
 
@@ -609,7 +642,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         return $this->count_result_set($query, InternshipOrganizerAgreementRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelUser :: CLASS_NAME);
         
-//            return $this->count_objects(InternshipOrganizerAgreementRelUser :: get_table_name(), $condition);
+    //            return $this->count_objects(InternshipOrganizerAgreementRelUser :: get_table_name(), $condition);
     }
 
     function retrieve_agreement_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -627,16 +660,17 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $agreement_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
         
         return $this->retrieve_object_set($query, InternshipOrganizerAgreementRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelUser :: CLASS_NAME);
-//            return $this->retrieve_objects(InternshipOrganizerAgreementRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelUser :: CLASS_NAME);
-        
+        //            return $this->retrieve_objects(InternshipOrganizerAgreementRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelUser :: CLASS_NAME);
+    
+
     }
 
     function delete_internship_organizer_agreement_rel_location($agreement_rel_location)
     {
         
-        $agreement_id = $agreement_rel_location->get_agreement_id();
+    	$agreement_id = $agreement_rel_location->get_agreement_id();
         $location_id = $agreement_rel_location->get_location_id();
-        
+       
         $query = 'UPDATE ' . $this->escape_table_name('agreement_rel_location') . ' SET ' . $this->escape_column_name(InternshipOrganizerAgreementRelLocation :: PROPERTY_PREFERENCE_ORDER) . '=' . $this->escape_column_name(InternshipOrganizerAgreementRelLocation :: PROPERTY_PREFERENCE_ORDER) . '-1 WHERE ' . $this->escape_column_name(InternshipOrganizerAgreementRelLocation :: PROPERTY_PREFERENCE_ORDER) . '>' . $this->quote($agreement_rel_location->get_preference_order());
         $res = $this->query($query);
         $res->free();
@@ -647,13 +681,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $res->free();
         
         return true;
-        
-    //    	$conditions = array();
-    //        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_rel_location->get_agreement_id());
-    //        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_ID, $agreement_rel_location->get_location_id());
-    //        $condition = new AndCondition($conditions);
-    //        $bool = $this->delete($agreement_rel_location->get_table_name(), $condition);
-    //        return $bool;
+      
     }
 
     function create_internship_organizer_agreement_rel_location($agreement_rel_location)
@@ -672,7 +700,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function retrieve_agreement_rel_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        return $this->retrieve_objects(InternshipOrganizerAgreementRelLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelLocation :: CLASS_NAME);
+    	return $this->retrieve_objects(InternshipOrganizerAgreementRelLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelLocation :: CLASS_NAME);
     }
 
     function retrieve_agreement_rel_location($location_id, $agreement_id)
