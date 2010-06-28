@@ -20,8 +20,8 @@ require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/component/admin_course_browser/admin_course_browser_table.class.php';
 require_once dirname(__FILE__) . '/component/admin_course_type_browser/admin_course_type_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/subscribe_group_browser/subscribe_group_browser_table.class.php';
+//require_once dirname(__FILE__) . '/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
+//require_once dirname(__FILE__) . '/component/subscribe_group_browser/subscribe_group_browser_table.class.php';
 require_once dirname(__FILE__) . '/component/admin_request_browser/admin_request_browser_table.class.php';
 require_once dirname(__FILE__) . '/../weblcms_block.class.php';
 require_once dirname(__FILE__) . '/../weblcms_rights.class.php';
@@ -169,7 +169,7 @@ class WeblcmsManager extends WebApplication
 		$this->set_parameter(self :: PARAM_ACTION, Request :: get(self :: PARAM_ACTION));
 		$this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
 		$this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
-		$this->parse_input_from_table();
+		//$this->parse_input_from_table();
 
 		$this->course_type = $this->load_course_type();
 		$this->tools = array();

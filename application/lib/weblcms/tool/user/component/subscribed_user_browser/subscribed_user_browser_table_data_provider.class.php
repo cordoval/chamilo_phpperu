@@ -39,7 +39,7 @@ class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
     	if(is_null($this->preloaded_result_set))
     	{
 	    	$order_property = $this->get_order_property($order_property);
-	        $add_course_admin = (parent::get_browser()->get_action() == UserTool :: ACTION_UNSUBSCRIBE_USERS || is_null(parent::get_browser()->get_action()));
+	        $add_course_admin = (parent::get_browser()->get_action() == UserTool :: ACTION_UNSUBSCRIBE_USER_BROWSER || is_null(parent::get_browser()->get_action()));
 	        $rights = array(CourseGroupSubscribeRight :: SUBSCRIBE_DIRECT);
 	        if($add_course_admin)
 	        	$rights[] = CourseGroupSubscribeRight :: SUBSCRIBE_REQUEST;

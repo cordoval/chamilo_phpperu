@@ -71,11 +71,11 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
     private function get_modification_links($user)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) == WeblcmsManager :: ACTION_SUBSCRIBE)
+        if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) == UserTool :: ACTION_SUBSCRIBE_USER_BROWSER)
         {
             $parameters = array();
-            $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;
-            $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
+            $parameters[UserTool :: PARAM_USERS] = $user->get_id();
+            $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE;
             $subscribe_url = $this->browser->get_url($parameters);
 
             $toolbar->add_item(new ToolbarItem(
@@ -86,9 +86,8 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 	        ));
             
             $parameters = array();
-            $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;
-            $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
-            $parameters[WeblcmsManager :: PARAM_STATUS] = 1;
+            $parameters[UserTool :: PARAM_USERS] = $user->get_id();
+            $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE_AS_ADMIN;
             $subscribe_url = $this->browser->get_url($parameters);
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('SubscribeAsTeacher'),
@@ -100,8 +99,8 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
         else
         {
             $parameters = array();
-            $parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool :: ACTION_USER_DETAILS;
-            $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
+            $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_USER_DETAILS;
+            $parameters[UserTool :: PARAM_USERS] = $user->get_id();
             $details_url = $this->browser->get_url($parameters);
             
             $toolbar->add_item(new ToolbarItem(
@@ -114,8 +113,8 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             if(PlatformSetting :: get('active_online_email_editor'))
             {
 	            $parameters = array();
-	            $parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool :: ACTION_EMAIL;
-	            $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
+	            $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_EMAIL;
+	            $parameters[UserTool :: PARAM_USERS] = $user->get_id();
 	            $email_url = $this->browser->get_url($parameters);
 	            
 	            $toolbar->add_item(new ToolbarItem(
@@ -131,8 +130,8 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             if ($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(DELETE_RIGHT) && !isset($group_id))
             {
                 $parameters = array();
-                $parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_UNSUBSCRIBE;
-                $parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
+                $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_UNSUBSCRIBE;
+                $parameters[UserTool :: PARAM_USERS] = $user->get_id();
                 $unsubscribe_url = $this->browser->get_url($parameters);
                 
                 $toolbar->add_item(new ToolbarItem(
@@ -155,10 +154,9 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
             if ($this->browser->is_allowed(EDIT_RIGHT))
             {
                 $params = array();
-                $params[WeblcmsManager :: PARAM_COURSE] = $this->browser->get_course_id();
-                $params[WeblcmsManager::PARAM_USERS] = $user->get_id();
-				$params[Application::PARAM_ACTION] = WeblcmsManager::ACTION_REPORTING;
-                $reporting_url = $this->browser->get_url($params, array(WeblcmsManager::PARAM_TOOL));
+                $params[UserTool :: PARAM_USERS] = $user->get_id();
+				$params[Tool :: PARAM_ACTION] = UserTool :: ACTION_REPORTING;
+                $reporting_url = $this->browser->get_url($params);
                 
                 $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('Report'),

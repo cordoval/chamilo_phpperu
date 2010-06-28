@@ -24,12 +24,18 @@ class SubscribeGroupBrowserTable extends ObjectTable
         $data_provider = new SubscribeGroupBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, SubscribeGroupBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = array();
+        $actions = new ObjectTableFormActions(Tool :: PARAM_ACTION);
         
-        $actions[] = new ObjectTableFormAction(WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_GROUP, Translation :: get('SubscribeSelected'), false);
+        $actions->add_form_action(new ObjectTableFormAction(WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_GROUP, Translation :: get('SubscribeSelected'), false));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+	function handle_table_action()
+    {
+    	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+    	Request :: set_get(UserTool :: PARAM_USERS, $ids);
     }
 }
 ?>
