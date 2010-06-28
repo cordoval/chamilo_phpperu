@@ -90,12 +90,12 @@ class WeblcmsDataManager implements DataManagerInterface
     /**
      * Checks whether subscription to a specific course is allowed.
      * @param Course $course
-     * @param int $user_id
+     * @param User $user
      * @return boolean
      */
-    static function course_subscription_allowed($course, $user_id)
+    static function course_subscription_allowed($course, $user)
     {
-        $already_subscribed = self :: get_instance()->is_subscribed($course, $user_id);
+        $already_subscribed = self :: get_instance()->is_subscribed($course, $user);
 
         $subscription_allowed = ($course->get_access() == 1 ? true : false);
 
@@ -112,7 +112,7 @@ class WeblcmsDataManager implements DataManagerInterface
     /**
      * Checks whether unsubscription from a specific course is allowed.
      * @param Course $course
-     * @param int $user_id
+     * @param User $user
      * @return boolean
      */
     static function course_unsubscription_allowed($course, $user)
@@ -122,7 +122,7 @@ class WeblcmsDataManager implements DataManagerInterface
             return false;
         }
 
-        $already_subscribed = self :: get_instance()->is_subscribed($course, $user->get_id());
+        $already_subscribed = self :: get_instance()->is_subscribed($course, $user);
         $unsubscription_allowed = ($course->get_unsubscribe_allowed() == 1 ? true : false);
         if ($already_subscribed && $unsubscription_allowed)
         {

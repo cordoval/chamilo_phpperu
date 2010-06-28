@@ -332,10 +332,10 @@ interface WeblcmsDataManagerInterface
     /**
      * Checks whether a user is subscribed to a course.
      * @param Course $course
-     * @param int $user_id
+     * @param User $user
      * @return boolean
      */
-    function is_subscribed($course, $user_id);
+    function is_subscribed($course, User $user);
 
     /**
      * Checks whether the course category exists.

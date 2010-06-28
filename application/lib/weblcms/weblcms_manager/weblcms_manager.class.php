@@ -1451,7 +1451,7 @@ class WeblcmsManager extends WebApplication
 	 */
 	function course_subscription_allowed($course)
 	{
-		return WeblcmsDataManager :: course_subscription_allowed($course, $this->get_user_id());
+		return WeblcmsDataManager :: course_subscription_allowed($course, $this->get_user());
 	}
 
 	/**
@@ -1467,13 +1467,13 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Checks whether the user is subscribed to the given course
 	 * @param Course $course
-	 * @param int $user_id
+	 * @param User $user
 	 * @return boolean
 	 */
-	function is_subscribed($course, $user_id)
+	function is_subscribed($course, $user)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->is_subscribed($course, $user_id);
+		return $wdm->is_subscribed($course, $user);
 	}
 
 	function is_teacher($course, $user)
