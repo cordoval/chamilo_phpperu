@@ -210,10 +210,10 @@ class MediawikiLinkHolderArray
             $colours[$pdbk] = MediawikiLinker :: getLinkColour($title, $threshold);
 
             $complex_wiki_page_conditions = array();
-            $complex_wiki_page_conditions[] = new EqualityCondition(ComplexContentObjectItem::PROPERTY_PARENT, $wiki->get_id());
-            $complex_wiki_page_conditions[] = new EqualityCondition(ComplexContentObjectItem::PROPERTY_REF, $wiki_page->get_id());
+            $complex_wiki_page_conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $wiki->get_id());
+            $complex_wiki_page_conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $wiki_page->get_id());
 
-            $current_complex_wiki_page = RepositoryDataManager::get_instance()->retrieve_complex_content_object_items(new AndCondition($complex_wiki_page_conditions))->next_result();
+            $current_complex_wiki_page = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new AndCondition($complex_wiki_page_conditions))->next_result();
             $wiki_complex_ids[$pdbk] = $current_complex_wiki_page->get_id();
         }
 
@@ -238,6 +238,7 @@ class MediawikiLinkHolderArray
                 else
                 {
                     $query_parameters = $this->parent->get_complex_display()->get_parameters();
+                    $query_parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = WikiDisplay :: ACTION_VIEW_WIKI_PAGE;
                     $query_parameters[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $wiki_complex_ids[$pdbk];
 
                     $replacePairs[$searchkey] = MediawikiLinker :: makeColouredLinkObj($title, $colours[$pdbk], $entry['text'], $query_parameters);
