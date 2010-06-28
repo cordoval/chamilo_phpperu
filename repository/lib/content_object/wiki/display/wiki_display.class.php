@@ -84,6 +84,12 @@ class WikiDisplay extends ComplexDisplay
             case self :: ACTION_HISTORY :
                 $component = $this->create_component('WikiHistory');
                 break;
+            case self :: ACTION_VERSION_DELETE :
+                $component = $this->create_component('VersionDeleter');
+                break;
+            case self :: ACTION_VERSION_REVERT :
+                $component = $this->create_component('VersionReverter');
+                break;
             case self :: ACTION_PAGE_STATISTICS :
                 $component = $this->create_component('ReportingTemplateViewer');
                 break;
