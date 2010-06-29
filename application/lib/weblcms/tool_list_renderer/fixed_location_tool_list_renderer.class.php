@@ -107,7 +107,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 
                 $id = ($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() > 2) ? 0 : $section->get_id();
                 
-                if ($section->get_visible() && (count($tools[$id]) > 0 || $this->is_course_admin))
+                if (($section->get_visible() && (count($tools[$id]) > 0)) || $this->is_course_admin)
                 {
                     echo $this->display_block_header($section, $section->get_name());
                     $this->show_section_tools($section, $tools[$id]);
