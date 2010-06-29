@@ -43,7 +43,7 @@ abstract class Tracker extends DataClass
      */
     function update()
     {
-        return $this->get_data_manager()->update_tracker_item(null, $this);
+        return $this->get_data_manager()->update_tracker_item($this);
     }
 
     function delete()

@@ -133,7 +133,7 @@ interface TrackingDataManagerInterface
      * @param MainTracker $tracker_item a subclass of MainTracker
      * @return true if update is valid
      */
-    function update_tracker_item($tablename, $tracker_item);
+    function update_tracker_item($tracker_item);
 
     /**
      * Deletes tracker items in the database

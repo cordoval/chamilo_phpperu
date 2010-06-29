@@ -47,7 +47,7 @@ abstract class MainTracker
     function update()
     {
         $trkdmg = TrackingDataManager :: get_instance();
-        return $trkdmg->update_tracker_item($this->table, $this);
+        return $trkdmg->update_tracker_item($this);
     }
 
     /**

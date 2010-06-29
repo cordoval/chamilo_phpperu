@@ -264,11 +264,10 @@ class DatabaseTrackingDataManager extends Database implements TrackingDataManage
 
     /**
      * Updates a tracker item in the database
-     * @param string $tablename the table name where the database has to be written to
      * @param MainTracker $tracker_item a subclass of MainTracker
      * @return true if update is valid
      */
-    function update_tracker_item($tablename, $tracker_item)
+    function update_tracker_item($tracker_item)
     {
         $condition = new EqualityCondition('id', $tracker_item->get_id());
         return $this->update($tracker_item, $condition);
