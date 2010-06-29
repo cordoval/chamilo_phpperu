@@ -129,7 +129,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             }
         }
         
-        echo $tabs->render();
+        if(count($tabs->get_tabs()) > O)
+        {
+        	echo $tabs->render();
+        }
+        else
+        {
+        	echo '<div class="warning-message">' . Translation :: get('NoVisibleCourseSections') . '</div>';
+        }
         
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/course_home.js' . '"></script>';
