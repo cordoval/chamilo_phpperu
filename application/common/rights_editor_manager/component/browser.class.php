@@ -38,9 +38,9 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
         $locations = array();
 
-        foreach($this->get_locations() as $location)
+        foreach ($this->get_locations() as $location)
         {
-    		$locations[] = $location->get_id();
+            $locations[] = $location->get_id();
         }
 
         $html[] = '<script type="text/javascript">';
@@ -71,7 +71,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
             $html[] = '</div>';
             $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_group.js');
         }
-		
+
         $html[] = '<div class="clear"></div>';
         $html[] = RightsUtilities :: get_rights_legend();
 
@@ -105,69 +105,71 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
     function get_condition()
     {
+        $conditions = array();
+
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
             if ($this->type == self :: TYPE_USER)
             {
-                $conditions = array();
-                $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, $query);
-                $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, $query);
-                $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, $query);
-                $condition = new OrCondition($conditions);
+                $search_conditions = array();
+                $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, $query);
+                $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, $query);
+                $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, $query);
+                $search_condition = new OrCondition($search_conditions);
             }
             else
             {
-                $condition = new PatternMatchCondition(Group :: PROPERTY_NAME, $query);
+                $search_condition = new PatternMatchCondition(Group :: PROPERTY_NAME, $query);
             }
+
+            $conditions[] = $search_condition;
         }
 
         if ($this->type == self :: TYPE_GROUP)
         {
             $group = Request :: get(RightsEditorManager :: PARAM_GROUP) ? Request :: get(RightsEditorManager :: PARAM_GROUP) : 0;
             $parent_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $group);
-            if ($condition)
+            $conditions[] = $parent_condition;
+
+            if (count($this->get_limited_groups()) > 0)
             {
-                $conditions = array();
-                $conditions[] = $condition;
-                $conditions[] = $parent_condition;
-                $condition = new AndCondition($conditions);
-            }
-            else
-            {
-                $condition = $parent_condition;
+                $conditions[] = new InCondition(Group :: PROPERTY_ID, $this->get_limited_groups());
             }
 
-            $conditions = array();
-            
-        	if(count($this->get_excluded_groups()) > 0)
-        	{
-        		foreach($this->get_excluded_groups() as $group)
-        		{
-        			$conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $group));
-        		}
+            if (count($this->get_excluded_groups()) > 0)
+            {
+                $excluded_group_conditions = array();
+                foreach ($this->get_excluded_groups() as $group)
+                {
+                    $excluded_group_conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $group));
+                }
 
-        		$conditions[] = $condition;
-        		$condition = new AndCondition($conditions);
-        	}
+                $conditions[] = new AndCondition($excluded_group_conditions);
+            }
 
         }
         else
         {
-        	$conditions = array();
-        	if(count($this->get_excluded_users()) > 0)
-        	{
-        		foreach($this->get_excluded_users() as $user)
-        		{
-        			$conditions[] = new NotCondition(new EqualityCondition(User :: PROPERTY_ID, $user));
-        		}
+            if (count($this->get_limited_users()) > 0)
+            {
+                $conditions[] = new InCondition(User :: PROPERTY_ID, $this->get_limited_users());
+            }
 
-        		if($condition)
-        			$conditions[] = $condition;
-        		$condition = new AndCondition($conditions);
-        	}
+            if (count($this->get_excluded_users()) > 0)
+            {
+                $excluded_user_conditions = array();
+
+                foreach ($this->get_excluded_users() as $user)
+                {
+                    $excluded_user_conditions[] = new NotCondition(new EqualityCondition(User :: PROPERTY_ID, $user));
+                }
+
+                $conditions[] = new AndCondition($excluded_user_conditions);
+            }
         }
-        return $condition;
+
+        return new AndCondition($conditions);
     }
 
     function get_action_bar()
