@@ -7,24 +7,31 @@
 class RightsEditorManager extends SubManager
 {
     const PARAM_RIGHTS_EDITOR_ACTION = 'action';
-    
+
     const ACTION_BROWSE_RIGHTS = 'browse';
     const ACTION_SET_USER_RIGHTS = 'set_user_rights';
     const ACTION_SET_GROUP_RIGHTS = 'set_group_rights';
-    
+
     const PARAM_GROUP = 'group';
-    
+
     private $locations;
+
     private $excluded_groups;
     private $excluded_users;
+
+    private $limited_groups;
+    private $limited_users;
 
     function RightsEditorManager($parent, $locations)
     {
         parent :: __construct($parent);
-        
+
         $this->locations = $locations;
         $this->excluded_users = array(Session :: get_user_id());
         $this->excluded_groups = array();
+
+        $this->included_users = array();
+        $this->included_groups = array();
 
         $rights_editor_action = Request :: get(self :: PARAM_RIGHTS_EDITOR_ACTION);
         if ($rights_editor_action)
@@ -36,7 +43,7 @@ class RightsEditorManager extends SubManager
     function run()
     {
         $parent = $this->get_parameter(self :: PARAM_RIGHTS_EDITOR_ACTION);
-        
+
         switch ($parent)
         {
             case self :: ACTION_BROWSE_RIGHTS :
@@ -52,7 +59,7 @@ class RightsEditorManager extends SubManager
                 $component = $this->create_component('Browser');
                 break;
         }
-        
+
         $component->run();
     }
 
@@ -65,49 +72,77 @@ class RightsEditorManager extends SubManager
     {
         return $this->locations;
     }
-    
+
     function set_locations($locations)
     {
-    	$this->locations = $locations;
+        $this->locations = $locations;
     }
 
     function get_available_rights()
     {
         return $this->get_parent()->get_available_rights();
     }
-    
+
     function exclude_users($users)
     {
-    	$this->excluded_users = $users;
-    }
-    
- 	function exclude_groups($groups)
-    {
-    	$this->excluded_groups = $groups;
-    }
-    
-	function get_excluded_users()
-    {
-    	return $this->excluded_users;
-    }
-    
-	function get_excluded_groups()
-    {
-    	return $this->excluded_groups;
+        $this->excluded_users = $users;
     }
 
-	function create_component($type, $application)
-	{
-		$component = parent :: create_component($type, $application);
-		
-		if(is_subclass_of($component, __CLASS__))
-		{
-			$component->set_locations($this->locations);
-			$component->exclude_users($this->get_excluded_users());
-			$component->exclude_groups($this->get_excluded_groups());
-		}
-		
-		return $component;
-	}
+    function exclude_groups($groups)
+    {
+        $this->excluded_groups = $groups;
+    }
+
+    function get_excluded_users()
+    {
+        return $this->excluded_users;
+    }
+
+    function get_excluded_groups()
+    {
+        return $this->excluded_groups;
+    }
+
+    /**
+     * @param Array $users An array of user ids
+     */
+    function limit_users(array $users)
+    {
+        $this->limited_users = $users;
+    }
+
+    /**
+     * @param Array $groups An array of group ids
+     */
+    function limit_groups(array $groups)
+    {
+        $this->limited_groups = $groups;
+    }
+
+    function get_limited_users()
+    {
+        return $this->limited_users;
+    }
+
+    function get_limited_groups()
+    {
+        return $this->limited_groups;
+    }
+
+    function create_component($type, $application)
+    {
+        $component = parent :: create_component($type, $application);
+
+        if (is_subclass_of($component, __CLASS__))
+        {
+            $component->set_locations($this->locations);
+            $component->exclude_users($this->get_excluded_users());
+            $component->exclude_groups($this->get_excluded_groups());
+            $component->limit_users($this->get_limited_users());
+            $component->limit_groups($this->get_limited_groups());
+        }
+
+        return $component;
+    }
 }
 ?>
