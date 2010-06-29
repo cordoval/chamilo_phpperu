@@ -12,6 +12,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_numeric_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -21,6 +22,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_numeric_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
 
@@ -50,6 +52,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
                 for($option_number = 0; $option_number < $number_of_options; $option_number ++)
                 {
                     $defaults['option_weight'][$option_number] = 1;
+                    $defaults['tolerance'][$option_number] = 1;
                 }
             }
         }
