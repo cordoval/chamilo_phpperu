@@ -73,8 +73,8 @@ class InternshipOrganizerMomentForm extends FormValidator
         
         $moment->set_name($values[InternshipOrganizerMoment :: PROPERTY_NAME]);
         $moment->set_description($values[InternshipOrganizerMoment :: PROPERTY_DESCRIPTION]);
-        $moment->set_begin($values[InternshipOrganizerMoment :: PROPERTY_BEGIN]);
-        $moment->set_end($values[InternshipOrganizerMoment :: PROPERTY_END]);
+        $moment->set_begin(Utilities :: time_from_datepicker($values[InternshipOrganizerPeriod :: PROPERTY_BEGIN]));
+        $moment->set_end(Utilities :: time_from_datepicker($values[InternshipOrganizerPeriod :: PROPERTY_END]));
         
         return $moment->update();
     }
@@ -86,8 +86,9 @@ class InternshipOrganizerMomentForm extends FormValidator
         
         $moment->set_name($values[InternshipOrganizerMoment :: PROPERTY_NAME]);
         $moment->set_description($values[InternshipOrganizerMoment :: PROPERTY_DESCRIPTION]);
-        $moment->set_begin($values[InternshipOrganizerMoment :: PROPERTY_BEGIN]);
-        $moment->set_end($values[InternshipOrganizerMoment :: PROPERTY_END]);
+        
+        $moment->set_begin(Utilities :: time_from_datepicker($values[InternshipOrganizerPeriod :: PROPERTY_BEGIN]));
+        $moment->set_end(Utilities :: time_from_datepicker($values[InternshipOrganizerPeriod :: PROPERTY_END]));
         
         return $moment->create();
     }

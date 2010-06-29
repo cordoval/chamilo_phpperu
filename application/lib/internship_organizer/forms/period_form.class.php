@@ -98,6 +98,10 @@ class InternshipOrganizerPeriodForm extends FormValidator
         
         $period->set_name($values[InternshipOrganizerPeriod :: PROPERTY_NAME]);
         $period->set_description($values[InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION]);
+        
+        $period->set_begin(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerPeriod :: PROPERTY_BEGIN]));
+        $period->set_end(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerPeriod :: PROPERTY_END]));
+        
         $value = $period->update();
         
         $new_parent = $values[InternshipOrganizerPeriod :: PROPERTY_PARENT_ID];
@@ -111,7 +115,7 @@ class InternshipOrganizerPeriodForm extends FormValidator
         //            Event :: trigger('update', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
         //        }
         
-
+        
         return $value;
     }
 

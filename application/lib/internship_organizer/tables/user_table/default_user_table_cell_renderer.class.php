@@ -42,8 +42,8 @@ class DefaultInternshipOrganizerUserTableCellRenderer extends ObjectTableCellRen
                 return $user->get_platformadmin();
             case User :: PROPERTY_OFFICIAL_CODE :
                 return $user->get_official_code();
-            case User :: PROPERTY_LANGUAGE :
-                return $user->get_language();
+//            case User :: PROPERTY_LANGUAGE :
+//                return $user->get_language();
             case User :: PROPERTY_VERSION_QUOTA :
                 return $user->get_version_quota();
             case User :: PROPERTY_PICTURE_URI :

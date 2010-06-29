@@ -15,14 +15,15 @@ class InternshipOrganizerPeriodUserBrowserTableColumnModel extends DefaultIntern
     function InternshipOrganizerPeriodUserBrowserTableColumnModel($browser)
     {
         parent :: __construct();
-        //		$this->add_column(self :: get_modification_column());
+        $this->set_default_order_column(0);
+        $this->add_column(self :: get_modification_column());
     }
 
     static function get_modification_column()
     {
         if (! isset(self :: $modification_column))
         {
-            self :: $modification_column = new ObjectTableColumn('');
+            self :: $modification_column = new StaticTableColumn('');
         }
         return self :: $modification_column;
     }

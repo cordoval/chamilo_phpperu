@@ -73,7 +73,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function count_locations($condition = null)
     {
-        return $this->count_objects(InternshipOrganizerLocation :: get_table_name(), $condition);
+        return $this->count_objects(InternshipOrganizerLocation :: get_table_name(), $condition);  
     }
 
     function retrieve_location($id)
