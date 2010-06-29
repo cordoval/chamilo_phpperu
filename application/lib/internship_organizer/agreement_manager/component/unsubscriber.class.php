@@ -40,7 +40,7 @@ class InternshipOrganizerAgreementManagerUnsubscriberComponent extends Internshi
                     }
                     else
                     {
-//                        Events :: trigger_event('unsubscribe_location', 'agreement', array('target_agreement_id' => $agreementrellocation->get_agreement_id(), 'target_agreement_id' => $agreementrellocation->get_location_id(), 'action_location_id' => $user->get_id()));
+//                        Event :: trigger('unsubscribe_location', 'agreement', array('target_agreement_id' => $agreementrellocation->get_agreement_id(), 'target_agreement_id' => $agreementrellocation->get_location_id(), 'action_location_id' => $user->get_id()));
                     }
                 }
                 else

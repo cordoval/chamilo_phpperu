@@ -64,7 +64,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
         if (get_class($user) == 'User')
         {
             Session :: register('_uid', $user->get_id());
-            Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
+            Event :: trigger('login', 'user', array('server' => $_SERVER, 'user' => $user));
 
             $request_uri = Session :: retrieve('request_uri');
 

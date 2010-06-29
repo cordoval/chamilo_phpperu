@@ -58,7 +58,7 @@ class ReservationsManagerCategoryDeleterComponent extends ReservationsManager
                 }
                 else
                 {
-                    Events :: trigger_event('delete_category', 'reservations', array('target_id' => $category->get_id(), 'user_id' => $this->get_user_id()));
+                    Event :: trigger('delete_category', 'reservations', array('target_id' => $category->get_id(), 'user_id' => $this->get_user_id()));
                 }
             }
             

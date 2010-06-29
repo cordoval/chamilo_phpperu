@@ -45,7 +45,7 @@ class WeblcmsManagerActiveChangerComponent extends WeblcmsManager
 	            
 	            if ($course_type->update())
 	            {
-	                Events :: trigger_event('update', 'course_type', array('target_course_type_id' => $course_type->get_id(), 'action_course_type_id' => $this->get_course_type()->get_id()));
+	                Event :: trigger('update', 'course_type', array('target_course_type_id' => $course_type->get_id(), 'action_course_type_id' => $this->get_course_type()->get_id()));
 	                
 	                if($active == 0)
 	                {

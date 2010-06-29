@@ -56,7 +56,7 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathTool
         $parameters['score'] = $score;
         $parameters['feedback'] = '';
         
-        Events :: trigger_event('attempt_learning_path_question', 'weblcms', $parameters);
+        Event :: trigger('attempt_learning_path_question', 'weblcms', $parameters);
     }
 
     function finish_assessment($total_score)

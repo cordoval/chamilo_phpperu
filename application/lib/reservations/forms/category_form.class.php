@@ -85,7 +85,7 @@ class CategoryForm extends FormValidator
         $succes = $category->create();
         
         if ($succes)
-            Events :: trigger_event('create_category', 'reservations', array('target_id' => $category->get_id(), 'user_id' => $this->user->get_id()));
+            Event :: trigger('create_category', 'reservations', array('target_id' => $category->get_id(), 'user_id' => $this->user->get_id()));
         
         return $succes;
     }
@@ -99,7 +99,7 @@ class CategoryForm extends FormValidator
         $succes = $category->update();
         
         if ($succes)
-            Events :: trigger_event('update_category', 'reservations', array('target_id' => $category->get_id(), 'user_id' => $this->user->get_id()));
+            Event :: trigger('update_category', 'reservations', array('target_id' => $category->get_id(), 'user_id' => $this->user->get_id()));
         
         return $succes;
     }

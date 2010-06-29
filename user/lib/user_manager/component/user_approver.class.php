@@ -45,7 +45,7 @@ class UserManagerUserApproverComponent extends UserManager
 	            	
 	            	if($user->update())
 	            	{
-	            		Events :: trigger_event('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+	            		Event :: trigger('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
 	            	}
 	            	else
 	            	{
@@ -61,7 +61,7 @@ class UserManagerUserApproverComponent extends UserManager
 		            
 		            if ($user->delete())
 		            {
-		                Events :: trigger_event('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+		                Event :: trigger('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
 		            }
 		            else
 		            {

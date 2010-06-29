@@ -85,7 +85,7 @@ class SurveyContextTemplateForm extends FormValidator
                
 //        if ($value)
 //        {
-//            Events :: trigger_event('update', 'template', array('target_template_id' => $template->get_id(), 'action_user_id' => $this->user->get_id()));
+//            Event :: trigger('update', 'template', array('target_template_id' => $template->get_id(), 'action_user_id' => $this->user->get_id()));
 //        }
         
         return $value;
@@ -104,7 +104,7 @@ class SurveyContextTemplateForm extends FormValidator
                
 //        if ($value)
 //        {
-//            Events :: trigger_event('create', 'template', array('target_template_id' => $template->get_id(), 'action_user_id' => $this->user->get_id()));
+//            Event :: trigger('create', 'template', array('target_template_id' => $template->get_id(), 'action_user_id' => $this->user->get_id()));
 //        }
         
         return $value;

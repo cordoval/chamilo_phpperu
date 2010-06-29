@@ -85,7 +85,7 @@ class InternshipOrganizerOrganisationSubscribeUsersForm extends FormValidator
                     $succes = $organisation_rel_user->create();
                     if ($succes)
                     {
-                        //                        Events :: trigger_event('create', 'organisation_rel_user', array('target_organisation_id' => $organisation->get_id(), 'action_user_id' => $this->user->get_id()));
+                        //                        Event :: trigger('create', 'organisation_rel_user', array('target_organisation_id' => $organisation->get_id(), 'action_user_id' => $this->user->get_id()));
                     }
                 }
             
@@ -144,7 +144,7 @@ class InternshipOrganizerOrganisationSubscribeUsersForm extends FormValidator
                         $succes = $organisation_rel_user->create();
                         if ($succes)
                         {
-                            //                   Events :: trigger_event('create', 'organisation_rel_user', array('target_organisation_id' => $organisation->get_id(), 'action_user_id' => $this->user->get_id()));
+                            //                   Event :: trigger('create', 'organisation_rel_user', array('target_organisation_id' => $organisation->get_id(), 'action_user_id' => $this->user->get_id()));
                         }
                     }
                 }

@@ -51,7 +51,7 @@ class UserManagerMultiPasswordResetterComponent extends UserManager
 			        $mail = Mail :: factory($mail_subject, $mail_body, $user->get_email());
 			        $mail->send();
 			        
-	            	Events :: trigger_event('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+	            	Event :: trigger('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
 	            }
 	            else
 	            {

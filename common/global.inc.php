@@ -220,8 +220,7 @@ if (isset($_POST['login']))
     if (get_class($user) == 'User')
     {
         Session :: register('_uid', $user->get_id());
-        Event :: factory('login', 'user')->trigger(array('server' => $_SERVER, 'user' => $user));
-        //Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
+        Event :: trigger('login', 'user', array('server' => $_SERVER, 'user' => $user));
 
         $request_uri = Session :: retrieve('request_uri');
 
@@ -273,7 +272,7 @@ if (Request :: get('logout'))
         $user = $udm->retrieve_user(Session :: get_user_id());
 
         $udm = UserDataManager :: logout();
-        Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
+        Event :: trigger('logout', 'user', array('server' => $_SERVER, 'user' => $user));
     }
 
     header("Location: index.php");
@@ -292,7 +291,7 @@ if (Request :: get('adminuser'))
 $user = Session :: get_user_id();
 if ($user)
 {
-	Events :: trigger_event('online', 'admin', array('user' => $user));
+	Event :: trigger('online', 'admin', array('user' => $user));
 }
 
 if (isset($_SESSION['_uid']))
@@ -301,7 +300,7 @@ if (isset($_SESSION['_uid']))
 
     if (strpos($_SERVER['REQUEST_URI'], 'leave.php') === false && strpos($_SERVER['REQUEST_URI'], 'ajax') === false)
     {
-        $return = Events :: trigger_event('enter', 'user', array('location' => $_SERVER['REQUEST_URI'], 'user' => $user, 'event' => 'enter'));
+        $return = Event :: trigger('enter', 'user', array('location' => $_SERVER['REQUEST_URI'], 'user' => $user, 'event' => 'enter'));
         $htmlHeadXtra[] = '<script type="text/javascript">var tracker=' . $return[0] . '</script>';
     }
 }

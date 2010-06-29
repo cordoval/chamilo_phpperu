@@ -48,7 +48,7 @@ class SurveyBuilderPageSubscriberComponent extends SurveyBuilder
 					}
 					//                    else
 				//                    {
-				//                        Events :: trigger_event('subscribe_page', 'template', array('target_template_id' => $templaterelpage->get_template_id(), 'target_page_id' => $templaterelpage->get_page_id(), 'action_survey_id' => $templaterelpage->get_survey_id()));
+				//                        Event :: trigger('subscribe_page', 'template', array('target_template_id' => $templaterelpage->get_template_id(), 'target_page_id' => $templaterelpage->get_page_id(), 'action_survey_id' => $templaterelpage->get_survey_id()));
 				//                    }
 				} else 
 				{

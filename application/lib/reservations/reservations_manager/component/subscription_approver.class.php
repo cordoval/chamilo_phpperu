@@ -52,7 +52,7 @@ class ReservationsManagerSubscriptionApproverComponent extends ReservationsManag
                 }
                 else
                 {
-                    Events :: trigger_event('approve_subscription', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+                    Event :: trigger('approve_subscription', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
                 }
             }
             

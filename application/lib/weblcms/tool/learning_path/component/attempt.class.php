@@ -444,7 +444,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
         
         if (! $lp_tracker)
         {
-            $return = Events :: trigger_event('attempt_learning_path', 'weblcms', array('user_id' => $this->get_user_id(), 'course_id' => $this->get_course_id(), 'lp_id' => $lp->get_id()));
+            $return = Event :: trigger('attempt_learning_path', 'weblcms', array('user_id' => $this->get_user_id(), 'course_id' => $this->get_course_id(), 'lp_id' => $lp->get_id()));
             $lp_tracker = $return[0];
         }
         
@@ -500,7 +500,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
      */
     private function create_lpi_tracker($lp_tracker, $current_cloi)
     {
-        $return = Events :: trigger_event('attempt_learning_path_item', 'weblcms', array('lp_view_id' => $lp_tracker->get_id(), 'lp_item_id' => $current_cloi->get_id(), 'start_time' => time(), 'status' => 'not attempted'));
+        $return = Event :: trigger('attempt_learning_path_item', 'weblcms', array('lp_view_id' => $lp_tracker->get_id(), 'lp_item_id' => $current_cloi->get_id(), 'start_time' => time(), 'status' => 'not attempted'));
         $lpi_tracker = $return[0];
         
         return $lpi_tracker;

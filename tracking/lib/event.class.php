@@ -137,8 +137,13 @@ class Event extends DataClass
     {
         return $this->get_data_manager()->retrieve_trackers_from_event($this->get_id());
     }
+    
+    public static function trigger($name, $application, $parameters)
+    {
+        return self :: factory($name, $application)->run($parameters);
+    }
 
-    function trigger($parameters)
+    function run($parameters)
     {
         $adm = AdminDataManager :: get_instance();
         $setting = $adm->retrieve_setting_from_variable_name('enable_tracking', TrackingManager :: APPLICATION_NAME);

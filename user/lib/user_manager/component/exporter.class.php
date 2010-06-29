@@ -45,7 +45,7 @@ class UserManagerExporterComponent extends UserManager
             		
             	}
             	
-                Events :: trigger_event('export', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+                Event :: trigger('export', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
                 $data[] = $user_array;
             }
             $this->export_users($file_type, $data);

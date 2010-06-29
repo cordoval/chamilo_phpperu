@@ -89,7 +89,7 @@ class InternshipOrganizerCategoryForm extends FormValidator
         
         //        if ($value)
         //        {
-        //            Events :: trigger_event('update', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $this->user->get_id()));
+        //            Event :: trigger('update', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $this->user->get_id()));
         //        }
         
 
@@ -109,7 +109,7 @@ class InternshipOrganizerCategoryForm extends FormValidator
         
         //        if ($value)
         //        {
-        //            Events :: trigger_event('create', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $this->user->get_id()));
+        //            Event :: trigger('create', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $this->user->get_id()));
         //        }
         
 

@@ -32,7 +32,7 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
                 }
                 else
                 {
-                    //                    Events :: trigger_event('delete', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $user->get_id()));
+                    //                    Event :: trigger('delete', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $user->get_id()));
                 }
             }
             

@@ -115,7 +115,7 @@ class ItemForm extends FormValidator
         $succes = $item->create();
         
         if ($succes)
-            Events :: trigger_event('create_item', 'reservations', array('target_id' => $item->get_id(), 'user_id' => $this->user->get_id()));
+            Event :: trigger('create_item', 'reservations', array('target_id' => $item->get_id(), 'user_id' => $this->user->get_id()));
         
         return $succes;
     }
@@ -139,7 +139,7 @@ class ItemForm extends FormValidator
         $succes = $item->update();
         
         if ($succes)
-            Events :: trigger_event('update_item', 'reservations', array('target_id' => $item->get_id(), 'user_id' => $this->user->get_id()));
+            Event :: trigger('update_item', 'reservations', array('target_id' => $item->get_id(), 'user_id' => $this->user->get_id()));
         
         return $succes;
     }

@@ -41,7 +41,7 @@ if (! $scorm_item->get_objective_set_by_content())
             if ($objective && $objective->get_contributes_to_rollup())
             {
                 $parameters = array('lpi_view_id' => $tracker->get_id(), 'objective_id' => $objective->get_id(), 'status' => 'completed', 'display_order' => $index);
-                Events :: trigger_event('attempt_learning_path_item_objective', 'weblcms', $parameters);
+                Event :: trigger('attempt_learning_path_item_objective', 'weblcms', $parameters);
             }
         }
     }

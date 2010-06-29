@@ -55,7 +55,7 @@ class ReservationsManagerReservationDeleterComponent extends ReservationsManager
                 }
                 else
                 {
-                    Events :: trigger_event('delete_reservation', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+                    Event :: trigger('delete_reservation', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
                 }
             }
             

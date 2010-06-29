@@ -108,7 +108,7 @@ class InternshipOrganizerPeriodForm extends FormValidator
         
         //        if ($value)
         //        {
-        //            Events :: trigger_event('update', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
+        //            Event :: trigger('update', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
         //        }
         
 
@@ -144,7 +144,7 @@ class InternshipOrganizerPeriodForm extends FormValidator
         
         //        if ($value)
         //        {
-        //            Events :: trigger_event('create', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
+        //            Event :: trigger('create', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
         //        }
         
 

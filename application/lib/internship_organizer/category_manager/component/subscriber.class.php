@@ -40,7 +40,7 @@ class InternshipOrganizerCategoryManagerSubscriberComponent extends InternshipOr
                     }
                     //                    else
                 //                    {
-                //                        Events :: trigger_event('subscribe_location', 'category', array('target_category_id' => $categoryrellocation->get_category_id(), 'target_location_id' => $categoryrellocation->get_location_id(), 'action_user_id' => $this->get_user()->get_id()));
+                //                        Event :: trigger('subscribe_location', 'category', array('target_category_id' => $categoryrellocation->get_category_id(), 'target_location_id' => $categoryrellocation->get_location_id(), 'action_user_id' => $this->get_user()->get_id()));
                 //                    }
                 }
                 else

@@ -44,7 +44,7 @@ class UserManagerDeleterComponent extends UserManager
 	            
 	            if ($user->delete())
 	            {
-	                Events :: trigger_event('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+	                Event :: trigger('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
 	            }
 	            else
 	            {
