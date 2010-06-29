@@ -76,10 +76,14 @@
 	    	   			var new_parent = $('div.description', $('div.toolblock:first'));
 	    	   		}
 	    	   		
-	    	   		var clear_div = new_parent.children(".clear")[0];
-	    	   		new_parent.children(".clear")[0].remove;
-	    	   		new_parent.append(parent);
-	    	   		new_parent.append(clear_div);
+	    	   		//If we use disabled section we should move the tool to the correct section
+	    	   		if($('div.disabledblock').attr('class') == 'disabledblock')
+	    	   		{
+		    	   		var clear_div = new_parent.children(".clear")[0];
+		    	   		new_parent.children(".clear")[0].remove;
+		    	   		new_parent.append(parent);
+		    	   		new_parent.append(clear_div);
+	    	   		}
 	    	   		
 	    	   		tool_img.attr('src', new_src);
 	    		}
