@@ -119,7 +119,7 @@ class SurveyBuilder extends ComplexBuilder implements ComplexMenuSupport
     function get_configure_url($selected_cloi)
     {
         return $this->get_url(array(
-                self :: PARAM_BUILDER_ACTION => self :: ACTION_CONFIGURE_PAGE, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $cloi_id, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_cloi,
+                self :: PARAM_BUILDER_ACTION => self :: ACTION_CONFIGURE_PAGE, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(), self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_cloi,
                 self :: PARAM_SURVEY_PAGE_ID => $selected_cloi->get_ref()));
     }
 

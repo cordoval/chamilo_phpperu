@@ -63,7 +63,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
             $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Edit'),
         			Theme :: get_common_image_path().'action_edit.png',
-					$this->browser->get_complex_content_object_item_edit_url($cloi, $this->browser->get_root_content_object()),
+					$this->browser->get_complex_content_object_item_edit_url($cloi->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON
 			));
         }
@@ -90,7 +90,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
         $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Delete'),
         			Theme :: get_common_image_path().'action_delete.png',
-					$this->browser->get_complex_content_object_item_delete_url($cloi, $this->browser->get_root_content_object()),
+					$this->browser->get_complex_content_object_item_delete_url($cloi->get_id()),
 				 	ToolbarItem :: DISPLAY_ICON,
 				 	true
 		));
@@ -102,7 +102,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
             $toolbar->add_item(new ToolbarItem(
         			Translation :: get('MoveUp'),
         			Theme :: get_common_image_path().'action_up.png',
-					$this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root_content_object(), RepositoryManager :: PARAM_DIRECTION_UP),
+					$this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_UP),
 				 	ToolbarItem :: DISPLAY_ICON
 			));
         }
@@ -121,7 +121,7 @@ class SurveyBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
             $toolbar->add_item(new ToolbarItem(
         			Translation :: get('MoveDown'),
         			Theme :: get_common_image_path().'action_down.png',
-					$this->browser->get_complex_content_object_item_move_url($cloi, $this->browser->get_root_content_object(), RepositoryManager :: PARAM_DIRECTION_DOWN),
+					$this->browser->get_complex_content_object_item_move_url($cloi->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN),
 				 	ToolbarItem :: DISPLAY_ICON
 			));
         }
