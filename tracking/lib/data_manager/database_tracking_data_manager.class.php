@@ -220,7 +220,7 @@ class DatabaseTrackingDataManager extends Database implements TrackingDataManage
      * @param MainTracker $tracker_item a subclass of MainTracker
      * @return true if creation is valid
      */
-    function create_tracker_item($tablename, $tracker_item)
+    function create_tracker_item($tracker_item)
     {
         return $this->create($tracker_item);
     }
@@ -279,9 +279,9 @@ class DatabaseTrackingDataManager extends Database implements TrackingDataManage
      * @param Condition conditon which items should be removed
      * @return true if tracker items are removed
      */
-    function remove_tracker_items($tablename, $condition)
+    function remove_tracker_items($table_name, $condition)
     {
-        return $this->delete_objects($tablename, $condition);
+        return $this->delete_objects($table_name, $condition);
     }
 
     /**

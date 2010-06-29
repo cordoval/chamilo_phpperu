@@ -105,7 +105,7 @@ interface TrackingDataManagerInterface
      * @param MainTracker $tracker_item a subclass of MainTracker
      * @return true if creation is valid
      */
-    function create_tracker_item($tablename, $tracker_item);
+    function create_tracker_item($tracker_item);
 
     /**
      * Retrieves all tracker items from the database
