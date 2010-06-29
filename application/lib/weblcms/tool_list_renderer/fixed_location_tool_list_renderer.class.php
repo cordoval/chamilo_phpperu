@@ -90,12 +90,15 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		}*/
         
         echo '<div id="coursecode" style="display: none;">' . $this->course->get_id() . '</div>';
+        
+        $tabs = new DynamicTabsRenderer('admin');
+        
         $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('course_id', $this->course->get_id()));
         while ($section = $sections->next_result())
         {
             if ($section->get_type() == CourseSection :: TYPE_LINK)
             {
-                $this->show_links($section);
+               $content = $this->show_links($section);
             }
             else
             {
@@ -109,12 +112,20 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 
                 if (($section->get_visible() && (count($tools[$id]) > 0)) || $this->is_course_admin)
                 {
-                    echo $this->display_block_header($section, $section->get_name());
-                    $this->show_section_tools($section, $tools[$id]);
-                    echo $this->display_block_footer($section);
+                    //echo $this->display_block_header($section, $section->get_name());
+                    $content = $this->show_section_tools($section, $tools[$id]);
+                    //echo $this->display_block_footer($section);
                 }
             }
+            
+            if($content)
+            {
+            	$tabs->add_tab(new DynamicContentTab($section->get_id(), $section->get_name(), null, $content));
+            }
         }
+        
+        echo $tabs->render();
+        
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/course_home.js' . '"></script>';
     }
@@ -133,10 +144,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
         
-        if ($publications->size() > 0)
+        /*if ($publications->size() > 0)
         {
             echo $this->display_block_header($section, Translation :: get('Links'));
-        }
+        }*/
         
         $table = new HTML_Table('style="width: 100%;"');
         $table->setColCount($this->number_of_columns);
@@ -183,12 +194,13 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 $count ++;
             }
         }
-        $table->display();
         
-        if ($publications->size() > 0)
+        return $table->toHtml();
+        
+        /*if ($publications->size() > 0)
         {
             echo $this->display_block_footer($section);
-        }
+        }*/
     }
 
     function display_block_header($section, $block_name)
@@ -315,7 +327,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         //$table->display();
         
 
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 }
 ?>
