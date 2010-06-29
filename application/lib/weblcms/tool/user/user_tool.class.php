@@ -77,6 +77,9 @@ class UserTool extends Tool
             case self :: ACTION_UNSUBSCRIBE_GROUPS:
             	$component = $this->create_component('GroupUnsubscribe');
                 break;
+            case self :: ACTION_REPORTING:
+            	$component = $this->create_component('ReportingViewer');
+                break;
             default :
                 $component = $this->create_component('UnsubscribeBrowser');
         }

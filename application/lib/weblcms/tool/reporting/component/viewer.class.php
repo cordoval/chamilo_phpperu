@@ -13,7 +13,6 @@ class ReportingToolViewerComponent extends ReportingTool
     function run()
     {        
         $trail = BreadcrumbTrail :: get_instance();
-        
 		$rtv = new ReportingViewer($this);
 		
 		$template_id = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
@@ -27,9 +26,7 @@ class ReportingToolViewerComponent extends ReportingTool
 			$rtv->add_template_by_id($template_id);
 		}
 		 
-        $rtv->set_breadcrumb_trail($trail);
         $rtv->show_all_blocks();
-        
         $rtv->run();
     }
     
