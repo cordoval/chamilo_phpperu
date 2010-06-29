@@ -77,11 +77,11 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
         
         if ($order == 1)
         {
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up.png', null, ToolbarItem::DISPLAY_ICON ));
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem::DISPLAY_ICON ));
         }
         else
         {
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up_na.png', $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_MOVE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id(), CourseSectionsTool :: PARAM_DIRECTION => - 1)), ToolbarItem::DISPLAY_ICON ));
+        	$toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_MOVE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id(), CourseSectionsTool :: PARAM_DIRECTION => - 1)), ToolbarItem::DISPLAY_ICON ));
         }
         
         if ($order == $this->count)
