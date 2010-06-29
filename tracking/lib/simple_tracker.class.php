@@ -3,7 +3,7 @@
  * @author Hans De Bisschop
  *
  */
-class SimpleTracker extends Tracker
+abstract class SimpleTracker extends Tracker
 {
 }
 ?>

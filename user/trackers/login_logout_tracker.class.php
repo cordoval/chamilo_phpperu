@@ -8,7 +8,7 @@
 /**
  * This class tracks the login that a user uses
  */
-class LoginLogoutTracker extends DefaultTracker
+class LoginLogoutTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'login_tracker';
@@ -19,18 +19,10 @@ class LoginLogoutTracker extends DefaultTracker
     const PROPERTY_TYPE = 'type';
 
     /**
-     * Constructor sets the default values
-     */
-    function LoginLogoutTracker()
-    {
-        parent :: MainTracker('login_tracker');
-    }
-
-    /**
      * Inherited
      * @see MainTracker :: track()
      */
-    function track($parameters = array())
+    function run(array $parameters = array())
     {
         $user = $parameters['user'];
         $server = $parameters['server'];
@@ -70,7 +62,7 @@ class LoginLogoutTracker extends DefaultTracker
      */
     function get_user_id()
     {
-        return $this->get_property(self :: PROPERTY_USER_ID);
+        return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
 
     /**
@@ -79,7 +71,7 @@ class LoginLogoutTracker extends DefaultTracker
      */
     function set_user_id($userid)
     {
-        $this->set_property(self :: PROPERTY_USER_ID, $userid);
+        $this->set_default_property(self :: PROPERTY_USER_ID, $userid);
     }
 
     /**
@@ -88,7 +80,7 @@ class LoginLogoutTracker extends DefaultTracker
      */
     function get_date()
     {
-        return $this->get_property(self :: PROPERTY_DATE);
+        return $this->get_default_property(self :: PROPERTY_DATE);
     }
 
     /**
@@ -97,7 +89,7 @@ class LoginLogoutTracker extends DefaultTracker
      */
     function set_date($date)
     {
-        $this->set_property(self :: PROPERTY_DATE, $date);
+        $this->set_default_property(self :: PROPERTY_DATE, $date);
     }
 
     /**
@@ -106,7 +98,7 @@ class LoginLogoutTracker extends DefaultTracker
      */
     function get_ip()
     {
-        return $this->get_property(self :: PROPERTY_IP);
+        return $this->get_default_property(self :: PROPERTY_IP);
     }
 
     /**
@@ -115,7 +107,7 @@ class LoginLogoutTracker extends DefaultTracker
      */
     function set_ip($ip)
     {
-        $this->set_property(self :: PROPERTY_IP, $ip);
+        $this->set_default_property(self :: PROPERTY_IP, $ip);
     }
 
     /**
@@ -124,7 +116,7 @@ class LoginLogoutTracker extends DefaultTracker
      */
     function get_type()
     {
-        return $this->get_property(self :: PROPERTY_TYPE);
+        return $this->get_default_property(self :: PROPERTY_TYPE);
     }
 
     /**
@@ -133,24 +125,15 @@ class LoginLogoutTracker extends DefaultTracker
      */
     function set_type($type)
     {
-        $this->set_property(self :: PROPERTY_TYPE, $type);
+        $this->set_default_property(self :: PROPERTY_TYPE, $type);
     }
 
     /**
      * Inherited
      */
-    function get_default_property_names()
+    static function get_default_property_names()
     {
-        return array_merge(MainTracker :: get_default_property_names(), array(self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID, self :: PROPERTY_DATE, self :: PROPERTY_IP));
-    }
-
-    /**
-     * Inherited
-     * @see MainTracker :: is_summary_tracker
-     */
-    function is_summary_tracker()
-    {
-        return false;
+        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID, self :: PROPERTY_DATE, self :: PROPERTY_IP));
     }
 
     static function get_table_name()
