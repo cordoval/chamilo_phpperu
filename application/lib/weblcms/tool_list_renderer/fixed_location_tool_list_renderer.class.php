@@ -96,9 +96,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('course_id', $this->course->get_id()));
         while ($section = $sections->next_result())
         {
-            if ($section->get_type() == CourseSection :: TYPE_LINK)
+            if(!$section->get_visible() && !$this->is_course_admin)
             {
-               $content = $this->show_links($section);
+            	continue;
+            }
+            
+        	if ($section->get_type() == CourseSection :: TYPE_LINK)
+            {
+            	$content = $this->show_links($section);
             }
             else
             {
@@ -124,7 +129,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             }
         }
         
-        echo $tabs->render();
+        if(count($tabs->get_tabs()) > O)
+        {
+        	echo $tabs->render();
+        }
+        else
+        {
+        	echo '<div class="warning-message">' . Translation :: get('NoVisibleCourseSections') . '</div>';
+        }
         
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/course_home.js' . '"></script>';
