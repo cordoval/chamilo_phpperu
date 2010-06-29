@@ -220,7 +220,8 @@ if (isset($_POST['login']))
     if (get_class($user) == 'User')
     {
         Session :: register('_uid', $user->get_id());
-        Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
+        Event :: factory('login', 'user')->trigger(array('server' => $_SERVER, 'user' => $user));
+        //Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
 
         $request_uri = Session :: retrieve('request_uri');
 

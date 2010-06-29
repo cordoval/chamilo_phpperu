@@ -10,7 +10,6 @@
  * @author Sven Vanpoucke
  */
 
-
 class Event extends DataClass
 {
     const CLASS_NAME = __CLASS__;
@@ -76,6 +75,14 @@ class Event extends DataClass
     }
 
     /**
+     * @return boolean
+     */
+    function is_active()
+    {
+        return $this->get_active() == true;
+    }
+
+    /**
      * Returns the block of this Event.
      * @return the block.
      */
@@ -105,6 +112,68 @@ class Event extends DataClass
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+
+    /**
+     * @param string $name The name of the event
+     * @param string $application The name of the application
+     *
+     * @return Event The event
+     */
+    static function factory($name, $application)
+    {
+        return self :: get_data_manager()->retrieve_event_by_name($name, $application);
+    }
+
+    function get_trackers()
+    {
+        return $this->get_data_manager()->retrieve_trackers_from_event($this->get_id());
+    }
+
+    /**
+     * @deprecated
+     */
+    function get_tracker_registrations()
+    {
+        return $this->get_data_manager()->retrieve_trackers_from_event($this->get_id());
+    }
+
+    function trigger($parameters)
+    {
+        $adm = AdminDataManager :: get_instance();
+        $setting = $adm->retrieve_setting_from_variable_name('enable_tracking', TrackingManager :: APPLICATION_NAME);
+
+        if ($setting->get_value() != 1)
+        {
+            return false;
+        }
+
+        if ($this->is_active())
+        {
+            $tracker_registrations = $this->get_tracker_registrations();
+            $data = array();
+
+            foreach ($tracker_registrations as $tracker_registration)
+            {
+                $tracker_classname = $tracker_registration->get_class();
+                $filename = Utilities :: camelcase_to_underscores($tracker_classname);
+
+                $fullpath = Path :: get(SYS_PATH) . $tracker_registration->get_path() . strtolower($filename) . '.class.php';
+                require_once ($fullpath);
+
+                $parameters['event'] = $this->get_name();
+
+                $tracker = new $tracker_classname();
+                $data[] = $tracker->track($parameters);
+            }
+
+            return $data;
+
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 
