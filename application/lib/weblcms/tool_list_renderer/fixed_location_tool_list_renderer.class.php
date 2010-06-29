@@ -96,9 +96,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('course_id', $this->course->get_id()));
         while ($section = $sections->next_result())
         {
-            if ($section->get_type() == CourseSection :: TYPE_LINK)
+            if(!$section->get_visible() && !$this->is_course_admin)
             {
-               $content = $this->show_links($section);
+            	continue;
+            }
+            
+        	if ($section->get_type() == CourseSection :: TYPE_LINK)
+            {
+            	$content = $this->show_links($section);
             }
             else
             {
