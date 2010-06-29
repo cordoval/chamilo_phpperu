@@ -197,14 +197,14 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_DELETE_CONTENT_OBJECTS :
                 $component = $this->create_component('Deleter');
                 break;
-            case self :: ACTION_RECYCLE_CONTENT_OBJECTS:
-            	$component = $this->create_component('Deleter');
-            	Request :: set_get(self :: PARAM_DELETE_RECYCLED, 1);
-            	break;
-           case self :: ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY:
-            	$component = $this->create_component('Deleter');
-            	Request :: set_get(self :: PARAM_DELETE_PERMANENTLY, 1);
-            	break;
+            case self :: ACTION_RECYCLE_CONTENT_OBJECTS :
+                $component = $this->create_component('Deleter');
+                Request :: set_get(self :: PARAM_DELETE_RECYCLED, 1);
+                break;
+            case self :: ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY :
+                $component = $this->create_component('Deleter');
+                Request :: set_get(self :: PARAM_DELETE_PERMANENTLY, 1);
+                break;
             case self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS :
                 $component = $this->create_component('PublicationDeleter');
                 break;
@@ -311,14 +311,14 @@ class RepositoryManager extends CoreApplication
             case self :: ACTION_COPY_CONTENT_OBJECT :
                 $component = $this->create_component('ContentObjectCopier');
                 break;
-            case self :: ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES:
-            	$component = $this->create_component('ContentObjectCopier');
-            	Request :: set_get(self :: PARAM_TARGET_USER, 0);
+            case self :: ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES :
+                $component = $this->create_component('ContentObjectCopier');
+                Request :: set_get(self :: PARAM_TARGET_USER, 0);
                 break;
-            case self :: ACTION_COPY_CONTENT_OBJECT_FROM_TEMPLATES:
-            	$component = $this->create_component('ContentObjectCopier');
-            	Request :: set_get(self :: PARAM_TARGET_USER, $this->get_user_id());
-            	break;
+            case self :: ACTION_COPY_CONTENT_OBJECT_FROM_TEMPLATES :
+                $component = $this->create_component('ContentObjectCopier');
+                Request :: set_get(self :: PARAM_TARGET_USER, $this->get_user_id());
+                break;
             case self :: ACTION_IMPORT_TEMPLATE :
                 $component = $this->create_component('TemplateImporter');
                 break;
@@ -532,12 +532,12 @@ class RepositoryManager extends CoreApplication
     {
         return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $order_by, $offset, $max_objects);
     }
-    
+
     function retrieve_content_object_versions_resultset($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         return RepositoryDataManager :: get_instance()->retrieve_content_object_versions_resultset($condition, $order_by, $offset, $max_objects);
     }
-    
+
     function count_content_object_versions_resultset($condition = null)
     {
         return RepositoryDataManager :: get_instance()->count_content_object_versions_resultset($condition);
@@ -1001,11 +1001,16 @@ class RepositoryManager extends CoreApplication
 
                 foreach ($streaming_media_managers as $streaming_media_manager)
                 {
-                    $streaming_sub_item = array();
-                    $streaming_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($streaming_media_manager));
-                    $streaming_sub_item['url'] = $this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_STREAMING_MEDIA_MANAGER, StreamingMediaManager :: PARAM_TYPE => $streaming_media_manager));
-                    $streaming_sub_item['class'] = $streaming_media_manager;
-                    $streaming_sub_items[] = $streaming_sub_item;
+                    $setting = PlatformSetting :: get($streaming_media_manager . '_enabled', self :: APPLICATION_NAME);
+
+                    if ($setting)
+                    {
+                        $streaming_sub_item = array();
+                        $streaming_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($streaming_media_manager));
+                        $streaming_sub_item['url'] = $this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_STREAMING_MEDIA_MANAGER, StreamingMediaManager :: PARAM_TYPE => $streaming_media_manager));
+                        $streaming_sub_item['class'] = $streaming_media_manager;
+                        $streaming_sub_items[] = $streaming_sub_item;
+                    }
 
                 }
                 $streaming_item['sub'] = $streaming_sub_items;
@@ -1045,7 +1050,7 @@ class RepositoryManager extends CoreApplication
                 $extra_items[] = $external_repository;
             }
 
-            if (isset($streaming_item))
+            if (isset($streaming_item) && count($streaming_item['sub']) > 0)
             {
                 $extra_items[] = $streaming_item;
             }
@@ -1187,17 +1192,23 @@ class RepositoryManager extends CoreApplication
 
     function get_complex_content_object_item_edit_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
     function get_complex_content_object_item_delete_url($complex_content_object_item, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
     function get_complex_content_object_item_move_url($complex_content_object_item, $root_id, $direction)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEMS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(),
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => Request :: get('publish')));
     }
 
     function get_browse_complex_content_object_url($object)
@@ -1207,12 +1218,16 @@ class RepositoryManager extends CoreApplication
 
     function get_add_existing_content_object_url($root_id, $complex_content_object_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SELECT_CONTENT_OBJECTS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_SELECT_CONTENT_OBJECTS, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id,
+                'publish' => Request :: get('publish')));
     }
 
     function get_add_content_object_url($content_object, $complex_content_object_item_id, $root_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADD_CONTENT_OBJECT, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_REF => $content_object->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_ADD_CONTENT_OBJECT, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_REF => $content_object->get_id(), self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id,
+                self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
     }
 
     function get_content_object_exporting_url($content_object)
