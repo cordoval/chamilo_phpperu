@@ -1,14 +1,11 @@
 <?php
-
 /**
- * $Id: visit_tracker.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
+ * This class tracks the visits to pages
+ * 
  * @package users.lib.trackers
  */
 
-/**
- * This class tracks the visits to pages
- */
-class VisitTracker extends MainTracker
+class VisitTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
     
@@ -16,55 +13,55 @@ class VisitTracker extends MainTracker
     const PROPERTY_ENTER_DATE = 'enter_date';
     const PROPERTY_LEAVE_DATE = 'leave_date';
     const PROPERTY_LOCATION = 'location';
-    const PROPERTY_TYPE = 'type';
+    
+    const TYPE_ENTER = 'enter';
+    const TYPE_LEAVE = 'leave';
 
-    /**
-     * Constructor sets the default values
-     */
-    function VisitTracker()
+    function validate_parameters(array $parameters = array())
     {
-        parent :: MainTracker('visit_tracker');
-    }
-
-    /**
-     * Inherited
-     * @see MainTracker :: track()
-     */
-    function track($parameters = array())
-    {
-        $user = $parameters['user'];
-        $location = $parameters['location'];
-        $type = $parameters['event'];
-        $tracker = $parameters['tracker'];
+        $type = $this->get_event()->get_name();
         
-        if ($user)
-            $this->set_user_id($user->get_id());
-        
-        if ($type == 'leave')
+        if ($parameters[self :: PROPERTY_USER_ID])
         {
-            //echo 'bus';
-            $this->set_id($tracker);
+            $this->set_user_id($parameters[self :: PROPERTY_USER_ID]);
+        }
+        
+        if ($type == self :: TYPE_LEAVE)
+        {
+            $this->set_id($parameters[self :: PROPERTY_ID]);
             $this->set_leave_date(time());
-            $this->update();
-            echo $this->get_id();
         }
         else
         {
-            $this->set_location($location);
+            $this->set_location($parameters[self :: PROPERTY_LOCATION]);
             $this->set_enter_date(time());
             $this->set_leave_date(time());
-            $this->create();
         }
-        return $this->get_id();
+    }
+
+    function run(array $parameters = array())
+    {
+        $this->validate_parameters($parameters);
+        
+        $type = $this->get_event()->get_name();
+        
+        if ($type == self :: TYPE_LEAVE)
+        {
+            return $this->update();
+        }
+        else
+        {
+            return $this->create();
+        }
     }
 
     /**
      * Inherited
      * @see MainTracker :: empty_tracker
      */
-    function empty_tracker($event)
+    function empty_tracker()
     {
-        $condition = new EqualityCondition('type', $event->get_name());
+        $condition = new EqualityCondition(self :: PROPERTY_TYPE, $this->get_event()->get_name());
         return $this->remove($condition);
     }
 
@@ -84,7 +81,7 @@ class VisitTracker extends MainTracker
      */
     function get_user_id()
     {
-        return $this->get_property(self :: PROPERTY_USER_ID);
+        return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
 
     /**
@@ -93,7 +90,7 @@ class VisitTracker extends MainTracker
      */
     function set_user_id($userid)
     {
-        $this->set_property(self :: PROPERTY_USER_ID, $userid);
+        $this->set_default_property(self :: PROPERTY_USER_ID, $userid);
     }
 
     /**
@@ -102,7 +99,7 @@ class VisitTracker extends MainTracker
      */
     function get_enter_date()
     {
-        return $this->get_property(self :: PROPERTY_ENTER_DATE);
+        return $this->get_default_property(self :: PROPERTY_ENTER_DATE);
     }
 
     /**
@@ -111,7 +108,7 @@ class VisitTracker extends MainTracker
      */
     function set_enter_date($value)
     {
-        $this->set_property(self :: PROPERTY_ENTER_DATE, $value);
+        $this->set_default_property(self :: PROPERTY_ENTER_DATE, $value);
     }
 
     /**
@@ -120,7 +117,7 @@ class VisitTracker extends MainTracker
      */
     function get_leave_date()
     {
-        return $this->get_property(self :: PROPERTY_LEAVE_DATE);
+        return $this->get_default_property(self :: PROPERTY_LEAVE_DATE);
     }
 
     /**
@@ -129,7 +126,7 @@ class VisitTracker extends MainTracker
      */
     function set_leave_date($value)
     {
-        $this->set_property(self :: PROPERTY_LEAVE_DATE, $value);
+        $this->set_default_property(self :: PROPERTY_LEAVE_DATE, $value);
     }
 
     /**
@@ -138,7 +135,7 @@ class VisitTracker extends MainTracker
      */
     function get_location()
     {
-        return $this->get_property(self :: PROPERTY_LOCATION);
+        return $this->get_default_property(self :: PROPERTY_LOCATION);
     }
 
     /**
@@ -147,42 +144,15 @@ class VisitTracker extends MainTracker
      */
     function set_location($value)
     {
-        $this->set_property(self :: PROPERTY_LOCATION, $value);
-    }
-
-    /**
-     * Get's the type of the visit tracker
-     * @return int $type the type
-     */
-    function get_type()
-    {
-        return $this->get_property(self :: PROPERTY_TYPE);
-    }
-
-    /**
-     * Sets the type of the visit tracker
-     * @param int $type the type
-     */
-    function set_type($type)
-    {
-        $this->set_property(self :: PROPERTY_TYPE, $type);
+        $this->set_default_property(self :: PROPERTY_LOCATION, $value);
     }
 
     /**
      * Inherited
      */
-    function get_default_property_names()
+    static function get_default_property_names()
     {
-        return array_merge(MainTracker :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_ENTER_DATE, self :: PROPERTY_LEAVE_DATE, self :: PROPERTY_LOCATION));
-    }
-
-    /**
-     * Inherited
-     * @see MainTracker :: is_summary_tracker
-     */
-    function is_summary_tracker()
-    {
-        return false;
+        return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_ENTER_DATE, self :: PROPERTY_LEAVE_DATE, self :: PROPERTY_LOCATION));
     }
 
     static function get_table_name()

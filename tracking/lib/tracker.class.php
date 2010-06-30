@@ -64,6 +64,11 @@ abstract class Tracker extends DataClass
     function run(array $parameters = array())
     {
         $this->validate_parameters($parameters);
+        return $this->create();
+    }
+    
+    function create()
+    {
         return $this->get_data_manager()->create_tracker_item($this);
     }
 

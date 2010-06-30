@@ -1,10 +1,12 @@
 <?php
 /**
- * $Id: leave.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.ajax
  */
 require_once dirname(__FILE__) . '/../../common/global.inc.php';
-$tracker = $_POST['tracker'];
-$return = Event :: trigger('leave', 'user', array('tracker' => $tracker, 'location' => $_SERVER['REQUEST_URI'], 'user' => $user, 'event' => 'leave'));
-//echo $tracker;
+
+if (strpos($_SERVER['REQUEST_URI'], 'leave.php') !== false && strpos($_SERVER['REQUEST_URI'], 'ajax') !== false)
+{
+    $tracker = Request :: post('tracker');
+    $return = Event :: trigger('leave', UserManager :: APPLICATION_NAME, array(VisitTracker :: PROPERTY_ID => $tracker, VisitTracker :: PROPERTY_LOCATION => $_SERVER['REQUEST_URI'], VisitTracker :: PROPERTY_USER_ID => $user->get_id()));
+}
 ?>
