@@ -2,10 +2,14 @@
 abstract class Tracker extends DataClass
 {
 
-    function Tracker($defaultProperties = array (), $optionalProperties = array(), Event $event = null)
+    function Tracker($defaultProperties = array (), $optionalProperties = array())
     {
         parent :: __construct($defaultProperties, $optionalProperties);
-        $this->set_event($event);
+        
+//        if($event instanceof Event)
+//        {
+//            $this->set_event($event);
+//        }
     }
 
     /**
