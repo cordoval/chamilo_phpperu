@@ -10,7 +10,7 @@ abstract class SubManager
     function SubManager($parent)
     {
         $this->parent = $parent;
-
+        
         if (Request :: get(Application :: PARAM_APPLICATION) == $this->parent->get_application_name())
         {
             $this->parent->handle_table_action();
