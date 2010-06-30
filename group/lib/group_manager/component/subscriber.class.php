@@ -22,41 +22,43 @@ class GroupManagerSubscriberComponent extends GroupManager
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SubscribeToGroup')));
             $trail->add_help('group general');
-            
+
             $this->display_header();
             Display :: error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-        
+
         $users = Request :: get(GroupManager :: PARAM_USER_ID);
-        
+
         $failures = 0;
-        
+
         if (! empty($users))
         {
             if (! is_array($users))
             {
                 $users = array($users);
             }
-            
+
             foreach ($users as $user)
             {
                 $existing_groupreluser = $this->retrieve_group_rel_user($user, $group_id);
-                
+
                 if (! is_null($existing_groupreluser))
                 {
                     $groupreluser = new GroupRelUser();
                     $groupreluser->set_group_id($group_id);
                     $groupreluser->set_user_id($user);
-                    
+
                     if (! $groupreluser->create())
                     {
                         $failures ++;
                     }
                     else
                     {
-                        Event :: trigger('subscribe_user', 'group', array('target_group_id' => $groupreluser->get_group_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $this->get_user()->get_id()));
+                        Event :: trigger('subscribe_user', GroupManager :: APPLICATION_NAME, array(
+                                ChangesTracker :: PROPERTY_REFERENCE_ID => $groupreluser->get_group_id(), GroupChangesTracker :: PROPERTY_TARGET_USER_ID => $groupreluser->get_user_id(),
+                                ChangesTracker :: PROPERTY_USER_ID => $this->get_user()->get_id()));
                     }
                 }
                 else
@@ -64,7 +66,7 @@ class GroupManagerSubscriberComponent extends GroupManager
                     $contains_dupes = true;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($users) == 1)
@@ -87,7 +89,7 @@ class GroupManagerSubscriberComponent extends GroupManager
                     $message = 'SelectedUsersAddedToGroup' . ($contains_dupes ? 'Dupes' : '');
                 }
             }
-            
+
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group_id));
             exit();
         }

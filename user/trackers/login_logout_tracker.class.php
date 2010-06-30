@@ -18,11 +18,7 @@ class LoginLogoutTracker extends SimpleTracker
     const PROPERTY_IP = 'ip';
     const PROPERTY_TYPE = 'type';
 
-    /**
-     * Inherited
-     * @see MainTracker :: track()
-     */
-    function run(array $parameters = array())
+    function validate_parameters(array $parameters = array())
     {
         $user = $parameters['user'];
         $server = $parameters['server'];
@@ -31,8 +27,6 @@ class LoginLogoutTracker extends SimpleTracker
         $this->set_date(time());
         $this->set_ip($server['REMOTE_ADDR']);
         $this->set_type($this->get_event()->get_name());
-
-        $this->create();
     }
 
     /**

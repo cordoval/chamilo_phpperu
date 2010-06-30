@@ -18,7 +18,7 @@ class ReservationsManagerSubscriptionDeleterComponent extends ReservationsManage
     function run()
     {
         $ids = $_GET[ReservationsManager :: PARAM_SUBSCRIPTION_ID];
-        
+
         if (! $this->get_user())
         {
             $this->display_header(null);
@@ -26,21 +26,21 @@ class ReservationsManagerSubscriptionDeleterComponent extends ReservationsManage
             $this->display_footer();
             exit();
         }
-        
+
         if ($ids)
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             $bool = true;
-            
+
             foreach ($ids as $id)
             {
                 $subscriptions = $this->retrieve_subscriptions(new EqualityCondition(Subscription :: PROPERTY_ID, $id));
                 $subscription = $subscriptions->next_result();
-                
+
                 /*$subscription->set_status(Subscription :: STATUS_DELETED);*/
                 if (! $subscription->delete())
                 {
@@ -48,19 +48,23 @@ class ReservationsManagerSubscriptionDeleterComponent extends ReservationsManage
                 }
                 else
                 {
-                    Event :: trigger('delete_subscription', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+                    Event :: trigger('delete_subscription', ReservationsManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $id, ChangesTracker :: PROPERTY_USER_ID => $this->get_user_id()));
                 }
-                
+
                 $subscriptionuser = new SubscriptionUser();
                 $subscriptionuser->set_subscription_id($subscription->get_id());
                 $subscriptionuser->delete();
             }
-            
+
             if (count($ids) == 1)
+            {
                 $message = $bool ? 'SubscriptionDeleted' : 'SubscriptionNotDeleted';
+            }
             else
+            {
                 $message = $bool ? 'SubscriptionsDeleted' : 'SubscriptionsNotDeleted';
-            
+            }
+
             $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS));
         }
         else

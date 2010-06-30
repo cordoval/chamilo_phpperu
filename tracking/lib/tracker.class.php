@@ -1,6 +1,12 @@
 <?php
 abstract class Tracker extends DataClass
 {
+    function Tracker($defaultProperties = array (), $optionalProperties = array(), Event $event = null)
+    {
+        parent :: __construct($defaultProperties, $optionalProperties);
+        $this->set_event($event);
+    }
+
     /**
      * @var Event
      */
@@ -38,9 +44,7 @@ abstract class Tracker extends DataClass
         return $this->run($parameters);
     }
 
-    abstract function run(array $parameters = array());
-
-    //    abstract function validate_parameters();
+    abstract function validate_parameters(array $parameters = array());
 
     /**
      * Gets the table name for this class
@@ -52,8 +56,9 @@ abstract class Tracker extends DataClass
      * Write the values of the properties from the tracker to the database
      * @return boolean
      */
-    function create()
+    function run(array $parameters = array())
     {
+        $this->validate_parameters($parameters);
         return $this->get_data_manager()->create_tracker_item($this);
     }
 

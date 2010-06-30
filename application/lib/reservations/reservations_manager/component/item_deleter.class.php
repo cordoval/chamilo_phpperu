@@ -18,7 +18,7 @@ class ReservationsManagerItemDeleterComponent extends ReservationsManager
     function run()
     {
         $ids = $_GET[ReservationsManager :: PARAM_ITEM_ID];
-        
+
         if (! $this->get_user())
         {
             $this->display_header(null);
@@ -26,43 +26,43 @@ class ReservationsManagerItemDeleterComponent extends ReservationsManager
             $this->display_footer();
             exit();
         }
-        
+
         if ($ids)
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             $bool = true;
             $category = - 1;
-            
+
             foreach ($ids as $id)
             {
                 $items = $this->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $id));
                 $item = $items->next_result();
-                
+
                 if ($category == - 1)
                     $category = $item->get_category();
-                    
+
                 /*$item->set_status(Item :: STATUS_DELETED);*/
-                
+
                 if (! $item->delete())
                 {
                     $bool = false;
                 }
                 else
                 {
-                    Event :: trigger('delete_item', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+                    Event :: trigger('delete_item', ReservationsManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $id, ChangesTracker :: PROPERTY_USER_ID => $this->get_user_id()));
                 }
-            
+
             }
-            
+
             if (count($ids) == 1)
                 $message = $bool ? 'ItemDeleted' : 'ItemNotDeleted';
             else
                 $message = $bool ? 'ItemsDeleted' : 'ItemsNotDeleted';
-            
+
             $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS, ReservationsManager :: PARAM_CATEGORY_ID => $category));
         }
         else

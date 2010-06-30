@@ -92,7 +92,7 @@ class UserForm extends FormValidator
         //$this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png', 'image/x-png'));
         // Phone Number
         $this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'), array("size" => "50"));
-        
+
         // Disk Quota
         $this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get('DiskQuota'), array("size" => "50"));
         $this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
@@ -226,7 +226,7 @@ class UserForm extends FormValidator
         $user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
         $user->set_database_quota(intval($values[User :: PROPERTY_DATABASE_QUOTA]));
         $user->set_disk_quota(intval($values[User :: PROPERTY_DISK_QUOTA]));
-        
+
         $user->set_active(intval($values['active'][User :: PROPERTY_ACTIVE]));
         $user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
         $send_mail = intval($values['mail']['send_mail']);
@@ -244,7 +244,7 @@ class UserForm extends FormValidator
 
         if ($value)
         {
-            Event :: trigger('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
+            Event :: trigger('update', UserManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $user->get_id(), ChangesTracker :: PROPERTY_USER_ID => $this->form_user->get_id()));
         }
 
         return $value;

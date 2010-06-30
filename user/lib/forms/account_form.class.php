@@ -227,7 +227,9 @@ class AccountForm extends FormValidator
         $value = $user->update();
 
         if ($value)
-            Event :: trigger('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
+        {
+            Event :: trigger('update', UserManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $user->get_id(), ChangesTracker :: PROPERTY_USER_ID => $user->get_id()));
+        }
 
         return $value;
     }

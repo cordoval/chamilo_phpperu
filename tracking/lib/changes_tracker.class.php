@@ -3,7 +3,7 @@
  * @author Hans De Bisschop
  *
  */
-class ChangesTracker extends SimpleTracker
+abstract class ChangesTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
 
@@ -83,6 +83,17 @@ class ChangesTracker extends SimpleTracker
     public function set_date($date)
     {
         $this->set_default_property(self :: PROPERTY_DATE, $date);
+    }
+    /**
+     * Implemented
+     * @param array $parameters
+     */
+    function validate_parameters(array $parameters = array())
+    {
+        $this->set_user_id($parameters[self :: PROPERTY_USER_ID]);
+        $this->set_reference_id($parameters[self :: PROPERTY_REFERENCE_ID]);
+        $this->set_action($this->get_event()->get_name());
+        $this->set_date(time());
     }
 
 }

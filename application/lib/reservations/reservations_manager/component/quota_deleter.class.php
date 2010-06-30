@@ -18,7 +18,7 @@ class ReservationsManagerQuotaDeleterComponent extends ReservationsManager
     function run()
     {
         $ids = $_GET[ReservationsManager :: PARAM_QUOTA_ID];
-        
+
         if (! $this->get_user())
         {
             $this->display_header(null);
@@ -26,38 +26,42 @@ class ReservationsManagerQuotaDeleterComponent extends ReservationsManager
             $this->display_footer();
             exit();
         }
-        
+
         if ($ids)
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             $bool = true;
-            
+
             foreach ($ids as $id)
             {
                 /*$quotas = $this->retrieve_quotas(new EqualityCondition(Quota :: PROPERTY_ID, $id));
     			$quota = $quotas->next_result();*/
                 $quota = new Quota();
                 $quota->set_id($id);
-                
+
                 if (! $quota->delete())
                 {
                     $bool = false;
                 }
                 else
                 {
-                    Event :: trigger('delete_quota', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+                    Event :: trigger('delete_quota', ReservationsManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $id, ChangesTracker :: PROPERTY_USER_ID => $this->get_user_id()));
                 }
             }
-            
+
             if (count($ids) == 1)
+            {
                 $message = $bool ? 'QuotasDeleted' : 'QuotasNotDeleted';
+            }
             else
+            {
                 $message = $bool ? 'QuotasDeleted' : 'QuotasNotDeleted';
-            
+            }
+
             $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_QUOTAS));
         }
         else
