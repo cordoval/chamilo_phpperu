@@ -15,7 +15,8 @@ class InternshipOrganizerCategoryManagerMoverComponent extends InternshipOrganiz
         $trail->add_help('category general');
         
         $category = $this->retrieve_categories(new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_ID, Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID)))->next_result();
-        
+
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         $trail->add(new Breadcrumb($this->get_category_viewing_url($category), $category->get_name()));
         
         $form = new InternshipOrganizerCategoryMoveForm($category, $this->get_url(array(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID))), $this->get_user());

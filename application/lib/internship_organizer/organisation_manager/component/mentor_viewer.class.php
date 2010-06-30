@@ -17,6 +17,7 @@ class InternshipOrganizerOrganisationManagerMentorViewerComponent extends Intern
         $this->mentor = $this->retrieve_mentor($mentor_id);
         
         $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION,  InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $this->mentor->get_organisation_id())), Translation :: get('ViewInternshipOrganizerOrganisation')));
         $name = $this->mentor->get_firstname().' '.$this->mentor->get_lastname();
         $trail->add ( new Breadcrumb ( $this->get_url (array(InternshipOrganizerMentorManager::PARAM_ACTION => InternshipOrganizerMentorManager :: ACTION_VIEW_MENTOR, InternshipOrganizerMentorManager :: PARAM_MENTOR_ID => $mentor_id)), $name) );

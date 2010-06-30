@@ -97,8 +97,8 @@ class InternshipOrganizerPeriodForm extends FormValidator
         $period = $this->period;
         $values = $this->exportValues();
         
-        dump($values);
-        exit;
+//        dump($values);
+//        exit;
         
         $period->set_name($values[InternshipOrganizerPeriod :: PROPERTY_NAME]);
         $period->set_description($values[InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION]);

@@ -13,7 +13,7 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         $trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
         
         $category_id = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
