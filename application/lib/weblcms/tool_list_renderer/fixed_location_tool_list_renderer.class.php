@@ -280,10 +280,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 $lcms_action = HomeTool :: ACTION_MAKE_TOOL_INVISIBLE;
                 $visible_image = 'action_visible.png';
                 $new = '';
-                /*if ($parent->tool_has_new_publications($tool->name))
+                if ($parent->tool_has_new_publications($tool->name))
                 {
                     $new = '_new';
-                }*/
+                }
                 $tool_image = 'tool_' . $tool->name . $new . '.png';
                 $link_class = '';
             }
