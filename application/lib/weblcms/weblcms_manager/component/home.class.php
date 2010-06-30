@@ -372,7 +372,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
             {
                 $wdm = WeblcmsDataManager :: get_instance();
                 $course = $wdm->retrieve_course($course->get_id());
-                //$tools = $course->get_tools();
+                $tools = $course->get_tools(false);
                 
 
                 if ($course->get_access() || $this->is_teacher($course, $this->get_user()))
@@ -385,8 +385,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
                 }
                 
                 foreach ($tools as $index => $tool)
-                {
-                    if ($tool->visible && $this->tool_has_new_publications($tool->name))
+                { 
+                    if ($tool->visible && $this->tool_has_new_publications($tool->name, $course))
                     {
                         $params[WeblcmsManager :: PARAM_TOOL] = $tool->name;
                         $params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();

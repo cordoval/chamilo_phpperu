@@ -61,7 +61,7 @@ class DynamicTabsRenderer
 
         $html = array();
 
-        $html[] = '<a name="top"></a>';
+        //$html[] = '<a name="top"></a>';
         $html[] = '<div id="' . $this->name . '_tabs">';
 
         // Tab headers
@@ -93,7 +93,7 @@ class DynamicTabsRenderer
     {
         $html = array();
         $html[] = '</div>';
-        $html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
+        //$html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
         $html[] = '<script type="text/javascript">';
 
 //        dump($this->get_name());

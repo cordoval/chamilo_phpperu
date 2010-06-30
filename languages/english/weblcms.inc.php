@@ -554,4 +554,5 @@ $lang['weblcms']['WeblcmsPublicationAccessReportingBlock'] = 'Publication access
 $lang['weblcms']['WeblcmsPublicationUserAccessReportingBlock'] = 'Publication user access';
 $lang['weblcms']['count'] = 'Count';
 $lang['weblcms']['ImportQti'] = 'Import QTI';
+$lang['weblcms']['NoToolsAvailable'] = 'No tools available';
 ?>

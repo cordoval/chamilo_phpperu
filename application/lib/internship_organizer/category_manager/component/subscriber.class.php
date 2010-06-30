@@ -13,20 +13,25 @@ class InternshipOrganizerCategoryManagerSubscriberComponent extends InternshipOr
     function run()
     {
         $user = $this->get_user();
-        $category_id = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
-        $locations = Request :: get(InternshipOrganizerCategoryManager :: PARAM_LOCATION_ID);
         $failures = 0;
-        
-        if (! empty($locations))
+
+        $selected_ids =Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_REL_LOCATION_ID);
+       
+        if (! empty($selected_ids))
         {
-            if (! is_array($locations))
+            if (! is_array($selected_ids))
             {
-                $locations = array($locations);
+                $selected_ids = array($selected_ids);
             }
             
-            foreach ($locations as $location_id)
+            foreach ($selected_ids as $selected_id)
             {
-                $existing_categoryrellocation = $this->retrieve_category_rel_location($location_id, $category_id);
+                
+            	$ids = explode('|', $selected_id);
+                $location_id= $ids[1];
+                $category_id = $ids[0];
+            	
+            	$existing_categoryrellocation = $this->retrieve_category_rel_location($location_id, $category_id);
                 
                 if (! $existing_categoryrellocation)
                 {
