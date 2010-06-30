@@ -59,12 +59,10 @@ class InternshipOrganizerPeriodForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Categories'), $url, $locale, array());
-        
-        
+        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Categories'), $url, $locale, $this->get_categories());
         
         $defaults = array();
-        $elem->setDefaults($defaults);
+        $elem->setDefaults($this->get_categories());
         $elem->setDefaultCollapsed(false);
     
     }
@@ -99,11 +97,16 @@ class InternshipOrganizerPeriodForm extends FormValidator
         $period = $this->period;
         $values = $this->exportValues();
         
+        dump($values);
+        exit;
+        
         $period->set_name($values[InternshipOrganizerPeriod :: PROPERTY_NAME]);
         $period->set_description($values[InternshipOrganizerPeriod :: PROPERTY_DESCRIPTION]);
         
         $period->set_begin(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerPeriod :: PROPERTY_BEGIN]));
         $period->set_end(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerPeriod :: PROPERTY_END]));
+        
+        
         
         $value = $period->update();
         
@@ -118,7 +121,7 @@ class InternshipOrganizerPeriodForm extends FormValidator
         //            Event :: trigger('update', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
         //        }
         
-        
+
         return $value;
     }
 
@@ -188,8 +191,27 @@ class InternshipOrganizerPeriodForm extends FormValidator
         $period_menu->render($renderer, 'sitemap');
         return $renderer->toArray();
     }
-    
-    function get_categories(){
-    
+
+    function get_categories()
+    {
+        $categories = InternshipOrganizerDataManager :: get_instance()->retrieve_categories($condition);
+        $categorie_elements = array();
+        while ($category = $categories->next_result())
+        {
+            $element = array();
+            $element['id'] = $category->get_id();
+            $element['classes'] = 'category unlinked';
+            $name = $category->get_name();
+            $element['title'] = $name;
+            $description = $category->get_description();
+            if(!isset($description) && empty($description)){
+            	$description = $name;
+            }
+            $element['description'] = $description;
+            $categorie_elements[] = $element;
+        }
+        return $categorie_elements;
+    }
+
 }
 ?>
