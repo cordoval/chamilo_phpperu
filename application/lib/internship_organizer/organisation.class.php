@@ -88,9 +88,10 @@ class InternshipOrganizerOrganisation extends DataClass
 
     function count_locations()
     {
-        $locations = $this->get_locations();
-        
-        return count($locations);
+       $dm = $this->get_data_manager();
+       $organisation_id = $this->get_id();
+       $condition = new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $organisation_id);
+       return $dm->count_locations($condition);
     }
 
     function get_locations()
