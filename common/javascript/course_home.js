@@ -67,22 +67,37 @@
 	    	   		{
 	    	   			tool_text.addClass('invisible');
 	    	   			var new_src = src.replace('.png', '_na.png');
-	    	   			var new_parent = $('div.description', $('div.disabledblock'));
+	    	   			var new_parent = $('div.disabledblock');
+	    	   			var message = $('div.normal-message', new_parent);
+	    	   			if(message)
+	    	   			{
+	    	   				message.remove();
+	    	   			}
 	    	   		}
 	    	   		else
 	    	   		{
 	    	   			tool_text.removeClass('invisible');
 	    	   			var new_src = src.replace('_na.png', '.png');
-	    	   			var new_parent = $('div.description', $('div.toolblock:first'));
+	    	   			var new_parent = $('div.toolblock:first');
 	    	   		}
 	    	   		
+	    	   		var disabled_block = $('div.disabledblock')
+	    	   		
 	    	   		//If we use disabled section we should move the tool to the correct section
-	    	   		if($('div.disabledblock').attr('class') == 'disabledblock')
+	    	   		if(disabled_block.attr('class') == 'disabledblock')
 	    	   		{
 		    	   		var clear_div = new_parent.children(".clear")[0];
-		    	   		new_parent.children(".clear")[0].remove;
+		    	   		if(clear_div)
+		    	   		{
+		    	   			new_parent.children(".clear")[0].remove;
+		    	   		}
 		    	   		new_parent.append(parent);
 		    	   		new_parent.append(clear_div);
+
+		    	   		if(disabled_block.children('.tool').size() == 0)
+		    	   		{
+		    	   			disabled_block.prepend('<div class="normal-message">' + getTranslation('NoToolsAvailable', 'weblcms') + '</div>');
+		    	   		}
 	    	   		}
 	    	   		
 	    	   		tool_img.attr('src', new_src);
