@@ -242,8 +242,8 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     }
 
     function count_category_rel_locations($condition = null)
-    {
-        $rel_alias = $this->get_alias(InternshipOrganizerCategoryRelLocation :: get_table_name());
+    {    	
+		$rel_alias = $this->get_alias(InternshipOrganizerCategoryRelLocation :: get_table_name());
         $region_alias = $this->get_alias(InternshipOrganizerRegion :: get_table_name());
         $category_alias = $this->get_alias(InternshipOrganizerCategory :: get_table_name());
         $organisation_alias = $this->get_alias(InternshipOrganizerOrganisation :: get_table_name());
@@ -257,7 +257,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerOrganisation :: get_table_name()) . ' AS ' . $organisation_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerOrganisation :: PROPERTY_ID, $organisation_alias);
         
-        return $this->count_result_set($query, InternshipOrganizerCategoryRelLocation :: get_table_name(), $condition);
+        return $this->count_objects(InternshipOrganizerCategoryRelLocation :: get_table_name(), $condition);
     }
 
     function retrieve_period_rel_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -382,7 +382,6 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function count_category_rel_periods($condition = null)
     {
-        
         $category_alias = $this->get_alias(InternshipOrganizerCategory :: get_table_name());
         $category_rel_period_alias = $this->get_alias(InternshipOrganizerCategoryRelPeriod :: get_table_name());
         $period_alias = $this->get_alias(InternshipOrganizerPeriod :: get_table_name());
@@ -394,9 +393,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerPeriod :: get_table_name()) . ' AS ' . $period_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerCategoryRelPeriod :: PROPERTY_PERIOD_ID, $category_rel_period_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerPeriod :: PROPERTY_ID, $period_alias);
         
-        return $this->count_result_set($query, InternshipOrganizerCategoryRelPeriod :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerCategoryRelPeriod :: CLASS_NAME);
-        
-    //    	return $this->count_objects(InternshipOrganizerCategoryRelPeriod :: get_table_name(), $condition);
+        return $this->count_objects(InternshipOrganizerCategoryRelPeriod :: get_table_name(), $condition);
     }
 
     function retrieve_category_rel_periods($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -1150,9 +1147,10 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $period_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
         
-        return $this->count_result_set($query, InternshipOrganizerPeriodRelUser :: get_table_name(), $condition);
+        return $this->count_objects(InternshipOrganizerPeriodRelUser :: get_table_name(), $condition);
         
-    //    	return $this->count_objects(InternshipOrganizerPeriodRelUser :: get_table_name(), $condition);
+//      return $this->count_result_set($query, InternshipOrganizerPeriodRelUser :: get_table_name(), $condition);
+//		aantal users voor een periode klopt niet met bovenstaande return. Er is slechts 1 resultset, maar meerdere objecten.
     }
 
     function retrieve_period_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -1197,7 +1195,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         $query .= ' JOIN ' . GroupDataManager :: get_instance()->escape_table_name(Group :: get_table_name()) . ' AS ' . $group_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriodRelGroup :: PROPERTY_GROUP_ID, $period_rel_group_alias) . ' = ' . $this->escape_column_name(Group :: PROPERTY_ID, $group_alias);
         
-        return $this->count_result_set($query, InternshipOrganizerPeriodRelGroup :: get_table_name(), $condition);
+        return $this->count_objects(InternshipOrganizerPeriodRelGroup :: get_table_name(), $condition);
     
     }
 

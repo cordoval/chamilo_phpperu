@@ -37,12 +37,12 @@ class InternshipOrganizerSubscribeLocationBrowserTableCellRenderer extends Defau
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($location)
+    private function get_modification_links($categoryrellocation)
     {
         $agreement = $this->browser->get_agreement();
         $toolbar = new Toolbar();
         
-        $subscribe_url = $this->browser->get_agreement_rel_location_subscribing_url($agreement, $location);
+        $subscribe_url = $this->browser->get_agreement_rel_location_subscribing_url($agreement, $categoryrellocation);
         $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
         
         return $toolbar->as_html();

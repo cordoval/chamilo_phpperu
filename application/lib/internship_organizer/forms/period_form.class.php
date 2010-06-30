@@ -189,7 +189,10 @@ class InternshipOrganizerPeriodForm extends FormValidator
         return $renderer->toArray();
     }
     
-    function get_categories(){
+    function get_categories()
+    {
+    	
+    }
     
 }
 ?>

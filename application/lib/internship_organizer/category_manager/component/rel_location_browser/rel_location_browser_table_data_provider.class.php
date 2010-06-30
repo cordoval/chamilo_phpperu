@@ -32,6 +32,7 @@ class InternshipOrganizerCategoryRelLocationBrowserTableDataProvider extends Obj
     function get_object_count()
     {
         return $this->get_browser()->count_category_rel_locations($this->get_condition());
+//        return $this->get_browser()->count_category_rel_locations($this->get_condition());
     }
 }
 ?>
