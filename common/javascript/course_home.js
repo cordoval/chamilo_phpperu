@@ -30,6 +30,7 @@
 		var invisible_img = 'layout/aqua/images/common/action_invisible.png';
 	
 		var parent = $(this).parent().parent();
+		var old_parent = parent.parent();
 		var tool = parent.attr('id');
 		tool = tool.substring(5, tool.length);
 
@@ -68,11 +69,6 @@
 	    	   			tool_text.addClass('invisible');
 	    	   			var new_src = src.replace('.png', '_na.png');
 	    	   			var new_parent = $('div.disabledblock');
-	    	   			var message = $('div.normal-message', new_parent);
-	    	   			if(message)
-	    	   			{
-	    	   				message.remove();
-	    	   			}
 	    	   		}
 	    	   		else
 	    	   		{
@@ -91,12 +87,19 @@
 		    	   		{
 		    	   			new_parent.children(".clear")[0].remove;
 		    	   		}
+		    	   		
+		    	   		var message = $('div.normal-message', new_parent);
+	    	   			if(message)
+	    	   			{
+	    	   				message.remove();
+	    	   			}
+		    	   		
 		    	   		new_parent.append(parent);
 		    	   		new_parent.append(clear_div);
 
-		    	   		if(disabled_block.children('.tool').size() == 0)
+		    	   		if(old_parent.children('.tool').size() == 0)
 		    	   		{
-		    	   			disabled_block.prepend('<div class="normal-message">' + getTranslation('NoToolsAvailable', 'weblcms') + '</div>');
+		    	   			old_parent.prepend('<div class="normal-message">' + getTranslation('NoToolsAvailable', 'weblcms') + '</div>');
 		    	   		}
 	    	   		}
 	    	   		
