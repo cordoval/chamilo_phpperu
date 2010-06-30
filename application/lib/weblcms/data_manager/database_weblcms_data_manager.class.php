@@ -2670,6 +2670,82 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $condition = new AndCondition($conditions);
         return $this->retrieve_course_groups($condition)->next_result();
     }
+    
+    function count_new_publications_from_course($course, $user)
+    {	
+    	$publication_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
+        $publication_user_alias = $this->get_alias(ContentObjectPublicationUser  :: get_table_name());
+        $publication_group_alias = $this->get_alias(ContentObjectPublicationGroup :: get_table_name());
+        $lo_table_alias = $this->get_alias(ContentObject :: get_table_name());
+        $course_module_last_access_alias = $this->get_alias(CourseModuleLastAccess :: get_table_name());
+        
+        $query = 'SELECT COUNT(*) as count, ' . ContentObjectPublication :: PROPERTY_TOOL . ' FROM ' . $this->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(ContentObjectPublicationUser  :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(ContentObjectPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication_id';
+        $query .= ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
+        $query .= ' JOIN ' . $this->escape_table_name(CourseModuleLastAccess :: get_table_name()) . ' AS ' . $course_module_last_access_alias . ' ON ';
+        $query .=            $course_module_last_access_alias . '.course_id = ' . $publication_alias . '.course_id AND ';
+        $query .=		 	 $course_module_last_access_alias . '.module_name = ' . $publication_alias . '.tool AND (';
+        $query .=		 	 $publication_alias . '.modified >= ' . $course_module_last_access_alias . '.access_date';
+        
+        $course_groups = $this->retrieve_course_groups_from_user($user, $course)->as_array();
+
+		$conditions = array();
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
+		$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_USER_ID, $user->get_id(), CourseModuleLastAccess :: get_table_name());
+		$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name(), ContentObject :: get_table_name()));
+
+		if ((!$course->is_course_admin($user)))
+		{
+			$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_HIDDEN, 0);
+			$conditions_publication_period = array();
+			$conditions_publication_period[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
+			$conditions_publication_period[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
+			
+			//$conditions_publication_period[] = new InequalityCondition('from_date', InequalityCondition :: GREATER_THAN_OR_EQUAL, $last_visit_date);
+			
+			$query .= ' OR ' . $publication_alias . '.' . ContentObjectPublication :: PROPERTY_FROM_DATE . ' >= ' . $course_module_last_access_alias . '.' . CourseModuleLastAccess :: PROPERTY_ACCESS_DATE;
+			
+			
+			$condition_publication_period = new AndCondition($conditions_publication_period);
+			$condition_publication_forever = new EqualityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, 0);
+			$conditions[] = new OrCondition($condition_publication_forever, $condition_publication_period);
+		}
+		
+		$query .= ')';
+
+		$access = array();
+		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user->get_id(), ContentObjectPublicationUser  :: get_table_name());
+		$access[] = new InCondition(ContentObjectPublicationGroup :: PROPERTY_GROUP_ID, $course_groups, ContentObjectPublicationGroup :: get_table_name());
+		if (! empty($user) || ! empty($course_groups))
+		{
+			$access[] = new AndCondition(array(new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser  :: get_table_name()), 
+											  new EqualityCondition(ContentObjectPublicationGroup :: PROPERTY_GROUP_ID, null, ContentObjectPublicationGroup :: get_table_name())));
+		}
+
+		$conditions[] = new OrCondition($access);
+		$condition = new AndCondition($conditions);
+		
+    	if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this, $this->get_alias(ContentObjectPublication :: get_table_name()));
+            $query .= $translator->render_query($condition);
+        }
+		
+        $query .= ' GROUP BY ' . ContentObjectPublication :: PROPERTY_TOOL;
+        
+        $result = $this->query($query);
+
+        $new_publications = array();
+        
+        while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+        {
+        	$new_publications[$record['tool']] = $record['count'];	
+        }
+        
+        return $new_publications;
+    	
+    }
 
 }
 ?>

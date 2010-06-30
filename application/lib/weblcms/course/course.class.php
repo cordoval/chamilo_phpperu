@@ -239,16 +239,19 @@ class Course extends DataClass
         return $this->layout;
     }
 
-    function get_tools()
+    function get_tools($require = true)
     {
         if(!$this->tools)
         {
         	$wdm = WeblcmsDataManager :: get_instance();
 			$this->tools = $wdm->get_course_modules($this->get_id());
 
-			foreach ($this->tools as $index => $tool)
+			if($require)
 			{
-				require_once dirname(__FILE__) . '/../tool/' . $tool->name . '/' . $tool->name . '_tool.class.php';
+				foreach ($this->tools as $index => $tool)
+				{
+					require_once dirname(__FILE__) . '/../tool/' . $tool->name . '/' . $tool->name . '_tool.class.php';
+				}
 			}
         }
        
@@ -1080,7 +1083,14 @@ class Course extends DataClass
      */
     function is_course_admin($user)
     {
-        if ($user->is_platform_admin())
+    	$studentview = Session :: retrieve('studentview');
+    	
+    	if($studentview)
+    	{
+    		return false;
+    	}
+    	
+    	if ($user->is_platform_admin())
         {
             return true;
         }

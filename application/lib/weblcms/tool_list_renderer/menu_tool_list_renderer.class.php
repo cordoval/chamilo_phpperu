@@ -42,7 +42,7 @@ class MenuToolListRenderer extends ToolListRenderer
     {
         $parent = $this->get_parent();
         $tools = $parent->get_registered_tools();
-        $this->show_tools($tools);
+        return $this->show_tools($tools);
     }
 
     /**
@@ -69,6 +69,9 @@ class MenuToolListRenderer extends ToolListRenderer
         $html[] = '<div class="tool_menu">';
         $html[] = '<ul>';
 
+        $show_search = false;
+        $tools_shown = array();
+        
         foreach ($tools as $index => $tool)
         {
             $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $tool->section));
@@ -85,10 +88,22 @@ class MenuToolListRenderer extends ToolListRenderer
 
             if ($tool->visible || $this->is_course_admin)
             {
-                $html[] = $this->display_tool($tool);
+                if($tool->name == 'search')
+                {
+                	$show_search = true;
+                }
+                
+                $tools_shown[] = $tool->name;
+                
+            	$html[] = $this->display_tool($tool);
             }
         }
 
+        if(count($tools_shown) == 0)
+        {
+        	return false;
+        }
+        
         if (count($admin_tools) && $this->is_course_admin)
         {
             $html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
@@ -99,7 +114,7 @@ class MenuToolListRenderer extends ToolListRenderer
         }
         $html[] = '</ul>';
 
-        if ($this->display_menu_text())
+        if ($this->display_menu_text() && $show_search)
         {
             $html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px; text-align: center;"></div>';
 
@@ -139,6 +154,8 @@ class MenuToolListRenderer extends ToolListRenderer
         $html[] = '<div class="clear">&nbsp;</div>';
 
         echo implode("\n", $html);
+        
+        return true;
     }
 
     function display_tool($tool)

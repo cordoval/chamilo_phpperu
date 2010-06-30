@@ -8,9 +8,9 @@ class InternshipOrganizerAgreementManagerMomentBrowserComponent extends Internsh
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
+//        $trail = BreadcrumbTrail :: get_instance();
         
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseInternshipOrganizerMoments')));
+//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseInternshipOrganizerMoments')));
         
         $this->display_header($trail);
         

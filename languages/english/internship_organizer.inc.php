@@ -94,6 +94,7 @@ $lang['internship_organizer']['SelectedInternshipOrganizerMentorsNotDeleted'] = 
 $lang['internship_organizer']['SelectedInternshipOrganizerMentorDeleted'] = 'Selected Mentor Deleted';
 $lang['internship_organizer']['SelectedInternshipOrganizerMentorsDeleted'] = 'Selected Mentors Deleted';
 $lang['internship_organizer']['NoInternshipOrganizerMentorsSelected'] = 'No Mentors Selected';
+$lang['internship_organizer']['AddInternshipOrganizerMentors'] = 'Add Mentors';
 
 $lang['internship_organizer']['CreateInternshipOrganizerOrganisation'] = 'Create Organisation';
 $lang['internship_organizer']['InternshipOrganizerOrganisationCreated'] = 'Organisation Created';
@@ -128,6 +129,8 @@ $lang['internship_organizer']['NoInternshipOrganizerPeriodsSelected'] = 'No Peri
 $lang['internship_organizer']['NoUsers'] = 'No Users';
 $lang['internship_organizer']['NoSubperiods'] = 'No Subperiods';
 $lang['internship_organizer']['Periods'] = 'Periodes';
+$lang['internship_organizer']['ParentPeriod'] = 'Parent';
+
 
 $lang['internship_organizer']['CreateInternshipOrganizerRegion'] = 'Create Region';
 $lang['internship_organizer']['InternshipOrganizerRegionCreated'] = 'Region Created';
@@ -230,9 +233,9 @@ $lang['internship_organizer']['AddInternshipOrganizerMentor'] = 'add mentor';
 
 $lang['internship_organizer']['InternshipOrganizerMoments'] = 'Moments';
 $lang['internship_organizer']['PreferenceOrder'] = 'Preference Order';
-$lang['internship_organizer']['SubscribeInternshipOrganizerAgreementLocation'] = 'Choose Organisation';
+$lang['internship_organizer']['SubscribeInternshipOrganizerAgreementLocation'] = 'Choose Location';
 
-$lang['internship_organizer']['InternshipOrganizerAgreementAddLocation'] = 'To add organisation';
+$lang['internship_organizer']['InternshipOrganizerAgreementAddLocation'] = 'To add location';
 $lang['internship_organizer']['InternshipOrganizerAgreementToApprove'] = 'To be approved';
 $lang['internship_organizer']['InternshipOrganizerAgreementApproved'] = 'Approved';
 

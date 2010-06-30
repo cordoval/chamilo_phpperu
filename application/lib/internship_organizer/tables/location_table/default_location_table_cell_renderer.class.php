@@ -16,28 +16,18 @@ class DefaultInternshipOrganizerLocationTableCellRenderer extends ObjectTableCel
     }
 
     function render_cell($column, $location)
-    {	
-        $region = $location->get_region();
-    	
-        switch ($column->get_name())
+    {
+        	
+    	switch ($column->get_name())
         {
             case InternshipOrganizerLocation :: PROPERTY_NAME :
                 return $location->get_name();
             case InternshipOrganizerLocation :: PROPERTY_ADDRESS :
                 return $location->get_address();
-                
             case InternshipOrganizerRegion :: PROPERTY_ZIP_CODE :
-            	$zip_code = $region->get_zip_code();
-            	return $zip_code;
-            
+                return $location->get_optional_property(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE);
             case InternshipOrganizerRegion :: PROPERTY_CITY_NAME :
-            	$city_name = $region->get_city_name();
-            	return $city_name;    
-                
-//            case InternshipOrganizerLocation :: PROPERTY_REGION_ID :
-//            	$region = $location->get_region();
-//            	$region_string = $region->get_zip_code(). '  ' .$region->get_city_name();
-//                return $region_string;
+                return $location->get_optional_property(InternshipOrganizerRegion :: PROPERTY_CITY_NAME);
             case InternshipOrganizerLocation :: PROPERTY_TELEPHONE :
                 return $location->get_telephone();
             case InternshipOrganizerLocation :: PROPERTY_FAX :

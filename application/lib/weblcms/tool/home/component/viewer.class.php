@@ -21,8 +21,14 @@ class HomeToolViewerComponent extends HomeTool
         if ($menu_style != CourseLayout :: MENU_OFF)
         {
             $renderer = ToolListRenderer :: factory('Menu', $this);
-            $renderer->display();
-            echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && ! $renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
+            if($renderer->display())
+            {
+            	echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && ! $renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
+            }
+            else
+            {
+            	echo '<div id="tool_browser">';
+            }
         }
         else
         {
@@ -31,7 +37,7 @@ class HomeToolViewerComponent extends HomeTool
         
         $tool_shortcut = $this->get_course()->get_tool_shortcut();
         
-        if ($this->get_course()->get_intro_text() || $tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON)
+        if (($this->get_course()->get_intro_text() && !$this->get_introduction_text())  || $tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON)
         {
         	echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 2em;">';
         }

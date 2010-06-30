@@ -42,7 +42,7 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
         $category = $this->browser->get_category();
         
         $toolbar = new Toolbar();
-
+        
         $subscribe_url = $this->browser->get_category_rel_location_subscribing_url($category, $location);
 
         $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));

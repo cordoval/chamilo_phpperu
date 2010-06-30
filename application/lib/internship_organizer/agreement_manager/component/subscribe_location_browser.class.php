@@ -16,8 +16,10 @@ class InternshipOrganizerAgreementManagerSubscribeLocationBrowserComponent exten
         $this->agreement = $this->retrieve_agreement($agreement_id);
         
         $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id)), $this->agreement->get_name()));
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_SUBSCRIBE_LOCATION_TO_AGREEMENT)), Translation :: get('SubscribeInternshipOrganizerAgreementLocation')));
         
         $this->action_bar = $this->get_action_bar();
         
@@ -47,8 +49,6 @@ class InternshipOrganizerAgreementManagerSubscribeLocationBrowserComponent exten
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerMoment'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_moment_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id())));
         
         return $action_bar;
@@ -67,22 +67,29 @@ class InternshipOrganizerAgreementManagerSubscribeLocationBrowserComponent exten
             $category_ids[] = $category_rel_period->get_category_id();
         }
         
-        $conditions = array();
-        //		$conditions [] = new EqualityCondition ( InternshipOrganizerAgreementRelLocation::PROPERTY_LOCATION_TYPE, $location_type );
-        
-
-        //        if (isset($query) && $query != '')
-        //        {
-        //            $search_conditions = array();
-        //            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_NAME, '*' . $query . '*');
-        //            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_STREET, '*' . $query . '*');
-        //            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
-        //            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_CITY, '*' . $query . '*');
-        //            
-        //            $conditions[] = new OrCondition($search_conditions);
-        //        }
-        return null;
-        //		return new AndCondition ( $conditions );
+        if (count($category_ids))
+        {
+            $conditions = array();
+            $conditions[] = new InCondition(InternshipOrganizerCategoryRelLocation :: PROPERTY_CATEGORY_ID, $category_ids);
+            
+            $query = $this->action_bar->get_query();
+            if (isset($query) && $query != '')
+            {
+                $search_conditions = array();
+                $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_NAME, '*' . $query . '*', InternshipOrganizerLocation :: get_table_name());
+                $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, '*' . $query . '*', InternshipOrganizerLocation :: get_table_name());
+                $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_ADDRESS, '*' . $query . '*', InternshipOrganizerLocation :: get_table_name());
+                $search_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*', InternshipOrganizerRegion :: get_table_name());
+                $search_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*', InternshipOrganizerRegion :: get_table_name());
+                $conditions[] = new OrCondition($search_conditions);
+            }
+            return new AndCondition($conditions);
+        }
+        else
+        {
+            return null;
+        }
+    
     }
 
     function get_agreement()
