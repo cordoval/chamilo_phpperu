@@ -128,6 +128,8 @@ $lang['internship_organizer']['NoInternshipOrganizerPeriodsSelected'] = 'No Peri
 $lang['internship_organizer']['NoUsers'] = 'No Users';
 $lang['internship_organizer']['NoSubperiods'] = 'No Subperiods';
 $lang['internship_organizer']['Periods'] = 'Periodes';
+$lang['internship_organizer']['ParentPeriod'] = 'Parent';
+
 
 $lang['internship_organizer']['CreateInternshipOrganizerRegion'] = 'Create Region';
 $lang['internship_organizer']['InternshipOrganizerRegionCreated'] = 'Region Created';

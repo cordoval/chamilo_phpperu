@@ -15,37 +15,27 @@ class DefaultInternshipOrganizerLocationTableCellRenderer extends ObjectTableCel
     {
     }
 
-    function render_cell($column, $location)
-    {	
-        $region = $location->get_region();
-    	
+    function render_cell($column, $category_rel_location)
+    {
+        
         switch ($column->get_name())
         {
             case InternshipOrganizerLocation :: PROPERTY_NAME :
-                return $location->get_name();
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_NAME);
             case InternshipOrganizerLocation :: PROPERTY_ADDRESS :
-                return $location->get_address();
-                
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_ADDRESS);
             case InternshipOrganizerRegion :: PROPERTY_ZIP_CODE :
-            	$zip_code = $region->get_zip_code();
-            	return $zip_code;
-            
+                return $category_rel_location->get_optional_property(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE);
             case InternshipOrganizerRegion :: PROPERTY_CITY_NAME :
-            	$city_name = $region->get_city_name();
-            	return $city_name;    
-                
-//            case InternshipOrganizerLocation :: PROPERTY_REGION_ID :
-//            	$region = $location->get_region();
-//            	$region_string = $region->get_zip_code(). '  ' .$region->get_city_name();
-//                return $region_string;
+                return $category_rel_location->get_optional_property(InternshipOrganizerRegion :: PROPERTY_CITY_NAME);
             case InternshipOrganizerLocation :: PROPERTY_TELEPHONE :
-                return $location->get_telephone();
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_TELEPHONE);
             case InternshipOrganizerLocation :: PROPERTY_FAX :
-                return $location->get_fax();
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_FAX);
             case InternshipOrganizerLocation :: PROPERTY_EMAIL :
-                return $location->get_email();
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_EMAIL);
             case InternshipOrganizerLocation :: PROPERTY_DESCRIPTION :
-                return $location->get_description();
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION);
             
             default :
                 return '&nbsp;';

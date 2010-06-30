@@ -111,11 +111,12 @@ class InternshipOrganizerCategoryManagerBrowserComponent extends InternshipOrgan
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ShowAll' ), Theme::get_common_image_path () . 'action_browser.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
 		
-		if($this->category_id != ( $this->root_category || null ) )
-		{
+		
+//		if($this->category_id != ( $this->root_category || null ) )
+//		{
 			$category_obj = InternshipOrganizerDataManager :: get_instance()->retrieve_internship_organizer_category($this->category_id);
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewInternshipOrganizerCategory'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_category_viewing_url($category_obj), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		}
+//		}
 		
 		return $action_bar;
 	}
