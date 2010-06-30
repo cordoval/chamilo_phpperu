@@ -18,8 +18,8 @@ class TrackerRegistration extends DataClass
     /**
      * Tracker properties
      */
-    const PROPERTY_CLASS = 'class';
-    const PROPERTY_PATH = 'path';
+    const PROPERTY_TRACKER = 'tracker';
+    const PROPERTY_APPLICATION = 'application';
 
     /**
      * Get the default properties
@@ -27,7 +27,7 @@ class TrackerRegistration extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CLASS, self :: PROPERTY_PATH));
+        return parent :: get_default_property_names(array(self :: PROPERTY_TRACKER, self :: PROPERTY_APPLICATION));
     }
 
     /**
@@ -42,36 +42,36 @@ class TrackerRegistration extends DataClass
      * Returns the class of this Tracker.
      * @return the class.
      */
-    function get_class()
+    function get_tracker()
     {
-        return $this->get_default_property(self :: PROPERTY_CLASS);
+        return $this->get_default_property(self :: PROPERTY_TRACKER);
     }
 
     /**
      * Sets the class of this Tracker.
      * @param class
      */
-    function set_class($class)
+    function set_tracker($tracker)
     {
-        $this->set_default_property(self :: PROPERTY_CLASS, $class);
+        $this->set_default_property(self :: PROPERTY_TRACKER, $tracker);
     }
 
     /**
-     * Returns the path of this Tracker.
-     * @return the path.
+     * Returns the application of this Tracker.
+     * @return string The application.
      */
-    function get_path()
+    function get_application()
     {
-        return $this->get_default_property(self :: PROPERTY_PATH);
+        return $this->get_default_property(self :: PROPERTY_APPLICATION);
     }
 
     /**
-     * Sets the path of this Tracker.
-     * @param path
+     * Sets the application of this Tracker.
+     * @param string The application
      */
-    function set_path($path)
+    function set_application($application)
     {
-        $this->set_default_property(self :: PROPERTY_PATH, $path);
+        $this->set_default_property(self :: PROPERTY_APPLICATION, $application);
     }
 
     /**

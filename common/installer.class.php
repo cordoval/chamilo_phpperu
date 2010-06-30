@@ -307,42 +307,6 @@ abstract class Installer
     }
 
     /**
-     * Function used to register a tracker
-     */
-    function register_tracker($path, $class)
-    {
-        $tracker = new TrackerRegistration();
-        $class = Utilities :: underscores_to_camelcase($class);
-        $tracker->set_class($class);
-        $tracker->set_path($path);
-        if (! $tracker->create())
-        {
-            return false;
-        }
-
-        return $tracker;
-    }
-
-    /**
-     * Function used to register a tracker to an event
-     */
-    function register_tracker_to_event($tracker, $event)
-    {
-        $rel = new EventRelTracker();
-        $rel->set_tracker_id($tracker->get_id());
-        $rel->set_event_id($event->get_id());
-        $rel->set_active(true);
-        if ($rel->create())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /**
      * Function used to register a block.
      */
     function register_reporting_block($array)
@@ -471,8 +435,12 @@ abstract class Installer
 
                 foreach ($xml['events'] as $event_name => $event_properties)
                 {
-                    $the_event = Events :: create_event($event_properties['name'], $xml['name']);
-                    if (! $the_event)
+                    $the_event = new Event();
+                    $the_event->set_name($event_properties['name']);
+                    $the_event->set_active(true);
+                    $the_event->set_block($xml['name']);
+
+                    if (! $the_event->create())
                     {
                         $this->installation_failed(Translation :: get('EventCreationFailed') . ': <em>' . $event_properties['name'] . '</em>');
                     }
@@ -481,16 +449,23 @@ abstract class Installer
                     {
                         if (! array_key_exists($tracker_properties['name'], $registered_trackers))
                         {
-                            $the_tracker = $this->register_tracker($path, $tracker_properties['name'] . '_tracker');
-                            if (! $the_tracker)
+                            $the_tracker = new TrackerRegistration();
+                            $the_tracker->set_tracker($tracker_properties['name'] . '_tracker');
+                            $the_tracker->set_application($xml['name']);
+
+                            if (! $the_tracker->create())
                             {
                                 $this->installation_failed(Translation :: get('TrackerRegistrationFailed') . ': <em>' . $tracker_properties['name'] . '</em>');
                             }
+
                             $registered_trackers[$tracker_properties['name']] = $the_tracker;
                         }
 
-                        $success = $this->register_tracker_to_event($registered_trackers[$tracker_properties['name']], $the_event);
-                        if ($success)
+                        $rel = new EventRelTracker();
+                        $rel->set_tracker_id($registered_trackers[$tracker_properties['name']]->get_id());
+                        $rel->set_event_id($the_event->get_id());
+                        $rel->set_active(true);
+                        if ($rel->create())
                         {
                             $this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegisteredToEvent') . ': <em>' . $event_properties['name'] . ' + ' . $tracker_properties['name'] . '</em>');
                         }

@@ -12,7 +12,7 @@ class LoginLogoutTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'login_tracker';
-    
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_DATE = 'date';
     const PROPERTY_IP = 'ip';
@@ -26,13 +26,12 @@ class LoginLogoutTracker extends SimpleTracker
     {
         $user = $parameters['user'];
         $server = $parameters['server'];
-        $type = $parameters['event'];
-        
+
         $this->set_user_id($user->get_id());
         $this->set_date(time());
         $this->set_ip($server['REMOTE_ADDR']);
-        $this->set_type($type);
-        
+        $this->set_type($this->get_event()->get_name());
+
         $this->create();
     }
 
