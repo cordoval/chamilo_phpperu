@@ -107,7 +107,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             }
             else
             {
-                if ($section->get_type() == CourseSection :: TYPE_DISABLED && ($this->course->get_layout() < 3 || !$this->is_course_admin))
+            	if ($section->get_type() == CourseSection :: TYPE_DISABLED && ($this->course->get_layout() < 3 || !$this->is_course_admin))
                     continue;
                 
                 if ($section->get_type() == CourseSection :: TYPE_ADMIN && ! $this->is_course_admin)
@@ -273,6 +273,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         
         $html = array();
         
+        if(count($tools) == 0)
+        {
+        	$html[] = '<div class="normal-message">' . Translation :: get('NoToolsAvailable') . '</div>';
+        }
+        
         foreach ($tools as $index => $tool)
         {
             if ($tool->visible || $section->get_name() == 'course_admin')
@@ -338,6 +343,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         }
         //$table->display();
         
+        $html[] = '<div class="clear"></div>';
 
         return implode("\n", $html);
     }
