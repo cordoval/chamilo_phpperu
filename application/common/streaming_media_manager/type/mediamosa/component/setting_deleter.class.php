@@ -4,14 +4,21 @@
  *
  * @author jevdheyd
  */
-class MediamosaStreamingMediaManagerSettingCreatorComponent extends MediamosaStreamingMediaManager {
+
+require_once dirname(__FILE__) . '/../mediamosa_streaming_media_server_object.class.php';
+require_once dirname(__FILE__) . '/../mediamosa_streaming_media_data_manager.class.php';
+
+class MediamosaStreamingMediaManagerSettingDeleterComponent extends MediamosaStreamingMediaManager {
 
     function run()
     {
         $parameters = array();
         $parameters[StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = MediamosaStreamingMediaManager :: ACTION_MANAGE_SETTINGS;
 
-        if($this->delete_setting(Request :: get(MediamosaStreamingMediaManager :: PARAM_STREAMING_MEDIA_SETTING_ID)))
+        $object = new StreamingMediaServerObject();
+        $object->set_id(Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER));
+
+        if($object->delete())
         {
             $this->redirect(Translation :: get('Setting deleted'), false, $parameters);
         }

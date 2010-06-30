@@ -3,7 +3,7 @@
 /**
   * @package repository.lib.content_object.match_numeric_question
  */
-require_once dirname(__FILE__) . '/main.php'; 
+require_once dirname(__FILE__) . '/main.php';
 
 class AssessmentMatchNumericQuestionForm extends ContentObjectForm
 {
@@ -11,6 +11,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_numeric_question.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
@@ -20,10 +21,11 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_numeric_question.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
-        
+
     }
 
     function setDefaults($defaults = array ())
@@ -31,7 +33,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
-            if (! is_null($object))
+            if ($object->get_number_of_options() != 0)
             {
                 $options = $object->get_options();
                 foreach ($options as $index => $option)
@@ -50,6 +52,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
                 for($option_number = 0; $option_number < $number_of_options; $option_number ++)
                 {
                     $defaults['option_weight'][$option_number] = 1;
+                    $defaults['tolerance'][$option_number] = 1;
                 }
             }
         }
@@ -127,7 +130,7 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
             $_SESSION['match_skip_options'][] = $indexes[0];
         }
         $object = $this->get_content_object();
-        if (! $this->isSubmitted() && ! is_null($object))
+        if (! $this->isSubmitted() && $object->get_number_of_options() != 0)
         {
             $_SESSION['match_number_of_options'] = $object->get_number_of_options();
         }
@@ -138,10 +141,10 @@ class AssessmentMatchNumericQuestionForm extends ContentObjectForm
         $select_options = array();
         $select_options[AssessmentMatchNumericQuestion::TOLERANCE_TYPE_ABSOLUTE] = Translation::get(AssessmentMatchNumericQuestion::TOLERANCE_TYPE_ABSOLUTE);
         $select_options[AssessmentMatchNumericQuestion::TOLERANCE_TYPE_RELATIVE] = Translation::get(AssessmentMatchNumericQuestion::TOLERANCE_TYPE_RELATIVE);
-        $select_group = array();  
+        $select_group = array();
         $select_group[] = & $this->createElement('select', AssessmentMatchNumericQuestion::PROPERTY_TOLERANCE_TYPE, Translation :: get('Tolerance type'), $select_options);
         $this->addGroup($select_group, 'tolerance_type', Translation :: get('Tolerance type'), '', false);
-                
+
         $buttons = array();
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddItem'), array('class' => 'normal add', 'id' => 'add_option'));

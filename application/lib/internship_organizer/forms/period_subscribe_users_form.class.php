@@ -27,7 +27,7 @@ class InternshipOrganizerPeriodSubscribeUsersForm extends FormValidator
         $period = $this->period;
         $parent = $this->parent;
         
-        $this->addElement('select', InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, Translation :: get('InternshipOrganizerUserType'), InternshipOrganizerUserType :: get_user_type_names());
+        $this->addElement('select', InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, Translation :: get('InternshipOrganizerUserType'), InternshipOrganizerUserType :: get_period_user_type_names());
         $this->addRule(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $attributes = array();
@@ -91,7 +91,7 @@ class InternshipOrganizerPeriodSubscribeUsersForm extends FormValidator
                     $succes = $period_rel_user->create();
                     if ($succes)
                     {
-                        //                        Events :: trigger_event('create', 'period_rel_user', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
+                        //                        Event :: trigger('create', 'period_rel_user', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
                     }
                 }
             
@@ -126,7 +126,7 @@ class InternshipOrganizerPeriodSubscribeUsersForm extends FormValidator
                         $succes = $period_rel_user->create();
                         if ($succes)
                         {
-                            //                   Events :: trigger_event('create', 'period_rel_user', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
+                            //                   Event :: trigger('create', 'period_rel_user', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
                         }
                     }
                 }
@@ -154,7 +154,7 @@ class InternshipOrganizerPeriodSubscribeUsersForm extends FormValidator
                         $succes = $period_rel_group->create();
                         if ($succes)
                         {
-                            //                        Events :: trigger_event('create', 'period_rel_user', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
+                            //                        Event :: trigger('create', 'period_rel_user', array('target_period_id' => $period->get_id(), 'action_user_id' => $this->user->get_id()));
                         }
                     }
                 }

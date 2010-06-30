@@ -202,7 +202,7 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManager
 
         if ($succes)
         {
-            Events :: trigger_event('create_subscription', 'reservations', array('target_id' => $subscription->get_id(), 'user_id' => $this->get_user_id()));
+            Event :: trigger('create_subscription', 'reservations', array('target_id' => $subscription->get_id(), 'user_id' => $this->get_user_id()));
         }
 
         return $subscription;

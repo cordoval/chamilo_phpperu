@@ -2,26 +2,47 @@
 <application name="repository">
 	<settings>
 		<category name="administrator">
-			<setting name="description_required" field="checkbox"
-				default="1">
+			<setting name="description_required" field="checkbox" default="1">
 				<options type="static">
 					<option name="description_required" value="1" />
 				</options>
 			</setting>
 		</category>
 		<category name="allowed_content_objects">
-	
+
 		</category>
 		<category name="rights">
-			<setting name="use_cumulative_rights" field="checkbox"
-				default="0">
+			<setting name="use_cumulative_rights" field="checkbox" default="0">
 				<options type="static">
 					<option name="use_cumulative_rights" value="1" />
 				</options>
 			</setting>
 		</category>
 		<category name="streaming">
+			<setting name="youtube_enabled" field="checkbox" default="1">
+				<options type="static">
+					<option name="youtube_enabled" value="1" />
+				</options>
+			</setting>
+			<setting name="mediamosa_enabled" field="checkbox" default="0">
+				<options type="static">
+					<option name="mediamosa_enabled" value="1" />
+				</options>
+			</setting>
+		</category>
+		<category name="youtube">
 			<setting name="youtube_key" field="text" default="" />
+		</category>
+		<category name="mediamosa">
+			<setting name="mediamosa_url" field="text" default="" />
+			<setting name="mediamosa_username" field="text" default="" />
+			<setting name="mediamosa_password" field="text" default="" />
+
+			<setting name="mediamosa_mediafile_is_downloadable" field="checkbox" default="1">
+				<options type="static">
+					<option name="mediamosa_mediafile_is_downloadable" value="1" />
+				</options>
+			</setting>
 		</category>
 	</settings>
 </application>

@@ -54,7 +54,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
     {    	 
     	$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
     	
-        if($this->browser->is_subscribed($course, $this->browser->get_user_id()))
+        if($this->browser->is_subscribed($course, $this->browser->get_user()))
         {
             return Translation :: get('AlreadySubscribed');
         }

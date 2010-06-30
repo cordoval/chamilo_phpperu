@@ -20,8 +20,8 @@ require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/component/admin_course_browser/admin_course_browser_table.class.php';
 require_once dirname(__FILE__) . '/component/admin_course_type_browser/admin_course_type_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
-require_once dirname(__FILE__) . '/component/subscribe_group_browser/subscribe_group_browser_table.class.php';
+//require_once dirname(__FILE__) . '/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
+//require_once dirname(__FILE__) . '/component/subscribe_group_browser/subscribe_group_browser_table.class.php';
 require_once dirname(__FILE__) . '/component/admin_request_browser/admin_request_browser_table.class.php';
 require_once dirname(__FILE__) . '/../weblcms_block.class.php';
 require_once dirname(__FILE__) . '/../weblcms_rights.class.php';
@@ -156,6 +156,12 @@ class WeblcmsManager extends WebApplication
 	private $search_form;
 
 	private $request;
+	
+	/**
+	 * The new publications for each tool are cached here
+	 * @var Array[tool] = new publications count
+	 */
+	private static $new_publications;
 
 	/**
 	 * Constructor. Optionally takes a default tool; otherwise, it is taken
@@ -169,12 +175,13 @@ class WeblcmsManager extends WebApplication
 		$this->set_parameter(self :: PARAM_ACTION, Request :: get(self :: PARAM_ACTION));
 		$this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
 		$this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
-		$this->parse_input_from_table();
+		//$this->parse_input_from_table();
 
 		$this->course_type = $this->load_course_type();
 		$this->tools = array();
 		$this->course = new Course();
 		$this->load_course();
+		
 		$this->course_group = null;
 		$this->load_course_group();
 		$this->sections = array();
@@ -1212,55 +1219,35 @@ class WeblcmsManager extends WebApplication
 	 * new publication for the current user
 	 * @param string $tool
 	 */
-	function tool_has_new_publications($tool)
+	function tool_has_new_publications($tool, $course = null)
 	{
-		$class = Tool :: type_to_class($tool);
-		$tool_object = new $class($this);
-		if (is_subclass_of($tool_object, 'Tool'))
+		if($course == null)
 		{
-			$last_visit_date = $this->get_last_visit_date($tool);
-			$wdm = WeblcmsDataManager :: get_instance();
-			$course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(), $this->get_course())->as_array();
-
-			$conditions = array();
-			$conditions[] = new EqualityCondition('tool', $tool);
-			$conditions[] = new EqualityCondition('course_id', $this->get_course_id());
-			$conditions[] = new InequalityCondition('modified', InequalityCondition :: GREATER_THAN, $last_visit_date);
-
-			if ((! $this->get_course()->is_course_admin($this->get_user()) && ! $this->get_user()->is_platform_admin()))
-			{
-				// Only select visible publications
-				$conditions[] = new EqualityCondition('hidden', 0);
-				// Only select publications which are published forever OR
-				// of which the current time is in the publication period and the last visit date is before the from_date.
-				$conditions_publication_period = array();
-				$conditions_publication_period[] = new InequalityCondition('from_date', InequalityCondition :: LESS_THAN_OR_EQUAL, time());
-				$conditions_publication_period[] = new InequalityCondition('to_date', InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
-				$conditions_publication_period[] = new InequalityCondition('from_date', InequalityCondition :: GREATER_THAN_OR_EQUAL, $last_visit_date);
-				$condition_publication_period = new AndCondition($conditions_publication_period);
-				$condition_publication_forever = new EqualityCondition('from_date', 0);
-				$conditions[] = new OrCondition($condition_publication_forever, $condition_publication_period);
-			}
-
-			$user_id = $this->get_user_id();
-
-			$access = array();
-			$access[] = new InCondition('user_id', $user_id, 'content_object_publication_user');
-			$access[] = new InCondition('course_group_id', $course_groups, 'content_object_publication_course_group');
-			if (! empty($user_id) || ! empty($course_groups))
-			{
-				$access[] = new AndCondition(array(new EqualityCondition('user_id', null, 'content_object_publication_user'), new EqualityCondition('course_group_id', null, 'content_object_publication_course_group')));
-			}
-
-			$conditions[] = new OrCondition($access);
-			$condition = new AndCondition($conditions);
-
-			$new_items = $wdm->count_content_object_publications($condition);
-
-			return $new_items > 0;
+			$course = $this->get_course();
 		}
-
+		
+		if(!$course || $course->get_id() == 0)
+		{
+			return null;
+		}
+		
+		if(is_null(self :: $new_publications[$course->get_id()]))
+		{
+			self :: $new_publications[$course->get_id()] = $this->count_new_publications_from_course($course, $this->get_user());
+		}
+		
+		if(self :: $new_publications[$course->get_id()][$tool] && self :: $new_publications[$course->get_id()][$tool] > 0)
+		{
+			return true;
+		}
+		
 		return false;
+	}
+	
+	function count_new_publications_from_course($course, $user)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->count_new_publications_from_course($course, $user);
 	}
 
 	/**
@@ -1451,7 +1438,7 @@ class WeblcmsManager extends WebApplication
 	 */
 	function course_subscription_allowed($course)
 	{
-		return WeblcmsDataManager :: course_subscription_allowed($course, $this->get_user_id());
+		return WeblcmsDataManager :: course_subscription_allowed($course, $this->get_user());
 	}
 
 	/**
@@ -1467,13 +1454,13 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Checks whether the user is subscribed to the given course
 	 * @param Course $course
-	 * @param int $user_id
+	 * @param User $user
 	 * @return boolean
 	 */
-	function is_subscribed($course, $user_id)
+	function is_subscribed($course, $user)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->is_subscribed($course, $user_id);
+		return $wdm->is_subscribed($course, $user);
 	}
 
 	function is_teacher($course, $user)

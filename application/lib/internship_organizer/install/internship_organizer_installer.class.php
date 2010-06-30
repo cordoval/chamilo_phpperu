@@ -68,7 +68,7 @@ class InternshipOrganizerInstaller extends Installer
         $values = $this->get_form_values();
         
         $period = new InternshipOrganizerPeriod();
-        $period->set_name(Translation :: get('EhB'));
+        $period->set_name($values['organization_name']);
         $period->set_parent_id(0);
         $succes = $period->create();
         

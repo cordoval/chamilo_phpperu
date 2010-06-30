@@ -26,14 +26,20 @@ class AssessmentPublicationBrowserTable extends ObjectTable
         $model = new AssessmentPublicationBrowserTableColumnModel();
         $renderer = new AssessmentPublicationBrowserTableCellRenderer($browser);
         $data_provider = new AssessmentPublicationBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = array();
+        $actions = new ObjectTableFormActions(AssessmentManager :: PARAM_ACTION);
         
-        $actions[] = new ObjectTableFormAction(AssessmentManager :: PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATIONS, Translation :: get('RemoveSelected'));
+        $actions->add_form_action(new ObjectTableFormAction(AssessmentManager :: ACTION_DELETE_ASSESSMENT_PUBLICATION, Translation :: get('RemoveSelected')));
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
+    }
+    
+    function handle_table_action()
+    {
+    	$ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+    	Request :: set_get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $ids);
     }
 }
 ?>

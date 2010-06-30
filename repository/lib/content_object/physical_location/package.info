@@ -4,6 +4,7 @@
 		<name>PhysicalLocation</name>
 		<code>physical_location</code>
 		<section>content_object</section>
+		<category>general</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/p/physical_location/physical_location-1.0.0.zip</filename>

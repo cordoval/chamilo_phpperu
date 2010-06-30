@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../authentication.class.php';
  * This authentication class implements the default authentication method for
  * the platform using hashed passwords.
  */
-class PlatformAuthentication extends Authentication
+class PlatformAuthentication extends Authentication implements ChangeablePassword, ChangeableUsername
 {
 
     function PlatformAuthentication()
@@ -31,11 +31,6 @@ class PlatformAuthentication extends Authentication
 
             return Translation :: get("UsernameOrPasswordIncorrect");
         }
-    }
-
-    public function is_password_changeable($user)
-    {
-        return true;
     }
 
     /**
@@ -66,11 +61,6 @@ class PlatformAuthentication extends Authentication
     function get_password_requirements()
     {
         return Translation :: get('GeneralPasswordRequirements');
-    }
-
-    public function is_username_changeable()
-    {
-        return true;
     }
 
     function is_configured()

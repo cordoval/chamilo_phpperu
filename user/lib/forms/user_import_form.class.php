@@ -143,7 +143,7 @@ class UserImportForm extends FormValidator
 	                    $this->send_email($user);
 	                }
 	                
-	                Events :: trigger_event('import', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
+	                Event :: trigger('import', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
 	            }
         	}
         	elseif($action == 'U')

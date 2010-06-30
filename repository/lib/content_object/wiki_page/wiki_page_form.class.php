@@ -25,7 +25,7 @@ class WikiPageForm extends ContentObjectForm
 
     function setDefaults($defaults = array ())
     {
-        $defaults[ContentObject :: PROPERTY_TITLE] = Request :: get('title') == null ? NULL : Request :: get('title');
+        $defaults[ContentObject :: PROPERTY_TITLE] = Request :: get(ContentObject :: PROPERTY_TITLE) == null ? NULL : Request :: get(ContentObject :: PROPERTY_TITLE);
 
         parent :: setDefaults($defaults);
     }

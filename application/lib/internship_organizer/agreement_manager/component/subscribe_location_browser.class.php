@@ -47,8 +47,6 @@ class InternshipOrganizerAgreementManagerSubscribeLocationBrowserComponent exten
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerMoment'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_moment_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id())));
         
         return $action_bar;
@@ -67,22 +65,29 @@ class InternshipOrganizerAgreementManagerSubscribeLocationBrowserComponent exten
             $category_ids[] = $category_rel_period->get_category_id();
         }
         
-        $conditions = array();
-        //		$conditions [] = new EqualityCondition ( InternshipOrganizerAgreementRelLocation::PROPERTY_LOCATION_TYPE, $location_type );
-        
-
-        //        if (isset($query) && $query != '')
-        //        {
-        //            $search_conditions = array();
-        //            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_NAME, '*' . $query . '*');
-        //            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_STREET, '*' . $query . '*');
-        //            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_STREET_NUMBER, '*' . $query . '*');
-        //            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMoment :: PROPERTY_CITY, '*' . $query . '*');
-        //            
-        //            $conditions[] = new OrCondition($search_conditions);
-        //        }
-        return null;
-        //		return new AndCondition ( $conditions );
+        if (count($category_ids))
+        {
+            $conditions = array();
+            $conditions[] = new InCondition(InternshipOrganizerCategoryRelLocation :: PROPERTY_CATEGORY_ID, $category_ids);
+            
+            $query = $this->action_bar->get_query();
+            if (isset($query) && $query != '')
+            {
+                $search_conditions = array();
+                $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_NAME, '*' . $query . '*', InternshipOrganizerLocation :: get_table_name());
+                $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, '*' . $query . '*', InternshipOrganizerLocation :: get_table_name());
+                $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_ADDRESS, '*' . $query . '*', InternshipOrganizerLocation :: get_table_name());
+                $search_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*', InternshipOrganizerRegion :: get_table_name());
+                $search_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*', InternshipOrganizerRegion :: get_table_name());
+                $conditions[] = new OrCondition($search_conditions);
+            }
+            return new AndCondition($conditions);
+        }
+        else
+        {
+            return null;
+        }
+    
     }
 
     function get_agreement()

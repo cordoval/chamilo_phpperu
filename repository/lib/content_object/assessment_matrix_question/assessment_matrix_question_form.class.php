@@ -23,7 +23,7 @@ class AssessmentMatrixQuestionForm extends MatrixQuestionForm
     function setDefaults($defaults = array ())
     {
         $object = $this->get_content_object();
-        if (! is_null($object))
+        if ($object->get_number_of_options() != 0)
         {
             $options = $object->get_options();
             foreach ($options as $index => $option)
@@ -156,7 +156,7 @@ class AssessmentMatrixQuestionForm extends MatrixQuestionForm
                 $visual_number ++;
                 $group[] = $this->createElement('static', null, null, $visual_number);
                 $group[] = $this->create_html_editor(MatrixQuestionOption::PROPERTY_VALUE . '[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
-                
+
                 $group[] = $this->createElement('select', 'matches_to[' . $option_number . ']', Translation :: get('Matches'), $matches, array('class' => 'option_matches'));
                 $group[2]->setMultiple($multiple);
                 $group[] = $this->create_html_editor(AssessmentMatrixQuestionOption::PROPERTY_FEEDBACK . '[' . $option_number . ']', Translation :: get('Feedback'), $html_editor_options);

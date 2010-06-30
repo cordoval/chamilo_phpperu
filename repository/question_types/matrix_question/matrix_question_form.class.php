@@ -32,7 +32,7 @@ class MatrixQuestionForm extends ContentObjectForm
     function setDefaults($defaults = array ())
     {
         $object = $this->get_content_object();
-        if (! is_null($object))
+        if ($object->get_number_of_options() != 0)
         {
             $options = $object->get_options();
             foreach ($options as $index => $option)
@@ -179,7 +179,7 @@ class MatrixQuestionForm extends ContentObjectForm
         }
 
         $object = $this->get_content_object();
-        if (! $this->isSubmitted() && ! is_null($object))
+        if (! $this->isSubmitted() && $object->get_number_of_options() != 0)
         {
             $_SESSION['mq_number_of_options'] = $object->get_number_of_options();
             $_SESSION['mq_number_of_matches'] = $object->get_number_of_matches();

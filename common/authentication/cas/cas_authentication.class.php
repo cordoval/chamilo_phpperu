@@ -34,7 +34,7 @@ require_once ('CAS.php');
  *
  */
 
-class CasAuthentication extends Authentication
+class CasAuthentication extends Authentication implements UserRegistrationSupport
 {
     private $cas_settings;
 
@@ -64,7 +64,7 @@ class CasAuthentication extends Authentication
         if (get_class($user) == 'User')
         {
             Session :: register('_uid', $user->get_id());
-            Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
+            Event :: trigger('login', 'user', array('server' => $_SERVER, 'user' => $user));
 
             $request_uri = Session :: retrieve('request_uri');
 
@@ -91,29 +91,29 @@ class CasAuthentication extends Authentication
         }
     }
 
-    public function is_password_changeable($user)
-    {
-    	if (! $this->is_configured())
-        {
-            Display :: error_message(Translation :: get('CheckCASConfiguration'));
-            exit();
-        }
-        else
-        {
-        	$settings = $this->get_configuration();
-
-        	if ($settings['allow_change_password'] == true)
-        	{
-		        $cas_password_type = $this->determine_cas_password_type();
-		        $cas_password = CasPassword :: factory($cas_password_type, $user);
-		        return $cas_password->is_password_changeable();
-        	}
-        	else
-        	{
-        		return false;
-        	}
-        }
-    }
+//    public function is_password_changeable($user)
+//    {
+//    	if (! $this->is_configured())
+//        {
+//            Display :: error_message(Translation :: get('CheckCASConfiguration'));
+//            exit();
+//        }
+//        else
+//        {
+//        	$settings = $this->get_configuration();
+//
+//        	if ($settings['allow_change_password'] == true)
+//        	{
+//		        $cas_password_type = $this->determine_cas_password_type();
+//		        $cas_password = CasPassword :: factory($cas_password_type, $user);
+//		        return $cas_password->is_password_changeable();
+//        	}
+//        	else
+//        	{
+//        		return false;
+//        	}
+//        }
+//    }
 
     /**
      * Always returns false as the user's password
@@ -123,16 +123,16 @@ class CasAuthentication extends Authentication
      */
     function change_password($user, $old_password, $new_password)
     {
-        if (!self :: is_password_changeable($user))
-        {
+//        if (!self :: is_password_changeable($user))
+//        {
             return false;
-        }
-        else
-        {
-            $cas_password_type = $this->determine_cas_password_type();
-            $cas_password = CasPassword :: factory($cas_password_type, $user);
-            return $cas_password->set_password($old_password, $new_password);
-        }
+//        }
+//        else
+//        {
+//            $cas_password_type = $this->determine_cas_password_type();
+//            $cas_password = CasPassword :: factory($cas_password_type, $user);
+//            return $cas_password->set_password($old_password, $new_password);
+//        }
     }
 
     function get_password_requirements()
@@ -156,7 +156,7 @@ class CasAuthentication extends Authentication
     function determine_cas_password_type()
     {
         /**
-         * Use this in case yhe type is determined via
+         * Use this in case the type is determined via
          * a CAS attribute. Change the user attributes
          * key to whatever is defined in your CAS setup.
          */
@@ -177,16 +177,6 @@ class CasAuthentication extends Authentication
         {
             return $authentication_type;
         }
-    }
-
-    public function is_username_changeable()
-    {
-        return false;
-    }
-
-    public function can_register_new_user()
-    {
-        return true;
     }
 
     public function register_new_user($user_id)

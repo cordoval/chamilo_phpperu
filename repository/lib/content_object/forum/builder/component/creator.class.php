@@ -3,7 +3,6 @@
  * $Id: creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.forum.component
  */
-require_once dirname(__FILE__) . '/../../../../complex_builder/complex_repo_viewer.class.php';
 
 class ForumBuilderCreatorComponent extends ForumBuilder
 {
@@ -19,7 +18,7 @@ class ForumBuilderCreatorComponent extends ForumBuilder
         $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         $type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
 
-        $parameters = array('object' => $object, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id,
+        $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id,
         					ComplexBuilder :: PARAM_TYPE => $type);
 
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('Add' . Utilities :: underscores_to_camelcase($type))));
@@ -57,14 +56,13 @@ class ForumBuilderCreatorComponent extends ForumBuilder
 
         $pub->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
         $pub->set_excluded_objects($exclude);
-        $pub->parse_input();
 
         if (!$pub->is_ready_to_be_published())
         {
         	$t = is_array($type) ? implode(',', $type) : $type;
             //$p = $this->repository_data_manager->retrieve_content_object($parent);
         	//$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />';
-        	$html[] = $pub->as_html();
+        	$pub->run();
         }
         else
         {
@@ -95,11 +93,12 @@ class ForumBuilderCreatorComponent extends ForumBuilder
 
             }
 
-           $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));        }
+           $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));        
+        }
 
-        $this->display_header($trail);
+        /*$this->display_header($trail);
         echo '<br />' . implode("\n", $html);
-        $this->display_footer();
+        $this->display_footer();*/
     }
 
     private function retrieve_used_items($parent)

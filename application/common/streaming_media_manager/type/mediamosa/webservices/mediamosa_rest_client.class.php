@@ -46,7 +46,6 @@ class MediamosaRestClient extends RestClient{
      */
     function login($username, $password)
     {
-       xdebug_break();
        if($username && $password)
        {
            // step 1: request the challenge
@@ -286,7 +285,7 @@ class MediamosaRestClient extends RestClient{
             }
 
         }
-xdebug_break();
+
         $req_result = $request->sendRequest(true);
         if($req_result === true)
         {

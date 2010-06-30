@@ -12,6 +12,7 @@ class InternshipOrganizerPeriodManager extends SubManager
     const PARAM_ACTION = 'action';
     
     const PARAM_PERIOD_ID = 'period_id';
+    const PARAM_PARENT_PERIOD_ID = 'parent_id';
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_TRUNCATE_SELECTED = 'truncate';
     
@@ -22,6 +23,9 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_VIEW_PERIOD = 'view';
     const ACTION_PUBLISH_PERIOD = 'publish';
     const ACTION_SUBSCRIBE_USERS = 'subscribe_users';
+    const ACTION_REPORTING = 'reporting';
+    
+    
 //    const ACTION_SUBSCRIBE_USERS_TO_PERIOD = 'subscribe';
 
     function InternshipOrganizerPeriodManager($internship_manager)
@@ -57,6 +61,9 @@ class InternshipOrganizerPeriodManager extends SubManager
             case self :: ACTION_BROWSE_PERIODS :
                 $component = $this->create_component('Browser');
                 break;
+            case self :: ACTION_REPORTING :
+                $component = $this->create_component('Reporting');
+                break;    
             case self :: ACTION_PUBLISH_PERIOD :
                 $component = $this->create_component('Publisher');
                 break;    
@@ -148,7 +155,7 @@ class InternshipOrganizerPeriodManager extends SubManager
 
     function get_period_viewing_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id(), self :: PARAM_PARENT_PERIOD_ID => $period->get_parent_id()));
     }
 
     function get_period_delete_url($period)
@@ -156,6 +163,11 @@ class InternshipOrganizerPeriodManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 	
+	function get_period_reporting_url($period)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_PERIOD_ID => $period->get_id()));
+    }
+    
 	function get_period_publish_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_PERIOD));
@@ -166,6 +178,11 @@ class InternshipOrganizerPeriodManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USERS, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
+    function get_period_unsubscribe_user_url($user)
+    {
+    	return null;
+    }
+    
     private function parse_input_from_table()
     {
         if (isset($_POST[InternshipOrganizerPeriodBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))

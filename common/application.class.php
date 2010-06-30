@@ -354,7 +354,7 @@ abstract class Application
 
     /**
      * Gets the user id of this personal calendars owner
-     * @return int
+     * @return int The id of the current user
      */
     function get_user_id()
     {
@@ -363,7 +363,7 @@ abstract class Application
 
     /**
      * Gets the user.
-     * @return int The requested user.
+     * @return User The User object of the current user
      */
     function get_user()
     {

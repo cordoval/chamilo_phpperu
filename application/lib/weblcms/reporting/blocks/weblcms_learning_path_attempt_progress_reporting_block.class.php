@@ -129,7 +129,7 @@ class WeblcmsLearningPathAttemptProgressReportingBlock extends WeblcmsToolReport
             
             if (! $lp_tracker)
             {
-                $return = Events :: trigger_event('attempt_learning_path', 'weblcms', array('user_id' => Session :: get_user_id(), 'course_id' => $this->get_course_id(), 'lp_id' => $publication->get_content_object_id()));
+                $return = Event :: trigger('attempt_learning_path', 'weblcms', array('user_id' => Session :: get_user_id(), 'course_id' => $this->get_course_id(), 'lp_id' => $publication->get_content_object_id()));
                 $lp_tracker = $return[0];
             }
             

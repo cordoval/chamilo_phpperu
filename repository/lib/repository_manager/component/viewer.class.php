@@ -223,7 +223,7 @@ class RepositoryManagerViewerComponent extends RepositoryManager
                     $rights_url = $this->get_content_object_rights_editing_url($object);
                     $action_bar->add_common_action(new ToolbarItem(Translation :: get('Rights'), Theme :: get_common_image_path() . 'action_rights.png', $rights_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-                    if ($object->is_complex_content_object())
+                    if ($object instanceof ComplexContentObjectSupport)
                     {
                         $clo_url = $this->get_browse_complex_content_object_url($object);
                         $action_bar->add_common_action(new ToolbarItem(Translation :: get('BuildComplexContentObject'), Theme :: get_common_image_path() . 'action_bar.png', $clo_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));

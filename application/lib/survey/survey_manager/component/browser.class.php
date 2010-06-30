@@ -15,7 +15,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
 
         $this->action_bar = $this->get_action_bar();
         $menu = $this->get_menu();
-        $trail->merge($menu->get_breadcrumbs());
+        
         $this->display_header($trail);
 
         echo $this->action_bar->as_html();

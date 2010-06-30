@@ -4,6 +4,7 @@
 		<name>YouTube Video</name>
 		<code>youtube</code>
 		<section>content_object</section>
+		<category>media</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/y/youtube/youtube-1.0.0.zip</filename>

@@ -89,7 +89,7 @@ class InternshipOrganizerRegionForm extends FormValidator
         
         //        if ($value)
         //        {
-        //            Events :: trigger_event('update', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $this->user->get_id()));
+        //            Event :: trigger('update', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $this->user->get_id()));
         //        }
         
 
@@ -110,7 +110,7 @@ class InternshipOrganizerRegionForm extends FormValidator
         
         //        if ($value)
         //        {
-        //            Events :: trigger_event('create', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $this->user->get_id()));
+        //            Event :: trigger('create', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $this->user->get_id()));
         //        }
         
 

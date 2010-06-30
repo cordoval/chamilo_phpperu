@@ -278,14 +278,14 @@ class SubscriptionForm extends FormValidator
         $result = $subscription->create();
         
         if ($result)
-            Events :: trigger_event('create_subscription', 'reservations', array('target_id' => $subscription->get_id(), 'user_id' => $this->user->get_id()));
+            Event :: trigger('create_subscription', 'reservations', array('target_id' => $subscription->get_id(), 'user_id' => $this->user->get_id()));
         
         foreach ($subs as $sub)
         {
             $res = $sub->create();
             
             if ($res)
-                Events :: trigger_event('create_subscription', 'reservations', array('target_id' => $sub->get_id(), 'user_id' => $this->user->get_id()));
+                Event :: trigger('create_subscription', 'reservations', array('target_id' => $sub->get_id(), 'user_id' => $this->user->get_id()));
             
             $result &= $res;
         }

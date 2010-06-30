@@ -4,6 +4,7 @@
 		<name>Criteria</name>
 		<code>criteria</code>
 		<section>content_object</section>
+		<category>peer_assessment</category>
 		<author>Sven Vanpoucke</author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/c/criteria/criteria-1.0.0.zip</filename>

@@ -9,7 +9,7 @@
 
 require_once (dirname(__FILE__) . '/survey_context.class.php');
 
-class Survey extends ContentObject
+class Survey extends ContentObject implements ComplexContentObjectSupport
 {
     const PROPERTY_HEADER = 'header';
     const PROPERTY_FOOTER = 'footer';
@@ -127,9 +127,7 @@ class Survey extends ContentObject
 
     function get_allowed_types()
     {
-        $allowed_types = array();
-        $allowed_types[] = SurveyPage :: get_type_name();
-        return $allowed_types;
+        return array(SurveyPage :: get_type_name());
     }
 
     function get_table()

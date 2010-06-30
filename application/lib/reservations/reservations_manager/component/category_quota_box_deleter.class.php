@@ -56,7 +56,7 @@ class ReservationsManagerCategoryQuotaBoxDeleterComponent extends ReservationsMa
                 }
                 else
                 {
-                    Events :: trigger_event('delete_quota_box_category', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+                    Event :: trigger('delete_quota_box_category', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
                 }
                 
                 $subcats = Category :: retrieve_sub_categories($category, true);
@@ -77,7 +77,7 @@ class ReservationsManagerCategoryQuotaBoxDeleterComponent extends ReservationsMa
                     }
                     else
                     {
-                        Events :: trigger_event('delete_quota_box', 'reservations', array('target_id' => $box->get_id(), 'user_id' => $this->get_user_id()));
+                        Event :: trigger('delete_quota_box', 'reservations', array('target_id' => $box->get_id(), 'user_id' => $this->get_user_id()));
                     }
                 }
             }

@@ -33,7 +33,7 @@ class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrg
                 }
                 //                else
             //                {
-            //                    Events :: trigger_event('empty', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
+            //                    Event :: trigger('empty', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
             //                }
             }
             

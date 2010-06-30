@@ -10,7 +10,14 @@ class DocumentToolBrowserComponent extends DocumentTool
 
     function run()
     {
-        $tool_component = ToolComponent :: factory(ToolComponent :: ACTION_BROWSE, $this);
+        //TODO: change this to real roles and rights
+    	$category = $this->get_category(Request :: get(WeblcmsManager :: PARAM_CATEGORY));
+        if($category && $category->get_name() == 'Dropbox')
+        {
+        	$this->get_parent()->set_right(ADD_RIGHT, true);
+        }
+        
+    	$tool_component = ToolComponent :: factory(ToolComponent :: ACTION_BROWSE, $this);
         $tool_component->run();
     }
 

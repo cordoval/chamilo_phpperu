@@ -128,6 +128,8 @@ $lang['internship_organizer']['NoInternshipOrganizerPeriodsSelected'] = 'No Peri
 $lang['internship_organizer']['NoUsers'] = 'No Users';
 $lang['internship_organizer']['NoSubperiods'] = 'No Subperiods';
 $lang['internship_organizer']['Periods'] = 'Periodes';
+$lang['internship_organizer']['ParentPeriod'] = 'Parent';
+
 
 $lang['internship_organizer']['CreateInternshipOrganizerRegion'] = 'Create Region';
 $lang['internship_organizer']['InternshipOrganizerRegionCreated'] = 'Region Created';
@@ -161,6 +163,9 @@ $lang['internship_organizer']['Regions'] = 'Regions';
 $lang['internship_organizer']['Subregions'] = 'Subregions';
 $lang['internship_organizer']['Subperiods'] = 'Subperiods';
 $lang['internship_organizer']['ViewPeriod'] = 'View Period';
+$lang['internship_organizer']['FromDate'] = 'From';
+$lang['internship_organizer']['ToDate'] = 'To';
+$lang['internship_organizer']['NoDate'] = 'no date';
 
 
 $lang['internship_organizer']['InternshipOrganizer'] = 'Internship Organizer';
@@ -204,8 +209,23 @@ $lang['internship_organizer']['InternshipOrganizerStudent'] = 'Student';
 $lang['internship_organizer']['InternshipOrganizerOrganisations'] = 'Organisation';
 $lang['internship_organizer']['InternshipOrganizerLocations'] = 'Locations';
 $lang['internship_organizer']['InternshipOrganizerMentors'] = 'Mentors';
+$lang['internship_organizer']['InternshipOrganizerStudents'] = 'Students';
 $lang['internship_organizer']['InternshipOrganizerCoordinators'] = 'Coordinators';
 $lang['internship_organizer']['InternshipOrganizerCoaches'] = 'Coaches';
+$lang['internship_organizer']['InternshipOrganizerAgreements'] = 'Agreements';
+$lang['internship_organizer']['InternshipOrganizerTypeOfPublication'] = 'Type of document';
+$lang['internship_organizer']['InternshipOrganizerContract'] = 'Contract';
+$lang['internship_organizer']['InternshipOrganizerPreparation'] = 'Preparation';
+$lang['internship_organizer']['InternshipOrganizerEvaluation'] = 'Evaluation';
+$lang['internship_organizer']['InternshipOrganizerInfo'] = 'Info';
+$lang['internship_organizer']['InternshipOrganizerGeneral'] = 'General';
+
+
+
+
+$lang['internship_organizer']['InternshipOrganizerPublications'] = 'Publications';
+
+
 $lang['internship_organizer']['InternshipOrganizerUsers'] = 'Users';
 $lang['internship_organizer']['AddInternshipOrganizerMentor'] = 'add mentor';
 
@@ -220,5 +240,47 @@ $lang['internship_organizer']['InternshipOrganizerAgreementApproved'] = 'Approve
 
 $lang['internship_organizer']['InternshipOrganizerAgreementRelLocationPreferenceUp'] = 'favorised Organisation';
 $lang['internship_organizer']['InternshipOrganizerAgreementRelLocationPreferenceDown'] = 'Lowered preference for organisation';
+
+//reporting
+
+$lang['internship_organizer']['Table'] = 'Table';
+$lang['internship_organizer']['Chart:Pie'] = 'Pie Chart';
+$lang['internship_organizer']['Chart:Bar'] = 'Bar Chart';
+$lang['internship_organizer']['Chart:Line'] = 'Line Chart';
+$lang['internship_organizer']['Chart:FilledCubic'] = 'Filled Cubic Chart';
+
+$lang['internship_organizer']['InternshipOrganizerGroup'] = 'Group';
+$lang['internship_organizer']['InternshipOrganizerUser'] = 'User';
+$lang['internship_organizer']['InternshipOrganizerFirstname'] = 'Firstname';
+$lang['internship_organizer']['InternshipOrganizerLastname'] = 'Lastname';
+$lang['internship_organizer']['InternshipOrganizerEmail'] = 'Email';
+$lang['internship_organizer']['InternshipOrganizerAgreementName'] = 'Name';
+$lang['internship_organizer']['InternshipOrganizerAgreementDescription'] = 'Description';
+$lang['internship_organizer']['InternshipOrganizerPeriod'] = 'Period';
+$lang['internship_organizer']['InternshipOrganizerBegin'] = 'Begin';
+$lang['internship_organizer']['InternshipOrganizerEnd'] = 'End';
+$lang['internship_organizer']['InternshipOrganizerStatus'] = 'Status';
+
+
+$lang['internship_organizer']['Count'] = 'Count';
+$lang['internship_organizer']['InternshipOrganizerTotal'] = 'Total';
+$lang['internship_organizer']['ExportToExcel'] = 'Export to Excel';
+
+$lang['internship_organizer']['InternshipOrganizerPeriodReportingTemplate'] = 'Period report';
+$lang['internship_organizer']['InternshipOrganizerPeriodUserTypeCountReportingBlock'] = 'Period user types count';
+$lang['internship_organizer']['InternshipOrganizerPeriodUserCountReportingBlock'] = 'Period user count';
+$lang['internship_organizer']['InternshipOrganizerPeriodStudentReportingBlock'] = 'Students';
+$lang['internship_organizer']['InternshipOrganizerPeriodCoordinatorReportingBlock'] = 'Coordinators';
+$lang['internship_organizer']['InternshipOrganizerPeriodCoachReportingBlock'] = 'Coaches';
+
+$lang['internship_organizer']['InternshipOrganizerAgreementReportingTemplate'] = 'Agreement report';
+$lang['internship_organizer']['InternshipOrganizerAgreementCoordinatorReportingBlock'] = 'Coordinator';
+$lang['internship_organizer']['InternshipOrganizerAgreementStudentReportingBlock'] = 'Student';
+$lang['internship_organizer']['InternshipOrganizerAgreementMentorReportingBlock'] = 'Mentor';
+$lang['internship_organizer']['InternshipOrganizerAgreementCoachReportingBlock'] = 'Coach';
+$lang['internship_organizer']['InternshipOrganizerAgreementAddLocationReportingBlock'] = 'Add location';
+$lang['internship_organizer']['InternshipOrganizerAgreementToApproveReportingBlock'] = 'To Approve';
+
+
 
 ?>

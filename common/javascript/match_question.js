@@ -1,7 +1,5 @@
 /*global $, document, FCKeditor, renderFckEditor, getPath, getTranslation, getTheme */
 
-$(function ()
-{
     var skippedOptions = 0, baseWebPath = getPath('WEB_PATH'), currentNumberOfOptions;
     
     function getDeleteIcon()
@@ -31,12 +29,11 @@ $(function ()
 		
 		rows.each(function ()
 		{
-			var remove_option, name, id, appendField;
-
-			remove_option = $('.remove_option', this);
-			name = remove_option.attr('name');
-			
-		    id = name.substr(7, name.length - 8);
+			var weightField, weightFieldName, id, appendField;
+		    
+			weightField = $('input[name*="option_weight"]', this);
+			weightFieldName = weightField.attr('name');
+		    id = weightFieldName.substr(14, weightFieldName.length - 15);
 		    appendField = deleteField.replace(/\$option_number/g, id);
 	
 		    $('.remove_option', this).remove();
@@ -141,4 +138,3 @@ $(function ()
 		//$('.data_table tbody tr td:nth-child(2)').hide();
     });
     
-});

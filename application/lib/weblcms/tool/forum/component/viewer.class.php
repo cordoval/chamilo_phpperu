@@ -49,7 +49,7 @@ class ForumToolViewerComponent extends ForumTool
     
 	function topic_viewed($complex_topic_id)
     {
-    	Events :: trigger_event('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $this->publication_id, 'forum_topic_id' => $complex_topic_id));
+    	Event :: trigger('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $this->publication_id, 'forum_topic_id' => $complex_topic_id));
     }
     
 	function count_topic_views($complex_topic_id)

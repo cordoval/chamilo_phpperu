@@ -212,11 +212,11 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         return $this->count_objects(SurveyPublicationGroup :: get_table_name(), $condition);
     }
 
-    function retrieve_survey_publication_group($id)
-    {
-        $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_ID, $id);
-        return $this->retrieve_object(SurveyPublicationGroup :: get_table_name(), $condition, array(), SurveyPublicationGroup :: CLASS_NAME);
-    }
+//    function retrieve_survey_publication_group($id)
+//    {
+//        $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_ID, $id);
+//        return $this->retrieve_object(SurveyPublicationGroup :: get_table_name(), $condition, array(), SurveyPublicationGroup :: CLASS_NAME);
+//    }
 
     function retrieve_survey_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
@@ -245,11 +245,11 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         return $this->count_objects(SurveyPublicationUser :: get_table_name(), $condition);
     }
 
-    function retrieve_survey_publication_user($id)
-    {
-        $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_ID, $id);
-        return $this->retrieve_object(SurveyPublicationUser :: get_table_name(), $condition, array(), SurveyPublicationUser :: CLASS_NAME);
-    }
+//    function retrieve_survey_publication_user($id)
+//    {
+//        $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_ID, $id);
+//        return $this->retrieve_object(SurveyPublicationUser :: get_table_name(), $condition, array(), SurveyPublicationUser :: CLASS_NAME);
+//    }
 
     function retrieve_survey_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {

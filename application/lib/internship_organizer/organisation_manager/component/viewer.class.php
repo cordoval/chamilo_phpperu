@@ -5,7 +5,9 @@
 
 //require_once dirname ( __FILE__ ) . '/rel_location_browser/rel_location_browser_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/location_browser/browser_table.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/mentor_browser/browser_table.class.php';
+//require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/mentor_browser/browser_table.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/rel_mentor_browser/rel_mentor_browser_table.class.php';
+
 require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/rel_user_browser/rel_user_browser_table.class.php';
 
 
@@ -59,7 +61,7 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
         
         $parameters = $this->get_parameters();
         $parameters[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID] = $this->organisation->get_id();
-        $table = new InternshipOrganizerMentorBrowserTable($this, $parameters, $this->get_mentor_condition());
+        $table = new InternshipOrganizerMentorRelLocationBrowserTable($this, $parameters, $this->get_mentor_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_MENTORS, Translation :: get('InternshipOrganizerMentors'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         $parameters = $this->get_parameters();
@@ -115,16 +117,16 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
         
         $query = $this->action_bar->get_query();
         $conditions = array();
-        $organisation_id = $this->organisation->get_id();
-        $conditions[] = new EqualityCondition(InternshipOrganizerMentor :: PROPERTY_ORGANISATION_ID, $organisation_id);
+        $location_ids = $this->organisation->get_location_ids();
+        $conditions[] = new InCondition(InternshipOrganizerMentorRelLocation :: PROPERTY_LOCATION_ID, $location_ids);
         
         if (isset($query) && $query != '')
         {
             $search_conditions = array();
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME, '*' . $query . '*');
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_LASTNAME, '*' . $query . '*');
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_TITLE, '*' . $query . '*');
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_EMAIL, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME, '*' . $query . '*', InternshipOrganizerMentor :: get_table_name());
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_LASTNAME, '*' . $query . '*', InternshipOrganizerMentor :: get_table_name());
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_TITLE, '*' . $query . '*', InternshipOrganizerMentor :: get_table_name());
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_EMAIL, '*' . $query . '*', InternshipOrganizerMentor :: get_table_name());
             $conditions[] = new OrCondition($search_conditions);
         }
         return new AndCondition($conditions);

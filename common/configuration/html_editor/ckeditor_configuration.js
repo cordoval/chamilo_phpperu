@@ -13,8 +13,6 @@ CKEDITOR.editorConfig = function( config )
 	config.removePlugins = 'flash,elementspath,resize';
 	config.menu_groups = config.menu_groups + ',chamiloflash,chamiloyoutube,chamilovideo,chamiloaudio,chamilodailymotion,chamilovimeo,latex';
 	
-	
-	
 	config.toolbar_Full =
 		[
 		    ['Source','-','Save','NewPage','Preview','-','Templates'],
@@ -52,7 +50,7 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.toolbar_WikiPage =
 		[
-		 	['Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','-','Templates']
+		 	['Source','-','Maximize','-','Bold','Italic','Underline','-','NumberedList', 'BulletedList','-','Link','Unlink','-','TextColor','BGColor','-','HorizontalRule','-','Image','Chamiloflash','-','Templates']
 		];
 
 	config.toolbar_RepositoryQuestion =

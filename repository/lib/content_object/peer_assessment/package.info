@@ -4,6 +4,7 @@
 		<name>Peer Assessment</name>
 		<code>peer_assessment</code>
 		<section>content_object</section>
+		<category>peer_assessment</category>
 		<author>Sven Vanpoucke</author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/p/peer_assessment/peer_assessment-1.0.0.zip</filename>

@@ -107,8 +107,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $max_objects = null;
         }
-        //        echo $query; dump($params);
 
+        //dump($query);
+        //dump($params);
 
         $this->set_limit(intval($max_objects), intval($offset));
         $res = $this->query($query);
@@ -1108,10 +1109,12 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         if (isset($type))
         {
+            $alias_type_table = $this->get_alias($type);
+
             switch ($type)
             {
                 case 'complex_wiki_page' :
-                    $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $alias) . ' = ' . $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID, self :: ALIAS_TYPE_TABLE);
+                    $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . $alias_type_table . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $alias) . ' = ' . $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID, $alias_type_table);
             }
         }
         $lo_alias = $this->get_alias(ContentObject :: get_table_name());
@@ -1146,7 +1149,6 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $res = $this->query($query);
 
         return new DatabaseComplexContentObjectItemResultSet($this, $res, true);
-        //return $this->retrieve_objects('complex_content_object_item', $condition, $offset, $max_objects, $order_by, 'DatabaseComplexContentObjectItemResultSet');
     }
 
     function select_next_display_order_forum($parent_id)

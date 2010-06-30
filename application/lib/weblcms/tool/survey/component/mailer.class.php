@@ -297,7 +297,7 @@ class SurveyToolMailerComponent extends SurveyTool
             
             $args[WeblcmsSurveyParticipantMailTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $survey_id;
             
-            $tracker = Events :: trigger_event('weblcms_survey_participation_mail', 'weblcms', $args);
+            $tracker = Event :: trigger('weblcms_survey_participation_mail', 'weblcms', $args);
         }
     
     }

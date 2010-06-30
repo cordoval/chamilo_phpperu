@@ -4,7 +4,6 @@
  * @package application.lib.weblcms.tool.user.component
  */
 require_once dirname(__FILE__) . '/../user_tool.class.php';
-require_once dirname(__FILE__) . '/../../../weblcms_manager/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
 
 class UserToolSubscribeBrowserComponent extends UserTool
 {
@@ -20,7 +19,7 @@ class UserToolSubscribeBrowserComponent extends UserTool
 
         $this->action_bar = $this->get_action_bar();
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)), Translation :: get('SubscribeUsers')));
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USER_BROWSER)), Translation :: get('SubscribeUsers')));
         $trail->add_help('courses user');
 
         $this->display_header($trail, true);
@@ -35,7 +34,7 @@ class UserToolSubscribeBrowserComponent extends UserTool
 
     function get_user_subscribe_html()
     {
-        $table = new SubscribedUserBrowserTable($this, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => 'user', UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS, 'application' => 'weblcms'), $this->get_subscribe_condition());
+        $table = new SubscribedUserBrowserTable($this, $this->get_parameters(), $this->get_subscribe_condition());
 
         $html = array();
         $html[] = $table->as_html();
@@ -47,9 +46,9 @@ class UserToolSubscribeBrowserComponent extends UserTool
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->set_search_url($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)));
+        $action_bar->set_search_url($this->get_url());
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USERS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewUsers'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USER_BROWSER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('RequestUser'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_REQUEST_SUBSCRIBE_USER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;

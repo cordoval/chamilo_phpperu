@@ -20,7 +20,7 @@ class Redirect
         $link = self :: get_link($application, $parameters, $filter, $encode_entities, $type);
         self :: write_header($link);
     }
-    
+
     static function web_link($url, $parameters = array (), $encode_entities = false)
     {
     	$link = self :: get_web_link($url, $parameters, $encode_entities);
@@ -88,7 +88,7 @@ class Redirect
 
         return self :: get_web_link($url, $parameters, $encode_entities);
     }
-    
+
     static function get_web_link($url, $parameters = array (), $encode_entities = false)
     {
     	if (count($parameters))
@@ -108,7 +108,7 @@ class Redirect
     }
 
     static function write_header($url)
-    {  
+    {
     	if(headers_sent($filename, $line))
     	{
     		throw new Exception('headers already sent in ' . $filename . ' on line ' . $line);

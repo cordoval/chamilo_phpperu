@@ -30,7 +30,7 @@ class OrderingQuestionForm extends ContentObjectForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
-            if (! is_null($object))
+            if ($object->get_number_of_options() != 0)
             {
                 $options = $object->get_options();
                 foreach ($options as $index => $option)
@@ -111,7 +111,7 @@ class OrderingQuestionForm extends ContentObjectForm
             $_SESSION['ordering_skip_options'][] = $indexes[0];
         }
         $object = $this->get_content_object();
-        if (! $this->isSubmitted() && ! is_null($object))
+        if (! $this->isSubmitted() && $object->get_number_of_options() != 0)
         {
             $_SESSION['ordering_number_of_options'] = $object->get_number_of_options();
         }

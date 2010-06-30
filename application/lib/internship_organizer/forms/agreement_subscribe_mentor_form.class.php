@@ -42,7 +42,7 @@ class InternshipOrganizerAgreementSubscribeMentorForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Mentors'), $url, $locale, array(), array('load_elements' => true));
+        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('InternshipOrganizerMentors'), $url, $locale, array(), array('load_elements' => true));
         $defaults = array();
         $elem->setDefaults($defaults);
         $elem->setDefaultCollapsed(false);
@@ -81,7 +81,7 @@ class InternshipOrganizerAgreementSubscribeMentorForm extends FormValidator
                 $succes = $agreement_rel_mentor->create();
                 if ($succes)
                 {
-                    //                        Events :: trigger_event('create', 'agreement_rel_user', array('target_agreement_id' => $agreement->get_id(), 'action_user_id' => $this->user->get_id()));
+                    //                        Event :: trigger('create', 'agreement_rel_user', array('target_agreement_id' => $agreement->get_id(), 'action_user_id' => $this->user->get_id()));
                 }
             }
         

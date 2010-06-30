@@ -73,9 +73,9 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
                 $html[] = $form->toHtml();
                 $html[] = '<div style="clear: both;"></div>';
 
-                $this->parent->display_header();
+                $this->display_header();
                 echo implode("\n", $html);
-                $this->parent->display_footer();
+                $this->display_footer();
             }
         }
     }

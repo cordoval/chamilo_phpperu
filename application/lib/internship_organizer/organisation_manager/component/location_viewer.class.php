@@ -51,7 +51,7 @@ class InternshipOrganizerOrganisationManagerLocationViewerComponent extends Inte
         echo '<div class="title">' . Translation :: get('Details') . '</div>';
         echo '<b>' . Translation :: get('Name') . '</b>: ' . $location->get_name();
         echo '<br /><b>' . Translation :: get('Address') . '</b>: ' . $location->get_address();
-        echo '<br /><b>' . Translation :: get('Postcode') . '</b>: ' . $region->get_zip_code();
+        echo '<br /><b>' . Translation :: get('ZipCode') . '</b>: ' . $region->get_zip_code();
         echo '<br /><b>' . Translation :: get('City') . '</b>: ' . $region->get_city_name();
         echo '<br /><b>' . Translation :: get('Telephone') . '</b>: ' . $location->get_telephone();
         echo '<br /><b>' . Translation :: get('Fax') . '</b>: ' . $location->get_fax();

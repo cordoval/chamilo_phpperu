@@ -132,7 +132,7 @@ class GroupForm extends FormValidator
         
         if ($value)
         {
-            Events :: trigger_event('update', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $this->user->get_id()));
+            Event :: trigger('update', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $this->user->get_id()));
         }
         
         return $value;
@@ -157,7 +157,7 @@ class GroupForm extends FormValidator
         
         if ($value)
         {
-            Events :: trigger_event('create', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $this->user->get_id()));
+            Event :: trigger('create', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $this->user->get_id()));
         }
         
         return $value;

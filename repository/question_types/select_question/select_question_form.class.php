@@ -27,7 +27,7 @@ class SelectQuestionForm extends ContentObjectForm
     	if (! $this->isSubmitted())
         {
             $object = $this->get_content_object();
-            if (! is_null($object))
+            if ($object->get_number_of_options() != 0)
             {
                 $options = $object->get_options();
                 foreach ($options as $index => $option)
@@ -118,7 +118,7 @@ class SelectQuestionForm extends ContentObjectForm
             $_SESSION['select_answer_type'] = $_SESSION['select_answer_type'] == 'radio' ? 'checkbox' : 'radio';
         }
         $object = $this->get_content_object();
-        if (! $this->isSubmitted() && ! is_null($object))
+        if (! $this->isSubmitted() && $object->get_number_of_options() != 0)
         {
             $_SESSION['select_number_of_options'] = $object->get_number_of_options();
             $_SESSION['select_answer_type'] = $object->get_answer_type();

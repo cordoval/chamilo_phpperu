@@ -33,7 +33,7 @@ class InternshipOrganizerOrganisationBrowserTableDataProvider extends ObjectTabl
      */
     function get_object_count()
     {
-        return $this->get_browser()->count_organisations($this->get_condition());
+    	return $this->get_browser()->count_organisations($this->get_condition());
     }
 }
 ?>

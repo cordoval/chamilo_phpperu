@@ -41,7 +41,7 @@ class UserManagerActiveChangerComponent extends UserManager
 	            
 	            if ($user->update())
 	            {
-	                Events :: trigger_event('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+	                Event :: trigger('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
 	            }
 	            else
 	            {

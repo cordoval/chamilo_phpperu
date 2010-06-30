@@ -13,7 +13,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
 class ComplexMenu extends HTML_Menu
 {
 	const TREE_NAME = __CLASS__;
-	
+
     private $cloi;
     private $root;
     /**
@@ -119,14 +119,14 @@ class ComplexMenu extends HTML_Menu
         {
         	$lo = $datamanager->retrieve_content_object($cloi->get_ref());
         	$url = null;
-        	
+
             if($lo->get_type() == LearningPathItem :: get_type_name())
             {
                 $lo = $datamanager->retrieve_content_object($lo->get_reference());
                 $url = $this->get_build_complex_url($lo);
             }
-                
-        	if ($lo->is_complex_content_object() || $this->view_entire_structure)
+
+        	if ($lo instanceof ComplexContentObjectSupport || $this->view_entire_structure)
             {
                 $menu_item = array();
                 $menu_item['title'] = $lo->get_title();
@@ -168,7 +168,7 @@ class ComplexMenu extends HTML_Menu
         }
         return htmlentities(sprintf($this->urlFmt, $cloi->get_id(), $this->root->get_id()));
     }
-    
+
     private function get_build_complex_url($object)
     {
     	return Path :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=complex_builder&' . RepositoryManager :: PARAM_CONTENT_OBJECT_ID . '=' . $object->get_id();
@@ -200,7 +200,7 @@ class ComplexMenu extends HTML_Menu
         $this->render($renderer, 'sitemap');
         return $renderer->toHTML();
     }
-    
+
     static function get_tree_name()
     {
     	return Utilities :: camelcase_to_underscores(self :: TREE_NAME);

@@ -4,6 +4,7 @@
 		<name>Portfolio</name>
 		<code>portfolio</code>
 		<section>content_object</section>
+		<category>collaboration</category>
 		<author></author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/p/portfolio/portfolio-1.0.0.zip</filename>

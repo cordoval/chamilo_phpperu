@@ -27,7 +27,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyCourses')));
         $trail->add_help('courses general');
         
         $this->message = Request :: get('message');
@@ -54,7 +53,9 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         while ($course_type = $course_active_types->next_result())
         {
             $conditions = array();
-            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+            $user_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+            $group_condition = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());
+            $conditions[] = new OrCondition($user_condition, $group_condition);
             $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
             $condition = new AndCondition($conditions);
             $order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager :: get_instance()->get_alias(CourseUserRelation :: get_table_name()));
@@ -67,6 +68,9 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         }
         
         $conditions = array();
+        $user_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
+        $group_condition = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());
+        $conditions[] = new OrCondition($user_condition, $group_condition);
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
         $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
         $condition = new AndCondition($conditions);
@@ -300,8 +304,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
             
             if ($setting == self :: SEPERATED)
             {
-                $html[] = '<div class="title" style="background-image: url('. Theme :: get_image_path() .'course_status_'. Utilities :: camelcase_to_underscores($view_category->get_title()) .'.png);"><div style="float: left;">';
-//                $html[] = '<img src="'. Theme :: get_image_path() .'course_status_'. Utilities :: camelcase_to_underscores($view_category->get_title()) .'.png"/> ';
+                $html[] = '<div class="title" style="background-image: url(' . Theme :: get_image_path() . 'course_status_' . Utilities :: camelcase_to_underscores($view_category->get_title()) . '.png);"><div style="float: left;">';
+                //                $html[] = '<img src="'. Theme :: get_image_path() .'course_status_'. Utilities :: camelcase_to_underscores($view_category->get_title()) .'.png"/> ';
                 $html[] = htmlentities($title);
                 
                 $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
@@ -368,7 +372,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
             {
                 $wdm = WeblcmsDataManager :: get_instance();
                 $course = $wdm->retrieve_course($course->get_id());
-                //$tools = $course->get_tools();
+                $tools = $course->get_tools(false);
                 
 
                 if ($course->get_access() || $this->is_teacher($course, $this->get_user()))
@@ -381,8 +385,8 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
                 }
                 
                 foreach ($tools as $index => $tool)
-                {
-                    if ($tool->visible && $this->tool_has_new_publications($tool->name))
+                { 
+                    if ($tool->visible && $this->tool_has_new_publications($tool->name, $course))
                     {
                         $params[WeblcmsManager :: PARAM_TOOL] = $tool->name;
                         $params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();

@@ -46,7 +46,7 @@ class UserManagerResetPasswordComponent extends UserManager
             if ($this->get_user_key($user) == $request_key)
             {
                 $this->create_new_password($user);
-                Events :: trigger_event('reset_password', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
+                Event :: trigger('reset_password', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
                 Display :: normal_message('lang_your_password_has_been_emailed_to_you');
             }
             else
@@ -78,7 +78,7 @@ class UserManagerResetPasswordComponent extends UserManager
                     {
                         $auth_source = $user->get_auth_source();
                         $auth = Authentication :: factory($auth_source);
-                        if (! $auth->is_password_changeable())
+                        if (! $auth instanceof ChangeablePassword)
                         {
                             Display :: error_message('ResetPasswordNotPossibleForThisUser');
                         }

@@ -20,13 +20,13 @@ abstract class StreamingMediaManager extends SubManager
 	
 	function StreamingMediaManager($application)
 	{
-		parent :: __construct($application);
-		
-		$streaming_media_manager_action = Request :: get(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION);
-        if ($streaming_media_manager_action)
-        {
-            $this->set_parameter(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION, $streaming_media_manager_action);
-        }
+            parent :: __construct($application);
+
+            $streaming_media_manager_action = Request :: get(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION);
+            if ($streaming_media_manager_action)
+            {
+                $this->set_parameter(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION, $streaming_media_manager_action);
+            }
 	}
 	
 	function is_stand_alone()
@@ -76,48 +76,48 @@ abstract class StreamingMediaManager extends SubManager
 	
 	function display_header()
 	{
-		$action = $this->get_action();
-		parent :: display_header();
-		
-		$html = array();
-		$html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-        $streaming_media_actions = $this->get_streaming_media_actions();
-        
-        if ($action == self :: ACTION_EDIT_STREAMING_MEDIA)
-        {
-        	$streaming_media_actions[] = self :: ACTION_EDIT_STREAMING_MEDIA;
-        }
-        
-		if($action == self :: ACTION_VIEW_STREAMING_MEDIA)
-        {
-        	$streaming_media_actions[] = self :: ACTION_VIEW_STREAMING_MEDIA;
-        }
-        
-        foreach ($streaming_media_actions as $streaming_media_action)
-        {
-            $html[] = '<li><a';
-            if ($action == $streaming_media_action)
+            $action = $this->get_action();
+            parent :: display_header();
+
+            $html = array();
+            $html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
+            $streaming_media_actions = $this->get_streaming_media_actions();
+
+            if ($action == self :: ACTION_EDIT_STREAMING_MEDIA)
             {
-                $html[] = ' class="current"';
+                    $streaming_media_actions[] = self :: ACTION_EDIT_STREAMING_MEDIA;
             }
-//            elseif (($action == self :: ACTION_PUBLISHER || $action == 'multirepo_viewer') && $repo_viewer_action == self :: ACTION_CREATOR)
-//            {
-//                $html[] = ' class="current"';
-//            }
 
-            $parameters = $this->get_parameters();
-            $parameters[self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = $streaming_media_action;
-            
-	        if($streaming_media_action == self :: ACTION_VIEW_STREAMING_MEDIA)
-	        {
-	        	$parameters[self :: PARAM_STREAMING_MEDIA_ID] = Request :: get(self :: PARAM_STREAMING_MEDIA_ID);
-	        }
-            
-            $html[] = ' href="' . $this->get_url($parameters, true) . '">' . htmlentities(Translation :: get(ucfirst($streaming_media_action) . 'Title')) . '</a></li>';
-        }
-        $html[] = '</ul><div class="tabbed-pane-content">';
+                    if($action == self :: ACTION_VIEW_STREAMING_MEDIA)
+            {
+                    $streaming_media_actions[] = self :: ACTION_VIEW_STREAMING_MEDIA;
+            }
 
-        echo implode("\n", $html);
+            foreach ($streaming_media_actions as $streaming_media_action)
+            {
+                $html[] = '<li><a';
+                if ($action == $streaming_media_action)
+                {
+                    $html[] = ' class="current"';
+                }
+    //            elseif (($action == self :: ACTION_PUBLISHER || $action == 'multirepo_viewer') && $repo_viewer_action == self :: ACTION_CREATOR)
+    //            {
+    //                $html[] = ' class="current"';
+    //            }
+
+                $parameters = $this->get_parameters();
+                $parameters[self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = $streaming_media_action;
+
+                    if($streaming_media_action == self :: ACTION_VIEW_STREAMING_MEDIA)
+                    {
+                            $parameters[self :: PARAM_STREAMING_MEDIA_ID] = Request :: get(self :: PARAM_STREAMING_MEDIA_ID);
+                    }
+
+                $html[] = ' href="' . $this->get_url($parameters, true) . '">' . htmlentities(Translation :: get(ucfirst($streaming_media_action) . 'Title')) . '</a></li>';
+            }
+            $html[] = '</ul><div class="tabbed-pane-content">';
+
+            echo implode("\n", $html);
 	}
 	
 	function get_streaming_media_actions()
@@ -161,6 +161,7 @@ abstract class StreamingMediaManager extends SubManager
 	{
 		$manager = array();
 		$manager[] = Youtube::get_type_name();
+                $manager[] = 'mediamosa';
 		return $manager;
 		
 	}

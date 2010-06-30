@@ -72,12 +72,12 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
         if ($assessment->get_assessment_type() != Hotpotatoes :: TYPE_HOTPOTATOES)
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem :: DISPLAY_ICON));
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ExportResults'), Theme :: get_common_image_path() . 'action_export.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem :: DISPLAY_ICON));
+            //$toolbar->add_item(new ToolbarItem(Translation :: get('ExportResults'), Theme :: get_common_image_path() . 'action_export.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('ViewResultsNA'), Theme :: get_common_image_path() . 'action_view_results_na.png', null, ToolbarItem :: DISPLAY_ICON));
-            $toolbar->add_item(new ToolbarItem(Translation :: get('ExportResultsNA'), Theme :: get_common_image_path() . 'action_export_na.png', null, ToolbarItem :: DISPLAY_ICON));
+           //$toolbar->add_item(new ToolbarItem(Translation :: get('ExportResultsNA'), Theme :: get_common_image_path() . 'action_export_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
         if ($this->browser->is_allowed(DELETE_RIGHT))

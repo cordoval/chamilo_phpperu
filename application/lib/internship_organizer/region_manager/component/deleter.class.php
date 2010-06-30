@@ -32,7 +32,7 @@ class InternshipOrganizerRegionManagerDeleterComponent extends InternshipOrganiz
                 }
                 else
                 {
-                    //                    Events :: trigger_event('delete', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $user->get_id()));
+                    //                    Event :: trigger('delete', 'region', array('target_region_id' => $region->get_id(), 'action_user_id' => $user->get_id()));
                 }
             }
             

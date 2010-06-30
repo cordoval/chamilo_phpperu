@@ -18,7 +18,7 @@ class UserDataManager
      * Uses a singleton pattern and a factory pattern to return the data
      * manager. The configuration determines which data manager class is to
      * be instantiated.
-     * @return UserDataManager The data manager.
+     * @return UserDataManagerInterface The data manager.
      */
     static function get_instance()
     {
@@ -65,7 +65,7 @@ class UserDataManager
                     $authentication_class = ucfirst($authentication_method) . 'Authentication';
                     require_once $authentication_class_file;
                     $authentication = new $authentication_class();
-                    if ($authentication->can_register_new_user())
+                    if ($authentication instanceof UserRegistrationSupport)
                     {
                         if ($authentication->register_new_user($username, $password))
                         {

@@ -70,7 +70,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
         $this->build_basic_form();
         
         $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_feed.php';
-        //dump($url);
+        
         $locale = array();
         $locale['Display'] = Translation :: get('ChoosePeriods');
         $locale['Searching'] = Translation :: get('Searching');
@@ -105,8 +105,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
     {
         $agreement = $this->agreement;
         $values = $this->exportValues();
-        //        dump($values);
-        //        exit;
+        
         $agreement->set_name($values[InternshipOrganizerAgreement :: PROPERTY_NAME]);
         $agreement->set_description($values[InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION]);
         
@@ -121,14 +120,16 @@ class InternshipOrganizerAgreementForm extends FormValidator
             $students_ids = $period->get_user_ids(InternshipOrganizerUserType :: STUDENT);
             foreach ($students_ids as $student_id)
             {
+                
                 $conditions = array();
-                $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period_id);
-                $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_STUDENT_ID, $student_id);
+                $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period_id, InternshipOrganizerAgreement :: get_table_name());
+                $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $student_id);
+                $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, InternshipOrganizerUserType :: STUDENT);
                 $condition = new AndCondition($conditions);
-                $existing_agreements = $dm->retrieve_agreements($condition);
-                if ($existing_agreements->size() == 0)
+                $agreement_rel_user_count = InternshipOrganizerDataManager :: get_instance()->count_agreement_rel_users($condition);
+                
+                if ($agreement_rel_user_count == 0)
                 {
-                    $agreement->set_student_id($student_id);
                     $agreement->set_period_id($period_id);
                     $agreement->set_begin($period->get_begin());
                     $agreement->set_end($period->get_end());

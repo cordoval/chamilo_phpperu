@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/condition.class.php';
  * must match any sequence of characters, and a question mark 	(?) must match a
  * single character.
  *
- *	@author Tim De Pauw
+ * @author Tim De Pauw
  */
 class PatternMatchCondition implements Condition
 {
@@ -20,25 +20,33 @@ class PatternMatchCondition implements Condition
      * Name
      */
     private $name;
+
     /**
      * Pattern
      */
     private $pattern;
+
     /**
      * Storage unit
      */
     private $storage_unit;
 
     /**
+     * Is the storage unit name already an alias?
+     */
+    private $is_alias;
+
+    /**
      * Constructor
      * @param string $name
      * @param string $pattern
      */
-    function PatternMatchCondition($name, $pattern, $storage_unit = null)
+    function PatternMatchCondition($name, $pattern, $storage_unit = null, $is_alias = false)
     {
         $this->name = $name;
         $this->pattern = $pattern;
         $this->storage_unit = $storage_unit;
+        $this->is_alias = $is_alias;
     }
 
     /**
@@ -66,6 +74,15 @@ class PatternMatchCondition implements Condition
     function get_pattern()
     {
         return $this->pattern;
+    }
+
+    /**
+     * Is the storage unit already an alias?
+     * @return boolean
+     */
+    function is_alias()
+    {
+        return $this->is_alias;
     }
 
     /**

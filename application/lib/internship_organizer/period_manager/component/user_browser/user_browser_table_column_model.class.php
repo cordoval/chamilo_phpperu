@@ -1,9 +1,8 @@
 <?php
 
-//require_once dirname(__FILE__).'/../../../tables/period_rel_user_table/default_period_rel_user_table_column_model.class.php';
-require_once Path :: get_user_path() . '/lib/user_table/default_user_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../tables/user_table/default_user_table_column_model.class.php';
 
-class InternshipOrganizerPeriodUserBrowserTableColumnModel extends DefaultUserTableColumnModel
+class InternshipOrganizerPeriodUserBrowserTableColumnModel extends DefaultInternshipOrganizerUserTableColumnModel
 {
     /**
      * The tables modification column
@@ -16,14 +15,15 @@ class InternshipOrganizerPeriodUserBrowserTableColumnModel extends DefaultUserTa
     function InternshipOrganizerPeriodUserBrowserTableColumnModel($browser)
     {
         parent :: __construct();
-        //		$this->add_column(self :: get_modification_column());
+        $this->set_default_order_column(0);
+        $this->add_column(self :: get_modification_column());
     }
 
     static function get_modification_column()
     {
         if (! isset(self :: $modification_column))
         {
-            self :: $modification_column = new ObjectTableColumn('');
+            self :: $modification_column = new StaticTableColumn('');
         }
         return self :: $modification_column;
     }

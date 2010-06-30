@@ -89,23 +89,23 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
                 $rdm = RepositoryDataManager :: get_instance();
                 $co_alias = $rdm->get_alias(ContentObject :: get_table_name());
                 $pub_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
-
+                
                 $query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . $this->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $pub_alias . ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . ' ON ' . $this->escape_column_name(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $pub_alias) . '=' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
-
+                
                 $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_PUBLISHER_ID, Session :: get_user_id());
                 $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
-
+                
                 $order = array();
                 foreach ($order_properties as $order_property)
                 {
                     if ($order_property->get_property() == 'application')
                     {
-
+                    
                     }
                     elseif ($order_property->get_property() == 'location')
                     {
-
+                    
                     }
                     elseif ($order_property->get_property() == 'title')
                     {
@@ -116,7 +116,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
                         $order[] = $this->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
                     }
                 }
-
+                
                 if (count($order) > 0)
                     $query .= ' ORDER BY ' . implode(', ', $order);
             }
@@ -128,10 +128,10 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
-
+        
         $this->set_limit($offset, $count);
         $res = $this->query($query);
-
+        
         $publication_attr = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
@@ -143,14 +143,14 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             //TODO: i8n location string
             $info->set_location($record[ContentObjectPublication :: PROPERTY_COURSE_ID] . ' &gt; ' . $record[ContentObjectPublication :: PROPERTY_TOOL]);
             //TODO: set correct URL
-            $info->set_url('run.php?application=weblcms&amp;go=courseviewer&course=' . $record[ContentObjectPublication :: PROPERTY_COURSE_ID] . '&amp;tool=' . $record[ContentObjectPublication :: PROPERTY_TOOL] . '&amp;tool_action=view&amp;'.Tool :: PARAM_PUBLICATION_ID . '=' . $info->get_id());
+            $info->set_url('run.php?application=weblcms&amp;go=courseviewer&course=' . $record[ContentObjectPublication :: PROPERTY_COURSE_ID] . '&amp;tool=' . $record[ContentObjectPublication :: PROPERTY_TOOL] . '&amp;tool_action=view&amp;' . Tool :: PARAM_PUBLICATION_ID . '=' . $info->get_id());
             $info->set_publication_object_id($record[ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID]);
-
+            
             $publication_attr[] = $info;
         }
-
+        
         $res->free();
-
+        
         return $publication_attr;
     }
 
@@ -161,9 +161,9 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $res = $this->query($query);
         $publication_attr = array();
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-
+        
         $res->free();
-
+        
         $publication_attr = new ContentObjectPublicationAttributes();
         $publication_attr->set_id($record[ContentObjectPublication :: PROPERTY_ID]);
         $publication_attr->set_publisher_user_id($record[ContentObjectPublication :: PROPERTY_PUBLISHER_ID]);
@@ -174,7 +174,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         //TODO: set correct URL
         $publication_attr->set_url('index_weblcms.php?tool=' . $record[ContentObjectPublication :: PROPERTY_TOOL] . '&amp;cidReq=' . $record[ContentObjectPublication :: PROPERTY_COURSE_ID]);
         $publication_attr->set_publication_object_id($record[ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID]);
-
+        
         return $publication_attr;
     }
 
@@ -197,12 +197,12 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $publication_user_alias = $this->get_alias('content_object_publication_user');
         $publication_group_alias = $this->get_alias('content_object_publication_course_group');
         $lo_table_alias = $this->get_alias('content_object');
-
+        
         $query = 'SELECT DISTINCT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' LEFT JOIN ' . $this->escape_table_name('content_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
         $query .= ' LEFT JOIN ' . $this->escape_table_name('content_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication_id';
         $query .= ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
-
+        
         return $this->retrieve_object_set($query, ContentObjectPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
@@ -212,45 +212,46 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $publication_user_alias = $this->get_alias('content_object_publication_user');
         $publication_group_alias = $this->get_alias('content_object_publication_course_group');
         $lo_table_alias = $this->get_alias('content_object');
-
+        
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' LEFT JOIN ' . $this->escape_table_name('content_object_publication_user') . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
         $query .= ' LEFT JOIN ' . $this->escape_table_name('content_object_publication_course_group') . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication_id';
         $query .= ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name('content_object') . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
-
+        
         return $this->count_result_set($query, ContentObjectPublication :: get_table_name(), $condition);
     }
 
     function count_courses($condition)
-    {    	
+    {
         $course_alias = $this->get_alias(Course :: get_table_name());
         $course_settings_alias = $this->get_alias('course_settings');
         $course_type_alias = $this->get_alias(CourseType :: get_table_name());
-
+        
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
         $query .= ' JOIN ' . $this->escape_table_name('course_settings') . ' AS ' . $course_settings_alias . ' ON ' . $course_alias . '.id = ' . $course_settings_alias . '.course_id';
-		$query .= ' LEFT JOIN ' . $this->escape_table_name(CourseType :: get_table_name()) . ' AS ' . $course_type_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_COURSE_TYPE_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseType :: PROPERTY_ID, $course_type_alias);	
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseType :: get_table_name()) . ' AS ' . $course_type_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_COURSE_TYPE_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseType :: PROPERTY_ID, $course_type_alias);
         
         return $this->count_result_set($query, Course :: get_table_name(), $condition);
     }
 
     function subscribe_user_to_allowed_courses($user_id)
     {
-    	$conditions = array();
+        $conditions = array();
         $conditions[] = new EqualityCondition(CommonRequest :: PROPERTY_USER_ID, $user_id);
         $conditions[] = new InequalityCondition(CommonRequest :: PROPERTY_DECISION_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
         $conditions[] = new EqualityCondition(CommonRequest :: PROPERTY_DECISION, CommonRequest :: ALLOWED_DECISION);
         $condition = new AndCondition($conditions);
-
+        
         $course_subscribe_requests = $this->retrieve_requests($condition);
-
-        while($course_request = $course_subscribe_requests->next_result())
+        
+        while ($course_request = $course_subscribe_requests->next_result())
         {
-        	$course_id = $course_request->get_course_id();
-        	if(! $this->is_subscribed($course_id, $user_id))
-        	{
-        		$this->subscribe_user_to_course($course_id, '5', '0', $user_id);
-        	}
+            $course_id = $course_request->get_course_id();
+            $user = UserDataManager::get_instance()->retrieve_user($user_id);
+            if (! $this->is_subscribed($course_id, $user))
+            {
+                $this->subscribe_user_to_course($course_id, '5', '0', $user_id);
+            }
         }
     }
 
@@ -299,7 +300,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $course_alias = $this->get_alias(Course :: get_table_name());
         $course_relation_alias = $this->get_alias(CourseUserRelation :: get_table_name());
-
+        
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
         $query .= ' JOIN ' . $this->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . '=' . $this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
         return $this->count_result_set($query, Course :: get_table_name(), $condition);
@@ -321,7 +322,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_STATUS, 1);
         $condition = new AndCondition($conditions);
-
+        
         return $this->retrieve_course_user_relations($condition);
     }
 
@@ -348,19 +349,19 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function create_content_object_publication_users($publication)
     {
         $users = $publication->get_target_users();
-
+        
         foreach ($users as $index => $user_id)
         {
             $publication_user = new ContentObjectPublicationUser();
             $publication_user->set_publication($publication->get_id());
             $publication_user->set_user($user_id);
-
+            
             if (! $publication_user->create())
             {
                 return false;
             }
         }
-
+        
         return true;
     }
 
@@ -372,19 +373,19 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function create_content_object_publication_course_groups($publication)
     {
         $course_groups = $publication->get_target_course_groups();
-
+        
         foreach ($course_groups as $index => $course_group_id)
         {
             $publication_course_group = new ContentObjectPublicationCourseGroup();
             $publication_course_group->set_publication($publication->get_id());
             $publication_course_group->set_course_group_id($course_group_id);
-
+            
             if (! $publication_course_group->create())
             {
                 return false;
             }
         }
-
+        
         return true;
     }
 
@@ -396,19 +397,19 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function create_content_object_publication_groups($publication)
     {
         $groups = $publication->get_target_groups();
-
+        
         foreach ($groups as $index => $group_id)
         {
             $publication_group = new ContentObjectPublicationGroup();
             $publication_group->set_publication_id($publication->get_id());
             $publication_group->set_group_id($group_id);
-
+            
             if (! $publication_group->create())
             {
                 return false;
             }
         }
-
+        
         return true;
     }
 
@@ -418,22 +419,22 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             return false;
         }
-
+        
         if (! $this->create_content_object_publication_users($publication))
         {
             return false;
         }
-
+        
         if (! $this->create_content_object_publication_course_groups($publication))
         {
             return false;
         }
-
+        
         if (! $this->create_content_object_publication_groups($publication))
         {
             return false;
         }
-
+        
         return true;
     }
 
@@ -444,23 +445,23 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $this->delete_objects('content_object_publication_user', $condition);
         $this->delete_objects('content_object_publication_course_group', $condition);
         $this->delete_objects('content_object_publication_group', $condition);
-
+        
         // Add updated target users and course_groups
         if (! $this->create_content_object_publication_users($publication))
         {
             return false;
         }
-
+        
         if (! $this->create_content_object_publication_course_groups($publication))
         {
             return false;
         }
-
+        
         if (! $this->create_content_object_publication_groups($publication))
         {
             return false;
         }
-
+        
         // Update publication properties
         $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_ID, $publication->get_id());
         return $this->update($publication, $condition);
@@ -488,26 +489,26 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             $publication = $this->retrieve_content_object_publication($publication);
         }
-
+        
         $publication_id = $publication->get_id();
-
+        
         $query = 'DELETE FROM ' . $this->escape_table_name('content_object_publication_user') . ' WHERE publication_id = ' . $this->quote($publication_id);
         $res = $this->query($query);
         $res->free();
-
+        
         $query = 'DELETE FROM ' . $this->escape_table_name('content_object_publication_course_group') . ' WHERE publication_id = ' . $this->quote($publication_id);
         $res = $this->query($query);
         $res->free();
-
+        
         $query = 'UPDATE ' . $this->escape_table_name('content_object_publication') . ' SET ' . $this->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '=' . $this->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '-1 WHERE ' . $this->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '>' . $this->quote($publication->get_display_order_index());
         $res = $this->query($query);
         $res->free();
-
+        
         $query = 'DELETE FROM ' . $this->escape_table_name('content_object_publication') . ' WHERE ' . $this->escape_column_name(ContentObjectPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
         $this->get_connection()->setLimit(0, 1);
         $res = $this->query($query);
         $res->free();
-
+        
         return true;
     }
 
@@ -515,7 +516,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         $publications = $this->retrieve_content_object_publications($condition);
-
+        
         while ($publication = $publications->next_result())
         {
             $site_name_setting = PlatformSetting :: get('site_name');
@@ -566,9 +567,9 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_MODULE_NAME, $module_name);
         $conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_CATEGORY_ID, $category_id);
         $condition = new AndCondition($conditions);
-
+        
         $course_module_last_access = $this->retrieve_course_module_access($condition);
-
+        
         if (! $course_module_last_access)
         {
             $course_module_last_access = new CourseModuleLastAccess();
@@ -609,7 +610,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_USER_ID, $coursemodule_last_accces->get_user_id());
         $conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_CATEGORY_ID, $coursemodule_last_accces->get_category_id());
         $condition = new AndCondition($conditions);
-
+        
         $this->update($coursemodule_last_accces, $condition);
     }
 
@@ -628,11 +629,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             $conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_MODULE_NAME, $module_name);
         }
         $condition = new AndCondition($conditions);
-
+        
         $order_by = new ObjectTableOrder(CourseModuleLastAccess :: PROPERTY_ACCESS_DATE, SORT_DESC);
-
+        
         $course_module_access = $this->retrieve_course_module_access($condition, $order_by);
-
+        
         if (! $course_module_access)
         {
             return 0;
@@ -654,11 +655,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             $conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_MODULE_NAME, $module_name);
         }
         $condition = new AndCondition($conditions);
-
+        
         $order_by = new ObjectTableOrder(CourseModuleLastAccess :: PROPERTY_ACCESS_DATE, SORT_DESC);
-
+        
         $course_module_access = $this->retrieve_course_module_access($condition, $order_by);
-
+        
         if (! $course_module_access)
         {
             return 0;
@@ -679,9 +680,9 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             $modules[$module->name] = $module;
         }
-
+        
         $res->free();
-
+        
         return $modules;
     }
 
@@ -761,10 +762,10 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         
         $query = 'SELECT ' . $course_alias . '.* FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
         $query .= ' JOIN ' . $this->escape_table_name(CourseSettings :: get_table_name()) . ' AS ' . $course_settings_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_settings_alias);
-		$query .= ' LEFT JOIN ' . $this->escape_table_name(CourseType :: get_table_name()) . ' AS ' . $course_type_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_COURSE_TYPE_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseType :: PROPERTY_ID, $course_type_alias);	
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseType :: get_table_name()) . ' AS ' . $course_type_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_COURSE_TYPE_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseType :: PROPERTY_ID, $course_type_alias);
         
         $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
-
+        
         return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
@@ -774,7 +775,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_code);
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
         $condition = new AndCondition($conditions);
-
+        
         return $this->retrieve_object(CourseUserRelation :: get_table_name(), $condition);
     }
 
@@ -789,7 +790,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_ID, $course_id);
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_GROUP_ID, $user_id);
         $condition = new AndCondition($conditions);
-
+        
         return $this->retrieve_object(CourseGroupRelation :: get_table_name(), $condition);
     }
 
@@ -804,7 +805,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $category_id);
         $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type_id, Course :: get_table_name());
-
+        
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(CourseUserRelation :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
@@ -815,17 +816,17 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             $conditions[] = new InequalityCondition(CourseUserRelation :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
             $order_direction = SORT_ASC;
         }
-
+        
         $condition = new AndCondition($conditions);
-
+        
         $course_relation_alias = $this->get_alias(CourseUserRelation :: get_table_name());
         $course_alias = $this->get_alias(Course :: get_table_name());
-
+        
         $query = 'SELECT ' . $course_relation_alias . '.* FROM ' . $this->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_relation_alias;
         $query .= ' JOIN ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
-
+        
         $record = $this->retrieve_row($query, CourseUserRelation :: get_table_name(), $condition, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, $order_direction)));
-
+        
         if ($record)
             return $this->record_to_object($record, Utilities :: underscores_to_camelcase(CourseUserRelation :: get_table_name()));
         else
@@ -837,7 +838,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $user_id);
         $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
-
+        
         if ($direction == 'up')
         {
             $conditions[] = new InequalityCondition(CourseTypeUserCategory :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
@@ -848,26 +849,28 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             $conditions[] = new InequalityCondition(CourseTypeUserCategory :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
             $order_direction = SORT_ASC;
         }
-
+        
         $condition = new AndCondition($conditions);
-
+        
         return $this->retrieve_object(CourseTypeUserCategory :: get_table_name(), $condition, array(new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT, $order_direction)));
     }
 
     function retrieve_user_courses($condition = null, $offset = 0, $max_objects = -1, $order_by = null)
     {
         $course_alias = $this->get_alias(Course :: get_table_name());
-        $course_relation_alias = $this->get_alias(CourseUserRelation :: get_table_name());
-
-        $query = 'SELECT ' . $course_alias . '.*, ' . $course_relation_alias . '.* FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
-        $query .= ' JOIN ' . $this->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_relation_alias);
-
+        $course_user_relation_alias = $this->get_alias(CourseUserRelation :: get_table_name());
+        $course_group_relation_alias = $this->get_alias(CourseGroupRelation :: get_table_name());
+        
+        $query = 'SELECT DISTINCT ' . $course_alias . '.* FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_user_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_user_relation_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseGroupRelation :: get_table_name()) . ' AS ' . $course_group_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseGroupRelation :: PROPERTY_COURSE_ID, $course_group_relation_alias);
+        
         if (is_null($order_by))
             $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
-
+        
         return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
- 	
+
     function retrieve_course_group_rights_by_type($course_id, $type)
     {
         if (CourseGroupSubscribeRight :: UNSUBSCRIBE == $type)
@@ -884,37 +887,37 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             return $this->retrieve_objects(CourseGroupSubscribeRight :: get_table_name(), $condition);
         }
     }
-    
-    function retrieve_course_subscribe_groups_by_right($right, $course, $condition=null, $offset=null, $count=null, $order_property=null)
+
+    function retrieve_course_subscribe_groups_by_right($right, $course, $condition = null, $offset = null, $count = null, $order_property = null)
     {
-    	$groups_result = GroupDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property);
-    	$groups = array();
-	    while($group = $groups_result->next_result())
-	    {
-	     	if($course->can_group_subscribe($group->get_id()) == $right)
-	     	{
-	       		$groups[] = $group;
-	       	}
-	    }
-	    return new ArrayResultSet($groups);
+        $groups_result = GroupDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property);
+        $groups = array();
+        while ($group = $groups_result->next_result())
+        {
+            if ($course->can_group_subscribe($group->get_id()) == $right)
+            {
+                $groups[] = $group;
+            }
+        }
+        return new ArrayResultSet($groups);
     }
 
-    function retrieve_course_subscribe_users_by_right($rights, $course, $add_course_admin = false, $condition=null, $offset=null, $count=null, $order_property=null)
+    function retrieve_course_subscribe_users_by_right($rights, $course, $add_course_admin = false, $condition = null, $offset = null, $count = null, $order_property = null)
     {
-    	if(!is_array($rights))
-    		$rights = array($rights);
-	    $users_result = UserDataManager::get_instance()->retrieve_users($condition, $offset, $count, $order_property);
-    	$users = array();
-	    while($user = $users_result->next_result())
-	    {
-	      	if(in_array($course->can_user_subscribe($user), $rights) || ($course->is_course_admin($user) && $add_course_admin))
-	      	{
-	      		$users[] = $user;
-	      	}
-	    }
-	    return new ArrayResultSet($users);
+        if (! is_array($rights))
+            $rights = array($rights);
+        $users_result = UserDataManager :: get_instance()->retrieve_users($condition, $offset, $count, $order_property);
+        $users = array();
+        while ($user = $users_result->next_result())
+        {
+            if (in_array($course->can_user_subscribe($user), $rights) || ($course->is_course_admin($user) && $add_course_admin))
+            {
+                $users[] = $user;
+            }
+        }
+        return new ArrayResultSet($users);
     }
-    
+
     function create_course($course)
     {
         $now = time();
@@ -922,7 +925,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $course->set_last_edit($now);
         $course->set_creation_date($now);
         $course->set_expiration_date($now);
-
+        
         return $this->create($course);
     }
 
@@ -935,7 +938,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             $sections[$section->get_type()][] = $section;
         }
-
+        
         foreach ($course_modules as $module)
         {
             $section_id = $sections[CourseSection :: TYPE_TOOL][0]->get_id();
@@ -943,7 +946,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             if (! $this->create_course_module($module))
                 return false;
         }
-
+        
         $admin_tools = WeblcmsDataManager :: get_tools('course_admin');
         foreach ($admin_tools as $index => $tool_name)
         {
@@ -957,7 +960,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             if (! $this->create_course_module($module))
                 return false;
         }
-
+        
         return true;
     }
 
@@ -1024,7 +1027,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function create_course_type_layout($course_type_layout)
     {
         return $this->create($course_type_layout);
-
+    
     }
 
     function create_course_type_group_subscribe_right($course_type_group_subscribe_right)
@@ -1052,16 +1055,30 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $this->create($course);
     }
 
-    function is_subscribed($course, $user_id)
+    function is_subscribed($course, User $user)
     {
-    	$course_id = $course;
-    	if(get_class($course) == 'Course')
-    		$course_id = $course->get_id();
+        $course_id = $course;
+        if (get_class($course) == 'Course')
+        {
+            $course_id = $course->get_id();
+        }
+        
         $conditions = array();
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user->get_id());
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id);
         $condition = new AndCondition($conditions);
-        return $this->count_objects(CourseUserRelation :: get_table_name(), $condition) > 0;
+        
+        $has_user_relations = $this->count_objects(CourseUserRelation :: get_table_name(), $condition) > 0;
+        
+        $conditions = array();
+        $conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $user->get_groups(true));
+        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id);
+        $condition = new AndCondition($conditions);
+        
+        $has_group_relations = $this->count_objects(CourseGroupRelation :: get_table_name(), $condition) > 0;
+        
+        
+        return $has_user_relations || $has_group_relations;
     }
 
     function is_group_subscribed($course_id, $group_id)
@@ -1097,18 +1114,18 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function subscribe_user_to_course($course, $status, $tutor_id, $user_id)
     {
-    	$course_id = $course;
-    	if(get_class($course) == 'Course')
-    		$course_id = $course->get_id();
+        $course_id = $course;
+        if (get_class($course) == 'Course')
+            $course_id = $course->get_id();
         $this->get_connection()->loadModule('Extended');
-
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
         $condition = new AndCondition($conditions);
-
+        
         $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
-
+        
         $course_user_relation = new CourseUserRelation();
         $course_user_relation->set_course($course_id);
         $course_user_relation->set_user($user_id);
@@ -1117,7 +1134,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $course_user_relation->set_tutor($tutor_id);
         $course_user_relation->set_sort($sort + 1);
         $course_user_relation->set_category(0);
-
+        
         if ($course_user_relation->create())
         {
             // TODO: New Roles & Rights system
@@ -1147,11 +1164,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function subscribe_group_to_course(Course $course, $group_id)
     {
         $this->get_connection()->loadModule('Extended');
-
+        
         $course_group_relation = new CourseGroupRelation();
         $course_group_relation->set_course_id($course->get_id());
         $course_group_relation->set_group_id($group_id);
-
+        
         if ($course_group_relation->create())
         {
             return true;
@@ -1169,7 +1186,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-
+        
         $this->get_connection()->loadModule('Extended');
         if ($this->get_connection()->extended->autoExecute($this->get_table_name(CourseUserRelation :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT))
         {
@@ -1188,7 +1205,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             $props[$this->escape_column_name($key)] = $value;
         }
-
+        
         $this->get_connection()->loadModule('Extended');
         if ($this->get_connection()->extended->autoExecute($this->get_table_name(CourseGroupRelation :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT))
         {
@@ -1206,7 +1223,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course->get_id());
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id);
         $condition = new AndCondition($conditions);
-
+        
         return $this->delete_objects(CourseUserRelation :: get_table_name(), $condition);
     }
 
@@ -1216,7 +1233,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $course->get_id());
         $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $group_id);
         $condition = new AndCondition($conditions);
-
+        
         return $this->delete_objects(CourseGroupRelation :: get_table_name(), $condition);
     }
 
@@ -1233,7 +1250,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function delete_course_user_category($course_user_category)
     {
         $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_user_category->get_id());
-
+        
         return $this->delete_objects(CourseUserCategory :: get_table_name(), $condition);
     }
 
@@ -1243,48 +1260,48 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_user_category->get_course_type_id());
         $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category->get_course_user_category_id());
         $condition = new AndCondition($conditions);
-
+        
         if ($this->delete_objects(CourseTypeUserCategory :: get_table_name(), $condition))
         {
-        	$success = true;
-
+            $success = true;
+            
             $relation_conditions = array();
-	        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
-	        $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_type_user_category->get_course_user_category_id());
-	        $relation_condition = new AndCondition($relation_conditions);
-
-	        $relations = $this->retrieve_course_user_relations($relation_condition, null, null, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT)));
-
-	        $conditions = array();
-	        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
-	        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
-	        $condition = new AndCondition($conditions);
-
-	        $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
-
-	        while ($relation = $relations->next_result())
-	        {
-	            $relation->set_sort(++$sort);
-	            $success &= $relation->update();
-			}
-
-			$conditions = array();
+            $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
+            $relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_type_user_category->get_course_user_category_id());
+            $relation_condition = new AndCondition($relation_conditions);
+            
+            $relations = $this->retrieve_course_user_relations($relation_condition, null, null, array(new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT)));
+            
+            $conditions = array();
+            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
+            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
+            $condition = new AndCondition($conditions);
+            
+            $sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
+            
+            while ($relation = $relations->next_result())
+            {
+                $relation->set_sort(++ $sort);
+                $success &= $relation->update();
+            }
+            
+            $conditions = array();
             $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_type_user_category->get_course_user_category_id());
             $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_type_user_category->get_user_id());
             $condition = new AndCondition($conditions);
-
+            
             $properties = array(CourseUserRelation :: PROPERTY_CATEGORY => 0);
             $success &= $this->update_objects(CourseUserRelation :: get_table_name(), $properties, $condition);
-
+            
             $condition = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category->get_course_user_category_id());
-        	$count = $this->count_course_type_user_categories($condition);
-        	if($count == 0)
-        	{
-        		$condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_type_user_category->get_course_user_category_id());
-        		$course_user_category = $this->retrieve_course_user_category($condition);
-        		$success &= $course_user_category->delete();
-        	}
-        	return $success;
+            $count = $this->count_course_type_user_categories($condition);
+            if ($count == 0)
+            {
+                $condition = new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $course_type_user_category->get_course_user_category_id());
+                $course_user_category = $this->retrieve_course_user_category($condition);
+                $success &= $course_user_category->delete();
+            }
+            return $success;
         }
         else
         {
@@ -1298,7 +1315,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $courseuser->get_course());
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $courseuser->get_user());
         $condition = new AndCondition($conditions);
-
+        
         return $this->delete_objects(CourseUserRelation :: get_table_name(), $condition);
     }
 
@@ -1306,13 +1323,13 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(CourseCategory :: PROPERTY_ID, $course_category->get_id());
         $success = $this->delete_objects(CourseCategory :: get_table_name(), $condition);
-
+        
         if ($success)
         {
             $condition = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $course_category->get_id());
             $properties = array(CourseCategory :: PROPERTY_PARENT => $course_category->get_parent());
             $success = $this->update_objects(CourseCategory :: get_table_name(), $properties, $condition);
-
+            
             if ($success)
             {
                 $condition = new EqualityCondition(Course :: PROPERTY_CATEGORY, $course_category->get_id());
@@ -1485,7 +1502,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_user_relation->get_course());
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_user_relation->get_user());
         $condition = new AndCondition($conditions);
-
+        
         return $this->update($course_user_relation, $condition);
     }
 
@@ -1495,7 +1512,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE_ID, $course_group_relation->get_course_id());
         $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_GROUP_ID, $course_group_relation->get_group_id());
         $condition = new AndCondition($conditions);
-
+        
         return $this->update($course_group_relation, $condition);
     }
 
@@ -1520,7 +1537,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             return false;
         }
-
+        
         // Delete publication target course_groups
         $subselect_condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_code);
         $condition = new SubselectCondition(ContentObjectPublicationCourseGroup :: PROPERTY_PUBLICATION, ContentObjectPublication :: PROPERTY_ID, ContentObjectPublication :: get_table_name(), $subselect_condition);
@@ -1528,14 +1545,14 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             return false;
         }
-
+        
         // Delete publication categories
         $condition = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $course_code);
         if (! $this->delete_objects(ContentObjectPublicationCategory :: get_table_name(), $condition))
         {
             return false;
         }
-
+        
         // Delete survey invitations
         //        $subselect_condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_code);
         //    	$condition = new SubselectCondition(SurveyInvitation :: PROPERTY_SURVEY, ContentObjectPublication :: PROPERTY_ID, $this->escape_table_name(ContentObjectPublication :: get_table_name()), $subselect_condition);
@@ -1543,7 +1560,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         //    	{
         //    		return false;
         //    	}
-
+        
 
         //         $sql = 'DELETE FROM ' . $this->escape_table_name('survey_invitation') . '
         //				WHERE survey IN (
@@ -1552,7 +1569,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         //				)';
         //        $statement = $this->get_connection()->prepare($sql);
         //        $statement->execute($course_code);
-
+        
 
         // Delete publications
         $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_code);
@@ -1560,40 +1577,40 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             return false;
         }
-
+        
         // Delete course sections
         $condition = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $course_code);
         if (! $this->delete_objects(CourseSection :: get_table_name(), $condition))
         {
             return false;
         }
-
+        
         // Delete modules
         $condition = new EqualityCondition(CourseModule :: PROPERTY_COURSE_CODE, $course_code);
         if (! $this->delete_objects(CourseModule :: get_table_name(), $condition))
         {
             return false;
         }
-
+        
         // Delete module last access
         $condition = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_COURSE_CODE, $course_code);
         if (! $this->delete_objects(CourseModuleLastAccess :: get_table_name(), $condition))
         {
             return false;
         }
-
+        
         // Delete subscriptions of classes in the course
         //    	$condition = new EqualityCondition(CourseClassRelation :: PROPERTY_COURSE, $course_code);
         //		if (!$this->delete_objects(CourseClassRelation :: get_table_name(), $condition))
         //    	{
         //    		return false;
         //    	}
-
+        
 
         //        $sql = 'DELETE FROM ' . $this->escape_table_name('course_rel_class') . ' WHERE course_code = ?';
         //        $statement = $this->get_connection()->prepare($sql);
         //        $statement->execute($course_code);
-
+        
 
         //Delete rights
         $condition = new EqualityCondition(CourseGroupSubscribeRight :: PROPERTY_COURSE_ID, $course_code);
@@ -1601,40 +1618,38 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             return false;
         }
-
+        
         $condition = new EqualityCondition(CourseGroupUnsubscribeRight :: PROPERTY_COURSE_ID, $course_code);
         if (! $this->delete_objects(CourseGroupUnsubscribeRight :: get_table_name(), $condition))
         {
             return false;
         }
-
+        
         // Delete subscriptions of users in the course
         $condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_code);
         if (! $this->delete_objects(CourseUserRelation :: get_table_name(), $condition))
         {
             return false;
         }
-
-    	$condition = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $course_code);
+        
+        $condition = new EqualityCondition(CourseRequest :: PROPERTY_COURSE_ID, $course_code);
         if (! $this->delete_objects(CourseRequest :: get_table_name(), $condition))
         {
             return false;
         }
-
-
-
+        
         // Delete course
         $condition = new EqualityCondition(Course :: PROPERTY_ID, $course_code);
         $bool = $this->delete_objects(Course :: get_table_name(), $condition);
-
+        
         return $bool;
-
+        
     //return $bool;
-
+    
 
     //$condition_layout = new EqualityCondition(CourseLayout :: PROPERTY_COURSE_ID, $course);
     //$bool = $bool && $this->delete(CourseLayout :: get_table_name(), $condition_layout);
-
+    
 
     //$condition_settings = new EqualityCondition(CourseSettings :: PROPERTY_COURSE_ID, $course);
     //$bool = $bool && $this->delete(CourseSettings :: get_table_name(), $condition_settings);
@@ -1675,27 +1690,27 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         // Delete course_type
         $condition = new EqualityCondition(CourseType :: PROPERTY_ID, $course_type_id);
         $bool = $this->delete(CourseType :: get_table_name(), $condition);
-
+        
         $condition_layout = new EqualityCondition(CourseTypeLayout :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
         $bool = $bool && $this->delete(CourseTypeLayout :: get_table_name(), $condition_layout);
-
+        
         $condition = new EqualityCondition(CourseTypeSettings :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
         $bool = $bool && $this->delete(CourseTypeSettings :: get_table_name(), $condition);
-
+        
         $condition = new EqualityCondition(CourseTypeRights :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
         $bool = $bool && $this->delete(CourseTypeRights :: get_table_name(), $condition);
-
+        
         $condition = new EqualityCondition(CourseTypeGroupSubscribeRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
         $bool = $bool && $this->delete(CourseTypeGroupSubscribeRight :: get_table_name(), $condition);
-
+        
         $condition = new EqualityCondition(CourseTypeGroupUnsubscribeRight :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
         $bool = $bool && $this->delete(CourseTypeGroupUnsubscribeRight :: get_table_name(), $condition);
-
+        
         $condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
         $bool = $bool && $this->delete(CourseTypeTool :: get_table_name(), $condition);
-
+        
         return $bool;
-
+        
     //return $bool;
     }
 
@@ -1745,7 +1760,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $order_by[] = new ObjectTableOrder(CourseCategory :: PROPERTY_NAME);
         $order_dir[] = SORT_ASC;
-
+        
         return $this->retrieve_objects(CourseCategory :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
@@ -1763,7 +1778,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $course_alias = $this->get_alias(CourseUserCategory :: get_table_name());
         $course_type_alias = $this->get_alias(CourseTypeUserCategory :: get_table_name());
-
+        
         $query = 'SELECT ' . $course_alias . '.* FROM ' . $this->escape_table_name(CourseUserCategory :: get_table_name()) . ' AS ' . $course_alias;
         $query .= ' JOIN ' . $this->escape_table_name(CourseTypeUserCategory :: get_table_name()) . ' AS ' . $course_type_alias . ' ON ' . $this->escape_column_name(CourseUserCategory :: PROPERTY_ID, $course_alias) . '=' . $this->escape_column_name(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_alias);
         return $this->retrieve_object_set($query, CourseUserCategory :: get_table_name(), $condition);
@@ -1775,7 +1790,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseModule :: PROPERTY_COURSE_CODE, $course_code);
         $conditions[] = new EqualityCondition(CourseModule :: PROPERTY_NAME, $module);
         $condition = new AndCondition($conditions);
-
+        
         $properties = array(CourseModule :: PROPERTY_VISIBLE => $visible);
         return $this->update_objects(CourseModule :: get_table_name(), $properties, $condition);
     }
@@ -1797,21 +1812,21 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     private function move_content_object_publication_up($publication, $places)
     {
         $oldIndex = $publication->get_display_order_index();
-
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $publication->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $publication->get_tool());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $publication->get_category_id());
         $conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, InequalityCondition :: LESS_THAN, $oldIndex);
         $condition = new AndCondition($conditions);
-
+        
         $properties[ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX] = $this->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '+1';
-
+        
         if (! $this->update_objects(ContentObjectPublication :: get_table_name(), $properties, $condition, null, $places, new ObjectTableOrder(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_DESC)))
         {
             return false;
         }
-
+        
         $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_ID, $publication->get_id());
         $properties[ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX] = $oldIndex - $places;
         return $this->update_objects(ContentObjectPublication :: get_table_name(), $properties, $condition, null, 1);
@@ -1825,21 +1840,21 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     private function move_content_object_publication_down($publication, $places)
     {
         $oldIndex = $publication->get_display_order_index();
-
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $publication->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $publication->get_tool());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $publication->get_category_id());
         $conditions[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, InequalityCondition :: GREATER_THAN, $oldIndex);
         $condition = new AndCondition($conditions);
-
+        
         $properties[ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX] = $this->escape_column_name(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX) . '-1';
-
+        
         if (! $this->update_objects(ContentObjectPublication :: get_table_name(), $properties, $condition, null, $places, new ObjectTableOrder(ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, SORT_ASC)))
         {
             return false;
         }
-
+        
         $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_ID, $publication->get_id());
         $properties[ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX] = $oldIndex + $places;
         return $this->update_objects(ContentObjectPublication :: get_table_name(), $properties, $condition, null, 1);
@@ -1852,7 +1867,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $tool);
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_CATEGORY_ID, $category);
         $condition = new AndCondition($conditions);
-
+        
         return $this->retrieve_next_sort_value(ContentObjectPublication :: get_table_name(), ContentObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX, $condition);
     }
 
@@ -1874,13 +1889,13 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_PUBLICATION, $content_object_publication->get_id());
         $users = $this->retrieve_objects(ContentObjectPublicationUser :: get_table_name(), $condition);
-
+        
         $target_users = array();
         while ($user = $users->next_result())
         {
             $target_users[] = $user->get_user();
         }
-
+        
         return $target_users;
     }
 
@@ -1888,13 +1903,13 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(ContentObjectPublicationCourseGroup :: PROPERTY_PUBLICATION, $content_object_publication->get_id());
         $course_groups = $this->retrieve_objects(ContentObjectPublicationCourseGroup :: get_table_name(), $condition);
-
+        
         $target_course_groups = array();
         while ($course_group = $course_groups->next_result())
         {
             $target_course_groups[] = $course_group->get_course_group_id();
         }
-
+        
         return $target_course_groups;
     }
 
@@ -1902,13 +1917,13 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(ContentObjectPublicationGroup :: PROPERTY_PUBLICATION_ID, $content_object_publication->get_id());
         $groups = $this->retrieve_objects(ContentObjectPublicationGroup :: get_table_name(), $condition);
-
+        
         $target_groups = array();
         while ($group = $groups->next_result())
         {
             $target_groups[] = $group->get_group_id();
         }
-
+        
         return $target_groups;
     }
 
@@ -1928,15 +1943,15 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         //Delete subscription of users in this course_group
         $condition = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group->get_id());
         $succes = $this->delete(CourseGroupUserRelation :: get_table_name(), $condition);
-
+        
         if (! $succes)
         {
             return false;
         }
-
+        
         $condition = new EqualityCondition(CourseGroup :: PROPERTY_ID, $course_group->get_id());
         $succes = $this->delete(CourseGroup :: get_table_name(), $condition);
-
+        
         return $succes;
     }
 
@@ -1971,28 +1986,28 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(CourseType :: PROPERTY_ID, $id);
         $course_type = $this->retrieve_object(CourseType :: get_table_name(), $condition);
-
+        
         if (empty($course_type))
             return $this->retrieve_empty_course_type();
             //$this->redirect(Translation :: get('CourseTypeDoesntExist'), true, array('go' => WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME),array(),false,Redirect::TYPE_LINK);
-
+        
 
         $course_type_settings = $this->retrieve_course_type_settings($id);
         if (empty($course_type_settings))
             return $this->retrieve_empty_course_type();
         $course_type->set_settings($course_type_settings);
-
+        
         $course_type_layout_settings = $this->retrieve_course_type_layout($id);
         if (empty($course_type_layout_settings))
             return $this->retrieve_empty_course_type();
         $course_type->set_layout_settings($course_type_layout_settings);
-
+        
         //todo
         $course_type_rights = $this->retrieve_course_type_rights($id);
         if (empty($course_type_rights))
             $course_type_rights = new CourseTypeRights();
         $course_type->set_rights($course_type_rights);
-
+        
         $condition = new EqualityCondition(CourseTypeTool :: PROPERTY_COURSE_TYPE_ID, $id);
         $course_type->set_tools($this->retrieve_all_course_type_tools($condition));
         return $course_type;
@@ -2078,20 +2093,20 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function retrieve_course_types_by_user_right($user, $right)
     {
-    	$course_types = array();
-    	$condition = null;
-    	if(!$user->is_platform_admin())
-        	$condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
-
-        $course_type_objects = $this->retrieve_objects(CourseType :: get_table_name(),$condition);
-        while($course_type = $course_type_objects->next_result())
+        $course_types = array();
+        $condition = null;
+        if (! $user->is_platform_admin())
+            $condition = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, 1);
+        
+        $course_type_objects = $this->retrieve_objects(CourseType :: get_table_name(), $condition);
+        while ($course_type = $course_type_objects->next_result())
         {
-        	//User->is_platform_admin() is checked in the can_user_create function
-        	if($course_type->can_user_create($user) == $right)
-        		$course_types[] = $course_type;
+            //User->is_platform_admin() is checked in the can_user_create function
+            if ($course_type->can_user_create($user) == $right)
+                $course_types[] = $course_type;
         }
-
-    	return $course_types;
+        
+        return $course_types;
     }
 
     function retrieve_course_group_by_name($name)
@@ -2123,12 +2138,12 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $condition = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group->get_id());
         $relations = $this->retrieve_objects(CourseGroupUserRelation :: get_table_name(), $condition);
         $user_ids = array();
-
+        
         while ($relation = $relations->next_result())
         {
             $user_ids[] = $relation->get_user();
         }
-
+        
         return $user_ids;
     }
 
@@ -2159,7 +2174,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             $condition = new AndCondition($conditions);
             return $this->retrieve_objects(CourseTypeGroupSubscribeRight :: get_table_name(), $condition);
         }
-
+    
     }
 
     function retrieve_course_type_group_creation_right($course_type_id, $group_id)
@@ -2204,19 +2219,19 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $group_alias = $this->get_alias(CourseGroup :: get_table_name());
         $group_relation_alias = $this->get_alias(CourseGroupUserRelation :: get_table_name());
-
+        
         $query = 'SELECT ' . $group_alias . '.* FROM ' . $this->escape_table_name(CourseGroup :: get_table_name()) . ' AS ' . $group_alias;
         $query .= ' JOIN ' . $this->escape_table_name(CourseGroupUserRelation :: get_table_name()) . ' AS ' . $group_relation_alias . ' ON ' . $this->escape_column_name(CourseGroup :: PROPERTY_ID, $group_alias) . ' = ' . $this->escape_column_name(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $group_relation_alias);
-
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user->get_id(), CourseGroupUserRelation :: get_table_name());
         if (! is_null($course))
         {
             $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $course->get_id());
         }
-
+        
         $condition = new AndCondition($conditions);
-
+        
         return $this->retrieve_object_set($query, CourseGroup :: get_table_name(), $condition);
     }
 
@@ -2224,9 +2239,9 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function retrieve_course_group_users($course_group, $condition = null, $offset = null, $count = null, $order_property = null)
     {
         $user_ids = $this->retrieve_course_group_user_ids($course_group);
-
+        
         $udm = UserDataManager :: get_instance();
-
+        
         if (count($user_ids) > 0)
         {
             $user_condition = new InCondition(User :: PROPERTY_ID, $user_ids);
@@ -2263,7 +2278,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             {
                 $conditions = new AndCondition($condition, $conditions);
             }
-
+            
             $udm = UserDataManager :: get_instance();
             return $udm->count_users($conditions);
         }
@@ -2279,20 +2294,20 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $course_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_group->get_course_code());
         $course_users = $this->retrieve_course_user_relations($course_condition);
         $group_user_ids = $this->retrieve_course_group_user_ids($course_group);
-
+        
         $course_user_ids = array();
-
+        
         while ($course_user = $course_users->next_result())
         {
             $course_user_ids[] = $course_user->get_user();
         }
-
+        
         $conditions = array();
         $conditions[] = $condition;
         $conditions[] = new InCondition(User :: PROPERTY_ID, $course_user_ids);
         $conditions[] = new NotCondition(new InCondition(User :: PROPERTY_ID, $group_user_ids));
         $condition = new AndCondition($conditions);
-
+        
         $udm = UserDataManager :: get_instance();
         return $udm->retrieve_users($condition, $offset, $count, $order_property);
     }
@@ -2311,9 +2326,9 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             $course_user_ids[] = $record[User :: PROPERTY_ID];
         }
-
+        
         $res->free();
-
+        
         $conditions[] = new InCondition(User :: PROPERTY_ID, $course_user_ids);
         $user_ids = $this->retrieve_course_group_user_ids($course_group);
         if (count($user_ids) > 0)
@@ -2332,7 +2347,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             $users = array($users);
         }
-
+        
         foreach ($users as $user)
         {
             $course_group_user_relation = new CourseGroupUserRelation();
@@ -2343,23 +2358,23 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
                 return false;
             }
         }
-
+        
         return true;
     }
 
     // Inherited
     function unsubscribe_users_from_course_groups($users, $course_group)
     {
-        if (!is_array($users))
+        if (! is_array($users))
         {
             $users = array($users);
         }
-
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group->get_id());
         $conditions[] = new InCondition(CourseGroupUserRelation :: PROPERTY_USER, $users);
         $condition = new AndCondition($conditions);
-
+        
         return $this->delete_objects(CourseGroupUserRelation :: get_table_name(), $condition);
     }
 
@@ -2370,7 +2385,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_COURSE_GROUP, $course_group->get_id());
         $conditions[] = new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user->get_id());
         $condition = new AndCondition($conditions);
-
+        
         return $this->count_objects(CourseGroupUserRelation :: get_table_name(), $condition) > 0;
     }
 
@@ -2383,14 +2398,14 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(CourseCategory :: PROPERTY_ID, $category->get_id());
         $succes = $this->delete(CourseCategory :: get_table_name(), $condition);
-
+        
         $conditions = array();
         $conditions[] = new InequalityCondition(CourseCategory :: PROPERTY_DISPLAY_ORDER, InequalityCondition :: GREATER_THAN, $category->get_display_order());
         $conditions[] = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $category->get_parent());
         $condition = new AndCondition($conditions);
-
+        
         $properties = array(CourseCategory :: PROPERTY_DISPLAY_ORDER => $this->escape_column_name(CourseCategory :: PROPERTY_DISPLAY_ORDER) - 1);
-
+        
         return $this->update_objects(CourseCategory :: get_table_name(), $properties, $condition);
     }
 
@@ -2419,17 +2434,17 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_ID, $content_object_publication_category->get_id());
         $succes = $this->delete(ContentObjectPublicationCategory :: get_table_name(), $condition);
-
+        
         $conditions = array();
         $conditions[] = new InequalityCondition(ContentObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER, InequalityCondition :: GREATER_THAN, $content_object_publication_category->get_display_order());
         $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_PARENT, $content_object_publication_category->get_parent());
         $condition = new AndCondition($conditions);
-
+        
         $properties = array(ContentObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER => $this->escape_column_name(ContentObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER) - 1);
         $this->update_objects(ContentObjectPublicationCategory :: get_table_name(), $properties, $condition);
-
+        
         $this->delete_content_object_publication_children($content_object_publication_category->get_id());
-
+        
         return $succes;
     }
 
@@ -2437,7 +2452,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
         $categories = $this->retrieve_content_object_publication_categories($condition);
-
+        
         while ($category = $categories->next_result())
         {
             $category->delete();
@@ -2470,7 +2485,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $assessment->get_id(), ComplexContentObjectItem :: get_table_name());
         $clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items($condition);
-
+        
         while ($clo_question = $clo_questions->next_result())
         {
             $maxscore += $clo_question->get_weight();
@@ -2498,7 +2513,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
         return $this->update($survey_invitation, $condition);
-
+    
     }
 
     function delete_course_section($course_section)
@@ -2514,7 +2529,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             $conditions[] = new InequalityCondition(CourseSection :: PROPERTY_DISPLAY_ORDER, InequalityCondition :: GREATER_THAN, $course_section->get_display_order());
             $conditions[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $course_section->get_course_code());
             $condition = new AndCondition($conditions);
-
+            
             $properties = array(CourseSection :: PROPERTY_DISPLAY_ORDER => $this->escape_column_name(CourseSection :: PROPERTY_DISPLAY_ORDER) - 1);
             if (! $this->update_objects(CourseSection :: get_table_name(), $properties, $condition))
             {
@@ -2531,7 +2546,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $condition = new EqualityCondition(CourseModule :: PROPERTY_ID, $module_id);
         $properties = array(CourseModule :: PROPERTY_SECTION => $course_section_id);
-
+        
         return $this->update_objects(CourseModule :: get_table_name(), $properties, $condition);
     }
 
@@ -2591,7 +2606,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     }
 
     // nested trees functions for course_groups
-
+    
 
     function count_course_group_children($node)
     {
@@ -2654,6 +2669,82 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $conditions[] = new EqualityCondition(CourseGroup :: PROPERTY_PARENT_ID, 0);
         $condition = new AndCondition($conditions);
         return $this->retrieve_course_groups($condition)->next_result();
+    }
+    
+    function count_new_publications_from_course($course, $user)
+    {	
+    	$publication_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
+        $publication_user_alias = $this->get_alias(ContentObjectPublicationUser  :: get_table_name());
+        $publication_group_alias = $this->get_alias(ContentObjectPublicationGroup :: get_table_name());
+        $lo_table_alias = $this->get_alias(ContentObject :: get_table_name());
+        $course_module_last_access_alias = $this->get_alias(CourseModuleLastAccess :: get_table_name());
+        
+        $query = 'SELECT COUNT(*) as count, ' . ContentObjectPublication :: PROPERTY_TOOL . ' FROM ' . $this->escape_table_name(ContentObjectPublication :: get_table_name()) . ' AS ' . $publication_alias;
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(ContentObjectPublicationUser  :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $publication_alias . '.id = ' . $publication_user_alias . '.publication_id';
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(ContentObjectPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $publication_alias . '.id = ' . $publication_group_alias . '.publication_id';
+        $query .= ' JOIN ' . RepositoryDataManager :: get_instance()->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $lo_table_alias . ' ON ' . $publication_alias . '.content_object_id = ' . $lo_table_alias . '.id';
+        $query .= ' JOIN ' . $this->escape_table_name(CourseModuleLastAccess :: get_table_name()) . ' AS ' . $course_module_last_access_alias . ' ON ';
+        $query .=            $course_module_last_access_alias . '.course_id = ' . $publication_alias . '.course_id AND ';
+        $query .=		 	 $course_module_last_access_alias . '.module_name = ' . $publication_alias . '.tool AND (';
+        $query .=		 	 $publication_alias . '.modified >= ' . $course_module_last_access_alias . '.access_date';
+        
+        $course_groups = $this->retrieve_course_groups_from_user($user, $course)->as_array();
+
+		$conditions = array();
+		$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course->get_id());
+		$conditions[] = new EqualityCondition(CourseModuleLastAccess :: PROPERTY_USER_ID, $user->get_id(), CourseModuleLastAccess :: get_table_name());
+		$conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name(), ContentObject :: get_table_name()));
+
+		if ((!$course->is_course_admin($user)))
+		{
+			$conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_HIDDEN, 0);
+			$conditions_publication_period = array();
+			$conditions_publication_period[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
+			$conditions_publication_period[] = new InequalityCondition(ContentObjectPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
+			
+			//$conditions_publication_period[] = new InequalityCondition('from_date', InequalityCondition :: GREATER_THAN_OR_EQUAL, $last_visit_date);
+			
+			$query .= ' OR ' . $publication_alias . '.' . ContentObjectPublication :: PROPERTY_FROM_DATE . ' >= ' . $course_module_last_access_alias . '.' . CourseModuleLastAccess :: PROPERTY_ACCESS_DATE;
+			
+			
+			$condition_publication_period = new AndCondition($conditions_publication_period);
+			$condition_publication_forever = new EqualityCondition(ContentObjectPublication :: PROPERTY_FROM_DATE, 0);
+			$conditions[] = new OrCondition($condition_publication_forever, $condition_publication_period);
+		}
+		
+		$query .= ')';
+
+		$access = array();
+		$access[] = new InCondition(ContentObjectPublicationUser :: PROPERTY_USER, $user->get_id(), ContentObjectPublicationUser  :: get_table_name());
+		$access[] = new InCondition(ContentObjectPublicationGroup :: PROPERTY_GROUP_ID, $course_groups, ContentObjectPublicationGroup :: get_table_name());
+		if (! empty($user) || ! empty($course_groups))
+		{
+			$access[] = new AndCondition(array(new EqualityCondition(ContentObjectPublicationUser :: PROPERTY_USER, null, ContentObjectPublicationUser  :: get_table_name()), 
+											  new EqualityCondition(ContentObjectPublicationGroup :: PROPERTY_GROUP_ID, null, ContentObjectPublicationGroup :: get_table_name())));
+		}
+
+		$conditions[] = new OrCondition($access);
+		$condition = new AndCondition($conditions);
+		
+    	if (isset($condition))
+        {
+            $translator = new ConditionTranslator($this, $this->get_alias(ContentObjectPublication :: get_table_name()));
+            $query .= $translator->render_query($condition);
+        }
+		
+        $query .= ' GROUP BY ' . ContentObjectPublication :: PROPERTY_TOOL;
+        
+        $result = $this->query($query);
+
+        $new_publications = array();
+        
+        while($record = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+        {
+        	$new_publications[$record['tool']] = $record['count'];	
+        }
+        
+        return $new_publications;
+    	
     }
 
 }

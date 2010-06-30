@@ -1,8 +1,10 @@
 <?php
+$lang['weblcms']['BrowseCourseGroup'] = 'Browse course group';
+$lang['weblcms']['CreateItem'] = 'Create item';
 $lang['weblcms']['DocumentAudioFormTitle'] = 'Title';
 $lang['weblcms']['DocumentAudioFormDescription'] = 'Description';
 $lang['weblcms']['DocumentAudioFormProperties'] = 'Properties';
-$lang['weblcms']['SurveyTitle'] = 'Title';
+$lang['weblcms']['SurveyTitle'] = 'Survey';
 $lang['weblcms']['SurveyFinishText'] = 'Finishing text';
 $lang['weblcms']['WikiItemCreated'] = 'Wiki item created';
 $lang['weblcms']['ShowCompareLegend'] = 'Show compare legend';

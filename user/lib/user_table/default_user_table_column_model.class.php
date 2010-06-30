@@ -21,11 +21,15 @@ class DefaultUserTableColumnModel extends ObjectTableColumnModel
      */
     private static function get_default_columns()
     {
+    	$udm = UserDataManager :: get_instance();
+        $user_alias = $udm->get_alias(User :: get_table_name());
+
         $columns = array();
         //$columns[] = new ObjectTableColumn(User :: PROPERTY_PICTURE_URI);
-        $columns[] = new ObjectTableColumn(User :: PROPERTY_OFFICIAL_CODE);
-        $columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME);
-        $columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME);
+        $columns[] = new ObjectTableColumn(User :: PROPERTY_OFFICIAL_CODE, true, $user_alias);
+        $columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true, $user_alias);
+        $columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true, $user_alias);
+
         return $columns;
     }
 }

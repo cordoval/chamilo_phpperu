@@ -19,37 +19,64 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
 
     function run()
     {
-        $this->repo_viewer = new RepoViewer($this, WikiPage :: get_type_name(), RepoViewer :: SELECT_SINGLE);
+        $this->repo_viewer = new RepoViewer($this, WikiPage :: get_type_name());
         $this->repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
-        
+
         if (! $this->repo_viewer->is_ready_to_be_published())
         {
             $this->repo_viewer->run();
         }
         else
         {
-            $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($this->repo_viewer->get_selected_objects());
-            $count = RepositoryDataManager :: get_instance()->count_type_content_objects(WikiPage :: get_type_name(), new EqualityCondition(ContentObject :: PROPERTY_TITLE, $content_object->get_title()));
-            if ($count == 1)
+            $objects = $this->repo_viewer->get_selected_objects();
+
+            if (!is_array($objects))
             {
-                $complex_content_object_item = ComplexContentObjectItem :: factory(WikiPage :: get_type_name());
-                $complex_content_object_item->set_ref($this->repo_viewer->get_selected_objects());
+                $objects = array($objects);
+            }
+
+            foreach($objects as $object)
+            {
+            	$complex_content_object_item = ComplexContentObjectItem :: factory(WikiPage :: get_type_name());
+                $complex_content_object_item->set_ref($object);
                 $complex_content_object_item->set_parent($this->get_root_content_object()->get_id());
-                $complex_content_object_item->set_user_id($this->repo_viewer->get_user_id());
+                $complex_content_object_item->set_user_id($this->get_user_id());
                 $complex_content_object_item->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($this->get_root_content_object()->get_id()));
-                $complex_content_object_item->set_additional_properties(array('is_homepage' => 0));
-                $complex_content_object_item->create();
-                $this->redirect(Translation :: get('WikiItemCreated'), '', array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id(), 'pid' => $this->get_root_content_object()->get_id()));
+                $complex_content_object_item->set_is_homepage(0);
+                $result = $complex_content_object_item->create();
             }
-            else
-            {
-//                $this->display_header();
-//                $this->display_error_message(Translation :: get('WikiPageTitleError'));
-                $this->repo_viewer->run();
-//                $this->display_footer();
-            }
+
+            $this->redirect(Translation :: get('WikiItemCreated'), '', array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
         }
-    
+
+    }
+
+    function display_header()
+    {
+        parent :: display_header();
+
+        $repo_viewer_action = Request :: get(RepoViewer :: PARAM_ACTION);
+
+        switch($repo_viewer_action)
+        {
+            case RepoViewer :: ACTION_BROWSER :
+                $title = 'BrowseAvailableWikiPages';
+                break;
+            case RepoViewer :: ACTION_CREATOR :
+                $title = 'CreateWikiPage';
+                break;
+            case RepoViewer :: ACTION_VIEWER :
+                $title = 'PreviewWikiPage';
+                break;
+            default :
+                $title = 'CreateWikiPage';
+                break;
+        }
+
+        $html = array();
+        $html[] = '<div class="wiki-pane-content-title">' . Translation :: get($title) . '</div>';
+        $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('In') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
+        echo implode("\n", $html);
     }
 }
 ?>

@@ -8,13 +8,13 @@
 				</options>
 			</setting>
 			<setting name="administrator_firstname" field="text" default="Chamilo" />
-			
+
 			<setting name="administrator_surname" field="text" default="Administrator" />
 			<setting name="administrator_email" field="text" default="chamilo.admin@mychamilo.com">
 				<validations>
-                    <validation rule="email" message="MustBeAnEMailAddress"/>
-                </validations>
-            </setting>
+					<validation rule="email" message="MustBeAnEMailAddress" />
+				</validations>
+			</setting>
 			<setting name="administrator_telephone" field="text" default="000/1234567" />
 		</category>
 		<category name="whoisonline">
@@ -27,7 +27,7 @@
 			</setting>
 			<setting name="timelimit" field="text" default="30">
 				<validations>
-					<validation rule="numeric" message="MustBeNumeric"/>
+					<validation rule="numeric" message="MustBeNumeric" />
 				</validations>
 			</setting>
 		</category>
@@ -36,19 +36,18 @@
 			<setting name="institution" field="text" default="Chamilo" />
 			<setting name="institution_url" field="text" default="http://www.chamilo.org">
 				<validations>
-						<validation rule="regex" format="/http:\/\/.*/" message="MustStartWithHTTP" />
-					</validations>
+					<validation rule="regex" format="/http:\/\/.*/" message="MustStartWithHTTP" />
+				</validations>
 			</setting>
-			<setting name="no_reply_email" field="text" default="" >
+			<setting name="no_reply_email" field="text" default="">
 				<validations>
-	                    <validation rule="email" message="MustBeAnEMailAddress"/>
-	                </validations>
-	            </setting>
+					<validation rule="email" message="MustBeAnEMailAddress" />
+				</validations>
+			</setting>
 			<setting name="page_after_login" field="select" default="home">
 				<options type="dynamic" source="get_active_applications" />
 			</setting>
-			<setting name="public_pages_compliance_to_wai" field="checkbox"
-				default="0">
+			<setting name="public_pages_compliance_to_wai" field="checkbox" default="0">
 				<options type="static">
 					<option name="public_pages_compliance_to_wai" value="1" />
 				</options>
@@ -66,14 +65,12 @@
 			<setting name="platform_timezone" field="select" default="Europe/Brussels" user_setting="1">
 				<options type="dynamic" source="get_time_zones" />
 			</setting>
-			<setting name="active_online_email_editor" field="checkbox"
-				default="0">
+			<setting name="active_online_email_editor" field="checkbox" default="0">
 				<options type="static">
 					<option name="active_online_email_editor" value="1" />
 				</options>
 			</setting>
-			<setting name="installation_blocked" field="checkbox" 
-				default="0">
+			<setting name="installation_blocked" field="checkbox" default="0">
 				<options type="static">
 					<option name="installation_blocked" value="1" />
 				</options>
@@ -154,9 +151,9 @@
 			<setting name="replacement_extension" field="text" default="" />
 			<setting name="permissions_new_files" field="text" default="0660">
 				<validations>
-                    <validation rule="numeric" message="MustBeNumeric"/>
-                </validations>
-            </setting>
+					<validation rule="numeric" message="MustBeNumeric" />
+				</validations>
+			</setting>
 		</category>
 		<category name="authentication">
 			<setting name="enable_external_authentication" field="checkbox">
@@ -206,21 +203,16 @@
 			<setting name="httpd_error_location" field="text" default="" />
 			<setting name="mysql_error_location" field="text" default="" />
 		</category>
-                <category name="mediamosa">
-                    <setting name="mediamosa_url" field="text" default="" />
-                    <setting name="mediamosa_username" field="text" default="" />
-                    <setting name="mediamosa_password" field="text" default="" />
-                </category>
-                 <category name="proxy settings">
-                    <setting name="proxy_settings_active" field="checkbox">
-                        <options type="static">
-				<option name="proxy_settings_active" value="1" />
-			</options>
-                    </setting>
-                    <setting name="proxy_server" field="text" default="http://" />
-                    <setting name="proxy_port" field="text" default="" />
-                    <setting name="proxy_username" field="text" default="" />
-                    <setting name="proxy_password" field="text" default="" />
-                </category>
+		<category name="proxy settings">
+			<setting name="proxy_settings_active" field="checkbox">
+				<options type="static">
+					<option name="proxy_settings_active" value="1" />
+				</options>
+			</setting>
+			<setting name="proxy_server" field="text" default="http://" />
+			<setting name="proxy_port" field="text" default="" />
+			<setting name="proxy_username" field="text" default="" />
+			<setting name="proxy_password" field="text" default="" />
+		</category>
 	</settings>
 </application>

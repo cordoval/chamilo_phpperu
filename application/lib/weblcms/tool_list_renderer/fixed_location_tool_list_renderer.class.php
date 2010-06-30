@@ -90,16 +90,24 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		}*/
         
         echo '<div id="coursecode" style="display: none;">' . $this->course->get_id() . '</div>';
+        
+        $tabs = new DynamicTabsRenderer('admin');
+        
         $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('course_id', $this->course->get_id()));
         while ($section = $sections->next_result())
         {
-            if ($section->get_type() == CourseSection :: TYPE_LINK)
+            if(!$section->get_visible() && !$this->is_course_admin)
             {
-                $this->show_links($section);
+            	continue;
+            }
+            
+        	if ($section->get_type() == CourseSection :: TYPE_LINK)
+            {
+            	$content = $this->show_links($section);
             }
             else
             {
-                if ($section->get_type() == CourseSection :: TYPE_DISABLED && ($this->course->get_layout() < 3 || !$this->is_course_admin))
+            	if ($section->get_type() == CourseSection :: TYPE_DISABLED && ($this->course->get_layout() < 3 || !$this->is_course_admin))
                     continue;
                 
                 if ($section->get_type() == CourseSection :: TYPE_ADMIN && ! $this->is_course_admin)
@@ -107,14 +115,29 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 
                 $id = ($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() > 2) ? 0 : $section->get_id();
                 
-                if ($section->get_visible() && (count($tools[$id]) > 0 || $this->is_course_admin))
+                if (($section->get_visible() && (count($tools[$id]) > 0)) || $this->is_course_admin)
                 {
-                    echo $this->display_block_header($section, $section->get_name());
-                    $this->show_section_tools($section, $tools[$id]);
-                    echo $this->display_block_footer($section);
+                    //echo $this->display_block_header($section, $section->get_name());
+                    $content = $this->show_section_tools($section, $tools[$id]);
+                    //echo $this->display_block_footer($section);
                 }
             }
+            
+            if($content)
+            {
+            	$tabs->add_tab(new DynamicContentTab($section->get_id(), $section->get_name(), null, $content));
+            }
         }
+        
+        if(count($tabs->get_tabs()) > O)
+        {
+        	echo $tabs->render();
+        }
+        else
+        {
+        	echo '<div class="warning-message">' . Translation :: get('NoVisibleCourseSections') . '</div>';
+        }
+        
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
         echo '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/course_home.js' . '"></script>';
     }
@@ -133,10 +156,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
         
-        if ($publications->size() > 0)
+        /*if ($publications->size() > 0)
         {
             echo $this->display_block_header($section, Translation :: get('Links'));
-        }
+        }*/
         
         $table = new HTML_Table('style="width: 100%;"');
         $table->setColCount($this->number_of_columns);
@@ -183,12 +206,13 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 $count ++;
             }
         }
-        $table->display();
         
-        if ($publications->size() > 0)
+        return $table->toHtml();
+        
+        /*if ($publications->size() > 0)
         {
             echo $this->display_block_footer($section);
-        }
+        }*/
     }
 
     function display_block_header($section, $block_name)
@@ -249,6 +273,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         
         $html = array();
         
+        if(count($tools) == 0)
+        {
+        	$html[] = '<div class="normal-message">' . Translation :: get('NoToolsAvailable') . '</div>';
+        }
+        
         foreach ($tools as $index => $tool)
         {
             if ($tool->visible || $section->get_name() == 'course_admin')
@@ -256,10 +285,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 $lcms_action = HomeTool :: ACTION_MAKE_TOOL_INVISIBLE;
                 $visible_image = 'action_visible.png';
                 $new = '';
-                /*if ($parent->tool_has_new_publications($tool->name))
+                if ($parent->tool_has_new_publications($tool->name))
                 {
                     $new = '_new';
-                }*/
+                }
                 $tool_image = 'tool_' . $tool->name . $new . '.png';
                 $link_class = '';
             }
@@ -314,8 +343,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         }
         //$table->display();
         
+        $html[] = '<div class="clear"></div>';
 
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 }
 ?>

@@ -210,7 +210,7 @@ interface RepositoryDataManagerInterface
     /**
      * Retrieves a complex learning object from the database with a given id
      * @param Int $clo_id
-     * @return The complex learning object
+     * @return ComplexContentObjectItem The complex learning object
      */
     function retrieve_complex_content_object_item($clo_item_id);
 

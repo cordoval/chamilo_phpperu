@@ -6,7 +6,7 @@
 /**
  * This class represents a discussion forum.
  */
-class Forum extends ContentObject
+class Forum extends ContentObject implements ComplexContentObjectSupport
 {
     const PROPERTY_LOCKED = 'locked';
     const PROPERTY_TOTAL_TOPICS = 'total_topics';

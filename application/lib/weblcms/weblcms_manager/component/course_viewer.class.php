@@ -65,7 +65,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
             }
         }
 
-        if (! $this->is_teacher() && (! $this->is_subscribed($this->get_course(), $this->get_user_id()) || ! $this->get_course()->get_access()))
+        if (! $this->is_teacher() && (! $this->is_subscribed($this->get_course(), $this->get_user()) || ! $this->get_course()->get_access()))
         {
             $this->display_header($trail, false, true, false);
             Display :: error_message(Translation :: get("NotAllowedToView"));
@@ -239,6 +239,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
         $this->rights[EDIT_RIGHT] = false;
         $this->rights[ADD_RIGHT] = false;
         $this->rights[DELETE_RIGHT] = false;
+    }
+    
+    function set_right($right, $value)
+    {
+    	$this->rights[$right] = $value;
     }
 
     private $is_teacher;

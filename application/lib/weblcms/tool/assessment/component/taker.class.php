@@ -123,7 +123,7 @@ class AssessmentToolTakerComponent extends AssessmentTool
     {
         $arguments = array(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID => $this->publication_id, WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID => $this->get_user_id(), WeblcmsAssessmentAttemptsTracker :: PROPERTY_COURSE_ID => $this->get_course_id(), WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE => 0);
         
-        $tracker = Events :: trigger_event('attempt_assessment', 'weblcms', $arguments);
+        $tracker = Event :: trigger('attempt_assessment', 'weblcms', $arguments);
         
         return $tracker[0];
     }
@@ -137,7 +137,7 @@ class AssessmentToolTakerComponent extends AssessmentTool
         $parameters[WeblcmsQuestionAttemptsTracker :: PROPERTY_SCORE] = $score;
         $parameters[WeblcmsQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
         
-        Events :: trigger_event('attempt_question', 'weblcms', $parameters);
+        Event :: trigger('attempt_question', 'weblcms', $parameters);
     }
 
     function finish_assessment($total_score)

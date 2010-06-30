@@ -5,8 +5,8 @@
 			autoincrement="true" />
 		<property name="name" type="text" notnull="1" />
 		<property name="description" type="text" />
-		<property name="begin" type="integer" unsigned="1" notnull="1" />
-		<property name="end" type="integer" unsigned="1" notnull="1" />
+		<property name="begin" type="integer" notnull="1" />
+		<property name="end" type="integer" notnull="1" />
 		<property name="agreement_id" type="integer" unsigned="1"
 			notnull="1" />
 	</properties>

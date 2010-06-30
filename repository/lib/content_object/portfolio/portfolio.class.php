@@ -6,7 +6,7 @@
 /**
  * This class represents an portfolio
  */
-class Portfolio extends ContentObject
+class Portfolio extends ContentObject implements ComplexContentObjectSupport
 {
 	const CLASS_NAME = __CLASS__;
 

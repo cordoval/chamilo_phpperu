@@ -25,7 +25,7 @@ class SurveyManager extends WebApplication
 	const PARAM_TARGET = 'target_users_and_groups';
 	const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
 	const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
-
+	
 	const ACTION_DELETE_SURVEY_PUBLICATION = 'delete';
 	const ACTION_EDIT_SURVEY_PUBLICATION = 'edit';
 	const ACTION_CREATE_SURVEY_PUBLICATION = 'create';
@@ -35,6 +35,7 @@ class SurveyManager extends WebApplication
 	const ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES = 'manage_categories';
 	const ACTION_VIEW_SURVEY_PUBLICATION = 'view';
 	const ACTION_VIEW_SURVEY_PUBLICATION_RESULTS = 'view_results';
+	const ACTION_REPORTING_FILTER = 'reporting_filter';
 	const ACTION_REPORTING = 'reporting';
 	const ACTION_EXCEL_EXPORT = 'excel_export';
 	const ACTION_QUESTION_REPORTING = 'question_reporting';
@@ -58,7 +59,7 @@ class SurveyManager extends WebApplication
 	function SurveyManager($user = null)
 	{
 		parent :: __construct($user);
-		$this->parse_input_from_table();
+		//$this->parse_input_from_table();
 	}
 
 	/**
@@ -99,6 +100,9 @@ class SurveyManager extends WebApplication
 				break;
 			case self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS :
 				$component = $this->create_component('ResultsViewer');
+				break;
+			case self :: ACTION_REPORTING_FILTER :
+				$component = $this->create_component('ReportingFilter');
 				break;
 			case self :: ACTION_REPORTING :
 				$component = $this->create_component('Reporting');
@@ -141,39 +145,43 @@ class SurveyManager extends WebApplication
 		$component->run();
 	}
 
-	private function parse_input_from_table()
-	{
-		if (isset($_POST['action']))
-		{
-
-			if (isset($_POST[SurveyPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
-			{
-				$selected_ids = $_POST[SurveyPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-			}
-
-			if (empty($selected_ids))
-			{
-				$selected_ids = array();
-			}
-			elseif (! is_array($selected_ids))
-			{
-				$selected_ids = array($selected_ids);
-			}
-
-			switch ($_POST['action'])
-			{
-				case self :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS :
-					$this->set_action(self :: ACTION_DELETE_SURVEY_PUBLICATION);
-					$_GET[self :: PARAM_SURVEY_PUBLICATION] = $selected_ids;
-					break;
-				case self :: PARAM_MAIL_PARTICIPANTS :
-					$this->set_action(self :: ACTION_MAIL_SURVEY_PARTICIPANTS);
-					$_GET[self :: PARAM_SURVEY_PUBLICATION] = $selected_ids;
-					break;
-			}
-
-		}
-	}
+//	private function parse_input_from_table()
+//	{
+//		if (isset($_POST['action']))
+//		{
+//
+//			if (isset($_POST[SurveyPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
+//			{
+//				$selected_ids = $_POST[SurveyPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+//			}
+//
+//			if (empty($selected_ids))
+//			{
+//				$selected_ids = array();
+//			}
+//			elseif (! is_array($selected_ids))
+//			{
+//				$selected_ids = array($selected_ids);
+//			}
+//
+//			switch ($_POST['action'])
+//			{
+//				case self :: PARAM_REPORTING_SELECTED_SURVEY_PUBLICATIONS :
+//					$this->set_action(self :: ACTION_REPORTING);
+//					$_GET[self :: PARAM_SURVEY_PUBLICATION] = $selected_ids;
+//					break;
+//				case self :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS :
+//					$this->set_action(self :: ACTION_DELETE_SURVEY_PUBLICATION);
+//					$_GET[self :: PARAM_SURVEY_PUBLICATION] = $selected_ids;
+//					break;
+//				case self :: PARAM_MAIL_PARTICIPANTS :
+//					$this->set_action(self :: ACTION_MAIL_SURVEY_PARTICIPANTS);
+//					$_GET[self :: PARAM_SURVEY_PUBLICATION] = $selected_ids;
+//					break;
+//			}
+//
+//		}
+//	}
 
 	function get_application_name()
 	{
@@ -336,7 +344,12 @@ class SurveyManager extends WebApplication
 		$id = $survey_publication ? $survey_publication->get_id() : null;
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS, self :: PARAM_SURVEY_PUBLICATION => $id));
 	}
-
+	
+	function get_reporting_filter_survey_publication_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING_FILTER));
+	}
+	
 	function get_reporting_survey_publication_url($survey_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));

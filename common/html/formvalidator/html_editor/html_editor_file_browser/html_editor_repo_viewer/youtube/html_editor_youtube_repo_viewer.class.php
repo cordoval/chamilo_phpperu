@@ -6,5 +6,10 @@ class HtmlEditorYoutubeRepoViewer extends HtmlEditorRepoViewer
         parent :: __construct($parent, $types, $maximum_select, $excluded_objects, $parse_input);
         $this->set_types(Youtube :: get_type_name());
     }
+    
+ 	function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
 }
 ?>
