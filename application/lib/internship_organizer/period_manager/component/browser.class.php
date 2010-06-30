@@ -3,14 +3,16 @@ require_once dirname(__FILE__) . '/../period_manager.class.php';
 require_once dirname(__FILE__) . '/browser/browser_table.class.php';
 require_once dirname(__FILE__) . '/rel_user_browser/rel_user_browser_table.class.php';
 require_once dirname(__FILE__) . '/rel_group_browser/rel_group_browser_table.class.php';
+require_once dirname(__FILE__) . '/rel_category_browser/rel_category_browser_table.class.php';
 
 class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganizerPeriodManager
 {
     
-    const TAB_DETAILS = 0;
-    const TAB_SUBPERIODS = 1;
-    const TAB_GROUPS = 2;
-    const TAB_USERS = 3;
+    const TAB_DETAILS = 'dett';
+    const TAB_SUBPERIODS = 'subt';
+    const TAB_GROUPS = 'grot';
+    const TAB_USERS = 'uset';
+    const TAB_CATEGORIES = 'catt';
     
     private $action_bar;
     private $period;
@@ -47,45 +49,32 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
         $tabs = new DynamicTabsRenderer($renderer_name);
         
-        $subperiod_count = $this->count_periods($this->get_sub_periods_condition());
-        $user_count = $this->count_period_rel_users($this->get_rel_users_condition());
-        $group_count = $this->count_period_rel_groups($this->get_rel_groups_condition());
-        
-        // Subperiods table tab
-        if ($subperiod_count > 0)
-        {
-            $parameters = $this->get_parameters();
-            $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-            $parameters[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID] = $id;
-            
-            $table = new InternshipOrganizerPeriodBrowserTable($this, $parameters, $this->get_sub_periods_condition());
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBPERIODS, Translation :: get('InternshipOrganizerSubPeriods'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-        }
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        $parameters[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID] = $id;
         
         // Users table tab
-        if ($user_count > 0)
-        {
-            $parameters = $this->get_parameters();
-            $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-            $parameters[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID] = $id;
-            
-            $table = new InternshipOrganizerPeriodRelUserBrowserTable($this, $parameters, $this->get_rel_users_condition());
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-        }
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_USERS;
+        $table = new InternshipOrganizerPeriodRelUserBrowserTable($this, $parameters, $this->get_rel_users_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
-        //Groups table tab
-        if ($group_count > 0)
-        {
-            $parameters = $this->get_parameters();
-            $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-            $parameters[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID] = $id;
-            
-            $table = new InternshipOrganizerPeriodGroupBrowserTable($this, $parameters, $this->get_rel_groups_condition());
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_GROUPS, Translation :: get('Groups'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
-        }
+        // Group table tab
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_GROUPS;
+        $table = new InternshipOrganizerPeriodGroupBrowserTable($this, $parameters, $this->get_rel_groups_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_GROUPS, Translation :: get('Groups'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+        
+        // Category table tab
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_CATEGORIES;
+        $table = new InternshipOrganizerCategoryRelPeriodBrowserTable($this, $parameters, $this->get_rel_category_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_CATEGORIES, Translation :: get('Categories'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         // Period info tab
         $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Details'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $this->get_period_info()));
+        
+        // Sub periods
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_SUBPERIODS;
+        $table = new InternshipOrganizerPeriodBrowserTable($this, $parameters, $this->get_sub_periods_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBPERIODS, Translation :: get('InternshipOrganizerSubPeriods'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         $html[] = $tabs->render();
         
@@ -175,88 +164,56 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
 
     function get_rel_users_condition()
     {
-        $condition = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $this->get_period()->get_id());
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $this->get_period()->get_id());
         
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions = array();
-            $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
-            $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
-            $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
-            $user_condition = new OrCondition($conditions);
-            
-            $udm = UserDataManager :: get_instance();
-            $users = $udm->retrieve_users($user_condition);
-            
-            $user_ids = array();
-            while ($user = $users->next_result())
-            {
-                $user_ids[] = $user->get_id();
-            }
-            
-            if (count($user_ids))
-            {
-                
-                $rel_user_condition = new InCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $user_ids);
-            
-            }
-            else
-            {
-                $rel_user_condition = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, 0);
-            
-            }
-            
-            $and_conditions = array();
-            $and_conditions[] = $condition;
-            $and_conditions[] = $rel_user_condition;
-            
-            return new AndCondition($and_conditions);
+            $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', $user_alias, true);
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', $user_alias, true);
+            $conditions[] = new OrCondition($search_conditions);
         }
         
-        return $condition;
+        return new AndCondition($conditions);
     }
 
     function get_rel_groups_condition()
     {
-        $condition = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_PERIOD_ID, $this->get_period()->get_id());
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_PERIOD_ID, $this->get_period()->get_id());
         
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions = array();
-            $conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*');
-            $conditions[] = new PatternMatchCondition(Group :: PROPERTY_DESCRIPTION, '*' . $query . '*');
-            $group_condition = new OrCondition($conditions);
-            
-            $gdm = GroupDataManager :: get_instance();
-            $groups = $gdm->retrieve_groups($group_condition);
-            
-            $group_ids = array();
-            while ($group = $groups->next_result())
-            {
-                $group_ids[] = $group->get_id();
-            }
-            
-            if (count($group_ids))
-            {
-                
-                $rel_group_condition = new InCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_GROUP_ID, $group_ids);
-            
-            }
-            else
-            {
-                $rel_group_condition = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_GROUP_ID, 0);
-            
-            }
-            
-            $and_conditions = array();
-            $and_conditions[] = $condition;
-            $and_conditions[] = $rel_group_condition;
-            return new AndCondition($and_conditions);
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*');
+            $search_conditions[] = new PatternMatchCondition(Group :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+            $conditions = new OrCondition($search_conditions);
+        
         }
         
-        return $condition;
+        return new AndCondition($conditions);
+    }
+
+    function get_rel_category_condition()
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelPeriod :: PROPERTY_PERIOD_ID, $this->get_period()->get_id());
+        
+        $query = $this->action_bar->get_query();
+        if (isset($query) && $query != '')
+        {
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerCategory :: PROPERTY_NAME, '*' . $query . '*', InternshipOrganizerCategory :: get_table_name());
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerCategory :: PROPERTY_DESCRIPTION, '*' . $query . '*', InternshipOrganizerCategory :: get_table_name());
+            $conditions[] = new OrCondition($search_conditions);
+        
+        }
+        
+        return new AndCondition($conditions);
     }
 
     function get_action_bar()
@@ -265,10 +222,11 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->get_period()->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => Request :: get(DynamicTabsRenderer :: PARAM_SELECTED_TAB))));
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_period_publish_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerPeriod'), Theme :: get_common_image_path() . 'action_create.png', $this->get_period_create_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewRoot'), Theme :: get_common_image_path() . 'action_home.png', $this->get_browse_periods_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_browse_periods_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_period_publish_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerPeriod'), Theme :: get_common_image_path() . 'action_create.png', $this->get_period_create_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_period_editing_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewPeriod'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_period_viewing_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Reporting'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_period_reporting_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         

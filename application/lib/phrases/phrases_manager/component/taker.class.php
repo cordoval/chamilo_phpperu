@@ -86,7 +86,7 @@ class PhrasesManagerTakerComponent extends PhrasesManager
         $arguments[PhrasesAssessmentAttemptsTracker :: PROPERTY_USER_ID] = $this->get_user_id();
         $arguments[PhrasesAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE] = 0;
 
-        $tracker = Events :: trigger_event('attempt_assessment', PhrasesManager :: APPLICATION_NAME, $arguments);
+        $tracker = Event :: trigger('attempt_assessment', PhrasesManager :: APPLICATION_NAME, $arguments);
 
         return $tracker[0];
     }
@@ -101,7 +101,7 @@ class PhrasesManagerTakerComponent extends PhrasesManager
         $parameters['score'] = $score;
         $parameters['feedback'] = '';
 
-        Events :: trigger_event('attempt_question', PhrasesManager :: APPLICATION_NAME, $parameters);
+        Event :: trigger('attempt_question', PhrasesManager :: APPLICATION_NAME, $parameters);
     }
 
     function finish_assessment($total_score)

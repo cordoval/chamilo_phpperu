@@ -24,55 +24,27 @@ class DefaultInternshipOrganizerCategoryRelLocationTableCellRenderer extends Obj
      * @param Learning Object $content_object The learning object to render
      * @return string A HTML representation of the rendered table cell
      */
-    function render_cell($column, $categoryrellocation)
-//    function render_cell($column, $location)
+    function render_cell($column, $category_rel_location)
     {
-        $location_id = $categoryrellocation->get_location_id();
-        $location = InternshipOrganizerDataManager :: get_instance()->retrieve_location($location_id);
-        
-        $organisation = $location->get_organisation();
-        $region = $location->get_region();
-//        
-//        $location_id = $location->get_location_id();
-//        $location = InternshipOrganizerDataManager :: get_instance()->retrieve_location($location_id);
-//        $organisation = $location->get_organisation();
-//        $region = $location->get_region();
-        
         switch ($column->get_name())
         {
             case InternshipOrganizerLocation :: PROPERTY_NAME :
-                return $location->get_name();
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_NAME);
             case InternshipOrganizerLocation :: PROPERTY_ADDRESS :
-                return $location->get_address();    
-            case InternshipOrganizerLocation :: PROPERTY_DESCRIPTION :
-                return $location->get_description();
-//            case InternshipOrganizerLocation :: PROPERTY_REGION_ID :
-//            	$region = $location->get_region();
-//            	$region_string = $region->get_zip_code(). '  ' .$region->get_city_name();
-//                return $region_string;
-            	
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_ADDRESS);
             case InternshipOrganizerRegion :: PROPERTY_ZIP_CODE :
-            	$region = $location->get_region();
-            	$zip_code = $region->get_zip_code();
-            	return $zip_code;
-            
+                return $category_rel_location->get_optional_property(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE);
             case InternshipOrganizerRegion :: PROPERTY_CITY_NAME :
-            	$city_name = $region->get_city_name();
-            	return $city_name;
-            	
-//            	. '  ' .$region->get_city_name();
-//                return $region_string;
-//            	return $    
-                
-//            	$city_string = $region->get_zip_code() . '  ' . $region->get_city_name();
-//                return $city_string;
-//                
-//                case InternshipOrganizerLocation :: PROPERTY_REGION_ID :
-            	
-            //case InternshipOrganizerLocation :: PROPERTY_CITY :
-              //  return $location->get_city();
-           // case InternshipOrganizerLocation :: PROPERTY_STREET :
-           //     return $location->get_street();
+                return $category_rel_location->get_optional_property(InternshipOrganizerRegion :: PROPERTY_CITY_NAME);
+            case InternshipOrganizerLocation :: PROPERTY_TELEPHONE :
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_TELEPHONE);
+            case InternshipOrganizerLocation :: PROPERTY_FAX :
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_FAX);
+            case InternshipOrganizerLocation :: PROPERTY_EMAIL :
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_EMAIL);
+            case InternshipOrganizerLocation :: PROPERTY_DESCRIPTION :
+                return $category_rel_location->get_optional_property(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION);
+            
             default :
                 return '&nbsp;';
         }

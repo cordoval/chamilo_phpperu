@@ -526,7 +526,7 @@ class SurveyContentObjectPublicationForm extends FormValidator
         {
             $args[WeblcmsSurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
             $args[WeblcmsSurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $cont->get_name();
-            $tracker = Events :: trigger_event('weblcms_survey_participation', 'weblcms', $args);
+            $tracker = Event :: trigger('weblcms_survey_participation', 'weblcms', $args);
             if ($template->has_children())
             {
                 $temps = $template->get_children(false);

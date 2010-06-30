@@ -55,7 +55,7 @@ class GroupManagerUnsubscriberComponent extends GroupManager
                     }
                     else
                     {
-                        Events :: trigger_event('unsubscribe_user', 'group', array('target_group_id' => $groupreluser->get_group_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $user->get_id()));
+                        Event :: trigger('unsubscribe_user', 'group', array('target_group_id' => $groupreluser->get_group_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $user->get_id()));
                     }
                 }
                 else

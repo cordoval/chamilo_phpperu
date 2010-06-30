@@ -244,7 +244,7 @@ class UserForm extends FormValidator
 
         if ($value)
         {
-            Events :: trigger_event('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
+            Event :: trigger('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
         }
 
         return $value;
@@ -317,7 +317,7 @@ class UserForm extends FormValidator
 
             if ($value)
             {
-                Events :: trigger_event('create', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
+                Event :: trigger('create', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
             }
 
             return $value;

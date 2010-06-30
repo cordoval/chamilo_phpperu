@@ -165,7 +165,7 @@ class CategoryQuotaBoxForm extends FormValidator
                 $suc = $quota_box_rel_category->create();
                 
                 if ($succes)
-                    Events :: trigger_event('create_quota_box_category', 'reservations', array('target_id' => $quota_box_rel_category->get_id(), 'user_id' => $this->user->get_id()));
+                    Event :: trigger('create_quota_box_category', 'reservations', array('target_id' => $quota_box_rel_category->get_id(), 'user_id' => $this->user->get_id()));
                 
                 $succes &= $suc;
             }

@@ -48,7 +48,7 @@ class ReservationsManagerSubscriptionDeleterComponent extends ReservationsManage
                 }
                 else
                 {
-                    Events :: trigger_event('delete_subscription', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+                    Event :: trigger('delete_subscription', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
                 }
                 
                 $subscriptionuser = new SubscriptionUser();

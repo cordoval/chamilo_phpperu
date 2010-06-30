@@ -129,7 +129,7 @@ class AssessmentManagerViewerComponent extends AssessmentManager
     {
         $args = array('assessment_id' => $this->pid, 'user_id' => $this->get_user_id(), 'total_score' => 0);
         
-        $tracker = Events :: trigger_event('attempt_assessment', AssessmentManager :: APPLICATION_NAME, $args);
+        $tracker = Event :: trigger('attempt_assessment', AssessmentManager :: APPLICATION_NAME, $args);
         
         return $tracker[0];
     }
@@ -144,7 +144,7 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         $parameters['score'] = $score;
         $parameters['feedback'] = '';
         
-        Events :: trigger_event('attempt_question', AssessmentManager :: APPLICATION_NAME, $parameters);
+        Event :: trigger('attempt_question', AssessmentManager :: APPLICATION_NAME, $parameters);
     }
 
     function finish_assessment($total_score)

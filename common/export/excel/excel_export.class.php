@@ -24,8 +24,9 @@ class ExcelExport extends Export
 		$cell_number = 1;
 		 
 		//dump($data);
+		//exit();
 		$excel->setActiveSheetIndex(0);
-		$excel->getActiveSheet()->setTitle("test");
+		//$excel->getActiveSheet()->setTitle("test");
 		
 		if(is_array($data))
 		{
@@ -78,18 +79,103 @@ class ExcelExport extends Export
 		{
 			$blocks = $data->get_reporting_blocks();
 			
-			foreach($blocks as $block)
+			if(is_array($blocks))
 			{
+				foreach($blocks as $block)
+				{
+					$block_title = Utilities::underscores_to_camelcase_with_spaces($block->get_name());
+					$block_content_data = $block->retrieve_data();
+					
+					$cell_letter = 0;
+					
+					$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, strip_tags(html_entity_decode($block_title)));
+					$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(60);
+					
+					$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
+					++$cell_number;
+					$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, trim(html_entity_decode(strip_tags($block_description))));
+		
+					if ($block_description != ""){
+						$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
+					}
+		
+					++$cell_number;
+					//(matrix question) rows
+					foreach ($block_content_data->get_rows() as $row_id => $row_name)
+					{
+						$cell_letter++;
+						$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(15);
+						//$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
+						$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, trim(html_entity_decode(strip_tags($row_name))));
+		
+					}
+					foreach($block_content_data->get_categories() as $category_id => $category_name)
+					{
+						$cell_letter = 0;
+						++$cell_number;
+						$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(50);
+						$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, trim(html_entity_decode(strip_tags($category_name))));
+						$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
+						foreach ($block_content_data->get_rows() as $row_id => $row_name)
+						{
+							$cell_letter++;
+							$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, $block_content_data->get_data_category_row($category_id, $row_id));
+						}
+						$i++;
+					}
+					
+					$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
+					$cell_number = $cell_number + 2;
+				}
+			}
+			else 
+			{
+				$block = $data->get_current_block();
+				
 				$block_title = Utilities::underscores_to_camelcase_with_spaces($block->get_name());
+				$block_content_data = $block->retrieve_data();
+				
 				$cell_letter = 0;
 				
 				$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, strip_tags(html_entity_decode($block_title)));
 				$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(60);
+					
+				$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
+				++$cell_number;
+				$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, trim(html_entity_decode(strip_tags($block_description))));
+	
+				if ($block_description != ""){
+					$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
+				}
+	
+				++$cell_number;
+				//(matrix question) rows
+				foreach ($block_content_data->get_rows() as $row_id => $row_name)
+				{
+					$cell_letter++;
+					$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(15);
+					//$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
+					$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, trim(html_entity_decode(strip_tags($row_name))));
+	
+				}
+				foreach($block_content_data->get_categories() as $category_id => $category_name)
+				{
+					$cell_letter = 0;
+					++$cell_number;
+					$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(50);
+					$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, trim(html_entity_decode(strip_tags($category_name))));
+					$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
+					foreach ($block_content_data->get_rows() as $row_id => $row_name)
+					{
+						$cell_letter++;
+						$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, $block_content_data->get_data_category_row($category_id, $row_id));
+					}
+					$i++;
+				}
 				
 				$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
 				$cell_number = $cell_number + 2;
 			}
-			
 			
 		}		
 		
@@ -99,72 +185,10 @@ class ExcelExport extends Export
 		$objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
 		return $objWriter->save('php://output');
 
-		/*$objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-		 return $objWriter->save($this->get_filename());*/
+	
 			
 		$excel->disconnectWorksheets();
 		unset($excel);
-    	
-    	/*	foreach($survey_data as $question){
-				//get question title
-				//get question description
-				$title = $question[0];
-				$description = $question[1];
-				$data = $question[2];
-	
-				$cell_letter = 0;
-				$cell_number = $cell_number + 2;
-				$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, strip_tags(html_entity_decode($title)));
-				$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(60);
-				$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
-				++$cell_number;
-				$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, trim(html_entity_decode(strip_tags($description))));
-	
-				if ($description != ""){
-					$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
-				}
-	
-				++$cell_number;
-				//(matrix question) rows
-				foreach ($data->get_rows() as $row_id => $row_name)
-				{
-					//	dump($row_name);
-					$cell_letter++;
-					$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(15);
-					//$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
-					$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, trim(html_entity_decode(strip_tags($row_name))));
-	
-				}
-				foreach($data->get_categories() as $category_id => $category_name)
-				{
-					$cell_letter = 0;
-					++$cell_number;
-					$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(50);
-					$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, trim(html_entity_decode(strip_tags($category_name))));
-					$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
-					foreach ($data->get_rows() as $row_id => $row_name)
-					{
-						$cell_letter++;
-						$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, $data->get_data_category_row($category_id, $row_id));
-					}
-					$i++;
-				}
-	
-			}
-	
-	
-			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-			header('Content-Disposition: attachment;filename="'.$this->get_filename().'"');
-			header('Cache-Control: max-age=0');
-			$objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-			return $objWriter->save('php://output');*/
-	
-			/*$objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-			 return $objWriter->save($this->get_filename());*/
-				
-			/*$excel->disconnectWorksheets();
-			unset($excel);*/
-    	//}
 
 	}
 	

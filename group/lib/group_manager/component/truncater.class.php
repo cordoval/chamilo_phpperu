@@ -48,7 +48,7 @@ class GroupManagerTruncaterComponent extends GroupManager
                 }
                 else
                 {
-                    Events :: trigger_event('empty', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $user->get_id()));
+                    Event :: trigger('empty', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $user->get_id()));
                 }
             }
             

@@ -59,7 +59,7 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
                     }
                     else
                     {
-//                        Events :: trigger_event('unsubscribe', 'category', array('target_category_id' => $categoryrellocation->get_category_id(), 'target_location_id' => $categoryrellocation->get_location_id(), 'action_location_id' => $location->get_location_id()));
+//                        Event :: trigger('unsubscribe', 'category', array('target_category_id' => $categoryrellocation->get_category_id(), 'target_location_id' => $categoryrellocation->get_location_id(), 'action_location_id' => $location->get_location_id()));
                     }
                 }
                 else

@@ -81,7 +81,7 @@ class QuotaForm extends FormValidator
         $succes = $quota->create();
         
         if ($succes)
-            Events :: trigger_event('create_quota', 'reservations', array('target_id' => $quota->get_id(), 'user_id' => $this->user->get_id()));
+            Event :: trigger('create_quota', 'reservations', array('target_id' => $quota->get_id(), 'user_id' => $this->user->get_id()));
         
         return $succes;
     }
@@ -94,7 +94,7 @@ class QuotaForm extends FormValidator
         $succes = $quota->update();
         
         if ($succes)
-            Events :: trigger_event('update_quota', 'reservations', array('target_id' => $quota->get_id(), 'user_id' => $this->user->get_id()));
+            Event :: trigger('update_quota', 'reservations', array('target_id' => $quota->get_id(), 'user_id' => $this->user->get_id()));
         
         return $succes;
     }

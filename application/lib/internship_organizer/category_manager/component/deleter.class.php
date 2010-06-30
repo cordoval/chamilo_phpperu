@@ -30,7 +30,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
                 }
                 else
                 {
-                    //                    Events :: trigger_event('delete', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
+                    //                    Event :: trigger('delete', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
                 }
             }
             

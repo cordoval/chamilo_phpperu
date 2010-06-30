@@ -204,7 +204,7 @@ class SurveyManagerViewerComponent extends SurveyManager
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID] = $complex_question_id;
             $parameters[SurveyQuestionAnswerTracker :: PROPERTY_ANSWER] = $answer;
 
-            Events :: trigger_event('attempt_question', 'survey', $parameters);
+            Event :: trigger('attempt_question', 'survey', $parameters);
         }
         //test for better tracing of setting status of trackers.
     }

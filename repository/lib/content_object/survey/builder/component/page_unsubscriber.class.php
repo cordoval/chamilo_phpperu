@@ -46,7 +46,7 @@ class SurveyBuilderPageUnsubscriberComponent extends SurveyBuilder
                     }
                     else
                     {
-//                        Events :: trigger_event('unsubscribe_user', 'category', array('target_category_id' => $categoryreluser->get_category_id(), 'target_user_id' => $categoryreluser->get_user_id(), 'action_user_id' => $user->get_id()));
+//                        Event :: trigger('unsubscribe_user', 'category', array('target_category_id' => $categoryreluser->get_category_id(), 'target_user_id' => $categoryreluser->get_user_id(), 'action_user_id' => $user->get_id()));
                     }
                 }
             

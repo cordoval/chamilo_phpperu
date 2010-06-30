@@ -311,7 +311,7 @@ class SurveyManagerMailerComponent extends SurveyManager
             
             $args[SurveyParticipantMailTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $survey_id;
             
-            $tracker = Events :: trigger_event('survey_participation_mail', 'survey', $args);
+            $tracker = Event :: trigger('survey_participation_mail', 'survey', $args);
         }
     
     }

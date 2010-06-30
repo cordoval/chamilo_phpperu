@@ -239,9 +239,9 @@ class InternshipOrganizerAgreementManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_LOCATION, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
     }
 
-    function get_agreement_rel_location_subscribing_url($agreement, $location)
+    function get_agreement_rel_location_subscribing_url($agreement, $categoryrellocation)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_LOCATION_TO_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id(), self :: PARAM_LOCATION_ID => $location->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_LOCATION_TO_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id(), self :: PARAM_LOCATION_ID => $categoryrellocation->get_location_id()));
     }
 
     function get_agreement_rel_location_unsubscribing_url($agreementrellocation)

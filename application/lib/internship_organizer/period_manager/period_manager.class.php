@@ -178,6 +178,11 @@ class InternshipOrganizerPeriodManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USERS, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
+    function get_period_unsubscribe_user_url($user)
+    {
+    	return null;
+    }
+    
     private function parse_input_from_table()
     {
         if (isset($_POST[InternshipOrganizerPeriodBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))

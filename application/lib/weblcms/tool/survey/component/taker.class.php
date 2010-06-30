@@ -211,7 +211,7 @@ class SurveyToolTakerComponent extends SurveyTool
             $parameters[WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID] = $complex_question_id;
             $parameters[WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_ANSWER] = $answer;
 
-            Events :: trigger_event('attempt_question', 'survey', $parameters);
+            Event :: trigger('attempt_question', 'survey', $parameters);
         }
         //test for better tracing of setting status of trackers.
     }

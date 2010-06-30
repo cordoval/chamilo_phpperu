@@ -81,7 +81,7 @@ class InternshipOrganizerAgreementSubscribeMentorForm extends FormValidator
                 $succes = $agreement_rel_mentor->create();
                 if ($succes)
                 {
-                    //                        Events :: trigger_event('create', 'agreement_rel_user', array('target_agreement_id' => $agreement->get_id(), 'action_user_id' => $this->user->get_id()));
+                    //                        Event :: trigger('create', 'agreement_rel_user', array('target_agreement_id' => $agreement->get_id(), 'action_user_id' => $this->user->get_id()));
                 }
             }
         

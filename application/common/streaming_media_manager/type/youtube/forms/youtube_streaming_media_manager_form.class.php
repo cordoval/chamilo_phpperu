@@ -112,7 +112,7 @@ class YoutubeStreamingMediaManagerForm extends FormValidator
                        
         /*if ($value)
         {
-            Events :: trigger_event('update', 'video_entry', array('video_entry_id' => $this->video_entry->getId()));
+            Event :: trigger('update', 'video_entry', array('video_entry_id' => $this->video_entry->getId()));
         }
         return $value;*/
     }

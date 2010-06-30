@@ -134,7 +134,7 @@ class SurveyPublication extends DataClass
         {
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $cont->get_name();
-            $tracker = Events :: trigger_event('survey_participation', 'survey', $args);
+            $tracker = Event :: trigger('survey_participation', 'survey', $args);
             if ($template->has_children())
             {
                	$temps = $template->get_children(false);

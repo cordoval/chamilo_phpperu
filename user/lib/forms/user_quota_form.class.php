@@ -111,7 +111,7 @@ class UserQuotaForm extends FormValidator
         }
         else
         {
-            Events :: trigger_event('quota', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
+            Event :: trigger('quota', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
             return true;
         }
 
