@@ -116,7 +116,7 @@ class InternshipOrganizerCategoryManager extends SubManager
 
     function retrieve_category_rel_location($location_id, $category_id)
     {
-        return InternshipOrganizerDataManager :: get_instance()->retrieve_category_rel_location($category_id);
+        return InternshipOrganizerDataManager :: get_instance()->retrieve_category_rel_location($location_id, $category_id);
 //        return InternshipOrganizerDataManager :: get_instance()->retrieve_category_rel_location($location_id, $category_id);
     }
 

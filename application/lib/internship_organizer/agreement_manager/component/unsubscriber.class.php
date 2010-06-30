@@ -28,7 +28,7 @@ class InternshipOrganizerAgreementManagerUnsubscriberComponent extends Internshi
             {
                 $agreementrellocation_ids = explode('|', $id);
                 $agreementrellocation = $this->retrieve_agreement_rel_location($agreementrellocation_ids[1], $agreementrellocation_ids[0]);
-                
+
                 if (! isset($agreementrellocation))
                     continue;
                 

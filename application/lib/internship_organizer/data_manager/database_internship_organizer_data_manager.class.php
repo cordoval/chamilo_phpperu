@@ -79,11 +79,11 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $organisation_alias = $this->get_alias(InternshipOrganizerOrganisation :: get_table_name());
         $location_alias = $this->get_alias(InternshipOrganizerLocation :: get_table_name());
         
-        $query = 'SELECT ' . $location_alias . '.* ,' . $region_alias . '.*';
+        $query = 'SELECT ' . $location_alias . '.* ,' . $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ID, $region_alias) .'as Region_Id, '. $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, $region_alias) .','. $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, $region_alias);
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerLocation :: get_table_name()) . ' AS ' . $location_alias;
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerOrganisation :: get_table_name()) . ' AS ' . $organisation_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerOrganisation :: PROPERTY_ID, $organisation_alias);
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerRegion :: get_table_name()) . ' AS ' . $region_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_REGION_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ID, $region_alias);
-        
+
         return $this->retrieve_object_set($query, InternshipOrganizerLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerLocation :: CLASS_NAME);
     }
 
@@ -684,6 +684,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     }
 
+    
     function delete_internship_organizer_agreement_rel_location($agreement_rel_location)
     {
         
@@ -699,6 +700,20 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $res = $this->query($query);
         $res->free();
         
+        $conditions = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_id);
+        
+        if ( $count_locations = $this->count_agreement_rel_locations($conditions) )
+        {
+        	continue;
+        }
+        else
+        {
+        	$query = 'UPDATE ' . $this->escape_table_name(InternshipOrganizerAgreement :: get_table_name()) . ' SET ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_STATUS) . '= 1' . ' WHERE ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_ID) . '=' . $this->quote($agreement_id);
+
+        	$res = $this->query($query);
+        	$res->free();
+        }
+
         return true;
     
     }

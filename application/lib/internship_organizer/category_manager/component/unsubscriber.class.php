@@ -47,7 +47,6 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
                 $categoryrellocation_ids = explode('|', $id);
                 $categoryrellocation = $this->retrieve_category_rel_location($categoryrellocation_ids[1], $categoryrellocation_ids[0]);
                 
-                
                 if (! isset($categoryrellocation))
                     continue;
                 

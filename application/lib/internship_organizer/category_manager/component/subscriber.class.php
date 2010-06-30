@@ -72,7 +72,7 @@ class InternshipOrganizerCategoryManagerSubscriberComponent extends InternshipOr
                     $message = 'SelectedLocationsAddedToInternshipOrganizerCategory' . ($contains_dupes ? 'Dupes' : '');
                 }
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $category_id));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_SUBSCRIBE_LOCATION_BROWSER, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $category_id));
         }
         else
         {
