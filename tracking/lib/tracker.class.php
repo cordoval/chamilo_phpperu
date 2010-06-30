@@ -1,6 +1,7 @@
 <?php
 abstract class Tracker extends DataClass
 {
+
     function Tracker($defaultProperties = array (), $optionalProperties = array(), Event $event = null)
     {
         parent :: __construct($defaultProperties, $optionalProperties);
@@ -74,7 +75,16 @@ abstract class Tracker extends DataClass
     function delete()
     {
         $condition = new EqualityCondition(self :: PROPERTY_ID, $this->get_id());
-        return $this->get_data_manager()->remove_tracker_items($this->table, $condition);
+        return $this->remove($condition);
+    }
+
+    /**
+     * Removes tracker items with a given condition
+     * @param Condition $condition
+     */
+    function remove(Condition $condition = null)
+    {
+        return $this->get_data_manager()->remove_tracker_items($this->get_table_name(), $condition);
     }
 
     /**

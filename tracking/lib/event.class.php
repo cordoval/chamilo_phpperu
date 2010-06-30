@@ -174,7 +174,10 @@ class Event extends DataClass
                 {
                     $tracker->set_event($this);
                 }
-                $data[] = $tracker->track($parameters);
+
+                $tracker->track($parameters);
+
+                $data[] = $tracker;
             }
 
             return $data;

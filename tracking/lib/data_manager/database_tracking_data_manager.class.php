@@ -278,7 +278,7 @@ class DatabaseTrackingDataManager extends Database implements TrackingDataManage
      * @param Condition conditon which items should be removed
      * @return true if tracker items are removed
      */
-    function remove_tracker_items($table_name, $condition)
+    function remove_tracker_items($table_name, $condition = null)
     {
         return $this->delete_objects($table_name, $condition);
     }

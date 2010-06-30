@@ -140,7 +140,7 @@ interface TrackingDataManagerInterface
      * @param Condition conditon which items should be removed
      * @return true if tracker items are removed
      */
-    function remove_tracker_items($tablename, $condition);
+    function remove_tracker_items($tablename, $condition = null);
 
     /**
      * Creates a archive controller item in the database
