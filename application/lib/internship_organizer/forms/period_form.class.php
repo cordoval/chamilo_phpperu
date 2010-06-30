@@ -51,6 +51,21 @@ class InternshipOrganizerPeriodForm extends FormValidator
         
         $this->add_datepicker(InternshipOrganizerPeriod :: PROPERTY_END, Translation :: get('End'), false);
         $this->addRule(InternshipOrganizerPeriod :: PROPERTY_END, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_category_feed.php';
+        $locale = array();
+        $locale['Display'] = Translation :: get('ChooseCategories');
+        $locale['Searching'] = Translation :: get('Searching');
+        $locale['NoResults'] = Translation :: get('NoResults');
+        $locale['Error'] = Translation :: get('Error');
+        
+        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Categories'), $url, $locale, array());
+        
+        
+        
+        $defaults = array();
+        $elem->setDefaults($defaults);
+        $elem->setDefaultCollapsed(false);
     
     }
 
@@ -72,18 +87,6 @@ class InternshipOrganizerPeriodForm extends FormValidator
     function build_creation_form()
     {
         $this->build_basic_form();
-        
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_category_feed.php';
-        $locale = array();
-        $locale['Display'] = Translation :: get('ChooseCategories');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
-        
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Categories'), $url, $locale, array());
-        $defaults = array();
-        $elem->setDefaults($defaults);
-        $elem->setDefaultCollapsed(false);
         
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -185,5 +188,8 @@ class InternshipOrganizerPeriodForm extends FormValidator
         $period_menu->render($renderer, 'sitemap');
         return $renderer->toArray();
     }
+    
+    function get_categories(){
+    
 }
 ?>

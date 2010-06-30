@@ -109,14 +109,9 @@ class InternshipOrganizerCategoryManager extends SubManager
         return InternshipOrganizerDataManager :: get_instance()->retrieve_category_rel_locations($condition, $offset, $count, $order_property);
     }
 
-    function retrieve_full_category_rel_locations($condition = null, $offset = null, $count = null, $order_property = null)
+    function count_category_rel_locations($condition = null)
     {
-        return InternshipOrganizerDataManager :: get_instance()->retrieve_full_category_rel_locations($condition, $offset, $count, $order_property);
-    }
-
-    function count_full_category_rel_locations($condition = null)
-    {
-        return InternshipOrganizerDataManager :: get_instance()->count_full_category_rel_locations($condition);
+        return InternshipOrganizerDataManager :: get_instance()->count_category_rel_locations($condition);
     }
 
     function retrieve_category_rel_location($location_id, $category_id)
@@ -137,11 +132,6 @@ class InternshipOrganizerCategoryManager extends SubManager
     function count_categories($conditions = null)
     {
         return InternshipOrganizerDataManager :: get_instance()->count_categories($conditions);
-    }
-
-    function count_category_rel_locations($conditions = null)
-    {
-        return InternshipOrganizerDataManager :: get_instance()->count_category_rel_locations($conditions);
     }
 
     //url

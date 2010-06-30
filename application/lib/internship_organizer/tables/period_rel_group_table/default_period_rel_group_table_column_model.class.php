@@ -13,11 +13,10 @@ class DefaultInternshipOrganizerPeriodGroupTableColumnModel extends ObjectTableC
 	private static function get_default_columns()
 	{
 		
+		$group_alias = GroupDataManager::get_instance()->get_alias(Group :: get_table_name());
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Group :: PROPERTY_NAME, false, Group :: get_table_name());
-		$columns[] = new ObjectTableColumn(Group :: PROPERTY_DESCRIPTION, false, Group :: get_table_name());
-//		$columns[] = new ObjectTableColumn(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, true);
-//		$columns[] = new ObjectTableColumn(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, true);
+		$columns[] = new ObjectTableColumn(Group :: PROPERTY_NAME, true, $group_alias);
+		$columns[] = new ObjectTableColumn(Group :: PROPERTY_DESCRIPTION, true, $group_alias);
 		$columns[] = new ObjectTableColumn(InternshipOrganizerPeriodRelGroup :: PROPERTY_USER_TYPE, true);
 		return $columns;
 		
