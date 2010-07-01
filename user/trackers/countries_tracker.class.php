@@ -24,7 +24,7 @@ class CountriesTracker extends UserTracker
      */
     function empty_tracker($event)
     {
-        $condition = new EqualityCondition(self :: PROPERTY_TYPE, 'country');
+        $condition = new EqualityCondition(self :: PROPERTY_TYPE, self :: TYPE_COUNTRY);
         return $this->remove($condition);
     }
 
@@ -33,8 +33,8 @@ class CountriesTracker extends UserTracker
      */
     function export($start_date, $end_date, $event)
     {
-        $condition = new EqualityCondition(self :: PROPERTY_TYPE, 'country');
-        return $this->retrieve_tracker_items($condition);
+        $condition = new EqualityCondition(self :: PROPERTY_TYPE, self :: TYPE_COUNTRY);
+        return $this->get_data_manager()->retrieve_tracker_items($this->get_table_name(), $condition);
     }
 
     /**
