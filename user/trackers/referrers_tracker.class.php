@@ -11,40 +11,14 @@ require_once dirname(__FILE__) . '/user_tracker.class.php';
  */
 class ReferrersTracker extends UserTracker
 {
-    const CLASS_NAME = __CLASS__;
 
-    /**
-     * Constructor sets the default values
-     */
-    function ReferrersTracker()
-    {
-        parent :: UserTracker();
-        $this->set_property(self :: PROPERTY_TYPE, 'referer');
-    }
-
-    function track($parameters = array())
+    function validate_parameters(array $parameters = array())
     {
         $server = $parameters['server'];
         $referer = $server['HTTP_REFERER'];
-        
-        $conditions = array();
-        $conditions[] = new EqualityCondition('type', 'referer');
-        $conditions[] = new EqualityCondition('name', $referer);
-        $condtion = new AndCondition($conditions);
-        
-        $trackeritems = $this->retrieve_tracker_items($condtion);
-        if (count($trackeritems) != 0)
-        {
-            $referertracker = $trackeritems[0];
-            $referertracker->set_value($referertracker->get_value() + 1);
-            $referertracker->update();
-        }
-        else
-        {
-            $this->set_name($referer);
-            $this->set_value(1);
-            $this->create();
-        }
+
+        $this->set_type(self :: TYPE_REFERER);
+        $this->set_name($referer);
     }
 
     /**
@@ -53,7 +27,7 @@ class ReferrersTracker extends UserTracker
      */
     function empty_tracker($event)
     {
-        $condition = new EqualityCondition('type', 'referer');
+        $condition = new EqualityCondition(self :: PROPERTY_TYPE, self :: TYPE_REFERER);
         return $this->remove($condition);
     }
 
@@ -62,13 +36,8 @@ class ReferrersTracker extends UserTracker
      */
     function export($start_date, $end_date)
     {
-        $condition = new EqualityCondition('type', 'referer');
+        $condition = new EqualityCondition(self :: PROPERTY_TYPE, self :: TYPE_REFERER);
         return $this->retrieve_tracker_items($condition);
-    }
-
-    static function get_table_name()
-    {
-        return parent :: get_table_name();
     }
 }
 ?>

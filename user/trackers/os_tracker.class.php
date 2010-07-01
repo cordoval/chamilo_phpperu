@@ -9,43 +9,17 @@ require_once dirname(__FILE__) . '/user_tracker.class.php';
 /**
  * This class tracks the os that a user uses
  */
-class OSTracker extends UserTracker
+class OsTracker extends UserTracker
 {
-    const CLASS_NAME = __CLASS__;
 
-    /**
-     * Constructor sets the default values
-     */
-    function OSTracker()
-    {
-        parent :: UserTracker();
-        $this->set_property(self :: PROPERTY_TYPE, 'os');
-    }
-
-    function track($parameters = array())
+    function validate_parameters(array $parameters = array())
     {
         $server = $parameters['server'];
         $user_agent = $server['HTTP_USER_AGENT'];
         $os = $this->extract_os_from_useragent($user_agent);
-        
-        $conditions = array();
-        $conditions[] = new EqualityCondition('type', 'os');
-        $conditions[] = new EqualityCondition('name', $os);
-        $condtion = new AndCondition($conditions);
-        
-        $trackeritems = $this->retrieve_tracker_items($condtion);
-        if (count($trackeritems) != 0)
-        {
-            $ostracker = $trackeritems[0];
-            $ostracker->set_value($ostracker->get_value() + 1);
-            $ostracker->update();
-        }
-        else
-        {
-            $this->set_name($os);
-            $this->set_value(1);
-            $this->create();
-        }
+
+        $this->set_type(self :: TYPE_OS);
+        $this->set_name($os);
     }
 
     /**
@@ -54,7 +28,7 @@ class OSTracker extends UserTracker
      */
     function empty_tracker($event)
     {
-        $condition = new EqualityCondition('type', 'os');
+        $condition = new EqualityCondition(self :: PROPERTY_TYPE, self :: TYPE_OS);
         return $this->remove($condition);
     }
 
@@ -63,7 +37,7 @@ class OSTracker extends UserTracker
      */
     function export($start_date, $end_date, $event)
     {
-        $condition = new EqualityCondition('type', 'os');
+        $condition = new EqualityCondition(self :: PROPERTY_TYPE, self :: TYPE_OS);
         return $this->retrieve_tracker_items($condition);
     }
 
@@ -77,7 +51,7 @@ class OSTracker extends UserTracker
         // default values, if nothing corresponding found
         $viewable_os = "Unknown";
         $list_os = $this->load_os();
-        
+
         // search for corresponding pattern in $_SERVER['HTTP_USER_AGENT']
         // for os
         for($i = 0; $i < count($list_os); $i ++)
@@ -88,7 +62,7 @@ class OSTracker extends UserTracker
                 $viewable_os = $list_os[$i][1];
             }
         }
-        
+
         return $viewable_os;
     }
 
@@ -106,11 +80,6 @@ class OSTracker extends UserTracker
             $i += 1;
         }
         return $list_os;
-    }
-
-    static function get_table_name()
-    {
-        return parent :: get_table_name();
     }
 }
 ?>
