@@ -564,6 +564,11 @@ abstract class Tool extends SubManager
     {
         return $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid));
     }
+    
+	function get_complex_display_url($pid)
+    {
+        return $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid));
+    }
 
     static function get_pcattree_parents($pcattree)
     {

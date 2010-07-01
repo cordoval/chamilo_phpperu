@@ -14,7 +14,7 @@ class WeblcmsLpiAttemptObjectiveTracker extends SimpleTracker
     const PROPERTY_STATUS = 'status';
     const PROPERTY_DISPLAY_ORDER = 'display_order';
 
-    function track($parameters = array())
+    function validate_parameters(array $parameters = array())
     {
         $this->set_lpi_view_id($parameters[self :: PROPERTY_LPI_VIEW_ID]);
         $this->set_objective_id($parameters[self :: PROPERTY_OBJECTIVE_ID]);
@@ -30,7 +30,7 @@ class WeblcmsLpiAttemptObjectiveTracker extends SimpleTracker
      */
     static function get_default_property_names()
     {
-        return aparent :: get_default_property_names(array(self :: PROPERTY_LPI_VIEW_ID, self :: PROPERTY_OBJECTIVE_ID, self :: PROPERTY_SCORE_RAW, self :: PROPERTY_SCORE_MAX, self :: PROPERTY_SCORE_MIN, self :: PROPERTY_STATUS, self :: PROPERTY_DISPLAY_ORDER));
+        return parent :: get_default_property_names(array(self :: PROPERTY_LPI_VIEW_ID, self :: PROPERTY_OBJECTIVE_ID, self :: PROPERTY_SCORE_RAW, self :: PROPERTY_SCORE_MAX, self :: PROPERTY_SCORE_MIN, self :: PROPERTY_STATUS, self :: PROPERTY_DISPLAY_ORDER));
     }
 
     function get_lpi_view_id()

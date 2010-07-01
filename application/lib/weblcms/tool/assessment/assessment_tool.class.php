@@ -10,7 +10,6 @@ require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_asse
  */
 class AssessmentTool extends Tool implements Categorizable
 {
-    const ACTION_TAKE_ASSESSMENT = 'take';
     const ACTION_VIEW_RESULTS = 'result';
     const ACTION_SAVE_DOCUMENTS = 'save_documents';
     const ACTION_EXPORT_RESULTS = 'export_results';
@@ -79,7 +78,7 @@ class AssessmentTool extends Tool implements Categorizable
             case self :: ACTION_MANAGE_CATEGORIES :
                 $component = $this->create_component('CategoryManager');
                 break;
-            case self :: ACTION_TAKE_ASSESSMENT :
+            case self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT :
                 $component = $this->create_component('Taker');
                 break;
             case self :: ACTION_VIEW_RESULTS :
@@ -135,15 +134,6 @@ class AssessmentTool extends Tool implements Categorizable
     function get_content_object_publication_actions($publication)
     {
         $extra_toolbar_items = array();
-
-        if ($this->is_content_object_attempt_possible($publication))
-        {
-            $extra_toolbar_items[] = new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_right.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
-        }
-        else
-        {
-            $extra_toolbar_items[] = new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_right_na.png', null, ToolbarItem :: DISPLAY_ICON);
-        }
 
         $extra_toolbar_items[] = new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
         

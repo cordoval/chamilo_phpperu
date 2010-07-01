@@ -54,7 +54,7 @@ class ForumToolViewerComponent extends ForumTool
         $parameters[ForumTopicViewTracker :: PROPERTY_PUBLICATION_ID] = $this->publication_id;
         $parameters[ForumTopicViewTracker :: PROPERTY_FORUM_TOPIC_ID] = $complex_topic_id;
         
-        Event :: trigger('view_forum_topic', Weblcms :: APPLICATION_NAME, $parameters);
+        Event :: trigger('view_forum_topic', WeblcmsManager :: APPLICATION_NAME, $parameters);
     }
     
 	function count_topic_views($complex_topic_id)
