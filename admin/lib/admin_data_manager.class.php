@@ -17,7 +17,7 @@ class AdminDataManager
      * Uses a singleton pattern and a factory pattern to return the data
      * manager. The configuration determines which data manager class is to
      * be instantiated.
-     * @return AdminDataManager The data manager.
+     * @return AdminDataManagerInterface The data manager.
      */
     static function get_instance()
     {

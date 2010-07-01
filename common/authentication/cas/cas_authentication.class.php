@@ -38,10 +38,6 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
 {
     private $cas_settings;
 
-    function CasAuthentication()
-    {
-    }
-
     public function check_login($user, $username, $password = null)
     {
         if (!phpCAS :: has_already_been_called())

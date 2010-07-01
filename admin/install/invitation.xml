@@ -12,5 +12,6 @@
 		<property name="message" type="text" />
 		<property name="email" type="text" fixed="true" length="100" />
 		<property name="rights_templates" type="text" />
+		<property name="user_created" type="integer" length="1" unsigned="1" notnull="1" default="0" />
 	</properties>
 </object>

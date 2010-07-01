@@ -163,6 +163,11 @@
 			</setting>
 		</category>
 		<category name="external_authentication">
+			<setting name="enable_invitation_authentication" field="checkbox">
+				<options type="static">
+					<option name="enable_invitation_authentication" value="1" />
+				</options>
+			</setting>
 			<setting name="enable_ldap_authentication" field="checkbox">
 				<options type="static">
 					<option name="enable_ldap_authentication" value="1" />
