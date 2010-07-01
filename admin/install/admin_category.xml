@@ -2,12 +2,9 @@
 <object name="admin_category">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
-		<property name="name" type="text" length="100" fixed="true"
-			notnull="1" default="" />
-		<property name="parent_id" type="integer" notnull="1"
-			default="0" />
-		<property name="display_order" type="integer" unsigned="1"
-			notnull="1" />
+		<property name="name" type="text" length="100" fixed="true" notnull="1" default="" />
+		<property name="parent_id" type="integer" notnull="1" default="0" />
+		<property name="display_order" type="integer" unsigned="1" notnull="1" />
 	</properties>
 	<index name="parent_id">
 		<indexproperty name="parent_id" />
