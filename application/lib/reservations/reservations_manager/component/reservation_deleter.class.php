@@ -5,7 +5,6 @@
  */
 require_once dirname(__FILE__) . '/../reservations_manager.class.php';
 
-
 /**
  * Component to delete an item
  */
@@ -19,7 +18,7 @@ class ReservationsManagerReservationDeleterComponent extends ReservationsManager
     {
         $item_id = $_GET[ReservationsManager :: PARAM_ITEM_ID];
         $ids = $_GET[ReservationsManager :: PARAM_RESERVATION_ID];
-        
+
         if (! $this->get_user())
         {
             $this->display_header(null);
@@ -27,27 +26,27 @@ class ReservationsManagerReservationDeleterComponent extends ReservationsManager
             $this->display_footer();
             exit();
         }
-        
+
         if ($ids)
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             $bool = true;
-            
+
             foreach ($ids as $id)
             {
                 //$reservations = $this->retrieve_reservations(new EqualityCondition(Reservation :: PROPERTY_ID, $id));
                 //$reservation = $reservations->next_result();
-                
+
 
                 $reservation = new Reservation();
                 $reservation->set_id($id);
-                
+
                 //$reservation->set_status(Reservation :: STATUS_DELETED);
-                
+
 
                 if (! $reservation->delete())
                 {
@@ -55,15 +54,15 @@ class ReservationsManagerReservationDeleterComponent extends ReservationsManager
                 }
                 else
                 {
-                    Event :: trigger('delete_reservation', 'reservations', array('target_id' => $id, 'user_id' => $this->get_user_id()));
+                    Event :: trigger('delete_reservation', ReservationsManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $id, ChangesTracker :: PROPERTY_USER_ID => $this->get_user_id()));
                 }
             }
-            
+
             if (count($ids) == 1)
                 $message = $bool ? 'ReservationsDeleted' : 'ReservationsNotDeleted';
             else
                 $message = $bool ? 'ReservationsDeleted' : 'ReservationsNotDeleted';
-            
+
             $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $item_id));
         }
         else

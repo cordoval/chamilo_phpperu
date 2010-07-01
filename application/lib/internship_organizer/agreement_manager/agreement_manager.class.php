@@ -9,6 +9,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     const PARAM_ACTION = 'action';
     const PARAM_AGREEMENT_ID = 'agreement_id';
     const PARAM_LOCATION_ID = 'location_id';
+    const PARAM_STUDENT_ID = 'user_id';
     const PARAM_AGREEMENT_REL_LOCATION_ID = 'agreement_rel_location_id';
     const PARAM_DELETE_SELECTED_AGREEMENTS = 'delete_agreements';
     const PARAM_MOVE_AGREEMENT_REL_LOCATION_DIRECTION = 'move_direction';
@@ -183,6 +184,11 @@ class InternshipOrganizerAgreementManager extends SubManager
         return InternshipOrganizerDataManager :: get_instance()->retrieve_moment($id);
     }
 
+//	function retrieve_user($id)
+//    {
+//        return UserDataManager :: get_instance()->retrieve_user($id);
+//    }
+    
     //url creation
     function get_create_agreement_url()
     {

@@ -18,7 +18,7 @@ class ReservationsManagerCategoryDeleterComponent extends ReservationsManager
     function run()
     {
         $ids = $_GET[ReservationsManager :: PARAM_CATEGORY_ID];
-        
+
         if (! $this->get_user())
         {
             $this->display_header(null);
@@ -26,47 +26,47 @@ class ReservationsManagerCategoryDeleterComponent extends ReservationsManager
             $this->display_footer();
             exit();
         }
-        
+
         if ($ids)
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             $bool = true;
             $parent = - 1;
-            
+
             foreach ($ids as $id)
             {
                 $categories = $this->retrieve_categories(new EqualityCondition(Category :: PROPERTY_ID, $id));
                 $category = $categories->next_result();
-                
+
                 if ($parent == - 1)
                     $parent = $category->get_parent();
-                    
+
                 /*$category->set_status(Category :: STATUS_DELETED);
-    			
+
     			$db->clean_display_order($category);
-    			
+
     			$category->set_display_order(0);
     			if(!$category->update()) $bool = false;*/
-                
+
                 if (! $category->delete())
                 {
                     $bool = false;
                 }
                 else
                 {
-                    Event :: trigger('delete_category', 'reservations', array('target_id' => $category->get_id(), 'user_id' => $this->get_user_id()));
+                    Event :: trigger('delete_category', ReservationsManager :: APPLICATION_NAME, array(ChangesTracker :: PROPERTY_REFERENCE_ID => $category->get_id(), ChangesTracker :: PROPERTY_USER_ID => $this->user->get_id()));
                 }
             }
-            
+
             if (count($ids) == 1)
                 $message = $bool ? 'CategoryDeleted' : 'CategoryNotDeleted';
             else
                 $message = $bool ? 'CategoriesDeleted' : 'CategoriesNotDeleted';
-            
+
             $this->redirect(Translation :: get($message), ($bool ? false : true), array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES, ReservationsManager :: PARAM_CATEGORY_ID => $parent));
         }
         else

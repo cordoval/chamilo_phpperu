@@ -127,7 +127,15 @@ class Event extends DataClass
 
     function get_trackers()
     {
-        return $this->get_data_manager()->retrieve_trackers_from_event($this->get_id());
+        $tracker_registrations = $this->get_data_manager()->retrieve_trackers_from_event($this->get_id());
+        $trackers = array();
+
+        foreach ($tracker_registrations as $tracker_registration)
+        {
+            $trackers[] = Tracker :: factory($tracker_registration->get_tracker(), $tracker_registration->get_application());
+        }
+
+        return $trackers;
     }
 
     /**
@@ -137,7 +145,7 @@ class Event extends DataClass
     {
         return $this->get_data_manager()->retrieve_trackers_from_event($this->get_id());
     }
-    
+
     public static function trigger($name, $application, $parameters)
     {
         return self :: factory($name, $application)->run($parameters);
@@ -155,21 +163,21 @@ class Event extends DataClass
 
         if ($this->is_active())
         {
-            $tracker_registrations = $this->get_tracker_registrations();
+            $parameters['event'] = $this->get_name();
             $data = array();
 
-            foreach ($tracker_registrations as $tracker_registration)
+            $trackers = $this->get_trackers();
+            foreach ($trackers as $tracker)
             {
-                $tracker_classname = $tracker_registration->get_class();
-                $filename = Utilities :: camelcase_to_underscores($tracker_classname);
+                // FIXME: Temporary solution untill all trackers have been converted
+                if (method_exists($tracker, 'set_event'))
+                {
+                    $tracker->set_event($this);
+                }
 
-                $fullpath = Path :: get(SYS_PATH) . $tracker_registration->get_path() . strtolower($filename) . '.class.php';
-                require_once ($fullpath);
+                $tracker->track($parameters);
 
-                $parameters['event'] = $this->get_name();
-
-                $tracker = new $tracker_classname();
-                $data[] = $tracker->track($parameters);
+                $data[] = $tracker;
             }
 
             return $data;

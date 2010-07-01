@@ -4,46 +4,40 @@
  * @package group.trackers
  */
 
-
 /**
  * This class tracks the login that a user uses
  */
-class GroupChangesTracker extends DefaultTracker
+class GroupChangesTracker extends ChangesTracker
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_TARGET_USER_ID = 'target_user_id';
 
     /**
-     * Constructor sets the default values
+     * Get the default properties of all aggregate trackers.
+     * @return array The property names.
      */
-    function GroupChangesTracker()
+    static function get_default_property_names()
     {
-        parent :: MainTracker('group_changes');
+        return parent :: get_default_property_names(array(self :: PROPERTY_TARGET_USER_ID));
     }
 
     /**
      * Inherited
      * @see MainTracker :: track()
      */
-    function track($parameters = array())
+    function validate_parameters(array $parameters = array())
     {
-        $target = $parameters['target_group_id'];
-        $target_user = $parameters['target_user_id'];
-        $action_user = $parameters['action_user_id'];
-        $action = $parameters['event'];
-        
-        $this->set_user_id($action_user);
-        $this->set_reference_id($target);
-        $this->set_action($action);
-        $this->set_date(time());
-        
-        if ($target_user)
-            $this->set_target_user_id($target_user);
+        parent :: validate_parameters($parameters);
+
+        if ($parameters[self :: PROPERTY_TARGET_USER_ID])
+        {
+            $this->set_target_user_id($parameters[self :: PROPERTY_TARGET_USER_ID]);
+        }
         else
+        {
             $this->set_target_user_id(0);
-        
-        $this->create();
+        }
     }
 
     /**
@@ -76,29 +70,19 @@ class GroupChangesTracker extends DefaultTracker
     }
 
     /**
-     * Inherited
+     * @return the $user_id
      */
-    function get_property_names()
+    public function get_target_user_id()
     {
-        return array_merge(parent :: get_property_names(), array(self :: PROPERTY_TARGET_USER_ID));
+        return $this->get_default_property(self :: PROPERTY_TARGET_USER_ID);
     }
 
     /**
-     * Get's the user_id of the default tracker
-     * @return int $user_id the user_id
+     * @param $user_id the $user_id to set
      */
-    function get_target_user_id()
+    public function set_target_user_id($target_user_id)
     {
-        return $this->get_property(self :: PROPERTY_TARGET_USER_ID);
-    }
-
-    /**
-     * Sets the target_user_id of the default tracker
-     * @param int $target_user_id the target_user_id
-     */
-    function set_target_user_id($target_user_id)
-    {
-        $this->set_property(self :: PROPERTY_TARGET_USER_ID, $target_user_id);
+        $this->set_default_property(self :: PROPERTY_TARGET_USER_ID, $target_user_id);
     }
 
     static function get_table_name()

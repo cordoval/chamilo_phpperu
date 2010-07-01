@@ -21,14 +21,16 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
     
     private $action_bar;
     private $agreement;
+    private $student;
 
     function run()
     {
         
         $agreement_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
-        $this->agreement = $this->retrieve_agreement($agreement_id);
+        $this->agreement = $this->retrieve_agreement($agreement_id);        
         
         $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id)), $this->agreement->get_name()));
         
@@ -38,6 +40,20 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
+        
+        echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_location.png);">';
+        echo '<div class="title">' . Translation :: get('Details') . '</div>';
+        echo '<b>' . Translation :: get('Description') . '</b>: ' . $this->agreement->get_description(). '<br /> ';        
+        
+		$student = $this->get_student();
+		
+        echo '<div class="title">' . Translation :: get('Student') . '</div>';
+        echo '<b>' . Translation :: get('Firstname') . '</b>: ' . $student->get_firstname();
+        echo '<br /><b>' . Translation :: get('Lastname') . '</b>: ' . $student->get_lastname();
+        echo '<br /><b>' . Translation :: get('InternshipOrganizerEmail') . '</b>: ' . $student->get_email();
+        
+        echo '<div class="clear">&nbsp;</div>';
+        echo '</div>';
         
         echo '<div>';
         echo $this->get_tabs();
@@ -79,7 +95,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
             $parameters = $this->get_parameters();
             $parameters[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID] = $this->agreement->get_id();
             $table = new InternshipOrganizerAgreementRelLocationBrowserTable($this, $parameters, $this->get_location_condition(InternshipOrganizerAgreementRelLocation :: APPROVED));
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_LOCATIONS, Translation :: get('InternshipOrganizerOrganisations'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_LOCATIONS, Translation :: get('InternshipOrganizerLocations'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
             
             $parameters = $this->get_parameters();
             $parameters[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID] = $this->agreement->get_id();
@@ -105,7 +121,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
             $parameters = $this->get_parameters();
             $parameters[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID] = $this->agreement->get_id();
             $table = new InternshipOrganizerAgreementRelLocationBrowserTable($this, $parameters, $this->get_location_condition(InternshipOrganizerAgreementRelLocation :: TO_APPROVE));
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_LOCATIONS, Translation :: get('InternshipOrganizerOrganisations'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_LOCATIONS, Translation :: get('InternshipOrganizerLocations'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         }
         
         $html[] = $tabs->render();
@@ -269,6 +285,17 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         return new AndCondition($conditions);
     }
 
+	function get_student()
+    {       	
+        $student_id = $this->agreement->get_user_ids(InternshipOrganizerUserType :: STUDENT);
+        
+       	$dm = UserDataManager::get_instance();
+			
+       	$student = $dm->retrieve_user($student_id[0]);
+		return $student;
+
+    }
+    
     function get_publications_condition()
     {
         $conditions = array();

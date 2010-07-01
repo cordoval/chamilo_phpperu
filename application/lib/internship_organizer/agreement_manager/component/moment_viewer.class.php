@@ -22,6 +22,7 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
         $agreement_id = $this->moment->get_agreement_id();
         $agreement = $this->retrieve_agreement($agreement_id);
         $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent:: TAB_MOMENTS)), $agreement->get_name()));
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_MOMENT, InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID => $moment_id)), $this->moment->get_name()));
@@ -33,6 +34,18 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
         
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
+        
+        echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_location.png);">';
+        echo '<div class="title">' . Translation :: get('Details') . '</div>';
+        echo '<b>' . Translation :: get('Name') . '</b>: ' . $this->moment->get_name();
+        echo '<br /><b>' . Translation :: get('Description') . '</b>: ' . $this->moment->get_description();
+        
+        echo '<br /><br /><b>' . Translation :: get('Begin') . '</b>: ' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatLong'), $this->moment->get_begin());
+        echo '<br /><b>' . Translation :: get('End') . '</b>: ' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatLong'), $this->moment->get_end());
+        
+        
+        echo '<div class="clear">&nbsp;</div>';
+        echo '</div>';
         
         echo '<div>';
         echo $this->get_tabs();

@@ -11,6 +11,7 @@ class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganiz
     {
         $trail = BreadcrumbTrail :: get_instance();
         $period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_id)), Translation :: get('BrowseInternshipOrganizerPeriods')));
         $trail->add(new Breadcrumb($this->get_period_create_url, Translation :: get('CreateInternshipOrganizerPeriod')));
         $trail->add_help('period general');

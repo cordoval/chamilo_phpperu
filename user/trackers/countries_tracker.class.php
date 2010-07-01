@@ -1,50 +1,21 @@
 <?php
 /**
- * $Id: countries_tracker.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
+ * This class tracks the country that a user uses
  * @package user.trackers
  */
 require_once dirname(__FILE__) . '/user_tracker.class.php';
 
-/**
- * This class tracks the country that a user uses
- */
 class CountriesTracker extends UserTracker
 {
-    const CLASS_NAME = __CLASS__;
 
-    /**
-     * Constructor sets the default values
-     */
-    function CountriesTracker()
-    {
-        parent :: UserTracker();
-        $this->set_property(self :: PROPERTY_TYPE, 'country');
-    }
-
-    function track($parameters = array())
+    function validate_parameters(array $parameters = array())
     {
         $server = $parameters['server'];
         $hostname = gethostbyaddr($server['REMOTE_ADDR']);
         $country = $this->extract_country($hostname);
-        
-        $conditions = array();
-        $conditions[] = new EqualityCondition('type', 'country');
-        $conditions[] = new EqualityCondition('name', $country);
-        $condtion = new AndCondition($conditions);
-        
-        $trackeritems = $this->retrieve_tracker_items($condtion);
-        if (count($trackeritems) != 0)
-        {
-            $countrytracker = $trackeritems[0];
-            $countrytracker->set_value($countrytracker->get_value() + 1);
-            $countrytracker->update();
-        }
-        else
-        {
-            $this->set_name($country);
-            $this->set_value(1);
-            $this->create();
-        }
+
+        $this->set_type(self :: TYPE_COUNTRY);
+        $this->set_name($country);
     }
 
     /**
@@ -53,7 +24,7 @@ class CountriesTracker extends UserTracker
      */
     function empty_tracker($event)
     {
-        $condition = new EqualityCondition('type', 'country');
+        $condition = new EqualityCondition(self :: PROPERTY_TYPE, 'country');
         return $this->remove($condition);
     }
 
@@ -62,7 +33,7 @@ class CountriesTracker extends UserTracker
      */
     function export($start_date, $end_date, $event)
     {
-        $condition = new EqualityCondition('type', 'country');
+        $condition = new EqualityCondition(self :: PROPERTY_TYPE, 'country');
         return $this->retrieve_tracker_items($condition);
     }
 
@@ -74,21 +45,22 @@ class CountriesTracker extends UserTracker
     function extract_country($remhost)
     {
         if ($remhost == "Unknown")
+        {
             return $remhost;
-            
+        }
+
         // country code is the last value of remote host
         $explodedRemhost = explode(".", $remhost);
         $code = $explodedRemhost[sizeof($explodedRemhost) - 1];
-        
-        if ($code == 'localhost')
-            return "Unknown";
-        else
-            return $code;
-    }
 
-    static function get_table_name()
-    {
-        return parent :: get_table_name();
+        if ($code == 'localhost')
+        {
+            return "Unknown";
+        }
+        else
+        {
+            return $code;
+        }
     }
 }
 ?>

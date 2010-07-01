@@ -1,19 +1,18 @@
 /**
  * @author Michael Kyndt
+ * @author Hans De Bisschop
  */
-( function($)
-{
-	$(window).bind("beforeunload", function(e)
-	{
-        var response = $.ajax({
-			type: "POST",
-			url: "./user/ajax/leave.php",
-			data: { tracker: tracker},
-			async: false
-		}).responseText;
+(function($) {
+	$(window).unload(function(e) {
 
-        //alert(response);
-        //alert('bla');
-		//$(".charttype").bind('change',handle_charttype);
+		if (typeof tracker != 'undefined') {
+			var response = $.ajax( {
+				type : "POST",
+				url : "./user/ajax/leave.php",
+				data : {
+					'tracker' : tracker
+				}
+			}).responseText;
+		}
 	});
 })(jQuery);

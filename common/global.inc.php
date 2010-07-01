@@ -291,7 +291,7 @@ if (Request :: get('adminuser'))
 $user = Session :: get_user_id();
 if ($user)
 {
-	Event :: trigger('online', 'admin', array('user' => $user));
+	Event :: trigger('online', AdminManager :: APPLICATION_NAME, array('user' => $user));
 }
 
 if (isset($_SESSION['_uid']))
@@ -300,12 +300,12 @@ if (isset($_SESSION['_uid']))
 
     if (strpos($_SERVER['REQUEST_URI'], 'leave.php') === false && strpos($_SERVER['REQUEST_URI'], 'ajax') === false)
     {
-        $return = Event :: trigger('enter', 'user', array('location' => $_SERVER['REQUEST_URI'], 'user' => $user, 'event' => 'enter'));
-        $htmlHeadXtra[] = '<script type="text/javascript">var tracker=' . $return[0] . '</script>';
+        $return = Event :: trigger('enter', UserManager :: APPLICATION_NAME, array(VisitTracker :: PROPERTY_LOCATION => $_SERVER['REQUEST_URI'], VisitTracker :: PROPERTY_USER_ID => $user->get_id()));
+        $htmlHeadXtra[] = '<script type="text/javascript">var tracker=' . $return[0]->get_id() . ';</script>';
     }
 }
 
-$htmlHeadXtra[] = '<script type="text/javascript">var rootWebPath="' . Path :: get(WEB_PATH) . '"</script>';
+$htmlHeadXtra[] = '<script type="text/javascript">var rootWebPath="' . Path :: get(WEB_PATH) . '";</script>';
 
 $timezone = LocalSetting :: get('platform_timezone');
 date_default_timezone_set($timezone);

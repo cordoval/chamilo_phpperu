@@ -13,12 +13,12 @@ class PackageApplicationRemover extends PackageRemover
         $adm = AdminDataManager :: get_instance();
         $registration = $adm->retrieve_registration($this->get_package());
         $this->registration = $registration;
-        
+
         if(!$this->registration)
         {
         	return $this->installation_failed('initilization', Translation :: get('ApplicationIsNotRegistered'));
         }
-        
+
         // Deactivate the application, thus making it inaccesible
         $this->add_message(Translation :: get('DeactivatingApplication'));
         $registration->toggle_status();
@@ -30,7 +30,7 @@ class PackageApplicationRemover extends PackageRemover
         {
             $mdm = MenuDataManager :: get_instance();
             $this->add_message(Translation :: get('RemovingMenuItems'));
-            
+
             $condition = new EqualityCondition(NavigationItem :: PROPERTY_APPLICATION, $registration->get_name());
             if ($mdm->delete_navigation_items($condition))
             {
@@ -41,7 +41,7 @@ class PackageApplicationRemover extends PackageRemover
                 return $this->installation_failed('initilization', Translation :: get('ApplicationDeactivationFailed'));
             }
         }
-        
+
         // Remove webservices
         if (! $this->remove_webservices())
         {
@@ -51,7 +51,7 @@ class PackageApplicationRemover extends PackageRemover
         {
             $this->installation_successful('webservice', Translation :: get('WebservicesSuccessfullyDeleted'));
         }
-        
+
         // Remove reporting
        /* if (! $this->remove_reporting())
         {
@@ -61,7 +61,7 @@ class PackageApplicationRemover extends PackageRemover
         {
             $this->installation_successful('reporting', Translation :: get('ReportingSuccessfullyDeleted'));
         }*/
-        
+
         // Remove tracking
         if (! $this->remove_tracking())
         {
@@ -71,7 +71,7 @@ class PackageApplicationRemover extends PackageRemover
         {
             $this->installation_successful('tracking', Translation :: get('TrackingSuccessfullyDeleted'));
         }
-        
+
         // Remove roles and rights
         if (! $this->remove_rights())
         {
@@ -81,7 +81,7 @@ class PackageApplicationRemover extends PackageRemover
         {
             $this->installation_successful('rights', Translation :: get('RightsSuccessfullyDeleted'));
         }
-        
+
         // Remove storage units
         if (! $this->remove_storage_units())
         {
@@ -91,7 +91,7 @@ class PackageApplicationRemover extends PackageRemover
         {
             $this->installation_successful('database', Translation :: get('StorageUnitsSuccessfullyDeleted'));
         }
-        
+
         // Remove application
         if (! $this->remove_settings() || ! $this->remove_application())
         {
@@ -101,18 +101,18 @@ class PackageApplicationRemover extends PackageRemover
         {
             $this->installation_successful('finished', Translation :: get('ApplicationSuccessfullyDeleted'));
         }
-        
+
         return true;
     }
 
     function remove_webservices()
     {
         $registration = $this->registration;
-        
+
         $wdm = WebserviceDataManager :: get_instance();
         $condition = new EqualityCondition(WebserviceRegistration :: PROPERTY_APPLICATION, $registration->get_name());
         $webservices = $wdm->retrieve_webservices($condition);
-        
+
         while ($webservice = $webservices->next_result())
         {
             $message = Translation :: get('RemovingWebserviceRegistration') . ': ' . $webservice->get_name();
@@ -122,9 +122,9 @@ class PackageApplicationRemover extends PackageRemover
                 return false;
             }
         }
-        
+
         // TODO: Delete categories added  by the application
-        
+
 
         return true;
     }
@@ -132,23 +132,23 @@ class PackageApplicationRemover extends PackageRemover
     function remove_reporting()
     {
         $registration = $this->registration;
-        
+
         $rdm = ReportingDataManager :: get_instance();
-        
+
         $this->add_message(Translation :: get('RemovingReportingblocks'));
         $condition = new EqualityCondition(ReportingBlock :: PROPERTY_APPLICATION, $registration->get_name());
         if (! $rdm->delete($condition))
         {
             return false;
         }
-        
+
         $this->add_message(Translation :: get('RemovingReportingTemplates'));
         $condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, $registration->get_name());
         if (! $rdm->delete_reporting_template_registrations($condition))
         {
             return false;
         }
-        
+
         if (! $rdm->delete_orphaned_block_template_relations())
         {
             $this->add_message(Translation :: get('DeletingOrphanedBlockTemplateRelationsFailed'), self :: TYPE_WARNING);
@@ -157,7 +157,7 @@ class PackageApplicationRemover extends PackageRemover
         {
             $this->add_message(Translation :: get('DeletingOrphanedBlockTemplateRelations'));
         }
-        
+
         return true;
     }
 
@@ -165,14 +165,14 @@ class PackageApplicationRemover extends PackageRemover
     {
         $registration = $this->registration;
         $base_path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/trackers/tracker_tables/';
-        
+
         $database = new Database();
         $database->set_prefix('tracking_');
-        
+
         if (is_dir($base_path))
         {
             $files = Filesystem :: get_directory_content($base_path, Filesystem :: LIST_FILES);
-            
+
             if (count($files) > 0)
             {
                 foreach ($files as $file)
@@ -183,7 +183,7 @@ class PackageApplicationRemover extends PackageRemover
                         $doc->load($file);
                         $object = $doc->getElementsByTagname('object')->item(0);
                         $name = $object->getAttribute('name');
-                        
+
                         $this->add_message(Translation :: get('DroppingTrackingStorageUnit') . ': <em>' . $name . '</em>');
                         if (! $database->drop_storage_unit($name))
                         {
@@ -193,7 +193,7 @@ class PackageApplicationRemover extends PackageRemover
                 }
             }
         }
-        
+
         $condition = new EqualityCondition(Event :: PROPERTY_BLOCK, $registration->get_name());
         $tdm = TrackingDataManager :: get_instance();
         $this->add_message(Translation :: get('DeletingApplicationEvents'));
@@ -201,20 +201,19 @@ class PackageApplicationRemover extends PackageRemover
         {
             return false;
         }
-        
-        $tracker_path = 'application/lib/' . $registration->get_name() . '/trackers/';
-        $condition = new EqualityCondition(TrackerRegistration :: PROPERTY_PATH, $tracker_path);
+
+        $condition = new EqualityCondition(TrackerRegistration :: PROPERTY_APPLICATION, $registration->get_name());
         $this->add_message(Translation :: get('DeletingApplicationTrackerRegistrations'));
         if (! $tdm->delete_tracker_registrations($condition))
         {
             return false;
         }
-        
+
         if (! $tdm->delete_orphaned_event_rel_tracker())
         {
             $this->add_message(Translation :: get('DeletingOrphanedEventRelTrackersFailed'), self :: TYPE_WARNING);
         }
-        
+
         return true;
     }
 
@@ -234,7 +233,7 @@ class PackageApplicationRemover extends PackageRemover
             {
                 $this->add_message(Translation :: get('DeletingOrphanedRoleRightLocationsFailed'), self :: TYPE_WARNING);
             }
-            
+
             return true;
         }
     }
@@ -244,7 +243,7 @@ class PackageApplicationRemover extends PackageRemover
         $registration = $this->registration;
         $adm = AdminDataManager :: get_instance();
         $condition = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $registration->get_name());
-        
+
         $this->add_message(Translation :: get('DeletingApplicationSettings'));
         return $adm->delete_settings($condition);
     }
@@ -254,10 +253,10 @@ class PackageApplicationRemover extends PackageRemover
         $registration = $this->registration;
         $database = new Database();
         $database->set_prefix($registration->get_name() . '_');
-        
+
         $path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/install/';
         $files = Filesystem :: get_directory_content($path, Filesystem :: LIST_FILES);
-        
+
         foreach ($files as $file)
         {
             if ((substr($file, - 3) == 'xml'))
@@ -266,36 +265,36 @@ class PackageApplicationRemover extends PackageRemover
                 $doc->load($file);
                 $object = $doc->getElementsByTagname('object')->item(0);
                 $name = $object->getAttribute('name');
-                
+
                 $this->add_message(Translation :: get('DroppingStorageUnit') . ': <em>' . $name . '</em>');
-                
+
                 if (! $database->drop_storage_unit($name))
                 {
                     return false;
                 }
             }
         }
-        
+
         return true;
     }
 
     function remove_application()
     {
         $registration = $this->registration;
-        
+
         $this->add_message(Translation :: get('DeletingApplicationRegistration'));
         if (! $registration->delete())
         {
             return false;
         }
-        
+
         //        $this->add_message(Translation :: get('DeletingApplication'));
         //        $path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/';
         //        if (! Filesystem :: remove($path))
         //        {
         //            return false;
         //        }
-        
+
 
         return true;
     }

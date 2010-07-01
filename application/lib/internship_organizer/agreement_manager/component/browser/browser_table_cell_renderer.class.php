@@ -34,8 +34,7 @@ class InternshipOrganizerAgreementBrowserTableCellRenderer extends DefaultIntern
      * @return string A HTML representation of the action links
      */
     private function get_modification_links($agreement)
-    {
-        
+    {        
        	$toolbar= new Toolbar();
         
         $user = $this->browser->get_user();

@@ -36,23 +36,23 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
     function perform($page, $actionName)
     {
         $exports = $page->controller->exportValues();
-        
+
         // Display the page header
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)), Translation :: get('Archiver')));
-        
+
         $this->parent->display_header($trail, false, 'tracking general');
-        
+
         $startdate = $exports['start_date'];
         list($syear, $smonth, $sday) = split('-', $startdate);
         $enddate = $exports['end_date'];
         list($eyear, $emonth, $eday) = split('-', $enddate);
-        
+
         $startdate = Utilities :: time_from_datepicker_without_timepicker($startdate);
         $enddate = Utilities :: time_from_datepicker_without_timepicker($enddate, 23, 59, 59);
-        
+
         $period = $exports['period'];
-        
+
         foreach ($exports as $key => $export)
         {
             if (substr($key, strlen($key) - strlen('event'), strlen($key)) == 'event')
@@ -60,30 +60,25 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
                 $application = substr($key, 0, strpos($key, '_'));
                 $eventname = substr($key, strpos($key, '_') + 1, strlen($key) - strlen('event') - strpos($key, '_') - 2);
                 $event = $this->parent->retrieve_event_by_name($eventname, $application);
-                
+
                 $this->display_event_header($eventname);
-                
+
                 foreach ($exports as $key2 => $export2)
                 {
                     if ((strpos($key2, $eventname) !== false) && ($key2 != $key))
                     {
                         $id = substr($key2, strlen($application . '_' . $eventname . '_event_'));
                         $trackerregistration = $this->parent->retrieve_tracker_registration($id);
-                        
-                        $classname = $trackerregistration->get_class();
-                        echo (' &nbsp; &nbsp; ' . Translation :: get('Archiving_tracker') . ': ' . $classname . '<br />');
-                        
-                        $filename = Utilities :: camelcase_to_underscores($classname);
-                        
-                        $fullpath = Path :: get(SYS_PATH) . $trackerregistration->get_path() . strtolower($filename) . '.class.php';
-                        require_once ($fullpath);
-                        
-                        $tracker = new $classname();
-                        
-                        $path = Path :: get(SYS_PATH) . $trackerregistration->get_path() . 'tracker_tables/' . $tracker->get_table() . '.xml';
-                        
+
+                        $tracker = Tracker :: factory($trackerregistration->get_tracker(), $trackerregistration->get_application());
+
+                        echo (' &nbsp; &nbsp; ' . Translation :: get('Archiving_tracker') . ': ' . get_class($tracker) . '<br />');
+
+                        $application_path = BasicApplication :: get_application_path($trackerregistration->get_application());
+                        $path = $application_path . 'trackers/tracker_tables/' . $tracker->get_table() . '.xml';
+
                         $storage_units = array();
-                        
+
                         if ($tracker->is_summary_tracker())
                         {
                             $storage_units[] = $tracker->get_table() . '_' . $startdate;
@@ -93,12 +88,12 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
                         else
                         {
                             $difference = gregoriantojd($emonth, $eday, $eyear) - gregoriantojd($smonth, $sday, $syear);
-                            
+
                             if ($difference == 0)
                                 $difference = 1;
-                            
+
                             $amount_of_tables = ceil($difference / $period);
-                            
+
                             for($i = 0; $i < $amount_of_tables; $i ++)
                             {
                                 $added_days = $i * $period;
@@ -107,11 +102,11 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
                                 if ($this->create_storage_unit($path, '_' . $date))
                                     $this->create_archive_controller_item($tracker->get_table(), $date, $period, $enddate);
                             }
-                        
+
                         }
-                        
+
                         $resultset = $tracker->export($startdate, $enddate, $event);
-                        
+
                         foreach ($resultset as $result)
                         {
                             if ($tracker->is_summary_tracker())
@@ -121,7 +116,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
                             else
                             {
                                 $date = Utilities :: time_from_datepicker($result->get_date());
-                                
+
                                 foreach ($storage_units as $start_time => $storage_unit)
                                 {
                                     $end_time = mktime(23, 59, 59, date("m", $start_time), date("d", $start_time) + $period, date("Y", $start_time));
@@ -139,15 +134,15 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
                 $this->display_event_footer();
             }
         }
-        
+
         $adm = AdminDataManager :: get_instance();
         $time = time();
         $setting = $adm->retrieve_setting_from_variable_name('last_time_archived', 'tracking');
         $setting->set_value($time);
         $setting->update();
-        
+
         echo '<a href="' . $this->parent->get_platform_administration_link() . '">' . Translation :: get('Go_to_administration') . '</a>';
-        
+
         // Display the page footer
         $this->parent->display_footer();
     }
@@ -166,33 +161,33 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
         if ($enddate > $total_end_date)
             $enddate = $total_end_date;
         $new_tablename = $tablename . '_' . $startdate;
-        
+
         $controller_item = new ArchiveControllerItem();
-        
+
         $controller_item->set_start_date($startdate);
         $controller_item->set_end_date($enddate);
         $controller_item->set_original_table($tablename);
         $controller_item->set_table_name($new_tablename);
-        
+
         return $controller_item->create();
     }
 
     function create_storage_unit($path, $extra_name)
     {
         $storage_unit_info = Installer :: parse_xml_file($path);
-        
+
         $name = $storage_unit_info['name'] . $extra_name;
         $tables = $this->tdm->get_tables();
-        
+
         $tname = 'tracker_' . $name;
-        
+
         if (in_array($tname, $tables))
         {
             return false;
         }
-        
+
         return $this->tdm->create_storage_unit($name, $storage_unit_info['properties'], $storage_unit_info['indexes']);
-    
+
     }
 
     function display_event_header($eventname)

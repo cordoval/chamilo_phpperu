@@ -2,9 +2,9 @@
 <object name="tracker_registration">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
-		<property name="class" type="text" length="50" fixed="true"
+		<property name="tracker" type="text" length="100" fixed="true"
 			notnull="1" />
-		<property name="path" type="text" length="50" fixed="true"
+		<property name="application" type="text" length="100" fixed="true"
 			notnull="1" />
 	</properties>
 </object>
