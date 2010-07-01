@@ -267,6 +267,12 @@ $lang['internship_organizer']['Count'] = 'Count';
 $lang['internship_organizer']['InternshipOrganizerTotal'] = 'Total';
 $lang['internship_organizer']['ExportToExcel'] = 'Export to Excel';
 
+$lang['internship_organizer']['Xml'] = 'Xml';
+$lang['internship_organizer']['Pdf'] = 'Pdf';
+$lang['internship_organizer']['Csv'] = 'Csv';
+$lang['internship_organizer']['Excel'] = 'Excel';
+
+
 $lang['internship_organizer']['InternshipOrganizerPeriodReportingTemplate'] = 'Period report';
 $lang['internship_organizer']['InternshipOrganizerPeriodUserTypeCountReportingBlock'] = 'Period user types count';
 $lang['internship_organizer']['InternshipOrganizerPeriodUserCountReportingBlock'] = 'Period user count';
