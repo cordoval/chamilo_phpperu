@@ -100,7 +100,12 @@ abstract class ToolComponent extends SubManager
     {
         return $this->get_parent()->get_complex_builder_url($pid);
     }
-
+    
+	function get_complex_display_url($pid)
+    {
+        return $this->get_parent()->get_complex_display_url($pid);
+    }
+    
     function get_application_component_path()
     {
     }

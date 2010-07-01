@@ -519,7 +519,7 @@ abstract class ContentObjectPublicationListRenderer
     
 	function get_complex_display_url($publication_id)
     {
-        return $this->tool_browser->get_complex_builder_url($publication_id);
+        return $this->tool_browser->get_complex_display_url($publication_id);
     }
 
     /**
