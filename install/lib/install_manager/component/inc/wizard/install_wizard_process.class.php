@@ -97,7 +97,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 
 //        $page->controller->container(true);
 
-		echo '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a>';
+		//echo '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a>';
 
         // Display the page footer
         $this->parent->display_footer();
@@ -136,7 +136,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
         $html[] = '</div>';
         $html[] = '</div></div>';
         $html[] = '<div class="clear"></div>';
-        $html[] = '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a><br />';
+        //$html[] = '<a href="#" id="showall">' . Translation :: get('ShowAll') . '</a> - <a href="#" id="hideall">' . Translation :: get('HideAll') . '</a><br />';
         //$html[] = ResourceManager :: get_instance()->get_resource_html($values['platform_url'] . 'common/javascript/install_process.js');
 
         echo implode("\n", $html);
