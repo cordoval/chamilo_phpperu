@@ -1,4 +1,7 @@
 <?php
+
+require_once dirname(__FILE__) . '/browser/blog_publication_cell_renderer.class.php';
+
 class BlogToolBrowserComponent extends BlogTool
 {
     function run()
@@ -6,10 +9,10 @@ class BlogToolBrowserComponent extends BlogTool
         $tool_component = ToolComponent :: factory(ToolComponent :: ACTION_BROWSE, $this);
         $tool_component->run();
     }
-
-    function get_publications()
+    
+	function get_content_object_publication_table_cell_renderer($tool_browser)
     {
-        return $this->get_parent()->get_publications();
+        return new BlogPublicationCellRenderer($tool_browser);
     }
 }
 ?>
