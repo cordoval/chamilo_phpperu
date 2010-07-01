@@ -20,11 +20,11 @@ abstract class AggregateTracker extends Tracker
         $conditions[] = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
         $condtion = new AndCondition($conditions);
 
-        $tracker_items = $this->retrieve_tracker_items($condtion);
+        $tracker_items = $this->get_data_manager()->retrieve_tracker_items($this->get_table_name(), $condtion);
 
-        if (count($tracker_items) != 0)
+        if ($tracker_items->size() != 0)
         {
-            $current_aggregrate_tracker = $tracker_items[0];
+            $current_aggregrate_tracker = $tracker_items->next_result();
             $this->set_id($current_aggregrate_tracker->get_id());
             $this->set_value($current_aggregrate_tracker->get_value() + 1);
             return $this->update();

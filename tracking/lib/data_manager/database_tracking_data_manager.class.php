@@ -8,14 +8,15 @@ require_once dirname(__FILE__) . '/../tracking_data_manager_interface.class.php'
 
 /**
 ==============================================================================
- *	This is a data manager that uses a database for storage. It was written
- *	for MySQL, but should be compatible with most SQL flavors.
- *  @author Sven Vanpoucke
+ * This is a data manager that uses a database for storage. It was written
+ * for MySQL, but should be compatible with most SQL flavors.
+ * @author Sven Vanpoucke
 ==============================================================================
  */
 
 class DatabaseTrackingDataManager extends Database implements TrackingDataManagerInterface
 {
+
     // Inherited.
     function initialize()
     {
@@ -226,24 +227,22 @@ class DatabaseTrackingDataManager extends Database implements TrackingDataManage
     }
 
     /**
-     * Retrieves all tracker items from the database
-     * @param string $tablename the table name where the database has to be written to
-     * @param string $classname the tracker's class name (needed to create the class when data is retrieved)
-     * @param array $conditons a list of conditions
-     * @return MainTracker $tracker a subclass of MainTracker
+     * @param string $table_name
+     * @param Condition $condition
+     * @param int $offset
+     * @param int $max_objects
+     * @param ObjectTableOrder $order_by
+     * @param string $class_name
      */
-    function retrieve_tracker_items($table_name, $classname, $condition)
-    {
-        //$items = $this->retrieve_objects($table_name, $condition);
-        $items = $this->retrieve_objects($table_name, $condition, null, null, array(), $classname);
-        return $items->as_array();
-    }
-
-    function retrieve_tracker_items_result_set($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
+    function retrieve_tracker_items($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null)
     {
         return $this->retrieve_objects($table_name, $condition, $offset, $max_objects, $order_by, $classname);
     }
 
+    /**
+     * @param string $tablename
+     * @param Condition $condition
+     */
     function count_tracker_items($tablename, $condition)
     {
         return $this->count_objects($tablename, $condition);
@@ -308,7 +307,7 @@ class DatabaseTrackingDataManager extends Database implements TrackingDataManage
         $query = 'DELETE FROM ' . $this->escape_table_name(EventRelTracker :: get_table_name()) . ' WHERE ';
         $query .= $this->escape_column_name(EventRelTracker :: PROPERTY_EVENT_ID) . ' NOT IN (SELECT ' . $this->escape_column_name(Event :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name(Event :: get_table_name()) . ') OR ';
         $query .= $this->escape_column_name(EventRelTracker :: PROPERTY_TRACKER_ID) . ' NOT IN (SELECT ' . $this->escape_column_name(TrackerRegistration :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name(TrackerRegistration :: get_table_name()) . ')';
-		return $this->query($query);
+        return $this->query($query);
     }
 }
 ?>

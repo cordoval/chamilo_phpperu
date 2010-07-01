@@ -198,18 +198,18 @@ class Database
 
     function storage_unit_exist($name)
     {
-    	$name = $this->get_table_name($name);
+        $name = $this->get_table_name($name);
         $this->connection->loadModule('Manager');
         $manager = $this->connection->manager;
         $table_fields = $manager->listTableFields($name);
 
         if (! MDB2 :: isError($table_fields))
         {
-        	return true;
+            return true;
         }
         else
         {
-        	return false;
+            return false;
         }
     }
 
@@ -524,8 +524,8 @@ class Database
             $query .= $translator->render_query($condition);
         }
 
-//              dump($query);
-//                exit;
+        //              dump($query);
+        //                exit;
 
 
         $res = $this->query($query);
@@ -538,7 +538,7 @@ class Database
         {
             $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
             $res->free();
-//            dump($res);
+            //            dump($res);
             return $record[0];
         }
     }
@@ -569,13 +569,10 @@ class Database
             $query .= $translator->render_query($condition);
         }
 
-
-
         $orders = array();
 
-//                        dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
-//                        dump($order_by);
-
+        //dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
+        //dump($order_by);
 
         if (is_null($order_by))
         {
@@ -1029,7 +1026,7 @@ class Database
      */
     public function nested_tree_retrieve_node($node, $id)
     {
-        if (!isset($id))
+        if (! isset($id))
         {
             return false;
         }

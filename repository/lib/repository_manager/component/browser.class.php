@@ -51,6 +51,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         echo $output;
         echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
 
+        var_dump(class_exists('GroupDataManager'));
         $this->display_footer();
     }
 
@@ -67,9 +68,9 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         {
             $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
         }
-        
+
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-        
+
         $table = new RepositoryBrowserTable($this, $parameters, $condition);
         return $table->as_html();
     }

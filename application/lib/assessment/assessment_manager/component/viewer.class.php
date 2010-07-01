@@ -52,17 +52,14 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         }
 
         // Checking statistics
-
-
-        $track = new AssessmentAssessmentAttemptsTracker();
         $conditions[] = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->pid);
         $conditions[] = new EqualityCondition(AssessmentAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
-        $trackers = $track->retrieve_tracker_items($condition);
 
-        $count = count($trackers);
+        $trackers = Tracker :: get_data('assessment_assessment_attempts_tracker', AssessmentManager :: APPLICATION_NAME, $condition);
+        $count = $trackers->size();
 
-        foreach ($trackers as $tracker)
+        while ($tracker = $trackers->next_result())
         {
             if ($tracker->get_status() == 'not attempted')
             {
@@ -86,8 +83,6 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         }
 
         // Executing assessment
-
-
         if ($this->assessment->get_assessment_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
         {
             $this->display_header($trail);

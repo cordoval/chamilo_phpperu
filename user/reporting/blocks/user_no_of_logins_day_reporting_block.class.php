@@ -13,43 +13,46 @@ class  UserNoOfLoginsDayReportingBlock extends UserReportingBlock
 		$user_id = $this->get_user_id();
 		if (isset($user_id))
 		{
-			$conditions[] = new EqualityCondition(LoginLogoutTracker::PROPERTY_USER_ID, $user_id); 
+			$conditions[] = new EqualityCondition(LoginLogoutTracker::PROPERTY_USER_ID, $user_id);
 		}
 		$condition = new AndCondition($conditions);
-		
-        $tracker = new LoginLogoutTracker();
-        $trackerdata = $tracker->retrieve_tracker_items($condition);
 
-        $days = UserReportingBlock :: getDateArray($trackerdata, 'N');
+		$data = Tracker :: get_data('login_logout_tracker', UserManager :: APPLICATION_NAME, $condition);
+//        $tracker = new LoginLogoutTracker();
+//        $trackerdata = $tracker->retrieve_tracker_items($condition);
+
+//		dump($data);
+
+        $days = UserReportingBlock :: getDateArray($data, 'N');
         $new_days = array();
 
         $day_names = array(Translation :: get('MondayLong'), Translation :: get('TuesdayLong'), Translation :: get('WednesdayLong'), Translation :: get('ThursdayLong'), Translation :: get('FridayLong'), Translation :: get('SaturdayLong'), Translation :: get('SundayLong'));
 
         $reporting_data->set_categories($day_names);
         $reporting_data->set_rows(array(Translation :: get('logins')));
-        
+
         foreach ($day_names as $key => $name)
         {
             $reporting_data->add_data_category_row($name, Translation :: get('logins'), ($days[$key] ? $days[$key] : 0));
         }
         return $reporting_data;
-	}	
-	
+	}
+
 	public function is_sortable()
 	{
 		return true;
 	}
-	
+
 	public function retrieve_data()
-	{	
+	{
 		return $this->count_data();
 	}
-	
+
 	function get_application()
 	{
 		return UserManager::APPLICATION_NAME;
 	}
-	
+
 	public function get_available_displaymodes()
 	{
 		$modes = array();
