@@ -15,7 +15,8 @@ class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOr
  
         $user_id = $this->get_user_id();
         $this->set_parameter(UserManager :: PARAM_USER_USER_ID, $user_id);
-       
+             
+        
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         $trail->add(new Breadcrumb($this->get_browse_agreements_url(), Translation :: get('BrowseInternshipOrganizerAgreements')));

@@ -101,6 +101,7 @@ abstract class ReportingBlock
         $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_APPLICATION, $this->get_application());
         $conditions[] = new EqualityCondition(ReportingBlockRegistration::PROPERTY_BLOCK, $this->get_name());
         $condition = new AndCondition($conditions);
+       
 		$registrations = ReportingDataManager::get_instance()->retrieve_reporting_block_registrations($condition);
 		if($registrations->size() == 1)
         {
