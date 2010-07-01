@@ -129,4 +129,9 @@ abstract class ToolComponent extends SubManager
     {
         return $this->get_parent()->get_tool_id();
     }
+    
+    function display_header()
+    {
+    	return $this->get_parent()->display_header();
+    }
 }
