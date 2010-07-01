@@ -18,9 +18,9 @@ abstract class AggregateTracker extends Tracker
         $conditions = array();
         $conditions[] = new EqualityCondition(self :: PROPERTY_TYPE, $this->get_type());
         $conditions[] = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
-        $condtion = new AndCondition($conditions);
+        $condition = new AndCondition($conditions);
 
-        $tracker_items = $this->get_data_manager()->retrieve_tracker_items($this->get_table_name(), $condtion);
+        $tracker_items = $this->get_data_manager()->retrieve_tracker_items($this->get_table_name(), $condition, null, null, array(), get_class($this));
 
         if ($tracker_items->size() != 0)
         {
