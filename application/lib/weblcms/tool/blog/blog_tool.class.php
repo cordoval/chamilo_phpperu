@@ -72,7 +72,7 @@ class BlogTool extends Tool implements Categorizable
 
     static function get_allowed_types()
     {
-        return array(BlogItem :: get_type_name());
+        return array(Blog :: get_type_name());
     }
 
 	function get_application_component_path()
