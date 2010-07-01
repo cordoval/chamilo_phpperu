@@ -147,7 +147,7 @@ abstract class MainTracker
     /**
      * Returns the property names of the tracker
      */
-    function get_default_property_names()
+    static function get_default_property_names()
     {
         return array(self :: PROPERTY_ID);
     }

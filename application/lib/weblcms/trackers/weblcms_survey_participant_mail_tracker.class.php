@@ -24,7 +24,7 @@ class WeblcmsSurveyParticipantMailTracker extends SimpleTracker
     /**
      * Inherited
      */
-    function get_default_property_names()
+    static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_SURVEY_PUBLICATION_ID, self :: PROPERTY_SEND_DATE, self :: PROPERTY_STATUS, self :: PROPERTY_SURVEY_PUBLICATION_MAIL_ID));
     }
