@@ -335,7 +335,7 @@ abstract class Tool extends SubManager
 
         $tool_shortcut = $this->get_course()->get_tool_shortcut();
         
-        if (($this->get_course()->get_intro_text() && !$this->get_introduction_text())  || ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0))
+        if (($this->get_tool_id() == 'home' && $this->get_course()->get_intro_text() && !$this->get_introduction_text())  || ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0))
         {
         	echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 2em;">';
         	$shortcuts_visible = true;
