@@ -24,7 +24,7 @@ class SurveyQuestionAnswerTracker extends SimpleTracker
     /**
      * Inherited
      */
-    function get_default_property_names()
+    static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_SURVEY_PARTICIPANT_ID, self :: PROPERTY_QUESTION_CID, self :: PROPERTY_ANSWER));
     }

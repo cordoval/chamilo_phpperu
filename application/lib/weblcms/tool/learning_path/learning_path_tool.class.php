@@ -14,7 +14,6 @@ class LearningPathTool extends Tool implements Categorizable
     const ACTION_VIEW_CLO = 'view_clo';
     const ACTION_VIEW_ASSESSMENT_CLO = 'view_assessment_clo';
     const ACTION_VIEW_DOCUMENT = 'view_document';
-    const ACTION_ATTEMPT = 'attempt';
     
     const PARAM_OBJECT_ID = 'object_id';
     const PARAM_LEARNING_PATH = 'lp';
@@ -76,7 +75,7 @@ class LearningPathTool extends Tool implements Categorizable
             case self :: ACTION_PUBLISH_INTRODUCTION:
             	$component = $this->create_component('IntroductionPublisher');
                 break;
-            case self :: ACTION_ATTEMPT:
+            case self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT:
             	$component = $this->create_component('Attempt');
                 break;
             case self :: ACTION_SHOW_PUBLICATION:
@@ -117,13 +116,6 @@ class LearningPathTool extends Tool implements Categorizable
         
     	if(!$this->is_empty_learning_path($publication))
         {
-	    	$items[] = new ToolbarItem(
-	        		Translation :: get('AttemptLearningPath'),
-	        		Theme :: get_common_image_path() . 'action_start.png',
-	        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-	        		ToolbarItem :: DISPLAY_ICON
-	        );
-	        
 	        if($allowed)
 	        {
 		        $items[] = new ToolbarItem(
@@ -136,13 +128,6 @@ class LearningPathTool extends Tool implements Categorizable
         }
         else
         {
-        	$items[] = new ToolbarItem(
-	        		Translation :: get('AttemptLearningPathNA'),
-	        		Theme :: get_common_image_path() . 'action_right_na.png',
-					null,
-	        		ToolbarItem :: DISPLAY_ICON
-	        );
-	        
 	        if($allowed)
 	        {
 		        $items[] = new ToolbarItem(

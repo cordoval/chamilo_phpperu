@@ -23,7 +23,7 @@ class ForumTopicViewTracker extends SimpleTracker
     /**
      * Inherited
      */
-    function get_default_property_names()
+    static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_USER_ID, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_FORUM_TOPIC_ID, self :: PROPERTY_DATE));
     }

@@ -13,7 +13,6 @@ require_once ('HTML/Table.php');
 class FixedLocationToolListRenderer extends ToolListRenderer
 {
     private $number_of_columns = 2;
-    private $group_inactive;
     private $is_course_admin;
     private $course;
 
@@ -21,13 +20,13 @@ class FixedLocationToolListRenderer extends ToolListRenderer
      * Constructor
      * @param  WebLcms $parent The parent application
      */
-    function FixedLocationToolListRenderer($parent)
+    function FixedLocationToolListRenderer($parent, $visible_tools)
     {
-        parent :: ToolListRenderer($parent);
+        parent :: ToolListRenderer($parent, $visible_tools);
+        
         $course = $parent->get_course();
         $this->course = $course;
         $this->number_of_columns = ($course->get_layout() % 2 == 0) ? 3 : 2;
-        $this->group_inactive = ($course->get_layout() > 2);
         $this->is_course_admin = $this->get_parent()->is_allowed(EDIT_RIGHT);
     }
 
@@ -36,59 +35,26 @@ class FixedLocationToolListRenderer extends ToolListRenderer
     {
         $parent = $this->get_parent();
         $tools = array();
-        foreach ($parent->get_registered_tools() as $tool)
+        foreach ($this->get_visible_tools() as $tool)
         {
-            if ($this->group_inactive)
+            if ($this->course->get_layout() > 2)
             {
-                if ($this->course->get_layout() > 2)
+                if ($tool->visible)
                 {
-                    if ($tool->visible)
-                    {
-                        $tools[$tool->section][] = $tool;
-                    }
-                    else
-                    {
-                        $tools[CourseSection :: TYPE_DISABLED][] = $tool;
-                    }
+                    $tools[$tool->section][] = $tool;
                 }
                 else
-                    $tools[$tool->section][] = $tool;
+                {
+                    $tools[CourseSection :: TYPE_DISABLED][] = $tool;
+                }
             }
             else
             {
-                $tools[$tool->section][] = $tool;
+            	$tools[$tool->section][] = $tool;
             }
+            
         }
 
-        //$section_types = $parent->get_registered_sections();
-        //dump($section_types);
-        
-
-        /*foreach($section_types as $section_type => $sections)
-		{
-			if ($section_type == CourseSection :: TYPE_LINK)
-			{
-				$this->show_links();
-			}
-			else
-			{
-				if($section_type == CourseSection :: TYPE_DISABLED && $this->course->get_layout() < 3)
-					continue;
-
-				foreach($sections as $section)
-				{
-					$id = ($section_type == CourseSection :: TYPE_DISABLED && $this->course->get_layout() > 2)?0:$section->id;
-
-					if((count($tools[$id]) > 0 && $section->visible) || $this->is_course_admin)
-					{
-						echo $this->display_block_header($section->id, $section->name);
-						$this->show_section_tools($section, $tools[$id]);
-						echo $this->display_block_footer();
-					}
-				}
-			}
-		}*/
-        
         echo '<div id="coursecode" style="display: none;">' . $this->course->get_id() . '</div>';
         
         $tabs = new DynamicTabsRenderer('admin');
@@ -104,6 +70,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         	if ($section->get_type() == CourseSection :: TYPE_LINK)
             {
             	$content = $this->show_links($section);
+            	$tabs->add_tab(new DynamicContentTab($section->get_id(), $section->get_name(), null, $content));
             }
             else
             {
@@ -120,12 +87,8 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                     $content = $this->display_block_header($section, $section->get_name());
                     $content .= $this->show_section_tools($section, $tools[$id]);
                     $content .= $this->display_block_footer($section);
+                    $tabs->add_tab(new DynamicContentTab($section->get_id(), $section->get_name(), null, $content));
                 }
-            }
-            
-            if($content)
-            {
-            	$tabs->add_tab(new DynamicContentTab($section->get_id(), $section->get_name(), null, $content));
             }
         }
         
@@ -156,17 +119,18 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
         
-        /*if ($publications->size() > 0)
-        {
-            echo $this->display_block_header($section, Translation :: get('Links'));
-        }*/
-        
         $table = new HTML_Table('style="width: 100%;"');
         $table->setColCount($this->number_of_columns);
         $count = 0;
+
+    	if($publications->size() == 0)
+        {
+        	$html[] = '<div class="normal-message">' . Translation :: get('NoLinksAvailable') . '</div>';
+        }
+        
         while ($publication = $publications->next_result())
         {
-            if ($publication->is_visible_for_target_users())
+            if ($publication->is_hidden() == 0)
             {
                 $lcms_action = HomeTool :: ACTION_HIDE_PUBLICATION;
                 $visible_image = 'action_visible.png';
@@ -180,50 +144,43 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 $tool_image = 'tool_' . $publication->get_tool() . '_na.png';
                 $link_class = ' class="invisible"';
             }
+            
             $title = htmlspecialchars($publication->get_content_object()->get_title());
             $row = $count / $this->number_of_columns;
             $col = $count % $this->number_of_columns;
-            $html = array();
+            $cell_contents = array();
             if ($parent->is_allowed(EDIT_RIGHT) || $publication->is_visible_for_target_users())
             {
                 // Show visibility-icon
                 if ($parent->is_allowed(EDIT_RIGHT))
                 {
-                    $html[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => $lcms_action, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
-                    $html[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => HomeTool :: ACTION_DELETE_LINKS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
-                    $html[] = '&nbsp;&nbsp;&nbsp;';
+                    $cell_contents[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => $lcms_action, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
+                    $cell_contents[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => HomeTool :: ACTION_DELETE_LINKS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
+                    $cell_contents[] = '&nbsp;&nbsp;&nbsp;';
                 }
                 
                 // Show tool-icon + name
-                $html[] = '<a href="' . $parent->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $publication->get_tool(), Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true) . '" ' . $link_class . '>';
-                $html[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
-                $html[] = '&nbsp;';
-                $html[] = $title;
-                $html[] = '</a>';
+                $cell_contents[] = '<a href="' . $parent->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COMPONENT_ACTION => null, WeblcmsManager :: PARAM_TOOL => $publication->get_tool(), Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true) . '" ' . $link_class . '>';
+                $cell_contents[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
+                $cell_contents[] = '&nbsp;';
+                $cell_contents[] = $title;
+                $cell_contents[] = '</a>';
                 
-                $table->setCellContents($row, $col, implode("\n", $html));
+                $table->setCellContents($row, $col, implode("\n", $cell_contents));
                 $table->updateColAttributes($col, 'style="width: ' . floor(100 / $this->number_of_columns) . '%;"');
                 $count ++;
             }
         }
         
-        return $table->toHtml();
+        $html[] = $table->toHtml();
         
-        /*if ($publications->size() > 0)
-        {
-            echo $this->display_block_footer($section);
-        }*/
+        return implode("\n", $html);
     }
 
     function display_block_header($section, $block_name)
     {
         $html = array();
-//        
-//        $icon = 'block_weblcms.png';
-//        
-//        if ($section->get_type() == CourseSection :: TYPE_ADMIN)
-//            $icon = 'block_admin.png';
-//        
+
         if ($section->get_type() == CourseSection :: TYPE_TOOL)
         {
             $html[] = '<div class="toolblock" id="block_' . $section->get_id() . '" style="width:100%; height: 100%;">';
@@ -233,14 +190,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         {
             $html[] = '<div class="disabledblock" id="block_' . $section->get_id() . '" style="width:100%; height: 100%;">';
         }
-//        
-//        $html[] = '<div class="block" id="block_' . $section->get_id() . '" style="background-image: url(' . Theme :: get_image_path('home') . $icon . ');">';
-//        
-//        $html[] = '<div class="title"><div style="float: left;">' . $block_name . '</div>';
-//        $html[] = '<a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png" /><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
-//        $html[] = '<div style="clear: both;"></div>';
-//        $html[] = '</div>';
-//        $html[] = '<div class="description">';
         
         return implode("\n", $html);
     }
@@ -250,9 +199,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         $html = array();
         
         $html[] = '<div class="clear"></div>';
-//        $html[] = '</div>';
-//        $html[] = '</div>';
-//        
+
         if ($section->get_type() == CourseSection :: TYPE_TOOL || $section->get_type() == CourseSection :: TYPE_DISABLED)
         {
             $html[] = '</div>';
@@ -267,8 +214,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         
         $column_width = 99.9 / $this->number_of_columns;
         
-        //$table = new HTML_Table('style="width: 100%;"');
-        //$table->setColCount($this->number_of_columns);
         $count = 0;
         
         $html = array();
@@ -308,7 +253,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 if ($section->get_type() == CourseSection :: TYPE_TOOL || $section->get_type() == CourseSection :: TYPE_DISABLED)
                 {
                     $html[] = '<div id="tool_' . $tool->id . '" class="tool" style="width: ' . $column_width . '%;">';
-                    //$html[] = '<div id="drag_' . $tool->id . '" class="tooldrag" style="width: 20px; cursor: pointer; display:none;"><img src="'. Theme :: get_common_image_path() .'action_drag.png" alt="'. Translation :: get('DragAndDrop') .'" title="'. Translation :: get('DragAndDrop') .'" /></div>';
                     $id = 'id="drag_' . $tool->id . '"';
                 }
                 else
@@ -324,7 +268,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 }
                 
                 // Show tool-icon + name
-                
 
                 $html[] = '<img class="tool_image"' . $id . ' src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/>';
                 $html[] = '&nbsp;';
@@ -336,8 +279,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
                 
                 $html[] = '</div>';
                 
-                //$table->setCellContents($row,$col,implode("\n",$html));
-                //$table->updateColAttributes($col,'style="width: '.floor(100/$this->number_of_columns).'%;"');
                 $count ++;
             }
         }

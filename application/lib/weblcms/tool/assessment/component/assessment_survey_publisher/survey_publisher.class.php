@@ -121,7 +121,7 @@ class SurveyPublisher extends SurveyPublisherComponent
 
     function send_mail($survey_invitation, $title, $body)
     {
-        $url = $this->parent->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, AssessmentTool :: PARAM_INVITATION_ID => $survey_invitation->get_invitation_code()));
+        $url = $this->parent->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, AssessmentTool :: PARAM_INVITATION_ID => $survey_invitation->get_invitation_code()));
         $text = '<br/><br/><a href=' . $url . '>' . Translation :: get('ClickToTakeSurvey') . '</a>';
         $text .= '<br/><br/>' . Translation :: get('OrCopyAndPasteThisText') . ':';
         $text .= '<br/><a href=' . $url . '>' . $url . '</a>';

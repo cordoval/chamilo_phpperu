@@ -11,7 +11,6 @@ class SurveyTool extends Tool
 {
     const ACTION_DELETE_PUBLICATION = 'delete_pub';
     const ACTION_VIEW_USER_ASSESSMENTS = 'view_user';
-    const ACTION_TAKE_SURVEY = 'take';
     const ACTION_VIEW_RESULTS = 'result';
     const ACTION_EXPORT_QTI = 'exportqti';
     const ACTION_IMPORT_QTI = 'importqti';
@@ -48,7 +47,7 @@ class SurveyTool extends Tool
         //            case self :: ACTION_VIEW :
         //                $component = SurveyToolComponent :: factory('Viewer', $this);
         //                break;
-        //            case self :: ACTION_TAKE_SURVEY :
+        //            case self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT :
         //                $component = SurveyToolComponent :: factory('Taker', $this);
         //                break;
         //            case self :: ACTION_MAIL_SURVEY_PARTICIPANTS :
@@ -116,7 +115,7 @@ class SurveyTool extends Tool
             case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
                 $component = $this->create_component('Builder');
                 break;    
-            case self :: ACTION_TAKE_SURVEY :
+            case self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT :
                 $component = $this->create_component('Taker');
                 break;
             case self :: ACTION_MAIL_SURVEY_PARTICIPANTS :
@@ -207,7 +206,7 @@ class SurveyTool extends Tool
     //
     function get_survey_publication_viewer_url($publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TAKE_SURVEY, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
 
     //

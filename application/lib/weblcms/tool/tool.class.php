@@ -284,145 +284,101 @@ abstract class Tool extends SubManager
         return $this->get_parent()->get_tool_id();
     }
 
-    //    /**
-    //     * @see Application :: display_header()
-    //     */
-    //    function display_header($breadcrumbtrail, $display_title, $display_tools = true, $display_student_view = true)
-    //    {
-    //        $trail = BreadcrumbTrail :: get_instance();
-    //        //$trail->set_help_items($breadcrumbtrail->get_help_items());
-    //        switch ($this->get_parent()->get_course()->get_breadcrumb())
-    //        {
-    //            case CourseLayout :: BREADCRUMB_TITLE :
-    //                $title = $this->get_parent()->get_course()->get_name();
-    //                break;
-    //            case CourseLayout :: BREADCRUMB_CODE :
-    //                $title = $this->get_parent()->get_course()->get_visual();
-    //                break;
-    //            case CourseLayout :: BREADCRUMB_COURSE_HOME :
-    //                $title = Translation :: get('CourseHome');
-    //                break;
-    //            default :
-    //                $title = $this->get_parent()->get_course()->get_visual();
-    //                break;
-    //        }
-    //
-    //        $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'tool' => null, 'course' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get('MyCourses')));
-    //        $trail->add(new Breadcrumb($this->get_url(array('tool' => null, 'tool_action' => null, self :: PARAM_PUBLICATION_ID => null)), $title));
-    //
-    //        // TODO: do this by overriding display_header in the course_group tool
-    //
-    //
-    //        if (! is_null($this->get_parent()->get_course_group()))
-    //        {
-    //            $course_group = $this->get_parent()->get_course_group();
-    //            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COURSE_GROUP => null)), Translation :: get('CourseGroups')));
-    //            //if(Request :: get('tool_action') != null)
-    //        //$trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'course_group_unsubscribe')), $course_group->get_name()));
-    //        }
-    //        elseif ($this->get_tool_id() == 'course_group')
-    //        {
-    //            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->get_parent()->get_tool_id()) . 'Title')));
-    //        }
-    //        // TODO: make this the default
-    //        if ($this->get_tool_id() != 'course_group')
-    //        {
-    //            $trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null, 'view' => null, 'time' => null, self :: PARAM_PUBLICATION_ID => null)), Translation :: get(Tool :: type_to_class($this->get_parent()->get_tool_id()) . 'Title')));
-    //        }
-    //
-    //        $breadcrumbs = BreadcrumbTrail::get_instance()->get_breadcrumbs();
-    //
-    //        if (count($breadcrumbs))
-    //        {
-    //            foreach ($breadcrumbs as $i => $breadcrumb)
-    //            {
-    //                if ($i != 0)
-    //                    $trail->add($breadcrumb);
-    //            }
-    //        }
-    //        Breadcrumbtrail :: get_instance()->set_breadcrumbtrail($trail->get_breadcrumbtrail());
-    //        $this->get_parent()->display_header(Breadcrumbtrail :: get_instance(), false, $display_title, $display_tools, $display_student_view);
-    //        //echo '<div class="clear"></div>';
-    //
-    //
-    //        if ($this->get_parent()->get_course()->get_tool_shortcut() == CourseLayout :: TOOL_SHORTCUT_ON)
-    //        {
-    //            $renderer = ToolListRenderer :: factory('Shortcut', $this->get_parent());
-    //            echo '<div style="width: 100%; text-align: right;">';
-    //            $renderer->display();
-    //            echo '</div>';
-    //        }
-    //
-    //        echo '<div class="clear"></div>';
-    //
-    //        if ($msg = Request :: get(Application :: PARAM_MESSAGE))
-    //        {
-    //            $this->get_parent()->display_message($msg);
-    //        }
-    //        if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
-    //        {
-    //            $this->get_parent()->display_error_message($msg);
-    //        }
-    //
-    //        $menu_style = $this->get_parent()->get_course()->get_menu();
-    //        if ($menu_style != CourseLayout :: MENU_OFF)
-    //        {
-    //            $renderer = ToolListRenderer :: factory('Menu', $this->get_parent());
-    //            $renderer->display();
-    //            echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && ! $renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
-    //        }
-    //        else
-    //        {
-    //            echo '<div id="tool_browser">';
-    //        }
-    //
-    //    }
+    function display_header($visible_tools = null, $show_introduction_text = false)
+    {
+    	if(!$visible_tools)
+    	{
+    		$visible_tools = $this->get_visible_tools();
+    	}
+    	
+    	parent :: display_header();
+    	$this->display_course_menus($visible_tools, $show_introduction_text);
+    }
+    
+    function display_footer()
+    {
+    	echo '</div>';
+    	parent :: display_footer();
+    }
+    
+	function get_visible_tools()
+    {
+    	$tools = array();
+    	
+    	foreach ($this->get_parent()->get_registered_tools() as $tool)
+        {
+            $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition(CourseSection :: PROPERTY_ID, $tool->section));
+            $section = $sections->next_result();
+            
+        	if(($tool->visible && $section->get_type() != CourseSection :: TYPE_ADMIN) || $this->is_allowed(EDIT_RIGHT))
+            {
+            	$tools[] = $tool;
+            }
+        }
+        
+        return $tools;
+    }
+    
+    function display_course_menus($tools, $show_introduction_text = false)
+    {
+    	$menu_style = $this->get_course()->get_menu();
+        if ($menu_style != CourseLayout :: MENU_OFF && count($tools) > 0)
+        {
+            $renderer = ToolListRenderer :: factory(ToolListRenderer :: TYPE_MENU, $this, $tools);
+            echo $renderer->display();
+            echo '<div id="tool_browser_' . ($renderer->display_menu_icons() && ! $renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() . '">';
+        }
+        else
+        {
+            echo '<div id="tool_browser">';
+        }
 
+        $tool_shortcut = $this->get_course()->get_tool_shortcut();
+        
+        if (($this->get_tool_id() == 'home' && $this->get_course()->get_intro_text() && !$this->get_introduction_text())  || ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0))
+        {
+        	echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 2em;">';
+        	$shortcuts_visible = true;
+        }
+        
+        if ($show_introduction_text)
+        {
+        	$introduction_text = $this->get_introduction_text();
+            if (! $introduction_text)
+            {
+                if ($this->is_allowed(EDIT_RIGHT))
+                {
+                    $toolbar = new Toolbar();
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('PublishIntroductionText'), null, $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_LABEL));
+                    echo '<div style="float: left;">';
+                    echo $toolbar->as_html();
+                    echo '</div>';
+                }
+            }
+        }
+        
+        if($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0)
+        {
+        	$renderer = ToolListRenderer :: factory(ToolListRenderer :: TYPE_SHORTCUT, $this, $tools);
+        	echo '<div style="float:right;">';
+            $renderer->display();
+            echo '</div>';
+        }
+        
+        if ($shortcuts_visible)
+        {
+        	echo '</div>';
+        }
 
-    //    /**
-    //     * @see Application :: display_footer()
-    //     */
-    //    function display_footer()
-    //    {
-    //        echo '</div>';
-    //        $this->get_parent()->display_footer();
-    //    }
-
+        echo '<div class="clear"></div>';
+    }
 
     function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
     {
         return $this->get_parent()->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
     }
 
-    //    /**
-    //     * Informs the user that access to the page was denied.
-    //     */
-    //    function disallow()
-    //    {
-    //        Display :: not_allowed();
-    //    }
-    //
-    //	function get_application_name()
-    //	{
-    //        return $this->get_parent()->get_application_name();
-    //	}
-    //
-    //    /**
-    //     * @see WebApplication :: get_user()
-    //     */
-    //    function get_user()
-    //    {
-    //        return $this->get_parent()->get_user();
-    //    }
-    //
-    //    /**
-    //     * @see WebApplication :: get_user_id()
-    //     */
-    //    function get_user_id()
-    //    {
-    //        return $this->get_parent()->get_user_id();
-    //    }
-    //
+
     function get_user_info($user_id)
     {
         return $this->get_parent()->get_user_info($user_id);
@@ -457,57 +413,6 @@ abstract class Tool extends SubManager
         return $this->get_parent()->get_course_group();
     }
 
-    //    /**
-    //     * @see WebApplication :: get_parameters()
-    //     */
-    //    function get_parameters()
-    //    {
-    //        return $this->get_parent()->get_parameters();
-    //    }
-    //
-    //    /**
-    //     * @see WebApplication :: get_parameter()
-    //     */
-    //    function get_parameter($name)
-    //    {
-    //        return $this->get_parent()->get_parameter($name);
-    //    }
-    //
-    //    /**
-    //     * @see WebApplication :: set_parameter()
-    //     */
-    //    function set_parameter($name, $value)
-    //    {
-    //        $this->get_parent()->set_parameter($name, $value);
-    //    }
-    //
-    //	function set_parameters($parameters)
-    //    {
-    //        $this->get_parent()->set_parameters($parameters);
-    //    }
-
-
-    //    /**
-    //     * @see WebApplication :: get_url()
-    //     */
-    //
-    //    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
-    //    {
-    //        return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
-    //    }
-    //
-    //    /**
-    //     * @see WebApplication :: redirect()
-    //     */
-    //    function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
-    //    {
-    //        return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
-    //    }
-    //
-    //    function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $redirect_type = Redirect :: TYPE_URL, $application_type = Redirect :: TYPE_APPLICATION)
-    //    {
-    //        return $this->get_parent()->simple_redirect($parameters, $filter, $encode_entities, $redirect_type, $application_type);
-    //    }
     /**
      * Check if the current user has a given right in this tool
      * @param int $right
@@ -622,6 +527,20 @@ abstract class Tool extends SubManager
 
         return implode("\n", $html);
     }
+    
+	function get_introduction_text()
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
+        $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $this->get_tool_id());
+
+        $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
+        $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
+        $condition = new AndCondition($conditions);
+
+        $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
+        return $publications->next_result();
+    }
 
     static function get_allowed_types()
     {
@@ -644,6 +563,11 @@ abstract class Tool extends SubManager
     function get_complex_builder_url($pid)
     {
         return $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid));
+    }
+    
+	function get_complex_display_url($pid)
+    {
+        return $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid));
     }
 
     static function get_pcattree_parents($pcattree)
@@ -679,6 +603,11 @@ abstract class Tool extends SubManager
     function convert_content_object_publication_to_calendar_event($publication)
     {
         return $publication;
+    }
+
+    function tool_has_new_publications($tool_name)
+    {
+        return $this->get_parent()->tool_has_new_publications($tool_name);
     }
 }
 ?>

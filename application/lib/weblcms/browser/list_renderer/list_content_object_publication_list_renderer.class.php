@@ -150,11 +150,18 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         //case 3: $level = 'level_4'; break;
         }
         
-        $feedback_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), array(), true);
+    	if($publication->get_content_object() instanceof ComplexContentObjectSupport)
+        {
+            $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));
+        }
+        else
+        {
+        	$title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION =>  Tool :: ACTION_VIEW), array(), true);
+        }
         
         $html[] = '<div class="announcements ' . $level . '" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $publication->get_content_object()->get_icon_name() . $icon_suffix . '.png);">';
         $html[] = '<div class="title' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
-        $html[] = '<a href="' . $feedback_url . '">' . $this->render_title($publication) . '</a>';
+        $html[] = '<a href="' . $title_url . '">' . $this->render_title($publication) . '</a>';
         $html[] = '</div>';
         $html[] = '<div class="topactions' . ($publication->is_visible_for_target_users() ? '' : ' invisible') . '">';
         $html[] = $this->render_top_action($publication);
@@ -175,24 +182,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         $html[] = '<div class="clear"></div>';
         $html[] = '</div>';
         $html[] = '</div><br />';
-        
-        /*$html[] = '<div class="content_object" style="background-image: url('. Theme :: get_common_image_path(). 'content_object/' .$publication->get_content_object()->get_icon_name().$icon_suffix.'.png);">';
-		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = $this->render_title($publication);
-		$html[] = '</div>';
-		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = $this->render_description($publication);
-		$html[] = $this->render_attachments($publication);
-		$html[] = '</div>';
-		$html[] = '<div class="publication_info'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = $this->render_publication_information($publication);
-		$html[] = '</div>';
-		$html[] = '<div class="publication_actions">';
-		$html[] = $this->render_publication_actions($publication,$first,$last);
-		if($this->get_actions())
-			$html[] = '<input type="checkbox" name="pid[]" value="' . $publication->get_id() . '"/>';
-		$html[] = '</div>';
-		$html[] = '</div><br />';*/
+
         return implode("\n", $html);
     }
 }

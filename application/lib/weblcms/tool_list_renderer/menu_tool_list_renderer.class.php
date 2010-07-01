@@ -10,39 +10,25 @@ require_once ('HTML/Table.php');
  */
 class MenuToolListRenderer extends ToolListRenderer
 {
-    /**
-     *
-     */
     private $is_course_admin;
-
     private $menu_properties;
 
     /**
      * Constructor
      * @param  WebLcms $parent The parent application
      */
-    function MenuToolListRenderer($parent)
+    function MenuToolListRenderer($parent, $visible_tools)
     {
-        parent :: ToolListRenderer($parent);
+        parent :: ToolListRenderer($parent, $visible_tools);
         $this->is_course_admin = $this->get_parent()->is_allowed(EDIT_RIGHT);
-        $this->menu_properties = $this->retrieve_menu_properties();
-    }
-
-    /**
-     * Sets the type of this navigation menu renderer
-     * @param int $type
-     */
-    function set_type($type)
-    {
-        $this->type = $type;
+        $this->menu_properties = $this->load_menu_properties();
     }
 
     // Inherited
     function display()
     {
         $parent = $this->get_parent();
-        $tools = $parent->get_registered_tools();
-        return $this->show_tools($tools);
+        $this->show_tools($this->get_visible_tools());
     }
 
     /**
@@ -70,14 +56,11 @@ class MenuToolListRenderer extends ToolListRenderer
         $html[] = '<ul>';
 
         $show_search = false;
-        $tools_shown = array();
         
         foreach ($tools as $index => $tool)
         {
             $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $tool->section));
             $section = $sections->next_result();
-
-            //dump($tool->name);
             $section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $tool->section))->next_result();
 
             if ($section->get_type() == CourseSection :: TYPE_ADMIN)
@@ -86,22 +69,12 @@ class MenuToolListRenderer extends ToolListRenderer
                 continue;
             }
 
-            if ($tool->visible || $this->is_course_admin)
+            if($tool->name == 'search')
             {
-                if($tool->name == 'search')
-                {
-                	$show_search = true;
-                }
-                
-                $tools_shown[] = $tool->name;
-                
-            	$html[] = $this->display_tool($tool);
+              	$show_search = true;
             }
-        }
-
-        if(count($tools_shown) == 0)
-        {
-        	return false;
+                
+            $html[] = $this->display_tool($tool);
         }
         
         if (count($admin_tools) && $this->is_course_admin)
@@ -154,8 +127,6 @@ class MenuToolListRenderer extends ToolListRenderer
         $html[] = '<div class="clear">&nbsp;</div>';
 
         echo implode("\n", $html);
-        
-        return true;
     }
 
     function display_tool($tool)
@@ -189,7 +160,7 @@ class MenuToolListRenderer extends ToolListRenderer
         return implode("\n", $html);
     }
 
-    function retrieve_menu_properties()
+    function load_menu_properties()
     {
         $menu_style = $this->get_parent()->get_course()->get_menu();
 

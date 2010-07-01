@@ -17,10 +17,6 @@ class BlogTool extends Tool implements Categorizable
     function run()
     {
         $action = $this->get_action();
-        /*$component = parent :: run();
-
-        if ($component)
-            return;*/
 
         switch ($action)
         {
@@ -63,6 +59,12 @@ class BlogTool extends Tool implements Categorizable
             case self :: ACTION_HIDE_PUBLICATION:
             	$component = $this->create_component('HidePublication');
                 break;
+            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
+                $component = $this->create_component('ComplexBuilder');
+                break;
+            case self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT:
+            	$component = $this->create_component('ComplexDisplay');
+                break;
             default :
                 $component = $this->create_component('Browser');
             	break;
@@ -72,12 +74,20 @@ class BlogTool extends Tool implements Categorizable
 
     static function get_allowed_types()
     {
-        return array(BlogItem :: get_type_name());
+        return array(Blog :: get_type_name());
     }
 
 	function get_application_component_path()
 	{
 		return dirname(__FILE__) . '/component/';
 	}
+	
+	function get_available_browser_types()
+    {
+        $browser_types = array();
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
+        $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
+        return $browser_types;
+    }
 }
 ?>

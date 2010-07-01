@@ -557,7 +557,7 @@ class WeblcmsManager extends WebApplication
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbtrail = null, $display_search = false, $display_title = true)
+	/*function display_header($breadcrumbtrail = null, $display_search = false, $display_title = true)
 	{
 		if (is_null($breadcrumbtrail))
         {
@@ -590,75 +590,34 @@ class WeblcmsManager extends WebApplication
 		}
 		Display :: header($breadcrumbtrail);
 
-		if (isset($this->tool_class))
+		if ($course && is_object($this->course) && $action == self :: ACTION_VIEW_COURSE)
 		{
-			/*echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
-			 echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
-			 echo '<input type="hidden" name="'.self :: PARAM_ACTION.'" value="courseviewer" />';
-			 echo '<input type="hidden" name="'.self :: PARAM_COURSE.'" value="'. $this->get_course_id() .'" />';
-			 echo '<input type="hidden" name="'.Application :: PARAM_APPLICATION.'" value="'.$this->get_parameter('application').'"/>';
-			 echo '<select name="'.self :: PARAM_TOOL.'" onchange="submit();">';
-			 $tools = array ();
-			 foreach ($this->get_registered_tools() as $t)
-			 {
-				$tools[$t->name]['title']	= htmlentities(Translation :: get(Tool :: type_to_class($t->name).'Title'));
-				$tools[$t->name]['visible']	= $t->visible;
-				$tools[$t->name]['section']	= $t->section;
-				}
-				asort($tools);
-				foreach ($tools as $tool => $properties)
-				{
-				if (($properties['visible'] && $properties['section'] != 'course_admin') || $this->get_course()->is_course_admin($this->get_user()))
-				{
-				$class = Tool :: type_to_class($tool);
-				echo '<option value="'.$tool.'"'. ($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($properties['title']).'</option>';
-				}
-				}
-				echo '</select></form></div>';*/
-			if ($display_title)
-			{
-				echo '<div style="float: left;">';
-				Display :: tool_title(htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->tool_class) . 'Title')));
-				echo '</div>';
-			}
-
+			//echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
+			echo '<h3 style="float: left;">' . htmlentities($title) . '</h3>';
+			// TODO: Add department name and url here somewhere ?
 		}
 		else
 		{
-			if ($course && is_object($this->course) && $action == self :: ACTION_VIEW_COURSE)
+			echo '<h3 style="float: left;">' . htmlentities($title) . '</h3>';
+			if ($display_search)
 			{
-				//echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
-				echo '<h3 style="float: left;">' . htmlentities($title) . '</h3>';
-				// TODO: Add department name and url here somewhere ?
+				$this->display_search_form();
 			}
-			else
-			{
-				echo '<h3 style="float: left;">' . htmlentities($title) . '</h3>';
-				if ($display_search)
-				{
-					$this->display_search_form();
-				}
-			}
-
-			//echo '<div class="clear">&nbsp;</div>';
 		}
 
-		//if (! isset($this->tool_class))
+		if ($msg = Request :: get(Application :: PARAM_MESSAGE))
 		{
-			if ($msg = Request :: get(Application :: PARAM_MESSAGE))
-			{
-				echo '<br />';
-				$this->display_message($msg);
-			}
-			if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
-			{
-				echo '<br />';
-				$this->display_error_message($msg);
-			}
+			echo '<br />';
+			$this->display_message($msg);
 		}
+		if ($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
+		{
+			echo '<br />';
+			$this->display_error_message($msg);
+		}
+	
 		echo '<div class="clear">&nbsp;</div>';
-		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
-	}
+	}*/
 
 	/**
 	 * Displays the footer of this application

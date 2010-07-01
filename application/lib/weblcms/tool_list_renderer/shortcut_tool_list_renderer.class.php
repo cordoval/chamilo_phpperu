@@ -10,36 +10,11 @@ require_once ('HTML/Table.php');
  */
 class ShortcutToolListRenderer extends ToolListRenderer
 {
-    /**
-     *
-     */
-    private $is_course_admin;
-
-    /**
-     * Constructor
-     * @param  WebLcms $parent The parent application
-     */
-    function MenuToolListRenderer($parent)
-    {
-        parent :: ToolListRenderer($parent);
-        $this->is_course_admin = $this->get_parent()->is_allowed(EDIT_RIGHT);
-    }
-
-    /**
-     * Sets the type of this navigation menu renderer
-     * @param int $type
-     */
-    function set_type($type)
-    {
-        $this->type = $type;
-    }
-
     // Inherited
     function display()
     {
         $parent = $this->get_parent();
-        $tools = $parent->get_registered_tools();
-        $this->show_tools($tools);
+        $this->show_tools($this->get_visible_tools());
     }
 
     /**
@@ -51,25 +26,26 @@ class ShortcutToolListRenderer extends ToolListRenderer
         $parent = $this->get_parent();
         $course = $parent->get_course();
         
+        $tools_shown = array();
+        
         foreach ($tools as $index => $tool)
         {
             $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition(CourseSection :: PROPERTY_ID, $tool->section));
             $section = $sections->next_result();
             
-            if ((($tool->visible && $section->get_type() != CourseSection :: TYPE_ADMIN) || $this->is_course_admin) && $tool->visible)
+            $new = '';
+            if ($parent->tool_has_new_publications($tool->name))
             {
-                $new = '';
-                if ($parent->tool_has_new_publications($tool->name))
-                {
-                    $new = '_new';
-                }
-                $tool_image = 'tool_mini_' . $tool->name . $new . '.png';
-                $title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name) . 'Title'));
-                $html[] = '<a href="' . $parent->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_TOOL => $tool->name), array(), true) . '" title="' . $title . '">';
-                $html[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/> ';
-                $html[] = '</a>';
+                $new = '_new';
             }
+            
+            $tool_image = 'tool_mini_' . $tool->name . $new . '.png';
+            $title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name) . 'Title'));
+            $html[] = '<a href="' . $parent->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_TOOL => $tool->name), array(), true) . '" title="' . $title . '">';
+            $html[] = '<img src="' . Theme :: get_image_path() . $tool_image . '" style="vertical-align: middle;" alt="' . $title . '"/> ';
+            $html[] = '</a>';
         }
+        
         echo implode("\n", $html);
     }
 }

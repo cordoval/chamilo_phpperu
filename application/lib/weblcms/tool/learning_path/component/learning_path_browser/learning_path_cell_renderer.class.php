@@ -38,17 +38,6 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
                 	return Translation :: get('EmptyLearningPath');
                 }
             }
-            case ContentObject :: PROPERTY_TITLE:
-            	if(!$this->table_renderer->get_tool_browser()->get_parent()->is_empty_learning_path($publication))
-            	{
-                	$details_url = $this->table_renderer->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT));
-                	return '<a href="'. $details_url .'">' . DefaultContentObjectTableCellRenderer :: render_cell($column, $publication->get_content_object()) . '</a>';
-            	}
-            	else
-            	{
-            		return parent :: render_cell($column, $publication);
-            	}
-                break;
         }
 
         return parent :: render_cell($column, $publication);
@@ -76,7 +65,7 @@ class LearningPathCellRenderer extends ObjectPublicationTableCellRenderer
         }
 
         $bar = $this->get_progress_bar($progress);
-        $url = $this->table_renderer->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_ATTEMPT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'lp_action' => 'view_progress'));
+        $url = $this->table_renderer->get_url(array(LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'lp_action' => 'view_progress'));
         return Text :: create_link($url, $bar);
     }
 

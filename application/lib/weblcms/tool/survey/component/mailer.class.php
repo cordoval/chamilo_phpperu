@@ -240,7 +240,7 @@ class SurveyToolMailerComponent extends SurveyTool
         }
         else
         {
-            $parameters[SurveyTool :: PARAM_ACTION] = SurveyTool :: ACTION_TAKE_SURVEY;
+            $parameters[SurveyTool :: PARAM_ACTION] = SurveyTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT;
             $parameters[SurveyTool :: PARAM_PUBLICATION_ID] = $unique_surveys[0];
         }
         
