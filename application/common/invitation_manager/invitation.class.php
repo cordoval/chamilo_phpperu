@@ -7,7 +7,7 @@
 class Invitation extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_DATE = 'date';
     const PROPERTY_EXPIRATION_DATE = 'expiration_date';
@@ -31,7 +31,9 @@ class Invitation extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_CODE, self :: PROPERTY_PARAMETERS, self :: PROPERTY_ANONYMOUS, self :: PROPERTY_TITLE, self :: PROPERTY_MESSAGE, self :: PROPERTY_EMAIL, self :: PROPERTY_RIGHTS_TEMPLATES, self :: PROPERTY_USER_CREATED));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_APPLICATION, self :: PROPERTY_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_CODE, self :: PROPERTY_PARAMETERS, self :: PROPERTY_ANONYMOUS, self :: PROPERTY_TITLE, self :: PROPERTY_MESSAGE,
+                self :: PROPERTY_EMAIL, self :: PROPERTY_RIGHTS_TEMPLATES, self :: PROPERTY_USER_CREATED));
     }
 
     function get_application()
@@ -133,7 +135,7 @@ class Invitation extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_RIGHTS_TEMPLATES, $rights_templates);
     }
-    
+
     function get_user_created()
     {
         return $this->get_default_property(self :: PROPERTY_USER_CREATED);
@@ -143,15 +145,26 @@ class Invitation extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_USER_CREATED, $user_created);
     }
-    
+
     function is_valid()
     {
-        return (time() >= $this->get_expiration_date() || $this->get_expiration_date() == 0) && !$this->get_user_created();
+        return (time() >= $this->get_expiration_date() || $this->get_expiration_date() == 0) && ! $this->get_user_created();
+    }
+
+    function is_anonymous()
+    {
+        return $this->get_anonymous();
     }
 
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+
+    function create()
+    {
+        $this->set_code(md5(uniqid()));
+        parent :: create();
     }
 }
 ?>

@@ -50,7 +50,7 @@ class UserAutoloader
 
 	static function check_for_form_files($classname)
 	{
-		$list = array('account_form', 'buddy_list_category_form', 'buddy_list_item_form', 'register_form', 'user_export_form', 'user_form',
+		$list = array('account_form', 'buddy_list_category_form', 'buddy_list_item_form', 'register_form', 'invitation_registration_form', 'user_export_form', 'user_form',
 					  'user_import_form', 'user_quota_form', 'user_role_manager_form', 'user_search_form');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);

@@ -13,17 +13,17 @@ class UserManagerRegisterComponent extends UserManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         if ($this->get_platform_setting('allow_registration', 'admin') == false)
         {
             Display :: not_allowed();
         }
-        
+
         $user = $this->get_user();
-        
+
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserRegister')));
         $trail->add_help('user general');
-        
+
         if (isset($user))
         {
             $this->display_header();
@@ -35,24 +35,25 @@ class UserManagerRegisterComponent extends UserManager
         $user->set_platformadmin(0);
         $user->set_password(1);
         //$user->set_creator_id($user_info['user_id']);
-        
+
 
         $form = new RegisterForm($user, $this->get_url());
-        
+
         if ($form->validate())
         {
             $success = $form->create_user();
             if ($success == 1)
             {
                 //$this->redirect(Translation :: get($success ? 'UserRegistered' : 'UserNotRegistered'), ($success ? false : true), array(), array(), false, Redirect :: TYPE_LINK);
-                
-            	$parameters = array();
-            	
-	            if (PlatformSetting :: get('allow_registration', 'user') == 2)
-	        	{
-	        		$parameters['message'] = Translation :: get('UserAwaitingApproval');
-	        	}
-            	
+
+
+                $parameters = array();
+
+                if (PlatformSetting :: get('allow_registration', 'user') == 2)
+                {
+                    $parameters['message'] = Translation :: get('UserAwaitingApproval');
+                }
+
                 Redirect :: link('', $parameters, array(), false, null);
             }
             else

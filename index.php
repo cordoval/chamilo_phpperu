@@ -4,28 +4,27 @@
  */
 try
 {
-
     $this_section = 'home';
 
-	include_once ('common/global.inc.php');
+    include_once ('common/global.inc.php');
 
-	Utilities :: set_application($this_section);
+    Utilities :: set_application($this_section);
 
-	if (Session :: get_user_id())
-	{
-	    $usermgr = new UserManager($_SESSION['_uid']);
-	    $user = $usermgr->get_user();
-	}
-	else
-	{
-	    $user = null;
-	}
+    if (Session :: get_user_id())
+    {
+        $usermgr = new UserManager($_SESSION['_uid']);
+        $user = $usermgr->get_user();
+    }
+    else
+    {
+        $user = null;
+    }
 
-	$hmgr = new HomeManager($user);
-	$hmgr->render_menu('home');
+    $hmgr = new HomeManager($user);
+    $hmgr->render_menu('home');
 }
-catch(Exception $exception)
+catch (Exception $exception)
 {
-	Display :: error_message($exception->getMessage());
+    Display :: error_message($exception->getMessage());
 }
 ?>
