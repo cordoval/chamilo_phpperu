@@ -2,7 +2,6 @@
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/browser.class.php';
 
-
 class InternshipOrganizerPeriodManagerUnsubscribeGroupComponent extends InternshipOrganizerPeriodManager
 {
 

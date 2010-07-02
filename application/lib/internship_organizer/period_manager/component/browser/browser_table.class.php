@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/browser_table_cell_renderer.class.php';
  */
 class InternshipOrganizerPeriodBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'period_browser_table';
+    const DEFAULT_NAME = 'internship_organizer_period_browser_table';
 
     /**
      * Constructor

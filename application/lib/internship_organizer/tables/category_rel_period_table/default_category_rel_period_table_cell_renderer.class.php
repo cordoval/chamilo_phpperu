@@ -38,9 +38,9 @@ class DefaultInternshipOrganizerCategoryRelPeriodTableCellRenderer extends Objec
         }
     }
 
-    function render_id_cell($object)
+    function render_id_cell($category_rel_period)
     {
-        return $object->get_id();
+        return $category_rel_period->get_category_id().'|'.$category_rel_period->get_period_id();
     }
 }
 ?>

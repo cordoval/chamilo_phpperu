@@ -15,7 +15,7 @@ class InternshipOrganizerCategoryRelPeriodBrowserTableColumnModel extends Defaul
     function InternshipOrganizerCategoryRelPeriodBrowserTableColumnModel($browser)
     {
         parent :: __construct();
-        //		$this->add_column(self :: get_modification_column());
+//        $this->add_column(self :: get_modification_column());
     }
 
     static function get_modification_column()

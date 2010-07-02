@@ -1,5 +1,7 @@
 <?php
 
+require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/browser.class.php';
+
 class InternshipOrganizerPeriodManagerUnsubscribeUserComponent extends InternshipOrganizerPeriodManager
 {
 
@@ -59,7 +61,7 @@ class InternshipOrganizerPeriodManagerUnsubscribeUserComponent extends Internshi
                     $message = 'SelectedInternshipOrganizerPeriodRelUsersDeleted';
                 }
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_rel_user_ids[0]));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_rel_user_ids[0], DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_USERS));
         }
         else
         {

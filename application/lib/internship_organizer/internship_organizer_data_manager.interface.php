@@ -72,6 +72,8 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_category_rel_periods($condition = null, $offset = null, $count = null, $order_property = null);
 
+    function retrieve_category_rel_period($category_id, $period_id);
+    
     //moments
     function create_internship_organizer_moment($moment);
 

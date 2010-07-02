@@ -38,6 +38,9 @@ require_once 'MDB2.php';
 
 class DatabaseInternshipOrganizerDataManager extends Database implements InternshipOrganizerDataManagerInterface
 {
+    
+    const SUCCES = 'succes';
+    const MESSAGE = 'message';
 
     function initialize()
     {
@@ -407,6 +410,15 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         return $this->retrieve_object_set($query, InternshipOrganizerCategoryRelPeriod :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerCategoryRelPeriod :: CLASS_NAME);
     
+    }
+
+    function retrieve_category_rel_period($category_id, $period_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelPeriod :: PROPERTY_CATEGORY_ID, $category_id);
+        $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelPeriod :: PROPERTY_PERIOD_ID, $period_id);
+        $condition = new AndCondition($conditions);
+        return $this->retrieve_object(InternshipOrganizerCategoryRelPeriod :: get_table_name(), $condition, array(), InternshipOrganizerCategoryRelPeriod :: CLASS_NAME);
     }
 
     //internship planner moments
@@ -1044,18 +1056,55 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function delete_internship_organizer_period($period)
     {
-        $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period->get_id());
-        $bool = $this->delete($period->get_table_name(), $condition);
-        
-        $condition_subperiods = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, $period->get_id());
-        $periods = $this->retrieve_periods($condition_subperiods);
-        while ($gr = $periods->next_result())
+        //if period has sub_periods, it isn't aloud to be deleted
+        $result = array();
+        if ($period->has_children())
         {
-            $bool = $bool & $this->delete_internship_organizer_period($gr);
-            //mag dit? (i.e. recursieve oproep)
+            $result[self :: SUCCES] = false;
+            $result[self :: MESSAGE] = Translation :: get('PeriodNotDeleted-HasSubPeriods');
         }
-        
-        return $bool;
+        else
+        {
+            //if there are still agreements attached, it isn't aloud to be deleted
+            $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period->get_id());
+            
+            if ($this->count_agreements($condition) > 0)
+            {
+                $result[self :: SUCCES] = false;
+                $result[self :: MESSAGE] = Translation :: get('PeriodNotDeleted-HasAgreements');
+            }
+            else
+            {
+                $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period->get_id(), InternshipOrganizerPeriod :: get_table_name());
+                $bool = $this->delete($period->get_table_name(), $condition);
+                
+                $result[self :: SUCCES] = $bool;
+                $result[self :: MESSAGE] = Translation :: get('PeriodDeleted');
+                
+                if ($bool)
+                {
+                    
+                    $period_rel_users = $this->retrieve_period_rel_users($condition);
+                    while ($period_rel_user = $period_rel_users->next_result())
+                    {
+                        $this->delete_internship_organizer_period_rel_user($period_rel_user);
+                    }
+                    
+                    $period_rel_groups = $this->retrieve_period_rel_groups($condition);
+                    while ($period_rel_group = $period_rel_groups->next_result())
+                    {
+                        $this->delete_internship_organizer_period_rel_group($period_rel_group);
+                    }
+                    
+                    $category_rel_periods = $this->retrieve_category_rel_periods($condition);
+                    while ($category_rel_period = $category_rel_periods->next_result())
+                    {
+                        $this->delete_internship_organizer_category_rel_period($category_rel_period);
+                    }
+                }
+            }
+        }
+        return $result;
     
     }
 
