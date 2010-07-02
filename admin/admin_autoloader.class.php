@@ -30,7 +30,7 @@ class AdminAutoloader
 	static function check_for_general_files($classname)
 	{
 		$list = array('admin_block', 'admin_data_manager', 'admin_rights', 'configuration_form', 'feedback_publication', 'language_form',
-					  'language', 'registration', 'remote_package', 'setting', 'system_announcement_publication_form',
+					  'language', 'invitation', 'registration', 'remote_package', 'setting', 'system_announcement_publication_form',
 					  'system_announcement_publication', 'validation');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);

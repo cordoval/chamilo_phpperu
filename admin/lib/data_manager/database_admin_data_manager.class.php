@@ -35,10 +35,10 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         return $this->delete_objects(Setting :: get_table_name(), $condition);
     }
 
-	function delete_language($language)
+    function delete_language($language)
     {
         $condition = new EqualityCondition(Language :: PROPERTY_ID, $language->get_id());
-    	return $this->delete_objects(Language :: get_table_name(), $condition);
+        return $this->delete_objects(Language :: get_table_name(), $condition);
     }
 
     function count_registrations($condition = null)
@@ -50,7 +50,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     {
         $condition = new EqualityCondition(Registration :: PROPERTY_ID, $id);
         return $this->retrieve_object(Registration :: get_table_name(), $condition);
-
+    
     }
 
     function retrieve_registrations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
@@ -75,7 +75,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         $conditions[] = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application);
         $conditions[] = new EqualityCondition(Setting :: PROPERTY_VARIABLE, $variable);
         $condition = new AndCondition($conditions);
-
+        
         return $this->retrieve_object(Setting :: get_table_name(), $condition);
     }
 
@@ -95,8 +95,8 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     {
         // Delete existing target users and groups
         $query = 'DELETE FROM ' . $this->escape_table_name('system_announcement_publication_user') . ' WHERE system_announcement_publication_id = ' . $this->quote($system_announcement_publication->get_id());
-		$res = $this->query($query);
-		$res->free();
+        $res = $this->query($query);
+        $res->free();
         $query = 'DELETE FROM ' . $this->escape_table_name('system_announcement_publication_group') . ' WHERE system_announcement_publication_id = ' . $this->quote($system_announcement_publication->get_id());
         $res = $this->query($query);
         $res->free();
@@ -118,7 +118,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
             $props[$this->escape_column_name('group_id')] = $group_id;
             $this->get_connection()->extended->autoExecute($this->get_table_name('system_announcement_publication_group'), $props, MDB2_AUTOQUERY_INSERT);
         }
-
+        
         $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $system_announcement_publication->get_id());
         return $this->update($system_announcement_publication, $condition);
     }
@@ -176,7 +176,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
                 $props[$this->escape_column_name('group_id')] = $group_id;
                 $this->get_connection()->extended->autoExecute($this->get_table_name('system_announcement_publication_group'), $props, MDB2_AUTOQUERY_INSERT);
             }
-
+            
             return true;
         }
         else
@@ -210,9 +210,9 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         {
             $groups[] = $target_group['group_id'];
         }
-
+        
         $res->free();
-
+        
         return $groups;
     }
 
@@ -225,9 +225,9 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         {
             $users[] = $target_user['user_id'];
         }
-
+        
         $res->free();
-
+        
         return $users;
     }
 
@@ -235,11 +235,8 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     {
         $condition = new EqualityCondition(AdminCategory :: PROPERTY_ID, $category->get_id());
         $succes = $this->delete('admin_category', $condition);
-
-        $query = 'UPDATE ' . $this->escape_table_name('admin_category') . ' SET ' .
-        		 $this->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' .
-        		 $this->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '>' . $this->quote($category->get_display_order()) . ' AND ' .
-        		 $this->escape_column_name(AdminCategory :: PROPERTY_PARENT) . '=' . $this->quote($category->get_parent());
+        
+        $query = 'UPDATE ' . $this->escape_table_name('admin_category') . ' SET ' . $this->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '=' . $this->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '-1 WHERE ' . $this->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER) . '>' . $this->quote($category->get_display_order()) . ' AND ' . $this->escape_column_name(AdminCategory :: PROPERTY_PARENT) . '=' . $this->quote($category->get_parent());
         $res = $this->query($query);
         $res->free();
         return $succes;
@@ -267,7 +264,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_CID, $cid);
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
         $condition = new AndCondition($conditions);
-
+        
         return $this->count_objects('feedback_publication', $condition);
     }
 
@@ -279,20 +276,20 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     function select_next_display_order($parent_category_id)
     {
         $query = 'SELECT MAX(' . AdminCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . $this->escape_table_name('admin_category');
-
+        
         $condition = new EqualityCondition(AdminCategory :: PROPERTY_PARENT, $parent_category_id);
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
-
+        
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-
+        
         $res->free();
-
+        
         return $record[0] + 1;
     }
 
@@ -303,7 +300,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
             if ($type == 'user')
             {
                 $query = 'SELECT * FROM ' . $this->get_table_name('system_announcement_publication') . ' WHERE ' . $this->escape_column_name('publisher_id') . '=' . $this->quote(Session :: get_user_id());
-
+                
                 $order = array();
                 for($i = 0; $i < count($order_property); $i ++)
                 {
@@ -324,7 +321,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
                 {
                     $query .= ' ORDER BY ' . implode(', ', $order);
                 }
-
+                
                 $res = $this->query($query);
             }
         }
@@ -348,9 +345,9 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
             $info->set_publication_object_id($record['content_object_id']);
             $publication_attr[] = $info;
         }
-
+        
         $res->free();
-
+        
         return $publication_attr;
     }
 
@@ -358,7 +355,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     {
         $condition = new EqualityCondition('id', $publication_id);
         $record = $this->next_result();
-
+        
         $info = new ContentObjectPublicationAttributes();
         $info->set_id($record->get_id());
         $info->set_publisher_user_id($record->get_publisher());
@@ -378,15 +375,15 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         return $this->count_objects('system_announcement_publication', $condition) >= 1;
     }
 
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
+    function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
-        if(!$object_id)
+        if (! $object_id)
         {
-    		$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_PUBLISHER, $user->get_id());
+            $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_PUBLISHER, $user->get_id());
         }
         else
         {
-        	$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
+            $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
         }
         return $this->count_objects(SystemAnnouncementPublication :: get_table_name(), $condition);
     }
@@ -397,7 +394,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         $this->delete('system_announcement_publication', $condition);
     }
 
-	public function delete_content_object_publication($publication_id)
+    public function delete_content_object_publication($publication_id)
     {
         $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $publication_id);
         return $this->delete('system_announcement_publication', $condition);
@@ -422,7 +419,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function delete_remote_packages($condition)
     {
-    	return $this->delete_objects(RemotePackage :: get_table_name(), $condition);
+        return $this->delete_objects(RemotePackage :: get_table_name(), $condition);
     }
 
     function count_remote_packages($condition = null)
@@ -448,7 +445,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         $conditions[] = new EqualityCondition(FeedbackPublication :: PROPERTY_APPLICATION, $application);
         $condition = new AndCondition($conditions);
         $order_by[] = new ObjectTableOrder(FeedbackPublication :: PROPERTY_ID, SORT_DESC);
-
+        
         return $this->retrieve_objects(FeedbackPublication :: get_table_name(), $condition, null, null, $order_by);
     }
 
@@ -463,7 +460,7 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
         return $this->retrieve_objects(Validation :: get_table_name(),$condition);
     }*/
-
+    
     function retrieve_feedback_publication($id)
     {
         $condition = new EqualityCondition(FeedbackPublication :: PROPERTY_ID, $id);
@@ -512,15 +509,14 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
 
     function retrieve_validations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
-    	$val_table = $this->escape_table_name(Validation :: get_table_name());
-    	$val_table_alias = $this->get_alias(Validation :: get_table_name());
-    	$user_table = UserDataManager :: get_instance()->escape_table_name(User :: get_table_name());
-    	$user_table_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
-
-    	$query = 'SELECT * FROM ' . $val_table . ' AS ' . $val_table_alias .
-    			 ' JOIN ' . $user_table . ' AS ' . $user_table_alias;
-
-    	return $this->retrieve_object_set($query, Validation :: get_table_name(), $condition = null, $offset, $max_objects, $order_by);
+        $val_table = $this->escape_table_name(Validation :: get_table_name());
+        $val_table_alias = $this->get_alias(Validation :: get_table_name());
+        $user_table = UserDataManager :: get_instance()->escape_table_name(User :: get_table_name());
+        $user_table_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
+        
+        $query = 'SELECT * FROM ' . $val_table . ' AS ' . $val_table_alias . ' JOIN ' . $user_table . ' AS ' . $user_table_alias;
+        
+        return $this->retrieve_object_set($query, Validation :: get_table_name(), $condition = null, $offset, $max_objects, $order_by);
     }
 
     function count_validations($condition = null)
@@ -529,142 +525,174 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
     }
 
     // Dynamic Forms
+    
 
     function delete_dynamic_form($dynamic_form)
     {
-    	$condition = new EqualityCondition(DynamicForm :: PROPERTY_ID, $dynamic_form->get_id());
+        $condition = new EqualityCondition(DynamicForm :: PROPERTY_ID, $dynamic_form->get_id());
         return $this->delete($dynamic_form->get_table_name(), $condition);
     }
 
     function update_dynamic_form($dynamic_form)
     {
-    	$condition = new EqualityCondition(DynamicForm :: PROPERTY_ID, $dynamic_form->get_id());
+        $condition = new EqualityCondition(DynamicForm :: PROPERTY_ID, $dynamic_form->get_id());
         return $this->update($dynamic_form, $condition);
     }
 
     function create_dynamic_form($dynamic_form)
     {
-    	return $this->create($dynamic_form);
+        return $this->create($dynamic_form);
     }
 
     function count_dynamic_forms($conditions = null)
     {
-    	 return $this->count_objects(DynamicForm :: get_table_name(), $conditions);
+        return $this->count_objects(DynamicForm :: get_table_name(), $conditions);
     }
 
     function retrieve_dynamic_forms($condition = null, $offset = null, $count = null, $order_property = null)
     {
-    	 return $this->retrieve_objects(DynamicForm :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(DynamicForm :: get_table_name(), $condition, $offset, $count, $order_property);
     }
-
 
     function delete_dynamic_form_element($dynamic_form_element)
     {
-    	$condition = new EqualityCondition(DynamicFormElement :: PROPERTY_ID, $dynamic_form_element->get_id());
+        $condition = new EqualityCondition(DynamicFormElement :: PROPERTY_ID, $dynamic_form_element->get_id());
         return $this->delete($dynamic_form_element->get_table_name(), $condition);
     }
 
     function update_dynamic_form_element($dynamic_form_element)
     {
-    	$condition = new EqualityCondition(DynamicFormElement :: PROPERTY_ID, $dynamic_form_element->get_id());
+        $condition = new EqualityCondition(DynamicFormElement :: PROPERTY_ID, $dynamic_form_element->get_id());
         return $this->update($dynamic_form_element, $condition);
     }
 
     function create_dynamic_form_element($dynamic_form_element)
     {
-    	return $this->create($dynamic_form_element);
+        return $this->create($dynamic_form_element);
     }
 
     function count_dynamic_form_elements($conditions = null)
     {
-    	 return $this->count_objects(DynamicFormElement :: get_table_name(), $conditions);
+        return $this->count_objects(DynamicFormElement :: get_table_name(), $conditions);
     }
 
     function retrieve_dynamic_form_elements($condition = null, $offset = null, $count = null, $order_property = null)
     {
-    	return $this->retrieve_objects(DynamicFormElement :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(DynamicFormElement :: get_table_name(), $condition, $offset, $count, $order_property);
     }
 
-	function select_next_dynamic_form_element_order($dynamic_form_id)
+    function select_next_dynamic_form_element_order($dynamic_form_id)
     {
-    	$condition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $dynamic_form_id);
-    	return $this->retrieve_next_sort_value(DynamicFormElement :: get_table_name(), DynamicFormElement :: PROPERTY_DISPLAY_ORDER, $condition);
+        $condition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $dynamic_form_id);
+        return $this->retrieve_next_sort_value(DynamicFormElement :: get_table_name(), DynamicFormElement :: PROPERTY_DISPLAY_ORDER, $condition);
     }
-
 
     function delete_dynamic_form_element_option($dynamic_form_element_option)
     {
-    	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_ID, $dynamic_form_element_option->get_id());
+        $condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_ID, $dynamic_form_element_option->get_id());
         return $this->delete($dynamic_form_element_option->get_table_name(), $condition);
     }
 
     function update_dynamic_form_element_option($dynamic_form_element_option)
     {
-    	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_ID, $dynamic_form_element_option->get_id());
+        $condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_ID, $dynamic_form_element_option->get_id());
         return $this->update($dynamic_form_element_option, $condition);
     }
 
     function create_dynamic_form_element_option($dynamic_form_element_option)
     {
-    	return $this->create($dynamic_form_element_option);
+        return $this->create($dynamic_form_element_option);
     }
 
     function count_dynamic_form_element_options($conditions = null)
     {
-    	 return $this->count_objects(DynamicFormElementOption :: get_table_name(), $conditions);
+        return $this->count_objects(DynamicFormElementOption :: get_table_name(), $conditions);
     }
 
     function retrieve_dynamic_form_element_options($condition = null, $offset = null, $count = null, $order_property = null)
     {
-    	return $this->retrieve_objects(DynamicFormElementOption :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(DynamicFormElementOption :: get_table_name(), $condition, $offset, $count, $order_property);
     }
 
     function select_next_dynamic_form_element_option_order($dynamic_form_element_id)
     {
-    	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, $dynamic_form_element_id);
-    	return $this->retrieve_next_sort_value(DynamicFormElementOption :: get_table_name(), DynamicFormElementOption :: PROPERTY_DISPLAY_ORDER, $condition);
+        $condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, $dynamic_form_element_id);
+        return $this->retrieve_next_sort_value(DynamicFormElementOption :: get_table_name(), DynamicFormElementOption :: PROPERTY_DISPLAY_ORDER, $condition);
     }
 
     function delete_all_options_from_form_element($dynamic_form_element_id)
     {
-    	$condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, $dynamic_form_element_id);
+        $condition = new EqualityCondition(DynamicFormElementOption :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, $dynamic_form_element_id);
         return $this->delete(DynamicFormElementOption :: get_table_name(), $condition);
     }
 
     function delete_dynamic_form_element_value($dynamic_form_element_value)
     {
-    	$condition = new EqualityCondition(DynamicFormElementValue :: PROPERTY_ID, $dynamic_form_element_value->get_id());
+        $condition = new EqualityCondition(DynamicFormElementValue :: PROPERTY_ID, $dynamic_form_element_value->get_id());
         return $this->delete($dynamic_form_element_value->get_table_name(), $condition);
     }
 
     function update_dynamic_form_element_value($dynamic_form_element_value)
     {
-    	$condition = new EqualityCondition(DynamicFormElementValue :: PROPERTY_ID, $dynamic_form_element_value->get_id());
+        $condition = new EqualityCondition(DynamicFormElementValue :: PROPERTY_ID, $dynamic_form_element_value->get_id());
         return $this->update($dynamic_form_element_value, $condition);
     }
 
     function create_dynamic_form_element_value($dynamic_form_element_value)
     {
-    	return $this->create($dynamic_form_element_value);
+        return $this->create($dynamic_form_element_value);
     }
 
     function count_dynamic_form_element_values($conditions = null)
     {
-    	 return $this->count_objects(DynamicFormElementValue :: get_table_name(), $conditions);
+        return $this->count_objects(DynamicFormElementValue :: get_table_name(), $conditions);
     }
 
     function retrieve_dynamic_form_element_values($condition = null, $offset = null, $count = null, $order_property = null)
     {
-    	return $this->retrieve_objects(DynamicFormElementValue :: get_table_name(), $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(DynamicFormElementValue :: get_table_name(), $condition, $offset, $count, $order_property);
     }
 
     function delete_dynamic_form_element_values_from_form($dynamic_form_id)
     {
-    	$subcondition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $dynamic_form_id);
-    	$subselect = new SubselectCondition(DynamicFormElementValue :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, DynamicFormElement :: PROPERTY_ID,
-    										DynamicFormElement :: get_table_name(), $subcondition);
+        $subcondition = new EqualityCondition(DynamicFormElement :: PROPERTY_DYNAMIC_FORM_ID, $dynamic_form_id);
+        $subselect = new SubselectCondition(DynamicFormElementValue :: PROPERTY_DYNAMIC_FORM_ELEMENT_ID, DynamicFormElement :: PROPERTY_ID, DynamicFormElement :: get_table_name(), $subcondition);
+        
+        return $this->delete(DynamicFormElementValue :: get_table_name(), $subselect);
+    }
 
-		return $this->delete(DynamicFormElementValue :: get_table_name(), $subselect);
+    function retrieve_invitation($id)
+    {
+        $condition = new EqualityCondition(Invitation :: PROPERTY_ID, $id);
+        return $this->retrieve_object(Invitation :: get_table_name(), $condition);
+    }
+    
+    function retrieve_invitation_by_code($code)
+    {
+        $condition = new EqualityCondition(Invitation :: PROPERTY_CODE, $code);
+        return $this->retrieve_object(Invitation :: get_table_name(), $condition);
+    }
+
+    function retrieve_invitations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
+    {
+        return $this->retrieve_objects(Invitation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+
+    function create_invitation($invitation)
+    {
+        return $this->create($invitation);
+    }
+
+    function delete_invitation($invitation)
+    {
+        $condition = new EqualityCondition(Invitation :: PROPERTY_ID, $invitation->get_id());
+        return $this->delete_objects(Invitation :: get_table_name(), $invitation);
+    }
+    
+    function update_invitation($invitation)
+    {
+        $condition = new EqualityCondition(Invitation :: PROPERTY_ID, $invitation->get_id());
+        return $this->update($invitation, $condition);
     }
 }
 ?>

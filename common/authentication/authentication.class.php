@@ -12,13 +12,6 @@ abstract class Authentication
 {
 
     /**
-     * Constructor
-     */
-    function Authentication()
-    {
-    }
-
-    /**
      * Checks if the given username and password are valid
      * @param string $username
      * @param string $password
@@ -123,6 +116,7 @@ abstract class Authentication
     static function get_external_authentication_types()
     {
         $types = array();
+        $types[] = 'invitation';
         $types[] = 'cas';
         return $types;
     }

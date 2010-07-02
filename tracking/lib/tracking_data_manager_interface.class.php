@@ -108,15 +108,14 @@ interface TrackingDataManagerInterface
     function create_tracker_item($tracker_item);
 
     /**
-     * Retrieves all tracker items from the database
-     * @param string $tablename the table name where the database has to be written to
-     * @param string $classname the tracker's class name (needed to create the class when data is retrieved)
-     * @param Condition $condition the condition applied to the retrieval
-     * @return MainTracker $tracker a subclass of MainTracker
+     * @param string $table_name
+     * @param Condition $condition
+     * @param int $offset
+     * @param int $max_objects
+     * @param ObjectTableOrder $order_by
+     * @param string $class_name
      */
-    function retrieve_tracker_items($tablename, $classname, $condition);
-
-    function retrieve_tracker_items_result_set($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null);
+    function retrieve_tracker_items($table_name, $condition = null, $offset = null, $max_objects = null, $order_by = array(), $class_name = null);
 
     /**
      * Retrieves a tracker item from the database
