@@ -7,29 +7,29 @@
 abstract class DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_ID = 'id';
     const NO_UID = - 1;
-
+    
     /**
      * Default properties of the data class object, stored in an associative
      * array.
      */
     private $defaultProperties;
-
+    
     /**
      * Optional properties of the data class object, stored in an associative
      * array. This is used when retrieving data from joins so we don't need to execute other query's for retrieving optional data which we already retrieved with joins.
      * @var array[String] = String
      */
     private $optionalProperties;
-
+    
     private $errors;
 
     /**
      * Creates a new data class object.
      * @param array $defaultProperties The default properties of the data class
-     *                                 object. Associative array.
+     * object. Associative array.
      */
     function DataClass($defaultProperties = array (), $optionalProperties = array())
     {
@@ -43,9 +43,7 @@ abstract class DataClass
      */
     function get_default_property($name)
     {
-        return (isset($this->defaultProperties) && array_key_exists($name, $this->defaultProperties))
-        	? $this->defaultProperties[$name]
-        	: null;
+        return (isset($this->defaultProperties) && array_key_exists($name, $this->defaultProperties)) ? $this->defaultProperties[$name] : null;
     }
 
     /**
@@ -87,14 +85,14 @@ abstract class DataClass
      * property.
      * @param string $name The identifier.
      * @return boolean True if the identifier is a property name, false
-     *                 otherwise.
+     * otherwise.
      */
     static function is_default_property_name($name)
     {
         return in_array($name, self :: get_default_property_names());
     }
 
-	/**
+    /**
      * Gets the optional properties of this data class.
      * @return array An associative array containing the properties.
      */
@@ -108,18 +106,16 @@ abstract class DataClass
         $this->optionalProperties = $optionalProperties;
     }
 
-	/**
+    /**
      * Gets a optional property of this data class object by name.
      * @param string $name The name of the property.
      */
     function get_optional_property($name)
     {
-        return (isset($this->optionalProperties) && array_key_exists($name, $this->optionalProperties))
-        	? $this->optionalProperties[$name]
-        	: null;
+        return (isset($this->optionalProperties) && array_key_exists($name, $this->optionalProperties)) ? $this->optionalProperties[$name] : null;
     }
 
-	/**
+    /**
      * Sets a optional property of this data class by name.
      * @param string $name The name of the property.
      * @param mixed $value The new value for the property.
@@ -179,10 +175,11 @@ abstract class DataClass
         {
             $dm = $this->get_data_manager();
             $class_name = $this->get_object_name();
-
-//          $func = 'get_next_' . $class_name . '_id';
-//          $id = call_user_func(array($dm, $func));
-//          $this->set_id($id);
+            
+            //          $func = 'get_next_' . $class_name . '_id';
+            //          $id = call_user_func(array($dm, $func));
+            //          $this->set_id($id);
+            
 
             $func = 'create_' . $class_name;
             return call_user_func(array($dm, $func), $this);
@@ -196,7 +193,7 @@ abstract class DataClass
         {
             $dm = $this->get_data_manager();
             $class_name = $this->get_object_name();
-	
+            
             $func = 'update_' . $class_name;
             return call_user_func(array($dm, $func), $this);
         }
@@ -207,16 +204,16 @@ abstract class DataClass
     {
         $dm = $this->get_data_manager();
         $class_name = $this->get_object_name();
-
+        
         $func = 'delete_' . $class_name;
-//        dump($dm);
-//        dump($class_name);
-//        dump($func);
-//        exit;
+        //        dump($dm);
+        //        dump($class_name);
+        //        dump($func);
+        //        exit;
         return call_user_func(array($dm, $func), $this);
     }
 
-	/**
+    /**
      * Check wether the object contains all mandatory properties to be saved in datasource
      * This method should be overriden in classes inheriting from DataClass
      *
@@ -233,17 +230,17 @@ abstract class DataClass
          * }
          *
          */
-
-        return !$this->has_errors();
+        
+        return ! $this->has_errors();
     }
 
     public function add_error($error_msg)
     {
-        if (!isset($this->errors))
+        if (! isset($this->errors))
         {
             $this->errors = array();
         }
-
+        
         $this->errors[] = $error_msg;
     }
 

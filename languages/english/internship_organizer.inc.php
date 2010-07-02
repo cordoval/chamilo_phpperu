@@ -112,6 +112,8 @@ $lang['internship_organizer']['SelectedInternshipOrganizerOrganisationsDeleted']
 $lang['internship_organizer']['NoInternshipOrganizerOrganisationsSelected'] = 'No Organisations Selected';
 
 $lang['internship_organizer']['AddInternshipOrganizerUsers'] = 'Add Users';
+
+
 $lang['internship_organizer']['CreateInternshipOrganizerPeriod'] = 'Create Period';
 $lang['internship_organizer']['InternshipOrganizerPeriodCreated'] = 'Period Created';
 $lang['internship_organizer']['InternshipOrganizerPeriodNotCreated'] = 'Could Not Create Period';
@@ -126,6 +128,9 @@ $lang['internship_organizer']['SelectedInternshipOrganizerPeriodsNotDeleted'] = 
 $lang['internship_organizer']['SelectedInternshipOrganizerPeriodDeleted'] = 'Selected Period Deleted';
 $lang['internship_organizer']['SelectedInternshipOrganizerPeriodsDeleted'] = 'Selected Periods Deleted';
 $lang['internship_organizer']['NoInternshipOrganizerPeriodsSelected'] = 'No Periods Selected';
+$lang['internship_organizer']['AddCategories'] = 'Add categories';
+$lang['internship_organizer']['AddInternshipOrganizerCategories'] = 'Add categories';
+
 $lang['internship_organizer']['NoUsers'] = 'No Users';
 $lang['internship_organizer']['NoSubperiods'] = 'No Subperiods';
 $lang['internship_organizer']['Periods'] = 'Periodes';

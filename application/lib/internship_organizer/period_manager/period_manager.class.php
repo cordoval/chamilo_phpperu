@@ -19,7 +19,6 @@ class InternshipOrganizerPeriodManager extends SubManager
     const PARAM_PERIOD_REL_GROUP_ID = 'period_rel_group_id';
     const PARAM_PERIOD_REL_CATEGORY_ID = 'period_rel_category_id';
     
-    
     const ACTION_CREATE_PERIOD = 'create';
     const ACTION_BROWSE_PERIODS = 'browse';
     const ACTION_EDIT_PERIOD = 'edit';
@@ -27,10 +26,10 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_VIEW_PERIOD = 'view';
     const ACTION_PUBLISH_PERIOD = 'publish';
     const ACTION_SUBSCRIBE_USER_GROUP = 'subscribe_user_group';
+    const ACTION_SUBSCRIBE_CATEGORY = 'subscribe_category';
     const ACTION_UNSUBSCRIBE_USER = 'unsubscribe_user';
     const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
     const ACTION_UNSUBSCRIBE_CATEGORY = 'unsubscribe_category';
-    
     
     const ACTION_REPORTING = 'reporting';
 
@@ -76,15 +75,18 @@ class InternshipOrganizerPeriodManager extends SubManager
             case self :: ACTION_SUBSCRIBE_USER_GROUP :
                 $component = $this->create_component('SubscribeUserGroup');
                 break;
+            case self :: ACTION_SUBSCRIBE_CATEGORY :
+                $component = $this->create_component('SubscribeCategory');
+                break;
             case self :: ACTION_UNSUBSCRIBE_USER :
                 $component = $this->create_component('UnsubscribeUser');
                 break;
             case self :: ACTION_UNSUBSCRIBE_GROUP :
                 $component = $this->create_component('UnsubscribeGroup');
                 break;
-             case self :: ACTION_UNSUBSCRIBE_CATEGORY :
+            case self :: ACTION_UNSUBSCRIBE_CATEGORY :
                 $component = $this->create_component('UnsubscribeCategory');
-                break;    
+                break;
             default :
                 $this->set_parameter(self :: PARAM_ACTION, self :: ACTION_BROWSE_PERIODS);
                 $component = $this->create_component('Browser');
@@ -188,6 +190,11 @@ class InternshipOrganizerPeriodManager extends SubManager
     function get_period_subscribe_users_url($period)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_GROUP, self :: PARAM_PERIOD_ID => $period->get_id()));
+    }
+
+    function get_period_subscribe_category_url($period)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_CATEGORY, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_unsubscribe_user_url($user)

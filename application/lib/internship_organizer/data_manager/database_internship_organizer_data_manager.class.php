@@ -39,7 +39,7 @@ require_once 'MDB2.php';
 class DatabaseInternshipOrganizerDataManager extends Database implements InternshipOrganizerDataManagerInterface
 {
     
-    const SUCCES = 'succes';
+    const STATUS = 'status';
     const MESSAGE = 'message';
 
     function initialize()
@@ -1058,52 +1058,70 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     {
         //if period has sub_periods, it isn't aloud to be deleted
         $result = array();
+        
         if ($period->has_children())
         {
-            $result[self :: SUCCES] = false;
+            $result[self :: STATUS] = false;
             $result[self :: MESSAGE] = Translation :: get('PeriodNotDeleted-HasSubPeriods');
         }
-        else
+        
+        $period_id = $period->get_id();
+        
+        //if there are still agreements attached, it isn't aloud to be deleted
+        $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period_id);
+        
+        if ($this->count_agreements($condition) > 0)
         {
-            //if there are still agreements attached, it isn't aloud to be deleted
-            $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period->get_id());
+            $result[self :: STATUS] = false;
+            $result[self :: MESSAGE] = Translation :: get('PeriodNotDeleted-HasAgreements');
+        }
+        
+       
+        
+        if (! $result[self :: STATUS])
+        {
+            return $result;
+        }
+        
+        $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period_id, InternshipOrganizerPeriod :: get_table_name());
+        $bool = $this->delete($period->get_table_name(), $condition);
+        
+        $result[self :: STATUS] = $bool;
+        $result[self :: MESSAGE] = Translation :: get('PeriodDeleted');
+        
+        if ($bool)
+        {
             
-            if ($this->count_agreements($condition) > 0)
+            $period_rel_users = $this->retrieve_period_rel_users($condition);
+            while ($period_rel_user = $period_rel_users->next_result())
             {
-                $result[self :: SUCCES] = false;
-                $result[self :: MESSAGE] = Translation :: get('PeriodNotDeleted-HasAgreements');
+                $this->delete_internship_organizer_period_rel_user($period_rel_user);
             }
-            else
+            
+            $period_rel_groups = $this->retrieve_period_rel_groups($condition);
+            while ($period_rel_group = $period_rel_groups->next_result())
             {
-                $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period->get_id(), InternshipOrganizerPeriod :: get_table_name());
-                $bool = $this->delete($period->get_table_name(), $condition);
-                
-                $result[self :: SUCCES] = $bool;
-                $result[self :: MESSAGE] = Translation :: get('PeriodDeleted');
-                
-                if ($bool)
-                {
-                    
-                    $period_rel_users = $this->retrieve_period_rel_users($condition);
-                    while ($period_rel_user = $period_rel_users->next_result())
-                    {
-                        $this->delete_internship_organizer_period_rel_user($period_rel_user);
-                    }
-                    
-                    $period_rel_groups = $this->retrieve_period_rel_groups($condition);
-                    while ($period_rel_group = $period_rel_groups->next_result())
-                    {
-                        $this->delete_internship_organizer_period_rel_group($period_rel_group);
-                    }
-                    
-                    $category_rel_periods = $this->retrieve_category_rel_periods($condition);
-                    while ($category_rel_period = $category_rel_periods->next_result())
-                    {
-                        $this->delete_internship_organizer_category_rel_period($category_rel_period);
-                    }
-                }
+                $this->delete_internship_organizer_period_rel_group($period_rel_group);
+            }
+            
+            $category_rel_periods = $this->retrieve_category_rel_periods($condition);
+            while ($category_rel_period = $category_rel_periods->next_result())
+            {
+                $this->delete_internship_organizer_category_rel_period($category_rel_period);
+            }
+            
+            $conditions = array();
+            $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: PERIOD);
+            $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $period_id);
+            $condition = new AndCondition($conditions);
+            
+            $publications = $this->retrieve_publications($condition);
+            while ($publication = $publications->next_result())
+            {
+                $this->delete_internship_organizer_publication($publication);
             }
         }
+        
         return $result;
     
     }
@@ -1188,12 +1206,14 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function count_period_rel_users($condition = null)
     {
-        
+        $period_alias = $this->get_alias(InternshipOrganizerPeriod :: get_table_name());
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         $period_rel_user_alias = $this->get_alias(InternshipOrganizerPeriodRelUser :: get_table_name());
         
         $query = 'SELECT COUNT(* ) ';
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerPeriodRelUser :: get_table_name()) . ' AS ' . $period_rel_user_alias;
+        
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerPeriod :: get_table_name()) . ' AS ' . $period_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriod :: PROPERTY_ID, $period_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $period_rel_user_alias);
         
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $period_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
         
@@ -1204,11 +1224,14 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     function retrieve_period_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         
+        $period_alias = $this->get_alias(InternshipOrganizerPeriod :: get_table_name());
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         $period_rel_user_alias = $this->get_alias(InternshipOrganizerPeriodRelUser :: get_table_name());
         
         $query = 'SELECT ' . $period_rel_user_alias . '. *  ,' . $user_alias . '. * ';
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerPeriodRelUser :: get_table_name()) . ' AS ' . $period_rel_user_alias;
+        
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerPeriod :: get_table_name()) . ' AS ' . $period_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriod :: PROPERTY_ID, $period_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $period_rel_user_alias);
         
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $period_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
         
@@ -1440,4 +1463,5 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     }
 
 }
+
 ?>
