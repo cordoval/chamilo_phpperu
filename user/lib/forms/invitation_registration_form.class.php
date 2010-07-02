@@ -38,6 +38,7 @@ class InvitationRegistrationForm extends FormValidator
 
         $this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'), array("size" => "50"));
         $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(User :: PROPERTY_USERNAME, Translation :: get('UsernameNotAvailable'), 'username_available');
 
         $this->add_warning_message('password_requirements', null, Translation :: get('GeneralPasswordRequirements'));
 
@@ -133,7 +134,7 @@ class InvitationRegistrationForm extends FormValidator
     /**
      * Sends an email to the registered/created user
      */
-    function send_email($user)
+    function send_mail($user)
     {
         $options = array();
         $options['firstname'] = $user->get_firstname();
