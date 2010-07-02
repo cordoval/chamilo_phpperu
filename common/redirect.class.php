@@ -15,18 +15,38 @@ class Redirect
 
     const ARGUMENT_SEPARATOR = '&';
 
+    /**
+     * @param string $application
+     * @param array $parameters
+     * @param array $filter
+     * @param boolean $encode_entities
+     * @param string $type
+     */
     static function link($application, $parameters = array (), $filter = array(), $encode_entities = false, $type = self :: TYPE_APPLICATION)
     {
         $link = self :: get_link($application, $parameters, $filter, $encode_entities, $type);
         self :: write_header($link);
     }
 
+    /**
+     * @param string $url
+     * @param array $parameters
+     * @param boolean $encode_entities
+     */
     static function web_link($url, $parameters = array (), $encode_entities = false)
     {
     	$link = self :: get_web_link($url, $parameters, $encode_entities);
     	self :: write_header($link);
     }
 
+    /**
+     * @param string $application
+     * @param array $parameters
+     * @param array $filter
+     * @param boolean $encode_entities
+     * @param string $type
+     * @return string
+     */
     static function get_link($application, $parameters = array (), $filter = array(), $encode_entities = false, $type = self :: TYPE_APPLICATION)
     {
         switch ($type)
@@ -63,12 +83,23 @@ class Redirect
        return self :: get_web_link($link, $parameters, $encode_entities);
     }
 
+    /**
+     * @param array $parameters
+     * @param array $filter
+     * @param boolean $encode_entities
+     */
     static function url($parameters = array (), $filter = array(), $encode_entities = false)
     {
         $url = self :: get_url($parameters, $filter, $encode_entities);
         self :: write_header($url);
     }
 
+    /**
+     * @param array $parameters
+     * @param array $filter
+     * @param boolean $encode_entities
+     * @return string
+     */
     static function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
     	$url = $_SERVER['PHP_SELF'];
@@ -89,6 +120,12 @@ class Redirect
         return self :: get_web_link($url, $parameters, $encode_entities);
     }
 
+    /**
+     * @param string $url
+     * @param array $parameters
+     * @param boolean $encode_entities
+     * @return string
+     */
     static function get_web_link($url, $parameters = array (), $encode_entities = false)
     {
     	if (count($parameters))
@@ -107,6 +144,9 @@ class Redirect
         return $url;
     }
 
+    /**
+     * @param string $url
+     */
     static function write_header($url)
     {
     	if(headers_sent($filename, $line))

@@ -60,6 +60,18 @@ abstract class Authentication
 
     function is_valid()
     {
+        $is_registration = Request :: get(Application :: PARAM_APPLICATION) == UserManager :: APPLICATION_NAME && Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_REGISTER_USER;
+        $is_invitation = Request :: get(Application :: PARAM_APPLICATION) == UserManager :: APPLICATION_NAME && Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_REGISTER_INVITED_USER;
+        $is_password_reset = Request :: get(Application :: PARAM_APPLICATION) == UserManager :: APPLICATION_NAME && Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_RESET_PASSWORD;
+        $is_online_page = Request :: get(Application :: PARAM_APPLICATION) == AdminManager :: APPLICATION_NAME && Request :: get(Application :: PARAM_ACTION) == AdminManager :: ACTION_WHOIS_ONLINE;
+
+        $is_authentication_exception = $is_registration || $is_invitation || $is_password_reset || $is_online_page;
+
+        if ($is_authentication_exception)
+        {
+            return true;
+        }
+
         // TODO: Add system here to allow authentication via encrypted user key ?
         if (! Session :: get_user_id())
         {
