@@ -19,7 +19,7 @@ define('TEACHER_HTML_FULLPAGE', 5);
 class FormValidator extends HTML_QuickForm
 {
     private $no_errors;
-    
+
     /**
      * The HTML-editors in this form
      */
@@ -42,7 +42,7 @@ class FormValidator extends HTML_QuickForm
             $attributes = array();
         }
         $attributes['onreset'] = 'resetElements()';
-        
+
         $this->HTML_QuickForm($form_name, $method, $action, $target, $attributes, $trackSubmit);
         // Load some custom elements and rules
         $dir = dirname(__FILE__) . '/';
@@ -62,7 +62,7 @@ class FormValidator extends HTML_QuickForm
         $this->registerElementType('style_button', $dir . 'Element/style_button.php', 'HTML_QuickForm_stylebutton');
         $this->registerElementType('style_submit_button', $dir . 'Element/style_submit_button.php', 'HTML_QuickForm_stylesubmitbutton');
         $this->registerElementType('style_reset_button', $dir . 'Element/style_reset_button.php', 'HTML_QuickForm_styleresetbutton');
-        
+
         $this->registerRule('date', null, 'HTML_QuickForm_Rule_Date', $dir . 'Rule/Date.php');
         $this->registerRule('date_compare', null, 'HTML_QuickForm_Rule_DateCompare', $dir . 'Rule/DateCompare.php');
         $this->registerRule('html', null, 'HTML_QuickForm_Rule_HTML', $dir . 'Rule/HTML.php');
@@ -72,9 +72,9 @@ class FormValidator extends HTML_QuickForm
         $this->registerRule('filetype', null, 'HTML_QuickForm_Rule_Filetype', $dir . 'Rule/Filetype.php');
         $this->registerRule('disk_quota', null, 'HTML_QuickForm_Rule_DiskQuota', $dir . 'Rule/DiskQuota.php');
         $this->registerRule('max_value', null, 'HTML_QuickForm_Rule_MaxValue', $dir . 'Rule/MaxValue.php');
-        
+
         $this->addElement('html', '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/reset.js"></script>');
-        
+
         // Modify the default templates
         $renderer = $this->defaultRenderer();
         $form_template = <<<EOT
@@ -88,7 +88,7 @@ class FormValidator extends HTML_QuickForm
 
 EOT;
         $renderer->setFormTemplate($form_template);
-        
+
         $element_template = array();
         $element_template[] = '<div class="row">';
         $element_template[] = '<div class="label">';
@@ -100,17 +100,17 @@ EOT;
         $element_template[] = '<div class="clear">&nbsp;</div>';
         $element_template[] = '</div>';
         $element_template = implode("\n", $element_template);
-        
+
         $renderer->setElementTemplate($element_template);
-        
+
         $header_template = array();
         $header_template[] = '<div class="row">';
         $header_template[] = '<div class="form_header">{header}</div>';
         $header_template[] = '</div>';
         $header_template = implode("\n", $header_template);
-        
+
         $renderer->setHeaderTemplate($header_template);
-        
+
         HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="' . Theme :: get_common_image_path() . '/action_required.png" alt="*" title ="*"/>&nbsp;<small>' . Translation :: get('ThisFieldIsRequired') . '</small></span>');
         $required_note_template = <<<EOT
 	<div class="row">
@@ -119,7 +119,7 @@ EOT;
 	</div>
 EOT;
         $renderer->setRequiredNoteTemplate($required_note_template);
-        
+
         foreach ($this->_submitValues as $index => & $value)
         {
             $value = Security :: remove_XSS($value);
@@ -210,16 +210,17 @@ EOT;
      */
     function add_tabs($tabs, $selected_tab)
     {
-//        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
-//        $course_tabs = new DynamicTabsRenderer($renderer_name);
-//        
-//        foreach ($tabs as $index => $tab)
-//        {
-//            $course_tabs->add_tab(new DynamicContentTab($index, $tab[1], null, $this->display_courses($tab[0], $index)));
-//        }
-//        
-//        $html[] = $course_tabs->render();
-        
+        //        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        //        $course_tabs = new DynamicTabsRenderer($renderer_name);
+        //
+        //        foreach ($tabs as $index => $tab)
+        //        {
+        //            $course_tabs->add_tab(new DynamicContentTab($index, $tab[1], null, $this->display_courses($tab[0], $index)));
+        //        }
+        //
+        //        $html[] = $course_tabs->render();
+
+
         $this->addElement('html', '<div id="form_tabs">');
         $this->addElement('html', '<ul>');
         foreach ($tabs as $index => $tab)
@@ -239,12 +240,12 @@ EOT;
             $this->addElement('html', '<div class="clear"></div>');
             $this->addElement('html', '</div>');
         }
-        
+
         $this->addElement('html', '</div>');
         $this->addElement('html', '<script type="text/javascript">');
         $this->addElement('html', '  var tabnumber = ' . $selected_tab . ';');
         $this->addElement('html', '</script>');
-        
+
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/form_tabs.js'));
     }
 
@@ -263,7 +264,7 @@ EOT;
     function unregister_html_editor($name)
     {
         $key = array_search($name, $this->html_editors);
-        
+
         if ($key)
         {
             unset($this->html_editors[$key]);
@@ -307,7 +308,7 @@ EOT;
         $elements[] = $this->add_datepicker($name_1, $label_1, $include_time_picker);
         $elements[] = $this->add_datepicker($name_2, $label_2, $include_time_picker);
         $this->addRule(array($name_1, $name_2), Translation :: get('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');
-        
+
         return $elements;
     }
 
@@ -319,7 +320,7 @@ EOT;
         $elementName = $element_name_prefix . 'forever';
         $fromName = $element_name_prefix . 'from_date';
         $toName = $element_name_prefix . 'to_date';
-        
+
         $choices[] = $this->createElement('radio', $elementName, '', Translation :: get('Forever'), 1, array('id' => 'forever', 'onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
         $choices[] = $this->createElement('radio', $elementName, '', Translation :: get('LimitedPeriod'), 0, array('id' => 'limited', 'onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
         $this->addGroup($choices, null, Translation :: get($element_label), '<br />', false);
@@ -382,16 +383,16 @@ EOT;
         $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'receivers_window_' . $elementName . '\')'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="receivers_window_' . $elementName . '">');
-        
+
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults'], $attributes['options']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
-        
+
         if ($legend)
         {
             $this->addElement('static', null, null, $legend->as_html());
         }
-        
+
         $this->addElement('html', '</div>');
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
@@ -417,7 +418,7 @@ EOT;
 									receivers_hide('receivers_window_" . $elementName . "');
 								else
 									receivers_show('receivers_window_" . $elementName . "');
-							},30);	
+							},30);
     				}
     				$(document).ready(function ()
 					{
@@ -433,15 +434,15 @@ EOT;
         //addes options: "system defaults" & split "everybody" into "anonymous users" and "platform users"
         //maybe an option "only me" should also be added?
         $choices = array();
-        
+
         $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SystemDefaultSettings'), '0', array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver_1'));
         $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('AnonymousUsers'), '0', array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver_2'));
         $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('PortalUsers'), '0', array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver_3'));
-        
+
         $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'' . $elementName . 'receivers_window\')'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . $elementName . 'receivers_window">');
-        
+
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
         $element_finder->excludeElements($attributes['exclude']);
         $this->addElement($element_finder);
@@ -451,7 +452,7 @@ EOT;
 					var expiration_" . $elementName . "_1 = document.getElementById('" . $elementName . "receiver_1');
 					var expiration_" . $elementName . "_2 = document.getElementById('" . $elementName . "receiver_2');
 					var expiration_" . $elementName . "_3 = document.getElementById('" . $elementName . "receiver_3');
-					
+
 					if (expiration_" . $elementName . "_1.checked || expiration_" . $elementName . "_3.checked || expiration_" . $elementName . "_2.checked)
 					{
 						receivers_hide('" . $elementName . "receivers_window');
@@ -473,7 +474,7 @@ EOT;
 									receivers_hide('receivers_window_" . $elementName . "');
 								else
 									receivers_show('receivers_window_" . $elementName . "');
-							},30);	
+							},30);
     				}
     				$(document).ready(function ()
 					{
@@ -493,20 +494,20 @@ EOT;
         foreach ($radioArray as $radioType)
         {
             $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get($radioType), $radioType, array('onclick' => 'javascript:receivers_hide(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'receiver'));
-        
+
         }
         $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array('onclick' => 'javascript:receivers_show(\'' . $elementName . 'receivers_window\')', 'id' => $elementName . 'group'));
         $this->addGroup($choices, null, $elementLabel, '<br />', false);
         $idGroup = $elementName . 'group';
         $nameWindow = $elementName . 'receivers_window';
         $this->addElement('html', '<div style="margin-left: 25px; display: block;" id="' . $elementName . 'receivers_window">');
-        
+
         $element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
         $element_finder->excludeElements($attributes['exclude']);
-        
+
         $this->addElement($element_finder);
         $this->addElement('html', '</div>');
-        
+
         $this->addElement('html', "<script type=\"text/javascript\">
 					/* <![CDATA[ */
 					var expiration_" . $elementName . " = document.getElementById('$idGroup');
@@ -535,7 +536,7 @@ EOT;
 									receivers_show('$nameWindow');
 								else
 									receivers_hide('$nameWindow');
-							},30);	
+							},30);
     				}
     				$(document).ready(function ()
 					{
@@ -543,7 +544,7 @@ EOT;
 					});
 					/* ]]> */
 					</script>\n");
-    
+
     }
 
     function add_indicators($elementName, $elementLabel, $attributes)
@@ -612,13 +613,13 @@ EOT;
                         continue 2;
                     }
                 }
-                
+
                 if (! $result || (! empty($rule['howmany']) && $rule['howmany'] > (int) $result))
                 {
-                    
+
                     if (isset($rule['group']))
                     {
-                        
+
                         $this->_errors[$rule['group']] = $rule['message'];
                     }
                     else
@@ -753,7 +754,7 @@ EOT;
         {
             $html[] = '</div>';
         }
-        
+
         if (isset($html))
         {
             $this->addElement('html', implode("\n", $html));

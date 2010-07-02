@@ -31,7 +31,9 @@ class Invitation extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_APPLICATION, self :: PROPERTY_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_CODE, self :: PROPERTY_PARAMETERS, self :: PROPERTY_ANONYMOUS, self :: PROPERTY_TITLE, self :: PROPERTY_MESSAGE, self :: PROPERTY_EMAIL, self :: PROPERTY_RIGHTS_TEMPLATES, self :: PROPERTY_USER_CREATED));
+        return parent :: get_default_property_names(array(
+                self :: PROPERTY_APPLICATION, self :: PROPERTY_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_CODE, self :: PROPERTY_PARAMETERS, self :: PROPERTY_ANONYMOUS, self :: PROPERTY_TITLE, self :: PROPERTY_MESSAGE,
+                self :: PROPERTY_EMAIL, self :: PROPERTY_RIGHTS_TEMPLATES, self :: PROPERTY_USER_CREATED));
     }
 
     function get_application()
@@ -146,7 +148,7 @@ class Invitation extends DataClass
 
     function is_valid()
     {
-        return (time() >= $this->get_expiration_date() || $this->get_expiration_date() == 0) && !$this->get_user_created();
+        return (time() >= $this->get_expiration_date() || $this->get_expiration_date() == 0) && ! $this->get_user_created();
     }
 
     function is_anonymous()
