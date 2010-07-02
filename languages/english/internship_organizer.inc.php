@@ -168,7 +168,6 @@ $lang['internship_organizer']['FromDate'] = 'From';
 $lang['internship_organizer']['ToDate'] = 'To';
 $lang['internship_organizer']['NoDate'] = 'no date';
 
-
 $lang['internship_organizer']['InternshipOrganizer'] = 'Internship Organizer';
 
 $lang['internship_organizer']['Administration'] = 'Administration';
@@ -261,7 +260,6 @@ $lang['internship_organizer']['InternshipOrganizerPeriod'] = 'Period';
 $lang['internship_organizer']['InternshipOrganizerBegin'] = 'Begin';
 $lang['internship_organizer']['InternshipOrganizerEnd'] = 'End';
 $lang['internship_organizer']['InternshipOrganizerStatus'] = 'Status';
-
 
 $lang['internship_organizer']['Count'] = 'Count';
 $lang['internship_organizer']['InternshipOrganizerTotal'] = 'Total';

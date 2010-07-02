@@ -1,8 +1,8 @@
 <?php
 
-require_once Path :: get_application_path() . 'lib/internship_organizer/forms/period_subscribe_users_form.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/forms/period_subscribe_user_group_form.class.php';
 
-class InternshipOrganizerPeriodManagerSubscribeUsersComponent extends InternshipOrganizerPeriodManager
+class InternshipOrganizerPeriodManagerSubscribeUserGroupComponent extends InternshipOrganizerPeriodManager
 {
     private $period;
     private $ab;
@@ -23,7 +23,7 @@ class InternshipOrganizerPeriodManagerSubscribeUsersComponent extends Internship
         $trail->add(new Breadcrumb($this->get_period_subscribe_users_url($this->period), Translation :: get('AddInternshipOrganizerUsers')));
         $trail->add_help('period subscribe users');
         
-        $form = new InternshipOrganizerPeriodSubscribeUsersForm($this->period, $this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID))), $this->get_user());
+        $form = new InternshipOrganizerPeriodSubscribeUserGroupForm($this->period, $this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID))), $this->get_user());
         
         if ($form->validate())
         {

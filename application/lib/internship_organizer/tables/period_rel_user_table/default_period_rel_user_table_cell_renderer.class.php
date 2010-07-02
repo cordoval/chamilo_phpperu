@@ -28,7 +28,7 @@ class DefaultInternshipOrganizerPeriodRelUserTableCellRenderer extends ObjectTab
 
     function render_id_cell($period_rel_user)
     {
-        return $period_rel_user->get_period_id() . '|' . $period_rel_user->get_user_type() . '|' . $period_rel_user->get_user_id();
+		return $period_rel_user->get_period_id() . '|' . $period_rel_user->get_user_id() . '|' . $period_rel_user->get_user_type();
     }
 
 }
