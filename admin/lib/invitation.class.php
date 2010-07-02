@@ -7,7 +7,7 @@
 class Invitation extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_DATE = 'date';
     const PROPERTY_EXPIRATION_DATE = 'expiration_date';
@@ -133,7 +133,7 @@ class Invitation extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_RIGHTS_TEMPLATES, $rights_templates);
     }
-    
+
     function get_user_created()
     {
         return $this->get_default_property(self :: PROPERTY_USER_CREATED);
@@ -143,10 +143,15 @@ class Invitation extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_USER_CREATED, $user_created);
     }
-    
+
     function is_valid()
     {
         return (time() >= $this->get_expiration_date() || $this->get_expiration_date() == 0) && !$this->get_user_created();
+    }
+
+    function is_anonymous()
+    {
+        return $this->get_anonymous();
     }
 
     static function get_table_name()
