@@ -158,5 +158,11 @@ class Invitation extends DataClass
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+
+    function create()
+    {
+        $this->set_code(md5(uniqid()));
+        parent :: create();
+    }
 }
 ?>
