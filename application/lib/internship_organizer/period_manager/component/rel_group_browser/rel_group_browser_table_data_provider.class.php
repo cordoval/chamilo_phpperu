@@ -1,11 +1,11 @@
 <?php
 
-class InternshipOrganizerPeriodGroupBrowserTableDataProvider extends ObjectTableDataProvider
+class InternshipOrganizerPeriodRelGroupBrowserTableDataProvider extends ObjectTableDataProvider
 {
     
     private $browser;
 
-    function InternshipOrganizerPeriodGroupBrowserTableDataProvider($browser, $condition)
+    function InternshipOrganizerPeriodRelGroupBrowserTableDataProvider($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     

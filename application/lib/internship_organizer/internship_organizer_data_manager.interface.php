@@ -209,6 +209,8 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_period_rel_groups($condition = null, $offset = null, $count = null, $order_property = null);
 
+     function retrieve_period_rel_group($period_id, $group_id, $user_type);
+    
     //publications
     
 

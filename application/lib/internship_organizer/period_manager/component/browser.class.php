@@ -60,7 +60,7 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         
         // Group table tab
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_GROUPS;
-        $table = new InternshipOrganizerPeriodGroupBrowserTable($this, $parameters, $this->get_rel_groups_condition());
+        $table = new InternshipOrganizerPeriodRelGroupBrowserTable($this, $parameters, $this->get_rel_groups_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_GROUPS, Translation :: get('Groups'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         // Category table tab

@@ -4,20 +4,20 @@ require_once dirname(__FILE__) . '/rel_group_browser_table_data_provider.class.p
 require_once dirname(__FILE__) . '/rel_group_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/rel_group_browser_table_cell_renderer.class.php';
 
-class InternshipOrganizerPeriodGroupBrowserTable extends ObjectTable
+class InternshipOrganizerPeriodRelGroupBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'rel_group_browser_table';
+    const DEFAULT_NAME = 'internship_organizer_period_rel_group_browser_table';
 
     /**
      * Constructor
      */
-    function InternshipOrganizerPeriodGroupBrowserTable($browser, $parameters, $condition)
+    function InternshipOrganizerPeriodRelGroupBrowserTable($browser, $parameters, $condition)
     {
         
-        $model = new InternshipOrganizerPeriodGroupBrowserTableColumnModel($browser);
-        $renderer = new InternshipOrganizerPeriodGroupBrowserTableCellRenderer($browser);
-        $data_provider = new InternshipOrganizerPeriodGroupBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, InternshipOrganizerPeriodGroupBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        $model = new InternshipOrganizerPeriodRelGroupBrowserTableColumnModel($browser);
+        $renderer = new InternshipOrganizerPeriodRelGroupBrowserTableCellRenderer($browser);
+        $data_provider = new InternshipOrganizerPeriodRelGroupBrowserTableDataProvider($browser, $condition);
+        parent :: __construct($data_provider, InternshipOrganizerPeriodRelGroupBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
         $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_UNSUBSCRIBE_GROUP, Translation :: get('Unsubscribe')));
         $this->set_form_actions($actions);

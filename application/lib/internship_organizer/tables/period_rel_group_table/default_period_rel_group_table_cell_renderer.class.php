@@ -1,9 +1,9 @@
 <?php
 
-class DefaultInternshipOrganizerPeriodGroupTableCellRenderer extends ObjectTableCellRenderer
+class DefaultInternshipOrganizerPeriodRelGroupTableCellRenderer extends ObjectTableCellRenderer
 {
 
-    function DefaultInternshipOrganizerPeriodGroupTableCellRenderer()
+    function DefaultInternshipOrganizerPeriodRelGroupTableCellRenderer()
     {
     }
 
@@ -25,7 +25,7 @@ class DefaultInternshipOrganizerPeriodGroupTableCellRenderer extends ObjectTable
 
     function render_id_cell($period_rel_group)
     {
-        return $period_rel_group->get_period_id() . '|' . $period_rel_group->get_user_type() . '|' . $period_rel_group->get_group_id();
+        return $period_rel_group->get_period_id() . '|' . $period_rel_group->get_group_id() . '|' . $period_rel_group->get_user_type();
     }
 
 }

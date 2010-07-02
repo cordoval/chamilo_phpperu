@@ -1,5 +1,8 @@
 <?php
 
+require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/browser.class.php';
+
+
 class InternshipOrganizerPeriodManagerUnsubscribeGroupComponent extends InternshipOrganizerPeriodManager
 {
 
@@ -11,7 +14,7 @@ class InternshipOrganizerPeriodManagerUnsubscribeGroupComponent extends Internsh
         $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_REL_GROUP_ID);
               
         $failures = 0;
-        
+               
         if (! empty($ids))
         {
             if (! is_array($ids))
@@ -24,7 +27,7 @@ class InternshipOrganizerPeriodManagerUnsubscribeGroupComponent extends Internsh
                 
                 $period_rel_group_ids = explode('|', $id);
                 
-                $period_rel_group = InternshipOrganizerDataManager :: get_instance()->retrieve_period_rel_user($period_rel_group_ids[0], $period_rel_group_ids[1], $period_rel_group_ids[2]);
+                $period_rel_group = InternshipOrganizerDataManager :: get_instance()->retrieve_period_rel_group($period_rel_group_ids[0], $period_rel_group_ids[1], $period_rel_group_ids[2]);
                              
                 if (! $period_rel_group->delete())
                 {
