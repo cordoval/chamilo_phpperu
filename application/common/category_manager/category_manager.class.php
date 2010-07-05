@@ -6,6 +6,7 @@
 require_once dirname(__FILE__) . '/platform_category.class.php';
 require_once dirname(__FILE__) . '/category_form.class.php';
 require_once dirname(__FILE__) . '/category_manager_component.class.php';
+require_once dirname(__FILE__) . '/component/category_browser/category_browser_table.class.php';
 /**
 ==============================================================================
  *	This class provides the means to manage categories.
@@ -53,8 +54,8 @@ abstract class CategoryManager
         $this->parent = $parent;
         $this->trail = $trail;
         $this->subcategories_allowed = $subcategories_allowed;
+        $parent->handle_table_action();
         $parent->set_parameter(self :: PARAM_ACTION, $this->get_action());
-        $this->parse_input_from_table();
     }
 
     function run()
