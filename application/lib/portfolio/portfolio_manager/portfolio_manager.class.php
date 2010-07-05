@@ -30,6 +30,11 @@ class PortfolioManager extends WebApplication
     const ACTION_BROWSE = 'browse';
     const ACTION_SET_PORTFOLIO_DEFAULTS = 'set_defaults';
 
+
+
+    const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
+    const ACTION_PUBLISHER = 'publisher';
+
     /**
      * Constructor
      * @param User $user The current user
@@ -460,6 +465,28 @@ class PortfolioManager extends WebApplication
             }
         }
         return $success;
+    }
+
+
+    function parse_input_from_table()
+    {
+        if (isset($_POST['action']))
+        {
+            $selected_publication_ids = $_POST(ContentObjectTable::DEFAULT_NAME, ObjectTable::CHECKBOX_NAME_SUFFIX);
+
+            if(!is_array($selected_publication_ids))
+            {
+                $selected_publication_ids = array($selected_publication_ids);
+            }
+
+            switch ($_POST['action'])
+            {
+                case self::PARAM_PUBLISH_SELECTED:
+                $this->set_action(self::ACTION_PUBLISHER);
+                Request::set_get(RepoViewer::PARAM_ID, $selected_publication_ids);
+                break;
+            }
+        }
     }
 
 
