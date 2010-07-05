@@ -25,7 +25,6 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
         $repo_viewer->set_parameter('parent', $parent);
         $pp = Request :: get(PortfolioManager :: PARAM_PARENT_PORTFOLIO);
         $repo_viewer->set_parameter(PortfolioManager :: PARAM_PARENT_PORTFOLIO, $pp);
-        $repo_viewer->parse_input_from_table();
 
         if (! $repo_viewer->is_ready_to_be_published())
         {
