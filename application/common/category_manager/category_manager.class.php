@@ -230,36 +230,6 @@ abstract class CategoryManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_GENERAL_CATEGORIES));
     }
 
-    private function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $selected_ids = $_POST['category_table' . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_REMOVE_SELECTED_CATEGORIES :
-                    $this->set_parameter(self :: PARAM_ACTION, self :: ACTION_DELETE_CATEGORY);
-                    Request :: set_get(self :: PARAM_ACTION, self :: ACTION_DELETE_CATEGORY);
-                    Request :: set_get(self :: PARAM_CATEGORY_ID, $selected_ids);
-                    break;
-                case self :: PARAM_MOVE_SELECTED_CATEGORIES :
-                    $this->set_parameter(self :: PARAM_ACTION, self :: ACTION_CHANGE_CATEGORY_PARENT);
-                    Request :: set_get(self :: PARAM_ACTION, self :: ACTION_CHANGE_CATEGORY_PARENT);
-                    Request :: set_get(self :: PARAM_CATEGORY_ID, $selected_ids);
-                    break;
-            }
-        }
-    }
-
     function get_breadcrumb_trail()
     {
         return $this->trail;
