@@ -79,7 +79,7 @@ class PortfolioMenu extends HTML_Menu
         $users = array();
         
         $udm = UserDataManager :: get_instance();
-        $users['title'] = Translation :: get('PersonalPortfolio') . " - " . $udm->retrieve_user($this->view_user)->get_fullname();
+        $users['title'] = $udm->retrieve_user($this->view_user)->get_fullname();
         $users['url'] = $this->get_root_url();
         $users['class'] = 'home';
         $subs = $this->get_publications();
