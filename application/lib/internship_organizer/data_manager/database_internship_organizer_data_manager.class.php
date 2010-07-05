@@ -38,6 +38,9 @@ require_once 'MDB2.php';
 
 class DatabaseInternshipOrganizerDataManager extends Database implements InternshipOrganizerDataManagerInterface
 {
+    
+    const STATUS = 'status';
+    const MESSAGE = 'message';
 
     function initialize()
     {
@@ -79,11 +82,11 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $organisation_alias = $this->get_alias(InternshipOrganizerOrganisation :: get_table_name());
         $location_alias = $this->get_alias(InternshipOrganizerLocation :: get_table_name());
         
-        $query = 'SELECT ' . $location_alias . '.* ,' . $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ID, $region_alias) .'as Region_Id, '. $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, $region_alias) .','. $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, $region_alias);
+        $query = 'SELECT ' . $location_alias . '.* ,' . $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ID, $region_alias) . 'as Region_Id, ' . $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, $region_alias) . ',' . $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, $region_alias);
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerLocation :: get_table_name()) . ' AS ' . $location_alias;
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerOrganisation :: get_table_name()) . ' AS ' . $organisation_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerOrganisation :: PROPERTY_ID, $organisation_alias);
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerRegion :: get_table_name()) . ' AS ' . $region_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerLocation :: PROPERTY_REGION_ID, $location_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerRegion :: PROPERTY_ID, $region_alias);
-
+        
         return $this->retrieve_object_set($query, InternshipOrganizerLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerLocation :: CLASS_NAME);
     }
 
@@ -321,7 +324,6 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         return $this->retrieve_object(InternshipOrganizerCategoryRelLocation :: get_table_name(), $condition, array(), InternshipOrganizerCategoryRelLocation :: CLASS_NAME);
     }
 
-   
     function retrieve_category_by_name($name)
     {
         $condition = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_NAME, $name);
@@ -389,7 +391,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerPeriod :: get_table_name()) . ' AS ' . $period_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerCategoryRelPeriod :: PROPERTY_PERIOD_ID, $category_rel_period_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerPeriod :: PROPERTY_ID, $period_alias);
         
         return $this->count_result_set($query, InternshipOrganizerCategoryRelPeriod :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerCategoryRelPeriod :: CLASS_NAME);
-        
+    
     }
 
     function retrieve_category_rel_periods($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -407,7 +409,16 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerPeriod :: get_table_name()) . ' AS ' . $period_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerCategoryRelPeriod :: PROPERTY_PERIOD_ID, $category_rel_period_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerPeriod :: PROPERTY_ID, $period_alias);
         
         return $this->retrieve_object_set($query, InternshipOrganizerCategoryRelPeriod :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerCategoryRelPeriod :: CLASS_NAME);
-        
+    
+    }
+
+    function retrieve_category_rel_period($category_id, $period_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelPeriod :: PROPERTY_CATEGORY_ID, $category_id);
+        $conditions[] = new EqualityCondition(InternshipOrganizerCategoryRelPeriod :: PROPERTY_PERIOD_ID, $period_id);
+        $condition = new AndCondition($conditions);
+        return $this->retrieve_object(InternshipOrganizerCategoryRelPeriod :: get_table_name(), $condition, array(), InternshipOrganizerCategoryRelPeriod :: CLASS_NAME);
     }
 
     //internship planner moments
@@ -461,7 +472,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $agreement_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
         
         return $this->count_result_set($query, InternshipOrganizerMoment :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMoment :: CLASS_NAME);
-        
+    
     }
 
     function retrieve_moment_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -662,7 +673,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $agreement_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
         
         return $this->count_result_set($query, InternshipOrganizerAgreementRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelUser :: CLASS_NAME);
-        
+    
     }
 
     function retrieve_agreement_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -681,10 +692,8 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         return $this->retrieve_object_set($query, InternshipOrganizerAgreementRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelUser :: CLASS_NAME);
     
-
     }
 
-    
     function delete_internship_organizer_agreement_rel_location($agreement_rel_location)
     {
         
@@ -702,18 +711,18 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         $conditions = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_id);
         
-        if ( $count_locations = $this->count_agreement_rel_locations($conditions) )
+        if ($count_locations = $this->count_agreement_rel_locations($conditions))
         {
-        	continue;
+            continue;
         }
         else
         {
-        	$query = 'UPDATE ' . $this->escape_table_name(InternshipOrganizerAgreement :: get_table_name()) . ' SET ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_STATUS) . '= 1' . ' WHERE ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_ID) . '=' . $this->quote($agreement_id);
-
-        	$res = $this->query($query);
-        	$res->free();
+            $query = 'UPDATE ' . $this->escape_table_name(InternshipOrganizerAgreement :: get_table_name()) . ' SET ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_STATUS) . '= 1' . ' WHERE ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_ID) . '=' . $this->quote($agreement_id);
+            
+            $res = $this->query($query);
+            $res->free();
         }
-
+        
         return true;
     
     }
@@ -1033,7 +1042,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerMentor :: get_table_name()) . ' AS ' . $mentor_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerMentor :: PROPERTY_ID, $mentor_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerMentorRelLocation :: PROPERTY_MENTOR_ID, $mentor_rel_location_alias);
         
         return $this->retrieve_object_set($query, InternshipOrganizerMentorRelLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMentorRelLocation :: CLASS_NAME);
-        
+    
     }
 
     //internship planner periods##
@@ -1047,18 +1056,73 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function delete_internship_organizer_period($period)
     {
-        $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period->get_id());
-        $bool = $this->delete($period->get_table_name(), $condition);
+        //if period has sub_periods, it isn't aloud to be deleted
+        $result = array();
         
-        $condition_subperiods = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, $period->get_id());
-        $periods = $this->retrieve_periods($condition_subperiods);
-        while ($gr = $periods->next_result())
+        if ($period->has_children())
         {
-            $bool = $bool & $this->delete_internship_organizer_period($gr);
-            //mag dit? (i.e. recursieve oproep)
+            $result[self :: STATUS] = false;
+            $result[self :: MESSAGE] = Translation :: get('PeriodNotDeleted-HasSubPeriods');
         }
         
-        return $bool;
+        $period_id = $period->get_id();
+        
+        //if there are still agreements attached, it isn't aloud to be deleted
+        $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period_id);
+        
+        if ($this->count_agreements($condition) > 0)
+        {
+            $result[self :: STATUS] = false;
+            $result[self :: MESSAGE] = Translation :: get('PeriodNotDeleted-HasAgreements');
+        }
+        
+       
+        
+        if (! $result[self :: STATUS])
+        {
+            return $result;
+        }
+        
+        $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period_id, InternshipOrganizerPeriod :: get_table_name());
+        $bool = $this->delete($period->get_table_name(), $condition);
+        
+        $result[self :: STATUS] = $bool;
+        $result[self :: MESSAGE] = Translation :: get('PeriodDeleted');
+        
+        if ($bool)
+        {
+            
+            $period_rel_users = $this->retrieve_period_rel_users($condition);
+            while ($period_rel_user = $period_rel_users->next_result())
+            {
+                $this->delete_internship_organizer_period_rel_user($period_rel_user);
+            }
+            
+            $period_rel_groups = $this->retrieve_period_rel_groups($condition);
+            while ($period_rel_group = $period_rel_groups->next_result())
+            {
+                $this->delete_internship_organizer_period_rel_group($period_rel_group);
+            }
+            
+            $category_rel_periods = $this->retrieve_category_rel_periods($condition);
+            while ($category_rel_period = $category_rel_periods->next_result())
+            {
+                $this->delete_internship_organizer_category_rel_period($category_rel_period);
+            }
+            
+            $conditions = array();
+            $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: PERIOD);
+            $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $period_id);
+            $condition = new AndCondition($conditions);
+            
+            $publications = $this->retrieve_publications($condition);
+            while ($publication = $publications->next_result())
+            {
+                $this->delete_internship_organizer_publication($publication);
+            }
+        }
+        
+        return $result;
     
     }
 
@@ -1142,32 +1206,48 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function count_period_rel_users($condition = null)
     {
-        
+        $period_alias = $this->get_alias(InternshipOrganizerPeriod :: get_table_name());
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         $period_rel_user_alias = $this->get_alias(InternshipOrganizerPeriodRelUser :: get_table_name());
         
         $query = 'SELECT COUNT(* ) ';
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerPeriodRelUser :: get_table_name()) . ' AS ' . $period_rel_user_alias;
         
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerPeriod :: get_table_name()) . ' AS ' . $period_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriod :: PROPERTY_ID, $period_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $period_rel_user_alias);
+        
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $period_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
         
         return $this->count_result_set($query, InternshipOrganizerPeriodRelUser :: get_table_name(), $condition);
-        
+    
     }
 
     function retrieve_period_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         
+        $period_alias = $this->get_alias(InternshipOrganizerPeriod :: get_table_name());
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         $period_rel_user_alias = $this->get_alias(InternshipOrganizerPeriodRelUser :: get_table_name());
         
         $query = 'SELECT ' . $period_rel_user_alias . '. *  ,' . $user_alias . '. * ';
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerPeriodRelUser :: get_table_name()) . ' AS ' . $period_rel_user_alias;
         
+        $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerPeriod :: get_table_name()) . ' AS ' . $period_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriod :: PROPERTY_ID, $period_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $period_rel_user_alias);
+        
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $period_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
         
         return $this->retrieve_object_set($query, InternshipOrganizerPeriodRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPeriodRelUser :: CLASS_NAME);
+    
+    }
+
+    function retrieve_period_rel_user($period_id, $user_id, $user_type)
+    {
         
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $period_id);
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_ID, $user_id);
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_USER_TYPE, $user_type);
+        $condition = new AndCondition($conditions);
+        return $this->retrieve_object(InternshipOrganizerPeriodRelUser :: get_table_name(), $condition, array(), InternshipOrganizerPeriodRelUser :: CLASS_NAME);
     }
 
     function delete_internship_organizer_period_rel_group($period_rel_group)
@@ -1211,6 +1291,17 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . GroupDataManager :: get_instance()->escape_table_name(Group :: get_table_name()) . ' AS ' . $group_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPeriodRelGroup :: PROPERTY_GROUP_ID, $period_rel_group_alias) . ' = ' . $this->escape_column_name(Group :: PROPERTY_ID, $group_alias);
         
         return $this->retrieve_object_set($query, InternshipOrganizerPeriodRelGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPeriodRelGroup :: CLASS_NAME);
+    }
+
+    function retrieve_period_rel_group($period_id, $group_id, $user_type)
+    {
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_PERIOD_ID, $period_id);
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_GROUP_ID, $group_id);
+        $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_USER_TYPE, $user_type);
+        $condition = new AndCondition($conditions);
+        return $this->retrieve_object(InternshipOrganizerPeriodRelGroup :: get_table_name(), $condition, array(), InternshipOrganizerPeriodRelGroup :: CLASS_NAME);
     }
 
     function create_internship_organizer_publication($publication)
@@ -1372,4 +1463,5 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     }
 
 }
+
 ?>

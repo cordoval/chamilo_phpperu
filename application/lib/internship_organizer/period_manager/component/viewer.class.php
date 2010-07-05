@@ -26,7 +26,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         $trail = BreadcrumbTrail :: get_instance();
         
         $id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
-        $parent_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID);
+//        $parent_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID);
         
         if ($id)
         {
@@ -34,33 +34,28 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
             
             $this->root_period = $this->retrieve_periods(new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, 0))->next_result();
             
-            $this->parent_period = $this->retrieve_period($parent_id);
+//            $this->parent_period = $this->retrieve_period($parent_id);
             
-            if ($parent_id)
-            {
-                $this->parent_parent_id = $this->parent_period->get_parent_id();
-            }
+//            if ($parent_id)
+//            {
+//                $this->parent_parent_id = $this->parent_period->get_parent_id();
+//            }
             
             $period = $this->period;
             
-            $parent_period = $this->parent_period;
+//            $parent_period = $this->parent_period;
             
-            $parent_parent_id = $this->parent_parent_id;
-            
-            if (! $this->get_user()->is_platform_admin())
-            {
-                Display :: not_allowed();
-            }
+//            $parent_parent_id = $this->parent_parent_id;
             
             $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
             $trail->add(new Breadcrumb($this->get_browse_periods_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
             
-            if ($parent_id && $parent_parent_id)
-            {
-                $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $parent_id, InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID => $parent_parent_id)), $parent_period->get_name()));
-            }
+//            if ($parent_id && $parent_parent_id)
+//            {
+//                $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $parent_id, InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID => $parent_parent_id)), $parent_period->get_name()));
+//            }
             
-            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $id, InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID => $parent_id)), $period->get_name()));
+            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $id)), $period->get_name()));
             $trail->add_help('period general');
             
             $this->display_header($trail);
@@ -77,10 +72,10 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
             echo '<div class="clear">&nbsp;</div>';
             echo '</div>';
             
-            $users_table = $this->get_users_types_table();
-            if ($users_table)
+            $users_tables = $this->get_users_types_tables();
+            if ($users_tables)
             {
-                echo $users_table;
+                echo $users_tables;
             }
             else
             {
@@ -106,7 +101,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_period_viewing_url($period), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_period_editing_url($period), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_users_url($period), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_users_url($period), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         if ($this->period != $this->root_period)
         {
@@ -132,7 +127,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         return $action_bar;
     }
 
-    function get_users_types_table()
+    function get_users_types_tables()
     {
         $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
         $tabs = new DynamicTabsRenderer($renderer_name);
@@ -142,15 +137,15 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
         
         // Coordinator table tab
-        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COORDINATOR));
+        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COORDINATOR), InternshipOrganizerUserType :: COORDINATOR);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COORDINATOR, Translation :: get('InternshipOrganizerCoordinator'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         // Student table tab
-        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: STUDENT));
+        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: STUDENT), InternshipOrganizerUserType :: STUDENT);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_STUDENT, Translation :: get('InternshipOrganizerStudent'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         // Coach table tab
-        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COACH));
+        $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COACH), InternshipOrganizerUserType :: COACH);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COACH, Translation :: get('InternshipOrganizerCoach'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         // Publications table tab
@@ -178,8 +173,9 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
     {
         $query = $this->ab->get_query();
         $conditions = array();
-        
+              
         $user_ids = $this->period->get_user_ids($user_type);
+        
         
         if (count($user_ids))
         {
@@ -201,6 +197,10 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         return new AndCondition($conditions);
     
     }
-
+	
+    function get_period(){
+    	return $this->period;
+    }
+    
 }
 ?>

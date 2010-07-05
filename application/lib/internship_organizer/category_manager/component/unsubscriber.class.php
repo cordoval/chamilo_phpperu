@@ -41,8 +41,6 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
             
             foreach ($ids as $id)
             {
-//                $categoryreluser_ids = explode('|', $id);
-//                $categoryreluser = $this->retrieve_category_rel_user($categoryreluser_ids[1], $categoryreluser_ids[0]);
 
                 $categoryrellocation_ids = explode('|', $id);
                 $categoryrellocation = $this->retrieve_category_rel_location($categoryrellocation_ids[1], $categoryrellocation_ids[0]);

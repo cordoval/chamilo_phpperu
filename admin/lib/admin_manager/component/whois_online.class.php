@@ -58,15 +58,21 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
 
     function get_condition()
     {
-        $tracking = new OnlineTracker();
-        $items = $tracking->retrieve_tracker_items();
-        foreach ($items as $item)
+        $users = array();
+        $items = Tracker :: get_data('online_tracker', AdminManager :: APPLICATION_NAME);
+        while($item = $items->next_result())
+        {
             $users[] = $item->get_user_id();
+        }
 
-        if ($users)
+        if (!empty($users))
+        {
             return new InCondition(User :: PROPERTY_ID, $users);
+        }
         else
+        {
             return new EqualityCondition(User :: PROPERTY_ID, - 1);
+        }
     }
 
     private function get_user_html($user_id)

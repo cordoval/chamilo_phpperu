@@ -1,11 +1,11 @@
 <?php
 
-class DefaultInternshipOrganizerPeriodGroupTableColumnModel extends ObjectTableColumnModel
+class DefaultInternshipOrganizerPeriodRelGroupTableColumnModel extends ObjectTableColumnModel
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultInternshipOrganizerPeriodGroupTableColumnModel()
+	function DefaultInternshipOrganizerPeriodRelGroupTableColumnModel()
 	{
 		parent :: __construct(self :: get_default_columns(), 0);
 	}

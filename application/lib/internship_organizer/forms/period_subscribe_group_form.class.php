@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../user_type.class.php';
 
-class InternshipOrganizerPeriodSubscribeUsersForm extends FormValidator
+class InternshipOrganizerPeriodSubscribeGroupForm extends FormValidator
 {
     
     const APPLICATION_NAME = 'internship_organizer';
@@ -12,7 +12,7 @@ class InternshipOrganizerPeriodSubscribeUsersForm extends FormValidator
     private $period;
     private $user;
 
-    function InternshipOrganizerPeriodSubscribeUsersForm($period, $action, $user)
+    function InternshipOrganizerPeriodSubscribeGroupForm($period, $action, $user)
     {
         parent :: __construct('create_period', 'post', $action);
         
@@ -43,7 +43,7 @@ class InternshipOrganizerPeriodSubscribeUsersForm extends FormValidator
         
         $this->add_receivers(self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
         
-        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('AddInternshipOrganizerUsers'), array('class' => 'positive update'));
+        $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('AddInternshipOrganizerGroups'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         

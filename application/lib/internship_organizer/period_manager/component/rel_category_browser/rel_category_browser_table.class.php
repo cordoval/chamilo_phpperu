@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/rel_category_browser_table_cell_renderer.clas
 
 class InternshipOrganizerCategoryRelPeriodBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'rel_category_browser_table';
+    const DEFAULT_NAME = 'internship_organizer_category_rel_period_browser_table';
 
     /**
      * Constructor
@@ -18,10 +18,17 @@ class InternshipOrganizerCategoryRelPeriodBrowserTable extends ObjectTable
         $renderer = new InternshipOrganizerCategoryRelPeriodBrowserTableCellRenderer($browser);
         $data_provider = new InternshipOrganizerCategoryRelPeriodBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, InternshipOrganizerCategoryRelPeriodBrowserTable :: DEFAULT_NAME, $model, $renderer);
-        $actions = array();
-        $this->set_additional_parameters($parameters);
+        $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
+        $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_UNSUBSCRIBE_CATEGORY, Translation :: get('Unsubscribe')));
         $this->set_form_actions($actions);
+        $this->set_default_row_count(20);
     
+    }
+
+    static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_REL_CATEGORY_ID, $ids);
     }
 }
 ?>

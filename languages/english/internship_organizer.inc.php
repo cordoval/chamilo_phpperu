@@ -112,6 +112,9 @@ $lang['internship_organizer']['SelectedInternshipOrganizerOrganisationsDeleted']
 $lang['internship_organizer']['NoInternshipOrganizerOrganisationsSelected'] = 'No Organisations Selected';
 
 $lang['internship_organizer']['AddInternshipOrganizerUsers'] = 'Add Users';
+$lang['internship_organizer']['AddInternshipOrganizerGroups'] = 'Add Groups';
+
+
 $lang['internship_organizer']['CreateInternshipOrganizerPeriod'] = 'Create Period';
 $lang['internship_organizer']['InternshipOrganizerPeriodCreated'] = 'Period Created';
 $lang['internship_organizer']['InternshipOrganizerPeriodNotCreated'] = 'Could Not Create Period';
@@ -126,6 +129,9 @@ $lang['internship_organizer']['SelectedInternshipOrganizerPeriodsNotDeleted'] = 
 $lang['internship_organizer']['SelectedInternshipOrganizerPeriodDeleted'] = 'Selected Period Deleted';
 $lang['internship_organizer']['SelectedInternshipOrganizerPeriodsDeleted'] = 'Selected Periods Deleted';
 $lang['internship_organizer']['NoInternshipOrganizerPeriodsSelected'] = 'No Periods Selected';
+$lang['internship_organizer']['AddCategories'] = 'Add categories';
+$lang['internship_organizer']['AddInternshipOrganizerCategories'] = 'Add categories';
+
 $lang['internship_organizer']['NoUsers'] = 'No Users';
 $lang['internship_organizer']['NoSubperiods'] = 'No Subperiods';
 $lang['internship_organizer']['Periods'] = 'Periodes';
@@ -167,7 +173,6 @@ $lang['internship_organizer']['ViewPeriod'] = 'View Period';
 $lang['internship_organizer']['FromDate'] = 'From';
 $lang['internship_organizer']['ToDate'] = 'To';
 $lang['internship_organizer']['NoDate'] = 'no date';
-
 
 $lang['internship_organizer']['InternshipOrganizer'] = 'Internship Organizer';
 
@@ -262,10 +267,15 @@ $lang['internship_organizer']['InternshipOrganizerBegin'] = 'Begin';
 $lang['internship_organizer']['InternshipOrganizerEnd'] = 'End';
 $lang['internship_organizer']['InternshipOrganizerStatus'] = 'Status';
 
-
 $lang['internship_organizer']['Count'] = 'Count';
 $lang['internship_organizer']['InternshipOrganizerTotal'] = 'Total';
 $lang['internship_organizer']['ExportToExcel'] = 'Export to Excel';
+
+$lang['internship_organizer']['Xml'] = 'Xml';
+$lang['internship_organizer']['Pdf'] = 'Pdf';
+$lang['internship_organizer']['Csv'] = 'Csv';
+$lang['internship_organizer']['Excel'] = 'Excel';
+
 
 $lang['internship_organizer']['InternshipOrganizerPeriodReportingTemplate'] = 'Period report';
 $lang['internship_organizer']['InternshipOrganizerPeriodUserTypeCountReportingBlock'] = 'Period user types count';

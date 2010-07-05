@@ -11,7 +11,6 @@
 class LoginLogoutTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-    const TABLE_NAME = 'login_tracker';
 
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_DATE = 'date';
@@ -131,7 +130,7 @@ class LoginLogoutTracker extends SimpleTracker
 
     static function get_table_name()
     {
-        return self :: TABLE_NAME;
+        return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 }
 ?>

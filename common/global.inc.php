@@ -112,6 +112,8 @@ function __autoload($classname)
 
 }
 
+spl_autoload_register('__autoload');
+
 require_once 'MDB2.php';
 
 // Start session

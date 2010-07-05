@@ -37,7 +37,7 @@ class ReferrersTracker extends UserTracker
     function export($start_date, $end_date)
     {
         $condition = new EqualityCondition(self :: PROPERTY_TYPE, self :: TYPE_REFERER);
-        return $this->retrieve_tracker_items($condition);
+        return $this->get_data_manager()->retrieve_tracker_items($this->get_table_name(), $condition);
     }
 }
 ?>

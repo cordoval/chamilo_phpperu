@@ -133,7 +133,7 @@ interface AdminDataManagerInterface
     function count_validations($condition = null);
 
     // Dynamic Forms
-
+    
 
     function delete_dynamic_form($dynamic_form);
 
@@ -182,6 +182,24 @@ interface AdminDataManagerInterface
     function retrieve_dynamic_form_element_values($condition = null, $offset = null, $count = null, $order_property = null);
 
     function delete_dynamic_form_element_values_from_form($dynamic_form_id);
+
+    /**
+     * @param int $id
+     * @return Invitation
+     */
+    function retrieve_invitation($id);
+
+    function retrieve_invitations($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
+
+    function create_invitation($invitation);
+
+    function delete_invitation($invitation);
+
+    /**
+     * @param string $code
+     * @return Invitation
+     */
+    function retrieve_invitation_by_code($code);
 
 }
 ?>

@@ -12,9 +12,13 @@ class InternshipOrganizerPeriodManager extends SubManager
     const PARAM_ACTION = 'action';
     
     const PARAM_PERIOD_ID = 'period_id';
-    const PARAM_PARENT_PERIOD_ID = 'parent_id';
+//    const PARAM_PARENT_PERIOD_ID = 'parent_id';
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_TRUNCATE_SELECTED = 'truncate';
+    const PARAM_PERIOD_REL_USER_ID = 'period_rel_user_id';
+    const PARAM_PERIOD_REL_GROUP_ID = 'period_rel_group_id';
+    const PARAM_PERIOD_REL_CATEGORY_ID = 'period_rel_category_id';
+    const PARAM_USER_ID = 'user_id';
     
     const ACTION_CREATE_PERIOD = 'create';
     const ACTION_BROWSE_PERIODS = 'browse';
@@ -22,11 +26,17 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_DELETE_PERIOD = 'delete';
     const ACTION_VIEW_PERIOD = 'view';
     const ACTION_PUBLISH_PERIOD = 'publish';
-    const ACTION_SUBSCRIBE_USERS = 'subscribe_users';
+    const ACTION_SUBSCRIBE_USER = 'subscribe_user';
+    const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
+    
+    const ACTION_CREATE_AGREEMENT = 'create_agreement';
+    
+    const ACTION_SUBSCRIBE_CATEGORY = 'subscribe_category';
+    const ACTION_UNSUBSCRIBE_USER = 'unsubscribe_user';
+    const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
+    const ACTION_UNSUBSCRIBE_CATEGORY = 'unsubscribe_category';
+    
     const ACTION_REPORTING = 'reporting';
-    
-    
-//    const ACTION_SUBSCRIBE_USERS_TO_PERIOD = 'subscribe';
 
     function InternshipOrganizerPeriodManager($internship_manager)
     {
@@ -36,7 +46,7 @@ class InternshipOrganizerPeriodManager extends SubManager
         {
             $this->set_parameter(self :: PARAM_ACTION, $action);
         }
-        $this->parse_input_from_table();
+    
     }
 
     function run()
@@ -63,18 +73,33 @@ class InternshipOrganizerPeriodManager extends SubManager
                 break;
             case self :: ACTION_REPORTING :
                 $component = $this->create_component('Reporting');
-                break;    
+                break;
             case self :: ACTION_PUBLISH_PERIOD :
                 $component = $this->create_component('Publisher');
-                break;    
-//            case self :: ACTION_SUBSCRIBE_USERS_TO_PERIOD :
-//                $component = $this->create_component('Subscriber');
-//                break;
-            case self :: ACTION_SUBSCRIBE_USERS :
-                $component = $this->create_component('SubscribeUsers');
                 break;
+            case self :: ACTION_SUBSCRIBE_USER :
+                $component = $this->create_component('SubscribeUser');
+                break;
+            case self :: ACTION_SUBSCRIBE_GROUP :
+                $component = $this->create_component('SubscribeGroup');
+                break;
+            case self :: ACTION_SUBSCRIBE_CATEGORY :
+                $component = $this->create_component('SubscribeCategory');
+                break;
+            case self :: ACTION_UNSUBSCRIBE_USER :
+                $component = $this->create_component('UnsubscribeUser');
+                break;
+            case self :: ACTION_UNSUBSCRIBE_GROUP :
+                $component = $this->create_component('UnsubscribeGroup');
+                break;
+            case self :: ACTION_UNSUBSCRIBE_CATEGORY :
+                $component = $this->create_component('UnsubscribeCategory');
+                break;
+            case self :: ACTION_CREATE_AGREEMENT :
+               	$component = $this->create_component('AgreementCreator');
+                break;    
             default :
-                $this->set_period_action(self :: ACTION_BROWSE_PERIODS);
+                $this->set_parameter(self :: PARAM_ACTION, self :: ACTION_BROWSE_PERIODS);
                 $component = $this->create_component('Browser');
         }
         
@@ -125,9 +150,15 @@ class InternshipOrganizerPeriodManager extends SubManager
     //url
     
 
-    function get_browse_periods_url()
+    function get_browse_periods_url($period = null)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS));
+        if($period  != null){
+        	    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period->get_id()));
+        	
+        }else{
+        	    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS));
+        	
+        }
     }
 
     function get_period_editing_url($period)
@@ -136,16 +167,16 @@ class InternshipOrganizerPeriodManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
-    function get_period_create_url($parent_id = null)
+    function get_period_create_url($parent_period)
     {
-        if ($parent_id != null)
-        {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PERIOD, self :: PARAM_PERIOD_ID => $parent_id));
-        }
-        else
-        {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PERIOD));
-        }
+        //        if ($parent_id != null)
+        //        {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PERIOD, self :: PARAM_PERIOD_ID => $parent_period->get_id()));
+        //        }
+    //        else
+    //        {
+    //            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PERIOD));
+    //        }
     }
 
     function get_period_emptying_url($period)
@@ -155,66 +186,63 @@ class InternshipOrganizerPeriodManager extends SubManager
 
     function get_period_viewing_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id(), self :: PARAM_PARENT_PERIOD_ID => $period->get_parent_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_delete_url($period)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
-	
-	function get_period_reporting_url($period)
+
+    function get_period_reporting_url($period)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
-    
-	function get_period_publish_url()
+
+    function get_period_publish_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_PERIOD));
     }
-    
-    function get_period_subscribe_users_url($period)
+
+    function get_period_subscribe_user_url($period)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USERS, self :: PARAM_PERIOD_ID => $period->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
-    function get_period_unsubscribe_user_url($user)
+    function get_period_subscribe_group_url($period)
     {
-    	return null;
-    }
-    
-    private function parse_input_from_table()
-    {
-        if (isset($_POST[InternshipOrganizerPeriodBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
-        {
-            $selected_ids = $_POST[InternshipOrganizerPeriodBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-        }
-        
-        if (isset($_POST['action']))
-        {
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_REMOVE_SELECTED :
-                    $this->set_period_action(self :: ACTION_DELETE_PERIOD);
-                    Request :: set_get(self :: PARAM_PERIOD_ID, $selected_ids);
-                    break;
-            }
-        }
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_GROUP, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
-    private function set_period_action($action)
+    function get_period_subscribe_category_url($period)
     {
-        $this->set_parameter(self :: PARAM_ACTION, $action);
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_CATEGORY, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
+
+    function get_period_unsubscribe_user_url($period_rel_user)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER, self :: PARAM_PERIOD_REL_USER_ID => $period_rel_user->get_period_id() . '|' . $period_rel_user->get_user_id() . '|' . $period_rel_user->get_user_type()));
+    
+    }
+
+    function get_period_unsubscribe_group_url($period_rel_group)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_GROUP, self :: PARAM_PERIOD_REL_GROUP_ID => $period_rel_group->get_period_id() . '|' . $period_rel_group->get_group_id() . '|' . $period_rel_group->get_user_type()));
+    
+    }
+
+    function get_period_unsubscribe_category_url($category_rel_period)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_CATEGORY, self :: PARAM_PERIOD_REL_CATEGORY_ID => $category_rel_period->get_category_id() . '|' . $category_rel_period->get_period_id()));
+    
+    }
+
+    function get_period_create_agreement_url($period, $user)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_AGREEMENT, self :: PARAM_USER_ID => $period->get_id().'|'.$user->get_id()));
+    
+    }
+
 }
 
 ?>

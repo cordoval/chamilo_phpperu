@@ -19,7 +19,7 @@ class InternshipOrganizerCategoryRelPeriodBrowserTableCellRenderer extends Defau
     {
         if ($column === InternshipOrganizerCategoryRelPeriodBrowserTableColumnModel :: get_modification_column())
         {
-            //return $this->get_modification_links( $category_rel_period);
+            return $this->get_modification_links($category_rel_period);
         }
         
         return parent :: render_cell($column, $category_rel_period);
@@ -27,9 +27,9 @@ class InternshipOrganizerCategoryRelPeriodBrowserTableCellRenderer extends Defau
 
     private function get_modification_links($category_rel_period)
     {
-        $toolbar_data = array();
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_period_unsubscribe_category_url($category_rel_period), ToolbarItem :: DISPLAY_ICON, true));
+        return $toolbar->as_html();
     }
 }
 ?>

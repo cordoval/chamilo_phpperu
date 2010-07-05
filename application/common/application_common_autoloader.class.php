@@ -36,6 +36,9 @@ class ApplicationCommonAutoloader
 	{
 		$list = array('category_manager' => 'category_manager/category_manager.class.php',
 					  'feedback_manager' => 'feedback_manager/feedback_manager.class.php',
+					  'invitation_manager' => 'invitation_manager/invitation_manager.class.php',
+					  'invitation' => 'invitation_manager/invitation.class.php',
+					  'invitation_support' => 'invitation_manager/invitation_support.class.php',
 					  'repo_viewer' => 'repo_viewer/repo_viewer.class.php',
 					  'reporting_viewer' => 'reporting_viewer/reporting_viewer.class.php',
 				      'streaming_media_manager' => 'streaming_media_manager/streaming_media_manager.class.php',

@@ -10,7 +10,7 @@ class InternshipOrganizerPeriodRelUserBrowserTableCellRenderer extends DefaultIn
 
     function InternshipOrganizerPeriodRelUserBrowserTableCellRenderer($browser)
     {
-        parent :: __construct();
+        parent :: __construct($browser->get_period());
         $this->browser = $browser;
     }
 
@@ -19,7 +19,7 @@ class InternshipOrganizerPeriodRelUserBrowserTableCellRenderer extends DefaultIn
     {
         if ($column === InternshipOrganizerPeriodRelUserBrowserTableColumnModel :: get_modification_column())
         {
-            //return $this->get_modification_links( $rel_user);
+           return $this->get_modification_links( $rel_user);
         }
         
         return parent :: render_cell($column, $rel_user);
@@ -27,9 +27,9 @@ class InternshipOrganizerPeriodRelUserBrowserTableCellRenderer extends DefaultIn
 
     private function get_modification_links($rel_user)
     {
-        $toolbar_data = array();
-        
-        return Utilities :: build_toolbar($toolbar_data);
+        $toolbar = new Toolbar();
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_period_unsubscribe_user_url($rel_user), ToolbarItem :: DISPLAY_ICON, true));
+        return $toolbar->as_html();
     }
 }
 ?>

@@ -1,5 +1,7 @@
 <?php
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/period_form.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/browser.class.php';
+
 
 class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganizerPeriodManager
 {
@@ -17,7 +19,9 @@ class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganiz
         $trail->add_help('period general');
         
         $period = new InternshipOrganizerPeriod();
-        $period->set_parent_id(Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID));
+        $parent_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+              
+        $period->set_parent_id($parent_id);
         $form = new InternshipOrganizerPeriodForm(InternshipOrganizerPeriodForm :: TYPE_CREATE, $period, $this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID))), $this->get_user());
         
         if ($form->validate())
@@ -26,11 +30,11 @@ class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganiz
             if ($success)
             {
                 $period = $form->get_period();
-                $this->redirect(Translation :: get('InternshipOrganizerPeriodCreated'), (false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period->get_id()));
+                $this->redirect(Translation :: get('InternshipOrganizerPeriodCreated'), (false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period->get_id(), DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
             }
             else
             {
-                $this->redirect(Translation :: get('InternshipOrganizerPeriodNotCreated'), (true), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS));
+                $this->redirect(Translation :: get('InternshipOrganizerPeriodNotCreated'), (true), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $parent_id, DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
             }
         }
         else

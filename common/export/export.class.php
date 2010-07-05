@@ -34,63 +34,64 @@ abstract class Export
     {
         return $this->data;
     }
-    
+
     function get_filename()
     {
-    	return $this->filename;
+        return $this->filename;
     }
-    
+
     function set_filename($filename)
     {
-    	$this->filename = $filename . '.' . $this->get_type();
+        $this->filename = $filename . '.' . $this->get_type();
     }
-    
+
     function get_path()
     {
-    	if ($this->path)
-    	{
-    		return $this->path;
-    	}
-    	else 
-    	{
-    		return Path::get(SYS_ARCHIVE_PATH);
-    	}
+        if ($this->path)
+        {
+            return $this->path;
+        }
+        else
+        {
+            return Path :: get(SYS_ARCHIVE_PATH);
+        }
     }
-    
+
     function set_path($path)
     {
-    	$this->path = $path;
+        $this->path = $path;
     }
 
     abstract function get_type();
+
     /**
      * Writes the given data to a file
      * @param array $data
      */
     public function write_to_file()
     {
-    	$file = $this->get_path() . Filesystem :: create_unique_name($this->get_path(), $this->get_filename());
+        $file = $this->get_path() . Filesystem :: create_unique_name($this->get_path(), $this->get_filename());
         $handle = fopen($file, 'a+');
-    	if (!fwrite($handle, $this->render_data()))
+        if (! fwrite($handle, $this->render_data()))
         {
-			return false;
-		}
+            return false;
+        }
         fclose($handle);
         return $file;
     }
-    
- 	public function send_to_browser()
+
+    public function send_to_browser()
     {
-    	$file = $this->write_to_file();
-    	if ($file)
-    	{
-    		Filesystem :: file_send_for_download($file, true, $this->get_filename());
-    		exit();
-    	}
+        $file = $this->write_to_file();
+        if ($file)
+        {
+            Filesystem :: file_send_for_download($file, true, $this->get_filename());
+            exit();
+        }
     }
 
     abstract function render_data();
-    
+
     /**
      * Gets the supported filetypes for export
      * @return array Array containig all supported filetypes (keys and values
@@ -101,11 +102,14 @@ abstract class Export
         $directories = Filesystem :: get_directory_content(dirname(__FILE__), Filesystem :: LIST_DIRECTORIES, false);
         foreach ($directories as $index => $directory)
         {
-            $type = basename($directory);
-            if ($type != '.svn')
+           if ($directory != 'layout')
             {
-                if (! in_array($type, $exclude))
-                    $types[$type] = $type;
+                $type = basename($directory);
+                if ($type != '.svn')
+                {
+                    if (! in_array($type, $exclude))
+                        $types[$type] = $type;
+                }
             }
         }
         return $types;
