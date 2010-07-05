@@ -16,8 +16,7 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
         $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
         
         $failures = 0;
-        $parent_id = 0;
-        
+              
         if (! empty($ids))
         {
             if (! is_array($ids))
@@ -28,7 +27,7 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
             foreach ($ids as $id)
             {
                 $period = $this->retrieve_period($id);
-                $parent_id = $this->get_parent();
+                $parent_id = $period->get_parent_id();
                 
                 $status = true;
                 //if period has sub_periods, it isn't aloud to be deleted
@@ -50,7 +49,7 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
                     $status = false;
                     $message = 'PeriodNotDeleted-HasAgreements';
                 }
-                
+                               
                 if ($status)
                 {
                     if (! $period->delete())
@@ -88,7 +87,7 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
             
             }
             
-            $this->redirect(Translation :: get($message), !$status, array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
+            $this->redirect(Translation :: get($message), !$status, array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $parent_id , DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
         }
         else
         {

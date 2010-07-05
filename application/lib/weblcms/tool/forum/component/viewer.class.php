@@ -49,10 +49,12 @@ class ForumToolViewerComponent extends ForumTool
     
 	function topic_viewed($complex_topic_id)
     {
-        $parameters = array();
-        $parameters[ForumTopicViewTracker :: PROPERTY_USER_ID] = $this->get_user_id();
-        $parameters[ForumTopicViewTracker :: PROPERTY_PUBLICATION_ID] = $this->publication_id;
-        $parameters[ForumTopicViewTracker :: PROPERTY_FORUM_TOPIC_ID] = $complex_topic_id;
+        require_once dirname(__FILE__) . '/../../../trackers/weblcms_forum_topic_views_tracker.class.php';
+        
+    	$parameters = array();
+        $parameters[WeblcmsForumTopicViewsTracker :: PROPERTY_USER_ID] = $this->get_user_id();
+        $parameters[WeblcmsForumTopicViewsTracker :: PROPERTY_PUBLICATION_ID] = $this->publication_id;
+        $parameters[WeblcmsForumTopicViewsTracker :: PROPERTY_FORUM_TOPIC_ID] = $complex_topic_id;
         
         Event :: trigger('view_forum_topic', WeblcmsManager :: APPLICATION_NAME, $parameters);
     }

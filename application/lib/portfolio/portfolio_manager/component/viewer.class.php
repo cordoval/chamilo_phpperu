@@ -25,6 +25,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
     private $viewing_right = true;
     private $feedback_giving_right = true;
     private $feedback_viewing_right = false;
+    private $additional_html;
 
     const PROPERTY_PID = 'pid';
     const PROPERTY_CID = 'cid';
@@ -38,16 +39,14 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
     function run()
     {
-        $owner_user_id = Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID);
+    	$owner_user_id = Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID);
         $this->owner_user_id = $owner_user_id;
         $pid = Request :: get(self::PROPERTY_PID);
         $this->pid = $pid;
         $cid = Request :: get(self::PROPERTY_CID);
         $this->cid = $cid;
         
-        $rdm = RepositoryDataManager :: get_instance();
-
-        $possible_types = array();
+    	$possible_types = array();
         if($cid)
         {
             $portfolio_identifier = $cid;
@@ -81,22 +80,67 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         {
             $rights = PortfolioRights::get_rights($current_user_id, $portfolio_identifier, $possible_types);
         }
-            $viewing_right = $rights[PortfolioRights::VIEW_RIGHT];
-            $this->viewing_right =$viewing_right;
-            $editing_right = $rights[PortfolioRights::EDIT_RIGHT];
-            $feedback_viewing_right = $rights[PortfolioRights::VIEW_FEEDBACK_RIGHT];
-            $this->feedback_viewing_right = $feedback_viewing_right;
-            $feedback_giving_right = $rights[PortfolioRights::GIVE_FEEDBACK_RIGHT];
-            $this->feedback_giving_right = $feedback_giving_right;
-            $permission_setting_right = $rights[PortfolioRights::SET_PERMISSIONS_RIGHT];
         
-        $actions = array();
-
-        if($portfolio_identifier == self::PROPERTY_ROOT && $current_user_id != 1)
+        $this->viewing_right = $rights[PortfolioRights::VIEW_RIGHT];
+        $this->editing_right = $rights[PortfolioRights::EDIT_RIGHT];
+        $this->feedback_viewing_right = $rights[PortfolioRights::VIEW_FEEDBACK_RIGHT];
+        $this->feedback_giving_right = $rights[PortfolioRights::GIVE_FEEDBACK_RIGHT];
+        $this->permission_setting_right = $rights[PortfolioRights::SET_PERMISSIONS_RIGHT];
+    	
+    	if($portfolio_identifier == self::PROPERTY_ROOT && $current_user_id != 1)
         {
             //root can be seen by every user
              $this->viewing_right = true;
         }
+        
+        $rdm = RepositoryDataManager :: get_instance();
+        
+    	if ($pid && $cid)
+        {
+            //get complex_content_object
+            $wrapper = $rdm->retrieve_complex_content_object_item($cid);
+            //get portfolio_item
+            $this->selected_object = $rdm->retrieve_content_object($wrapper->get_ref());
+            if ($this->selected_object->get_type() == PortfolioItem :: get_type_name())
+            {
+                //get content opbject
+                $this->portfolio_item = $this->selected_object;
+                $this->selected_object = $rdm->retrieve_content_object($this->selected_object->get_reference());
+            }
+        }
+        elseif ($pid && ! $cid)
+        {
+            $publication = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication($pid);
+            $this->publication = $publication;
+            $this->selected_object = $rdm->retrieve_content_object($publication->get_content_object());
+        }
+        
+    	$current_action = Request :: get('action') ? Request :: get('action') : self :: ACTION_VIEW;
+    	call_user_func(array($this, 'display_' . $current_action . '_page'));
+    }
+    
+    function display_header()
+    {
+        $viewing_right = $this->viewing_right;
+        $editing_right = $this->editing_right;
+        $feedback_viewing_right = $this->feedback_viewing_right;
+        $feedback_giving_right = $this->feedback_giving_right;
+        $permission_setting_right = $this->permission_setting_right;
+        $pid = $this->pid;
+        $cid = $this->cid;
+        $owner_user_id = $this->owner_user_id;
+        
+    	if(is_a($this->get_user(), User::CLASS_NAME))
+        {
+            $current_user_id = $this->get_user_id();
+        }
+        else
+        {
+            $current_user_id = 1;
+        }
+        
+        $actions = array();
+
         if($viewing_right)
         {
              $actions[] = self::ACTION_VIEW;
@@ -113,34 +157,10 @@ class PortfolioManagerViewerComponent extends PortfolioManager
               $actions[] = self::ACTION_PERMISSIONS;
             }
             //get the object
-            if ($pid && $cid)
-            {
-                //get complex_content_object
-                $wrapper = $rdm->retrieve_complex_content_object_item($cid);
-                //get portfolio_item
-                $this->selected_object = $rdm->retrieve_content_object($wrapper->get_ref());
-                if ($this->selected_object->get_type() == PortfolioItem :: get_type_name())
-                {
-                    //get content opbject
-                    $this->portfolio_item = $this->selected_object;
-                    $this->selected_object = $rdm->retrieve_content_object($this->selected_object->get_reference());
-                }
-            }
-            elseif ($pid && ! $cid)
-            {
-                $publication = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication($pid);
-                $this->publication = $publication;
-                $this->selected_object = $rdm->retrieve_content_object($publication->get_content_object());
-            }
-        }
-        else
-        {
-            //no rights so no object should be retrieved
         }
            
         if ($owner_user_id == $current_user_id)
         {
-            
             $this->action_bar = $this->get_action_bar();
             $html[] = $this->action_bar->as_html();
         }
@@ -162,7 +182,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         
         $html[] = '<div style="width: 80%; overflow: auto;">';
         $html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-        $current_action = Request :: get('action') ? Request :: get('action') : 'view';        
+        $current_action = Request :: get('action') ? Request :: get('action') : self :: ACTION_VIEW;        
         foreach ($actions as $action)
         {
             $html[] = '<li><a';
@@ -180,8 +200,31 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         }
         
         $html[] = '</ul><div class="tabbed-pane-content">';
-        $html[] = call_user_func(array($this, 'display_' . $current_action . '_page'));
-        $html[] = '</div></div>';
+
+        parent :: display_header();
+ 		echo implode("\n", $html);
+ 		
+ 		if($this->additional_html)
+ 		{
+ 			echo $this->additional_html;
+ 		}
+    }
+    
+    function display_footer()
+    {
+     	if(is_a($this->get_user(), User::CLASS_NAME))
+        {
+            $current_user_id = $this->get_user_id();
+        }
+        else
+        {
+            $current_user_id = 1;
+        }
+    	
+        $current_action = Request :: get('action') ? Request :: get('action') : self :: ACTION_VIEW;
+        $owner_user_id = Request :: get(PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID);
+        
+    	$html[] = '</div></div>';
         $html[] = '</div>';
         $html[] = '</div>';
 
@@ -221,25 +264,16 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             
         }
 
-
         $udm = UserDataManager::get_instance();
         $user = $udm->retrieve_user($owner_user_id);
         if($current_user_id != 1)
         {
             $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $current_user_id)), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
         }
-
-
-        if($current_user_id == 1)
-        {
-            $this->display_header(BreadcrumbTrail :: get_instance(), false);
-        }
-        else
-        {
-             $this->display_header();
-        }
+        
         echo implode("\n", $html);
-        $this->display_footer();
+        parent :: display_footer();
+    	
     }
 
     function add_actionbar_item($item)
@@ -315,40 +349,50 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
         }
         
-        return implode("\n", $html);
+        $this->display_header();
+        echo implode("\n", $html);
+        $this->display_footer();
     }
 
+    //TODO: Refactor this code to work with the new submanager structure of the feedback manager
     function display_feedback_page()
     {
-            $this->set_parameter('action', Request :: get('action'));
-            $this->set_parameter(self::PROPERTY_CID, $this->cid);
-            $this->set_parameter(self::PROPERTY_PID, $this->pid);
-            $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
+    	$this->set_parameter('action', Request :: get('action'));
+        $this->set_parameter(self::PROPERTY_CID, $this->cid);
+        $this->set_parameter(self::PROPERTY_PID, $this->pid);
+        $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
 
-             if($this->feedback_viewing_right)
-             {
-                 $fbmv = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid, FeedbackManager::ACTION_BROWSE_ONLY_FEEDBACK);
-                 $html[] = $fbmv->as_html();
-             }
-             else
-             {
-                $html[] = '<br /><div id="no_rights">';
-                 $html[] = Translation :: get('NoPermissionToViewFeedback');                
-                  $html[] = '</div><br />';
-             }
-             if(!isset($this->feedback_giving_right) || $this->feedback_giving_right)
-             {
-                  $html[] = '<h3>' . Translation :: get('PublicationGiveFeedback') . '</h3>';
-                  $fbmc = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid, FeedbackManager::ACTION_CREATE_ONLY_FEEDBACK);
-                  $html[] = $fbmc->as_html();
-             }
-             else
-             {
-                $html[] = '<div id="no_rights">';
-                $html[] = Translation :: get('NoPermissionToGiveFeedback');
-                $html[] = '</div><br />';
-             }
-        return implode("\n", $html);
+        if($this->feedback_viewing_right)
+        { 
+             $feedback_manager_view = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
+        }
+        else
+        {
+            $html[] = '<br /><div id="no_rights">';
+            $html[] = Translation :: get('NoPermissionToViewFeedback');                
+            $html[] = '</div><br />';
+        }
+        if(!isset($this->feedback_giving_right) || $this->feedback_giving_right)
+        {
+        	$html[] = '<h3>' . Translation :: get('PublicationGiveFeedback') . '</h3>';
+            $feedback_manager_create = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
+        }
+        else
+        {
+        	$html[] = '<div id="no_rights">';
+            $html[] = Translation :: get('NoPermissionToGiveFeedback');
+            $html[] = '</div><br />';
+        }
+        
+        if($html)
+        {
+        	$this->additional_html = implode("\n", $html);
+        }
+        
+    	if($feedback_manager_view)
+        {
+        	$feedback_manager_view->run();
+        }
     }
 
     function display_validation_page()
@@ -358,7 +402,9 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $fbm = new ValidationManager($this, PortfolioManager :: APPLICATION_NAME);
         $html[] = $fbm->as_html();
         
-        return implode("\n", $html);
+        $this->display_header();
+        echo implode("\n", $html);
+        $this->display_footer();
     }
 
     function display_edit_page()
@@ -413,7 +459,9 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             $html[] = $form->toHtml();
         }
         
-        return implode("\n", $html);
+        $this->display_header();
+        echo implode("\n", $html);
+        $this->display_footer();
     }
 
     function display_properties_page()
@@ -447,7 +495,10 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         {
             $html[] = $form->toHtml();
         }
-        return implode("\n", $html);
+        
+        $this->display_header();
+        echo implode("\n", $html);
+        $this->display_footer();
     }
 
 }

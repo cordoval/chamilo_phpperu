@@ -583,7 +583,7 @@ abstract class NestedTreeNode extends DataClass
         {
         	return false;
         }
-
+		        
         // Delete Children
 
 //        $func = 'delete_' . $this->get_object_name();
