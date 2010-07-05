@@ -11,12 +11,10 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
     const TAB_STUDENT = 'stt';
     const TAB_COACH = 'cat';
     const TAB_PUBLICATIONS = 'put';
-    
+    const TAB_DETAIL = 'det';
+   
     private $period;
     private $ab;
-    private $root_period;
-    private $parent_period;
-    private $parent_parent_id;
 
     /**
      * Runs this component and displays its output.
@@ -26,62 +24,25 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         $trail = BreadcrumbTrail :: get_instance();
         
         $id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
-//        $parent_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID);
         
         if ($id)
         {
             $this->period = $this->retrieve_period($id);
             
             $this->root_period = $this->retrieve_periods(new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_PARENT_ID, 0))->next_result();
-            
-//            $this->parent_period = $this->retrieve_period($parent_id);
-            
-//            if ($parent_id)
-//            {
-//                $this->parent_parent_id = $this->parent_period->get_parent_id();
-//            }
-            
+          
             $period = $this->period;
-            
-//            $parent_period = $this->parent_period;
-            
-//            $parent_parent_id = $this->parent_parent_id;
-            
             $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
             $trail->add(new Breadcrumb($this->get_browse_periods_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
-            
-//            if ($parent_id && $parent_parent_id)
-//            {
-//                $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $parent_id, InternshipOrganizerPeriodManager :: PARAM_PARENT_PERIOD_ID => $parent_parent_id)), $parent_period->get_name()));
-//            }
-            
             $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $id)), $period->get_name()));
             $trail->add_help('period general');
             
             $this->display_header($trail);
             $this->ab = $this->get_action_bar();
-            echo $this->ab->as_html() . '<br />';
-            
-            echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_period.png);">';
-            echo '<div class="title">' . Translation :: get('Details') . '</div>';
-            echo '<b>' . Translation :: get('Name') . '</b>: ' . $period->get_name();
-            echo '<br /><b>' . Translation :: get('Description') . '</b>: ' . $period->get_description();
-            echo '<b>' . Translation :: get('Begin') . '</b>: ' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatLong'), $period->get_begin());
-            echo '<br /><b>' . Translation :: get('End') . '</b>: ' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatLong'), $period->get_end());
-            
-            echo '<div class="clear">&nbsp;</div>';
-            echo '</div>';
-            
-            $users_tables = $this->get_users_types_tables();
-            if ($users_tables)
-            {
-                echo $users_tables;
-            }
-            else
-            {
-                echo '<div class="title"><b>' . Translation :: get('NoUsers') . '</b><br/><br/></div>';
-            }
-            
+            echo $this->ab->as_html() ;
+         
+            echo $this->get_tables();
+          
             $this->display_footer();
         }
         else
@@ -127,7 +88,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         return $action_bar;
     }
 
-    function get_users_types_tables()
+    function get_tables()
     {
         $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
         $tabs = new DynamicTabsRenderer($renderer_name);
@@ -152,6 +113,11 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_PUBLICATIONS, Translation :: get('InternshipOrganizerPublications'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
+        // Detail tab
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAIL, Translation :: get('InternshipOrganizerDetail'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $this->get_detail($this->period)));
+        
+        
+        
         $html[] = $tabs->render();
         
         $html[] = '</div>';
@@ -160,7 +126,18 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         return implode($html, "\n");
     
     }
-
+	
+    function get_detail($period){
+			$html = array();
+    		$html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_period.png);">';
+            $html[] =  '<div class="title">' . Translation :: get('Details') . '</div>';
+            $html[] =  '<b>' . Translation :: get('Name') . '</b>: ' . $period->get_name();
+            $html[] =  '<br /><b>' . Translation :: get('Description') . '</b>: ' . $period->get_description();
+            $html[] =  '<b>' . Translation :: get('Begin') . '</b>: ' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatLong'), $period->get_begin());
+            $html[] =  '<br /><b>' . Translation :: get('End') . '</b>: ' . DatetimeUtilities :: format_locale_date(Translation :: get('dateFormatLong'), $period->get_end());
+            return implode($html, "\n");	
+    }
+    
     function get_publications_condition()
     {
         $conditions = array();

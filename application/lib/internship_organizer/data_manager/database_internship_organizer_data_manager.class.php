@@ -1056,60 +1056,34 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function delete_internship_organizer_period($period)
     {
-        //if period has sub_periods, it isn't aloud to be deleted
-        $result = array();
-        
-        if ($period->has_children())
-        {
-            $result[self :: STATUS] = false;
-            $result[self :: MESSAGE] = Translation :: get('PeriodNotDeleted-HasSubPeriods');
-        }
-        
-        $period_id = $period->get_id();
-        
-        //if there are still agreements attached, it isn't aloud to be deleted
-        $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period_id);
-        
-        if ($this->count_agreements($condition) > 0)
-        {
-            $result[self :: STATUS] = false;
-            $result[self :: MESSAGE] = Translation :: get('PeriodNotDeleted-HasAgreements');
-        }
-        
-       
-        
-        if (! $result[self :: STATUS])
-        {
-            return $result;
-        }
-        
-        $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period_id, InternshipOrganizerPeriod :: get_table_name());
+              
+    	$condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period->get_id());
         $bool = $this->delete($period->get_table_name(), $condition);
-        
-        $result[self :: STATUS] = $bool;
-        $result[self :: MESSAGE] = Translation :: get('PeriodDeleted');
         
         if ($bool)
         {
             
-            $period_rel_users = $this->retrieve_period_rel_users($condition);
+            $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period_id, InternshipOrganizerPeriod :: get_table_name());
+        	
+        	$period_rel_users = $this->retrieve_period_rel_users($condition);
             while ($period_rel_user = $period_rel_users->next_result())
             {
                 $this->delete_internship_organizer_period_rel_user($period_rel_user);
             }
             
-            $period_rel_groups = $this->retrieve_period_rel_groups($condition);
-            while ($period_rel_group = $period_rel_groups->next_result())
-            {
-                $this->delete_internship_organizer_period_rel_group($period_rel_group);
-            }
-            
-            $category_rel_periods = $this->retrieve_category_rel_periods($condition);
+        	$category_rel_periods = $this->retrieve_category_rel_periods($condition);
             while ($category_rel_period = $category_rel_periods->next_result())
             {
                 $this->delete_internship_organizer_category_rel_period($category_rel_period);
             }
             
+            $condition = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_PERIOD_ID, $period_id, InternshipOrganizerPeriodRelGroup :: get_table_name());
+            $period_rel_groups = $this->retrieve_period_rel_groups($condition);
+            while ($period_rel_group = $period_rel_groups->next_result())
+            {
+                $this->delete_internship_organizer_period_rel_group($period_rel_group);
+            }
+                    
             $conditions = array();
             $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: PERIOD);
             $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $period_id);
@@ -1122,7 +1096,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
             }
         }
         
-        return $result;
+        return $bool;
     
     }
 

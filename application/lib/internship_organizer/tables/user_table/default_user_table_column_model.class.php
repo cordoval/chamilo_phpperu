@@ -27,6 +27,8 @@ class DefaultInternshipOrganizerUserTableColumnModel extends ObjectTableColumnMo
         $columns = array();
         $columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true, $user_alias);
         $columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true, $user_alias);
+        $columns[] = new StaticTableColumn(Translation :: get('InternshipOrganizerAgreements'));
+        
         
         return $columns;
     }
