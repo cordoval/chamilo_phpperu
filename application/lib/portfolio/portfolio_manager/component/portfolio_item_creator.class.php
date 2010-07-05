@@ -19,13 +19,13 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
     {
         $parent = Request :: get('parent');
         //TODO: HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
-        $types = array(Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), Description :: get_type_name(), Document :: get_type_name(), Link :: get_type_name(), Note :: get_type_name(), RssFeed :: get_type_name(), Profile :: get_type_name(), Youtube :: get_type_name());
+        $types = array(Document :: get_type_name(), Link :: get_type_name(),  Youtube :: get_type_name(), RssFeed :: get_type_name(), Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), Description :: get_type_name(),   Note :: get_type_name(), Profile :: get_type_name());
 
         $repo_viewer = new RepoViewer($this, $types, RepoViewer :: SELECT_MULTIPLE, array(), false);
         $repo_viewer->set_parameter('parent', $parent);
         $pp = Request :: get(PortfolioManager :: PARAM_PARENT_PORTFOLIO);
         $repo_viewer->set_parameter(PortfolioManager :: PARAM_PARENT_PORTFOLIO, $pp);
-        $repo_viewer->parse_input_from_table();
+        $repo_viewer->get_parent()->parse_input_from_table();
 
         if (! $repo_viewer->is_ready_to_be_published())
         {
