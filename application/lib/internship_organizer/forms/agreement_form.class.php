@@ -11,20 +11,23 @@ class InternshipOrganizerAgreementForm extends FormValidator
 {
     
     const APPLICATION_NAME = 'internship_organizer';
-    const PARAM_TARGET = 'target_periods';
+    const PARAM_TARGET = 'target_users';
     
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
     
     private $agreement;
-    private $user;
+    private $student_ids;
+    private $period_id;
 
-    function InternshipOrganizerAgreementForm($form_type, $agreement, $action, $user)
+    function InternshipOrganizerAgreementForm($form_type, $agreement, $action, $user_ids)
     {
         parent :: __construct('agreement_settings', 'post', $action);
         
         $this->agreement = $agreement;
-        $this->user = $user;
+        $this->period_id = $agreement->get_period_id();
+        $this->student_ids = $user_ids;
+        
         $this->form_type = $form_type;
         
         if ($this->form_type == self :: TYPE_EDIT)
@@ -46,18 +49,20 @@ class InternshipOrganizerAgreementForm extends FormValidator
         $this->addRule(InternshipOrganizerAgreement :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $this->add_html_editor(InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);
-    
+    	
+        $this->add_datepicker(InternshipOrganizerAgreement :: PROPERTY_BEGIN, Translation :: get('Begin'), false);
+        $this->addRule(InternshipOrganizerAgreement :: PROPERTY_BEGIN, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        $this->add_datepicker(InternshipOrganizerAgreement :: PROPERTY_END, Translation :: get('End'), false);
+        $this->addRule(InternshipOrganizerAgreement :: PROPERTY_END, Translation :: get('ThisFieldIsRequired'), 'required');
+        
     }
 
     function build_editing_form()
     {
         $this->build_basic_form();
         
-        $this->add_datepicker(InternshipOrganizerAgreement :: PROPERTY_BEGIN, Translation :: get('Begin'), false);
-        $this->addRule(InternshipOrganizerAgreement :: PROPERTY_BEGIN, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->add_datepicker(InternshipOrganizerAgreement :: PROPERTY_END, Translation :: get('End'), false);
-        $this->addRule(InternshipOrganizerAgreement :: PROPERTY_END, Translation :: get('ThisFieldIsRequired'), 'required');
         
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -69,19 +74,20 @@ class InternshipOrganizerAgreementForm extends FormValidator
     {
         $this->build_basic_form();
         
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_feed.php';
+        //        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_feed.php';
+        //        
+        //        $locale = array();
+        //        $locale['Display'] = Translation :: get('ChoosePeriods');
+        //        $locale['Searching'] = Translation :: get('Searching');
+        //        $locale['NoResults'] = Translation :: get('NoResults');
+        //        $locale['Error'] = Translation :: get('Error');
+        //        
+        //        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Periods'), $url, $locale, array());
+        //        $defaults = array($this->agreement->get_period_id());
+        //        $elem->setDefaults($defaults);
+        //        $elem->setDefaultCollapsed(false);
         
-        $locale = array();
-        $locale['Display'] = Translation :: get('ChoosePeriods');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
-        
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Periods'), $url, $locale, array());
-        $defaults = array($this->agreement->get_period_id());
-        $elem->setDefaults($defaults);
-        $elem->setDefaultCollapsed(false);
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
@@ -110,65 +116,73 @@ class InternshipOrganizerAgreementForm extends FormValidator
         $agreement->set_description($values[InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION]);
         
         $dm = InternshipOrganizerDataManager :: get_instance();
-        $periods = $values[self :: PARAM_TARGET];
+        //        $periods = $values[self :: PARAM_TARGET];
         
-        $students_ids = array();
+
+        //        $students_ids = array();
+        
+
+        $students_ids = $this->student_ids;
+        
         $succes = false;
-        foreach ($periods as $period_id)
+        //        foreach ($periods as $period_id)
+        //        {
+        $period_id = $this->period_id;
+        $period = $dm->retrieve_period($period_id);
+        
+        //            $students_ids = $period->get_user_ids(InternshipOrganizerUserType :: STUDENT);
+        foreach ($students_ids as $student_id)
         {
-            $period = $dm->retrieve_period($period_id);
-            $students_ids = $period->get_user_ids(InternshipOrganizerUserType :: STUDENT);
-            foreach ($students_ids as $student_id)
-            {
-                
-                $conditions = array();
-                $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period_id, InternshipOrganizerAgreement :: get_table_name());
-                $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $student_id);
-                $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, InternshipOrganizerUserType :: STUDENT);
-                $condition = new AndCondition($conditions);
-                $agreement_rel_user_count = InternshipOrganizerDataManager :: get_instance()->count_agreement_rel_users($condition);
-                
-                if ($agreement_rel_user_count == 0)
-                {
-                    $agreement->set_period_id($period_id);
-                    $agreement->set_begin($period->get_begin());
-                    $agreement->set_end($period->get_end());
-                    $agreement->set_status(InternshipOrganizerAgreement :: STATUS_ADD_LOCATION);
-                    $succes = $agreement->create();
-                    
-                    if ($succes)
-                    {
-                        $agreement_id = $agreement->get_id();
-                        $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
-                        $agreement_rel_user->set_agreement_id($agreement_id);
-                        $agreement_rel_user->set_user_id($student_id);
-                        $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: STUDENT);
-                        $agreement_rel_user->create();
-                        
-                        $coordinators = $period->get_user_ids(InternshipOrganizerUserType :: COORDINATOR);
-                        foreach ($coordinators as $coordinator_id)
-                        {
-                            $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
-                            $agreement_rel_user->set_agreement_id($agreement_id);
-                            $agreement_rel_user->set_user_id($coordinator_id);
-                            $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COORDINATOR);
-                            $agreement_rel_user->create();
-                        }
-                        $coaches = $period->get_user_ids(InternshipOrganizerUserType :: COACH);
-                        
-                        foreach ($coaches as $coach_id)
-                        {
-                            $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
-                            $agreement_rel_user->set_agreement_id($agreement_id);
-                            $agreement_rel_user->set_user_id($coach_id);
-                            $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COACH);
-                            $agreement_rel_user->create();
-                        }
-                    }
-                }
             
+            //                $conditions = array();
+            //                $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period_id, InternshipOrganizerAgreement :: get_table_name());
+            //                $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $student_id);
+            //                $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, InternshipOrganizerUserType :: STUDENT);
+            //                $condition = new AndCondition($conditions);
+            //                $agreement_rel_user_count = InternshipOrganizerDataManager :: get_instance()->count_agreement_rel_users($condition);
+            //                
+            //                if ($agreement_rel_user_count == 0)
+            //                {
+            $agreement->set_period_id($period_id);
+            $agreement->set_begin($period->get_begin());
+            $agreement->set_end($period->get_end());
+            $agreement->set_status(InternshipOrganizerAgreement :: STATUS_ADD_LOCATION);
+            $succes = $agreement->create();
+            
+            if ($succes)
+            {
+                $agreement_id = $agreement->get_id();
+                $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
+                $agreement_rel_user->set_agreement_id($agreement_id);
+                $agreement_rel_user->set_user_id($student_id);
+                $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: STUDENT);
+                $agreement_rel_user->create();
+                
+                $coordinators = $period->get_user_ids(InternshipOrganizerUserType :: COORDINATOR);
+                foreach ($coordinators as $coordinator_id)
+                {
+                    $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
+                    $agreement_rel_user->set_agreement_id($agreement_id);
+                    $agreement_rel_user->set_user_id($coordinator_id);
+                    $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COORDINATOR);
+                    $agreement_rel_user->create();
+                }
+                $coaches = $period->get_user_ids(InternshipOrganizerUserType :: COACH);
+                
+                foreach ($coaches as $coach_id)
+                {
+                    $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
+                    $agreement_rel_user->set_agreement_id($agreement_id);
+                    $agreement_rel_user->set_user_id($coach_id);
+                    $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COACH);
+                    $agreement_rel_user->create();
+                }
             }
+            //                }
+        
+
         }
+        //        }
         return $succes;
     }
 
@@ -182,6 +196,9 @@ class InternshipOrganizerAgreementForm extends FormValidator
         
         $defaults[InternshipOrganizerAgreement :: PROPERTY_NAME] = $agreement->get_name();
         $defaults[InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION] = $agreement->get_description();
+        $defaults[InternshipOrganizerAgreement :: PROPERTY_BEGIN] = $agreement->get_begin();
+        $defaults[InternshipOrganizerAgreement :: PROPERTY_END] = $agreement->get_end();
+        
         parent :: setDefaults($defaults);
     }
 }

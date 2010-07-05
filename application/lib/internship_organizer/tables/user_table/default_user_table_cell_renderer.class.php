@@ -7,12 +7,14 @@
 
 class DefaultInternshipOrganizerUserTableCellRenderer extends ObjectTableCellRenderer
 {
-
+		
+	private $period;
     /**
      * Constructor
      */
-    function DefaultInternshipOrganizerUserTableCellRenderer()
+    function DefaultInternshipOrganizerUserTableCellRenderer($period)
     {
+    	$this->period = $period;
     }
 
     /**
@@ -53,9 +55,10 @@ class DefaultInternshipOrganizerUserTableCellRenderer extends ObjectTableCellRen
         }
     }
 
-    function render_id_cell($object)
+    function render_id_cell($user)
     {
-        return $object->get_id();
+    	return $this->period->get_id().'|'.$user->get_id();
+ 	
     }
 
     private function render_picture($user)

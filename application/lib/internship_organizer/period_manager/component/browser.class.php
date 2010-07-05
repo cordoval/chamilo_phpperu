@@ -27,6 +27,10 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         $trail = BreadcrumbTrail :: get_instance();
         
         $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        
+        $period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+        $period = $this->retrieve_period($period_id);
+        
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
         $trail->add_help('period general');
         
@@ -188,9 +192,11 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $search_conditions = array();
-            $search_conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*');
-            $search_conditions[] = new PatternMatchCondition(Group :: PROPERTY_DESCRIPTION, '*' . $query . '*');
+            
+        	$group_alias = GroupDataManager :: get_instance()->get_alias(Group :: get_table_name());
+        	$search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*', $group_alias, true);
+            $search_conditions[] = new PatternMatchCondition(Group :: PROPERTY_DESCRIPTION, '*' . $query . '*', $group_alias, true);
             $conditions = new OrCondition($search_conditions);
         
         }
@@ -228,7 +234,9 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerPeriod'), Theme :: get_common_image_path() . 'action_create.png', $this->get_period_create_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_period_editing_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewPeriod'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_period_viewing_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_users_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddInternshipOrganizerUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_user_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddInternshipOrganizerGroups'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_group_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddCategories'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_category_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Reporting'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_period_reporting_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

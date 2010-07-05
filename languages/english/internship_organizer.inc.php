@@ -112,6 +112,7 @@ $lang['internship_organizer']['SelectedInternshipOrganizerOrganisationsDeleted']
 $lang['internship_organizer']['NoInternshipOrganizerOrganisationsSelected'] = 'No Organisations Selected';
 
 $lang['internship_organizer']['AddInternshipOrganizerUsers'] = 'Add Users';
+$lang['internship_organizer']['AddInternshipOrganizerGroups'] = 'Add Groups';
 
 
 $lang['internship_organizer']['CreateInternshipOrganizerPeriod'] = 'Create Period';

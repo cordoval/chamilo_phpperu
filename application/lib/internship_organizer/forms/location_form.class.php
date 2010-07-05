@@ -48,15 +48,7 @@ class InternshipOrganizerLocationForm extends FormValidator
         
         $this->addElement('select', InternshipOrganizerLocation :: PROPERTY_REGION_ID, Translation :: get('City'), $this->get_regions());
         $this->addRule(InternshipOrganizerLocation :: PROPERTY_REGION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-        
-        //$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_POSTCODE, Translation :: get('Postcode'), array("size" => "6"));
-        //$this->addRule(InternshipOrganizerLocation :: PROPERTY_POSTCODE, Translation :: get('ThisFieldIsRequired'), 'required');
-        
-
-        //$this->addElement('text', InternshipOrganizerLocation :: PROPERTY_CITY, Translation :: get('City'), array("size" => "50"));
-        //$this->addRule(InternshipOrganizerLocation :: PROPERTY_CITY, Translation :: get('ThisFieldIsRequired'), 'required');
-        
-
+   
         $this->addElement('text', InternshipOrganizerLocation :: PROPERTY_TELEPHONE, Translation :: get('Telephone'), array("size" => "20"));
         $this->addRule(InternshipOrganizerLocation :: PROPERTY_TELEPHONE, Translation :: get('ThisFieldIsRequired'));
         
@@ -102,8 +94,6 @@ class InternshipOrganizerLocationForm extends FormValidator
         $location->set_name($values[InternshipOrganizerLocation :: PROPERTY_NAME]);
         $location->set_address($values[InternshipOrganizerLocation :: PROPERTY_ADDRESS]);
         $location->set_region_id($values[InternshipOrganizerLocation :: PROPERTY_REGION_ID]);
-        //$location->set_postcode($values[InternshipOrganizerLocation :: PROPERTY_POSTCODE]);
-        //$location->set_city($values[InternshipOrganizerLocation :: PROPERTY_CITY]);
         $location->set_telephone($values[InternshipOrganizerLocation :: PROPERTY_TELEPHONE]);
         $location->set_fax($values[InternshipOrganizerLocation :: PROPERTY_FAX]);
         $location->set_email($values[InternshipOrganizerLocation :: PROPERTY_EMAIL]);
@@ -120,8 +110,6 @@ class InternshipOrganizerLocationForm extends FormValidator
         $location->set_name($values[InternshipOrganizerLocation :: PROPERTY_NAME]);
         $location->set_address($values[InternshipOrganizerLocation :: PROPERTY_ADDRESS]);
         $location->set_region_id($values[InternshipOrganizerLocation :: PROPERTY_REGION_ID]);
-        //$location->set_postcode($values[InternshipOrganizerLocation :: PROPERTY_POSTCODE]);
-        //$location->set_city($values[InternshipOrganizerLocation :: PROPERTY_CITY]);
         $location->set_telephone($values[InternshipOrganizerLocation :: PROPERTY_TELEPHONE]);
         $location->set_fax($values[InternshipOrganizerLocation :: PROPERTY_FAX]);
         $location->set_email($values[InternshipOrganizerLocation :: PROPERTY_EMAIL]);
@@ -141,8 +129,6 @@ class InternshipOrganizerLocationForm extends FormValidator
         $defaults[InternshipOrganizerLocation :: PROPERTY_NAME] = $location->get_name();
         $defaults[InternshipOrganizerLocation :: PROPERTY_ADDRESS] = $location->get_address();
         $defaults[InternshipOrganizerLocation :: PROPERTY_REGION_ID] = $location->get_region_id();
-        //$defaults[InternshipOrganizerLocation :: PROPERTY_POSTCODE] = $location->get_postcode();
-        //$defaults[InternshipOrganizerLocation :: PROPERTY_CITY] = $location->get_city();
         $defaults[InternshipOrganizerLocation :: PROPERTY_TELEPHONE] = $location->get_telephone();
         $defaults[InternshipOrganizerLocation :: PROPERTY_FAX] = $location->get_fax();
         $defaults[InternshipOrganizerLocation :: PROPERTY_EMAIL] = $location->get_email();
