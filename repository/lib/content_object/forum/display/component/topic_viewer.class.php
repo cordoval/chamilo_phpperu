@@ -40,7 +40,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         $this->action_bar = $this->get_action_bar();
         $table = $this->get_posts_table();
         
-        $this->display_header($this->get_complex_content_object_breadcrumbs());
+        $this->display_header();
         
         echo '<a name="top"></a>';
         

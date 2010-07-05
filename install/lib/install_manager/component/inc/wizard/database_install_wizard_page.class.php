@@ -45,7 +45,9 @@ class DatabaseInstallWizardPage extends InstallWizardPage
         $this->addRule('database_host', 'ThisFieldIsRequired', 'required');
         $this->addRule('database_driver', 'ThisFieldIsRequired', 'required');
         $this->addRule('database_name', 'ThisFieldIsRequired', 'required');
-        $this->addRule('database_name', 'OnlyCharactersNumbersUnderscoresAndHyphens', 'regex', '/^[a-z0-9][a-z0-9_-]+$/');
+        
+        $pattern = '/^[a-z0-9][a-z0-9_-]*([a-z])+$|^([a-z])+[a-z0-9][a-z0-9_-]*$|^[a-z0-9][a-z0-9_-]*([a-z])+[a-z0-9_-]*$|[a-z]/';
+        $this->addRule('database_name', 'OnlyCharactersNumbersUnderscoresAndHyphens', 'regex', $pattern);
         $this->addRule(array('database_driver', 'database_host', 'database_username', 'database_password'), Translation :: get('CouldNotConnectToDatabase'), new ValidateDatabaseConnection());
 
         $buttons = array();

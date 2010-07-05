@@ -6,6 +6,7 @@
 require_once dirname(__FILE__) . '/platform_category.class.php';
 require_once dirname(__FILE__) . '/category_form.class.php';
 require_once dirname(__FILE__) . '/category_manager_component.class.php';
+require_once dirname(__FILE__) . '/component/category_browser/category_browser_table.class.php';
 /**
 ==============================================================================
  *	This class provides the means to manage categories.
@@ -53,8 +54,8 @@ abstract class CategoryManager
         $this->parent = $parent;
         $this->trail = $trail;
         $this->subcategories_allowed = $subcategories_allowed;
+        $parent->handle_table_action();
         $parent->set_parameter(self :: PARAM_ACTION, $this->get_action());
-        $this->parse_input_from_table();
     }
 
     function run()
@@ -227,36 +228,6 @@ abstract class CategoryManager
     function get_copy_general_categories_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_GENERAL_CATEGORIES));
-    }
-
-    private function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $selected_ids = $_POST['category_table' . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_REMOVE_SELECTED_CATEGORIES :
-                    $this->set_parameter(self :: PARAM_ACTION, self :: ACTION_DELETE_CATEGORY);
-                    Request :: set_get(self :: PARAM_ACTION, self :: ACTION_DELETE_CATEGORY);
-                    Request :: set_get(self :: PARAM_CATEGORY_ID, $selected_ids);
-                    break;
-                case self :: PARAM_MOVE_SELECTED_CATEGORIES :
-                    $this->set_parameter(self :: PARAM_ACTION, self :: ACTION_CHANGE_CATEGORY_PARENT);
-                    Request :: set_get(self :: PARAM_ACTION, self :: ACTION_CHANGE_CATEGORY_PARENT);
-                    Request :: set_get(self :: PARAM_CATEGORY_ID, $selected_ids);
-                    break;
-            }
-        }
     }
 
     function get_breadcrumb_trail()

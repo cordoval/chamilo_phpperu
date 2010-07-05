@@ -16,7 +16,6 @@ class ToolCategoryManagerComponent extends ToolComponent
         }
         
         $category_manager = new ContentObjectPublicationCategoryManager($this);
-        $category_manager->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_MANAGE_CATEGORIES);
         $category_manager->run();
     
     }

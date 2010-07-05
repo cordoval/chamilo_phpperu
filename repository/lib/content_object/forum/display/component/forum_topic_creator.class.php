@@ -14,7 +14,6 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplay
         $repo_viewer = new RepoViewer($this, ForumTopic :: get_type_name(), RepoViewer :: SELECT_MULTIPLE, array(), false);
         $repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_TOPIC);
         $repo_viewer->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
-        $repo_viewer->parse_input_from_table();
             
         if (!$repo_viewer->is_ready_to_be_published())
         {
