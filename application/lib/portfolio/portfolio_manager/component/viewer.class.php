@@ -93,14 +93,34 @@ class PortfolioManagerViewerComponent extends PortfolioManager
              $this->viewing_right = true;
         }
         
+        $rdm = RepositoryDataManager :: get_instance();
+        
+    	if ($pid && $cid)
+        {
+            //get complex_content_object
+            $wrapper = $rdm->retrieve_complex_content_object_item($cid);
+            //get portfolio_item
+            $this->selected_object = $rdm->retrieve_content_object($wrapper->get_ref());
+            if ($this->selected_object->get_type() == PortfolioItem :: get_type_name())
+            {
+                //get content opbject
+                $this->portfolio_item = $this->selected_object;
+                $this->selected_object = $rdm->retrieve_content_object($this->selected_object->get_reference());
+            }
+        }
+        elseif ($pid && ! $cid)
+        {
+            $publication = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication($pid);
+            $this->publication = $publication;
+            $this->selected_object = $rdm->retrieve_content_object($publication->get_content_object());
+        }
+        
     	$current_action = Request :: get('action') ? Request :: get('action') : self :: ACTION_VIEW;
     	call_user_func(array($this, 'display_' . $current_action . '_page'));
     }
     
     function display_header()
     {
-        $rdm = RepositoryDataManager :: get_instance();
-
         $viewing_right = $this->viewing_right;
         $editing_right = $this->editing_right;
         $feedback_viewing_right = $this->feedback_viewing_right;
@@ -137,34 +157,10 @@ class PortfolioManagerViewerComponent extends PortfolioManager
               $actions[] = self::ACTION_PERMISSIONS;
             }
             //get the object
-            if ($pid && $cid)
-            {
-                //get complex_content_object
-                $wrapper = $rdm->retrieve_complex_content_object_item($cid);
-                //get portfolio_item
-                $this->selected_object = $rdm->retrieve_content_object($wrapper->get_ref());
-                if ($this->selected_object->get_type() == PortfolioItem :: get_type_name())
-                {
-                    //get content opbject
-                    $this->portfolio_item = $this->selected_object;
-                    $this->selected_object = $rdm->retrieve_content_object($this->selected_object->get_reference());
-                }
-            }
-            elseif ($pid && ! $cid)
-            {
-                $publication = PortfolioDataManager :: get_instance()->retrieve_portfolio_publication($pid);
-                $this->publication = $publication;
-                $this->selected_object = $rdm->retrieve_content_object($publication->get_content_object());
-            }
-        }
-        else
-        {
-            //no rights so no object should be retrieved
         }
            
         if ($owner_user_id == $current_user_id)
         {
-            
             $this->action_bar = $this->get_action_bar();
             $html[] = $this->action_bar->as_html();
         }
