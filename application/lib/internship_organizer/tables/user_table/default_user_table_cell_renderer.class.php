@@ -4,17 +4,17 @@
  * @package user.lib.user_table
  */
 
-
 class DefaultInternshipOrganizerUserTableCellRenderer extends ObjectTableCellRenderer
 {
-		
-	private $period;
+    
+    private $period;
+
     /**
      * Constructor
      */
     function DefaultInternshipOrganizerUserTableCellRenderer($period)
     {
-    	$this->period = $period;
+        $this->period = $period;
     }
 
     /**
@@ -44,12 +44,13 @@ class DefaultInternshipOrganizerUserTableCellRenderer extends ObjectTableCellRen
                 return $user->get_platformadmin();
             case User :: PROPERTY_OFFICIAL_CODE :
                 return $user->get_official_code();
-//            case User :: PROPERTY_LANGUAGE :
-//                return $user->get_language();
+            //            case User :: PROPERTY_LANGUAGE :
+            //                return $user->get_language();
             case User :: PROPERTY_VERSION_QUOTA :
                 return $user->get_version_quota();
             case User :: PROPERTY_PICTURE_URI :
                 return $this->render_picture($user);
+            
             default :
                 return '&nbsp;';
         }
@@ -57,8 +58,8 @@ class DefaultInternshipOrganizerUserTableCellRenderer extends ObjectTableCellRen
 
     function render_id_cell($user)
     {
-    	return $this->period->get_id().'|'.$user->get_id();
- 	
+        return $this->period->get_id() . '|' . $user->get_id();
+    
     }
 
     private function render_picture($user)

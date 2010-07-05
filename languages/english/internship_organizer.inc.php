@@ -218,6 +218,8 @@ $lang['internship_organizer']['InternshipOrganizerMentors'] = 'Mentors';
 $lang['internship_organizer']['InternshipOrganizerStudents'] = 'Students';
 $lang['internship_organizer']['InternshipOrganizerCoordinators'] = 'Coordinators';
 $lang['internship_organizer']['InternshipOrganizerCoaches'] = 'Coaches';
+$lang['internship_organizer']['InternshipOrganizerAddCoordinators'] = 'Add coordinators';
+$lang['internship_organizer']['InternshipOrganizerAddCoaches'] = 'Add coaches';
 $lang['internship_organizer']['InternshipOrganizerAgreements'] = 'Agreements';
 $lang['internship_organizer']['InternshipOrganizerTypeOfPublication'] = 'Type of document';
 $lang['internship_organizer']['InternshipOrganizerContract'] = 'Contract';
@@ -225,7 +227,7 @@ $lang['internship_organizer']['InternshipOrganizerPreparation'] = 'Preparation';
 $lang['internship_organizer']['InternshipOrganizerEvaluation'] = 'Evaluation';
 $lang['internship_organizer']['InternshipOrganizerInfo'] = 'Info';
 $lang['internship_organizer']['InternshipOrganizerGeneral'] = 'General';
-
+$lang['internship_organizer']['InternshipOrganizerDetail'] = 'Detail';
 
 
 

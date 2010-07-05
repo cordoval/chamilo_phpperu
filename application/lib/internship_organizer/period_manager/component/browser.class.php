@@ -24,14 +24,12 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
     function run()
     {
         
-        $trail = BreadcrumbTrail :: get_instance();
-        
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        
-        $period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+    	$period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
         $period = $this->retrieve_period($period_id);
-        
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
+    	
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_id)), Translation :: get('BrowseInternshipOrganizerPeriods')));
         $trail->add_help('period general');
         
         $this->action_bar = $this->get_action_bar();
