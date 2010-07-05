@@ -8,9 +8,7 @@ require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wi
 
 class WikiManagerWikiViewerComponent extends WikiManager
 {
-    private $complex_display;
-    private $trail;
-    private $content_object;
+    private $publication;
 
     function run()
     {
@@ -19,30 +17,26 @@ class WikiManagerWikiViewerComponent extends WikiManager
             Display :: not_allowed();
             return;
         }
-        $this->trail = $trail = BreadcrumbTrail :: get_instance();
+        
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('Wiki')));
         
-        $this->set_parameter(WikiManager :: PARAM_ACTION, WikiManager :: ACTION_VIEW_WIKI);
         $this->set_parameter(WikiManager :: PARAM_WIKI_PUBLICATION, Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         
-        $this->complex_display = ComplexDisplay :: factory($this, Wiki :: get_type_name());
+        $this->publication = WikiDataManager :: get_instance()->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         
-        $pub = WikiDataManager :: get_instance()->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
-        
-        $this->content_object = $pub->get_content_object();
-        //$this->display_header($trail, false);
-        $this->complex_display->run();
-        //$this->display_footer();
+        $complex_display = ComplexDisplay :: factory($this, Wiki :: get_type_name());
+        $complex_display->run();
     }
     
     function get_root_content_object()
     {
-        return $this->content_object;
+        return $this->publication->get_content_object();
     }
     
-	function display_header()
-    {    	
-    	return parent :: display_header($this->trail);
+	function get_publication()
+    {
+    	return $this->publication;
     }
 
 }

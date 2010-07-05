@@ -28,11 +28,11 @@ class WikiDisplayWikiViewerComponent extends WikiDisplay
         if ($this->get_root_content_object() != null)
         {
             $complex_wiki_homepage = $this->get_wiki_homepage($this->get_root_content_object_id());
-            Request :: set_get(ComplexDisplay::PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_wiki_homepage->get_id());
-
+            
             if (! is_null($complex_wiki_homepage))
             {
-                $this->display_header($complex_wiki_homepage);
+                Request :: set_get(ComplexDisplay::PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_wiki_homepage->get_id());
+            	$this->display_header($complex_wiki_homepage);
 
                 $wiki_homepage = $complex_wiki_homepage->get_ref_object();
 
