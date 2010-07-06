@@ -94,6 +94,9 @@ $(function() {
 			nextButton : ">>",
 			prevButton : "<<"
 		});
+		
+		$("#datepicker").datepicker();
+		
 		// hideMessages();
 
 			// placeFooter();

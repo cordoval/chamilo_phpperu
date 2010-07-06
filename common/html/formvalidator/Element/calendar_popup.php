@@ -31,63 +31,7 @@ echo $iso_lang;
 ?>">
 <head>
 <title>Calendar</title>
-<link rel="stylesheet" type="text/css"
-	href="<?php
-echo Path :: get(WEB_CODE_PATH);
-?>/css/default.css" />
-<style type="text/css">
-/*<![CDATA[*/
-table.calendar {
-	width: 100%;
-	font-size: 11px;
-	font-family: verdana, arial, helvetica, sans-serif;
-}
-
-table.calendar .monthyear {
-	background-color: #4171B5;
-	text-align: center;
-	color: #ffffff;
-}
-
-table.calendar .daynames {
-	background-color: #D3DFF1;
-	text-align: center;
-}
-
-table.calendar td {
-	width: 25px;
-	height: 25px;
-	background-color: #f5f5f5;
-	text-align: center;
-}
-
-table.calendar td.selected {
-	border: 1px solid #ff0000;
-	background-color: #FFCECE;
-}
-
-table.calendar td a {
-	width: 25px;
-	height: 25px;
-	text-decoration: none;
-}
-
-table.calendar td a:hover {
-	background-color: #ffff00;
-}
-
-table.calendar .monthyear a {
-	text-align: center;
-	color: #ffffff;
-}
-
-table.calendar .monthyear a:hover {
-	text-align: center;
-	color: #ff0000;
-	background-color: #ffff00;
-}
-/*]]>*/
-</style>
+<link rel="stylesheet" type="text/css" href="<?php echo Theme :: get_common_css_path(); ?>" />
 <script type="text/javascript">
 /* <![CDATA[ */
     /* added 2004-06-10 by Michael Keck
@@ -141,7 +85,7 @@ foreach ($DaysShort as $index => $day)
 /* ]]> */
 </script>
 </head>
-<body onload="initCalendar();">
+<body onload="initCalendar();" style="background-color: white;">
 <div id="calendar_data"></div>
 <div id="clock_data"></div>
 </body>
