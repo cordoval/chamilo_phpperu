@@ -508,32 +508,44 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     function delete_internship_organizer_agreement($agreement)
     {
         
-        $condition = new EqualityCondition(InternshipOrganizerMoment :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
+        $agreement_id = $agreement->get_id();
+        $condition = new EqualityCondition(InternshipOrganizerMoment :: PROPERTY_AGREEMENT_ID, $agreement_id);
         $moment_count = $this->count_moments($condition);
         if ($moment_count == 0)
         {
-            $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_ID, $agreement->get_id());
-            $succes = $this->delete($agreement->get_table_name(), $condition);
-            
-            $condition = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
+            $condition = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_AGREEMENT_ID, $agreement_id);
             $agreement_rel_users = $this->retrieve_agreement_rel_users($condition);
             while ($agreement_rel_user = $agreement_rel_users->next_result())
             {
                 $agreement_rel_user->delete();
             }
             
-            $condition = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
+            $condition = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_id);
             $agreement_rel_locations = $this->retrieve_agreement_rel_locations($condition);
             while ($agreement_rel_location = $agreement_rel_locations->next_result())
             {
                 $agreement_rel_location->delete();
             }
-            $condition = new EqualityCondition(InternshipOrganizerAgreementRelMentor :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
+            $condition = new EqualityCondition(InternshipOrganizerAgreementRelMentor :: PROPERTY_AGREEMENT_ID, $agreement_id);
             $agreement_rel_mentors = $this->retrieve_agreement_rel_mentors($condition);
             while ($agreement_rel_mentor = $agreement_rel_mentors->next_result())
             {
                 $agreement_rel_mentor->delete();
             }
+            
+            $conditions = array();
+            $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: AGREEMENT);
+            $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $agreement_id);
+            $condition = new AndCondition($conditions);
+            
+            $publications = $this->retrieve_publications($condition);
+            while ($publication = $publications->next_result())
+            {
+                $this->delete_internship_organizer_publication($publication);
+            }
+            
+            $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_ID, $agreement_id);
+            $succes = $this->delete($agreement->get_table_name(), $condition);
             
             return $succes;
         }
@@ -692,6 +704,16 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         return $this->retrieve_object_set($query, InternshipOrganizerAgreementRelUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerAgreementRelUser :: CLASS_NAME);
     
+    }
+
+    function retrieve_agreement_rel_user($agreement_id, $user_id, $user_type)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_AGREEMENT_ID, $agreement_id);
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $user_id);
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, $user_type);
+        $condition = new AndCondition($conditions);
+        return $this->retrieve_object(InternshipOrganizerAgreementRelUser :: get_table_name(), $condition, array(), InternshipOrganizerAgreementRelUser :: CLASS_NAME);
     }
 
     function delete_internship_organizer_agreement_rel_location($agreement_rel_location)
@@ -1056,45 +1078,41 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function delete_internship_organizer_period($period)
     {
-              
-    	$condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period->get_id());
-        $bool = $this->delete($period->get_table_name(), $condition);
         
-        if ($bool)
+        $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period_id, InternshipOrganizerPeriod :: get_table_name());
+        
+        $period_rel_users = $this->retrieve_period_rel_users($condition);
+        while ($period_rel_user = $period_rel_users->next_result())
         {
-            
-            $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period_id, InternshipOrganizerPeriod :: get_table_name());
-        	
-        	$period_rel_users = $this->retrieve_period_rel_users($condition);
-            while ($period_rel_user = $period_rel_users->next_result())
-            {
-                $this->delete_internship_organizer_period_rel_user($period_rel_user);
-            }
-            
-        	$category_rel_periods = $this->retrieve_category_rel_periods($condition);
-            while ($category_rel_period = $category_rel_periods->next_result())
-            {
-                $this->delete_internship_organizer_category_rel_period($category_rel_period);
-            }
-            
-            $condition = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_PERIOD_ID, $period_id, InternshipOrganizerPeriodRelGroup :: get_table_name());
-            $period_rel_groups = $this->retrieve_period_rel_groups($condition);
-            while ($period_rel_group = $period_rel_groups->next_result())
-            {
-                $this->delete_internship_organizer_period_rel_group($period_rel_group);
-            }
-                    
-            $conditions = array();
-            $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: PERIOD);
-            $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $period_id);
-            $condition = new AndCondition($conditions);
-            
-            $publications = $this->retrieve_publications($condition);
-            while ($publication = $publications->next_result())
-            {
-                $this->delete_internship_organizer_publication($publication);
-            }
+            $this->delete_internship_organizer_period_rel_user($period_rel_user);
         }
+        
+        $category_rel_periods = $this->retrieve_category_rel_periods($condition);
+        while ($category_rel_period = $category_rel_periods->next_result())
+        {
+            $this->delete_internship_organizer_category_rel_period($category_rel_period);
+        }
+        
+        $condition = new EqualityCondition(InternshipOrganizerPeriodRelGroup :: PROPERTY_PERIOD_ID, $period_id, InternshipOrganizerPeriodRelGroup :: get_table_name());
+        $period_rel_groups = $this->retrieve_period_rel_groups($condition);
+        while ($period_rel_group = $period_rel_groups->next_result())
+        {
+            $this->delete_internship_organizer_period_rel_group($period_rel_group);
+        }
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: PERIOD);
+        $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $period_id);
+        $condition = new AndCondition($conditions);
+        
+        $publications = $this->retrieve_publications($condition);
+        while ($publication = $publications->next_result())
+        {
+            $this->delete_internship_organizer_publication($publication);
+        }
+        
+        $condition = new EqualityCondition(InternshipOrganizerPeriod :: PROPERTY_ID, $period->get_id());
+        $bool = $this->delete($period->get_table_name(), $condition);
         
         return $bool;
     

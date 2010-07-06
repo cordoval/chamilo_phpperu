@@ -4,6 +4,8 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/period_m
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/rel_category_browser/rel_category_browser_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/browser/browser_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/user_browser/user_browser_table.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/rel_agreement/table.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/agreement_user/agreement_user_table.class.php';
 
 
 class InternshipOrganizerManagerPeriodComponent extends InternshipOrganizerManager

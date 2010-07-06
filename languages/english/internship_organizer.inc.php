@@ -16,6 +16,9 @@ $lang['internship_organizer']['SelectedInternshipOrganizerAgreementsNotDeleted']
 $lang['internship_organizer']['SelectedInternshipOrganizerAgreementDeleted'] = 'Selected Agreement Deleted';
 $lang['internship_organizer']['SelectedInternshipOrganizerAgreementsDeleted'] = 'Selected Agreements Deleted';
 $lang['internship_organizer']['NoInternshipOrganizerAgreementsSelected'] = 'No Agreements Selected';
+$lang['internship_organizer']['InternshipOrganizerAgreement'] = 'Agreement';
+$lang['internship_organizer']['UnsubscribeInternshipOrganizerAgreementRelUser'] = 'Unsubcribe';
+
 
 $lang['internship_organizer']['CreateInternshipOrganizerMoment'] = 'Create Moment';
 $lang['internship_organizer']['InternshipOrganizerMomentCreated'] = 'Moment Created';

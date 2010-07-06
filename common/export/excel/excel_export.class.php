@@ -28,6 +28,7 @@ class ExcelExport extends Export
 				
 		if(is_array($data))
 		{
+			
 			foreach($data as $block_data){
 					$block_title = $block_data[0];
 					$block_description = $block_data[1];
@@ -47,6 +48,7 @@ class ExcelExport extends Export
 		
 					++$cell_number;
 					//(matrix question) rows
+					
 					foreach ($block_content_data->get_rows() as $row_id => $row_name)
 					{
 						//	dump($row_name);

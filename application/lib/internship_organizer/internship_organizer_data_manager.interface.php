@@ -73,7 +73,7 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_category_rel_periods($condition = null, $offset = null, $count = null, $order_property = null);
 
     function retrieve_category_rel_period($category_id, $period_id);
-    
+
     //moments
     function create_internship_organizer_moment($moment);
 
@@ -111,6 +111,8 @@ interface InternshipOrganizerDataManagerInterface
     function count_agreement_rel_users($conditions = null);
 
     function retrieve_agreement_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function retrieve_agreement_rel_user($agreement_id, $user_id, $user_type);
 
     function delete_internship_organizer_agreement_rel_mentor($agreement_rel_mentor);
 
@@ -158,7 +160,7 @@ interface InternshipOrganizerDataManagerInterface
     function count_mentor_rel_users($conditions = null);
 
     function retrieve_mentor_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
-	
+
     function delete_internship_organizer_mentor_rel_location($organisation_rel_location);
 
     function create_internship_organizer_mentor_rel_location($organisation_rel_location);
@@ -166,11 +168,11 @@ interface InternshipOrganizerDataManagerInterface
     function count_mentor_rel_locations($conditions = null);
 
     function retrieve_mentor_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
-    
+
     function count_mentor_agreements($conditions = null);
 
     function retrieve_mentor_agreements($condition = null, $offset = null, $count = null, $order_property = null);
-    
+
     //periods
     
 
@@ -202,7 +204,7 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_period_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
 
     function retrieve_period_rel_user($period_id, $user_id, $user_type);
-      
+
     function delete_internship_organizer_period_rel_group($period_rel_group);
 
     function create_internship_organizer_period_rel_group($period_rel_group);
@@ -211,8 +213,8 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_period_rel_groups($condition = null, $offset = null, $count = null, $order_property = null);
 
-     function retrieve_period_rel_group($period_id, $group_id, $user_type);
-    
+    function retrieve_period_rel_group($period_id, $group_id, $user_type);
+
     //publications
     
 

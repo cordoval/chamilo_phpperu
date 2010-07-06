@@ -14,8 +14,8 @@ class SurveyPublicationReportingTemplate extends ReportingTemplate
 		$this->add_reporting_block(new SurveyParticipantReportingBlock($this));
 		$this->add_reporting_block(new SurveyParticipantMailReportingBlock($this));		
 		$this->add_reporting_block(new SurveyQuestionTypeReportingBlock($this));
-		$this->add_reporting_block(new SurveyContextTemplateReportingBlock($this));
-		$this->add_reporting_block(new SurveyContextReportingBlock($this));
+//		$this->add_reporting_block(new SurveyContextTemplateReportingBlock($this));
+//		$this->add_reporting_block(new SurveyContextReportingBlock($this));
 	}
 	
 	public function display_context()

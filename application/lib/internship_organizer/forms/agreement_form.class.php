@@ -19,16 +19,16 @@ class InternshipOrganizerAgreementForm extends FormValidator
     const TYPE_EDIT = 2;
     
     private $agreement;
-    private $student_ids;
+    private $ids;
     private $period_id;
 
-    function InternshipOrganizerAgreementForm($form_type, $agreement, $action, $user_ids)
+    function InternshipOrganizerAgreementForm($form_type, $agreement, $action, $ids)
     {
         parent :: __construct('agreement_settings', 'post', $action);
         
         $this->agreement = $agreement;
         $this->period_id = $agreement->get_period_id();
-        $this->student_ids = $user_ids;
+        $this->ids = $ids;
         
         $this->form_type = $form_type;
         
@@ -81,9 +81,9 @@ class InternshipOrganizerAgreementForm extends FormValidator
         
         $element = $this->createElement('hidden');
         $element->setName(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
-        $element->setValue(serialize($this->student_ids));
+        $element->setValue(serialize($this->ids));
         $this->addElement($element);
-   
+        
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
@@ -121,7 +121,16 @@ class InternshipOrganizerAgreementForm extends FormValidator
         
         $succes = false;
         
-        $students_ids = unserialize($values[InternshipOrganizerPeriodManager :: PARAM_USER_ID]);
+        $ids = unserialize($values[InternshipOrganizerPeriodManager :: PARAM_USER_ID]);
+        $students_ids = array();
+        
+        foreach ($ids as $id)
+        {
+            $id = explode('|', $id);
+            $period_id = $id[0];
+            $students_ids[] = $id[1];
+        }
+        
         foreach ($students_ids as $student_id)
         {
             

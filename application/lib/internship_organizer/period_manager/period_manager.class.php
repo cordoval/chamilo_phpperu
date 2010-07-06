@@ -12,13 +12,14 @@ class InternshipOrganizerPeriodManager extends SubManager
     const PARAM_ACTION = 'action';
     
     const PARAM_PERIOD_ID = 'period_id';
-//    const PARAM_PARENT_PERIOD_ID = 'parent_id';
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_TRUNCATE_SELECTED = 'truncate';
     const PARAM_PERIOD_REL_USER_ID = 'period_rel_user_id';
     const PARAM_PERIOD_REL_GROUP_ID = 'period_rel_group_id';
     const PARAM_PERIOD_REL_CATEGORY_ID = 'period_rel_category_id';
     const PARAM_USER_ID = 'user_id';
+    const PARAM_USER_TYPE = 'user_type';
+    const PARAM_AGREEMENT_ID = 'agreement_id';
     
     const ACTION_CREATE_PERIOD = 'create';
     const ACTION_BROWSE_PERIODS = 'browse';
@@ -26,15 +27,21 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_DELETE_PERIOD = 'delete';
     const ACTION_VIEW_PERIOD = 'view';
     const ACTION_PUBLISH_PERIOD = 'publish';
-    const ACTION_SUBSCRIBE_USER = 'subscribe_user';
-    const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
     
     const ACTION_CREATE_AGREEMENT = 'create_agreement';
+    const ACTION_DELETE_AGREEMENT = 'delete_agreement';
+    const ACTION_UPDATE_AGREEMENT = 'update_agreement';
+    const ACTION_VIEW_AGREEMENT = 'view_agreement';
     
+    const ACTION_SUBSCRIBE_USER = 'subscribe_user';
+    const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
     const ACTION_SUBSCRIBE_CATEGORY = 'subscribe_category';
+    const ACTION_SUBSCRIBE_AGREEMENT_REL_USER = 'subscribe_agreement_rel_user';
+    
     const ACTION_UNSUBSCRIBE_USER = 'unsubscribe_user';
     const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
     const ACTION_UNSUBSCRIBE_CATEGORY = 'unsubscribe_category';
+    const ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER = 'unsubscribe_agreement_rel_user';
     
     const ACTION_REPORTING = 'reporting';
 
@@ -96,8 +103,23 @@ class InternshipOrganizerPeriodManager extends SubManager
                 $component = $this->create_component('UnsubscribeCategory');
                 break;
             case self :: ACTION_CREATE_AGREEMENT :
-               	$component = $this->create_component('AgreementCreator');
-                break;    
+                $component = $this->create_component('AgreementCreator');
+                break;
+            case self :: ACTION_DELETE_AGREEMENT :
+                $component = $this->create_component('AgreementDeleter');
+                break;
+            case self :: ACTION_UPDATE_AGREEMENT :
+                $component = $this->create_component('AgreementUpdater');
+                break;
+            case self :: ACTION_VIEW_AGREEMENT :
+                $component = $this->create_component('AgreementViewer');
+                break;
+            case self :: ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER :
+                $component = $this->create_component('UnsubscribeAgreementRelUser');
+                break;
+            case self :: ACTION_SUBSCRIBE_AGREEMENT_REL_USER :
+                $component = $this->create_component('SubscribeAgreementRelUser');
+                break;
             default :
                 $this->set_parameter(self :: PARAM_ACTION, self :: ACTION_BROWSE_PERIODS);
                 $component = $this->create_component('Browser');
@@ -152,12 +174,15 @@ class InternshipOrganizerPeriodManager extends SubManager
 
     function get_browse_periods_url($period = null)
     {
-        if($period  != null){
-        	    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period->get_id()));
-        	
-        }else{
-        	    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS));
-        	
+        if ($period != null)
+        {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period->get_id()));
+        
+        }
+        else
+        {
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS));
+        
         }
     }
 
@@ -239,7 +264,34 @@ class InternshipOrganizerPeriodManager extends SubManager
 
     function get_period_create_agreement_url($period, $user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_AGREEMENT, self :: PARAM_USER_ID => $period->get_id().'|'.$user->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_AGREEMENT, self :: PARAM_USER_ID => $period->get_id() . '|' . $user->get_id()));
+    
+    }
+
+    function get_update_agreement_url($agreement)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+    }
+
+    function get_delete_agreement_url($agreement)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+    }
+
+    function get_view_agreement_url($agreement)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+    }
+
+    function get_unsubscribe_agreement_rel_user_url($agreement, $user)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER, self :: PARAM_USER_ID => $agreement->get_id() . '|' . $user->get_id()));
+    
+    }
+
+    function get_subscribe_agreement_rel_user_url($agreement, $user_type)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_AGREEMENT_REL_USER, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
     
     }
 

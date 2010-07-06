@@ -10,6 +10,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
     const TAB_COORDINATOR = 'cot';
     const TAB_STUDENT = 'stt';
     const TAB_COACH = 'cat';
+    const TAB_AGREEMENT = 'agrt';
     const TAB_PUBLICATIONS = 'put';
     const TAB_DETAIL = 'det';
    
@@ -98,18 +99,27 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
         
         // Coordinator table tab
+        $parameters[DynamicTabsRenderer::PARAM_SELECTED_TAB] = self :: TAB_COORDINATOR;
         $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COORDINATOR), InternshipOrganizerUserType :: COORDINATOR);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COORDINATOR, Translation :: get('InternshipOrganizerCoordinator'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         // Student table tab
+        $parameters[DynamicTabsRenderer::PARAM_SELECTED_TAB] = self :: TAB_STUDENT;
         $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: STUDENT), InternshipOrganizerUserType :: STUDENT);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_STUDENT, Translation :: get('InternshipOrganizerStudent'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
         // Coach table tab
+        $parameters[DynamicTabsRenderer::PARAM_SELECTED_TAB] = self :: TAB_COACH;
         $table = new InternshipOrganizerPeriodUserBrowserTable($this, $parameters, $this->get_users_condition(InternshipOrganizerUserType :: COACH), InternshipOrganizerUserType :: COACH);
         $tabs->add_tab(new DynamicContentTab(self :: TAB_COACH, Translation :: get('InternshipOrganizerCoach'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
+        // Agreement table tab
+        $parameters[DynamicTabsRenderer::PARAM_SELECTED_TAB] = self :: TAB_AGREEMENT;
+        $table = new InternshipOrganizerPeriodRelAgreementBrowserTable($this, $parameters, $this->get_agreement_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_AGREEMENT, Translation :: get('InternshipOrganizerAgreement'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+             
         // Publications table tab
+        $parameters[DynamicTabsRenderer::PARAM_SELECTED_TAB] = self :: TAB_PUBLICATIONS;
         $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_PUBLICATIONS, Translation :: get('InternshipOrganizerPublications'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
@@ -175,6 +185,13 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
     
     }
 	
+    function get_agreement_condition(){
+    	$condtions = array();
+    	$condtions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $this->period->get_id());
+    	$condtions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, InternshipOrganizerUserType::STUDENT, InternshipOrganizerAgreementRelUser :: get_table_name());
+    	return new AndCondition($condtions);
+    }
+    
     function get_period(){
     	return $this->period;
     }
