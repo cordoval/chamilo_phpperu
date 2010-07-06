@@ -39,8 +39,6 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
         $this->action_bar = $this->get_action_bar();
 
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(WebApplication::PARAM_ACTION=> 'home'), array(WeblcmsManager::PARAM_COURSE,WeblcmsManager :: PARAM_TOOL )), Translation :: get('MyCourses')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseCourseGroup')));
         $trail->add_help('courses group');
 
         $this->display_header();
@@ -49,7 +47,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
 
         if ($this->get_course()->get_intro_text())
         {
-            echo $this->display_introduction_text();
+            echo $this->display_introduction_text($this->introduction_text);
         }
 
         echo $this->action_bar->as_html();
@@ -140,7 +138,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
         
     }
 
-    function display_introduction_text()
+    /*function display_introduction_text()
     {
         $html = array();
 
@@ -164,7 +162,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
         }
 
         return implode("\n", $html);
-    }
+    }*/
     
     function get_group_id()
     {
