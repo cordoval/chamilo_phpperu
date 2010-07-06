@@ -48,7 +48,7 @@ class ChatToolViewerComponent extends ChatTool
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses chat tool');
         
-        $this->display_header($trail, true);
+        $this->display_header();
         if (! function_exists('filemtime'))
             echo Translation :: get('FileMTimeWarning');
         

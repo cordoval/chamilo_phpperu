@@ -25,7 +25,7 @@ class UserToolDetailsComponent extends UserTool
             $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), $user->get_firstname() . ' ' . $user->get_lastname()));
         }
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), Translation :: get('Details')));
-        $this->display_header($trail, true);
+        $this->display_header();
         
         $udm = UserDataManager :: get_instance();
         if (Request :: get(WeblcmsManager :: PARAM_USERS))

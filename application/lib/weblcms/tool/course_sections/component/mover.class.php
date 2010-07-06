@@ -19,7 +19,7 @@ class CourseSectionsToolMoverComponent extends CourseSectionsTool
         {
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('courses sections');
-            $this->display_header($trail, true);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();

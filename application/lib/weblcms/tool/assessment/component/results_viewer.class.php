@@ -37,7 +37,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
     {
         $crumbs[] = new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults'));
         
-        $visible = $this->display_header($crumbs);
+        $visible = $this->display_header();
         if (! $visible)
         {
             return;
@@ -72,7 +72,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
         $crumbs[] = new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults'));
         $crumbs[] = new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $pid)), Translation :: get('AssessmentResults'));
         
-        $visible = $this->display_header($crumbs);
+        $visible = $this->display_header();
         if (! $visible)
         {
             return;
@@ -141,7 +141,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
         $display = ComplexDisplay :: factory($this, $object->get_type());
         $this->object = $object;
         
-        //$this->display_header($crumbs);
+        //$this->display_header();
         $display->run();
         //$this->display_footer();
     }
@@ -153,7 +153,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
     		$this->trail->merge($trail);
     	}
 
-    	return parent :: display_header($this->trail);
+    	return parent :: display_header();
     }*/
     
     function retrieve_assessment_results()
@@ -213,7 +213,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
         {
             $trail->add($breadcrumb);
         }
-        parent :: display_header($trail);
+        parent :: display_header();
         
         $this->action_bar = $this->get_toolbar();
         if ($this->action_bar)

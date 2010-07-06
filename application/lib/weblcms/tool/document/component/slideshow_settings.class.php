@@ -29,7 +29,7 @@ class DocumentToolSlideshowSettingsComponent extends DocumentTool
 	        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_SLIDESHOW)), Translation :: get('Slideshow')));
 	        $trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('SlideshowSettings')));
 	        
-	        $this->display_header($trail);
+	        $this->display_header();
 	        $form->display();
 	        $this->display_footer();
         }

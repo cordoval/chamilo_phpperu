@@ -37,7 +37,7 @@ class ForumToolBrowserComponent extends ForumTool
         
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses forum tool');
-        $this->display_header($trail, true);
+        $this->display_header();
         
    		if ($this->get_course()->get_intro_text())
         {

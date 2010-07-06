@@ -28,7 +28,7 @@ class DocumentToolSlideshowComponent extends DocumentTool
         
         $html = $browser->as_html();
         
-        $this->display_header($trail, true);
+        $this->display_header();
         echo $this->action_bar->as_html();
         echo $html;
         $this->display_footer();

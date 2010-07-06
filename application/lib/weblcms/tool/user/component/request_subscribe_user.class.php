@@ -32,7 +32,7 @@ class UserToolRequestSubscribeUserComponent extends UserTool
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }   

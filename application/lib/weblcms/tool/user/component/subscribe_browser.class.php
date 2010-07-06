@@ -22,7 +22,7 @@ class UserToolSubscribeBrowserComponent extends UserTool
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USER_BROWSER)), Translation :: get('SubscribeUsers')));
         $trail->add_help('courses user');
 
-        $this->display_header($trail, true);
+        $this->display_header();
 
         //echo '<br /><a name="top"></a>';
         //echo $this->perform_requested_actions();

@@ -107,7 +107,7 @@ class SurveyToolMailerComponent extends SurveyTool
             }
             else
             {
-                $this->display_header($trail);
+                $this->display_header();
                 echo $this->get_survey_html($surveys);
                 echo $form->toHtml();
                 $this->display_footer();
