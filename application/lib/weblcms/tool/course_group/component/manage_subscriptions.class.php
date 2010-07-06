@@ -42,7 +42,7 @@ class CourseGroupToolManageSubscriptionsComponent extends CourseGroupTool
         }
         else
         {
-            $this->display_header($trail, true);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }
