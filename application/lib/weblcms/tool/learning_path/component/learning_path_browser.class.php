@@ -34,7 +34,7 @@ class LearningPathToolBrowserComponent extends LearningPathToolComponent
 
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses learnpath tool');
-        $this->display_header($trail, true);
+        $this->display_header();
 
         if ($this->get_course()->get_intro_text())
         {

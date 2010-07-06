@@ -35,7 +35,7 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses user');
 
-        $this->display_header($trail, true);
+        $this->display_header();
 
         if ($this->get_course()->get_intro_text())
         {

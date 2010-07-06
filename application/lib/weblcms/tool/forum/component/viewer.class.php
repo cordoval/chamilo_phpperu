@@ -44,7 +44,7 @@ class ForumToolViewerComponent extends ForumTool
     		$this->trail->merge($trail);
     	}
     	
-    	return parent :: display_header($this->trail);
+    	return parent :: display_header();
     }
     
 	function topic_viewed($complex_topic_id)

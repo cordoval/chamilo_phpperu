@@ -42,7 +42,7 @@ class DescriptionToolPublisherComponent extends DescriptionTool
 //            $html[] = $publisher->get_publications_form($pub->get_selected_objects());
 //        }
 //        
-//        $this->display_header($trail, true);
+//        $this->display_header();
 //        echo implode("\n", $html);
 //        $this->display_footer();
 //    }

@@ -16,7 +16,7 @@ class CourseSectionsToolViewerComponent extends CourseSectionsTool
         
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
-            $this->display_header($trail, true);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -25,7 +25,7 @@ class CourseSectionsToolViewerComponent extends CourseSectionsTool
         $this->action_bar = $this->get_action_bar();
         $table = $this->get_table_html();
         
-        $this->display_header($trail, true);
+        $this->display_header();
         echo '<br />';
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';

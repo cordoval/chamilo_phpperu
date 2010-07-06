@@ -183,7 +183,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
             }
         }
 
-    //        $this->display_header($trail, true);
+    //        $this->display_header();
     //        //echo '<br />';
     //        echo '<div style="width: 17%; overflow: auto; float: left;">';
     //        echo $this->menu->render_as_tree() . '<br /><br />';

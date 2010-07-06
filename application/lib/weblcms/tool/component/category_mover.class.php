@@ -15,7 +15,7 @@ class ToolCategoryMoverComponent extends ToolComponent
             $form = $this->build_move_to_category_form();
             if (! $form)
             {
-                $this->display_header(BreadcrumbTrail :: get_instance());
+                $this->display_header();
                 $this->display_error_message('CategoryFormCouldNotBeBuild');
                 $this->display_footer();
             }
@@ -53,7 +53,7 @@ class ToolCategoryMoverComponent extends ToolComponent
                 $trail = BreadcrumbTrail :: get_instance();
                 $trail->add_help('courses general');
 
-                $this->display_header($trail, true);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }

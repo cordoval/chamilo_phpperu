@@ -19,7 +19,7 @@ class CourseSectionsToolToolSelectorComponent extends CourseSectionsTool
         
         if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
         {
-            $this->display_header($trail, true);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -40,14 +40,14 @@ class CourseSectionsToolToolSelectorComponent extends CourseSectionsTool
             {
                 $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS)), $course_section->get_name()));
                 $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_SELECT_TOOLS_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $id)), Translation :: get('SelectTools')));
-                $this->display_header($trail, true);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
         }
         else
         {
-            $this->display_header($trail, true);
+            $this->display_header();
             Display :: error_message(htmlentities(Translation :: get('NoCourseSectionSelected')));
             $this->display_footer();
         }

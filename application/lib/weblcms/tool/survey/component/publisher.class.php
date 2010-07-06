@@ -41,7 +41,7 @@ class SurveyToolPublisherComponent extends SurveyTool
         //            $html[] = $publisher->get_publications_form($object_id);
         //        }
         //        
-        //        $this->display_header($trail, true, true, false);
+        //        $this->display_header();
         //        echo implode("\n", $html);
         //        $this->display_footer();
         

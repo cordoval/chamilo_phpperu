@@ -50,7 +50,7 @@ class LinkToolViewerComponent extends LinkToolComponent
         
         $html = $browser->as_html();    
             
-        $this->display_header($trail, true);
+        $this->display_header();
 
         //echo '<br /><a name="top"></a>';
         if (! Request :: get(Tool :: PARAM_PUBLICATION_ID))

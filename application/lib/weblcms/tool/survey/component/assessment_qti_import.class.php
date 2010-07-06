@@ -26,7 +26,7 @@ class AssessmentToolQtiImportComponent extends AssessmentToolComponent
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), Translation :: get('ImportQTI')));
             $trail->add_help('courses assessment tool');
-            $this->display_header($trail, true);
+            $this->display_header();
             
             $this->action_bar = $this->get_toolbar();
             echo $this->action_bar->as_html();

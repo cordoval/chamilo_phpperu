@@ -40,7 +40,7 @@ function run()
 //
 //        $html = $browser->as_html();    
 //            
-//        $this->display_header($trail, true);
+//        $this->display_header();
 //
 //        //echo '<br /><a name="top"></a>';
 //        //echo $this->perform_requested_actions();

@@ -68,7 +68,7 @@ class ToolToggleVisibilityComponent extends ToolComponent
            	}
            	else
            	{
-           		$this->display_header(BreadcrumbTrail :: get_instance());
+           		$this->display_header();
            		$this->display_error_message(Translation :: get('NoObjectsSelected'));
            		$this->display_footer();
            	}

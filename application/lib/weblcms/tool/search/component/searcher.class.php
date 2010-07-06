@@ -25,7 +25,7 @@ class SearchToolSearcherComponent extends SearchTool
         $trail->add_help('courses search tool');
 
         $this->action_bar = $this->get_action_bar();
-        $this->display_header($trail, true);
+        $this->display_header();
         // Display the search form
         //$form = new SearchForm($this);
         echo '<div style="text-align:center">';
