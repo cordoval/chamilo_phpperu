@@ -24,7 +24,7 @@ function openCalendar(form, field) {
 			datevalues[dateindex++] = forminputs[i].value;
 		}
 	}
-    window.open(path + 'html/formvalidator/Element/calendar_popup.php', 'calendar', 'width=220,height=200,status=no');
+    window.open(path + 'html/formvalidator/Element/calendar_popup.php', 'calendar', 'location=no,status=no,resizable=no,width=240,height=240');
 	day = datevalues[0];
 	month = datevalues[1];
 	year = datevalues[2];
@@ -104,7 +104,7 @@ function initCalendar()
     str = "";
 
     //heading table
-    str += '<table class="calendar"><tr><th class="monthyear" width="50%">'; 
+    str += '<table class="calendar_table mini_calendar"><tr><th class="monthyear" width="50%">'; 
     str += '<a href="javascript:month--; initCalendar();">&laquo;</a> '; 
     str += month_names[month]; 
     
@@ -122,7 +122,7 @@ function initCalendar()
     }
     
 	str += '</th></tr></table>';
-	str += '<table class="calendar"><tr>'; 
+	str += '<table class="calendar_table mini_calendar" style="border-top: 0px;"><tr>'; 
 	
 	for (i = 0; i < 7; i++) 
 	{ 
@@ -140,7 +140,7 @@ function initCalendar()
 	
 	for (i = 0; i < firstDay; i++) 
 	{ 
-		str += "<td>&nbsp;</td>"; 
+		str += "<td class=\"disabled_month\">&nbsp;</td>"; 
 	    dayInWeek++;
 	}
 	
@@ -157,12 +157,19 @@ function initCalendar()
 		
 		if(i == day) 
 		{ 
-			style = ' class="selected"'; 
+			style = ' class="highlight"'; 
 		} 
 		else 
 		{ 
-			style = ''; 
-		} 
+			if (dayInWeek == 0 || dayInWeek == 6)
+			{
+				style = ' class="weekend"'; 
+			}
+			else
+			{
+				style = '';
+			}
+		}			
 		
 		str += "<td" + style + "><a class=\"dateselector\" href=\"javascript:returnDate(" + i +","+month+","+year + ");\">" + i + "</a></td>"; 
 		dayInWeek++; 
@@ -170,7 +177,7 @@ function initCalendar()
 	
 	for (i = dayInWeek; i < 7; i++) 
 	{ 
-		str += "<td>&nbsp;</td>"; 
+		str += "<td class=\"disabled_month\">&nbsp;</td>"; 
 	} 
 	
 	str += "</tr></table>"; 

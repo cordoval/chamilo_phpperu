@@ -164,6 +164,7 @@ class Invitation extends DataClass
     function create()
     {
         $this->set_code(md5(uniqid()));
+        $this->set_date(time());
         parent :: create();
     }
 }

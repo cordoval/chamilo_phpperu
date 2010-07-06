@@ -47,14 +47,14 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
         {
             $this->_locale[$editor_lang]['months_long'] = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
         }
-        
+
         $this->include_time_picker = $include_time_picker;
-        
+
         if ($include_time_picker)
             $this->_options['format'] = 'dFY ' . $popup_link . '   H ' . $hour_minute_devider . ' i';
         else
             $this->_options['format'] = 'dFY ' . $popup_link;
-        
+
         $this->_options['minYear'] = date('Y') - 1;
         $this->_options['maxYear'] = date('Y') + 5;
         $this->_options['language'] = $editor_lang;
@@ -85,7 +85,7 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
             $js .= 'tbl_change.js" type="text/javascript"></script>';
             $js .= "\n";
         }
-        
+
         $js .= '<script type="text/javascript">';
         $js .= 'var path = \'' . Path :: get(WEB_LIB_PATH) . '\';' . "\n";
         $js .= 'var max_year="' . (date('Y') + 5) . '";';
@@ -111,12 +111,12 @@ class HTML_QuickForm_datepicker extends HTML_QuickForm_date
         $d = $d < 10 ? '0' . $d : $d;
         $h = $h < 10 ? '0' . $h : $h;
         $i = $i < 10 ? '0' . $i : $i;
-        
+
         if ($this->include_time_picker)
             $datetime = $y . '-' . $m . '-' . $d . ' ' . $h . ':' . $i . ':00';
         else
             $datetime = $y . '-' . $m . '-' . $d;
-        
+
         $result[$this->getName()] = $datetime;
         return $result;
     }

@@ -25,7 +25,7 @@ class SurveyManager extends WebApplication
 	const PARAM_TARGET = 'target_users_and_groups';
 	const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
 	const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
-	
+
 	const ACTION_DELETE_SURVEY_PUBLICATION = 'delete';
 	const ACTION_EDIT_SURVEY_PUBLICATION = 'edit';
 	const ACTION_CREATE_SURVEY_PUBLICATION = 'create';
@@ -48,6 +48,7 @@ class SurveyManager extends WebApplication
 	const ACTION_DOWNLOAD_DOCUMENTS = 'download_documents';
 
 	const ACTION_MAIL_SURVEY_PARTICIPANTS = 'mail_survey_participants';
+	const ACTION_INVITE_EXTERNAL_USERS = 'invite';
 
 	const ACTION_BUILD_SURVEY = 'build';
 	const ACTION_TESTCASES = 'testcases';
@@ -136,6 +137,9 @@ class SurveyManager extends WebApplication
 				break;
 			case self :: ACTION_EXCEL_EXPORT :
 				$component = $this->create_component('SurveyExcelExporter');
+				break;
+			case self :: ACTION_INVITE_EXTERNAL_USERS :
+				$component = $this->create_component('Inviter');
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_SURVEY_PUBLICATIONS);
@@ -344,12 +348,12 @@ class SurveyManager extends WebApplication
 		$id = $survey_publication ? $survey_publication->get_id() : null;
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS, self :: PARAM_SURVEY_PUBLICATION => $id));
 	}
-	
+
 	function get_reporting_filter_survey_publication_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING_FILTER));
 	}
-	
+
 	function get_reporting_survey_publication_url($survey_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
@@ -399,7 +403,7 @@ class SurveyManager extends WebApplication
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_SURVEY, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
 	}
-	
+
 	function get_survey_publication_export_excel_url($survey_publication)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXCEL_EXPORT, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
