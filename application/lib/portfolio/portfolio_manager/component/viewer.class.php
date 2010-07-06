@@ -284,33 +284,28 @@ class PortfolioManagerViewerComponent extends PortfolioManager {
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishNewPortfolio'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_portfolio_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if ($this->selected_object ) {
+        if ($this->selected_object )
+        {
 
-            if($this->selected_object->get_type() == Portfolio :: get_type_name()) {
-                if($this->cid ) {
+            if($this->selected_object->get_type() == Portfolio :: get_type_name())
+            {
+                if($this->cid )
+                {
                     $portfolio = $this->cid;
                 }
-                else {
+                else
+                {
                     $portfolio = $this->pid  ;
                 }
                 $parent = $this->selected_object->get_id();
             }
-            else {
+            else
+            {
                 $portfolio = $this->pid  ;
                 $parent = PortfolioManager::get_co_id_from_portfolio_publication_wrapper($portfolio);
             }
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddNewItemToPortfolio'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_portfolio_item_url($parent, $portfolio), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        if ($this->selected_object && $this->selected_object->get_type() == Portfolio :: get_type_name())
-        {
-            if($this->cid)
-            {
-                $portfolio = $this->cid;
-            }
-            else
-            {
-                $portfolio = $this->pid  ;
-            }
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('AddNewItemToPortfolio'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_portfolio_item_url($this->selected_object->get_id(), $portfolio), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
         }
 
         if ($this->selected_object)
@@ -331,25 +326,31 @@ class PortfolioManagerViewerComponent extends PortfolioManager {
         return $action_bar;
     }
 
-    function display_view_page() {
+    function display_view_page()
+    {
         $html = array();
 
-        if ($this->selected_object) {
+        if ($this->selected_object)
+        {
             //display information on the portfolio publication
             $display = ContentObjectDisplay :: factory($this->selected_object);
             $html[] = $display->get_full_html();
         }
-        else if ($this->viewing_right == false) {
-            //display a warning that the user does not have viewing rights on the item
+        else if ($this->viewing_right == false)
+        {
+            //display a warning that the user does not has viewing rights on the item
             $html[] = Translation :: get('NoPermissionToViewItem');
         }
-        else {
+        else
+        {
             $dm = PortfolioDataManager :: get_instance();
             $info = $dm->retrieve_portfolio_information_by_user($this->owner_user_id);
-            if($info) {
+            if($info)
+            {
                 $html[] = $info->get_portfolio_info_text();
             }
-            else {
+            else
+             {
                 $html[] = Translation :: get('PortfolioNotUpdatedYet');
             }
 
@@ -369,13 +370,13 @@ class PortfolioManagerViewerComponent extends PortfolioManager {
         $this->set_parameter(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID, Request :: get(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID));
 
         if($this->feedback_viewing_right)
-        { 
+        {
              $feedback_manager_view = new FeedbackManager($this, PortfolioManager :: APPLICATION_NAME, $this->pid, $this->cid);
         }
         else
         {
             $html[] = '<br /><div id="no_rights">';
-            $html[] = Translation :: get('NoPermissionToViewFeedback');                
+            $html[] = Translation :: get('NoPermissionToViewFeedback');
             $html[] = '</div><br />';
         }
         if(!isset($this->feedback_giving_right) || $this->feedback_giving_right)
@@ -389,12 +390,12 @@ class PortfolioManagerViewerComponent extends PortfolioManager {
             $html[] = Translation :: get('NoPermissionToGiveFeedback');
             $html[] = '</div><br />';
         }
-        
+
         if($html)
         {
         	$this->additional_html = implode("\n", $html);
         }
-        
+
     	if($feedback_manager_view)
         {
         	$feedback_manager_view->run();
@@ -403,7 +404,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager {
 
     function display_validation_page()
     {
-        
+
         $html = array();
         $fbm = new ValidationManager($this, PortfolioManager :: APPLICATION_NAME);
         $html[] = $fbm->as_html();
@@ -420,7 +421,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager {
         $allow_new_version = ($this->selected_object->get_type() != Portfolio :: get_type_name());
 
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
-        
+
         if ($form->validate())
         {
             if ($this->cid)
@@ -509,7 +510,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager {
         else {
             $html[] = $form->toHtml();
         }
-        
+
         $this->display_header();
         echo implode("\n", $html);
         $this->display_footer();
