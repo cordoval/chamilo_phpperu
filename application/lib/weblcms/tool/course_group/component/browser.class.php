@@ -43,7 +43,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseCourseGroup')));
         $trail->add_help('courses group');
 
-        $this->display_header($trail, true);
+        $this->display_header();
 
         //echo '<br /><a name="top"></a>';
 
