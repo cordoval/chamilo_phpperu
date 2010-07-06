@@ -28,7 +28,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool
         
         if (! $pid)
         {
-            $this->display_header($trail, true);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NoObjectSelected'));
             $this->display_footer();
         }
@@ -144,7 +144,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool
         }
         else
         {
-            $this->display_header($trail, true);
+            $this->display_header();
         	echo $display;
         	$this->display_footer();
         }

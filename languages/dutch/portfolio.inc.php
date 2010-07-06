@@ -89,4 +89,7 @@ $lang['portfolio']['Attachments'] = 'Bijlagen';
 $lang['portfolio']['URL'] = 'Url';
 $lang['portfolio']['SelectedContentObjects'] = 'Geselecteerde inhoud';
 
+$lang['portfolio']['Delete_portfolio_publication'] = 'Verwijder het geselecteerde portfolio';
+$lang['portfolio']['Delete_portfolio_item'] = 'Verwijder het geselecteerde portfolio-item';
+
 ?>

@@ -114,7 +114,7 @@ class SurveyToolTakerComponent extends SurveyTool
     		$this->trail->merge($trail);
     	}
 
-    	parent :: display_header($this->trail);
+    	parent :: display_header();
     	
         if (count($this->trackers) > 1)
         {

@@ -43,7 +43,7 @@ class SurveyToolViewerComponent extends SurveyTool
 
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses survey tool');
-        $this->display_header($trail, true);
+        $this->display_header();
 
         $this->action_bar = $this->get_toolbar(true);
 

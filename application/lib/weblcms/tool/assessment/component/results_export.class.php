@@ -46,7 +46,7 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
         }
         else
         {
-            $this->display_header($trail, true);
+            $this->display_header();
             echo $toolbar->as_html();
             echo $export_form->toHtml();
             $this->display_footer();

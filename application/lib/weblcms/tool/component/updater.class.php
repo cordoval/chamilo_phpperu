@@ -89,14 +89,14 @@ class ToolUpdaterComponent extends ToolComponent
                 }
                 else
                 {
-                    $this->display_header($trail, true);
+                    $this->display_header();
                     $publication_form->display();
                     $this->display_footer();
                 }
             }
             else
             {
-                $this->display_header($trail, true);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }

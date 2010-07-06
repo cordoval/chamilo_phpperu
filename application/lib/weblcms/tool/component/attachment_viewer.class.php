@@ -25,7 +25,7 @@ class ToolAttachmentViewerComponent extends ToolComponent
         if ($object_id)
         {
             $trail->add(new Breadcrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment')));
-            $this->display_header($trail, true);
+            $this->display_header();
             
             echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
             
@@ -39,7 +39,7 @@ class ToolAttachmentViewerComponent extends ToolComponent
         }
         else
         {
-            $this->display_header($trail, true);
+            $this->display_header();
             $this->display_error_message('NoObjectSelected');
             $this->display_footer();
         }

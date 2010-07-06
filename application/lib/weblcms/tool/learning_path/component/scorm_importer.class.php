@@ -16,7 +16,7 @@ class LearningPathToolScormImporterComponent extends LearningPathTool
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('ImportScorm')));
         $trail->add_help('courses learnpath tool');
-        $this->display_header($trail, true);
+        $this->display_header();
         
         $objects = Request :: get('objects');
         

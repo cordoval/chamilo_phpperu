@@ -35,7 +35,7 @@ class DocumentToolImporterComponent extends DocumentTool{
         }
         else
         {
-            $this->display_header($trail, false, true);
+            $this->display_header();
             $import_form->display();
             $this->display_footer();
         }

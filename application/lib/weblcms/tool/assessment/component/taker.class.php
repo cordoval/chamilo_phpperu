@@ -85,7 +85,7 @@ class AssessmentToolTakerComponent extends AssessmentTool
 
         if ($this->assessment->get_assessment_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
         {
-            $this->display_header(BreadcrumbTrail :: get_instance());
+            $this->display_header();
 
             $path = $this->assessment->add_javascript(Path :: get(WEB_PATH) . 'application/lib/weblcms/ajax/hotpotatoes_save_score.php', $this->get_go_back_url(), $this->active_tracker->get_id());
             //$path = $this->assessment->get_test_path();
@@ -102,7 +102,7 @@ class AssessmentToolTakerComponent extends AssessmentTool
             $this->trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('TakeAssessment')));
             $display = ComplexDisplay :: factory($this, $this->assessment->get_type());
 
-            //$this->display_header(BreadcrumbTrail :: get_instance());
+            //$this->display_header();
             $display->run();
             //$this->display_footer();
         }
@@ -116,7 +116,7 @@ class AssessmentToolTakerComponent extends AssessmentTool
 
     function display_header($trail)
     {
-        return parent :: display_header($this->trail);
+        return parent :: display_header();
     }
 
     function create_tracker()

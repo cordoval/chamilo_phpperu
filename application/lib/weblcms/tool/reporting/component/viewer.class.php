@@ -38,7 +38,7 @@ class ReportingToolViewerComponent extends ReportingTool
     	$this->set_parameter(ReportingManager :: PARAM_TEMPLATE_ID, null);
     	$this->set_parameter(WeblcmsManager :: PARAM_USERS, null);
     	
-    	parent :: display_header($trail);
+    	parent :: display_header();
     	
     	$this->set_parameters($parameters);
     }*/

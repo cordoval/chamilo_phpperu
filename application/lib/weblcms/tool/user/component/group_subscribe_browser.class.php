@@ -27,7 +27,7 @@ class UserToolGroupSubscribeBrowserComponent extends UserTool
         $trail->add_help('courses user');
 
         $this->add_group_menu_breadcrumbs($trail);
-        $this->display_header($trail, true);
+        $this->display_header();
 
         echo $this->action_bar->as_html();
         echo $this->get_group_menu();

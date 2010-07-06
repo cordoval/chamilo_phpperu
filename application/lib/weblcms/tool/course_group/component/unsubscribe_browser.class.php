@@ -70,7 +70,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id)), $course_group->get_name()));
         $trail->add_help('courses group');
 
-        $this->display_header($trail, true);
+        $this->display_header();
         echo implode($html, "\n");
         $this->display_footer();
     }
@@ -80,7 +80,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
         $course_group = $this->course_group;
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        //$action_bar->set_search_url($this->get_url());
+        $action_bar->set_search_url($this->get_url());
         $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 

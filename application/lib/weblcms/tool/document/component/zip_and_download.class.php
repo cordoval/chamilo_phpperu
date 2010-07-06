@@ -17,7 +17,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentTool
         }
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses document tool');
-        //$this->display_header($trail, true);
+        //$this->display_header();
         $archive_url = $this->create_document_archive();
         
         $this->send_as_download($archive_url);
@@ -110,7 +110,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentTool
         
         if ($count == 0)
         {
-            $this->display_header(BreadcrumbTrail :: get_instance());
+            $this->display_header();
             $this->get_parent()->display_warning_message(Translation :: get('NoDocumentsPublished'));
             $this->display_footer();
             exit();

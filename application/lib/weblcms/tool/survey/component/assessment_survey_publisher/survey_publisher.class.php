@@ -38,7 +38,7 @@ class SurveyPublisher extends SurveyPublisherComponent
         }
         else
         {
-            $this->parent->display_header($trail, true, 'courses assessment tool');
+            $this->parent->display_header();
             echo $toolbar->as_html();
             echo $form->toHtml();
             $this->parent->display_footer();
