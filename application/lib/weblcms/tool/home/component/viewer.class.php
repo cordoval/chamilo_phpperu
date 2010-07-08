@@ -8,7 +8,7 @@ class HomeToolViewerComponent extends HomeTool
         $trail->add_help('courses general');
         
         $tools = $this->get_visible_tools();
-        $this->display_header();
+        $this->display_header($tools, true);
 
         echo $this->display_introduction_text($this->get_introduction_text());
         
