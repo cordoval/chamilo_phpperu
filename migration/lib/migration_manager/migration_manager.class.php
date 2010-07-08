@@ -18,6 +18,7 @@ class MigrationManager extends CoreApplication
      * Constant defining an action of the repository manager.
      */
     const ACTION_MIGRATE = 'migrate';
+    const ACTION_CLEAN_SETTINGS = 'settings_cleaner';
 
     /**#@-*/
     /**
@@ -46,6 +47,9 @@ class MigrationManager extends CoreApplication
             case self :: ACTION_MIGRATE :
                 $component = $this->create_component('Migration');
                 break;
+            case self :: ACTION_CLEAN_SETTINGS :
+                $component = $this->create_component('SettingsCleaner');
+                break;
             default :
                 $this->set_action(self :: ACTION_MIGRATE);
                 $component = $this->create_component('Migration');
@@ -57,6 +61,7 @@ class MigrationManager extends CoreApplication
     {
         $links = array();
         $links[] = new DynamicAction(Translation :: get('Migrate'), Translation :: get('Migrate'), Theme :: get_image_path() . 'browse_sort.png', $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_MIGRATE)));
+        $links[] = new DynamicAction(Translation :: get('SettingsCleaner'), Translation :: get('SettingsCleaner'), Theme :: get_image_path() . 'browse_sort.png', $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_CLEAN_SETTINGS)));
         
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;

@@ -31,8 +31,18 @@ class MigrationManagerMigrationComponent extends MigrationManager
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Migrate')));
 		$trail->add_help('user general');
 		
-		$this->display_header();
-		$this->display_footer();
+		$form = new MigrationForm($this->get_url());
+		
+		if($form->validate())
+		{
+			$form->create_migration_settings();
+		}
+		else
+		{
+			$this->display_header();
+			$form->display();
+			$this->display_footer();
+		}
     }
 }
 ?>

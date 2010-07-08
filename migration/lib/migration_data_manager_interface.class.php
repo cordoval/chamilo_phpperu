@@ -46,6 +46,18 @@ interface MigrationDataManagerInterface
 
     public function retrieve_id_references($condition = null, $offset = null, $count = null, $order_property = null);
     
+    // CRUD for migration_block
+    
+    public function delete_migration_block(MigrationBlock $migration_block);
+
+    public function update_migration_block(MigrationBlock $migration_block);
+
+    public function create_migration_block(MigrationBlock $migration_block);
+
+    public function count_migration_blocks($conditions = null);
+
+    public function retrieve_migration_blocks($condition = null, $offset = null, $count = null, $order_property = null);
+    
 }
 
 ?>
