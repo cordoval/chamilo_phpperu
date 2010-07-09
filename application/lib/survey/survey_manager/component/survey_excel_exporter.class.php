@@ -2,21 +2,87 @@
 require_once (Path :: get_reporting_path() . 'lib/reporting_data.class.php');
 require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 
-/*
- * This component is responsible to retrive all the reporting data for a survey
- */
-
 class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
 {
-    const TEMPLATE_SURVEY_REPORTING = 'survey_reporting_template';
-    const NO_ANSWER = 'noAnswer';
+    
     const COUNT = 'count';
-        
+    const TOTAL = 'total';
 
     /**
      * Runs this component and displays its output.
      */
     
+    function run()
+    {
+        $survey_publication_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($survey_publication_id);
+        $this->render_data($survey_publication);
+    
+    }
+
+    public function render_data($survey_publication)
+    {
+        
+        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $survey_publication->get_id());
+        $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        $participants_ids = array();
+        while ($tracker = $trackers->next_result())
+        {
+            $participants_ids[] = $tracker->get_id();
+        }
+        
+        $excel = new PHPExcel();
+        
+        $worksheet = $excel->getSheet(0)->setTitle('Algemeen');
+        $this->render_summary_data($worksheet, $survey_publication, $participants_ids);
+        
+        //        $survey = $survey_publication->get_publication_object();
+        //        $pages = $survey->get_pages();
+        //        
+        //        
+        //        $page_index = 1;
+        //        foreach ($pages as $page)
+        //        {
+        //            if ($page->count_questions() != 0)
+        //            {
+        //                $title = Utilities :: truncate_string(trim(strip_tags($page->get_title())), 20, true, '');
+        //                $description = Utilities :: truncate_string(trim(strip_tags($page->get_description())), 20, true, '');
+        //                $worksheet = $excel->createSheet($page_index)->setTitle($title);
+        //                
+        //                $questions = $page->get_questions();
+        //                
+        //                $reporting_page_data = array();
+        //                
+        //                foreach ($questions as $question)
+        //                {
+        //                    $reporting_data = $this->create_reporting_data($question, $participants_ids);
+        //                    
+        //                    $reporting_data_question = array();
+        //                    $reporting_data_question[] = $question->get_title();
+        //                    $reporting_data_question[] = $question->get_description();
+        //                    $reporting_data_question[] = $reporting_data;
+        //                    $reporting_page_data[] = $reporting_data_question;
+        //                }
+        //                $this->render_page_data($worksheet, $reporting_page_data);
+        //            }
+        //            $page_index ++;
+        //        }
+        
+
+        //        exit();
+        
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $this->get_file_name() . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        $objWriter = PHPExcel_IOFactory :: createWriter($excel, 'Excel2007');
+        return $objWriter->save('php://output');
+        
+        $excel->disconnectWorksheets();
+        unset($excel);
+    
+    }
+
     private function get_file_name()
     {
         $survey_publication_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
@@ -25,13 +91,173 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         return $survey->get_title();
     }
 
-    private function create_reporting_data($question)
+    public function render_summary_data($worksheet, $survey_publication, $participant_trackers)
+    {
+        
+        $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $survey_publication->get_id());
+        $publication_rel_groups = SurveyDataManager :: get_instance()->retrieve_survey_publication_groups();
+        
+        $groups = array();
+        $user_ids = array();
+        $total_user_ids = array();
+        while ($publication_rel_group = $publication_rel_groups->next_result())
+        {
+            $group = GroupDataManager :: get_instance()->retrieve_group($publication_rel_group->get_group_id());
+            $groups[] = $group;
+            $user_ids[$group->get_id()] = $group->get_users(true, true);
+            $total_user_ids = array_merge($total_user_ids, $user_ids[$group->get_id()]);
+        }
+        
+        $total_user_ids = array_unique($total_user_ids);
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $survey_publication->get_id());
+        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_STATUS, SurveyParticipantTracker :: STATUS_NOTSTARTED);
+        $condition = new AndCondition($conditions);
+        $not_started_trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        $not_started_participants_ids = array();
+        while ($not_started_tracker = $not_started_trackers->next_result())
+        {
+            $not_started_participants_ids[] = $not_started_tracker->get_id();
+        }
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $survey_publication->get_id());
+        $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_STATUS, array(SurveyParticipantTracker :: STATUS_STARTED, SurveyParticipantTracker :: STATUS_FINISHED));
+        $condition = new AndCondition($conditions);
+        $started_trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        $started_participants_ids = array();
+        while ($started_tracker = $started_trackers->next_result())
+        {
+            $started_participants_ids[] = $started_tracker->get_id();
+        }
+        
+        $column = 1;
+        $row = 1;
+        
+        $worksheet->getColumnDimensionByColumn(0)->setWidth(20);
+        $worksheet->getColumnDimensionByColumn(1)->setWidth(40);
+        $worksheet->getColumnDimensionByColumn(2)->setWidth(20);
+        
+        $survey_title = $survey_publication->get_publication_object()->get_title();
+        
+        $worksheet->setCellValueByColumnAndRow($column - 1, $row, $survey_title);
+        $this->wrap_text($worksheet, $column, $row);
+        
+        $row ++;
+        $total = count($total_user_ids);
+        $worksheet->setCellValueByColumnAndRow($column, $row, 'Aantal genodigde');
+        $worksheet->setCellValueByColumnAndRow($column + 1, $row, $total);
+        $row ++;
+        $started = count($started_participants_ids);
+        $worksheet->setCellValueByColumnAndRow($column, $row, 'Aantal participanten');
+        $worksheet->setCellValueByColumnAndRow($column + 1, $row, $started);
+        $row ++;
+        $worksheet->setCellValueByColumnAndRow($column, $row, 'Niet deelgenomen');
+        $worksheet->setCellValueByColumnAndRow($column + 1, $row, count($not_started_participants_ids));
+        $row ++;
+        $participatie = $started / $total * 100;
+        $participatie = number_format($participatie, 2);
+        $worksheet->setCellValueByColumnAndRow($column, $row, 'Participatigraad (%)');
+        $worksheet->setCellValueByColumnAndRow($column + 1, $row, $participatie);
+        $row= $row+2;
+        
+        $worksheet->setCellValueByColumnAndRow($column-1, $row, 'Participatie (%)');
+        $worksheet->setCellValueByColumnAndRow($column, $row, 'Groepen');
+        $worksheet->setCellValueByColumnAndRow($column + 1, $row, 'Omschrijving');
+        $row ++;
+        
+        foreach ($groups as $group)
+        {
+            $name = $group->get_name();
+            $description = $group->get_description();
+            $worksheet->setCellValueByColumnAndRow($column, $row, $name);
+            $worksheet->setCellValueByColumnAndRow($column + 1, $row, $description);
+            $row ++;
+        }
+    
+    }
+
+    public function render_page_data($worksheet, $data)
+    {
+        
+        $column = 0;
+        $block_row = 0;
+        
+        $worksheet->getColumnDimensionByColumn($column)->setWidth(50);
+        
+        if (is_array($data))
+        {
+            
+            foreach ($data as $block_data)
+            {
+                $column = 0;
+                $block_row = $block_row + 2;
+                
+                $block_title = trim(html_entity_decode(strip_tags($block_data[0])));
+                $block_description = trim(html_entity_decode(strip_tags($block_data[1])));
+                $block_content_data = $block_data[2];
+                
+                $worksheet->setCellValueByColumnAndRow($column, $block_row, $block_title);
+                $this->wrap_text($worksheet, $column, $block_row);
+                
+                if ($block_description != '')
+                {
+                    $block_row ++;
+                    $worksheet->setCellValueByColumnAndRow($column, $block_row, $block_description);
+                    $this->wrap_text($worksheet, $column, $block_row);
+                    $block_row ++;
+                }
+                
+                $block_row ++;
+                
+                foreach ($block_content_data->get_rows() as $row_id => $row_name)
+                {
+                    //	dump($row_name);
+                    $column ++;
+                    $worksheet->getColumnDimensionByColumn($column)->setAutoSize(true);
+                    $worksheet->setCellValueByColumnAndRow($column, $block_row, trim(html_entity_decode(strip_tags($row_name))));
+                    $this->wrap_text($worksheet, $column, $block_row);
+                
+                }
+                
+                $block_row ++;
+                
+                foreach ($block_content_data->get_categories() as $category_id => $category_name)
+                {
+                    $column = 0;
+                    $worksheet->setCellValueByColumnAndRow($column, $block_row, trim(html_entity_decode(strip_tags($category_name))));
+                    $this->wrap_text($worksheet, $column, $block_row);
+                    
+                    foreach ($block_content_data->get_rows() as $row_id => $row_name)
+                    {
+                        $column ++;
+                        $worksheet->setCellValueByColumnAndRow($column, $block_row, $block_content_data->get_data_category_row($category_id, $row_id));
+                    }
+                    $block_row ++;
+                }
+            
+            }
+        
+        }
+    
+    }
+
+    function wrap_text($worksheet, $colum, $row)
+    {
+        $worksheet->getStyleByColumnAndRow($colum, $row)->getAlignment()->setWrapText(true);
+    
+    }
+
+    private function create_reporting_data($question, $participant_ids)
     {
         
         //retrieve the answer trackers
-        $condition = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question->get_id());
-        $tracker = new SurveyQuestionAnswerTracker();
-        $trackers = $tracker->retrieve_tracker_items_result_set($condition);
+        $conditions = array();
+        $conditions[] = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participant_ids);
+        $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question->get_id());
+        $condition = new AndCondition($conditions);
+        $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
         
         //option and matches of question
         $options = array();
@@ -60,6 +286,8 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                 {
                     $matches[] = $match;
                 }
+                $total_key = count($matches);
+                $matches[] = Translation :: get(self :: TOTAL);
                 
                 //create answer matrix for answer counting
                 
@@ -74,7 +302,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                         $answer_count[$option_count][$match_count] = 0;
                         $match_count --;
                     }
-                    $answer_count[$option_count][self :: NO_ANSWER] = 0;
+                    //                    $answer_count[$option_count][$total_key] = 0;
                     $option_count --;
                 }
                 
@@ -88,6 +316,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     foreach ($answer as $key => $option)
                     {
                         $options_answered[] = $key;
+                        $totals = array();
                         foreach ($option as $match_key => $match)
                         {
                             if ($question->get_matrix_type() == SurveyMatrixQuestion :: MATRIX_TYPE_CHECKBOX)
@@ -98,19 +327,8 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                             {
                                 $answer_count[$key][$match] ++;
                             }
-                        
+                            $answer_count[$key][$total_key] ++;
                         }
-                    }
-                    $all_options = array();
-                    foreach ($answer_count as $key => $option)
-                    {
-                        $all_options[] = $key;
-                    }
-                    $options_not_answered = array_diff($all_options, $options_answered);
-                    foreach ($options_not_answered as $option)
-                    {
-                        $answer_count[$option][self :: NO_ANSWER] ++;
-                    
                     }
                 }
                 
@@ -122,20 +340,18 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     $reporting_data->add_row(strip_tags($match));
                 }
                 
-                $reporting_data->add_row(self :: NO_ANSWER);
-                
                 foreach ($options as $option_key => $option)
                 {
-                    
                     $reporting_data->add_category($option);
                     
                     foreach ($matches as $match_key => $match)
                     {
                         $reporting_data->add_data_category_row($option, strip_tags($match), $answer_count[$option_key][$match_key]);
+                    
                     }
-                    $reporting_data->add_data_category_row($option, self :: NO_ANSWER, $answer_count[$option_key][self :: NO_ANSWER]);
                 
                 }
+                
                 break;
             case SurveyMultipleChoiceQuestion :: get_type_name() :
                 
@@ -145,9 +361,10 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                 {
                     $options[] = $option->get_value();
                 }
-                $options[] = self :: NO_ANSWER;
+                //                $options[] = self :: NO_ANSWER;
                 
-                $matches[] = self :: COUNT;
+
+                $matches[] = Translation :: get(self :: COUNT);
                 
                 //create answer matrix for answer counting
                 
@@ -158,8 +375,9 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     $answer_count[$option_count] = 0;
                     $option_count --;
                 }
-                $answer_count[self :: NO_ANSWER] = 0;
+                //                $answer_count[self :: NO_ANSWER] = 0;
                 
+
                 //count answers from all answer trackers
                 
 
@@ -187,16 +405,25 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     $reporting_data->add_row(strip_tags($match));
                 }
                 
+                $total = 0;
                 foreach ($options as $option_key => $option)
                 {
                     
                     $reporting_data->add_category($option);
-                    
                     foreach ($matches as $match)
                     {
+                        $total = $total + $answer_count[$option_key];
                         $reporting_data->add_data_category_row($option, strip_tags($match), $answer_count[$option_key]);
                     }
+                
                 }
+                $reporting_data->add_category('Total');
+                foreach ($matches as $match)
+                {
+                    //                    $reporting_data->add_row(strip_tags($match));
+                    $reporting_data->add_data_category_row('Total', strip_tags($match), $total);
+                }
+                
                 break;
             default :
                 ;
@@ -206,207 +433,6 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         return $reporting_data;
     }
 
-    function run()
-    {
-        
-        /**
-         * Get the the survey ID and loop over all the pages. Inside the pages loop over all the
-         * questions that are contained in the page.
-         */
-        
-        $survey_publication_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
-        $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($survey_publication_id);
-        $survey = $survey_publication->get_publication_object();
-        
-        $pages = array();
-        $pages = $survey->get_pages();
-        
-        //dump($pages);
-        //$this->display_header();
-        $reporting_data_all = array();
-        foreach ($pages as $page)
-        {
-            //dump ($page->get_questions());
-            $questions = $page->get_questions();
-            
-            foreach ($questions as $question)
-            {
-                //echo $question->get_title();
-                //echo $question->get_description();
-//                dump($question);
-            	
-            	$reporting_data_question = array();
-                $reporting_data_question[] = $question->get_title();
-                $reporting_data_question[] = $question->get_description();
-                
-                $reporting_data = $this->create_reporting_data($question);
-                $converted_reporting_data = $this->convert_reporting_data($reporting_data);
-                
-                $reporting_data_question[] = $reporting_data;
-                
-                $reporting_data_all[] = $reporting_data_question;
-                
-//                $reporting_data_all[] = $converted_reporting_data;
-                
-                
-            //				$table = new SortableTableFromArray($this->convert_reporting_data($reporting_data), null, 20, 'table_' . $question->get_id());
-            //
-            //				$j = 0; 
-            //				if ($reporting_data->is_categories_visible())
-            //				{
-            //					$table->set_header(0, '', false);
-            //					$j++;
-            //				}
-            //
-            //				foreach($reporting_data->get_rows() as $row)
-            //				{
-            //					$table->set_header($j, $row);
-            //					$j++;
-            //				}
-            //				echo $table->toHTML();
-            
-
-            }
-        
-        }
-//        		dump($reporting_data_all);
-//        		exit;
-$this->render_data($reporting_data_all);
-//        $this->save_excel($reporting_data_all);
-        //	$this->display_footer();
-    
-
-    //RepositoryDataManager :: get_instance()->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id(), ComplexContentObjectItem :: get_table_name()));
-    
-
-    //	$survey_id->
-    //		$question_id = Request :: get(SurveyManager :: PARAM_SURVEY_QUESTION);
-    //		$this->set_parameter(SurveyManager :: PARAM_SURVEY_QUESTION, $question_id);
-    //
-    //		$trail = BreadcrumbTrail :: get_instance();
-    //		$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-    //		$trail->add_help('survey reporting');
-    //
-    //		$rtv = new ReportingViewer($this);
-    //		$rtv->add_template_by_name(self :: TEMPLATE_SURVEY_REPORTING, SurveyManager :: APPLICATION_NAME);
-    //		$rtv->set_breadcrumb_trail($trail);
-    //		$rtv->show_all_blocks();
-    //
-    //		$rtv->run();
-    }
-
-    public function save_excel($reporting_data)
-    {
-        ///send to browser for download
-        $export = Export :: factory('excel', $reporting_data);
-        $export->set_filename($this->get_file_name());
-        $export->send_to_browser();
-        
-    //		$export = Export :: factory('excel', $reporting_data);
-    //       $export->set_filename($this->get_file_name());
-    //    	return $export->render_data();
-    }
-
-    public function render_data($data)
-    {
-        $excel = new PHPExcel();
-        
-//        $data = $this->get_data();
-        $letters = array(0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F', 6 => 'G', 7 => 'H', 8 => 'I', 9 => 'J', 10 => 'K', 11 => 'L', 12 => 'M', 13 => 'N', 14 => 'O', 15 => 'P', 16 => 'Q', 17 => 'R', 18 => 'S', 19 => 'T', 20 => 'U', 21 => 'V', 22 => 'W', 23 => 'X', 24 => 'Y', 25 => 'Z');
-        
-        $i = 0;
-        $cell_letter = 0;
-        $cell_number = 1;
-        
-        $excel->setActiveSheetIndex(0);
-        
-        if (is_array($data))
-        {
-            foreach ($data as $block_data)
-            {
-                $block_title = $block_data[0];
-                $block_description = $block_data[1];
-                $block_content_data = $block_data[2];
-                
-                $cell_letter = 0;
-                $cell_number = $cell_number + 2;
-                $excel->getActiveSheet()->setCellValue($letters[$cell_letter] . $cell_number, strip_tags(html_entity_decode($block_title)));
-                $excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(60);
-                $this->wrap_text($excel, $letters[$cell_letter] . $cell_number);
-                ++ $cell_number;
-                $excel->getActiveSheet()->setCellValue($letters[$cell_letter] . $cell_number, trim(html_entity_decode(strip_tags($block_description))));
-                
-                if ($block_description != "")
-                {
-                    $this->wrap_text($excel, $letters[$cell_letter] . $cell_number);
-                }
-                
-                ++ $cell_number;
-                //(matrix question) rows
-                foreach ($block_content_data->get_rows() as $row_id => $row_name)
-                {
-                    //	dump($row_name);
-                    $cell_letter ++;
-                    $excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(15);
-                    //$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
-                    $excel->getActiveSheet()->setCellValue($letters[$cell_letter] . $cell_number, trim(html_entity_decode(strip_tags($row_name))));
-                
-                }
-                foreach ($block_content_data->get_categories() as $category_id => $category_name)
-                {
-                    $cell_letter = 0;
-                    ++ $cell_number;
-                    $excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(50);
-                    $excel->getActiveSheet()->setCellValue($letters[$cell_letter] . $cell_number, trim(html_entity_decode(strip_tags($category_name))));
-                    $this->wrap_text($excel, $letters[$cell_letter] . $cell_number);
-                    foreach ($block_content_data->get_rows() as $row_id => $row_name)
-                    {
-                        $cell_letter ++;
-                        $excel->getActiveSheet()->setCellValue($letters[$cell_letter] . $cell_number, $block_content_data->get_data_category_row($category_id, $row_id));
-                    }
-                    $i ++;
-                }
-            
-            }
-        
-        }
-       
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="' . $this->get_file_name() . '"');
-        header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory :: createWriter($excel, 'Excel2007');
-        return $objWriter->save('php://output');
-        
-        $excel->disconnectWorksheets();
-        unset($excel);
-    
-    }
-
-    function wrap_text($excel, $cell)
-    {
-        //$excel->getActiveSheet()->getStyle($cell)->getAlignment()->setWidth(20);
-        $excel->getActiveSheet()->getStyle($cell)->getAlignment()->setWrapText(true);
-    
-    }
-
-    public function convert_reporting_data($reporting_data)
-    {
-        $table_data = array();
-        foreach ($reporting_data->get_categories() as $category_id => $category_name)
-        {
-            $category_array = array();
-            if ($reporting_data->is_categories_visible())
-            {
-                $category_array[] = $category_name;
-            }
-            foreach ($reporting_data->get_rows() as $row_id => $row_name)
-            {
-                $category_array[] = $reporting_data->get_data_category_row($category_id, $row_id);
-            }
-            $table_data[] = $category_array;
-        }
-        return $table_data;
-    }
 }
 
 ?>
