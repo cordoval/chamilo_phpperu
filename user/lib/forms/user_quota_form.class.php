@@ -17,7 +17,6 @@ class UserQuotaForm extends FormValidator
 
     /**
      * Creates a new UserQuotaForm
-     * Used to set the different quota limits for each learning object
      */
     function UserQuotaForm($user, $action)
     {
