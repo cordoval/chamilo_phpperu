@@ -6,6 +6,8 @@ class StreamingVideoClip extends ContentObject implements Versionable
 {
     const PROPERTY_SERVER_ID = 'server_id';
     const PROPERTY_ASSET_ID = 'asset_id';
+    const PROPERTY_PUBLISHER = 'publisher';
+    const PROPERTY_CREATOR = 'creator';
 
     const CLASS_NAME = __CLASS__;
 
@@ -16,7 +18,7 @@ class StreamingVideoClip extends ContentObject implements Versionable
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_SERVER_ID, self :: PROPERTY_ASSET_ID);
+        return array(self :: PROPERTY_SERVER_ID, self :: PROPERTY_ASSET_ID, self :: PROPERTY_CREATOR, self :: PROPERTY_PUBLISHER);
     }
 
     function set_server_id($server_id)
@@ -39,5 +41,26 @@ class StreamingVideoClip extends ContentObject implements Versionable
         return $this->get_additional_property(self :: PROPERTY_ASSET_ID);
     }
 
+     function set_publisher($publisher)
+    {
+        $this->set_additional_property(self :: PROPERTY_PUBLISHER, $publisher);
+    }
+
+    function get_publisher()
+    {
+        return $this->get_additional_property(self::PROPERTY_PUBLISHER);
+    }
+
+    function set_creator($creator)
+    {
+        $this->set_additional_property(self :: PROPERTY_CREATOR, $creator);
+    }
+
+    function get_creator()
+    {
+        return $this->get_additional_property(self :: PROPERTY_CREATOR);
+    }
+
+   
 }
 ?>

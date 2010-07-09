@@ -48,7 +48,10 @@ class SettingsManagerTableColumnModel extends ObjectTableColumnModel
         $columns[] = new ObjectTableColumn(StreamingMediaServerObject :: PROPERTY_URL);
         $columns[] = new ObjectTableColumn(StreamingMediaServerObject:: PROPERTY_LOGIN);
         $columns[] = new ObjectTableColumn(StreamingMediaServerObject:: PROPERTY_PASSWORD);
+        $columns[] = new ObjectTableColumn(StreamingMediaServerObject:: PROPERTY_VERSION);
+        $columns[] = new ObjectTableColumn(StreamingMediaServerObject:: PROPERTY_DEFAULT_USER_QUOTUM);
         $columns[] = new ObjectTableColumn(StreamingMediaServerObject:: PROPERTY_IS_UPLOAD_POSSIBLE);
+        $columns[] = new ObjectTableColumn(StreamingMediaServerObject:: PROPERTY_IS_DEFAULT);
         /*$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE);
 		$columns[] = new StaticTableColumn(Translation :: get('Versions'));*/
         return $columns;

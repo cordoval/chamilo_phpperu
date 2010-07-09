@@ -18,6 +18,7 @@ class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
 
     private $form_situation;
     private $servers;
+    private $default_server;
 
     function MediamosaStreamingMediaManagerServerSelectForm($form_situation, $component)
     {
@@ -45,9 +46,12 @@ class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
         }
         else
         {
-            //exit(Translation :: get('No server selected'));
+           //exit(Translation :: get('No server selected'));
             //TODO:jens-> needs to be solved better
-            unset($_GET[MediamosaStreamingMediaManager :: PARAM_SERVER]);
+            //unset($_GET[MediamosaStreamingMediaManager :: PARAM_SERVER]);
+
+            //redirect to default server
+            
         }
     }
 
@@ -84,6 +88,7 @@ class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
         while($server = $servers->next_result())
         {
             $server_array[$server->get_id()] = $server->get_title();
+            if($server->get_is_default()) $this->default_server = $server->get_id();
         }
         $this->servers = $server_array;
 
@@ -93,6 +98,11 @@ class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
     function get_selected_server()
     {
         return $this->exportValue(MediamosaStreamingMediaManager :: PARAM_SERVER);
+    }
+
+    function get_default_server()
+    {
+        return $this->default_server;
     }
 }
 ?>

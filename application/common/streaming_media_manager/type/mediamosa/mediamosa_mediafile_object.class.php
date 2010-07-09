@@ -12,15 +12,9 @@ class MediamosaMediafileObject {
     const PROPERTY_TITLE = 'title';
     const PROPERTY_PARENT = 'parent';
     const PROPERTY_URL = 'url';
-    const PROPERTY_WIDTH = 'width';
-    const PROPERTY_HEIGHT = 'height';
-    const PROPERTY_FPS = 'fps';
-    const PROPERTY_VIDEO_CODEC = 'video_codec';
-    const PROPERTY_AUDIO_CODEC = 'audio_codec';
-    const PROPERTY_COLORSPACE = 'colorspace';
-    const PROPERTY_SAMPLE_RATE = 'sample_rate';
-    const PROPERTY_CHANNELS = 'channels';
+    //const PROPERTY_TAGS = 'tags';
     const PROPERTY_IS_DEFAULT = 'is_default';
+    const PROPERTY_IS_DOWNLOADABLE = 'is_downloadable';
 
     /**
      * @return the $default_properties
@@ -70,13 +64,9 @@ class MediamosaMediafileObject {
         $extended_property_names[] = self :: PROPERTY_PARENT;
         $extended_property_names[] = self :: PROPERTY_URL;
         $extended_property_names[] = self :: PROPERTY_WIDTH;
-        $extended_property_names[] = self :: PROPERTY_HEIGHT;
-        $extended_property_names[] = self :: PROPERTY_FPS;
-        $extended_property_names[] = self :: PROPERTY_COLORSPACE;
-        $extended_property_names[] = self :: PROPERTY_VIDEO_CODEC;
-        $extended_property_names[] = self :: PROPERTY_AUDIO_CODEC;
-        $extended_property_names[] = self :: PROPERTY_SAMPLE_RATE;
-        $extended_property_names[] = self :: PROPERTY_CHANNELS;
+        $extended_property_names[] = self :: PROPERTY_TAGS;
+        $extended_property_names[] = self :: PROPERTY_IS_DEFAULT;
+        $extended_property_names[] = self :: PROPERTY_IS_DOWNLOADABLE;
 
         return $extended_property_names;
     }
@@ -156,87 +146,19 @@ class MediamosaMediafileObject {
         return $this->get_default_property(self :: PROPERTY_URL);
     }
 
-    function set_width($width)
+    /*function set_tags($tags)
     {
-        $this->set_default_property(self :: PROPERTY_WIDTH, $width);
+        $this->set_default_property(self :: PROPERTY_TAGS, $tags);
     }
 
-    function get_width($width)
+    function get_tags()
     {
-        return $this->get_default_property(self :: PROPERTY_WIDTH);
-    }
+        return $this->get_default_property(self :: PROPERTY_TAGS);
+    }*/
 
-    function set_height($height)
-    {
-        $this->set_default_property(self :: PROPERTY_HEIGHT, $height);
-    }
+    
 
-    function get_height($height)
-    {
-       return  $this->get_default_property(self :: PROPERTY_HEIGHT);
-    }
-
-    function set_fps($fps)
-    {
-        $this->set_default_property(self :: PROPERTY_FPS, $fps);
-    }
-
-    function get_fps($fps)
-    {
-        return $this->get_default_property(self :: PROPERTY_FPS);
-    }
-
-    function set_video_codec($video_codec)
-    {
-        $this->set_default_property(self :: PROPERTY_VIDEO_CODEC, $video_codec);
-    }
-
-    function get_video_codec()
-    {
-        return $this->get_default_property(self :: PROPERTY_VIDEO_CODEC);
-    }
-
-    function set_audio_codec($audio_codec)
-    {
-        $this->set_default_property(self :: PROPERTY_AUDIO_CODEC, $audio_codec);
-    }
-
-    function get_audio_codec()
-    {
-        return $this->get_default_property(self :: PROPERTY_AUDIO_CODEC);
-    }
-
-    function set_sample_rate($sample_rate)
-    {
-        $this->set_default_property(self :: PROPERTY_SAMPLE_RATE, $sample_rate);
-    }
-
-    function get_sample_rate()
-    {
-        return $this->get_default_property(self :: PROPERTY_SAMPLE_RATE);
-    }
-
-    function set_colorspace($colorspace)
-    {
-        $this->set_default_property(self :: PROPERTY_COLORSPACE, $colorspace);
-    }
-
-    function get_colorspace()
-    {
-        return $this->get_default_property(self :: PROPERTY_COLORSPACE);
-    }
-
-    function set_channels($channels)
-    {
-        $this->set_default_property(self :: PROPERTY_CHANNELS, $channels);
-    }
-
-    function get_channels()
-    {
-        return $this->get_default_property(self :: PROPERTY_CHANNELS);
-    }
-
-    function set_is_default($is_default = true) //set automatically
+    function set_is_default($is_default = true)
     {
         $this->set_default_property(self :: PROPERTY_IS_DEFAULT, $is_default);
     }
@@ -245,6 +167,16 @@ class MediamosaMediafileObject {
     function get_is_default()
     {
         return $this->get_default_property(self :: PROPERTY_IS_DEFAULT);
+    }
+
+    function set_is_downloadable($is_downloadable = true)
+    {
+        $this->set_default_property(self ::PROPERTY_IS_DOWNLOADABLE, $is_downloadable);
+    }
+
+    function get_is_downloadable()
+    {
+        return $this->get_default_property(self :: PROPERTY_IS_DOWNLOADABLE);
     }
 
 }

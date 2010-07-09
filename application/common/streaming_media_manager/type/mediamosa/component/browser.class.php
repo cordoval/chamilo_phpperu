@@ -20,6 +20,17 @@ class MediamosaStreamingMediaManagerBrowserComponent extends MediaMosaStreamingM
             $parameters[MediamosaStreamingMediaManager :: PARAM_SERVER] = $server_selection_form->get_selected_server();
             $this->redirect(Translation :: get('Server_selected'), false, $parameters);
         }
+        
+        if(!Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER))
+        {
+            if($server_selection_form->get_default_server())
+            {
+                $parameters = array();
+                $parameters[MediamosaStreamingMediaManager :: PARAM_SERVER] = $server_selection_form->get_default_server();
+                $this->redirect('', false, $parameters);
+
+            }
+        }
 
         $browser = StreamingMediaComponent::factory(StreamingMediaComponent::BROWSER_COMPONENT, $this);
         $browser->run();

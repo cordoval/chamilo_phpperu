@@ -60,6 +60,15 @@ class SettingsManagerTableCellRenderer extends ObjectTableCellRenderer
             case StreamingMediaServerObject :: PROPERTY_IS_UPLOAD_POSSIBLE :
                 return $server_setting->get_is_upload_possible();
                 break;
+            case StreamingMediaServerObject :: PROPERTY_VERSION:
+                return $server_setting->get_version();
+                break;
+            case StreamingMediaServerObject :: PROPERTY_IS_DEFAULT:
+                return $server_setting->get_is_default();
+                break;
+            case StreamingMediaServerObject :: PROPERTY_DEFAULT_USER_QUOTUM:
+                return $server_setting->get_default_user_quotum();
+                break;
             default :
                 return '&nbsp;';
         }
