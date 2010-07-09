@@ -15,8 +15,9 @@ require_once 'XML/Unserializer.php';
  */
 
 class RightsUtilities
-{   
-	static function create_location($name, $application, $type = 'root', $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $tree_type='root', $return_location = false)
+{
+
+    static function create_location($name, $application, $type = 'root', $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $tree_type = 'root', $return_location = false)
     {
         $location = new Location();
         $location->set_location($name);
@@ -28,25 +29,25 @@ class RightsUtilities
         $location->set_locked($locked);
         $location->set_tree_identifier($tree_identifier);
         $location->set_tree_type($tree_type);
-        
+
         $succes = $location->create();
-        
-        if($return_location && $succes)
+
+        if ($return_location && $succes)
         {
-        	return $location;
+            return $location;
         }
         else
         {
-        	return $succes;
+            return $succes;
         }
     }
-    
-	static function create_application_root_location($application)
+
+    static function create_application_root_location($application)
     {
         $xml = self :: parse_locations_file($application);
 
         $root = self :: create_location($xml['name'], $application, $xml['type'], $xml['identifier'], 0, 0, 0, 0, 'root', true);
-        if (!$root)
+        if (! $root)
         {
             return false;
         }
@@ -58,10 +59,10 @@ class RightsUtilities
 
         return true;
     }
-    
+
     static function create_subtree_root_location($application, $tree_identifier, $tree_type, $return_location = false)
     {
-    	return self :: create_location($tree_type, $application, 'root', 0, 0, 0, 0, $tree_identifier, $tree_type, $return_location);
+        return self :: create_location($tree_type, $application, 'root', 0, 0, 0, 0, $tree_identifier, $tree_type, $return_location);
     }
 
     function parse_locations_file($application)
@@ -105,7 +106,7 @@ class RightsUtilities
             $location->set_location($child['name']);
             $location->set_application($application);
             $location->set_type($child['type']);
-            
+
             // TODO: Temporary fix !
             if (is_string($child['identifier']))
             {
@@ -115,11 +116,11 @@ class RightsUtilities
             {
                 $location->set_identifier($child['identifier']);
             }
-            
+
             $location->set_parent($parent);
             $location->set_tree_type('root');
             $location->set_tree_identifier(0);
-            
+
             if (! $location->create($previous != null ? $previous : 0))
             {
                 return false;
@@ -187,24 +188,33 @@ class RightsUtilities
             {
                 while ($group = $user_groups->next_result())
                 {
-                    foreach ($parents as $parent)
+                    $group_templates = $group->get_rights_templates();
+
+                    while ($group_template = $group_templates->next_result())
                     {
-                        $conditions = array();
-                        $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_LOCATION_ID, $parent->get_id());
-                        $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_RIGHT_ID, $right);
-                        $conditions[] = new EqualityCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group->get_id());
-                        $condition = new AndCondition($conditions);
-
-                        $rights = $rdm->retrieve_group_right_locations($condition, null, 1);
-
-                        if ($rights->size() > 0)
+                        foreach ($parents as $parent)
                         {
-                            $has_right = $rights->next_result()->get_value();
+                            $right = $rdm->retrieve_rights_template_right_location($right, $group_template->get_id(), $parent->get_id());
 
-                            if ($has_right)
+                            if ($right instanceof UserRightLocation && $right->is_enabled())
                             {
                                 return true;
                             }
+
+                            if (! $parent->inherits())
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    foreach ($parents as $parent)
+                    {
+                        $right = $rdm->retrieve_group_right_location($right, $group->get_id(), $parent->get_id());
+
+                        if ($right instanceof GroupRightLocation && $right->is_enabled())
+                        {
+                            return true;
                         }
 
                         if (! $parent->inherits())
@@ -215,25 +225,35 @@ class RightsUtilities
                 }
             }
 
-            // Check right for the individual user
-            foreach ($parents as $parent)
+            // Check right for the individual user's configured templates
+            $user_templates = $user->get_rights_templates();
+
+            while ($user_template = $user_templates->next_result())
             {
-                $conditions = array();
-                $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_LOCATION_ID, $parent->get_id());
-                $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $right);
-                $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user->get_id());
-                $condition = new AndCondition($conditions);
-
-                $rights = $rdm->retrieve_user_right_locations($condition, null, 1);
-
-                if ($rights->size() > 0)
+                foreach ($parents as $parent)
                 {
-                    $has_right = $rights->next_result()->get_value();
+                    $right = $rdm->retrieve_rights_template_right_location($right, $user_template->get_id(), $parent->get_id());
 
-                    if ($has_right)
+                    if ($right instanceof UserRightLocation && $right->is_enabled())
                     {
                         return true;
                     }
+
+                    if (! $parent->inherits())
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // Check right for the individual user
+            foreach ($parents as $parent)
+            {
+                $right = $rdm->retrieve_user_right_location($right, $user->get_id(), $parent->get_id());
+
+                if ($right instanceof UserRightLocation && $right->is_enabled())
+                {
+                    return true;
                 }
 
                 if (! $parent->inherits())
@@ -259,7 +279,7 @@ class RightsUtilities
 
         while ($parent = $parents->next_result())
         {
-            $has_right = $rdm->retrieve_rights_template_right_location($right, $rights_template, $parent->get_id())->get_value();
+            $has_right = self :: get_user_right_location($right, $rights_template, $parent->get_id());
 
             if ($has_right)
             {
@@ -366,7 +386,7 @@ class RightsUtilities
     function get_root_id($application, $tree_type = 'root', $tree_identifier = 0)
     {
         $root = self :: get_root($application, $tree_type, $tree_identifier);
-        if($root)
+        if ($root)
         {
             return $root->get_id();
         }
@@ -387,7 +407,7 @@ class RightsUtilities
         $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_IDENTIFIER, $identifier);
         //nathalie: added this check so the type becomes optional (I need this method to work with variable types)
-        if($type!=null)
+        if ($type != null)
         {
             $conditions[] = new EqualityCondition(Location :: PROPERTY_TYPE, $type);
         }
@@ -517,7 +537,7 @@ class RightsUtilities
         }
     }
 
-	function set_rights_template_right_location_value($right, $rights_template, $location, $value)
+    function set_rights_template_right_location_value($right, $rights_template, $location, $value)
     {
         if (isset($rights_template) && isset($right) && isset($location) && isset($value))
         {
@@ -549,7 +569,7 @@ class RightsUtilities
     {
         if (isset($user) && isset($right) && isset($location) && isset($value))
         {
-        	//echo 'start<br />';
+            //echo 'start<br />';
             $rdm = RightsDataManager :: get_instance();
             $user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
 
@@ -753,14 +773,14 @@ class RightsUtilities
             // TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
             $reflect = new ReflectionClass(Application :: application_to_class($application) . 'Rights');
             $rights = $reflect->getConstants();
-            
-			foreach($rights as $key => $right)
-			{
-				if(substr(strtolower($key), 0, 8) == 'location')
-				{
-					unset($rights[$key]);
-				}
-			}            
+
+            foreach ($rights as $key => $right)
+            {
+                if (substr(strtolower($key), 0, 8) == 'location')
+                {
+                    unset($rights[$key]);
+                }
+            }
         }
 
         return $rights;
@@ -778,28 +798,28 @@ class RightsUtilities
 
         $location = $rdm->retrieve_locations($condition, 0, 1)->next_result();
 
-        if(!is_null($location))
+        if (! is_null($location))
         {
-        	$users = array();
+            $users = array();
 
-	        $conditions = array();
-	        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $right);
-	        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_LOCATION_ID, $location->get_id());
-	        $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_VALUE, true);
-	        $condition = new AndCondition($conditions);
+            $conditions = array();
+            $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $right);
+            $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_LOCATION_ID, $location->get_id());
+            $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_VALUE, true);
+            $condition = new AndCondition($conditions);
 
-	        $objects = $rdm->retrieve_user_right_locations($condition);
+            $objects = $rdm->retrieve_user_right_locations($condition);
 
-	        while($object = $objects->next_result())
-	        {
-	        	$users[] = $object->get_user_id();
-	        }
+            while ($object = $objects->next_result())
+            {
+                $users[] = $object->get_user_id();
+            }
 
-	        return $users;
+            return $users;
         }
         else
         {
-        	return array();
+            return array();
         }
     }
 }

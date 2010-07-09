@@ -71,5 +71,7 @@ interface RightsDataManagerInterface
 
     function retrieve_group_right_locations($condition = null, $offset = null, $count = null, $order_property = null);
 
+    function retrieve_rights_template_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
 }
 ?>
