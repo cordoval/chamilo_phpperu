@@ -35,14 +35,19 @@ class DynamicActionsTab extends DynamicTab
         $this->actions[] = $action;
     }
 
+    public function get_link()
+    {
+        return '#' . $this->get_id();
+    }
+
     /**
      * @param string $tab_name
      * @return string
      */
-    public function body($tab_name)
+    public function body()
     {
         $html = array();
-        
+
         $html[] = '<h2>';
         if ($this->get_image())
         {
@@ -50,20 +55,20 @@ class DynamicActionsTab extends DynamicTab
         }
         $html[] = $this->get_name();
         $html[] = '</h2>';
-        
-        $html[] = '<div class="admin_tab no-padding" id="' . $tab_name . '">';
+
+        $html[] = '<div class="admin_tab no-padding" id="' . $this->get_id() . '">';
         $html[] = '<a class="prev"></a>';
-        
+
         $html[] = '<div class="items">';
-        
+
         foreach ($this->actions as $key => $action)
         {
             $html[] = $action->render($key == 0);
         }
         $html[] = '</div>';
-        
-        $html[] = $this->body_footer($tab_name);
-        
+
+        $html[] = $this->body_footer($this->get_id());
+
         return implode("\n", $html);
     }
 }

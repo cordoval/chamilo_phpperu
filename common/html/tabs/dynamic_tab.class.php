@@ -65,14 +65,16 @@ abstract class DynamicTab
         $this->image = $image;
     }
 
+    abstract public function get_link();
+
     /**
      * @param string $tab_name
      * @return string
      */
-    public function header($tab_name)
+    public function header()
     {
         $html = array();
-        $html[] = '<li><a href="#' . $tab_name . '">';
+        $html[] = '<li><a href="' . $this->get_link() . '">';
         $html[] = '<span class="category">';
         if ($this->image)
         {
@@ -85,10 +87,9 @@ abstract class DynamicTab
     }
 
     /**
-     * @param string $tab_name
      * @return string
      */
-    protected function body_header($tab_name)
+    protected function body_header()
     {
         $html = array();
         $html[] = '<h2>';
@@ -98,17 +99,16 @@ abstract class DynamicTab
         }
         $html[] = $this->get_name();
         $html[] = '</h2>';
-        
-        $html[] = '<div class="admin_tab" id="' . $tab_name . '">';
+
+        $html[] = '<div class="admin_tab" id="' . $this->get_id() . '">';
         $html[] = '<a class="prev"></a>';
         return implode("\n", $html);
     }
 
     /**
-     * @param string $tab_name
      * @return string
      */
-    protected function body_footer($tab_name)
+    protected function body_footer()
     {
         $html = array();
         $html[] = '<a class="next"></a>';
@@ -121,5 +121,5 @@ abstract class DynamicTab
      * @param string $tab_name
      * @return string
      */
-    abstract function body($tab_name);
+    abstract function body();
 }

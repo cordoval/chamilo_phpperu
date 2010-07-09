@@ -11,7 +11,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
     private $action_bar;
     private $type;
 
-    const PARAM_TYPE = 're_type';
+    const PARAM_TYPE = 'rights_type';
     const TYPE_USER = 'user';
     const TYPE_GROUP = 'group';
 
@@ -21,8 +21,26 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
     function run()
     {
         $this->type = Request :: get(self :: PARAM_TYPE);
+        $modus = $this->get_modus();
         if (! $this->type)
-            $this->type = self :: TYPE_USER;
+        {
+            switch ($modus)
+            {
+                case RightsEditorManager :: MODUS_USERS :
+                    $this->type = self :: TYPE_USER;
+                    break;
+                case RightsEditorManager :: MODUS_GROUPS :
+                    $this->type = self :: TYPE_GROUP;
+                    break;
+                case RightsEditorManager :: MODUS_BOTH :
+                    $this->type = self :: TYPE_USER;
+                    break;
+            }
+        }
+        elseif (($modus == RightsEditorManager :: MODUS_USERS && $this->type == self :: PARAM_GROUP) || ($modus == RightsEditorManager :: MODUS_GROUPS && $this->type == self :: TYPE_USER))
+        {
+            $this->not_allowed();
+        }
 
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS, self :: PARAM_TYPE => Request :: get(self :: PARAM_TYPE))), Translation :: get('BrowseRights')));
@@ -62,7 +80,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
             $group = Request :: get(RightsEditorManager :: PARAM_GROUP);
 
-            $group_menu = new GroupMenu($group, 'core.php?go=rights&application=repository&category=' . Request :: get('category') . '&re_type=group&object=' . Request :: get('object') . '&group=%s');
+            $group_menu = new GroupMenu($group, 'core.php?go=rights&application=repository&category=' . Request :: get('category') . '&' . self :: PARAM_TYPE . '=group&object=' . Request :: get('object') . '&group=%s');
             $html[] = $group_menu->render_as_tree();
 
             $html[] = '</div>';
@@ -82,23 +100,28 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
     function display_type_selector()
     {
+        $modus = $this->get_modus();
+
         $html = array();
 
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
-        $html[] = '<div class="application_selecter">';
+        if ($modus == RightsEditorManager :: MODUS_BOTH)
+        {
+            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/application.js');
+            $html[] = '<div class="application_selecter">';
 
-        $current = $this->type == self :: TYPE_USER ? ' current' : '';
-        $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_USER)) . '">';
-        $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users') . '</div>';
-        $html[] = '</a>';
+            $current = $this->type == self :: TYPE_USER ? ' current' : '';
+            $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_USER)) . '">';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_user.png);">' . Translation :: get('Users') . '</div>';
+            $html[] = '</a>';
 
-        $current = $this->type == self :: TYPE_GROUP ? ' current' : '';
-        $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_GROUP)) . '">';
-        $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups') . '</div>';
-        $html[] = '</a>';
+            $current = $this->type == self :: TYPE_GROUP ? ' current' : '';
+            $html[] = '<a href="' . $this->get_url(array(self :: PARAM_TYPE => self :: TYPE_GROUP)) . '">';
+            $html[] = '<div class="application' . $current . '" style="background-image: url(' . Theme :: get_image_path('admin') . 'place_group.png);">' . Translation :: get('Groups') . '</div>';
+            $html[] = '</a>';
 
-        $html[] = '</div>';
-        $html[] = '<div style="clear: both;"></div>';
+            $html[] = '</div>';
+            $html[] = '<div style="clear: both;"></div>';
+        }
 
         echo implode("\n", $html);
     }

@@ -50,13 +50,12 @@ class DynamicFormTab extends DynamicTab
     }
 
     /**
-     * @param string $tab_name
      * @return string
      */
-    public function body($tab_name)
+    public function body()
     {
-        $this->get_form()->addElement('html', $this->body_header($tab_name));
+        $this->get_form()->addElement('html', $this->body_header());
         call_user_func(array($this->get_form(), $this->get_method()));
-        $this->get_form()->addElement('html', $this->body_footer($tab_name));
+        $this->get_form()->addElement('html', $this->body_footer());
     }
 }
