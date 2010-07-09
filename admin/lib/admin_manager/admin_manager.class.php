@@ -202,8 +202,8 @@ class AdminManager extends CoreApplication
         $info[] = $menu_manager->get_application_platform_admin_links();
 
         // 11. Migration
-        /*$migration_manager = new MigrationManager($user->get_id());
-        $info[] = $migration_manager->get_application_platform_admin_links();*/
+        $migration_manager = new MigrationManager($user->get_id());
+        $info[] = $migration_manager->get_application_platform_admin_links();
 
         $help_manager = new HelpManager($user->get_id());
         $info[] = $help_manager->get_application_platform_admin_links();

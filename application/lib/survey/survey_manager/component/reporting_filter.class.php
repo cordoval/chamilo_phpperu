@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
-require_once Path::get_application_path().'lib/survey/forms/survey_reporting_filter_form.class.php';
+require_once Path::get_application_path().'lib/survey/wizards/survey_reporting_filter_wizard.class.php';
 
 class SurveyManagerReportingFilterComponent extends SurveyManager
 {
@@ -48,10 +48,10 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
 				$trail->add(new Breadcrumb($this->get_reporting_filter_survey_publication_url(), Translation :: get('ReportingFilter')));
 		        $trail->add_help('survey reporting filter');
 	            
-		        $form = new SurveyReportingFilterForm($this->get_user(), $ids, $this->get_url($parameters));
+		        $wizard = new SurveyReportingFilterWizard($this->get_user(), $ids, $this->get_url($parameters));
 		        
 	            $this->display_header($trail, true);
-	            echo $form->toHtml();
+	            echo $wizard->toHtml();
 	            $this->display_footer();
 	        
 	        }
