@@ -122,7 +122,6 @@ class RepoViewer extends SubManager
         $action = $this->get_parameter(RepoViewer :: PARAM_ACTION);
         $html = array();
 
-        $html[] = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
         $repo_viewer_actions = $this->get_repo_viewer_actions();
 
         if ($action == self :: ACTION_VIEWER)
@@ -130,16 +129,21 @@ class RepoViewer extends SubManager
             $repo_viewer_actions[] = self :: ACTION_VIEWER;
         }
 
+        $tabs = new DynamicVisualTabsRenderer('repo_viewer');
+
         foreach ($repo_viewer_actions as $repo_viewer_action)
         {
-            $html[] = '<li><a';
             if ($action == $repo_viewer_action)
             {
-                $html[] = ' class="current"';
+                $selected = true;
             }
             elseif (($action == self :: ACTION_PUBLISHER || $action == 'multirepo_viewer') && $repo_viewer_action == self :: ACTION_CREATOR)
             {
-                $html[] = ' class="current"';
+                $selected = true;
+            }
+            else
+            {
+                $selected = false;
             }
 
             $parameters = $this->get_parameters();
@@ -150,19 +154,25 @@ class RepoViewer extends SubManager
                 $parameters[self :: PARAM_ID] = Request :: get(self :: PARAM_ID);
             }
 
-            $html[] = ' href="' . $this->get_url($parameters, true) . '">' . htmlentities(Translation :: get(ucfirst($repo_viewer_action) . 'Title')) . '</a></li>';
+            $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($repo_viewer_action) . 'Title'));
+            $link = $this->get_url($parameters, true);
+            $tabs->add_tab(new DynamicVisualTab($repo_viewer_action, $label, Theme :: get_common_image_path() . 'place_repository_' . $repo_viewer_action . '.png', $link, $selected));
         }
-        $html[] = '</ul><div class="tabbed-pane-content">';
+
+        $html[] = $tabs->header();
+        $html[] = DynamicVisualTabsRenderer :: body_header();
 
         echo implode("\n", $html);
     }
 
     function display_footer()
     {
-        echo '</div></div>';
-        parent :: display_footer();
+        $html = array();
+        $html[] = DynamicVisualTabsRenderer :: body_footer();
+        $html[] = DynamicVisualTabsRenderer :: footer();
+        echo implode("\n", $html);
 
-        return implode("\n", $html);
+        parent :: display_footer();
     }
 
     function as_html()

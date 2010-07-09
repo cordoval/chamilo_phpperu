@@ -31,16 +31,21 @@ class DynamicContentTab extends DynamicTab
         $this->content = $content;
     }
 
+    public function get_link()
+    {
+        return '#' . $this->get_id();
+    }
+
     /**
      * @param string $tab_name
      * @return string
      */
-    public function body($tab_name)
+    public function body()
     {
         $html = array();
-        $html[] = $this->body_header($tab_name);
+        $html[] = $this->body_header();
         $html[] = $this->content;
-        $html[] = $this->body_footer($tab_name);
+        $html[] = $this->body_footer();
         return implode("\n", $html);
     }
 }

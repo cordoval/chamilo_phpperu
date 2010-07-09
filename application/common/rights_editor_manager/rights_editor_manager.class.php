@@ -14,6 +14,10 @@ class RightsEditorManager extends SubManager
 
     const PARAM_GROUP = 'group';
 
+    const MODUS_USERS = 0;
+    const MODUS_GROUPS = 1;
+    const MODUS_BOTH = 2;
+
     private $locations;
 
     private $excluded_groups;
@@ -21,6 +25,8 @@ class RightsEditorManager extends SubManager
 
     private $limited_groups;
     private $limited_users;
+
+    private $modus;
 
     function RightsEditorManager($parent, $locations)
     {
@@ -32,6 +38,8 @@ class RightsEditorManager extends SubManager
 
         $this->included_users = array();
         $this->included_groups = array();
+
+        $this->modus = self :: MODUS_BOTH;
 
         $rights_editor_action = Request :: get(self :: PARAM_RIGHTS_EDITOR_ACTION);
         if ($rights_editor_action)
@@ -129,6 +137,16 @@ class RightsEditorManager extends SubManager
         return $this->limited_groups;
     }
 
+    function set_modus($modus)
+    {
+        $this->modus = $modus;
+    }
+
+    function get_modus()
+    {
+        return $this->modus;
+    }
+
     function create_component($type, $application)
     {
         $component = parent :: create_component($type, $application);
@@ -140,6 +158,7 @@ class RightsEditorManager extends SubManager
             $component->exclude_groups($this->get_excluded_groups());
             $component->limit_users($this->get_limited_users());
             $component->limit_groups($this->get_limited_groups());
+            $component->set_modus($this->get_modus());
         }
 
         return $component;

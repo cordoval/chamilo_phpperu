@@ -32,7 +32,7 @@ class DynamicFormTabsRenderer extends DynamicTabsRenderer
         foreach ($this->get_tabs() as $key => $tab)
         {
             $tab->set_form($this->form);
-            $tab->body($this->get_name() . '_' . $tab->get_id());
+            $tab->body();
         }
 
         $this->form->addElement('html', $this->footer());

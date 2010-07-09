@@ -52,6 +52,7 @@ class DynamicTabsRenderer
      */
     public function add_tab(DynamicTab $tab)
     {
+        $tab->set_id($this->name . '_' . $tab->get_id());
         $this->tabs[] = $tab;
     }
 
@@ -68,7 +69,7 @@ class DynamicTabsRenderer
         $html[] = '<ul class="tabs-header">';
         foreach ($tabs as $key => $tab)
         {
-            $html[] = $tab->header($this->name . '_' . $tab->get_id());
+            $html[] = $tab->header();
         }
         $html[] = '</ul>';
 

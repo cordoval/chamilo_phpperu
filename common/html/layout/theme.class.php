@@ -57,7 +57,7 @@ class Theme
     	return self :: get_instance()->template;
     }
 
-    function get_theme()
+    static function get_theme()
     {
         return self :: get_instance()->theme;
     }
@@ -74,12 +74,12 @@ class Theme
         $this->path = array();
     }
 
-    function get_application()
+    static function get_application()
     {
         return self :: get_instance()->application;
     }
 
-    function set_application($application)
+    static function set_application($application)
     {
         $instance = self :: get_instance();
         $instance->application = $application;
@@ -112,7 +112,7 @@ class Theme
     /**
      * Get the web path to the theme's folder
      */
-    function get_theme_path()
+    static function get_theme_path()
     {
         return self :: get_instance()->get_path(WEB_THEME_PATH);
     }
@@ -120,7 +120,7 @@ class Theme
     /**
      * Get the web path to the application's css file
      */
-    function get_css_path()
+    static function get_css_path()
     {
         $instance = self :: get_instance();
         return $instance->get_path(WEB_CSS_PATH) . $instance->get_application() . '.css';
@@ -129,7 +129,7 @@ class Theme
     /**
      * Get the web path to the general css file
      */
-    function get_common_css_path()
+    static function get_common_css_path()
     {
         return self :: get_instance()->get_path(WEB_CSS_PATH) . 'common.css';
     }
@@ -179,7 +179,7 @@ class Theme
         return self :: $instance;
     }
 
-    function get_themes()
+    static function get_themes()
     {
         $options = array();
 
@@ -209,17 +209,17 @@ class Theme
         return $icon->as_html();
     }
 
-    function get_content_object_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+    static function get_content_object_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
         return self :: get_common_image('content_object/' . $image, $extension, $label, $href, $display, $confirmation);
     }
 
-    function get_treemenu_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+    static function get_treemenu_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
         return self :: get_common_image('treemenu/' . $image, $extension, $label, $href, $display, $confirmation);
     }
 
-    function get_treemenu_type_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+    static function get_treemenu_type_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
         return self :: get_common_image('treemenu_types/' . $image, $extension, $label, $href, $display, $confirmation);
     }
