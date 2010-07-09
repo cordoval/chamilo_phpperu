@@ -5,7 +5,7 @@
  * @author vanpouckesven
  *
  */
-class UsersMigration extends Migration
+class UsersMigrationBlock extends MigrationBlock
 {
-	
+	const MIGRATION_BLOCK_NAME = 'users';
 }

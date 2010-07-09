@@ -15,6 +15,12 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
 	const CLEAN_MIGRATION_BLOCKS = 1;
 	const CLEAN_ALL = 2;
 	
+	const SETTING_PLATFORM = 'platform';
+    const SETTING_PLATFORM_PATH = 'platform_path';
+    const SETTING_MOVE_FILES = 'move_files';
+    const SETTING_MIGRATE_DELETED_FILES = 'migrate_deleted_files';
+    const SETTING_IN_MIGRATION = 'in_migration'; 
+	
     /**
      * Runs this component and displays its output.
      */
@@ -30,7 +36,10 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
 		
 		if($form->validate())
 		{
-			$this->clean_settings($form);
+			$succes = $this->clean_settings($form);
+			$message = $succes ? Translation :: get('SettingsCleaned') : Translation :: get('SettingsNotCleaned');
+			$this->redirect($message, !$succes);
+			
 		}
 		else
 		{
@@ -45,7 +54,7 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
     	$form = new FormValidator('migration_settings_cleaner', 'post', $this->get_url());
     	
     	$form->addElement('select', self :: CLEANING_METHOD, Translation :: get('CleaningMethod'), $this->get_cleaning_methods());
-    	$form->addElement('style_submit_button', 'submit', Translation :: get('Clean'), array('class' => 'positive update'));
+    	$form->addElement('style_submit_button', FormValidator :: PARAM_SUBMIT, Translation :: get('Clean'), array('class' => 'positive update'));
     	
     	return $form;
     }
@@ -54,7 +63,7 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
     {
     	$cleaning_methods = array();
     	
-    	$cleaning_methods[self :: CLEAN_MIGRATION_BLOCKS] = Translation :: get('CleanMigrationBlocks');
+    	$cleaning_methods[self :: CLEAN_MIGRATION_BLOCKS] = Translation :: get('CleanMigrationBlockStatus');
     	$cleaning_methods[self :: CLEAN_ALL] = Translation :: get('CleanAll');
     	
     	return $cleaning_methods;
@@ -62,7 +71,68 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
     
     function clean_settings($form)
     {
-    	$value = $form->exportValue(self :: CLEANING_METHOD);
+    	$cleaning_method = $form->exportValue(self :: CLEANING_METHOD);
+    	
+    	switch($cleaning_method)
+    	{
+    		case self :: CLEAN_MIGRATION_BLOCKS:
+    				return $this->clean_migration_blocks();
+    		case self :: CLEAN_ALL:
+    				return $this->clean_all();
+    	}
+    }
+    
+    function clean_migration_blocks()
+    {
+    	$mdm = MigrationDataManager :: get_instance();
+    	$block_registrations = $mdm->retrieve_migration_block_registrations();
+    	
+    	$succes = true;
+    	
+    	while($block_registration = $block_registrations->next_result())
+    	{
+    		$block_registration->set_is_migrated(0);
+    		$succes &= $block_registration->update();
+    	}
+    	
+    	return $succes;
+    }
+    
+    function clean_all()
+    {
+    	// Remove all migration blocks
+    	$mdm = MigrationDataManager :: get_instance();
+    	$adm = AdminDataManager :: get_instance();
+    	$block_registrations = $mdm->retrieve_migration_block_registrations();
+    	
+    	$succes = true;
+    	
+    	while($block_registration = $block_registrations->next_result())
+    	{
+    		$succes &= $block_registration->delete();
+    	}
+    	
+    	// Remove all settings
+    	$settings = array(self :: SETTING_PLATFORM, self :: SETTING_PLATFORM_PATH, self :: SETTING_MOVE_FILES, self :: SETTING_MIGRATE_DELETED_FILES, self :: SETTING_IN_MIGRATION);
+    	foreach($settings as $setting)
+    	{
+    		$setting = $adm->retrieve_setting_from_variable_name($setting, MigrationManager :: APPLICATION_NAME);
+    		
+    		$value = $setting->get_value();
+    		if(is_numeric($value))
+    		{
+    			$new_value = 0;
+    		}
+    		else
+    		{
+    			$new_value = '-';
+    		}
+    		
+    		$setting->set_value($new_value);
+    		$setting->update();
+    	}
+    	
+    	return $succes;
     }
 }
 ?>

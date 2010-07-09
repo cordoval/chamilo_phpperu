@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+
+.migration_info
+{
+	background-color:#E5EDF9;
+	border:1px solid #B9D0EF;
+	color:#272761;
+	width: auto;
+	padding: 10px;
+}
+
+.clear_settings_link
+{
+	width: 80%;
+	float: right;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}

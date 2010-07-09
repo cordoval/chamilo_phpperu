@@ -106,32 +106,31 @@ class DatabaseMigrationDataManager extends Database implements MigrationDataMana
 		return $this->retrieve_objects(IdReference :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 	
-	public function delete_migration_block(MigrationBlock $migration_block) 
+	public function delete_migration_block_registration(MigrationBlockRegistration $migration_block_registration) 
 	{
-		$condition = new EqualityCondition(MigrationBlock :: PROPERTY_ID, $migration_block->get_id());
-        return $this->delete(MigrationBlock :: get_table_name(), $condition);
+		$condition = new EqualityCondition(MigrationBlockRegistration :: PROPERTY_ID, $migration_block_registration->get_id());
+        return $this->delete(MigrationBlockRegistration :: get_table_name(), $condition);
 	}
 
-	public function update_migration_block(MigrationBlock $migration_block)
+	public function update_migration_block_registration(MigrationBlockRegistration $migration_block_registration)
 	{
-		$condition = new EqualityCondition(MigrationBlock :: PROPERTY_ID, $migration_block->get_id());
-        return $this->update($migration_block, $condition);
+		$condition = new EqualityCondition(MigrationBlockRegistration :: PROPERTY_ID, $migration_block_registration->get_id());
+        return $this->update($migration_block_registration, $condition);
 	}
 
-	public function create_migration_block(MigrationBlock $migration_block) 
+	public function create_migration_block_registration(MigrationBlockRegistration $migration_block_registration) 
 	{
-		return $this->create($migration_block);
+		return $this->create($migration_block_registration);
 	}
 
-	public function count_migration_blocks($conditions = null) 
+	public function count_migration_block_registrations($conditions = null) 
 	{
-		return $this->count_objects(MigrationBlock :: get_table_name(), $conditions);
+		return $this->count_objects(MigrationBlockRegistration :: get_table_name(), $conditions);
 	}
 
-	public function retrieve_migration_blocks($condition = null, $offset = null, $count = null, $order_property = null) 
+	public function retrieve_migration_block_registrations($condition = null, $offset = null, $count = null, $order_property = null) 
 	{
-		return $this->retrieve_objects(MigrationBlock :: get_table_name(), $condition, $offset, $count, $order_property);
+		return $this->retrieve_objects(MigrationBlockRegistration :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
-
 }
 ?>
