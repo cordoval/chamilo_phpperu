@@ -1,14 +1,16 @@
 <?php
 require_once dirname(__FILE__) . '/../survey_publication.class.php';
 
-class SurveyReportingFilterForm extends FormValidator
+class SurveyReportingFilterWizard extends WizardPageValidator
 {
-	function SurveyReportingFilterForm($user,$selected_survey_ids, $actions)
+	function SurveyReportingFilterWizard($user,$selected_survey_ids, $actions)
     {
     	parent :: __construct('survey_reporting_filter', 'post', $actions);   
     	
     	$this->addElement('category',Translation :: get('AvailableContexts'));
-    	$select_box = $this->addElement('select','AvailableContexts',Translation :: get('SelectContext'));
+    	
+    	$select_box_items = array();
+
 		foreach ($selected_survey_ids as $id)
         {   
         	$pub = SurveyDataManager::get_instance()->retrieve_survey_publication($id);
@@ -17,15 +19,13 @@ class SurveyReportingFilterForm extends FormValidator
             $context = $survey->get_context_template();
             $context_id = $context->get_id();
             $context_name = $context->get_name();
-
-            $select_box->setAttribute($context_name,$context_id);
+			
+            $select_box_items[ $context_id ] = $context_name;
+           	
         }
+        $this->add_select('select','AvailableContexts',$select_box_items,false,Translation :: get('SelectContext'));
         
-		$this->addElement('category'); 	
-		
-		$this->addElement('category',Translation :: get('AvailableTemplates'));
-		    	
-		$this->addElement('category');
+        $this->addElement('category'); 	
     }
     
 }
