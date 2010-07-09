@@ -63,6 +63,12 @@ abstract class MigrationDataManager
         
     }
     
+    static function retrieve_migration_block_registrations_by_name($name)
+    {
+    	$condition = new EqualityCondition(MigrationBlockRegistration :: PROPERTY_NAME, $name);
+    	return self :: get_instance()->retrieve_migration_block_registrations($condition)->next_result();
+    }
+    
     
 }
 
