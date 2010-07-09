@@ -29,6 +29,8 @@ $lang['survey']['NoDate'] = 'No Date';
 $lang['survey']['Username'] = 'Username';
 $lang['survey']['Progress'] = 'Progress';
 $lang['survey']['StartTime'] = 'Invitation Date';
+$lang['survey']['total'] = 'Totaal';
+$lang['survey']['count'] = 'Aantal';
 
 $lang['survey']['TakeSurvey'] = 'Take survey';
 $lang['survey']['InviteParticipants'] = 'Invite Participants';
