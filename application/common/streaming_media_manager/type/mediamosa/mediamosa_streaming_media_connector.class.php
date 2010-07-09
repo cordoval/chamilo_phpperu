@@ -668,7 +668,7 @@ class MediamosaStreamingMediaConnector {
         if($mediafile_id)
         {
             $data = array();
-            $data['user_id'] = S$this->get_mediamosa_user_id(Session::get_user_id());
+            $data['user_id'] = $this->get_mediamosa_user_id(Session::get_user_id());
             //$data['mediafile_id'] = $mediafile_id; //TODO : necessary?
 
             $response = $this->mediamosa->request(self :: METHOD_GET, '/mediafile/'.$mediafile_id.'/uploadticket/create', $data);
