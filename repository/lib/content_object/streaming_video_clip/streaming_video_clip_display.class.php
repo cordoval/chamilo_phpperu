@@ -4,10 +4,10 @@
  *
  * @author jevdheyd
  */
-require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_server_object.class.php';
-require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_data_manager.class.php';
+//require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_server_object.class.php';
+//require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_data_manager.class.php';
 require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_connector.class.php';
-require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_object.class.php';
+//require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_object.class.php';
 
 class StreamingVideoClipDisplay extends ContentObjectDisplay
 {
@@ -33,7 +33,7 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
         if(!$this->mediamosa_object)
         {
             $object = $this->get_content_object();
-            $this->mediamosa_streaming_media_connector = MediamosaStreamingMediaConnector :: get_instance($object->get_server_id());
+            $this->mediamosa_streaming_media_connector = new MediamosaStreamingMediaConnector($object->get_server_id());
             $this->mediamosa_object = $this->mediamosa_streaming_media_connector->retrieve_mediamosa_asset($object->get_asset_id());
         }
     }
@@ -77,7 +77,7 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
             $html = array();
             $i = 1;
             $html[] = '<tr><td class="header">' . Translation :: get('Available versions').'</td></tr>';
-
+xdebug_break();
             if(is_array($mediafiles))
             {
                 foreach($mediafiles as $mediafile)
@@ -89,7 +89,13 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
 
                     $i++;
                 }
-                return '<table class="data_table data_table_no_header">' . implode("\n",$html) . '</table>';
+                $html2 = array();
+
+                $html2[] = Translation :: get('Published by') . ' : ' . $object->get_publisher() . '<br />';
+
+                if($object->get_creator()) $html2[] = Translation :: get('Created by') . ' : ' . $object->get_creator();
+
+                return '<table class="data_table data_table_no_header">' . implode("\n",$html) . '</table>' . implode("\n",$html2);
             }
         }
 

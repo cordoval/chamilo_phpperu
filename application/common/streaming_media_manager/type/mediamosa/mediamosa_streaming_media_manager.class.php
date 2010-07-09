@@ -8,6 +8,7 @@
 require_once dirname(__FILE__) . '/mediamosa_streaming_media_object.class.php';
 require_once dirname(__FILE__) . '/mediamosa_streaming_media_connector.class.php';
 require_once dirname(__FILE__) . '/mediamosa_streaming_media_server_object.class.php';
+require_once dirname(__FILE__) . '/mediamosa_streaming_media_user_quotum.class.php';
 require_once dirname(__FILE__) . '/forms/mediamosa_streaming_media_manager_server_select_form.class.php';
 require_once dirname(__FILE__) . '/mediamosa_streaming_media_data_manager.class.php';
 
@@ -205,14 +206,44 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
 
     function import_streaming_media_object($object)
     {
+        xdebug_break();
         $streaming_video_clip = new StreamingVideoClip();
 
         $streaming_video_clip->set_title($object->get_title());
         $streaming_video_clip->set_description($object->get_description());
         $streaming_video_clip->set_asset_id($object->get_id());
         $streaming_video_clip->set_server_id(Request :: get(self :: PARAM_SERVER));
+        $streaming_video_clip->set_publisher($object->get_publisher());
+        $streaming_video_clip->set_creator($object->get_creator());
         $streaming_video_clip->set_owner_id($this->get_user_id());
         return $streaming_video_clip->create();
     }
+
+    function is_download_possible($id)
+    {
+        $connector = MediamosaStreamingMediaConnector :: get_instance();
+    	return $connector->is_downloadable($id);
+    }
+
+    function create_standard_user_quota($server_id)
+    {
+        $udm = UserDataManager :: get_instance();
+        $mdm = MediamosaStreamingMediaDataManager :: get_instance();
+
+        $users = $udm->retrieve_users();
+        $mediamosa_server_object = $mdm->retrieve_streaming_media_server_object($server_id);
+        xdebug_break();
+        while($user = $users->next_result())
+        {
+            $mediamosa_user_quotum = new StreamingMediaUserQuotum();
+
+            $mediamosa_user_quotum->set_user_id($user->get_id());
+            $mediamosa_user_quotum->set_server_id($server_id);
+            $mediamosa_user_quotum->set_quotum($mediamosa_server_object->get_default_user_quotum());
+
+            $mdm->create_mediamosa_user_quotum($mediamosa_user_quotum);
+        }
+    }
+    
 }
 ?>

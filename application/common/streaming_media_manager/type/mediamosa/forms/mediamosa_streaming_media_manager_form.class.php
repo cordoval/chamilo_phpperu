@@ -49,6 +49,7 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
         //$defaults[MediamosaStreamingMediaObject :: PROPERTY_TAGS] = $object->get_tags();
         $defaults[MediamosaStreamingMediaObject :: PROPERTY_PUBLISHER] = $object->get_publisher();
         $defaults[MediamosaStreamingMediaObject :: PROPERTY_DATE_PUBLISHED] = $object->get_date();
+        $defaults[MediamosaStreamingMediaObject :: PROPERTY_IS_DOWNLOADABLE] = $object->get_is_downloadable();
        
         $this->setDefaults($defaults);
     }
@@ -63,6 +64,8 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
 
         $this->addElement('textarea', MediaMosaStreamingMediaObject::PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "110"));
         $this->addElement('text', MediamosaStreamingMediaObject :: PROPERTY_CREATOR, Translation :: get('Creator'), array("size" => "50"));
+        //doesn't yet seem to be settable
+        //$this->addElement('checkbox', MediamosaStreamingMediaObject :: PROPERTY_IS_DOWNLOADABLE, Translation :: get('Is downloadable'));
 
         $this->addElement('hidden', MediamosaStreamingMediaObject :: PROPERTY_PUBLISHER);
         $this->addelement('hidden', MediamosaStreamingMediaObject :: PROPERTY_DATE_PUBLISHED);
@@ -121,6 +124,7 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
        if($asset_id = $connector->create_mediamosa_asset())
        {
            if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id))
+            //if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id, $this->exportValue(MediamosaStreamingMediaObject :: PROPERTY_IS_DOWNLOADABLE)))
             {
                 //on succes add rights ??
                 //TODO:jens-> ACL rights

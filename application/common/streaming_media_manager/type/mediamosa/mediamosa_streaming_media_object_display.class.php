@@ -72,11 +72,19 @@ class MediamosaStreamingMediaObjectDisplay  extends StreamingMediaObjectDisplay
                     //TODO:jens -> get_link
                     $url = $this->parent->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION => MediamosaStreamingMediaManager :: ACTION_VIEW_STREAMING_MEDIA, StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $object->get_id(), MediamosaStreamingMediaManager :: PARAM_MEDIAFILE => $mediafile->get_id()));
 
+                    $download = null;
+                    if($mediafile->get_is_downloadable()) $download = 'download';
+
                     $html[] = '<tr><td class="header">' . Translation :: get('Version') . ' ' .$i. '</td><td><a href="' .$url. '">' . $mediafile->get_title() . '</a></td></tr>';
 
                     $i++;
                 }
-                return '<ul>' . implode("\n",$html) . '</ul>';
+
+                $html[] = '<tr><td class="header">' . Translation :: get('Published by') . '</td><td>' . $object->get_publisher() . '</td></tr>';
+
+                if($object->get_creator()) $html[] = '<tr><td class="header">' . Translation :: get('Created by') . '</td><td>' . $object->get_creator() . '</td></tr>';
+
+                return implode("\n",$html);
 
             }
         }
