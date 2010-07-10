@@ -94,11 +94,7 @@ class DynamicTabsRenderer
     {
         $html = array();
         $html[] = '</div>';
-        //$html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
         $html[] = '<script type="text/javascript">';
-
-//        dump($this->get_name());
-
         $html[] = 'function setSearchTab(e, ui)
 	{
 		var searchForm = $("div.action_bar div.search_form form");
@@ -124,8 +120,6 @@ class DynamicTabsRenderer
 
         $html[] = '});';
         $html[] = '</script>';
-        //        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/dynamic_tabs.js');
-
 
         return implode("\n", $html);
     }

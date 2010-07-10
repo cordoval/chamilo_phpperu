@@ -19,6 +19,16 @@ class YoutubeForm extends ContentObjectForm
         $this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
         $this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
         $this->addElement('category');
+        
+        $html = array();
+        $html[] = '<script type="text/javascript">';
+        $html[] = '$(document).ready(function ()';
+        $html[] = '{';
+        $html[] = '	openPopup(\''. $link .'\');';
+        $html[] = '});';
+        $html[] = '</script>';
+        
+        $this->addElement('html', implode("\n", $html));
     }
 
     protected function build_editing_form()
