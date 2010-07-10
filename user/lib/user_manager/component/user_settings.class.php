@@ -65,7 +65,6 @@ class UserManagerUserSettingsComponent extends UserManager
         
         $tabs = new DynamicVisualTabsRenderer('account');
         
-        //		echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
         foreach ($actions as $action)
         {
             $selected = ($action == 'user_settings' ? true : false);
@@ -74,27 +73,18 @@ class UserManagerUserSettingsComponent extends UserManager
             $link = $this->get_url(array(UserManager :: PARAM_ACTION => $action));
             
             $tabs->add_tab(new DynamicVisualTab($action, $label, Theme :: get_image_path() . 'place_' . $action . '.png', $link, $selected));
-            
-        //            echo '<li><a';
-        //            if ($action == 'user_settings')
-        //            {
-        //                echo ' class="current"';
-        //            }
-        //            echo ' href="' . $this->get_url(array(UserManager :: PARAM_ACTION => $action)) . '">' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($action) . 'Title')) . '</a></li>';
         }
         echo $tabs->header();
         echo DynamicVisualTabsRenderer :: body_header();
-        //        echo '</ul><div class="tabbed-pane-content">';
     }
 
-    function display_footer()
+    function display_footer()    
     {
         $html[] = '<script type="text/javascript">';
         $html[] = '$(document).ready(function() {';
         $html[] = '$(\':checkbox\').iphoneStyle({ checkedLabel: \'' . Translation :: get('On') . '\', uncheckedLabel: \'' . Translation :: get('Off') . '\'});';
         $html[] = '});';
         $html[] = '</script>';
-        //		$html[] = '</div></div>';
         $html[] = DynamicVisualTabsRenderer :: body_footer();
         $html[] = DynamicVisualTabsRenderer :: footer();
         
