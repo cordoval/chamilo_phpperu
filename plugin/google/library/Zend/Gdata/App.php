@@ -752,6 +752,7 @@ class Zend_Gdata_App
         $extraHeaders = array())
     {
         $response = $this->get($url, $extraHeaders);
+
         $feedContent = $response->getBody();
         if (!$this->_useObjectMapping) {
             return $feedContent;
@@ -772,7 +773,6 @@ class Zend_Gdata_App
 
         $feed = self::importString($feedContent, $className,
             $majorProtocolVersion, $minorProtocolVersion);
-
         if ($this->getHttpClient() != null) {
             $feed->setHttpClient($this->getHttpClient());
         }
@@ -800,7 +800,7 @@ class Zend_Gdata_App
         $className='Zend_Gdata_App_Feed', $majorProtocolVersion = null,
         $minorProtocolVersion = null)
     {
-    	// Load the feed as an XML DOMDocument object
+        // Load the feed as an XML DOMDocument object
         @ini_set('track_errors', 1);
         $doc = new DOMDocument();
         $success = @$doc->loadXML($string);
