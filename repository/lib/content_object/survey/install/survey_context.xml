@@ -1,23 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<workbook xml:space="preserve" xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
- <fileVersion appName="xl" lastEdited="4" lowestEdited="4" rupBuild="4505"/>
- <workbookPr codeName="ThisWorkbook"/>
- <bookViews>
-  <workbookView activeTab="10" autoFilterDateGrouping="1" firstSheet="0" minimized="0" showHorizontalScroll="1" showSheetTabs="1" showVerticalScroll="1" tabRatio="600" visibility="visible"/>
- </bookViews>
- <sheets>
-  <sheet name="Introductie perso" sheetId="1" r:id="rId4"/>
-  <sheet name="Taakinhoud en taa" sheetId="2" r:id="rId5"/>
-  <sheet name="Loon - samenwerking" sheetId="3" r:id="rId6"/>
-  <sheet name="Directe meerdere " sheetId="4" r:id="rId7"/>
-  <sheet name="infrastructuur &amp; " sheetId="5" r:id="rId8"/>
-  <sheet name="hoe belangrijk zo" sheetId="6" r:id="rId9"/>
-  <sheet name="Hoe belangrijk zo" sheetId="7" r:id="rId10"/>
-  <sheet name="Organisatie A-B-C" sheetId="8" r:id="rId11"/>
-  <sheet name="Organisatie D-E-F" sheetId="9" r:id="rId12"/>
-  <sheet name="In het vierde dee" sheetId="10" r:id="rId13"/>
-  <sheet name="Worksheet" sheetId="11" r:id="rId14"/>
- </sheets>
- <definedNames/>
- <calcPr calcId="124519" calcMode="auto" fullCalcOnLoad="1"/>
-</workbook>
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="survey_context">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1"
+			autoincrement="true" />
+		<property name="name" type="text" length="150" fixed="true"
+			notnull="1" />
+		<property name="type" type="text" length="100" fixed="true"
+			notnull="1" />
+
+	</properties>
+
+	<index name="type">
+		<indexproperty name="type" />
+	</index>
+
+</object>
