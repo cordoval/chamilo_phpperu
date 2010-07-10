@@ -103,12 +103,22 @@ ul.tree-menu li div a.profile {
 
 ul.tree-menu li div a.youtube {
 	clear: both;
-	background-image: url(../images/common/treemenu_types/youtube.png);
+	background-image: url(../images/common/repository_youtube.png);
 }
 
 ul.tree-menu li div a.mediamosa {
 	clear: both;
-	background-image: url(../images/common/treemenu_types/mediamosa.png);
+	background-image: url(../images/common/repository_mediamosa.png);
+}
+
+ul.tree-menu li div a.google_docs {
+	clear: both;
+	background-image: url(../images/common/repository_google_docs.png);
+}
+
+ul.tree-menu li div a.fedora {
+	clear: both;
+	background-image: url(../images/common/repository_fedora.png);
 }
 
 ul.tree-menu li div a.disabled {
