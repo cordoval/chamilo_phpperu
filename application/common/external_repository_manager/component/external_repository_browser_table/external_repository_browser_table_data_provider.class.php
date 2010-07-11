@@ -1,5 +1,5 @@
 <?php
-class StreamingMediaBrowserTableDataProvider extends GalleryObjectTableDataProvider
+class ExternalRepositoryBrowserTableDataProvider extends GalleryObjectTableDataProvider
 {
     /**
      * Gets the learning objects
@@ -16,7 +16,7 @@ class StreamingMediaBrowserTableDataProvider extends GalleryObjectTableDataProvi
         //		$order_property[] = ContentObject :: PROPERTY_TITLE;
 
 
-        return $this->get_browser()->retrieve_streaming_media_objects($this->get_condition(), $order_property, $offset, $count);
+        return $this->get_browser()->retrieve_external_repository_objects($this->get_condition(), $order_property, $offset, $count);
     }
 
     /**
@@ -25,7 +25,7 @@ class StreamingMediaBrowserTableDataProvider extends GalleryObjectTableDataProvi
      */
     function get_object_count()
     {
-        return $this->get_browser()->count_streaming_media_objects($this->get_condition());
+        return $this->get_browser()->count_external_repository_objects($this->get_condition());
     }
 }
 ?>

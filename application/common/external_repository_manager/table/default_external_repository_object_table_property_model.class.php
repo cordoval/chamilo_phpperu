@@ -23,13 +23,13 @@
  * @see DefaultContentObjectTableCellRenderer
  * @author Tim De Pauw
  */
-class DefaultStreamingMediaObjectTablePropertyModel extends GalleryObjectTablePropertyModel
+class DefaultExternalRepositoryObjectTablePropertyModel extends GalleryObjectTablePropertyModel
 {
 
     /**
      * Constructor
      */
-    function DefaultStreamingMediaObjectTablePropertyModel()
+    function DefaultExternalRepositoryObjectTablePropertyModel()
     {
         parent :: __construct(self :: get_default_properties(), 0);
     }

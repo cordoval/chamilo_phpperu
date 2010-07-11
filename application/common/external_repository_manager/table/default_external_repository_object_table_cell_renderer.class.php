@@ -1,11 +1,11 @@
 <?php
-class DefaultStreamingMediaObjectTableCellRenderer implements GalleryObjectTableCellRenderer
+class DefaultExternalRepositoryObjectTableCellRenderer implements GalleryObjectTableCellRenderer
 {
 
     /**
      * Constructor
      */
-    function DefaultStreamingMediaObjectTableCellRenderer()
+    function DefaultExternalRepositoryObjectTableCellRenderer()
     {
     }
     
