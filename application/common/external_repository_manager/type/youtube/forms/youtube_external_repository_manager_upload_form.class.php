@@ -1,9 +1,9 @@
 <?php
-class YoutubeStreamingMediaManagerUploadForm extends FormValidator
+class YoutubeExternalRepositoryManagerUploadForm extends FormValidator
 {
     private $token;
 
-    function YoutubeStreamingMediaManagerUploadForm($action, $token)
+    function YoutubeExternalRepositoryManagerUploadForm($action, $token)
     {
         parent :: __construct('youtube_upload', 'post', $action);
 

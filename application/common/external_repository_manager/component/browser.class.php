@@ -69,7 +69,7 @@ class ExternalRepositoryBrowserComponent extends ExternalRepositoryComponent
             $this->set_parameter(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY, $query);
         }
         
-        //$external_repository_objects = $this->retrieve_external_repository_objects();
+        $external_repository_objects = $this->retrieve_external_repository_objects();
         $this->display_header();
         
         if ($this->get_menu() == null)

@@ -1,5 +1,5 @@
 <?php
-class YoutubeExternalRepositoryManagerBrowserComponent extends YoutubeExternalRepositoryManager
+class GoogleDocsExternalRepositoryManagerBrowserComponent extends GoogleDocsExternalRepositoryManager
 {
 
     function run()
