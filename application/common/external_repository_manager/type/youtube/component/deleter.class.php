@@ -1,28 +1,29 @@
 <?php
-class YoutubeStreamingMediaManagerDeleterComponent extends YoutubeStreamingMediaManager
+class YoutubeExternalRepositoryManagerDeleterComponent extends YoutubeExternalRepositoryManager
 {
-	function run()
-	{
-		$deleter = StreamingMediaComponent::factory(StreamingMediaComponent::DELETER_COMPONENT, $this);
-		$deleter->run();
-	}
-	
-	function delete_streaming_media_object($id)
-	{
-		$success = parent :: delete_streaming_media_object($id);
-		if ($success)
-		{
-			$parameters = $this->get_parameters();
-			$parameters [StreamingMediaManager::PARAM_STREAMING_MEDIA_MANAGER_ACTION] = StreamingMediaManager::ACTION_BROWSE_STREAMING_MEDIA;
-			$this->redirect(Translation :: get('DeleteSuccesfull'), false, $parameters);
-		}
-		else
-		{
-			$parameters = $this->get_parameters();
-			$parameters [StreamingMediaManager::PARAM_STREAMING_MEDIA_MANAGER_ACTION] = StreamingMediaManager::ACTION_VIEW_STREAMING_MEDIA;
-			$parameters [StreamingMediaManager::PARAM_STREAMING_MEDIA_ID] = $id;
-			$this->redirect(Translation :: get('DeleteFailed'), true, $parameters);
-		}
-	}
+
+    function run()
+    {
+        $deleter = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: DELETER_COMPONENT, $this);
+        $deleter->run();
+    }
+
+    function delete_external_repository_object($id)
+    {
+        $success = parent :: delete_external_repository_object($id);
+        if ($success)
+        {
+            $parameters = $this->get_parameters();
+            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
+            $this->redirect(Translation :: get('DeleteSuccesfull'), false, $parameters);
+        }
+        else
+        {
+            $parameters = $this->get_parameters();
+            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
+            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $id;
+            $this->redirect(Translation :: get('DeleteFailed'), true, $parameters);
+        }
+    }
 }
 ?>

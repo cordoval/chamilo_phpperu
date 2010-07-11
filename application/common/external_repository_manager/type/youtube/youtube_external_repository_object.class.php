@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_object.class.php';
+require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_object.class.php';
 
-class YoutubeExternalRepositoryObject extends StreamingMediaObject
+class YoutubeExternalRepositoryObject extends StreamingMediaExternalRepositoryObject
 {
     const PROPERTY_CATEGORY = 'category';
     const PROPERTY_TAGS = 'tags';

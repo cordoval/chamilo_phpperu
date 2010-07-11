@@ -1,11 +1,11 @@
 <?php
-class StreamingMediaDeleterComponent extends StreamingMediaComponent
+class ExternalRepositoryDeleterComponent extends ExternalRepositoryComponent
 {
-	
-	function run ()
-	{
-		$id = Request :: get(StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID);
-		$object = $this->delete_streaming_media_object($id);
-	}
+
+    function run()
+    {
+        $id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID);
+        $object = $this->delete_external_repository_object($id);
+    }
 }
 ?>

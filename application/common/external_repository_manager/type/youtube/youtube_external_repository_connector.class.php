@@ -272,7 +272,15 @@ class YoutubeExternalRepositoryConnector
             {
                 $thumbnail = null;
             }
-            $object = new YoutubeExternalRepositoryObject($videoEntry->getVideoId(), $videoEntry->getVideoTitle(), $videoEntry->getVideoDescription(), $videoEntry->getFlashPlayerUrl(), $videoEntry->getVideoDuration(), $thumbnail);
+            
+            $object = new YoutubeExternalRepositoryObject();
+            $object->set_id($videoEntry->getVideoId());
+            $object->set_title($videoEntry->getVideoTitle());
+            $object->set_description($videoEntry->getVideoDescription());
+            $object->set_url($videoEntry->getFlashPlayerUrl());
+            $object->set_duration($videoEntry->getVideoDuration());
+            $object->set_thumbnail($thumbnail);
+            
             $object->set_category($videoEntry->getVideoCategory());
             $object->set_tags($videoEntry->getVideoTags());
             
@@ -285,6 +293,7 @@ class YoutubeExternalRepositoryConnector
             {
                 $object->set_status(YoutubeExternalRepositoryObject :: STATUS_AVAILABLE);
             }
+            
             $objects[] = $object;
         }
         return $objects;
@@ -317,7 +326,15 @@ class YoutubeExternalRepositoryConnector
         {
             $thumbnail = null;
         }
-        $object = new YoutubeExternalRepositoryObject($videoEntry->getVideoId(), $videoEntry->getVideoTitle(), $videoEntry->getVideoDescription(), $videoEntry->getFlashPlayerUrl(), $videoEntry->getVideoDuration(), $thumbnail);
+        
+        $object = new YoutubeExternalRepositoryObject();
+        $object->set_id($videoEntry->getVideoId());
+        $object->set_title($videoEntry->getVideoTitle());
+        $object->set_description($videoEntry->getVideoDescription());
+        $object->set_url($videoEntry->getFlashPlayerUrl());
+        $object->set_duration($videoEntry->getVideoDuration());
+        $object->set_thumbnail($thumbnail);
+        
         $object->set_category($videoEntry->getVideoCategory());
         $object->set_tags($videoEntry->getVideoTags());
         

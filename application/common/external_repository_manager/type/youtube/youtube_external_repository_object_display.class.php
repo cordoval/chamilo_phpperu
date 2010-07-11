@@ -1,5 +1,7 @@
 <?php
-class YoutubeStreamingMediaObjectDisplay extends StreamingMediaObjectDisplay
+require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_object_display.class.php';
+
+class YoutubeExternalRepositoryObjectDisplay extends StreamingMediaExternalRepositoryObjectDisplay
 {
 	function get_video_player_as_html()
 	{
