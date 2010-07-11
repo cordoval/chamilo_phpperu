@@ -1,31 +1,31 @@
 <?php
-abstract class StreamingMediaManager extends SubManager
+abstract class ExternalRepositoryManager extends SubManager
 {
-    const PARAM_STREAMING_MEDIA_MANAGER_ACTION = 'streaming_action';
+    const PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION = 'streaming_action';
     
-    const ACTION_VIEW_STREAMING_MEDIA = 'view';
-    const ACTION_EXPORT_STREAMING_MEDIA = 'export';
-    const ACTION_IMPORT_STREAMING_MEDIA = 'import';
-    const ACTION_BROWSE_STREAMING_MEDIA = 'browse';
-    const ACTION_DOWNLOAD_STREAMING_MEDIA = 'download';
-    const ACTION_UPLOAD_STREAMING_MEDIA = 'upload';
-    const ACTION_SELECT_STREAMING_MEDIA = 'select';
-    const ACTION_EDIT_STREAMING_MEDIA = 'edit';
-    const ACTION_DELETE_STREAMING_MEDIA = 'delete';
+    const ACTION_VIEW_EXTERNAL_REPOSITORY = 'view';
+    const ACTION_EXPORT_EXTERNAL_REPOSITORY = 'export';
+    const ACTION_IMPORT_EXTERNAL_REPOSITORY = 'import';
+    const ACTION_BROWSE_EXTERNAL_REPOSITORY = 'browse';
+    const ACTION_DOWNLOAD_EXTERNAL_REPOSITORY = 'download';
+    const ACTION_UPLOAD_EXTERNAL_REPOSITORY = 'upload';
+    const ACTION_SELECT_EXTERNAL_REPOSITORY = 'select';
+    const ACTION_EDIT_EXTERNAL_REPOSITORY = 'edit';
+    const ACTION_DELETE_EXTERNAL_REPOSITORY = 'delete';
     
-    const PARAM_STREAMING_MEDIA_ID = 'streaming_media_id';
+    const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PARAM_TYPE = 'type';
     const PARAM_QUERY = 'query';
     const CLASS_NAME = __CLASS__;
 
-    function StreamingMediaManager($application)
+    function ExternalRepositoryManager($application)
     {
         parent :: __construct($application);
         
-        $streaming_media_manager_action = Request :: get(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION);
-        if ($streaming_media_manager_action)
+        $external_repository_manager_action = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
+        if ($external_repository_manager_action)
         {
-            $this->set_parameter(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION, $streaming_media_manager_action);
+            $this->set_parameter(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, $external_repository_manager_action);
         }
     }
 
@@ -38,21 +38,21 @@ abstract class StreamingMediaManager extends SubManager
 
     static function factory($type, $application)
     {
-        $file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_streaming_media_manager.class.php';
+        $file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_external_repository_manager.class.php';
         if (! file_exists($file))
         {
-            throw new Exception(Translation :: get('StreamingMediaManagerTypeDoesNotExist', array('type' => $type)));
+            throw new Exception(Translation :: get('ExternalRepositoryManagerTypeDoesNotExist', array('type' => $type)));
         }
         
         require_once $file;
         
-        $class = Utilities :: underscores_to_camelcase($type) . 'StreamingMediaManager';
+        $class = Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryManager';
         return new $class($application);
     }
 
     function is_ready_to_be_used()
     {
-        //        $action = $this->get_parameter(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION);
+        //        $action = $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
         //
         //        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER);
         return false;
@@ -66,12 +66,12 @@ abstract class StreamingMediaManager extends SubManager
 
     function get_application_component_path()
     {
-        return Path :: get_application_library_path() . 'streaming_media_manager/component/';
+        return Path :: get_application_library_path() . 'external_repository_manager/component/';
     }
 
     function get_action()
     {
-        return $this->get_parameter(self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION);
+        return $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
     }
 
     function display_header()
@@ -80,23 +80,23 @@ abstract class StreamingMediaManager extends SubManager
         parent :: display_header();
         
         $html = array();
-        $streaming_media_actions = $this->get_streaming_media_actions();
+        $external_repository_actions = $this->get_external_repository_actions();
         
-        if ($action == self :: ACTION_EDIT_STREAMING_MEDIA)
+        if ($action == self :: ACTION_EDIT_EXTERNAL_REPOSITORY)
         {
-            $streaming_media_actions[] = self :: ACTION_EDIT_STREAMING_MEDIA;
+            $external_repository_actions[] = self :: ACTION_EDIT_EXTERNAL_REPOSITORY;
         }
         
-        if ($action == self :: ACTION_VIEW_STREAMING_MEDIA)
+        if ($action == self :: ACTION_VIEW_EXTERNAL_REPOSITORY)
         {
-            $streaming_media_actions[] = self :: ACTION_VIEW_STREAMING_MEDIA;
+            $external_repository_actions[] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
         }
         
         $tabs = new DynamicVisualTabsRenderer(Utilities :: camelcase_to_underscores(get_class($this)));
         
-        foreach ($streaming_media_actions as $streaming_media_action)
+        foreach ($external_repository_actions as $external_repository_action)
         {
-            if ($action == $streaming_media_action)
+            if ($action == $external_repository_action)
             {
                 $selected = true;
             }
@@ -106,17 +106,17 @@ abstract class StreamingMediaManager extends SubManager
             }
             
             $parameters = $this->get_parameters();
-            $parameters[self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = $streaming_media_action;
+            $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = $external_repository_action;
             
-            if ($streaming_media_action == self :: ACTION_VIEW_STREAMING_MEDIA)
+            if ($external_repository_action == self :: ACTION_VIEW_EXTERNAL_REPOSITORY)
             {
-                $parameters[self :: PARAM_STREAMING_MEDIA_ID] = Request :: get(self :: PARAM_STREAMING_MEDIA_ID);
+                $parameters[self :: PARAM_EXTERNAL_REPOSITORY_ID] = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_ID);
             }
             
-            $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($streaming_media_action) . 'Title'));
+            $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($external_repository_action) . 'Title'));
             $link = $this->get_url($parameters, true);
             
-            $tabs->add_tab(new DynamicVisualTab($external_repository_action, $label, Theme :: get_common_image_path() . 'place_tab_' . $streaming_media_action . '.png', $link, $selected));
+            $tabs->add_tab(new DynamicVisualTab($external_repository_action, $label, Theme :: get_common_image_path() . 'place_tab_' . $external_repository_action . '.png', $link, $selected));
         }
         
         $html[] = $tabs->header();
@@ -125,9 +125,9 @@ abstract class StreamingMediaManager extends SubManager
         echo implode("\n", $html);
     }
 
-    function get_streaming_media_actions()
+    function get_external_repository_actions()
     {
-        return array(self :: ACTION_BROWSE_STREAMING_MEDIA, self :: ACTION_UPLOAD_STREAMING_MEDIA);
+        return array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY);
     }
 
     function display_footer()
@@ -140,9 +140,9 @@ abstract class StreamingMediaManager extends SubManager
         parent :: display_footer();
     }
 
-    abstract function count_streaming_media_objects($condition);
+    abstract function count_external_repository_objects($condition);
 
-    abstract function retrieve_streaming_media_objects($condition, $order_property, $offset, $count);
+    abstract function retrieve_external_repository_objects($condition, $order_property, $offset, $count);
 
     function get_property_model()
     {
@@ -158,15 +158,15 @@ abstract class StreamingMediaManager extends SubManager
 
     abstract function get_menu_items();
 
-    abstract function get_streaming_media_object_viewing_url($object);
+    abstract function get_external_repository_object_viewing_url($object);
 
-    abstract function retrieve_streaming_media_object($id);
+    abstract function retrieve_external_repository_object($id);
 
-    abstract function delete_streaming_media_object($id);
+    abstract function delete_external_repository_object($id);
 
-    abstract function export_streaming_media_object($id);
+    abstract function export_external_repository_object($id);
 
-    static function retrieve_streaming_media_manager()
+    static function retrieve_external_repository_manager()
     {
         $manager = array();
         $manager[] = Youtube :: get_type_name();
