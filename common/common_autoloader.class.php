@@ -208,7 +208,7 @@ class CommonAutoloader
 					  'cookie' => 'session/cookie.class.php',
 					  'request' => 'session/request.class.php',
 					  'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php',
-					  'streaming_media_launcher' => 'launcher/streaming_media/streaming_media_launcher.class.php',
+					  'external_repository_launcher' => 'launcher/external_repository/external_repository_launcher.class.php',
 					  'chamilo_test_suite' => 'test/chamilo_test_suite.class.php'
 		);
 

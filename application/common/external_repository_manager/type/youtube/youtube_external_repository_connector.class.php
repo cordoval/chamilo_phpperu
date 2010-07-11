@@ -57,7 +57,6 @@ class YoutubeExternalRepositoryConnector
         //$config = array('adapter' => 'Zend_Http_Client_Adapter_Proxy', 'proxy_host' => '192.168.0.202', 'proxy_port' => 8080);
         $httpClient = Zend_Gdata_AuthSub :: getHttpClient($session_token);
         //$httpClient->setConfig($config);
-        
 
         $client = '';
         $application = PlatformSetting :: get('site_name');
@@ -245,20 +244,7 @@ class YoutubeExternalRepositoryConnector
             $query->setMaxResults($count);
         }
         
-        $videoFeed = $this->get_video_feed($query);
-        
-        //		$query = $this->youtube->newVideoQuery();
-        //		$query->setOrderBy('viewCount');
-        //		$query->setMaxResults(1);
-        //		$query->setStartIndex(($page * $limit) + 1);
-        
-
-        //		echo '<br /><br />' . "\n";
-        //		echo '<b>User\'s own uploads</b><br /><br />' . "\n";
-        
-
-        //		$videoFeed = @ $this->youtube->getuserUploads('default', $query);
-        
+        $videoFeed = $this->get_video_feed($query);        
 
         $objects = array();
         foreach ($videoFeed as $videoEntry)
@@ -296,6 +282,7 @@ class YoutubeExternalRepositoryConnector
             
             $objects[] = $object;
         }
+        
         return $objects;
     }
 
