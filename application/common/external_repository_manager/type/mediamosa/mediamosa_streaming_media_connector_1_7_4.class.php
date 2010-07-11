@@ -4,6 +4,6 @@
  * @author jevdheyd
  */
 
-class MediamosaStreamingMediaConnector extends MediamosaStreamingMediaConnector {
+class MediamosaExternalRepositoryConnector extends MediamosaExternalRepositoryConnector {
 
 }

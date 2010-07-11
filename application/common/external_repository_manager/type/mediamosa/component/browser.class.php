@@ -6,33 +6,33 @@
  * @author jevdheyd
  */
 
-class MediamosaStreamingMediaManagerBrowserComponent extends MediaMosaStreamingMediaManager{
+class MediamosaExternalRepositoryManagerBrowserComponent extends MediaMosaExternalRepositoryManager{
 
     function run()
     {
         //select server if server_id = null
-        $server_selection_form = new MediamosaStreamingMediaManagerServerSelectForm(MediamosaStreamingMediaManagerServerSelectForm :: PARAM_SITUATION_BROWSE, $this);
+        $server_selection_form = new MediamosaExternalRepositoryManagerServerSelectForm(MediamosaExternalRepositoryManagerServerSelectForm :: PARAM_SITUATION_BROWSE, $this);
         $this->set_server_selection_form($server_selection_form);
 
         if($server_selection_form->validate())
         {
             $parameters = array();
-            $parameters[MediamosaStreamingMediaManager :: PARAM_SERVER] = $server_selection_form->get_selected_server();
+            $parameters[MediamosaExternalRepositoryManager :: PARAM_SERVER] = $server_selection_form->get_selected_server();
             $this->redirect(Translation :: get('Server_selected'), false, $parameters);
         }
         
-        if(!Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER))
+        if(!Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER))
         {
             if($server_selection_form->get_default_server())
             {
                 $parameters = array();
-                $parameters[MediamosaStreamingMediaManager :: PARAM_SERVER] = $server_selection_form->get_default_server();
+                $parameters[MediamosaExternalRepositoryManager :: PARAM_SERVER] = $server_selection_form->get_default_server();
                 $this->redirect('', false, $parameters);
 
             }
         }
 
-        $browser = StreamingMediaComponent::factory(StreamingMediaComponent::BROWSER_COMPONENT, $this);
+        $browser = ExternalRepositoryComponent::factory(ExternalRepositoryComponent::BROWSER_COMPONENT, $this);
         $browser->run();
     }
 }

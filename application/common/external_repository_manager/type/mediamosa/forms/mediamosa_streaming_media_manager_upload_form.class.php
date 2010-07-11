@@ -1,16 +1,16 @@
 <?php
 /**
- * Description of mediamosa_streaming_media_upload_form
+ * Description of mediamosa_external_repository_upload_form
  *
  * @author jevdheyd
  */
-class MediamosaStreamingMediaManagerUploadForm extends FormValidator {
+class MediamosaExternalRepositoryManagerUploadForm extends FormValidator {
 
     private $redirect_uri;
     private $uploadprogress_url;
     private $application;
     
-    function MediamosaStreamingMediaManagerUploadForm($action, $redirect_uri, $uploadprogress_url, $application)
+    function MediamosaExternalRepositoryManagerUploadForm($action, $redirect_uri, $uploadprogress_url, $application)
     {
         $this->redirect_uri = $redirect_uri;
         $this->uploadprogress_url = $uploadprogress_url;
@@ -22,7 +22,7 @@ class MediamosaStreamingMediaManagerUploadForm extends FormValidator {
 
     function build_upload_form()
     {
-        $connector = MediamosaStreamingMediaConnector::get_instance($this->application);
+        $connector = MediamosaExternalRepositoryConnector::get_instance($this->application);
 
         //token
         //$this->addElement('hidden', 'token', $this->token);

@@ -5,18 +5,18 @@
  * @author jevdheyd
  */
 
-require_once dirname(__FILE__) . '/../mediamosa_streaming_media_server_object.class.php';
-require_once dirname(__FILE__) . '/../mediamosa_streaming_media_data_manager.class.php';
+require_once dirname(__FILE__) . '/../mediamosa_external_repository_server_object.class.php';
+require_once dirname(__FILE__) . '/../mediamosa_external_repository_data_manager.class.php';
 
-class MediamosaStreamingMediaManagerSettingDeleterComponent extends MediamosaStreamingMediaManager {
+class MediamosaExternalRepositoryManagerSettingDeleterComponent extends MediamosaExternalRepositoryManager {
 
     function run()
     {
         $parameters = array();
-        $parameters[StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = MediamosaStreamingMediaManager :: ACTION_MANAGE_SETTINGS;
+        $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = MediamosaExternalRepositoryManager :: ACTION_MANAGE_SETTINGS;
 
-        $object = new StreamingMediaServerObject();
-        $object->set_id(Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER));
+        $object = new ExternalRepositoryServerObject();
+        $object->set_id(Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER));
 
         if($object->delete())
         {

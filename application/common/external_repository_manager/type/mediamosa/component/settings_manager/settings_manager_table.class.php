@@ -23,14 +23,14 @@ class SettingsManagerTable extends ObjectTable
         $renderer = new SettingsManagerTableCellRenderer($browser);
         $data_provider = new SettingsManagerTableDataProvider($browser);
         parent :: __construct($data_provider, SettingsManagerTable :: DEFAULT_NAME, $model, $renderer);
-        if (get_class($browser) == 'MediamosaStreamingMediaManagerSettingsManagerComponent')
+        if (get_class($browser) == 'MediamosaExternalRepositoryManagerSettingsManagerComponent')
         {
             $actions = array();
             /*$actions[RepositoryManager :: PARAM_RECYCLE_SELECTED] = Translation :: get('RemoveSelected');
 			$actions[RepositoryManager :: PARAM_MOVE_SELECTED] = Translation :: get('MoveSelected');
 			$actions[RepositoryManager :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');*/
             
-            $actions[] = new ObjectTableFormAction(MediamosaStreamingMediaManager:: ACTION_ADD_SETTING, Translation :: get('Add'));
+            $actions[] = new ObjectTableFormAction(MediamosaExternalRepositoryManager:: ACTION_ADD_SETTING, Translation :: get('Add'));
         }
         /*if (get_class($browser) == 'SettingsManagerComplexBrowserComponent')
         {

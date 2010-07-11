@@ -1,28 +1,28 @@
 <?php
 
 /**
- * Description of mediamosa_streaming_media_manager
+ * Description of mediamosa_external_repository_manager
  *
  * @author jevdheyd
  */
-require_once dirname(__FILE__) . '/mediamosa_streaming_media_object.class.php';
-require_once dirname(__FILE__) . '/mediamosa_streaming_media_connector.class.php';
-require_once dirname(__FILE__) . '/mediamosa_streaming_media_server_object.class.php';
-require_once dirname(__FILE__) . '/mediamosa_streaming_media_user_quotum.class.php';
-require_once dirname(__FILE__) . '/forms/mediamosa_streaming_media_manager_server_select_form.class.php';
-require_once dirname(__FILE__) . '/mediamosa_streaming_media_data_manager.class.php';
+require_once dirname(__FILE__) . '/mediamosa_external_repository_object.class.php';
+require_once dirname(__FILE__) . '/mediamosa_external_repository_connector.class.php';
+require_once dirname(__FILE__) . '/mediamosa_external_repository_server_object.class.php';
+require_once dirname(__FILE__) . '/mediamosa_external_repository_user_quotum.class.php';
+require_once dirname(__FILE__) . '/forms/mediamosa_external_repository_manager_server_select_form.class.php';
+require_once dirname(__FILE__) . '/mediamosa_external_repository_data_manager.class.php';
 
-class MediamosaStreamingMediaManager extends StreamingMediaManager{
+class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
 
     const ACTION_MANAGE_SETTINGS = 'settings';
-    const ACTION_CLEAN_STREAMING_MEDIA = 'clean';
+    const ACTION_CLEAN_EXTERNAL_REPOSITORY = 'clean';
     const ACTION_ADD_SETTING = 'add_setting';
     const ACTION_UPDATE_SETTING = 'update_setting';
     const ACTION_DELETE_SETTING = 'delete_setting';
 
     const PARAM_MEDIAFILE = 'mediafile_id';
     const PARAM_SERVER = 'server_id';
-    const PARAM_STREAMING_MEDIA_SETTING_ID = 'setting_id';
+    const PARAM_EXTERNAL_REPOSITORY_SETTING_ID = 'setting_id';
 
     private static $server;
     private $server_selection_form;
@@ -34,15 +34,15 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
 
     function get_application_component_path()
     {
-        return Path :: get_application_library_path() . 'streaming_media_manager/type/mediamosa/component/';
+        return Path :: get_application_library_path() . 'external_repository_manager/type/mediamosa/component/';
     }
 
-    function count_streaming_media_objects($condition)
+    function count_external_repository_objects($condition)
     {
 
     }
 
-    function retrieve_streaming_media_server_object($id)
+    function retrieve_external_repository_server_object($id)
     {
         if(self :: $server)
         {
@@ -51,20 +51,20 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
                 return self :: $server;
             }
         }
-        $dm = MediamosaStreamingMediaDataManager :: get_instance();
-        self :: $server = $dm->retrieve_streaming_media_server_object($id);
+        $dm = MediamosaExternalRepositoryDataManager :: get_instance();
+        self :: $server = $dm->retrieve_external_repository_server_object($id);
         return self :: $server;
     }
 
-    function retrieve_streaming_media_objects($condition, $order_property, $offset, $count)
+    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-        $connector = MediamosaStreamingMediaConnector::get_instance();
+        $connector = MediamosaExternalRepositoryConnector::get_instance();
         return $connector->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
     }
 
-    function retrieve_streaming_media_asset($asset_id)
+    function retrieve_external_repository_asset($asset_id)
     {
-        $connector = MediamosaStreamingMediaConnector::get_instance();
+        $connector = MediamosaExternalRepositoryConnector::get_instance();
         return $connector->retrieve_mediamosa_asset($id);
     }
 
@@ -73,30 +73,30 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
 
     function get_menu_items(){}
 
-    function get_streaming_media_object_viewing_url($object){
+    function get_external_repository_object_viewing_url($object){
         $parameters = array();
-        $parameters[self :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = self :: ACTION_VIEW_STREAMING_MEDIA;
-        $parameters[self :: PARAM_STREAMING_MEDIA_ID] = $object->get_id();	
+        $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
+        $parameters[self :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();	
 
         return $this->get_url($parameters);
     }
 
-    function retrieve_streaming_media_object($id)
+    function retrieve_external_repository_object($id)
     {
-        $connector = MediamosaStreamingMediaConnector::get_instance();
+        $connector = MediamosaExternalRepositoryConnector::get_instance();
         return $connector->retrieve_mediamosa_asset($id);
     }
 
-    function delete_streaming_media_object($id){
-        $connector = MediamosaStreamingMediaConnector :: get_instance();
+    function delete_external_repository_object($id){
+        $connector = MediamosaExternalRepositoryConnector :: get_instance();
         return $connector->remove_mediamosa_asset($id);
     }
 
-    function export_streaming_media_object($id){}
+    function export_external_repository_object($id){}
 
     function is_editable($id)
     {
-        $connector = MediamosaStreamingMediaConnector :: get_instance();
+        $connector = MediamosaExternalRepositoryConnector :: get_instance();
     	return $connector->is_editable($id);
     }
 
@@ -110,29 +110,29 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
         {
             $this->set_parameter(self :: PARAM_SERVER, $server);
         }
-        $parent = $this->get_parameter(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION);
+        $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
 
         switch ($parent)
         {
-            case parent :: ACTION_BROWSE_STREAMING_MEDIA :
+            case parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Browser', $this);
                 break;
-            case parent :: ACTION_UPLOAD_STREAMING_MEDIA :
+            case parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Uploader', $this);
                 break;
-            case parent :: ACTION_VIEW_STREAMING_MEDIA :
+            case parent :: ACTION_VIEW_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Viewer', $this);
                 break;
-            case parent :: ACTION_DELETE_STREAMING_MEDIA :
+            case parent :: ACTION_DELETE_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Deleter', $this);
                 break;
-            case parent :: ACTION_EDIT_STREAMING_MEDIA :
+            case parent :: ACTION_EDIT_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Editor', $this);
                 break;
-            case parent :: ACTION_SELECT_STREAMING_MEDIA :
+            case parent :: ACTION_SELECT_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Selecter', $this);
                 break;
-            case self :: ACTION_CLEAN_STREAMING_MEDIA :
+            case self :: ACTION_CLEAN_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Cleaner', $this);
                 break;
             case self::ACTION_MANAGE_SETTINGS :
@@ -147,26 +147,26 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
             case self::ACTION_DELETE_SETTING :
                 $component = $this->create_component('SettingDeleter');
                 break;
-            case self::ACTION_IMPORT_STREAMING_MEDIA :
+            case self::ACTION_IMPORT_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Importer');
                 break;
             default :
                 $component = $this->create_component('Browser', $this);
-                $this->set_parameter(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION, StreamingMediaManager :: ACTION_BROWSE_STREAMING_MEDIA);
+                $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
                 
         }
 
         $component->run();
     }
 
-    function get_streaming_media_actions()
+    function get_external_repository_actions()
     {
-            //return array(parent :: ACTION_BROWSE_STREAMING_MEDIA, parent :: ACTION_UPLOAD_STREAMING_MEDIA, self :: ACTION_CLEAN_STREAMING_MEDIA);
+            //return array(parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY, parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_CLEAN_EXTERNAL_REPOSITORY);
         $actions = array();
         
-        $actions[] = parent :: ACTION_BROWSE_STREAMING_MEDIA;
+        $actions[] = parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
         
-        $actions[] = parent :: ACTION_UPLOAD_STREAMING_MEDIA;
+        $actions[] = parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY;
         
         if($this->get_user()->is_platform_admin()) $actions[] = self :: ACTION_MANAGE_SETTINGS;
 
@@ -204,7 +204,7 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
         return $this->server_selection_form;
     }
 
-    function import_streaming_media_object($object)
+    function import_external_repository_object($object)
     {
         xdebug_break();
         $streaming_video_clip = new StreamingVideoClip();
@@ -221,21 +221,21 @@ class MediamosaStreamingMediaManager extends StreamingMediaManager{
 
     function is_download_possible($id)
     {
-        $connector = MediamosaStreamingMediaConnector :: get_instance();
+        $connector = MediamosaExternalRepositoryConnector :: get_instance();
     	return $connector->is_downloadable($id);
     }
 
     function create_standard_user_quota($server_id)
     {
         $udm = UserDataManager :: get_instance();
-        $mdm = MediamosaStreamingMediaDataManager :: get_instance();
+        $mdm = MediamosaExternalRepositoryDataManager :: get_instance();
 
         $users = $udm->retrieve_users();
-        $mediamosa_server_object = $mdm->retrieve_streaming_media_server_object($server_id);
+        $mediamosa_server_object = $mdm->retrieve_external_repository_server_object($server_id);
         xdebug_break();
         while($user = $users->next_result())
         {
-            $mediamosa_user_quotum = new StreamingMediaUserQuotum();
+            $mediamosa_user_quotum = new ExternalRepositoryUserQuotum();
 
             $mediamosa_user_quotum->set_user_id($user->get_id());
             $mediamosa_user_quotum->set_server_id($server_id);

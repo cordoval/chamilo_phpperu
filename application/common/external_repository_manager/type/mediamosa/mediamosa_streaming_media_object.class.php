@@ -4,9 +4,9 @@
  *
  * @author jevdheyd
  */
-require_once dirname(__FILE__) . '/../../streaming_media_object.class.php';
+require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
 
-class MediamosaStreamingMediaObject extends StreamingMediaObject {
+class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     private $mediafiles;
 

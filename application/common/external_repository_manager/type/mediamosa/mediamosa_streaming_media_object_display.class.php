@@ -1,12 +1,12 @@
 <?php
 /**
- * Description of mediamosa_streaming_media_displayclass
+ * Description of mediamosa_external_repository_displayclass
  *
  * @author jevdheyd
  */
 
 
-class MediamosaStreamingMediaObjectDisplay  extends StreamingMediaObjectDisplay
+class MediamosaExternalRepositoryObjectDisplay  extends ExternalRepositoryObjectDisplay
 {
         private $parent;
     
@@ -25,16 +25,16 @@ class MediamosaStreamingMediaObjectDisplay  extends StreamingMediaObjectDisplay
 
         function get_video_player_as_html()
 	{
-            $connector = MediamosaStreamingMediaConnector :: get_instance($this);
+            $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
 
             $object = $this->get_object();
 
-            if($object->get_status() == StreamingMediaObject :: STATUS_AVAILABLE)
+            if($object->get_status() == ExternalRepositoryObject :: STATUS_AVAILABLE)
             {
                 //see which mediafile to play
-                if(Request :: get(MediamosaStreamingMediaManager :: PARAM_MEDIAFILE))
+                if(Request :: get(MediamosaExternalRepositoryManager :: PARAM_MEDIAFILE))
                 {
-                    $mediafile_id = Request :: get(MediamosaStreamingMediaManager :: PARAM_MEDIAFILE);
+                    $mediafile_id = Request :: get(MediamosaExternalRepositoryManager :: PARAM_MEDIAFILE);
                 }
                 else
                 {
@@ -70,7 +70,7 @@ class MediamosaStreamingMediaObjectDisplay  extends StreamingMediaObjectDisplay
                 foreach($mediafiles as $mediafile)
                 {
                     //TODO:jens -> get_link
-                    $url = $this->parent->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION => MediamosaStreamingMediaManager :: ACTION_VIEW_STREAMING_MEDIA, StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $object->get_id(), MediamosaStreamingMediaManager :: PARAM_MEDIAFILE => $mediafile->get_id()));
+                    $url = $this->parent->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => MediamosaExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id(), MediamosaExternalRepositoryManager :: PARAM_MEDIAFILE => $mediafile->get_id()));
 
                     $download = null;
                     if($mediafile->get_is_downloadable()) $download = 'download';

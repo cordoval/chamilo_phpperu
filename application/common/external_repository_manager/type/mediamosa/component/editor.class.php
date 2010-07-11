@@ -9,25 +9,25 @@
  *
  * @author jevdheyd
  */
-require_once dirname(__FILE__) . '/../forms/mediamosa_streaming_media_manager_form.class.php';
+require_once dirname(__FILE__) . '/../forms/mediamosa_external_repository_manager_form.class.php';
 
-class MediamosaStreamingMediaManagerEditorComponent extends MediamosaStreamingMediaManager{
+class MediamosaExternalRepositoryManagerEditorComponent extends MediamosaExternalRepositoryManager{
 
     function run()
     {
-        $id = Request :: get(StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID);
-        $form = new MediamosaStreamingMediaManagerForm(MediamosaStreamingMediaManagerForm :: TYPE_EDIT, $this->get_url(array(StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID => $id)), $this);
+        $id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID);
+        $form = new MediamosaExternalRepositoryManagerForm(MediamosaExternalRepositoryManagerForm :: TYPE_EDIT, $this->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $id)), $this);
 
-        $object = $this->retrieve_streaming_media_object($id);
-        $form->set_streaming_media_object($object);
+        $object = $this->retrieve_external_repository_object($id);
+        $form->set_external_repository_object($object);
 
         if($form->validate())
         {
             $success = $form->update_video_entry();
 
             $parameters = $this->get_parameters();
-            $parameters[StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = StreamingMediaManager :: ACTION_VIEW_STREAMING_MEDIA;
-            $parameters[StreamingMediaManager :: PARAM_STREAMING_MEDIA_ID] = $object->get_id();
+            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
+            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
 
             if ($this->is_stand_alone())
             {

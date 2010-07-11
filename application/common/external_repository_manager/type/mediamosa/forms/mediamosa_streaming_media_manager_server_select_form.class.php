@@ -5,11 +5,11 @@
  */
 
 /**
- * Description of mediamosa_streaming_media_server_select_formclass
+ * Description of mediamosa_external_repository_server_select_formclass
  *
  * @author jevdheyd
  */
-class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
+class MediamosaExternalRepositoryManagerServerSelectForm extends FormValidator{
 
     const PARAM_SITUATION_BROWSE = 1;
     const PARAM_SITUATION_UPLOAD = 2;
@@ -20,7 +20,7 @@ class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
     private $servers;
     private $default_server;
 
-    function MediamosaStreamingMediaManagerServerSelectForm($form_situation, $component)
+    function MediamosaExternalRepositoryManagerServerSelectForm($form_situation, $component)
     {
         
         $this->form_situation = $form_situation;
@@ -30,7 +30,7 @@ class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
         //only build a form if more than one options are available
         if(count($this->get_servers()) > 1)
         {
-            $this->setDefaults(array(MediamosaStreamingMediaManager :: PARAM_SERVER => Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER)));
+            $this->setDefaults(array(MediamosaExternalRepositoryManager :: PARAM_SERVER => Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER)));
             $this->build_select_form();
         }
         //otherwise redirect
@@ -38,9 +38,9 @@ class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
         {
             $parameters = array();
             $servers = array_keys($this->servers);
-            $parameters[MediamosaStreamingMediaManager :: PARAM_SERVER] = $servers[0];
+            $parameters[MediamosaExternalRepositoryManager :: PARAM_SERVER] = $servers[0];
             
-            if(! Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER) or Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER) != $servers[0]){
+            if(! Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER) or Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER) != $servers[0]){
                 $component->redirect('', false, $parameters);
             }
         }
@@ -48,7 +48,7 @@ class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
         {
            //exit(Translation :: get('No server selected'));
             //TODO:jens-> needs to be solved better
-            //unset($_GET[MediamosaStreamingMediaManager :: PARAM_SERVER]);
+            //unset($_GET[MediamosaExternalRepositoryManager :: PARAM_SERVER]);
 
             //redirect to default server
             
@@ -57,33 +57,33 @@ class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
 
     function build_select_form()
     {
-        $this->addElement('select', MediamosaStreamingMediaManager :: PARAM_SERVER, Translation :: get('Server'), $this->servers);
+        $this->addElement('select', MediamosaExternalRepositoryManager :: PARAM_SERVER, Translation :: get('Server'), $this->servers);
         $this->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal filter'));
     }
 
     function get_servers()
     {
-        $dm = MediamosaStreamingMediaDataManager :: get_instance();
+        $dm = MediamosaExternalRepositoryDataManager :: get_instance();
 
         switch($this->form_situation)
         {
             case self :: PARAM_SITUATION_UPLOAD:
-                 $condition = new EqualityCondition(StreamingMediaServerObject :: PROPERTY_IS_UPLOAD_POSSIBLE, 1);
+                 $condition = new EqualityCondition(ExternalRepositoryServerObject :: PROPERTY_IS_UPLOAD_POSSIBLE, 1);
                 break;
             case self :: PARAM_SITUATION_BROWSE:
-                 //$condition = new EqualityCondition(StreamingMediaServerObject :: PROPERTY_IS_UPLOAD_POSSIBLE, 1);
+                 //$condition = new EqualityCondition(ExternalRepositoryServerObject :: PROPERTY_IS_UPLOAD_POSSIBLE, 1);
                 $condition = null;
                 break;
             case self ::PARAM_SITUATION_IMPORT:
-                $condition = new EqualityCondition(StreamingMediaServerObject :: PROPERTY_IS_UPLOAD_POSSIBLE, 0);
+                $condition = new EqualityCondition(ExternalRepositoryServerObject :: PROPERTY_IS_UPLOAD_POSSIBLE, 0);
                 break;
             default:
                 $condition = null;
                 break;
         }
         //install settings-table if it doesn't exist
-        $dm->create_streaming_media_server_object_table();
-        $servers = $dm->retrieve_streaming_media_server_objects($condition);
+        $dm->create_external_repository_server_object_table();
+        $servers = $dm->retrieve_external_repository_server_objects($condition);
 
         while($server = $servers->next_result())
         {
@@ -97,7 +97,7 @@ class MediamosaStreamingMediaManagerServerSelectForm extends FormValidator{
 
     function get_selected_server()
     {
-        return $this->exportValue(MediamosaStreamingMediaManager :: PARAM_SERVER);
+        return $this->exportValue(MediamosaExternalRepositoryManager :: PARAM_SERVER);
     }
 
     function get_default_server()

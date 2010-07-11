@@ -9,20 +9,20 @@
  *
  * @author jevdheyd
  */
-class MediamosaStreamingMediaManagerSelecterComponent extends MediamosaStreamingMediaManager{
+class MediamosaExternalRepositoryManagerSelecterComponent extends MediamosaExternalRepositoryManager{
 
     function run()
     {
-        $id = Request :: get(StreamingMediaManager::PARAM_STREAMING_MEDIA_ID);
-        $object = $this->retrieve_streaming_media_object($id);
+        $id = Request :: get(ExternalRepositoryManager::PARAM_EXTERNAL_REPOSITORY_ID);
+        $object = $this->retrieve_external_repository_object($id);
 
         $this->display_header();
 
         $html = array();
 
         $html[] = '<script type="text/javascript">';
-        $connector = MediamosaStreamingMediaConnector :: get_instance($this);
-        $html[] = 'window.opener.$("input[name=' . StreamingVideoClip :: PROPERTY_SERVER_ID . ']").val("'.Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER).'");';
+        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
+        $html[] = 'window.opener.$("input[name=' . StreamingVideoClip :: PROPERTY_SERVER_ID . ']").val("'.Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER).'");';
         $html[] = 'window.opener.$("input[name=' . StreamingVideoClip :: PROPERTY_ASSET_ID . ']").val("'.$object->get_id().'");';
         $html[] = 'window.opener.$("input[name=' . StreamingVideoClip :: PROPERTY_PUBLISHER . ']").val("'.$object->get_publisher().'");';
         $html[] = 'window.opener.$("input[name=' . StreamingVideoClip :: PROPERTY_CREATOR . ']").val("'.$object->get_creator().'");';

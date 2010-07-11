@@ -4,24 +4,24 @@
  *
  * @author jevdheyd
  */
-require_once dirname(__FILE__) . '/../mediamosa_streaming_media_server_object.class.php';
-require_once dirname(__FILE__) . '/../forms/mediamosa_streaming_media_manager_settings_form.class.php';
-require_once dirname(__FILE__) . '/../mediamosa_streaming_media_data_manager.class.php';
+require_once dirname(__FILE__) . '/../mediamosa_external_repository_server_object.class.php';
+require_once dirname(__FILE__) . '/../forms/mediamosa_external_repository_manager_settings_form.class.php';
+require_once dirname(__FILE__) . '/../mediamosa_external_repository_data_manager.class.php';
 
-class MediamosaStreamingMediaManagerSettingCreatorComponent extends MediamosaStreamingMediaManager {
+class MediamosaExternalRepositoryManagerSettingCreatorComponent extends MediamosaExternalRepositoryManager {
 
     function run()
     {
-        $form = new MediamosaStreamingMediaManagerSettingsForm(MediamosaStreamingMediaManagerSettingsForm :: TYPE_CREATE, $this->get_url(), $this);
+        $form = new MediamosaExternalRepositoryManagerSettingsForm(MediamosaExternalRepositoryManagerSettingsForm :: TYPE_CREATE, $this->get_url(), $this);
 
         if($form->validate())
         {
             $parameters = array();
-            $parameters[StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = MediamosaStreamingMediaManager :: ACTION_MANAGE_SETTINGS;
+            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = MediamosaExternalRepositoryManager :: ACTION_MANAGE_SETTINGS;
 
             if($form->create_setting())
             {
-                $connector = new MediamosaStreamingMediaConnector($form->exportValue(StreamingMediaServerObject :: PROPERTY_ID), false);
+                $connector = new MediamosaExternalRepositoryConnector($form->exportValue(ExternalRepositoryServerObject :: PROPERTY_ID), false);
                 
                 if($connector->login())
                 {

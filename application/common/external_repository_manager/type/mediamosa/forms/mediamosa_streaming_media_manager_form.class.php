@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Description of mediamosa_streaming_media_manager_formclass
+ * Description of mediamosa_external_repository_manager_formclass
  *
  * @author jevdheyd
  */
-class MediamosaStreamingMediaManagerForm extends FormValidator{
+class MediamosaExternalRepositoryManagerForm extends FormValidator{
 
     private $application;
     private $form_type;
-    private $streaming_media_object;
+    private $external_repository_object;
 
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
@@ -19,7 +19,7 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
     //TODO: jens ->implement?? const VIDEO_TAGS = 'tags';
     const VIDEO_DESCRIPTION = 'description';
 
-    function MediamosaStreamingMediaManagerForm($form_type, $action, $application)
+    function MediamosaExternalRepositoryManagerForm($form_type, $action, $application)
     {
         parent :: __construct('mediamosa_upload', 'post', $action);
 
@@ -38,37 +38,37 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
         $this->setDefaults();
     }
 
-    function set_streaming_media_object($object)
+    function set_external_repository_object($object)
     {
-       $this->streaming_media_object = $object;
+       $this->external_repository_object = $object;
 
-        $this->addElement(MediamosaStreamingMediaObject :: PROPERTY_ID);
-        $defaults[MediamosaStreamingMediaObject :: PROPERTY_TITLE] = $object->get_title();
-        $defaults[MediamosaStreamingMediaObject :: PROPERTY_DESCRIPTION] = $object->get_description();
-        $defaults[MediamosaStreamingMediaObject :: PROPERTY_CREATOR] = $object->get_creator();
-        //$defaults[MediamosaStreamingMediaObject :: PROPERTY_TAGS] = $object->get_tags();
-        $defaults[MediamosaStreamingMediaObject :: PROPERTY_PUBLISHER] = $object->get_publisher();
-        $defaults[MediamosaStreamingMediaObject :: PROPERTY_DATE_PUBLISHED] = $object->get_date();
-        $defaults[MediamosaStreamingMediaObject :: PROPERTY_IS_DOWNLOADABLE] = $object->get_is_downloadable();
+        $this->addElement(MediamosaExternalRepositoryObject :: PROPERTY_ID);
+        $defaults[MediamosaExternalRepositoryObject :: PROPERTY_TITLE] = $object->get_title();
+        $defaults[MediamosaExternalRepositoryObject :: PROPERTY_DESCRIPTION] = $object->get_description();
+        $defaults[MediamosaExternalRepositoryObject :: PROPERTY_CREATOR] = $object->get_creator();
+        //$defaults[MediamosaExternalRepositoryObject :: PROPERTY_TAGS] = $object->get_tags();
+        $defaults[MediamosaExternalRepositoryObject :: PROPERTY_PUBLISHER] = $object->get_publisher();
+        $defaults[MediamosaExternalRepositoryObject :: PROPERTY_DATE_PUBLISHED] = $object->get_date();
+        $defaults[MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE] = $object->get_is_downloadable();
        
         $this->setDefaults($defaults);
     }
 
     function build_basic_form()
     {
-        $this->addElement('text', MediamosaStreamingMediaObject::PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
-        $this->addRule(MediaMosaStreamingMediaObject::PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', MediamosaExternalRepositoryObject::PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
+        $this->addRule(MediaMosaExternalRepositoryObject::PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        //$this->addElement('textarea', MediaMosaStreamingMediaObject::PROPERTY_TAGS, Translation :: get('Tags'), array("rows" => "1", "cols" => "80"));
-        //$this->addRule(MediaMosaStreamingMediaObject::PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
+        //$this->addElement('textarea', MediaMosaExternalRepositoryObject::PROPERTY_TAGS, Translation :: get('Tags'), array("rows" => "1", "cols" => "80"));
+        //$this->addRule(MediaMosaExternalRepositoryObject::PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        $this->addElement('textarea', MediaMosaStreamingMediaObject::PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "110"));
-        $this->addElement('text', MediamosaStreamingMediaObject :: PROPERTY_CREATOR, Translation :: get('Creator'), array("size" => "50"));
+        $this->addElement('textarea', MediaMosaExternalRepositoryObject::PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "110"));
+        $this->addElement('text', MediamosaExternalRepositoryObject :: PROPERTY_CREATOR, Translation :: get('Creator'), array("size" => "50"));
         //doesn't yet seem to be settable
-        //$this->addElement('checkbox', MediamosaStreamingMediaObject :: PROPERTY_IS_DOWNLOADABLE, Translation :: get('Is downloadable'));
+        //$this->addElement('checkbox', MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE, Translation :: get('Is downloadable'));
 
-        $this->addElement('hidden', MediamosaStreamingMediaObject :: PROPERTY_PUBLISHER);
-        $this->addelement('hidden', MediamosaStreamingMediaObject :: PROPERTY_DATE_PUBLISHED);
+        $this->addElement('hidden', MediamosaExternalRepositoryObject :: PROPERTY_PUBLISHER);
+        $this->addelement('hidden', MediamosaExternalRepositoryObject :: PROPERTY_DATE_PUBLISHED);
 
     }
 
@@ -80,8 +80,8 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
 
         //create values for hidden forms 
         $user = $udm->retrieve_user(Session :: get_user_id());
-        $defaults[MediamosaStreamingMediaObject :: PROPERTY_PUBLISHER] = $user->get_firstname().' '.$user->get_lastname();
-        $defaults[MediamosaStreamingMediaObject :: PROPERTY_DATE_PUBLISHED] = date('Y-m-d H:i:s');
+        $defaults[MediamosaExternalRepositoryObject :: PROPERTY_PUBLISHER] = $user->get_firstname().' '.$user->get_lastname();
+        $defaults[MediamosaExternalRepositoryObject :: PROPERTY_DATE_PUBLISHED] = date('Y-m-d H:i:s');
 
         $this->setDefaults($defaults);
 
@@ -118,25 +118,25 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
    function prepare_upload()
    {
 
-       $connector = MediamosaStreamingMediaConnector::get_instance();
+       $connector = MediamosaExternalRepositoryConnector::get_instance();
 
        //create asset
        if($asset_id = $connector->create_mediamosa_asset())
        {
            if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id))
-            //if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id, $this->exportValue(MediamosaStreamingMediaObject :: PROPERTY_IS_DOWNLOADABLE)))
+            //if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id, $this->exportValue(MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE)))
             {
                 //on succes add rights ??
                 //TODO:jens-> ACL rights
                 //$connector->add_mediamosa_mediafile_rights($mediafile_id, $rights);
 
                 //on success -> add metadata
-                $metadata['title'] = $this->exportValue(MediamosaStreamingMediaObject::PROPERTY_TITLE);
-                $metadata['description'] = $this->exportValue(MediamosaStreamingMediaObject::PROPERTY_DESCRIPTION);
+                $metadata['title'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_TITLE);
+                $metadata['description'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_DESCRIPTION);
                 //TODO : extract creation date from file metadata
-                $metadata['date'] = $this->exportValue(MediamosaStreamingMediaObject::PROPERTY_DATE_PUBLISHED);
-                $metadata['creator'] = $this->exportValue(MediamosaStreamingMediaObject::PROPERTY_CREATOR);
-                $metadata['publisher'] = $this->exportValue(MediamosaStreamingMediaObject::PROPERTY_PUBLISHER);
+                $metadata['date'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_DATE_PUBLISHED);
+                $metadata['creator'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_CREATOR);
+                $metadata['publisher'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_PUBLISHER);
                 //TODO:legal notice should be included??
 
                 if($connector->add_mediamosa_metadata($asset_id, $metadata))
@@ -166,11 +166,11 @@ class MediamosaStreamingMediaManagerForm extends FormValidator{
 
     function update_video_entry($id)
     {
-        $connector = MediamosaStreamingMediaConnector::get_instance($this->application);
+        $connector = MediamosaExternalRepositoryConnector::get_instance($this->application);
 
         $data = $this->exportValues();
 
-        if($connector->add_mediamosa_metadata($this->streaming_media_object->get_id(), $data))
+        if($connector->add_mediamosa_metadata($this->external_repository_object->get_id(), $data))
         {
             return true;
         }

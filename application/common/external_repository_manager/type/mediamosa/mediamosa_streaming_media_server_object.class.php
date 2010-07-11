@@ -5,15 +5,15 @@
  */
 
 /**
- * Description of mediamosa_streaming_media_server_objectclass
+ * Description of mediamosa_external_repository_server_objectclass
  *
  * @author jevdheyd
  */
-class StreamingMediaServerObject extends DataClass{
+class ExternalRepositoryServerObject extends DataClass{
 
     //id, url, name, login, password, is_upload_possible
 
-    const CLASS_NAME = 'StreamingMediaServerObject';
+    const CLASS_NAME = 'ExternalRepositoryServerObject';
     const PREFIX = 'mediamosa_';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_URL = 'url';
@@ -106,7 +106,7 @@ class StreamingMediaServerObject extends DataClass{
 
     function get_data_manager()
     {
-        return MediamosaStreamingMediaDataManager :: get_instance();
+        return MediamosaExternalRepositoryDataManager :: get_instance();
     }
 
     static function get_table_name()

@@ -19,7 +19,7 @@ class SettingsManagerTableCellRenderer extends ObjectTableCellRenderer
 
     /**
      * Constructor
-     * @param MediamosaStreamingMediaManagerSettingsManagerComponent $component
+     * @param MediamosaExternalRepositoryManagerSettingsManagerComponent $component
      */
     function SettingsManagerTableCellRenderer($component)
     {
@@ -38,35 +38,35 @@ class SettingsManagerTableCellRenderer extends ObjectTableCellRenderer
         {
             // case ContentObject :: PROPERTY_TYPE :
             //   return '<a href="' . htmlentities($this->component->get_type_filter_url($server_setting->get_type())) . '">' . parent :: render_cell($column, $server_setting) . '</a>';
-            case StreamingMediaServerObject :: PROPERTY_TITLE :
+            case ExternalRepositoryServerObject :: PROPERTY_TITLE :
 
                 return '<a href="' . htmlentities($this->component->get_server_viewing_url($server_setting)) . '" title="' . $server_setting->get_title() . '">' . $server_setting->get_title() . '</a>';
                 break;
-            case StreamingMediaServerObject :: PROPERTY_ID :
+            case ExternalRepositoryServerObject :: PROPERTY_ID :
                 return $server_setting->get_id();
                 break;
-            case StreamingMediaServerObject :: PROPERTY_TITLE :
+            case ExternalRepositoryServerObject :: PROPERTY_TITLE :
                 return $server_setting->get_title();
                 break;
-            case StreamingMediaServerObject :: PROPERTY_URL :
+            case ExternalRepositoryServerObject :: PROPERTY_URL :
                 return '<a href="' . $server_setting->get_url() . '">' . $server_setting->get_url() . '</a>';
                 break;
-            case StreamingMediaServerObject :: PROPERTY_LOGIN :
+            case ExternalRepositoryServerObject :: PROPERTY_LOGIN :
                 return $server_setting->get_login();
                 break;
-            case StreamingMediaServerObject :: PROPERTY_PASSWORD :
+            case ExternalRepositoryServerObject :: PROPERTY_PASSWORD :
                 return $server_setting->get_password();
                 break;
-            case StreamingMediaServerObject :: PROPERTY_IS_UPLOAD_POSSIBLE :
+            case ExternalRepositoryServerObject :: PROPERTY_IS_UPLOAD_POSSIBLE :
                 return $server_setting->get_is_upload_possible();
                 break;
-            case StreamingMediaServerObject :: PROPERTY_VERSION:
+            case ExternalRepositoryServerObject :: PROPERTY_VERSION:
                 return $server_setting->get_version();
                 break;
-            case StreamingMediaServerObject :: PROPERTY_IS_DEFAULT:
+            case ExternalRepositoryServerObject :: PROPERTY_IS_DEFAULT:
                 return $server_setting->get_is_default();
                 break;
-            case StreamingMediaServerObject :: PROPERTY_DEFAULT_USER_QUOTUM:
+            case ExternalRepositoryServerObject :: PROPERTY_DEFAULT_USER_QUOTUM:
                 return $server_setting->get_default_user_quotum();
                 break;
             default :
@@ -81,13 +81,13 @@ class SettingsManagerTableCellRenderer extends ObjectTableCellRenderer
 
     /**
      * Gets the action links to display
-     * @param StreamingMediaServerObject $server_setting The learning object for which the
+     * @param ExternalRepositoryServerObject $server_setting The learning object for which the
      * action links should be returned
      * @return string A HTML representation of the action links
      */
     private function get_modification_links($server_setting)
     {
-        if (get_class($this->component) == 'MediamosaStreamingMediaManagerSettingsManagerComponent')
+        if (get_class($this->component) == 'MediamosaExternalRepositoryManagerSettingsManagerComponent')
         {
             $toolbar = new Toolbar();
 
@@ -153,12 +153,12 @@ class SettingsManagerTableCellRenderer extends ObjectTableCellRenderer
             }*/
             return $toolbar->as_html();
         }
-        elseif (get_class($this->component) == 'MediamosaStreamingMediaManagerSettingsManagerComponent')
+        elseif (get_class($this->component) == 'MediamosaExternalRepositoryManagerSettingsManagerComponent')
         {
             $toolbar = new Toolbar();
 
             $params = array();
-            $params[StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = MediamosaStreamingMediaManager :: ACTION_ADD_SETTING;
+            $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = MediamosaExternalRepositoryManager :: ACTION_ADD_SETTING;
 
             $toolbar->add_item(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->component->get_url($params), ToolbarItem :: DISPLAY_ICON));
 

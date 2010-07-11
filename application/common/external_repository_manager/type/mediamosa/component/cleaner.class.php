@@ -9,10 +9,10 @@
  *
  * @author jevdheyd
  */
-class MediamosaStreamingMediaManagerCleanerComponent extends MediamosaStreamingMediaManager {
+class MediamosaExternalRepositoryManagerCleanerComponent extends MediamosaExternalRepositoryManager {
 
     function run(){
-        $connector = MediamosaStreamingMediaConnector :: get_instance($this);
+        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
 
         $this->display_header();
 

@@ -1,12 +1,12 @@
 <?php
 /**
- * Description of mediamosa_streaming_media_user_quotumclass
+ * Description of mediamosa_external_repository_user_quotumclass
  *
  * @author jevdheyd
  */
-class StreamingMediaUserQuotum extends DataClass {
+class ExternalRepositoryUserQuotum extends DataClass {
 
-    const CLASS_NAME = 'StreamingMediaUserQuotum';
+    const CLASS_NAME = 'ExternalRepositoryUserQuotum';
     const PREFIX = 'mediamosa_';
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_SERVER_ID = 'server_id';
@@ -57,7 +57,7 @@ class StreamingMediaUserQuotum extends DataClass {
     }
 
     function get_data_manager(){
-        return MediamosaStreamingMediaDataManager :: get_instance();
+        return MediamosaExternalRepositoryDataManager :: get_instance();
     }
 }
 ?>

@@ -7,13 +7,13 @@
  *
  * @author jevdheyd
  */
-require_once dirname(__FILE__). '/mediamosa_streaming_media_server_object.class.php';
-require_once dirname(__FILE__). '/mediamosa_streaming_media_data_manager.class.php';
+require_once dirname(__FILE__). '/mediamosa_external_repository_server_object.class.php';
+require_once dirname(__FILE__). '/mediamosa_external_repository_data_manager.class.php';
 require_once dirname(__FILE__). '/webservices/mediamosa_rest_client.class.php';
 require_once dirname(__FILE__). '/mediamosa_mediafile_object.class.php';
-require_once dirname(__FILE__). '/mediamosa_streaming_media_object.class.php';
+require_once dirname(__FILE__). '/mediamosa_external_repository_object.class.php';
 
-class MediamosaStreamingMediaConnector {
+class MediamosaExternalRepositoryConnector {
 
     private static $instance;
     //private $manager;
@@ -31,10 +31,10 @@ class MediamosaStreamingMediaConnector {
     //TODO: find correct settings
     const PLACEHOLDER_URL = 'http://localhost/chamilo_2.0/layout/aqua/images/common/content_object/big/streaming_video_clip.png';
 
-    function MediamosaStreamingMediaConnector($server_id = null, $do_login = true)
+    function MediamosaExternalRepositoryConnector($server_id = null, $do_login = true)
     {
         
-        if(!$server_id) $server_id = Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER);
+        if(!$server_id) $server_id = Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER);
         
         if($server_id)
         {
@@ -54,7 +54,7 @@ class MediamosaStreamingMediaConnector {
         }
         /*if($server_id)
         {
-            $server = $dm->retrieve_streaming_media_server_object($server_id);
+            $server = $dm->retrieve_external_repository_server_object($server_id);
 
             if($server->get_id())
             {
@@ -164,8 +164,8 @@ class MediamosaStreamingMediaConnector {
 
     function set_server($server_id)
     {
-        $dm = MediamosaStreamingMediaDataManager :: get_instance();
-        if($server = $dm->retrieve_streaming_media_server_object($server_id))
+        $dm = MediamosaExternalRepositoryDataManager :: get_instance();
+        if($server = $dm->retrieve_external_repository_server_object($server_id))
         {
             $this->server = $server;
             $this->user_id_prefix = '';
@@ -220,7 +220,7 @@ class MediamosaStreamingMediaConnector {
     {
         if (! isset(self :: $instance))
         {
-            self :: $instance = new MediamosaStreamingMediaConnector();
+            self :: $instance = new MediamosaExternalRepositoryConnector();
         }
         return self :: $instance;
     }
@@ -259,7 +259,7 @@ class MediamosaStreamingMediaConnector {
      * @param string order_property optional
      * @param string offset optional
      * @param string count optional
-     * @return array with MediamosaStreamingMediaObject(s)
+     * @return array with MediamosaExternalRepositoryObject(s)
      */
     function retrieve_mediamosa_assets($condition = null, $order_property = null, $offset = null, $count = '10')
     {
@@ -322,7 +322,7 @@ class MediamosaStreamingMediaConnector {
                     {
                         if((string) $asset->granted == 'TRUE')
                         {
-                            $objects[(string) $asset->asset_id] = $this->create_mediamosa_streaming_media_object($asset);
+                            $objects[(string) $asset->asset_id] = $this->create_mediamosa_external_repository_object($asset);
                         }
                         
                     }
@@ -335,15 +335,15 @@ class MediamosaStreamingMediaConnector {
     }
 
     /*
-     * creates and populates a MediamosaStreamingMediaObject with xml data
+     * creates and populates a MediamosaExternalRepositoryObject with xml data
      * @param object simple xml element
-     * @return MediamosaStreamingMediaObject
+     * @return MediamosaExternalRepositoryObject
      */
-    function create_mediamosa_streaming_media_object($asset)
+    function create_mediamosa_external_repository_object($asset)
     {
         if($asset)
         {
-            $mediamosa_asset =  new MediamosaStreamingMediaObject();
+            $mediamosa_asset =  new MediamosaExternalRepositoryObject();
 
             $mediamosa_asset->set_id((string)$asset->asset_id);
             $mediamosa_asset->set_title((string)$asset->dublin_core->title);
@@ -361,7 +361,7 @@ class MediamosaStreamingMediaConnector {
             
 
             //status of mediafile is unavailable by default
-            $mediamosa_asset->set_status(StreamingMediaObject :: STATUS_UNAVAILABLE);
+            $mediamosa_asset->set_status(ExternalRepositoryObject :: STATUS_UNAVAILABLE);
 
             $mediamosa_transcoding_profiles = $this->retrieve_mediamosa_transcoding_profiles();
 
@@ -404,7 +404,7 @@ class MediamosaStreamingMediaConnector {
                     }
                     
                     //if there is a playable mediafile - set status available
-                    $mediamosa_asset->set_status(StreamingMediaObject :: STATUS_AVAILABLE);
+                    $mediamosa_asset->set_status(ExternalRepositoryObject :: STATUS_AVAILABLE);
                 }
             }
             return $mediamosa_asset;
@@ -497,7 +497,7 @@ class MediamosaStreamingMediaConnector {
      * retrieve an asset on mediamosa server
      * @param string asset_id
      * @param boolean object
-     * @return MediamosaStreamingMediaObject or simplexmlelement
+     * @return MediamosaExternalRepositoryObject or simplexmlelement
      */
     function retrieve_mediamosa_asset($asset_id, $object = true)
     {
@@ -514,7 +514,7 @@ class MediamosaStreamingMediaConnector {
 
                 if($object)
                 {
-                    $object = $this->create_mediamosa_streaming_media_object($xml);
+                    $object = $this->create_mediamosa_external_repository_object($xml);
                     $this->asset_cache[(string) $xml->asset_id] = $object;
                     return $object;
                 }
@@ -738,9 +738,9 @@ class MediamosaStreamingMediaConnector {
         {
             $asset_ids = array();
         
-            foreach($response as $n => $mediamosa_streaming_media_object)
+            foreach($response as $n => $mediamosa_external_repository_object)
             {
-                $asset_ids[] = $mediamosa_streaming_media_object->get_id();
+                $asset_ids[] = $mediamosa_external_repository_object->get_id();
             }
 
             if($response = $this->remove_mediamosa_assets($asset_ids))

@@ -5,26 +5,26 @@
  * @author jevdheyd
  */
 
-require_once dirname(__FILE__) . '/../mediamosa_streaming_media_server_object.class.php';
-require_once dirname(__FILE__) . '/../forms/mediamosa_streaming_media_manager_settings_form.class.php';
-require_once dirname(__FILE__) . '/../mediamosa_streaming_media_data_manager.class.php';
+require_once dirname(__FILE__) . '/../mediamosa_external_repository_server_object.class.php';
+require_once dirname(__FILE__) . '/../forms/mediamosa_external_repository_manager_settings_form.class.php';
+require_once dirname(__FILE__) . '/../mediamosa_external_repository_data_manager.class.php';
 
-class MediamosaStreamingMediaManagerSettingUpdaterComponent extends MediamosaStreamingMediaManager {
+class MediamosaExternalRepositoryManagerSettingUpdaterComponent extends MediamosaExternalRepositoryManager {
 
     function run()
     {
-        $form = new MediamosaStreamingMediaManagerSettingsForm(MediamosaStreamingMediaManagerSettingsForm :: TYPE_EDIT, $this->get_url());
+        $form = new MediamosaExternalRepositoryManagerSettingsForm(MediamosaExternalRepositoryManagerSettingsForm :: TYPE_EDIT, $this->get_url());
 
         //TODO:jens iplement setting retrieval
-        $dm = MediamosaStreamingMediaDataManager :: get_instance();
-        $setting = $dm->retrieve_streaming_media_server_object(Request :: get(MediamosaStreamingMediaManager :: PARAM_SERVER));
+        $dm = MediamosaExternalRepositoryDataManager :: get_instance();
+        $setting = $dm->retrieve_external_repository_server_object(Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER));
 
         $form->set_server_object($setting);
 
         if($form->validate())
         {
             $parameters = array();
-            $parameters[StreamingMediaManager :: PARAM_STREAMING_MEDIA_MANAGER_ACTION] = MediamosaStreamingMediaManager :: ACTION_MANAGE_SETTINGS;
+            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = MediamosaExternalRepositoryManager :: ACTION_MANAGE_SETTINGS;
 
             if($form->update_setting())
             {

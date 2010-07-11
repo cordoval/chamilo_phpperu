@@ -14,7 +14,7 @@ class SettingsManagerTableDataProvider extends ObjectTableDataProvider
 
     /**
      * Constructor
-     * @param MediamosaStreamingMediaManagerComponent $component
+     * @param MediamosaExternalRepositoryManagerComponent $component
      * @param Condition $condition
      */
     function RepositoryBrowserTableDataProvider($component, $condition)
@@ -31,7 +31,7 @@ class SettingsManagerTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        $dm = MediamosaStreamingMediaDataManager :: get_instance();
+        $dm = MediamosaExternalRepositoryDataManager :: get_instance();
 
         $order_property = $this->get_order_property($order_property);
 
@@ -39,7 +39,7 @@ class SettingsManagerTableDataProvider extends ObjectTableDataProvider
         //		$order_property[] = ContentObject :: PROPERTY_TITLE;
 
 
-        return $dm->retrieve_streaming_media_server_objects($this->get_condition(), $order_property, $offset, $count);
+        return $dm->retrieve_external_repository_server_objects($this->get_condition(), $order_property, $offset, $count);
     }
 
     /**
@@ -48,8 +48,8 @@ class SettingsManagerTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        $dm = MediamosaStreamingMediaDataManager :: get_instance();
-        return $dm->count_streaming_media_server_objects();
+        $dm = MediamosaExternalRepositoryDataManager :: get_instance();
+        return $dm->count_external_repository_server_objects();
     }
 }
 ?>
