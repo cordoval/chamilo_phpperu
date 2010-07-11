@@ -42,7 +42,7 @@ class ExternalRepositoryBrowserComponent extends ExternalRepositoryComponent
             $search_url = null;
         }
         
-        $this->menu = new ExternalRepositoryMenu(Request :: get(ExternalRepositoryManager :: PARAM_STREAMING_MEDIA_ID), $this->get_parent(), $extra);
+        $this->menu = new ExternalRepositoryMenu(Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID), $this->get_parent(), $extra);
         
         if ($search_url)
         {

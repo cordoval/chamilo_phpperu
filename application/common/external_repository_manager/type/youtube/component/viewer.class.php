@@ -1,11 +1,11 @@
 <?php
-class YoutubeStreamingMediaManagerViewerComponent extends YoutubeStreamingMediaManager
+class YoutubeExternalRepositoryManagerViewerComponent extends YoutubeExternalRepositoryManager
 {
-	function run()
-	{
-		$viewer = StreamingMediaComponent::factory(StreamingMediaComponent::VIEWER_COMPONENT, $this);
-		
-		$viewer->run();
-	}
+
+    function run()
+    {
+        $viewer = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: VIEWER_COMPONENT, $this);
+        $viewer->run();
+    }
 }
 ?>

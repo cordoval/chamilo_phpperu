@@ -1,20 +1,20 @@
 <?php
 /**
  * @package common.html.action_bar
- * $Id: streaming_media_search_form.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
+ * $Id: external_repository_search_form.class.php 128 2009-11-09 13:13:20Z vanpouckesven $
  */
-class StreamingMediaSearchForm extends FormValidator
+class ExternalRepositorySearchForm extends FormValidator
 {
     /**#@+
      * Search parameter
      */
     const PARAM_SIMPLE_SEARCH_QUERY = 'query';
-
+    
     /**
      * Name of the search form
      */
     const FORM_NAME = 'search';
-
+    
     /**
      * The renderer used to display the form
      */
@@ -29,19 +29,19 @@ class StreamingMediaSearchForm extends FormValidator
      * @param string $url The location to which the search request should be
      * posted.
      */
-    function StreamingMediaSearchForm($url)
+    function ExternalRepositorySearchForm($url)
     {
         parent :: __construct(self :: FORM_NAME, 'post', $url);
         $this->renderer = clone $this->defaultRenderer();
-
+        
         $query = $this->get_query();
         if ($query)
         {
             $this->setDefaults(array(self :: PARAM_SIMPLE_SEARCH_QUERY => $query));
         }
-
+        
         $this->build_simple_search_form();
-
+        
         $this->accept($this->renderer);
     }
 
@@ -73,20 +73,20 @@ class StreamingMediaSearchForm extends FormValidator
      */
     function get_query()
     {
-    	$post_query = Request :: post(self :: PARAM_SIMPLE_SEARCH_QUERY);
-    	$get_query = Request :: get(self :: PARAM_SIMPLE_SEARCH_QUERY);
-    	if (isset($post_query))
-    	{
-    		return $post_query;
-    	}
-    	elseif (isset($get_query))
-    	{
-    		return $get_query;
-    	} 
-    	else 
-    	{
-    		return null;
-    	}
+        $post_query = Request :: post(self :: PARAM_SIMPLE_SEARCH_QUERY);
+        $get_query = Request :: get(self :: PARAM_SIMPLE_SEARCH_QUERY);
+        if (isset($post_query))
+        {
+            return $post_query;
+        }
+        elseif (isset($get_query))
+        {
+            return $get_query;
+        }
+        else
+        {
+            return null;
+        }
     }
 }
 ?>
