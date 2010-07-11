@@ -76,7 +76,7 @@ class YoutubeStreamingMediaManagerForm extends FormValidator
     
     function get_youtube_categories()
     {
-    	$connector = YoutubeStreamingMediaConnector::get_instance($this);
+    	$connector = YoutubeStreamingMediaConnector::get_instance($this->application);
     	return $connector->retrieve_categories();
     }
 
@@ -121,7 +121,7 @@ class YoutubeStreamingMediaManagerForm extends FormValidator
     {
         $values = $this->exportValues();
         
-        $connector = YoutubeStreamingMediaConnector::get_instance($values);
+        $connector = YoutubeStreamingMediaConnector::get_instance($this->application);
         return $connector->get_upload_token($values);
     }
 

@@ -121,6 +121,16 @@ ul.tree-menu li div a.fedora {
 	background-image: url(../images/common/repository_fedora.png);
 }
 
+ul.tree-menu li div a.flickr {
+	clear: both;
+	background-image: url(../images/common/repository_flickr.png);
+}
+
+ul.tree-menu li div a.matterhorn {
+	clear: both;
+	background-image: url(../images/common/repository_matterhorn.png);
+}
+
 ul.tree-menu li div a.disabled {
 	color: #9f9f9f;
 	cursor: default;
