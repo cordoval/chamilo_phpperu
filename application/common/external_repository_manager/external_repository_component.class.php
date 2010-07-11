@@ -1,5 +1,5 @@
 <?php
-abstract class StreamingMediaComponent extends SubManager
+abstract class ExternalRepositoryComponent extends SubManager
 {
 	const BROWSER_COMPONENT = 'browser';
 	const CREATOR_COMPONENT = 'creator';
@@ -16,12 +16,12 @@ abstract class StreamingMediaComponent extends SubManager
 		$file = dirname(__FILE__) . '/component/' . $type . '.class.php';
     	if(!file_exists($file))
     	{
-    		throw new Exception(Translation :: get('StreamingMediaComponentTypeDoesNotExist', array('type' => $type)));
+    		throw new Exception(Translation :: get('ExternalRepositoryComponentTypeDoesNotExist', array('type' => $type)));
     	}
     	
     	require_once $file;
     	
-    	$class = 'StreamingMedia' . Utilities :: underscores_to_camelcase($type) . 'Component';
+    	$class = 'ExternalRepository' . Utilities :: underscores_to_camelcase($type) . 'Component';
     	return new $class($application);
 	}
 	
@@ -30,34 +30,34 @@ abstract class StreamingMediaComponent extends SubManager
 		
 	}
 	
-	function get_streaming_media_object_viewing_url($object)
+	function get_external_repository_object_viewing_url($object)
 	{
-		return $this->get_parent()->get_streaming_media_object_viewing_url($object);
+		return $this->get_parent()->get_external_repository_object_viewing_url($object);
 	}
 	
-	function count_streaming_media_objects($condition)
+	function count_external_repository_objects($condition)
 	{
-		return $this->get_parent()->count_streaming_media_objects($condition);
+		return $this->get_parent()->count_external_repository_objects($condition);
 	}
 	
-	function retrieve_streaming_media_objects($condition, $order_property, $offset, $count)
+	function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
 	{
-		return $this->get_parent()->retrieve_streaming_media_objects($condition, $order_property, $offset, $count);
+		return $this->get_parent()->retrieve_external_repository_objects($condition, $order_property, $offset, $count);
 	}
 	
-	function retrieve_streaming_media_object($id)
+	function retrieve_external_repository_object($id)
 	{
-		return $this->get_parent()->retrieve_streaming_media_object($id);
+		return $this->get_parent()->retrieve_external_repository_object($id);
 	}
 	
-	function delete_streaming_media_object($id)
+	function delete_external_repository_object($id)
 	{
-		return $this->get_parent()->delete_streaming_media_object($id);
+		return $this->get_parent()->delete_external_repository_object($id);
 	}
 	
-	function export_streaming_media_object($object)
+	function export_external_repository_object($object)
 	{
-		return $this->get_parent()->export_streaming_media_object($object);
+		return $this->get_parent()->export_external_repository_object($object);
 	}
 	
 	function get_property_model()

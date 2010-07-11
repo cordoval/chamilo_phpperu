@@ -1006,56 +1006,29 @@ class RepositoryManager extends CoreApplication
             //            
             //            }
             
-
-            $streaming_media_managers = StreamingMediaManager :: retrieve_streaming_media_manager();
-            
-            if (count($streaming_media_managers) > 0)
-            {
-                $streaming_item = array();
-                $streaming_item['title'] = (count($streaming_media_managers) > 1) ? Translation :: get('StreamingMediaManagers') : Translation :: get('StreamingMediaManager');
-                $streaming_item['url'] = '#'/*$this->get_url(array(Application::PARAM_ACTION => self :: ACTION_STREAMING_MEDIA_MANAGER))*/;
-                $streaming_item['class'] = 'streaming';
-                $streaming_sub_items = array();
-                
-                foreach ($streaming_media_managers as $streaming_media_manager)
-                {
-                    $setting = PlatformSetting :: get($streaming_media_manager . '_enabled', self :: APPLICATION_NAME);
-                    
-                    if ($setting)
-                    {
-                        $streaming_sub_item = array();
-                        $streaming_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($streaming_media_manager));
-                        $streaming_sub_item['url'] = $this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_STREAMING_MEDIA_MANAGER, StreamingMediaManager :: PARAM_TYPE => $streaming_media_manager));
-                        $streaming_sub_item['class'] = $streaming_media_manager;
-                        $streaming_sub_items[] = $streaming_sub_item;
-                    }
-                
-                }
-                $streaming_item['sub'] = $streaming_sub_items;
-            }
-            
-            $external_repository_managers = ExternalRepositoryManager :: retrieve_managers();
+            $external_repository_managers = ExternalRepositoryManager :: retrieve_external_repository_manager();
             
             if ($external_repository_managers->size() > 0)
             {
                 $external_repository_item = array();
                 $external_repository_item['title'] = ($external_repository_managers->size() > 0) ? Translation :: get('ExternalRepositories') : Translation :: get('ExternalRepository');
-                $external_repository_item['url'] = '#'/*$this->get_url(array(Application::PARAM_ACTION => self :: ACTION_STREAMING_MEDIA_MANAGER))*/;
+                $external_repository_item['url'] = '#';
                 $external_repository_item['class'] = 'external_repository';
                 $external_repository_sub_items = array();
                 
                 while ($external_repository_manager = $external_repository_managers->next_result())
                 {
-//                    $setting = PlatformSetting :: get($external_repository_manager . '_enabled', self :: APPLICATION_NAME);
-//                    
-//                    if ($setting)
-//                    {
+                    //$setting = PlatformSetting :: get($external_repository_manager . '_enabled', self :: APPLICATION_NAME);
+                    
+                    //if ($setting)
+                    //{
                         $external_repository_sub_item = array();
-                        $external_repository_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($external_repository_manager));
+                        //$external_repository_sub_item['title'] = Translation :: get(Utilities :: underscores_to_camelcase($external_repository_manager));
+                        $external_repository_sub_item['title'] = Utilities :: underscores_to_camelcase($external_repository_manager);
                         $external_repository_sub_item['url'] = $this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER, ExternalRepositoryManager :: PARAM_TYPE => $external_repository_manager));
                         $external_repository_sub_item['class'] = $external_repository_manager;
                         $external_repository_sub_items[] = $external_repository_sub_item;
-//                    }
+                    //}
                 
                 }
                 $external_repository_item['sub'] = $external_repository_sub_items;

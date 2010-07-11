@@ -169,10 +169,14 @@ abstract class ExternalRepositoryManager extends SubManager
     static function retrieve_external_repository_manager()
     {
         $manager = array();
-        $manager[] = Youtube :: get_type_name();
+        $manager[] = 'fedora';
+        $manager[] = 'flickr';
+        $manager[] = 'google_docs';
+        $manager[] = 'matterhorn';
         $manager[] = 'mediamosa';
-        return $manager;
-    
+        $manager[] = 'youtube';
+        
+        return new ArrayResultSet($manager);
     }
 }
 ?>
