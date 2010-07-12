@@ -57,11 +57,18 @@ class FlickrExternalRepositoryConnector
             $object->set_created($photo_info['dates']['posted']);
             $object->set_owner_id($photo_info['owner']['username']);
             
+            $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
             $photo_urls = array();
-            foreach (FlickrExternalRepositoryObject :: get_default_sizes() as $size)
+            
+            foreach ($photo_sizes as $photo_size)
             {
-                $photo_urls[$size] = $this->flickr->buildPhotoURL($photo_info, $size);
+                $key = strtolower($photo_size['label']);
+                unset($photo_size['label']);
+                unset($photo_size['media']);
+                unset($photo_size['url']);
+                $photo_urls[$key] = $photo_size;
             }
+            
             $object->set_urls($photo_urls);
             
             $types = array();
