@@ -20,7 +20,7 @@ class Connection
     /**
      * The MDB2 Connection object.
      */
-    private $connection;
+    protected $connection;
 
     //'debug_handler'=>array('DatabaseRepositoryDataManager','debug')
 
@@ -62,6 +62,11 @@ class Connection
     function get_connection()
     {
         return $this->connection;
+    }
+    
+    function set_connection($connection)
+    {
+    	$this->connection = $connection;
     }
 
     function set_option($option, $value)

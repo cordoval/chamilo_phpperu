@@ -46,6 +46,11 @@ abstract class MigrationWizardPage extends FormValidatorPage
         return $this->name;
     }
     
+    function get_platform()
+    {
+    	return $this->get_parent()->get_platform();
+    }
+    
     abstract function display_page_info();
     abstract function display_next_page_info();
 
