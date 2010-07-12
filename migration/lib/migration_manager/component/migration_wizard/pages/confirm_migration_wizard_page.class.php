@@ -66,8 +66,14 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
 		
     	$this->setDefaults($this->defaults);
     	
-        $buttons[0] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next') . ' >>');
-        $this->addGroup($buttons, 'buttons', '', '&nbsp', false);
+    	$button = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next') . ' >>', array('class' => 'normal next'));
+        
+   	 	if (!$this->is_valid)
+        {
+            $button->updateAttributes('disabled="disabled"');
+        }
+        
+        $this->addElement($button);
     }
     
     /**
@@ -97,7 +103,7 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
      */
     function build_blocks()
     {
-    	$this->addElement('category', Translation :: get('Blocks'));
+    	$this->addElement('category', Translation :: get('MigrationBlocks'));
     	
     	$blocks = $this->migration_properties->get_migration_blocks();
     	
@@ -175,7 +181,7 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
     	}
     	else
     	{
-    		$html = '<div class="error-message">' . Translation :: get('SettingsNotValid') . '</div>';
+    		$html = '<div class="error-message">' . Translation :: get('SettingsNotValid') . ':<br />' . $this->migration_properties->get_messages_as_string() . '</div>';
     	}
     	
     	$this->addElement('html', $html);
@@ -191,7 +197,7 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
     	$this->addElement('category', Translation :: get('ClearSettings'));
     	
     	$link = $this->get_parent()->get_parent()->get_url(array(MigrationManager :: PARAM_ACTION => MigrationManager :: ACTION_CLEAN_SETTINGS));
-    	$this->addElement('html', '<a class="clear_settings_link" href="' . $link . '">' . Translation :: get('ClearSettings') . '</a>');
+    	$this->addElement('html', '<a class="clear_settings_link" href="' . $link . '">' . Translation :: get('CleanMigrationSettings') . '</a>');
     	
     	$this->addElement('category');
     }

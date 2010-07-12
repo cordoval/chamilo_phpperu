@@ -12,7 +12,7 @@ class MigrationDatabaseConnection Extends Connection
         $connection = MDB2 :: connect($connection_string);
         if(MDB2 :: isError($this->connection))
         {
-        	throw new Exception('The system can not connect to the database');
+        	throw new Exception(Translation :: get('CouldNotConnectToPlatformDatabase'));
         } 
         
         $this->set_connection($connection);

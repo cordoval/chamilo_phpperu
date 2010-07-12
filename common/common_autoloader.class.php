@@ -179,7 +179,7 @@ class CommonAutoloader
 	static function check_for_general_files($classname)
 	{
 		$list = array('application_component', 'application', 'block', 'core_application_component', 'core_application',
-				      'installer', 'redirect', 'resource_manager', 'sub_manager_component', 'sub_manager', 'launcher_application', 'basic_application');
+				      'installer', 'redirect', 'resource_manager', 'sub_manager_component', 'sub_manager', 'launcher_application', 'basic_application', 'messages_object');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

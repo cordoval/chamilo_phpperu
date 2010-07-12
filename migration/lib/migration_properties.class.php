@@ -3,7 +3,7 @@
  * General migration properties class that describes the properties for a platform
  */
 
-abstract class MigrationProperties
+abstract class MigrationProperties extends MessagesObject
 {
 	/**
 	 * Factory method for properties 
@@ -24,7 +24,7 @@ abstract class MigrationProperties
 		
 		return new $class();
 	}
-	
+
 	abstract function validate_settings($settings, $blocks);
 	abstract function get_migration_blocks();
 }

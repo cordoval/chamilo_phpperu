@@ -3,7 +3,7 @@
  * General migration class to start a migration for a block
  */
 
-abstract class MigrationBlock
+abstract class MigrationBlock extends MessagesObject
 {
 	function migrate()
 	{

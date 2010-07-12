@@ -10,11 +10,6 @@ class Dokeos185MigrationProperties extends MigrationProperties
 	 */
 	private $configuration;
 	
-	/**
-	 * The datamanager for this platform
-	 */
-	private $data_manager;
-	
 	function Dokeos185MigrationProperties()
 	{
 		
@@ -39,60 +34,18 @@ class Dokeos185MigrationProperties extends MigrationProperties
 	 */
 	function check_system_availability($settings)
 	{
-		$configuration = $this->get_configuration();
-		if(!$configuration)
-		{
-			return false;
-		}	
-		
 		try
 		{
-			$data_manager = $this->get_data_manager();
+			$data_manager = new Dokeos185DataManager();
 		}
 		catch(Exception $e)
 		{
+			$this->add_message($e->getMessage());
 			return false;
 		}
 		
 		return true;
 	}
-	
-	/**
-	 * Retrieves the configuration from dokeos 1.8.5
-	 */
-	function get_configuration()
-    {
-        if(!$this->configuration)
-        {
-        	$platform_path = 'file://' . PlatformSetting :: get('platform_path', MigrationManager :: APPLICATION_NAME);
-	
-	        if (file_exists($platform_path) && is_dir($platform_path))
-	        {
-	            $config_file = $platform_path . '/main/inc/conf/configuration.php';
-	            if (file_exists($config_file) && is_file($config_file))
-	            {
-	                $_configuration = array();
-	            	require_once ($config_file);
-	                $this->configuration = $_configuration;
-	            }
-	        }
-        }
-        
-        return $this->configuration;
-    }
-    
-    /**
-     * Creates a new instance of the dokeos 1.8.5 data manager
-     */
-    function get_data_manager()
-    {
-    	if(!$this->data_manager)
-    	{
-    		$this->data_manager = new Dokeos185DataManager($this->get_configuration());
-    	}
-    	
-    	return $this->data_manager;
-    }
 	
 	/**
 	 * Validates every block
@@ -101,17 +54,26 @@ class Dokeos185MigrationProperties extends MigrationProperties
 	 */
 	function validate_blocks($blocks)
 	{
+		if(count($blocks) == 0)
+		{
+			$this->add_message(Translation :: get('NoBlocksSelected'));
+			return false;
+		}
+		
+		$result = true;
+		
 		foreach($blocks as $block)
 		{
 			$class = Utilities :: underscores_to_camelcase($block) . 'MigrationBlock';
 			$object = new $class();
 			if(!$object->check_prerequisites($blocks))
 			{
-				return false;
+				$result = false;
+				$this->add_message(Translation :: get('BlockPrerequisitesCheckFailed', array('BLOCK' => Utilities :: underscores_to_camelcase($block))));
 			}
 		}
 		
-		return true;
+		return $result;
 	}
 	
 	/**

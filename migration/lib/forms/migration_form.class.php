@@ -32,7 +32,7 @@ class MigrationForm extends FormValidator
     	$this->addElement('select', self :: SETTING_PLATFORM, Translation :: get('Platform'), $this->get_platforms());
         $this->addRule(self :: SETTING_PLATFORM, Translation :: get('ThisFieldIsRequired'), 'required');
         
-    	$this->addElement('text', self :: SETTING_PLATFORM_PATH, Translation :: get('Path'), array("size" => "50"));
+    	$this->addElement('text', self :: SETTING_PLATFORM_PATH, Translation :: get('PlatformPath'), array("size" => "50"));
         $this->addRule(self :: SETTING_PLATFORM_PATH, Translation :: get('ThisFieldIsRequired'), 'required');
 
 		$this->addElement('checkbox', self :: SETTING_MOVE_FILES, null, Translation :: get('MoveFiles'));
@@ -46,7 +46,7 @@ class MigrationForm extends FormValidator
     	{ 
     		$this->freeze(self :: SETTING_PLATFORM);
     	
-			$this->addElement('category', Translation :: get('Blocks'));
+			$this->addElement('category', Translation :: get('MigrationBlocks'));
 			
 			$blocks = $this->get_blocks(Request :: post(self :: SETTING_PLATFORM));
 			foreach($blocks as $block)
