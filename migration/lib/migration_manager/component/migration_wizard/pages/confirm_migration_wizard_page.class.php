@@ -49,7 +49,14 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
 
  	function display_next_page_info()
  	{
- 		echo Translation :: get('ConfirmationMigrationPageInfo');
+ 		if($this->is_valid)
+ 		{
+ 			echo Translation :: get('ConfirmationMigrationPageInfo');
+ 		}
+ 		else
+ 		{
+ 			echo Translation :: get('YouCanNotProceedWithInvalidSettings');
+ 		}
  	}  
  	
     /**
@@ -90,6 +97,12 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
     	foreach($settings as $setting)
     	{
     		$value = PlatformSetting :: get($setting, MigrationManager :: APPLICATION_NAME);
+    		
+    		if(is_numeric($value))
+    		{
+    			$value = ($value == 1) ? Translation :: get('True') : Translation :: get('False');
+    		}
+    		
     		$this->addElement('static', $setting, Translation :: get(Utilities :: underscores_to_camelcase($setting)));
     		$this->defaults[$setting] = $value;
     		$this->validate_settings[$setting] = $value;
@@ -159,8 +172,8 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
     		$this->defaults[self :: PARAM_NOT_SELECTED_BLOCKS] = '-';
     	}
     	
-    	$this->addElement('static', self :: PARAM_SELECTED_MIGRATED_BLOCKS, Translation :: get('SelectedMigratedBlocks'));
-    	$this->addElement('static', self :: PARAM_SELECTED_BLOCKS, Translation :: get('SelectedNotMigratedBlocks'));
+    	$this->addElement('static', self :: PARAM_SELECTED_BLOCKS, Translation :: get('SelectedBlocksToMigrate'));
+    	$this->addElement('static', self :: PARAM_SELECTED_MIGRATED_BLOCKS, Translation :: get('SelectedBlocksAlreadyMigrated'));
     	$this->addElement('static', self :: PARAM_NOT_SELECTED_BLOCKS, Translation :: get('NotSelectedBlocks'));
     	
     	$this->addElement('category');
@@ -194,7 +207,7 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
      */
     function build_clear_settings_info()
     {
-    	$this->addElement('category', Translation :: get('ClearSettings'));
+    	$this->addElement('category', Translation :: get('CleanMigrationSettings'));
     	
     	$link = $this->get_parent()->get_parent()->get_url(array(MigrationManager :: PARAM_ACTION => MigrationManager :: ACTION_CLEAN_SETTINGS));
     	$this->addElement('html', '<a class="clear_settings_link" href="' . $link . '">' . Translation :: get('CleanMigrationSettings') . '</a>');
