@@ -4,6 +4,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table_
 class DefaultExternalRepositoryObjectTableColumnModel extends ObjectTableColumnModel
 {
 
+    function DefaultExternalRepositoryObjectTableColumnModel()
+    {
+        parent :: __construct(self :: get_default_columns(), 1);
+    }
+
     /**
      * Gets the default columns for this model
      * @return ContentObjectTableColumn[]

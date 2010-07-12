@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../../table/default_external_repository_objec
 /**
  * Cell rendere for the learning object browser table
  */
-class ExternalRepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRenderer
+class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalRepositoryObjectTableCellRenderer
 {
     /**
      * The repository browser component

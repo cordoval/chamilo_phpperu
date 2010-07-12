@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/external_repository_browser_gallery_table/external_repository_browser_gallery_table.class.php';
+require_once dirname(__FILE__) . '/external_repository_browser_table/external_repository_browser_table.class.php';
 require_once dirname(__FILE__) . '/../forms/external_repository_search_form.class.php';
 
 class ExternalRepositoryBrowserComponent extends ExternalRepositoryComponent
@@ -85,7 +86,8 @@ class ExternalRepositoryBrowserComponent extends ExternalRepositoryComponent
         $html[] = $this->form->as_html();
         $html[] = '</div>';
 
-        $browser_table = new ExternalRepositoryBrowserGalleryTable($this, $this->get_parameters(), $this->get_condition());
+        $browser_table = new ExternalRepositoryBrowserTable($this, $this->get_parameters(), $this->get_condition());
+        //$browser_table = new ExternalRepositoryBrowserGalleryTable($this, $this->get_parameters(), $this->get_condition());
         $html[] = $browser_table->as_html();
 
         if ($this->menu->count_menu_items() > 0)

@@ -1,6 +1,9 @@
 <?php
 class DefaultExternalRepositoryObjectTableCellRenderer extends ObjectTableCellRenderer
 {
+    function DefaultExternalRepositoryObjectTableCellRenderer()
+    {
+    }
 
     function render_cell($column, $external_repository_object)
     {
