@@ -9,6 +9,8 @@ class DefaultExternalRepositoryObjectTableCellRenderer extends ObjectTableCellRe
     {
         switch ($column->get_name())
         {
+            case ContentObject :: PROPERTY_TYPE :
+                return $external_repository_object->get_icon_image();
             case ExternalRepositoryObject :: PROPERTY_ID :
                 return $external_repository_object->get_id();
             case ExternalRepositoryObject :: PROPERTY_TITLE :

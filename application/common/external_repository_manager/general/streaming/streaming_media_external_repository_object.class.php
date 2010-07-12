@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
 
 abstract class StreamingMediaExternalRepositoryObject extends ExternalRepositoryObject
 {
-    
+
     const PROPERTY_URL = 'url';
     const PROPERTY_DURATION = 'duration';
     const PROPERTY_THUMBNAIL = 'thumbnail';
@@ -19,12 +19,6 @@ abstract class StreamingMediaExternalRepositoryObject extends ExternalRepository
         $extended_property_names[] = self :: PROPERTY_STATUS;
         return parent :: get_default_property_names($extended_property_names);
     }
-
-    /**
-     * Returns a string representation of the type of this learning object.
-     * @return string The type.
-     */
-    abstract function get_type();
 
     public function get_status_text()
     {
