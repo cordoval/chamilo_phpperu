@@ -26,7 +26,7 @@ class MigrationAutoloader
 	{
 		$list = array('migration_data_manager', 'old_migration_data_manager', 'migration_data_class', 'migration_data_manager_interface',
 					  'failed_element', 'file_recovery', 'id_reference', 'migration_block', 'migration', 'migration_block_registration',
-					  'migration_properties');
+					  'migration_properties', 'migration_database', 'migration_database_connection');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

@@ -34,7 +34,7 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
      */
     function _renderForm($current_page)
     {
-        $this->parent->display_header();
+        $this->display_header();
 
         echo'<div class="migration_info">';
         $current_page->display_page_info();
@@ -54,7 +54,22 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
         $current_page->display_next_page_info();
         echo '</div>';
 
-        $this->parent->display_footer();
+        $this->display_footer();
+    }
+    
+    function get_parent()
+    {
+    	return $this->parent;
+    }
+    
+    function display_header()
+    {
+    	return $this->get_parent()->display_header();
+    }
+    
+    function display_footer()
+    {
+    	return $this->get_parent()->display_footer();
     }
 }
 ?>

@@ -18,10 +18,13 @@ require_once dirname(__FILE__) . '/pages/confirm_migration_wizard_page.class.php
  */
 class MigrationWizard extends HTML_QuickForm_Controller
 {
+    const SETTING_PLATFORM = 'platform';
+    
     /** 
      * The component in which the wizard runs
      */
     private $parent;
+    private $platform;
 
     /**
      * Creates a new MigrationWizard
@@ -32,19 +35,40 @@ class MigrationWizard extends HTML_QuickForm_Controller
     {
         parent :: HTML_QuickForm_Controller('MigrationWizard', true);
     	$this->parent = $parent;
-        
-    	$this->addPage(new ConfirmMigrationWizardPage($parent, 'confirmation_page'));
+        $this->platform = PlatformSetting :: get(self :: SETTING_PLATFORM, MigrationManager :: APPLICATION_NAME);
+    	
+    	$this->addPage(new ConfirmMigrationWizardPage($this, 'confirmation_page'));
         $this->addpages();
-        $this->addAction('display', new MigrationWizardDisplay($parent));
+        $this->addAction('display', new MigrationWizardDisplay($this));
     }
 
-    /**
+	/**
      * Creates the pages that belong to a certain old system
      * This pages are defined in wizard.xml in the old system directory
      */
     function addpages()
     {
         
+    }
+    
+    function get_platform()
+    {
+    	return $this->platform;
+    }
+    
+    function get_parent()
+    {
+    	return $this->parent;
+    }
+    
+	function display_header()
+    {
+    	return $this->get_parent()->display_header();
+    }
+    
+    function display_footer()
+    {
+    	return $this->get_parent()->display_footer();
     }
 
 }
