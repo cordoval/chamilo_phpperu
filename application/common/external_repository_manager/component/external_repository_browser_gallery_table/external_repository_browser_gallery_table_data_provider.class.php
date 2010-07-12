@@ -1,5 +1,5 @@
 <?php
-class ExternalRepositoryBrowserTableDataProvider extends GalleryObjectTableDataProvider
+class ExternalRepositoryBrowserGalleryTableDataProvider extends GalleryObjectTableDataProvider
 {
     /**
      * Gets the learning objects
