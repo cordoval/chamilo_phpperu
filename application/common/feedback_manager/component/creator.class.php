@@ -14,20 +14,13 @@ class FeedbackManagerCreatorComponent extends FeedbackManager
 {
 
     function run()
-    { if($action == self::ACTION_CREATE_ONLY_FEEDBACK)
-//        {
-//            $success= $repo_viewer->set_repo_viewer_actions(RepoViewer::ACTION_CREATOR);
-//        }
+    { 
         $application = $this->get_application();
         $publication_id = $this->get_publication_id();
         $complex_wrapper_id = $this->get_complex_wrapper_id();
         $action = $this->get_action();
         $repo_viewer = new RepoViewer($this, Feedback :: get_type_name());
 
-//        if($action == self::ACTION_CREATE_ONLY_FEEDBACK)
-//        {
-//            $success= $repo_viewer->set_repo_viewer_actions(RepoViewer::ACTION_CREATOR);
-//        }
         
         if (! $repo_viewer->is_ready_to_be_published())
         {
@@ -56,15 +49,8 @@ class FeedbackManagerCreatorComponent extends FeedbackManager
             }
 
             $message = 'FeedbackCreated';
-            if ($action == self :: ACTION_CREATE_ONLY_FEEDBACK)
-            {
-                $redirect = $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_CREATE_ONLY_FEEDBACK, RepoViewer :: PARAM_ACTION => null));
-            }
-            else
-            {
-                $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_BROWSE_FEEDBACK));
-            }
-        }
+            $redirect = $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => $this->get_parameter(self::PARAM_OLD_ACTION), RepoViewer :: PARAM_ACTION => null));
+
     }
 }
 ?>

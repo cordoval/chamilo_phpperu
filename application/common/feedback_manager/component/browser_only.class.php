@@ -42,33 +42,33 @@ class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
 
 
 
-            $feedbackpublications = $this->retrieve_feedback_publications($publication_id, $complex_wrapper_id, $application);
-            $feedback_count = AdminDataManager :: get_instance()->count_feedback_publications($publication_id, $complex_wrapper_id, $application);
+        $feedbackpublications = $this->retrieve_feedback_publications($publication_id, $complex_wrapper_id, $application);
+        $feedback_count = AdminDataManager :: get_instance()->count_feedback_publications($publication_id, $complex_wrapper_id, $application);
 
 
-            $counter = 0;
-            while ($feedback = $feedbackpublications->next_result())
+        $counter = 0;
+        while ($feedback = $feedbackpublications->next_result())
+        {
+            $counter ++;
+
+            if ($counter == 4)
             {
-                $counter ++;
-
-                if ($counter == 4)
-                {
-                    $html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowAllFeedback') . '[' . ($feedback_count - 3) . ']</a><br><br>';
-                    $html[] = '<a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllFeedback') . ')</a>';
-                    $html[] = '<div id="feedbacklist">';
-                }
-                $html[] = $this->render_feedback($feedback);
-
+                $html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowAllFeedback') . '[' . ($feedback_count - 3) . ']</a><br><br>';
+                $html[] = '<a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllFeedback') . ')</a>';
+                $html[] = '<div id="feedbacklist">';
             }
+            $html[] = $this->render_feedback($feedback);
 
-            if ($counter > 3)
-            {
-                $html[] = '</div>';
-            }
+        }
 
-          
+        if ($counter > 3)
+        {
+            $html[] = '</div>';
+        }
 
-            $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' . '"></script>';
+
+
+        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' . '"></script>';
 
         
         
@@ -116,14 +116,14 @@ class FeedbackManagerBrowserOnlyComponent extends FeedbackManager
 
     function render_delete_action($feedback)
     {
-        $delete_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_DELETE_FEEDBACK,  FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id()));
+        $delete_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_DELETE_FEEDBACK,  FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id(), FeedbackManager :: PARAM_OLD_ACTION => $this->get_action()));
         $delete_link = '<a href="' . $delete_url . '" onclick="return confirm(\'' . addslashes(Translation :: get('ConfirmYourChoice')) . '\');"><img src="' . Theme :: get_common_image_path() . 'action_delete.png"  alt=""/></a>';
         return $delete_link;
     }
 
     function render_update_action($feedback)
     {
-        $update_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_UPDATE_FEEDBACK, FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id()));
+        $update_url = $this->get_url(array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_UPDATE_FEEDBACK, FeedbackManager :: PARAM_FEEDBACK_ID => $feedback->get_id(), FeedbackManager :: PARAM_OLD_ACTION => $this->get_action()));
         $update_link = '<a href="' . $update_url . '"><img src="' . Theme :: get_common_image_path() . 'action_edit.png"  alt=""/></a>';
         return $update_link;
     }

@@ -375,4 +375,6 @@ $lang['admin']['LanguageSuccessfullyDeleted'] = '';
 $lang['admin']['PackageIsAlreadyRegistered'] = '';
 $lang['admin']['LanguageRegistrationNotAdded'] = '';
 $lang['admin']['LanguageRegistrationAdded'] = '';
+$lang['admin']['SetPortfolioDefaultsDescription'] = 'Hier kan je de standaard instellingen voor de portfolio-toepassing wijzigen';
+$lang['admin']['SetPortfolioDefaults'] = 'Standaard Portfolio Rechten';
 ?>

@@ -58,8 +58,8 @@ $lang['portfolio']['PublicationFeedback'] = 'Portfolio Feedback';
 $lang['portfolio']['PublicationGiveFeedback'] = 'Uw eigen Feedback toevoegen';
 $lang['portfolio']['BrowsePortfolios'] = 'Doorblader portfolios';
 
-$lang['portfolio']['NoPermissionToGiveFeedback'] = 'You don\'t have the permission to give feedback on this portfolio item';
-$lang['portfolio']['NoPermissionToViewFeedback'] = 'You don\'t have the permission to view the feedback on this portfolio item';
+$lang['portfolio']['NoPermissionToGiveFeedback'] = 'De eigenaar van dit portfolio gaf je niet het recht om feedback op dit item te geven';
+$lang['portfolio']['NoPermissionToViewFeedback'] = 'De eigenaar van dit portfolio gaf je niet het recht de feedback op dit item te bekijken';
 
 $lang['portfolio']['SetSystemDefaults'] = 'Aanpassen';
 $lang['portfolio']['PortfolioDefaultSettingsSaved'] = 'Standaard portfolio rechten werden opgeslagen';
@@ -91,5 +91,10 @@ $lang['portfolio']['SelectedContentObjects'] = 'Geselecteerde inhoud';
 
 $lang['portfolio']['Delete_portfolio_publication'] = 'Verwijder het geselecteerde portfolio';
 $lang['portfolio']['Delete_portfolio_item'] = 'Verwijder het geselecteerde portfolio-item';
+$lang['portfolio']['QuickFeedback'] = 'Snelle Feedback';
+$lang['portfolio']['ConfirmYourChoice'] = 'Gelieve te bevestigen';
+$lang['portfolio']['FeedbackPublicationDeleted'] = 'De Feedback werd verwijderd';
 
+$lang['Admin']['Admin']['Portfolio'] = 'test';
+$lang['Admin']['Importer'] = 'test';
 ?>
