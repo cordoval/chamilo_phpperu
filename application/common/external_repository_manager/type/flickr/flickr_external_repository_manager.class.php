@@ -107,7 +107,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 
     function get_available_renderers()
     {
-        return array(ExternalRepositoryObjectRenderer :: TYPE_TABLE);
+        return array(ExternalRepositoryObjectRenderer :: TYPE_TABLE, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW);
         //return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 }

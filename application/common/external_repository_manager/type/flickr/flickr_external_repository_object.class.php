@@ -3,6 +3,8 @@ require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
 
 class FlickrExternalRepositoryObject extends ExternalRepositoryObject
 {
+    const OBJECT_TYPE = 'flickr';
+    
     const PROPERTY_URLS = 'urls';
     
     const SIZE_SQUARE = 'square';
@@ -45,12 +47,12 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
     
     function get_icon_name()
     {
-        return 'flickr_' . parent :: get_icon_name();
+        return self :: OBJECT_TYPE . '_' . parent :: get_icon_name();
     }
     
-//    function get_type()
-//    {
-//        return 'flickr';
-//    }
+    static function get_object_type()
+    {
+        return self :: OBJECT_TYPE;
+    }
 }
 ?>

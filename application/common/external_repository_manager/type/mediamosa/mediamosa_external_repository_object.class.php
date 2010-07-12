@@ -9,6 +9,8 @@ require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
 class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     private $mediafiles;
+    
+    const OBJECT_TYPE = 'mediamosa';
 
     const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_CONVERSION_STATE = 'conversion_state';
@@ -23,11 +25,6 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
     const STATE_QUEUED = 1;
     const STATE_TRANSCODING = 2;
     const STATE_ERRONEOUS = 3;
-
-    function get_type()
-    {
-        return 'mediamosa';
-    }
 
     static function get_additional_property_names()
     {
@@ -121,6 +118,11 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
     function get_is_downloadable()
     {
         return $this->get_additional_property(self :: PROPERTY_IS_DOWNLOADABLE);
+    }
+    
+    static function get_object_type()
+    {
+        return self :: OBJECT_TYPE;
     }
 }
 ?>

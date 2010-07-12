@@ -358,6 +358,7 @@ class MediamosaExternalRepositoryConnector {
             $mediamosa_asset->set_creator((string)$asset->dublin_core->creator);
             //TODO:jens -> implement status
             $mediamosa_asset->set_status($status);
+            $mediamose_asset->set_type(MediamosaExternalRepositoryObject :: OBJECT_TYPE);
 
 
             //status of mediafile is unavailable by default
