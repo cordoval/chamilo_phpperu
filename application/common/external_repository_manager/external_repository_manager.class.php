@@ -2,7 +2,7 @@
 abstract class ExternalRepositoryManager extends SubManager
 {
     const PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION = 'streaming_action';
-    
+
     const ACTION_VIEW_EXTERNAL_REPOSITORY = 'view';
     const ACTION_EXPORT_EXTERNAL_REPOSITORY = 'export';
     const ACTION_IMPORT_EXTERNAL_REPOSITORY = 'import';
@@ -12,21 +12,30 @@ abstract class ExternalRepositoryManager extends SubManager
     const ACTION_SELECT_EXTERNAL_REPOSITORY = 'select';
     const ACTION_EDIT_EXTERNAL_REPOSITORY = 'edit';
     const ACTION_DELETE_EXTERNAL_REPOSITORY = 'delete';
-    
+
     const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PARAM_TYPE = 'type';
     const PARAM_QUERY = 'query';
+    const PARAM_RENDERER = 'renderer';
+
     const CLASS_NAME = __CLASS__;
 
     function ExternalRepositoryManager($application)
     {
         parent :: __construct($application);
-        
+
         $external_repository_manager_action = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
         if ($external_repository_manager_action)
         {
             $this->set_parameter(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, $external_repository_manager_action);
         }
+
+        $this->set_optional_parameters();
+    }
+
+    function set_optional_parameters()
+    {
+        $this->set_parameter(self :: PARAM_RENDERER, $this->get_renderer());
     }
 
     function is_stand_alone()
@@ -43,9 +52,9 @@ abstract class ExternalRepositoryManager extends SubManager
         {
             throw new Exception(Translation :: get('ExternalRepositoryManagerTypeDoesNotExist', array('type' => $type)));
         }
-        
+
         require_once $file;
-        
+
         $class = Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryManager';
         return new $class($application);
     }
@@ -78,22 +87,22 @@ abstract class ExternalRepositoryManager extends SubManager
     {
         $action = $this->get_action();
         parent :: display_header();
-        
+
         $html = array();
         $external_repository_actions = $this->get_external_repository_actions();
-        
+
         if ($action == self :: ACTION_EDIT_EXTERNAL_REPOSITORY)
         {
             $external_repository_actions[] = self :: ACTION_EDIT_EXTERNAL_REPOSITORY;
         }
-        
+
         if ($action == self :: ACTION_VIEW_EXTERNAL_REPOSITORY)
         {
             $external_repository_actions[] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
         }
-        
+
         $tabs = new DynamicVisualTabsRenderer(Utilities :: camelcase_to_underscores(get_class($this)));
-        
+
         foreach ($external_repository_actions as $external_repository_action)
         {
             if ($action == $external_repository_action)
@@ -104,24 +113,24 @@ abstract class ExternalRepositoryManager extends SubManager
             {
                 $selected = false;
             }
-            
+
             $parameters = $this->get_parameters();
             $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = $external_repository_action;
-            
+
             if ($external_repository_action == self :: ACTION_VIEW_EXTERNAL_REPOSITORY)
             {
                 $parameters[self :: PARAM_EXTERNAL_REPOSITORY_ID] = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_ID);
             }
-            
+
             $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($external_repository_action) . 'Title'));
             $link = $this->get_url($parameters, true);
-            
+
             $tabs->add_tab(new DynamicVisualTab($external_repository_action, $label, Theme :: get_common_image_path() . 'place_tab_' . $external_repository_action . '.png', $link, $selected));
         }
-        
+
         $html[] = $tabs->header();
         $html[] = DynamicVisualTabsRenderer :: body_header();
-        
+
         echo implode("\n", $html);
     }
 
@@ -136,7 +145,7 @@ abstract class ExternalRepositoryManager extends SubManager
         $html[] = DynamicVisualTabsRenderer :: body_footer();
         $html[] = DynamicVisualTabsRenderer :: footer();
         echo implode("\n", $html);
-        
+
         parent :: display_footer();
     }
 
@@ -175,8 +184,28 @@ abstract class ExternalRepositoryManager extends SubManager
 //        $manager[] = 'matterhorn';
         $manager[] = 'mediamosa';
         $manager[] = 'youtube';
-        
+
         return new ArrayResultSet($manager);
+    }
+
+    function get_renderer()
+    {
+        $renderer = Request :: get(self :: PARAM_RENDERER);
+
+        if ($renderer && in_array($renderer, $this->get_available_renderers()))
+        {
+            return $renderer;
+        }
+        else
+        {
+            $renderers = $this->get_available_renderers();
+            return $renderers[0];
+        }
+    }
+
+    function get_available_renderers()
+    {
+        return array(ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 }
 ?>

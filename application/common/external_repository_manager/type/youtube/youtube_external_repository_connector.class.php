@@ -259,10 +259,18 @@ class YoutubeExternalRepositoryConnector
                 $thumbnail = null;
             }
 
+            $published = $videoEntry->getPublished()->getText();
+            $published_timestamp = strtotime($published);
+
+            $uploader = $videoEntry->getAuthor();
+            $uploader = $uploader[0];
+
             $object = new YoutubeExternalRepositoryObject();
             $object->set_id($videoEntry->getVideoId());
             $object->set_title($videoEntry->getVideoTitle());
             $object->set_description($videoEntry->getVideoDescription());
+            $object->set_created($published_timestamp);
+            $object->set_owner_id($uploader->getName()->getText());
             $object->set_url($videoEntry->getFlashPlayerUrl());
             $object->set_duration($videoEntry->getVideoDuration());
             $object->set_thumbnail($thumbnail);

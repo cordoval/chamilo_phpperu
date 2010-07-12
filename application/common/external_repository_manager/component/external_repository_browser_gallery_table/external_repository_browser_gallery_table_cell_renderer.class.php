@@ -35,7 +35,7 @@ class ExternalRepositoryBrowserGalleryTableCellRenderer extends DefaultExternalR
         $toolbar = new Toolbar(Toolbar :: TYPE_VERTICAL);
         $id = $object->get_id();
 
-        if ($this->browser->get_parent()->is_editable($id))
+        if ($this->browser->is_editable($id))
         {
             $toolbar_item_edit = new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(
                     ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_EDIT_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $id)), ToolbarItem :: DISPLAY_ICON);
@@ -49,7 +49,7 @@ class ExternalRepositoryBrowserGalleryTableCellRenderer extends DefaultExternalR
 
         if ($object->is_usable() && $object->get_url() != null)
         {
-            if ($this->browser->get_parent()->is_stand_alone())
+            if ($this->browser->is_stand_alone())
             {
                 $toolbar_item_select = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->browser->get_url(array(
                         ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_SELECT_EXTERNAL_REPOSITORY,

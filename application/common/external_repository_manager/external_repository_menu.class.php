@@ -16,7 +16,7 @@ class ExternalRepositoryMenu extends HTML_Menu
     const ACTION_CREATE = 'create';
     const ACTION_ALL_VIDEOS = 'all_videos';
     const ACTION_MY_VIDEOS = 'my_videos';
-    
+
     private $current_item;
     /**
      * The array renderer used to determine the breadcrumbs.
@@ -32,7 +32,7 @@ class ExternalRepositoryMenu extends HTML_Menu
         $this->menu_items = $menu_items;
         //$menu = $this->get_menu();
         parent :: __construct($menu_items);
-        
+
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
         $this->forceCurrentUrl($this->get_url());
     }
