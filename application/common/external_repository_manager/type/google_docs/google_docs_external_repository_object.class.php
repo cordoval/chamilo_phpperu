@@ -72,5 +72,10 @@ class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
     {
         return '';
     }
+
+    function get_icon_name()
+    {
+        return 'google_docs_' . parent :: get_icon_name();
+    }
 }
 ?>

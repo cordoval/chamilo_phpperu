@@ -76,7 +76,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
     function get_external_repository_object_viewing_url($object){
         $parameters = array();
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
-        $parameters[self :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();	
+        $parameters[self :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
 
         return $this->get_url($parameters);
     }
@@ -153,7 +153,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
-                
+
         }
 
         $component->run();
@@ -163,11 +163,11 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
     {
             //return array(parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY, parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_CLEAN_EXTERNAL_REPOSITORY);
         $actions = array();
-        
+
         $actions[] = parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
-        
+
         $actions[] = parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY;
-        
+
         if($this->get_user()->is_platform_admin()) $actions[] = self :: ACTION_MANAGE_SETTINGS;
 
         return $actions;
@@ -244,6 +244,11 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
             $mdm->create_mediamosa_user_quotum($mediamosa_user_quotum);
         }
     }
-    
+
+    function get_available_renderers()
+    {
+        return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY);
+    }
+
 }
 ?>

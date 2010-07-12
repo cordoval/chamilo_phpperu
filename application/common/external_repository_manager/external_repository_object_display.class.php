@@ -22,5 +22,10 @@ abstract class ExternalRepositoryObjectDisplay
     }
 
     abstract function as_html();
+
+    function get_preview($is_thumbnail = false)
+    {
+        return Theme :: get_common_image('thumbnail');
+    }
 }
 ?>
