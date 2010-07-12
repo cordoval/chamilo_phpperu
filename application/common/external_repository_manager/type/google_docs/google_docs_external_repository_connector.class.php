@@ -270,7 +270,7 @@ class GoogleDocsExternalRepositoryConnector
             $objects[] = $object;
         }
 
-        return $objects;
+        return new ArrayResultSet($objects);
 
     }
 

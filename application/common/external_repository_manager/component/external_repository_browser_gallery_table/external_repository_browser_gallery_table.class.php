@@ -5,7 +5,7 @@ require_once dirname(__file__) . '/external_repository_browser_gallery_table_pro
 
 class ExternalRepositoryBrowserGalleryTable extends GalleryObjectTable
 {
-    const DEFAULT_NAME = 'external_repository_browser_table';
+    const DEFAULT_NAME = 'external_repository_browser_gallery_table';
 
     /**
      * Constructor
