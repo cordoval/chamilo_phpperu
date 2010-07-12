@@ -212,13 +212,16 @@ attachment;filename="' . 'survey_export' . '.xlsx"');
                 $condition = new AndCondition($conditions);
                 $tracker_count = Tracker :: count_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
                 
-               if($tracker_count ==1){
-               		$trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
-               		$tracker = $trackers->next_result();
-               }else{
-               		
-               }
+                if ($tracker_count == 1)
+                {
+                    $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+                    $tracker = $trackers->next_result();
+                }
+                else
+                {
                 
+                }
+            
             }
         
         }
