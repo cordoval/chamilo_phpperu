@@ -52,6 +52,7 @@ class DynamicTabsRenderer
      */
     public function add_tab(DynamicTab $tab)
     {
+        $tab->set_id($this->name . '_' . $tab->get_id());
         $this->tabs[] = $tab;
     }
 
@@ -68,7 +69,7 @@ class DynamicTabsRenderer
         $html[] = '<ul class="tabs-header">';
         foreach ($tabs as $key => $tab)
         {
-            $html[] = $tab->header($this->name . '_' . $tab->get_id());
+            $html[] = $tab->header();
         }
         $html[] = '</ul>';
 
@@ -93,11 +94,7 @@ class DynamicTabsRenderer
     {
         $html = array();
         $html[] = '</div>';
-        //$html[] = '<br /><a href="#top">' . Translation :: get('Top') . '</a>';
         $html[] = '<script type="text/javascript">';
-
-//        dump($this->get_name());
-
         $html[] = 'function setSearchTab(e, ui)
 	{
 		var searchForm = $("div.action_bar div.search_form form");
@@ -123,8 +120,6 @@ class DynamicTabsRenderer
 
         $html[] = '});';
         $html[] = '</script>';
-        //        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/dynamic_tabs.js');
-
 
         return implode("\n", $html);
     }

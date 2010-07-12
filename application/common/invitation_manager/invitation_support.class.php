@@ -10,7 +10,7 @@ interface InvitationSupport
 
     /**
      * Get the parameters which determine the URL of the "thing" we're inviting the user for
-     * @return array An array of parameters
+     * @return InvitationParameters All parameters necessary to create an invitation
      */
     function get_invitation_parameters();
 

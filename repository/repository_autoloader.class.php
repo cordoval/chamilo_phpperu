@@ -43,7 +43,7 @@ class RepositoryAutoloader
 					  'complex_content_object_menu', 'content_object_category_menu', 'content_object_copier', 'content_object_difference_display',
 					  'content_object_difference', 'content_object_display', 'content_object_form', 'content_object_import_form', 'content_object_include_parser',
 					  'content_object_metadata_catalog', 'content_object_metadata', 'content_object_pub_feedback', 'content_object_publication_attributes',
-					  'content_object', 'difference_engine', 'external_repository_fedora', 'external_repository', 'external_repository_sync_info', 'quota_manager', 'repository_block',
+					  'content_object', 'difference_engine', 'external_repository', 'external_repository_sync_info', 'quota_manager', 'repository_block',
 					  'repository_data_class', 'repository_data_manager', 'repository_rights', 'user_view_rel_content_object', 'user_view');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
@@ -119,6 +119,9 @@ class RepositoryAutoloader
 					  'repository_manager_external_repository_list_objects_component' => 'repository_manager/component/external_repository_list_objects.class.php',
 					  'repository_manager_metadata_component' => 'repository_manager/component/metadata_component.class.php',
 
+		              'external_repository_fedora' => 'external/external_repository_fedora.class.php',
+		              'external_repository_google_docs' => 'external/external_repository_google_docs.class.php',
+		
 					  'repository_manager' => 'repository_manager/repository_manager.class.php',
 					  'repository_manager_component' => 'repository_manager/repository_manager_component.class.php',
 					  'repository_search_form' => 'repository_manager/repository_search_form.class.php',

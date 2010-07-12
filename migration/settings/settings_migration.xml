@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="migration">
 	<settings>
+		<category name="migration_details">
+		<setting name="platform" field="text" default="-" locked="true"/>
+		<setting name="platform_path" field="text" default="-" locked="true"/>
+		<setting name="move_files" field="text" default="0" locked="true"/>
+		<setting name="migrate_deleted_files" field="text" default="0" locked="true"/>
+		<setting name="in_migration" field="text" default="0" locked="true"/>
+		</category>
 	</settings>
 </application>

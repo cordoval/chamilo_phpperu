@@ -17,7 +17,6 @@ class UserQuotaForm extends FormValidator
 
     /**
      * Creates a new UserQuotaForm
-     * Used to set the different quota limits for each learning object
      */
     function UserQuotaForm($user, $action)
     {
@@ -55,11 +54,27 @@ class UserQuotaForm extends FormValidator
         }
         $this->addElement('category');
 
+        if(PlatformSetting :: get('mediamosa_enabled', 'repository'))
+        {
+            require_once(Path :: get_application_path(). '/common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_manager.class.php');
+            
+            $mdm = MediamosaStreamingMediaDataManager :: get_instance();
+            if($mediamosa_servers = $mdm->retrieve_streaming_media_server_objects())
+            {
+                $this->addElement('category', Translation :: get('MediamosaQuota'));
+                while($mediamosa_server = $mediamosa_servers->next_result())
+                {
+                    //$mediamosa_server = $mdm->retrieve_streaming_media_server_object($mediamosa_quotum->get_server_id());
+                    $this->addElement('text', 'mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_server->get_id(), $mediamosa_server->get_title());
+                }
+                $this->addElement('category');
+            }
+        }
+
         // Submit button
         //$this->addElement('submit', 'quota_settings', 'OK');
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
         //$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
@@ -105,6 +120,72 @@ class UserQuotaForm extends FormValidator
         $user->set_disk_quota(intval($values[User :: PROPERTY_DISK_QUOTA]));
         $user->update();
 
+        if(PlatformSetting :: get('mediamosa_enabled', 'repository'))
+        {
+            require_once(Path :: get_application_path(). '/common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_manager.class.php');
+
+            /*
+             * if the value doesn't match the default_user_quotum for that server
+             * the existing override quotum is updated or a new one is created
+             */
+
+            $mdm = MediamosaStreamingMediaDataManager :: get_instance();
+            if($mediamosa_quota = $mdm->retrieve_streaming_media_user_quota($user->get_id()))
+            {
+                $temp_m_quota = array();
+                
+                while($mediamosa_quotum = $mediamosa_quota->next_result())
+                {
+                    $temp_m_quota[$mediamosa_quotum->get_server_id()] = $mediamosa_quotum;
+                }
+            }
+            
+            if($mediamosa_servers = $mdm->retrieve_streaming_media_server_objects())
+            {
+                while($mediamosa_server = $mediamosa_servers->next_result())
+                {
+                    if($values['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_server->get_id()] != $mediamosa_server->get_default_user_quotum())
+                    {
+                        if(isset($temp_m_quota[$mediamosa_server->get_id()]))
+                        {
+                            
+                            $mediamosa_quotum = $temp_m_quota[$mediamosa_server->get_id()];
+
+                            $mediamosa_quotum->set_quotum($values['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_quotum->get_server_id()]);
+
+                             if(!$mediamosa_quotum->update())
+                             {
+                                $failures++;
+                             }
+                        }
+                        else
+                        {
+                            $mediamosa_quotum = new StreamingMediaUserQuotum();
+                            $mediamosa_quotum->set_user_id($user->get_id());
+                            $mediamosa_quotum->set_server_id($mediamosa_server->get_id());
+                            $mediamosa_quotum->set_quotum($values['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_quotum->get_server_id()]);
+
+                            if(!$mediamosa_quotum->create())
+                            {
+                                $failures++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(isset($temp_m_quota[$mediamosa_server->get_id()]))
+                        {
+                            $mediamosa_quotum = $temp_m_quota[$mediamosa_server->get_id()];
+                            $mediamosa_quotum->delete();
+                        }
+                    }
+
+                    $connector = new MediamosaStreamingMediaConnector($mediamosa_server->get_id());
+                    $connector->set_mediamosa_user_quotum($user->get_id(), $values['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_quotum->get_server_id()]);
+                }
+            }
+        }
+
         if ($failures != 0)
         {
             return false;
@@ -134,6 +215,40 @@ class UserQuotaForm extends FormValidator
         {
             $defaults[$type] = $this->user->get_version_type_quota($type);
         }
+
+        if(PlatformSetting :: get('mediamosa_enabled', 'repository'))
+        {
+            $mdm = MediamosaStreamingMediaDataManager :: get_instance();
+
+            if($mediamosa_quota = $mdm->retrieve_streaming_media_user_quota($user->get_id()))
+            {
+                $temp_m_quota = array();
+                
+                while($mediamosa_quotum = $mediamosa_quota->next_result())
+                {
+                    $temp_m_quota[$mediamosa_quotum->get_server_id()] = $mediamosa_quotum->get_quotum();
+                }
+            }
+
+            $mdm = MediamosaStreamingMediaDataManager :: get_instance();
+
+            if($mediamosa_servers = $mdm->retrieve_streaming_media_server_objects())
+            {
+                while($mediamosa_server = $mediamosa_servers->next_result())
+                {
+                    //if a specific user quotum is set it will override the default quota for that server
+                    if(isset($temp_m_quota[$mediamosa_server->get_id()]))
+                    {
+                        $defaults['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_server->get_id()] = $temp_m_quota[$mediamosa_server->get_id()];
+                    }
+                    else
+                    {
+                        $defaults['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_server->get_id()] = $mediamosa_server->get_default_user_quotum();
+                    }
+                }
+            }
+        }
+
         parent :: setDefaults($defaults);
     }
 

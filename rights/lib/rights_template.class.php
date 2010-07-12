@@ -23,7 +23,7 @@ class RightsTemplate extends DataClass
     }
 
     /**
-     * inherited
+     * @return RightsDataManagerInterface
      */
     function get_data_manager()
     {

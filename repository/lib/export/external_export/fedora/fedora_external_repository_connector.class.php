@@ -279,7 +279,9 @@ class FedoraExternalRepositoryConnector extends RestExternalRepositoryConnector
 	     */
 	    $search_path = $this->get_full_find_object_rest_path();
 	    $search_path = str_replace('{pid}', $repository_object_id, $search_path);
+	    
 	    $response_document = $this->get_rest_xml_response($search_path, 'get');
+	    
 	    if(isset($response_document))
 	    {
 	        //DebugUtilities :: show($response_document);

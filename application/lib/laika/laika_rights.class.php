@@ -14,7 +14,7 @@ class LaikaRights
     const ADD_RIGHT = '2';
     const EDIT_RIGHT = '3';
     const DELETE_RIGHT = '4';
-    
+
     const LOCATION_ANALYZER = 1;
     const LOCATION_BROWSER = 2;
     const LOCATION_GRAPHER = 3;
@@ -27,18 +27,18 @@ class LaikaRights
 
     function get_available_rights()
     {
-        $reflect = new ReflectionClass('GradebookRights');
-	    
+        $reflect = new ReflectionClass('LaikaRights');
+
 	    $rights = $reflect->getConstants();
-	    
+
 	    foreach($rights as $key => $right)
 		{
 			if(substr(strtolower($key), 0, 8) == 'location')
 			{
 				unset($rights[$key]);
 			}
-		}          
-	    
+		}
+
 	    return $rights;
     }
 

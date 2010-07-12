@@ -516,7 +516,7 @@ abstract class ContentObjectPublicationListRenderer
     {
         return $this->tool_browser->get_complex_builder_url($publication_id);
     }
-    
+
 	function get_complex_display_url($publication_id)
     {
         return $this->tool_browser->get_complex_display_url($publication_id);
@@ -613,7 +613,7 @@ abstract class ContentObjectPublicationListRenderer
         {
         	$toolbar->add_item(new ToolbarItem(Translation :: get('DisplayComplex'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_complex_display_url($publication->get_id()), ToolbarItem :: DISPLAY_ICON));
         }
-        
+
         if ($this->is_allowed(EDIT_RIGHT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
@@ -669,7 +669,7 @@ abstract class ContentObjectPublicationListRenderer
             }
 
         }
-        
+
         if (WebApplication :: is_active('gradebook'))
         {
             require_once dirname(__FILE__) . '/../../gradebook/evaluation_manager/evaluation_manager.class.php';

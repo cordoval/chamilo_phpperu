@@ -13,15 +13,15 @@ class UserManagerAccountComponent extends UserManager
     function run()
     {
         Header :: set_section('my_account');
-
+        
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAccount')));
         $trail->add_help('user general');
-
+        
         $user = $this->get_user();
-
+        
         $form = new AccountForm(AccountForm :: TYPE_EDIT, $user, $this->get_url());
-
+        
         if ($form->validate())
         {
             $success = $form->update_account();
@@ -30,10 +30,10 @@ class UserManagerAccountComponent extends UserManager
         else
         {
             $this->display_header();
-
+            
             $actions = array();
             $actions[] = 'account';
-
+            
             if (PlatformSetting :: get('allow_buddy_management', 'user'))
             {
                 //$actions[] = 'buddy_view';
@@ -43,33 +43,31 @@ class UserManagerAccountComponent extends UserManager
             
             $form_builder = new DynamicFormManager($this, UserManager :: APPLICATION_NAME, 'account_fields', DynamicFormManager :: TYPE_EXECUTER);
             $dynamic_form = $form_builder->get_form();
-            if(count($dynamic_form->get_elements()) > 0)
+            if (count($dynamic_form->get_elements()) > 0)
             {
-            	$actions[] = 'account_extra';
+                $actions[] = 'account_extra';
             }
-
+            
             if (count($actions) > 1)
             {
-                echo '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
+                $tabs = new DynamicVisualTabsRenderer('account', $form->toHtml());
                 foreach ($actions as $action)
                 {
-                    echo '<li><a';
-                    if ($action == 'account')
-                    {
-                        echo ' class="current"';
-                    }
-                    echo ' href="' . $this->get_url(array(UserManager :: PARAM_ACTION => $action)) . '">' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($action) . 'Title')) . '</a></li>';
+                    $selected = ($action == 'account' ? true : false);
+                    
+                    $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($action) . 'Title'));
+                    $link = $this->get_url(array(UserManager :: PARAM_ACTION => $action));
+                    
+                    $tabs->add_tab(new DynamicVisualTab($action, $label, Theme :: get_image_path() . 'place_' . $action . '.png', $link, $selected));
+                
                 }
-                echo '</ul><div class="tabbed-pane-content"><br />';
+                echo $tabs->render();
             }
-
-            $form->display();
-
-            if (count($actions) > 1)
+            else
             {
-                echo '</div></div>';
+                $form->display();
             }
-
+            
             $this->display_footer();
         }
     }

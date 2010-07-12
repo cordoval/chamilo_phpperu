@@ -95,25 +95,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
         $conditions[] = new EqualityCondition(RightsTemplateRightLocation :: PROPERTY_LOCATION_ID, $location_id);
         $condition = new AndCondition($conditions);
 
-        $res = $this->retrieve_object(RightsTemplateRightLocation :: get_table_name(), $condition, array(), RightsTemplateRightLocation :: CLASS_NAME);
-
-        if (!$res)
-        {
-            $defaultProperties = array();
-            $defaultProperties[RightsTemplateRightLocation :: PROPERTY_RIGHTS_TEMPLATE_ID] = $rights_template_id;
-            $defaultProperties[RightsTemplateRightLocation :: PROPERTY_RIGHT_ID] = $right_id;
-            $defaultProperties[RightsTemplateRightLocation :: PROPERTY_LOCATION_ID] = $location_id;
-            $defaultProperties[RightsTemplateRightLocation :: PROPERTY_VALUE] = 0;
-
-            $rights_templaterightlocation = new RightsTemplateRightLocation();
-            $rights_templaterightlocation->set_default_properties($defaultProperties);
-            $rights_templaterightlocation->create();
-            return $rights_templaterightlocation;
-        }
-        else
-        {
-            return $res;
-        }
+        return $this->retrieve_object(RightsTemplateRightLocation :: get_table_name(), $condition);
     }
 
     function retrieve_rights_templates($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -512,6 +494,11 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     function retrieve_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(GroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+
+    function retrieve_rights_template_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(RightsTemplateRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by, RightsTemplateRightLocation :: CLASS_NAME);
     }
 }
 ?>

@@ -18,16 +18,16 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager
     {
         $object_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 
-    	if(!is_array($object_ids))
+        if (! is_array($object_ids))
         {
-        	$object_ids = array($object_ids);
+            $object_ids = array($object_ids);
         }
 
         $locations = array();
 
-        foreach($object_ids as $object_id)
+        foreach ($object_ids as $object_id)
         {
-        	$locations[] = RepositoryRights :: get_location_by_identifier('content_object', $object_id, $this->get_user_id(), 'user_tree');
+            $locations[] = RepositoryRights :: get_location_by_identifier('content_object', $object_id, $this->get_user_id(), 'user_tree');
         }
 
         $manager = new RightsEditorManager($this, $locations);
@@ -51,9 +51,9 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager
         parent :: display_header($trail, false);
         $object_ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
 
-        if(!is_array($object_ids))
+        if (! is_array($object_ids))
         {
-        	$object_ids = array($object_ids);
+            $object_ids = array($object_ids);
         }
 
         $html = array();
@@ -62,10 +62,10 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager
         $html[] = '<div class="description">';
         $html[] = '<ul class="attachments_list">';
 
-        foreach($object_ids as $object_id)
+        foreach ($object_ids as $object_id)
         {
-        	$object = $this->retrieve_content_object($object_id);
-        	$html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($object->get_type()) . 'TypeName')) . '"/> ' . $object->get_title() . '</li>';
+            $object = $this->retrieve_content_object($object_id);
+            $html[] = '<li><img src="' . Theme :: get_common_image_path() . 'treemenu_types/' . $object->get_type() . '.png" alt="' . htmlentities(Translation :: get(ContentObject :: type_to_class($object->get_type()) . 'TypeName')) . '"/> ' . $object->get_title() . '</li>';
         }
 
         $html[] = '</ul>';

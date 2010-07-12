@@ -85,12 +85,12 @@ class ExcelExport extends Export
 					foreach($blocks as $block)
 					{
 							
-						$block_title = Utilities::underscores_to_camelcase_with_spaces($block->get_name());
+						$block_title = $block->get_name_translation();
 						$block_content_data = $block->retrieve_data();
 						
 						$cell_letter = 0;
 						
-						$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, strip_tags(html_entity_decode($block_title)));
+						$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, $block_title);
 						$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(60);
 						
 						$this->wrap_text($excel,$letters[$cell_letter].$cell_number);
@@ -140,12 +140,12 @@ class ExcelExport extends Export
 					{
 						if($block->get_id() == Request :: get(ReportingManager :: PARAM_REPORTING_BLOCK_ID))	
 						{
-							$block_title = Utilities::underscores_to_camelcase_with_spaces($block->get_name());
+							$block_title = $block->get_name_translation();
 							$block_content_data = $block->retrieve_data();
 							
 							$cell_letter = 0;
 							
-							$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, strip_tags(html_entity_decode($block_title)));
+							$excel->getActiveSheet()->setCellValue($letters[$cell_letter].$cell_number, $block_title);
 							$excel->getActiveSheet()->getColumnDimension($letters[$cell_letter])->setWidth(60);
 							
 							$this->wrap_text($excel,$letters[$cell_letter].$cell_number);

@@ -14,7 +14,7 @@ while($language = $languages->next_result())
     $location->set_application(CdaManager :: APPLICATION_NAME);
     $location->set_type('cda_language');
     $location->set_identifier($language->get_id());
-	$parent = RepositoryRights :: get_location_id_by_identifier('manager', 'cda_language');
+	$parent = RepositoryRights :: get_languages_subtree_root();
     $location->set_parent($parent);
     $location->create();
 }

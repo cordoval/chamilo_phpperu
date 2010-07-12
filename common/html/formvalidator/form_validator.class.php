@@ -18,7 +18,10 @@ define('TEACHER_HTML_FULLPAGE', 5);
  */
 class FormValidator extends HTML_QuickForm
 {
-    private $no_errors;
+    const PARAM_SUBMIT = 'submit';
+    const PARAM_RESET = 'reset';
+    
+	private $no_errors;
 
     /**
      * The HTML-editors in this form
