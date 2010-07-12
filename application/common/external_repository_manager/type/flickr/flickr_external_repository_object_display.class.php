@@ -14,8 +14,10 @@ class FlickrExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
     function get_preview($is_thumbnail = false)
     {
         $object = $this->get_object();
+        $size = ($is_thumbnail ? FlickrExternalRepositoryObject :: SIZE_SQUARE : FlickrExternalRepositoryObject :: SIZE_MEDIUM);
+        
         $html = array();
-        $html[] = '<img src="' . $object->get_url() . '" />';
+        $html[] = '<img src="' . $object->get_url($size) . '" />';
         return implode("\n", $html);
     }
 }
