@@ -4,7 +4,7 @@ Path :: get_application_path() . 'lib/survey/survey_publication_user.class.php';
 require_once (Path :: get_reporting_path() . 'lib/reporting_data.class.php');
 require_once Path :: get_plugin_path() . 'phpexcel/PHPExcel.php';
 
-class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
+class SurveyManagerSurveySpssExcelExporterComponent extends SurveyManager
 {
     
     const COUNT = 'count';
@@ -30,8 +30,25 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
     const DATA_DESCRIPTION = 'data_description';
     const DATA_GROUP = 'data_group';
     
+    const VARIABLE_QUESTION_ID = 'question_id';
+    const VARIABLE_NR = 'nr';
+    const VARIABLE_NAME = 'name';
+    const VARIABLE_TYPE = 'type';
+    const VARIABLE_DESCRIPTION = 'description';
+    const VARIABLE_LEVEL_OF_MEASUREMENT = 'level_of_measurement';
+    const VARIABLE_MISSING_VALUE = 'missing_value';
+    const VARIABLE_ANSWER = 'answer';
+    const VARIABLE_CODE = 'code';
+    const VARIABLE_LABEL = 'label';
+    
+    const SCALE_NOMINAL = 'nominal';
+    const SCALE_ORDINAL = 'ordinal';
+    const SCALE_INTERVAL = 'interval';
+    const SCALE_RATIO = 'ratio';
+    
     private $participants;
     private $surveys;
+    private $variable_encodings;
 
     /**
      * Runs this component and displays its output.
@@ -56,6 +73,9 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         $excel = new PHPExcel();
         
         $worksheet = $excel->getSheet(0)->setTitle('Algemeen');
+        
+        $this->create_variable_encoding($worksheet);
+        
         $this->render_summary_data($worksheet);
         
         $questions = $this->get_questions();
@@ -75,10 +95,137 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         }
         
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="' . 'survey_export' . '.xlsx"');
+        header('Content-Disposition: 
+
+
+
+attachment;filename="' . 'survey_export' . '.xlsx"');
         header('Cache-Control: max-age=0');
         $objWriter = PHPExcel_IOFactory :: createWriter($excel, 'Excel2007');
         return $objWriter->save('php://output');
+    }
+
+    private 
+
+    function create_variable_encoding($worksheet)
+    {
+        
+        $this->variable_encodings = array();
+        
+        $questions = $this->get_questions();
+        $question_nr = 1;
+        $var_index = 1;
+        foreach ($questions as $question_id => $question)
+        {
+            
+            $variable_name = 'Var ';
+            
+            $type = $question->get_type();
+            
+            switch ($type)
+            {
+                case SurveyMatrixQuestion :: get_type_name() :
+                    
+                    $opts = $question->get_options();
+                    $options = array();
+                    
+                    foreach ($opts as $option)
+                    {
+                        $variable_encoding = array();
+                        
+                        $variable_encoding[self :: VARIABLE_NAME] = $variable_name . $var_index;
+                        $var_index ++;
+                        
+                        $name = $option->get_value();
+                        
+                        $variable_encoding[self :: VARIABLE_QUESTION_ID] = $question_id;
+                        $variable_encoding[self :: VARIABLE_DESCRIPTION] = $name;
+                        $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
+                        $variable_encoding[self :: VARIABLE_TYPE] = 'numeric';
+                        $variable_encoding[self :: VARIABLE_MISSING_VALUE] = 99;
+                        $variable_encoding[self :: VARIABLE_NR] = $question_nr;
+                        $question_nr ++;
+                        
+                        $matchs = $question->get_matches();
+                        $matches = array();
+                        foreach ($matchs as $match)
+                        {
+                            $matches[] = $match;
+                        }
+                        
+                        $variable_encoding[self :: VARIABLE_LABEL] = $matches;
+                        $this->variable_encodings[] = $variable_encoding;
+                    
+                    }
+                    
+                    break;
+                case SurveyMultipleChoiceQuestion :: get_type_name() :
+                    
+                    $variable_encoding = array();
+                    
+                    $variable_encoding[self :: VARIABLE_NAME] = $variable_name . $var_index;
+                    $var_index ++;
+                    $variable_encoding[self :: VARIABLE_QUESTION_ID] = $question_id;
+                    $variable_encoding[self :: VARIABLE_DESCRIPTION] = $question->get_title();
+                    $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
+                    $variable_encoding[self :: VARIABLE_TYPE] = 'numeric';
+                    $variable_encoding[self :: VARIABLE_MISSING_VALUE] = 99;
+                    $variable_encoding[self :: VARIABLE_NR] = $question_nr;
+                    $question_nr ++;
+                    
+                    $opts = $question->get_options();
+                    $options = array();
+                    foreach ($opts as $option)
+                    {
+                        $options[] = $option->get_value();
+                    }
+                    
+                    $variable_encoding[self :: VARIABLE_LABEL] = $options;
+                    
+                    $this->variable_encodings[] = $variable_encoding;
+                    
+                    break;
+            }
+        
+        }
+        
+        dump($this->variable_encodings);
+        exit();
+    }
+
+    private function create_raw_data_set()
+    {
+        
+        $participants = $this->participants[self :: STARTED_PARTICIPANTS];
+        $questions = $this->get_questions();
+        
+        foreach ($participants as $$participant_id)
+        {
+            
+            foreach ($questions as $question)
+            {
+                
+                $question_id = $question->get_id();
+                $conditions = array();
+                $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participant_id);
+                $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question->get_id());
+                $condition = new AndCondition($conditions);
+                $tracker_count = Tracker :: count_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+                
+                if ($tracker_count == 1)
+                {
+                    $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+                    $tracker = $trackers->next_result();
+                }
+                else
+                {
+                
+                }
+            
+            }
+        
+        }
+    
     }
 
     private function get_questions()
@@ -252,10 +399,9 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                 
                 $block_row ++;
                 $worksheet->setCellValueByColumnAndRow($column, $block_row, 'Deelnemers');
-                $worksheet->setCellValueByColumnAndRow($column+1, $block_row, $participant_count);
-                $worksheet->getStyleByColumnAndRow($column+1, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
-                $worksheet->getStyleByColumnAndRow($column+1, $block_row)->getFont()->setBold(true);
-                
+                $worksheet->setCellValueByColumnAndRow($column + 1, $block_row, $participant_count);
+                $worksheet->getStyleByColumnAndRow($column + 1, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+                $worksheet->getStyleByColumnAndRow($column + 1, $block_row)->getFont()->setBold(true);
                 
                 $block_row = $block_row + 2;
                 
@@ -293,9 +439,10 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                 
                 $categrory_row_index = 1;
                 
-//                dump('row count: ' . $row_count);
-//                dump('cat count: ' . $category_count);
+                //                dump('row count: ' . $row_count);
+                //                dump('cat count: ' . $category_count);
                 
+
                 foreach ($block_content_data->get_categories() as $category_id => $category_name)
                 {
                     $column = 0;
@@ -304,8 +451,8 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     $worksheet->getStyleByColumnAndRow($column, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
                     $this->wrap_text($worksheet, $column, $block_row);
                     
-//                    dump('category row index: ' . $categrory_row_index);
-//                    dump('cat row: ' . $block_row);
+                    //                    dump('category row index: ' . $categrory_row_index);
+                    //                    dump('cat row: ' . $block_row);
                     //                    
                     
 
@@ -315,16 +462,18 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     }
                     
                     $row_index = 1;
-//                    dump('row index: ' . $row_index);
+                    //                    dump('row index: ' . $row_index);
                     
+
                     foreach ($block_content_data->get_rows() as $row_id => $row_name)
                     {
                         $column ++;
                         $worksheet->setCellValueByColumnAndRow($column, $block_row, $block_content_data->get_data_category_row($category_id, $row_id));
                         $worksheet->getStyleByColumnAndRow($column, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_CENTER);
-//                        dump('row index: ' . $row_index);
-//                        dump('row: ' . $block_row);
+                        //                        dump('row index: ' . $row_index);
+                        //                        dump('row: ' . $block_row);
                         
+
                         if ($row_index == $row_count && $row_count != 1)
                         {
                             $worksheet->getStyleByColumnAndRow($column, $block_row)->getFont()->setBold(true);
@@ -341,7 +490,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     $block_row ++;
                 }
                 
-//                exit();
+            //                exit();
             }
         
         }
