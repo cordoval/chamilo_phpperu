@@ -17,7 +17,7 @@ class RepositoryManagerExternalRepositoryListObjectsComponent extends Repository
         try
         {
             $trail->add(new Breadcrumb(null, Translation :: get('ExternalRepositoryBrowseObjects') . ' : ' . $export->get_title()));
-        
+
             $objects_list = $this->get_external_repository_objects_list();
             $objects_list = $this->add_chamilo_infos($export, $objects_list);
             

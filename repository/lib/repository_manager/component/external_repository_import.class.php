@@ -18,6 +18,7 @@ class RepositoryManagerExternalRepositoryImportComponent extends RepositoryManag
             $this->display_header($trail, false, true);
             
             $repository_object_infos = $this->get_repository_object_infos($repository_object_id);
+            
             $list_of_one_object = $this->add_chamilo_infos($export, array(array(BaseExternalRepositoryConnector :: EXTERNAL_OBJECT_KEY => $repository_object_infos)));
             
             //DebugUtilities::show($list_of_one_object);

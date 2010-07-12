@@ -228,7 +228,7 @@ class ExternalRepository extends RepositoryDataClass
             $type = $this->get_type();
             if (ExternalRepository :: require_once_external_repository_class_file($type))
             {
-                $class_name = 'ExternalRepository' . ucfirst(strtolower($type));
+                $class_name = 'ExternalRepository' . Utilities :: underscores_to_camelcase($type);
                 
                 $typed_repository = new $class_name();
                 
@@ -328,7 +328,7 @@ class ExternalRepository extends RepositoryDataClass
             $class_name = 'ExternalRepository' . $camel_type;
             $file_name = Utilities :: camelcase_to_underscores($class_name) . '.class.php';
             
-            require_once dirname(__FILE__) . '/' . $file_name;
+            require_once dirname(__FILE__) . '/external/' . $file_name;
             
             self :: $already_required_types[] = $type;
             

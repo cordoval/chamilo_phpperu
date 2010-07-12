@@ -43,8 +43,8 @@ class ApplicationCommonAutoloader
 					  'invitation_parameters' => 'invitation_manager/invitation_parameters.class.php',
 					  'repo_viewer' => 'repo_viewer/repo_viewer.class.php',
 					  'reporting_viewer' => 'reporting_viewer/reporting_viewer.class.php',
-				      'streaming_media_manager' => 'streaming_media_manager/streaming_media_manager.class.php',
-		              'streaming_media_component' => 'streaming_media_manager/streaming_media_component.class.php',
+				      'external_repository_manager' => 'external_repository_manager/external_repository_manager.class.php',
+		              'external_repository_component' => 'external_repository_manager/external_repository_component.class.php',
 				      'dynamic_form_manager' => 'dynamic_form_manager/dynamic_form_manager.class.php',
 				      'rights_editor_manager' => 'rights_editor_manager/rights_editor_manager.class.php',
 					  'validation_manager' => 'validation_manager/validation_manager.class.php',
@@ -52,7 +52,7 @@ class ApplicationCommonAutoloader
 					  'web_application_component' => 'web_application_component.class.php',
 					  'test_category_manager' => 'category_manager/test_category_manager.class.php',
 					  'email_manager' => 'email_manager/email_manager.class.php',
-					  'streaming_media_menu' => 'streaming_media_manager/streaming_media_menu.class.php');
+					  'external_repository_menu' => 'external_repository_manager/external_repository_menu.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
