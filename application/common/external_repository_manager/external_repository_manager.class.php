@@ -1,7 +1,7 @@
 <?php
 abstract class ExternalRepositoryManager extends SubManager
 {
-    const PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION = 'streaming_action';
+    const PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION = 'external_repository_action';
 
     const ACTION_VIEW_EXTERNAL_REPOSITORY = 'view';
     const ACTION_EXPORT_EXTERNAL_REPOSITORY = 'export';
@@ -31,6 +31,7 @@ abstract class ExternalRepositoryManager extends SubManager
         }
 
         $this->set_optional_parameters();
+        $this->initiliaze_external_repository();
     }
 
     function set_optional_parameters()
@@ -152,6 +153,8 @@ abstract class ExternalRepositoryManager extends SubManager
     abstract function count_external_repository_objects($condition);
 
     abstract function retrieve_external_repository_objects($condition, $order_property, $offset, $count);
+    
+    abstract function initiliaze_external_repository();
 
     function get_property_model()
     {
@@ -179,7 +182,7 @@ abstract class ExternalRepositoryManager extends SubManager
     {
         $manager = array();
 //        $manager[] = 'fedora';
-//        $manager[] = 'flickr';
+        $manager[] = 'flickr';
         $manager[] = 'google_docs';
 //        $manager[] = 'matterhorn';
         $manager[] = 'mediamosa';
