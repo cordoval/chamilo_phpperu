@@ -1,9 +1,16 @@
 <?php
-require_once dirname (__FILE__) . '/../../table/default_external_repository_object_table_cell_renderer.class.php';
-
+/**
+ * $Id: repository_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
+ * @package repository.lib.repository_manager.component.browser
+ */
+require_once dirname(__FILE__) . '/external_repository_browser_table_column_model.class.php';
+require_once dirname(__FILE__) . '/../../table/default_external_repository_object_table_cell_renderer.class.php';
+/**
+ * Cell rendere for the learning object browser table
+ */
 class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalRepositoryObjectTableCellRenderer
 {
-/**
+    /**
      * The repository browser component
      */
     private $browser;
@@ -17,46 +24,36 @@ class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalReposito
         parent :: __construct();
         $this->browser = $browser;
     }
-    
- 	function render_cell($object)
+
+    // Inherited
+    function render_cell($column, $content_object)
     {
-        $html = array();
-        $html[] = '<div style="width:20px;float:right;">';
-        $html[] = $this->get_modification_links($object);
-        $html[] = '</div>';
-        $html[] = '<h3>' . Utilities ::truncate_string($object->get_title(), 25) . ' (' . Utilities :: format_seconds_to_minutes($object->get_duration()) .')</h3>';
-        $html[] = '<a href="' . $this->browser->get_external_repository_object_viewing_url($object) . '"><img class="thumbnail" src="' . $object->get_thumbnail() . '"/></a> <br/>';
-        $html[] = '<i>' . Utilities ::truncate_string($object->get_description(), 100) . '</i><br/>';
-        return implode("\n", $html);
-    }
-    
-    function get_modification_links($object)
-    {
-    	$toolbar = new Toolbar(Toolbar::TYPE_VERTICAL);
-		$id = $object->get_id();
-    	
-        if ($this->browser->get_parent()->is_editable($id))
+        if ($column === ExternalRepositoryBrowserTableColumnModel :: get_modification_column())
         {
-            $toolbar_item_edit = new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_EDIT_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $id)), ToolbarItem::DISPLAY_ICON);
-            $toolbar->add_item($toolbar_item_edit);
-            
-        	$toolbar_item_delete = new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_DELETE_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $id)), ToolbarItem::DISPLAY_ICON);
-        	$toolbar->add_item($toolbar_item_delete);
+            return $this->get_modification_links($content_object);
         }
-        
-        if ($object->is_usable() && $object->get_url() != null){
-	        if ($this->browser->get_parent()->is_stand_alone())
-	        {
-	            $toolbar_item_select = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->browser->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_SELECT_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $id)), ToolbarItem::DISPLAY_ICON);
-	            $toolbar->add_item($toolbar_item_select);
-	        }
-	        else
-	        {
-	            $toolbar_item_select = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->browser->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_IMPORT_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $id)), ToolbarItem::DISPLAY_ICON);
-	            $toolbar->add_item($toolbar_item_select);       
-	        }
-        }
-        
+
+        //        switch ($column->get_name())
+        //        {
+        //            case ContentObject :: PROPERTY_TYPE :
+        //                return '<a href="' . htmlentities($this->browser->get_type_filter_url($content_object->get_type())) . '">' . parent :: render_cell($column, $content_object) . '</a>';
+        //            case ContentObject :: PROPERTY_TITLE :
+        //                $title = parent :: render_cell($column, $content_object);
+        //                $title_short = Utilities :: truncate_string($title, 53, false);
+        //                return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
+        //        }
+        return parent :: render_cell($column, $content_object);
+    }
+
+    /**
+     * Gets the action links to display
+     * @param ContentObject $content_object The learning object for which the
+     * action links should be returned
+     * @return string A HTML representation of the action links
+     */
+    private function get_modification_links($content_object)
+    {
+        $toolbar = new Toolbar();
         return $toolbar->as_html();
     }
 }

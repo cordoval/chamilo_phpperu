@@ -1,30 +1,27 @@
 <?php
-class DefaultExternalRepositoryObjectTableCellRenderer implements GalleryObjectTableCellRenderer
+class DefaultExternalRepositoryObjectTableCellRenderer extends ObjectTableCellRenderer
 {
-
-    /**
-     * Constructor
-     */
     function DefaultExternalRepositoryObjectTableCellRenderer()
     {
     }
-    
-    /**
-     * Renders a table cell
-     * @param ContentObjectTableColumnModel $column The column which should be
-     * rendered
-     * @param Learning Object $content_object The learning object to render
-     * @return string A HTML representation of the rendered table cell
-     */
-    function render_cell($object)
+
+    function render_cell($column, $external_repository_object)
     {
-        $html = array();
-        
-        $html[] = '<h3>' . $object->get_title() . ' (' . Utilities :: format_seconds_to_minutes($object->get_duration()) .')</h3>';
-        $html[] = '<img src="' . $object->get_thumbnail() . '"/><br/>';
-        $html[] = '<i>' . Utilities ::truncate_string($object->get_description(), 100) . '</i><br/>';
-        
-        return implode("\n", $html);
+        switch ($column->get_name())
+        {
+            case ExternalRepositoryObject :: PROPERTY_ID :
+                return $external_repository_object->get_id();
+            case ExternalRepositoryObject :: PROPERTY_TITLE :
+                return Utilities :: truncate_string($external_repository_object->get_title(), 50);
+            case ExternalRepositoryObject :: PROPERTY_DESCRIPTION :
+                return Utilities :: truncate_string($external_repository_object->get_description(), 50);
+            case ExternalRepositoryObject :: PROPERTY_CREATED :
+                return DatetimeUtilities :: format_locale_date(null, $external_repository_object->get_created());
+            case ExternalRepositoryObject :: PROPERTY_OWNER_ID :
+                return $external_repository_object->get_owner_id();
+            default :
+                return '&nbsp;';
+        }
     }
 
     function render_id_cell($object)
