@@ -23,7 +23,7 @@
  * @see DefaultContentObjectTableCellRenderer
  * @author Tim De Pauw
  */
-class DefaultExternalRepositoryObjectTablePropertyModel extends GalleryObjectTablePropertyModel
+class DefaultExternalRepositoryGalleryObjectTablePropertyModel extends GalleryObjectTablePropertyModel
 {
 
     /**

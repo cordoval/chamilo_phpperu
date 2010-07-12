@@ -1,14 +1,14 @@
 <?php
-class DefaultExternalRepositoryObjectTableCellRenderer implements GalleryObjectTableCellRenderer
+class DefaultExternalRepositoryGalleryObjectTableCellRenderer implements GalleryObjectTableCellRenderer
 {
 
     /**
      * Constructor
      */
-    function DefaultExternalRepositoryObjectTableCellRenderer()
+    function DefaultExternalRepositoryGalleryObjectTableCellRenderer()
     {
     }
-    
+
     /**
      * Renders a table cell
      * @param ContentObjectTableColumnModel $column The column which should be
@@ -19,11 +19,11 @@ class DefaultExternalRepositoryObjectTableCellRenderer implements GalleryObjectT
     function render_cell($object)
     {
         $html = array();
-        
+
         $html[] = '<h3>' . $object->get_title() . ' (' . Utilities :: format_seconds_to_minutes($object->get_duration()) .')</h3>';
         $html[] = '<img src="' . $object->get_thumbnail() . '"/><br/>';
         $html[] = '<i>' . Utilities ::truncate_string($object->get_description(), 100) . '</i><br/>';
-        
+
         return implode("\n", $html);
     }
 
