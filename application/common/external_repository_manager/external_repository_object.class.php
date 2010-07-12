@@ -5,14 +5,14 @@ abstract class ExternalRepositoryObject
      * @var array
      */
     private $default_properties;
-    
+
     /**
      * @var array
      */
     private $additional_properties;
-    
-    const PROPERTY_TITLE = 'title';
+
     const PROPERTY_ID = 'id';
+    const PROPERTY_TITLE = 'title';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_CREATED = 'created';
