@@ -20,6 +20,11 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     {
         return Path :: get_application_library_path() . 'external_repository_manager/type/youtube/component/';
     }
+    
+    function initiliaze_external_repository()
+    {
+        YoutubeExternalRepositoryConnector :: get_instance($this);
+    }
 
     function count_external_repository_objects($condition)
     {
