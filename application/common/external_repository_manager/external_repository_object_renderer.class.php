@@ -53,16 +53,6 @@ abstract class ExternalRepositoryObjectRenderer
         return $this->get_external_repository_browser()->retrieve_external_repository_objects($condition, $order_property, $offset, $count);
     }
 
-    function get_external_repository_browser_gallery_table_property_model()
-    {
-        return $this->get_external_repository_browser()->get_external_repository_browser_gallery_table_property_model();
-    }
-
-    function get_external_repository_browser_gallery_table_cell_renderer($browser)
-    {
-        return $this->get_external_repository_browser()->get_external_repository_browser_gallery_table_cell_renderer($browser);
-    }
-
     function is_editable($id)
     {
         return $this->get_external_repository_browser()->get_parent()->is_editable($id);

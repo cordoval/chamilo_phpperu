@@ -57,11 +57,6 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         return $connector->export_youtube_video($object);
     }
 
-    function get_external_repository_browser_gallery_table_property_model()
-    {
-        return new YoutubeExternalRepositoryBrowserGalleryPropertyModel();
-    }
-
     function support_sorting_direction()
     {
         return false;
@@ -223,11 +218,6 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     function get_available_renderers()
     {
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
-    }
-
-    function get_external_repository_browser_gallery_table_cell_renderer($browser)
-    {
-        return new StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer($browser);
     }
 }
 ?>

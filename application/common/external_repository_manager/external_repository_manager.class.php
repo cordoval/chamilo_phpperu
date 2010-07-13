@@ -156,16 +156,6 @@ abstract class ExternalRepositoryManager extends SubManager
 
     abstract function initiliaze_external_repository();
 
-    function get_external_repository_browser_gallery_table_property_model()
-    {
-        return null;
-    }
-
-    function get_external_repository_browser_gallery_table_cell_renderer($browser)
-    {
-        return null;
-    }
-
     function support_sorting_direction()
     {
         return true;
