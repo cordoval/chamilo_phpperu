@@ -7,7 +7,11 @@ class FlickrExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
     function as_html()
     {
         $object = $this->get_object();
+
         $html = array();
+        $html[] = '<h3>' . $object->get_title() . '</h3>';
+        $html[] = $this->get_preview() . '<br/>';
+
         return implode("\n", $html);
     }
 

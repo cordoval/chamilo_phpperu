@@ -31,8 +31,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 
     function retrieve_external_repository_object($id)
     {
-        $connector = FlickrExternalRepositoryConnector :: get_instance($this);
-        return $connector->get_youtube_video($id);
+        return FlickrExternalRepositoryConnector :: get_instance($this)->retrieve_external_repository_object($id);
     }
 
     function delete_external_repository_object($id)
@@ -49,7 +48,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 
     function support_sorting_direction()
     {
-        return false;
+        return true;
     }
 
     function translate_search_query($query)
@@ -95,6 +94,9 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         {
             case ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Browser', $this);
+                break;
+            case ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Viewer', $this);
                 break;
             default :
                 $component = $this->create_component('Browser', $this);

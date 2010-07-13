@@ -10,6 +10,11 @@ require_once dirname(__FILE__) . '/flickr_external_repository_object.class.php';
 
 class FlickrExternalRepositoryConnector
 {
+    const SORT_DATE_POSTED = 'date-posted';
+    const SORT_DATE_TAKEN = 'date-taken';
+    const SORT_INTERESTINGNESS = 'interestingness';
+    const SORT_RELEVANCE = 'relevance';
+
     private static $instance;
 
     private $manager;
@@ -71,14 +76,14 @@ class FlickrExternalRepositoryConnector
         return self :: $instance;
     }
 
-    function get_licenses()
+    function retrieve_licenses()
     {
-        if (!isset($this->licenses))
+        if (! isset($this->licenses))
         {
             $raw_licenses = $this->flickr->photos_licenses_getInfo();
 
             $this->licenses = array();
-            foreach($raw_licenses as $raw_license)
+            foreach ($raw_licenses as $raw_license)
             {
                 $this->licenses[$raw_license['id']] = array('name' => $raw_license['name'], 'url' => $raw_license['url']);
             }
@@ -87,21 +92,36 @@ class FlickrExternalRepositoryConnector
         return $this->licenses;
     }
 
-    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
+    function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
     {
-        $offset = (($offset - ($offset % $count)) / $count);
+        $offset = (($offset - ($offset % $count)) / $count) + 1;
 
-        $parameters = array();
-        $parameters['api_key'] = $this->key;
-        $parameters['per_page'] = $count;
-        $parameters['page'] = $offset;
-        $parameters['privacy_filter'] = 1;
-        $parameters['text '] = 'chamilo';
-
-        $licenses = $this->get_licenses();
+        $licenses = $this->retrieve_licenses();
         $attributes = 'description,date_upload,owner_name,license,media,original_format';
 
-        $photos = $this->flickr->photos_getRecent($attributes, $count, $offset);
+        if ($condition)
+        {
+            $parameters = array();
+            $parameters['api_key'] = $this->key;
+            $parameters['per_page'] = $count;
+            $parameters['page'] = $offset;
+            $parameters['text'] = $condition;
+            $parameters['extras'] = $attributes;
+
+            $order_direction = $this->convert_order_property($order_property);
+
+            if ($order_direction)
+            {
+                $parameters['sort'] = $order_direction;
+            }
+
+            $photos = $this->flickr->photos_search($parameters);
+        }
+        else
+        {
+            $photos = $this->flickr->photos_getRecent($attributes, $count, $offset);
+        }
+
         $objects = array();
 
         foreach ($photos['photo'] as $photo)
@@ -145,8 +165,97 @@ class FlickrExternalRepositoryConnector
 
     function count_external_repository_objects($condition)
     {
-        $recent = $this->flickr->photos_getRecent(null, 1, 1);
-        return $recent['total'];
+        if ($condition)
+        {
+            $parameters = array();
+            $parameters['api_key'] = $this->key;
+            $parameters['per_page'] = 1;
+            $parameters['page'] = 1;
+            $parameters['text'] = $condition;
+
+            $photos = $this->flickr->photos_search($parameters);
+        }
+        else
+        {
+            $photos = $this->flickr->photos_getRecent(null, 1, 1);
+        }
+
+        return $photos['total'];
+    }
+
+    static function translate_search_query($query)
+    {
+        return $query;
+    }
+
+    function convert_order_property($order_properties)
+    {
+        if (count($order_properties) > 0)
+        {
+            $order_property = $order_properties[0]->get_property();
+            if ($order_property == self :: SORT_RELEVANCE)
+            {
+                return $order_property;
+            }
+            else
+            {
+                $sorting_direction = $order_properties[0]->get_direction();
+
+                if ($sorting_direction == SORT_ASC)
+                {
+                    return $order_property . '-asc';
+                }
+                elseif ($sorting_direction == SORT_DESC)
+                {
+                    return $order_property . '-desc';
+                }
+            }
+        }
+
+        return null;
+    }
+
+    static function get_sort_properties()
+    {
+        return array(self :: SORT_DATE_POSTED, self :: SORT_DATE_TAKEN, self :: SORT_INTERESTINGNESS, self :: SORT_RELEVANCE);
+    }
+
+    function retrieve_external_repository_object($id)
+    {
+        $photo = $this->flickr->photos_getInfo($id);
+
+        $object = new FlickrExternalRepositoryObject();
+        $object->set_id($photo['id']);
+        $object->set_title($photo['title']);
+        $object->set_description($photo['description']);
+        $object->set_created($photo['dateupload']);
+        $object->set_owner_id($photo['ownername']);
+
+        $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
+        $photo_urls = array();
+
+        foreach ($photo_sizes as $photo_size)
+        {
+            $key = strtolower($photo_size['label']);
+            unset($photo_size['label']);
+            unset($photo_size['media']);
+            unset($photo_size['url']);
+            $photo_urls[$key] = $photo_size;
+        }
+
+        $object->set_urls($photo_urls);
+        $object->set_license($licenses[$photo['license']]);
+
+        $types = array();
+        $types[] = $photo['media'];
+        if (isset($photo['original_format']))
+        {
+            $types[] = $photo['original_format'];
+        }
+
+        $object->set_type(implode('_', $types));
+
+        return $object;
     }
 }
 ?>

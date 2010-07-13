@@ -33,7 +33,7 @@ class FlickrExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRe
         $html = array();
         $display = ExternalRepositoryObjectDisplay :: factory($object);
         $html[] = '<h4>' . Utilities :: truncate_string($object->get_title(), 25) . '</h4>';
-        $html[] = $display->get_preview(true);
+        $html[] = '<a href="' . $this->browser->get_external_repository_object_viewing_url($object) . '">' . $display->get_preview(true) . '</a>';
 
         if ($object->get_description())
         {
