@@ -1,5 +1,5 @@
 <?php
-class ExternalRepositoryBrowserGalleryTableDataProvider extends GalleryObjectTableDataProvider
+class FlickrExternalRepositoryGalleryTableDataProvider extends GalleryObjectTableDataProvider
 {
     /**
      * Gets the learning objects
