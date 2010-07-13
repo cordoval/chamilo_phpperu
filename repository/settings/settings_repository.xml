@@ -33,6 +33,7 @@
 		<category name="external_repositories">
 			<setting name="youtube_key" field="text" default="" />
 			<setting name="flickr_key" field="text" default="" />
+			<setting name="flickr_secret" field="text" default="" />
 		</category>
 		<category name="mediamosa">
 			<setting name="mediamosa_url" field="text" default="" />

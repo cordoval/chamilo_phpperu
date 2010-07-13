@@ -13,7 +13,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     {
         return Path :: get_application_library_path() . 'external_repository_manager/type/flickr/component/';
     }
-    
+
     function initiliaze_external_repository()
     {
         FlickrExternalRepositoryConnector :: get_instance($this);
@@ -107,8 +107,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 
     function get_available_renderers()
     {
-        return array(ExternalRepositoryObjectRenderer :: TYPE_TABLE, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW);
-        //return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
+        return array(ExternalRepositoryObjectRenderer :: TYPE_TABLE, ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW);
     }
 }
 ?>

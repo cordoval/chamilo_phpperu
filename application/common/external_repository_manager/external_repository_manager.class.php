@@ -153,10 +153,15 @@ abstract class ExternalRepositoryManager extends SubManager
     abstract function count_external_repository_objects($condition);
 
     abstract function retrieve_external_repository_objects($condition, $order_property, $offset, $count);
-    
+
     abstract function initiliaze_external_repository();
 
-    function get_property_model()
+    function get_external_repository_browser_gallery_table_property_model()
+    {
+        return null;
+    }
+
+    function get_external_repository_browser_gallery_table_cell_renderer()
     {
         return null;
     }

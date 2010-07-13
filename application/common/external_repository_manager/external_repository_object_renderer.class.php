@@ -55,7 +55,12 @@ abstract class ExternalRepositoryObjectRenderer
 
     function get_external_repository_browser_gallery_table_property_model()
     {
-        return $this->get_external_repository_browser()->get_property_model();
+        return $this->get_external_repository_browser()->get_external_repository_browser_gallery_table_property_model();
+    }
+
+    function get_external_repository_browser_gallery_table_cell_renderer()
+    {
+        return $this->get_external_repository_browser()->get_external_repository_browser_gallery_table_cell_renderer();
     }
 
     function is_editable($id)

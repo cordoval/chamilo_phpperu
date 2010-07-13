@@ -13,8 +13,13 @@ class ExternalRepositoryBrowserGalleryTable extends GalleryObjectTable
      */
     function ExternalRepositoryBrowserGalleryTable($browser, $parameters, $condition)
     {
-        $renderer = new ExternalRepositoryBrowserGalleryTableCellRenderer($browser);
         $data_provider = new ExternalRepositoryBrowserGalleryTableDataProvider($browser, $condition);
+
+        $renderer = $browser->get_external_repository_browser_gallery_table_cell_renderer();
+        if (! $renderer)
+        {
+            $renderer = new ExternalRepositoryBrowserGalleryTableCellRenderer($browser);
+        }
 
         $property_model = $browser->get_external_repository_browser_gallery_table_property_model();
         if (! $property_model)
