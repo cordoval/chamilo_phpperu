@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../component/external_repository_browser_gallery_table/external_repository_browser_gallery_table_cell_renderer.class.php';
 
-class StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer extends ExternalRepositoryBrowserGalleryTableCellRenderer
+class StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer extends DefaultExternalRepositoryGalleryObjectTableCellRenderer
 {
     /**
      * The repository browser component
