@@ -49,6 +49,7 @@ class SurveyManagerSurveySpssExcelExporterComponent extends SurveyManager
     private $participants;
     private $surveys;
     private $variable_encodings;
+    private $data_matrix;
 
     /**
      * Runs this component and displays its output.
@@ -75,6 +76,8 @@ class SurveyManagerSurveySpssExcelExporterComponent extends SurveyManager
         $worksheet = $excel->getSheet(0)->setTitle('Algemeen');
         
         $this->create_variable_encoding($worksheet);
+        
+        $this->create_raw_data_set();
         
         $this->render_summary_data($worksheet);
         
@@ -113,7 +116,7 @@ attachment;filename="' . 'survey_export' . '.xlsx"');
         $this->variable_encodings = array();
         
         $questions = $this->get_questions();
-        $question_nr = 1;
+        $variable_nr = 1;
         $var_index = 1;
         foreach ($questions as $question_id => $question)
         {
@@ -143,8 +146,8 @@ attachment;filename="' . 'survey_export' . '.xlsx"');
                         $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
                         $variable_encoding[self :: VARIABLE_TYPE] = 'numeric';
                         $variable_encoding[self :: VARIABLE_MISSING_VALUE] = 99;
-                        $variable_encoding[self :: VARIABLE_NR] = $question_nr;
-                        $question_nr ++;
+                        $variable_encoding[self :: VARIABLE_NR] = $variable_nr;
+                        $variable_nr ++;
                         
                         $matchs = $question->get_matches();
                         $matches = array();
@@ -170,8 +173,8 @@ attachment;filename="' . 'survey_export' . '.xlsx"');
                     $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
                     $variable_encoding[self :: VARIABLE_TYPE] = 'numeric';
                     $variable_encoding[self :: VARIABLE_MISSING_VALUE] = 99;
-                    $variable_encoding[self :: VARIABLE_NR] = $question_nr;
-                    $question_nr ++;
+                    $variable_encoding[self :: VARIABLE_NR] = $variable_nr;
+                    $variable_nr ++;
                     
                     $opts = $question->get_options();
                     $options = array();
@@ -190,16 +193,23 @@ attachment;filename="' . 'survey_export' . '.xlsx"');
         }
         
         dump($this->variable_encodings);
-        exit();
+        
     }
 
     private function create_raw_data_set()
     {
         
+        $this->data_matrix = array();
+        
+        foreach ($this->variable_encodings as $variable)
+        {
+        
+        }
+        
         $participants = $this->participants[self :: STARTED_PARTICIPANTS];
         $questions = $this->get_questions();
         
-        foreach ($participants as $$participant_id)
+        foreach ($participants as $participant_id)
         {
             
             foreach ($questions as $question)
@@ -216,15 +226,31 @@ attachment;filename="' . 'survey_export' . '.xlsx"');
                 {
                     $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
                     $tracker = $trackers->next_result();
+                    $answer = $tracker->get_answer();
+               
                 }
                 else
                 {
-                
+                	
                 }
-            
+            	
+                 $type = $question->get_type();
+                    
+                    switch ($type)
+                    {
+                        case SurveyMatrixQuestion :: get_type_name() :
+                            dump($tracker->get_answer());
+                            break;
+                        case SurveyMultipleChoiceQuestion :: get_type_name() :
+                            
+                            break;
+                    }
+                    
             }
-        
+         exit();
         }
+        
+       
     
     }
 
