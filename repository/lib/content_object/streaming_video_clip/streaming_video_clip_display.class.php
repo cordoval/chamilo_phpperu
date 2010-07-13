@@ -4,15 +4,15 @@
  *
  * @author jevdheyd
  */
-//require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_server_object.class.php';
-//require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_data_manager.class.php';
-require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_connector.class.php';
-//require_once Path :: get_application_path() . 'common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_object.class.php';
+//require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_server_object.class.php';
+//require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_data_manager.class.php';
+require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_connector.class.php';
+//require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_object.class.php';
 
 class StreamingVideoClipDisplay extends ContentObjectDisplay
 {
     private $mediamosa_object;
-    private $mediamosa_streaming_media_connector;
+    private $mediamosa_external_repository_connector;
 
     const PARAM_MEDIAFILE = 'mediafile_id';
 
@@ -33,8 +33,8 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
         if(!$this->mediamosa_object)
         {
             $object = $this->get_content_object();
-            $this->mediamosa_streaming_media_connector = new MediamosaStreamingMediaConnector($object->get_server_id());
-            $this->mediamosa_object = $this->mediamosa_streaming_media_connector->retrieve_mediamosa_asset($object->get_asset_id());
+            $this->mediamosa_external_repository_connector = new MediamosaExternalRepositoryConnector($object->get_server_id());
+            $this->mediamosa_object = $this->mediamosa_external_repository_connector->retrieve_mediamosa_asset($object->get_asset_id());
         }
     }
 
@@ -42,7 +42,7 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
 	{
             $this->set_mediamosa_object();
             
-            if($this->mediamosa_object->get_status() == StreamingMediaObject :: STATUS_AVAILABLE)
+            if($this->mediamosa_object->get_status() == MediamosaExternalRepositoryObject :: STATUS_AVAILABLE)
             {
                 //see which mediafile to play
                 if(Request :: get(self :: PARAM_MEDIAFILE))
@@ -57,7 +57,7 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
                 if($mediafile_id)
                 {
                     //get player
-                    $output = $this->mediamosa_streaming_media_connector->mediamosa_play_proxy_request($this->mediamosa_object->get_id(), $mediafile_id);
+                    $output = $this->mediamosa_external_repository_connector->mediamosa_play_proxy_request($this->mediamosa_object->get_id(), $mediafile_id);
                 }
                 else{
                     $output = '';

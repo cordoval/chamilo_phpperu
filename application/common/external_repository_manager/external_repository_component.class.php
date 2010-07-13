@@ -40,9 +40,9 @@ abstract class ExternalRepositoryComponent extends SubManager
 		return $this->get_parent()->count_external_repository_objects($condition);
 	}
 	
-	function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
+	function retrieve_external_repository_objects($count, $condition, $order_property, $offset)
 	{
-		return $this->get_parent()->retrieve_external_repository_objects($condition, $order_property, $offset, $count);
+		return $this->get_parent()->retrieve_external_repository_objects($count, $condition, $order_property, $offset);
 	}
 	
 	function retrieve_external_repository_object($id)

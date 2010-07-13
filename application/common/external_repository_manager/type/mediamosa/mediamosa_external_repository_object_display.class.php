@@ -10,7 +10,7 @@ class MediamosaExternalRepositoryObjectDisplay  extends ExternalRepositoryObject
 {
         private $parent;
     
-        function as_html($parent)
+        function as_html($parent = null)
         {
             $this->parent = $parent;
             $object = $this->get_object();
@@ -18,7 +18,7 @@ class MediamosaExternalRepositoryObjectDisplay  extends ExternalRepositoryObject
             $html = array();
             $html[] = '<h3>' . $object->get_title() . ' (' . $object->get_duration() . ')</h3>';
             $html[] = $this->get_video_player_as_html() . '<br/>';
-            $html[] = $this->get_properties_table() . '<br/>';
+            $html[] = $this->get_additional_properties() . '<br/>';
 
             return implode("\n", $html);
         }
@@ -29,7 +29,7 @@ class MediamosaExternalRepositoryObjectDisplay  extends ExternalRepositoryObject
 
             $object = $this->get_object();
 
-            if($object->get_status() == ExternalRepositoryObject :: STATUS_AVAILABLE)
+            if($object->get_status() == MediamosaExternalRepositoryObject :: STATUS_AVAILABLE)
             {
                 //see which mediafile to play
                 if(Request :: get(MediamosaExternalRepositoryManager :: PARAM_MEDIAFILE))
@@ -52,7 +52,7 @@ class MediamosaExternalRepositoryObjectDisplay  extends ExternalRepositoryObject
             }
             else
             {
-                $output = Translation :: get('video_not_available');
+                $output = Translation :: get('NotAvailable');
             }
             return $output;
 	}
@@ -80,11 +80,11 @@ class MediamosaExternalRepositoryObjectDisplay  extends ExternalRepositoryObject
                     $i++;
                 }
 
-                $html[] = '<tr><td class="header">' . Translation :: get('Published by') . '</td><td>' . $object->get_publisher() . '</td></tr>';
+                $html[] = '<tr><td class="header">' . Translation :: get('PublishedBy') . '</td><td>' . $object->get_publisher() . '</td></tr>';
 
-                if($object->get_creator()) $html[] = '<tr><td class="header">' . Translation :: get('Created by') . '</td><td>' . $object->get_creator() . '</td></tr>';
+                if($object->get_creator()) $html[] = '<tr><td class="header">' . Translation :: get('CreatedBy') . '</td><td>' . $object->get_creator() . '</td></tr>';
 
-                return implode("\n",$html);
+                return '<table>' . implode("\n",$html) . '</table>';
 
             }
         }
