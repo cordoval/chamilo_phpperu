@@ -5,17 +5,6 @@ require_once dirname(__FILE__) . '/dokeos185_data_manager.class.php';
 class Dokeos185MigrationProperties extends MigrationProperties
 {
 	/**
-	 * The dokeos 185 configuration array
-	 * @var String[]
-	 */
-	private $configuration;
-	
-	function Dokeos185MigrationProperties()
-	{
-		
-	}
-	
-	/**
 	 * Validates the settings of the migration
 	 * @param $settings - The general settings
 	 * @param $blocks - The selected blocks
@@ -40,7 +29,7 @@ class Dokeos185MigrationProperties extends MigrationProperties
 		}
 		catch(Exception $e)
 		{
-			$this->add_message($e->getMessage());
+			$this->get_message_logger()->add_message($e->getMessage());
 			return false;
 		}
 		
@@ -56,7 +45,7 @@ class Dokeos185MigrationProperties extends MigrationProperties
 	{
 		if(count($blocks) == 0)
 		{
-			$this->add_message(Translation :: get('NoBlocksSelected'));
+			$this->get_message_logger()->add_message(Translation :: get('NoBlocksSelected'));
 			return false;
 		}
 		
@@ -69,7 +58,7 @@ class Dokeos185MigrationProperties extends MigrationProperties
 			if(!$object->check_prerequisites($blocks))
 			{
 				$result = false;
-				$this->add_message(Translation :: get('BlockPrerequisitesCheckFailed', array('BLOCK' => Utilities :: underscores_to_camelcase($block))));
+				$this->get_message_logger()->add_message(Translation :: get('BlockPrerequisitesCheckFailed', array('BLOCK' => Utilities :: underscores_to_camelcase($block))));
 			}
 		}
 		
