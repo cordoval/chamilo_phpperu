@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_class_user.class.php'
  * @author Sven Vanpoucke
  */
 
-class Dokeos185ClassUser extends MigrationDataClass
+class Dokeos185ClassUser extends Dokeos185MigrationDataClass
 {
     
     /**

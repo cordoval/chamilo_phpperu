@@ -28,11 +28,11 @@ class MediamosaExternalRepositoryManagerSettingUpdaterComponent extends Mediamos
 
             if($form->update_setting())
             {
-                $this->redirect(Translation :: get('Setting updated'), true, $parameters);
+                $this->redirect(Translation :: get('Updated'), true, $parameters);
             }
             else
             {
-                $this->redirect(Translation :: get('Setting not update'), false, $parameters);
+                $this->redirect(Translation :: get('NotUpdated'), false, $parameters);
             }
         }else{
             $this->display_header($trail, false);

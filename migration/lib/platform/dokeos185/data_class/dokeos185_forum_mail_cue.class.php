@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_forum_mail_cue.class.
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185ForumMailcue extends MigrationDataClass
+class Dokeos185ForumMailcue extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

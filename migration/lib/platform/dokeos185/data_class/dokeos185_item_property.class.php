@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../lib/import.class.php';
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185ItemProperty extends MigrationDataClass
+class Dokeos185ItemProperty extends Dokeos185MigrationDataClass
 {
     
     /**

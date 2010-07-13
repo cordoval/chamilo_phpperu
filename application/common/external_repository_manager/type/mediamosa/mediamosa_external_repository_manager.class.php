@@ -39,7 +39,8 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
 
     function count_external_repository_objects($condition)
     {
-
+        $connector = MediamosaExternalRepositoryConnector::get_instance();
+        return $connector->count_mediamosa_assets($condition, $order_property, $offset, $count);
     }
 
     function retrieve_external_repository_server_object($id)
@@ -100,6 +101,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
     	return $connector->is_editable($id);
     }
 
+    
     /*function is_standalone()
     {}*/
 
@@ -227,22 +229,22 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
 
     function create_standard_user_quota($server_id)
     {
-        $udm = UserDataManager :: get_instance();
+//        $udm = UserDataManager :: get_instance();
         $mdm = MediamosaExternalRepositoryDataManager :: get_instance();
-
-        $users = $udm->retrieve_users();
+//
+//        $users = $udm->retrieve_users();
         $mediamosa_server_object = $mdm->retrieve_external_repository_server_object($server_id);
-        xdebug_break();
-        while($user = $users->next_result())
-        {
+//        xdebug_break();
+//        while($user = $users->next_result())
+//        {
             $mediamosa_user_quotum = new ExternalRepositoryUserQuotum();
-
-            $mediamosa_user_quotum->set_user_id($user->get_id());
-            $mediamosa_user_quotum->set_server_id($server_id);
-            $mediamosa_user_quotum->set_quotum($mediamosa_server_object->get_default_user_quotum());
-
-            $mdm->create_mediamosa_user_quotum($mediamosa_user_quotum);
-        }
+//
+//            $mediamosa_user_quotum->set_user_id($user->get_id());
+//            $mediamosa_user_quotum->set_server_id($server_id);
+//            $mediamosa_user_quotum->set_quotum($mediamosa_server_object->get_default_user_quotum());
+//
+//            $mdm->create_mediamosa_user_quotum($mediamosa_user_quotum);
+//        }
     }
 
     function get_available_renderers()
@@ -250,5 +252,6 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY);
     }
 
+    function initiliaze_external_repository(){}
 }
 ?>

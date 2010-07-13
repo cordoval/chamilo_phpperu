@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_edefault.class.
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEDefault extends MigrationDataClass
+class Dokeos185TrackEDefault extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

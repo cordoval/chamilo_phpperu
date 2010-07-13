@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_man
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185DropboxFile extends MigrationDataClass
+class Dokeos185DropboxFile extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

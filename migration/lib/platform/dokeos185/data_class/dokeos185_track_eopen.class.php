@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_eopen.class.php
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEOpen extends MigrationDataClass
+class Dokeos185TrackEOpen extends Dokeos185MigrationDataClass
 {
     
     /**

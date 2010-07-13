@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_eonline.class.p
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEOnline extends MigrationDataClass
+class Dokeos185TrackEOnline extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

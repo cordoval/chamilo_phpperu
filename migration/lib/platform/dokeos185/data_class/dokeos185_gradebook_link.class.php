@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_gradebook_link.class.
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185GradebookLink extends MigrationDataClass
+class Dokeos185GradebookLink extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

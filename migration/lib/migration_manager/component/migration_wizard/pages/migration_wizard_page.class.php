@@ -22,12 +22,13 @@ abstract class MigrationWizardPage extends FormValidatorPage
     public function MigrationWizardPage($parent, $name)
     {
         parent :: __construct($name, 'post');
+        $this->updateAttributes(array('action' => $parent->get_parent()->get_url()));
         
     	$this->parent = $parent;
         $this->name = $name;
     }
 
-	function get_page_html()
+	function display_page_html()
 	{
 		
 	}

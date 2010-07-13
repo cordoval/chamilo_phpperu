@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_obje
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185ToolIntro extends MigrationDataClass
+class Dokeos185ToolIntro extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

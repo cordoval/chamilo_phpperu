@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_man
  * @author David Van Wayenbergh
  */
 
-class Dokeos185Document extends MigrationDataClass
+class Dokeos185Document extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     private $item_property;

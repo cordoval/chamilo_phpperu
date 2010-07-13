@@ -20,7 +20,7 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
         {
             $parameters = array();
             $parameters[MediamosaExternalRepositoryManager :: PARAM_SERVER] = $server_selection_form->get_selected_server();
-            $this->redirect(Translation :: get('Server_selected'), false, $parameters);
+            $this->redirect(Translation :: get('Selected'), false, $parameters);
         }
         
         if(!Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER))

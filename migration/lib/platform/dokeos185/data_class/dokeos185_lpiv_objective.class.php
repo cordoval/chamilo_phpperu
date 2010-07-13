@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_lp_iv_objective.class
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185LpIvObjective extends MigrationDataClass
+class Dokeos185LpIvObjective extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

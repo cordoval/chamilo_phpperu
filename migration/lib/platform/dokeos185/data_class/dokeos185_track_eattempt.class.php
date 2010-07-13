@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_eattempt.class.
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEAttempt extends MigrationDataClass
+class Dokeos185TrackEAttempt extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

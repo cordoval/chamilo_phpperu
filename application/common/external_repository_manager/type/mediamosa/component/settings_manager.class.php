@@ -37,7 +37,7 @@ class MediamosaExternalRepositoryManagerSettingsManagerComponent extends Mediamo
     {
         $toolbar =  new Toolbar();
         //, MediamosaExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_SETTING_ID => $id
-        $toolbar_item_add = new ToolbarItem(Translation :: get('Add server'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => MediamosaExternalRepositoryManager :: ACTION_ADD_SETTING)));
+        $toolbar_item_add = new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => MediamosaExternalRepositoryManager :: ACTION_ADD_SETTING)));
         $toolbar->add_item($toolbar_item_add);
 
         return $toolbar->as_html();

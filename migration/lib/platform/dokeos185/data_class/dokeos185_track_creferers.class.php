@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../../user/trackers/referrers_tracker.clas
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackCReferers extends MigrationDataClass
+class Dokeos185TrackCReferers extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

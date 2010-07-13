@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repo
  * Class that represents the personal agenda data from dokeos 1.8.5
  * @author Sven Vanpoucke
  */
-class Dokeos185PersonalAgenda extends MigrationDataClass
+class Dokeos185PersonalAgenda extends Dokeos185MigrationDataClass
 {
     /**
      ** Migration data manager

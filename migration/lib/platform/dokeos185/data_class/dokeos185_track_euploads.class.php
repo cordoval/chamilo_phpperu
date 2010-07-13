@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_euploads.class.
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEUploads extends MigrationDataClass
+class Dokeos185TrackEUploads extends Dokeos185MigrationDataClass
 {
     
     /**

@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/content_object/catego
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Quiz extends MigrationDataClass
+class Dokeos185Quiz extends Dokeos185MigrationDataClass
 {
     /** 
      * Migration data manager

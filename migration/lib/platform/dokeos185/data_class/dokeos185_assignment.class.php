@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_assignment.class.php'
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Assignment extends MigrationDataClass
+class Dokeos185Assignment extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

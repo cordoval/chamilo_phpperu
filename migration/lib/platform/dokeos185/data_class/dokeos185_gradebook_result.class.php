@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_grade_book_result.cla
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185GradebookResult extends MigrationDataClass
+class Dokeos185GradebookResult extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     
