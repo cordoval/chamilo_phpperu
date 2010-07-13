@@ -3,10 +3,18 @@ require_once dirname(__FILE__) . '/flickr_external_repository_connector.class.ph
 
 class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 {
+    
+    const PARAM_FEED_TYPE = 'feed';
+    
+    const FEED_TYPE_GENERAL = 1;
+    const FEED_TYPE_MOST_INTERESTING = 2;
+    const FEED_TYPE_MOST_RECENT = 3;
+    const FEED_TYPE_MY_PHOTOS = 4;
 
     function FlickrExternalRepositoryManager($application)
     {
         parent :: __construct($application);
+        $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
     function get_application_component_path()
@@ -73,6 +81,31 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     function get_menu_items()
     {
         $menu_items = array();
+        
+        $general = array();
+        $general['title'] = Translation :: get('Browse');
+        $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $general['class'] = 'home';
+        $menu_items[] = $general;
+        
+        $most_recent = array();
+        $most_recent['title'] = Translation :: get('MostRecent');
+        $most_recent['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_RECENT), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $most_recent['class'] = 'recent';
+        $menu_items[] = $most_recent;
+        
+        $most_interesting = array();
+        $most_interesting['title'] = Translation :: get('MostInteresting');
+        $most_interesting['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_INTERESTING), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $most_interesting['class'] = 'interesting';
+        $menu_items[] = $most_interesting;
+
+        $my_photos = array();
+        $my_photos['title'] = Translation :: get('MyPhotos');
+        $my_photos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_PHOTOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $my_photos['class'] = 'user';
+        $menu_items[] = $my_photos;
+        
         return $menu_items;
     }
 

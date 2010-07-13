@@ -6,15 +6,16 @@ require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_exter
 class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
 {
     const PARAM_FEED_TYPE = 'feed';
+    const PARAM_FEED_IDENTIFIER = 'identifier';
+    
     const FEED_TYPE_GENERAL = 1;
     const FEED_TYPE_MYVIDEOS = 2;
     const FEED_STANDARD_TYPE = 3;
-    const PARAM_FEED_IDENTIFIER = 'identifier';
 
     function YoutubeExternalRepositoryManager($application)
     {
         parent :: __construct($application);
-        $this->set_parameter(YoutubeExternalRepositoryManager :: PARAM_FEED_TYPE, Request :: get(YoutubeExternalRepositoryManager :: PARAM_FEED_TYPE));
+        $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
     function get_application_component_path()
