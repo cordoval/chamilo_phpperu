@@ -39,7 +39,8 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
 
     function count_external_repository_objects($condition)
     {
-
+        $connector = MediamosaExternalRepositoryConnector::get_instance();
+        return $connector->count_mediamosa_assets($condition, $order_property, $offset, $count);
     }
 
     function retrieve_external_repository_server_object($id)

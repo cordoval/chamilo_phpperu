@@ -24,7 +24,7 @@ class ExternalRepositoryBrowserGalleryTableCellRenderer extends DefaultExternalR
         $html[] = '<div style="width:20px;float:right;">';
         $html[] = $this->get_modification_links($object);
         $html[] = '</div>';
-        $html[] = '<h3>' . Utilities :: truncate_string($object->get_title(), 25) . ' (' . Utilities :: format_seconds_to_minutes($object->get_duration()) . ')</h3>';
+        //$html[] = '<h3>' . Utilities :: truncate_string($object->get_title(), 25) . ' (' . Utilities :: format_seconds_to_minutes($object->get_duration()) . ')</h3>';
         $html[] = '<h3>' . Utilities ::truncate_string($object->get_title(), 25) . '</h3>';
         $html[] = '<a href="' . $this->browser->get_external_repository_object_viewing_url($object) . '"><img class="thumbnail" src="' . $object->get_thumbnail() . '"/></a> <br/>';
         $html[] = '<i>' . Utilities :: truncate_string($object->get_description(), 100) . '</i><br/>';

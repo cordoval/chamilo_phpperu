@@ -357,6 +357,16 @@ class MediamosaExternalRepositoryConnector {
         return false;
     }
 
+    function count_mediamosa_assets($condition, $order_property, $offset, $count, $recount = false)
+    {
+        if(!count($this->asset_cache) || $recount == true)
+        {
+            $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
+        }
+
+        return count($this->asset_cache);
+    }
+
     /*
      * creates and populates a MediamosaExternalRepositoryObject with xml data
      * @param object simple xml element
@@ -416,7 +426,7 @@ class MediamosaExternalRepositoryConnector {
                     }
                     else
                     {*/
-                        $title = (string)$mediafile->metadata->container_type . ' (' . (string)$mediafile->metadata->width . '/' . (string)$mediafile->metadata->height . ' px)';
+                        $title = (string)$mediafile->metadata->container_type . ' (' . (string)$mediafile->metadata->width . ' x ' . (string)$mediafile->metadata->height . ' px)';
                         $mediamosa_mediafile->set_title($title);
 
                     //}
