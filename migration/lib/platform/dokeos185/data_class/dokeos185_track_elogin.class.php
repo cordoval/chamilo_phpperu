@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../../user/trackers/login_logout_tracker.c
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackELogin extends MigrationDataClass
+class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

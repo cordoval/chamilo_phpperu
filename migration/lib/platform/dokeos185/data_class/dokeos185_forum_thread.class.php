@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repo
  * @author Vanpoucke Sven
  * @author Van Wayenbergh David
  */
-class Dokeos185ForumThread extends MigrationDataClass
+class Dokeos185ForumThread extends Dokeos185MigrationDataClass
 {
     /** 
      * Migration data manager

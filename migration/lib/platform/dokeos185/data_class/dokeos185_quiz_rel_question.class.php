@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_quiz_rel_question.cla
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185QuizRelQuestion extends MigrationDataClass
+class Dokeos185QuizRelQuestion extends Dokeos185MigrationDataClass
 {
     /**
      * Dokeos185QuizRelQuestion properties

@@ -5,7 +5,7 @@
  */
 
 /**
- * Abstract import class
+ * Abstract migration data class
  * @author Sven Vanpoucke
  */
 abstract class MigrationDataClass extends DataClass
@@ -18,14 +18,14 @@ abstract class MigrationDataClass extends DataClass
      */
     static function factory($old_system, $type)
     {
-        $filename = dirname(__FILE__) . '/../platform/' . strtolower($old_system) . '/' . strtolower($old_system) . strtolower($type) . '.class.php';
+        $filename = dirname(__FILE__) . '/../platform/' . $old_system . '/' . $old_system . '_' . $type . '.class.php';
         
         if (! file_exists($filename) || ! is_file($filename))
         {
             echo ($filename);
-            die('Failed to load ' . $old_system . $type . '.class.php');
+            die('Failed to load ' . $filename);
         }
-        $class = $old_system . str_replace('_', '', $type);
+        $class = Utilities :: underscores_to_camelcase($old_system . '_' . $type);
         
         require_once $filename;
         return new $class();

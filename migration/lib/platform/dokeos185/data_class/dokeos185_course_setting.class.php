@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_course_setting.class.
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185CourseSetting extends MigrationDataClass
+class Dokeos185CourseSetting extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

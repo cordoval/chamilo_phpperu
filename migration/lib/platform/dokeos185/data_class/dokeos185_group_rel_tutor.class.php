@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_group_rel_tutor.class
  * @author David Van Wayenbergh
  */
 
-class Dokeos185GroupRelTutor extends MigrationDataClass
+class Dokeos185GroupRelTutor extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

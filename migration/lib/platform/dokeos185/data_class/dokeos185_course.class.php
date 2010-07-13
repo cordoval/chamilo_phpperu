@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/course/cours
  * @author Sven Vanpoucke
  */
 
-class Dokeos185Course extends MigrationDataClass
+class Dokeos185Course extends Dokeos185MigrationDataClass
 {
     /**
      * Migration data manager

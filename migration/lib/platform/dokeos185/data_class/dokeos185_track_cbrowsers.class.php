@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../../user/trackers/browsers_tracker.class
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackCBrowsers extends MigrationDataClass
+class Dokeos185TrackCBrowsers extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

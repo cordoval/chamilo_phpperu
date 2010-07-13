@@ -58,4 +58,10 @@ class DynamicFormTab extends DynamicTab
         call_user_func(array($this->get_form(), $this->get_method()));
         $this->get_form()->addElement('html', $this->body_footer());
     }
+
+    public function get_link() 
+	{
+		
+	}
+
 }

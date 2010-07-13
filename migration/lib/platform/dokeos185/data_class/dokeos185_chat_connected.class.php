@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_chat_connected.class.
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185ChatConnected extends MigrationDataClass
+class Dokeos185ChatConnected extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

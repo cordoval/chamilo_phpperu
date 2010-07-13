@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_openid_association.cl
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185OpenidAssociation extends MigrationDataClass
+class Dokeos185OpenidAssociation extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

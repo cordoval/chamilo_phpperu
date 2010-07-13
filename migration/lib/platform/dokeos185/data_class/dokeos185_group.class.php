@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/course_group
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Group extends MigrationDataClass
+class Dokeos185Group extends Dokeos185MigrationDataClass
 {
     /**
      * Migration data manager

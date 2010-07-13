@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_session_rel_user.clas
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185SessionRelUser extends MigrationDataClass
+class Dokeos185SessionRelUser extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

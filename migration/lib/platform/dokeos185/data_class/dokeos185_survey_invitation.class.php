@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_survey_invitation.cla
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185SurveyInvitation extends MigrationDataClass
+class Dokeos185SurveyInvitation extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

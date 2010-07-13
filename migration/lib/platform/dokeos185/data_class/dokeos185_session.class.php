@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_session.class.php';
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Session extends MigrationDataClass
+class Dokeos185Session extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

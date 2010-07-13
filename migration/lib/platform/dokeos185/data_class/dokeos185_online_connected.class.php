@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_online_connected.clas
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185OnlineConnected extends MigrationDataClass
+class Dokeos185OnlineConnected extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

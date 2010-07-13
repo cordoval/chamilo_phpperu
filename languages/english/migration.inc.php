@@ -48,7 +48,8 @@ $lang['migration']['SettingsCleaned'] = 'Settings cleaned';
 $lang['migration']['SettingsNotCleaned'] = 'Settings not cleaned';
 $lang['migration']['SelectBlocks'] = 'Select blocks';
 
-$lang['migration']['MigrationComplete'] = 'Migration complete';
+$lang['migration']['StartMigration'] = 'Start migration';
+$lang['migration']['MigrationComplete'] = 'Migration complete in {TIME}';
 $lang['migration']['MigrationBlockAlreadyMigrated'] = 'Migration block already migrated';
 
 $lang['migration']['UsersMigrationBlockInfoNext'] = 'On the next page the users will be migrated';

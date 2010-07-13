@@ -6,9 +6,19 @@
 abstract class MigrationBlock
 {
 	/**
-	 * @var MessageLogger $message_logger used to log messages
+	 * @var MessageLogger $message_logger - used to log messages on the screen
 	 */
 	private $message_logger;
+	
+	/**
+	 * @var FileLogger $file_logger - used to log messages in a file
+	 */
+	private $file_logger;
+	
+	/**
+	 * @var Timer
+	 */
+	private $timer;
 	
 	/**
 	 * The block registration
@@ -19,6 +29,7 @@ abstract class MigrationBlock
 	function MigrationBlock()
 	{
 		$this->message_logger = MessageLogger :: get_instance(__CLASS__);
+		$this->timer = new Timer();
 	}
 	
 	// Messages function
@@ -27,7 +38,7 @@ abstract class MigrationBlock
 	 * Returns the message logger
 	 * @return MessageLogger
 	 */
-	function get_message_logger()
+	private function get_message_logger()
 	{
 		return $this->message_logger;
 	}
@@ -35,6 +46,33 @@ abstract class MigrationBlock
 	function render_message()
 	{
 		return $this->message_logger->render();
+	}
+	
+	/**
+	 * Returns the file logger
+	 * @return FileLogger
+	 */
+	private function get_file_logger()
+	{
+		if(!$this->file_logger)
+		{
+			$dir = Path :: get(SYS_FILE_PATH) . '/logs/migration/';
+			if(!file_exists($dir))
+			{
+				Filesystem :: create_dir($dir);
+			}
+			$this->file_logger = new FileLogger($dir . $this->get_block_name() . '.log');
+		}
+		return $this->file_logger;
+	}
+	
+	/**
+	 * Returns the timer
+	 * @return Timer
+	 */
+	private function get_timer()
+	{
+		return $this->timer;
 	}
 	
 	/**
@@ -91,18 +129,50 @@ abstract class MigrationBlock
 			return;
 		}
 		
-		$this->update_migration_block_registration();
-		$this->message_logger->add_message(Translation :: get('MigrationComplete'), MessageLogger :: TYPE_CONFIRM);
+		$this->prepare_migration();
+		$this->finish_migration();
 	}
 	
-	function update_migration_block_registration()
+	/**
+	 * Prepares the migration
+	 * Logfiles & Messages
+	 */
+	private function prepare_migration()
 	{
+		$this->get_timer()->start();
+		$logger = $this->get_file_logger();
+		
+		$message = Translation :: get('StartMigration');
+		$this->message_logger->add_message($message);
+		$logger->log_message($message);
+	}
+	
+	/**
+	 * Finish te migration process
+	 * Change the block registration
+	 * Logfiles & Messages
+	 */
+	private function finish_migration()
+	{
+		$logger = $this->get_file_logger();
+		
 		$migration_block_registration = $this->get_migration_block_registration();
 		$migration_block_registration->set_is_migrated(1);
 		$migration_block_registration->update();
+		
+		$this->get_timer()->stop();
+		
+		$message = Translation :: get('MigrationComplete', array('TIME' => $this->get_timer()->get_time_in_hours()));
+		$this->message_logger->add_message($message, MessageLogger :: TYPE_CONFIRM);
+		$logger->log_message($message);
+		
+		$logger->close_file();
 	}
 	
-	function get_migration_block_registration()
+	/**
+	 * Returns the migration block registration or retrieves it from the database if it doesn't exist
+	 */
+	private function get_migration_block_registration()
 	{
 		if(!$this->migration_block_registration)
 		{

@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_course_rel_class.clas
  * @author David Van Wayenbergh
  */
 
-class Dokeos185CourseRelClass extends MigrationDataClass
+class Dokeos185CourseRelClass extends Dokeos185MigrationDataClass
 {
     
     /**

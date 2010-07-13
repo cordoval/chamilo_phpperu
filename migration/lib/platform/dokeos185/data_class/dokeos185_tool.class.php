@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/weblcms_data
  *
  * @author Van Wayenbergh David
  */
-class Dokeos185Tool extends MigrationDataClass
+class Dokeos185Tool extends Dokeos185MigrationDataClass
 {
     /**
      * Migration data manager

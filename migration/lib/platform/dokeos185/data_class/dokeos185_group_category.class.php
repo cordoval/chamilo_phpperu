@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_group.class.php';
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185GroupCategory extends MigrationDataClass
+class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
 {
     /**
      * Migration data manager

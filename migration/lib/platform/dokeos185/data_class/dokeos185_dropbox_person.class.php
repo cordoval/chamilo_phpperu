@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_dropbox_person.class.
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185DropboxPerson extends MigrationDataClass
+class Dokeos185DropboxPerson extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

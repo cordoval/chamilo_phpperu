@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/content_object/catego
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185UserinfoDef extends MigrationDataClass
+class Dokeos185UserinfoDef extends Dokeos185MigrationDataClass
 {
     /**
      * Dokeos185UserinfoDef properties

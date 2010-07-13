@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_lp_item_view.class.ph
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185LpItemView extends MigrationDataClass
+class Dokeos185LpItemView extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

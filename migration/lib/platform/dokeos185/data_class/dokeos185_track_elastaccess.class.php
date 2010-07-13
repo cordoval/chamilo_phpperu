@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_elastaccess.cla
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackELastaccess extends MigrationDataClass
+class Dokeos185TrackELastaccess extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

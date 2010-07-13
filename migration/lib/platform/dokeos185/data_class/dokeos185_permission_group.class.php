@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_permission_group.clas
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185PermissionGroup extends MigrationDataClass
+class Dokeos185PermissionGroup extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

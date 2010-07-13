@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/../../../admin/lib/setting.class.php';
  * @author Sven Vanpoucke
  */
 
-class Dokeos185SettingCurrent extends MigrationDataClass
+class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
 {
     private $convert = array('siteName' => 'site_name', 'server_type' => 'server_type', 'Institution' => 'institution', 'InstitutionUrl' => 'institution_url', 'show_administrator_data' => 'show_administrator_data', 'administratorName' => 'administrator_firstname', 'administratorSurname' => 'administrator_surname', 'emailAdministrator' => 'administrator_email', 'administratorTelephone' => 'administrator_telephone', 'allow_lostpassword' => 'allow_password_retrieval', 'allow_registration' => 'allow_registration');
     

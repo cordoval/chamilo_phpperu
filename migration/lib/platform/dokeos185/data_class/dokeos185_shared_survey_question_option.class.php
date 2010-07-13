@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_shared_survey_questio
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185SharedSurveyQuestionOption extends MigrationDataClass
+class Dokeos185SharedSurveyQuestionOption extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

@@ -17,7 +17,7 @@ require_once Path :: get_application_path() . 'lib/profiler/profile_publication.
  * @author Sven Vanpoucke
  */
 
-class Dokeos185User extends MigrationDataClass
+class Dokeos185User extends Dokeos185MigrationDataClass
 {
     /**
      * Migration data manager
@@ -424,7 +424,7 @@ class Dokeos185User extends MigrationDataClass
      * Migration users, create directories, copy user pictures, migrate user profiles
      * @return User
      */
-    function convert_data
+    function convert_data()
     {
         $mgdm = MigrationDataManager :: get_instance();
         $old_mgdm = $parameters['old_mgdm'];
