@@ -25,16 +25,16 @@ class MediamosaExternalRepositoryManagerSettingCreatorComponent extends Mediamos
                 
                 if($connector->login())
                 {
-                    $this->redirect(Translation :: get('Setting created Login Succeeded'), false, $parameters);
+                    $this->redirect(Translation :: get('Created') . Translation :: get('Success'), false, $parameters);
                 }
                 else
                 {
-                    $this->redirect(Translation :: get('Setting created Login Failed'), true, $parameters);
+                    $this->redirect(Translation :: get('Created') . Translation :: get('Failed'), false, $parameters);
                 }
             }
             else
             {
-                $this->redirect(Translation :: get('Setting not created'), true, $parameters);
+                $this->redirect(Translation :: get('NotCreated'), true, $parameters);
             }
         }
         else

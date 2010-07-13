@@ -27,7 +27,8 @@ class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalReposito
 
     // Inherited
     function render_cell($column, $content_object)
-    {
+        
+    {//$html[] = '<h3>' . Utilities ::truncate_string($object->get_title(), 25) . '</h3>';
         if ($column === ExternalRepositoryBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($content_object);

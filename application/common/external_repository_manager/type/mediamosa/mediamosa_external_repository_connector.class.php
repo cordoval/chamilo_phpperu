@@ -50,7 +50,7 @@ class MediamosaExternalRepositoryConnector {
         }
         else
         {
-            exit(Translation :: get('No server selected'));
+            //exit(Translation :: get('NoServerSelected'));
         }
         /*if($server_id)
         {
@@ -103,10 +103,12 @@ class MediamosaExternalRepositoryConnector {
             if($quotum) $data['quotum'] = $quotum;
             $data['user'] = $this->get_mediamosa_user_id($user_id);
 
-            $response = $this->mediamosa->request(self :: METHOD_POST, '/user/create', $data);
-            if($response->check_result())
+            if($response = $this->request(self :: METHOD_POST, '/user/create', $data))
             {
-                return true;
+                if($response->check_result())
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -124,11 +126,12 @@ class MediamosaExternalRepositoryConnector {
             $data = array();
             $data['quotum'] = $quotum;
 
-            $response = $this->mediamosa->request(self :: METHOD_POST, '/user/' . $this->get_mediamosa_user_id($user_id), $data);
+            if($response = $this->request(self :: METHOD_POST, '/user/' . $this->get_mediamosa_user_id($user_id), $data))
+            {
+                if($response->check_result()) return true;
 
-            if($response->check_result()) return true;
-
-            if($this->create_mediamosa_user($user_id, $quotum)) return true;
+                if($this->create_mediamosa_user($user_id, $quotum)) return true;
+            }
         }
         return false;
     }
@@ -154,11 +157,14 @@ class MediamosaExternalRepositoryConnector {
      */
     function retrieve_mediamosa_user($user_id)
     {
-        $response = $this->mediamosa->request(self :: METHOD_GET, '/user/' . $this->get_mediamosa_user_id($user_id));
-        if($response->check_result())
+        if($response = $this->request(self :: METHOD_GET, '/user/' . $this->get_mediamosa_user_id($user_id)))
         {
-            return $response->get_response_content_xml()->items->item;
+            if($response->check_result())
+            {
+                return $response->get_response_content_xml()->items->item;
+            }
         }
+        
         return false;
     }
 
@@ -183,12 +189,15 @@ class MediamosaExternalRepositoryConnector {
      */
     function retrieve_mediamosa_version()
     {
-        $response = $this->mediamosa->request(self :: METHOD_GET, '/version/');
-        if($response->check_result())
+        if($response = $this->request(self :: METHOD_GET, '/version/'))
         {
-            $xml = $response->get_response_content_xml();
-            return $xml->items->item->version;
+             if($response->check_result())
+            {
+                $xml = $response->get_response_content_xml();
+                return $xml->items->item->version;
+            }
         }
+       
         return false;
     }
 
@@ -261,7 +270,7 @@ class MediamosaExternalRepositoryConnector {
      * @param string count optional
      * @return array with MediamosaExternalRepositoryObject(s)
      */
-    function retrieve_mediamosa_assets($condition = null, $order_property = null, $offset = null, $count = '10')
+    function retrieve_mediamosa_assets($condition = null, $order_property = null, $offset = null, $count = null)
     {
         $params = array();
 
@@ -276,11 +285,20 @@ class MediamosaExternalRepositoryConnector {
                 $params['order_by'] = $order_property;
             }
         }
+        
+        if($count)
+        {
+            $params['limit'] = $count;
+        }
+        else
+        {
+            $params['limit'] = 10;
+        }
         $params['offset'] = $offset;
-        $params['limit'] = $count;
+        
         $params['granted'] = 'FALSE';
         $params['hide_empty_assets'] =  'TRUE';
-
+        
         $chamilo_user = $this->retrieve_chamilo_user(Session :: get_user_id());
 
         $params['user_id'] = $this->get_mediamosa_user_id($chamilo_user->get_id());
@@ -309,29 +327,44 @@ class MediamosaExternalRepositoryConnector {
         //if no params exist no request will produce error
         if(count($params) > 1)
         {
-            $response = $this->mediamosa->request(self :: METHOD_GET, '/asset' . $condition, $params);
-            if($response->check_result())
+            if($response = $this->request(self :: METHOD_GET, '/asset' . $condition, $params))
             {
-                $objects = array();
-
-                $xml = $response->get_response_content_xml();
-
-                if(isset($xml->items->item))
+                if($response->check_result())
                 {
-                    foreach($xml->items->item as $asset)
-                    {
-                        if((string) $asset->granted == 'TRUE')
-                        {
-                            $objects[(string) $asset->asset_id] = $this->create_mediamosa_external_repository_object($asset);
-                        }
+                    $objects = array();
 
-                    }
-                    $this->asset_cache = $objects;
+                    $xml = $response->get_response_content_xml();
+
+                    if(isset($xml->items->item))
+                    {
+                        foreach($xml->items->item as $asset)
+                        {
+                            if((string) $asset->granted == 'TRUE')
+                            {
+                                $object = $this->create_mediamosa_external_repository_object($asset);
+                                $objects[]= $object;
+                                $this->asset_cache[(string) $asset->asset_id] = $object;
+                            }
+
+                        }
+                        
                     return new ArrayResultSet($objects);
+                    }
                 }
             }
+            
         }
         return false;
+    }
+
+    function count_mediamosa_assets($condition, $order_property, $offset, $count, $recount = false)
+    {
+        if(!count($this->asset_cache) || $recount == true)
+        {
+            $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
+        }
+
+        return count($this->asset_cache);
     }
 
     /*
@@ -358,11 +391,11 @@ class MediamosaExternalRepositoryConnector {
             $mediamosa_asset->set_creator((string)$asset->dublin_core->creator);
             //TODO:jens -> implement status
             $mediamosa_asset->set_status($status);
-            $mediamose_asset->set_type(MediamosaExternalRepositoryObject :: OBJECT_TYPE);
+            $mediamosa_asset->set_type(MediamosaExternalRepositoryObject :: OBJECT_TYPE);
 
 
             //status of mediafile is unavailable by default
-            $mediamosa_asset->set_status(ExternalRepositoryObject :: STATUS_UNAVAILABLE);
+            $mediamosa_asset->set_status(MediamosaExternalRepositoryObject :: STATUS_UNAVAILABLE);
 
             $mediamosa_transcoding_profiles = $this->retrieve_mediamosa_transcoding_profiles();
 
@@ -386,7 +419,17 @@ class MediamosaExternalRepositoryConnector {
                 {
                     $mediamosa_mediafile = new MediamosaMediafileObject();
                     $mediamosa_mediafile->set_id((string)$mediafile->mediafile_id);
-                    $mediamosa_mediafile->set_title($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_TITLE]);
+                    
+                    /*if(isset($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_TITLE]))
+                    {
+                        $mediamosa_mediafile->set_title($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_TITLE]);
+                    }
+                    else
+                    {*/
+                        $title = (string)$mediafile->metadata->container_type . ' (' . (string)$mediafile->metadata->width . ' x ' . (string)$mediafile->metadata->height . ' px)';
+                        $mediamosa_mediafile->set_title($title);
+
+                    //}
                     if($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_IS_DEFAULT] ==  'TRUE')
                     {
                         $mediamosa_mediafile->set_is_default();
@@ -405,7 +448,7 @@ class MediamosaExternalRepositoryConnector {
                     }
 
                     //if there is a playable mediafile - set status available
-                    $mediamosa_asset->set_status(ExternalRepositoryObject :: STATUS_AVAILABLE);
+                    $mediamosa_asset->set_status(MediamosaExternalRepositoryObject :: STATUS_AVAILABLE);
                 }
             }
             return $mediamosa_asset;
@@ -455,9 +498,9 @@ class MediamosaExternalRepositoryConnector {
         {
            $chamilo_user = $this->retrieve_chamilo_user(Session :: get_user_id());
 
-           if(isset($this->last_search_list[$asset_id]))
+           if(isset($this->asset_cache[$asset_id]))
            {
-               if($chamilo_user->is_platform_admin() or ($this->last_search_list[$asset_id]->get_owner_id() == $chamilo_user->get_id())) return true;
+               if($chamilo_user->is_platform_admin() or ($this->asset_cache[$asset_id]->get_owner_id() == $chamilo_user->get_id())) return true;
            }
         }
         return false;
@@ -467,7 +510,7 @@ class MediamosaExternalRepositoryConnector {
     {
         if($asset_id)
         {
-           if($this->last_search_list[$asset_id]->get_is_downloadable()) return true;
+           if($this->asset_cache[$asset_id]->get_is_downloadable()) return true;
         }
         return false;
     }
@@ -486,11 +529,14 @@ class MediamosaExternalRepositoryConnector {
         $data = array();
         $data['user_id'] = $this->get_mediamosa_user_id(Session::get_user_id());
 
-        $response = $this->mediamosa->request(self :: METHOD_POST, '/asset/create', $data);
-        if($response->check_result($response))
+        if($response = $this->request(self :: METHOD_POST, '/asset/create', $data))
         {
-            return (string)$response->get_response_content_xml()->items->item->asset_id;
+            if($response->check_result($response))
+            {
+                return (string)$response->get_response_content_xml()->items->item->asset_id;
+            }
         }
+        
         return false;
     }
 
@@ -502,26 +548,28 @@ class MediamosaExternalRepositoryConnector {
      */
     function retrieve_mediamosa_asset($asset_id, $object = true)
     {
-        xdebug_break();
+        
         if($asset_id)
         {
             $data = array();
             $data['user_id'] = $this->get_mediamosa_user_id(Session::get_user_id());
 
-            $response = $this->mediamosa->request(self :: METHOD_GET, '/asset/'.$asset_id, $data);
-            if($response->check_result())
+            if($response = $this->request(self :: METHOD_GET, '/asset/'.$asset_id, $data))
             {
-                $xml = $response->get_response_content_xml()->items->item;
+                if($response->check_result())
+                {
+                    $xml = $response->get_response_content_xml()->items->item;
 
-                if($object)
-                {
-                    $object = $this->create_mediamosa_external_repository_object($xml);
-                    $this->asset_cache[(string) $xml->asset_id] = $object;
-                    return $object;
-                }
-                else
-                {
-                    return $xml;
+                    if($object)
+                    {
+                        $object = $this->create_mediamosa_external_repository_object($xml);
+                        $this->asset_cache[(string) $xml->asset_id] = $object;
+                        return $object;
+                    }
+                    else
+                    {
+                        return $xml;
+                    }
                 }
             }
         }
@@ -544,11 +592,13 @@ class MediamosaExternalRepositoryConnector {
                 $data['delete'] = 'cascade';
             }
 
-            $response = $this->mediamosa->request(self :: METHOD_POST, '/asset/'.$asset_id.'/delete', $data);
-            if($response->check_result())
+            if($response = $this->request(self :: METHOD_POST, '/asset/'.$asset_id.'/delete', $data))
             {
-                //TODO:return result description on fail
-                return true;
+                if($response->check_result())
+                {
+                    //TODO:return result description on fail
+                    return true;
+                }
             }
         }
         return false;
@@ -572,18 +622,21 @@ class MediamosaExternalRepositoryConnector {
                 $data['delete'] = 'cascade';
             }
 
-            $response = $this->mediamosa->request(self :: METHOD_POST, '/asset/delete', $data);
-            if($response->check_result())
+            if($response = $this->request(self :: METHOD_POST, '/asset/delete', $data))
             {
-                $xml = $response->get_response_content_xml();
-
-                $output = array();
-                foreach($xml->items as $item)
+                if($response->check_result())
                 {
-                    $output[] = (string) $item->asset_id . (string) $item->result . ':' . (string) $item->result_description;
+                    $xml = $response->get_response_content_xml();
+
+                    $output = array();
+                    foreach($xml->items as $item)
+                    {
+                        $output[] = (string) $item->asset_id . (string) $item->result . ':' . (string) $item->result_description;
+                    }
+                    return $output;
                 }
-                return $output;
             }
+            
         }
         return false;
     }
@@ -601,11 +654,14 @@ class MediamosaExternalRepositoryConnector {
             $data['asset_id'] = $asset_id;
             if($is_downloadable) $data['is_downloadable'] = true;
 
-            $response = $this->mediamosa->request(self :: METHOD_POST, '/mediafile/create', $data);
-            if($response->check_result())
+            if($response = $this->request(self :: METHOD_POST, '/mediafile/create', $data))
             {
-                return (string)$response->get_response_content_xml()->items->item->mediafile_id;
+                if($response->check_result())
+                {
+                    return (string)$response->get_response_content_xml()->items->item->mediafile_id;
+                }
             }
+            
         }
         return false;
     }
@@ -622,11 +678,14 @@ class MediamosaExternalRepositoryConnector {
             $data = array();
             $data['user_id'] = $this->get_mediamosa_user_id(Session::get_user_id());
 
-            $response = $this->mediamosa->request(self :: METHOD_POST, 'mediafile/'.$mediafile_id.'/delete', $data);
-            if($response->check_result())
+            if($response = $this->request(self :: METHOD_POST, 'mediafile/'.$mediafile_id.'/delete', $data))
             {
-                return true;
+                if($response->check_result())
+                {
+                    return true;
+                }
             }
+            
         }
         return false;
     }
@@ -648,11 +707,14 @@ class MediamosaExternalRepositoryConnector {
                 $data['replace'] = 'TRUE';
                 //$data['action'] = 'update';
 
-                $response = $this->mediamosa->request(self :: METHOD_POST, '/asset/'.$asset_id.'/metadata', $data);
-                if($response->check_result($response))
+                if($response = $this->request(self :: METHOD_POST, '/asset/'.$asset_id.'/metadata', $data))
                 {
-                    return true;
+                    if($response->check_result($response))
+                    {
+                        return true;
+                    }
                 }
+                
             }
         }
         return false;
@@ -672,11 +734,14 @@ class MediamosaExternalRepositoryConnector {
             $data['user_id'] = $this->get_mediamosa_user_id(Session::get_user_id());
             //$data['mediafile_id'] = $mediafile_id; //TODO : necessary?
 
-            $response = $this->mediamosa->request(self :: METHOD_GET, '/mediafile/'.$mediafile_id.'/uploadticket/create', $data);
-            if($response->check_result($response))
+            if($response = $this->request(self :: METHOD_GET, '/mediafile/'.$mediafile_id.'/uploadticket/create', $data))
             {
-                return $response->get_response_content_xml();
+                if($response->check_result($response))
+                {
+                    return $response->get_response_content_xml();
+                }
             }
+            
         }
         return false;
     }
@@ -702,21 +767,24 @@ class MediamosaExternalRepositoryConnector {
             $data['user_id'] = $this->get_mediamosa_user_id('2');;
             $data['is_app_admin'] = 'TRUE';
 
-            $response = $this->mediamosa->request(self :: METHOD_GET, '/transcode/profile',$data);
-            if($response->check_result())
+            if($response = $this->request(self :: METHOD_GET, '/transcode/profile',$data))
             {
-
-                $profiles = array();
-
-                foreach($response->get_response_content_xml()->items->item as $profile)
+                if($response->check_result())
                 {
-                    $profiles[(string)$profile->profile_id] = array(MediamosaMediafileObject :: PROPERTY_TITLE => (string) $profile->profile, MediamosaMediafileObject :: PROPERTY_IS_DEFAULT => (string) $profile->default);
+
+                    $profiles = array();
+
+                    foreach($response->get_response_content_xml()->items->item as $profile)
+                    {
+                        $profiles[(string)$profile->profile_id] = array(MediamosaMediafileObject :: PROPERTY_TITLE => (string) $profile->profile, MediamosaMediafileObject :: PROPERTY_IS_DEFAULT => (string) $profile->default);
+                    }
+
+                    $this->profiles = $profiles;
+
+                    return $profiles;
                 }
-
-                $this->profiles = $profiles;
-
-                return $profiles;
             }
+            
 
             return false;
         }
@@ -780,7 +848,7 @@ class MediamosaExternalRepositoryConnector {
             //$data['group_id']
             //
             //get object or url
-            $player = $this->mediamosa->request(self :: METHOD_GET, '/asset/' .$asset_id . '/play', $data);
+            $player = $this->request(self :: METHOD_GET, '/asset/' .$asset_id . '/play', $data);
 
             //verify
             switch($player->get_response_content_xml()->header->request_result_id)
@@ -791,13 +859,13 @@ class MediamosaExternalRepositoryConnector {
                     break;
                 //   701 -> doesn't exits
                 case '701':
-                    return Translation :: get('mediafile_doesnt_exist');
+                    return Translation :: get('FileDoesntExist');
                 //   1800 -> not authorised
                 case '1800':
-                    return Translation :: get('no_access');
+                    return Translation :: get('AccessDenied');
                 //   default - no embedded player available
                 default:
-                    return Translation :: get('player_not_available');
+                    return Translation :: get('PlayerNotAvailable');
             }
         }
     }
@@ -810,17 +878,20 @@ class MediamosaExternalRepositoryConnector {
     {
         if($mediafile_id)
         {
-            $response = $this->mediamosa->request(self :: METHOD_GET, '/mediafile/' . $mediafile_id . '/acl');
-            if($response->check_result())
+            if($response = $this->request(self :: METHOD_GET, '/mediafile/' . $mediafile_id . '/acl'))
             {
-                $rights = array();
-
-                foreach($response->get_response_content_xml()->items as $item)
+                if($response->check_result())
                 {
-                    $rights[(string) $item] = (string) $item[0];
+                    $rights = array();
+
+                    foreach($response->get_response_content_xml()->items as $item)
+                    {
+                        $rights[(string) $item] = (string) $item[0];
+                    }
+                    return true;
                 }
-                return true;
             }
+            
         }
         return false;
     }
@@ -829,17 +900,20 @@ class MediamosaExternalRepositoryConnector {
     {
         if($asset_id)
         {
-            $response = $this->mediamosa->request(self :: METHOD_GET, '/asset/' . $asset . '/acl');
-            if($response->check_result())
+            if($response = $this->request(self :: METHOD_GET, '/asset/' . $asset . '/acl'))
             {
-                $rights = array();
-
-                foreach($response->get_response_content_xml()->items as $item)
+                if($response->check_result())
                 {
-                    $rights[(string) $item] = (string) $item[0];
+                    $rights = array();
+
+                    foreach($response->get_response_content_xml()->items as $item)
+                    {
+                        $rights[(string) $item] = (string) $item[0];
+                    }
+                    return true;
                 }
-                return true;
             }
+            
         }
         /*if($asset = $this->retrieve_mediamosa_asset($asset_id))
         {
@@ -878,11 +952,14 @@ class MediamosaExternalRepositoryConnector {
                 }
                 $data['user_id'] = $this->get_mediamosa_user_id($owner_id);;
 
-                $response = $this->mediamosa->request(self :: METHOD_POST, '/asset/' . $asset_id . '/acl', $data);
-                if($response->check_result())
+               if($response = $this->request(self :: METHOD_POST, '/asset/' . $asset_id . '/acl', $data))
                 {
-                    return true;
+                   if($response->check_result())
+                    {
+                        return true;
+                    }
                 }
+                
             }
         }
         /*if($rights)
@@ -922,16 +999,27 @@ class MediamosaExternalRepositoryConnector {
                 {
                     $data[$k] = $right;
                 }
-                $response = $this->mediamosa->request(self :: METHOD_POST, '/mediafile/' . $mediafile_id . '/acl', $data);
-                if($response->check_result())
+                if($response = $this->request(self :: METHOD_POST, '/mediafile/' . $mediafile_id . '/acl', $data))
                 {
-                    return true;
+                    if($response->check_result())
+                    {
+                        return true;
+                    }
                 }
+                
             }
         }
         return false;
     }
 
+    function request($method, $url, $data)
+    {
+        if($this->mediamosa)
+        {
+            return $this->mediamosa->request($method, $url, $data);
+        }
+        return false;
+    }
 
 }
 ?>
