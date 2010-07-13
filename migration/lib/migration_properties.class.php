@@ -49,6 +49,6 @@ abstract class MigrationProperties
 		return new $class();
 	}
 	
-	abstract function validate_settings($settings, $blocks);
+	abstract function validate_settings($settings, $selected_blocks, $migrated_blocks);
 	abstract function get_migration_blocks();
 }

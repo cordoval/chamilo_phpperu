@@ -16,3 +16,64 @@
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+ul,#progresstrail li 
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+#progresstrail 
+{
+	float: left;
+	background-color: #f2f2f2;
+	color: #444444;
+	margin-bottom: 10px;
+}
+
+#progresstrail li 
+{
+	float: left;
+	line-height: 26px;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	color: #777;
+}
+
+#progresstrail li a 
+{
+	display: block;
+	padding: 0 15px 0 15px;
+	background-image: url(../images/common/background_breadcrumb.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	color: #a8a8a8;
+	cursor: default;
+}
+
+#progresstrail li.active a 
+{
+	color: #444444;
+}
+
+.page_html
+{
+	margin-top: 20px;
+}
+
+.migrate_info
+{
+	-moz-border-radius-bottomright:10px;
+	-moz-border-radius-topleft:10px;
+	border:1px solid #F0F0F0;
+	padding:15px 15px 15px 15px;
+}
+
+.migrate_info .title
+{
+	border-bottom:1px solid #CCCCCC;
+	font-weight:bold;
+	margin-bottom:1em;
+	width:100%;
+}

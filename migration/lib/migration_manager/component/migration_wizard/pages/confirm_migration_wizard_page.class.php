@@ -26,9 +26,6 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
     // The settings that need to be validated by the migration properties
     private $validate_settings = array();
     
-    // The blocks that need to be validated by the migration properties
-    private $validate_blocks = array();
-    
     /**
      * The migration properties - Used to retrieve the blocks and validate the settings
      * @var MigrationProperties
@@ -51,7 +48,11 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
  	{
  		if($this->is_valid)
  		{
- 			echo Translation :: get('ConfirmationMigrationPageInfo');
+	 		$block = $this->get_parent()->get_next_block();
+	 		if($block)
+	 		{
+	 			echo Translation :: get(Utilities :: underscores_to_camelcase($block) . 'MigrationBlockInfoNext');
+	 		}
  		}
  		else
  		{
@@ -124,20 +125,15 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
     	
     	foreach($blocks as $block)
     	{
-    		$registration = MigrationDataManager :: retrieve_migration_block_registrations_by_name($block);
     		$block_name = Translation :: get('Migrate' . Utilities :: underscores_to_camelcase($block)); 
     		
-    		if($registration)
+    		if(in_array($block, $this->get_parent()->get_selected_blocks()))
     		{
-    			if($registration->get_is_migrated())
-    			{
-    				$selected_migrated_blocks[] = $block_name;
-    			}
-    			else
-    			{
-	    			$selected_blocks[] =  $block_name;
-	    			$this->validate_blocks[] = $block;
-    			}
+	    		$selected_blocks[] =  $block_name;
+    		}
+    		elseif(in_array($block, $this->get_parent()->get_migrated_blocks()))
+    		{
+    			$selected_migrated_blocks[] = $block_name;
     		}
     		else
     		{
@@ -187,14 +183,14 @@ class ConfirmMigrationWizardPage extends MigrationWizardPage
     {
     	$this->addElement('category', Translation :: get('SettingsValidation'));
     	
-    	$this->is_valid = $this->migration_properties->validate_settings($this->validate_settings, $this->validate_blocks);
+    	$this->is_valid = $this->migration_properties->validate_settings($this->validate_settings, $this->get_parent()->get_selected_blocks(), $this->get_parent()->get_migrated_blocks());
     	if($this->is_valid)
     	{
-    		$html = '<div class="normal-message">' . Translation :: get('AllSettingsValid') . '</div>';
+    		$html = '<div class="normal-message">' . Translation :: get('SettingsValid') . '</div>';
     	}
     	else
     	{
-    		$html = '<div class="error-message">' . Translation :: get('SettingsNotValid') . ':<br />' . $this->migration_properties->get_messages_as_string() . '</div>';
+    		$html = '<div class="error-message">' . Translation :: get('SettingsNotValid') . ':<br />' . $this->migration_properties->render_message() . '</div>';
     	}
     	
     	$this->addElement('html', $html);

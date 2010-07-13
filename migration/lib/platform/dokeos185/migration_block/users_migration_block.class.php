@@ -13,4 +13,9 @@ class UsersMigrationBlock extends MigrationBlock
 	{
 		return array();
 	}
+	
+	function get_block_name()
+	{
+		return self :: MIGRATION_BLOCK_NAME;
+	}
 }

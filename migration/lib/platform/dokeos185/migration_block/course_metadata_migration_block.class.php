@@ -8,6 +8,11 @@ class CourseMetaDataMigrationBlock extends MigrationBlock
 	{
 		return array(CoursesMigrationBlock :: MIGRATION_BLOCK_NAME);
 	}
+	
+	function get_block_name()
+	{
+		return self :: MIGRATION_BLOCK_NAME;
+	}
 }
 
 ?>

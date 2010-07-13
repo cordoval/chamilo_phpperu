@@ -9,10 +9,10 @@ class Dokeos185MigrationProperties extends MigrationProperties
 	 * @param $settings - The general settings
 	 * @param $blocks - The selected blocks
 	 */
-	function validate_settings($settings, $blocks)
+	function validate_settings($settings, $selected_blocks, $migrated_blocks)
 	{
 		$succes = $this->check_system_availability($settings);
-		$succes &= $this->validate_blocks($blocks);
+		$succes &= $this->validate_blocks($selected_blocks, $migrated_blocks);
 		
 		return $succes;
 	}
@@ -41,17 +41,19 @@ class Dokeos185MigrationProperties extends MigrationProperties
 	 * Checks if every block his prerequisite is selected as well
 	 * @param String[] $blocks - The selected blocks
 	 */
-	function validate_blocks($blocks)
+	function validate_blocks($selected_blocks, $migrated_blocks)
 	{
-		if(count($blocks) == 0)
+		if(count($selected_blocks) == 0)
 		{
 			$this->get_message_logger()->add_message(Translation :: get('NoBlocksSelected'));
 			return false;
 		}
 		
+		$blocks = array_merge($selected_blocks, $migrated_blocks);
+		
 		$result = true;
 		
-		foreach($blocks as $block)
+		foreach($selected_blocks as $block)
 		{
 			$class = Utilities :: underscores_to_camelcase($block) . 'MigrationBlock';
 			$object = new $class();

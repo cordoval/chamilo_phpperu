@@ -20,6 +20,7 @@ $lang['migration']['MigrateCourseScorms'] = 'Migrate course scorms';
 $lang['migration']['MigrateCourseStudentPublications'] = 'Migrate course student publications';
 $lang['migration']['MigrateCourseSurveys'] = 'Migrate course surveys';
 $lang['migration']['MigrateTrackers'] = 'Migrate trackers';
+
 $lang['migration']['ConfirmationMigrationPageInfo'] = 'Confirm your settings before starting the migration process';
 $lang['migration']['Platform'] = 'Platform';
 $lang['migration']['PlatformPath'] = 'Platform path';
@@ -38,6 +39,7 @@ $lang['migration']['PlatformConfigurationCanNotBeFound'] = 'Configuration file c
 $lang['migration']['CouldNotConnectToPlatformDatabase'] = 'Could not connect to platform database';
 $lang['migration']['CleanMigrationSettings'] = 'Clean migration settings';
 $lang['migration']['YouCanNotProceedWithInvalidSettings'] = 'You can not proceed as long as your settings are invalid';
+
 $lang['migration']['CleaningMethod'] = 'Cleaning method';
 $lang['migration']['CleanMigrationBlockStatus'] = 'Clean migration block status';
 $lang['migration']['CleanAll'] = 'Clean all';
@@ -45,4 +47,12 @@ $lang['migration']['Clean'] = 'Clean';
 $lang['migration']['SettingsCleaned'] = 'Settings cleaned';
 $lang['migration']['SettingsNotCleaned'] = 'Settings not cleaned';
 $lang['migration']['SelectBlocks'] = 'Select blocks';
+
+$lang['migration']['MigrationComplete'] = 'Migration complete';
+$lang['migration']['MigrationBlockAlreadyMigrated'] = 'Migration block already migrated';
+
+$lang['migration']['UsersMigrationBlockInfoNext'] = 'On the next page the users will be migrated';
+$lang['migration']['UsersMigrationBlockInfo'] = 'On this page the users will be migrated';
+$lang['migration']['ClassesMigrationBlockInfoNext'] = 'On the next page the classes will be migrated';
+$lang['migration']['ClassesMigrationBlockInfo'] = 'On this page the classes will be migrated';
 ?>

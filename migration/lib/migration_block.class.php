@@ -10,10 +10,18 @@ abstract class MigrationBlock
 	 */
 	private $message_logger;
 	
+	/**
+	 * The block registration
+	 * @var MigrationBlockRegistration
+	 */
+	private $migration_block_registration;
+	
 	function MigrationBlock()
 	{
 		$this->message_logger = MessageLogger :: get_instance(__CLASS__);
 	}
+	
+	// Messages function
 	
 	/**
 	 * Returns the message logger
@@ -50,10 +58,7 @@ abstract class MigrationBlock
 		return new $class();
 	}
 	
-	function migrate()
-	{
-		
-	}
+	// Validation functions
 	
 	/**
 	 * Checks the prerequisites of the current migration block against the selected migration blocks
@@ -73,5 +78,42 @@ abstract class MigrationBlock
 		return true;
 	}
 	
+	
+	/**
+	 * Migrate the current block
+	 */
+	function migrate()
+	{
+		$migration_block_registration = $this->get_migration_block_registration();
+		if($migration_block_registration->get_is_migrated())
+		{
+			$this->message_logger->add_message(Translation :: get('MigrationBlockAlreadyMigrated'), MessageLogger :: TYPE_WARNING);
+			return;
+		}
+		
+		$this->update_migration_block_registration();
+		$this->message_logger->add_message(Translation :: get('MigrationComplete'), MessageLogger :: TYPE_CONFIRM);
+	}
+	
+	function update_migration_block_registration()
+	{
+		$migration_block_registration = $this->get_migration_block_registration();
+		$migration_block_registration->set_is_migrated(1);
+		$migration_block_registration->update();
+	}
+	
+	function get_migration_block_registration()
+	{
+		if(!$this->migration_block_registration)
+		{
+			$this->migration_block_registration = MigrationDataManager :: retrieve_migration_block_registrations_by_name($this->get_block_name());
+		}
+		
+		return $this->migration_block_registration;
+	}
+	
+	// Abstract functions
+	
 	abstract function get_prerequisites();
+	abstract function get_block_name();
 }
