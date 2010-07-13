@@ -161,7 +161,7 @@ abstract class ExternalRepositoryManager extends SubManager
         return null;
     }
 
-    function get_external_repository_browser_gallery_table_cell_renderer()
+    function get_external_repository_browser_gallery_table_cell_renderer($browser)
     {
         return null;
     }
@@ -186,10 +186,10 @@ abstract class ExternalRepositoryManager extends SubManager
     static function retrieve_external_repository_manager()
     {
         $manager = array();
-//        $manager[] = 'fedora';
+        //        $manager[] = 'fedora';
         $manager[] = 'flickr';
         $manager[] = 'google_docs';
-//        $manager[] = 'matterhorn';
+        //        $manager[] = 'matterhorn';
         $manager[] = 'mediamosa';
         $manager[] = 'youtube';
 

@@ -93,26 +93,25 @@ class FlickrExternalRepositoryConnector
 
         $parameters = array();
         $parameters['api_key'] = $this->key;
-        $parameters['per_page'] = 10;
-        $parameters['page'] = 1;
+        $parameters['per_page'] = $count;
+        $parameters['page'] = $offset;
         $parameters['privacy_filter'] = 1;
         $parameters['text '] = 'chamilo';
 
         $licenses = $this->get_licenses();
+        $attributes = 'description,date_upload,owner_name,license,media,original_format';
 
-        $photos = $this->flickr->photos_getRecent(null, $count, $offset);
+        $photos = $this->flickr->photos_getRecent($attributes, $count, $offset);
         $objects = array();
 
         foreach ($photos['photo'] as $photo)
         {
-            $photo_info = $this->flickr->photos_getInfo($photo['id'], $photo['secret']);
-
             $object = new FlickrExternalRepositoryObject();
             $object->set_id($photo['id']);
-            $object->set_title($photo_info['title']);
-            $object->set_description($photo_info['description']);
-            $object->set_created($photo_info['dates']['posted']);
-            $object->set_owner_id($photo_info['owner']['username']);
+            $object->set_title($photo['title']);
+            $object->set_description($photo['description']);
+            $object->set_created($photo['dateupload']);
+            $object->set_owner_id($photo['ownername']);
 
             $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
             $photo_urls = array();
@@ -127,13 +126,13 @@ class FlickrExternalRepositoryConnector
             }
 
             $object->set_urls($photo_urls);
-            $object->set_license($licenses[$photo_info['license']]);
+            $object->set_license($licenses[$photo['license']]);
 
             $types = array();
-            $types[] = $photo_info['media'];
-            if (isset($photo_info['originalformat']))
+            $types[] = $photo['media'];
+            if (isset($photo['original_format']))
             {
-                $types[] = $photo_info['originalformat'];
+                $types[] = $photo['original_format'];
             }
 
             $object->set_type(implode('_', $types));

@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../component/external_repository_browser_gallery_table/external_repository_browser_gallery_table_cell_renderer.class.php';
 
-class StreamingExternalRepositoryBrowserGalleryTableCellRenderer extends ExternalRepositoryBrowserGalleryTableCellRenderer
+class StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer extends ExternalRepositoryBrowserGalleryTableCellRenderer
 {
     /**
      * The repository browser component
@@ -12,7 +12,7 @@ class StreamingExternalRepositoryBrowserGalleryTableCellRenderer extends Externa
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function StreamingExternalRepositoryBrowserGalleryTableCellRenderer($browser)
+    function StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer($browser)
     {
         parent :: __construct();
         $this->browser = $browser;

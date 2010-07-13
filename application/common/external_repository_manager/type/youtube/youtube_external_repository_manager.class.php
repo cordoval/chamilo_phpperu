@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/youtube_external_repository_connector.class.php';
 require_once dirname(__FILE__) . '/table/youtube_external_repository_browser_gallery_table_property_model.class.php';
+require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_browser_gallery_table_cell_renderer.class.php';
 
 class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
 {
@@ -20,7 +21,7 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     {
         return Path :: get_application_library_path() . 'external_repository_manager/type/youtube/component/';
     }
-    
+
     function initiliaze_external_repository()
     {
         YoutubeExternalRepositoryConnector :: get_instance($this);
@@ -56,7 +57,7 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         return $connector->export_youtube_video($object);
     }
 
-    function get_property_model()
+    function get_external_repository_browser_gallery_table_property_model()
     {
         return new YoutubeExternalRepositoryBrowserGalleryPropertyModel();
     }
@@ -222,6 +223,11 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     function get_available_renderers()
     {
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
+    }
+
+    function get_external_repository_browser_gallery_table_cell_renderer($browser)
+    {
+        return new StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer($browser);
     }
 }
 ?>
