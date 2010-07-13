@@ -124,8 +124,12 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         
         $surveys = $this->participants[self :: SURVEYS];
         
-        $worksheet->setCellValueByColumnAndRow($column, $row, 'SurveyName');
-        $worksheet->setCellValueByColumnAndRow($column + 1, $row, 'SurveyDescription');
+        $worksheet->setCellValueByColumnAndRow($column, $row, Translation :: get('SurveyName'));
+        $worksheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column, $row)->getFont()->setBold(true);
+        $worksheet->setCellValueByColumnAndRow($column + 1, $row, Translation :: get('SurveyDescription'));
+        $worksheet->getStyleByColumnAndRow($column + 1, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column + 1, $row)->getFont()->setBold(true);
         $row ++;
         
         foreach ($surveys as $survey)
@@ -142,27 +146,49 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         $row = $row + 2;
         $all_participants = $this->participants[self :: ALL_PARTICIPANT_COUNT];
         $worksheet->setCellValueByColumnAndRow($column, $row, 'Aantal participanten');
+        $worksheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column, $row)->getFont()->setBold(true);
+        
         $worksheet->setCellValueByColumnAndRow($column + 1, $row, $all_participants);
         $row ++;
         $started = $this->participants[self :: STARTED_PARTICIPANT_COUNT];
         $worksheet->setCellValueByColumnAndRow($column, $row, 'Deelgenomen');
+        $worksheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column, $row)->getFont()->setBold(true);
+        
         $worksheet->setCellValueByColumnAndRow($column + 1, $row, $started);
         $row ++;
         $not_started = $this->participants[self :: NOT_STARTED_PARTICIPANT_COUNT];
         $worksheet->setCellValueByColumnAndRow($column, $row, 'Niet deelgenomen');
+        $worksheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column, $row)->getFont()->setBold(true);
+        
         $worksheet->setCellValueByColumnAndRow($column + 1, $row, $not_started);
         $row ++;
         $participatie = $this->participants[self :: PARTICIPATION_GRADE];
         $worksheet->setCellValueByColumnAndRow($column, $row, 'Participatigraad (%)');
+        $worksheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column, $row)->getFont()->setBold(true);
+        
         $worksheet->setCellValueByColumnAndRow($column + 1, $row, $participatie);
         $row = $row + 2;
         
         $worksheet->setCellValueByColumnAndRow($column, $row, 'Aantal participanten');
+        $worksheet->getStyleByColumnAndRow($column, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column, $row)->getFont()->setBold(true);
         $worksheet->setCellValueByColumnAndRow($column + 1, $row, 'Deelgenomen');
+        $worksheet->getStyleByColumnAndRow($column + 1, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column + 1, $row)->getFont()->setBold(true);
         $worksheet->setCellValueByColumnAndRow($column + 2, $row, 'Niet deelgenomen');
+        $worksheet->getStyleByColumnAndRow($column + 2, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column + 2, $row)->getFont()->setBold(true);
         $worksheet->setCellValueByColumnAndRow($column + 3, $row, 'Participatie (%)');
+        $worksheet->getStyleByColumnAndRow($column + 3, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column + 3, $row)->getFont()->setBold(true);
         $worksheet->setCellValueByColumnAndRow($column + 5, $row, 'Groepen');
-        //     
+        $worksheet->getStyleByColumnAndRow($column + 5, $row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+        $worksheet->getStyleByColumnAndRow($column + 5, $row)->getFont()->setBold(true);
+        
         $row = $row + 2;
         
         $groups = $this->participants[self :: GROUPS];
@@ -214,15 +240,28 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                 $block_row = $block_row + 2;
                 
                 $participant_group = $block_data[self :: DATA_GROUP];
+                $participant_count = $block_data[self :: STARTED_PARTICIPANT_COUNT];
                 $block_title = trim(html_entity_decode(strip_tags($block_data[self :: DATA_NAME])));
                 $block_description = trim(html_entity_decode(strip_tags($block_data[self :: DATA_DESCRIPTION])));
                 $block_content_data = $block_data[self :: REPORTING_DATA];
                 
                 $worksheet->setCellValueByColumnAndRow($column, $block_row, $participant_group);
+                $worksheet->getStyleByColumnAndRow($column, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+                $worksheet->getStyleByColumnAndRow($column, $block_row)->getFont()->setBold(true);
                 $this->wrap_text($worksheet, $column, $block_row);
+                
+                $block_row ++;
+                $worksheet->setCellValueByColumnAndRow($column, $block_row, 'Deelnemers');
+                $worksheet->setCellValueByColumnAndRow($column+1, $block_row, $participant_count);
+                $worksheet->getStyleByColumnAndRow($column+1, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+                $worksheet->getStyleByColumnAndRow($column+1, $block_row)->getFont()->setBold(true);
+                
+                
                 $block_row = $block_row + 2;
                 
                 $worksheet->setCellValueByColumnAndRow($column, $block_row, $block_title);
+                $worksheet->getStyleByColumnAndRow($column, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
+                $worksheet->getStyleByColumnAndRow($column, $block_row)->getFont()->setBold(true);
                 $this->wrap_text($worksheet, $column, $block_row);
                 
                 if ($block_description != '')
@@ -240,27 +279,69 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
                     //	dump($row_name);
                     $column ++;
                     $worksheet->getColumnDimensionByColumn($column)->setAutoSize(true);
-                    $worksheet->setCellValueByColumnAndRow($column, $block_row, trim(html_entity_decode(strip_tags($row_name))));
+                    $worksheet->getStyleByColumnAndRow($column, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_CENTER);
+                    $worksheet->getStyleByColumnAndRow($column, $block_row)->getFont()->setBold(true);
+                    $worksheet->setCellValueByColumnAndRow($column, $block_row, trim(html_entity_decode(strip_tags($row_name), ENT_QUOTES)));
                     $this->wrap_text($worksheet, $column, $block_row);
                 
                 }
                 
                 $block_row ++;
                 
+                $row_count = count($block_content_data->get_rows());
+                $category_count = count($block_content_data->get_categories());
+                
+                $categrory_row_index = 1;
+                
+//                dump('row count: ' . $row_count);
+//                dump('cat count: ' . $category_count);
+                
                 foreach ($block_content_data->get_categories() as $category_id => $category_name)
                 {
                     $column = 0;
-                    $worksheet->setCellValueByColumnAndRow($column, $block_row, trim(html_entity_decode(strip_tags($category_name))));
+                    
+                    $worksheet->setCellValueByColumnAndRow($column, $block_row, trim(html_entity_decode(strip_tags($category_name), ENT_QUOTES)));
+                    $worksheet->getStyleByColumnAndRow($column, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_LEFT);
                     $this->wrap_text($worksheet, $column, $block_row);
+                    
+//                    dump('category row index: ' . $categrory_row_index);
+//                    dump('cat row: ' . $block_row);
+                    //                    
+                    
+
+                    if ($categrory_row_index == $category_count && $category_count != 1)
+                    {
+                        $worksheet->getStyleByColumnAndRow($column, $block_row)->getFont()->setBold(true);
+                    }
+                    
+                    $row_index = 1;
+//                    dump('row index: ' . $row_index);
                     
                     foreach ($block_content_data->get_rows() as $row_id => $row_name)
                     {
                         $column ++;
                         $worksheet->setCellValueByColumnAndRow($column, $block_row, $block_content_data->get_data_category_row($category_id, $row_id));
+                        $worksheet->getStyleByColumnAndRow($column, $block_row)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment :: HORIZONTAL_CENTER);
+//                        dump('row index: ' . $row_index);
+//                        dump('row: ' . $block_row);
+                        
+                        if ($row_index == $row_count && $row_count != 1)
+                        {
+                            $worksheet->getStyleByColumnAndRow($column, $block_row)->getFont()->setBold(true);
+                        }
+                        
+                        if ($categrory_row_index == $category_count && $category_count != 1)
+                        {
+                            $worksheet->getStyleByColumnAndRow($column, $block_row)->getFont()->setBold(true);
+                        }
+                        
+                        $row_index ++;
                     }
+                    $categrory_row_index ++;
                     $block_row ++;
                 }
-            
+                
+//                exit();
             }
         
         }
@@ -281,7 +362,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         $reporting_data = $this->create_reporting_data($question, $all_participants_ids);
         
         $reporting_data_question = array();
-        $reporting_data_question[self :: DATA_GROUP] = 'AllGroups';
+        $reporting_data_question[self :: DATA_GROUP] = Translation :: get(AllGroups);
         $reporting_data_question[self :: DATA_NAME] = $question->get_title();
         $reporting_data_question[self :: DATA_DESCRIPTION] = $question->get_description();
         $reporting_data_question[self :: STARTED_PARTICIPANT_COUNT] = $this->participants[self :: STARTED_PARTICIPANT_COUNT];

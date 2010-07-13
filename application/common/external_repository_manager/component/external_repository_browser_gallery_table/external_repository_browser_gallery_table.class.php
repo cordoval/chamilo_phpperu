@@ -16,7 +16,7 @@ class ExternalRepositoryBrowserGalleryTable extends GalleryObjectTable
         $renderer = new ExternalRepositoryBrowserGalleryTableCellRenderer($browser);
         $data_provider = new ExternalRepositoryBrowserGalleryTableDataProvider($browser, $condition);
 
-        $property_model = $browser->get_property_model();
+        $property_model = $browser->get_external_repository_browser_gallery_table_property_model();
         if (! $property_model)
         {
             $property_model = new ExternalRepositoryBrowserGalleryPropertyModel();

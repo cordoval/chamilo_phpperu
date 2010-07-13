@@ -31,6 +31,9 @@ $lang['survey']['Progress'] = 'Progress';
 $lang['survey']['StartTime'] = 'Invitation Date';
 $lang['survey']['total'] = 'Totaal';
 $lang['survey']['count'] = 'Aantal';
+$lang['survey']['AllGroups'] = 'Alle groepen';
+$lang['survey']['SurveyName'] = 'Naam';
+$lang['survey']['SurveyDescription'] = 'Omschrijving';
 
 $lang['survey']['TakeSurvey'] = 'Take survey';
 $lang['survey']['InviteParticipants'] = 'Invite Participants';

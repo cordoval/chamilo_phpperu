@@ -3,6 +3,8 @@ require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
 
 class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
 {
+    const OBJECT_TYPE = 'google_docs';
+    
     const PROPERTY_MODIFIED = 'modified';
     const PROPERTY_VIEWED = 'viewed';
     const PROPERTY_CONTENT = 'content';
@@ -71,6 +73,16 @@ class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
     function get_thumbnail()
     {
         return '';
+    }
+
+    function get_icon_name()
+    {
+        return self :: OBJECT_TYPE . '_' . parent :: get_icon_name();
+    }
+    
+    static function get_object_type()
+    {
+        return self :: OBJECT_TYPE;
     }
 }
 ?>

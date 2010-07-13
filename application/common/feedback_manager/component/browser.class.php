@@ -38,79 +38,48 @@ class FeedbackManagerBrowserComponent extends FeedbackManager
         $action = $this->get_action();
         $html = array();
 
-        if($action == FeedbackManager::ACTION_BROWSE_ONLY_FEEDBACK || $action == FeedbackManager::ACTION_CREATE_ONLY_FEEDBACK)
+       $form = new FeedbackManagerForm($this->get_url());
+
+        if ($form->validate())
         {
-            //don't show the standard quick feedback form, only show the feedback!
-            $html[] = '<h3>' . Translation :: get('PublicationFeedback') . '</h3>';
-            
-                $feedbackpublications = $this->retrieve_feedback_publications($publication_id, $complex_wrapper_id, $application);
-                $feedback_count = AdminDataManager :: get_instance()->count_feedback_publications($publication_id, $complex_wrapper_id, $application);
-                $counter = 0;
-                while ($feedback = $feedbackpublications->next_result())
-                {
-                    $counter ++;
-                    if ($counter == 4)
-                    {
-                        $html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowAllFeedback') . '[' . ($feedback_count - 3) . ']</a><br><br>';
-                        $html[] = '<a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideFeedback') . ')</a>';
-                        $html[] = '<div id="feedbacklist">';
-                    }
-                    $html[] = $this->render_feedback($feedback);
-                }
-                if ($counter > 3)
-                {
-                    $html[] = '</div>';
-                }
-               
-                $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' . '"></script>';
+            $success = $form->create_feedback($this->get_user()->get_id(), $publication_id, $complex_wrapper_id, $application);
+            $this->redirect($success ? "" : Translation :: get('FeedbackNotCreated'), $success ? null : true, array());
 
         }
         else
         {
+            $html[] = '<h3>' . Translation :: get('Feedback') . '</h3>';
+            $this->render_create_action();
 
-            $form = new FeedbackManagerForm($this->get_url());
+            $feedbackpublications = $this->retrieve_feedback_publications($publication_id, $complex_wrapper_id, $application);
+            $feedback_count = AdminDataManager :: get_instance()->count_feedback_publications($publication_id, $complex_wrapper_id, $application);
 
-            if ($form->validate())
+
+            $counter = 0;
+            while ($feedback = $feedbackpublications->next_result())
             {
-                $success = $form->create_feedback($this->get_user()->get_id(), $publication_id, $complex_wrapper_id, $application);
-                $this->redirect($success ? "" : Translation :: get('FeedbackNotCreated'), $success ? null : true, array());
+                $counter ++;
+
+                if ($counter == 4)
+                {
+                    $html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowAllFeedback') . '[' . ($feedback_count - 3) . ']</a><br><br>';
+                    $html[] = '<a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllFeedback') . ')</a>';
+                    $html[] = '<div id="feedbacklist">';
+                }
+                $html[] = $this->render_feedback($feedback);
 
             }
-            else
+
+            if ($counter > 3)
             {
-                $html[] = '<h3>' . Translation :: get('Feedback') . '</h3>';
-                $this->render_create_action();
-
-                $feedbackpublications = $this->retrieve_feedback_publications($publication_id, $complex_wrapper_id, $application);
-                $feedback_count = AdminDataManager :: get_instance()->count_feedback_publications($publication_id, $complex_wrapper_id, $application);
-
-
-                $counter = 0;
-                while ($feedback = $feedbackpublications->next_result())
-                {
-                    $counter ++;
-
-                    if ($counter == 4)
-                    {
-                        $html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowAllFeedback') . '[' . ($feedback_count - 3) . ']</a><br><br>';
-                        $html[] = '<a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('HideAllFeedback') . ')</a>';
-                        $html[] = '<div id="feedbacklist">';
-                    }
-                    $html[] = $this->render_feedback($feedback);
-
-                }
-
-                if ($counter > 3)
-                {
-                    $html[] = '</div>';
-                }
-
-                $html[] = $form->toHtml();
-
-                $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' . '"></script>';
+                $html[] = '</div>';
             }
+
+            $html[] = $form->toHtml();
+
+            $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' . '"></script>';
         }
-        
+
         $this->html = $html;
         
         return implode("\n", $this->html);

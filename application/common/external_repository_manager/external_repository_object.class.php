@@ -4,18 +4,14 @@ abstract class ExternalRepositoryObject
     /**
      * @var array
      */
-    private $default_properties;
-
-    /**
-     * @var array
-     */
-    private $additional_properties;
+    private $defaultProperties;
 
     const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_CREATED = 'created';
+    const PROPERTY_TYPE = 'type';
 
     /**
      * @param array $defaultProperties
@@ -36,6 +32,7 @@ abstract class ExternalRepositoryObject
         $extended_property_names[] = self :: PROPERTY_DESCRIPTION;
         $extended_property_names[] = self :: PROPERTY_OWNER_ID;
         $extended_property_names[] = self :: PROPERTY_CREATED;
+        $extended_property_names[] = self :: PROPERTY_TYPE;
         return $extended_property_names;
     }
 
@@ -108,6 +105,14 @@ abstract class ExternalRepositoryObject
     }
 
     /**
+     * @return string
+     */
+    public function get_type()
+    {
+        return $this->get_default_property(self :: PROPERTY_TYPE);
+    }
+
+    /**
      * @param string $title
      */
     public function set_title($title)
@@ -146,5 +151,29 @@ abstract class ExternalRepositoryObject
     {
         $this->set_default_property(self :: PROPERTY_CREATED, $created);
     }
+
+    /**
+     * @param string $type
+     */
+    public function set_type($type)
+    {
+        $this->set_default_property(self :: PROPERTY_TYPE, $type);
+    }
+
+    /**
+     * Gets the name of the icon corresponding to this external_repository object.
+     */
+    function get_icon_name()
+    {
+        return $this->get_type();
+    }
+
+    function get_icon_image()
+    {
+        $src = Theme :: get_common_image_path() . 'external_repository/' . $this->get_icon_name() . '.png';
+        return '<img src="' . $src . '" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" title="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" />';
+    }
+    
+    abstract static function get_object_type();
 }
 ?>

@@ -49,8 +49,10 @@ class FeedbackManagerUpdaterComponent extends FeedbackManager
             	$pub_feedback->set_modification_date(time());
             	$pub_feedback->update();
             }
+
+                 $this->redirect($success ? Translation :: get('FeedbackUpdated') : Translation :: get('FeedbackNotUpdated'), ! $success, array(FeedbackManager :: PARAM_ACTION => $this->get_parameter(self::PARAM_OLD_ACTION)));
+
             
-            $this->redirect($success ? Translation :: get('FeedbackUpdated') : Translation :: get('FeedbackNotUpdated'), ! $success, array(FeedbackManager :: PARAM_ACTION => FeedbackManager :: ACTION_BROWSE_FEEDBACK));
         
         }
         else

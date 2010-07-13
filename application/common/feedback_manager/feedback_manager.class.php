@@ -15,6 +15,7 @@ class FeedbackManager extends SubManager
 
     const PARAM_ACTION = 'feedback_action';
     const PARAM_FEEDBACK_ID = 'feedback_id';
+    const PARAM_OLD_ACTION = 'previous_feedback_action';
 
     const PARAM_REMOVE_FEEDBACK = 'remove_feedback';
     const ACTION_BROWSE_FEEDBACK = 'browse_feedback';
@@ -39,7 +40,7 @@ class FeedbackManager extends SubManager
         $this->complex_wrapper_id = $complex_wrapper_id;
 
         $action = Request :: get(self :: PARAM_ACTION);
-
+        
         if ($optional_action != null && $action != FeedbackManager :: ACTION_DELETE_FEEDBACK && $action != FeedbackManager :: ACTION_UPDATE_FEEDBACK)
         {
             $this->set_parameter(self :: PARAM_ACTION, $optional_action);
@@ -66,7 +67,7 @@ class FeedbackManager extends SubManager
                 $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_BROWSE_ONLY_FEEDBACK :
-                $component = $this->create_component('Browser');
+                $component = $this->create_component('BrowserOnly');
                 break;
             case self :: ACTION_CREATE_ONLY_FEEDBACK :
                 $component = $this->create_component('Creator');

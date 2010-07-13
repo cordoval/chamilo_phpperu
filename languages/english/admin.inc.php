@@ -445,4 +445,5 @@ $lang['admin']['ContentObjectTitle'] = 'Content object title';
 $lang['admin']['LanguageTitle'] = 'Language title';
 $lang['admin'][''] = '';
 $lang['admin']['SetPortfolioDefaults'] = 'Set default portfolio permissions';
+$lang['admin']['SetPortfolioDefaultsDescription'] = 'Here you can Set the default portfolio permissions for your system';
 ?>

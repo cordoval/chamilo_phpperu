@@ -234,8 +234,9 @@ class GoogleDocsExternalRepositoryConnector
         $objects = array();
         foreach ($documents_feed->entries as $document)
         {
-            $id = $document->getResourceId();
-//            dump($document->getLastViewed());
+            $resource_id = $document->getResourceId();
+            $resource_id = explode(':', $resource_id->getText());
+
             if($document->getLastViewed())
             {
                 $last_viewed = $document->getLastViewed()->getText();
@@ -258,9 +259,10 @@ class GoogleDocsExternalRepositoryConnector
             $modifier = $document->getLastModifiedBy();
 
             $object = new GoogleDocsExternalRepositoryObject();
-            $object->set_id($id->getText());
+            $object->set_id($resource_id[1]);
             $object->set_title($document->getTitle()->getText());
             $object->set_created($published_timestamp);
+            $object->set_type($resource_id[0]);
             $object->set_viewed($last_viewed_timestamp);
             $object->set_modified($modified_timestamp);
             $object->set_owner_id($author->getEmail()->getText());

@@ -265,7 +265,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
         if (! $this->is_configured())
         {
             Display :: error_message(Translation :: get('CheckCASConfiguration'));
-            exit();
+            //exit();
         }
         else
         {
