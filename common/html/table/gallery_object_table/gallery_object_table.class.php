@@ -322,13 +322,17 @@ class GalleryObjectTable
 				$table_data[] = $row;
 				$row = array();
 
-				$row[] = array($object->get_id(), $this->get_cell_renderer()->render_cell($object));
+				//$row[] = array($object->get_id(), $this->get_cell_renderer()->render_cell($object));
+                                $column = new ObjectTableColumn();
+                                $row[] = array($object->get_id(), $this->get_cell_renderer()->render_cell($column, $object));
 				$i = 1;
 			}
 			else
 			{
-				$row[] = array($object->get_id(), $this->get_cell_renderer()->render_cell($object));
-				$i++;
+				//$row[] = array($object->get_id(), $this->get_cell_renderer()->render_cell($object));
+                                $column = new ObjectTableColumn();
+                                $row[] = array($object->get_id(), $this->get_cell_renderer()->render_cell($column, $object));
+                                $i++;
 			}
 		}
 		$table_data[] = $row;
