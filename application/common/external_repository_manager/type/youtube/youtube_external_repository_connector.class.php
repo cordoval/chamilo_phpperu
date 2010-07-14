@@ -58,6 +58,7 @@ class YoutubeExternalRepositoryConnector
         $httpClient = Zend_Gdata_AuthSub :: getHttpClient($session_token);
         //$httpClient->setConfig($config);
 
+
         $client = '';
         $application = PlatformSetting :: get('site_name');
         $key = PlatformSetting :: get('youtube_key', RepositoryManager :: APPLICATION_NAME);
@@ -342,6 +343,9 @@ class YoutubeExternalRepositoryConnector
         {
             $object->set_status(YoutubeExternalRepositoryObject :: STATUS_AVAILABLE);
         }
+
+        $object->set_rights($this->determine_rights($videoEntry));
+
         return $object;
     }
 
@@ -381,20 +385,6 @@ class YoutubeExternalRepositoryConnector
         return $this->youtube->delete($video_entry);
     }
 
-    function is_usable($id)
-    {
-        $video_entry = $this->get_youtube_video_entry($id);
-        $control = $video_entry->getControl();
-        if (isset($control))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
     function export_youtube_video($object)
     {
         $video_entry = new Zend_Gdata_YouTube_VideoEntry();
@@ -421,6 +411,15 @@ class YoutubeExternalRepositoryConnector
         }
         return true;
     }
-}
 
+    function determine_rights($video_entry)
+    {
+        $rights = array();
+        $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = ($video_entry->getEditLink() !== null ? true : false);
+        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = ($video_entry->getEditLink() !== null ? true : false);
+        $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
+        return $rights;
+    }
+}
 ?>

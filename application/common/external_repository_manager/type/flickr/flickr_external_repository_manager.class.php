@@ -73,11 +73,6 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         return $this->get_url($parameters);
     }
 
-    function is_editable($id)
-    {
-        return false;
-    }
-
     function get_menu_items()
     {
         $menu_items = array();

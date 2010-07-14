@@ -44,8 +44,6 @@ abstract class ExternalRepositoryManager extends SubManager
         return is_a($this->get_parent(), LauncherApplication :: CLASS_NAME);
     }
 
-    abstract function is_editable($id);
-
     static function factory($type, $application)
     {
         $file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_external_repository_manager.class.php';
@@ -172,6 +170,42 @@ abstract class ExternalRepositoryManager extends SubManager
     abstract function delete_external_repository_object($id);
 
     abstract function export_external_repository_object($id);
+
+    /**
+     * @param ExternalRepositoryObject $object
+     */
+    function get_external_repository_object_actions(ExternalRepositoryObject $object)
+    {
+        $toolbar_items = array();
+
+        if ($object->is_editable())
+        {
+            $toolbar_items[] = new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(
+                    self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_EDIT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $id)));
+        }
+
+        if ($object->is_deletable())
+        {
+            $toolbar_items[] = new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(
+                    self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_DELETE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $id)));
+        }
+
+        if ($object->is_usable())
+        {
+            if ($this->is_stand_alone())
+            {
+                $toolbar_items[] = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(
+                        self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SELECT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $id)));
+            }
+            else
+            {
+                $toolbar_items[] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(
+                        self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $id)));
+            }
+        }
+
+        return $toolbar_items;
+    }
 
     static function retrieve_external_repository_manager()
     {

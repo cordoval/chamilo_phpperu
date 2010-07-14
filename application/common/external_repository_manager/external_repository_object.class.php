@@ -4,7 +4,7 @@ abstract class ExternalRepositoryObject
     /**
      * @var array
      */
-    private $defaultProperties;
+    private $default_properties;
 
     const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
@@ -12,13 +12,19 @@ abstract class ExternalRepositoryObject
     const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_CREATED = 'created';
     const PROPERTY_TYPE = 'type';
+    const PROPERTY_RIGHTS = 'rights';
+
+    const RIGHT_EDIT = 1;
+    const RIGHT_DELETE = 2;
+    const RIGHT_USE = 3;
+    const RIGHT_DOWNLOAD = 4;
 
     /**
-     * @param array $defaultProperties
+     * @param array $default_properties
      */
-    function ExternalRepositoryObject($defaultProperties = array ())
+    function ExternalRepositoryObject($default_properties = array ())
     {
-        $this->defaultProperties = $defaultProperties;
+        $this->default_properties = $default_properties;
     }
 
     /**
@@ -33,6 +39,7 @@ abstract class ExternalRepositoryObject
         $extended_property_names[] = self :: PROPERTY_OWNER_ID;
         $extended_property_names[] = self :: PROPERTY_CREATED;
         $extended_property_names[] = self :: PROPERTY_TYPE;
+        $extended_property_names[] = self :: PROPERTY_RIGHTS;
         return $extended_property_names;
     }
 
@@ -43,7 +50,7 @@ abstract class ExternalRepositoryObject
      */
     function get_default_property($name)
     {
-        return (isset($this->defaultProperties) && array_key_exists($name, $this->defaultProperties)) ? $this->defaultProperties[$name] : null;
+        return (isset($this->default_properties) && array_key_exists($name, $this->default_properties)) ? $this->default_properties[$name] : null;
     }
 
     /**
@@ -61,12 +68,12 @@ abstract class ExternalRepositoryObject
      */
     function set_default_property($name, $value)
     {
-        $this->defaultProperties[$name] = $value;
+        $this->default_properties[$name] = $value;
     }
 
     function get_default_properties()
     {
-        return $this->defaultProperties;
+        return $this->default_properties;
     }
 
     /**
@@ -118,6 +125,36 @@ abstract class ExternalRepositoryObject
     }
 
     /**
+     * @return array
+     */
+    public function get_rights()
+    {
+        return $this->get_default_property(self :: PROPERTY_RIGHTS);
+    }
+
+    /**
+     * @param int $right
+     * @return boolean
+     */
+    private function get_right($right)
+    {
+        $rights = $this->get_rights();
+        if (! in_array($right, array_keys($rights)))
+        {
+            return false;
+        }
+        else
+        {
+            return $rights[$right];
+        }
+    }
+
+    public static function get_available_rights()
+    {
+        return array(self :: RIGHT_DELETE, self :: RIGHT_DOWNLOAD, self :: RIGHT_EDIT, self :: RIGHT_USE);
+    }
+
+    /**
      * @param string $title
      */
     public function set_title($title)
@@ -166,6 +203,25 @@ abstract class ExternalRepositoryObject
     }
 
     /**
+     * @param array $rights
+     */
+    public function set_rights($rights)
+    {
+        $this->set_default_property(self :: PROPERTY_RIGHTS, $rights);
+    }
+
+    /**
+     * @param int $right
+     * @param boolean $value
+     */
+    public function set_right($right, $value)
+    {
+        $rights = $this->get_rights();
+        $rights[$right] = $value;
+        $this->set_rights($rights);
+    }
+
+    /**
      * Gets the name of the icon corresponding to this external_repository object.
      */
     function get_icon_name()
@@ -180,5 +236,25 @@ abstract class ExternalRepositoryObject
     }
 
     abstract static function get_object_type();
+
+    function is_usable()
+    {
+        return $this->get_right(self :: RIGHT_USE);
+    }
+
+    function is_editable()
+    {
+        return $this->get_right(self :: RIGHT_EDIT);
+    }
+
+    function is_deletable()
+    {
+        return $this->get_right(self :: RIGHT_DELETE);
+    }
+
+    function is_downloadable()
+    {
+        return $this->get_right(self :: RIGHT_DOWNLOAD);
+    }
 }
 ?>

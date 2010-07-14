@@ -29,7 +29,15 @@ class PropertiesTable extends HTML_Table
             {
                 $contents = array();
                 $contents[] = $property;
-                $contents[] = $value;
+
+                if($value)
+                {
+                    $contents[] = $value;
+                }
+                else
+                {
+                    $contents[] = '-';
+                }
 
                 $this->addRow($contents);
             }

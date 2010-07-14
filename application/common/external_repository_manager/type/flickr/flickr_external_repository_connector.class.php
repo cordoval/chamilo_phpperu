@@ -25,6 +25,7 @@ class FlickrExternalRepositoryConnector
     private $secret;
 
     private $licenses;
+    private $user_id;
 
     function FlickrExternalRepositoryConnector($manager)
     {
@@ -91,6 +92,17 @@ class FlickrExternalRepositoryConnector
         }
 
         return $this->licenses;
+    }
+
+    function retrieve_user_id()
+    {
+        if (! isset($this->user_id))
+        {
+            $hidden = $this->flickr->prefs_getHidden();
+            $this->user_id = $hidden['nsid'];
+        }
+
+        return $this->user_id;
     }
 
     function retrieve_photos($condition = null, $order_property, $offset, $count)
@@ -174,8 +186,9 @@ class FlickrExternalRepositoryConnector
             {
                 $types[] = $photo['original_format'];
             }
-
             $object->set_type(implode('_', $types));
+
+            $object->set_rights($this->determine_rights($photo['license'], $photo['owner']));
 
             $objects[] = $object;
         }
@@ -256,8 +269,6 @@ class FlickrExternalRepositoryConnector
         $licenses = $this->retrieve_licenses();
         $photo = $this->flickr->photos_getInfo($id);
 
-//        dump($photo);
-
         $object = new FlickrExternalRepositoryObject();
         $object->set_id($photo['id']);
         $object->set_title($photo['title']);
@@ -266,7 +277,7 @@ class FlickrExternalRepositoryConnector
         $object->set_owner_id($photo['owner']['username']);
 
         $tags = array();
-        foreach($photo['tags']['tag'] as $tag)
+        foreach ($photo['tags']['tag'] as $tag)
         {
             $tags[] = array('display' => $tag['raw'], 'text' => $tag['_content']);
         }
@@ -293,10 +304,26 @@ class FlickrExternalRepositoryConnector
         {
             $types[] = $photo['originalformat'];
         }
-
         $object->set_type(implode('_', $types));
 
+        $object->set_rights($this->determine_rights($photo['license'], $photo['owner']['nsid']));
+
         return $object;
+    }
+
+    function determine_rights($license, $photo_user_id)
+    {
+        $users_match = ($this->retrieve_user_id() == $photo_user_id ? true : false);
+        //$compatible_license = ($license == 0 ? false : true);
+        $compatible_license = true;
+
+        $rights = array();
+        $rights[ExternalRepositoryObject :: RIGHT_USE] = $compatible_license || $users_match;
+        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = $users_match;
+        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = $users_match;
+        $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = $compatible_license || $users_match;
+
+        return $rights;
     }
 }
 ?>

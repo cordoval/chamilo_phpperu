@@ -8,10 +8,31 @@ class Toolbar
     const TYPE_HORIZONTAL = 'horizontal';
     const TYPE_VERTICAL = 'vertical';
 
+    /**
+     * @var array
+     */
     private $items = array();
+
+    /**
+     * @var array
+     */
     private $class_names = array();
+
+    /**
+     * @var string
+     */
     private $css = null;
 
+    /**
+     * @var string
+     */
+    private $type;
+
+    /**
+     * @param string $type
+     * @param array $class_names
+     * @param string $css
+     */
     function Toolbar($type = self :: TYPE_HORIZONTAL, $class_names = array(), $css = null)
     {
         $this->type = $type;
@@ -19,21 +40,41 @@ class Toolbar
         $this->css = $css;
     }
 
-    function set_items($items)
+    /**
+     * @param array $items
+     */
+    function set_items(array $items)
     {
         $this->items = $items;
     }
 
+    /**
+     * @return array:
+     */
     function get_items()
     {
-    	return $this->items;
+        return $this->items;
     }
 
-    function add_item($item)
+    /**
+     * @param ToolbarItem $item
+     */
+    function add_item(ToolbarItem $item)
     {
         $this->items[] = $item;
     }
 
+    /**
+     * @param ToolbarItem $item
+     */
+    function prepend_item(ToolbarItem $item)
+    {
+        array_unshift($this->items, $item);
+    }
+
+    /**
+     * @param array $items
+     */
     function add_items($items)
     {
         foreach ($items as $item)
@@ -42,16 +83,25 @@ class Toolbar
         }
     }
 
+    /**
+     * @param string $type
+     */
     function set_type($type)
     {
         $this->type = $type;
     }
 
+    /**
+     * @return string
+     */
     function get_type()
     {
         return $this->type;
     }
 
+    /**
+     * @return string
+     */
     function as_html()
     {
         $toolbar_data = $this->items;
@@ -89,6 +139,7 @@ class Toolbar
         $html[] = '</ul>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
+
         return implode($html);
     }
 }

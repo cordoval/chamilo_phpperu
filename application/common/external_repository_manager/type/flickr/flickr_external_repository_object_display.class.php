@@ -8,23 +8,9 @@ class FlickrExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
     {
         $object = $this->get_object();
 
-        $properties = array();
-        $properties[Translation :: get('Title')] = $object->get_title();
-
-        if ($object->get_description())
-        {
-            $properties[Translation :: get('Description')] = $object->get_description();
-        }
-
+        $properties = parent :: get_display_properties();
         $properties[Translation :: get('AvailableSizes')] = $object->get_available_sizes_string();
-        $properties[Translation :: get('UploadedOn')] = DatetimeUtilities :: format_locale_date(null, $object->get_created());
-        $properties[Translation :: get('Owner')] = $object->get_owner_id();
-
-        if ($object->get_tags_string())
-        {
-            $properties[Translation :: get('Tags')] = $object->get_tags_string();
-        }
-
+        $properties[Translation :: get('Tags')] = $object->get_tags_string();
         $properties[Translation :: get('License')] = $object->get_license_string();
 
         return $properties;
