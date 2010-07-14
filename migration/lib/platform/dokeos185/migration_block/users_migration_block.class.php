@@ -19,7 +19,7 @@ class UsersMigrationBlock extends MigrationBlock
 	
 	function get_data_classes()
 	{
-		return array(new Dokeos185User(), new Dokeos185Class());
+		return array(new Dokeos185User());
 	}
 	
 	function get_block_name()

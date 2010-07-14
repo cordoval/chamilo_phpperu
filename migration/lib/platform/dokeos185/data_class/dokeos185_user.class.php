@@ -484,17 +484,15 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function is_valid()
     { 
-    	$this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'user', 'ID' => $this->get_user_id())));
-    	return;
-        $lcms_users = $parameters['lcms_users'];
-        $mgdm = MigrationDataManager :: get_instance();
-
         if (! $this->get_username() || ! $this->get_password() || ! $this->get_status())
         {
-            $mgdm->add_failed_element($this->get_user_id(), 'dokeos_main.user');
-
+            $this->create_failed_element($this->get_user_id());
+			$this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'user', 'ID' => $this->get_user_id())));
+			
             return false;
         }
+        
+        return true;
 
         $index = 0;
         $user = $this->username_exists($lcms_users, $this->get_username());
@@ -518,19 +516,10 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         {
             $firstuser->set_username($newusername);
             $firstuser->update();
-            /*mail($firstuser->get_email(),'Login for Dokeos changed',
-			'Because we upgraded dokeos to a newer version we were obligated\r\n
-			 to change your login name\r\n
-			 new login: ' . $firstuser->get_username());*/
+
+            //TODO: mail the user of his changes to his username
         }
 
-        $parameters = array();
-        unset($parameters);
-        unset($firstuser);
-        unset($newusername);
-        unset($user);
-        unset($index);
-        unset($mgdm);
         return true;
     }
 

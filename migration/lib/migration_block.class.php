@@ -236,7 +236,7 @@ abstract class MigrationBlock
 			return false;
 		}
 		
-		$object->convert();
+		$object->convert_data();
 		
 		return true;
 	}
