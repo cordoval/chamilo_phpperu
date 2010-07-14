@@ -69,7 +69,7 @@ class StreamingVideoClipForm extends ContentObjectForm
     {
         $object = $this->get_content_object();
         $rdm = RightsDataManager :: get_instance();
-        $mmc = new MediamosaStreamingMediaConnector($object->get_server_id());
+        $mmc = new MediamosaExternalRepositoryConnector($object->get_server_id());
         $rights = array();
         
         $location = RepositoryRights :: get_location_id_by_identifier('content_object', $object->get_id(), Session :: get_user_id(), 'user_tree');
