@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../../table/default_external_repository_gallery_object_table_cell_renderer.class.php';
 
-class MediamosaExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRepositoryObjectTableCellRenderer
+class MediamosaExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRepositoryGalleryObjectTableCellRenderer
 {
     /**
      * The repository browser component
@@ -18,7 +18,7 @@ class MediamosaExternalRepositoryGalleryTableCellRenderer extends DefaultExterna
         $this->browser = $browser;
     }
 
-    function render_cell($column, $mediamosa_object)
+    function render_cell($mediamosa_object)
     {
           $html[] = '<div style="width: 20px; float: right;">';
           $html[] = $this->get_modification_links($mediamosa_object);

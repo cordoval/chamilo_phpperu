@@ -126,6 +126,9 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
             case ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Viewer', $this);
                 break;
+            case ExternalRepositoryManager :: ACTION_IMPORT_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Importer', $this);
+                break;
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);

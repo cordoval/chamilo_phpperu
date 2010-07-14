@@ -1,5 +1,5 @@
 <?php
-class YoutubeExternalRepositoryManagerImporterComponent extends YoutubeExternalRepositoryManager
+class FlickrExternalRepositoryManagerImporterComponent extends FlickrExternalRepositoryManager
 {
 
     function run()
@@ -8,16 +8,16 @@ class YoutubeExternalRepositoryManagerImporterComponent extends YoutubeExternalR
         $importer->run();
     }
 
-    function import_external_repository_object($object)
+    function import_external_repository_object($external_object)
     {
-        $youtube = ContentObject :: factory(Youtube :: get_type_name());
-        $youtube->set_title($object->get_title());
-        $youtube->set_description($object->get_description());
-        $youtube->set_url('http://www.youtube.com/watch?v=' . $object->get_id());
-        $youtube->set_height(344);
-        $youtube->set_width(425);
-        $youtube->set_owner_id($this->get_user_id());
-        if ($youtube->create())
+        $image = ContentObject :: factory(Document :: get_type_name());
+        $image->set_title($external_object->get_title());
+        $image->set_description($external_object->get_description());
+        $image->set_owner_id($this->get_user_id());
+        $image->set_filename($external_object->get_id() . '.jpg');
+        $image->set_in_memory_file(file_get_contents($external_object->get_url(FlickrExternalRepositoryObject :: SIZE_LARGE)));
+        
+        if ($image->create())
         {
             $parameters = $this->get_parameters();
             $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
@@ -27,7 +27,7 @@ class YoutubeExternalRepositoryManagerImporterComponent extends YoutubeExternalR
         {
             $parameters = $this->get_parameters();
             $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
-            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
+            $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
             $this->redirect(Translation :: get('ImportFailed'), true, $parameters);
         }
     
