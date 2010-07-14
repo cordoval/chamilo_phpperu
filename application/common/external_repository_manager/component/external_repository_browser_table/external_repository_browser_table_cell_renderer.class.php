@@ -27,7 +27,7 @@ class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalReposito
 
     // Inherited
     function render_cell($column, $content_object)
-        
+
     {//$html[] = '<h3>' . Utilities ::truncate_string($object->get_title(), 25) . '</h3>';
         if ($column === ExternalRepositoryBrowserTableColumnModel :: get_modification_column())
         {
@@ -52,9 +52,10 @@ class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalReposito
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($content_object)
+    private function get_modification_links($external_repository_object)
     {
         $toolbar = new Toolbar();
+        $toolbar->add_items($this->browser->get_external_repository_object_actions($external_repository_object));
         return $toolbar->as_html();
     }
 }
