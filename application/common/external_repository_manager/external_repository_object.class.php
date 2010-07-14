@@ -64,6 +64,11 @@ abstract class ExternalRepositoryObject
         $this->defaultProperties[$name] = $value;
     }
 
+    function get_default_properties()
+    {
+        return $this->defaultProperties;
+    }
+
     /**
      * @return string
      */
@@ -173,7 +178,7 @@ abstract class ExternalRepositoryObject
         $src = Theme :: get_common_image_path() . 'external_repository/' . $this->get_icon_name() . '.png';
         return '<img src="' . $src . '" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" title="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" />';
     }
-    
+
     abstract static function get_object_type();
 }
 ?>

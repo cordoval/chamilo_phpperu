@@ -209,6 +209,8 @@ class GalleryTable extends HTML_Table
      */
     function as_html($empty_table = false)
     {
+        $html = array();
+
         $empty_table = false;
         if ($this->get_total_number_of_items() == 0)
         {
@@ -219,32 +221,45 @@ class GalleryTable extends HTML_Table
         }
         if (! $empty_table)
         {
+            $property_model = $this->get_table_properties();
+
             $page = $this->get_page_select_form();
-            $sort = $this->get_sort_select_form();
-            if ($this->enable_order_directions)
-            {
-                $direction = $this->get_direction_select_form();
-            }
+//            $sort = $this->get_sort_select_form();
+//            if ($this->enable_order_directions)
+//            {
+//                $direction = $this->get_direction_select_form();
+//            }
             $nav = $this->get_navigation_html();
 
-            $html = '<table style="width:100%;">';
-            $html .= '<tr>';
-            $html .= '<td style="width:25%;">';
-            $html .= $page;
-            $html .= $sort;
-            $html .= $direction;
-            $html .= '</td>';
-            $html .= '<td style="text-align:center;">';
-            $html .= $this->get_table_title();
-            $html .= '</td>';
-            $html .= '<td style="text-align:right;width:25%;">';
-            $html .= $nav;
-            $html .= '</td>';
-            $html .= '</tr>';
-            $html .= '</table>';
+            $html[] = '<table style="width:100%;">';
+            $html[] = '<tr>';
+            $html[] = '<td style="width:25%;">';
+            $html[] = $page;
+
+            if ($property_model && count($property_model->get_properties()) > 0)
+            {
+                $html[] = $this->get_sort_select_form();
+
+                if ($this->enable_order_directions)
+                {
+                    $html[] = $this->get_direction_select_form();
+                }
+            }
+
+//            $html[] = $sort;
+//            $html[] = $direction;
+            $html[] = '</td>';
+            $html[] = '<td style="text-align:center;">';
+            $html[] = $this->get_table_title();
+            $html[] = '</td>';
+            $html[] = '<td style="text-align:right;width:25%;">';
+            $html[] = $nav;
+            $html[] = '</td>';
+            $html[] = '</tr>';
+            $html[] = '</table>';
             if (count($this->form_actions))
             {
-                $html .= '<script type="text/javascript">
+                $html[] = '<script type="text/javascript">
 							/* <![CDATA[ */
 							function setCheckbox(formName, value) {
 								var d = document[formName];
@@ -266,43 +281,43 @@ class GalleryTable extends HTML_Table
 							</script>';
                 $params = $this->get_gallery_table_param_string . '&amp;' . $this->get_additional_url_paramstring();
 
-                $html .= '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?' . $params . '" name="form_' . $this->table_name . '"  onsubmit="return anyCheckboxChecked(\'form_' . $this->table_name . '\') &amp;&amp; confirm(\'' . addslashes(htmlentities(Translation :: get("ConfirmYourChoice"))) . '\');">';
+                $html[] = '<form method="post" action="' . $_SERVER['PHP_SELF'] . '?' . $params . '" name="form_' . $this->table_name . '"  onsubmit="return anyCheckboxChecked(\'form_' . $this->table_name . '\') &amp;&amp; confirm(\'' . addslashes(htmlentities(Translation :: get("ConfirmYourChoice"))) . '\');">';
             }
         }
-        $html .= $this->get_table_html();
+        $html[] = $this->get_table_html();
         if (! $empty_table)
         {
-            $html .= '<table style="width:100%;">';
-            $html .= '<tr>';
-            $html .= '<td colspan="2">';
+            $html[] = '<table style="width:100%;">';
+            $html[] = '<tr>';
+            $html[] = '<td colspan="2">';
             if (count($this->form_actions))
             {
-                $html .= '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a> - ';
-                $html .= '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a> ';
-                $html .= '<select name="action">';
+                $html[] = '<a href="?' . $params . '&amp;' . $this->param_prefix . 'selectall=1" onclick="setCheckbox(\'form_' . $this->table_name . '\', true); return false;">' . Translation :: get('SelectAll') . '</a> - ';
+                $html[] = '<a href="?' . $params . '"  onclick="setCheckbox(\'form_' . $this->table_name . '\', false); return false;">' . Translation :: get('UnSelectAll') . '</a> ';
+                $html[] = '<select name="action">';
                 foreach ($this->form_actions as $action => $label)
                 {
-                    $html .= '<option value="' . $action . '">' . $label . '</option>';
+                    $html[] = '<option value="' . $action . '">' . $label . '</option>';
                 }
-                $html .= '</select>';
-                $html .= '<input type="submit" value="' . Translation :: get('Ok') . '"/>';
+                $html[] = '</select>';
+                $html[] = '<input type="submit" value="' . Translation :: get('Ok') . '"/>';
             }
             else
             {
-                $html .= $form;
+                $html[] = $form;
             }
-            $html .= '</td>';
-            $html .= '<td style="text-align:right;">';
-            $html .= $nav;
-            $html .= '</td>';
-            $html .= '</tr>';
-            $html .= '</table>';
+            $html[] = '</td>';
+            $html[] = '<td style="text-align:right;">';
+            $html[] = $nav;
+            $html[] = '</td>';
+            $html[] = '</tr>';
+            $html[] = '</table>';
             if (count($this->form_actions) > 0)
             {
-                $html .= '</form>';
+                $html[] = '</form>';
             }
         }
-        return $html;
+        return implode("\n", $html);
     }
 
     /**
@@ -404,7 +419,7 @@ class GalleryTable extends HTML_Table
         $property_model = $this->get_table_properties();
         $result = array();
 
-        if ($property_model)
+        if ($property_model && count($property_model->get_properties()) > 0)
         {
             $result[] = '<form method="get" action="' . $_SERVER['PHP_SELF'] . '" style="display:inline;">';
             $param[$this->param_prefix . 'page_nr'] = $this->page_nr;
@@ -424,15 +439,15 @@ class GalleryTable extends HTML_Table
                 }
             }
 
-            $result[] = '<select name="' . $this->param_prefix . 'property" onchange="javascript:this.form.submit();">';
-
             $properties = $property_model->get_properties();
+
+            $result[] = '<select name="' . $this->param_prefix . 'property" onchange="javascript:this.form.submit();">';
             foreach ($properties as $index => $property)
             {
                 $result[] = '<option value="' . $index . '" ' . ($index == $this->property ? 'selected="selected"' : '') . '>' . Translation :: get(Utilities :: underscores_to_camelcase($property->get_name())) . '</option>';
             }
-
             $result[] = '</select>';
+
             $result[] = '<noscript>';
             $result[] = '<input type="submit" value="ok"/>';
             $result[] = '</noscript>';
@@ -446,32 +461,39 @@ class GalleryTable extends HTML_Table
      */
     function get_direction_select_form()
     {
-        $result[] = '<form method="get" action="' . $_SERVER['PHP_SELF'] . '" style="display:inline;">';
-        $param[$this->param_prefix . 'page_nr'] = $this->page_nr;
-        $param[$this->param_prefix . 'property'] = $this->property;
-        $param = array_merge($param, $this->additional_parameters);
-        foreach ($param as $key => $value)
+        $property_model = $this->get_table_properties();
+        $result = array();
+
+        if ($property_model && count($property_model->get_properties()) > 0)
         {
-            if (is_array($value))
+            $result[] = '<form method="get" action="' . $_SERVER['PHP_SELF'] . '" style="display:inline;">';
+            $param[$this->param_prefix . 'page_nr'] = $this->page_nr;
+            $param[$this->param_prefix . 'property'] = $this->property;
+            $param = array_merge($param, $this->additional_parameters);
+
+            foreach ($param as $key => $value)
             {
-                $ser = self :: serialize_array($value, $key);
-                $result = array_merge($result, $ser);
+                if (is_array($value))
+                {
+                    $ser = self :: serialize_array($value, $key);
+                    $result = array_merge($result, $ser);
+                }
+                else
+                {
+                    $result[] = '<input type="hidden" name="' . $key . '" value="' . $value . '"/>';
+                }
             }
-            else
-            {
-                $result[] = '<input type="hidden" name="' . $key . '" value="' . $value . '"/>';
-            }
+
+            $result[] = '<select name="' . $this->param_prefix . 'direction" onchange="javascript:this.form.submit();">';
+            $result[] = '<option value="' . SORT_ASC . '" ' . (SORT_ASC == $this->direction ? 'selected="selected"' : '') . '>' . Translation :: get('ASC') . '</option>';
+            $result[] = '<option value="' . SORT_DESC . '" ' . (SORT_DESC == $this->direction ? 'selected="selected"' : '') . '>' . Translation :: get('DESC') . '</option>';
+            $result[] = '</select>';
+            $result[] = '<noscript>';
+            $result[] = '<input type="submit" value="ok"/>';
+            $result[] = '</noscript>';
+            $result[] = '</form>';
         }
-        $result[] = '<select name="' . $this->param_prefix . 'direction" onchange="javascript:this.form.submit();">';
-        $result[] = '<option value="' . SORT_ASC . '" ' . (SORT_ASC == $this->direction ? 'selected="selected"' : '') . '>' . Translation :: get('ASC') . '</option>';
-        $result[] = '<option value="' . SORT_DESC . '" ' . (SORT_DESC == $this->direction ? 'selected="selected"' : '') . '>' . Translation :: get('DESC') . '</option>';
-        $result[] = '</select>';
-        $result[] = '<noscript>';
-        $result[] = '<input type="submit" value="ok"/>';
-        $result[] = '</noscript>';
-        $result[] = '</form>';
-        $result = implode("\n", $result);
-        return $result;
+        return implode("\n", $result);
     }
 
     /**

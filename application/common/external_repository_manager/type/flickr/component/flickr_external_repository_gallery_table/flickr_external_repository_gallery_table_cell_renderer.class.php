@@ -79,7 +79,7 @@ class FlickrExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRe
                 $toolbar->add_item($toolbar_item_select);
             }
 //        }
-        
+
         return $toolbar->as_html();
     }
 }

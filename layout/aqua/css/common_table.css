@@ -39,8 +39,15 @@
 	padding: 6px 10px 6px 10px;
 	vertical-align: top;
 	width: 10%;
-	background: #d4e0f1 url(../images/common/background_table_header.png)
+	background: #C6D6ED url(../images/common/background_table_header.png)
 		repeat-x;
+}
+
+.data_table tr.row_even td.header
+{
+	background: #EBEBEB url(../images/common/background_table_header_grey.png)
+		repeat-x;
+	color: #7b7b7b;
 }
 
 .data_table tr.row_even,div.row_even {

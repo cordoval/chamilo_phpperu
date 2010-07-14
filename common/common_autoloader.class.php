@@ -104,6 +104,7 @@ class CommonAutoloader
 					  'toolbar' => 'toolbar/toolbar.class.php',
 					  'toolbar_item' => 'toolbar/toolbar_item.class.php',
 					  'simple_table' => 'table/simple_table.class.php',
+					  'properties_table' => 'table/properties_table.class.php',
 					  'gallery_table' => 'table/gallery_table.class.php',
 					  'gallery_table_from_array' => 'table/gallery_table.class.php',
 					  'sortable_table' => 'table/sortable_table.class.php',

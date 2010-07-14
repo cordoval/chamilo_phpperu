@@ -16,6 +16,11 @@ img {
 	border: none;
 }
 
+img.with_border
+{
+	border: 1px solid #c0c0c0;
+}
+
 #outerframe {
 	position: relative; /* do not remove, fixes a bug in IE */
 	border: 0px solid #fff;
@@ -2277,3 +2282,4 @@ div.create_block {
 #repository_tree_container {
 	overflow: auto;
 }
+
