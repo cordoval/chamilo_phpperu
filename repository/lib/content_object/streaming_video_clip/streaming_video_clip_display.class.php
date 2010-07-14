@@ -13,28 +13,44 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
 {
     private $mediamosa_object;
     private $mediamosa_external_repository_connector;
+    private $connection_lost;
 
     const PARAM_MEDIAFILE = 'mediafile_id';
 
     function get_full_html()
     {
+        $this->set_mediamosa_object();
+
         $html = parent :: get_full_html();
 
-        $video_element = $this->get_video_player_as_html();
+        if(!$this->connection_lost)
+        {
+             $video_element = $this->get_video_player_as_html();
 
-        $additional_properties = $this->get_additional_properties();
+            $additional_properties = $this->get_additional_properties();
 
-        return str_replace(self :: DESCRIPTION_MARKER, '<div class="link_url" style="margin-top: 1em;">' . $video_element . '<br/>' .$additional_properties. '</div>' . self :: DESCRIPTION_MARKER, $html);
+            return str_replace(self :: DESCRIPTION_MARKER, '<div class="link_url" style="margin-top: 1em;">' . $video_element . '<br/>' .$additional_properties. '</div>' . self :: DESCRIPTION_MARKER, $html);
+        }
+        else
+        {
+            return '<div>' . Translation :: get('ConnectionLost') . '</div>';
+        }
+
     }
     
     function set_mediamosa_object()
     {
-       
-        if(!$this->mediamosa_object)
+        if(!$this->mediamosa_external_repository_connector)
         {
             $object = $this->get_content_object();
             $this->mediamosa_external_repository_connector = new MediamosaExternalRepositoryConnector($object->get_server_id());
-            $this->mediamosa_object = $this->mediamosa_external_repository_connector->retrieve_mediamosa_asset($object->get_asset_id());
+        }
+        
+        if(!$this->mediamosa_object)
+        {
+            if(!$this->mediamosa_object = $this->mediamosa_external_repository_connector->retrieve_mediamosa_asset($object->get_asset_id())){
+                $this->connection_lost = true;
+            }
         }
     }
 
@@ -65,7 +81,7 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
             }
             else
             {
-                $output = Translation :: get('video_not_available');
+                $output = Translation :: get('VideoNotAvailable');
             }
             return $output;
 	}
@@ -77,7 +93,7 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
             $html = array();
             $i = 1;
             $html[] = '<tr><td class="header">' . Translation :: get('Available versions').'</td></tr>';
-xdebug_break();
+
             if(is_array($mediafiles))
             {
                 foreach($mediafiles as $mediafile)

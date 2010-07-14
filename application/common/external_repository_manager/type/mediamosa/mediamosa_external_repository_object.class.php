@@ -22,6 +22,8 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
     const PROPERTY_THUMBNAIL = 'thumbnail';
     const PROPERTY_STATUS = 'status';
     const PROPERTY_DURATION = 'duration';
+    const PROPERTY_OWNER_ID = 'owner_id';
+    const PROPERTY_IS_USABLE = 'is_usable';
 
     const STATUS_UNAVAILABLE = 'unavailable';
     const STATUS_AVAILABLE = 'available';
@@ -164,9 +166,30 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
         return $this->get_default_property(self :: PROPERTY_DURATION);
     }
 
+    function set_usable($usable)
+    {
+        $this->set_default_property(self ::PROPERTY_IS_USABLE, $usable);
+    }
+
+    function get_usable()
+    {
+        return $this->get_default_property(self :: PROPERTY_IS_USABLE);
+    }
+
+    function set_owner_id($owner_id)
+    {
+        $this->set_default_property(self ::PROPERTY_OWNER_ID, $owner_id);
+    }
+
+    function get_owner_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_OWNER_ID);
+    }
+
     function is_usable()
     {
-        return true;
+        return $this->get_usable();
+        //return true;
     }
  static function get_object_type()
     {
