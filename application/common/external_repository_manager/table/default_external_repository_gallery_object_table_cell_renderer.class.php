@@ -19,11 +19,10 @@ class DefaultExternalRepositoryGalleryObjectTableCellRenderer implements Gallery
     function render_cell($object)
     {
         $html = array();
-
-        $html[] = '<h3>' . $object->get_title() . ' (' . Utilities :: format_seconds_to_minutes($object->get_duration()) .')</h3>';
-        $html[] = '<img src="' . $object->get_thumbnail() . '"/><br/>';
-        $html[] = '<i>' . Utilities ::truncate_string($object->get_description(), 100) . '</i><br/>';
-
+        $html[] = '<div style="width: 20px; float: right;">';
+        $html[] = $this->get_modification_links($object);
+        $html[] = '</div>';
+        $html[] = $this->get_cell_content($object);
         return implode("\n", $html);
     }
 

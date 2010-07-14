@@ -13,7 +13,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
     {
         return Path :: get_application_library_path() . 'external_repository_manager/type/google_docs/component/';
     }
-    
+
     function initiliaze_external_repository()
     {
         GoogleDocsExternalRepositoryConnector :: get_instance($this);
@@ -69,93 +69,16 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
     function is_editable($id)
     {
         return false;
-//        $connector = GoogleDocsExternalRepositoryConnector :: get_instance($this);
-//        return $connector->is_editable($id);
     }
 
     function get_menu_items()
     {
         $menu_items = array();
-//        $browser = array();
-//        $browser['title'] = Translation :: get('YoutubeBrowse');
-//        $browser['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
-//        $browser['class'] = 'home';
-//        $menu_items[] = $browser;
-//
-//        $my_videos = array();
-//        $my_videos['title'] = Translation :: get('MyVideos');
-//        $my_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MYVIDEOS), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
-//        $my_videos['class'] = 'user';
-//        $menu_items[] = $my_videos;
-//
-//        $standard_feeds = array();
-//        $standard_feeds['title'] = Translation :: get('StandardFeeds');
-//        $standard_feeds['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY, self :: PARAM_FEED_IDENTIFIER));
-//        $standard_feeds['class'] = 'category';
-//
-//        $standard_feed_items = array();
-//
-//        $standard_feed_item = array();
-//        $standard_feed_item['title'] = Translation :: get('MostViewed');
-//        $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'most_viewed'), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $standard_feed_item['class'] = 'feed';
-//        $standard_feed_items[] = $standard_feed_item;
-//
-//        $standard_feed_item = array();
-//        $standard_feed_item['title'] = Translation :: get('TopRated');
-//        $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'top_rated'), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $standard_feed_item['class'] = 'feed';
-//        $standard_feed_items[] = $standard_feed_item;
-//        $standard_feeds['sub'] = $standard_feed_items;
-//
-//        $standard_feed_item = array();
-//        $standard_feed_item['title'] = Translation :: get('RecentlyFeatured');
-//        $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'recently_featured'), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $standard_feed_item['class'] = 'feed';
-//        $standard_feed_items[] = $standard_feed_item;
-//
-//        $standard_feed_item = array();
-//        $standard_feed_item['title'] = Translation :: get('WatchOnMobile');
-//        $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'watch_on_mobile'), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $standard_feed_item['class'] = 'feed';
-//        $standard_feed_items[] = $standard_feed_item;
-//
-//        $standard_feed_item = array();
-//        $standard_feed_item['title'] = Translation :: get('MostDiscussed');
-//        $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'most_discussed'), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $standard_feed_item['class'] = 'feed';
-//        $standard_feed_items[] = $standard_feed_item;
-//
-//        $standard_feed_item = array();
-//        $standard_feed_item['title'] = Translation :: get('TopFavorites');
-//        $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'top_favorites'), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $standard_feed_item['class'] = 'feed';
-//        $standard_feed_items[] = $standard_feed_item;
-//
-//        $standard_feed_item = array();
-//        $standard_feed_item['title'] = Translation :: get('MostResponded');
-//        $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'most_responded'), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $standard_feed_item['class'] = 'feed';
-//        $standard_feed_items[] = $standard_feed_item;
-//
-//        $standard_feed_item = array();
-//        $standard_feed_item['title'] = Translation :: get('MostRecent');
-//        $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'most_recent'), array(ExternalRepositorySearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-//        $standard_feed_item['class'] = 'feed';
-//        $standard_feed_items[] = $standard_feed_item;
-//
-//        $standard_feeds['sub'] = $standard_feed_items;
-//
-//        $menu_items[] = $standard_feeds;
-
         return $menu_items;
     }
 
     function is_ready_to_be_used()
     {
-        //        $action = $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
-        //
-        //        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER);
         return false;
     }
 

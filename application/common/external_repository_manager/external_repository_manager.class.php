@@ -153,13 +153,8 @@ abstract class ExternalRepositoryManager extends SubManager
     abstract function count_external_repository_objects($condition);
 
     abstract function retrieve_external_repository_objects($condition, $order_property, $offset, $count);
-    
-    abstract function initiliaze_external_repository();
 
-    function get_property_model()
-    {
-        return null;
-    }
+    abstract function initiliaze_external_repository();
 
     function support_sorting_direction()
     {
@@ -181,10 +176,10 @@ abstract class ExternalRepositoryManager extends SubManager
     static function retrieve_external_repository_manager()
     {
         $manager = array();
-//        $manager[] = 'fedora';
+        //        $manager[] = 'fedora';
         $manager[] = 'flickr';
         $manager[] = 'google_docs';
-//        $manager[] = 'matterhorn';
+        //        $manager[] = 'matterhorn';
         $manager[] = 'mediamosa';
         $manager[] = 'youtube';
 

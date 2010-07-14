@@ -1,26 +1,28 @@
 <?php
 require_once dirname(__FILE__) . '/youtube_external_repository_connector.class.php';
 require_once dirname(__FILE__) . '/table/youtube_external_repository_browser_gallery_table_property_model.class.php';
+require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_browser_gallery_table_cell_renderer.class.php';
 
 class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
 {
     const PARAM_FEED_TYPE = 'feed';
+    const PARAM_FEED_IDENTIFIER = 'identifier';
+    
     const FEED_TYPE_GENERAL = 1;
     const FEED_TYPE_MYVIDEOS = 2;
     const FEED_STANDARD_TYPE = 3;
-    const PARAM_FEED_IDENTIFIER = 'identifier';
 
     function YoutubeExternalRepositoryManager($application)
     {
         parent :: __construct($application);
-        $this->set_parameter(YoutubeExternalRepositoryManager :: PARAM_FEED_TYPE, Request :: get(YoutubeExternalRepositoryManager :: PARAM_FEED_TYPE));
+        $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
     function get_application_component_path()
     {
         return Path :: get_application_library_path() . 'external_repository_manager/type/youtube/component/';
     }
-    
+
     function initiliaze_external_repository()
     {
         YoutubeExternalRepositoryConnector :: get_instance($this);
@@ -54,11 +56,6 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     {
         $connector = YoutubeExternalRepositoryConnector :: get_instance($this);
         return $connector->export_youtube_video($object);
-    }
-
-    function get_property_model()
-    {
-        return new YoutubeExternalRepositoryBrowserGalleryPropertyModel();
     }
 
     function support_sorting_direction()

@@ -1,6 +1,7 @@
 <?php
-class ExternalRepositoryBrowserGalleryTableDataProvider extends GalleryObjectTableDataProvider
+class DefaultExternalRepositoryGalleryObjectTableDataProvider extends GalleryObjectTableDataProvider
 {
+
     /**
      * Gets the learning objects
      * @param int $offset
@@ -10,10 +11,11 @@ class ExternalRepositoryBrowserGalleryTableDataProvider extends GalleryObjectTab
      */
     function get_objects($offset, $count, $order_property = null)
     {
-    	$order_property = $this->get_order_property($order_property);
+        $order_property = $this->get_order_property($order_property);
 
         // We always use title as second sorting parameter
         //		$order_property[] = ContentObject :: PROPERTY_TITLE;
+
 
         return $this->get_browser()->retrieve_external_repository_objects($this->get_condition(), $order_property, $offset, $count);
     }
