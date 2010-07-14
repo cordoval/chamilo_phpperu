@@ -15,7 +15,9 @@ class FlickrExternalRepositoryManagerImporterComponent extends FlickrExternalRep
         $image->set_description($external_object->get_description());
         $image->set_owner_id($this->get_user_id());
         $image->set_filename($external_object->get_id() . '.jpg');
-        $image->set_in_memory_file(file_get_contents($external_object->get_url(FlickrExternalRepositoryObject :: SIZE_LARGE)));
+        
+        $sizes = $external_object->get_available_sizes();
+        $image->set_in_memory_file(file_get_contents($external_object->get_url(array_pop($sizes))));
         
         if ($image->create())
         {

@@ -1,13 +1,23 @@
 <?php
 abstract class ExternalRepositoryObjectDisplay
 {
+    /**
+     * @var ExternalRepositoryObject
+     */
     private $object;
 
+    /**
+     * @param ExternalRepositoryObject $object
+     */
     function ExternalRepositoryObjectDisplay($object)
     {
         $this->object = $object;
     }
 
+    /**
+     * @param ExternalRepositoryObject $object
+     * @return ExternalRepositoryObjectDisplay
+     */
     static function factory($object)
     {
         $type = $object->get_object_type();
@@ -16,11 +26,17 @@ abstract class ExternalRepositoryObjectDisplay
         return new $class($object);
     }
 
+    /**
+     * @return ExternalRepositoryObject
+     */
     function get_object()
     {
         return $this->object;
     }
 
+    /**
+     * @return string
+     */
     function as_html()
     {
         $html = array();
@@ -31,6 +47,9 @@ abstract class ExternalRepositoryObjectDisplay
         return implode("\n", $html);
     }
 
+    /**
+     * @return string
+     */
     function get_properties_table()
     {
         $object = $this->get_object();
@@ -41,6 +60,9 @@ abstract class ExternalRepositoryObjectDisplay
         return $table->toHtml();
     }
 
+    /**
+     * @return array
+     */
     function get_display_properties()
     {
         $object = $this->get_object();
@@ -59,12 +81,19 @@ abstract class ExternalRepositoryObjectDisplay
         return $properties;
     }
 
+    /**
+     * @return string
+     */
     function get_title()
     {
         $object = $this->get_object();
         return '<h3>' . $object->get_title() . '</h3>';
     }
 
+    /**
+     * @param boolean $is_thumbnail
+     * @return string
+     */
     function get_preview($is_thumbnail = false)
     {
         return Theme :: get_common_image('thumbnail');
