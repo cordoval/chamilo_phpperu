@@ -13,6 +13,11 @@ class CourseAssignmentsMigrationBlock extends MigrationBlock
 	{
 		return self :: MIGRATION_BLOCK_NAME;
 	}
+	
+	function get_data_classes()
+	{
+		return array();
+	}
 }
 
 ?>

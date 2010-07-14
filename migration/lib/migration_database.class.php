@@ -16,6 +16,46 @@ class MigrationDatabase Extends Database
         
         $this->set_connection($connection);
     }
+    
+    /**
+     * Mapper function
+     * Needs to be overwritten because we need to encode all our properties to UTF8
+     * @param $record
+     * @param $class_name
+     */
+	function record_to_object($record, $class_name)
+    {
+        if (! is_array($record) || ! count($record))
+        {
+            throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
+        }
+        $default_properties = array();
+        $optional_properties = array();
+
+        $object = new $class_name();
+
+        foreach ($object->get_default_property_names() as $property)
+        {
+            if (array_key_exists($property, $record))
+            {
+                $default_properties[$property] = utf8_encode($record[$property]);
+                unset($record[$property]);
+            }
+        }
+
+        $object->set_default_properties($default_properties);
+
+        if (count($record) > 0 && is_a($object, DataClass :: CLASS_NAME))
+        {
+            foreach ($record as $optional_property_name => $optional_property_value)
+            {
+                $optional_properties[$optional_property_name] = utf8_encode($optional_property_value);
+            }
+
+            $object->set_optional_properties($optional_properties);
+        }
+        return $object;
+    }
 }
 
 ?>

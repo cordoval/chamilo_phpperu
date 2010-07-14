@@ -79,7 +79,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager{
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
 
-        return $this->get_url($parameters);
+        return ($object->is_usable()) ? $this->get_url($parameters) : '#';
     }
 
     function retrieve_external_repository_object($id)

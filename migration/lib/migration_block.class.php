@@ -6,6 +6,12 @@
 abstract class MigrationBlock
 {
 	/**
+	 * The maximum number of records to be retrieved in one resultset (to make the system more performant)
+	 * @var int
+	 */
+	const MAX_RETRIEVE_LIMIT = 1000;
+	
+	/**
 	 * @var MessageLogger $message_logger - used to log messages on the screen
 	 */
 	private $message_logger;
@@ -43,9 +49,23 @@ abstract class MigrationBlock
 		return $this->message_logger;
 	}
 	
+	/**
+	 * Renders the message of the message logger
+	 */
 	function render_message()
 	{
 		return $this->message_logger->render();
+	}
+	
+	/**
+	 * Logs a message to both the message logger (onscreen) and to the file logger
+	 * @param String $message
+	 * @param Int $type
+	 */
+	function log_message_and_file($message, $type)
+	{
+		$this->message_logger->add_message($message, $type);
+		$this->get_file_logger()->log_message($message);
 	}
 	
 	/**
@@ -130,6 +150,8 @@ abstract class MigrationBlock
 		}
 		
 		$this->prepare_migration();
+		$this->migrate_data();
+		
 		$this->finish_migration();
 	}
 	
@@ -142,9 +164,7 @@ abstract class MigrationBlock
 		$this->get_timer()->start();
 		$logger = $this->get_file_logger();
 		
-		$message = Translation :: get('StartMigration');
-		$this->message_logger->add_message($message);
-		$logger->log_message($message);
+		$this->log_message_and_file(Translation :: get('StartMigration') . "<br />\n", MessageLogger :: TYPE_CONFIRM);
 	}
 	
 	/**
@@ -158,15 +178,67 @@ abstract class MigrationBlock
 		
 		$migration_block_registration = $this->get_migration_block_registration();
 		$migration_block_registration->set_is_migrated(1);
-		$migration_block_registration->update();
+		//$migration_block_registration->update();
 		
 		$this->get_timer()->stop();
 		
-		$message = Translation :: get('MigrationComplete', array('TIME' => $this->get_timer()->get_time_in_hours()));
-		$this->message_logger->add_message($message, MessageLogger :: TYPE_CONFIRM);
-		$logger->log_message($message);
+		$this->log_message_and_file(Translation :: get('MigrationComplete', array('TIME' => $this->get_timer()->get_time_in_hours())), MessageLogger :: TYPE_CONFIRM);
 		
 		$logger->close_file();
+	}
+	
+	/**
+	 * Migrates the data
+	 */
+	protected function migrate_data()
+	{
+		$data_classes = $this->get_data_classes();
+		foreach($data_classes as $data_class)
+		{
+			$this->log_message_and_file(Translation :: get('StartMigrationForTable', array('TABLE' => $data_class->get_table_name())));
+			$total_count = $data_class->get_data_manager()->count_all_objects($data_class);
+			$failed_objects = $records_migrated = 0;
+			
+			while ($records_migrated < $total_count)
+        	{
+	            $offset = $records_migrated;
+	            $limit = self :: MAX_RETRIEVE_LIMIT;
+	            
+	            $objects = $data_class->get_data_manager()->retrieve_all_objects($data_class, $offset, $limit);
+	            while($object = $objects->next_result())
+	            {
+	            	if(!$this->convert_object($object))
+	            	{
+	            		$failed_objects++;
+	            	}
+	            	
+	            	$this->get_file_logger()->log_message($object->get_message());
+	            	
+	            	$records_migrated++;
+	            }
+        	}
+
+        	$this->log_message_and_file(Translation :: get('ObjectsMigrated', array('OBJECTCOUNT' => $total_count - $failed_objects)));
+        	$this->log_message_and_file(Translation :: get('ObjectsNotMigrated', array('OBJECTCOUNT' => $failed_objects)));
+        	$this->log_message_and_file(Translation :: get('FinishedMigrationForTable', array('TABLE' => $data_class->get_table_name())) . "<br />\n");
+		}
+	}
+	
+	/**
+	 * Converts the object
+	 * @param MigrationDataClass $object
+	 */
+	protected function convert_object($object)
+	{
+		$validate = $object->is_valid();
+		if(!$validate)
+		{
+			return false;
+		}
+		
+		$object->convert_data();
+		
+		return true;
 	}
 	
 	/**
@@ -184,6 +256,19 @@ abstract class MigrationBlock
 	
 	// Abstract functions
 	
+	/**
+	 * Returns the prerequisites for the current block
+	 */
 	abstract function get_prerequisites();
+	
+	/**
+	 * Returns the name of the block
+	 */
 	abstract function get_block_name();
+	
+	/**
+	 * Returns the dataclasses that are used in a block
+	 * @return MigrationDataClass[] $class
+	 */
+	abstract function get_data_classes();
 }

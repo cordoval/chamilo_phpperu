@@ -91,7 +91,7 @@ class Database
     {
         $args = func_get_args();
         // Do something with the arguments
-        if ($args[1] == 'query')
+        if ($args[1] == 'query' || $args[1] == 'prepare')
         {
             /*echo '<pre>';
 		 	echo($args[2]);

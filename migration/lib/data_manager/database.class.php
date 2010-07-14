@@ -39,7 +39,7 @@ class DatabaseMigrationDataManager extends Database implements MigrationDataMana
 
 	public function create_failed_element(FailedElement $failed_element) 
 	{
-		return $this->create($failed_element);
+		$this->create($failed_element);
 	}
 
 	public function count_failed_elements($conditions = null) 
