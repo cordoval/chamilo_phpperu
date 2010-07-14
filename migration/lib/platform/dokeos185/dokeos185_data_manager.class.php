@@ -6,20 +6,26 @@
  * @author Sven Vanpoucke
  * @author David Van Wayenbergh
  */
-class Dokeos185DataManager extends MigrationDatabase
+class Dokeos185DataManager extends MigrationDatabase implements PlatformMigrationDataManager
 {
 	/**
 	 * The dokeos 185 configuration array
 	 * @var String[]
 	 */
 	private $configuration;
+
+	/**
+	 * Variable to keep track of the selected database;
+	 * @var String
+	 */
+	private $current_database;
 	
 	/**
 	 * Singleton
 	 */
 	private static $instance;
 	
-	private static function get_instance()
+	static function get_instance()
 	{
 		if(!self :: $instance)
 		{
@@ -41,8 +47,9 @@ class Dokeos185DataManager extends MigrationDatabase
 			throw new Exception(Translation :: get('PlatformConfigurationCanNotBeFound'));
 		}
 		
-		$connection_string = 'mysql://' . $this->configuration['db_user'] . ':' . $this->configuration['db_password'] . '@' . $this->configuration['db_host'] . '/' . $this->get_database_name('dokeos_main');
+		$connection_string = 'mysql://' . $this->configuration['db_user'] . ':' . $this->configuration['db_password'] . '@' . $this->configuration['db_host'] . '/' . $this->get_database_name('main_database');
 		$this->initialize($connection_string);
+		$this->current_database = $this->get_database_name('main_database');
 	}
 	
 	/**
@@ -85,8 +92,51 @@ class Dokeos185DataManager extends MigrationDatabase
 	function set_database($database_name)
     {
         $database_name = $this->get_database_name($database_name);
+        
+    	if($this->current_database == $database_name)
+        {
+        	return;
+        }
+        
+    	$this->current_database = $database_name;
         $this->get_connection()->setDatabase($database_name);
     }
+    
+    /**
+     * Retrieve all objects
+     * @param Dokeos185MigrationDataClass $data_class
+     * @param int $offset - the offset
+     * @param int $count - the number of objects to retrieve 
+     */
+    function retrieve_all_objects($data_class, $offset, $count)
+    {
+    	$this->set_database($data_class->get_database_name());
+    	return $this->retrieve_objects_with_condition($data_class, null, $offset, $count);
+    }
+    
+    /**
+     * Counts all objects
+     * @param Dokeos185MigrationDataClass $data_class 
+     */
+    function count_all_objects($data_class)
+    {
+    	$this->set_database($data_class->get_database_name());
+    	return $this->count_objects($data_class->get_table_name());
+    }
+    
+    /**
+     * Retrieve all objects with use of a condition
+     * @param Dokeos185MigrationDataClass $data_class
+     * @param Condition $condition
+     * @param int $offset - the offset
+     * @param int $count - the number of objects to retrieve 
+     */
+    function retrieve_objects_with_condition($data_class, $condition, $offset, $count)
+    {
+    	$this->set_database($data_class->get_database_name());
+    	return $this->retrieve_objects($data_class->get_table_name(), null, $offset, $count, null, $data_class->get_class_name());
+    }
+    
 }
 
 ?>

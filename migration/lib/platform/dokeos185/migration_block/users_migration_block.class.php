@@ -1,5 +1,8 @@
 <?php
 
+require_once dirname(__FILE__) . '/../data_class/dokeos185_user.class.php';
+require_once dirname(__FILE__) . '/../data_class/dokeos185_class.class.php';
+
 /**
  * Class to start the migration of the users
  * @author vanpouckesven
@@ -12,6 +15,11 @@ class UsersMigrationBlock extends MigrationBlock
 	function get_prerequisites()
 	{
 		return array();
+	}
+	
+	function get_data_classes()
+	{
+		return array(new Dokeos185User(), new Dokeos185Class());
 	}
 	
 	function get_block_name()

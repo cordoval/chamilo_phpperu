@@ -5,10 +5,12 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_user.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/profile/profile.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
+
+/*require_once Path :: get_repository_path() . 'lib/content_object/profile/profile.class.php';
 require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
-require_once Path :: get_application_path() . 'lib/profiler/profile_publication.class.php';
+require_once Path :: get_application_path() . 'lib/profiler/profile_publication.class.php';*/
 
 /**
  * This class represents an old Dokeos 1.8.5 user
@@ -19,9 +21,9 @@ require_once Path :: get_application_path() . 'lib/profiler/profile_publication.
 
 class Dokeos185User extends Dokeos185MigrationDataClass
 {
-    /**
-     * Migration data manager
-     */
+	 const CLASS_NAME = __CLASS__;
+	 const TABLE_NAME = 'user';   
+	 const DATABASE_NAME = 'main_database';
 
     /**
      * Table User Properties
@@ -53,119 +55,12 @@ class Dokeos185User extends Dokeos185MigrationDataClass
     const PROPERTY_OPENID = 'openid';
 
     /**
-     * Table Admin Properties
-     */
-    const PROPERTY_ADMIN = 'user_id';
-
-    const ACTION_READ_USER = 'read';
-
-    /**
-     * Numeric identifier of the user object.
-     */
-    private $user_id;
-
-    /**
-     * Default properties of the user table, stored in an associative
-     * array.
-     */
-    private $default_user_properties;
-
-    /**
-     * Default properties of the admin table, stored in an associative array
-     */
-
-    private $default_admin_properties;
-
-    /**
-     * Creates a new user object.
-     * @param array $default_user_properties The default properties of the user
-     *                                 object. Associative array.
-     */
-    function Dokeos185User($default_user_properties = array (), $default_admin_properties = array())
-    {
-        $this->default_user_properties = $default_user_properties;
-        $this->default_admin_properties = $default_admin_properties;
-    }
-
-    /**
-     * Gets a default property of this user object by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_user_property($name)
-    {
-        return $this->default_user_properties[$name];
-    }
-
-    /**
-     * Gets a default property of the admin table by name
-     * @param string $name The name of the property.
-     */
-    function get_default_admin_property($name)
-    {
-        return $this->default_admin_properties[$name];
-    }
-
-    /**
-     * Gets the default properties of this user.
-     * @return array An associative array containing the properties.
-     */
-    function get_default_user_properties()
-    {
-        return $this->default_user_properties;
-    }
-
-    /**
-     * Gets the default properties of the admin
-     * @return array An associative array containing the properties.
-     */
-    function get_default_admin_properties()
-    {
-        return $this->default_admin_properties;
-    }
-
-    /**
      * Get the default properties of the users.
      * @return array The property names.
      */
-    static function get_default_user_property_names()
+    static function get_default_property_names()
     {
         return array(self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_COMPETENCES, self :: PROPERTY_DIPLOMAS, self :: PROPERTY_OPENAREA, self :: PROPERTY_TEACH, self :: PROPERTY_PRODUCTIONS, self :: PROPERTY_CHATCALL_USER_ID, self :: PROPERTY_CHATCALL_DATE, self :: PROPERTY_CHATCALL_TEXT, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_OPENID);
-    }
-
-    /**
-     * Get the default properties of the admins
-     */
-    static function get_default_admin_property_names()
-    {
-        return array(self :: PROPERTY_ADMIN);
-    }
-
-    /**
-     * Sets a default property of this user by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_user_property($name, $value)
-    {
-        $this->default_user_properties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Sets a default property of this admin by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_admin_property($name, $value)
-    {
-        $this->default_admin_properties[$name] = $value;
     }
 
     /**
@@ -406,18 +301,14 @@ class Dokeos185User extends Dokeos185MigrationDataClass
     {
         return $this->get_default_user_property(self :: PROPERTY_OPENID);
     }
-
+    
     /**
-     * ADMIN GETTERS AND SETTERS
+     * Function to determine wether a user is a platform admin
+     * Retrieves the data from the admin table in dokeos_main
      */
-    function get_platformadmin()
+    function is_platform_admin()
     {
-        return $this->get_default_admin_property(self :: PROPERTY_ADMIN);
-    }
-
-    function set_platformadmin($platformadmin)
-    {
-        $this->set_default_admin_property(self :: PROPERTY_ADMIN, $platformadmin);
+    	
     }
 
     /**
@@ -425,9 +316,8 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      * @return User
      */
     function convert_data()
-    {
+    { return;
         $mgdm = MigrationDataManager :: get_instance();
-        $old_mgdm = $parameters['old_mgdm'];
 
         //User parameters
         $lcms_user = new User();
@@ -458,7 +348,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         {
             $new_rel_path_picture = '/files/userpictures/';
 
-            $picture_uri = $old_mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, $this->get_picture_uri());
+            //$picture_uri = $old_mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, $this->get_picture_uri());
             if ($picture_uri)
             {
                 $lcms_user->set_picture_uri($picture_uri);
@@ -568,7 +458,6 @@ class Dokeos185User extends Dokeos185MigrationDataClass
             }
         }
 
-        unset($repository_id);
         unset($old_path);
         unset($directory);
 
@@ -591,8 +480,8 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      * @param Array $lcms_users
      * @return Boolean
      */
-    function is_valid($parameters)
-    {
+    function is_valid()
+    { return;
         $lcms_users = $parameters['lcms_users'];
         $mgdm = MigrationDataManager :: get_instance();
 
@@ -641,40 +530,19 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         return true;
     }
 
-    /**
-     * Gets all the user
-     * @param migrationdatamanager $mgdm
-     * @return Array
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-    	$old_mgdm = $parameters['old_mgdm'];
-        return $old_mgdm->get_all_users($parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
-
-    /**
-     * Checks if username exists
-     * @param Array $lcms_users
-     * @param String $old_username
-     */
-    function username_exists($lcms_users, $old_username)
+    
+    static function get_class_name()
     {
-        foreach ($lcms_users as $lcms_user)
-        {
-            if ($lcms_user->get_username() == $old_username)
-            {
-                return $lcms_user;
-            }
-        }
-        return null;
+    	return self :: CLASS_NAME;
     }
-
-    static function get_database_table($parameters)
+    
+    static function get_database_name()
     {
-        $array = array();
-        $array['database'] = 'main_database';
-        $array['table'] = 'user';
-        return $array;
+    	return self :: DATABASE_NAME;
     }
 }
 ?>

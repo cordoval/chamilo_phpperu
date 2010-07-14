@@ -34,8 +34,6 @@ abstract class MigrationDataClass extends DataClass
     abstract function is_valid();
 
     abstract function convert_data();
-
-    abstract static function retrieve_data($parameters);
 }
 
 ?>

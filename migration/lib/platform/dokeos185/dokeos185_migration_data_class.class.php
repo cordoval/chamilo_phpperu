@@ -23,6 +23,13 @@ abstract class Dokeos185MigrationDataClass extends MigrationDataClass
         return parent :: factory(self :: PLATFORM, $type);
     }
     
+    function get_data_manager()
+    {
+    	return Dokeos185DataManager :: get_instance();
+    }
+    
+    abstract static function get_database_name();
+    
 }
 
 ?>

@@ -49,6 +49,10 @@ $lang['migration']['SettingsNotCleaned'] = 'Settings not cleaned';
 $lang['migration']['SelectBlocks'] = 'Select blocks';
 
 $lang['migration']['StartMigration'] = 'Start migration';
+$lang['migration']['StartMigrationFromTable'] = 'Start migration from table <b>{TABLE}</b>';
+$lang['migration']['ObjectsMigrated'] = '<b>{OBJECTCOUNT}</b> object(s) are migrated.';
+$lang['migration']['ObjectsNotMigrated'] = '<b>{OBJECTCOUNT}</b> object(s) are not migrated because they are invalid.';
+$lang['migration']['FinishedMigrationFromTable'] = 'Finished migration from table <b>{TABLE}</b>';
 $lang['migration']['MigrationComplete'] = 'Migration complete in {TIME}';
 $lang['migration']['MigrationBlockAlreadyMigrated'] = 'Migration block already migrated';
 

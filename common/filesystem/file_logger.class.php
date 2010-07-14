@@ -44,6 +44,8 @@ class FileLogger
 	 */
 	function log_message($message, $include_timestamp = true)
 	{
+		$message = strip_tags($message);
+		
 		if($include_timestamp)
 		{
 			$message = $this->get_timestamp() . $message;
