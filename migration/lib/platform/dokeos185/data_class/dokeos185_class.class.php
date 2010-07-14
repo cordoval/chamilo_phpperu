@@ -77,7 +77,8 @@ class Dokeos185Class extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        return;
+        $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'class', 'ID' => $this->get_id())));
+    	return;
     	$mgdm = MigrationDataManager :: get_instance();
         if (! $this->get_name())
         {
@@ -93,7 +94,8 @@ class Dokeos185Class extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-        return;
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'class', 'OLD_ID' => $this->get_id())));
+    	return;
     	$mgdm = MigrationDataManager :: get_instance();
         //class parameters
         $lcms_class = new Group();

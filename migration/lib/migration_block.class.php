@@ -195,7 +195,7 @@ abstract class MigrationBlock
 		$data_classes = $this->get_data_classes();
 		foreach($data_classes as $data_class)
 		{
-			$this->log_message_and_file(Translation :: get('StartMigrationFromTable', array('TABLE' => $data_class->get_table_name())));
+			$this->log_message_and_file(Translation :: get('StartMigrationForTable', array('TABLE' => $data_class->get_table_name())));
 			$total_count = $data_class->get_data_manager()->count_all_objects($data_class);
 			$failed_objects = $records_migrated = 0;
 			
@@ -211,13 +211,16 @@ abstract class MigrationBlock
 	            	{
 	            		$failed_objects++;
 	            	}
+	            	
+	            	$this->get_file_logger()->log_message($object->get_message());
+	            	
 	            	$records_migrated++;
 	            }
         	}
 
         	$this->log_message_and_file(Translation :: get('ObjectsMigrated', array('OBJECTCOUNT' => $total_count - $failed_objects)));
         	$this->log_message_and_file(Translation :: get('ObjectsNotMigrated', array('OBJECTCOUNT' => $failed_objects)));
-        	$this->log_message_and_file(Translation :: get('FinishedMigrationFromTable', array('TABLE' => $data_class->get_table_name())) . "<br />\n");
+        	$this->log_message_and_file(Translation :: get('FinishedMigrationForTable', array('TABLE' => $data_class->get_table_name())) . "<br />\n");
 		}
 	}
 	

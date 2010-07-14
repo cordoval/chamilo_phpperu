@@ -73,7 +73,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_user_id()
     {
-        return $this->get_default_user_property(self :: PROPERTY_USER_ID);
+        return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
 
     /**
@@ -82,7 +82,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_lastname()
     {
-        return $this->get_default_user_property(self :: PROPERTY_LASTNAME);
+        return $this->get_default_property(self :: PROPERTY_LASTNAME);
     }
 
     /**
@@ -91,7 +91,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_firstname()
     {
-        return $this->get_default_user_property(self :: PROPERTY_FIRSTNAME);
+        return $this->get_default_property(self :: PROPERTY_FIRSTNAME);
     }
 
     /**
@@ -110,7 +110,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_username()
     {
-        return $this->get_default_user_property(self :: PROPERTY_USERNAME);
+        return $this->get_default_property(self :: PROPERTY_USERNAME);
     }
 
     /**
@@ -119,7 +119,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_password()
     {
-        return $this->get_default_user_property(self :: PROPERTY_PASSWORD);
+        return $this->get_default_property(self :: PROPERTY_PASSWORD);
     }
 
     /**
@@ -128,7 +128,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_auth_source()
     {
-        return $this->get_default_user_property(self :: PROPERTY_AUTH_SOURCE);
+        return $this->get_default_property(self :: PROPERTY_AUTH_SOURCE);
     }
 
     /**
@@ -137,7 +137,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_email()
     {
-        return $this->get_default_user_property(self :: PROPERTY_EMAIL);
+        return $this->get_default_property(self :: PROPERTY_EMAIL);
     }
 
     /**
@@ -146,7 +146,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_status()
     {
-        return $this->get_default_user_property(self :: PROPERTY_STATUS);
+        return $this->get_default_property(self :: PROPERTY_STATUS);
     }
 
     /**
@@ -155,7 +155,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_official_code()
     {
-        return $this->get_default_user_property(self :: PROPERTY_OFFICIAL_CODE);
+        return $this->get_default_property(self :: PROPERTY_OFFICIAL_CODE);
     }
 
     /**
@@ -164,7 +164,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_phone()
     {
-        return $this->get_default_user_property(self :: PROPERTY_PHONE);
+        return $this->get_default_property(self :: PROPERTY_PHONE);
     }
 
     /**
@@ -173,7 +173,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_picture_uri()
     {
-        return $this->get_default_user_property(self :: PROPERTY_PICTURE_URI);
+        return $this->get_default_property(self :: PROPERTY_PICTURE_URI);
     }
 
     /**
@@ -182,7 +182,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_creator_id()
     {
-        return $this->get_default_user_property(self :: PROPERTY_CREATOR_ID);
+        return $this->get_default_property(self :: PROPERTY_CREATOR_ID);
     }
 
     /**
@@ -191,7 +191,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_language()
     {
-        return $this->get_default_user_property(self :: PROPERTY_LANGUAGE);
+        return $this->get_default_property(self :: PROPERTY_LANGUAGE);
     }
 
     /**
@@ -200,7 +200,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_competences()
     {
-        return $this->get_default_user_property(self :: PROPERTY_COMPETENCES);
+        return $this->get_default_property(self :: PROPERTY_COMPETENCES);
     }
 
     /**
@@ -209,7 +209,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_diplomas()
     {
-        return $this->get_default_user_property(self :: PROPERTY_DIPLOMAS);
+        return $this->get_default_property(self :: PROPERTY_DIPLOMAS);
     }
 
     /**
@@ -218,7 +218,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_openarea()
     {
-        return $this->get_default_user_property(self :: PROPERTY_OPENAREA);
+        return $this->get_default_property(self :: PROPERTY_OPENAREA);
     }
 
     /**
@@ -227,7 +227,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_teach()
     {
-        return $this->get_default_user_property(self :: PROPERTY_TEACH);
+        return $this->get_default_property(self :: PROPERTY_TEACH);
     }
 
     /**
@@ -236,7 +236,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_productions()
     {
-        return $this->get_default_user_property(self :: PROPERTY_PRODUCTIONS);
+        return $this->get_default_property(self :: PROPERTY_PRODUCTIONS);
     }
 
     /**
@@ -245,7 +245,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_chatcall_user_id()
     {
-        return $this->get_default_user_property(self :: PROPERTY_CHATCALL_USER_ID);
+        return $this->get_default_property(self :: PROPERTY_CHATCALL_USER_ID);
     }
 
     /**
@@ -254,7 +254,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_chatcall_date()
     {
-        return $this->get_default_user_property(self :: PROPERTY_CHATCALL_DATE);
+        return $this->get_default_property(self :: PROPERTY_CHATCALL_DATE);
     }
 
     /**
@@ -263,7 +263,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_chatcall_text()
     {
-        return $this->get_default_user_property(self :: PROPERTY_CHATCALL_TEXT);
+        return $this->get_default_property(self :: PROPERTY_CHATCALL_TEXT);
     }
 
     /**
@@ -272,7 +272,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_registration_date()
     {
-        return $this->get_default_user_property(self :: PROPERTY_REGISTRATION_DATE);
+        return $this->get_default_property(self :: PROPERTY_REGISTRATION_DATE);
     }
 
     /**
@@ -281,7 +281,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_expiration_date()
     {
-        return $this->get_default_user_property(self :: PROPERTY_EXPIRATION_DATE);
+        return $this->get_default_property(self :: PROPERTY_EXPIRATION_DATE);
     }
 
     /**
@@ -290,7 +290,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_active()
     {
-        return $this->get_default_user_property(self :: PROPERTY_ACTIVE);
+        return $this->get_default_property(self :: PROPERTY_ACTIVE);
     }
 
     /**
@@ -299,7 +299,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function get_openid()
     {
-        return $this->get_default_user_property(self :: PROPERTY_OPENID);
+        return $this->get_default_property(self :: PROPERTY_OPENID);
     }
     
     /**
@@ -316,7 +316,9 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      * @return User
      */
     function convert_data()
-    { return;
+    { 
+    	$this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'user', 'OLD_ID' => $this->get_user_id())));
+    	return;
         $mgdm = MigrationDataManager :: get_instance();
 
         //User parameters
@@ -481,7 +483,9 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      * @return Boolean
      */
     function is_valid()
-    { return;
+    { 
+    	$this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'user', 'ID' => $this->get_user_id())));
+    	return;
         $lcms_users = $parameters['lcms_users'];
         $mgdm = MigrationDataManager :: get_instance();
 

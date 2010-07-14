@@ -10,7 +10,29 @@
  */
 abstract class MigrationDataClass extends DataClass
 {
-
+	/**
+	 * The failed / succes message of the validation / conversion
+	 * @var String
+	 */
+	private $message;
+	
+	/**
+	 * Returns the message
+	 */
+	function get_message()
+	{
+		return $this->message;
+	}
+	
+	/**
+	 * Sets the message
+	 * @param String $message
+	 */
+	function set_message($message)
+	{
+		return $this->message = $message;
+	}
+	
     /**
      * Factory to retrieve the correct class of an old system
      * @param string $old_system the old system
