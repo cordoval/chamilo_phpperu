@@ -178,7 +178,7 @@ abstract class MigrationBlock
 		
 		$migration_block_registration = $this->get_migration_block_registration();
 		$migration_block_registration->set_is_migrated(1);
-		//$migration_block_registration->update();
+		$migration_block_registration->update();
 		
 		$this->get_timer()->stop();
 		
@@ -218,9 +218,8 @@ abstract class MigrationBlock
 	            }
         	}
 
-        	$this->log_message_and_file(Translation :: get('ObjectsMigrated', array('OBJECTCOUNT' => $total_count - $failed_objects)));
-        	$this->log_message_and_file(Translation :: get('ObjectsNotMigrated', array('OBJECTCOUNT' => $failed_objects)));
-        	$this->log_message_and_file(Translation :: get('FinishedMigrationForTable', array('TABLE' => $data_class->get_table_name())) . "<br />\n");
+        	$migrated_objects = $total_count - $failed_objects;
+        	$this->log_data_class_migration_messages($migrated_objects, $failed_objects, $data_class->get_table_name());
 		}
 	}
 	
@@ -239,6 +238,38 @@ abstract class MigrationBlock
 		$object->convert_data();
 		
 		return true;
+	}
+	
+	/**
+	 * Logs the messages from the results of the function migrate_data
+	 * @param int $migrated_objects
+	 * @param int $failed_objects
+	 * @param String $table
+	 */
+	private function log_data_class_migration_messages($migrated_objects, $failed_objects, $table)
+	{
+		if($migrated_objects == 1)
+		{
+			$message = 'ObjectMigrated';
+		}
+		else
+		{
+			$message = 'ObjectsMigrated';
+		}
+		
+		$this->log_message_and_file(Translation :: get($message, array('OBJECTCOUNT' => $migrated_objects)));
+		
+		if($failed_objects == 1)
+		{
+			$message = 'ObjectNotMigrated';
+		}
+		else
+		{
+			$message = 'ObjectsNotMigrated';
+		}
+		
+        $this->log_message_and_file(Translation :: get($message, array('OBJECTCOUNT' => $failed_objects)));
+        $this->log_message_and_file(Translation :: get('FinishedMigrationForTable', array('TABLE' => $table)) . "<br />\n");
 	}
 	
 	/**

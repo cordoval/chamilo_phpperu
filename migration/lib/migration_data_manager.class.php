@@ -32,44 +32,31 @@ abstract class MigrationDataManager
         return self :: $instance;
     }
 
-    /**
- 	 *	retrieve category
- 	 *  if the category does not exist, create a new category
- 	 *  return the id
- 	 *  
-     */
-    function get_repository_category_by_name($user_id, $title)
-    {
-		$dm = RepositoryDataManager :: get_instance();
-		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_NAME, $title);
-        $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $user_id);
-        $condition = new AndCondition($conditions);
-        
-        $categories = $dm->retrieve_categories($condition);
-        $category = $categories->next_result();
-        if(!$category)
-        {
-            //Create category for tool in lcms
-        	$category = new RepositoryCategory();
-        	$category->set_user_id($user_id);
-        	$category->set_name($title);
-        	$category->set_parent(0);
-            
-        	//Create category in database
-        	$category->create();
-        }
- 
-        return $category->get_id();       
-        
-    }
-    
     static function retrieve_migration_block_registrations_by_name($name)
     {
     	$condition = new EqualityCondition(MigrationBlockRegistration :: PROPERTY_NAME, $name);
     	return self :: get_instance()->retrieve_migration_block_registrations($condition)->next_result();
     }
     
+    static function retrieve_failed_element_by_id_and_table($id, $table)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(FailedElement :: PROPERTY_FAILED_ID, $id);
+    	$conditions[] = new EqualityCondition(FailedElement :: PROPERTY_FAILED_TABLE_NAME, $table);
+    	$condition = new AndCondition($conditions);
+    	
+    	return self :: get_instance()->retrieve_failed_elements($condition)->next_result();
+    }
     
+	static function retrieve_id_reference_by_old_id_and_table($old_id, $table)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(IdReference :: PROPERTY_OLD_ID, $old_id);
+    	$conditions[] = new EqualityCondition(IdReference :: PROPERTY_REFERENCE_TABLE_NAME, $table);
+    	$condition = new AndCondition($conditions);
+    	
+    	return self :: get_instance()->retrieve_id_references($condition)->next_result();
+    }
 }
 
 ?>

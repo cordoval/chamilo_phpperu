@@ -77,12 +77,11 @@ class Dokeos185Class extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'class', 'ID' => $this->get_id())));
-    	return;
     	$mgdm = MigrationDataManager :: get_instance();
-        if (! $this->get_name())
+        if (!$this->get_name())
         {
-            $mgdm->add_failed_element($this->get_id(), 'dokeos_main.class');
+            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'class', 'ID' => $this->get_id())));
             return false;
         }
         return true;
@@ -94,31 +93,30 @@ class Dokeos185Class extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'class', 'OLD_ID' => $this->get_id())));
-    	return;
-    	$mgdm = MigrationDataManager :: get_instance();
-        //class parameters
-        $lcms_class = new Group();
+        $chamilo_class = new Group();
         
-        $lcms_class->set_name($this->get_name());
+        $chamilo_class->set_name($this->get_name());
         
         if ($this->get_code())
-            $lcms_class->set_code($this->get_code());
+        {
+            $chamilo_class->set_code($this->get_code());
+        }
         else
-            $lcms_class->set_code($this->get_name());
+        {
+            $code = strtoupper(str_replace(' ', '', $this->get_name()));
+        	$chamilo_class->set_code($code);
+        }
         
- 		$lcms_class->set_description($this->get_name());
-        $lcms_class->set_parent('0');    
-           
-        $lcms_class->set_sort($mgdm->get_next_position('group_group', 'sort'));
+ 		$chamilo_class->set_description($this->get_name());
+ 		$chamilo_class->set_parent(GroupDataManager :: get_root_group()->get_id());
         
         //create course in database
-        $lcms_class->create();
+        $chamilo_class->create();
         
         //Add id references to temp table
-        $mgdm->add_id_reference($this->get_id(), $lcms_class->get_id(), 'classgroup_classgroup');
+        $this->create_id_reference($this->get_id(), $chamilo_class->get_id());
         
-        return $lcms_class;
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'class', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_class->get_id())));
     }
 
 	static function get_table_name()

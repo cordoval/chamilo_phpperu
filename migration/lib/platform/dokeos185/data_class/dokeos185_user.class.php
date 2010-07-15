@@ -8,9 +8,7 @@
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
 
-/*require_once Path :: get_repository_path() . 'lib/content_object/profile/profile.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
-require_once Path :: get_application_path() . 'lib/profiler/profile_publication.class.php';*/
+require_once Path :: get_application_path() . 'lib/profiler/profile_publication.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 user
@@ -308,173 +306,9 @@ class Dokeos185User extends Dokeos185MigrationDataClass
      */
     function is_platform_admin()
     {
-    	
+    	return $this->get_data_manager()->is_platform_admin($this);
     }
 
-    /**
-     * Migration users, create directories, copy user pictures, migrate user profiles
-     * @return User
-     */
-    function convert_data()
-    { 
-    	$this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'user', 'OLD_ID' => $this->get_user_id())));
-    	return;
-        $mgdm = MigrationDataManager :: get_instance();
-
-        //User parameters
-        $lcms_user = new User();
-        $lcms_user->set_lastname($this->get_lastname());
-        $lcms_user->set_firstname($this->get_firstname());
-        $lcms_user->set_username($this->get_username());
-        $lcms_user->set_password($this->get_password());
-        $lcms_user->set_email($this->get_email());
-        $lcms_user->set_status($this->get_status());
-        $lcms_user->set_platformadmin($this->get_platformadmin());
-        $lcms_user->set_official_code($this->get_official_code());
-        $lcms_user->set_phone($this->get_phone());
-
-        //Set user authentication method, if not available use default: platform
-        if ($mgdm->is_authentication_available($this->get_auth_source()))
-        {
-            $lcms_user->set_auth_source($this->get_auth_source());
-        }
-        else
-        {
-            $lcms_user->set_auth_source('platform');
-        }
-
-        //Move picture to correct directory
-        $old_rel_path_picture = '/main/upload/users/';
-
-        if ($this->get_picture_uri())
-        {
-            $new_rel_path_picture = '/files/userpictures/';
-
-            //$picture_uri = $old_mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, $this->get_picture_uri());
-            if ($picture_uri)
-            {
-                $lcms_user->set_picture_uri($picture_uri);
-            }
-
-            unset($new_rel_path_picture);
-            unset($old_rel_path_picture);
-            unset($picture_uri);
-        }
-
-        // Get new id from temporary table for references
-        $creator_id = $mgdm->get_id_reference($this->get_creator_id(), 'user_user');
-        if ($creator_id)
-            $lcms_user->set_creator_id($creator_id);
-        unset($creator_id);
-
-        //create user in database
-        $lcms_user->create();
-        //Add id references to temp table
-        $mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_id(), 'user_user');
-
-        if ($mgdm->is_language_available($this->get_language()))
-            LocalSetting :: create_local_setting('platform_language', $this->get_language(), 'admin', $lcms_user->get_id());
-        else
-            LocalSetting :: create_local_setting('platform_language', 'english', 'admin', $lcms_user->get_id());
-
-        //control if the profiler application exists
-		$is_registered = AdminDataManager :: is_registered('profiler');
-        // Convert profile fields to Profile object if the user has user profile data
-        if ($is_registered && ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL))
-        {
-        	$lcms_category_id = $mgdm->get_repository_category_by_name($lcms_user->get_id(),Translation :: get('Profile'));
-        	$lcms_repository_profile = new Profile();
-        	$lcms_repository_profile->set_competences($this->get_competences());
-        	$lcms_repository_profile->set_diplomas($this->get_diplomas());
-        	$lcms_repository_profile->set_teaching($this->get_teach());
-        	$lcms_repository_profile->set_open($this->get_openarea());
-        	$lcms_repository_profile->set_title($this->get_lastname().' '.$this->get_firstname());
-        	$lcms_repository_profile->set_parent_id($lcms_category_id);
-        	$lcms_repository_profile->set_phone($this->get_phone());
-
-        	//Create profile in database
-        	$lcms_repository_profile->create();
-
-        	//Publish Profile
-        	$lcms_profile_publication = new ProfilePublication();
-        	$lcms_profile_publication->set_profile($lcms_repository_profile->get_id());
-        	$lcms_profile_publication->set_publisher($lcms_user->get_id());
-
-        	//Create profile publication in database
-        	$lcms_profile_publication->create();
-
-        	//unset
-        	unset($lcms_repository_profile);
-        	unset($lcms_profile_publication);
-        }
-
-        //Convert all production files to content objects
-        $old_path = $old_rel_path_picture . $this->get_user_id() . '/' . $this->get_user_id() . '/';
-        $directory = $old_mgdm->append_full_path(false, $old_path);
-        unset($old_rel_path_picture);
-        if (file_exists($directory))
-        {
-            $files_list = Filesystem :: get_directory_content($directory, Filesystem :: LIST_FILES);
-
-            if (count($files_list) != 0)
-            {
-                //Create category for user in lcms
-                $lcms_repository_category = new RepositoryCategory();
-                $lcms_repository_category->set_id($lcms_user->get_id());
-                $lcms_repository_category->set_name(Translation :: get('User'));
-                $lcms_repository_category->set_parent(0);
-
-                //Create category in database
-                $lcms_repository_category->create();
-
-                foreach ($files_list as $file)
-                {
-                    $file_split = split('/', $file);
-                    $filename = $file_split[count($file_split) - 1];
-                    $new_path = '/files/repository/' . $lcms_user->get_id() . '/';
-
-                    $filename = $old_mgdm->move_file($old_path, $new_path, $filename);
-
-                    if ($filename)
-                    {
-                        //Create document
-                        $lcms_repository_document = new Document();
-                        $lcms_repository_document->set_filename($filename);
-                        $lcms_repository_document->set_path($lcms_user->get_id() . '/' . $filename);
-                        $lcms_repository_document->set_filesize(filesize($file));
-
-                        //Create document in db
-                        $lcms_repository_document->create();
-
-                        unset($lcms_repository_document);
-                    }
-
-                    unset($file_split);
-                    unset($filename);
-                    unset($file);
-                    unset($new_path);
-                }
-
-                $files_list = array();
-                unset($files_list);
-            }
-        }
-
-        unset($old_path);
-        unset($directory);
-
-        $parameters = array();
-        unset($parameters);
-
-        $this->default_user_properties = array();
-        unset($this->default_user_properties);
-        $this->default_admin_properties = array();
-        unset($this->default_admin_properties);
-        unset($mgdm);
-        unset($old_mgdm);
-
-        return $lcms_user;
-    }
 
     /**
      * Checks if the user is valid
@@ -518,6 +352,169 @@ class Dokeos185User extends Dokeos185MigrationDataClass
 
         return true;
     }
+    
+    /**
+     * Migration users, create directories, copy user pictures, migrate user profiles
+     * @return User
+     */
+    function convert_data()
+    { 
+        $chamilo_user = $this->create_user();
+        $this->create_profile($chamilo_user);
+        $this->create_productions($chamilo_user);
+        
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'user', 'OLD_ID' => $this->get_user_id(), 'NEW_ID' => $chamilo_user->get_id())));
+    }
+    
+    /**
+     * Helper function for convert_data
+     * Creates the user object
+     */
+    private function create_user()
+    {
+    	//User parameters
+        $chamilo_user = new User();
+        $chamilo_user->set_lastname($this->get_lastname());
+        $chamilo_user->set_firstname($this->get_firstname());
+        $chamilo_user->set_username($this->get_username());
+        $chamilo_user->set_password($this->get_password());
+        $chamilo_user->set_email($this->get_email());
+        $chamilo_user->set_status($this->get_status());
+        $chamilo_user->set_platformadmin($this->is_platform_admin());
+        $chamilo_user->set_official_code($this->get_official_code());
+        $chamilo_user->set_phone($this->get_phone());
+
+        //Set user authentication method, if not available use default: platform
+        if (Authentication :: is_valid_authentication_type($this->get_auth_source()))
+        {
+            $chamilo_user->set_auth_source($this->get_auth_source());
+        }
+        else
+        {
+            $chamilo_user->set_auth_source('platform');
+        }
+
+        //Move picture to correct directory
+        $old_rel_path_picture = $this->get_data_manager()->get_sys_path() . '/main/upload/users/';
+
+        if ($this->get_picture_uri())
+        {
+            $new_rel_path_picture = Path :: get(SYS_PATH) . '/files/userpictures/';
+
+            $picture_uri = $this->migrate_file($old_rel_path_picture, $new_rel_path_picture, $this->get_picture_uri());
+            if ($picture_uri)
+            {
+                $chamilo_user->set_picture_uri($picture_uri);
+            }
+        }
+
+        // Get new id from temporary table for references
+        $creator_id = $this->get_id_reference($this->get_creator_id());
+        if ($creator_id)
+        {
+            $chamilo_user->set_creator_id($creator_id);
+        }
+
+        //create user in database
+        $chamilo_user->create();
+        
+        //Add id references to temp table
+        $this->create_id_reference($this->get_user_id(), $chamilo_user->get_id());
+
+        if (AdminDataManager :: is_language_active($this->get_language()))
+        {
+            $language = $this->get_language();
+        }
+        else 
+        {
+            $language = 'english';
+        }
+        
+        LocalSetting :: create_local_setting('platform_language', $language, 'admin', $chamilo_user->get_id());
+        
+        return $chamilo_user;
+    }
+    
+    /**
+     * Helper function for convert_data to create a new user profile
+     */
+    function create_profile($chamilo_user)
+    {
+    	//control if the profiler application exists
+		$is_registered = AdminDataManager :: is_registered('profiler');
+        // Convert profile fields to Profile object if the user has user profile data
+        if ($is_registered && ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL))
+        {
+        	$lcms_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($chamilo_user->get_id(), Translation :: get('Profile'));
+        	$lcms_repository_profile = new Profile();
+        	$lcms_repository_profile->set_competences($this->get_competences());
+        	$lcms_repository_profile->set_diplomas($this->get_diplomas());
+        	$lcms_repository_profile->set_teaching($this->get_teach());
+        	$lcms_repository_profile->set_open($this->get_openarea());
+        	$lcms_repository_profile->set_title($this->get_lastname().' '.$this->get_firstname());
+        	$lcms_repository_profile->set_parent_id($lcms_category_id);
+        	$lcms_repository_profile->set_phone($this->get_phone());
+
+        	//Create profile in database
+        	$lcms_repository_profile->create();
+
+        	//Publish Profile
+        	$lcms_profile_publication = new ProfilePublication();
+        	$lcms_profile_publication->set_profile($lcms_repository_profile->get_id());
+        	$lcms_profile_publication->set_publisher($chamilo_user->get_id());
+
+        	//Create profile publication in database
+        	$lcms_profile_publication->create();
+        }
+    }
+    
+    /**
+     * Helper function for convert_data to create new productions
+     */
+	function create_productions($chamilo_user)
+	{
+		//Convert all production files to content objects
+        $directory = $this->get_data_manager()->get_sys_path() . '/main/upload/users/' . $this->get_user_id() . '/' . $this->get_user_id() . '/';
+        if (file_exists($directory))
+        {
+            $files_list = Filesystem :: get_directory_content($directory, Filesystem :: LIST_FILES);
+
+            if (count($files_list) != 0)
+            {
+                //Create category for user in lcms
+                $chamilo_repository_category = new RepositoryCategory();
+                $chamilo_repository_category->set_id($chamilo_user->get_id());
+                $chamilo_repository_category->set_name(Translation :: get('User'));
+                $chamilo_repository_category->set_parent(0);
+
+                //Create category in database
+                $chamilo_repository_category->create();
+
+                foreach ($files_list as $file)
+                {
+                    $file_split = split('/', $file);
+                    $filename = $file_split[count($file_split) - 1];
+                    $new_path = Path :: get(SYS_PATH) . '/files/repository/' . $chamilo_user->get_id() . '/';
+
+                    $filename = $this->migrate_file($directory, $new_path, $filename);
+
+                    if ($filename)
+                    {
+                        //Create document
+                        $chamilo_repository_document = new Document();
+                        $chamilo_repository_document->set_filename($filename);
+                        $chamilo_repository_document->set_path($chamilo_user->get_id() . '/' . $filename);
+                        $chamilo_repository_document->set_filesize(filesize($file));
+
+                        //Create document in db
+                        $chamilo_repository_document->create();
+
+                    }
+
+                }
+            }
+        }
+	}    
 
     static function get_table_name()
     {

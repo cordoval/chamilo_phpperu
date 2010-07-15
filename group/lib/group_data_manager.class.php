@@ -41,5 +41,10 @@ class GroupDataManager implements DataManagerInterface
         }
         return self :: $instance;
     }
+    
+    static function get_root_group()
+    {
+    	return self :: get_instance()->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, 0))->next_result();
+    }
 }
 ?>
