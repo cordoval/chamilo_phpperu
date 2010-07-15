@@ -412,6 +412,61 @@ class Filesystem
         }
     }
 
+	/**
+     * Copy a file from one directory to another directory, but with protection to rename
+     * files when there is already a file in the destination directory with the same name but
+     * a different md5 hash
+     * @param string $source_path full path to source directory
+     * @param string $source_filename name of first file
+     * @param string $destination_path full path to second file
+     * @param string $destination_filename name of second file
+     * @return A new unique name when changes was needed, otherwise null
+     */
+    public static function copy_file_with_double_files_protection($source_path, $source_filename, $destination_path, $destination_filename, $move_file)
+    {
+        $source_file = $source_path . $source_filename;
+        $destination_file = $destination_path . $destination_filename;
+
+        if (! file_exists($source_file) || ! is_file($source_file))
+        {
+            return null;
+        }
+        
+        if (file_exists($destination_file) && is_file($destination_file))
+        {
+            if (! (md5_file($source_file) == md5_file($destination_file)))
+            {
+                $new_unique_file = self :: create_unique_name($destination_path, $destination_filename);
+                 
+                if ($move_file)
+                {
+                	self :: move_file($source_file, $destination_path . $new_unique_file);
+                }
+                else
+                {
+                    self :: copy_file($source_file, $destination_path . $new_unique_file);
+                }
+                
+                return $new_unique_file;
+            }
+            else
+            {
+                return $destination_filename;
+            }
+        }
+        
+        if ($move_file)
+        {
+            self :: move_file($source_file, $destination_file);
+        }
+        else
+        {
+            self :: copy_file($source_file, $destination_file);
+        }
+        
+        return $destination_filename;
+    }
+    
     /**
      * Transform the file size in a human readable format.
      *
@@ -441,51 +496,6 @@ class Filesystem
             $file_size = $file_size . 'B';
         }
         return $file_size;
-    }
-
-    /**
-     * Copy a file from one directory to another directory, but with protection to rename
-     * files when there is already a file in the destination directory with the same name but
-     * a different md5 hash
-     * @param string $source_path full path to source directory
-     * @param string $source_filename name of first file
-     * @param string $destination_path full path to second file
-     * @param string $destination_filename name of second file
-     * @return A new unique name when changes was needed, otherwise null
-     */
-    public static function copy_file_with_double_files_protection($source_path, $source_filename, $destination_path, $destination_filename, $move_file)
-    {
-        $source_file = $source_path . $source_filename;
-        $destination_file = $destination_path . $destination_filename;
-
-        if (! file_exists($source_file) || ! is_file($source_file))
-            return null;
-        
-        //if ($source_filename == $destination_filename)
-        {
-            if (file_exists($destination_file) && is_file($destination_file))
-            {
-                if (! (md5_file($source_file) == md5_file($destination_file)))
-                {
-                    $new_unique_file = self :: create_unique_name($destination_path, $destination_filename);
-                    
-                    if ($move_file)
-                        self :: move_file($source_file, $destination_path . $new_unique_file);
-                    else
-                        self :: copy_file($source_file, $destination_path . $new_unique_file);
-                    return $new_unique_file;
-                }
-                else
-                    return null;
-            }
-        }
-        
-        if ($move_file)
-            self :: move_file($source_file, $destination_file);
-        else
-            self :: copy_file($source_file, $destination_file);
-        
-        return $destination_filename;
     }
 
     /**

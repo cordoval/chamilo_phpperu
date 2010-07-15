@@ -55,7 +55,7 @@ class AdminDataManager
         return $options;
     }
 
-    function is_language_active($language_name)
+    static function is_language_active($language_name)
     {
     	$conditions = array();
     	$conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LANGUAGE);

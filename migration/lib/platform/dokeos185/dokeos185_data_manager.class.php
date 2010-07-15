@@ -137,6 +137,26 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	return $this->retrieve_objects($data_class->get_table_name(), null, $offset, $count, null, $data_class->get_class_name());
     }
     
+    /**
+     * Check wether a user is a platform admin
+     */
+    function is_platform_admin($user)
+    {
+    	$condition = new EqualityCondition(Dokeos185User :: PROPERTY_USER_ID, $user->get_user_id());
+    	$count = $this->count_objects('admin', $condition);
+    	
+    	return ($count > 0);
+    }
+    
+    /**
+     * Gets the system path of the dokeos185 installation
+     */
+    function get_sys_path()
+    {
+    	$conf = $this->get_configuration();
+    	return $conf['root_sys'];
+    }
+    
 }
 
 ?>

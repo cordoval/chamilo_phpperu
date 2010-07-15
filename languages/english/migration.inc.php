@@ -50,8 +50,10 @@ $lang['migration']['SelectBlocks'] = 'Select blocks';
 
 $lang['migration']['StartMigration'] = 'Start migration';
 $lang['migration']['StartMigrationForTable'] = 'Start migration for table <b>{TABLE}</b>';
-$lang['migration']['ObjectsMigrated'] = '<b>{OBJECTCOUNT}</b> object(s) are migrated.';
-$lang['migration']['ObjectsNotMigrated'] = '<b>{OBJECTCOUNT}</b> object(s) are not migrated because they are invalid.';
+$lang['migration']['ObjectsMigrated'] = '<b>{OBJECTCOUNT}</b> object are migrated.';
+$lang['migration']['ObjectsNotMigrated'] = '<b>{OBJECTCOUNT}</b> object are not migrated because they are invalid.';
+$lang['migration']['ObjectMigrated'] = '<b>1</b> object is migrated.';
+$lang['migration']['ObjectNotMigrated'] = '<b>1</b> object is not migrated because it is invalid.';
 $lang['migration']['GeneralInvalidMessage'] = 'FAILED: {TYPE} is not valid ( ID: {ID} )';
 $lang['migration']['GeneralConvertedMessage'] ='SUCCES: new {TYPE} added ( OLD ID: {OLD_ID} - NEW ID: {NEW_ID} )';
 $lang['migration']['FinishedMigrationForTable'] = 'Finished migration for table <b>{TABLE}</b>';
@@ -63,4 +65,6 @@ $lang['migration']['UsersMigrationBlockInfo'] = 'On this page the users will be 
 
 $lang['migration']['ClassesMigrationBlockInfoNext'] = 'On the next page the classes will be migrated';
 $lang['migration']['ClassesMigrationBlockInfo'] = 'On this page the classes will be migrated';
+$lang['migration']['ClassUserInvalidMessage'] = 'FAILED: class user is not valid (CLASS: {CLASS_ID} - USER: {USER_ID})';
+$lang['migration']['ClassUserConvertedMessage'] = 'SUCCES: new class user added (CLASS: {CLASS_ID} - USER: {USER_ID})';
 ?>

@@ -40,6 +40,7 @@ abstract class MigrationDataClass extends DataClass
 	/**
 	 * Creates a failed element object
 	 * @param Int $id
+	 * @param String $table
 	 */
 	function create_failed_element($id, $table = null)
 	{
@@ -59,9 +60,25 @@ abstract class MigrationDataClass extends DataClass
 	}
 	
 	/**
+	 * Retrieves a failed element
+	 * @param Int $id
+	 * @param String $table
+	 */
+	function get_failed_element($id, $table = null)
+	{
+		if(!$table)
+		{
+			$table = $this->get_table_name();
+		}
+		
+		return MigrationDataManager :: retrieve_failed_element_by_id_and_table($id, $table);
+	}
+	
+	/**
 	 * Creates an id reference object
 	 * @param int $old_id
 	 * @param int $new_id
+	 * @param String $table
 	 */
 	function create_id_reference($old_id, $new_id, $table = null)
 	{
@@ -82,6 +99,25 @@ abstract class MigrationDataClass extends DataClass
 	}
 	
 	/**
+	 * Retrieves an id reference
+	 * @param Int $old_id
+	 * @param String $table
+	 */
+	function get_id_reference($old_id, $table = null)
+	{
+		if(!$table)
+		{
+			$table = $this->get_table_name();
+		}
+		
+		$id_reference = MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($old_id, $table);
+		if($id_reference)
+		{
+			return $id_reference->get_new_id();
+		} 
+	}
+	
+	/**
 	 * Creates a file recovery object
 	 * @param String $old_file
 	 * @param String $new_file
@@ -93,6 +129,40 @@ abstract class MigrationDataClass extends DataClass
 		$file_recovery->set_new_path($new_file);
 		return $file_recovery->create();
 	}
+	
+	/**
+     * Migrates a file to a new place, makes use of Filesystem class
+     * Built in checks for same filename
+     * @param String $old_rel_path Relative path on the old system
+     * @param String $new_rel_path Relative path on the chamilo system
+     * @return String $new_filename
+     */
+    function migrate_file($old_path, $new_path, $filename, $new_filename = null)
+    {
+        if(!$new_filename)
+        {
+        	$new_filename = $filename;
+        }
+        
+        $old_file = $old_path . $filename;
+        $new_file = $new_path . $new_filename;
+
+        $secure_filename = Filesystem :: copy_file_with_double_files_protection($old_path, $filename, $new_path, $new_filename, PlatformSetting :: get('move_files', MigrationManager :: APPLICATION_NAME));
+        
+    	if(!$secure_filename)
+		{
+			return;
+		}
+        
+        if($secure_filename)
+        {
+        	$new_file = $new_path . $secure_filename;
+        }
+        
+        $this->create_file_recovery($old_file, $new_file);
+
+        return $secure_filename;
+    }
 	
     /**
      * Factory to retrieve the correct class of an old system

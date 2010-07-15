@@ -57,6 +57,36 @@ abstract class Dokeos185MigrationDataClass extends MigrationDataClass
 		return parent :: create_id_reference($old_id, $new_id, $table);
 	}
     
+	/**
+	 * Retrieves a failed element
+	 * @param Int $id
+	 * @param String $table
+	 */
+	function get_failed_element($id, $table = null)
+	{
+		if(!$table)
+		{
+			$table = $this->get_database_name() . '.' . $this->get_table_name();
+		}
+		
+		return parent :: get_failed_element($id, $table);
+	}
+	
+	/**
+	 * Retrieves an id reference
+	 * @param Int $old_id
+	 * @param String $table
+	 */
+	function get_id_reference($old_id, $table = null)
+	{
+		if(!$table)
+		{
+			$table = $this->get_database_name() . '.' . $this->get_table_name();
+		}
+		
+		return parent :: get_id_reference($old_id, $table);
+	}
+	
     abstract static function get_database_name();
     
 }
