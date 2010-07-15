@@ -640,7 +640,7 @@ class Database
     {
         $this->connection->loadModule('Manager');
         $manager = $this->connection->manager;
-        if ($manager->truncateTable($this->escape_table_name($table_name)))
+        if (!MDB2 :: isError($manager->truncateTable($this->escape_table_name($table_name))))
         {
             if ($optimize)
             {

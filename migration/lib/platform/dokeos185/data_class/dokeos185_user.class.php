@@ -479,7 +479,6 @@ class Dokeos185User extends Dokeos185MigrationDataClass
     /**
      * Checks if the user is valid
      * Checks if username is valid
-     * @param Array $lcms_users
      * @return Boolean
      */
     function is_valid()
@@ -492,10 +491,10 @@ class Dokeos185User extends Dokeos185MigrationDataClass
             return false;
         }
         
-        return true;
-
+        $udm = UserDataManager :: get_instance();
+        
         $index = 0;
-        $user = $this->username_exists($lcms_users, $this->get_username());
+        $user = $udm->retrieve_user_by_username($this->get_username());
         $firstuser = $user;
         $newusername = $this->get_username();
 
@@ -504,19 +503,16 @@ class Dokeos185User extends Dokeos185MigrationDataClass
             do
             {
                 $newusername = $newusername . ($index ++);
-                $user = $this->username_exists($lcms_users, $newusername);
+                $user = $udm->retrieve_user_by_username($newusername);
             }
             while ($user);
         }
 
-        $lcms_users = array();
-        unset($lcms_users);
 
         if ($firstuser)
         {
             $firstuser->set_username($newusername);
             $firstuser->update();
-
             //TODO: mail the user of his changes to his username
         }
 
