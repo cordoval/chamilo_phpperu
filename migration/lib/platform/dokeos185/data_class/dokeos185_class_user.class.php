@@ -64,7 +64,7 @@ class Dokeos185ClassUser extends Dokeos185MigrationDataClass
         	  $this->get_failed_element($this->get_user_id(), 'main_database.user'))
         {
             $this->create_failed_element($this->get_class_id() . ' - ' . $this->get_user_id());
-            $this->set_message(Translation :: get('ClassUserInvalidMessage', array('TYPE' => 'class_user', 'CLASS_ID' => $this->get_class_id(), 'USER_ID' => $this->get_user_id())));
+            $this->set_message(Translation :: get('ClassUserInvalidMessage', array('CLASS_ID' => $this->get_class_id(), 'USER_ID' => $this->get_user_id())));
             return false;
         }
         
@@ -93,7 +93,7 @@ class Dokeos185ClassUser extends Dokeos185MigrationDataClass
         }
         
         $lcms_class_user->create();
-        $this->set_message(Translation :: get('ClassUserConvertedMessage', array('TYPE' => 'class', 'CLASS_ID' => $this->get_class_id(), 'USER_ID' => $this->get_user_id())));
+        $this->set_message(Translation :: get('ClassUserConvertedMessage', array('CLASS_ID' => $this->get_class_id(), 'USER_ID' => $this->get_user_id())));
     }
     
 	static function get_table_name()

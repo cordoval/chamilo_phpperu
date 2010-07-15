@@ -71,6 +71,7 @@ $lang['migration']['ClassUserConvertedMessage'] = 'SUCCES: new class user added 
 $lang['migration']['PersonalAgendasMigrationBlockInfoNext'] = 'On the next page all the personal agenda calendar events will be migrated';
 $lang['migration']['PersonalAgendasMigrationBlockInfo'] = 'On this page all the personal agenda calendar events will be migrated';
 
-$lang['migration']['SettingsMigrationBlockInfoNext'] = 'On the next page all the settings will be migrated';
-$lang['migration']['SettingsMigrationBlockInfo'] = 'On this page all the settings will be migrated';
+$lang['migration']['SettingsMigrationBlockInfoNext'] = 'On the next page all the settings and system announcements will be migrated';
+$lang['migration']['SettingsMigrationBlockInfo'] = 'On this page all the settings and system announcements will be migrated';
+$lang['migration']['SettingConvertedMessage'] = 'SUCCES: setting updated (SETTING: {SETTING} - VALUE: {VALUE})';
 ?>

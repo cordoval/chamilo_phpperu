@@ -5,8 +5,8 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_setting_current.class.php';
-require_once dirname(__FILE__) . '/../../../admin/lib/setting.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 class
@@ -17,12 +17,14 @@ require_once dirname(__FILE__) . '/../../../admin/lib/setting.class.php';
 
 class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
 {
-    private $convert = array('siteName' => 'site_name', 'server_type' => 'server_type', 'Institution' => 'institution', 'InstitutionUrl' => 'institution_url', 'show_administrator_data' => 'show_administrator_data', 'administratorName' => 'administrator_firstname', 'administratorSurname' => 'administrator_surname', 'emailAdministrator' => 'administrator_email', 'administratorTelephone' => 'administrator_telephone', 'allow_lostpassword' => 'allow_password_retrieval', 'allow_registration' => 'allow_registration');
-    
-    /**
-     * Migration data manager
-     */
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'settings_current';   
+	const DATABASE_NAME = 'main_database';
+	
+	private static $convert = array('siteName' => 'site_name', 'server_type' => 'server_type', 'Institution' => 'institution', 'InstitutionUrl' => 'institution_url', 
+									'show_administrator_data' => 'show_administrator_data', 'administratorName' => 'administrator_firstname', 'administratorSurname' => 'administrator_surname', 
+									'emailAdministrator' => 'administrator_email', 'administratorTelephone' => 'administrator_telephone');
+									//'allow_lostpassword' => 'allow_password_retrieval', 'allow_registration' => 'allow_registration');
     
     /**
      * current setting properties
@@ -40,81 +42,12 @@ class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
     const PROPERTY_SUBKEYTEXT = 'subkeytext';
     
     /**
-     * Alfanumeric identifier of the current setting object.
-     */
-    private $code;
-    
-    /**
-     * Default properties of the current setting object, stored in an associative
-     * array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new current setting object.
-     * @param array $defaultProperties The default properties of the current setting
-     *                                 object. Associative array.
-     */
-    function Dokeos185SettingCurrent($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property of this current setting object by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties of this current setting.
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    /**
      * Get the default properties of all current setting.
      * @return array The property names.
      */
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_VARIABLE, self :: PROPERTY_SUBKEY, self :: PROPERTY_TYPE, self :: PROPERTY_CATEGORY, self :: PROPERTY_SELECTED_VALUE, self :: PROPERTY_TITLE, self :: PROPERTY_COMMENT, self :: PROPERTY_SCOPE, self :: PROPERTY_SUBKEYTEXT);
-    }
-
-    /**
-     * Sets a default property of this current setting by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Checks if the given identifier is the name of a default current setting
-     * property.
-     * @param string $name The identifier.
-     * @return boolean True if the identifier is a property name, false
-     *                 otherwise.
-     */
-    static function is_default_property_name($name)
-    {
-        return in_array($name, self :: get_default_property_names());
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -221,9 +154,9 @@ class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return Boolean
      */
-    function is_valid($parameters)
+    function is_valid()
     {
-        return isset($this->convert[$this->get_variable()]);
+        return true;
     }
 
     /**
@@ -231,69 +164,65 @@ class Dokeos185SettingCurrent extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return null
      */
-    function convert_data
+    function convert_data()
     {
         //course_rel_user parameters
-        $i = 0;
-        $value = $this->convert[$this->get_variable()];
+        $value = self :: $convert[$this->get_variable()];
         if ($value)
         {
-            $lcms_admin_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name($value);
+            $chamilo_admin_setting = AdminDataManager :: get_instance()->retrieve_setting_from_variable_name($value);
             
             if ($this->get_variable() == 'allow_lostpassword')
             {
                 if ($this->get_selected_value() == 'true')
+                {
                     $this->set_selected_value(1);
+                }
                 else
+                {
                     $this->set_selected_value(0);
+                }
             }
             
             if ($this->get_variable() == 'allow_registration')
             {
                 if ($this->get_selected_value() == 'true')
+                {
                     $this->set_selected_value(1);
+                }
                 else
+                {
                     $this->set_selected_value(0);
+                }
             }
             
-            if ($lcms_admin_setting)
+            if ($chamilo_admin_setting)
             {
-                $lcms_admin_setting->set_value($this->get_selected_value());
-                
-                // Update setting in database
-                $lcms_admin_setting->update();
-                
-            //return $lcms_admin_setting;
+                $chamilo_admin_setting->set_value($this->get_selected_value());
+                $chamilo_admin_setting->update();
+                $this->set_message(Translation :: get('SettingConvertedMessage', array('SETTING' => $value, 'VALUE' => $this->get_selected_value())));
             }
-            
-            return $lcms_admin_setting;
-        }
-        
-        return null;
+        }        
     }
 
-    /**
-     * Gets all the system announcement
-     * @param Array $parameters
-     * @return Array of dokeos185systemannouncements
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = 'main_database';
-        $tablename = 'settings_current';
-        $classname = 'Dokeos185SettingCurrent';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
-
-    static function get_database_table($parameters)
+    
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'main_database';
-        $array['table'] = 'settings_current';
-        return $array;
+    	return self :: CLASS_NAME;
+    }
+    
+    static function get_database_name()
+    {
+    	return self :: DATABASE_NAME;
+    }
+    
+    static function get_retrieve_condition()
+    {
+    	return new InCondition(self :: PROPERTY_VARIABLE, array_keys(self :: $convert));
     }
 }
 ?>

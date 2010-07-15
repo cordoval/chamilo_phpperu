@@ -185,6 +185,14 @@ abstract class MigrationDataClass extends DataClass
     }
     
     /**
+     * Additional conditions to retrieve data from the data class
+     */
+    static function get_retrieve_condition()
+    {
+    	return null;
+    }
+    
+    /**
      * Checks wether the current data is valid
      */
     abstract function is_valid();
