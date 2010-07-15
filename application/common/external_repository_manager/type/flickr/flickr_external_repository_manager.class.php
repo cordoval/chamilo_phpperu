@@ -47,10 +47,9 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         return FlickrExternalRepositoryConnector :: get_instance($this)->delete_external_repository_object($id);
     }
 
-    function export_external_repository_object($object)
+    function export_external_repository_object($content_object)
     {
-        $connector = FlickrExternalRepositoryConnector :: get_instance($this);
-        return $connector->export_youtube_video($object);
+        return FlickrExternalRepositoryConnector :: get_instance($this)->export_external_repository_object($content_object);
     }
 
     function support_sorting_direction()

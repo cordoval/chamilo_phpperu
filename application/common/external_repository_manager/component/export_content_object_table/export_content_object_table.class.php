@@ -3,14 +3,14 @@
  * $Id: content_object_table.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.repo_viewer.component.content_object_table
  */
-require_once dirname(__FILE__) . '/streaming_video_content_object_table_data_provider.class.php';
-require_once dirname(__FILE__) . '/streaming_video_content_object_table_column_model.class.php';
-require_once dirname(__FILE__) . '/streaming_video_content_object_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/export_content_object_table_data_provider.class.php';
+require_once dirname(__FILE__) . '/export_content_object_table_column_model.class.php';
+require_once dirname(__FILE__) . '/export_content_object_table_cell_renderer.class.php';
 /**
  * This class represents a table with learning objects which are candidates for
  * publication.
  */
-class StreamingVideoContentObjectTable extends ObjectTable
+class ExportContentObjectTable extends ObjectTable
 {
     const DEFAULT_NAME = 'video_content_object_table';
 
@@ -26,12 +26,12 @@ class StreamingVideoContentObjectTable extends ObjectTable
      * the selected learning object.
      * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
      */
-    function StreamingVideoContentObjectTable($parent, $owner, $types, $query, $table_actions)
+    function ExportContentObjectTable($parent, $owner, $types, $query, $table_actions)
     {
-        $data_provider = new StreamingVideoContentObjectTableDataProvider($owner, $types, $query, $parent);
-        $column_model = new StreamingVideoContentObjectTableColumnModel();
-        $cell_renderer = new StreamingVideoContentObjectTableCellRenderer($table_actions);
-        parent :: __construct($data_provider, StreamingVideoContentObjectTable :: DEFAULT_NAME, $column_model, $cell_renderer);
+        $data_provider = new ExportContentObjectTableDataProvider($owner, $types, $query, $parent);
+        $column_model = new ExportContentObjectTableColumnModel();
+        $cell_renderer = new ExportContentObjectTableCellRenderer($table_actions);
+        parent :: __construct($data_provider, ExportContentObjectTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 
         $this->set_form_actions($actions);
     }

@@ -7,7 +7,7 @@ require_once Path :: get_application_library_path() . 'repo_viewer/component/con
 /**
  * This class represents a data provider for a publication candidate table
  */
-class StreamingVideoContentObjectTableDataProvider extends ContentObjectTableDataProvider
+class ExportContentObjectTableDataProvider extends ContentObjectTableDataProvider
 {
     /**
      * Constructor.
@@ -16,7 +16,7 @@ class StreamingVideoContentObjectTableDataProvider extends ContentObjectTableDat
      * selected.
      * @param string $query The search query.
      */
-    function StreamingVideoContentObjectTableDataProvider($owner, $types, $query = null, $parent)
+    function ExportContentObjectTableDataProvider($owner, $types, $query = null, $parent)
     {
         parent :: __construct($owner, $types, $query, $parent);
     }
