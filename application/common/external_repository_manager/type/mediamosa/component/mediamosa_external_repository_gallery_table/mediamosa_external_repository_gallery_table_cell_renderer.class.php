@@ -27,7 +27,7 @@ class MediamosaExternalRepositoryGalleryTableCellRenderer extends DefaultExterna
           return implode("\n", $html);
     }
 
-    function get_cell_content($object)
+    function get_cell_content(ExternalRepositoryObject $object)
     {
         $html = array();
         $html[] = '<h3>' . Utilities :: truncate_string($object->get_title(), 25) . '</h3>';
