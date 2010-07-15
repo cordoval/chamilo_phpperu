@@ -10,15 +10,17 @@ require_once dirname(__FILE__) . '/streaming_video_content_object_table_column_m
  */
 class StreamingVideoContentObjectTableCellRenderer extends ContentObjectTableCellRenderer
 {
+
     function get_publish_links($content_object)
     {
-        $toolbar = $this->get_table_actions();
-        
-        $table_actions = $toolbar->get_items();
-        foreach ($table_actions as $table_action)
+        $toolbar = new Toolbar();
+
+//        $table_actions = $toolbar->get_items();
+        foreach ($this->get_table_actions() as $table_action)
         {
             $table_action->set_href(str_replace('%d', $content_object->get_id(), $table_action->get_href()));
         }
+        $toolbar->add_item($table_action);
 
         return $toolbar->as_html();
     }

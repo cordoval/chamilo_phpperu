@@ -119,11 +119,14 @@ class FlickrExternalRepositoryConnector
         $search_parameters['text'] = $condition;
         $search_parameters['extras'] = $attributes;
 
-        $order_direction = $this->convert_order_property($order_property);
-
-        if ($order_direction)
+        if ($order_property)
         {
-            $search_parameters['sort'] = $order_direction;
+            $order_direction = $this->convert_order_property($order_property);
+
+            if ($order_direction)
+            {
+                $search_parameters['sort'] = $order_direction;
+            }
         }
 
         switch ($feed_type)
@@ -198,21 +201,7 @@ class FlickrExternalRepositoryConnector
 
     function count_external_repository_objects($condition)
     {
-        if ($condition)
-        {
-            $parameters = array();
-            $parameters['api_key'] = $this->key;
-            $parameters['per_page'] = 1;
-            $parameters['page'] = 1;
-            $parameters['text'] = $condition;
-
-            $photos = $this->flickr->photos_search($parameters);
-        }
-        else
-        {
-            $photos = $this->flickr->photos_getRecent(null, 1, 1);
-        }
-
+        $photos = $this->retrieve_photos($condition, $order_property, 1, 1);
         return $photos['total'];
     }
 
@@ -311,6 +300,38 @@ class FlickrExternalRepositoryConnector
         return $object;
     }
 
+    function update_external_repository_object($values)
+    {
+        $success = $this->flickr->photos_setMeta($values[FlickrExternalRepositoryObject :: PROPERTY_ID], $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION]);
+
+        if (! $success)
+        {
+            return false;
+        }
+        else
+        {
+            $tags = explode(',', $values[FlickrExternalRepositoryObject :: PROPERTY_TAGS]);
+            $tags = '"' . implode('" "', $tags) . '"';
+
+            $success = $this->flickr->photos_setTags($values[FlickrExternalRepositoryObject :: PROPERTY_ID], $tags);
+
+            if (! $success)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function create_external_repository_object($values, $photo_path)
+    {
+        $tags = explode(',', $values[FlickrExternalRepositoryObject :: PROPERTY_TAGS]);
+        $tags = '"' . implode('" "', $tags) . '"';
+
+        return $this->flickr->sync_upload($photo_path, $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
+    }
+
     function determine_rights($license, $photo_user_id)
     {
         $users_match = ($this->retrieve_user_id() == $photo_user_id ? true : false);
@@ -324,6 +345,11 @@ class FlickrExternalRepositoryConnector
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = $compatible_license || $users_match;
 
         return $rights;
+    }
+
+    function delete_external_repository_object($id)
+    {
+        return $this->flickr->photos_delete($id);
     }
 }
 ?>

@@ -44,8 +44,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 
     function delete_external_repository_object($id)
     {
-        $connector = FlickrExternalRepositoryConnector :: get_instance($this);
-        return $connector->delete_youtube_video($id);
+        return FlickrExternalRepositoryConnector :: get_instance($this)->delete_external_repository_object($id);
     }
 
     function export_external_repository_object($object)
@@ -111,7 +110,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 
     function get_external_repository_actions()
     {
-        return array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
+        return array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
     }
 
     function run()
@@ -129,6 +128,18 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
             case ExternalRepositoryManager :: ACTION_IMPORT_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Importer', $this);
                 break;
+            case ExternalRepositoryManager :: ACTION_EDIT_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Editor', $this);
+                break;
+            case ExternalRepositoryManager :: ACTION_DELETE_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Deleter', $this);
+                break;
+            case ExternalRepositoryManager :: ACTION_UPLOAD_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Uploader', $this);
+                break;
+            case ExternalRepositoryManager :: ACTION_EXPORT_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Exporter', $this);
+                break;
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
@@ -141,6 +152,18 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     function get_available_renderers()
     {
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
+    }
+
+    function get_content_object_type_conditions()
+    {
+        $image_types = Document :: get_image_types();
+        $image_conditions = array();
+        foreach ($image_types as $image_type)
+        {
+            $image_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $image_type, Document :: get_type_name());
+        }
+
+        return new OrCondition($image_conditions);
     }
 }
 ?>

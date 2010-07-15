@@ -12,13 +12,22 @@ class FlickrExternalRepositoryManagerImporterComponent extends FlickrExternalRep
     {
         $image = ContentObject :: factory(Document :: get_type_name());
         $image->set_title($external_object->get_title());
-        $image->set_description($external_object->get_description());
+
+        if(PlatformSetting :: get('description_required', 'repository') && StringUtilities :: is_null_or_empty($external_object->get_description()))
+        {
+            $image->set_description('-');
+        }
+        else
+        {
+            $image->set_description($external_object->get_description());
+        }
+
         $image->set_owner_id($this->get_user_id());
         $image->set_filename($external_object->get_id() . '.jpg');
-        
+
         $sizes = $external_object->get_available_sizes();
         $image->set_in_memory_file(file_get_contents($external_object->get_url(array_pop($sizes))));
-        
+
         if ($image->create())
         {
             $parameters = $this->get_parameters();
@@ -32,7 +41,7 @@ class FlickrExternalRepositoryManagerImporterComponent extends FlickrExternalRep
             $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $external_object->get_id();
             $this->redirect(Translation :: get('ImportFailed'), true, $parameters);
         }
-    
+
     }
 }
 ?>

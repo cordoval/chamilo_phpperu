@@ -65,6 +65,11 @@ abstract class ExternalRepositoryComponent extends SubManager
 	    return $this->get_parent()->get_external_repository_object_actions($object);
 	}
 
+	function get_content_object_type_conditions()
+	{
+	    return $this->get_parent()->get_content_object_type_conditions();
+	}
+
 	function support_sorting_direction()
 	{
 		return $this->get_parent()->support_sorting_direction();

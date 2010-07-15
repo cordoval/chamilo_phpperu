@@ -42,14 +42,7 @@ class StreamingVideoContentObjectTableDataProvider extends ContentObjectTableDat
 
     function get_type_conditions()
     {
-        $video_types = Document :: get_video_types();
-        $video_conditions = array();
-        foreach($video_types as $video_type)
-        {
-            $video_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, Document :: get_type_name());
-        }
-
-        return new OrCondition($video_conditions);
+        return $this->get_parent()->get_parent()->get_content_object_type_conditions();
     }
 }
 ?>

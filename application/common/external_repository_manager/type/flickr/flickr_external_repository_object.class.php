@@ -88,12 +88,19 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
         return $this->set_default_property(self :: PROPERTY_TAGS, $tags);
     }
 
-    function get_tags_string()
+    function get_tags_string($include_links = true)
     {
         $tags = array();
         foreach ($this->get_tags() as $tag)
         {
-            $tags[] = '<a href="http://www.flickr.com/photos/tags/' . $tag['text'] . '">' . $tag['display'] . '</a>';
+            if ($include_links)
+            {
+                $tags[] = '<a href="http://www.flickr.com/photos/tags/' . $tag['text'] . '">' . $tag['display'] . '</a>';
+            }
+            else
+            {
+                $tags[] = $tag['display'];
+            }
         }
 
         return implode(', ', $tags);

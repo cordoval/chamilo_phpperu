@@ -7,7 +7,7 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
 {
     const PARAM_FEED_TYPE = 'feed';
     const PARAM_FEED_IDENTIFIER = 'identifier';
-    
+
     const FEED_TYPE_GENERAL = 1;
     const FEED_TYPE_MYVIDEOS = 2;
     const FEED_STANDARD_TYPE = 3;
@@ -219,6 +219,18 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     function get_available_renderers()
     {
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
+    }
+
+    function get_content_object_type_conditions()
+    {
+        $video_types = Document :: get_video_types();
+        $video_conditions = array();
+        foreach ($video_types as $video_type)
+        {
+            $video_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, Document :: get_type_name());
+        }
+
+        return new OrCondition($video_conditions);
     }
 }
 ?>
