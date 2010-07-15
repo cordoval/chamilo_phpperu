@@ -140,6 +140,12 @@ abstract class Authentication
         $types[] = 'platform';
         return $types;
     }
+    
+    static function is_valid_authentication_type($type)
+    {
+    	$types = array_merge(self :: get_external_authentication_types(), self :: get_internal_authentication_types());
+    	return in_array($type, $types);
+    }
 
     function get_configuration()
     {

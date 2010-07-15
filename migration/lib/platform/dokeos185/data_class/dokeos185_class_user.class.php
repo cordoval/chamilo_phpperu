@@ -4,7 +4,8 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_class_user.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 class
@@ -15,7 +16,10 @@ require_once dirname(__FILE__) . '/../../lib/import/import_class_user.class.php'
 
 class Dokeos185ClassUser extends Dokeos185MigrationDataClass
 {
-    
+    const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'class_user';   
+	const DATABASE_NAME = 'main_database';
+	
     /**
      * class relation user properties
      */
@@ -24,81 +28,12 @@ class Dokeos185ClassUser extends Dokeos185MigrationDataClass
     const PROPERTY_USER_ID = 'user_id';
     
     /**
-     * Alfanumeric identifier of the class_user object.
-     */
-    private $code;
-    
-    /**
-     * Default properties of the class_user object, stored in an associative
-     * array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new class_user object.
-     * @param array $defaultProperties The default properties of the class_user
-     *                                 object. Associative array.
-     */
-    function Dokeos185ClassUser($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property of this class_user object by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties of this class_user.
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    /**
      * Get the default properties of all classe_users.
      * @return array The property names.
      */
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_CLASS_ID, self :: PROPERTY_USER_ID);
-    }
-
-    /**
-     * Sets a default property of this class_user by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Checks if the given identifier is the name of a default class_user
-     * property.
-     * @param string $name The identifier.
-     * @return boolean True if the identifier is a property name, false
-     *                 otherwise.
-     */
-    static function is_default_property_name($name)
-    {
-        return in_array($name, self :: get_default_property_names());
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -121,15 +56,15 @@ class Dokeos185ClassUser extends Dokeos185MigrationDataClass
 
     /**
      * Check if the class user is valid
-     * @param array $array the parameters for the validation
-     * @return true if the blog is valid 
      */
-    function is_valid($parameters)
+    function is_valid()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        if (! $this->get_class_id() || ! $this->get_user_id() || $mgdm->get_failed_element('dokeos_main.class', $this->get_class_id()) || $mgdm->get_failed_element('dokeos_main.user', $this->get_user_id()) || ! $mgdm->get_id_reference($this->get_user_id(), 'user_user'))
+        if (! $this->get_class_id() || ! $this->get_user_id() ||
+        	  $this->get_failed_element($this->get_class_id(), 'main_database.class') || 
+        	  $this->get_failed_element($this->get_user_id(), 'main_database.user'))
         {
-            $mgdm->add_failed_element($this->get_class_id() . '-' . $this->get_user_id(), 'dokeos_main.class_user');
+            $this->create_failed_element($this->get_class_id() . ' - ' . $this->get_user_id());
+            $this->set_message(Translation :: get('ClassUserInvalidMessage', array('TYPE' => 'class_user', 'CLASS_ID' => $this->get_class_id(), 'USER_ID' => $this->get_user_id())));
             return false;
         }
         
@@ -141,46 +76,39 @@ class Dokeos185ClassUser extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new course
      */
-    function convert_data
+    function convert_data()
     {
-        $mgdm = MigrationDataManager :: get_instance();
         $lcms_class_user = new GroupRelUser();
         
-        $class_id = $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup');
+        $class_id = $this->get_id_reference($this->get_class_id(), 'main_database.class');
         if ($class_id)
+        {
             $lcms_class_user->set_group_id($class_id);
+        }
         
-        $user_id = $mgdm->get_id_reference($this->get_user_id(), 'user_user');
+        $user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
         if ($user_id)
+        {
             $lcms_class_user->set_user_id($user_id);
+        }
         
         $lcms_class_user->create();
-        
-        return $lcms_class_user;
+        $this->set_message(Translation :: get('ClassUserConvertedMessage', array('TYPE' => 'class', 'CLASS_ID' => $this->get_class_id(), 'USER_ID' => $this->get_user_id())));
     }
-
-    /**
-     * Retrieve all class users from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of class users
-     */
-    static function retrieve_data($parameters)
+    
+	static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = 'main_database';
-        $tablename = 'class_user';
-        $classname = 'Dokeos185ClassUser';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
-
-    static function get_database_table($parameters)
+    
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'main_database';
-        $array['table'] = 'class_user';
-        return $array;
+    	return self :: CLASS_NAME;
+    }
+    
+    static function get_database_name()
+    {
+    	return self :: DATABASE_NAME;
     }
 }
 ?>

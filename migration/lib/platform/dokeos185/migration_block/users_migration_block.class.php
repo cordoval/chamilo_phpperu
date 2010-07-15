@@ -1,7 +1,6 @@
 <?php
 
 require_once dirname(__FILE__) . '/../data_class/dokeos185_user.class.php';
-require_once dirname(__FILE__) . '/../data_class/dokeos185_class.class.php';
 
 /**
  * Class to start the migration of the users
