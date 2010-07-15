@@ -769,4 +769,5 @@ $lang['common']['DisplayOrder'] = 'Display Order';
 $lang['common']['PublisherId'] = 'Publisher';
 $lang['common']['SecondsShort'] = 's';
 $lang['common']['ExportToPdf'] = 'Export to pdf';
+$lang['common']['NoThumbnailAvailable'] = 'No thumbnail available';
 ?>

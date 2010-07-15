@@ -31,7 +31,7 @@ class SlideshowContentObjectRenderer extends ContentObjectRenderer
         $parameters = $this->get_parameters();
 
         $play_toolbar = new Toolbar();
-//        $play_toolbar->add_items($this->get_external_repository_object_actions($content_object));
+        $play_toolbar->add_items($this->get_content_object_actions($content_object));
         if (Request :: get(self :: SLIDESHOW_AUTOPLAY))
         {
             $parameters[self :: SLIDESHOW_INDEX] = Request :: get(self :: SLIDESHOW_INDEX);

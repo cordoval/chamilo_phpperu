@@ -100,7 +100,16 @@ abstract class ContentObjectDisplay
 
     function get_preview($is_thumbnail = false)
     {
-        return Theme :: get_common_image('thumbnail');
+        $html = array();
+        $html[] = '<div class="no_thumbnail">';
+        $html[] = '<div class="background">';
+        $html[] = Theme :: get_common_image('thumbnail');
+        $html[] = '<h1>' . Translation :: get('NoThumbnailAvailable') . '</h1>';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '</div>';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '</div>';
+        return implode("\n", $html);
     }
 
     /**
