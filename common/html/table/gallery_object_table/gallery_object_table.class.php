@@ -41,7 +41,7 @@ class GalleryObjectTable
      * The form actions to use in this table
      */
     private $form_actions;
-    
+
     private $ajax_enabled;
     private $enable_order_directions;
 
@@ -60,6 +60,13 @@ class GalleryObjectTable
      * for the table.
      * Omit to use the
      * default renderer.
+     */
+
+    /**
+     * @param GalleryObjectTableDataProvider $data_provider
+     * @param string $table_name
+     * @param GalleryObjectTableCellRenderer $cell_renderer
+     * @param GalleryObjectTablePropertyModel $property_model
      */
     function GalleryObjectTable($data_provider, $table_name = null, $cell_renderer = null, $property_model = null)
     {
@@ -100,7 +107,7 @@ class GalleryObjectTable
     {
         $count = $this->get_default_column_count() * $this->get_default_row_count();
         $table = new GalleryTable($this->get_name(), array($this, 'get_object_count'), array($this, 'get_objects'), array($this, 'get_property_model'), $count, 0, SORT_ASC, $this->get_order_directions_enabled(), $this->get_ajax_enabled());
-        
+
         $table->set_additional_parameters($this->get_additional_parameters());
         if ($this->has_form_actions())
         {
@@ -310,10 +317,10 @@ class GalleryObjectTable
     {
         $property_model = $this->get_property_model();
         $objects = $this->get_data_provider()->get_objects($offset, $count, $property_model->get_order_property($order_property - ($this->has_form_actions() ? 1 : 0), $order_direction));
-        
+
         $column_count = $this->get_default_column_count();
         $row_count = $this->get_default_row_count();
-        
+
         $table_data = array();
         $row = array();
         $i = 0;
@@ -323,7 +330,7 @@ class GalleryObjectTable
             {
                 $table_data[] = $row;
                 $row = array();
-                
+
                 $row[] = array($object->get_id(), $this->get_cell_renderer()->render_cell($object));
                 //$column = new ObjectTableColumn();
                 //$row[] = array($object->get_id(), $this->get_cell_renderer()->render_cell($column, $object));

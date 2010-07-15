@@ -10,6 +10,7 @@
 class RepositoryManagerBrowserComponent extends RepositoryManager
 {
     private $form;
+    private $action_bar;
 
     /**
      * Runs this component and displays its output.
@@ -19,11 +20,10 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository general');
 
-        $this->action_bar = $this->get_action_bar();
         $this->form = new RepositoryFilterForm($this, $this->get_url(array('category' => $this->get_parent_id())));
         $output = $this->get_content_objects_html();
 
-        $query = $this->action_bar->get_query();
+        $query = $this->get_action_bar()->get_query();
         if (isset($query) && $query != '')
         {
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
@@ -46,7 +46,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
 
         $this->display_header($trail, false, true);
 
-        echo $this->action_bar->as_html();
+        echo $this->get_action_bar()->as_html();
         echo '<br />' . $this->form->display() . '<br />';
         echo $output;
         echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
@@ -60,40 +60,58 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
      */
     private function get_content_objects_html()
     {
-        $condition = $this->get_condition();
-        $parameters = $this->get_parameters(true);
-        $types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
-        if (is_array($types) && count($types))
-        {
-            $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
-        }
+//        $condition = $this->get_condition();
+//        $parameters = $this->get_parameters(true);
+//        $types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
+//        if (is_array($types) && count($types))
+//        {
+//            $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
+//        }
+//
+//        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->get_action_bar()->get_query();
 
-        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        $renderer = ContentObjectRenderer :: factory($this->get_renderer(), $this);
+        return $renderer->as_html();
 
-        $table = new RepositoryBrowserTable($this, $parameters, $condition);
-        return $table->as_html();
+    //        $table = new RepositoryBrowserGalleryTable($this, $parameters, $condition);
+    //        return $table->as_html();
     }
 
     function get_action_bar()
     {
-        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+        if (! isset($this->action_bar))
+        {
+            $this->action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->set_search_url($this->get_url(array('category' => $this->get_parent_id())));
+            $this->action_bar->set_search_url($this->get_url(array('category' => $this->get_parent_id())));
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $this->action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(
+                    Application :: PARAM_ACTION => RepositoryManager :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ExportEntireRepository'), Theme :: get_common_image_path() . 'action_backup.png', $this->get_url(array(
-                Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXPORT_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => 'all')), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $this->action_bar->add_tool_action(new ToolbarItem(Translation :: get('ExportEntireRepository'), Theme :: get_common_image_path() . 'action_backup.png', $this->get_url(array(
+                    Application :: PARAM_ACTION => RepositoryManager :: ACTION_EXPORT_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => 'all')), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
-        return $action_bar;
+            $renderers = $this->get_available_renderers();
+
+            if (count($renderers) > 1)
+            {
+                foreach ($renderers as $renderer)
+                {
+                    $this->action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($renderer) . 'View'), Theme :: get_image_path() . 'view_' . $renderer . '.png', $this->get_url(array(
+                            RepositoryManager :: PARAM_RENDERER => $renderer)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                }
+            }
+        }
+
+        return $this->action_bar;
     }
 
-    private function get_condition()
+    public function get_condition()
     {
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
@@ -106,7 +124,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
             $conditions[] = new NotCondition(new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type));
         }
 
-        $query = $this->action_bar->get_query();
+        $query = $this->get_action_bar()->get_query();
         if (isset($query) && $query != '')
         {
             $or_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*');

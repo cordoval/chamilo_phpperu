@@ -44,7 +44,7 @@ class RepositoryAutoloader
 					  'content_object_difference', 'content_object_display', 'content_object_form', 'content_object_import_form', 'content_object_include_parser',
 					  'content_object_metadata_catalog', 'content_object_metadata', 'content_object_pub_feedback', 'content_object_publication_attributes',
 					  'content_object', 'difference_engine', 'external_repository', 'external_repository_sync_info', 'quota_manager', 'repository_block',
-					  'repository_data_class', 'repository_data_manager', 'repository_rights', 'user_view_rel_content_object', 'user_view');
+					  'repository_data_class', 'repository_data_manager', 'repository_rights', 'user_view_rel_content_object', 'user_view', 'content_object_renderer');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
@@ -76,6 +76,7 @@ class RepositoryAutoloader
 	static function check_for_tables($classname)
 	{
 		$list = array('repository_browser_table' => 'browser/repository_browser_table.class.php',
+					  'repository_browser_gallery_table' => 'gallery_browser/repository_browser_gallery_table.class.php',
 					  'repository_version_browser_table' => 'version_browser/repository_version_browser_table.class.php',
 					  'template_browser_table' => 'browser/template_browser/template_browser_table.class.php',
 					  'repository_shared_content_objects_browser_table' => 'browser/shared_content_objects_browser/repository_shared_content_objects_browser_table.class.php',
@@ -121,7 +122,7 @@ class RepositoryAutoloader
 
 		              'external_repository_fedora' => 'external/external_repository_fedora.class.php',
 		              'external_repository_google_docs' => 'external/external_repository_google_docs.class.php',
-		
+
 					  'repository_manager' => 'repository_manager/repository_manager.class.php',
 					  'repository_manager_component' => 'repository_manager/repository_manager_component.class.php',
 					  'repository_search_form' => 'repository_manager/repository_search_form.class.php',

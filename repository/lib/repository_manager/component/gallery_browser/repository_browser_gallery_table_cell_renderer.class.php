@@ -1,14 +1,13 @@
 <?php
 /**
- * $Id: repository_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
+ * $Id: repository_browser_gallery_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
  */
-require_once dirname(__FILE__) . '/repository_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../content_object_table/default_content_object_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/../../../content_object_table/default_content_object_gallery_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRenderer
+class RepositoryBrowserGalleryTableCellRenderer extends DefaultContentObjectGalleryTableCellRenderer
 {
     /**
      * The repository browser component
@@ -19,30 +18,21 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function RepositoryBrowserTableCellRenderer($browser)
+    function RepositoryBrowserGalleryTableCellRenderer($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
     }
 
     // Inherited
-    function render_cell($column, $content_object)
+    function render_cell($content_object)
     {
-        if ($column === RepositoryBrowserTableColumnModel :: get_modification_column())
-        {
-            return $this->get_modification_links($content_object);
-        }
-
-        switch ($column->get_name())
-        {
-            case ContentObject :: PROPERTY_TYPE :
-                return '<a href="' . htmlentities($this->browser->get_type_filter_url($content_object->get_type())) . '">' . parent :: render_cell($column, $content_object) . '</a>';
-            case ContentObject :: PROPERTY_TITLE :
-                $title = parent :: render_cell($column, $content_object);
-                $title_short = Utilities :: truncate_string($title, 53, false);
-                return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
-        }
-        return parent :: render_cell($column, $content_object);
+        $html = array();
+        $html[] = '<div style="width: 20px; float: right;">';
+        $html[] = $this->get_modification_links($content_object);
+        $html[] = '</div>';
+        $html[] = parent :: render_cell($content_object);
+        return implode("\n", $html);
     }
 
     /**
@@ -51,12 +41,25 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($content_object)
+    /**
+     * @param ContentObject $content_object
+     */
+    function get_cell_content(ContentObject $content_object)
     {
+        $display = ContentObjectDisplay :: factory($content_object);
+
+        $html[] = '<h4>' . Utilities :: truncate_string($content_object->get_title(), 25) . '</h4>';
+        $html[] = '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '">' . $display->get_preview(true) . '</a>';
+
+        return implode("\n", $html);
+    }
+
+	private function get_modification_links($content_object)
+    {
+        $toolbar = new Toolbar();
+
 //        if (get_class($this->browser) == 'RepositoryManagerBrowserComponent')
 //        {
-            $toolbar = new Toolbar();
-
             $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Edit'),
         			Theme :: get_common_image_path().'action_edit.png',
@@ -163,24 +166,18 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
 				 	ToolbarItem :: DISPLAY_ICON
 				));
             }
-            return $toolbar->as_html();
 //        }
 //        elseif (get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')
 //        {
-//            $toolbar = new Toolbar();
 //           	$toolbar->add_item(new ToolbarItem(
 //        			Translation :: get('Add'),
 //        			Theme :: get_common_image_path().'action_add.png',
 //					$this->browser->get_add_content_object_url($content_object, $this->browser->get_cloi_id(), $this->browser->get_root_id()),
 //				 	ToolbarItem :: DISPLAY_ICON
 //				));
-//
-//            return $toolbar->as_html();
 //        }
-//        else
-//        {
-//            return '';
-//        }
+
+        return $toolbar->as_html();
     }
 }
 ?>
