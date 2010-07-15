@@ -67,4 +67,10 @@ $lang['migration']['ClassesMigrationBlockInfoNext'] = 'On the next page the clas
 $lang['migration']['ClassesMigrationBlockInfo'] = 'On this page the classes will be migrated';
 $lang['migration']['ClassUserInvalidMessage'] = 'FAILED: class user is not valid (CLASS: {CLASS_ID} - USER: {USER_ID})';
 $lang['migration']['ClassUserConvertedMessage'] = 'SUCCES: new class user added (CLASS: {CLASS_ID} - USER: {USER_ID})';
+
+$lang['migration']['PersonalAgendasMigrationBlockInfoNext'] = 'On the next page all the personal agenda calendar events will be migrated';
+$lang['migration']['PersonalAgendasMigrationBlockInfo'] = 'On this page all the personal agenda calendar events will be migrated';
+
+$lang['migration']['SettingsMigrationBlockInfoNext'] = 'On the next page all the settings will be migrated';
+$lang['migration']['SettingsMigrationBlockInfo'] = 'On this page all the settings will be migrated';
 ?>

@@ -533,7 +533,7 @@ class RepositoryDataManager
  	 *  return the id
  	 *  
      */
-    function get_repository_category_by_name_or_create_new($user_id, $title)
+    static function get_repository_category_by_name_or_create_new($user_id, $title)
     {
 		$conditions = array();
     	$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_NAME, $title);
