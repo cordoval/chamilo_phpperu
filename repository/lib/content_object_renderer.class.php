@@ -1,4 +1,6 @@
 <?php
+require_once Path :: get_library_path() . 'html/action_bar/action_bar_search_form.class.php';
+
 abstract class ContentObjectRenderer
 {
     const TYPE_TABLE = 'table';
@@ -33,9 +35,17 @@ abstract class ContentObjectRenderer
 
     abstract function as_html();
 
-    public function get_parameters()
+    public function get_parameters($include_search = false)
     {
-        return $this->get_repository_browser()->get_parameters();
+        $parameters = $this->get_repository_browser()->get_parameters();
+        $types = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE);
+        if (is_array($types) && count($types))
+        {
+            $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
+        }
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->get_repository_browser()->get_action_bar()->get_query();
+
+        return $parameters;
     }
 
     public function get_condition()

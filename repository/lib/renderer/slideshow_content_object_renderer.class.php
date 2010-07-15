@@ -28,24 +28,33 @@ class SlideshowContentObjectRenderer extends ContentObjectRenderer
         $first = ($slideshow_index == 0);
         $last = ($slideshow_index == $content_object_count - 1);
 
+        $parameters = $this->get_parameters();
+
         $play_toolbar = new Toolbar();
 //        $play_toolbar->add_items($this->get_external_repository_object_actions($content_object));
         if (Request :: get(self :: SLIDESHOW_AUTOPLAY))
         {
-            $play_toolbar->add_item(new ToolbarItem(Translation :: get('Stop'), Theme :: get_common_image_path() . 'action_stop.png', $this->get_url(array(
-                    self :: SLIDESHOW_INDEX => Request :: get(self :: SLIDESHOW_INDEX), self :: SLIDESHOW_AUTOPLAY => null)), ToolbarItem :: DISPLAY_ICON));
+            $parameters[self :: SLIDESHOW_INDEX] = Request :: get(self :: SLIDESHOW_INDEX);
+            $parameters[self :: SLIDESHOW_AUTOPLAY] = null;
+
+            $play_toolbar->add_item(new ToolbarItem(Translation :: get('Stop'), Theme :: get_common_image_path() . 'action_stop.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
-            $play_toolbar->add_item(new ToolbarItem(Translation :: get('Play'), Theme :: get_common_image_path() . 'action_play.png', $this->get_url(array(
-                    self :: SLIDESHOW_INDEX => Request :: get(self :: SLIDESHOW_INDEX), self :: SLIDESHOW_AUTOPLAY => 1)), ToolbarItem :: DISPLAY_ICON));
+            $parameters[self :: SLIDESHOW_INDEX] = Request :: get(self :: SLIDESHOW_INDEX);
+            $parameters[self :: SLIDESHOW_AUTOPLAY] = 1;
+
+            $play_toolbar->add_item(new ToolbarItem(Translation :: get('Play'), Theme :: get_common_image_path() . 'action_play.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
         }
 
         $navigation_toolbar = new Toolbar();
         if (! $first)
         {
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First'), Theme :: get_common_image_path() . 'action_first.png', $this->get_url(array(self :: SLIDESHOW_INDEX => 0)), ToolbarItem :: DISPLAY_ICON));
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Previous'), Theme :: get_common_image_path() . 'action_prev.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $slideshow_index - 1)), ToolbarItem :: DISPLAY_ICON));
+            $parameters[self :: SLIDESHOW_INDEX] = 0;
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('First'), Theme :: get_common_image_path() . 'action_first.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
+
+            $parameters[self :: SLIDESHOW_INDEX] = $slideshow_index - 1;
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Previous'), Theme :: get_common_image_path() . 'action_prev.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
@@ -55,8 +64,11 @@ class SlideshowContentObjectRenderer extends ContentObjectRenderer
 
         if (! $last)
         {
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Next'), Theme :: get_common_image_path() . 'action_next.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $slideshow_index + 1)), ToolbarItem :: DISPLAY_ICON));
-            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last'), Theme :: get_common_image_path() . 'action_last.png', $this->get_url(array(self :: SLIDESHOW_INDEX => $publication_count - 1)), ToolbarItem :: DISPLAY_ICON));
+            $parameters[self :: SLIDESHOW_INDEX] = $slideshow_index + 1;
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Next'), Theme :: get_common_image_path() . 'action_next.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
+
+            $parameters[self :: SLIDESHOW_INDEX] = $publication_count - 1;
+            $navigation_toolbar->add_item(new ToolbarItem(Translation :: get('Last'), Theme :: get_common_image_path() . 'action_last.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
