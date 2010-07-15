@@ -440,6 +440,34 @@ interface RepositoryDataManagerInterface
     function retrieve_doubles_in_repository($condition, $order_property, $offset, $count);
 
     function count_doubles_in_repository($condition);
+    
+    /**
+     * @param ExternalRepositorySetting $external_repository_setting
+     */
+    function create_external_repository_setting(ExternalRepositorySetting $external_repository_setting);
+    
+    /**
+     * @param ExternalRepositorySetting $external_repository_setting
+     */
+    function update_external_repository_setting(ExternalRepositorySetting $external_repository_setting);
+    
+    /**
+     * @param ExternalRepositorySetting $external_repository_setting
+     */
+    function delete_external_repository_setting(ExternalRepositorySetting $external_repository_setting);
+    
+    /**
+     * @param int $id
+     */
+    function retrieve_external_repository_setting($id);
+    
+    /**
+     * @param Condition $condition
+     * @param array $order_by
+     * @param int $offset
+     * @param int $max_objects
+     */
+    function retrieve_external_repository_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
 
 }
 ?>

@@ -1632,6 +1632,50 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         return $this->count_result_set($sql, ContentObject :: get_table_name());
     }
+    
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#create_external_repository_setting()
+     */
+    function create_external_repository_setting(ExternalRepositorySetting $external_repository_setting)
+    {
+        return $this->create($external_repository_setting);
+    }
+    
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#update_external_repository_setting()
+     */
+    function update_external_repository_setting(ExternalRepositorySetting $external_repository_setting)
+    {
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_ID, $external_repository_setting->get_id());
+        return $this->update($external_repository_setting, $condition);
+    }
+    
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#delete_external_repository_setting()
+     */
+    function delete_external_repository_setting(ExternalRepositorySetting $external_repository_setting)
+    {
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_ID, $external_repository_setting->get_id());
+        return $this->delete($external_repository_setting->get_table_name(), $condition);
+    }
+    
+    /**
+     * @param unknown_type $id
+     */
+    function retrieve_external_repository_setting($id)
+    {
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_ID, $id);
+        return $this->retrieve_object(ExternalRepositorySetting :: get_table_name(), $condition);
+
+    }
+    
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#retrieve_external_repository_settings()
+     */
+    function retrieve_external_repository_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
+    {
+        return $this->retrieve_objects(ExternalRepositorySetting :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
 
 }
 ?>
