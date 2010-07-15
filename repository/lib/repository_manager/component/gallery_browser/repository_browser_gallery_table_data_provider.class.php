@@ -9,18 +9,8 @@
  * This class implements some functions to allow repository browser tables to
  * retrieve information about the learning objects to display.
  */
-class RepositoryBrowserGalleryTableDataProvider extends ObjectTableDataProvider
+class RepositoryBrowserGalleryTableDataProvider extends GalleryObjectTableDataProvider
 {
-
-    /**
-     * Constructor
-     * @param RepositoryManagerComponent $browser
-     * @param Condition $condition
-     */
-    function RepositoryBrowserGalleryTableDataProvider($browser, $condition)
-    {
-    	parent :: __construct($browser, $condition);
-    }
 
     /**
      * Gets the learning objects
@@ -32,11 +22,6 @@ class RepositoryBrowserGalleryTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-
-        // We always use title as second sorting parameter
-        //		$order_property[] = ContentObject :: PROPERTY_TITLE;
-
-
         return $this->get_browser()->retrieve_content_objects($this->get_condition(), $order_property, $offset, $count);
     }
 

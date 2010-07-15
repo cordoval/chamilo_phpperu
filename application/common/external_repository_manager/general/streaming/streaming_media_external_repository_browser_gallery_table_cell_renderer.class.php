@@ -18,7 +18,7 @@ class StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer extends De
         $this->browser = $browser;
     }
 
-    function get_cell_content($object)
+    function get_cell_content(ExternalRepositoryObject $object)
     {
         $html = array();
         $html[] = '<h3>' . Utilities :: truncate_string($object->get_title(), 25) . ' (' . Utilities :: format_seconds_to_minutes($object->get_duration()) . ')</h3>';

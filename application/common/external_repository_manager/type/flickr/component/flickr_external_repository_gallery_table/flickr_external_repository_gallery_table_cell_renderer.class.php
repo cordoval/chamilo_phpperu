@@ -28,7 +28,7 @@ class FlickrExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRe
         return implode("\n", $html);
     }
 
-    function get_cell_content($object)
+    function get_cell_content(ExternalRepositoryObject $object)
     {
         $html = array();
         $display = ExternalRepositoryObjectDisplay :: factory($object);

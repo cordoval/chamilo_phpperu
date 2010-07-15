@@ -70,7 +70,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
 
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
 
-        $table = new RepositoryBrowserTable($this, $parameters, $condition);
+        $table = new RepositoryBrowserGalleryTable($this, $parameters, $condition);
         return $table->as_html();
     }
 
