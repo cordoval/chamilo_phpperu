@@ -332,6 +332,13 @@ class FlickrExternalRepositoryConnector
         return $this->flickr->sync_upload($photo_path, $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
     }
 
+    function export_external_repository_object($content_object)
+    {
+//        dump($content_object);
+//        exit;
+        return $this->flickr->sync_upload($content_object->get_full_path(), $content_object->get_title(), $content_object->get_description());
+    }
+
     function determine_rights($license, $photo_user_id)
     {
         $users_match = ($this->retrieve_user_id() == $photo_user_id ? true : false);
