@@ -59,6 +59,9 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
     	return $form;
     }
     
+    /**
+     * Retrieves the cleaning methods
+     */
     function get_cleaning_methods()
     {
     	$cleaning_methods = array();
@@ -69,6 +72,9 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
     	return $cleaning_methods;
     }
     
+    /**
+     * Cleans the settings with the selected cleaning method
+     */
     function clean_settings($form)
     {
     	$cleaning_method = $form->exportValue(self :: CLEANING_METHOD);
@@ -82,35 +88,28 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
     	}
     }
     
+    /**
+     * Cleans the migration blocks
+     */
     function clean_migration_blocks()
     {
-    	$mdm = MigrationDataManager :: get_instance();
-    	$block_registrations = $mdm->retrieve_migration_block_registrations();
-    	
-    	$succes = true;
-    	
-    	while($block_registration = $block_registrations->next_result())
-    	{
-    		$block_registration->set_is_migrated(0);
-    		$succes &= $block_registration->update();
-    	}
+    	$succes = MigrationDataManager :: get_instance()->reset_migration_block_registration_status();
+    	$succes &= $this->truncate_databases();
     	
     	return $succes;
     }
     
+    /**
+     * Cleans everything
+     */
     function clean_all()
     {
     	// Remove all migration blocks
     	$mdm = MigrationDataManager :: get_instance();
     	$adm = AdminDataManager :: get_instance();
-    	$block_registrations = $mdm->retrieve_migration_block_registrations();
     	
-    	$succes = true;
-    	
-    	while($block_registration = $block_registrations->next_result())
-    	{
-    		$succes &= $block_registration->delete();
-    	}
+    	$succes = $this->truncate_databases();
+    	$succes &= $mdm->truncate_migration_block_registrations();
     	
     	// Remove all settings
     	$settings = array(self :: SETTING_PLATFORM, self :: SETTING_PLATFORM_PATH, self :: SETTING_MOVE_FILES, self :: SETTING_MIGRATE_DELETED_FILES, self :: SETTING_IN_MIGRATION);
@@ -129,9 +128,22 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
     		}
     		
     		$setting->set_value($new_value);
-    		$setting->update();
+    		$succes &= $setting->update();
     	}
     	
+    	return $succes;
+    }
+    
+    /**
+     * Truncates the databases failed elements, file recoveries, id references
+     */
+    function truncate_databases()
+    {
+    	$mdm = MigrationDataManager :: get_instance();
+    	
+    	$succes = $mdm->truncate_failed_elements(); 
+    	$succes &= $mdm->truncate_file_recoveries();
+    	$succes &= $mdm->truncate_id_references();
     	return $succes;
     }
 }
