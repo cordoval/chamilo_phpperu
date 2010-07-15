@@ -58,8 +58,8 @@ class RepositoryBrowserGalleryTableCellRenderer extends DefaultContentObjectGall
     {
         $toolbar = new Toolbar();
 
-        if (get_class($this->browser) == 'RepositoryManagerBrowserComponent')
-        {
+//        if (get_class($this->browser) == 'RepositoryManagerBrowserComponent')
+//        {
             $toolbar->add_item(new ToolbarItem(
         			Translation :: get('Edit'),
         			Theme :: get_common_image_path().'action_edit.png',
@@ -166,16 +166,16 @@ class RepositoryBrowserGalleryTableCellRenderer extends DefaultContentObjectGall
 				 	ToolbarItem :: DISPLAY_ICON
 				));
             }
-        }
-        elseif (get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')
-        {
-           	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Add'),
-        			Theme :: get_common_image_path().'action_add.png',
-					$this->browser->get_add_content_object_url($content_object, $this->browser->get_cloi_id(), $this->browser->get_root_id()),
-				 	ToolbarItem :: DISPLAY_ICON
-				));
-        }
+//        }
+//        elseif (get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')
+//        {
+//           	$toolbar->add_item(new ToolbarItem(
+//        			Translation :: get('Add'),
+//        			Theme :: get_common_image_path().'action_add.png',
+//					$this->browser->get_add_content_object_url($content_object, $this->browser->get_cloi_id(), $this->browser->get_root_id()),
+//				 	ToolbarItem :: DISPLAY_ICON
+//				));
+//        }
 
         return $toolbar->as_html();
     }

@@ -53,8 +53,8 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
      */
     private function get_modification_links($content_object)
     {
-        if (get_class($this->browser) == 'RepositoryManagerBrowserComponent')
-        {
+//        if (get_class($this->browser) == 'RepositoryManagerBrowserComponent')
+//        {
             $toolbar = new Toolbar();
 
             $toolbar->add_item(new ToolbarItem(
@@ -164,23 +164,23 @@ class RepositoryBrowserTableCellRenderer extends DefaultContentObjectTableCellRe
 				));
             }
             return $toolbar->as_html();
-        }
-        elseif (get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')
-        {
-            $toolbar = new Toolbar();
-           	$toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Add'),
-        			Theme :: get_common_image_path().'action_add.png',
-					$this->browser->get_add_content_object_url($content_object, $this->browser->get_cloi_id(), $this->browser->get_root_id()),
-				 	ToolbarItem :: DISPLAY_ICON
-				));
-
-            return $toolbar->as_html();
-        }
-        else
-        {
-            return '';
-        }
+//        }
+//        elseif (get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')
+//        {
+//            $toolbar = new Toolbar();
+//           	$toolbar->add_item(new ToolbarItem(
+//        			Translation :: get('Add'),
+//        			Theme :: get_common_image_path().'action_add.png',
+//					$this->browser->get_add_content_object_url($content_object, $this->browser->get_cloi_id(), $this->browser->get_root_id()),
+//				 	ToolbarItem :: DISPLAY_ICON
+//				));
+//
+//            return $toolbar->as_html();
+//        }
+//        else
+//        {
+//            return '';
+//        }
     }
 }
 ?>

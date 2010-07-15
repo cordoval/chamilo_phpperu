@@ -70,8 +70,11 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
 
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
 
-        $table = new RepositoryBrowserGalleryTable($this, $parameters, $condition);
-        return $table->as_html();
+        $renderer = ContentObjectRenderer :: factory($this->get_renderer(), $this);
+        return $renderer->as_html();
+
+    //        $table = new RepositoryBrowserGalleryTable($this, $parameters, $condition);
+    //        return $table->as_html();
     }
 
     function get_action_bar()
@@ -90,10 +93,21 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
         //$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
+        $renderers = $this->get_available_renderers();
+
+        if (count($renderers) > 1)
+        {
+            foreach ($renderers as $renderer)
+            {
+                $action_bar->add_tool_action(new ToolbarItem(Translation :: get(Utilities :: underscores_to_camelcase($renderer) . 'View'), Theme :: get_image_path() . 'view_' . $renderer . '.png', $this->get_url(array(
+                        RepositoryManager :: PARAM_RENDERER => $renderer)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            }
+        }
+
         return $action_bar;
     }
 
-    private function get_condition()
+    public function get_condition()
     {
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, ContentObject :: STATE_NORMAL);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $this->get_parent_id());
