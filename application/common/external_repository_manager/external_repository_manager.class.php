@@ -12,6 +12,7 @@ abstract class ExternalRepositoryManager extends SubManager
     const ACTION_SELECT_EXTERNAL_REPOSITORY = 'select';
     const ACTION_EDIT_EXTERNAL_REPOSITORY = 'edit';
     const ACTION_DELETE_EXTERNAL_REPOSITORY = 'delete';
+    const ACTION_CONFIGURE_EXTERNAL_REPOSITORY = 'configure';
 
     const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PARAM_EXTERNAL_REPOSITORY = 'external_repository';
@@ -21,6 +22,7 @@ abstract class ExternalRepositoryManager extends SubManager
     const CLASS_NAME = __CLASS__;
 
     private $settings;
+    private $user_settings;
 
     function ExternalRepositoryManager($application)
     {
@@ -48,12 +50,38 @@ abstract class ExternalRepositoryManager extends SubManager
 
     function load_settings()
     {
+        $this->settings = array();
+
         $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY));
         $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
 
         while ($setting = $settings->next_result())
         {
             $this->settings[$setting->get_variable()] = $setting->get_value();
+        }
+    }
+
+    function load_user_settings()
+    {
+        $this->user_settings = array();
+
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY));
+        $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
+
+        $setting_ids = array();
+        while ($setting = $settings->next_result())
+        {
+            $conditions = array();
+            $conditions[] = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_USER_ID, $this->get_user_id());
+            $conditions[] = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_SETTING_ID, $setting->get_id());
+            $condition = new AndCondition($conditions);
+
+            $user_settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_user_settings($condition, array(), 0, 1);
+            if ($user_settings->size() == 1)
+            {
+                $user_setting = $user_settings->next_result();
+                $this->user_settings[$setting->get_variable()] = $user_setting->get_value();
+            }
         }
     }
 
@@ -65,6 +93,36 @@ abstract class ExternalRepositoryManager extends SubManager
         }
 
         return $this->settings[$variable];
+    }
+
+    function get_user_setting($variable)
+    {
+        if (! isset($this->user_settings))
+        {
+            $this->load_user_settings();
+        }
+
+        return $this->user_settings[$variable];
+    }
+
+    function get_settings()
+    {
+        if (! isset($this->settings))
+        {
+            $this->load_settings();
+        }
+
+        return $this->settings;
+    }
+
+    function get_user_settings()
+    {
+        if (! isset($this->user_settings))
+        {
+            $this->load_user_settings();
+        }
+
+        return $this->user_settings;
     }
 
     static function factory($external_repository, $application)
@@ -160,7 +218,19 @@ abstract class ExternalRepositoryManager extends SubManager
 
     function get_external_repository_actions()
     {
-        return array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY);
+        $actions = array();
+        $actions[] = self :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
+        $actions[] = self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY;
+
+        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 1);
+        $is_user = ! $this->get_user()->is_platform_admin() && (count($this->get_user_settings()) > 1);
+
+        if ($is_platform || $is_user)
+        {
+            $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;
+        }
+
+        return $actions;
     }
 
     function display_footer()

@@ -4,6 +4,7 @@
 		<category name="credentials">
 			<setting name="key" field="text" default="" />
 			<setting name="secret" field="text" default="" />
+			<setting name="flickr_session_token" field="text" default="" user_setting="1"/>
 		</category>
 	</settings>
 </application>

@@ -1682,7 +1682,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     }
 
     /**
-     * @param unknown_type $id
+     * @param int $id
      */
     function retrieve_external_repository_setting($id)
     {
@@ -1699,5 +1699,57 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->retrieve_objects(ExternalRepositorySetting :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
+    /**
+     * @param int $id
+     */
+    function retrieve_external_repository_user_setting($id)
+    {
+        $condition = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_ID, $id);
+        return $this->retrieve_object(ExternalRepositoryUserSetting :: get_table_name(), $condition);
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#retrieve_external_repository_settings()
+     */
+    function retrieve_external_repository_user_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
+    {
+        return $this->retrieve_objects(ExternalRepositoryUserSetting :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+
+    function retrieve_external_repository_setting_from_variable_name($variable, $external_repository_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
+        $conditions[] = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_VARIABLE, $variable);
+        $condition = new AndCondition($conditions);
+
+        return $this->retrieve_object(ExternalRepositorySetting :: get_table_name(), $condition);
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#create_external_repository_setting()
+     */
+    function create_external_repository_user_setting(ExternalRepositoryUserSetting $external_repository_user_setting)
+    {
+        return $this->create($external_repository_user_setting);
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#update_external_repository_setting()
+     */
+    function update_external_repository_user_setting(ExternalRepositoryUserSetting $external_repository_user_setting)
+    {
+        $condition = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_ID, $external_repository_user_setting->get_id());
+        return $this->update($external_repository_user_setting, $condition);
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#delete_external_repository_setting()
+     */
+    function delete_external_repository_user_setting(ExternalRepositoryUserSetting $external_repository_user_setting)
+    {
+        $condition = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_ID, $external_repository_user_setting->get_id());
+        return $this->delete($external_repository_user_setting->get_table_name(), $condition);
+    }
 }
 ?>

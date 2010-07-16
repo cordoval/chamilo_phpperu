@@ -141,9 +141,7 @@
 			</setting>
 		</category>
 		<category name="external_repositories">
-			<setting name="youtube_session_token" field="text" default="" user_setting="1"/>
 			<setting name="google_docs_session_token" field="text" default="" user_setting="1"/>
-			<setting name="flickr_session_token" field="text" default="" user_setting="1"/>
 		</category>
 	</settings>
 </application>

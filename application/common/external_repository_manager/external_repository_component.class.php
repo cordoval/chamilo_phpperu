@@ -10,6 +10,7 @@ abstract class ExternalRepositoryComponent extends SubManager
 	const SELECTER_COMPONENT = 'selecter';
 	const EDITOR_COMPONENT = 'editor';
 	const DELETER_COMPONENT = 'deleter';
+	const CONFIGURER_COMPONENT = 'configurer';
 
 	static function factory($type, $application)
 	{
@@ -88,6 +89,16 @@ abstract class ExternalRepositoryComponent extends SubManager
 	function get_repository_type()
 	{
 		return $this->get_parent()->get_repository_type();
+	}
+
+	function get_setting($variable)
+	{
+		return $this->get_parent()->get_setting($variable);
+	}
+
+	function get_user_setting($variable)
+	{
+		return $this->get_parent()->get_user_setting($variable);
 	}
 }
 ?>

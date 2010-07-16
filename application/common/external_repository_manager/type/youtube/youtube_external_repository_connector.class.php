@@ -19,7 +19,7 @@ class YoutubeExternalRepositoryConnector
     {
         $this->manager = $manager;
 
-        $session_token = LocalSetting :: get('youtube_session_token', UserManager :: APPLICATION_NAME);
+        $session_token = $this->manager->get_user_setting('session_token');
 
         Zend_Loader :: loadClass('Zend_Gdata_YouTube');
         Zend_Loader :: loadClass('Zend_Gdata_AuthSub');
@@ -49,7 +49,12 @@ class YoutubeExternalRepositoryConnector
                 $session_token = Zend_Gdata_AuthSub :: getAuthSubSessionToken($_GET['token']);
                 if ($session_token)
                 {
-                    LocalSetting :: create_local_setting('youtube_session_token', $session_token, UserManager :: APPLICATION_NAME, $this->manager->get_user_id());
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+                    $user_setting = new ExternalRepositoryUserSetting();
+                    $user_setting->set_setting_id($setting->get_id());
+                    $user_setting->set_user_id($this->manager->get_user_id());
+                    $user_setting->set_value($session_token);
+                    $user_setting->create();
                 }
             }
         }

@@ -7,7 +7,7 @@
 class ExternalRepositorySetting extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PROPERTY_VARIABLE = 'variable';
     const PROPERTY_VALUE = 'value';
@@ -90,6 +90,11 @@ class ExternalRepositorySetting extends DataClass
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
+
+    static function get_class_name()
+    {
+        return self :: CLASS_NAME;
     }
 }
 ?>
