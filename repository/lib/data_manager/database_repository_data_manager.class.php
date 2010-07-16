@@ -1207,6 +1207,11 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->create($category);
     }
 
+    function create_external_repository($external_repository)
+    {
+        return $this->create($external_repository);
+    }
+
     function count_categories($conditions = null)
     {
         return $this->count_objects(RepositoryCategory :: get_table_name(), $conditions);

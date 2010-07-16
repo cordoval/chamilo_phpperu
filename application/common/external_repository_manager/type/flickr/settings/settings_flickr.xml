@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="flickr">
+	<settings>
+		<category name="credentials">
+			<setting name="key" field="text" default="" />
+			<setting name="secret" field="text" default="" />
+		</category>
+	</settings>
+</application>

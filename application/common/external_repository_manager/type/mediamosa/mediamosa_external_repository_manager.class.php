@@ -169,20 +169,20 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         $component->run();
     }
 
-    function get_external_repository_actions()
-    {
-        //return array(parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY, parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_CLEAN_EXTERNAL_REPOSITORY);
-        $actions = array();
-
-        $actions[] = parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
-
-        $actions[] = parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY;
-
-        if ($this->get_user()->is_platform_admin())
-            $actions[] = self :: ACTION_MANAGE_SETTINGS;
-
-        return $actions;
-    }
+//    function get_external_repository_actions()
+//    {
+//        //return array(parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY, parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_CLEAN_EXTERNAL_REPOSITORY);
+//        $actions = array();
+//
+//        $actions[] = parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
+//
+//        $actions[] = parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY;
+//
+//        if ($this->get_user()->is_platform_admin())
+//            $actions[] = self :: ACTION_MANAGE_SETTINGS;
+//
+//        return $actions;
+//    }
 
     /**
      * Gets the available links to display in the platform admin
@@ -259,7 +259,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function get_available_renderers()
     {
-        return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY);
+        return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 
     function initialize_external_repository()

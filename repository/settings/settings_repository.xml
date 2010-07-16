@@ -18,33 +18,5 @@
 				</options>
 			</setting>
 		</category>
-		<category name="streaming">
-			<setting name="youtube_enabled" field="checkbox" default="1">
-				<options type="static">
-					<option name="youtube_enabled" value="1" />
-				</options>
-			</setting>
-			<setting name="mediamosa_enabled" field="checkbox" default="0">
-				<options type="static">
-					<option name="mediamosa_enabled" value="1" />
-				</options>
-			</setting>
-		</category>
-		<category name="external_repositories">
-			<setting name="youtube_key" field="text" default="" />
-			<setting name="flickr_key" field="text" default="" />
-			<setting name="flickr_secret" field="text" default="" />
-		</category>
-		<category name="mediamosa">
-			<setting name="mediamosa_url" field="text" default="" />
-			<setting name="mediamosa_username" field="text" default="" />
-			<setting name="mediamosa_password" field="text" default="" />
-
-			<setting name="mediamosa_mediafile_is_downloadable" field="checkbox" default="1">
-				<options type="static">
-					<option name="mediamosa_mediafile_is_downloadable" value="1" />
-				</options>
-			</setting>
-		</category>
 	</settings>
 </application>

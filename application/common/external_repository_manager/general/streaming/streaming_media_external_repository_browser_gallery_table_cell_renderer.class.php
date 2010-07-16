@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../component/external_repository_browser_gallery_table/external_repository_browser_gallery_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/../../table/default_external_repository_gallery_object_table_cell_renderer.class.php';
 
 class StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer extends DefaultExternalRepositoryGalleryObjectTableCellRenderer
 {
