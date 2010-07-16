@@ -808,6 +808,8 @@ interface WeblcmsDataManagerInterface
     function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null);
     
     function count_new_publications_from_course($course, $user);
+    
+    function retrieve_course_user_categories_from_course_type($course_type_id, $user_id);
 
 }
 ?>

@@ -2746,6 +2746,27 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         return $new_publications;
     	
     }
+    
+    function retrieve_course_user_categories_from_course_type($course_type_id, $user_id)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id, CourseTypeUserCategory :: get_table_name());
+    	$conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $user_id, CourseTypeUserCategory :: get_table_name());
+    	$condition = new AndCondition($conditions);
+    	
+    	$course_user_category_table_name = $this->get_table_name(CourseUserCategory :: get_table_name());
+    	$course_type_user_category_table_name = $this->get_table_name(CourseTypeUserCategory :: get_table_name());
+    	$course_user_category_alias = $this->get_alias(CourseUserCategory :: get_table_name());
+    	$course_type_user_category_alias = $this->get_alias(CourseTypeUserCategory :: get_table_name());
+    	
+    	$course_user_category_id = $this->escape_column_name(CourseUserCategory :: PROPERTY_ID, $course_user_category_alias);
+    	$course_type_user_category_id = $this->escape_column_name(CourseTypeUserCategory :: PROPERTY_COURSE_USER_CATEGORY_ID, $course_type_user_category_alias);
+    	
+    	$query = 'SELECT * FROM ' . $course_user_category_table_name . ' AS ' . $course_user_category_alias;
+    	$query .= ' JOIN ' . $course_type_user_category_table_name . ' AS ' . $course_type_user_category_alias . ' ON ' . $course_user_category_id . '=' . $course_type_user_category_id;
+        
+        return $this->retrieve_object_set($query, CourseUserCategory :: get_table_name(), $condition, null, null, null);
+    }
 
 }
 ?>
