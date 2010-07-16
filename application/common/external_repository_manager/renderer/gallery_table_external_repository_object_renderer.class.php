@@ -17,7 +17,7 @@ class GalleryTableExternalRepositoryObjectRenderer extends ExternalRepositoryObj
      */
     function as_html()
     {
-        $external_repository_manager_type = $this->get_external_repository_browser()->get_parameter(ExternalRepositoryManager :: PARAM_TYPE);
+        $external_repository_manager_type = $this->get_external_repository_browser()->get_repository_type();
         $table = ExternalRepositoryBrowserGalleryTable :: factory($external_repository_manager_type, $this, $this->get_parameters(), $this->get_condition());
         return $table->as_html();
     }

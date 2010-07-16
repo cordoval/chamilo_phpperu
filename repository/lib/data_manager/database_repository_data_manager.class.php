@@ -1443,9 +1443,26 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->get_connection()->extended->autoExecute($this->get_table_name(ComplexContentObjectItem :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $condition);
     }
 
-    function retrieve_external_repository($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    function retrieve_external_repository_condition($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+
+    function retrieve_external_repository($external_repository_id)
+    {
+        $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository_id);
+        return $this->retrieve_object(ExternalRepository :: get_table_name(), $condition);
+    }
+
+    function retrieve_external_repositories($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+
+    function retrieve_active_external_repository_types()
+    {
+        $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ENABLED, 1);
+        return $this->retrieve_distinct(ExternalRepository :: get_table_name(), ExternalRepository :: PROPERTY_TYPE, $condition);
     }
 
     function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -1632,7 +1649,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
         return $this->count_result_set($sql, ContentObject :: get_table_name());
     }
-    
+
     /* (non-PHPdoc)
      * @see repository/lib/RepositoryDataManagerInterface#create_external_repository_setting()
      */
@@ -1640,7 +1657,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         return $this->create($external_repository_setting);
     }
-    
+
     /* (non-PHPdoc)
      * @see repository/lib/RepositoryDataManagerInterface#update_external_repository_setting()
      */
@@ -1649,7 +1666,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_ID, $external_repository_setting->get_id());
         return $this->update($external_repository_setting, $condition);
     }
-    
+
     /* (non-PHPdoc)
      * @see repository/lib/RepositoryDataManagerInterface#delete_external_repository_setting()
      */
@@ -1658,7 +1675,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_ID, $external_repository_setting->get_id());
         return $this->delete($external_repository_setting->get_table_name(), $condition);
     }
-    
+
     /**
      * @param unknown_type $id
      */
@@ -1668,7 +1685,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->retrieve_object(ExternalRepositorySetting :: get_table_name(), $condition);
 
     }
-    
+
     /* (non-PHPdoc)
      * @see repository/lib/RepositoryDataManagerInterface#retrieve_external_repository_settings()
      */
