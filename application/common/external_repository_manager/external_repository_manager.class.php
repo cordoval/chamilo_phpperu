@@ -33,8 +33,7 @@ abstract class ExternalRepositoryManager extends SubManager
         }
 
         $this->set_optional_parameters();
-        $this->initiliaze_external_repository();
-        $this->load_settings();
+        $this->initialize_external_repository();
     }
 
     function set_optional_parameters()
@@ -49,18 +48,23 @@ abstract class ExternalRepositoryManager extends SubManager
 
     function load_settings()
     {
-        if (!isset($this->settings))
-        {
-            $condition = new EqualityCondition(ExternalRepositorySetting::PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY));
-            $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY));
+        $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
 
-            while ($setting = $settings->next_result())
-            {
-                $this->settings[$setting->get_variable()] = $setting->get_value();
-            }
+        while ($setting = $settings->next_result())
+        {
+            $this->settings[$setting->get_variable()] = $setting->get_value();
+        }
+    }
+
+    function get_setting($variable)
+    {
+        if (! isset($this->settings))
+        {
+            $this->load_settings();
         }
 
-        return $this->settings;
+        return $this->settings[$variable];
     }
 
     static function factory($external_repository, $application)
@@ -173,7 +177,7 @@ abstract class ExternalRepositoryManager extends SubManager
 
     abstract function retrieve_external_repository_objects($condition, $order_property, $offset, $count);
 
-    abstract function initiliaze_external_repository();
+    abstract function initialize_external_repository();
 
     function support_sorting_direction()
     {
@@ -201,23 +205,27 @@ abstract class ExternalRepositoryManager extends SubManager
 
         if ($object->is_editable())
         {
-            $toolbar_items[] = new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_EDIT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            $toolbar_items[] = new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(
+                    self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_EDIT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
         }
 
         if ($object->is_deletable())
         {
-            $toolbar_items[] = new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_DELETE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            $toolbar_items[] = new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(
+                    self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_DELETE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
         }
 
         if ($object->is_usable())
         {
             if ($this->is_stand_alone())
             {
-                $toolbar_items[] = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SELECT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                $toolbar_items[] = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(
+                        self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SELECT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
             }
             else
             {
-                $toolbar_items[] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                $toolbar_items[] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(
+                        self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
             }
         }
 

@@ -2283,7 +2283,7 @@ div.create_block {
 	overflow: auto;
 }
 
-div.no_thumbnail
+div.no_thumbnail, div.no_preview
 {
 	border: 1px solid #cccccc;
 	background-color: white;
@@ -2304,7 +2304,13 @@ div.no_thumbnail
 	border-bottom-left-radius: 0px;
 }
 
-div.no_thumbnail div.background
+div.no_thumbnail
+{
+	width: 150px;
+}
+
+div.no_thumbnail div.background,
+div.no_preview div.background
 {
 	border: 1px solid #cccccc;
 	background-color: #efefef;
@@ -2313,4 +2319,16 @@ div.no_thumbnail div.background
 	background-image: url(../images/common/background_no_thumbnail.png);
 	background-position: top cente;
 	background-repeat: repeat-x;
+}
+
+div.no_thumbnail div.background
+{
+	width: 118px;
+	padding: 15px;
+}
+
+div.no_thumbnail div.background h3
+{
+	color: #797268;
+	font-size: 95%;
 }

@@ -1052,7 +1052,7 @@ class RepositoryManager extends CoreApplication
                             $external_repository_type_subitem['title'] = $external_repository_manager->get_title();
                             $external_repository_type_subitem['url'] = $this->get_url(array(
                                     Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
-                                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()));
+                                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()), array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: PARAM_RENDERER));
                             $external_repository_type_subitem['class'] = $external_repository_manager->get_type();
                             $external_repository_type_subitems[] = $external_repository_type_subitem;
                         }
@@ -1067,7 +1067,7 @@ class RepositoryManager extends CoreApplication
                         $external_repository_sub_item['title'] = $external_repository_manager->get_title();
                         $external_repository_sub_item['url'] = $this->get_url(array(
                                 Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
-                                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()));
+                                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()), array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: PARAM_RENDERER));
                         $external_repository_sub_item['class'] = $external_repository_manager->get_type();
                         $external_repository_sub_items[] = $external_repository_sub_item;
                     }

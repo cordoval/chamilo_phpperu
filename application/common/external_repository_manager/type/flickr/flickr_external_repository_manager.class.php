@@ -23,7 +23,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         return Path :: get_application_library_path() . 'external_repository_manager/type/flickr/component/';
     }
 
-    function initiliaze_external_repository()
+    function initialize_external_repository()
     {
         FlickrExternalRepositoryConnector :: get_instance($this);
     }
