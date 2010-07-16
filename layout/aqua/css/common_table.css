@@ -39,8 +39,15 @@
 	padding: 6px 10px 6px 10px;
 	vertical-align: top;
 	width: 10%;
-	background: #d4e0f1 url(../images/common/background_table_header.png)
+	background: #C6D6ED url(../images/common/background_table_header.png)
 		repeat-x;
+}
+
+.data_table tr.row_even td.header
+{
+	background: #EBEBEB url(../images/common/background_table_header_grey.png)
+		repeat-x;
+	color: #7b7b7b;
 }
 
 .data_table tr.row_even,div.row_even {
@@ -95,6 +102,17 @@
 	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #797268;
 }
+
+.data_table div.no_thumbnail
+{
+	margin: 1em auto 1em auto;
+}
+
+.data_table div.no_preview
+{
+	margin: 1em auto 1em auto;
+}
+
 /*****************************************************
  *  GALLERY TABLE STYLES                            *
  *****************************************************/
@@ -158,6 +176,11 @@
 {
 	border: 1px solid #c0c0c0;
 	margin: 0.25em;
+}
+
+.gallery_table td h4
+{
+	margin: 0px;
 }
 
 /*****************************************************

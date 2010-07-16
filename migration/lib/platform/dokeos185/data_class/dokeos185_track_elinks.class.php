@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_elinks.class.ph
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackELinks extends MigrationDataClass
+class Dokeos185TrackELinks extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/content_object/catego
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185SurveyAnswer extends MigrationDataClass
+class Dokeos185SurveyAnswer extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     /**

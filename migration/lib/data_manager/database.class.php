@@ -51,6 +51,11 @@ class DatabaseMigrationDataManager extends Database implements MigrationDataMana
 	{
 		return $this->retrieve_objects(FailedElement :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
+	
+	public function truncate_failed_elements()
+	{
+		return $this->truncate_storage_unit(FailedElement :: get_table_name());
+	}
 
 	public function delete_file_recovery(FileRecovery $file_recovery) 
 	{
@@ -79,6 +84,11 @@ class DatabaseMigrationDataManager extends Database implements MigrationDataMana
 		return $this->retrieve_objects(FileRecovery :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 
+	public function truncate_file_recoveries()
+	{
+		return $this->truncate_storage_unit(FileRecovery :: get_table_name());
+	}
+	
 	public function delete_id_reference(IdReference $id_reference) 
 	{
 		$condition = new EqualityCondition(IdReference :: PROPERTY_ID, $id_reference->get_id());
@@ -106,6 +116,11 @@ class DatabaseMigrationDataManager extends Database implements MigrationDataMana
 		return $this->retrieve_objects(IdReference :: get_table_name(), $condition, $offset, $count, $order_property);
 	}
 	
+	public function truncate_id_references()
+	{
+		return $this->truncate_storage_unit(IdReference :: get_table_name());
+	}
+	
 	public function delete_migration_block_registration(MigrationBlockRegistration $migration_block_registration) 
 	{
 		$condition = new EqualityCondition(MigrationBlockRegistration :: PROPERTY_ID, $migration_block_registration->get_id());
@@ -131,6 +146,17 @@ class DatabaseMigrationDataManager extends Database implements MigrationDataMana
 	public function retrieve_migration_block_registrations($condition = null, $offset = null, $count = null, $order_property = null) 
 	{
 		return $this->retrieve_objects(MigrationBlockRegistration :: get_table_name(), $condition, $offset, $count, $order_property);
+	}
+	
+	public function truncate_migration_block_registrations()
+	{
+		return $this->truncate_storage_unit(MigrationBlockRegistration :: get_table_name());
+	}
+	
+	public function reset_migration_block_registration_status()
+	{
+		$properties[MigrationBlockRegistration :: PROPERTY_IS_MIGRATED] = 0;
+		return $this->update_objects(MigrationBlockRegistration :: get_table_name(), $properties);
 	}
 }
 ?>

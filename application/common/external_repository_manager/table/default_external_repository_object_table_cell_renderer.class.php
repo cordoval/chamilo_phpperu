@@ -14,7 +14,7 @@ class DefaultExternalRepositoryObjectTableCellRenderer extends ObjectTableCellRe
             case ExternalRepositoryObject :: PROPERTY_ID :
                 return $external_repository_object->get_id();
             case ExternalRepositoryObject :: PROPERTY_TITLE :
-                return Utilities :: truncate_string($external_repository_object->get_title(), 50);
+                return $external_repository_object->get_title();
             case ExternalRepositoryObject :: PROPERTY_DESCRIPTION :
                 return Utilities :: truncate_string($external_repository_object->get_description(), 50);
             case ExternalRepositoryObject :: PROPERTY_CREATED :

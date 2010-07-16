@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_gradebook_category.cl
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185GradebookCategory extends MigrationDataClass
+class Dokeos185GradebookCategory extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repo
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185DropboxFeedback extends MigrationDataClass
+class Dokeos185DropboxFeedback extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     /**

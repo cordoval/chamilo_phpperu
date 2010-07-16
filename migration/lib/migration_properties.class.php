@@ -3,8 +3,32 @@
  * General migration properties class that describes the properties for a platform
  */
 
-abstract class MigrationProperties extends MessagesObject
+abstract class MigrationProperties
 {
+	/**
+	 * @var MessageLogger $message_logger used to log messages
+	 */
+	private $message_logger;
+	
+	function MigrationProperties()
+	{
+		$this->message_logger = MessageLogger :: get_instance(__CLASS__);
+	}
+	
+	/**
+	 * Returns the message logger
+	 * @return MessageLogger
+	 */
+	function get_message_logger()
+	{
+		return $this->message_logger;
+	}
+	
+	function render_message()
+	{
+		return $this->message_logger->render();
+	}
+	
 	/**
 	 * Factory method for properties 
 	 * @param String $platform - the selected platform
@@ -24,7 +48,7 @@ abstract class MigrationProperties extends MessagesObject
 		
 		return new $class();
 	}
-
-	abstract function validate_settings($settings, $blocks);
+	
+	abstract function validate_settings($settings, $selected_blocks, $migrated_blocks);
 	abstract function get_migration_blocks();
 }

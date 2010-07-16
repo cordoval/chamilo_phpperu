@@ -5,9 +5,9 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_user.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/profile/profile.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
+
 require_once Path :: get_application_path() . 'lib/profiler/profile_publication.class.php';
 
 /**
@@ -17,11 +17,11 @@ require_once Path :: get_application_path() . 'lib/profiler/profile_publication.
  * @author Sven Vanpoucke
  */
 
-class Dokeos185User extends MigrationDataClass
+class Dokeos185User extends Dokeos185MigrationDataClass
 {
-    /**
-     * Migration data manager
-     */
+	 const CLASS_NAME = __CLASS__;
+	 const TABLE_NAME = 'user';   
+	 const DATABASE_NAME = 'main_database';
 
     /**
      * Table User Properties
@@ -53,119 +53,12 @@ class Dokeos185User extends MigrationDataClass
     const PROPERTY_OPENID = 'openid';
 
     /**
-     * Table Admin Properties
-     */
-    const PROPERTY_ADMIN = 'user_id';
-
-    const ACTION_READ_USER = 'read';
-
-    /**
-     * Numeric identifier of the user object.
-     */
-    private $user_id;
-
-    /**
-     * Default properties of the user table, stored in an associative
-     * array.
-     */
-    private $default_user_properties;
-
-    /**
-     * Default properties of the admin table, stored in an associative array
-     */
-
-    private $default_admin_properties;
-
-    /**
-     * Creates a new user object.
-     * @param array $default_user_properties The default properties of the user
-     *                                 object. Associative array.
-     */
-    function Dokeos185User($default_user_properties = array (), $default_admin_properties = array())
-    {
-        $this->default_user_properties = $default_user_properties;
-        $this->default_admin_properties = $default_admin_properties;
-    }
-
-    /**
-     * Gets a default property of this user object by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_user_property($name)
-    {
-        return $this->default_user_properties[$name];
-    }
-
-    /**
-     * Gets a default property of the admin table by name
-     * @param string $name The name of the property.
-     */
-    function get_default_admin_property($name)
-    {
-        return $this->default_admin_properties[$name];
-    }
-
-    /**
-     * Gets the default properties of this user.
-     * @return array An associative array containing the properties.
-     */
-    function get_default_user_properties()
-    {
-        return $this->default_user_properties;
-    }
-
-    /**
-     * Gets the default properties of the admin
-     * @return array An associative array containing the properties.
-     */
-    function get_default_admin_properties()
-    {
-        return $this->default_admin_properties;
-    }
-
-    /**
      * Get the default properties of the users.
      * @return array The property names.
      */
-    static function get_default_user_property_names()
+    static function get_default_property_names()
     {
         return array(self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self :: PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_COMPETENCES, self :: PROPERTY_DIPLOMAS, self :: PROPERTY_OPENAREA, self :: PROPERTY_TEACH, self :: PROPERTY_PRODUCTIONS, self :: PROPERTY_CHATCALL_USER_ID, self :: PROPERTY_CHATCALL_DATE, self :: PROPERTY_CHATCALL_TEXT, self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_ACTIVE, self :: PROPERTY_OPENID);
-    }
-
-    /**
-     * Get the default properties of the admins
-     */
-    static function get_default_admin_property_names()
-    {
-        return array(self :: PROPERTY_ADMIN);
-    }
-
-    /**
-     * Sets a default property of this user by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_user_property($name, $value)
-    {
-        $this->default_user_properties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Sets a default property of this admin by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_admin_property($name, $value)
-    {
-        $this->default_admin_properties[$name] = $value;
     }
 
     /**
@@ -178,7 +71,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_user_id()
     {
-        return $this->get_default_user_property(self :: PROPERTY_USER_ID);
+        return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
 
     /**
@@ -187,7 +80,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_lastname()
     {
-        return $this->get_default_user_property(self :: PROPERTY_LASTNAME);
+        return $this->get_default_property(self :: PROPERTY_LASTNAME);
     }
 
     /**
@@ -196,7 +89,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_firstname()
     {
-        return $this->get_default_user_property(self :: PROPERTY_FIRSTNAME);
+        return $this->get_default_property(self :: PROPERTY_FIRSTNAME);
     }
 
     /**
@@ -215,7 +108,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_username()
     {
-        return $this->get_default_user_property(self :: PROPERTY_USERNAME);
+        return $this->get_default_property(self :: PROPERTY_USERNAME);
     }
 
     /**
@@ -224,7 +117,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_password()
     {
-        return $this->get_default_user_property(self :: PROPERTY_PASSWORD);
+        return $this->get_default_property(self :: PROPERTY_PASSWORD);
     }
 
     /**
@@ -233,7 +126,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_auth_source()
     {
-        return $this->get_default_user_property(self :: PROPERTY_AUTH_SOURCE);
+        return $this->get_default_property(self :: PROPERTY_AUTH_SOURCE);
     }
 
     /**
@@ -242,7 +135,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_email()
     {
-        return $this->get_default_user_property(self :: PROPERTY_EMAIL);
+        return $this->get_default_property(self :: PROPERTY_EMAIL);
     }
 
     /**
@@ -251,7 +144,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_status()
     {
-        return $this->get_default_user_property(self :: PROPERTY_STATUS);
+        return $this->get_default_property(self :: PROPERTY_STATUS);
     }
 
     /**
@@ -260,7 +153,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_official_code()
     {
-        return $this->get_default_user_property(self :: PROPERTY_OFFICIAL_CODE);
+        return $this->get_default_property(self :: PROPERTY_OFFICIAL_CODE);
     }
 
     /**
@@ -269,7 +162,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_phone()
     {
-        return $this->get_default_user_property(self :: PROPERTY_PHONE);
+        return $this->get_default_property(self :: PROPERTY_PHONE);
     }
 
     /**
@@ -278,7 +171,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_picture_uri()
     {
-        return $this->get_default_user_property(self :: PROPERTY_PICTURE_URI);
+        return $this->get_default_property(self :: PROPERTY_PICTURE_URI);
     }
 
     /**
@@ -287,7 +180,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_creator_id()
     {
-        return $this->get_default_user_property(self :: PROPERTY_CREATOR_ID);
+        return $this->get_default_property(self :: PROPERTY_CREATOR_ID);
     }
 
     /**
@@ -296,7 +189,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_language()
     {
-        return $this->get_default_user_property(self :: PROPERTY_LANGUAGE);
+        return $this->get_default_property(self :: PROPERTY_LANGUAGE);
     }
 
     /**
@@ -305,7 +198,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_competences()
     {
-        return $this->get_default_user_property(self :: PROPERTY_COMPETENCES);
+        return $this->get_default_property(self :: PROPERTY_COMPETENCES);
     }
 
     /**
@@ -314,7 +207,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_diplomas()
     {
-        return $this->get_default_user_property(self :: PROPERTY_DIPLOMAS);
+        return $this->get_default_property(self :: PROPERTY_DIPLOMAS);
     }
 
     /**
@@ -323,7 +216,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_openarea()
     {
-        return $this->get_default_user_property(self :: PROPERTY_OPENAREA);
+        return $this->get_default_property(self :: PROPERTY_OPENAREA);
     }
 
     /**
@@ -332,7 +225,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_teach()
     {
-        return $this->get_default_user_property(self :: PROPERTY_TEACH);
+        return $this->get_default_property(self :: PROPERTY_TEACH);
     }
 
     /**
@@ -341,7 +234,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_productions()
     {
-        return $this->get_default_user_property(self :: PROPERTY_PRODUCTIONS);
+        return $this->get_default_property(self :: PROPERTY_PRODUCTIONS);
     }
 
     /**
@@ -350,7 +243,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_chatcall_user_id()
     {
-        return $this->get_default_user_property(self :: PROPERTY_CHATCALL_USER_ID);
+        return $this->get_default_property(self :: PROPERTY_CHATCALL_USER_ID);
     }
 
     /**
@@ -359,7 +252,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_chatcall_date()
     {
-        return $this->get_default_user_property(self :: PROPERTY_CHATCALL_DATE);
+        return $this->get_default_property(self :: PROPERTY_CHATCALL_DATE);
     }
 
     /**
@@ -368,7 +261,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_chatcall_text()
     {
-        return $this->get_default_user_property(self :: PROPERTY_CHATCALL_TEXT);
+        return $this->get_default_property(self :: PROPERTY_CHATCALL_TEXT);
     }
 
     /**
@@ -377,7 +270,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_registration_date()
     {
-        return $this->get_default_user_property(self :: PROPERTY_REGISTRATION_DATE);
+        return $this->get_default_property(self :: PROPERTY_REGISTRATION_DATE);
     }
 
     /**
@@ -386,7 +279,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_expiration_date()
     {
-        return $this->get_default_user_property(self :: PROPERTY_EXPIRATION_DATE);
+        return $this->get_default_property(self :: PROPERTY_EXPIRATION_DATE);
     }
 
     /**
@@ -395,7 +288,7 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_active()
     {
-        return $this->get_default_user_property(self :: PROPERTY_ACTIVE);
+        return $this->get_default_property(self :: PROPERTY_ACTIVE);
     }
 
     /**
@@ -404,93 +297,155 @@ class Dokeos185User extends MigrationDataClass
      */
     function get_openid()
     {
-        return $this->get_default_user_property(self :: PROPERTY_OPENID);
+        return $this->get_default_property(self :: PROPERTY_OPENID);
     }
+    
+    /**
+     * Function to determine wether a user is a platform admin
+     * Retrieves the data from the admin table in dokeos_main
+     */
+    function is_platform_admin()
+    {
+    	return $this->get_data_manager()->is_platform_admin($this);
+    }
+
 
     /**
-     * ADMIN GETTERS AND SETTERS
+     * Checks if the user is valid
+     * Checks if username is valid
+     * @return Boolean
      */
-    function get_platformadmin()
-    {
-        return $this->get_default_admin_property(self :: PROPERTY_ADMIN);
-    }
+    function is_valid()
+    { 
+        if (! $this->get_username() || ! $this->get_password() || ! $this->get_status())
+        {
+            $this->create_failed_element($this->get_user_id());
+			$this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'user', 'ID' => $this->get_user_id())));
+			
+            return false;
+        }
+        
+        $udm = UserDataManager :: get_instance();
+        
+        $index = 0;
+        $user = $udm->retrieve_user_by_username($this->get_username());
+        $firstuser = $user;
+        $newusername = $this->get_username();
 
-    function set_platformadmin($platformadmin)
-    {
-        $this->set_default_admin_property(self :: PROPERTY_ADMIN, $platformadmin);
-    }
+        if ($user)
+        {
+            do
+            {
+                $newusername = $newusername . ($index ++);
+                $user = $udm->retrieve_user_by_username($newusername);
+            }
+            while ($user);
+        }
 
+
+        if ($firstuser)
+        {
+            $firstuser->set_username($newusername);
+            $firstuser->update();
+            //TODO: mail the user of his changes to his username
+        }
+
+        return true;
+    }
+    
     /**
      * Migration users, create directories, copy user pictures, migrate user profiles
      * @return User
      */
-    function convert_data
+    function convert_data()
+    { 
+        $chamilo_user = $this->create_user();
+        $this->create_profile($chamilo_user);
+        $this->create_productions($chamilo_user);
+        
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'user', 'OLD_ID' => $this->get_user_id(), 'NEW_ID' => $chamilo_user->get_id())));
+    }
+    
+    /**
+     * Helper function for convert_data
+     * Creates the user object
+     */
+    private function create_user()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        $old_mgdm = $parameters['old_mgdm'];
-
-        //User parameters
-        $lcms_user = new User();
-        $lcms_user->set_lastname($this->get_lastname());
-        $lcms_user->set_firstname($this->get_firstname());
-        $lcms_user->set_username($this->get_username());
-        $lcms_user->set_password($this->get_password());
-        $lcms_user->set_email($this->get_email());
-        $lcms_user->set_status($this->get_status());
-        $lcms_user->set_platformadmin($this->get_platformadmin());
-        $lcms_user->set_official_code($this->get_official_code());
-        $lcms_user->set_phone($this->get_phone());
+    	//User parameters
+        $chamilo_user = new User();
+        $chamilo_user->set_lastname($this->get_lastname());
+        $chamilo_user->set_firstname($this->get_firstname());
+        $chamilo_user->set_username($this->get_username());
+        $chamilo_user->set_password($this->get_password());
+        $chamilo_user->set_email($this->get_email());
+        $chamilo_user->set_status($this->get_status());
+        $chamilo_user->set_platformadmin($this->is_platform_admin());
+        $chamilo_user->set_official_code($this->get_official_code());
+        $chamilo_user->set_phone($this->get_phone());
 
         //Set user authentication method, if not available use default: platform
-        if ($mgdm->is_authentication_available($this->get_auth_source()))
+        if (Authentication :: is_valid_authentication_type($this->get_auth_source()))
         {
-            $lcms_user->set_auth_source($this->get_auth_source());
+            $chamilo_user->set_auth_source($this->get_auth_source());
         }
         else
         {
-            $lcms_user->set_auth_source('platform');
+            $chamilo_user->set_auth_source('platform');
         }
 
         //Move picture to correct directory
-        $old_rel_path_picture = '/main/upload/users/';
+        $old_rel_path_picture = $this->get_data_manager()->get_sys_path() . '/main/upload/users/';
 
         if ($this->get_picture_uri())
         {
-            $new_rel_path_picture = '/files/userpictures/';
+            $new_rel_path_picture = Path :: get(SYS_PATH) . '/files/userpictures/';
 
-            $picture_uri = $old_mgdm->move_file($old_rel_path_picture, $new_rel_path_picture, $this->get_picture_uri());
+            $picture_uri = $this->migrate_file($old_rel_path_picture, $new_rel_path_picture, $this->get_picture_uri());
             if ($picture_uri)
             {
-                $lcms_user->set_picture_uri($picture_uri);
+                $chamilo_user->set_picture_uri($picture_uri);
             }
-
-            unset($new_rel_path_picture);
-            unset($old_rel_path_picture);
-            unset($picture_uri);
         }
 
         // Get new id from temporary table for references
-        $creator_id = $mgdm->get_id_reference($this->get_creator_id(), 'user_user');
+        $creator_id = $this->get_id_reference($this->get_creator_id());
         if ($creator_id)
-            $lcms_user->set_creator_id($creator_id);
-        unset($creator_id);
+        {
+            $chamilo_user->set_creator_id($creator_id);
+        }
 
         //create user in database
-        $lcms_user->create();
+        $chamilo_user->create();
+        
         //Add id references to temp table
-        $mgdm->add_id_reference($this->get_user_id(), $lcms_user->get_id(), 'user_user');
+        $this->create_id_reference($this->get_user_id(), $chamilo_user->get_id());
 
-        if ($mgdm->is_language_available($this->get_language()))
-            LocalSetting :: create_local_setting('platform_language', $this->get_language(), 'admin', $lcms_user->get_id());
-        else
-            LocalSetting :: create_local_setting('platform_language', 'english', 'admin', $lcms_user->get_id());
-
-        //control if the profiler application exists
+        if (AdminDataManager :: is_language_active($this->get_language()))
+        {
+            $language = $this->get_language();
+        }
+        else 
+        {
+            $language = 'english';
+        }
+        
+        LocalSetting :: create_local_setting('platform_language', $language, 'admin', $chamilo_user->get_id());
+        
+        return $chamilo_user;
+    }
+    
+    /**
+     * Helper function for convert_data to create a new user profile
+     */
+    function create_profile($chamilo_user)
+    {
+    	//control if the profiler application exists
 		$is_registered = AdminDataManager :: is_registered('profiler');
         // Convert profile fields to Profile object if the user has user profile data
         if ($is_registered && ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL))
         {
-        	$lcms_category_id = $mgdm->get_repository_category_by_name($lcms_user->get_id(),Translation :: get('Profile'));
+        	$lcms_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($chamilo_user->get_id(), Translation :: get('Profile'));
         	$lcms_repository_profile = new Profile();
         	$lcms_repository_profile->set_competences($this->get_competences());
         	$lcms_repository_profile->set_diplomas($this->get_diplomas());
@@ -506,20 +461,20 @@ class Dokeos185User extends MigrationDataClass
         	//Publish Profile
         	$lcms_profile_publication = new ProfilePublication();
         	$lcms_profile_publication->set_profile($lcms_repository_profile->get_id());
-        	$lcms_profile_publication->set_publisher($lcms_user->get_id());
+        	$lcms_profile_publication->set_publisher($chamilo_user->get_id());
 
         	//Create profile publication in database
         	$lcms_profile_publication->create();
-
-        	//unset
-        	unset($lcms_repository_profile);
-        	unset($lcms_profile_publication);
         }
-
-        //Convert all production files to content objects
-        $old_path = $old_rel_path_picture . $this->get_user_id() . '/' . $this->get_user_id() . '/';
-        $directory = $old_mgdm->append_full_path(false, $old_path);
-        unset($old_rel_path_picture);
+    }
+    
+    /**
+     * Helper function for convert_data to create new productions
+     */
+	function create_productions($chamilo_user)
+	{
+		//Convert all production files to content objects
+        $directory = $this->get_data_manager()->get_sys_path() . '/main/upload/users/' . $this->get_user_id() . '/' . $this->get_user_id() . '/';
         if (file_exists($directory))
         {
             $files_list = Filesystem :: get_directory_content($directory, Filesystem :: LIST_FILES);
@@ -527,154 +482,53 @@ class Dokeos185User extends MigrationDataClass
             if (count($files_list) != 0)
             {
                 //Create category for user in lcms
-                $lcms_repository_category = new RepositoryCategory();
-                $lcms_repository_category->set_id($lcms_user->get_id());
-                $lcms_repository_category->set_name(Translation :: get('User'));
-                $lcms_repository_category->set_parent(0);
+                $chamilo_repository_category = new RepositoryCategory();
+                $chamilo_repository_category->set_id($chamilo_user->get_id());
+                $chamilo_repository_category->set_name(Translation :: get('User'));
+                $chamilo_repository_category->set_parent(0);
 
                 //Create category in database
-                $lcms_repository_category->create();
+                $chamilo_repository_category->create();
 
                 foreach ($files_list as $file)
                 {
                     $file_split = split('/', $file);
                     $filename = $file_split[count($file_split) - 1];
-                    $new_path = '/files/repository/' . $lcms_user->get_id() . '/';
+                    $new_path = Path :: get(SYS_PATH) . '/files/repository/' . $chamilo_user->get_id() . '/';
 
-                    $filename = $old_mgdm->move_file($old_path, $new_path, $filename);
+                    $filename = $this->migrate_file($directory, $new_path, $filename);
 
                     if ($filename)
                     {
                         //Create document
-                        $lcms_repository_document = new Document();
-                        $lcms_repository_document->set_filename($filename);
-                        $lcms_repository_document->set_path($lcms_user->get_id() . '/' . $filename);
-                        $lcms_repository_document->set_filesize(filesize($file));
+                        $chamilo_repository_document = new Document();
+                        $chamilo_repository_document->set_filename($filename);
+                        $chamilo_repository_document->set_path($chamilo_user->get_id() . '/' . $filename);
+                        $chamilo_repository_document->set_filesize(filesize($file));
 
                         //Create document in db
-                        $lcms_repository_document->create();
+                        $chamilo_repository_document->create();
 
-                        unset($lcms_repository_document);
                     }
 
-                    unset($file_split);
-                    unset($filename);
-                    unset($file);
-                    unset($new_path);
                 }
-
-                $files_list = array();
-                unset($files_list);
             }
         }
+	}    
 
-        unset($repository_id);
-        unset($old_path);
-        unset($directory);
-
-        $parameters = array();
-        unset($parameters);
-
-        $this->default_user_properties = array();
-        unset($this->default_user_properties);
-        $this->default_admin_properties = array();
-        unset($this->default_admin_properties);
-        unset($mgdm);
-        unset($old_mgdm);
-
-        return $lcms_user;
-    }
-
-    /**
-     * Checks if the user is valid
-     * Checks if username is valid
-     * @param Array $lcms_users
-     * @return Boolean
-     */
-    function is_valid($parameters)
+    static function get_table_name()
     {
-        $lcms_users = $parameters['lcms_users'];
-        $mgdm = MigrationDataManager :: get_instance();
-
-        if (! $this->get_username() || ! $this->get_password() || ! $this->get_status())
-        {
-            $mgdm->add_failed_element($this->get_user_id(), 'dokeos_main.user');
-
-            return false;
-        }
-
-        $index = 0;
-        $user = $this->username_exists($lcms_users, $this->get_username());
-        $firstuser = $user;
-        $newusername = $this->get_username();
-
-        if ($user)
-        {
-            do
-            {
-                $newusername = $newusername . ($index ++);
-                $user = $this->username_exists($lcms_users, $newusername);
-            }
-            while ($user);
-        }
-
-        $lcms_users = array();
-        unset($lcms_users);
-
-        if ($firstuser)
-        {
-            $firstuser->set_username($newusername);
-            $firstuser->update();
-            /*mail($firstuser->get_email(),'Login for Dokeos changed',
-			'Because we upgraded dokeos to a newer version we were obligated\r\n
-			 to change your login name\r\n
-			 new login: ' . $firstuser->get_username());*/
-        }
-
-        $parameters = array();
-        unset($parameters);
-        unset($firstuser);
-        unset($newusername);
-        unset($user);
-        unset($index);
-        unset($mgdm);
-        return true;
+        return self :: TABLE_NAME;
     }
-
-    /**
-     * Gets all the user
-     * @param migrationdatamanager $mgdm
-     * @return Array
-     */
-    static function retrieve_data($parameters)
+    
+    static function get_class_name()
     {
-    	$old_mgdm = $parameters['old_mgdm'];
-        return $old_mgdm->get_all_users($parameters['offset'], $parameters['limit']);
+    	return self :: CLASS_NAME;
     }
-
-    /**
-     * Checks if username exists
-     * @param Array $lcms_users
-     * @param String $old_username
-     */
-    function username_exists($lcms_users, $old_username)
+    
+    static function get_database_name()
     {
-        foreach ($lcms_users as $lcms_user)
-        {
-            if ($lcms_user->get_username() == $old_username)
-            {
-                return $lcms_user;
-            }
-        }
-        return null;
-    }
-
-    static function get_database_table($parameters)
-    {
-        $array = array();
-        $array['database'] = 'main_database';
-        $array['table'] = 'user';
-        return $array;
+    	return self :: DATABASE_NAME;
     }
 }
 ?>

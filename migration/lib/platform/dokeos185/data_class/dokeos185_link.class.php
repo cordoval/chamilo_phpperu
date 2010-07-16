@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repo
  * @author David Van Wayenbergh
  */
 
-class Dokeos185Link extends MigrationDataClass
+class Dokeos185Link extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     private $item_property;

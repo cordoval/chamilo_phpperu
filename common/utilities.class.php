@@ -391,7 +391,7 @@ class Utilities
 
         return $hours . ':' . $minutes . ':' . $seconds;
     }
-    
+
     static function format_seconds_to_minutes($seconds)
     {
         $minutes = floor($seconds/ 60);
@@ -411,27 +411,27 @@ class Utilities
     }
 
     /**
-     * strips tags and truncates a given string to be the given length if the string is longer.
-     * Adds a character at the end (either specified or default ...)
-     * Boolean $strip to indicate if the string has to be stripped
-     * @param string $string
-     * @param int $length
-     * @param boolean $strip
-     * @param char $char
-     * @return string
+     * Strips the tags on request, and truncates if necessary a given string to the given length in characters.
+     * Adds a character at the end (either specified or default ...) when the string is truncated.
+     * Boolean $strip to indicate if the tags within the string have to be stripped
+     * @param string $string  The input string, UTF-8 encoded.
+     * @param int $length     The limit of the resulting length in characters.
+     * @param boolean $strip  Indicates if the tags within the string have to be stripped.
+     * @param string $char    A UTF-8 encoded character put at the end of the result string indicating truncation,
+     *                        by default it is the horizontal ellipsis (\u2026)
+     * @return string         The result string, html-entities (if any) are converted to normal UTF-8 characters.
      */
-    static function truncate_string($string, $length = 200, $strip = true, $char = '&hellip;')
+    static function truncate_string($string, $length = 200, $strip = true, $char = "\xE2\x80\xA6")
     {
         if ($strip)
         {
             $string = strip_tags($string);
         }
 
-        $decoded_string = html_entity_decode($string);
-        if (strlen($decoded_string) >= $length)
+        $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+        if (mb_strlen($string, 'UTF-8') > $length)
         {
-            mb_internal_encoding("UTF-8");
-            $string = mb_substr($string, 0, $length - 3) . $char;
+            $string = mb_substr($string, 0, $length - mb_strlen($char, 'UTF-8'), 'UTF-8') . $char;
         }
 
         return $string;
@@ -487,44 +487,44 @@ class Utilities
     	}
     	return '<img src="' . Theme :: get_common_image_path() . $icon . '">';
     }
-    
+
     static function htmlentities($string)
     {
     	return htmlentities($string, ENT_COMPAT, 'UTF-8');
     }
-    
+
 	static function get_usable_memory()
 	{
 		$val = trim(@ini_get('memory_limit'));
-	
+
 		if (preg_match('/(\\d+)([mkg]?)/i', $val, $regs))
 		{
 			$memory_limit = (int) $regs[1];
 			switch ($regs[2])
 			{
-	
+
 				case 'k':
 				case 'K':
 					$memory_limit *= 1024;
 				break;
-	
+
 				case 'm':
 				case 'M':
 					$memory_limit *= 1048576;
 				break;
-	
+
 				case 'g':
 				case 'G':
 					$memory_limit *= 1073741824;
 				break;
 			}
-	
+
 			// how much memory PHP requires at the start of export (it is really a little less)
 			if ($memory_limit > 6100000)
 			{
 				$memory_limit -= 6100000;
 			}
-	
+
 			// allow us to consume half of the total memory available
 			$memory_limit /= 2;
 		}
@@ -533,7 +533,7 @@ class Utilities
 			// set the buffer to 1M if we have no clue how much memory PHP will give us :P
 			$memory_limit = 1048576;
 		}
-	
+
 		return $memory_limit;
 	}
 }

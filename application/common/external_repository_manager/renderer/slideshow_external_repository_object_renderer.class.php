@@ -29,7 +29,7 @@ class SlideshowExternalRepositoryObjectRenderer extends ExternalRepositoryObject
         $last = ($slideshow_index == $external_repository_object_count - 1);
 
         $play_toolbar = new Toolbar();
-        //        $play_toolbar = $this->get_publication_actions($publication, false);
+        $play_toolbar->add_items($this->get_external_repository_object_actions($external_repository_object));
         if (Request :: get(self :: SLIDESHOW_AUTOPLAY))
         {
             $play_toolbar->add_item(new ToolbarItem(Translation :: get('Stop'), Theme :: get_common_image_path() . 'action_stop.png', $this->get_url(array(
@@ -81,10 +81,11 @@ class SlideshowExternalRepositoryObjectRenderer extends ExternalRepositoryObject
         $table[] = '<tr><td colspan="3" style="background-color: #f9f9f9; text-align: center;">';
         $table[] = ExternalRepositoryObjectDisplay :: factory($external_repository_object)->get_preview();
         $table[] = '</td></tr>';
-        $table[] = '<tr><td class="header" colspan="3">' . Translation :: get('Description') . '</td></tr>';
-        $table[] = '<tr><td colspan="3">' . $external_repository_object->get_description() . '</td></tr>';
+        
         $table[] = '</tbody>';
         $table[] = '</table>';
+        
+        $table[] = ExternalRepositoryObjectDisplay :: factory($external_repository_object)->get_properties_table();
 
         if (Request :: get(self :: SLIDESHOW_AUTOPLAY))
         {

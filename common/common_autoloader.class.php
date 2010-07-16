@@ -104,6 +104,7 @@ class CommonAutoloader
 					  'toolbar' => 'toolbar/toolbar.class.php',
 					  'toolbar_item' => 'toolbar/toolbar_item.class.php',
 					  'simple_table' => 'table/simple_table.class.php',
+					  'properties_table' => 'table/properties_table.class.php',
 					  'gallery_table' => 'table/gallery_table.class.php',
 					  'gallery_table_from_array' => 'table/gallery_table.class.php',
 					  'sortable_table' => 'table/sortable_table.class.php',
@@ -209,7 +210,9 @@ class CommonAutoloader
 					  'request' => 'session/request.class.php',
 					  'rss_icon_generator' => 'util/rss_icon_generator/rss_icon_generator.class.php',
 					  'external_repository_launcher' => 'launcher/external_repository/external_repository_launcher.class.php',
-					  'chamilo_test_suite' => 'test/chamilo_test_suite.class.php'
+					  'chamilo_test_suite' => 'test/chamilo_test_suite.class.php',
+					  'file_logger' => 'filesystem/file_logger.class.php',
+					  'timer' => 'datetime/timer.class.php'
 		);
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);

@@ -44,15 +44,7 @@ class MediamosaExternalRepositoryManagerServerSelectForm extends FormValidator{
                 $component->redirect('', false, $parameters);
             }
         }
-        else
-        {
-           //exit(Translation :: get('No server selected'));
-            //TODO:jens-> needs to be solved better
             //unset($_GET[MediamosaExternalRepositoryManager :: PARAM_SERVER]);
-
-            //redirect to default server
-            
-        }
     }
 
     function build_select_form()

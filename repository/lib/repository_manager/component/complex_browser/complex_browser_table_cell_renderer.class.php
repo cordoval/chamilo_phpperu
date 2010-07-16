@@ -79,12 +79,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
 
                 return $title_short; //'<a href="'.htmlentities($this->browser->get_content_object_viewing_url($content_object)).'" title="'.$title.'">'.$title_short.'</a>';
             case Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_DESCRIPTION)) :
-                $description = strip_tags($content_object->get_description());
-                if (strlen($description) > 75)
-                {
-                    mb_internal_encoding("UTF-8");
-                    $description = mb_substr(strip_tags($content_object->get_description()), 0, 200) . '&hellip;';
-                }
+                $description = $content_object->get_description();
                 return Utilities :: truncate_string($description, 75);
             case Translation :: get('Subitems') :
                 if ($cloi->is_complex())

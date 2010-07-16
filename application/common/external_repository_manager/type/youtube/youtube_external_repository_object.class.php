@@ -4,10 +4,10 @@ require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_exter
 class YoutubeExternalRepositoryObject extends StreamingMediaExternalRepositoryObject
 {
     const OBJECT_TYPE = 'youtube';
-    
+
     const PROPERTY_CATEGORY = 'category';
     const PROPERTY_TAGS = 'tags';
-    
+
     const STATUS_REJECTED = 'rejected';
     const STATUS_FAILED = 'failed';
     const STATUS_PROCESSING = 'processing';
@@ -25,6 +25,11 @@ class YoutubeExternalRepositoryObject extends StreamingMediaExternalRepositoryOb
     function get_tags()
     {
         return $this->get_default_property(self :: PROPERTY_TAGS);
+    }
+
+    function get_tags_string()
+    {
+		return implode(" ", $this->get_tags());
     }
 
     function get_type()
@@ -63,7 +68,7 @@ class YoutubeExternalRepositoryObject extends StreamingMediaExternalRepositoryOb
                 return Translation :: get('Unknown');
         }
     }
-    
+
     static function get_object_type()
     {
         return self :: OBJECT_TYPE;

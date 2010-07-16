@@ -19,7 +19,7 @@ class YoutubeExternalRepositoryConnector
     {
         $this->manager = $manager;
 
-        $session_token = LocalSetting :: get('youtube_session_token', UserManager :: APPLICATION_NAME);
+        $session_token = $this->manager->get_user_setting('session_token');
 
         Zend_Loader :: loadClass('Zend_Gdata_YouTube');
         Zend_Loader :: loadClass('Zend_Gdata_AuthSub');
@@ -30,11 +30,11 @@ class YoutubeExternalRepositoryConnector
             {
                 if ($manager->is_stand_alone())
                 {
-                    $next_url = PATH :: get(WEB_PATH) . 'common/launcher/index.php?type=youtube&application=external_repository';
+                    $next_url = PATH :: get(WEB_PATH) . 'common/launcher/index.php?application=external_repository&external_repository=' . $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
                 }
                 else
                 {
-                    $next_url = PATH :: get(WEB_PATH) . 'core.php?go=external_repository&application=repository&category=0&type=youtube';
+                    $next_url = PATH :: get(WEB_PATH) . 'core.php?go=external_repository&application=repository&category=0&external_repository=' . $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
                 }
 
                 $scope = 'http://gdata.youtube.com';
@@ -49,7 +49,12 @@ class YoutubeExternalRepositoryConnector
                 $session_token = Zend_Gdata_AuthSub :: getAuthSubSessionToken($_GET['token']);
                 if ($session_token)
                 {
-                    LocalSetting :: create_local_setting('youtube_session_token', $session_token, UserManager :: APPLICATION_NAME, $this->manager->get_user_id());
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+                    $user_setting = new ExternalRepositoryUserSetting();
+                    $user_setting->set_setting_id($setting->get_id());
+                    $user_setting->set_user_id($this->manager->get_user_id());
+                    $user_setting->set_value($session_token);
+                    $user_setting->create();
                 }
             }
         }
@@ -57,6 +62,7 @@ class YoutubeExternalRepositoryConnector
         //$config = array('adapter' => 'Zend_Http_Client_Adapter_Proxy', 'proxy_host' => '192.168.0.202', 'proxy_port' => 8080);
         $httpClient = Zend_Gdata_AuthSub :: getHttpClient($session_token);
         //$httpClient->setConfig($config);
+
 
         $client = '';
         $application = PlatformSetting :: get('site_name');
@@ -268,7 +274,7 @@ class YoutubeExternalRepositoryConnector
             $object = new YoutubeExternalRepositoryObject();
             $object->set_id($videoEntry->getVideoId());
             $object->set_title($videoEntry->getVideoTitle());
-            $object->set_description($videoEntry->getVideoDescription());
+            $object->set_description(nl2br($videoEntry->getVideoDescription()));
             $object->set_created($published_timestamp);
             $object->set_owner_id($uploader->getName()->getText());
             $object->set_url($videoEntry->getFlashPlayerUrl());
@@ -325,7 +331,7 @@ class YoutubeExternalRepositoryConnector
         $object = new YoutubeExternalRepositoryObject();
         $object->set_id($videoEntry->getVideoId());
         $object->set_title($videoEntry->getVideoTitle());
-        $object->set_description($videoEntry->getVideoDescription());
+        $object->set_description(nl2br($videoEntry->getVideoDescription()));
         $object->set_url($videoEntry->getFlashPlayerUrl());
         $object->set_duration($videoEntry->getVideoDuration());
         $object->set_thumbnail($thumbnail);
@@ -342,6 +348,9 @@ class YoutubeExternalRepositoryConnector
         {
             $object->set_status(YoutubeExternalRepositoryObject :: STATUS_AVAILABLE);
         }
+
+        $object->set_rights($this->determine_rights($videoEntry));
+
         return $object;
     }
 
@@ -381,20 +390,6 @@ class YoutubeExternalRepositoryConnector
         return $this->youtube->delete($video_entry);
     }
 
-    function is_usable($id)
-    {
-        $video_entry = $this->get_youtube_video_entry($id);
-        $control = $video_entry->getControl();
-        if (isset($control))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
     function export_youtube_video($object)
     {
         $video_entry = new Zend_Gdata_YouTube_VideoEntry();
@@ -421,6 +416,15 @@ class YoutubeExternalRepositoryConnector
         }
         return true;
     }
-}
 
+    function determine_rights($video_entry)
+    {
+        $rights = array();
+        $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = ($video_entry->getEditLink() !== null ? true : false);
+        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = ($video_entry->getEditLink() !== null ? true : false);
+        $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
+        return $rights;
+    }
+}
 ?>

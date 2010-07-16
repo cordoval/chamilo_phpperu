@@ -20,11 +20,11 @@ class MediamosaExternalRepositoryManagerSettingDeleterComponent extends Mediamos
 
         if($object->delete())
         {
-            $this->redirect(Translation :: get('Setting deleted'), false, $parameters);
+            $this->redirect(Translation :: get('Deleted'), false, $parameters);
         }
         else
         {
-            $this->redirect(Translation :: get('Setting not deleted'), true, $parameters);
+            $this->redirect(Translation :: get('NotDeleted'), true, $parameters);
         }
     }
 }

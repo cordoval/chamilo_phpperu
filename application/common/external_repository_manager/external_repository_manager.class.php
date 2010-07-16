@@ -12,13 +12,17 @@ abstract class ExternalRepositoryManager extends SubManager
     const ACTION_SELECT_EXTERNAL_REPOSITORY = 'select';
     const ACTION_EDIT_EXTERNAL_REPOSITORY = 'edit';
     const ACTION_DELETE_EXTERNAL_REPOSITORY = 'delete';
+    const ACTION_CONFIGURE_EXTERNAL_REPOSITORY = 'configure';
 
     const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
-    const PARAM_TYPE = 'type';
+    const PARAM_EXTERNAL_REPOSITORY = 'external_repository';
     const PARAM_QUERY = 'query';
     const PARAM_RENDERER = 'renderer';
 
     const CLASS_NAME = __CLASS__;
+
+    private $settings;
+    private $user_settings;
 
     function ExternalRepositoryManager($application)
     {
@@ -31,7 +35,7 @@ abstract class ExternalRepositoryManager extends SubManager
         }
 
         $this->set_optional_parameters();
-        $this->initiliaze_external_repository();
+        $this->initialize_external_repository();
     }
 
     function set_optional_parameters()
@@ -44,10 +48,87 @@ abstract class ExternalRepositoryManager extends SubManager
         return is_a($this->get_parent(), LauncherApplication :: CLASS_NAME);
     }
 
-    abstract function is_editable($id);
-
-    static function factory($type, $application)
+    function load_settings()
     {
+        $this->settings = array();
+
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY));
+        $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
+
+        while ($setting = $settings->next_result())
+        {
+            $this->settings[$setting->get_variable()] = $setting->get_value();
+        }
+    }
+
+    function load_user_settings()
+    {
+        $this->user_settings = array();
+
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY));
+        $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
+
+        $setting_ids = array();
+        while ($setting = $settings->next_result())
+        {
+            $conditions = array();
+            $conditions[] = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_USER_ID, $this->get_user_id());
+            $conditions[] = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_SETTING_ID, $setting->get_id());
+            $condition = new AndCondition($conditions);
+
+            $user_settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_user_settings($condition, array(), 0, 1);
+            if ($user_settings->size() == 1)
+            {
+                $user_setting = $user_settings->next_result();
+                $this->user_settings[$setting->get_variable()] = $user_setting->get_value();
+            }
+        }
+    }
+
+    function get_setting($variable)
+    {
+        if (! isset($this->settings))
+        {
+            $this->load_settings();
+        }
+
+        return $this->settings[$variable];
+    }
+
+    function get_user_setting($variable)
+    {
+        if (! isset($this->user_settings))
+        {
+            $this->load_user_settings();
+        }
+
+        return $this->user_settings[$variable];
+    }
+
+    function get_settings()
+    {
+        if (! isset($this->settings))
+        {
+            $this->load_settings();
+        }
+
+        return $this->settings;
+    }
+
+    function get_user_settings()
+    {
+        if (! isset($this->user_settings))
+        {
+            $this->load_user_settings();
+        }
+
+        return $this->user_settings;
+    }
+
+    static function factory($external_repository, $application)
+    {
+        $type = $external_repository->get_type();
+
         $file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_external_repository_manager.class.php';
         if (! file_exists($file))
         {
@@ -137,7 +218,18 @@ abstract class ExternalRepositoryManager extends SubManager
 
     function get_external_repository_actions()
     {
-        return array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY);
+        $actions = array();
+        $actions[] = self :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
+        $actions[] = self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY;
+
+        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 1);
+
+        if ($is_platform)
+        {
+            $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;
+        }
+
+        return $actions;
     }
 
     function display_footer()
@@ -153,13 +245,8 @@ abstract class ExternalRepositoryManager extends SubManager
     abstract function count_external_repository_objects($condition);
 
     abstract function retrieve_external_repository_objects($condition, $order_property, $offset, $count);
-    
-    abstract function initiliaze_external_repository();
 
-    function get_property_model()
-    {
-        return null;
-    }
+    abstract function initialize_external_repository();
 
     function support_sorting_direction()
     {
@@ -178,13 +265,49 @@ abstract class ExternalRepositoryManager extends SubManager
 
     abstract function export_external_repository_object($id);
 
+    /**
+     * @param ExternalRepositoryObject $object
+     */
+    function get_external_repository_object_actions(ExternalRepositoryObject $object)
+    {
+        $toolbar_items = array();
+
+        if ($object->is_editable())
+        {
+            $toolbar_items[] = new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(
+                    self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_EDIT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+        }
+
+        if ($object->is_deletable())
+        {
+            $toolbar_items[] = new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(
+                    self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_DELETE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+        }
+
+        if ($object->is_usable())
+        {
+            if ($this->is_stand_alone())
+            {
+                $toolbar_items[] = new ToolbarItem(Translation :: get('Select'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(
+                        self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SELECT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            }
+            else
+            {
+                $toolbar_items[] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(
+                        self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+            }
+        }
+
+        return $toolbar_items;
+    }
+
     static function retrieve_external_repository_manager()
     {
         $manager = array();
-//        $manager[] = 'fedora';
+        //        $manager[] = 'fedora';
         $manager[] = 'flickr';
         $manager[] = 'google_docs';
-//        $manager[] = 'matterhorn';
+        //        $manager[] = 'matterhorn';
         $manager[] = 'mediamosa';
         $manager[] = 'youtube';
 
@@ -210,5 +333,7 @@ abstract class ExternalRepositoryManager extends SubManager
     {
         return array(ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
+
+    abstract function get_content_object_type_conditions();
 }
 ?>

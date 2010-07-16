@@ -3,9 +3,8 @@
  * $Id: dokeos185_course.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_course.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/course/course.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
+require_once Path :: get(SYS_PATH) . 'application/lib/weblcms/course/course.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course
@@ -14,11 +13,11 @@ require_once dirname(__FILE__) . '/../../../application/lib/weblcms/course/cours
  * @author Sven Vanpoucke
  */
 
-class Dokeos185Course extends MigrationDataClass
+class Dokeos185Course extends Dokeos185MigrationDataClass
 {
-    /**
-     * Migration data manager
-     */
+    const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'course';   
+	const DATABASE_NAME = 'main_database';
 
     /**
      * course properties
@@ -45,82 +44,12 @@ class Dokeos185Course extends MigrationDataClass
     const PROPERTY_REGISTRATION_CODE = 'registration_code';
 
     /**
-     * Alfanumeric identifier of the course object.
-     */
-    private $code;
-    private $index = 0;
-
-    /**
-     * Default properties of the course object, stored in an associative
-     * array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new course object.
-     * @param array $defaultProperties The default properties of the user
-     *                                 object. Associative array.
-     */
-    function Dokeos185Course($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property of this course object by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties of this course.
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    /**
      * Get the default properties of all courses.
      * @return array The property names.
      */
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_CODE, self :: PROPERTY_DIRECTORY, self :: PROPERTY_DB_NAME, self :: PROPERTY_COURSE_LANGUAGE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_VISIBILITY, self :: PROPERTY_TUTOR_NAME, self :: PROPERTY_VISUAL_CODE, self :: PROPERTY_DEPARTMENT_URL, self :: PROPERTY_LAST_VISIT, self :: PROPERTY_LAST_EDIT, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_TARGET_COURSE_CODE, self :: PROPERTY_SUBSCRIBE, self :: PROPERTY_UNSUBSCRIBE, self :: PROPERTY_REGISTRATION_CODE, self :: PROPERTY_DEPARTMENT_NAME);
-    }
-
-    /**
-     * Sets a default property of this course by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Checks if the given identifier is the name of a default course
-     * property.
-     * @param string $name The identifier.
-     * @return boolean True if the identifier is a property name, false
-     *                 otherwise.
-     */
-    static function is_default_property_name($name)
-    {
-        return in_array($name, self :: get_default_property_names());
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -319,12 +248,12 @@ class Dokeos185Course extends MigrationDataClass
      * Check if the course is valid
      * @return true if the course is valid
      */
-    function is_valid($parameters)
+    function is_valid()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        if (! $this->get_code() || $mgdm->get_failed_element('dokeos_main.course_category', $this->get_category_code()))
+        if (! $this->get_code() || $this->get_failed_element($this->get_category_code(), 'main_database.course_category'))
         {
-            $mgdm->add_failed_element($this->get_code(), 'dokeos_main.course');
+            $this->create_failed_element($this->get_code());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'course', 'ID' => $this->get_code())));
             return false;
         }
 
@@ -332,16 +261,16 @@ class Dokeos185Course extends MigrationDataClass
     }
 
     //check if visual code is avalaible
-    function check_visual_code($visual_code, $course)
+    function check_visual_code($visual_code, $index = 0)
     {
-        $mgdm = MigrationDataManager :: get_instance();
-
-        if ($mgdm->visual_code_available($visual_code))
-            $course->set_visual($visual_code);
+        if (WeblcmsDataManager  :: is_course_code_available($visual_code))
+        {
+            return $visual_code;
+        }
         else
         {
-            $index = $this->index ++;
-            $this->check_visual_code($visual_code . '+' . $index, $course);
+            $index++;
+            return $this->check_visual_code($visual_code . $index, $index);
         }
 
     }
@@ -350,7 +279,7 @@ class Dokeos185Course extends MigrationDataClass
      * Convert to new course
      * @return the new course
      */
-    function convert_data
+    function convert_data()
     {
     	//control if the weblcms application exists
 		$is_registered = AdminDataManager :: is_registered('weblcms');
@@ -358,16 +287,17 @@ class Dokeos185Course extends MigrationDataClass
         if ($is_registered )
         {
         	//Course - General
-        	$mgdm = MigrationDataManager :: get_instance();
-        	$lcms_course = new Course();
+        	$chamilo_course = new Course();
 
         	//title & visual_code
-        	$lcms_course->set_name($this->get_title());
-        	$this->check_visual_code($this->get_visual_code(), $lcms_course);
+        	$chamilo_course->set_name($this->get_title());
+        	$new_visual_code = $this->check_visual_code($this->get_visual_code());
+        	$chamilo_course->set_visual($new_visual_code);
+        	
 			//titular id
         	$udm = UserDataManager :: get_instance();
         	$titular = $udm->retrieve_user_by_fullname($this->get_tutor_name());
-        	if (!($titular) == NULL)
+        	if ($titular)
         	{
             	$titular_id = $titular->get_id();
         	}
@@ -375,83 +305,70 @@ class Dokeos185Course extends MigrationDataClass
             {
             	$titular_id = 0;
             }
-        	$lcms_course->set_titular($titular_id);
+            
+        	$chamilo_course->set_titular($titular_id);
 
         	//category
-        	$category_id = $mgdm->get_id_reference($this->get_category_code(), 'weblcms_course_category');
+        	$category_id = $this->get_id_reference($this->get_category_code(), 'main_database.course_category');
         	if ($category_id)
         	{
-        		$lcms_course->set_category($category_id);
+        		$chamilo_course->set_category($category_id);
         	}
+        	
        		//departement_name & url
-       		$lcms_course->set_extlink_name($this->get_department_name());
-        	$lcms_course->set_extlink_url($this->get_department_url());
+       		$chamilo_course->set_extlink_name($this->get_department_name());
+        	$chamilo_course->set_extlink_url($this->get_department_url());
        		
         	//Course - Settings
-       		if ($mgdm->is_language_available($this->get_course_language()))
+       		if (AdminDataManager :: is_language_active($this->get_course_language()))
         	{
-            	$lcms_course->set_language($this->get_course_language());
+            	$chamilo_course->set_language($this->get_course_language());
         	}
             else
             {
-            	$lcms_course->set_language('english');
+            	$chamilo_course->set_language('english');
             }
-            $lcms_course->set_visibility($this->get_visibility());
-            $lcms_course->set_max_number_of_members(0);
+
+            $chamilo_course->set_visibility($this->get_visibility());
+            $chamilo_course->set_max_number_of_members(0);
             
             //Course - Lay-out
             
             //Course - Tools
             
             //Course - Rights
-        	$lcms_course->set_subscribe_allowed($this->get_subscribe());
-        	$lcms_course->set_unsubscribe_allowed($this->get_unsubscribe());
+        	/*$chamilo_course->set_subscribe_allowed($this->get_subscribe());
+        	$chamilo_course->set_unsubscribe_allowed($this->get_unsubscribe());*/
         	
         	//Courses - Creation/Modification Dates
-        	$lcms_course->set_default_property(Course :: PROPERTY_LAST_VISIT, $this->get_last_visit());
-        	$lcms_course->set_default_property(Course :: PROPERTY_LAST_EDIT, $this->get_last_edit());
-        	$lcms_course->set_default_property(Course :: PROPERTY_CREATION_DATE, $this->get_creation_date());
-        	$lcms_course->set_default_property(Course :: PROPERTY_EXPIRATION_DATE, $this->get_expiration_date());
+        	$chamilo_course->set_default_property(Course :: PROPERTY_LAST_VISIT, $this->get_last_visit());
+        	$chamilo_course->set_default_property(Course :: PROPERTY_LAST_EDIT, $this->get_last_edit());
+        	$chamilo_course->set_default_property(Course :: PROPERTY_CREATION_DATE, $this->get_creation_date());
+        	$chamilo_course->set_default_property(Course :: PROPERTY_EXPIRATION_DATE, $this->get_expiration_date());
 
         	//create course in database
-        	$lcms_course->create();
+        	$chamilo_course->create();
 
         	//Add id references to temp table
-        	$old_code = $this->get_code();
-        	$mgdm->add_id_reference($old_code, $lcms_course->get_id(), 'weblcms_course');
-        	unset($old_code);
-        	unset($mgdm);
-
-        	return $lcms_course;
+        	$this->create_id_reference($this->get_code(), $chamilo_course->get_id());
+        	
+        	$this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'course', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_course->get_code())));
     	}
     }
 
-    /**
-     * Retrieve all courses from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of courses
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-
-        $db = 'main_database';
-        $tablename = 'course';
-        $classname = 'Dokeos185Course';
-        $test = $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
-        unset($db);
-        unset($tablename);
-        unset($classname);
-        unset($old_mgdm);
-        return $test;
+        return self :: TABLE_NAME;
     }
-
-    static function get_database_table($parameters)
+    
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'main_database';
-        $array['table'] = 'course';
-        return $array;
+    	return self :: CLASS_NAME;
+    }
+    
+    static function get_database_name()
+    {
+    	return self :: DATABASE_NAME;
     }
 }
 ?>

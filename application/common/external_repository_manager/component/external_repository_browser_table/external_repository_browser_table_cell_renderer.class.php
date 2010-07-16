@@ -26,23 +26,22 @@ class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalReposito
     }
 
     // Inherited
-    function render_cell($column, $content_object)
-    {
+    function render_cell($column, $external_object)
+
+    {//$html[] = '<h3>' . Utilities ::truncate_string($object->get_title(), 25) . '</h3>';
         if ($column === ExternalRepositoryBrowserTableColumnModel :: get_modification_column())
         {
-            return $this->get_modification_links($content_object);
+            return $this->get_modification_links($external_object);
         }
 
-        //        switch ($column->get_name())
-        //        {
-        //            case ContentObject :: PROPERTY_TYPE :
-        //                return '<a href="' . htmlentities($this->browser->get_type_filter_url($content_object->get_type())) . '">' . parent :: render_cell($column, $content_object) . '</a>';
-        //            case ContentObject :: PROPERTY_TITLE :
-        //                $title = parent :: render_cell($column, $content_object);
-        //                $title_short = Utilities :: truncate_string($title, 53, false);
-        //                return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '" title="' . $title . '">' . $title_short . '</a>';
-        //        }
-        return parent :: render_cell($column, $content_object);
+                switch ($column->get_name())
+                {
+                    case ExternalRepositoryObject :: PROPERTY_TITLE :
+                        $title = parent :: render_cell($column, $external_object);
+                        $title_short = Utilities :: truncate_string($title, 50, false);
+                        return '<a href="' . htmlentities($this->browser->get_external_repository_object_viewing_url($external_object)) . '" title="' . $title . '">' . $title_short . '</a>';
+                }
+        return parent :: render_cell($column, $external_object);
     }
 
     /**
@@ -51,9 +50,10 @@ class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalReposito
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($content_object)
+    private function get_modification_links($external_repository_object)
     {
         $toolbar = new Toolbar();
+        $toolbar->add_items($this->browser->get_external_repository_object_actions($external_repository_object));
         return $toolbar->as_html();
     }
 }

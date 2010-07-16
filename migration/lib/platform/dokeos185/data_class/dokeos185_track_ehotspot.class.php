@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_ehotspot.class.
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEHotspot extends MigrationDataClass
+class Dokeos185TrackEHotspot extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

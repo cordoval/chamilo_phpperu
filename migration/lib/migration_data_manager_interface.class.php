@@ -22,6 +22,8 @@ interface MigrationDataManagerInterface
 
     public function retrieve_failed_elements($condition = null, $offset = null, $count = null, $order_property = null);
     
+    public function truncate_failed_elements();
+    
     // CRUD for file_recovery
     
     public function delete_file_recovery(FileRecovery $file_recovery);
@@ -33,6 +35,8 @@ interface MigrationDataManagerInterface
     public function count_file_recoveries($conditions = null);
 
     public function retrieve_file_recoveries($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    public function truncate_file_recoveries();
     
     // CRUD for id_reference
     
@@ -46,6 +50,8 @@ interface MigrationDataManagerInterface
 
     public function retrieve_id_references($condition = null, $offset = null, $count = null, $order_property = null);
     
+    public function truncate_id_references();
+    
     // CRUD for migration_block_registration
     
     public function delete_migration_block_registration(MigrationBlockRegistration $migration_block_registration);
@@ -57,6 +63,10 @@ interface MigrationDataManagerInterface
     public function count_migration_block_registrations($conditions = null);
 
     public function retrieve_migration_block_registrations($condition = null, $offset = null, $count = null, $order_property = null);
+    
+    public function truncate_migration_block_registrations();
+    
+    public function reset_migration_block_registration_status();
     
 }
 

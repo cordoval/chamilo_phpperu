@@ -68,7 +68,7 @@ class ExternalRepositoryBrowserComponent extends ExternalRepositoryComponent
         {
             $this->set_parameter(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY, $query);
         }
-        
+
         $this->display_header();
 
         $html[] = $this->action_bar->as_html();

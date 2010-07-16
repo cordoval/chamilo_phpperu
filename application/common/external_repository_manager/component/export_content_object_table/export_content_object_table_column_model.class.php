@@ -7,7 +7,7 @@ require_once Path :: get_application_library_path() . 'repo_viewer/component/con
 /**
  * This class represents a column model for a publication candidate table
  */
-class StreamingVideoContentObjectTableColumnModel extends ContentObjectTableColumnModel
+class ExportContentObjectTableColumnModel extends ContentObjectTableColumnModel
 {
 }
 ?>

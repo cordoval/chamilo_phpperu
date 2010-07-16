@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_role.class.php';
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Role extends MigrationDataClass
+class Dokeos185Role extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

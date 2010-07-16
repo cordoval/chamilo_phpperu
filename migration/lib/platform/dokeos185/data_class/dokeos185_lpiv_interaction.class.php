@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_lp_iv_interaction.cla
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185LpIvInteraction extends MigrationDataClass
+class Dokeos185LpIvInteraction extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

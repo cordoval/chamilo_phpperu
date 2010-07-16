@@ -15,7 +15,6 @@ class ExternalRepositoryBrowserGalleryTableDataProvider extends GalleryObjectTab
         // We always use title as second sorting parameter
         //		$order_property[] = ContentObject :: PROPERTY_TITLE;
 
-
         return $this->get_browser()->retrieve_external_repository_objects($this->get_condition(), $order_property, $offset, $count);
     }
 

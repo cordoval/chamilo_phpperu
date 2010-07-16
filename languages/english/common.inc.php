@@ -769,4 +769,8 @@ $lang['common']['DisplayOrder'] = 'Display Order';
 $lang['common']['PublisherId'] = 'Publisher';
 $lang['common']['SecondsShort'] = 's';
 $lang['common']['ExportToPdf'] = 'Export to pdf';
+$lang['common']['NoThumbnailAvailable'] = 'No thumbnail available';
+$lang['common']['NoPreviewAvailable'] = 'No preview available';
+$lang['common']['FlickrTagline'] = 'Share your photos. Watch the world.';
+$lang['common']['YouTubeTagline'] = 'Broadcast Yourself.';
 ?>

@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_blog_rel_user.class.p
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185BlogRelUser extends MigrationDataClass
+class Dokeos185BlogRelUser extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

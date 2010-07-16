@@ -1,27 +1,31 @@
 <?php
 require_once dirname(__FILE__) . '/youtube_external_repository_connector.class.php';
 require_once dirname(__FILE__) . '/table/youtube_external_repository_browser_gallery_table_property_model.class.php';
+require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_browser_gallery_table_cell_renderer.class.php';
 
 class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
 {
+    const REPOSITORY_TYPE = 'youtube';
+
     const PARAM_FEED_TYPE = 'feed';
+    const PARAM_FEED_IDENTIFIER = 'identifier';
+
     const FEED_TYPE_GENERAL = 1;
     const FEED_TYPE_MYVIDEOS = 2;
     const FEED_STANDARD_TYPE = 3;
-    const PARAM_FEED_IDENTIFIER = 'identifier';
 
     function YoutubeExternalRepositoryManager($application)
     {
         parent :: __construct($application);
-        $this->set_parameter(YoutubeExternalRepositoryManager :: PARAM_FEED_TYPE, Request :: get(YoutubeExternalRepositoryManager :: PARAM_FEED_TYPE));
+        $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
     function get_application_component_path()
     {
         return Path :: get_application_library_path() . 'external_repository_manager/type/youtube/component/';
     }
-    
-    function initiliaze_external_repository()
+
+    function initialize_external_repository()
     {
         YoutubeExternalRepositoryConnector :: get_instance($this);
     }
@@ -54,11 +58,6 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     {
         $connector = YoutubeExternalRepositoryConnector :: get_instance($this);
         return $connector->export_youtube_video($object);
-    }
-
-    function get_property_model()
-    {
-        return new YoutubeExternalRepositoryBrowserGalleryPropertyModel();
     }
 
     function support_sorting_direction()
@@ -174,7 +173,16 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
 
     function get_external_repository_actions()
     {
-        return array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+
+        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 1);
+
+        if ($is_platform)
+        {
+            $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;
+        }
+
+        return $actions;
     }
 
     function run()
@@ -210,6 +218,9 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
             case ExternalRepositoryManager :: ACTION_DELETE_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Deleter');
                 break;
+            case ExternalRepositoryManager :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Configurer');
+                break;
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
@@ -222,6 +233,23 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     function get_available_renderers()
     {
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
+    }
+
+    function get_content_object_type_conditions()
+    {
+        $video_types = Document :: get_video_types();
+        $video_conditions = array();
+        foreach ($video_types as $video_type)
+        {
+            $video_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, Document :: get_type_name());
+        }
+
+        return new OrCondition($video_conditions);
+    }
+
+    function get_repository_type()
+    {
+        return self :: REPOSITORY_TYPE;
     }
 }
 ?>

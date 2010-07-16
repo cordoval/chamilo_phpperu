@@ -7,7 +7,7 @@ require_once Path :: get_application_library_path() . 'repo_viewer/component/con
 /**
  * This class represents a data provider for a publication candidate table
  */
-class StreamingVideoContentObjectTableDataProvider extends ContentObjectTableDataProvider
+class ExportContentObjectTableDataProvider extends ContentObjectTableDataProvider
 {
     /**
      * Constructor.
@@ -16,7 +16,7 @@ class StreamingVideoContentObjectTableDataProvider extends ContentObjectTableDat
      * selected.
      * @param string $query The search query.
      */
-    function StreamingVideoContentObjectTableDataProvider($owner, $types, $query = null, $parent)
+    function ExportContentObjectTableDataProvider($owner, $types, $query = null, $parent)
     {
         parent :: __construct($owner, $types, $query, $parent);
     }
@@ -42,14 +42,7 @@ class StreamingVideoContentObjectTableDataProvider extends ContentObjectTableDat
 
     function get_type_conditions()
     {
-        $video_types = Document :: get_video_types();
-        $video_conditions = array();
-        foreach($video_types as $video_type)
-        {
-            $video_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, Document :: get_type_name());
-        }
-
-        return new OrCondition($video_conditions);
+        return $this->get_parent()->get_parent()->get_content_object_type_conditions();
     }
 }
 ?>

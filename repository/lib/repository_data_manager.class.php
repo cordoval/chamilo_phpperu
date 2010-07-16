@@ -513,5 +513,47 @@ class RepositoryDataManager
 
         return $managers;
     }
+    
+    static function get_document_id_by_hash($hash)
+    {
+    	$condition = new EqualityCondition(Document :: PROPERTY_HASH, $hash);
+    	$document = self :: get_instance()->retrieve_content_objects($condition)->next_result();
+    	
+    	if($document)
+    	{
+    		return $document->get_id();
+    	}
+    	
+    	return false;
+    }
+    
+    /**
+ 	 *	retrieve category
+ 	 *  if the category does not exist, create a new category
+ 	 *  return the id
+ 	 *  
+     */
+    static function get_repository_category_by_name_or_create_new($user_id, $title)
+    {
+		$conditions = array();
+    	$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_NAME, $title);
+        $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $user_id);
+        $condition = new AndCondition($conditions);
+        
+        $category = self :: get_instance()->retrieve_categories($condition)->next_result();
+        if(!$category)
+        {
+        	$category = new RepositoryCategory();
+        	$category->set_user_id($user_id);
+        	$category->set_name($title);
+        	$category->set_parent(0);
+            
+        	//Create category in database
+        	$category->create();
+        }
+ 
+        return $category->get_id();       
+        
+    }
 }
 ?>

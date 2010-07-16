@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repo
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185CalendarEvent extends MigrationDataClass
+class Dokeos185CalendarEvent extends Dokeos185MigrationDataClass
 {
     /**
      * Migration data manager

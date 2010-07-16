@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_templates.class.php';
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Templates extends MigrationDataClass
+class Dokeos185Templates extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

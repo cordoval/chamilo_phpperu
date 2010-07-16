@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_gradebook_score_displ
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185GradebookScoreDisplay extends MigrationDataClass
+class Dokeos185GradebookScoreDisplay extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

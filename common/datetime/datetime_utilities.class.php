@@ -113,6 +113,36 @@ class DatetimeUtilities
  		
 		return self :: format_locale_date($format, $date_time->format('U') + $offset);
     }
+    
+ 	/**
+     * Convert the seconds to h:m:s or m:s or s
+     * @param String $time
+     */
+    static function convert_seconds_to_hours($time)
+    {
+        if ($time / 3600 < 1 && $time / 60 < 1)
+        {
+            $converted_time = $time . 's';
+        }
+        else
+        {
+            if ($time / 3600 < 1)
+            {
+                $min = (int) ($time / 60);
+                $sec = $time % 60;
+                $converted_time = $min . 'm ' . $sec . 's';
+            }
+            else
+            {
+                $hour = (int) ($time / 3600);
+                $rest = $time % 3600;
+                $min = (int) ($rest / 60);
+                $sec = $rest % 60;
+                $converted_time = $hour . 'h ' . $min . 'm ' . $sec . 's';
+            }
+        }
+        return $converted_time;
+    }
 
 }
 ?>

@@ -6,20 +6,26 @@
  * @author Sven Vanpoucke
  * @author David Van Wayenbergh
  */
-class Dokeos185DataManager extends MigrationDatabase
+class Dokeos185DataManager extends MigrationDatabase implements PlatformMigrationDataManager
 {
 	/**
 	 * The dokeos 185 configuration array
 	 * @var String[]
 	 */
 	private $configuration;
+
+	/**
+	 * Variable to keep track of the selected database;
+	 * @var String
+	 */
+	private $current_database;
 	
 	/**
 	 * Singleton
 	 */
 	private static $instance;
 	
-	private static function get_instance()
+	static function get_instance()
 	{
 		if(!self :: $instance)
 		{
@@ -41,8 +47,9 @@ class Dokeos185DataManager extends MigrationDatabase
 			throw new Exception(Translation :: get('PlatformConfigurationCanNotBeFound'));
 		}
 		
-		$connection_string = 'mysql://' . $this->configuration['db_user'] . ':' . $this->configuration['db_password'] . '@' . $this->configuration['db_host'] . '/' . $this->get_database_name('dokeos_main');
+		$connection_string = 'mysql://' . $this->configuration['db_user'] . ':' . $this->configuration['db_password'] . '@' . $this->configuration['db_host'] . '/' . $this->get_database_name('main_database');
 		$this->initialize($connection_string);
+		$this->current_database = $this->get_database_name('main_database');
 	}
 	
 	/**
@@ -85,8 +92,74 @@ class Dokeos185DataManager extends MigrationDatabase
 	function set_database($database_name)
     {
         $database_name = $this->get_database_name($database_name);
+        
+    	if($this->current_database == $database_name)
+        {
+        	return;
+        }
+        
+    	$this->current_database = $database_name;
         $this->get_connection()->setDatabase($database_name);
     }
+    
+    /**
+     * Retrieve all objects
+     * @param Dokeos185MigrationDataClass $data_class
+     * @param int $offset - the offset
+     * @param int $count - the number of objects to retrieve 
+     */
+    function retrieve_all_objects($data_class, $offset, $count)
+    {
+    	$this->set_database($data_class->get_database_name());
+    	return $this->retrieve_objects($data_class->get_table_name(), $data_class->get_retrieve_condition(), $offset, $count, null, $data_class->get_class_name());
+    }
+    
+    /**
+     * Counts all objects
+     * @param Dokeos185MigrationDataClass $data_class 
+     */
+    function count_all_objects($data_class)
+    {
+    	$this->set_database($data_class->get_database_name());
+    	return $this->count_objects($data_class->get_table_name(), $data_class->get_retrieve_condition());
+    }
+    
+    /**
+     * Check wether a user is a platform admin
+     */
+    function is_platform_admin($user)
+    {
+    	$condition = new EqualityCondition(Dokeos185User :: PROPERTY_USER_ID, $user->get_user_id());
+    	$count = $this->count_objects('admin', $condition);
+    	
+    	return ($count > 0);
+    }
+    
+    /**
+     * Gets the system path of the dokeos185 installation
+     */
+    function get_sys_path()
+    {
+    	$conf = $this->get_configuration();
+    	return $conf['root_sys'];
+    }
+    
+    /**
+     * Gets the id of the first admin of the dokeos 185 platform
+     */
+    function get_admin_id()
+    {
+     	$this->set_database('main_database');
+     	
+        $query = 'SELECT user_id FROM ' . $this->escape_table_name('admin');
+        $result = $this->query($query);
+        $record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+        $id = $record['user_id'];
+        $result->free();
+
+        return $id;
+    }
+    
 }
 
 ?>

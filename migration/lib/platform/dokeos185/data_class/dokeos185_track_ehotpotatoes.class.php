@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_ehotpotatoes.cl
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185TrackEHotpotatoes extends MigrationDataClass
+class Dokeos185TrackEHotpotatoes extends Dokeos185MigrationDataClass
 {
     private static $mgdm;
     

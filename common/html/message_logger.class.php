@@ -79,5 +79,12 @@ class MessageLogger
         $this->truncate();
         return $message;
     }
+    
+    function render_for_cli()
+    {
+    	$message = strip_tags(implode("\n", $this->get_messages()));
+        $this->truncate();
+        return $message;
+    }
 }
 ?>
