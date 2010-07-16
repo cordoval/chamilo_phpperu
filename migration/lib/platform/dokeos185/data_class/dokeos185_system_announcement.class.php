@@ -133,6 +133,7 @@ class Dokeos185SystemAnnouncement extends Dokeos185MigrationDataClass
         if (! ($this->get_title() || $this->get_content()))
         {
             $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'system announcement', 'ID' => $this->get_id())));
             return false;
         }
         
@@ -183,7 +184,7 @@ class Dokeos185SystemAnnouncement extends Dokeos185MigrationDataClass
         $chamilo_system_announcement_publication->set_published(strtotime($this->get_date_start()));
         $chamilo_system_announcement_publication->create();
         
-        return $chamilo_system_announcement;
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'system announcement', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_system_announcement->get_id())));
     }
 
     static function get_table_name()
