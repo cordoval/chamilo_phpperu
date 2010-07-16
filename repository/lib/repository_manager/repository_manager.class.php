@@ -1357,6 +1357,11 @@ class RepositoryManager extends CoreApplication
     {
         return RepositoryDataManager :: get_instance()->retrieve_external_repositories($condition, $offset, $count, $order_property);
     }
+    
+    function count_external_repositories($condition = null)
+    {
+        return RepositoryDataManager :: get_instance()->count_external_repositories($condition);
+    }
 
     /**
      * Renders the users block and returns it.

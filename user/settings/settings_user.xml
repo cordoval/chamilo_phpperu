@@ -140,8 +140,5 @@
 				<options type="dynamic" source="get_fullname_formats" />
 			</setting>
 		</category>
-		<category name="external_repositories">
-			<setting name="google_docs_session_token" field="text" default="" user_setting="1"/>
-		</category>
 	</settings>
 </application>

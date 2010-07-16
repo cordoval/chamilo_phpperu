@@ -430,6 +430,8 @@ interface RepositoryDataManagerInterface
     function retrieve_external_repository_condition($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
     function retrieve_external_repositories($condition = null, $offset = null, $max_objects = null, $order_by = null);
+    
+    function count_external_repositories($condition = null);
 
     function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null);
 

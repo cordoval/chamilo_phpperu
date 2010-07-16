@@ -1463,6 +1463,11 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
+    
+    function count_external_repositories($condition = null)
+    {
+        return $this->count_objects(ExternalRepository :: get_table_name(), $condition);
+    }
 
     function retrieve_active_external_repository_types()
     {
@@ -1750,6 +1755,23 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $condition = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_ID, $external_repository_user_setting->get_id());
         return $this->delete($external_repository_user_setting->get_table_name(), $condition);
+    }
+    
+	function delete_external_repository_user_settings($condition = null)
+    {
+        return $this->delete_objects(ExternalRepositoryUserSetting :: get_table_name(), $condition);
+    }
+    
+    function update_external_repository($external_repository)
+    {
+        $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository->get_id());
+        return $this->update($external_repository, $condition);
+    }
+    
+    function delete_external_repository($external_repository)
+    {
+        $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository->get_id());
+        return $this->delete(ExternalRepository :: get_table_name(), $condition);
     }
 }
 ?>
