@@ -160,6 +160,12 @@ class WeblcmsDataManager implements DataManagerInterface
 
         return $course_groups_recursive;
     }
+    
+    static function is_course_code_available($code)
+    {
+    	$condition = new EqualityCondition(Course :: PROPERTY_VISUAL, $code);
+    	return (self :: get_instance()->count_courses($condition) == 0);
+    }
 
 }
 ?>

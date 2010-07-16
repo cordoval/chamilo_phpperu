@@ -4,6 +4,8 @@
  * @package migration.lib.migration_manager
  */
 
+require_once dirname(__FILE__) . '/dokeos185_data_manager.class.php';
+
 /**
  * Abstract import class
  * @author Sven Vanpoucke
