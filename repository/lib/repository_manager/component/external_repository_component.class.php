@@ -15,7 +15,7 @@ class RepositoryManagerExternalRepositoryComponent extends RepositoryManagerMeta
     {
         $catalogs = array();
         
-        $catalogs[ExternalRepository :: CATALOG_REPOSITORY_LIST] = ExternalRepository :: retrieve_external_repository();
+        $catalogs[ExternalRepository :: CATALOG_REPOSITORY_LIST] = ExternalRepository :: retrieve_external_repository_condition();
         
         return $catalogs;
     }

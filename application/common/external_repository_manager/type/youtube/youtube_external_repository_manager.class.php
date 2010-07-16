@@ -5,6 +5,8 @@ require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_exter
 
 class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
 {
+    const REPOSITORY_TYPE = 'youtube';
+
     const PARAM_FEED_TYPE = 'feed';
     const PARAM_FEED_IDENTIFIER = 'identifier';
 
@@ -231,6 +233,11 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         }
 
         return new OrCondition($video_conditions);
+    }
+
+    function get_repository_type()
+    {
+        return self :: REPOSITORY_TYPE;
     }
 }
 ?>

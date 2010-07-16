@@ -14,11 +14,13 @@ abstract class ExternalRepositoryManager extends SubManager
     const ACTION_DELETE_EXTERNAL_REPOSITORY = 'delete';
 
     const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
-    const PARAM_TYPE = 'type';
+    const PARAM_EXTERNAL_REPOSITORY = 'external_repository';
     const PARAM_QUERY = 'query';
     const PARAM_RENDERER = 'renderer';
 
     const CLASS_NAME = __CLASS__;
+
+    private $settings;
 
     function ExternalRepositoryManager($application)
     {
@@ -32,6 +34,7 @@ abstract class ExternalRepositoryManager extends SubManager
 
         $this->set_optional_parameters();
         $this->initiliaze_external_repository();
+        $this->load_settings();
     }
 
     function set_optional_parameters()
@@ -44,8 +47,26 @@ abstract class ExternalRepositoryManager extends SubManager
         return is_a($this->get_parent(), LauncherApplication :: CLASS_NAME);
     }
 
-    static function factory($type, $application)
+    function load_settings()
     {
+        if (!isset($this->settings))
+        {
+            $condition = new EqualityCondition(ExternalRepositorySetting::PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY));
+            $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
+
+            while ($setting = $settings->next_result())
+            {
+                $this->settings[$setting->get_variable()] = $setting->get_value();
+            }
+        }
+
+        return $this->settings;
+    }
+
+    static function factory($external_repository, $application)
+    {
+        $type = $external_repository->get_type();
+
         $file = dirname(__FILE__) . '/type/' . $type . '/' . $type . '_external_repository_manager.class.php';
         if (! file_exists($file))
         {
