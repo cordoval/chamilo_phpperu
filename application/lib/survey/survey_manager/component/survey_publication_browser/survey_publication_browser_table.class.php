@@ -36,6 +36,8 @@ class SurveyPublicationBrowserTable extends ObjectTable
         {
            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS, Translation :: get('RemoveSelected'),true));
            $action->add_form_action(new ObjectTableFormAction(SurveyManager :: PARAM_MAIL_PARTICIPANTS, Translation :: get('InviteParticipants'),false));
+           $action->add_form_action(new ObjectTableFormAction(SurveyManager :: ACTION_EXCEL_EXPORT, Translation :: get('ExportToExcel'),false));
+           
         }
         
         $this->set_form_actions($action);
