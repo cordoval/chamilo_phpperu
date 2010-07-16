@@ -3,6 +3,7 @@ require_once dirname(__FILE__) . '/flickr_external_repository_connector.class.ph
 
 class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 {
+    const REPOSITORY_TYPE = 'flickr';
 
     const PARAM_FEED_TYPE = 'feed';
 
@@ -163,6 +164,11 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         }
 
         return new OrCondition($image_conditions);
+    }
+
+    function get_repository_type()
+    {
+        return self :: REPOSITORY_TYPE;
     }
 }
 ?>
