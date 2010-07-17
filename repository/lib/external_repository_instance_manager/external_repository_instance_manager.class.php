@@ -11,6 +11,7 @@ class ExternalRepositoryInstanceManager extends SubManager
 {
     const PARAM_INSTANCE_ACTION = 'action';
     const PARAM_INSTANCE = 'instance';
+    const PARAM_EXTERNAL_REPOSITORY_TYPE = 'type';
     
     const ACTION_BROWSE_INSTANCES = 'browse';
     const ACTION_ACTIVATE_INSTANCE = 'activate';

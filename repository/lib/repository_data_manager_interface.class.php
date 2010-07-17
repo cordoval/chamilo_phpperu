@@ -474,6 +474,8 @@ interface RepositoryDataManagerInterface
      * @param int $max_objects
      */
     function retrieve_external_repository_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
+    
+    function retrieve_external_repository_setting_from_variable_name($variable, $external_repository_id);
 
 }
 ?>
