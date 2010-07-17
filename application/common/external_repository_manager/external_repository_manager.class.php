@@ -1,7 +1,7 @@
 <?php
 abstract class ExternalRepositoryManager extends SubManager
 {
-    const PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION = 'external_repository_action';
+    const PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION = 'repository_action';
     
     const ACTION_VIEW_EXTERNAL_REPOSITORY = 'view';
     const ACTION_EXPORT_EXTERNAL_REPOSITORY = 'export';

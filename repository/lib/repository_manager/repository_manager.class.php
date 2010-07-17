@@ -120,7 +120,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_VIEW_DOUBLES = 'view_doubles';
     const ACTION_STREAMING_MEDIA_MANAGER = 'streaming';
     const ACTION_EXTERNAL_REPOSITORY_MANAGER = 'external_repository';
-    const ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES = 'manage_external_repository_instances';
+    const ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES = 'repository_instances';
 
     const ACTION_BROWSE_USER_VIEWS = 'browse_views';
     const ACTION_CREATE_USER_VIEW = 'create_view';
