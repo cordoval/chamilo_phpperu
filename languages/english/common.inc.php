@@ -788,4 +788,5 @@ $lang['common']['ExternalRepositoryTitle'] = 'Title';
 $lang['common']['ExternalRepositoryDescription'] = 'Description';
 $lang['common']['ExternalRepositoryEnabled'] = 'Enabled';
 $lang['common']['AddExternalRepositoryInstance'] = 'Add an external repository';
+$lang['common']['ConfigureTitle'] = 'Settings';
 ?>

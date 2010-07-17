@@ -271,6 +271,21 @@ class ExternalRepositoryForm extends FormValidator
         $defaults[ExternalRepository :: PROPERTY_TYPE] = $external_repository->get_type();
         $defaults[ExternalRepository :: PROPERTY_DESCRIPTION] = $external_repository->get_description();
         $defaults[ExternalRepository :: PROPERTY_ENABLED] = $external_repository->get_enabled();
+        
+        $configuration = $this->configuration;
+        
+        foreach ($configuration['settings'] as $category_name => $settings)
+        {            
+            foreach ($settings as $name => $setting)
+            {
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name($name, $external_repository->get_id());
+                if ($setting instanceof ExternalRepositorySetting)
+                {
+                    $defaults[self :: SETTINGS_PREFIX][$name] = $setting->get_value();
+                }
+            }
+        }
+        
         parent :: setDefaults($defaults);
     }
 
