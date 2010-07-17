@@ -26,24 +26,24 @@ class RepositoryBrowserTable extends ObjectTable
 
         $action = new ObjectTableFormActions();
 
-        if (get_class($browser) == 'RepositoryManagerBrowserComponent')
-        {
+//        if (get_class($browser) == 'RepositoryManagerBrowserComponent')
+//        {
             $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_RECYCLE_CONTENT_OBJECTS, Translation :: get('RemoveSelected')));
             $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_MOVE_CONTENT_OBJECTS, Translation :: get('MoveSelected'), false));
             $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_PUBLISH_CONTENT_OBJECT, Translation :: get('PublishSelected'), false));
             $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_EXPORT_CONTENT_OBJECTS, Translation :: get('ExportSelected'), false));
             $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, Translation :: get('EditSelectedRights'), false));
 
-            if ($browser->get_user()->is_platform_admin())
+            if ($browser->get_repository_browser()->get_user()->is_platform_admin())
             {
                 $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES, Translation :: get('CopySelectedToTemplates'), false));
             }
-
-        }
-        if (get_class($browser) == 'RepositoryManagerComplexBrowserComponent')
-        {
-            $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: PARAM_ADD_OBJECTS, Translation :: get('AddObjects'), false));
-        }
+//
+//        }
+//        if (get_class($browser) == 'RepositoryManagerComplexBrowserComponent')
+//        {
+//            $action->add_form_action(new ObjectTableFormAction(RepositoryManager :: PARAM_ADD_OBJECTS, Translation :: get('AddObjects'), false));
+//        }
 
         $this->set_additional_parameters($parameters);
         $this->set_form_actions($action);

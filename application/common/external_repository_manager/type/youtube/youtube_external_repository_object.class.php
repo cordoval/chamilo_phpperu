@@ -11,6 +11,7 @@ class YoutubeExternalRepositoryObject extends StreamingMediaExternalRepositoryOb
     const STATUS_REJECTED = 'rejected';
     const STATUS_FAILED = 'failed';
     const STATUS_PROCESSING = 'processing';
+    const STATUS_RESTRICTED = 'restricted';
 
     function get_category()
     {
@@ -63,6 +64,9 @@ class YoutubeExternalRepositoryObject extends StreamingMediaExternalRepositoryOb
                 break;
             case self :: STATUS_AVAILABLE :
                 return Translation :: get('Available');
+                break;
+            case self :: STATUS_RESTRICTED :
+                return Translation :: get('Restricted');
                 break;
             default :
                 return Translation :: get('Unknown');
