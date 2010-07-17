@@ -34,7 +34,7 @@ class YoutubeExternalRepositoryObject extends StreamingMediaExternalRepositoryOb
 
     function get_type()
     {
-        return 'youtube';
+        return 'video';
     }
 
     function set_tags($tags)

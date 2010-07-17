@@ -160,11 +160,6 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
         return $this->set_default_property(self :: PROPERTY_LICENSE, $license);
     }
 
-    function get_icon_name()
-    {
-        return self :: OBJECT_TYPE . '_' . parent :: get_icon_name();
-    }
-
     static function get_object_type()
     {
         return self :: OBJECT_TYPE;

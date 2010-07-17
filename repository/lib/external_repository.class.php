@@ -399,6 +399,16 @@ class ExternalRepository extends RepositoryDataClass
         
         return true;
     }
+    
+    public function activate()
+    {
+        $this->set_enabled(true);
+    }
+    
+    public function deactivate()
+    {
+        $this->set_enabled(false);
+    }
 
 }
 

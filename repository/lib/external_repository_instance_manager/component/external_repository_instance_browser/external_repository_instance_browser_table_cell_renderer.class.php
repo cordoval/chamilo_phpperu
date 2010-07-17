@@ -30,15 +30,15 @@ class ExternalRepositoryInstanceBrowserTableCellRenderer extends DefaultExternal
             return $this->get_modification_links($external_repository);
         }
         
-        switch ($column->get_name())
-        {
-            //            case ContentObject :: PROPERTY_TYPE :
-        //                return '<a href="' . htmlentities($this->browser->get_type_filter_url($external_repository->get_type())) . '">' . parent :: render_cell($column, $external_repository) . '</a>';
-        //            case ContentObject :: PROPERTY_TITLE :
-        //                $title = parent :: render_cell($column, $external_repository);
-        //                $title_short = Utilities :: truncate_string($title, 53, false);
-        //                return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($external_repository)) . '" title="' . $title . '">' . $title_short . '</a>';
-        }
+//        switch ($column->get_name())
+//        {
+//            //            case ContentObject :: PROPERTY_TYPE :
+//        //                return '<a href="' . htmlentities($this->browser->get_type_filter_url($external_repository->get_type())) . '">' . parent :: render_cell($column, $external_repository) . '</a>';
+//        //            case ContentObject :: PROPERTY_TITLE :
+//        //                $title = parent :: render_cell($column, $external_repository);
+//        //                $title_short = Utilities :: truncate_string($title, 53, false);
+//        //                return '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($external_repository)) . '" title="' . $title . '">' . $title_short . '</a>';
+//        }
         return parent :: render_cell($column, $external_repository);
     }
 
@@ -51,8 +51,18 @@ class ExternalRepositoryInstanceBrowserTableCellRenderer extends DefaultExternal
     private function get_modification_links($external_repository)
     {
         $toolbar = new Toolbar();
+        
+        if ($external_repository->is_enabled())
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Deactivate'), Theme :: get_common_image_path() . 'action_deactivate.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_DEACTIVATE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON, true));
+        }
+        else
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Activate'), Theme :: get_common_image_path() . 'action_activate.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_ACTIVATE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON, true));
+        }
+        
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_UPDATE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON));
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_DELETE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_DELETE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON, true));
         //        $toolbar->add_items($this->browser->get_content_object_actions($external_repository));
         return $toolbar->as_html();
     }
