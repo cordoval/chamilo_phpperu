@@ -222,7 +222,7 @@ abstract class ExternalRepositoryManager extends SubManager
         $actions[] = self :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
         $actions[] = self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY;
         
-        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 1);
+        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 0);
         
         if ($is_platform)
         {
