@@ -2,5 +2,6 @@
 <repository name="mediamosa">
 	<properties>
 		<property name="section" value="streaming" />
+		<property name="multiple" value="1" />
 	</properties>
 </repository>

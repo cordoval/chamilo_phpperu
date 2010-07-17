@@ -2,5 +2,6 @@
 <repository name="fedora">
 	<properties>
 		<property name="section" value="document" />
+		<property name="multiple" value="1" />
 	</properties>
 </repository>

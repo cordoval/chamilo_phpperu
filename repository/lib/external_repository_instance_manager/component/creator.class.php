@@ -84,14 +84,25 @@ class ExternalRepositoryInstanceManagerCreatorComponent extends ExternalReposito
             $properties = array();
             
             $section = 'various';
+            $multiple = false;
             
             foreach ($xml_properties as $index => $property)
             {
                 if ($property->getAttribute('name') == 'section')
                 {
                     $section = $property->getAttribute('value');
-                    break;
                 }
+                elseif($property->getAttribute('name') == 'multiple')
+                {
+                    $multiple = $property->getAttribute('value');
+                }
+            }
+            
+            $condition = new EqualityCondition(ExternalRepository::PROPERTY_TYPE, $folder);
+            $count = $this->count_external_repositories($condition);
+            if (!$multiple && $count > 0)
+            {
+                continue;
             }
             
             if (! in_array($section, array_keys($sections)))
