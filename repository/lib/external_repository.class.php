@@ -399,12 +399,35 @@ class ExternalRepository extends RepositoryDataClass
         
         return true;
     }
-    
+
+    public function delete()
+    {
+        if (! parent :: delete())
+        {
+            return false;
+        }
+        else
+        {
+            $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_id());
+            $settings = $this->get_data_manager()->retrieve_external_repository_settings($condition);
+            
+            while($setting = $settings->next_result())
+            {
+                if (!$setting->delete())
+                {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+
     public function activate()
     {
         $this->set_enabled(true);
     }
-    
+
     public function deactivate()
     {
         $this->set_enabled(false);
