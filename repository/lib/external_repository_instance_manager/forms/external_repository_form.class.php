@@ -204,6 +204,27 @@ class ExternalRepositoryForm extends FormValidator
         {
             return false;
         }
+        else
+        {
+            $settings = $values['settings'];
+            $failures = 0;
+            
+            foreach ($settings as $name => $value)
+            {
+                $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name($name, $external_repository->get_id());
+                $setting->set_value($value);
+                
+                if (! $setting->update())
+                {
+                    $failures ++;
+                }
+            }
+            
+            if ($failures > 0)
+            {
+                return false;
+            }
+        }
         
         return true;
     }
@@ -275,7 +296,7 @@ class ExternalRepositoryForm extends FormValidator
         $configuration = $this->configuration;
         
         foreach ($configuration['settings'] as $category_name => $settings)
-        {            
+        {
             foreach ($settings as $name => $setting)
             {
                 $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name($name, $external_repository->get_id());
