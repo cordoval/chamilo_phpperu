@@ -74,6 +74,19 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
     function get_menu_items()
     {
         $menu_items = array();
+        
+        $folders = GoogleDocsExternalRepositoryConnector::get_instance($this)->retrieve_folders();
+        
+        while($folder = $folders->next_result())
+        {
+            $folder_item = array();
+            $folder_item['title'] = $folder->get_title();
+            $folder_item['url'] = $this->get_url(array('folder' => $folder->get_id()));
+            //$folder_item['url'] = '#';
+            $folder_item['class'] = 'category';
+            $menu_items[] = $folder_item;
+        }
+        
         return $menu_items;
     }
 
