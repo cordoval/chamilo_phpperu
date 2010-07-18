@@ -190,9 +190,9 @@ class FlickrExternalRepositoryConnector
 
             $types = array();
             $types[] = $photo['media'];
-            if (isset($photo['original_format']))
+            if (isset($photo['originalformat']))
             {
-                $types[] = $photo['original_format'];
+                $types[] = strtolower($photo['originalformat']);
             }
             $object->set_type(implode('_', $types));
 
@@ -296,7 +296,7 @@ class FlickrExternalRepositoryConnector
         $types[] = $photo['media'];
         if (isset($photo['originalformat']))
         {
-            $types[] = $photo['originalformat'];
+            $types[] = strtolower($photo['originalformat']);
         }
         $object->set_type(implode('_', $types));
 

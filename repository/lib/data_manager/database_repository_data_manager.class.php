@@ -361,6 +361,10 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
         $this->delete_objects(ExternalRepositorySyncInfo :: get_table_name(), $condition);
         
+        //Delete synchronization with external repositories infos
+        $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
+        $this->delete_objects(ExternalRepositorySync :: get_table_name(), $condition);
+        
         // Delete object
         $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
         $this->delete_objects(ContentObject :: get_table_name(), $condition);

@@ -330,11 +330,11 @@ class YoutubeExternalRepositoryConnector
             $thumbnail = null;
         }
         
-            $author = $videoEntry->getAuthor();
-            $author = $author[0];
-            
-            $published = $videoEntry->getPublished()->getText();
-            $published_timestamp = strtotime($published);
+        $author = $videoEntry->getAuthor();
+        $author = $author[0];
+        
+        $published = $videoEntry->getPublished()->getText();
+        $published_timestamp = strtotime($published);
         
         $object = new YoutubeExternalRepositoryObject();
         $object->set_id($videoEntry->getVideoId());
