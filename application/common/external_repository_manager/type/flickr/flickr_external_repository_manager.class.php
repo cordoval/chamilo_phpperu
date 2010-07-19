@@ -23,9 +23,21 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         return Path :: get_application_library_path() . 'external_repository_manager/type/flickr/component/';
     }
 
-    function initialize_external_repository()
+    function initialize_external_repository(ExternalRepositoryManager $external_repository_manager)
     {
         FlickrExternalRepositoryConnector :: get_instance($this);
+    }
+
+    function validate_settings()
+    {
+        $key = $this->get_setting('key');
+        $secret = $this->get_setting('secret');
+
+        if (! $key || ! $secret)
+        {
+            return false;
+        }
+        return true;
     }
 
     function count_external_repository_objects($condition)
@@ -148,6 +160,9 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
                 break;
             case ExternalRepositoryManager :: ACTION_EXPORT_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Exporter', $this);
+                break;
+            case ExternalRepositoryManager :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Configurer');
                 break;
             default :
                 $component = $this->create_component('Browser', $this);

@@ -2,13 +2,12 @@
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/google_docs_external_repository_object.class.php';
 
-//YoutubeKey : AI39si4OLUsiI2mK0_k8HxqOtv0ctON-PzekhP_56JDkdph6wZ9tW2XqzDD7iVYY0GXKdMKlPSJyYZotNQGleVfRPDZih41Tug
 class GoogleDocsExternalRepositoryConnector
 {
     private static $instance;
     private $manager;
     private $google_docs;
-    
+
     const RELEVANCE = 'relevance';
     const PUBLISHED = 'published';
     const VIEW_COUNT = 'viewCount';
@@ -17,12 +16,13 @@ class GoogleDocsExternalRepositoryConnector
     function GoogleDocsExternalRepositoryConnector($manager)
     {
         $this->manager = $manager;
-        
+
         $session_token = $this->manager->get_user_setting('session_token');
-        
+
         Zend_Loader :: loadClass('Zend_Gdata_Docs');
+        Zend_Loader :: loadClass('Zend_Gdata_Docs_Query');
         Zend_Loader :: loadClass('Zend_Gdata_AuthSub');
-        
+
         if (! $session_token)
         {
             if (! isset($_GET['token']))
@@ -35,18 +35,18 @@ class GoogleDocsExternalRepositoryConnector
                 {
                     $next_url = PATH :: get(WEB_PATH) . 'core.php?go=external_repository&application=repository&external_repository=' . $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
                 }
-                
+
                 $scope = 'http://docs.google.com/feeds/';
                 $secure = false;
                 $session = true;
                 $redirect_url = Zend_Gdata_AuthSub :: getAuthSubTokenUri($next_url, $scope, $secure, $session);
-                
+
                 header('Location: ' . $redirect_url);
             }
             else
             {
                 $session_token = Zend_Gdata_AuthSub :: getAuthSubSessionToken($_GET['token']);
-                
+
                 if ($session_token)
                 {
                     $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
@@ -58,7 +58,7 @@ class GoogleDocsExternalRepositoryConnector
                 }
             }
         }
-        
+
         $httpClient = Zend_Gdata_AuthSub :: getHttpClient($session_token);
         $application = PlatformSetting :: get('site_name');
         $this->google_docs = new Zend_Gdata_Docs($httpClient, $application);
@@ -77,17 +77,17 @@ class GoogleDocsExternalRepositoryConnector
     function get_upload_token($values)
     {
         $video_entry = new Zend_Gdata_YouTube_VideoEntry();
-        
+
         $video_entry->setVideoTitle($values[YoutubeExternalRepositoryManagerForm :: VIDEO_TITLE]);
         $video_entry->setVideoCategory($values[YoutubeExternalRepositoryManagerForm :: VIDEO_CATEGORY]);
         $video_entry->setVideoTags($values[YoutubeExternalRepositoryManagerForm :: VIDEO_TAGS]);
         $video_entry->setVideoDescription($values[YoutubeExternalRepositoryManagerForm :: VIDEO_DESCRIPTION]);
-        
+
         $token_handler_url = 'http://gdata.youtube.com/action/GetUploadToken';
         $token_array = $this->google_docs->getFormUploadToken($video_entry, $token_handler_url);
         $token_value = $token_array['token'];
         $post_url = $token_array['url'];
-        
+
         return $token_array;
     }
 
@@ -130,20 +130,40 @@ class GoogleDocsExternalRepositoryConnector
 
     function count_external_repository_objects($condition)
     {
-        $documents_feed = $this->google_docs->getDocumentListFeed();
+        if (isset($condition))
+        {
+            $query = new Zend_Gdata_Docs_Query();
+            $query->setQuery($condition);
+        }
+        else
+        {
+            $query = null;
+        }
+
+        $documents_feed = $this->google_docs->getDocumentListFeed($query);
         return $documents_feed->getTotalResults()->getText();
     }
 
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-        $documents_feed = $this->google_docs->getDocumentListFeed();
-        
+        if (isset($condition))
+        {
+            $query = new Zend_Gdata_Docs_Query();
+            $query->setQuery($condition);
+        }
+        else
+        {
+            $query = null;
+        }
+
+        $documents_feed = $this->google_docs->getDocumentListFeed($query);
+
         $objects = array();
         foreach ($documents_feed->entries as $document)
         {
             $resource_id = $document->getResourceId();
             $resource_id = explode(':', $resource_id->getText());
-            
+
             if ($document->getLastViewed())
             {
                 $last_viewed = $document->getLastViewed()->getText();
@@ -153,18 +173,18 @@ class GoogleDocsExternalRepositoryConnector
             {
                 $last_viewed_timestamp = 0;
             }
-            
+
             $published = $document->getPublished()->getText();
             $published_timestamp = strtotime($published);
-            
+
             $modified = $document->getUpdated()->getText();
             $modified_timestamp = strtotime($modified);
-            
+
             $author = $document->getAuthor();
             $author = $author[0];
-            
+
             $modifier = $document->getLastModifiedBy();
-            
+
             $object = new GoogleDocsExternalRepositoryObject();
             $object->set_id($resource_id[1]);
             $object->set_title($document->getTitle()->getText());
@@ -175,48 +195,87 @@ class GoogleDocsExternalRepositoryConnector
             $object->set_owner_id($author->getEmail()->getText());
             $object->set_modifier_id($modifier->getEmail()->getText());
             $object->set_content($document->getContent()->getSrc());
-            
+
             $objects[] = $object;
         }
-        
+
         return new ArrayResultSet($objects);
     }
 
     function retrieve_folders()
     {
+        $folder_root = array();
         $folders_feed = $this->google_docs->getFolderListFeed();
-        
+
+        $my_folders = array();
+        $my_folders['title'] = Translation :: get('MyFolders');
+        $my_folders['url'] = $this->manager->get_url();
+        $my_folders['class'] = 'category';
+
+        $shared_folders = array();
+        $shared_folders['title'] = Translation :: get('SharedFolders');
+        $shared_folders['url'] = $this->manager->get_url();
+        $shared_folders['class'] = 'shared_objects';
+
         $objects = array();
         foreach ($folders_feed->entries as $folder)
         {
-//            dump($folder->getTitle()->getText());
-//            if ($folder->getLink('http://schemas.google.com/docs/2007#parent') instanceof Zend_Gdata_App_Extension_Link)
-//            {
-//                dump($folder->getLink('http://schemas.google.com/docs/2007#parent')->getTitle());
-//            }
-//            else
-//            {
-//                dump('Root element !');
-//            }
-//            echo '<hr />';
-            
-            $resource_id = $folder->getResourceId();
-            $resource_id = explode(':', $resource_id->getText());
-            
-            $author = $folder->getAuthor();
-            $author = $author[0];
-            
-            $object = new GoogleDocsExternalRepositoryObject();
-            $object->set_id($resource_id[1]);
-            $object->set_title($folder->getTitle()->getText());
-            $object->set_type($resource_id[0]);
-            $object->set_owner_id($author->getEmail()->getText());
-            $object->set_content($folder->getContent()->getSrc());
-            
-            $objects[] = $object;
+            if ($folder->getLink('http://schemas.google.com/docs/2007#parent') instanceof Zend_Gdata_App_Extension_Link)
+            {
+                $parent = $folder->getLink('http://schemas.google.com/docs/2007#parent')->getTitle();
+            }
+            else
+            {
+                if ($folder->getEditLink())
+                {
+                    $parent = '--my--';
+                }
+                else
+                {
+                    $parent = '--shared--';
+                }
+            }
+
+            if (! is_array($objects[$parent]))
+            {
+                $objects[$parent] = array();
+            }
+
+            if (! isset($objects[$parent][$folder->getTitle()->getText()]))
+            {
+                $objects[$parent][$folder->getTitle()->getText()] = $folder;
+            }
         }
-        
-        return new ArrayResultSet($objects);
+
+        $my_folders['sub'] = $this->get_folder_tree('--my--', $objects);
+        $shared_folders['sub'] = $this->get_folder_tree('--shared--', $objects);
+
+        $folder_root[] = $my_folders;
+        $folder_root[] = $shared_folders;
+
+        return $folder_root;
+    }
+
+    function get_folder_tree($index, $folders)
+    {
+        $items = array();
+        foreach ($folders[$index] as $child)
+        {
+            $sub_folder = array();
+            $sub_folder['title'] = $child->getTitle()->getText();
+            $sub_folder['url'] = $this->manager->get_url(array('folder' => urlencode($child->getTitle()->getText())));
+            $sub_folder['class'] = 'category';
+
+            $children = $this->get_folder_tree($child->getTitle()->getText(), $folders);
+
+            if (count($children) > 0)
+            {
+                $sub_folder['sub'] = $children;
+            }
+
+            $items[] = $sub_folder;
+        }
+        return $items;
     }
 }
 ?>

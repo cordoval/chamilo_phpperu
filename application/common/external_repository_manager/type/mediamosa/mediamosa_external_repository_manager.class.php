@@ -42,7 +42,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function count_external_repository_objects($condition)
     {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance();
+        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
         return $connector->count_mediamosa_assets($condition, $order_property, $offset, $count);
     }
 
@@ -55,7 +55,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
                 return self :: $server;
             }
         }
-        $dm = MediamosaExternalRepositoryDataManager :: get_instance();
+        $dm = MediamosaExternalRepositoryDataManager :: get_instance($this);
         self :: $server = $dm->retrieve_external_repository_server_object($id);
         return self :: $server;
     }
@@ -67,7 +67,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function retrieve_external_repository_asset($asset_id)
     {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance();
+        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
         return $connector->retrieve_mediamosa_asset($id);
     }
 
@@ -90,13 +90,13 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function retrieve_external_repository_object($id)
     {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance();
+        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
         return $connector->retrieve_mediamosa_asset($id);
     }
 
     function delete_external_repository_object($id)
     {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance();
+        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
         return $connector->remove_mediamosa_asset($id);
     }
 
@@ -106,7 +106,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function is_editable($id)
     {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance();
+        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
         return $connector->is_editable($id);
     }
 
@@ -221,7 +221,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function is_download_possible($id)
     {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance();
+        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
         return $connector->is_downloadable($id);
     }
 
@@ -250,9 +250,24 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 
-    function initialize_external_repository()
+    function initialize_external_repository(ExternalRepositoryManager $external_repository_manager)
     {
         MediamosaExternalRepositoryConnector :: get_instance($this);
+    }
+
+    function validate_settings()
+    {
+        $settings = array('url', 'login', 'password');
+
+        foreach ($settings as $variable)
+        {
+            $value = $this->get_setting($variable);
+            if (! $value)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     function get_content_object_type_conditions()
@@ -271,7 +286,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     {
         return self :: REPOSITORY_TYPE;
     }
-    
+
     function get_external_repository_actions()
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);

@@ -19,6 +19,11 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         GoogleDocsExternalRepositoryConnector :: get_instance($this);
     }
 
+    function validate_settings()
+    {
+        return true;
+    }
+
     function count_external_repository_objects($condition)
     {
         return GoogleDocsExternalRepositoryConnector :: get_instance($this)->count_external_repository_objects($condition);
@@ -62,7 +67,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         $parameters = array();
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
-        
+
         return $this->get_url($parameters);
     }
 
@@ -73,21 +78,21 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
 
     function get_menu_items()
     {
-        $menu_items = array();
-        
-        $folders = GoogleDocsExternalRepositoryConnector::get_instance($this)->retrieve_folders();
-        
-        while($folder = $folders->next_result())
-        {
-            $folder_item = array();
-            $folder_item['title'] = $folder->get_title();
-            $folder_item['url'] = $this->get_url(array('folder' => $folder->get_id()));
-            //$folder_item['url'] = '#';
-            $folder_item['class'] = 'category';
-            $menu_items[] = $folder_item;
-        }
-        
-        return $menu_items;
+//        $menu_items = array();
+
+        return GoogleDocsExternalRepositoryConnector::get_instance($this)->retrieve_folders();
+
+//        while($folder = $folders->next_result())
+//        {
+//            $folder_item = array();
+//            $folder_item['title'] = $folder->get_title();
+//            $folder_item['url'] = $this->get_url(array('folder' => $folder->get_id()));
+//            //$folder_item['url'] = '#';
+//            $folder_item['class'] = 'category';
+//            $menu_items[] = $folder_item;
+//        }
+//
+//        return $menu_items;
     }
 
     function is_ready_to_be_used()
@@ -103,7 +108,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
     function run()
     {
         $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
-        
+
         switch ($parent)
         {
             case ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY :
@@ -138,11 +143,11 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
                 break;
         }
-        
+
         $component->run();
     }
 
-    function initialize_external_repository()
+    function initialize_external_repository(ExternalRepositoryManager $external_repository_manager)
     {
         GoogleDocsExternalRepositoryConnector :: get_instance($this);
     }

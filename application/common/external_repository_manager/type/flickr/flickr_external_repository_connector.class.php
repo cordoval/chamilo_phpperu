@@ -45,11 +45,11 @@ class FlickrExternalRepositoryConnector
             {
                 if ($manager->is_stand_alone())
                 {
-                    $next_url = PATH :: get(WEB_PATH) . 'common/launcher/index.php?type=flickr&application=external_repository';
+                    $next_url = PATH :: get(WEB_PATH) . 'common/launcher/index.php?application=external_repository&external_repository=' . $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
                 }
                 else
                 {
-                    $next_url = PATH :: get(WEB_PATH) . 'core.php?go=external_repository&application=repository&category=0&type=flickr';
+                    $next_url = PATH :: get(WEB_PATH) . 'core.php?go=external_repository&application=repository&category=0&external_repository=' . $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
                 }
 
                 $this->flickr->auth("delete", $next_url);

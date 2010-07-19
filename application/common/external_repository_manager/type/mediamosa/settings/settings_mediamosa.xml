@@ -2,14 +2,26 @@
 <application name="mediamosa">
 	<settings>
 		<category name="general">
-			<setting name="url" field="text" default="http://www.mediamosa.org" />
+			<setting name="url" field="text" default="http://www.mediamosa.org">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
 			<setting name="version" field="select">
 				<options type="dynamic" source="get_versions" />
 			</setting>
 		</category>
 		<category name="credentials">
-			<setting name="login" field="text" />
-			<setting name="password" field="text" />
+			<setting name="login" field="text">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<setting name="password" field="text">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
 		</category>
 		<category name="rights">
 			<setting name="default_user_quotum" field="text" default="100" />
@@ -18,11 +30,10 @@
 					<option name="is_upload_possible" value="1" />
 				</options>
 			</setting>
-			<!--<setting name="is_default" field="checkbox" default="0">
-				<options type="static">
-					<option name="is_default" value="1" />
-				</options>
-			</setting>-->
+			<!--
+				<setting name="is_default" field="checkbox" default="0"> <options type="static"> <option name="is_default" value="1"
+				/> </options> </setting>
+			-->
 		</category>
 	</settings>
 </application>

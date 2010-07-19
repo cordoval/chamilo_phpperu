@@ -6,12 +6,12 @@
 
 class ExternalRepositoryForm extends FormValidator
 {
-    
+
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-    
+
     const SETTINGS_PREFIX = 'settings';
-    
+
     private $external_repository;
     private $configuration;
     private $form_type;
@@ -19,7 +19,7 @@ class ExternalRepositoryForm extends FormValidator
     function ExternalRepositoryForm($form_type, $external_repository, $action)
     {
         parent :: __construct('external_repository', 'post', $action);
-        
+
         $this->external_repository = $external_repository;
         $this->configuration = $this->parse_settings();
         $this->form_type = $form_type;
@@ -31,7 +31,7 @@ class ExternalRepositoryForm extends FormValidator
         {
             $this->build_creation_form();
         }
-        
+
         $this->setDefaults();
     }
 
@@ -39,15 +39,15 @@ class ExternalRepositoryForm extends FormValidator
     {
         $external_repository = $this->external_repository;
         $configuration = $this->configuration;
-        
+
         $tabs_generator = new DynamicFormTabsRenderer($this->getAttribute('name'), $this);
         $tabs_generator->add_tab(new DynamicFormTab('general', 'General', Theme :: get_common_image_path() . 'place_tab_view.png', 'build_general_form'));
-        
+
         if (count($configuration['settings']) > 0)
         {
             $tabs_generator->add_tab(new DynamicFormTab('settings', 'Settings', Theme :: get_common_image_path() . 'place_tab_settings.png', 'build_settings_form'));
         }
-        
+
         $tabs_generator->render();
     }
 
@@ -65,24 +65,25 @@ class ExternalRepositoryForm extends FormValidator
     {
         $external_repository = $this->external_repository;
         $configuration = $this->configuration;
-        
+
         require_once Path :: get_application_library_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '_connector.class.php';
-        
+
+        $categories = count($configuration['settings']);
+
         foreach ($configuration['settings'] as $category_name => $settings)
         {
             $has_settings = false;
-            
+
             foreach ($settings as $name => $setting)
             {
                 $label = Translation :: get(Utilities :: underscores_to_camelcase($name));
                 $name = self :: SETTINGS_PREFIX . '[' . $name . ']';
-                if (! $has_settings)
+                if (! $has_settings && $categories > 1)
                 {
-                    $this->addElement('html', '<div class="configuration_form">');
-                    $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name)) . '</span>');
+                    $this->addElement('category', Translation :: get(Utilities :: underscores_to_camelcase($category_name)));
                     $has_settings = true;
                 }
-                
+
                 if ($setting['locked'] == 'true')
                 {
                     $this->addElement('static', $name, $label);
@@ -90,7 +91,7 @@ class ExternalRepositoryForm extends FormValidator
                 elseif ($setting['field'] == 'text')
                 {
                     $this->add_textfield($name, $label, ($setting['required'] == 'true'));
-                    
+
                     $validations = $setting['validations'];
                     if ($validations)
                     {
@@ -102,12 +103,12 @@ class ExternalRepositoryForm extends FormValidator
                                 {
                                     $validation['format'] = NULL;
                                 }
-                                
+
                                 $this->addRule($name, Translation :: get($validation['message']), $validation['rule'], $validation['format']);
                             }
                         }
                     }
-                
+
                 }
                 elseif ($setting['field'] == 'html_editor')
                 {
@@ -126,7 +127,7 @@ class ExternalRepositoryForm extends FormValidator
                     {
                         $options = $setting['options']['values'];
                     }
-                    
+
                     if ($setting['field'] == 'radio' || $setting['field'] == 'checkbox')
                     {
                         $group = array();
@@ -149,11 +150,10 @@ class ExternalRepositoryForm extends FormValidator
                     }
                 }
             }
-            
-            if ($has_settings)
+
+            if ($has_settings && $categories > 1)
             {
-                $this->addElement('html', '<div style="clear: both;"></div>');
-                $this->addElement('html', '</div>');
+                $this->addElement('category');
             }
         }
     }
@@ -161,22 +161,22 @@ class ExternalRepositoryForm extends FormValidator
     function build_editing_form()
     {
         $this->build_basic_form();
-        
+
         $this->addElement('hidden', ExternalRepository :: PROPERTY_ID);
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     function build_creation_form()
     {
         $this->build_basic_form();
-        
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-        
+
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
@@ -184,13 +184,13 @@ class ExternalRepositoryForm extends FormValidator
     {
         $external_repository = $this->external_repository;
         $values = $this->exportValues();
-        
+
         $external_repository->set_title($values[ExternalRepository :: PROPERTY_TITLE]);
         $external_repository->set_description($values[ExternalRepository :: PROPERTY_DESCRIPTION]);
         $external_repository->set_type($values[ExternalRepository :: PROPERTY_TYPE]);
         $external_repository->set_creation_date(time());
         $external_repository->set_modification_date(time());
-        
+
         if (isset($values[ExternalRepository :: PROPERTY_ENABLED]))
         {
             $external_repository->set_enabled(true);
@@ -199,7 +199,7 @@ class ExternalRepositoryForm extends FormValidator
         {
             $external_repository->set_enabled(false);
         }
-        
+
         if (! $external_repository->update())
         {
             return false;
@@ -208,24 +208,24 @@ class ExternalRepositoryForm extends FormValidator
         {
             $settings = $values['settings'];
             $failures = 0;
-            
+
             foreach ($settings as $name => $value)
             {
                 $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name($name, $external_repository->get_id());
                 $setting->set_value($value);
-                
+
                 if (! $setting->update())
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures > 0)
             {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -233,13 +233,13 @@ class ExternalRepositoryForm extends FormValidator
     {
         $external_repository = $this->external_repository;
         $values = $this->exportValues();
-        
+
         $external_repository->set_title($values[ExternalRepository :: PROPERTY_TITLE]);
         $external_repository->set_description($values[ExternalRepository :: PROPERTY_DESCRIPTION]);
         $external_repository->set_type($values[ExternalRepository :: PROPERTY_TYPE]);
         $external_repository->set_creation_date(time());
         $external_repository->set_modification_date(time());
-        
+
         if (isset($values[ExternalRepository :: PROPERTY_ENABLED]))
         {
             $external_repository->set_enabled(true);
@@ -248,7 +248,7 @@ class ExternalRepositoryForm extends FormValidator
         {
             $external_repository->set_enabled(false);
         }
-        
+
         if (! $external_repository->create())
         {
             return false;
@@ -257,24 +257,24 @@ class ExternalRepositoryForm extends FormValidator
         {
             $settings = $values['settings'];
             $failures = 0;
-            
+
             foreach ($settings as $name => $value)
             {
                 $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name($name, $external_repository->get_id());
                 $setting->set_value($value);
-                
+
                 if (! $setting->update())
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures > 0)
             {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -292,9 +292,9 @@ class ExternalRepositoryForm extends FormValidator
         $defaults[ExternalRepository :: PROPERTY_TYPE] = $external_repository->get_type();
         $defaults[ExternalRepository :: PROPERTY_DESCRIPTION] = $external_repository->get_description();
         $defaults[ExternalRepository :: PROPERTY_ENABLED] = $external_repository->get_enabled();
-        
+
         $configuration = $this->configuration;
-        
+
         foreach ($configuration['settings'] as $category_name => $settings)
         {
             foreach ($settings as $name => $setting)
@@ -306,7 +306,7 @@ class ExternalRepositoryForm extends FormValidator
                 }
             }
         }
-        
+
         parent :: setDefaults($defaults);
     }
 
@@ -314,7 +314,7 @@ class ExternalRepositoryForm extends FormValidator
     {
         $path = Path :: get_application_library_path() . 'external_repository_manager/type/';
         $folders = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
-        
+
         $types = array();
         foreach ($folders as $folder)
         {
@@ -327,34 +327,34 @@ class ExternalRepositoryForm extends FormValidator
     function parse_settings()
     {
         $external_repository = $this->external_repository;
-        
+
         $file = Path :: get_application_library_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '.xml';
         $result = array();
-        
+
         if (file_exists($file))
         {
             $doc = new DOMDocument();
             $doc->load($file);
             $object = $doc->getElementsByTagname('application')->item(0);
             $name = $object->getAttribute('name');
-            
+
             // Get categories
             $categories = $doc->getElementsByTagname('category');
             $settings = array();
-            
+
             foreach ($categories as $index => $category)
             {
                 $category_name = $category->getAttribute('name');
                 $category_properties = array();
-                
+
                 // Get settings in category
                 $properties = $category->getElementsByTagname('setting');
                 $attributes = array('field', 'default', 'locked', 'user_setting');
-                
+
                 foreach ($properties as $index => $property)
                 {
                     $property_info = array();
-                    
+
                     foreach ($attributes as $index => $attribute)
                     {
                         if ($property->hasAttribute($attribute))
@@ -362,15 +362,15 @@ class ExternalRepositoryForm extends FormValidator
                             $property_info[$attribute] = $property->getAttribute($attribute);
                         }
                     }
-                    
+
                     if ($property->hasChildNodes())
                     {
                         $property_options = $property->getElementsByTagname('options')->item(0);
-                        
+
                         if ($property_options)
                         {
                             $property_options_attributes = array('type', 'source');
-                            
+
                             foreach ($property_options_attributes as $index => $options_attribute)
                             {
                                 if ($property_options->hasAttribute($options_attribute))
@@ -378,7 +378,7 @@ class ExternalRepositoryForm extends FormValidator
                                     $property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
                                 }
                             }
-                            
+
                             if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
                             {
                                 $options = $property_options->getElementsByTagname('option');
@@ -390,9 +390,9 @@ class ExternalRepositoryForm extends FormValidator
                                 $property_info['options']['values'] = $options_info;
                             }
                         }
-                        
+
                         $property_validations = $property->getElementsByTagname('validations')->item(0);
-                        
+
                         if ($property_validations)
                         {
                             if ($property_validations->hasChildNodes())
@@ -401,7 +401,10 @@ class ExternalRepositoryForm extends FormValidator
                                 $validation_info = array();
                                 foreach ($validations as $validation)
                                 {
-                                    $validation_info[] = array('rule' => $validation->getAttribute('rule'), 'message' => $validation->getAttribute('message'), 'format' => $validation->getAttribute('format'));
+                                    $validation_info[] = array(
+                                            'rule' => $validation->getAttribute('rule'),
+                                            'message' => $validation->getAttribute('message'),
+                                            'format' => $validation->getAttribute('format'));
                                 }
                                 $property_info['validations'] = $validation_info;
                             }
@@ -409,15 +412,21 @@ class ExternalRepositoryForm extends FormValidator
                     }
                     $category_properties[$property->getAttribute('name')] = $property_info;
                 }
-                
+
                 $settings[$category_name] = $category_properties;
             }
-            
+
             $result['name'] = $name;
             $result['settings'] = $settings;
         }
-        
+
         return $result;
+    }
+
+    private function is_valid_validation_method($validation_method)
+    {
+        $available_validation_methods = array('regex', 'email', 'lettersonly', 'alphanumeric', 'numeric', 'required');
+        return in_array($validation_method, $available_validation_methods);
     }
 }
 ?>
