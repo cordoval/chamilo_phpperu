@@ -48,6 +48,8 @@ class ExternalRepositorySettingsForm extends FormValidator
 
         if (count($configuration['settings']) > 0)
         {
+            $categories = count($configuration['settings']);
+
             require_once Path :: get_application_library_path() . 'external_repository_manager/type/' . $external_repository->get_type() . '/settings/settings_' . $external_repository->get_type() . '_connector.class.php';
 
             foreach ($configuration['settings'] as $category_name => $settings)
@@ -61,7 +63,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                         continue;
                     }
 
-                    if (! $has_settings)
+                    if (! $has_settings && $categories > 1)
                     {
                         $this->addElement('html', '<div class="configuration_form">');
                         $this->addElement('html', '<span class="category">' . Translation :: get(Utilities :: underscores_to_camelcase($category_name)) . '</span>');
@@ -135,7 +137,7 @@ class ExternalRepositorySettingsForm extends FormValidator
                     }
                 }
 
-                if ($has_settings)
+                if ($has_settings && $categories > 1)
                 {
                     $this->addElement('html', '<div style="clear: both;"></div>');
                     $this->addElement('html', '</div>');
@@ -415,7 +417,7 @@ class ExternalRepositorySettingsForm extends FormValidator
 
     private function is_valid_validation_method($validation_method)
     {
-        $available_validation_methods = array('regex', 'email', 'lettersonly', 'alphanumeric', 'numeric');
+        $available_validation_methods = array('regex', 'email', 'lettersonly', 'alphanumeric', 'numeric', 'required');
         return in_array($validation_method, $available_validation_methods);
     }
 }
