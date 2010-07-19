@@ -6,12 +6,13 @@
  */
 require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
 
-class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
-
+class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
+{
+    
     private $mediafiles;
     
     const OBJECT_TYPE = 'mediamosa';
-
+    
     const PROPERTY_CONVERSION_STATE = 'conversion_state';
     const PROPERTY_DATE_PUBLISHED = 'date'; //date of publishing
     const PROPERTY_DATE_CREATED = 'creation_date'; //date of creation
@@ -24,7 +25,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
     const PROPERTY_DURATION = 'duration';
     const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_IS_USABLE = 'is_usable';
-
+    
     const STATUS_UNAVAILABLE = 'unavailable';
     const STATUS_AVAILABLE = 'available';
     const STATE_PUBLIC = 0;
@@ -34,7 +35,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_CONVERSION_STATE, self :: PROPERTY_DATE_PUBLISHED, self :: PROPERTY_DATE_CREATED, self ::  PROPERTY_PUBLISHER, self ::PROPERTY_CREATOR, self ::PROPERTY_DEFAULT_MEDIAFILE, self :: PROPERTY_IS_DOWNLOADABLE, self ::  PROPERTY_STATUS, self :: PROPERT_THUMBNAIL, self :: PROPERTY_DURATION));
+        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_CONVERSION_STATE, self :: PROPERTY_DATE_PUBLISHED, self :: PROPERTY_DATE_CREATED, self :: PROPERTY_PUBLISHER, self :: PROPERTY_CREATOR, self :: PROPERTY_DEFAULT_MEDIAFILE, self :: PROPERTY_IS_DOWNLOADABLE, self :: PROPERTY_STATUS, self :: PROPERT_THUMBNAIL, self :: PROPERTY_DURATION));
     }
 
     /*function set_owner_id($owner_id)
@@ -46,7 +47,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
     {
         return $this->get_default_property(self :: PROPERTY_OWNER_ID);
     }*/
-
+    
     function set_conversion_state($conversion_state)
     {
         $this->set_default_property(self :: PROPERTY_CONVERSION_STATE, $conversion_state);
@@ -74,7 +75,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     function get_publisher()
     {
-        return $this->get_default_property(self::PROPERTY_PUBLISHER);
+        return $this->get_default_property(self :: PROPERTY_PUBLISHER);
     }
 
     function set_creator($creator)
@@ -108,15 +109,15 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     function set_default_mediafile($default_mediafile)
     {
-        $this->set_default_property(self ::PROPERTY_DEFAULT_MEDIAFILE,$default_mediafile);
+        $this->set_default_property(self :: PROPERTY_DEFAULT_MEDIAFILE, $default_mediafile);
     }
 
     function get_default_mediafile()
     {
         
-        if(!$this->get_default_property(self :: PROPERTY_DEFAULT_MEDIAFILE))
+        if (! $this->get_default_property(self :: PROPERTY_DEFAULT_MEDIAFILE))
         {
-            if(is_array($this->mediafiles))
+            if (is_array($this->mediafiles))
             {
                 $keys = array_keys($this->mediafiles);
                 return array_pop($keys);
@@ -128,7 +129,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     function set_is_downloadable($is_downloadable)
     {
-        $this->set_default_property(self ::PROPERTY_IS_DOWNLOADABLE, $is_downloadable);
+        $this->set_default_property(self :: PROPERTY_IS_DOWNLOADABLE, $is_downloadable);
     }
 
     function get_is_downloadable()
@@ -138,7 +139,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     function set_thumbnail($thumbnail)
     {
-        $this->set_default_property(self ::PROPERTY_THUMBNAIL, $thumbnail);
+        $this->set_default_property(self :: PROPERTY_THUMBNAIL, $thumbnail);
     }
 
     function get_thumbnail()
@@ -148,7 +149,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     function set_status($status)
     {
-        $this->set_default_property(self ::PROPERTY_STATUS, $status);
+        $this->set_default_property(self :: PROPERTY_STATUS, $status);
     }
 
     function get_status()
@@ -158,7 +159,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     function set_duration($duration)
     {
-        $this->set_default_property(self ::PROPERTY_DURATION, $duration);
+        $this->set_default_property(self :: PROPERTY_DURATION, $duration);
     }
 
     function get_duration()
@@ -168,7 +169,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     function set_usable($usable)
     {
-        $this->set_default_property(self ::PROPERTY_IS_USABLE, $usable);
+        $this->set_default_property(self :: PROPERTY_IS_USABLE, $usable);
     }
 
     function get_usable()
@@ -178,7 +179,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
 
     function set_owner_id($owner_id)
     {
-        $this->set_default_property(self ::PROPERTY_OWNER_ID, $owner_id);
+        $this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
     }
 
     function get_owner_id()
@@ -191,7 +192,8 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject {
         return $this->get_usable();
         //return true;
     }
- static function get_object_type()
+
+    static function get_object_type()
     {
         return self :: OBJECT_TYPE;
     }

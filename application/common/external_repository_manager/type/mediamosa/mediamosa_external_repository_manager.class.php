@@ -160,6 +160,9 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
             case self :: ACTION_IMPORT_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Importer');
                 break;
+            case ExternalRepositoryManager :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Configurer');
+                break;
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
@@ -168,21 +171,6 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
         $component->run();
     }
-
-//    function get_external_repository_actions()
-//    {
-//        //return array(parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY, parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_CLEAN_EXTERNAL_REPOSITORY);
-//        $actions = array();
-//
-//        $actions[] = parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
-//
-//        $actions[] = parent :: ACTION_UPLOAD_EXTERNAL_REPOSITORY;
-//
-//        if ($this->get_user()->is_platform_admin())
-//            $actions[] = self :: ACTION_MANAGE_SETTINGS;
-//
-//        return $actions;
-//    }
 
     /**
      * Gets the available links to display in the platform admin
@@ -282,6 +270,20 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function get_repository_type()
     {
         return self :: REPOSITORY_TYPE;
+    }
+    
+    function get_external_repository_actions()
+    {
+        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+
+        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 0);
+
+        if ($is_platform)
+        {
+            $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;
+        }
+
+        return $actions;
     }
 }
 ?>

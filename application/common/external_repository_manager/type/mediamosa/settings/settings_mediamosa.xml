@@ -18,11 +18,11 @@
 					<option name="is_upload_possible" value="1" />
 				</options>
 			</setting>
-			<setting name="is_default" field="checkbox" default="0">
+			<!--<setting name="is_default" field="checkbox" default="0">
 				<options type="static">
 					<option name="is_default" value="1" />
 				</options>
-			</setting>
+			</setting>-->
 		</category>
 	</settings>
 </application>

@@ -14,7 +14,7 @@ class DefaultExternalRepositoryInstanceTableCellRenderer extends ObjectTableCell
                 return $external_repository->get_id();
             case ExternalRepository :: PROPERTY_TYPE :
                 $type = $external_repository->get_type();
-                return '<img src="' . Theme :: get_common_image_path() . 'external_repository/' . $type . '.png" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($type))) . '"/>';
+                return '<img src="' . Theme :: get_common_image_path() . 'external_repository/' . $type . '/logo/22.png" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($type))) . '"/>';
             case ExternalRepository :: PROPERTY_TITLE :
                 return Utilities :: truncate_string($external_repository->get_title(), 50);
             case ExternalRepository :: PROPERTY_DESCRIPTION :

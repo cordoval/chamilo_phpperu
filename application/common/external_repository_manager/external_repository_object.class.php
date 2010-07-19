@@ -231,7 +231,7 @@ abstract class ExternalRepositoryObject
 
     function get_icon_image()
     {
-        $src = Theme :: get_common_image_path() . 'external_repository/' . $this->get_icon_name() . '.png';
+        $src = Theme :: get_common_image_path() . 'external_repository/' . $this->get_object_type() . '/types/' . $this->get_icon_name() . '.png';
         return '<img src="' . $src . '" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" title="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" />';
     }
 

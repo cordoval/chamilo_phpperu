@@ -19,6 +19,7 @@ class YoutubeExternalRepositoryManagerImporterComponent extends YoutubeExternalR
         $youtube->set_owner_id($this->get_user_id());
         if ($youtube->create())
         {
+            ExternalRepositorySync :: quicksave($youtube, $object, $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
             $parameters = $this->get_parameters();
             $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
             $this->redirect(Translation :: get('ImportSuccesfull'), false, $parameters, array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));
@@ -30,7 +31,7 @@ class YoutubeExternalRepositoryManagerImporterComponent extends YoutubeExternalR
             $parameters[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
             $this->redirect(Translation :: get('ImportFailed'), true, $parameters);
         }
-
+    
     }
 }
 ?>
