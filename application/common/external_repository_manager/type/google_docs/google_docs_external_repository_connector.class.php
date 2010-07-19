@@ -20,6 +20,7 @@ class GoogleDocsExternalRepositoryConnector
         $session_token = $this->manager->get_user_setting('session_token');
 
         Zend_Loader :: loadClass('Zend_Gdata_Docs');
+        Zend_Loader :: loadClass('Zend_Gdata_Docs_Query');
         Zend_Loader :: loadClass('Zend_Gdata_AuthSub');
 
         if (! $session_token)
@@ -129,13 +130,33 @@ class GoogleDocsExternalRepositoryConnector
 
     function count_external_repository_objects($condition)
     {
-        $documents_feed = $this->google_docs->getDocumentListFeed();
+        if (isset($condition))
+        {
+            $query = new Zend_Gdata_Docs_Query();
+            $query->setQuery($condition);
+        }
+        else
+        {
+            $query = null;
+        }
+
+        $documents_feed = $this->google_docs->getDocumentListFeed($query);
         return $documents_feed->getTotalResults()->getText();
     }
 
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-        $documents_feed = $this->google_docs->getDocumentListFeed();
+        if (isset($condition))
+        {
+            $query = new Zend_Gdata_Docs_Query();
+            $query->setQuery($condition);
+        }
+        else
+        {
+            $query = null;
+        }
+
+        $documents_feed = $this->google_docs->getDocumentListFeed($query);
 
         $objects = array();
         foreach ($documents_feed->entries as $document)
@@ -183,39 +204,78 @@ class GoogleDocsExternalRepositoryConnector
 
     function retrieve_folders()
     {
+        $folder_root = array();
         $folders_feed = $this->google_docs->getFolderListFeed();
+
+        $my_folders = array();
+        $my_folders['title'] = Translation :: get('MyFolders');
+        $my_folders['url'] = $this->manager->get_url();
+        $my_folders['class'] = 'category';
+
+        $shared_folders = array();
+        $shared_folders['title'] = Translation :: get('SharedFolders');
+        $shared_folders['url'] = $this->manager->get_url();
+        $shared_folders['class'] = 'shared_objects';
 
         $objects = array();
         foreach ($folders_feed->entries as $folder)
         {
-//            dump($folder->getTitle()->getText());
-//            if ($folder->getLink('http://schemas.google.com/docs/2007#parent') instanceof Zend_Gdata_App_Extension_Link)
-//            {
-//                dump($folder->getLink('http://schemas.google.com/docs/2007#parent')->getTitle());
-//            }
-//            else
-//            {
-//                dump('Root element !');
-//            }
-//            echo '<hr />';
+            if ($folder->getLink('http://schemas.google.com/docs/2007#parent') instanceof Zend_Gdata_App_Extension_Link)
+            {
+                $parent = $folder->getLink('http://schemas.google.com/docs/2007#parent')->getTitle();
+            }
+            else
+            {
+                if ($folder->getEditLink())
+                {
+                    $parent = '--my--';
+                }
+                else
+                {
+                    $parent = '--shared--';
+                }
+            }
 
-            $resource_id = $folder->getResourceId();
-            $resource_id = explode(':', $resource_id->getText());
+            if (! is_array($objects[$parent]))
+            {
+                $objects[$parent] = array();
+            }
 
-            $author = $folder->getAuthor();
-            $author = $author[0];
-
-            $object = new GoogleDocsExternalRepositoryObject();
-            $object->set_id($resource_id[1]);
-            $object->set_title($folder->getTitle()->getText());
-            $object->set_type($resource_id[0]);
-            $object->set_owner_id($author->getEmail()->getText());
-            $object->set_content($folder->getContent()->getSrc());
-
-            $objects[] = $object;
+            if (! isset($objects[$parent][$folder->getTitle()->getText()]))
+            {
+                $objects[$parent][$folder->getTitle()->getText()] = $folder;
+            }
         }
 
-        return new ArrayResultSet($objects);
+        $my_folders['sub'] = $this->get_folder_tree('--my--', $objects);
+        $shared_folders['sub'] = $this->get_folder_tree('--shared--', $objects);
+
+        $folder_root[] = $my_folders;
+        $folder_root[] = $shared_folders;
+
+        return $folder_root;
+    }
+
+    function get_folder_tree($index, $folders)
+    {
+        $items = array();
+        foreach ($folders[$index] as $child)
+        {
+            $sub_folder = array();
+            $sub_folder['title'] = $child->getTitle()->getText();
+            $sub_folder['url'] = $this->manager->get_url(array('folder' => urlencode($child->getTitle()->getText())));
+            $sub_folder['class'] = 'category';
+
+            $children = $this->get_folder_tree($child->getTitle()->getText(), $folders);
+
+            if (count($children) > 0)
+            {
+                $sub_folder['sub'] = $children;
+            }
+
+            $items[] = $sub_folder;
+        }
+        return $items;
     }
 }
 ?>

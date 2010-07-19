@@ -789,4 +789,7 @@ $lang['common']['ExternalRepositoryDescription'] = 'Description';
 $lang['common']['ExternalRepositoryEnabled'] = 'Enabled';
 $lang['common']['AddExternalRepositoryInstance'] = 'Add an external repository';
 $lang['common']['ConfigureTitle'] = 'Settings';
+
+$lang['common']['MyFolders'] = 'My folders';
+$lang['common']['SharedFolders'] = 'Shared folders';
 ?>
