@@ -174,16 +174,6 @@
 					<option name="enable_ldap_authentication" value="1" />
 				</options>
 			</setting>
-                       <setting name="enable_curl_authentication" field="checkbox">
-				<options type="static">
-					<option name="enable_curl_authentication" value="1" />
-				</options>
-			</setting>
-                        <setting name="enable_curl" field="checkbox">
-				<options type="static">
-					<option name="enable_curl" value="1" />
-				</options>
-			</setting>
 			<setting name="enable_cas_authentication" field="checkbox">
 				<options type="static">
 					<option name="enable_cas_authentication" value="1" />
