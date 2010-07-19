@@ -2,6 +2,7 @@
 <application name="admin">
 	<settings>
 		<category name="administrator">
+                     
 			<setting name="show_administrator_data" field="checkbox" default="1">
 				<options type="static">
 					<option name="show_administrator_data" value="1" />
@@ -171,6 +172,16 @@
 			<setting name="enable_ldap_authentication" field="checkbox">
 				<options type="static">
 					<option name="enable_ldap_authentication" value="1" />
+				</options>
+			</setting>
+                       <setting name="enable_curl_authentication" field="checkbox">
+				<options type="static">
+					<option name="enable_curl_authentication" value="1" />
+				</options>
+			</setting>
+                        <setting name="enable_curl" field="checkbox">
+				<options type="static">
+					<option name="enable_curl" value="1" />
 				</options>
 			</setting>
 			<setting name="enable_cas_authentication" field="checkbox">

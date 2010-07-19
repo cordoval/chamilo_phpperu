@@ -70,7 +70,7 @@ class UserDataManager
                         if ($authentication->register_new_user($username, $password))
                         {
                             $authentication_dir->close();
-                            return $this->retrieve_user_by_username($username);
+                            return self :: get_instance()->retrieve_user_by_username($username);
                         }
                     }
                 }
