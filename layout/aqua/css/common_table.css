@@ -102,6 +102,17 @@
 	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #797268;
 }
+
+.data_table div.no_thumbnail
+{
+	margin: 1em auto 1em auto;
+}
+
+.data_table div.no_preview
+{
+	margin: 1em auto 1em auto;
+}
+
 /*****************************************************
  *  GALLERY TABLE STYLES                            *
  *****************************************************/

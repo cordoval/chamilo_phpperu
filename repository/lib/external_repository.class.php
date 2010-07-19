@@ -20,7 +20,7 @@ class ExternalRepository extends RepositoryDataClass
     /**
      * Contains a list of already required export types
      * Allow to spare some business logic processing
-     * 
+     *
      * @var array
      */
     private static $already_required_types = array();
@@ -155,6 +155,11 @@ class ExternalRepository extends RepositoryDataClass
         return $this->get_default_property(self :: PROPERTY_ENABLED, false);
     }
 
+    function is_enabled()
+    {
+        return $this->get_enabled();
+    }
+
     /*************************************************************************/
     
     static function get_default_property_names($extended_property_names = array())
@@ -178,8 +183,8 @@ class ExternalRepository extends RepositoryDataClass
     /*************************************************************************/
     
     /**
-     * Load the object properties from the datasource if the object instance has already an ID set.  
-     * 
+     * Load the object properties from the datasource if the object instance has already an ID set.
+     *
      * @return boolean Indicates wether the object properties could be retrieved from the datasource
      */
     function get()
@@ -190,14 +195,14 @@ class ExternalRepository extends RepositoryDataClass
             
             $condition = new EqualityCondition(self :: PROPERTY_ID, $this->get_id());
             
-            $result_set = $dm->retrieve_external_repository($condition);
+            $result_set = $dm->retrieve_external_repository_condition($condition);
             $object = $result_set->next_result();
             
             if (isset($object))
             {
                 $this->set_default_properties($object->get_default_properties());
                 
-                //	            foreach (self :: get_default_property_names() as $property_name) 
+                //	            foreach (self :: get_default_property_names() as $property_name)
                 //	            {
                 //	            	$this->set_default_property($property_name, $object->get_default_property($property_name));
                 //	            }
@@ -218,8 +223,8 @@ class ExternalRepository extends RepositoryDataClass
 
     /**
      * Return an instance of an export to a external repository. The object returned is a subclass of ExternalRepository. The exact class type depends on the export type.
-     * 
-     * @return mixed Instance of an export to a external repository 
+     *
+     * @return mixed Instance of an export to a external repository
      */
     function get_typed_repository_object()
     {
@@ -255,10 +260,10 @@ class ExternalRepository extends RepositoryDataClass
     }
 
     /**
-     * Set the properties of this ExternalRepository instance by retrieving the property values from the datasource 
+     * Set the properties of this ExternalRepository instance by retrieving the property values from the datasource
      * if the typed_external_repository_id property is set
-     *  
-     * @return boolean Indicates wether the object properties could be retrieved from the datasource 
+     *
+     * @return boolean Indicates wether the object properties could be retrieved from the datasource
      */
     function get_by_typed_external_repository_id()
     {
@@ -270,7 +275,7 @@ class ExternalRepository extends RepositoryDataClass
             
             $condition = new EqualityCondition(self :: PROPERTY_TYPED_EXTERNAL_REPOSITORY_ID, $typed_external_repository_id);
             
-            $result_set = $dm->retrieve_external_repository($condition);
+            $result_set = $dm->retrieve_external_repository_condition($condition);
             $object = $result_set->next_result();
             
             if (isset($object))
@@ -294,7 +299,7 @@ class ExternalRepository extends RepositoryDataClass
     
     /**
      * Removes the trailing slash from a string if it exists
-     * 
+     *
      * @param $string
      * @return string
      */
@@ -305,7 +310,7 @@ class ExternalRepository extends RepositoryDataClass
 
     /**
      * Add a leading slash to a string if it doesn't already starts with a slash
-     * 
+     *
      * @param $string
      * @return string
      */
@@ -316,7 +321,7 @@ class ExternalRepository extends RepositoryDataClass
 
     /**
      * Ensure a subclass of ExternalRepository will be found when creating an instance of the class
-     * 
+     *
      * @param $type e.g 'Fedora'
      * @return unknown_type
      */
@@ -349,23 +354,23 @@ class ExternalRepository extends RepositoryDataClass
      *************************************************************************/
     
     /**
-     * Get the list of existing exports to external repositories, 
+     * Get the list of existing exports to external repositories,
      * and require_once the needed model classes
-     * 
+     *
      * @return array Array of ExternalRepository
      */
-    public static function retrieve_external_repository($condition = null)
+    public static function retrieve_external_repository_condition($condition = null)
     {
         if (! isset($condition))
         {
             /*
-             * By default retrieve only enabled repositories 
+             * By default retrieve only enabled repositories
              */
             $condition = new EqualityCondition('enabled', 1);
         }
         
         $dm = RepositoryDataManager :: get_instance();
-        $result_set = $dm->retrieve_external_repository($condition);
+        $result_set = $dm->retrieve_external_repository_condition($condition);
         
         $objects = array();
         while ($object = $result_set->next_result())
@@ -376,6 +381,56 @@ class ExternalRepository extends RepositoryDataClass
         }
         
         return $objects;
+    }
+
+    public function create()
+    {
+        if (! parent :: create())
+        {
+            return false;
+        }
+        else
+        {
+            if (! ExternalRepositorySetting :: initialize($this))
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    public function delete()
+    {
+        if (! parent :: delete())
+        {
+            return false;
+        }
+        else
+        {
+            $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_id());
+            $settings = $this->get_data_manager()->retrieve_external_repository_settings($condition);
+            
+            while($setting = $settings->next_result())
+            {
+                if (!$setting->delete())
+                {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+
+    public function activate()
+    {
+        $this->set_enabled(true);
+    }
+
+    public function deactivate()
+    {
+        $this->set_enabled(false);
     }
 
 }

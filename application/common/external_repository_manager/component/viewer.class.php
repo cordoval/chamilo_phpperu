@@ -22,7 +22,6 @@ class ExternalRepositoryViewerComponent extends ExternalRepositoryComponent
             $toolbar->add_item($toolbar_item);
             
             $type_actions = $this->get_external_repository_object_actions($object);
-            
             foreach($type_actions as $type_action)
             {
                 $type_action->set_display(ToolbarItem :: DISPLAY_ICON_AND_LABEL);

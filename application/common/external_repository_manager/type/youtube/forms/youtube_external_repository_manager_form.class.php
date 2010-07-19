@@ -67,10 +67,10 @@ class YoutubeExternalRepositoryManagerForm extends FormValidator
 
         $this->addElement('select', YoutubeExternalRepositoryObject :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->get_youtube_categories());
 
-        $this->addElement('textarea', YoutubeExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('Tags'), array("rows" => "1", "cols" => "80"));
+        $this->addElement('textarea', YoutubeExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('Tags'), array("rows" => "2", "cols" => "80"));
         $this->addRule(YoutubeExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        $this->addElement('textarea', YoutubeExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "110"));
+        $this->addElement('textarea', YoutubeExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "80"));
     }
 
     function get_youtube_categories()

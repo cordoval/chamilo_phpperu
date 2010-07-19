@@ -2283,3 +2283,52 @@ div.create_block {
 	overflow: auto;
 }
 
+div.no_thumbnail, div.no_preview
+{
+	border: 1px solid #cccccc;
+	background-color: white;
+	padding: 15px;
+	width: 300px;
+	
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-top-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 0px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomright: 5px;
+	-moz-border-radius-bottomleft: 0px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 0px;
+}
+
+div.no_thumbnail
+{
+	width: 150px;
+}
+
+div.no_thumbnail div.background,
+div.no_preview div.background
+{
+	border: 1px solid #cccccc;
+	background-color: #efefef;
+	padding: 15px;
+	width: 268px;
+	background-image: url(../images/common/background_no_thumbnail.png);
+	background-position: top cente;
+	background-repeat: repeat-x;
+}
+
+div.no_thumbnail div.background
+{
+	width: 118px;
+	padding: 15px;
+}
+
+div.no_thumbnail div.background h3
+{
+	color: #797268;
+	font-size: 95%;
+}

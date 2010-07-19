@@ -36,5 +36,14 @@ interface SurveyContextDataManagerInterface
    
     function create_survey_context_template_rel_page($survey_context_template_rel_page);
     
+    function retrieve_survey_context_registrations($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function retrieve_survey_context_registration($context_registration_id);
+        
+    function count_survey_context_registrations($condition = null);
+    
+    function delete_survey_context_registration($context_registration);
+   
+    function create_survey_context_registration($context_registration);
 }
 ?>

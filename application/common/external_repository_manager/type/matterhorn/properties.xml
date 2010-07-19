@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<repository name="matterhorn">
+	<properties>
+		<property name="section" value="streaming" />
+		<property name="multiple" value="1" />
+	</properties>
+</repository>

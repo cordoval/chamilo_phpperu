@@ -5,6 +5,8 @@ require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_exter
 
 class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
 {
+    const REPOSITORY_TYPE = 'youtube';
+
     const PARAM_FEED_TYPE = 'feed';
     const PARAM_FEED_IDENTIFIER = 'identifier';
 
@@ -23,7 +25,7 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         return Path :: get_application_library_path() . 'external_repository_manager/type/youtube/component/';
     }
 
-    function initiliaze_external_repository()
+    function initialize_external_repository()
     {
         YoutubeExternalRepositoryConnector :: get_instance($this);
     }
@@ -171,7 +173,16 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
 
     function get_external_repository_actions()
     {
-        return array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+
+        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 0);
+
+        if ($is_platform)
+        {
+            $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;
+        }
+
+        return $actions;
     }
 
     function run()
@@ -207,6 +218,9 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
             case ExternalRepositoryManager :: ACTION_DELETE_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Deleter');
                 break;
+            case ExternalRepositoryManager :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Configurer');
+                break;
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
@@ -231,6 +245,11 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         }
 
         return new OrCondition($video_conditions);
+    }
+
+    function get_repository_type()
+    {
+        return self :: REPOSITORY_TYPE;
     }
 }
 ?>

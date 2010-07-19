@@ -31,11 +31,11 @@ class FlickrExternalRepositoryConnector
     {
         $this->manager = $manager;
 
-        $this->key = PlatformSetting :: get('flickr_key', RepositoryManager :: APPLICATION_NAME);
-        $this->secret = PlatformSetting :: get('flickr_secret', RepositoryManager :: APPLICATION_NAME);
+        $this->key = $this->manager->get_setting('key');
+        $this->secret = $this->manager->get_setting('secret');
         $this->flickr = new phpFlickr($this->key, $this->secret);
 
-        $session_token = LocalSetting :: get('flickr_session_token', UserManager :: APPLICATION_NAME);
+        $session_token = $this->manager->get_user_setting('session_token');
 
         if (! $session_token)
         {
@@ -59,7 +59,12 @@ class FlickrExternalRepositoryConnector
                 $token = $this->flickr->auth_getToken($frob);
                 if ($token['token'])
                 {
-                    LocalSetting :: create_local_setting('flickr_session_token', $token['token'], UserManager :: APPLICATION_NAME, $this->manager->get_user_id());
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+                    $user_setting = new ExternalRepositoryUserSetting();
+                    $user_setting->set_setting_id($setting->get_id());
+                    $user_setting->set_user_id($this->manager->get_user_id());
+                    $user_setting->set_value($token['token']);
+                    $user_setting->create();
                 }
             }
         }
@@ -185,9 +190,9 @@ class FlickrExternalRepositoryConnector
 
             $types = array();
             $types[] = $photo['media'];
-            if (isset($photo['original_format']))
+            if (isset($photo['originalformat']))
             {
-                $types[] = $photo['original_format'];
+                $types[] = strtolower($photo['originalformat']);
             }
             $object->set_type(implode('_', $types));
 
@@ -291,7 +296,7 @@ class FlickrExternalRepositoryConnector
         $types[] = $photo['media'];
         if (isset($photo['originalformat']))
         {
-            $types[] = $photo['originalformat'];
+            $types[] = strtolower($photo['originalformat']);
         }
         $object->set_type(implode('_', $types));
 

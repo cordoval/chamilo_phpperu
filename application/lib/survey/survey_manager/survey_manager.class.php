@@ -136,7 +136,7 @@ class SurveyManager extends WebApplication
 				$component = $this->create_component('Builder');
 				break;
 			case self :: ACTION_EXCEL_EXPORT :
-				$component = $this->create_component('SurveySpssExcelExporter');
+				$component = $this->create_component('SurveySpssSyntaxExporter');
 				break;
 			case self :: ACTION_INVITE_EXTERNAL_USERS :
 				$component = $this->create_component('Inviter');

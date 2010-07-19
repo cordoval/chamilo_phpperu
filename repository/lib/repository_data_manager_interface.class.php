@@ -425,7 +425,13 @@ interface RepositoryDataManagerInterface
 
     function retrieve_content_object_by_catalog_entry_values($catalog_name, $entry_value);
 
-    function retrieve_external_repository($condition = null, $offset = null, $max_objects = null, $order_by = null);
+    function retrieve_external_repository($external_repository_id);
+
+    function retrieve_external_repository_condition($condition = null, $offset = null, $max_objects = null, $order_by = null);
+
+    function retrieve_external_repositories($condition = null, $offset = null, $max_objects = null, $order_by = null);
+    
+    function count_external_repositories($condition = null);
 
     function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null);
 
@@ -440,6 +446,36 @@ interface RepositoryDataManagerInterface
     function retrieve_doubles_in_repository($condition, $order_property, $offset, $count);
 
     function count_doubles_in_repository($condition);
+
+    /**
+     * @param ExternalRepositorySetting $external_repository_setting
+     */
+    function create_external_repository_setting(ExternalRepositorySetting $external_repository_setting);
+
+    /**
+     * @param ExternalRepositorySetting $external_repository_setting
+     */
+    function update_external_repository_setting(ExternalRepositorySetting $external_repository_setting);
+
+    /**
+     * @param ExternalRepositorySetting $external_repository_setting
+     */
+    function delete_external_repository_setting(ExternalRepositorySetting $external_repository_setting);
+
+    /**
+     * @param int $id
+     */
+    function retrieve_external_repository_setting($id);
+
+    /**
+     * @param Condition $condition
+     * @param array $order_by
+     * @param int $offset
+     * @param int $max_objects
+     */
+    function retrieve_external_repository_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1);
+    
+    function retrieve_external_repository_setting_from_variable_name($variable, $external_repository_id);
 
 }
 ?>

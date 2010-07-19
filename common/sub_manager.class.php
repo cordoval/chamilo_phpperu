@@ -132,11 +132,17 @@ abstract class SubManager
         $this->get_parent()->not_allowed();
     }
 
+    /**
+     * @return int 
+     */
     function get_user_id()
     {
         return $this->get_parent()->get_user_id();
     }
 
+    /**
+     * @return User
+     */
     function get_user()
     {
         return $this->get_parent()->get_user();

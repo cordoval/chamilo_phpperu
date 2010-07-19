@@ -4,9 +4,8 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_system_announcement.class.php';
-require_once Path :: get_repository_path() . 'lib/content_object/system_announcement/system_announcement.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 system announcement
@@ -17,7 +16,10 @@ require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repo
 
 class Dokeos185SystemAnnouncement extends Dokeos185MigrationDataClass
 {
-    
+    const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'sys_announcement';   
+	const DATABASE_NAME = 'main_database';
+	
     /**
      * course relation user properties
      */
@@ -32,76 +34,12 @@ class Dokeos185SystemAnnouncement extends Dokeos185MigrationDataClass
     const PROPERTY_LANG = 'lang';
     
     /**
-     * Default properties of the system annoucement object, stored in an associative
-     * array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new system annoucement object.
-     * @param array $defaultProperties The default properties of the system annoucement
-     *                                 object. Associative array.
-     */
-    function Dokeos185SystemAnnouncement($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property of this system annoucement object by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties of this system annoucement.
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    /**
      * Get the default properties of all system annoucement.
      * @return array The property names.
      */
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_CONTENT, self :: PROPERTY_DATE_START, self :: PROPERTY_DATE_END, self :: PROPERTY_VISIBLE_TEACHER, self :: PROPERTY_VISIBLE_STUDENT, self :: PROPERTY_VISIBLE_GUEST, self :: PROPERTY_LANG);
-    }
-
-    /**
-     * Sets a default property of this system annoucement by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Checks if the given identifier is the name of a default system annoucement
-     * property.
-     * @param string $name The identifier.
-     * @return boolean True if the identifier is a property name, false
-     *                 otherwise.
-     */
-    static function is_default_property_name($name)
-    {
-        return in_array($name, self :: get_default_property_names());
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -189,13 +127,13 @@ class Dokeos185SystemAnnouncement extends Dokeos185MigrationDataClass
      * Checks if valid system announcement()
      * @return Boolean
      */
-    function is_valid($parameters)
+    function is_valid()
     {
         
         if (! ($this->get_title() || $this->get_content()))
         {
-            $mgdm = MigrationDataManager :: get_instance();
-            $mgdm->add_failed_element($this->get_id(), 'dokeos_main.sys_announcement');
+            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'system announcement', 'ID' => $this->get_id())));
             return false;
         }
         
@@ -207,63 +145,61 @@ class Dokeos185SystemAnnouncement extends Dokeos185MigrationDataClass
      * @param String $admin_id
      * @return Announcement
      */
-    function convert_data
+    function convert_data()
     {
-        $admin_id = $parameters['admin_id'];
-        
-        $mgdm = MigrationDataManager :: get_instance();
-        $lcms_system_announcement = new SystemAnnouncement();
-        $lcms_system_announcement->set_owner_id($admin_id);
-        $lcms_system_announcement->set_icon('6');
+		$admin_id = $this->get_id_reference($this->get_data_manager()->get_admin_id(), 'main_database.user');
+		
+    	$chamilo_system_announcement = new SystemAnnouncement();
+        $chamilo_system_announcement->set_owner_id($admin_id);
+        $chamilo_system_announcement->set_icon(SystemAnnouncement :: ICON_CONFIRMATION);
         
         if (! $this->get_title())
-            $lcms_system_announcement->set_title(substr($this->get_content(), 0, 20));
-        else
-            $lcms_system_announcement->set_title($this->get_title());
+        {
+            $chamilo_system_announcement->set_title(Utilities :: truncate_string($this->get_content(), 50));
+        }
+        else 
+        {
+            $chamilo_system_announcement->set_title($this->get_title());
+        }
         
         if (! $this->get_content())
-            $lcms_system_announcement->set_description($this->get_title());
+        {
+            $chamilo_system_announcement->set_description($this->get_title());
+        }
         else
-            $lcms_system_announcement->set_description($this->get_content());
+        {
+            $chamilo_system_announcement->set_description($this->get_content());
+        }
             
         //Create category in admin repository and create system announcement    
             
-        $lcms_category_id = $mgdm->get_repository_category_by_name($admin_id,Translation :: get('system_announcements')); 
-		$lcms_system_announcement->set_parent_id($lcms_category_id);
-        $lcms_system_announcement->create();
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($admin_id, Translation :: get('SystemAnnouncements')); 
+		$chamilo_system_announcement->set_parent_id($chamilo_category_id);
+        $chamilo_system_announcement->create();
         
         //Make System Announcement publication
-        $lcms_system_announcement_publication = new SystemAnnouncementPublication();
-        $lcms_system_announcement_publication->set_content_object_id($lcms_system_announcement->get_id());
-        $lcms_system_announcement_publication->set_publisher($admin_id);
-        $lcms_system_announcement_publication->set_published($mgdm->make_unix_time($this->get_date_start()));
-        $lcms_system_announcement_publication->create();
+        $chamilo_system_announcement_publication = new SystemAnnouncementPublication();
+        $chamilo_system_announcement_publication->set_content_object_id($chamilo_system_announcement->get_id());
+        $chamilo_system_announcement_publication->set_publisher($admin_id);
+        $chamilo_system_announcement_publication->set_published(strtotime($this->get_date_start()));
+        $chamilo_system_announcement_publication->create();
         
-        return $lcms_system_announcement;
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'system announcement', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_system_announcement->get_id())));
     }
 
-    /**
-     * Gets all the system announcement
-     * @param Array $parameters
-     * @return Array of dokeos185systemannouncements
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $mgdm = $parameters['old_mgdm'];
-        
-        $db = 'main_database';
-        $tablename = 'sys_announcement';
-        $classname = 'Dokeos185SystemAnnouncement';
-        
-        return $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
-
-    static function get_database_table($parameters)
+    
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'main_database';
-        $array['table'] = 'sys_announcement';
-        return $array;
+    	return self :: CLASS_NAME;
+    }
+    
+    static function get_database_name()
+    {
+    	return self :: DATABASE_NAME;
     }
 }
 ?>

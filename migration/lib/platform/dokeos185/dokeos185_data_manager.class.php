@@ -111,7 +111,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     function retrieve_all_objects($data_class, $offset, $count)
     {
     	$this->set_database($data_class->get_database_name());
-    	return $this->retrieve_objects_with_condition($data_class, null, $offset, $count);
+    	return $this->retrieve_objects($data_class->get_table_name(), $data_class->get_retrieve_condition(), $offset, $count, null, $data_class->get_class_name());
     }
     
     /**
@@ -121,20 +121,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     function count_all_objects($data_class)
     {
     	$this->set_database($data_class->get_database_name());
-    	return $this->count_objects($data_class->get_table_name());
-    }
-    
-    /**
-     * Retrieve all objects with use of a condition
-     * @param Dokeos185MigrationDataClass $data_class
-     * @param Condition $condition
-     * @param int $offset - the offset
-     * @param int $count - the number of objects to retrieve 
-     */
-    function retrieve_objects_with_condition($data_class, $condition, $offset, $count)
-    {
-    	$this->set_database($data_class->get_database_name());
-    	return $this->retrieve_objects($data_class->get_table_name(), null, $offset, $count, null, $data_class->get_class_name());
+    	return $this->count_objects($data_class->get_table_name(), $data_class->get_retrieve_condition());
     }
     
     /**
@@ -155,6 +142,22 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     {
     	$conf = $this->get_configuration();
     	return $conf['root_sys'];
+    }
+    
+    /**
+     * Gets the id of the first admin of the dokeos 185 platform
+     */
+    function get_admin_id()
+    {
+     	$this->set_database('main_database');
+     	
+        $query = 'SELECT user_id FROM ' . $this->escape_table_name('admin');
+        $result = $this->query($query);
+        $record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+        $id = $record['user_id'];
+        $result->free();
+
+        return $id;
     }
     
 }

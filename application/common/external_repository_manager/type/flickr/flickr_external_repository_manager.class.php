@@ -3,6 +3,7 @@ require_once dirname(__FILE__) . '/flickr_external_repository_connector.class.ph
 
 class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 {
+    const REPOSITORY_TYPE = 'flickr';
 
     const PARAM_FEED_TYPE = 'feed';
 
@@ -22,7 +23,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         return Path :: get_application_library_path() . 'external_repository_manager/type/flickr/component/';
     }
 
-    function initiliaze_external_repository()
+    function initialize_external_repository()
     {
         FlickrExternalRepositoryConnector :: get_instance($this);
     }
@@ -109,7 +110,16 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 
     function get_external_repository_actions()
     {
-        return array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+        $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
+
+        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 0);
+
+        if ($is_platform)
+        {
+            $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;
+        }
+
+        return $actions;
     }
 
     function run()
@@ -163,6 +173,11 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         }
 
         return new OrCondition($image_conditions);
+    }
+
+    function get_repository_type()
+    {
+        return self :: REPOSITORY_TYPE;
     }
 }
 ?>

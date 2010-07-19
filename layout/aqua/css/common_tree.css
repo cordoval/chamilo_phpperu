@@ -101,34 +101,37 @@ ul.tree-menu li div a.profile {
 	background-image: url(../images/common/treemenu_types/profile.png);
 }
 
+/*****************************
+ * External repository types *
+ *****************************/
 ul.tree-menu li div a.youtube {
 	clear: both;
-	background-image: url(../images/common/repository_youtube.png);
+	background-image: url(../images/common/external_repository/youtube/logo/16.png);
 }
 
 ul.tree-menu li div a.mediamosa {
 	clear: both;
-	background-image: url(../images/common/repository_mediamosa.png);
+	background-image: url(../images/common/external_repository/mediamosa/logo/16.png);
 }
 
 ul.tree-menu li div a.google_docs {
 	clear: both;
-	background-image: url(../images/common/repository_google_docs.png);
+	background-image: url(../images/common/external_repository/google_docs/logo/16.png);
 }
 
 ul.tree-menu li div a.fedora {
 	clear: both;
-	background-image: url(../images/common/repository_fedora.png);
+	background-image: url(../images/common/external_repository/fedora/logo/16.png);
 }
 
 ul.tree-menu li div a.flickr {
 	clear: both;
-	background-image: url(../images/common/repository_flickr.png);
+	background-image: url(../images/common/external_repository/flickr/logo/16.png);
 }
 
 ul.tree-menu li div a.matterhorn {
 	clear: both;
-	background-image: url(../images/common/repository_matterhorn.png);
+	background-image: url(../images/common/external_repository/matterhorn/logo/16.png);
 }
 
 ul.tree-menu li div a.disabled {

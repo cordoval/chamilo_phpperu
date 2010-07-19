@@ -12,33 +12,33 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
 
     function run()
     {
-        //select server if server_id = null
-        $server_selection_form = new MediamosaExternalRepositoryManagerServerSelectForm(MediamosaExternalRepositoryManagerServerSelectForm :: PARAM_SITUATION_UPLOAD, $this);
-        $this->set_server_selection_form($server_selection_form);
-
-        if($server_selection_form->validate())
-        {
-            $parameters = array();
-            $parameters[MediamosaExternalRepositoryManager :: PARAM_SERVER] = $server_selection_form->get_selected_server();
-            $this->redirect(Translation :: get('Selected'), false, $parameters);
-        }
-        
-        if(!Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER))
-        {
-            if($server_selection_form->get_default_server())
-            {
-                $parameters = array();
-                $parameters[MediamosaExternalRepositoryManager :: PARAM_SERVER] = $server_selection_form->get_default_server();
-                $this->redirect('', false, $parameters);
-
-            }
-        }
-
-        if(Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER))
-        {
+//        //select server if server_id = null
+//        $server_selection_form = new MediamosaExternalRepositoryManagerServerSelectForm(MediamosaExternalRepositoryManagerServerSelectForm :: PARAM_SITUATION_UPLOAD, $this);
+//        $this->set_server_selection_form($server_selection_form);
+//
+//        if($server_selection_form->validate())
+//        {
+//            $parameters = array();
+//            $parameters[MediamosaExternalRepositoryManager :: PARAM_SERVER] = $server_selection_form->get_selected_server();
+//            $this->redirect(Translation :: get('Selected'), false, $parameters);
+//        }
+//
+//        if(!Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER))
+//        {
+//            if($server_selection_form->get_default_server())
+//            {
+//                $parameters = array();
+//                $parameters[MediamosaExternalRepositoryManager :: PARAM_SERVER] = $server_selection_form->get_default_server();
+//                $this->redirect('', false, $parameters);
+//
+//            }
+//        }
+//
+//        if(Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER))
+//        {
             //check quota if user exists
             //otherwise create one and set quota
-            $connector = MediamosaExternalRepositoryConnector :: get_instance();
+            $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
             $user = Session :: get_user_id();
             $over_quota = true;
 
@@ -67,7 +67,7 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
                     }
                 }
             }
-            
+
             if(!$over_quota)
             {
                 $form = new MediamosaExternalRepositoryManagerForm(MediamosaExternalRepositoryManagerForm :: TYPE_CREATE, $this->get_url(), $this);
@@ -78,7 +78,7 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
                    {
                        $params = array();
                        $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
-                       $params[ExternalRepositoryManager :: PARAM_TYPE] = 'mediamosa';
+                       $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY] = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
                        $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $ticket_response['asset_id'];
 
                        $redirect_url = 'http://' . $_SERVER['SERVER_NAME'] . $this->get_url($params, true);
@@ -111,15 +111,15 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
                  echo Translation::get('OverQuota');
                  $this->display_footer();
             }
-            
-        }else
-        {
-            $this->display_header($trail, false);
-            $this->display_footer();
-        }
-       
-        
-    } 
+//
+//        }else
+//        {
+//            $this->display_header($trail, false);
+//            $this->display_footer();
+//        }
+
+
+    }
 
 }
 ?>

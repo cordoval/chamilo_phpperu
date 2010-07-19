@@ -71,6 +71,14 @@ $lang['migration']['ClassUserConvertedMessage'] = 'SUCCES: new class user added 
 $lang['migration']['PersonalAgendasMigrationBlockInfoNext'] = 'On the next page all the personal agenda calendar events will be migrated';
 $lang['migration']['PersonalAgendasMigrationBlockInfo'] = 'On this page all the personal agenda calendar events will be migrated';
 
-$lang['migration']['SettingsMigrationBlockInfoNext'] = 'On the next page all the settings will be migrated';
-$lang['migration']['SettingsMigrationBlockInfo'] = 'On this page all the settings will be migrated';
+$lang['migration']['SettingsMigrationBlockInfoNext'] = 'On the next page all the settings and system announcements will be migrated';
+$lang['migration']['SettingsMigrationBlockInfo'] = 'On this page all the settings and system announcements will be migrated';
+$lang['migration']['SettingConvertedMessage'] = 'SUCCES: setting updated (SETTING: {SETTING} - VALUE: {VALUE})';
+
+$lang['migration']['CoursesMigrationBlockInfoNext'] = 'On the next page all the courses, course categories, course user categories, course user registrations and course class registrations will be migrated';
+$lang['migration']['CoursesMigrationBlockInfo'] = 'On this page all the courses, course categories, course user categories, course user registrations and course class registrations will be migrated';
+$lang['migration']['CourseRelClassInvalidMessage'] = 'FAILED: course class is not valid (CLASS: {CLASS_ID} - COURSE: {COURSE_ID})';
+$lang['migration']['CourseRelClassConvertedMessage'] = 'SUCCES: new course class added (CLASS: {CLASS_ID} - COURSE: {COURSE_ID})';
+$lang['migration']['CourseRelUserInvalidMessage'] = 'FAILED: course user is not valid (USER: {USER_ID} - COURSE: {COURSE_ID})';
+$lang['migration']['CourseRelUserConvertedMessage'] = 'SUCCES: new course user added (USER: {USER_ID} - COURSE: {COURSE_ID})';
 ?>

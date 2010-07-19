@@ -177,6 +177,9 @@ abstract class Application
         $this->parameters[$name] = $value;
     }
 
+    /**
+     * @param array $parameters
+     */
     function set_parameters($parameters)
     {
         $this->parameters = $parameters;

@@ -54,31 +54,6 @@ class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
     {
         return $this->set_default_property(self :: PROPERTY_MODIFIER_ID, $modifier_id);
     }
-
-    function is_usable()
-    {
-        return true;
-    }
-
-    function get_url()
-    {
-        return '';
-    }
-
-    function get_duration()
-    {
-        return '';
-    }
-
-    function get_thumbnail()
-    {
-        return '';
-    }
-
-    function get_icon_name()
-    {
-        return self :: OBJECT_TYPE . '_' . parent :: get_icon_name();
-    }
     
     static function get_object_type()
     {

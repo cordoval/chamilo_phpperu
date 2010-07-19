@@ -1,5 +1,5 @@
 <?php
-class DefaultExternalRepositoryGalleryObjectTableCellRenderer implements GalleryObjectTableCellRenderer
+abstract class DefaultExternalRepositoryGalleryObjectTableCellRenderer implements GalleryObjectTableCellRenderer
 {
 
     /**
@@ -30,5 +30,7 @@ class DefaultExternalRepositoryGalleryObjectTableCellRenderer implements Gallery
     {
         return $object->get_id();
     }
+
+    abstract function get_cell_content(ExternalRepositoryObject $object);
 }
 ?>

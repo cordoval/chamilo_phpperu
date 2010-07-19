@@ -59,9 +59,8 @@ class DynamicFormTab extends DynamicTab
         $this->get_form()->addElement('html', $this->body_footer());
     }
 
-    public function get_link() 
-	{
-		
-	}
-
+    public function get_link()
+    {
+        return '#' . $this->get_id();
+    }
 }

@@ -51,28 +51,28 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             return null;
         }
-
+        
         if (is_null($type))
         {
             $type = $this->determine_content_object_type($id);
         }
-
+        
         $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $id);
-
+        
         if (RepositoryDataManager :: is_extended_type($type))
         {
             $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
-
+            
             $query = 'SELECT * FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias;
             $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . self :: ALIAS_TYPE_TABLE . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . '=' . $this->escape_column_name(ContentObject :: PROPERTY_ID, self :: ALIAS_TYPE_TABLE);
-
+            
             $record = $this->retrieve_row($query, ContentObject :: get_table_name(), $condition);
         }
         else
         {
             $record = $this->retrieve_record(ContentObject :: get_table_name(), $condition);
         }
-
+        
         return self :: record_to_content_object($record, isset($type));
     }
 
@@ -86,13 +86,13 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             $query .= $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
             $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
         }
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
-
+        
         $orders = array();
         foreach ($order_by as $order)
         {
@@ -102,14 +102,15 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-
+        
         if ($max_objects < 0)
         {
             $max_objects = null;
         }
-
+        
         //dump($query);
         //dump($params);
+        
 
         $this->set_limit(intval($max_objects), intval($offset));
         $res = $this->query($query);
@@ -120,9 +121,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
         $content_object_version_alias = $this->get_alias('content_object_version');
-
+        
         $query = 'SELECT * FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias;
-
+        
         if (ContentObject :: is_extended_type($type))
         {
             $type_alias = $this->get_alias($type);
@@ -133,31 +134,31 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             $type_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
             $condition = isset($condition) ? new AndCondition($type_condition, $condition) : $type_condition;
         }
-
+        
         $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . $content_object_version_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_version_alias);
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
-
+        
         $orders = array();
         foreach ($order_by as $order)
         {
             $orders[] = $this->escape_column_name($order->get_property()) . ' ' . ($order->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
         }
-
+        
         if (count($orders))
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-
+        
         if ($max_objects < 0)
         {
             $max_objects = null;
         }
-
+        
         $this->set_limit(intval($max_objects), intval($offset));
         $res = $this->query($query);
         return new DatabaseContentObjectResultSet($this, $res, true);
@@ -172,20 +173,20 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             return array();
         }
         $array = array_map(array($this, 'escape_column_name'), $content_object->get_additional_property_names());
-
+        
         if (count($array) == 0)
         {
             $array = array("*");
         }
-
+        
         $query = 'SELECT ' . implode(',', $array) . ' FROM ' . $this->escape_table_name($type) . ' WHERE ' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . '=' . $this->quote($content_object->get_id());
-
+        
         $this->set_limit(1);
         $res = $this->query($query);
         $return = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-
+        
         $res->free();
-
+        
         return $return;
     }
 
@@ -196,10 +197,10 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         if (is_null($query))
         {
             $query = 'SELECT COUNT(' . $this->get_alias(ContentObject :: get_table_name()) . '.' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . ') FROM ' . $this->escape_table_name('content_object') . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
-
+            
             $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . ' ON ' . $this->get_alias(ContentObject :: get_table_name()) . '.' . ContentObject :: PROPERTY_ID . ' = ' . self :: ALIAS_CONTENT_OBJECT_VERSION_TABLE . '.' . ContentObject :: PROPERTY_ID;
         }
-
+        
         return $this->count_result_set($query, ContentObject :: get_table_name(), $condition);
     }
 
@@ -208,7 +209,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
         $content_object_version_alias = $this->get_alias('content_object_version');
         $type_alias = $this->get_alias($type);
-
+        
         if (RepositoryDataManager :: is_extended_type($type))
         {
             $query = 'SELECT COUNT(' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER, $content_object_alias) . ') FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' JOIN ' . $this->escape_table_name($type) . ' AS ' . $type_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $type_alias);
@@ -219,9 +220,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             $match = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
             $condition = isset($condition) ? new AndCondition(array($match, $condition)) : $match;
         }
-
+        
         $query .= ' JOIN ' . $this->escape_table_name('content_object_version') . ' AS ' . $content_object_version_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_version_alias);
-
+        
         return $this->count_result_set($query, ContentObject :: get_table_name(), $condition);
     }
 
@@ -263,7 +264,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             $props[$this->escape_column_name(ContentObject :: PROPERTY_ID)] = $object->get_id();
             $this->get_connection()->extended->autoExecute($this->get_table_name($object->get_type()), $props, MDB2_AUTOQUERY_INSERT);
         }
-
+        
         $props = array();
         $props[$this->escape_column_name(ContentObject :: PROPERTY_ID)] = $object->get_id();
         if ($type == 'new')
@@ -279,7 +280,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             return false;
         }
-
+        
         return true;
     }
 
@@ -329,7 +330,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             return false;
         }
         // Delete children
-
+        
 
         // Delete all attachments (only the links, not the actual objects)
         $conditions = array();
@@ -337,43 +338,47 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $conditions[] = new EqualityCondition('attachment_id', $object->get_id());
         $condition = new OrCondition($conditions);
         $this->delete_objects('content_object_attachment', $condition);
-
+        
         // Delete all includes (only the links, not the actual objects)
         $conditions = array();
         $conditions[] = new EqualityCondition('content_object_id', $object->get_id());
         $conditions[] = new EqualityCondition('include_id', $object->get_id());
         $condition = new OrCondition($conditions);
         $this->delete_objects('content_object_include', $condition);
-
+        
         //Delete extended properties record
         if (RepositoryDataManager :: is_extended_type(Utilities :: camelcase_to_underscores(get_class($object))))
         {
             $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
             $this->delete_objects(Utilities :: camelcase_to_underscores(get_class($object)), $condition);
         }
-
+        
         //Delete associated metadata
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
         $this->delete_objects(ContentObjectMetadata :: get_table_name(), $condition);
-
+        
         //Delete synchronization with external repositories infos
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_CONTENT_OBJECT, $object->get_id());
         $this->delete_objects(ExternalRepositorySyncInfo :: get_table_name(), $condition);
-
+        
+        //Delete synchronization with external repositories infos
+        $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
+        $this->delete_objects(ExternalRepositorySync :: get_table_name(), $condition);
+        
         // Delete object
         $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
         $this->delete_objects(ContentObject :: get_table_name(), $condition);
-
+        
         // Delete entry in version table
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $object->get_object_number());
         $this->delete_objects('content_object_version', $condition);
-
+        
         if ($object->is_extended())
         {
             $condition = new EqualityCondition(ContentObject :: PROPERTY_ID, $object->get_id());
             $this->delete_objects('content_object_version', $condition);
         }
-
+        
         return true;
     }
 
@@ -384,19 +389,19 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             return false;
         }
-
+        
         // Delete object
         $query = 'DELETE FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' WHERE ' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . '=' . $this->quote($object->get_id());
         $res = $this->query($query);
         $res->free();
-
+        
         if ($object->is_extended())
         {
             $query = 'DELETE FROM ' . $this->escape_table_name($object->get_type()) . ' WHERE ' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . '=' . $this->quote($object->get_id());
             $res = $this->query($query);
             $res->free();
         }
-
+        
         if ($object->is_latest_version())
         {
             $query = 'SELECT * FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . self :: ALIAS_CONTENT_OBJECT_TABLE . ' WHERE ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . '=' . $this->quote($object->get_object_number()) . ' ORDER BY ' . self :: ALIAS_CONTENT_OBJECT_TABLE . '.' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . ' DESC';
@@ -404,13 +409,13 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             $res = $this->query($query);
             $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
             $res->free();
-
+            
             $props = array();
             $props[$this->escape_column_name(ContentObject :: PROPERTY_ID)] = $record['id'];
             $this->get_connection()->loadModule('Extended');
             $this->get_connection()->extended->autoExecute($this->get_table_name('content_object_version'), $props, MDB2_AUTOQUERY_UPDATE, $this->escape_column_name(ContentObject :: PROPERTY_OBJECT_NUMBER) . '=' . $object->get_object_number());
         }
-
+        
         return true;
     }
 
@@ -432,7 +437,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
                 $this->delete_objects($this->get_table_name($type));
             }
         }
-
+        
         $this->delete_objects($this->get_table_name(ContentObject :: get_table_name()));
     }
 
@@ -440,7 +445,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $object->get_object_number());
         $version = $this->retrieve_record('content_object_version', $condition);
-
+        
         return ($version['id'] == $object->get_id() ? true : false);
     }
 
@@ -448,7 +453,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $condition = new EqualityCondition(Document :: PROPERTY_PATH, $path);
         $count = $this->count_objects(Document :: get_type_name(), $condition);
-
+        
         return ($count == 1 ? true : false);
     }
 
@@ -494,7 +499,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $subselect_condition = new EqualityCondition('content_object_id', $object->get_id());
         $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'include_id', 'content_object_include', $subselect_condition, ContentObject :: get_table_name());
         //return $this->retrieve_content_objects($condition)->as_array();;
-
+        
 
         return $this->retrieve_objects(ContentObject :: get_table_name(), $condition)->as_array();
     }
@@ -512,7 +517,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $conditions[] = new EqualityCondition('include_id', $include_object_id);
         $conditions[] = new EqualityCondition('content_object_id', $content_object->get_id());
         $condition = new AndCondition($conditions);
-
+        
         $count = $this->count_objects('content_object_include', $condition);
         return ($count > 0);
     }
@@ -520,28 +525,28 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_content_object_versions($object, $include_last = true)
     {
         $object_number = $object->get_object_number();
-
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $object_number);
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_STATE, $object->get_state());
-
+        
         if (! $include_last)
         {
             $subcond = new EqualityCondition('object_number', $object_number);
             $conditions[] = new NotCondition(new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', 'content_object_version', $subcond));
         }
-
+        
         $condition = new AndCondition($conditions);
-
+        
         $query = 'SELECT * FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
-
+        
         $objects = $this->retrieve_record_set($query, ContentObject :: get_table_name(), $condition);
-
+        
         while ($object = $objects->next_result())
         {
             $versions[] = $this->retrieve_content_object($object[ContentObject :: PROPERTY_ID]);
         }
-
+        
         return $versions;
     }
 
@@ -644,16 +649,16 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $condition = new EqualityCondition(ContentObject :: PROPERTY_OBJECT_NUMBER, $object->get_object_number());
         $order_by = array(new ObjectTableOrder(ContentObject :: PROPERTY_ID));
-
+        
         $version_ids = array();
         $query = 'SELECT ' . $this->escape_column_name(ContentObject :: PROPERTY_ID) . ' FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $this->get_alias(ContentObject :: get_table_name());
         $versions = $this->retrieve_record_set($query, ContentObject :: get_table_name(), $condition, null, null, $order_by);
-
+        
         while ($version = $versions->next_result())
         {
             $version_ids[] = $version['id'];
         }
-
+        
         return $version_ids;
     }
 
@@ -707,13 +712,13 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         }
         /*$defaultProp[ContentObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_CREATION_DATE]);
         $defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[ContentObject :: PROPERTY_MODIFICATION_DATE]);*/
-
+        
         $content_object = ContentObject :: factory($record[ContentObject :: PROPERTY_TYPE], $defaultProp);
-
+        
         if ($additional_properties_known)
         {
             $properties = $content_object->get_additional_property_names();
-
+            
             $additionalProp = array();
             if (count($properties) > 0)
             {
@@ -727,9 +732,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $additionalProp = null;
         }
-
+        
         $content_object->set_additional_properties($additionalProp);
-
+        
         return $content_object;
     }
 
@@ -774,7 +779,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition_owner = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $owner);
         $types = RepositoryDataManager :: get_registered_types();
         $co_alias = $this->get_alias(ContentObject :: get_table_name());
-
+        
         foreach ($types as $index => $type)
         {
             $class = ContentObject :: type_to_class($type);
@@ -803,13 +808,13 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
                 $match = new EqualityCondition(ContentObject :: PROPERTY_TYPE, $type);
                 $condition = new AndCondition(array($match, $condition_owner));
             }
-
+            
             if (isset($condition))
             {
                 $translator = new ConditionTranslator($this, $this->get_alias(ContentObject :: get_table_name()));
                 $query .= $translator->render_query($condition);
             }
-
+            
             $res = $this->query($query);
             $record = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
             $disk_space += $record->disk_space;
@@ -840,7 +845,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         }
         $query = 'SELECT COUNT(' . $this->escape_column_name('content_object_id', $this->get_alias('content_object_attachment')) . ') FROM ' . $this->escape_table_name('content_object_attachment') . ' AS ' . $this->get_alias('content_object_attachment');
         $count = $this->count_result_set($query, 'content_object_attachment', $condition);
-
+        
         return $count > 0;
         //        $query = 'SELECT COUNT(' . $this->escape_column_name("content_object_id") . ') FROM ' . $this->escape_table_name('content_object_attachment') . ' AS ' . self :: ALIAS_CONTENT_OBJECT_ATTACHMENT_TABLE . ' WHERE ' . self :: ALIAS_CONTENT_OBJECT_ATTACHMENT_TABLE . '.attachment_id';
     //        if (isset($type))
@@ -884,11 +889,11 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $this->get_connection()->loadModule('Extended');
         $this->get_connection()->extended->autoExecute($this->get_table_name(ComplexContentObjectItem :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
         $clo_item->set_id($this->get_connection()->extended->getAfterID($props[$this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID)], ComplexContentObjectItem :: get_table_name()));
-
+        
         if ($clo_item->is_extended())
         {
             $ref = $clo_item->get_ref();
-
+            
             $props = array();
             foreach ($clo_item->get_additional_properties() as $key => $value)
             {
@@ -898,7 +903,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             $type = $this->determine_content_object_type($ref);
             $this->get_connection()->extended->autoExecute($this->get_table_name('complex_' . $type), $props, MDB2_AUTOQUERY_INSERT);
         }
-
+        
         return true;
     }
 
@@ -910,7 +915,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function update_complex_content_object_item($clo_item)
     {
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $clo_item->get_id(), ComplexContentObjectItem :: get_table_name());
-
+        
         $props = array();
         foreach ($clo_item->get_default_properties() as $key => $value)
         {
@@ -923,7 +928,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         if ($clo_item->is_extended())
         {
             $ref = $clo_item->get_ref();
-
+            
             $props = array();
             foreach ($clo_item->get_additional_properties() as $key => $value)
             {
@@ -943,46 +948,46 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function delete_complex_content_object_item($clo_item)
     {
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $clo_item->get_id());
-
+        
         $query = 'DELETE FROM ' . $this->escape_table_name(ComplexContentObjectItem :: get_table_name());
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
-
+        
         //$this->set_limit(1);
         $res = $this->query($query);
         $res->free();
-
+        
         if ($clo_item->is_extended())
         {
             $ref = $clo_item->get_ref();
-
+            
             $type = $this->determine_content_object_type($ref);
             $query = 'DELETE FROM ' . $this->get_table_name('complex_' . $type);
-
+            
             if (isset($condition))
             {
                 $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
             }
-
+            
             //$this->set_limit(1);
             $this->query($query);
         }
-
+        
         $conditions = array();
         $conditions[] = new InequalityCondition(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, InequalityCondition :: GREATER_THAN, $clo_item->get_display_order());
         $conditions[] = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $clo_item->get_parent());
         $condition = new AndCondition($conditions);
         $properties[ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER] = $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER) . '-1';
-
+        
         $this->update_objects(ComplexContentObjectItem :: get_table_name(), $properties, $condition);
-
+        
         return true;
-
+    
     }
 
     function delete_complex_content_object_items($condition)
@@ -999,36 +1004,36 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         // Retrieve main table
         $query = 'SELECT * FROM ' . $this->escape_table_name(ComplexContentObjectItem :: get_table_name()) . ' AS ' . $this->get_alias(ComplexContentObjectItem :: get_table_name());
-
+        
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $clo_item_id, ComplexContentObjectItem :: get_table_name());
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this);
             $query .= $translator->render_query($condition);
         }
-
+        
         $this->set_limit(1);
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         if (! $record)
             return null;
-
+            
         // Determine type
-
+        
 
         $res->free();
-
+        
         $ref = $record[ComplexContentObjectItem :: PROPERTY_REF];
-
+        
         $type = $this->determine_content_object_type($ref);
         $cloi = ComplexContentObjectItem :: factory($type, array(), array());
-
+        
         $bool = false;
-
+        
         if ($cloi->is_extended())
             $bool = true;
-
+        
         return self :: record_to_complex_content_object_item($record, $type, $bool);
     }
 
@@ -1043,47 +1048,47 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
         }
-
+        
         $cloi = ComplexContentObjectItem :: factory($type, array(), array());
-
+        
         $defaultProp = array();
         foreach ($cloi->get_default_property_names() as $prop)
         {
             $defaultProp[$prop] = $record[$prop];
         }
         $cloi->set_default_properties($defaultProp);
-
+        
         if ($additional_properties_known && $type && $cloi->is_extended())
         {
             $additionalProp = array();
-
+            
             $query = 'SELECT * FROM ' . $this->escape_table_name('complex_' . $type) . ' AS ' . self :: ALIAS_TYPE_TABLE;
-
+            
             $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_ID, $record['id']);
-
+            
             if (isset($condition))
             {
                 $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
             }
-
+            
             $this->set_limit(1);
             $res = $this->query($query);
             $rec2 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
             $res->free();
-
+            
             foreach ($cloi->get_additional_property_names() as $prop)
             {
                 $additionalProp[$prop] = $rec2[$prop];
             }
-
+            
             $cloi->set_additional_properties($additionalProp);
         }
         else
         {
             $additionalProp = null;
         }
-
+        
         return $cloi;
     }
 
@@ -1104,13 +1109,13 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_complex_content_object_items($condition = null, $order_by = array (), $offset = 0, $max_objects = -1, $type = null)
     {
         $alias = $this->get_alias(ComplexContentObjectItem :: get_table_name());
-
+        
         $query = 'SELECT ' . $alias . '.* FROM ' . $this->escape_table_name(ComplexContentObjectItem :: get_table_name()) . ' AS ' . $alias;
-
+        
         if (isset($type))
         {
             $alias_type_table = $this->get_alias($type);
-
+            
             switch ($type)
             {
                 case 'complex_wiki_page' :
@@ -1118,17 +1123,17 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             }
         }
         $lo_alias = $this->get_alias(ContentObject :: get_table_name());
-
+        
         $query .= ' JOIN ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $lo_alias . ' ON ' . $alias . '.ref_id=' . $lo_alias . '.id';
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $alias);
             $query .= $translator->render_query($condition);
         }
-
+        
         $order_by[] = new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, SORT_ASC, $alias);
-
+        
         $orders = array();
         foreach ($order_by as $order)
         {
@@ -1139,15 +1144,15 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $query .= ' ORDER BY ' . implode(', ', $orders);
         }
-
+        
         if ($max_objects < 0)
         {
             $max_objects = null;
         }
-
+        
         $this->set_limit(intval($max_objects), intval($offset));
         $res = $this->query($query);
-
+        
         return new DatabaseComplexContentObjectItemResultSet($this, $res, true);
     }
 
@@ -1164,7 +1169,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function select_next_display_order($parent_id)
     {
         $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $parent_id);
-
+        
         return $this->retrieve_next_sort_value(ComplexContentObjectItem :: get_table_name(), ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER, $condition);
     }
 
@@ -1172,7 +1177,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $condition = new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_id());
         $succes = $this->delete(RepositoryCategory :: get_table_name(), $condition);
-
+        
         // Correct the diplsay order of the remaining categories
         $conditions = array();
         $conditions[] = new InequalityCondition(RepositoryCategory :: PROPERTY_DISPLAY_ORDER, InequalityCondition :: GREATER_THAN, $category->get_display_order());
@@ -1180,19 +1185,19 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition = new AndCondition($conditions);
         $properties = array(RepositoryCategory :: PROPERTY_DISPLAY_ORDER => ($this->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER) . '-1'));
         $this->update_objects(RepositoryCategory :: get_table_name(), $properties, $condition);
-
+        
         // Move the objecs in the category to the garbage bin
         $condition = new EqualityCondition(ContentObject :: PROPERTY_PARENT_ID, $category->get_id());
         $properties = array(ContentObject :: PROPERTY_STATE => '1');
         $this->update_objects(ContentObject :: get_table_name(), $properties, $condition);
-
+        
         // Delete all subcategories by recursively repeating the entire process
         $categories = $this->retrieve_categories(new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $category->get_id()));
         while ($category = $categories->next_result())
         {
             $this->delete_category($category);
         }
-
+        
         return $succes;
     }
 
@@ -1207,6 +1212,11 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->create($category);
     }
 
+    function create_external_repository($external_repository)
+    {
+        return $this->create($external_repository);
+    }
+
     function count_categories($conditions = null)
     {
         return $this->count_objects(RepositoryCategory :: get_table_name(), $conditions);
@@ -1218,7 +1228,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $order_property = array($order_property);
         }
-
+        
         $order_property[] = new ObjectTableOrder(RepositoryCategory :: PROPERTY_PARENT);
         $order_property[] = new ObjectTableOrder(RepositoryCategory :: PROPERTY_DISPLAY_ORDER);
         return $this->retrieve_objects(RepositoryCategory :: get_table_name(), $condition, $offset, $count, $order_property);
@@ -1229,7 +1239,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $parent_category_id);
         $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $user_id);
         $condition = new AndCondition($conditions);
-
+        
         return $this->retrieve_next_sort_value(RepositoryCategory :: get_table_name(), RepositoryCategory :: PROPERTY_DISPLAY_ORDER, $condition);
     }
 
@@ -1237,10 +1247,10 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $condition = new EqualityCondition(UserView :: PROPERTY_ID, $user_view->get_id());
         $success = $this->delete(UserView :: get_table_name(), $condition);
-
+        
         $condition = new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $user_view->get_id());
         $success &= $this->delete(UserViewRelContentObject :: get_table_name(), $condition);
-
+        
         return $success;
     }
 
@@ -1269,9 +1279,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $user_view_rel_content_object->get_view_id());
         $conditions[] = new EqualityCondition(UserViewRelContentObject :: PROPERTY_CONTENT_OBJECT_TYPE, $user_view_rel_content_object->get_content_object_type());
-
+        
         $condition = new AndCondition($conditions);
-
+        
         return $this->update($user_view_rel_content_object, $condition);
     }
 
@@ -1281,7 +1291,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_CLOI_ID, $content_object_pub_feedback->get_cloi_id());
         $conditions[] = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $content_object_pub_feedback->get_feedback_id());
         $condition = new AndCondition($conditions);
-
+        
         return $this->update($content_object_pub_feedback, $condition);
     }
 
@@ -1308,9 +1318,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function delete_content_object_pub_feedback($content_object_pub_feedback)
     {
         $condition = new EqualityCondition(ContentObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $content_object_pub_feedback->get_feedback_id());
-
+        
         $success = $this->delete(ContentObjectPubFeedback :: get_table_name(), $condition);
-
+        
         return $success;
     }
 
@@ -1318,7 +1328,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $condition = new EqualityCondition(UserViewRelContentObject :: PROPERTY_VIEW_ID, $user_view->get_id());
         $properties[UserViewRelContentObject :: PROPERTY_VISIBILITY] = '0';
-
+        
         return $this->update_objects(UserViewRelContentObject :: get_table_name(), $properties, $condition);
     }
 
@@ -1328,7 +1338,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $complex_item_alias_bis = $this->get_alias(ComplexContentObjectItem :: get_table_name() . '_bis');
         $forum_alias = $this->get_alias('forum');
         $forum_topic_alias = $this->get_alias('forum_topic');
-
+        
         $query = 'SELECT ' . $complex_item_alias . '.*';
         $query .= ' FROM ' . $this->escape_table_name(ComplexContentObjectItem :: get_table_name()) . ' AS ' . $complex_item_alias;
         $query .= ' LEFT JOIN ' . $this->escape_table_name('forum') . ' AS ' . $forum_alias . ' ON ' . $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_REF, $complex_item_alias) . ' = ' . $this->escape_column_name(Forum :: PROPERTY_ID, $forum_alias);
@@ -1337,15 +1347,15 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $query .= ' OR ' . $this->escape_column_name(ForumTopic :: PROPERTY_LAST_POST, $forum_topic_alias) . ' = ' . $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ID, $complex_item_alias_bis);
         $query .= ' WHERE ' . $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_PARENT, $complex_item_alias) . '=' . $this->quote($forum_id);
         $query .= ' ORDER BY ' . $this->escape_column_name(ComplexContentObjectItem :: PROPERTY_ADD_DATE, $complex_item_alias_bis) . 'DESC';
-
+        
         $this->set_limit(1);
         $res = $this->query($query);
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         $res->free();
-
+        
         $object_reference = $record[ComplexContentObjectItem :: PROPERTY_REF];
         $object_type = $this->determine_content_object_type($object_reference);
-
+        
         if ($record)
             return $this->record_to_complex_content_object_item($record, $object_type, true);
     }
@@ -1357,20 +1367,20 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $content_object_metadata->set_creation_date($content_object_metadata->get_creation_date());
         }
-
+        
         return $this->create($content_object_metadata);
     }
 
     function update_content_object_metadata($content_object_metadata)
     {
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata->get_id());
-
+        
         $date = $content_object_metadata->get_modification_date();
         if (is_numeric($date))
         {
             $content_object_metadata->set_modification_date($content_object_metadata->get_modification_date());
         }
-
+        
         return $this->update($content_object_metadata, $condition);
     }
 
@@ -1391,7 +1401,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $catalog_name = StringUtilities :: escape_mysql($catalog_name);
             $entry_value = StringUtilities :: escape_mysql($entry_value);
-
+            
             $query = 'SELECT count(*) as total, content_object_id FROM repository_content_object_metadata
                 WHERE
                 (property LIKE \'general_identifier[%][catalog]\' AND value = \'' . $catalog_name . '\')
@@ -1399,7 +1409,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
                 (property LIKE \'general_identifier[%][entry]\' AND value = \'' . $entry_value . '\')
                 GROUP BY content_object_id
                 HAVING total=2';
-
+            
             return $this->retrieve_object_set($query, 'repository_content_object_metadata', null, null, null, null, 'ContentObjectMetadata');
         }
     }
@@ -1411,20 +1421,20 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $content_object_metadata_catalog->set_creation_date($content_object_metadata_catalog->get_creation_date());
         }
-
+        
         return $this->create($content_object_metadata_catalog);
     }
 
     function update_content_object_metadata_catalog($content_object_metadata_catalog)
     {
         $condition = new EqualityCondition(ContentObjectMetadata :: PROPERTY_ID, $content_object_metadata_catalog->get_id());
-
+        
         $date = $content_object_metadata_catalog->get_modification_date();
         if (is_numeric($date))
         {
             $content_object_metadata_catalog->set_modification_date($content_object_metadata_catalog->get_modification_date());
         }
-
+        
         return $this->update($content_object_metadata_catalog, $condition);
     }
 
@@ -1443,9 +1453,31 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->get_connection()->extended->autoExecute($this->get_table_name(ComplexContentObjectItem :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $condition);
     }
 
-    function retrieve_external_repository($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    function retrieve_external_repository_condition($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+
+    function retrieve_external_repository($external_repository_id)
+    {
+        $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository_id);
+        return $this->retrieve_object(ExternalRepository :: get_table_name(), $condition);
+    }
+
+    function retrieve_external_repositories($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(ExternalRepository :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+
+    function count_external_repositories($condition = null)
+    {
+        return $this->count_objects(ExternalRepository :: get_table_name(), $condition);
+    }
+
+    function retrieve_active_external_repository_types()
+    {
+        $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ENABLED, 1);
+        return $this->retrieve_distinct(ExternalRepository :: get_table_name(), ExternalRepository :: PROPERTY_TYPE, $condition);
     }
 
     function retrieve_external_repository_fedora($condition = null, $offset = null, $max_objects = null, $order_by = null)
@@ -1460,7 +1492,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 	     */
         $after_from_position = stripos($query, 'from') + 4;
         $sub_query = trim(substr($query, $after_from_position));
-
+        
         if (stripos($sub_query, ' ') !== false)
         {
             $real_table_name = trim(substr($sub_query, 0, stripos($query, ' ')));
@@ -1469,21 +1501,21 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $real_table_name = $sub_query;
         }
-
+        
         $after_table_position = stripos($query, $real_table_name) + strlen($real_table_name);
         $alias = $this->get_alias('Catalog');
         $query = substr($query, 0, $after_table_position) . ' AS ' . $alias . ' ' . substr($query, $after_table_position);
-
+        
         if (isset($condition))
         {
             $condition->set_storage_unit('Catalog');
         }
-
+        
         if (isset($order_by))
         {
             $order_by->set_alias($alias);
         }
-
+        
         return $this->retrieve_object_set($query, $table_name, $condition, $offset, $max_objects, $order_by);
     }
 
@@ -1494,21 +1526,32 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             $external_repository_sync_info->set_creation_date($external_repository_sync_info->get_creation_date());
         }
-
+        
         return $this->create($external_repository_sync_info);
+    }
+
+    function create_external_repository_sync($external_repository_sync)
+    {
+        return $this->create($external_repository_sync);
     }
 
     function update_external_repository_sync_info($external_repository_sync_info)
     {
         $condition = new EqualityCondition(ExternalRepositorySyncInfo :: PROPERTY_ID, $external_repository_sync_info->get_id());
-
+        
         $date = $external_repository_sync_info->get_modification_date();
         if (is_numeric($date))
         {
             $external_repository_sync_info->set_modification_date($external_repository_sync_info->get_modification_date());
         }
-
+        
         return $this->update($external_repository_sync_info, $condition);
+    }
+
+    function update_external_repository_sync($external_repository_sync)
+    {
+        $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_ID, $external_repository_sync->get_id());
+        return $this->update($external_repository_sync, $condition);
     }
 
     function delete_external_repository_sync_info($external_repository_sync_info)
@@ -1517,41 +1560,20 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->delete($external_repository_sync_info->get_table_name(), $condition);
     }
 
-    function retrieve_external_repository_sync_info($conditions)
+    function delete_external_repository_sync($external_repository_sync)
     {
-        $record = $this->retrieve_record(ExternalRepositorySyncInfo :: get_table_name(), $conditions);
-
-        return self :: record_to_object($record, 'ExternalRepositorySyncInfo');
+        $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_ID, $external_repository_sync->get_id());
+        return $this->delete($external_repository_sync->get_table_name(), $condition);
     }
 
-    function record_to_object($record, $object_class_name)
+    function retrieve_external_repository_sync_info($conditions)
     {
-        //DebugUtilities::show($record);
+        return $this->retrieve_object(ExternalRepositorySyncInfo :: get_table_name(), $condition);
+    }
 
-
-        if ($record !== false)
-        {
-            //$object = new $object_class_name;
-
-
-            $properties = call_user_func(array($object_class_name, 'get_default_property_names'));
-
-            $default_properties = array();
-
-            foreach ($properties as $property)
-            {
-                if (array_key_exists($property, $record))
-                {
-                    $default_properties[$property] = $record[$property];
-                }
-            }
-
-            return new $object_class_name($default_properties);
-        }
-        else
-        {
-            return null;
-        }
+    function retrieve_external_repository_sync($condition)
+    {
+        return $this->retrieve_object(ExternalRepositorySync :: get_table_name(), $condition);
     }
 
     function delete_content_object_includes($object)
@@ -1564,30 +1586,30 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function delete_assisting_content_objects($object)
     {
         $assisting_types = array(LearningPathItem :: get_type_name(), PortfolioItem :: get_type_name());
-
+        
         $failures = 0;
-
+        
         foreach ($assisting_types as $type)
         {
             $sub_condition = new EqualityCondition('reference_id', $object->get_id());
             $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'id', $type, $sub_condition, ContentObject :: get_table_name());
             $assisting_objects = $this->retrieve_content_objects($condition);
-
+            
             while ($assisting_object = $assisting_objects->next_result())
             {
                 if (! RepositoryDataManager :: delete_clois_for_content_object($assisting_object))
                 {
                     $failures ++;
                 }
-
+                
                 if (! $assisting_object->delete())
                 {
                     $failures ++;
                 }
             }
-
+        
         }
-
+        
         return ($failures == 0);
     }
 
@@ -1597,18 +1619,18 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $co_alias = $this->get_alias(ContentObject :: get_table_name());
         $version_table = $this->escape_table_name('content_object_version');
         $version_alias = $this->get_alias('content_object_version');
-
+        
         $sql = 'SELECT ' . $co_alias . '.id, title, description, type, count(content_hash) as content_hash FROM ' . $co_table . ' as ' . $co_alias . '
 				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias . '.id = ' . $version_alias . '.id';
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $co_alias);
             $sql .= $translator->render_query($condition);
         }
-
+        
         $sql .= ' GROUP BY content_hash HAVING count(content_hash) > 1';
-
+        
         return $this->retrieve_object_set($sql, ContentObject :: get_table_name(), null, $offset, $count, $order_property);
     }
 
@@ -1618,20 +1640,133 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $co_alias = $this->get_alias(ContentObject :: get_table_name());
         $version_table = $this->escape_table_name('content_object_version');
         $version_alias = $this->get_alias('content_object_version');
-
+        
         $sql = 'SELECT COUNT(*) FROM ' . $co_table . ' as ' . $co_alias . '
 				JOIN ' . $version_table . ' as ' . $version_alias . ' ON ' . $co_alias . '.id = ' . $version_alias . '.id';
-
+        
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $co_alias);
             $sql .= $translator->render_query($condition);
         }
-
+        
         $sql .= ' GROUP BY content_hash HAVING count(content_hash) > 1';
-
+        
         return $this->count_result_set($sql, ContentObject :: get_table_name());
     }
 
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#create_external_repository_setting()
+     */
+    function create_external_repository_setting(ExternalRepositorySetting $external_repository_setting)
+    {
+        return $this->create($external_repository_setting);
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#update_external_repository_setting()
+     */
+    function update_external_repository_setting(ExternalRepositorySetting $external_repository_setting)
+    {
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_ID, $external_repository_setting->get_id());
+        return $this->update($external_repository_setting, $condition);
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#delete_external_repository_setting()
+     */
+    function delete_external_repository_setting(ExternalRepositorySetting $external_repository_setting)
+    {
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_ID, $external_repository_setting->get_id());
+        return $this->delete($external_repository_setting->get_table_name(), $condition);
+    }
+
+    /**
+     * @param int $id
+     */
+    function retrieve_external_repository_setting($id)
+    {
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_ID, $id);
+        return $this->retrieve_object(ExternalRepositorySetting :: get_table_name(), $condition);
+    
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#retrieve_external_repository_settings()
+     */
+    function retrieve_external_repository_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
+    {
+        return $this->retrieve_objects(ExternalRepositorySetting :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+
+    /**
+     * @param int $id
+     */
+    function retrieve_external_repository_user_setting($id)
+    {
+        $condition = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_ID, $id);
+        return $this->retrieve_object(ExternalRepositoryUserSetting :: get_table_name(), $condition);
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#retrieve_external_repository_settings()
+     */
+    function retrieve_external_repository_user_settings($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
+    {
+        return $this->retrieve_objects(ExternalRepositoryUserSetting :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+
+    function retrieve_external_repository_setting_from_variable_name($variable, $external_repository_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
+        $conditions[] = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_VARIABLE, $variable);
+        $condition = new AndCondition($conditions);
+        
+        return $this->retrieve_object(ExternalRepositorySetting :: get_table_name(), $condition);
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#create_external_repository_setting()
+     */
+    function create_external_repository_user_setting(ExternalRepositoryUserSetting $external_repository_user_setting)
+    {
+        return $this->create($external_repository_user_setting);
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#update_external_repository_setting()
+     */
+    function update_external_repository_user_setting(ExternalRepositoryUserSetting $external_repository_user_setting)
+    {
+        $condition = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_ID, $external_repository_user_setting->get_id());
+        return $this->update($external_repository_user_setting, $condition);
+    }
+
+    /* (non-PHPdoc)
+     * @see repository/lib/RepositoryDataManagerInterface#delete_external_repository_setting()
+     */
+    function delete_external_repository_user_setting(ExternalRepositoryUserSetting $external_repository_user_setting)
+    {
+        $condition = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_ID, $external_repository_user_setting->get_id());
+        return $this->delete($external_repository_user_setting->get_table_name(), $condition);
+    }
+
+    function delete_external_repository_user_settings($condition = null)
+    {
+        return $this->delete_objects(ExternalRepositoryUserSetting :: get_table_name(), $condition);
+    }
+
+    function update_external_repository($external_repository)
+    {
+        $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository->get_id());
+        return $this->update($external_repository, $condition);
+    }
+
+    function delete_external_repository($external_repository)
+    {
+        $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository->get_id());
+        return $this->delete(ExternalRepository :: get_table_name(), $condition);
+    }
 }
 ?>
