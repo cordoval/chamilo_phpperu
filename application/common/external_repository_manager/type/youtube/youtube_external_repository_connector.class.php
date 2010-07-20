@@ -252,6 +252,7 @@ class YoutubeExternalRepositoryConnector
 
             $object = new YoutubeExternalRepositoryObject();
             $object->set_id($videoEntry->getVideoId());
+            $object->set_external_repository_id($this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
             $object->set_title($videoEntry->getVideoTitle());
             $object->set_description(nl2br($videoEntry->getVideoDescription()));
             $object->set_created($published_timestamp);
@@ -317,6 +318,7 @@ class YoutubeExternalRepositoryConnector
 
         $object = new YoutubeExternalRepositoryObject();
         $object->set_id($videoEntry->getVideoId());
+        $object->set_external_repository_id($this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
         $object->set_title($videoEntry->getVideoTitle());
         $object->set_description(nl2br($videoEntry->getVideoDescription()));
         $object->set_owner_id($author->getName()->getText());

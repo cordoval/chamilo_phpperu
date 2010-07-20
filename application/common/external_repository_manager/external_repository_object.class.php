@@ -6,7 +6,13 @@ abstract class ExternalRepositoryObject
      */
     private $default_properties;
 
+    /**
+     * @var ExternalRepositorySync
+     */
+    private $synchronisation_data;
+
     const PROPERTY_ID = 'id';
+    const PROPERTY_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_OWNER_ID = 'owner_id';
@@ -34,6 +40,7 @@ abstract class ExternalRepositoryObject
     static function get_default_property_names($extended_property_names = array())
     {
         $extended_property_names[] = self :: PROPERTY_ID;
+        $extended_property_names[] = self :: PROPERTY_EXTERNAL_REPOSITORY_ID;
         $extended_property_names[] = self :: PROPERTY_TITLE;
         $extended_property_names[] = self :: PROPERTY_DESCRIPTION;
         $extended_property_names[] = self :: PROPERTY_OWNER_ID;
@@ -90,6 +97,14 @@ abstract class ExternalRepositoryObject
     public function get_id()
     {
         return $this->get_default_property(self :: PROPERTY_ID);
+    }
+
+    /**
+     * @return int
+     */
+    public function get_external_repository_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_ID);
     }
 
     /**
@@ -171,6 +186,14 @@ abstract class ExternalRepositoryObject
     }
 
     /**
+     * @param int $external_repository_id
+     */
+    public function set_external_repository_id($external_repository_id)
+    {
+        $this->set_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
+    }
+
+    /**
      * @param string $description
      */
     public function set_description($description)
@@ -229,32 +252,74 @@ abstract class ExternalRepositoryObject
         return $this->get_type();
     }
 
+    /**
+     * @return string
+     */
     function get_icon_image()
     {
         $src = Theme :: get_common_image_path() . 'external_repository/' . $this->get_object_type() . '/types/' . $this->get_icon_name() . '.png';
         return '<img src="' . $src . '" alt="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" title="' . htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($this->get_type()))) . '" />';
     }
 
+    /**
+     * @return string
+     */
     abstract static function get_object_type();
 
+    /**
+     * @return boolean
+     */
     function is_usable()
     {
         return $this->get_right(self :: RIGHT_USE);
     }
 
+    /**
+     * @return boolean
+     */
     function is_editable()
     {
         return $this->get_right(self :: RIGHT_EDIT);
     }
 
+    /**
+     * @return boolean
+     */
     function is_deletable()
     {
         return $this->get_right(self :: RIGHT_DELETE);
     }
 
+    /**
+     * @return boolean
+     */
     function is_downloadable()
     {
         return $this->get_right(self :: RIGHT_DOWNLOAD);
+    }
+
+    function get_synchronisation_data()
+    {
+        if (! isset($this->sync_data))
+        {
+            $sync_conditions = array();
+            $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID, $this->get_id());
+            $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_external_repository_id());
+            $sync_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id(), ContentObject :: get_table_name());
+            $sync_condition = new AndCondition($sync_conditions);
+
+            $this->synchronisation_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_sync($sync_condition);
+        }
+
+        return $this->synchronisation_data;
+    }
+
+    /**
+     * @return boolean
+     */
+    function is_importable()
+    {
+        return !$this->get_synchronisation_data() instanceof ExternalRepositorySync;
     }
 }
 ?>

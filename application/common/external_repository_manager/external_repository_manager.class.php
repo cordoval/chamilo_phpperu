@@ -13,6 +13,7 @@ abstract class ExternalRepositoryManager extends SubManager
     const ACTION_EDIT_EXTERNAL_REPOSITORY = 'edit';
     const ACTION_DELETE_EXTERNAL_REPOSITORY = 'delete';
     const ACTION_CONFIGURE_EXTERNAL_REPOSITORY = 'configure';
+    const ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY = 'synchronize';
 
     const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PARAM_EXTERNAL_REPOSITORY = 'external_repository';
@@ -311,7 +312,14 @@ abstract class ExternalRepositoryManager extends SubManager
             }
             else
             {
-                $toolbar_items[] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                if ($object->is_importable())
+                {
+                    $toolbar_items[] = new ToolbarItem(Translation :: get('Import'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                }
+                else
+                {
+                    $toolbar_items[] = new ToolbarItem(Translation :: get('Synchronize'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                }
             }
         }
 

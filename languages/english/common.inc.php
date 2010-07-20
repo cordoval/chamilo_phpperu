@@ -792,4 +792,5 @@ $lang['common']['ConfigureTitle'] = 'Settings';
 
 $lang['common']['MyFolders'] = 'My folders';
 $lang['common']['SharedFolders'] = 'Shared folders';
+$lang['common']['ExternalObjectAlreadyImported'] = 'You already imported this object into your personal repository. You can synchronize the properties of the imported object, but it\'s not possible to import the object a second time.';
 ?>
