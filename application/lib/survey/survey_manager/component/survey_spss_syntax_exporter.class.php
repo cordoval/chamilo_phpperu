@@ -22,17 +22,18 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
     const GROUP_DESCRIPTION = 'group_description';
     
     const CASE_USER_ID = 'user';
-    const CASE_PARTICIPANT_ID = 'participant_id';
+    const CASE_TEMPLATE_LEVEL = 'template_level';
     const CASE_TEMPLATE_ID = 'template_id';
+    const CASE_CONTEXT_ID = 'context_id';
     const CASE_PARTICIPANT = 'participant';
     const CASE_PARTICIPANTS = 'participants';
     
-    const CONTEXT = 'context';
+    const CONTEXT = 'context Level:';
     const CONTEXT_NAME_VALUES = 'context_name_values';
     const CONTEXT_NAME_VALUE = 'context_name_value';
     const CONTEXT_NAME_ID = 'context_name_id';
     
-    const CONTEXT_TYPE = 'context_type';
+    const CONTEXT_TYPE = 'context type Level:';
     const CONTEXT_TYPE_NAME_VALUES = 'context_type_name_values';
     const CONTEXT_TYPE_NAME_VALUE = 'context_type_name_value';
     const CONTEXT_TYPE_NAME_ID = 'context_type_name_id';
@@ -57,15 +58,21 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
     private $cases;
     //    private $trackers;
     private $surveys;
+    private $publication_ids;
     private $questions;
     private $all_questions;
     
     private $variable_encodings;
     private $variable_list;
-    private $data_matrix;
-    private $context_variables;
-    private $contexts;
-    private $context_types;
+    private $template_levels;
+    
+    private $answer_matrix;
+
+    //    private $participant_ids;
+    //    private $context_variables;
+    //    private $contexts;
+    //    private $context_types;
+    
 
     /**
      * Runs this component and displays its output.
@@ -79,11 +86,15 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         {
             $ids = array($ids);
         }
-        $this->create_cases($ids);
-        $this->create_variable_encoding();
-        //        $this->create_raw_data_set();
         
-
+        $this->set_publication_ids($ids);
+//        
+//        $this->get_cases();
+//        exit;
+        
+        //        $this->create_cases($ids);
+        $this->create_variable_encoding();
+        
         $this->render_data();
     
     }
@@ -92,22 +103,17 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
     {
         
         $filename = 'spss_syntax.sps';
-        $this->get_content($filename);
         $temp_directory = Path :: get_temp_path();
         $path = $temp_directory . $filename;
+        
+        $this->get_content($path);
+        
         Filesystem :: file_send_for_download($path, true, $filename);
         Filesystem :: remove($path);
-        
-    //    	$content = $this->get_content();
-    //        $filename = 'spss_syntax.sps';
-    //        $temp_directory = Path :: get_temp_path();
-    //        $path = $temp_directory . $filename;
-    //        Filesystem :: write_to_file($path, $content);
-    //        Filesystem :: file_send_for_download($path, true, $filename);
-    //        Filesystem :: remove($path);
+    
     }
 
-    private function create_variable_encoding()
+    private function create_variable_encoding($ids)
     {
         
         //test
@@ -125,7 +131,7 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         $this->variable_list[self :: CASE_USER_ID] = $variable_name . $var_index;
         
         $variable_encoding[self :: VARIABLE_QUESTION_ID] = - 1;
-        $variable_encoding[self :: VARIABLE_LABEL] = CASE_USER_ID;
+        $variable_encoding[self :: VARIABLE_LABEL] = self :: CASE_USER_ID;
         $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
         $this->variable_list[self :: SCALE_NOMINAL][$variable_encoding[self :: VARIABLE_QUESTION_ID]] = $variable_encoding[self :: VARIABLE_NAME];
         $variable_encoding[self :: VARIABLE_TYPE] = 'numeric';
@@ -136,90 +142,70 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         $this->variable_encodings[$variable_name . $var_index] = $variable_encoding;
         $var_index ++;
         
-        //        $variable_encoding = array();
-        //        $variable_encoding[self :: VARIABLE_NAME] = $variable_name . $var_index;
-        //        $this->variable_list[self :: GROUP] = $variable_name . $var_index;
-        //        
-        //        $variable_encoding[self :: VARIABLE_QUESTION_ID] = 0;
-        //        $variable_encoding[self :: VARIABLE_LABEL] = self :: GROUP;
-        //        $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
-        //        $this->variable_list[self :: SCALE_NOMINAL][$variable_encoding[self :: VARIABLE_QUESTION_ID]] = $variable_encoding[self :: VARIABLE_NAME];
-        //        $variable_encoding[self :: VARIABLE_TYPE] = 'numeric';
-        //        $variable_encoding[self :: VARIABLE_TYPE_FORMAT] = '(F6.0)';
-        //        $variable_encoding[self :: VARIABLE_MISSING_VALUE] = self :: MISSING_VALUE;
-        //        $variable_encoding[self :: VARIABLE_NR] = $var_index;
-        //        
-        //        $groups = $this->participants[self :: GROUPS];
-        //        $values = array();
-        //        foreach ($groups as $id => $group)
-        //        {
-        //            $values[$id] = $group[self :: GROUP_DESCRIPTION];
-        //        }
-        //        
-        //
-        //        $variable_encoding[self :: VARIABLE_VALUES] = $values;
-        //        
-        //        $this->variable_encodings[$variable_name . $var_index] = $variable_encoding;
-        //        $var_index ++;
-        
-
         //for each level in the template structure we need a context en context_type variable
         
 
-        $variable_encoding = array();
-        $variable_encoding[self :: VARIABLE_NAME] = $variable_name . $var_index;
-        $this->variable_list[self :: CONTEXT] = $variable_name . $var_index;
-        $variable_encoding[self :: VARIABLE_QUESTION_ID] = - 2;
-        $variable_encoding[self :: VARIABLE_LABEL] = self :: CONTEXT;
-        $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
-        $this->variable_list[self :: SCALE_NOMINAL][$variable_encoding[self :: VARIABLE_QUESTION_ID]] = $variable_encoding[self :: VARIABLE_NAME];
-        $variable_encoding[self :: VARIABLE_TYPE] = 'numeric';
-        $variable_encoding[self :: VARIABLE_TYPE_FORMAT] = '(F6.0)';
-        $variable_encoding[self :: VARIABLE_MISSING_VALUE] = self :: MISSING_VALUE;
-        $variable_encoding[self :: VARIABLE_NR] = $var_index;
-        
-        $contexts = $this->contexts;
-        $values = array();
-        foreach ($contexts as $id => $context)
+        $context_variables = $this->get_context_variables($this->get_publication_ids());
+        //        dump($this->context_variables);
+        //        exit();
+        foreach ($context_variables as $level => $context_variable)
         {
-            $values[$id] = $context;
+            $variable_encoding = array();
+            $variable_encoding[self :: VARIABLE_NAME] = $variable_name . $var_index;
+            $this->variable_list[self :: CONTEXT . $level] = $variable_name . $var_index;
+            $variable_encoding[self :: VARIABLE_QUESTION_ID] = - 2;
+            $variable_encoding[self :: VARIABLE_LABEL] = self :: CONTEXT . $level;
+            $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
+            $this->variable_list[self :: SCALE_NOMINAL][$variable_encoding[self :: VARIABLE_QUESTION_ID]] = $variable_encoding[self :: VARIABLE_NAME];
+            $variable_encoding[self :: VARIABLE_TYPE] = 'numeric';
+            $variable_encoding[self :: VARIABLE_TYPE_FORMAT] = '(F6.0)';
+            $variable_encoding[self :: VARIABLE_MISSING_VALUE] = self :: MISSING_VALUE;
+            $variable_encoding[self :: VARIABLE_NR] = $var_index;
+            
+            $contexts = $context_variable[self :: CONTEXT_NAME_VALUES];
+            $values = array();
+            foreach ($contexts as $id => $context)
+            {
+                $values[$context[self :: CONTEXT_NAME_ID]] = $context[self :: CONTEXT_NAME_VALUE];
+            }
+            $variable_encoding[self :: VARIABLE_VALUES] = $values;
+            
+            $this->variable_encodings[$variable_name . $var_index] = $variable_encoding;
+            $var_index ++;
+            
+            $variable_encoding = array();
+            $variable_encoding[self :: VARIABLE_NAME] = $variable_name . $var_index;
+            $this->variable_list[self :: CONTEXT_TYPE . $level] = $variable_name . $var_index;
+            $variable_encoding[self :: VARIABLE_QUESTION_ID] = - 3;
+            $variable_encoding[self :: VARIABLE_LABEL] = self :: CONTEXT_TYPE . $level;
+            ;
+            $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
+            $this->variable_list[self :: SCALE_NOMINAL][$variable_encoding[self :: VARIABLE_QUESTION_ID]] = $variable_encoding[self :: VARIABLE_NAME];
+            $variable_encoding[self :: VARIABLE_TYPE] = 'numeric';
+            $variable_encoding[self :: VARIABLE_TYPE_FORMAT] = '(F6.0)';
+            $variable_encoding[self :: VARIABLE_MISSING_VALUE] = self :: MISSING_VALUE;
+            $variable_encoding[self :: VARIABLE_NR] = $var_index;
+            
+            $context_types = $context_variable[self :: CONTEXT_TYPE_NAME_VALUES];
+            $values = array();
+            foreach ($context_types as $context_type)
+            {
+                $values[$context_type[self :: CONTEXT_TYPE_NAME_ID]] = $context_type[self :: CONTEXT_TYPE_NAME_VALUE];
+            }
+            
+            $variable_encoding[self :: VARIABLE_VALUES] = $values;
+            $this->variable_encodings[$variable_name . $var_index] = $variable_encoding;
+            $var_index ++;
         }
-        $variable_encoding[self :: VARIABLE_VALUES] = $values;
-        
-        $this->variable_encodings[$variable_name . $var_index] = $variable_encoding;
-        $var_index ++;
-        
-        $variable_encoding = array();
-        $variable_encoding[self :: VARIABLE_NAME] = $variable_name . $var_index;
-        $this->variable_list[self :: CONTEXT_TYPE] = $variable_name . $var_index;
-        $variable_encoding[self :: VARIABLE_QUESTION_ID] = - 3;
-        $variable_encoding[self :: VARIABLE_LABEL] = self :: CONTEXT_TYPE;
-        $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
-        $this->variable_list[self :: SCALE_NOMINAL][$variable_encoding[self :: VARIABLE_QUESTION_ID]] = $variable_encoding[self :: VARIABLE_NAME];
-        $variable_encoding[self :: VARIABLE_TYPE] = 'numeric';
-        $variable_encoding[self :: VARIABLE_TYPE_FORMAT] = '(F6.0)';
-        $variable_encoding[self :: VARIABLE_MISSING_VALUE] = self :: MISSING_VALUE;
-        $variable_encoding[self :: VARIABLE_NR] = $var_index;
-        
-        $context_types = $this->context_types;
-        $values = array();
-        foreach ($context_types as $id => $context_type)
-        {
-            $values[$context_type[self :: CONTEXT_TYPE_NAME_ID]] = $context_type[self :: CONTEXT_TYPE_NAME_VALUE];
-        }
-        
-        $variable_encoding[self :: VARIABLE_VALUES] = $values;
-        $this->variable_encodings[$variable_name . $var_index] = $variable_encoding;
-        $var_index ++;
         
         //the question variables
-        $questions = $this->get_all_questions();
+        $all_questions = $this->get_all_questions();
         
-        //        dump($questions);
-        //        exit;
+        //       dump($all_questions);
+        //        exit();
         
 
-        foreach ($questions as $question_id => $question)
+        foreach ($all_questions as $question_id => $question)
         {
             
             $type = $question->get_type();
@@ -314,168 +300,163 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
             }
         
         }
-        //                            dump($this->variable_encodings);
+        
+    //                                    dump($this->variable_encodings);
+    //                                    exit;
     //             dump(array_keys($this->variable_encodings));
     //                     exit;
-    //            dump($this->variable_list);
-    //            exit;
+    //        dump($this->variable_list);
+    //        exit();
     }
 
     private function get_case_data($case)
     {
-        //                    dump($case);
         
-
-        $vars = array_keys($this->variable_encodings);
+        $temp_directory = Path :: get_temp_path();
         
-        //        $participants = $this->participants[self :: STARTED_PARTICIPANTS];
-        
-
         $questions = $this->get_questions();
         
         $data = array();
         $data[$this->variable_list[self :: CASE_USER_ID]] = $case[self :: CASE_USER_ID];
         
-        //            dump($data);
-        //            exit;
-        
-
-        foreach ($case[self :: CASE_PARTICIPANTS] as $participant)
+        foreach ($case[self :: CASE_PARTICIPANTS] as $participant_id => $participant)
         {
             
-            //            dump($participant);
-            //            $data[$this->variable_list[self :: GROUP]] = $this->get_group_id($participant_id);
-            $tracker = $participant[self :: CASE_PARTICIPANT];
-            $data[$this->variable_list[self :: CONTEXT]] = $tracker->get_context_id();
-            $template_id = $tracker->get_context_template_id();
-            $data[$this->variable_list[self :: CONTEXT_TYPE]] = $template_id;
-            $participant_id = $participant[self :: CASE_PARTICIPANT_ID];
+            $participant_data = array();
             
-            foreach ($questions[$template_id] as $question)
-            {
+            $template_id = $participant[self :: CASE_TEMPLATE_ID];
+            
+//            $file_name = md5($participant_id . $template_id);
+//            $path = $temp_directory . $file_name;
+//            
+//            $files = Filesystem :: get_directory_content($temp_directory, Filesystem :: LIST_FILES, false);
+//            
+//            if (in_array($file_name, $files))
+//            {
+//                $participant_data = unserialize(file_get_contents($path));
+//            }
+//            else
+//            {
                 
-                $answer = null;
-                $question_id = $question->get_id();
-                $conditions = array();
-                $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participant_id);
-                $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question->get_id());
-                $condition = new AndCondition($conditions);
-                $tracker_count = Tracker :: count_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+                $level = $participant[self :: CASE_TEMPLATE_LEVEL];
+                $participant_data[$this->variable_list[self :: CONTEXT_TYPE . $level]] = $participant[self :: CASE_TEMPLATE_ID];
+                $participant_data[$this->variable_list[self :: CONTEXT . $level]] = $participant[self :: CASE_CONTEXT_ID];
                 
-                if ($tracker_count == 1)
+                foreach ($questions[$participant[self :: CASE_TEMPLATE_ID]] as $question)
                 {
-                    $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
-                    $tracker = $trackers->next_result();
-                    $answer = $tracker->get_answer();
-                    $no_answer = false;
-                
-                }
-                else
-                {
-                    $no_answer = true;
-                }
-                
-                $type = $question->get_type();
-                
-                switch ($type)
-                {
-                    case SurveyMatrixQuestion :: get_type_name() :
-                        
-                        if ($no_answer)
-                        {
+                    
+                    $question_id = $question->get_id();
+                    
+                    $answer = $this->answer_matrix[$participant_id][$question_id];
+                    
+                    
+                    
+//                    $conditions = array();
+//                    $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participant_id);
+//                    $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question->get_id());
+//                    $condition = new AndCondition($conditions);
+//                    $tracker_count = Tracker :: count_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+//                    
+                    if (isset($answer))
+                    {
+//                        $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+//                        $tracker = $trackers->next_result();
+//                        $answer = $tracker->get_answer();
+                        $no_answer = false;
+                    
+                    }
+                    else
+                    {
+                        $no_answer = true;
+                    }
+                    
+                    $type = $question->get_type();
+                    
+                    switch ($type)
+                    {
+                        case SurveyMatrixQuestion :: get_type_name() :
                             
-                            $options = $question->get_options();
-                            foreach ($options as $key => $option)
-                            {
-                                $data[$this->variable_list[$question_id][$key]] = self :: MISSING_VALUE;
-                            }
-                        
-                        }
-                        else
-                        {
-                            foreach ($answer as $key => $option)
+                            if ($no_answer)
                             {
                                 
-                                foreach ($option as $match_key => $match)
+                                $options = $question->get_options();
+                                foreach ($options as $key => $option)
                                 {
-                                    if ($question->get_matrix_type() == SurveyMatrixQuestion :: MATRIX_TYPE_CHECKBOX)
-                                    {
-                                        $data[$this->variable_list[$question_id][$key]] = $match_key;
+                                    $participant_data[$this->variable_list[$question_id][$key]] = self :: MISSING_VALUE;
+                                }
+                            
+                            }
+                            else
+                            {
+                                foreach ($answer as $key => $option)
+                                {
                                     
+                                    foreach ($option as $match_key => $match)
+                                    {
+                                        if ($question->get_matrix_type() == SurveyMatrixQuestion :: MATRIX_TYPE_CHECKBOX)
+                                        {
+                                            $participant_data[$this->variable_list[$question_id][$key]] = $match_key;
+                                        
+                                        }
+                                        else
+                                        {
+                                            $participant_data[$this->variable_list[$question_id][$key]] = $match;
+                                        
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            break;
+                        case SurveyMultipleChoiceQuestion :: get_type_name() :
+                            
+                            if ($no_answer)
+                            {
+                                $participant_data[$this->variable_list[$question_id][0]] = self :: MISSING_VALUE;
+                            }
+                            else
+                            {
+                                foreach ($answer as $key => $option)
+                                {
+                                    if ($question->get_answer_type() == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
+                                    {
+                                        $participant_data[$this->variable_list[$question_id][0]] = $key;
                                     }
                                     else
                                     {
-                                        $data[$this->variable_list[$question_id][$key]] = $match;
-                                    
+                                        $participant_data[$this->variable_list[$question_id][0]] = $option;
                                     }
                                 }
                             }
-                        }
-                        
-                        break;
-                    case SurveyMultipleChoiceQuestion :: get_type_name() :
-                        
-                        if ($no_answer)
-                        {
-                            $data[$this->variable_list[$question_id][0]] = self :: MISSING_VALUE;
-                        }
-                        else
-                        {
-                            foreach ($answer as $key => $option)
-                            {
-                                if ($question->get_answer_type() == SurveyMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX)
-                                {
-                                    $data[$this->variable_list[$question_id][0]] = $key;
-                                }
-                                else
-                                {
-                                    $data[$this->variable_list[$question_id][0]] = $option;
-                                }
-                            }
-                        }
-                        
-                        break;
+                            
+                            break;
+                    }
+                
                 }
+//                Filesystem :: write_to_file($path, serialize($participant_data), false);
+//            }
             
-            }
-        
+            $data = array_merge($data, $participant_data);
         }
+        
         $vars_set = array_keys($data);
-        $vars_not_set = array_diff($vars, $vars_set);
+        $vars_not_set = array_diff(array_keys($this->variable_encodings), $vars_set);
         
         foreach ($vars_not_set as $var)
         {
             $data[$var] = self :: MISSING_VALUE;
         }
         
-        //        dump($data);
-        
-
         return $data;
     }
 
-    //    private function create_raw_data_set()
-    //    {
-    //        
-    //        $this->data_matrix = array();
-    //        
-    //        $cases = $this->cases;
-    //
-    //        foreach ($cases as $case)
-    //        {
-    //            $this->data_matrix[$participant_id] = $this->get_case_data($case);
-    //        }
-    //        
-    //            dump($this->data_matrix);
-    //            exit();
-    //    }
-    
-
-    private function get_content($filename)
+    private function create_answer_matrix()
     {
-        
-        $temp_directory = Path :: get_temp_path();
-        $path = $temp_directory . $filename;
+    
+    }
+
+    private function get_content($path)
+    {
         
         $content = array();
         $var_count = count($this->variable_encodings);
@@ -515,7 +496,7 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         //        exit;
         
 
-        $cases = $this->cases;
+        $cases = $this->get_cases($this->get_publication_ids());
         
         foreach ($cases as $case)
         {
@@ -559,11 +540,16 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
                 $records_count --;
                 $index = $index + 10;
             }
-            
+            $content[] = '';
+            //            dump($content);
             $content = implode("\n", $content);
+            //            dump($content);
             Filesystem :: write_to_file($path, $content, true);
         }
         
+        //                exit();
+        
+
         //        foreach ($this->data_matrix as $data)
         //        {
         //            $index = 0;
@@ -654,7 +640,7 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
             $value_label = array();
             foreach ($encoding[self :: VARIABLE_VALUES] as $key => $value)
             {
-                $value_label[] = $key . ' \'' . $value . '\'';
+                $value_label[] = $key . ' "' . $value . '"';
             }
             $labels = implode("\n", $value_label);
             $label = $label . $labels;
@@ -703,7 +689,7 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
             {
                 $label = '/' . $var . ' ';
             }
-            $variable_label = $label . ' \'' . $encoding[self :: VARIABLE_LABEL] . '\'';
+            $variable_label = $label . ' "' . $encoding[self :: VARIABLE_LABEL] . '"';
             $variable_labels[] = $variable_label;
             $index ++;
         }
@@ -735,25 +721,7 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
     
     }
 
-    //    private function get_group_id($participant_id)
-    //    {
-    //        
-    //        $groups = $this->participants[self :: GROUPS];
-    //        
-    //        foreach ($groups as $id => $group)
-    //        {
-    //            $participants = $group[self :: STARTED_PARTICIPANTS];
-    //            if (in_array($participant_id, $participants))
-    //            {
-    //                return $id;
-    //            }
-    //        }
-    //        
-    //        return self :: MISSING_VALUE;
-    //    }
-    
-
-    private function get_questions($template_id)
+    private function get_questions()
     {
         
         if (isset($this->questions))
@@ -839,24 +807,27 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         return $this->all_questions;
     
     }
-	
-    private function get_context_name_values($template_id){
-    	
-    	$dm =  SurveyContextDataManager::get_instance();
-    	$template = $dm->retrieve_survey_context_template($template_id);
-    	$context_name_values = array();
-    	$contexts = $dm->retrieve_survey_contexts($template->get_context_type());
-    	while ($context = $contexts->next_result()){
-    		$context_value = array();
-    		$context_value[self :: CONTEXT_NAME_VALUE] = $context->get_name();
-    		$context_value[self :: CONTEXT_NAME_ID] = $context->get_id();
-    		$context_name_values[] = $context_value;
-    	}
-    	
-    	return $context_name_values;
+
+    private function get_context_name_values($template_id)
+    {
+        
+        $dm = SurveyContextDataManager :: get_instance();
+        $template = $dm->retrieve_survey_context_template($template_id);
+        $context_name_values = array();
+        //    	dump($template->get_context_type());
+        $contexts = $dm->retrieve_survey_contexts($template->get_context_type());
+        while ($context = $contexts->next_result())
+        {
+            $context_value = array();
+            $context_value[self :: CONTEXT_NAME_VALUE] = $context->get_name();
+            $context_value[self :: CONTEXT_NAME_ID] = $context->get_id();
+            $context_name_values[] = $context_value;
+        }
+        
+        return $context_name_values;
     }
-    
-    private function create_cases($ids)
+
+    private function get_context_variables($ids)
     {
         
         $this->surveys = array();
@@ -872,82 +843,80 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         
         }
         
-        $this->context_variables = array();
+        $context_variables = array();
         
-        $this->context_types = array();
+        $this->template_levels = array();
+        //        $context_types = array();
         
-        $parent_child_context_ids = array();
-       
+
         foreach ($context_templates as $template)
         {
-           
+            
             $context_type = array();
             $context_type[self :: CONTEXT_TYPE_NAME_VALUE] = $template->get_name();
             $context_type[self :: CONTEXT_TYPE_NAME_ID] = $template->get_id();
             
-            $this->context_types[$template->get_id()] = $context_type;
+            //            $context_types[$template->get_id()] = $context_type;
             $level = $template->count_parents();
-            $this->context_variables[$level][self :: CONTEXT_TYPE_NAME_VALUES][$template->get_id()] = $context_type;
-                        
+            $this->template_levels[$template->get_id()] = $level;
+            $context_variables[$level][self :: CONTEXT_TYPE_NAME_VALUES][$template->get_id()] = $context_type;
+            
             $children = $template->get_children(false);
             
             while ($child = $children->next_result())
             {
-              
+                
                 $context_type = array();
                 $context_type[self :: CONTEXT_TYPE_NAME_VALUE] = $child->get_name();
                 $context_type[self :: CONTEXT_TYPE_NAME_ID] = $child->get_id();
-
-                $this->context_types[$child->get_id()] = $context_type;
+                
+                //                $context_types[$child->get_id()] = $context_type;
                 $level = $child->count_parents();
-                $this->context_variables[$level][self :: CONTEXT_TYPE_NAME_VALUES][$child->get_id()] = $context_type;
+                $this->template_levels[$child->get_id()] = $level;
+                $context_variables[$level][self :: CONTEXT_TYPE_NAME_VALUES][$child->get_id()] = $context_type;
                 
                 $parent_child_context_ids[$template->get_id()] = $child->get_id();
             }
         
         }
-
         
-        foreach ($this->context_variables as $level => $context_variables)
+        foreach ($context_variables as $level => $context_variable)
         {
             $context_names = array();
-            foreach ($context_variables[self :: CONTEXT_TYPE_NAME_VALUES] as $template_id => $values)
+            foreach ($context_variable[self :: CONTEXT_TYPE_NAME_VALUES] as $template_id => $values)
             {
                 $context_names = array_merge($context_names, $this->get_context_name_values($template_id));
             }
-            $this->context_variables[$level][self :: CONTEXT_NAME_VALUES] = $context_names;
+            $context_variables[$level][self :: CONTEXT_NAME_VALUES] = $context_names;
         
         }
         
-        dump(count($this->context_variables[self :: CONTEXT_NAME_VALUES]));
-        dump($this->context_variables);
-        exit();
-        
-        
-        
-        
-        //                        dump($this->context_types);
-        dump($this->context_variables);
-        //                                exit();
-        
+        return $context_variables;
+    }
 
+    private function get_cases()
+    {
+        
         $started_status = array(SurveyParticipantTracker :: STATUS_STARTED, SurveyParticipantTracker :: STATUS_FINISHED);
         
         $conditions = array();
         $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_STATUS, $started_status);
-        $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID, $parent_child_context_ids);
-        $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $ids);
+        //        $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID, $parent_child_context_ids);
+        $conditions[] = new InCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_publication_ids());
+//        $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, 1221);
         $condition = new AndCondition($conditions);
         
-        $tracker_count = Tracker :: count_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        $count = Tracker :: count_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        //        dump($count);
         
-        dump($tracker_count);
-        
+
         $trackers = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition);
-        
-        $this->contexts = array();
-        $this->cases = array();
+        $cases = array();
         $case_id = 1;
+        
+        $level_count = count(array_unique($this->template_levels));
+        
+        $participants_ids = array();
         
         while ($tracker = $trackers->next_result())
         {
@@ -956,46 +925,81 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
             
             $participants = array();
             $participant = array();
-            
-            $participant[self :: CASE_TEMPLATE_ID] = $tracker->get_context_template_id();
-            $participant[self :: CASE_PARTICIPANT_ID] = $tracker->get_id();
-            $participant[self :: CASE_PARTICIPANT] = $tracker;
-            $participants[] = $participant;
+            $template_id = $tracker->get_context_template_id();
+            $participant[self :: CASE_TEMPLATE_LEVEL] = $this->template_levels[$template_id];
+            $participant[self :: CASE_TEMPLATE_ID] = $template_id;
+            $participant[self :: CASE_CONTEXT_ID] = $tracker->get_context_id();
+            $participants[$tracker->get_id()] = $participant;
             $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_ID, $tracker->get_parent_id());
-            
+            $participants_ids[] = $tracker->get_id();
             $parent_tracker = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition)->next_result();
-            
-            $context_value = array();
-            $context_value[] = $parent_tracker->get_context_name();
-            $context_value[] = $parent_tracker->get_context_id();
-            $this->contexts[$parent_tracker->get_context_template_id()][$parent_tracker->get_context_id()] = $context_value;
-            
-            $participant = array();
-            $participant[self :: CASE_TEMPLATE_ID] = $parent_tracker->get_context_template_id();
-            $participant[self :: CASE_PARTICIPANT_ID] = $parent_tracker->get_id();
-            $participant[self :: CASE_PARTICIPANT] = $parent_tracker;
-            $participants[] = $participant;
-            
-            $case[self :: CASE_PARTICIPANTS] = $participants;
-            $this->cases[$case_id] = $case;
-            $case_id ++;
-            
-            $context_value = array();
-            $context_value[] = $tracker->get_context_name();
-            $context_value[] = $tracker->get_context_id();
-            $this->contexts[$tracker->get_context_template_id()][$tracker->get_context_id()] = $context_value;
-            
-            if ($case_id == 10)
+            if (isset($parent_tracker))
             {
-                break;
+                $participant = array();
+                $template_id = $parent_tracker->get_context_template_id();
+                $participant[self :: CASE_TEMPLATE_LEVEL] = $this->template_levels[$template_id];
+                $participant[self :: CASE_TEMPLATE_ID] = $template_id;
+                $participant[self :: CASE_CONTEXT_ID] = $parent_tracker->get_context_id();
+                $participants[$parent_tracker->get_id()] = $participant;
+                $participants_ids[] = $parent_tracker->get_id();
             }
-           
+            
+            if (count($participants) == $level_count)
+            {
+                $case[self :: CASE_PARTICIPANTS] = $participants;
+                $cases[$case_id] = $case;
+                $case_id ++;
+            }
+            
+        //            dump(memory_get_usage(true));
+        //            if ($case_id == 100)
+        //            {
+        //                break;
+        //                                }
+        //        
+        //
         }
         
-        //         dump($this->contexts);
+        $participants_ids = array_unique($participants_ids);
+               
+        $condition = new InCondition(SurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $participants_ids);
+        $tracker_count = Tracker :: count_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
         
+//        dump($tracker_count);
+        
+        $this->answer_matrix = array();
+        
+        $trackers = Tracker :: get_data('survey_question_answer_tracker', SurveyManager :: APPLICATION_NAME, $condition);
+        while ($tracker = $trackers->next_result()) {
+        	$this->answer_matrix[$tracker->get_survey_participant_id()][$tracker->get_question_cid()] = $tracker->get_answer();
+//        	dump(memory_get_usage(true)/1024);
+        }
+        
+//        dump($this->answer_matrix);
+        
+//        exit;
+//        
+//        
+//        
+//        dump($cases);
+//        exit();
+        
+        //        dump($this->template_levels);
+        //        
+        //        dump($cases);
+        //        
+        //        exit();
+        return $cases;
+    }
 
-    
+    private function set_publication_ids($ids)
+    {
+        $this->publication_ids = $ids;
+    }
+
+    private function get_publication_ids()
+    {
+        return $this->publication_ids;
     }
 }
 
