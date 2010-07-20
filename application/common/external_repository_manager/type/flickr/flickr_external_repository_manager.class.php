@@ -1,6 +1,9 @@
 <?php
 require_once dirname(__FILE__) . '/flickr_external_repository_connector.class.php';
 
+/**
+ * @author Hans De Bisschop
+ */
 class FlickrExternalRepositoryManager extends ExternalRepositoryManager
 {
     const REPOSITORY_TYPE = 'flickr';
@@ -12,22 +15,34 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     const FEED_TYPE_MOST_RECENT = 3;
     const FEED_TYPE_MY_PHOTOS = 4;
 
+    /**
+     * @param Application $application
+     */
     function FlickrExternalRepositoryManager($application)
     {
         parent :: __construct($application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#get_application_component_path()
+     */
     function get_application_component_path()
     {
         return Path :: get_application_library_path() . 'external_repository_manager/type/flickr/component/';
     }
-
-    function initialize_external_repository(ExternalRepositoryManager $external_repository_manager)
+    
+    /**
+     * @return FlickrExternalRepositoryConnector
+     */
+    function get_external_repository_connector()
     {
-        FlickrExternalRepositoryConnector :: get_instance($this);
+        return FlickrExternalRepositoryConnector :: get_instance($this);
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#validate_settings()
+     */
     function validate_settings()
     {
         $key = $this->get_setting('key');
@@ -40,42 +55,28 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         return true;
     }
 
-    function count_external_repository_objects($condition)
-    {
-        return FlickrExternalRepositoryConnector :: get_instance($this)->count_external_repository_objects($condition);
-    }
-
-    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
-    {
-        return FlickrExternalRepositoryConnector :: get_instance($this)->retrieve_external_repository_objects($condition, $order_property, $offset, $count);
-    }
-
-    function retrieve_external_repository_object($id)
-    {
-        return FlickrExternalRepositoryConnector :: get_instance($this)->retrieve_external_repository_object($id);
-    }
-
-    function delete_external_repository_object($id)
-    {
-        return FlickrExternalRepositoryConnector :: get_instance($this)->delete_external_repository_object($id);
-    }
-
-    function export_external_repository_object($content_object)
-    {
-        return FlickrExternalRepositoryConnector :: get_instance($this)->export_external_repository_object($content_object);
-    }
-
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#support_sorting_direction()
+     */
     function support_sorting_direction()
     {
         return true;
     }
 
+    /**
+     * @param string $query
+     * @return mixed
+     */
     function translate_search_query($query)
     {
         return FlickrExternalRepositoryConnector :: translate_search_query($query);
     }
 
-    function get_external_repository_object_viewing_url($object)
+    /**
+     * @param ExternalRepositoryObject $object
+     * @return string
+     */
+    function get_external_repository_object_viewing_url(ExternalRepositoryObject $object)
     {
         $parameters = array();
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
@@ -84,6 +85,9 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         return $this->get_url($parameters);
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#get_menu_items()
+     */
     function get_menu_items()
     {
         $menu_items = array();
@@ -115,11 +119,17 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         return $menu_items;
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#is_ready_to_be_used()
+     */
     function is_ready_to_be_used()
     {
         return false;
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#get_external_repository_actions()
+     */
     function get_external_repository_actions()
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
@@ -173,11 +183,17 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         $component->run();
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#get_available_renderers()
+     */
     function get_available_renderers()
     {
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#get_content_object_type_conditions()
+     */
     function get_content_object_type_conditions()
     {
         $image_types = Document :: get_image_types();
@@ -190,6 +206,9 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
         return new OrCondition($image_conditions);
     }
 
+    /**
+     * @return string
+     */
     function get_repository_type()
     {
         return self :: REPOSITORY_TYPE;

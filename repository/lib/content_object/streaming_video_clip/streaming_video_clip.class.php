@@ -60,6 +60,14 @@ class StreamingVideoClip extends ContentObject implements Versionable
     {
         return $this->get_additional_property(self :: PROPERTY_CREATOR);
     }
+    
+    /**
+     * @return ExternalRepository 
+     */
+    function get_external_repository()
+    {
+        return RepositoryDataManager :: get_instance()->retrieve_external_repository($this->get_server_id());
+    }
 
    
 }

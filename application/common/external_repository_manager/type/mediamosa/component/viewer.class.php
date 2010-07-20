@@ -27,7 +27,7 @@ class MediamosaExternalRepositoryManagerViewerComponent extends MediamosaExterna
             $toolbar_item = new ToolbarItem(Translation :: get('Back'), Theme :: get_common_image_path() . 'action_prev.png', 'javascript:history.back();');
             $toolbar->add_item($toolbar_item);
 
-            if ($viewer->get_parent()->is_editable($id))
+            if ($object->is_editable())
             {
                 $toolbar_item_edit = new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $viewer->get_url(array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_EDIT_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $id)));
                 $toolbar->add_item($toolbar_item_edit);

@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/youtube_external_repository_object.class.php'
 require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 
 //YoutubeKey : AI39si4OLUsiI2mK0_k8HxqOtv0ctON-PzekhP_56JDkdph6wZ9tW2XqzDD7iVYY0GXKdMKlPSJyYZotNQGleVfRPDZih41Tug
-class YoutubeExternalRepositoryConnector
+class YoutubeExternalRepositoryConnector implements ExternalRepositoryConnector
 {
     private static $instance;
     private $manager;
@@ -208,7 +208,7 @@ class YoutubeExternalRepositoryConnector
         return $standard_feeds;
     }
 
-    function get_youtube_videos($condition, $order_property, $offset, $count)
+    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
         $query = $this->youtube->newVideoQuery();
         if (count($order_property) > 0)
@@ -295,7 +295,7 @@ class YoutubeExternalRepositoryConnector
         }
     }
 
-    function get_youtube_video($id)
+    function retrieve_external_repository_object($id)
     {
         $videoEntry = $this->get_youtube_video_entry($id);
 
@@ -358,7 +358,7 @@ class YoutubeExternalRepositoryConnector
         return true;
     }
 
-    function count_youtube_video($condition)
+    function count_external_repository_objects($condition)
     {
         $query = $this->youtube->newVideoQuery();
         $query->setVideoQuery($condition);
@@ -374,14 +374,14 @@ class YoutubeExternalRepositoryConnector
         }
     }
 
-    function delete_youtube_video($id)
+    function delete_external_repository_object($id)
     {
         $video_entry = $this->youtube->getFullVideoEntry($id);
 
         return $this->youtube->delete($video_entry);
     }
 
-    function export_youtube_video($object)
+    function export_external_repository_object($object)
     {
         $video_entry = new Zend_Gdata_YouTube_VideoEntry();
         $file_source = $this->youtube->newMediaFileSource($object->get_full_path());

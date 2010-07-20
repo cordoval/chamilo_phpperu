@@ -1,7 +1,7 @@
 <?php
 
-require_once (dirname(__FILE__) . '/../context/survey_vakken_jaar_context/survey_vakken_jaar_context.class.php');
-require_once (dirname(__FILE__) . '/../context/survey_opleiding_jaar_context/survey_opleiding_jaar_context.class.php');
+//require_once (dirname(__FILE__) . '/../context/survey_vakken_jaar_context/survey_vakken_jaar_context.class.php');
+//require_once (dirname(__FILE__) . '/../context/survey_opleiding_jaar_context/survey_opleiding_jaar_context.class.php');
 require_once (dirname(__FILE__) . '/../context/survey_default_context/survey_default_context.class.php');
 require_once (dirname(__FILE__) . '/../context/survey_student_context/survey_student_context.class.php');
 

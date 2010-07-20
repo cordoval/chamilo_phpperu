@@ -58,11 +58,6 @@ abstract class ExternalRepositoryObjectRenderer
 	    return $this->get_external_repository_browser()->get_external_repository_object_actions($object);
 	}
 
-    function is_editable($id)
-    {
-        return $this->get_external_repository_browser()->get_parent()->is_editable($id);
-    }
-
     function is_stand_alone()
     {
         return $this->get_external_repository_browser()->get_parent()->is_stand_alone();

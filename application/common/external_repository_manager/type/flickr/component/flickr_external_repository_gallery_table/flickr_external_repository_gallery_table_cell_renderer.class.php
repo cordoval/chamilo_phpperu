@@ -18,16 +18,6 @@ class FlickrExternalRepositoryGalleryTableCellRenderer extends DefaultExternalRe
         $this->browser = $browser;
     }
 
-    function render_cell($object)
-    {
-        $html = array();
-        $html[] = '<div style="width: 20px; float: right;">';
-        $html[] = $this->get_modification_links($object);
-        $html[] = '</div>';
-        $html[] = $this->get_cell_content($object);
-        return implode("\n", $html);
-    }
-
     function get_cell_content(ExternalRepositoryObject $object)
     {
         $html = array();

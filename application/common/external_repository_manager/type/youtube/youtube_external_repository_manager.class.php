@@ -14,22 +14,34 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     const FEED_TYPE_MYVIDEOS = 2;
     const FEED_STANDARD_TYPE = 3;
 
+    /**
+     * @param Application $application
+     */
     function YoutubeExternalRepositoryManager($application)
     {
         parent :: __construct($application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#get_application_component_path()
+     */
     function get_application_component_path()
     {
         return Path :: get_application_library_path() . 'external_repository_manager/type/youtube/component/';
     }
-
-    function initialize_external_repository(ExternalRepositoryManager $external_repository_manager)
+    
+    /**
+     * @return YoutubeExternalRepositoryConnector
+     */
+    function get_external_repository_connector()
     {
-        YoutubeExternalRepositoryConnector :: get_instance($this);
+        return YoutubeExternalRepositoryConnector :: get_instance($this);
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#validate_settings()
+     */
     function validate_settings()
     {
         $developer_key = $this->get_setting('developer_key');
@@ -41,47 +53,19 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         return true;
     }
 
-    function count_external_repository_objects($condition)
-    {
-        $connector = YoutubeExternalRepositoryConnector :: get_instance($this);
-        return $connector->count_youtube_video($condition);
-    }
-
-    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
-    {
-        $connector = YoutubeExternalRepositoryConnector :: get_instance($this);
-        return $connector->get_youtube_videos($condition, $order_property, $offset, $count);
-    }
-
-    function retrieve_external_repository_object($id)
-    {
-        $connector = YoutubeExternalRepositoryConnector :: get_instance($this);
-        return $connector->get_youtube_video($id);
-    }
-
-    function delete_external_repository_object($id)
-    {
-        $connector = YoutubeExternalRepositoryConnector :: get_instance($this);
-        return $connector->delete_youtube_video($id);
-    }
-
-    function export_external_repository_object($object)
-    {
-        $connector = YoutubeExternalRepositoryConnector :: get_instance($this);
-        return $connector->export_youtube_video($object);
-    }
-
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#support_sorting_direction()
+     */
     function support_sorting_direction()
     {
         return false;
     }
 
-    function translate_search_query($query)
-    {
-        return YoutubeExternalRepositoryConnector :: translate_search_query($query);
-    }
-
-    function get_external_repository_object_viewing_url($object)
+    /**
+     * @param ExternalRepositoryObject $object
+     * @return string
+     */
+    function get_external_repository_object_viewing_url(ExternalRepositoryObject $object)
     {
         $parameters = array();
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
@@ -90,12 +74,9 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         return $this->get_url($parameters);
     }
 
-    function is_editable($id)
-    {
-        $connector = YoutubeExternalRepositoryConnector :: get_instance($this);
-        return $connector->is_editable($id);
-    }
-
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#get_menu_items()
+     */
     function get_menu_items()
     {
         $menu_items = array();
@@ -174,6 +155,9 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         return $menu_items;
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#is_ready_to_be_used()
+     */
     function is_ready_to_be_used()
     {
         //        $action = $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
@@ -182,6 +166,9 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         return false;
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#get_external_repository_actions()
+     */
     function get_external_repository_actions()
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
@@ -241,11 +228,17 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         $component->run();
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#get_available_renderers()
+     */
     function get_available_renderers()
     {
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryManager#get_content_object_type_conditions()
+     */
     function get_content_object_type_conditions()
     {
         $video_types = Document :: get_video_types();
@@ -258,6 +251,9 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         return new OrCondition($video_conditions);
     }
 
+    /**
+     * @return string
+     */
     function get_repository_type()
     {
         return self :: REPOSITORY_TYPE;

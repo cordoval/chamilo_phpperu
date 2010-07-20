@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/flickr_external_repository_object.class.php';
  * Test developer secret for Flickr: e267cbf5b7a1ad23
  */
 
-class FlickrExternalRepositoryConnector
+class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
 {
     const SORT_DATE_POSTED = 'date-posted';
     const SORT_DATE_TAKEN = 'date-taken';

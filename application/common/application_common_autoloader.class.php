@@ -47,6 +47,7 @@ class ApplicationCommonAutoloader
 				      'external_repository_object' => 'external_repository_manager/external_repository_object.class.php',
 				      'external_repository_object_display' => 'external_repository_manager/external_repository_object_display.class.php',
 		              'external_repository_component' => 'external_repository_manager/external_repository_component.class.php',
+		              'external_repository_connector' => 'external_repository_manager/external_repository_connector.class.php',
 				      'dynamic_form_manager' => 'dynamic_form_manager/dynamic_form_manager.class.php',
 				      'rights_editor_manager' => 'rights_editor_manager/rights_editor_manager.class.php',
 					  'validation_manager' => 'validation_manager/validation_manager.class.php',

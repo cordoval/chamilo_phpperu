@@ -14,19 +14,19 @@ require_once dirname(__FILE__) . '/mediamosa_external_repository_data_manager.cl
 
 class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 {
-
+    
     const REPOSITORY_TYPE = 'mediamosa';
-
+    
     const ACTION_MANAGE_SETTINGS = 'settings';
     const ACTION_CLEAN_EXTERNAL_REPOSITORY = 'clean';
     const ACTION_ADD_SETTING = 'add_setting';
     const ACTION_UPDATE_SETTING = 'update_setting';
     const ACTION_DELETE_SETTING = 'delete_setting';
-
+    
     const PARAM_MEDIAFILE = 'mediafile_id';
     const PARAM_SERVER = 'server_id';
     const PARAM_EXTERNAL_REPOSITORY_SETTING_ID = 'setting_id';
-
+    
     private static $server;
     private $server_selection_form;
 
@@ -40,10 +40,12 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         return Path :: get_application_library_path() . 'external_repository_manager/type/mediamosa/component/';
     }
 
-    function count_external_repository_objects($condition)
+    /**
+     * @return MediamosaExternalRepositoryConnector
+     */
+    function get_external_repository_connector()
     {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
-        return $connector->count_mediamosa_assets($condition, $order_property, $offset, $count);
+        return MediamosaExternalRepositoryConnector :: get_instance($this);
     }
 
     function retrieve_external_repository_server_object($id)
@@ -60,58 +62,25 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         return self :: $server;
     }
 
-    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
-    {
-        return MediamosaExternalRepositoryConnector :: get_instance($this)->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
-    }
-
     function retrieve_external_repository_asset($asset_id)
     {
         $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
         return $connector->retrieve_mediamosa_asset($id);
     }
 
-    function translate_search_query($query)
-    {
-    }
-
     function get_menu_items()
     {
+        return array();
     }
 
-    function get_external_repository_object_viewing_url($object)
+    function get_external_repository_object_viewing_url(ExternalRepositoryObject $object)
     {
         $parameters = array();
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
-
+        
         return ($object->is_usable()) ? $this->get_url($parameters) : '#';
     }
-
-    function retrieve_external_repository_object($id)
-    {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
-        return $connector->retrieve_mediamosa_asset($id);
-    }
-
-    function delete_external_repository_object($id)
-    {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
-        return $connector->remove_mediamosa_asset($id);
-    }
-
-    function export_external_repository_object($id)
-    {
-    }
-
-    function is_editable($id)
-    {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
-        return $connector->is_editable($id);
-    }
-
-    /*function is_standalone()
-    {}*/
 
     function run()
     {
@@ -121,7 +90,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
             $this->set_parameter(self :: PARAM_SERVER, $server);
         }
         $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
-
+        
         switch ($parent)
         {
             case parent :: ACTION_BROWSE_EXTERNAL_REPOSITORY :
@@ -166,9 +135,9 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
-
+        
         }
-
+        
         $component->run();
     }
 
@@ -180,7 +149,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     {
         $links = array();
         $links[] = array('name' => Translation :: get('SetMediamosaDefaults'), 'action' => 'category', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_SET_MEDIAMOSA_DEFAULTS)));
-
+        
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
         return $info;
@@ -189,7 +158,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function display_header()
     {
         parent :: display_header();
-
+        
         if ($this->server_selection_form)
             $this->server_selection_form->display();
     }
@@ -208,7 +177,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     {
         //        xdebug_break();
         $streaming_video_clip = new StreamingVideoClip();
-
+        
         $streaming_video_clip->set_title($object->get_title());
         $streaming_video_clip->set_description($object->get_description());
         $streaming_video_clip->set_asset_id($object->get_id());
@@ -217,12 +186,6 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         $streaming_video_clip->set_creator($object->get_creator());
         $streaming_video_clip->set_owner_id($this->get_user_id());
         return $streaming_video_clip->create();
-    }
-
-    function is_download_possible($id)
-    {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
-        return $connector->is_downloadable($id);
     }
 
     function create_standard_user_quota($server_id)
@@ -250,15 +213,10 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
     }
 
-    function initialize_external_repository(ExternalRepositoryManager $external_repository_manager)
-    {
-        MediamosaExternalRepositoryConnector :: get_instance($this);
-    }
-
     function validate_settings()
     {
         $settings = array('url', 'login', 'password');
-
+        
         foreach ($settings as $variable)
         {
             $value = $this->get_setting($variable);
@@ -278,7 +236,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         {
             $video_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.' . $video_type, Document :: get_type_name());
         }
-
+        
         return new OrCondition($video_conditions);
     }
 
@@ -290,14 +248,14 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     function get_external_repository_actions()
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
-
+        
         $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 0);
-
+        
         if ($is_platform)
         {
             $actions[] = self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY;
         }
-
+        
         return $actions;
     }
 }
