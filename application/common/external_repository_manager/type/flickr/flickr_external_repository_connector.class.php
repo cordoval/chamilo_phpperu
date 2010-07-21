@@ -16,23 +16,52 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
     const SORT_INTERESTINGNESS = 'interestingness';
     const SORT_RELEVANCE = 'relevance';
     
-    private static $instance;
+    /**
+     * @var array
+     */
+    private static $instance = array();
     
+    /**
+     * @var int
+     */
+    private $instance_id;
+    
+    /**
+     * @var phpFlickr
+     */
     private $flickr;
     
+    /**
+     * @var string
+     */
     private $key;
+    /**
+     * @var string
+     */
     private $secret;
     
+    /**
+     * @var array
+     */
     private $licenses;
+    /**
+     * The id of the user on Flickr
+     * @var string
+     */
     private $user_id;
 
-    function FlickrExternalRepositoryConnector()
+    /**
+     * @param int $instance_id
+     */
+    function FlickrExternalRepositoryConnector($instance_id)
     {
-        $this->key = ExternalRepositorySetting :: get('key');
-        $this->secret = ExternalRepositorySetting :: get('secret');
+        $this->instance_id = $instance_id;
+        
+        $this->key = ExternalRepositorySetting :: get('key', $this->instance_id);
+        $this->secret = ExternalRepositorySetting :: get('secret', $this->instance_id);
         $this->flickr = new phpFlickr($this->key, $this->secret);
         
-        $session_token = ExternalRepositoryUserSetting :: get('session_token');
+        $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->instance_id);
         
         if (! $session_token)
         {
@@ -47,7 +76,7 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
                 $token = $this->flickr->auth_getToken($frob);
                 if ($token['token'])
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->instance_id);
                     $user_setting = new ExternalRepositoryUserSetting();
                     $user_setting->set_setting_id($setting->get_id());
                     $user_setting->set_user_id(Session :: get_user_id());
@@ -62,15 +91,22 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         }
     }
 
-    static function get_instance()
+    /**
+     * @param int $instance_id
+     * @return FlickrExternalRepositoryConnector:
+     */
+    static function get_instance($instance_id)
     {
-        if (! isset(self :: $instance))
+        if (! isset(self :: $instance[$instance_id]))
         {
-            self :: $instance = new FlickrExternalRepositoryConnector();
+            self :: $instance[$instance_id] = new FlickrExternalRepositoryConnector($instance_id);
         }
-        return self :: $instance;
+        return self :: $instance[$instance_id];
     }
 
+    /**
+     * @return array:
+     */
     function retrieve_licenses()
     {
         if (! isset($this->licenses))
@@ -87,6 +123,9 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         return $this->licenses;
     }
 
+    /**
+     * @return string
+     */
     function retrieve_user_id()
     {
         if (! isset($this->user_id))
@@ -98,6 +137,13 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         return $this->user_id;
     }
 
+    /**
+     * @param mixed $condition
+     * @param ObjectTableOrder $order_property
+     * @param int $offset
+     * @param int $count
+     * @return array
+     */
     function retrieve_photos($condition = null, $order_property, $offset, $count)
     {
         $feed_type = Request :: get(FlickrExternalRepositoryManager :: PARAM_FEED_TYPE);
@@ -145,6 +191,13 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         return $photos;
     }
 
+    /**
+     * @param mixed $condition
+     * @param ObjectTableOrder $order_property
+     * @param int $offset
+     * @param int $count
+     * @return ArrayResultSet
+     */
     function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
     {
         $photos = $this->retrieve_photos($condition, $order_property, $offset, $count);
@@ -192,17 +245,29 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         return new ArrayResultSet($objects);
     }
 
+    /**
+     * @param mixed $condition
+     * @return int
+     */
     function count_external_repository_objects($condition)
     {
         $photos = $this->retrieve_photos($condition, $order_property, 1, 1);
         return $photos['total'];
     }
 
+    /**
+     * @param string $query
+     * @return string
+     */
     static function translate_search_query($query)
     {
         return $query;
     }
 
+    /**
+     * @param ObjectTableOrder $order_properties
+     * @return string|null
+     */
     function convert_order_property($order_properties)
     {
         if (count($order_properties) > 0)
@@ -230,6 +295,9 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         return null;
     }
 
+    /**
+     * @return array
+     */
     static function get_sort_properties()
     {
         $feed_type = Request :: get(FlickrExternalRepositoryManager :: PARAM_FEED_TYPE);
@@ -246,6 +314,9 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
     
     }
 
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_object()
+     */
     function retrieve_external_repository_object($id)
     {
         $licenses = $this->retrieve_licenses();
@@ -293,6 +364,10 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         return $object;
     }
 
+    /**
+     * @param array $values
+     * @return boolean
+     */
     function update_external_repository_object($values)
     {
         $success = $this->flickr->photos_setMeta($values[FlickrExternalRepositoryObject :: PROPERTY_ID], $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION]);
@@ -317,6 +392,11 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         return true;
     }
 
+    /**
+     * @param array $values
+     * @param string $photo_path
+     * @return mixed
+     */
     function create_external_repository_object($values, $photo_path)
     {
         $tags = explode(',', $values[FlickrExternalRepositoryObject :: PROPERTY_TAGS]);
@@ -325,13 +405,20 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         return $this->flickr->sync_upload($photo_path, $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
     }
 
+    /**
+     * @param ContentObject $content_object
+     * @return mixed
+     */
     function export_external_repository_object($content_object)
     {
-        //        dump($content_object);
-        //        exit;
         return $this->flickr->sync_upload($content_object->get_full_path(), $content_object->get_title(), $content_object->get_description());
     }
 
+    /**
+     * @param int $license
+     * @param string $photo_user_id
+     * @return boolean
+     */
     function determine_rights($license, $photo_user_id)
     {
         $users_match = ($this->retrieve_user_id() == $photo_user_id ? true : false);
@@ -347,6 +434,10 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         return $rights;
     }
 
+    /**
+     * @param string $id
+     * @return mixed
+     */
     function delete_external_repository_object($id)
     {
         return $this->flickr->photos_delete($id);

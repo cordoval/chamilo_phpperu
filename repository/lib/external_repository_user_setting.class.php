@@ -106,6 +106,31 @@ class ExternalRepositoryUserSetting extends DataClass
         return (isset(self :: $settings[$external_repository_id][$user_id][$variable]) ? self :: $settings[$external_repository_id][$user_id][$variable] : null);
     }
 
+    static function get_all($external_repository_id = null, $user_id = null)
+    {
+        if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
+        {
+            $external_repository_id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
+            
+            if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
+            {
+                Display :: error_page(Translation :: get('WhatsUpDoc'));
+            }
+        }
+        
+        if (is_null($user_id) || ! is_numeric($user_id))
+        {
+            $user_id = Session :: get_user_id();
+        }
+        
+        if (! isset(self :: $settings[$external_repository_id][$user_id]))
+        {
+            self :: load($external_repository_id, $user_id);
+        }
+        
+        return self :: $settings[$external_repository_id][$user_id];
+    }
+
     static function load($external_repository_id, $user_id)
     {
         $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);

@@ -36,7 +36,7 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_connector()
     {
-        return YoutubeExternalRepositoryConnector :: get_instance($this);
+        return YoutubeExternalRepositoryConnector :: get_instance();
     }
 
     /* (non-PHPdoc)
@@ -44,7 +44,7 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
      */
     function validate_settings()
     {
-        $developer_key = $this->get_setting('developer_key');
+        $developer_key = ExternalRepositorySetting :: get('developer_key');
 
         if (! $developer_key)
         {
@@ -173,7 +173,7 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
 
         if ($is_platform)
         {

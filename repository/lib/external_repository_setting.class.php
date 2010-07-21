@@ -192,11 +192,11 @@ class ExternalRepositorySetting extends DataClass
      */
     static function get($variable, $external_repository_id = null)
     {
-        if (is_null($external_repository_id) || !is_numeric($external_repository_id))
+        if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
         {
             $external_repository_id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
             
-            if (is_null($external_repository_id) || !is_numeric($external_repository_id))
+            if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
             {
                 Display :: error_page(Translation :: get('WhatsUpDoc'));
             }
@@ -210,11 +210,31 @@ class ExternalRepositorySetting extends DataClass
         return (isset(self :: $settings[$external_repository_id][$variable]) ? self :: $settings[$external_repository_id][$variable] : null);
     }
 
+    static function get_all($external_repository_id = null)
+    {
+        if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
+        {
+            $external_repository_id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
+            
+            if (is_null($external_repository_id) || ! is_numeric($external_repository_id))
+            {
+                Display :: error_page(Translation :: get('WhatsUpDoc'));
+            }
+        }
+        
+        if (! isset(self :: $settings[$external_repository_id]))
+        {
+            self :: load($external_repository_id);
+        }
+        
+        return self :: $settings[$external_repository_id];
+    }
+
     /**
      * @param int $external_repository_id
      */
     static function load($external_repository_id)
-    {        
+    {
         $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
         $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
         

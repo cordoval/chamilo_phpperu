@@ -37,7 +37,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_connector()
     {
-        return FlickrExternalRepositoryConnector :: get_instance($this);
+        return FlickrExternalRepositoryConnector :: get_instance();
     }
 
     /* (non-PHPdoc)
@@ -45,8 +45,8 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
      */
     function validate_settings()
     {
-        $key = $this->get_setting('key');
-        $secret = $this->get_setting('secret');
+        $key = ExternalRepositorySetting :: get('key');
+        $secret = ExternalRepositorySetting :: get('secret');
 
         if (! $key || ! $secret)
         {
@@ -61,6 +61,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     function support_sorting_direction()
     {
         return true;
+    }
 
     /**
      * @param ExternalRepositoryObject $object
@@ -124,7 +125,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
 
-        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
 
         if ($is_platform)
         {

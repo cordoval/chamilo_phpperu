@@ -80,7 +80,7 @@ class GoogleDocsExternalRepositoryConnector
         return $token_array;
     }
 
-    static function get_instance($manager)
+    static function get_instance()
     {
         if (! isset(self :: $instance))
         {

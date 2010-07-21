@@ -45,7 +45,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_connector()
     {
-        return MediamosaExternalRepositoryConnector :: get_instance($this);
+        return MediamosaExternalRepositoryConnector :: get_instance();
     }
 
     function retrieve_external_repository_server_object($id)
@@ -64,8 +64,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function retrieve_external_repository_asset($asset_id)
     {
-        $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
-        return $connector->retrieve_mediamosa_asset($id);
+        return $this->get_external_repository_connector()->retrieve_mediamosa_asset($id);
     }
 
     function get_menu_items()
@@ -219,7 +218,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         
         foreach ($settings as $variable)
         {
-            $value = $this->get_setting($variable);
+            $value = ExternalRepositorySetting :: get($variable);
             if (! $value)
             {
                 return false;
@@ -249,7 +248,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     {
         $actions = array(self :: ACTION_BROWSE_EXTERNAL_REPOSITORY, self :: ACTION_UPLOAD_EXTERNAL_REPOSITORY, self :: ACTION_EXPORT_EXTERNAL_REPOSITORY);
         
-        $is_platform = $this->get_user()->is_platform_admin() && (count($this->get_settings()) > 0);
+        $is_platform = $this->get_user()->is_platform_admin() && (count(ExternalRepositorySetting :: get_all()) > 0);
         
         if ($is_platform)
         {

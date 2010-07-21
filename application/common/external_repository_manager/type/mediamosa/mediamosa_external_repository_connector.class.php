@@ -31,10 +31,8 @@ class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnecto
     //TODO: find correct settings
     const PLACEHOLDER_URL = 'http://localhost/chamilo_2.0/layout/aqua/images/common/content_object/big/streaming_video_clip.png';
 
-    function MediamosaExternalRepositoryConnector($manager, $server_id = null, $do_login = true)
-    {
-        $this->manager = $manager;
-        
+    function MediamosaExternalRepositoryConnector($server_id = null, $do_login = true)
+    {        
         if ($do_login)
         {
             if (! $this->login())

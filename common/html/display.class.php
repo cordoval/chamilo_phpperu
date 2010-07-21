@@ -186,10 +186,10 @@ class Display
      */
     public static function header($breadcrumbtrail)
     {
-        if (! $breadcrumbtrail instanceof BreadcrumbTrail)
-        {
-            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
-        }
+//        if (! $breadcrumbtrail instanceof BreadcrumbTrail)
+//        {
+//            $breadcrumbtrail = BreadcrumbTrail :: get_instance();
+//        }
         
         global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $text_dir, $plugins, $interbreadcrumb, $charset, $noPHP_SELF;
         include (Path :: get(SYS_LIB_PATH) . 'html/header.inc.php');

@@ -25,7 +25,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_connector()
     {
-        return GoogleDocsExternalRepositoryConnector :: get_instance($this);
+        return GoogleDocsExternalRepositoryConnector :: get_instance();
     }
 
     /* (non-PHPdoc)
@@ -62,8 +62,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_menu_items()
     {
-        $connector = GoogleDocsExternalRepositoryConnector :: get_instance($this);
-        return $connector->retrieve_folders($this->get_url(array('folder' => '__PLACEHOLDER__')));
+        return $this->get_external_repository_connector()->retrieve_folders($this->get_url(array('folder' => '__PLACEHOLDER__')));
     }
 
     /* (non-PHPdoc)

@@ -30,6 +30,8 @@ abstract class ExternalRepositoryManager extends SubManager
      * @var array
      */
     private $user_settings;
+    
+    private $external_repository;
 
     /**
      * @param Application $application
@@ -37,6 +39,7 @@ abstract class ExternalRepositoryManager extends SubManager
     function ExternalRepositoryManager($application)
     {
         parent :: __construct($application);
+        $this->external_repository = $external_repository;
         
         $external_repository_manager_action = Request :: get(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
         if ($external_repository_manager_action)
@@ -85,97 +88,6 @@ abstract class ExternalRepositoryManager extends SubManager
         return is_a($this->get_parent(), LauncherApplication :: CLASS_NAME);
     }
 
-    function load_settings()
-    {
-        $this->settings = array();
-        
-        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY));
-        $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
-        
-        while ($setting = $settings->next_result())
-        {
-            $this->settings[$setting->get_variable()] = $setting->get_value();
-        }
-    }
-
-    function load_user_settings()
-    {
-        $this->user_settings = array();
-        
-        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY));
-        $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
-        
-        $setting_ids = array();
-        while ($setting = $settings->next_result())
-        {
-            $conditions = array();
-            $conditions[] = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_USER_ID, $this->get_user_id());
-            $conditions[] = new EqualityCondition(ExternalRepositoryUserSetting :: PROPERTY_SETTING_ID, $setting->get_id());
-            $condition = new AndCondition($conditions);
-            
-            $user_settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_user_settings($condition, array(), 0, 1);
-            if ($user_settings->size() == 1)
-            {
-                $user_setting = $user_settings->next_result();
-                $this->user_settings[$setting->get_variable()] = $user_setting->get_value();
-            }
-        }
-    }
-
-    /**
-     * @param string $variable
-     * @return string:
-     */
-    function get_setting($variable)
-    {
-        if (! isset($this->settings))
-        {
-            $this->load_settings();
-        }
-        
-        return $this->settings[$variable];
-    }
-
-    /**
-     * @param string $variable
-     * @return string:
-     */
-    function get_user_setting($variable)
-    {
-        if (! isset($this->user_settings))
-        {
-            $this->load_user_settings();
-        }
-        
-        return $this->user_settings[$variable];
-    }
-
-    /**
-     * @return array:
-     */
-    function get_settings()
-    {
-        if (! isset($this->settings))
-        {
-            $this->load_settings();
-        }
-        
-        return $this->settings;
-    }
-
-    /**
-     * @return array:
-     */
-    function get_user_settings()
-    {
-        if (! isset($this->user_settings))
-        {
-            $this->load_user_settings();
-        }
-        
-        return $this->user_settings;
-    }
-
     /**
      * @param ExternalRepository $external_repository
      * @param Application $application
@@ -202,16 +114,11 @@ abstract class ExternalRepositoryManager extends SubManager
      */
     function is_ready_to_be_used()
     {
-        //        $action = $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
-        //
-        //        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER);
         return false;
     }
 
     function any_object_selected()
     {
-        //$object = Request :: get(self :: PARAM_ID);
-    //return isset($object);
     }
 
     /* (non-PHPdoc)
