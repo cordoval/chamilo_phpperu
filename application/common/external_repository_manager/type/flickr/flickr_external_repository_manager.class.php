@@ -61,16 +61,6 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     function support_sorting_direction()
     {
         return true;
-    }
-
-    /**
-     * @param string $query
-     * @return mixed
-     */
-    function translate_search_query($query)
-    {
-        return FlickrExternalRepositoryConnector :: translate_search_query($query);
-    }
 
     /**
      * @param ExternalRepositoryObject $object

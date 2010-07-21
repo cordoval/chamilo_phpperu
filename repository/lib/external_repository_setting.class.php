@@ -12,6 +12,12 @@ class ExternalRepositorySetting extends DataClass
     const PROPERTY_VARIABLE = 'variable';
     const PROPERTY_VALUE = 'value';
     const PROPERTY_USER_SETTING = 'user_setting';
+    
+    /**
+     * A static array containing all settings of external repository instances
+     * @var array
+     */
+    private static $settings;
 
     /**
      * Get the default properties of all settings.
@@ -176,6 +182,45 @@ class ExternalRepositorySetting extends DataClass
             {
                 return true;
             }
+        }
+    }
+
+    /**
+     * @param string $variable
+     * @param int $external_repository_id
+     * @return mixed
+     */
+    static function get($variable, $external_repository_id = null)
+    {
+        if (is_null($external_repository_id) || !is_numeric($external_repository_id))
+        {
+            $external_repository_id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
+            
+            if (is_null($external_repository_id) || !is_numeric($external_repository_id))
+            {
+                Display :: error_page(Translation :: get('WhatsUpDoc'));
+            }
+        }
+        
+        if (! isset(self :: $settings[$external_repository_id]))
+        {
+            self :: load($external_repository_id);
+        }
+        
+        return (isset(self :: $settings[$external_repository_id][$variable]) ? self :: $settings[$external_repository_id][$variable] : null);
+    }
+
+    /**
+     * @param int $external_repository_id
+     */
+    static function load($external_repository_id)
+    {        
+        $condition = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
+        $settings = RepositoryDataManager :: get_instance()->retrieve_external_repository_settings($condition);
+        
+        while ($setting = $settings->next_result())
+        {
+            self :: $settings[$external_repository_id][$setting->get_variable()] = $setting->get_value();
         }
     }
 }

@@ -5,7 +5,6 @@ require_once dirname(__FILE__) . '/google_docs_external_repository_object.class.
 class GoogleDocsExternalRepositoryConnector
 {
     private static $instance;
-    private $manager;
     private $google_docs;
 
     const RELEVANCE = 'relevance';
@@ -13,11 +12,9 @@ class GoogleDocsExternalRepositoryConnector
     const VIEW_COUNT = 'viewCount';
     const RATING = 'rating';
 
-    function GoogleDocsExternalRepositoryConnector($manager)
+    function GoogleDocsExternalRepositoryConnector()
     {
-        $this->manager = $manager;
-
-        $session_token = $this->manager->get_user_setting('session_token');
+        $session_token = ExternalRepositoryUserSetting :: get('session_token');
 
         Zend_Loader :: loadClass('Zend_Gdata_Docs');
         Zend_Loader :: loadClass('Zend_Gdata_Docs_Query');
@@ -27,15 +24,7 @@ class GoogleDocsExternalRepositoryConnector
         {
             if (! isset($_GET['token']))
             {
-                if ($manager->is_stand_alone())
-                {
-                    $next_url = PATH :: get(WEB_PATH) . 'common/launcher/index.php?application=external_repository&external_repository=' . $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
-                }
-                else
-                {
-                    $next_url = PATH :: get(WEB_PATH) . 'core.php?go=external_repository&application=repository&external_repository=' . $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
-                }
-
+                $next_url = Redirect :: current_url();
                 $scope = 'http://docs.google.com/feeds/';
                 $secure = false;
                 $session = true;
@@ -49,10 +38,10 @@ class GoogleDocsExternalRepositoryConnector
 
                 if ($session_token)
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
                     $user_setting = new ExternalRepositoryUserSetting();
                     $user_setting->set_setting_id($setting->get_id());
-                    $user_setting->set_user_id($this->manager->get_user_id());
+                    $user_setting->set_user_id(Session :: get_user_id());
                     $user_setting->set_value($session_token);
                     $user_setting->create();
                 }
@@ -95,7 +84,7 @@ class GoogleDocsExternalRepositoryConnector
     {
         if (! isset(self :: $instance))
         {
-            self :: $instance = new GoogleDocsExternalRepositoryConnector($manager);
+            self :: $instance = new GoogleDocsExternalRepositoryConnector();
         }
         return self :: $instance;
     }
@@ -202,19 +191,19 @@ class GoogleDocsExternalRepositoryConnector
         return new ArrayResultSet($objects);
     }
 
-    function retrieve_folders()
+    function retrieve_folders($folder_url)
     {
         $folder_root = array();
         $folders_feed = $this->google_docs->getFolderListFeed();
 
         $my_folders = array();
         $my_folders['title'] = Translation :: get('MyFolders');
-        $my_folders['url'] = $this->manager->get_url();
+        $my_folders['url'] = str_replace('__PLACEHOLDER__', '', $folder_url);
         $my_folders['class'] = 'category';
 
         $shared_folders = array();
         $shared_folders['title'] = Translation :: get('SharedFolders');
-        $shared_folders['url'] = $this->manager->get_url();
+        $shared_folders['url'] = str_replace('__PLACEHOLDER__', '', $folder_url);
         $shared_folders['class'] = 'shared_objects';
 
         $objects = array();
@@ -247,8 +236,8 @@ class GoogleDocsExternalRepositoryConnector
             }
         }
 
-        $my_folders['sub'] = $this->get_folder_tree('--my--', $objects);
-        $shared_folders['sub'] = $this->get_folder_tree('--shared--', $objects);
+        $my_folders['sub'] = $this->get_folder_tree('--my--', $objects, $folder_url);
+        $shared_folders['sub'] = $this->get_folder_tree('--shared--', $objects, $folder_url);
 
         $folder_root[] = $my_folders;
         $folder_root[] = $shared_folders;
@@ -256,17 +245,17 @@ class GoogleDocsExternalRepositoryConnector
         return $folder_root;
     }
 
-    function get_folder_tree($index, $folders)
+    function get_folder_tree($index, $folders, $folder_url)
     {
         $items = array();
         foreach ($folders[$index] as $child)
         {
             $sub_folder = array();
             $sub_folder['title'] = $child->getTitle()->getText();
-            $sub_folder['url'] = $this->manager->get_url(array('folder' => urlencode($child->getTitle()->getText())));
+            $sub_folder['url'] = str_replace('__PLACEHOLDER__', urlencode($child->getTitle()->getText()), $folder_url);
             $sub_folder['class'] = 'category';
 
-            $children = $this->get_folder_tree($child->getTitle()->getText(), $folders);
+            $children = $this->get_folder_tree($child->getTitle()->getText(), $folders, $folder_url);
 
             if (count($children) > 0)
             {

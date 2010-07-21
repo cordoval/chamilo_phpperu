@@ -7,7 +7,6 @@ require_once Path :: get_plugin_path() . 'getid3/getid3.php';
 class YoutubeExternalRepositoryConnector implements ExternalRepositoryConnector
 {
     private static $instance;
-    private $manager;
     private $youtube;
 
     const RELEVANCE = 'relevance';
@@ -15,11 +14,9 @@ class YoutubeExternalRepositoryConnector implements ExternalRepositoryConnector
     const VIEW_COUNT = 'viewCount';
     const RATING = 'rating';
 
-    function YoutubeExternalRepositoryConnector($manager)
+    function YoutubeExternalRepositoryConnector()
     {
-        $this->manager = $manager;
-
-        $session_token = $this->manager->get_user_setting('session_token');
+        $session_token = ExternalRepositoryUserSetting :: get('session_token');
 
         Zend_Loader :: loadClass('Zend_Gdata_YouTube');
         Zend_Loader :: loadClass('Zend_Gdata_AuthSub');
@@ -28,15 +25,7 @@ class YoutubeExternalRepositoryConnector implements ExternalRepositoryConnector
         {
             if (! isset($_GET['token']))
             {
-                if ($manager->is_stand_alone())
-                {
-                    $next_url = PATH :: get(WEB_PATH) . 'common/launcher/index.php?application=external_repository&external_repository=' . $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
-                }
-                else
-                {
-                    $next_url = PATH :: get(WEB_PATH) . 'core.php?go=external_repository&application=repository&category=0&external_repository=' . $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
-                }
-
+                $next_url = Redirect :: current_url();
                 $scope = 'http://gdata.youtube.com';
                 $secure = false;
                 $session = true;
@@ -49,10 +38,10 @@ class YoutubeExternalRepositoryConnector implements ExternalRepositoryConnector
                 $session_token = Zend_Gdata_AuthSub :: getAuthSubSessionToken($_GET['token']);
                 if ($session_token)
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
                     $user_setting = new ExternalRepositoryUserSetting();
                     $user_setting->set_setting_id($setting->get_id());
-                    $user_setting->set_user_id($this->manager->get_user_id());
+                    $user_setting->set_user_id(Session :: get_user_id());
                     $user_setting->set_value($session_token);
                     $user_setting->create();
                 }
@@ -63,7 +52,7 @@ class YoutubeExternalRepositoryConnector implements ExternalRepositoryConnector
 
         $client = '';
         $application = PlatformSetting :: get('site_name');
-        $key = $this->manager->get_setting('developer_key');
+        $key = ExternalRepositorySetting :: get('developer_key');
 
         $this->youtube = new Zend_Gdata_YouTube($httpClient, $application, $client, $key);
         $this->youtube->setMajorProtocolVersion(2);
@@ -161,7 +150,7 @@ class YoutubeExternalRepositoryConnector implements ExternalRepositoryConnector
     {
         if (! isset(self :: $instance))
         {
-            self :: $instance = new YoutubeExternalRepositoryConnector($manager);
+            self :: $instance = new YoutubeExternalRepositoryConnector();
         }
         return self :: $instance;
     }
@@ -252,7 +241,7 @@ class YoutubeExternalRepositoryConnector implements ExternalRepositoryConnector
 
             $object = new YoutubeExternalRepositoryObject();
             $object->set_id($videoEntry->getVideoId());
-            $object->set_external_repository_id($this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+            $object->set_external_repository_id(Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
             $object->set_title($videoEntry->getVideoTitle());
             $object->set_description(nl2br($videoEntry->getVideoDescription()));
             $object->set_created($published_timestamp);
@@ -318,7 +307,7 @@ class YoutubeExternalRepositoryConnector implements ExternalRepositoryConnector
 
         $object = new YoutubeExternalRepositoryObject();
         $object->set_id($videoEntry->getVideoId());
-        $object->set_external_repository_id($this->manager->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+        $object->set_external_repository_id(Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
         $object->set_title($videoEntry->getVideoTitle());
         $object->set_description(nl2br($videoEntry->getVideoDescription()));
         $object->set_owner_id($author->getName()->getText());

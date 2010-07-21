@@ -107,7 +107,7 @@ class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnecto
 
     function set_mediamosa_default_user_quotum($user_id)
     {
-        $quotum = $this->manager->get_setting('default_user_quotum');
+        $quotum = ExternalRepositorySetting :: get('default_user_quotum');
         if ($this->set_mediamosa_user_quotum($user_id, $quotum))
         {
             return true;
@@ -157,7 +157,7 @@ class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnecto
 
     function login()
     {
-        $url = $this->manager->get_setting('url');
+        $url = ExternalRepositorySetting :: get('url');
         $this->mediamosa = new MediamosaRestClient($url);
         //TODO: jens -> implement curl request
         $this->mediamosa->set_connexion_mode(RestClient :: MODE_PEAR);
@@ -169,7 +169,7 @@ class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnecto
             if (PlatformSetting :: get('proxy_settings_active', 'admin'))
                 $this->mediamosa->set_proxy(PlatformSetting :: get('proxy_server', 'admin'), PlatformSetting :: get('proxy_port', 'admin'), PlatformSetting :: get('proxy_username', 'admin'), PlatformSetting :: get('proxy_password', 'admin'));
             
-            if ($this->mediamosa->login($this->manager->get_setting('login'), $this->manager->get_setting('password')))
+            if ($this->mediamosa->login(ExternalRepositorySetting :: get('login'), ExternalRepositorySetting :: get('password')))
             {
                 return true;
             }
@@ -181,7 +181,7 @@ class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnecto
     {
         if (! isset(self :: $instance))
         {
-            self :: $instance = new MediamosaExternalRepositoryConnector($manager);
+            self :: $instance = new MediamosaExternalRepositoryConnector();
         }
         return self :: $instance;
     }
