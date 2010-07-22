@@ -351,8 +351,19 @@ abstract class ExternalRepositoryManager extends SubManager
                 }
                 else
                 {
-                    $object->get_synchronisation_status();
-                    $toolbar_items[] = new ToolbarItem(Translation :: get('Synchronize'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                    switch ($object->get_synchronization_status())
+                    {
+                        case ExternalRepositorySync :: SYNC_STATUS_INTERNAL :
+                            $toolbar_items[] = new ToolbarItem(Translation :: get('UpdateContentObject'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                            break;
+                        case ExternalRepositorySync :: SYNC_STATUS_EXTERNAL :
+                            $toolbar_items[] = new ToolbarItem(Translation :: get('UpdateExternalRepositoryObject'), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                            break;
+                        case ExternalRepositorySync :: SYNC_STATUS_CONFLICT :
+                            $toolbar_items[] = new ToolbarItem(Translation :: get('UpdateContentObject'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                            $toolbar_items[] = new ToolbarItem(Translation :: get('UpdateExternalRepositoryObject'), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                            break;
+                    }
                 }
             }
         }
@@ -412,17 +423,17 @@ abstract class ExternalRepositoryManager extends SubManager
     }
 
     function create_component($type, $application = null)
-    {        
+    {
         if ($application == null)
         {
             $application = $this;
         }
-
+        
         $manager_class = get_class($application);
         $application_component_path = $application->get_application_component_path();
-
+        
         $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
-
+        
         if (! file_exists($file) || ! is_file($file))
         {
             $message = array();
@@ -434,18 +445,18 @@ abstract class ExternalRepositoryManager extends SubManager
             $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
             $message[] = '<li>' . Translation :: get($type) . '</li>';
             $message[] = '</ul>';
-
+            
             $application_name = Application :: application_to_class($this->get_application_name());
-
+            
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
-
+            
             Display :: header($trail);
             Display :: error_message(implode("\n", $message));
             Display :: footer();
             exit();
         }
-
+        
         $class = $manager_class . $type . 'Component';
         require_once $file;
         

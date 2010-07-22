@@ -26,7 +26,7 @@ class MediamosaExternalRepositoryManagerImporterComponent extends MediamosaExter
         
         if ($streaming_video_clip->create())
         {
-            ExternalRepositorySync :: quicksave($streaming_video_clip, $object, $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+            ExternalRepositorySync :: quicksave($streaming_video_clip, $object, $this->get_external_repository()->get_id());
             $parameters = $this->get_parameters();
             $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
             $this->redirect(Translation :: get('ImportSuccesfull'), false, $parameters, array(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION));

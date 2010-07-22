@@ -30,7 +30,7 @@ class FlickrExternalRepositoryManagerImporterComponent extends FlickrExternalRep
 
         if ($image->create())
         {
-            ExternalRepositorySync :: quicksave($image, $external_object, $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+            ExternalRepositorySync :: quicksave($image, $external_object, $this->get_external_repository()->get_id());
             
             $parameters = $this->get_parameters();
             $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS;
