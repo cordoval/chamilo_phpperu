@@ -144,6 +144,9 @@ $lang['user']['Calendar'] = 'Kalender';
 $lang['user']['Visual'] = 'Visuele instellingen';
 
 
+$lang['user']['ConfigurationUpdated'] = 'Instellingen aangepast';
+
+
 
 
 

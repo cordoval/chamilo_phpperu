@@ -29,6 +29,7 @@ $lang['common']['MarchShort'] = 'Mar';
 $lang['common']['AprilShort'] = 'Apr';
 $lang['common']['MayShort'] = 'May';
 $lang['common']['JuneShort'] = 'Jun';
+$lang['common']['JulyShort'] = 'Jul';
 $lang['common']['AugustShort'] = 'Aug';
 $lang['common']['SeptemberShort'] = 'Sep';
 $lang['common']['OctoberShort'] = 'Oct';
