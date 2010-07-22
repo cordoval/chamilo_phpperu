@@ -23,20 +23,14 @@ abstract class ExternalRepositoryManager extends SubManager
     const CLASS_NAME = __CLASS__;
     
     /**
-     * @var array
+     * @var ExternalRepository
      */
-    private $settings;
-    /**
-     * @var array
-     */
-    private $user_settings;
-    
     private $external_repository;
 
     /**
      * @param Application $application
      */
-    function ExternalRepositoryManager($application)
+    function ExternalRepositoryManager($external_repository, $application)
     {
         parent :: __construct($application);
         $this->external_repository = $external_repository;
@@ -68,6 +62,22 @@ abstract class ExternalRepositoryManager extends SubManager
         {
             $this->initialize_external_repository($this);
         }
+    }
+
+    /**
+     * @return ExternalRepository
+     */
+    function get_external_repository()
+    {
+        return $this->external_repository;
+    }
+
+    /**
+     * @param ExternalRepository $external_repository
+     */
+    function set_external_repository(ExternalRepository $external_repository)
+    {
+        $this->external_repository = $external_repository;
     }
 
     /**
@@ -106,7 +116,9 @@ abstract class ExternalRepositoryManager extends SubManager
         require_once $file;
         
         $class = Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryManager';
-        return new $class($application);
+        $manager = new $class($external_repository, $application);
+        //$manager->set_external_repository($external_repository);
+        return $manager;
     }
 
     /**
@@ -393,6 +405,47 @@ abstract class ExternalRepositoryManager extends SubManager
         {
             return false;
         }
+    }
+
+    function create_component($type, $application = null)
+    {        
+        if ($application == null)
+        {
+            $application = $this;
+        }
+
+        $manager_class = get_class($application);
+        $application_component_path = $application->get_application_component_path();
+
+        $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
+
+        if (! file_exists($file) || ! is_file($file))
+        {
+            $message = array();
+            $message[] = Translation :: get('ComponentFailedToLoad') . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('File') . ':</b><br />';
+            $message[] = $file . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('Stacktrace') . ':</b>';
+            $message[] = '<ul>';
+            $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
+            $message[] = '<li>' . Translation :: get($type) . '</li>';
+            $message[] = '</ul>';
+
+            $application_name = Application :: application_to_class($this->get_application_name());
+
+            $trail = BreadcrumbTrail :: get_instance();
+            $trail->add(new Breadcrumb('#', Translation :: get($application_name)));
+
+            Display :: header($trail);
+            Display :: error_message(implode("\n", $message));
+            Display :: footer();
+            exit();
+        }
+
+        $class = $manager_class . $type . 'Component';
+        require_once $file;
+        
+        return new $class($application->get_external_repository(), $application->get_parent());
     }
 }
 ?>

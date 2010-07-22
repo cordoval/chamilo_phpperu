@@ -3,7 +3,7 @@ class FlickrExternalRepositoryManagerBrowserComponent extends FlickrExternalRepo
 {
 
     function run()
-    {
+    {        
         $browser = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: BROWSER_COMPONENT, $this);
         $browser->run();
     }

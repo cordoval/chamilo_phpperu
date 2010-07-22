@@ -17,9 +17,9 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     /**
      * @param Application $application
      */
-    function YoutubeExternalRepositoryManager($application)
+    function YoutubeExternalRepositoryManager($external_repository, $application)
     {
-        parent :: __construct($application);
+        parent :: __construct($external_repository, $application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
@@ -36,7 +36,7 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_connector()
     {
-        return YoutubeExternalRepositoryConnector :: get_instance();
+        return YoutubeExternalRepositoryConnector :: get_instance($this->get_external_repository()->get_id());
     }
 
     /* (non-PHPdoc)

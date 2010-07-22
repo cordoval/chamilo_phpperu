@@ -18,9 +18,9 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     /**
      * @param Application $application
      */
-    function FlickrExternalRepositoryManager($application)
+    function FlickrExternalRepositoryManager($external_repository, $application)
     {
-        parent :: __construct($application);
+        parent :: __construct($external_repository, $application);
         $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
@@ -37,7 +37,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_external_repository_connector()
     {
-        return FlickrExternalRepositoryConnector :: get_instance();
+        return FlickrExternalRepositoryConnector :: get_instance($this->get_external_repository()->get_id());
     }
 
     /* (non-PHPdoc)
@@ -136,7 +136,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     }
 
     function run()
-    {
+    {        
         $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
 
         switch ($parent)
@@ -170,7 +170,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
                 break;
         }
-
+        
         $component->run();
     }
 
