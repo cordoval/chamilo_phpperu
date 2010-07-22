@@ -313,6 +313,14 @@ abstract class ExternalRepositoryObject
 
         return $this->synchronisation_data;
     }
+    
+    function get_synchronisation_status()
+    {
+        $synchronisation_data = $this->get_synchronisation_data();
+        $content_object = $synchronisation_data->get_content_object();
+//        return $this->synchronisation_data->get_synchronization_status($content_object->)
+        //dump($content_object);
+    }
 
     /**
      * @return boolean

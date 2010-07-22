@@ -13,11 +13,8 @@ require_once dirname(__FILE__) . '/webservices/mediamosa_rest_client.class.php';
 require_once dirname(__FILE__) . '/mediamosa_mediafile_object.class.php';
 require_once dirname(__FILE__) . '/mediamosa_external_repository_object.class.php';
 
-class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnector
+class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 {
-    
-    private static $instance;
-    private $manager;
     private $mediamosa;
     private $profiles;
     private $chamilo_user;
@@ -31,14 +28,13 @@ class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnecto
     //TODO: find correct settings
     const PLACEHOLDER_URL = 'http://localhost/chamilo_2.0/layout/aqua/images/common/content_object/big/streaming_video_clip.png';
 
-    function MediamosaExternalRepositoryConnector($server_id = null, $do_login = true)
-    {        
-        if ($do_login)
+    function MediamosaExternalRepositoryConnector($external_repository_instance)
+    {
+        parent :: __construct($external_repository_instance);
+        
+        if (! $this->login())
         {
-            if (! $this->login())
-            {
-                exit(Translation :: get('Connection to Mediamosa server failed'));
-            }
+            exit(Translation :: get('Connection to Mediamosa server failed'));
         }
     }
 
@@ -155,7 +151,7 @@ class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnecto
 
     function login()
     {
-        $url = ExternalRepositorySetting :: get('url');
+        $url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
         $this->mediamosa = new MediamosaRestClient($url);
         //TODO: jens -> implement curl request
         $this->mediamosa->set_connexion_mode(RestClient :: MODE_PEAR);
@@ -167,21 +163,12 @@ class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnecto
             if (PlatformSetting :: get('proxy_settings_active', 'admin'))
                 $this->mediamosa->set_proxy(PlatformSetting :: get('proxy_server', 'admin'), PlatformSetting :: get('proxy_port', 'admin'), PlatformSetting :: get('proxy_username', 'admin'), PlatformSetting :: get('proxy_password', 'admin'));
             
-            if ($this->mediamosa->login(ExternalRepositorySetting :: get('login'), ExternalRepositorySetting :: get('password')))
+            if ($this->mediamosa->login(ExternalRepositorySetting :: get('login', $this->get_external_repository_instance_id()), ExternalRepositorySetting :: get('password', $this->get_external_repository_instance_id())))
             {
                 return true;
             }
         }
         return false;
-    }
-
-    static function get_instance($manager)
-    {
-        if (! isset(self :: $instance))
-        {
-            self :: $instance = new MediamosaExternalRepositoryConnector();
-        }
-        return self :: $instance;
     }
 
     /*
@@ -221,7 +208,7 @@ class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnecto
      * @param string count optional
      * @return array with MediamosaExternalRepositoryObject(s)
      */
-    function retrieve_external_repository_objects($condition = null, $order_property = null, $offset = null, $count = null)
+    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
         $params = array();
         
@@ -482,15 +469,16 @@ class MediamosaExternalRepositoryConnector implements ExternalRepositoryConnecto
             $asset_rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
         }
         
-//        if ($asset->get_is_downloadable())
-//        {
-            $asset_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = true;
-//        }
-//        else
-//        {
-//            $asset_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
-//        }
+        //        if ($asset->get_is_downloadable())
+        //        {
+        $asset_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = true;
+        //        }
+        //        else
+        //        {
+        //            $asset_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
+        //        }
         
+
         return $asset_rights;
     }
 

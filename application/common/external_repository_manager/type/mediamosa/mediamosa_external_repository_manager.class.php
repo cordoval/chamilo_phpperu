@@ -40,14 +40,6 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         return Path :: get_application_library_path() . 'external_repository_manager/type/mediamosa/component/';
     }
 
-    /**
-     * @return MediamosaExternalRepositoryConnector
-     */
-    function get_external_repository_connector()
-    {
-        return MediamosaExternalRepositoryConnector :: get_instance();
-    }
-
     function retrieve_external_repository_server_object($id)
     {
         if (self :: $server)

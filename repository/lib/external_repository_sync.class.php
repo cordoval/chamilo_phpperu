@@ -2,22 +2,27 @@
 class ExternalRepositorySync extends RepositoryDataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_CONTENT_OBJECT_ID = 'content_object_id';
     const PROPERTY_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID = 'external_repository_object_id';
     const PROPERTY_SYNCHRONIZED = 'synchronized';
     const PROPERTY_EXTERNAL_REPOSITORY_OBJECT_TIMESTAMP = 'external_repository_object_timestamp';
-
+    
     const SYNC_STATUS_IDENTICAL = 0;
     const SYNC_STATUS_EXTERNAL = 1;
     const SYNC_STATUS_INTERNAL = 2;
-
-
+    const SYNC_STATUS_ERROR = 3;
+    
     /**
      * @var ContentObject
      */
     private $content_object;
+    
+    /**
+     * @var ExternalRepositoryObject
+     */
+    private $external_repository_object;
 
     /**
      * @param int $content_object_id
@@ -104,7 +109,7 @@ class ExternalRepositorySync extends RepositoryDataClass
         $extended_property_names[] = self :: PROPERTY_EXTERNAL_REPOSITORY_ID;
         $extended_property_names[] = self :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID;
         $extended_property_names[] = self :: PROPERTY_SYNCHRONIZED;
-
+        
         return parent :: get_default_property_names($extended_property_names);
     }
 
@@ -135,7 +140,7 @@ class ExternalRepositorySync extends RepositoryDataClass
         {
             throw new Exception('ExternalRepositorySync object could not be saved as its identity is not set');
         }
-
+        
         $this->set_modification_date(time());
         return parent :: update();
     }
@@ -145,22 +150,38 @@ class ExternalRepositorySync extends RepositoryDataClass
      */
     function get_content_object()
     {
-        if(!isset($this->content_object))
+        if (! isset($this->content_object))
         {
-            $this->content_object = RepositoryDataManager::get_instance()->retrieve_content_object($this->get_content_object_id());
+            $this->content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_content_object_id());
         }
         return $this->content_object;
     }
 
-    function get_synchronization_status()
+    /**
+     * @return ExternalRepositoryObject
+     */
+    function get_external_repository_object()
     {
-        $content_object_modification_date = $this->get_content_object()->get_modification_date();
+        if (! isset($this->external_repository_object))
+        {
+            $this->external_repository_object = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_content_object_id());
+        }
+        return $this->external_repository_object;
+    }
 
+    function get_synchronization_status($content_object_date = null, $external_object_date = null)
+    {
+        if (is_null($content_object_date))
+        {
+            $content_object_date = $this->get_content_object()->get_modification_date();
+        }
+        $content_object_modification_date = $this->get_content_object()->get_modification_date();
+        
         if ($content_object_modification_date > $this->get_synchronized())
         {
             return self :: SYNC_STATUS_INTERNAL;
         }
-        elseif($content_object_modification_date < $this->get_synchronized())
+        elseif ($content_object_modification_date < $this->get_synchronized())
         {
             return self :: SYNC_STATUS_EXTERNAL;
         }
@@ -173,7 +194,7 @@ class ExternalRepositorySync extends RepositoryDataClass
     /*************************************************************************
      * Fat model methods
      *************************************************************************/
-
+    
     /**
      * @param int $content_object_id
      * @return ExternalRepositorySync

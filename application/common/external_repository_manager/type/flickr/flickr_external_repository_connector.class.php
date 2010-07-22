@@ -9,22 +9,12 @@ require_once dirname(__FILE__) . '/flickr_external_repository_object.class.php';
  * Test developer secret for Flickr: e267cbf5b7a1ad23
  */
 
-class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
+class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
 {
     const SORT_DATE_POSTED = 'date-posted';
     const SORT_DATE_TAKEN = 'date-taken';
     const SORT_INTERESTINGNESS = 'interestingness';
     const SORT_RELEVANCE = 'relevance';
-    
-    /**
-     * @var array
-     */
-    private static $instance = array();
-    
-    /**
-     * @var int
-     */
-    private $instance_id;
     
     /**
      * @var phpFlickr
@@ -35,6 +25,7 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
      * @var string
      */
     private $key;
+    
     /**
      * @var string
      */
@@ -44,6 +35,7 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
      * @var array
      */
     private $licenses;
+    
     /**
      * The id of the user on Flickr
      * @var string
@@ -51,17 +43,17 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
     private $user_id;
 
     /**
-     * @param int $instance_id
+     * @param ExternalRepository $external_repository_instance
      */
-    function FlickrExternalRepositoryConnector($instance_id)
+    function FlickrExternalRepositoryConnector($external_repository_instance)
     {
-        $this->instance_id = $instance_id;
+        parent :: __construct($external_repository_instance);
         
-        $this->key = ExternalRepositorySetting :: get('key', $this->instance_id);
-        $this->secret = ExternalRepositorySetting :: get('secret', $this->instance_id);
+        $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
+        $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
         $this->flickr = new phpFlickr($this->key, $this->secret);
         
-        $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->instance_id);
+        $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
         
         if (! $session_token)
         {
@@ -76,7 +68,7 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
                 $token = $this->flickr->auth_getToken($frob);
                 if ($token['token'])
                 {
-                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->instance_id);
+                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
                     $user_setting = new ExternalRepositoryUserSetting();
                     $user_setting->set_setting_id($setting->get_id());
                     $user_setting->set_user_id(Session :: get_user_id());
@@ -209,6 +201,7 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         {
             $object = new FlickrExternalRepositoryObject();
             $object->set_id($photo['id']);
+            $object->set_external_repository_id($this->get_external_repository_instance_id());
             $object->set_title($photo['title']);
             $object->set_description($photo['description']);
             $object->set_created($photo['dateupload']);
@@ -323,6 +316,7 @@ class FlickrExternalRepositoryConnector implements ExternalRepositoryConnector
         $photo = $this->flickr->photos_getInfo($id);
         
         $object = new FlickrExternalRepositoryObject();
+        $object->set_external_repository_id($this->get_external_repository_instance_id());
         $object->set_id($photo['id']);
         $object->set_title($photo['title']);
         $object->set_description($photo['description']);

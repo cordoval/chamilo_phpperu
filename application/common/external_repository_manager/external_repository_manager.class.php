@@ -83,7 +83,10 @@ abstract class ExternalRepositoryManager extends SubManager
     /**
      * @return ExternalRepositoryConnector
      */
-    abstract function get_external_repository_connector();
+    function get_external_repository_connector()
+    {
+        return ExternalRepositoryConnector :: get_instance($this->get_external_repository());
+    }
 
     function set_optional_parameters()
     {
@@ -348,6 +351,7 @@ abstract class ExternalRepositoryManager extends SubManager
                 }
                 else
                 {
+                    $object->get_synchronisation_status();
                     $toolbar_items[] = new ToolbarItem(Translation :: get('Synchronize'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                 }
             }
