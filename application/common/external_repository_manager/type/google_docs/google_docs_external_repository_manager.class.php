@@ -7,9 +7,9 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
     /**
      * @param Application $application
      */
-    function GoogleDocsExternalRepositoryManager($application)
+    function GoogleDocsExternalRepositoryManager($external_repository, $application)
     {
-        parent :: __construct($application);
+        parent :: __construct($external_repository, $application);
     }
 
     /* (non-PHPdoc)
@@ -115,7 +115,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
                 $component = $this->create_component('Deleter');
                 break;
             default :
-                $component = $this->create_component('Browser', $this);
+                $component = $this->create_component('Browser');
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
                 break;
         }

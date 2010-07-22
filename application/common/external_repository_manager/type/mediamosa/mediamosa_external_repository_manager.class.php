@@ -30,9 +30,9 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     private static $server;
     private $server_selection_form;
 
-    function MediamosaStreamingVideoManager($application)
+    function MediamosaStreamingVideoManager($external_repository, $application)
     {
-        parent :: __construct($application);
+        parent :: __construct($external_repository, $application);
     }
 
     function get_application_component_path()
