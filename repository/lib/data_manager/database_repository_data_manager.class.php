@@ -1574,9 +1574,9 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     function retrieve_external_repository_sync($condition)
     {
         $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
-        $synchronisation_alias = $this->get_alias(ExternalRepositorySync :: get_table_name());
+        $synchronization_alias = $this->get_alias(ExternalRepositorySync :: get_table_name());
 
-        $query = 'SELECT ' . $synchronisation_alias . '.* FROM ' . $this->escape_table_name(ExternalRepositorySync :: get_table_name()) . ' AS ' . $synchronisation_alias . ' JOIN ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' ON ' . $this->escape_column_name(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $synchronisation_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias);
+        $query = 'SELECT ' . $synchronization_alias . '.* FROM ' . $this->escape_table_name(ExternalRepositorySync :: get_table_name()) . ' AS ' . $synchronization_alias . ' JOIN ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' ON ' . $this->escape_column_name(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $synchronization_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias);
         $record = $this->retrieve_row($query, ExternalRepositorySync :: get_table_name(), $condition);
 
         if ($record)
@@ -1587,6 +1587,15 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         {
             return false;
         }
+    }
+    
+    function retrieve_external_repository_syncs($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
+        $synchronization_alias = $this->get_alias(ExternalRepositorySync :: get_table_name());
+
+        $query = 'SELECT ' . $synchronization_alias . '.* FROM ' . $this->escape_table_name(ExternalRepositorySync :: get_table_name()) . ' AS ' . $synchronization_alias . ' JOIN ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias . ' ON ' . $this->escape_column_name(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $synchronization_alias) . ' = ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias);
+        return $this->retrieve_object_set($query, ExternalRepositorySync :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
     function delete_content_object_includes($object)

@@ -85,7 +85,8 @@ class RepositoryAutoloader
 					  'publication_browser_table' => 'publication_browser/publication_browser_table.class.php',
 					  'recycle_bin_browser_table' => 'recycle_bin_browser/recycle_bin_browser_table.class.php',
 					  'user_view_browser_table' => 'user_view_browser/user_view_browser_table.class.php',
-				      'link_browser_table' => 'link_browser/link_browser_table.class.php');
+				      'link_browser_table' => 'link_browser/link_browser_table.class.php',
+				      'external_link_browser_table' => 'external_link_browser/external_link_browser_table.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

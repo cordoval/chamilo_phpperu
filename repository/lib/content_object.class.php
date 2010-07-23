@@ -117,6 +117,11 @@ class ContentObject extends DataClass
      * the learning object.
      */
     private $oldState;
+    
+    /**
+     * @var ObjectResultSet
+     */
+    private $synchronization_data;
 
     /**
      * Creates a new learning object.
@@ -989,6 +994,10 @@ class ContentObject extends DataClass
         return new $class($defaultProperties, $additionalProperties);
     }
 
+    /**
+     * @param string $type
+     * @return boolean
+     */
     static function is_extended_type($type)
     {
         $class = self :: type_to_class($type);
@@ -998,11 +1007,17 @@ class ContentObject extends DataClass
         return ! empty($properties);
     }
 
+    /**
+     * @param string $path_type
+     */
     function get_path($path_type)
     {
         return Path :: get($path_type);
     }
 
+    /**
+     * @return array 
+     */
     function get_html_editors()
     {
         /*require_once dirname(__FILE__) . '/content_object_form.class.php';
@@ -1012,6 +1027,9 @@ class ContentObject extends DataClass
         return array(self :: PROPERTY_DESCRIPTION);
     }
 
+    /**
+     * @return string
+     */
     static function get_table_name()
     {
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
@@ -1028,14 +1046,43 @@ class ContentObject extends DataClass
         return $rdm->retrieve_content_object($content_object_id);
     }
 
+    /**
+     * @return string
+     */
     static function get_type_name()
     {
         return $this->get_type();
     }
 
+    /**
+     * @return array:
+     */
     static function get_managers()
     {
         return array();
+    }
+    
+    /**
+     * @return ObjectResultSet
+     */
+    function get_synchronization_data()
+    {
+        if (! isset($this->synchronization_data))
+        {
+            $sync_conditions = array();
+            $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
+            $sync_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id(), ContentObject :: get_table_name());
+            $sync_condition = new AndCondition($sync_conditions);
+
+            $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_syncs($sync_condition);
+        }
+
+        return $this->synchronization_data;
+    }
+    
+    function is_external()
+    {
+        return $this->get_synchronization_data()->size() > 0;
     }
 }
 ?>

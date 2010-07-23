@@ -9,7 +9,7 @@ abstract class ExternalRepositoryObject
     /**
      * @var ExternalRepositorySync
      */
-    private $synchronisation_data;
+    private $synchronization_data;
 
     const PROPERTY_ID = 'id';
     const PROPERTY_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
@@ -298,9 +298,9 @@ abstract class ExternalRepositoryObject
         return $this->get_right(self :: RIGHT_DOWNLOAD);
     }
 
-    function get_synchronisation_data()
+    function get_synchronization_data()
     {
-        if (! isset($this->sync_data))
+        if (! isset($this->synchronization_data))
         {
             $sync_conditions = array();
             $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_EXTERNAL_REPOSITORY_OBJECT_ID, $this->get_id());
@@ -308,15 +308,15 @@ abstract class ExternalRepositoryObject
             $sync_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id(), ContentObject :: get_table_name());
             $sync_condition = new AndCondition($sync_conditions);
 
-            $this->synchronisation_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_sync($sync_condition);
+            $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_sync($sync_condition);
         }
 
-        return $this->synchronisation_data;
+        return $this->synchronization_data;
     }
     
     function get_synchronization_status()
     {
-        return $this->get_synchronisation_data()->get_synchronization_status(null, $this->get_created());
+        return $this->get_synchronization_data()->get_synchronization_status(null, $this->get_created());
     }
 
     /**
@@ -324,7 +324,7 @@ abstract class ExternalRepositoryObject
      */
     function is_importable()
     {
-        return !$this->get_synchronisation_data() instanceof ExternalRepositorySync;
+        return !$this->get_synchronization_data() instanceof ExternalRepositorySync;
     }
 }
 ?>

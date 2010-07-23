@@ -792,5 +792,6 @@ $lang['common']['ConfigureTitle'] = 'Settings';
 
 $lang['common']['MyFolders'] = 'My folders';
 $lang['common']['SharedFolders'] = 'Shared folders';
-$lang['common']['ExternalObjectAlreadyImported'] = 'You already imported this object into your personal repository. You can synchronize the properties of the imported object, but it\'s not possible to import the object a second time.';
+$lang['common']['ExternalObjectSynchronizationUpdateExternal'] = 'This object is already in your repository. The version in your repository has been modified though since you last synchronized / imported it. You can update the object in the external repository if you want to.';
+$lang['common']['UpdateExternalRepositoryObject'] = 'Update external repository';
 ?>

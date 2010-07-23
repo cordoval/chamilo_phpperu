@@ -34,6 +34,11 @@ class ExternalRepositorySync extends RepositoryDataClass
      * @var int
      */
     private $synchronization_status;
+    
+    /**
+     * @var ExternalRepository
+     */
+    private $external_repository;
 
     /**
      * @param int $content_object_id
@@ -196,10 +201,22 @@ class ExternalRepositorySync extends RepositoryDataClass
     {
         if (! isset($this->external_repository_object))
         {
-            $external_repository_instance = RepositoryDataManager :: get_instance()->retrieve_external_repository($this->get_external_repository_id());
+            $external_repository_instance = $this->get_external_repository();
             $this->external_repository_object = ExternalRepositoryConnector :: get_instance($external_repository_instance)->retrieve_external_repository_object($this->get_external_repository_object_id());
         }
         return $this->external_repository_object;
+    }
+    
+    /**
+     * @return ExternalRepository
+     */
+    function get_external_repository()
+    {
+        if (! isset($this->external_repository))
+        {
+            $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($this->get_external_repository_id());
+        }
+        return $this->external_repository;
     }
 
     function get_synchronization_status($content_object_date = null, $external_object_date = null)
