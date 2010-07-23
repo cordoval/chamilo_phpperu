@@ -11,6 +11,8 @@ abstract class ExternalRepositoryComponent extends SubManager
 	const EDITOR_COMPONENT = 'editor';
 	const DELETER_COMPONENT = 'deleter';
 	const CONFIGURER_COMPONENT = 'configurer';
+	const INTERNAL_SYNCER_COMPONENT = 'internal_syncer';
+	const EXTERNAL_SYNCER_COMPONENT = 'external_syncer';
 
 	static function factory($type, $application)
 	{
@@ -59,6 +61,21 @@ abstract class ExternalRepositoryComponent extends SubManager
 	function export_external_repository_object($object)
 	{
 		return $this->get_parent()->export_external_repository_object($object);
+	}
+	
+	function import_external_repository_object(ExternalRepositoryObject $object)
+	{
+		return $this->get_parent()->import_external_repository_object($object);
+	}
+	
+	function synchronize_internal_repository_object(ExternalRepositoryObject $object)
+	{
+	    return $this->get_parent()->synchronize_internal_repository_object($object);
+	}
+	
+	function synchronize_external_repository_object(ExternalRepositoryObject $object)
+	{
+	    return $this->get_parent()->synchronize_external_repository_object($object);
 	}
 
 	function get_external_repository_object_actions(ExternalRepositoryObject $object)

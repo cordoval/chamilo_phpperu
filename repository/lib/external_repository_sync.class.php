@@ -327,7 +327,7 @@ class ExternalRepositorySync extends RepositoryDataClass
         $sync->set_content_object_timestamp($content_object->get_modification_date());
         $sync->set_external_repository_id($external_repository_id);
         $sync->set_external_repository_object_id($external_repository_object->get_id());
-        $sync->set_external_repository_object_timestamp($external_repository_object->get_created());
+        $sync->set_external_repository_object_timestamp($external_repository_object->get_modified());
         return $sync->create();
     }
 

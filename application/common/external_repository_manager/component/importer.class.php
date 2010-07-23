@@ -7,7 +7,7 @@ class ExternalRepositoryImporterComponent extends ExternalRepositoryComponent
         $id = Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID);
         $object = $this->retrieve_external_repository_object($id);
 
-        $succes = $this->get_parent()->import_external_repository_object($object);
+        $succes = $this->import_external_repository_object($object);
 
         $params = array();
         //$params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY] = '';

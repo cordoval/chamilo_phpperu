@@ -141,7 +141,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
         $feed_type = Request :: get(FlickrExternalRepositoryManager :: PARAM_FEED_TYPE);
         
         $offset = (($offset - ($offset % $count)) / $count) + 1;
-        $attributes = 'description,date_upload,owner_name,license,media,original_format';
+        $attributes = 'description,date_upload,owner_name,license,media,original_format,last_update';
         
         $search_parameters = array();
         $search_parameters['api_key'] = $this->key;
@@ -205,6 +205,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
             $object->set_title($photo['title']);
             $object->set_description($photo['description']);
             $object->set_created($photo['dateupload']);
+            $object->set_modified($photo['lastupdate']);
             $object->set_owner_id($photo['ownername']);
             
             $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
@@ -321,6 +322,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
         $object->set_title($photo['title']);
         $object->set_description($photo['description']);
         $object->set_created($photo['dateuploaded']);
+        $object->set_modified($photo['dates']['lastupdate']);
         $object->set_owner_id($photo['owner']['username']);
         
         $tags = array();

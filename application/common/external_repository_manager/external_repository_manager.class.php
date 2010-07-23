@@ -13,7 +13,8 @@ abstract class ExternalRepositoryManager extends SubManager
     const ACTION_EDIT_EXTERNAL_REPOSITORY = 'edit';
     const ACTION_DELETE_EXTERNAL_REPOSITORY = 'delete';
     const ACTION_CONFIGURE_EXTERNAL_REPOSITORY = 'configure';
-    const ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY = 'synchronize';
+    const ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY = 'sync_external';
+    const ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY = 'sync_internal';
     
     const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PARAM_EXTERNAL_REPOSITORY = 'external_repository';
@@ -354,7 +355,7 @@ abstract class ExternalRepositoryManager extends SubManager
                     switch ($object->get_synchronization_status())
                     {
                         case ExternalRepositorySync :: SYNC_STATUS_INTERNAL :
-                            $toolbar_items[] = new ToolbarItem(Translation :: get('UpdateContentObject'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                            $toolbar_items[] = new ToolbarItem(Translation :: get('UpdateContentObject'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                             break;
                         case ExternalRepositorySync :: SYNC_STATUS_EXTERNAL :
                             if ($object->is_editable())
@@ -363,7 +364,7 @@ abstract class ExternalRepositoryManager extends SubManager
                             }
                             break;
                         case ExternalRepositorySync :: SYNC_STATUS_CONFLICT :
-                            $toolbar_items[] = new ToolbarItem(Translation :: get('UpdateContentObject'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
+                            $toolbar_items[] = new ToolbarItem(Translation :: get('UpdateContentObject'), Theme :: get_common_image_path() . 'action_synchronize.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);
                             if ($object->is_editable())
                             {
                                 $toolbar_items[] = new ToolbarItem(Translation :: get('UpdateExternalRepositoryObject'), Theme :: get_common_image_path() . 'external_repository/' . $object->get_object_type() . '/logo/16.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id())), ToolbarItem :: DISPLAY_ICON);

@@ -17,6 +17,7 @@ abstract class ExternalRepositoryObject
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_CREATED = 'created';
+    const PROPERTY_MODIFIED = 'modified';
     const PROPERTY_TYPE = 'type';
     const PROPERTY_RIGHTS = 'rights';
 
@@ -45,6 +46,7 @@ abstract class ExternalRepositoryObject
         $extended_property_names[] = self :: PROPERTY_DESCRIPTION;
         $extended_property_names[] = self :: PROPERTY_OWNER_ID;
         $extended_property_names[] = self :: PROPERTY_CREATED;
+        $extended_property_names[] = self :: PROPERTY_MODIFIED;
         $extended_property_names[] = self :: PROPERTY_TYPE;
         $extended_property_names[] = self :: PROPERTY_RIGHTS;
         return $extended_property_names;
@@ -129,6 +131,14 @@ abstract class ExternalRepositoryObject
     public function get_created()
     {
         return $this->get_default_property(self :: PROPERTY_CREATED);
+    }
+    
+    /**
+     * @return int
+     */
+    public function get_modified()
+    {
+        return $this->get_default_property(self :: PROPERTY_MODIFIED);
     }
 
     /**
@@ -216,6 +226,14 @@ abstract class ExternalRepositoryObject
     {
         $this->set_default_property(self :: PROPERTY_CREATED, $created);
     }
+    
+    /**
+     * @param int $modified
+     */
+    public function set_modified($modified)
+    {
+        $this->set_default_property(self :: PROPERTY_MODIFIED, $modified);
+    }
 
     /**
      * @param string $type
@@ -298,6 +316,9 @@ abstract class ExternalRepositoryObject
         return $this->get_right(self :: RIGHT_DOWNLOAD);
     }
 
+    /**
+     * @return ExternalRepositorySync
+     */
     function get_synchronization_data()
     {
         if (! isset($this->synchronization_data))
@@ -314,9 +335,12 @@ abstract class ExternalRepositoryObject
         return $this->synchronization_data;
     }
     
+    /**
+     * @return int
+     */
     function get_synchronization_status()
     {
-        return $this->get_synchronization_data()->get_synchronization_status(null, $this->get_created());
+        return $this->get_synchronization_data()->get_synchronization_status(null, $this->get_modified());
     }
 
     /**
