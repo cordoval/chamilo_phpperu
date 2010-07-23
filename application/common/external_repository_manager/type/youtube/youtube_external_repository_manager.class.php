@@ -211,6 +211,12 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
             case ExternalRepositoryManager :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Configurer');
                 break;
+            case ExternalRepositoryManager :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('ExternalSyncer');
+                break;
+            case ExternalRepositoryManager :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY :
+                $component = $this->create_component('InternalSyncer');
+                break;
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);

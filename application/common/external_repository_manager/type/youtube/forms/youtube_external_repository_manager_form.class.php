@@ -75,7 +75,7 @@ class YoutubeExternalRepositoryManagerForm extends FormValidator
 
     function get_youtube_categories()
     {
-        $connector = YoutubeExternalRepositoryConnector :: get_instance($this->application);
+        $connector = YoutubeExternalRepositoryConnector :: get_instance($this->application->get_external_repository());
         return $connector->retrieve_categories();
     }
 
@@ -103,7 +103,7 @@ class YoutubeExternalRepositoryManagerForm extends FormValidator
 
     function update_video_entry()
     {
-        $youtube = YoutubeExternalRepositoryConnector :: get_instance($this->application);
+        $youtube = YoutubeExternalRepositoryConnector :: get_instance($this->application->get_external_repository());
 
         $values = $this->exportValues();
 
@@ -120,7 +120,7 @@ class YoutubeExternalRepositoryManagerForm extends FormValidator
     {
         $values = $this->exportValues();
 
-        $connector = YoutubeExternalRepositoryConnector :: get_instance($this->application);
+        $connector = YoutubeExternalRepositoryConnector :: get_instance($this->application->get_external_repository());
         return $connector->get_upload_token($values);
     }
 

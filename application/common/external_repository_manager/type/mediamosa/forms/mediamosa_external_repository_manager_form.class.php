@@ -118,7 +118,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
    function prepare_upload()
    {
 
-       $connector = MediamosaExternalRepositoryConnector::get_instance();
+       $connector = MediamosaExternalRepositoryConnector::get_instance($this->application->get_external_repository());
 
        //create asset
        if($asset_id = $connector->create_mediamosa_asset())
@@ -166,7 +166,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
 
     function update_video_entry($id)
     {
-        $connector = MediamosaExternalRepositoryConnector::get_instance($this->application);
+        $connector = MediamosaExternalRepositoryConnector::get_instance($this->application->get_external_repository());
 
         $data = $this->exportValues();
 
