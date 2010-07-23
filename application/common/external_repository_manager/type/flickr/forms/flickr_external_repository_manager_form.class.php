@@ -84,14 +84,14 @@ class FlickrExternalRepositoryManagerForm extends FormValidator
 
     function update_photo()
     {
-        return FlickrExternalRepositoryConnector :: get_instance($this->application->get_external_repository())->update_external_repository_object($this->exportValues());
+        return $this->application->get_external_repository_connector()->update_external_repository_object($this->exportValues());
     }
 
     function upload_photo()
     {
         if (StringUtilities :: has_value(($_FILES[self :: FILE]['name'])))
         {
-            return FlickrExternalRepositoryConnector :: get_instance($this->application->get_external_repository())->create_external_repository_object($this->exportValues(), $_FILES[self :: FILE]['tmp_name']);
+            return $this->application->get_external_repository_connector()->create_external_repository_object($this->exportValues(), $_FILES[self :: FILE]['tmp_name']);
         }
         else
         {

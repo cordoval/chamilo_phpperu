@@ -103,8 +103,7 @@ class YoutubeExternalRepositoryManagerForm extends FormValidator
 
     function update_video_entry()
     {
-        $youtube = YoutubeExternalRepositoryConnector :: get_instance($this->application->get_external_repository());
-
+        $youtube = $this->application->get_external_repository_connector();
         $values = $this->exportValues();
 
         return $youtube->update_youtube_video($values);
@@ -120,7 +119,7 @@ class YoutubeExternalRepositoryManagerForm extends FormValidator
     {
         $values = $this->exportValues();
 
-        $connector = YoutubeExternalRepositoryConnector :: get_instance($this->application->get_external_repository());
+        $connector = $this->application->get_external_repository_connector();
         return $connector->get_upload_token($values);
     }
 
