@@ -794,4 +794,6 @@ $lang['common']['MyFolders'] = 'My folders';
 $lang['common']['SharedFolders'] = 'Shared folders';
 $lang['common']['ExternalObjectSynchronizationUpdateExternal'] = 'This object is already in your repository. The version in your repository has been modified though since you last synchronized / imported it. You can update the object in the external repository if you want to.';
 $lang['common']['UpdateExternalRepositoryObject'] = 'Update external repository';
+$lang['common']['ExternalObjectSynchronizationIdentical'] = 'This object is already in your repository and the instance in your local repository matches the one in the external repository.';
+$lang['common']['ExternalObjectSynchronizationUpdateInternal'] = 'This object is already in your repository. The version in the external repository has been modified though since you last synchronized / imported it. You can update your local instance if you want to.';
 ?>

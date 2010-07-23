@@ -228,6 +228,9 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
             $published = $videoEntry->getPublished()->getText();
             $published_timestamp = strtotime($published);
             
+            $modified = $videoEntry->getUpdated()->getText();
+            $modified_timestamp = strtotime($modified);
+            
             $uploader = $videoEntry->getAuthor();
             $uploader = $uploader[0];
             
@@ -237,6 +240,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
             $object->set_title($videoEntry->getVideoTitle());
             $object->set_description(nl2br($videoEntry->getVideoDescription()));
             $object->set_created($published_timestamp);
+            $object->set_modified($modified_timestamp);
             $object->set_owner_id($uploader->getName()->getText());
             $object->set_url($videoEntry->getFlashPlayerUrl());
             $object->set_duration($videoEntry->getVideoDuration());
@@ -297,6 +301,9 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
         $published = $videoEntry->getPublished()->getText();
         $published_timestamp = strtotime($published);
         
+        $modified = $videoEntry->getUpdated()->getText();
+        $modified_timestamp = strtotime($modified);
+        
         $object = new YoutubeExternalRepositoryObject();
         $object->set_id($videoEntry->getVideoId());
         $object->set_external_repository_id($this->get_external_repository_instance_id());
@@ -304,6 +311,7 @@ class YoutubeExternalRepositoryConnector extends ExternalRepositoryConnector
         $object->set_description(nl2br($videoEntry->getVideoDescription()));
         $object->set_owner_id($author->getName()->getText());
         $object->set_created($published_timestamp);
+        $object->set_modified($modified_timestamp);
         $object->set_url($videoEntry->getFlashPlayerUrl());
         $object->set_duration($videoEntry->getVideoDuration());
         $object->set_thumbnail($thumbnail);

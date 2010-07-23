@@ -319,11 +319,13 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     function create_mediamosa_external_repository_object($asset)
     {
         if ($asset)
-        {
+        {            
             $mediamosa_asset = new MediamosaExternalRepositoryObject();
             
             $mediamosa_asset->set_id((string) $asset->asset_id);
             $mediamosa_asset->set_title((string) $asset->dublin_core->title);
+            $mediamosa_asset->set_created(strtotime($asset->videotimestamp));
+            $mediamosa_asset->set_modified(strtotime($asset->videotimestampmodified));
             $mediamosa_asset->set_owner_id((int) $asset->owner_id);
             //$metadata['language'] = (string)$asset->dublin_core->language;
             //$metadata['subject'] = (string)$asset->dublin_core->subject;

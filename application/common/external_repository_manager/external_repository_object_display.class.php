@@ -76,6 +76,10 @@ abstract class ExternalRepositoryObjectDisplay
         }
 
         $properties[Translation :: get('UploadedOn')] = DatetimeUtilities :: format_locale_date(null, $object->get_created());
+        if ($object->get_created() != $object->get_modified())
+        {
+            $properties[Translation :: get('ModifiedOn')] = DatetimeUtilities :: format_locale_date(null, $object->get_modified());
+        }
         $properties[Translation :: get('Owner')] = $object->get_owner_id();
 
         return $properties;
