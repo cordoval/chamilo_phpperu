@@ -48,5 +48,21 @@ class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
     {
         return self :: OBJECT_TYPE;
     }
+    
+    function get_export_types()
+    {
+        switch($this->get_type())
+        {
+            case 'document' :
+                return array('pdf', 'odt', 'doc');
+                break;
+            case 'presentation' :
+                return array('pdf', 'ppt', 'swf');
+                break;
+            case 'spreadsheet' :
+                return array('pdf', 'ods', 'xls');
+                break;
+        }
+    }
 }
 ?>

@@ -224,6 +224,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
             $object->set_owner_id($author->getEmail()->getText());
             $object->set_modifier_id($modifier->getEmail()->getText());
             $object->set_content($document->getContent()->getSrc());
+            $object->set_rights($this->determine_rights());
             
             $objects[] = $object;
         }
@@ -315,6 +316,16 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
             $items[] = $sub_folder;
         }
         return $items;
+    }
+    
+    function determine_rights()
+    {
+        $rights = array();
+        $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = false;
+        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
+        $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
+        return $rights;
     }
 }
 ?>

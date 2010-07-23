@@ -126,5 +126,26 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         $document_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.ppt', Document :: get_type_name());
         return new OrCondition($document_conditions);
     }
+    
+    /**
+     * @param ExternalRepositoryObject $object
+     * @return array
+     */
+    function get_external_repository_object_actions(GoogleDocsExternalRepositoryObject $object)
+    {
+        $actions = parent ::  get_external_repository_object_actions($object);
+        if (in_array(ExternalRepositoryManager::ACTION_IMPORT_EXTERNAL_REPOSITORY, array_keys($actions)))
+        {
+            unset($actions[ExternalRepositoryManager::ACTION_IMPORT_EXTERNAL_REPOSITORY]);
+            $export_types = $object->get_export_types();
+            
+            foreach($export_types as $export_type)
+            {
+                $actions[$export_type] = new ToolbarItem(Translation :: get('Import' . Utilities :: underscores_to_camelcase($export_type)), Theme :: get_common_image_path() . 'external_repository/google_docs/import/'. $export_type .'.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id(), 'format' => $export_type )), ToolbarItem :: DISPLAY_ICON);
+            }
+        }
+        
+        return $actions;
+    }
 }
 ?>
