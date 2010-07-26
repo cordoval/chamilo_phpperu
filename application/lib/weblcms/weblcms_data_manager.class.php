@@ -166,6 +166,34 @@ class WeblcmsDataManager implements DataManagerInterface
     	$condition = new EqualityCondition(Course :: PROPERTY_VISUAL, $code);
     	return (self :: get_instance()->count_courses($condition) == 0);
     }
+    
+    private static $new_publications;
+    
+	/**
+	 * Determines if a tool has new publications  since the last time the
+	 * current user visited the tool.
+	 * @param string $tool
+	 * @param Course $course
+	 */
+	static function tool_has_new_publications($tool, User $user, Course $course = null)
+	{
+		if(!$course || $course->get_id() == 0)
+		{
+			return false;
+		}
+		
+		if(is_null(self :: $new_publications[$course->get_id()]))
+		{
+			self :: $new_publications[$course->get_id()] = self :: get_instance()->count_new_publications_from_course($course, $user);
+		}
+		
+		if(self :: $new_publications[$course->get_id()][$tool] && self :: $new_publications[$course->get_id()][$tool] > 0)
+		{
+			return true;
+		}
+		
+		return false;
+	}
 
 }
 ?>

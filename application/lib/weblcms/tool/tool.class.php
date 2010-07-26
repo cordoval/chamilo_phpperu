@@ -605,9 +605,9 @@ abstract class Tool extends SubManager
         return $publication;
     }
 
-    function tool_has_new_publications($tool_name)
+    function tool_has_new_publications($tool_name, $course)
     {
-        return $this->get_parent()->tool_has_new_publications($tool_name);
+        return $this->get_parent()->tool_has_new_publications($tool_name, $course);
     }
 }
 ?>

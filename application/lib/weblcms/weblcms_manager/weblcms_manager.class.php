@@ -1169,44 +1169,17 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Determines if a tool has new publications  since the last time the
 	 * current user visited the tool.
-	 * @todo This function now uses the count_content_object_publications
-	 * function and for each tool a query is executed. All information can be
-	 * retrieved using a single query. WeblcmsDataManager should implement this
-	 * functionality.
-	 * @todo This function currently doesn't take the course_group information into
-	 * account. So it's possible this function returns true even if there's no
-	 * new publication for the current user
 	 * @param string $tool
+	 * @param Course $course
 	 */
-	function tool_has_new_publications($tool, $course = null)
+	function tool_has_new_publications($tool, Course $course = null)
 	{
 		if($course == null)
 		{
 			$course = $this->get_course();
 		}
 		
-		if(!$course || $course->get_id() == 0)
-		{
-			return null;
-		}
-		
-		if(is_null(self :: $new_publications[$course->get_id()]))
-		{
-			self :: $new_publications[$course->get_id()] = $this->count_new_publications_from_course($course, $this->get_user());
-		}
-		
-		if(self :: $new_publications[$course->get_id()][$tool] && self :: $new_publications[$course->get_id()][$tool] > 0)
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	function count_new_publications_from_course($course, $user)
-	{
-		$wdm = WeblcmsDataManager :: get_instance();
-		return $wdm->count_new_publications_from_course($course, $user);
+		return WeblcmsDataManager :: tool_has_new_publications($tool, $this->get_user(), $course);
 	}
 
 	/**
@@ -1370,24 +1343,24 @@ class WeblcmsManager extends WebApplication
 	}
 
 	/**
-	 * Returns the editing url for the course category
-	 * @param CourseCategory $course_category
+	 * Returns the editing url for the course user relation
+	 * @param Course $course
 	 * @return String
 	 */
-	function get_course_user_edit_url($course_user)
+	function get_course_user_edit_url($course)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'assign', self :: PARAM_COURSE_USER => $course_user->get_id()));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'assign', self :: PARAM_COURSE => $course->get_id()));
 	}
 
 	/**
 	 * Returns the moving url for the course user relation
-	 * @param CourseUserRelation $course_user
+	 * @param Course $course
 	 * @param string $direction
 	 * @return String
 	 */
-	function get_course_user_move_url($course_user, $course_type_id, $direction)
+	function get_course_user_move_url($course, $course_type_id, $direction)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'move', self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE_USER => $course_user->get_id(), self :: PARAM_COURSE_TYPE => $course_type_id));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGER_SORT, self :: PARAM_COMPONENT_ACTION => 'move', self :: PARAM_DIRECTION => $direction, self :: PARAM_COURSE => $course->get_id(), self :: PARAM_COURSE_TYPE => $course_type_id));
 	}
 
 	/**

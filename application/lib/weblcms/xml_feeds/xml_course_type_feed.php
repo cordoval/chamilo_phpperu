@@ -58,12 +58,12 @@ if (Authentication :: is_valid())
     $course_types_result_set = WeblcmsDataManager :: get_instance()->retrieve_course_types($course_type_condition, null, null, array(new ObjectTableOrder(CourseType :: PROPERTY_NAME)));
     while ($course_type = $course_types_result_set->next_result())
     {
-    	$conditions = array();
+    	/*$conditions = array();
        	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, Session :: get_user_id(), CourseUserRelation :: get_table_name());
        	$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
        	$condition = new AndCondition($conditions);
        	$courses_count = WeblcmsDataManager :: get_instance()->count_user_courses($condition);
-       	if($courses_count > 0)
+       	if($courses_count > 0)*/
 			$course_types[$course_type->get_id()] = $course_type->get_name();
     }
         
