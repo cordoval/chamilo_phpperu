@@ -7,6 +7,7 @@ require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 
 require_once dirname(__FILE__) . '/../../course/course_user_relation_form.class.php';
 require_once dirname(__FILE__) . '/../../course/course_user_category_form.class.php';
+require_once dirname(__FILE__) . '/../../course/course_list_renderer/course_type_course_list_renderer.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
@@ -54,7 +55,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
     function move_course_list()
     {
         $direction = Request :: get(WeblcmsManager :: PARAM_DIRECTION);
-        $course = Request :: get(WeblcmsManager :: PARAM_COURSE_USER);
+        $course = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $course_type_id = Request :: get(WeblcmsManager :: PARAM_COURSE_TYPE);
         
         if (isset($direction) && isset($course) && isset($course_type_id))
@@ -87,7 +88,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
 
     function assign_course_category()
     {
-        $course_id = Request :: get(WeblcmsManager :: PARAM_COURSE_USER);
+        $course_id = Request :: get(WeblcmsManager :: PARAM_COURSE);
         $courseuserrelation = $this->retrieve_course_user_relation($course_id, $this->get_user_id());
         $form = new CourseUserRelationForm(CourseUserRelationForm :: TYPE_EDIT, $courseuserrelation, $this->get_user(), $this->get_url(array()));
         
@@ -245,127 +246,15 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
      */
     function show_course_list()
     {
-    	$course_active_types = $this->retrieve_active_course_types();
-    	$renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
-        $course_tabs = new DynamicTabsRenderer($renderer_name);
-        
-        $index = 0;
-        
-        $course_tabs->add_tab(new DynamicContentTab($index, Translation :: get('NoCourseType'), null, $this->display_courses_for_course_type(0)));
-        $index++;
-        
-        while ($course_type = $course_active_types->next_result())
-        {
-            $course_tabs->add_tab(new DynamicContentTab($index, $course_type->get_name(), null, $this->display_courses_for_course_type($course_type->get_id())));
-            $index++;
-        }
-        
+    	$renderer = new CourseTypeCourseListRenderer($this);
+    	
         $this->display_page_header();
         echo $this->get_actionbar()->as_html();
         echo '<div class="clear"></div><br />';
-        echo $course_tabs->render();
+        $renderer->render();
         $this->display_footer();
     }
-    
-    /**
-     * Displays the course list for a single course type
-     * @param int $course_type_id
-     */
-    function display_courses_for_course_type($course_type_id)
-    {
-    	$html[] = $this->display_user_course_category(null);
-    	
-    	$course_categories = WeblcmsDataManager :: get_instance()->retrieve_course_user_categories_from_course_type($course_type_id, $this->get_user_id());
-    	
-    	$count = 0;
-    	$size = $course_categories->size();
-    	
-    	while($course_category = $course_categories->next_result())
-    	{
-    		$html[] = $this->display_user_course_category($course_category, $course_type_id, $count, $size);
-    		$count++;
-    	}
-    	
-    	return implode($html, "\n");
-    }
-    
-    /**
-     * Displays the user course category box
-     * @param CourseUserCategory $course_category
-     * @param int $course_type_id
-     * @param int $index
-     * @param int $count
-     */
-    function display_user_course_category(CourseUserCategory $course_category, $course_type_id, $index, $count)
-    {
-    	if (isset($course_category))
-        {
-            $title = Utilities :: htmlentities($course_category->get_title());
-            $links = $this->get_category_modification_links($course_category, $course_type_id, $index, $count);
-            $course_category_id = $course_category->get_id();
-        }
-        else
-        {
-            $title = Translation :: get('GeneralCourses');
-            $course_category_id = 0;
-        }
-        
-        $html[] = '<div class="user_course_category">';
-        $html[] = '<div class="title">';
-        $html[] = $title;
-        $html[] = '</div>';
-        $html[] = '<div class="options">';
-        $html[] = $links;
-        $html[] = '</div>';
-        $html[] = '<div style="clear:both;"></div>';
-        $html[] = '</div>';
-        
-        $html[] = $this->display_courses_for_user_course_category($course_category_id, $course_type_id);
-        
-        return implode($html, "\n");
-    }
-    
-    /**
-     * Displays the courses for a user course category
-     * @param int $course_category_id
-     * @param int $course_type_id
-     */
-    function display_courses_for_user_course_category($course_category_id, $course_type_id)
-    {
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category_id, CourseUserRelation :: get_table_name());
-    	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-    	$condition = new AndCondition($conditions);
-    	
-    	$courses = WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition);
-    	$size = $courses->size();
-    	
-    	$html = array();
-        
-        if ($size > 0)
-        {
-            $html[] = '<div>';
-            $count = 0;
-            while($course = $courses->next_result())
-            {
-                $titular = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
-                $html[] = '<div class="user_course"><a href="' . $this->get_course_viewing_url($course) . '">' . $course->get_name() . '</a><br />' . $course->get_visual() . ' - ' . $titular->get_fullname() . '</div>';
-                $html[] = '<div class="user_course_options">';
-                $html[] = $this->get_course_modification_links($course, $course_type_id, $count, $size);
-                $html[] = '</div>';
-                $html[] = '<div style="clear:both;"></div>';
-                $count++;
-            }
-            $html[] = '</div>';
-        }
-        else
-        {
-            $html[] = '<div class="nocourses">' . Translation :: get('NoCourses') . '</div><br />';
-        }
-        
-        return implode($html, "\n");
-    }
-
+   
     function get_actionbar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
@@ -373,11 +262,11 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         return $action_bar;
     }
 
-    function get_course_modification_links($course, $course_type_id, $key, $total)
+    function get_course_actions($course, $course_type_id, $offset, $count)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        if ($key > 0 && $total > 1)
+        if ($offset > 0 && $count > 1)
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_course_user_move_url($course, $course_type_id, 'up'), ToolbarItem :: DISPLAY_ICON));
         }
@@ -387,7 +276,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
             $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
-        if ($key < ($total - 1) && $total > 1)
+        if ($offset < ($count - 1) && $count > 1)
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_course_user_move_url($course, $course_type_id, 'down'), ToolbarItem :: DISPLAY_ICON));
         }
@@ -398,36 +287,41 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         
         $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_course_user_edit_url($course), ToolbarItem :: DISPLAY_ICON));
         
-        $toolbar->add_item(new ToolbarItem(null, Theme :: get_common_image_path() . 'spacer_tab.png', null, ToolbarItem :: DISPLAY_ICON));
+        //$toolbar->add_item(new ToolbarItem(null, Theme :: get_common_image_path() . 'spacer_tab.png', null, ToolbarItem :: DISPLAY_ICON));
         
         return $toolbar->as_html();
     }
 
-    function get_category_modification_links($courseusercategory, $course_type_id, $key, $total)
+    function get_course_user_category_actions($course_user_category, $course_type_id, $offset, $count)
     {
-        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
-        if ($key > 0 && $total > 1)
+        if(!$course_user_category)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'up'), ToolbarItem :: DISPLAY_ICON));
+        	return;
+        }
+        
+    	$toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+        if ($offset > 0 && $count > 1)
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_course_user_category_move_url($course_user_category, $course_type_id, 'up'), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
-        if ($key < ($total - 1) && $total > 1)
+        if ($offset < ($count - 1) && $count > 1)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_course_user_category_move_url($courseusercategory, $course_type_id, 'down'), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_course_user_category_move_url($course_user_category, $course_type_id, 'down'), ToolbarItem :: DISPLAY_ICON));
         }
         else
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_course_user_category_edit_url($courseusercategory), ToolbarItem :: DISPLAY_ICON));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_course_user_category_edit_url($course_user_category), ToolbarItem :: DISPLAY_ICON));
         
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_course_user_category_delete_url($courseusercategory, $course_type_id), ToolbarItem :: DISPLAY_ICON, true));
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_course_user_category_delete_url($course_user_category, $course_type_id), ToolbarItem :: DISPLAY_ICON, true));
         
         return $toolbar->as_html();
     }

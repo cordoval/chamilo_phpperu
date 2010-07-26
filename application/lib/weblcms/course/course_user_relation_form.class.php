@@ -10,14 +10,14 @@ class CourseUserRelationForm extends FormValidator
     
     const TYPE_EDIT = 2;
     
-    private $courseuserrelation;
+    private $course_user_relation;
     private $user;
 
-    function CourseUserRelationForm($form_type, $courseuserrelation, $user, $action)
+    function CourseUserRelationForm($form_type, $course_user_relation, $user, $action)
     {
         parent :: __construct('course_user', 'post', $action);
         
-        $this->courseuserrelation = $courseuserrelation;
+        $this->course_user_relation = $course_user_relation;
         $this->user = $user;
         
         $this->form_type = $form_type;
@@ -35,7 +35,7 @@ class CourseUserRelationForm extends FormValidator
         
         $wdm = WeblcmsDataManager :: get_instance();
         
-        $course = $wdm->retrieve_course($this->courseuserrelation->get_course());
+        $course = $wdm->retrieve_course($this->course_user_relation->get_course());
         
         $conditions = array();
         $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $this->user->get_id(), CourseTypeUserCategory :: get_table_name());
@@ -68,21 +68,39 @@ class CourseUserRelationForm extends FormValidator
 
     function update_course_user_relation()
     {
-        $courseuserrelation = $this->courseuserrelation;
+        $course_user_relation = $this->course_user_relation;
         $values = $this->exportValues();
         
-        $conditions = array();
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->user->get_id());
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $values[CourseUserRelation :: PROPERTY_CATEGORY]);
-        $condition = new AndCondition($conditions);
+        $old_category = $course_user_relation->get_category();
+        $counter = $course_user_relation->get_sort();
         
         $wdm = WeblcmsDataManager :: get_instance();
-        $sort = $wdm->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
-        $courseuserrelation->set_sort($sort + 1);
         
-        $courseuserrelation->set_category($values[CourseUserRelation :: PROPERTY_CATEGORY]);
+        $course_user_relation->set_category($values[CourseUserRelation :: PROPERTY_CATEGORY]);
+        $sort = $wdm->retrieve_next_course_user_relation_sort_value($course_user_relation);
+        $course_user_relation->set_sort($sort);
         
-        return $courseuserrelation->update();
+        $succes = $course_user_relation->update();
+        
+        $course = $wdm->retrieve_course($course_user_relation->get_course());
+    	$subcondition = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course->get_course_type_id());
+    	$conditions[] = new SubselectCondition(CourseUserRelation :: PROPERTY_COURSE, Course :: PROPERTY_ID, Course :: get_table_name(), $subcondition);
+    	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $course_user_relation->get_user());
+    	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $old_category);
+        $conditions[] = new InEqualityCondition(CourseUserRelation :: PROPERTY_SORT, InEqualityCondition :: GREATER_THAN, $counter);
+    	$condition = new AndCondition($conditions);
+
+    	$course_user_relations = $wdm->retrieve_course_user_relations($condition, null, null, new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT));
+        
+        while($relation = $course_user_relations->next_result())
+        {
+        	$relation->set_sort($counter);
+        	$succes &= $relation->update();
+        	$counter++;
+        }
+        
+        return $succes;
+        
     }
 
     /**
@@ -93,14 +111,14 @@ class CourseUserRelationForm extends FormValidator
      */
     function setDefaults($defaults = array ())
     {
-        $courseuserrelation = $this->courseuserrelation;
+        $course_user_relation = $this->course_user_relation;
         
-        $course = WeblcmsDataManager :: get_instance()->retrieve_course($courseuserrelation->get_course());
+        $course = WeblcmsDataManager :: get_instance()->retrieve_course($course_user_relation->get_course());
         
         $defaults[Course :: PROPERTY_ID] = $course->get_visual();
         
-        $defaults[CourseUserRelation :: PROPERTY_COURSE] = $courseuserrelation->get_course();
-        $defaults[CourseUserRelation :: PROPERTY_CATEGORY] = $courseuserrelation->get_category();
+        $defaults[CourseUserRelation :: PROPERTY_COURSE] = $course_user_relation->get_course();
+        $defaults[CourseUserRelation :: PROPERTY_CATEGORY] = $course_user_relation->get_category();
         parent :: setDefaults($defaults);
     }
 }
