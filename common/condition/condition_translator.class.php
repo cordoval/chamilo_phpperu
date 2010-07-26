@@ -184,13 +184,14 @@ class ConditionTranslator
             $sub_condition = $condition->get_condition();
 
             $alias = $this->data_manager->get_alias($table);
+            $alias_name = null;
             if ($name_table)
             {
                 $alias_name = $this->data_manager->get_alias($name_table);
             }
 
             $this->storage_unit = $alias;
-            $string = $this->data_manager->escape_column_name($name) . ' IN ( SELECT ' . $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
+            $string = $this->data_manager->escape_column_name($name, $alias_name) . ' IN ( SELECT ' . $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
 
             if ($sub_condition)
             {
