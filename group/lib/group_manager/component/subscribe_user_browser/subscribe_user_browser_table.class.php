@@ -22,11 +22,13 @@ class SubscribeUserBrowserTable extends ObjectTable
         $data_provider = new SubscribeUserBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = array();
         
-        $actions[] = new ObjectTableFormAction(GroupManager :: ACTION_SUBSCRIBE_USER_TO_GROUP, Translation :: get('Subscribe'));
+        $actions = new ObjectTableFormActions();
         
+        $actions->add_form_action(new ObjectTableFormAction(GroupManager :: ACTION_SUBSCRIBE_USER_TO_GROUP, Translation :: get('SubscribeSelected'), false));
+
         $this->set_form_actions($actions);
+        
         $this->set_default_row_count(20);
     }
     
