@@ -455,7 +455,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $success = true;
         $allow_new_version = ($this->selected_object->get_type() != Portfolio :: get_type_name());
 
-        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
+        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $this->owner_user_id, 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
 
         if ($form->validate())
         {
@@ -494,7 +494,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
                 }
             }
 
-            $this->redirect($success ? Translation :: get('PortfolioUpdated') : Translation :: get('PortfolioNotUpdated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid));
+            $this->redirect($success ? Translation :: get('PortfolioUpdated') : Translation :: get('PortfolioNotUpdated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->owner_user_id, 'pid' => $this->pid, 'cid' => $this->cid));
         }
         else
         {

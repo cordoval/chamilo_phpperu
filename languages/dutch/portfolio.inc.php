@@ -95,6 +95,20 @@ $lang['portfolio']['QuickFeedback'] = 'Snelle Feedback';
 $lang['portfolio']['ConfirmYourChoice'] = 'Gelieve te bevestigen';
 $lang['portfolio']['FeedbackPublicationDeleted'] = 'De Feedback werd verwijderd';
 
-$lang['Admin']['Admin']['Portfolio'] = 'test';
-$lang['Admin']['Importer'] = 'test';
+$lang['portfolio']['Address'] = 'Adres';
+$lang['portfolio']['Contact'] = 'Contactgegevens';
+$lang['portfolio']['Mail'] = 'e-mail';
+$lang['portfolio']['TelShort'] = 'tel';
+$lang['portfolio']['FaxShort'] = 'fax';
+$lang['portfolio']['Skype'] = 'Skype';
+$lang['portfolio']['Msn'] = 'Msn';
+$lang['portfolio']['Yim'] = 'Yim';
+$lang['portfolio']['Aim'] = 'Aim';
+$lang['portfolio']['Icq'] = 'Icq';
+
+$lang['portfolio']['Competences'] = 'Compententies';
+$lang['portfolio']['Diplomas'] = 'Diploma';
+$lang['portfolio']['Teaching'] = 'Onderwijs activiteiten';
+
+
 ?>

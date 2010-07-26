@@ -725,4 +725,17 @@ $lang['repository']['SubContexts'] = 'Subcontexten';
 $lang['repository']['AddSurveyPages'] = 'Enquêtepagina\'s toevoegen';
 $lang['repository']['AddPages'] = 'Pagina\'s toevoegen';
 $lang['repository']['SurveyContextTemplateDetails'] = 'Enquêtecontext template details';
+
+
+
+
+$lang['repository']['TableView'] = 'Tabel weergave';
+$lang['repository']['GalleryTableView'] = 'Gallerij weergave';
+$lang['repository']['SlideshowView'] = 'Die weergave';
+
+    
+
+
+
+
 ?>
