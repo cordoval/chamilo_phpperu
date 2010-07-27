@@ -323,7 +323,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
         
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_course_user_category_delete_url($course_user_category, $course_type_id), ToolbarItem :: DISPLAY_ICON, true));
         
-        return $toolbar->as_html();
+        return '<div style="float:right;">' . $toolbar->as_html() . '</div>';
     }
 }
 ?>
