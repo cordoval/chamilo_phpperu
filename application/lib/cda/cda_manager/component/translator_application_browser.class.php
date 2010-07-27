@@ -66,7 +66,7 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
 			$subconditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', User :: get_table_name());
 			$subcondition = new OrCondition($subconditions);
 			$conditions[] = new SubSelectCondition(TranslatorApplication :: PROPERTY_USER_ID,
-												   User :: PROPERTY_ID, User :: get_table_name(), $subcondition);
+												   User :: PROPERTY_ID, User :: get_table_name(), $subcondition, null, UserDataManager :: get_instance());
 			
 			$subcondition = new PatternMatchCondition(CdaLanguage :: PROPERTY_ENGLISH_NAME, '*' . $query . '*', CdaLanguage :: get_table_name());
 			$conditions[] = new SubSelectCondition(TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID,
