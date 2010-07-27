@@ -43,6 +43,11 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         return $this->user_id_prefix . $user_id;
     }
 
+    function get_mediamosa_group_id($user_id)
+    {
+        return $this->user_id_prefix  . $group_id;
+    }
+
     function retrieve_chamilo_user($user_id)
     {
         $udm = UserDataManager :: get_instance();
@@ -109,10 +114,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         return false;
     }
 
-    function handle_mediamosa_user_quotum($user)
-    {
     
-    }
 
     /*
      * @param int $user_id
@@ -146,11 +148,12 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             }
         }
         
-        return false;
+       return false;
     }
 
     function login()
     {
+        //$url = ExternalRepositorySetting :: factory('url', $this->get_external_repository_instance_id());
         $url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
         $this->mediamosa = new MediamosaRestClient($url);
         //TODO: jens -> implement curl request
@@ -338,7 +341,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             //TODO:jens -> implement status
             $mediamosa_asset->set_status($status);
             $mediamosa_asset->set_type(MediamosaExternalRepositoryObject :: OBJECT_TYPE);
-            $mediamosa_asset->set_owner_id((string) $asset->owner_id);
+            $mediamosa_asset->set_owner_id((string) $asset->owner_id); //owner id = mediamosa id
             
             //rights -- determine if the asset is protected for this user or not
             $mediamosa_asset->set_rights($this->determine_rights($asset));

@@ -876,4 +876,6 @@ $lang['repository']['Original'] = 'Original';
 $lang['repository']['UploadedOn'] = 'Uploaded on';
 $lang['repository']['Owner'] = 'Owner';
 $lang['repository']['AvailableSizes'] = 'Available sizes';
+$lang['repository']['PublishedBy'] = 'Published by';
+$lang['repository']['CreatedBy'] = 'Created by';
 ?>

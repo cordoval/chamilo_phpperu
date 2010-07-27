@@ -22,7 +22,7 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator {
 
     function build_upload_form()
     {
-        $connector = MediamosaExternalRepositoryConnector::get_instance($this->application);
+        $connector = $this->application->get_external_repository_connector();
 
         //token
         //$this->addElement('hidden', 'token', $this->token);
