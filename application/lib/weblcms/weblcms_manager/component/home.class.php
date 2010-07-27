@@ -5,6 +5,8 @@
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 require_once dirname(__FILE__) . '/../../course/course_list_renderer/course_type_course_list_renderer.class.php';
+require_once dirname(__FILE__) . '/../../course/course_list_renderer/open_course_type_course_list_renderer.class.php';
+require_once dirname(__FILE__) . '/../../course/course_list_renderer/open_closed_course_type_course_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../../course/course_user_category.class.php';
 /**
  * Weblcms component which provides the user with a list
@@ -12,7 +14,10 @@ require_once dirname(__FILE__) . '/../../course/course_user_category.class.php';
  */
 class WeblcmsManagerHomeComponent extends WeblcmsManager
 {
-    //TODO: make a difference between open / closed / mixed
+    const VIEW_MIXED = 0;
+    const VIEW_OPEN_CLOSED = 1;
+    const VIEW_OPEN = 2;
+    
     /**
      * Runs this component and displays its output.
      */
@@ -24,7 +29,21 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         $this->message = Request :: get('message');
         Request :: set_get('message', null);
         
-        $renderer = new CourseTypeCourseListRenderer($this);
+        $view_state = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
+        
+        switch($view_state)
+        {
+        	case self :: VIEW_MIXED:
+        		$renderer = new CourseTypeCourseListRenderer($this);
+        		break;
+        	case self :: VIEW_OPEN_CLOSED:
+        		$renderer = new OpenClosedCourseTypeCourseListRenderer($this);
+        		break;
+        	case self :: VIEW_OPEN:
+        		$renderer = new OpenCourseTypeCourseListRenderer($this);
+        		break;
+        }
+        
         $renderer->show_new_publication_icons();
         $html[] = $renderer->as_html();
         
@@ -150,7 +169,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER)) . '">' . Translation :: get('RequestList') . '</a></li>';
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_move.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)) . '">' . Translation :: get('CourseCategoryManagement') . '</a></li>';
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)) . '">' . Translation :: get('ImportCourseCSV') . '</a></li>';
-        //$html[] = '<li><a href="'.$this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)) .'">'.Translation :: get('AddUserToCourse').'</a></li>';
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)) . '">' . Translation :: get('ImportUsersForCourseCSV') . '</a></li>';
         
         return implode($html, "\n");

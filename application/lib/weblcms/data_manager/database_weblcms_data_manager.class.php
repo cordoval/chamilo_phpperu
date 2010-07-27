@@ -870,6 +870,40 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         
         return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
+    
+    function retrieve_user_courses_with_given_access($access, $condition = null, $offset = 0, $max_objects = -1, $order_by = null)
+    {
+        $course_alias = $this->get_alias(Course :: get_table_name());
+        $course_settings_alias = $this->get_alias(CourseSettings :: get_table_name());
+        $course_user_relation_alias = $this->get_alias(CourseUserRelation :: get_table_name());
+        $course_group_relation_alias = $this->get_alias(CourseGroupRelation :: get_table_name());
+        
+        $query = 'SELECT DISTINCT ' . $course_alias . '.* FROM ' . $this->escape_table_name(Course :: get_table_name()) . ' AS ' . $course_alias;
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseUserRelation :: get_table_name()) . ' AS ' . $course_user_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE, $course_user_relation_alias);
+        $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseGroupRelation :: get_table_name()) . ' AS ' . $course_group_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseGroupRelation :: PROPERTY_COURSE_ID, $course_group_relation_alias);
+        $query .= ' JOIN ' . $this->escape_table_name(CourseSettings :: get_table_name()) . ' AS ' . $course_settings_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseSettings :: PROPERTY_COURSE_ID, $course_settings_alias);
+        
+        if (is_null($order_by))
+        {
+            $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
+        }
+        
+        $access_condition = new EqualityCondition(CourseSettings :: PROPERTY_ACCESS, $access, CourseSettings :: get_table_name());
+        
+        if($condition)
+        {
+        	$conditions = array();
+        	$conditions[] = $condition;
+        	$conditions[] = $access_condition;
+        	$condition = new AndCondition($conditions);
+        }
+        else
+        {
+        	$condition = $access_condition;
+        }
+
+        return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
 
     function retrieve_course_group_rights_by_type($course_id, $type)
     {

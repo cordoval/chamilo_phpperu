@@ -72,6 +72,8 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
 	 */
     function display_course_user_categories_for_course_type(CourseType $course_type)
     {
+    	$html = array();
+    	
     	$html[] = $this->display_course_user_category(null, $course_type);
     	
     	$course_categories = $this->retrieve_course_user_categories_for_course_type($course_type);
@@ -97,6 +99,8 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
      */
     function display_course_user_category(CourseUserCategory $course_user_category, CourseType $course_type, $offset, $count)
     {
+    	$html = array();
+    	
     	if (isset($course_user_category))
         {
             $title = Utilities :: htmlentities($course_user_category->get_title());
@@ -150,7 +154,17 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
     	$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type_id, Course :: get_table_name());
     	$condition = new AndCondition($conditions);
     	
-    	return WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition, null, null, new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, SORT_ASC, WeblcmsDataManager :: get_instance()->get_alias(CourseUserRelation :: get_table_name())));
+		return $this->retrieve_courses($condition);
+	}
+	
+	/**
+	 * The function that is called in the data manager in order to retrieve the courses
+	 * This function is splitted from 
+	 * @param $condition
+	 */
+	function retrieve_courses($condition)
+	{
+		return WeblcmsDataManager :: get_instance()->retrieve_user_courses($condition, null, null, new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, SORT_ASC, WeblcmsDataManager :: get_instance()->get_alias(CourseUserRelation :: get_table_name())));
 	}
     
     /**
@@ -173,9 +187,23 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
             {
                 $titular = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
                 $html[] = '<div style="float:left;">';
-                $html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_home.png);"><a style="top: -2px; position: relative;" href="' . $this->get_course_url($course) . '">' . $course->get_name() . '</a>';
                 
-                if($this->get_new_publication_icons())
+                $icon = 'action_home.png';
+                $url = $this->get_course_url($course);
+                 
+                if($course->get_access() == CourseSettings :: ACCESS_CLOSED)
+                {
+                	$icon = 'action_lock.png';
+                	
+                	if(!$course->is_course_admin($this->get_user()))
+                	{
+                		$url = null;
+                	}
+                }
+                
+                $html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . $icon . ');"><a style="top: -2px; position: relative;" href="' . $url . '">' . $course->get_name() . '</a>';
+                
+                if($this->get_new_publication_icons() && ($course->get_access() != CourseSettings :: ACCESS_CLOSED || $course->is_course_admin($this->get_user())))
                 {
                 	$html[] = $this->display_new_publication_icons($course);
                 }

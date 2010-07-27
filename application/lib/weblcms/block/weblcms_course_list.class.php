@@ -35,5 +35,14 @@ class WeblcmsCourseList extends WeblcmsBlock
         
         return implode("\n", $html);
     }
+    
+    /**
+     * We need to override this because else we would redirect to the home page
+     * @param $parameters
+     */
+    function get_link($parameters)
+    {
+    	return $this->get_parent()->get_link($parameters);
+    }
 }
 ?>

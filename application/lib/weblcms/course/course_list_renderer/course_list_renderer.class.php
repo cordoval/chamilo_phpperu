@@ -123,6 +123,11 @@ class CourseListRenderer
             $html[] = '<ul style="padding: 0px; margin: 0px 0px 0px 15px;">';
             while ($course = $courses->next_result())
             {
+            	if($course->get_access() == CourseSettings :: ACCESS_CLOSED && !$course->is_course_admin($this->get_user()))
+				{
+					continue;
+				}
+		
             	$html[] = '<li><a href="' . $this->get_course_url($course) . '">' . $course->get_name() . '</a>';
             	
             	if($this->get_new_publication_icons())
