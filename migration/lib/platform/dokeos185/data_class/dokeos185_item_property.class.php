@@ -5,16 +5,15 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import.class.php';
-
 /**
  * This class represents a dokeos 1.8.5 item property
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185ItemProperty extends Dokeos185MigrationDataClass
+class Dokeos185ItemProperty extends DataClass
 {
-    
+    const TABLE_NAME = 'item_property';
+	
     /**
      * Item Property properties
      */
@@ -30,39 +29,7 @@ class Dokeos185ItemProperty extends Dokeos185MigrationDataClass
     const PROPERTY_VISIBILITY = 'visibility';
     const PROPERTY_START_VISIBLE = 'start_visible';
     const PROPERTY_END_VISIBLE = 'end_visible';
-    
-    /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new dokeos185 Item Property object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185ItemProperty($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
+   
     /**
      * Get the default properties
      * @return array The property names.
@@ -70,24 +37,6 @@ class Dokeos185ItemProperty extends Dokeos185MigrationDataClass
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_TOOL, self :: PROPERTY_INSERT_USER_ID, self :: PROPERTY_INSERT_DATE, self :: PROPERTY_LASTEDIT_DATE, self :: PROPERTY_REF, self :: PROPERTY_LASTEDIT_TYPE, self :: PROPERTY_LASTEDIT_USER_ID, self :: PROPERTY_TO_GROUP_ID, self :: PROPERTY_TO_USER_ID, self :: PROPERTY_VISIBILITY, self :: PROPERTY_START_VISIBLE, self :: PROPERTY_END_VISIBLE);
-    }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -197,5 +146,16 @@ class Dokeos185ItemProperty extends Dokeos185MigrationDataClass
     {
         return $this->get_default_property(self :: PROPERTY_END_VISIBLE);
     }
+
+    function get_data_manager() 
+    {
+		return Dokeos185DataManager :: get_instance();	
+	}
+	
+	function get_table_name()
+	{
+		return self :: TABLE_NAME;
+	}
+
 }
 ?>

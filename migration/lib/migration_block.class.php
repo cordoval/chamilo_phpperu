@@ -72,7 +72,7 @@ abstract class MigrationBlock
 	 * Returns the file logger
 	 * @return FileLogger
 	 */
-	private function get_file_logger()
+	protected function get_file_logger()
 	{
 		if(!$this->file_logger)
 		{
@@ -159,7 +159,7 @@ abstract class MigrationBlock
 	 * Prepares the migration
 	 * Logfiles & Messages
 	 */
-	private function prepare_migration()
+	protected function prepare_migration()
 	{
 		$this->get_timer()->start();
 		$logger = $this->get_file_logger();
@@ -172,7 +172,7 @@ abstract class MigrationBlock
 	 * Change the block registration
 	 * Logfiles & Messages
 	 */
-	private function finish_migration()
+	protected function finish_migration()
 	{
 		$logger = $this->get_file_logger();
 		
@@ -195,7 +195,8 @@ abstract class MigrationBlock
 		$data_classes = $this->get_data_classes();
 		foreach($data_classes as $data_class)
 		{
-			$this->log_message_and_file(Translation :: get('StartMigrationForTable', array('TABLE' => $data_class->get_table_name())));
+			$this->pre_data_class_migration_messages_log($data_class);
+			
 			$total_count = $data_class->get_data_manager()->count_all_objects($data_class);
 			$failed_objects = $records_migrated = 0;
 			
@@ -219,7 +220,8 @@ abstract class MigrationBlock
         	}
 
         	$migrated_objects = $total_count - $failed_objects;
-        	$this->log_data_class_migration_messages($migrated_objects, $failed_objects, $data_class->get_table_name());
+        	
+        	$this->post_data_class_migration_messages_log($migrated_objects, $failed_objects, $data_class);
 		}
 	}
 	
@@ -241,12 +243,21 @@ abstract class MigrationBlock
 	}
 	
 	/**
-	 * Logs the messages from the results of the function migrate_data
+	 * Logs messages before starting the migration of each dataclass
+	 * @param MigrationDataClass $data_class
+	 */
+	protected function pre_data_class_migration_messages_log(MigrationDataClass $data_class)
+	{
+		$this->log_message_and_file(Translation :: get('StartMigrationForTable', array('TABLE' => $data_class->get_table_name())));
+	}
+	
+	/**
+	 * Logs the messages after the migration of each dataclass
 	 * @param int $migrated_objects
 	 * @param int $failed_objects
-	 * @param String $table
+	 * @param MigrationDataClass $data_class
 	 */
-	private function log_data_class_migration_messages($migrated_objects, $failed_objects, $table)
+	protected function post_data_class_migration_messages_log($migrated_objects, $failed_objects, MigrationDataClass $data_class)
 	{
 		if($migrated_objects == 1)
 		{
@@ -269,7 +280,7 @@ abstract class MigrationBlock
 		}
 		
         $this->log_message_and_file(Translation :: get($message, array('OBJECTCOUNT' => $failed_objects)));
-        $this->log_message_and_file(Translation :: get('FinishedMigrationForTable', array('TABLE' => $table)) . "<br />\n");
+        $this->log_message_and_file(Translation :: get('FinishedMigrationForTable', array('TABLE' => $data_class->get_table_name())) . "<br />\n");
 	}
 	
 	/**

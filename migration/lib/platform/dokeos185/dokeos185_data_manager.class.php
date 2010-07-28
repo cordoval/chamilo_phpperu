@@ -160,6 +160,29 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
         return $id;
     }
     
+    /**
+     * Retrieves an item property of a course tool
+     * @param Dokeos185Course $course
+     * @param String $tool 
+     * @param int $id
+     */
+    function get_item_property($course, $tool, $id)
+    {
+    	$this->set_database($course->get_db_name());
+		
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(Dokeos185ItemProperty :: PROPERTY_TOOL, $tool);
+    	$conditions[] = new EqualityCondition(Dokeos185ItemProperty :: PROPERTY_REF, $id);
+	    $condition = new AndCondition($conditions);
+    	
+    	return $this->retrieve_objects(Dokeos185ItemProperty :: get_table_name(), $condition, null, null, null, 'Dokeos185ItemProperty')->next_result();
+    }
+    
+    function get_owner_id()
+    {
+    	return 1;
+    }
+    
 }
 
 ?>

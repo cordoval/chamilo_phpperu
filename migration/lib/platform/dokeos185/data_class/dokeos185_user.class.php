@@ -445,26 +445,26 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         // Convert profile fields to Profile object if the user has user profile data
         if ($is_registered && ($this->get_competences() !== NULL || $this->get_diplomas() !== NULL || $this->get_teach() !== NULL || $this->get_openarea() !== NULL || $this->get_phone() !== NULL))
         {
-        	$lcms_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($chamilo_user->get_id(), Translation :: get('Profile'));
-        	$lcms_repository_profile = new Profile();
-        	$lcms_repository_profile->set_competences($this->get_competences());
-        	$lcms_repository_profile->set_diplomas($this->get_diplomas());
-        	$lcms_repository_profile->set_teaching($this->get_teach());
-        	$lcms_repository_profile->set_open($this->get_openarea());
-        	$lcms_repository_profile->set_title($this->get_lastname().' '.$this->get_firstname());
-        	$lcms_repository_profile->set_parent_id($lcms_category_id);
-        	$lcms_repository_profile->set_phone($this->get_phone());
+        	$chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($chamilo_user->get_id(), Translation :: get('Profile'));
+        	$chamilo_repository_profile = new Profile();
+        	$chamilo_repository_profile->set_competences($this->get_competences());
+        	$chamilo_repository_profile->set_diplomas($this->get_diplomas());
+        	$chamilo_repository_profile->set_teaching($this->get_teach());
+        	$chamilo_repository_profile->set_open($this->get_openarea());
+        	$chamilo_repository_profile->set_title($this->get_lastname().' '.$this->get_firstname());
+        	$chamilo_repository_profile->set_parent_id($chamilo_category_id);
+        	$chamilo_repository_profile->set_phone($this->get_phone());
 
         	//Create profile in database
-        	$lcms_repository_profile->create();
+        	$chamilo_repository_profile->create();
 
         	//Publish Profile
-        	$lcms_profile_publication = new ProfilePublication();
-        	$lcms_profile_publication->set_profile($lcms_repository_profile->get_id());
-        	$lcms_profile_publication->set_publisher($chamilo_user->get_id());
+        	$chamilo_profile_publication = new ProfilePublication();
+        	$chamilo_profile_publication->set_profile($chamilo_repository_profile->get_id());
+        	$chamilo_profile_publication->set_publisher($chamilo_user->get_id());
 
         	//Create profile publication in database
-        	$lcms_profile_publication->create();
+        	$chamilo_profile_publication->create();
         }
     }
     
@@ -481,7 +481,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
 
             if (count($files_list) != 0)
             {
-                //Create category for user in lcms
+                //Create category for user in chamilo
                 $chamilo_repository_category = new RepositoryCategory();
                 $chamilo_repository_category->set_id($chamilo_user->get_id());
                 $chamilo_repository_category->set_name(Translation :: get('User'));
@@ -526,7 +526,7 @@ class Dokeos185User extends Dokeos185MigrationDataClass
     	return self :: CLASS_NAME;
     }
     
-    static function get_database_name()
+    function get_database_name()
     {
     	return self :: DATABASE_NAME;
     }

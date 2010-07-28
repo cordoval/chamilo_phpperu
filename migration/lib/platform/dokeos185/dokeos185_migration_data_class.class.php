@@ -89,7 +89,7 @@ abstract class Dokeos185MigrationDataClass extends MigrationDataClass
 		return parent :: get_id_reference($old_id, $table);
 	}
 	
-    abstract static function get_database_name();
+    abstract function get_database_name();
     
 }
 

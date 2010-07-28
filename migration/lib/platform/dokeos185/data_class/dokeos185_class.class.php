@@ -6,7 +6,6 @@
  */
 
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
-require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 class
@@ -129,7 +128,7 @@ class Dokeos185Class extends Dokeos185MigrationDataClass
     	return self :: CLASS_NAME;
     }
     
-    static function get_database_name()
+    function get_database_name()
     {
     	return self :: DATABASE_NAME;
     }

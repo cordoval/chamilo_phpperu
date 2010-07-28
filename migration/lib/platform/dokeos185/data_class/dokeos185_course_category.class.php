@@ -143,7 +143,7 @@ class Dokeos185CourseCategory extends Dokeos185MigrationDataClass
     	return self :: CLASS_NAME;
     }
     
-    static function get_database_name()
+    function get_database_name()
     {
     	return self :: DATABASE_NAME;
     }
