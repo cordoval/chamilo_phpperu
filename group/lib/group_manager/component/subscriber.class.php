@@ -3,7 +3,7 @@
  * $Id: subscriber.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
  */
-
+   
 class GroupManagerSubscriberComponent extends GroupManager
 {
 
@@ -56,7 +56,8 @@ class GroupManagerSubscriberComponent extends GroupManager
                     }
                     else
                     {
-                        Event :: trigger('subscribe_user', GroupManager :: APPLICATION_NAME, array(
+         				require_once dirname(__FILE__) . '/../../../trackers/group_changes_tracker.class.php';
+                    	Event :: trigger('subscribe_user', GroupManager :: APPLICATION_NAME, array(
                                 ChangesTracker :: PROPERTY_REFERENCE_ID => $groupreluser->get_group_id(), GroupChangesTracker :: PROPERTY_TARGET_USER_ID => $groupreluser->get_user_id(),
                                 ChangesTracker :: PROPERTY_USER_ID => $this->get_user()->get_id()));
                     }

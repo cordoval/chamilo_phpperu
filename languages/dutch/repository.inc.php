@@ -738,4 +738,19 @@ $lang['repository']['SlideshowView'] = 'Die weergave';
 
 
 
+$lang['repository']['Owner'] = 'Eigenaar';
+$lang['repository']['AvailableSizes'] = 'Beschikbare groottes';
+$lang['repository']['PublishedBy'] = 'Gepubliceerd door';
+$lang['repository']['CreatedBy'] = 'Aangemaakt door';
+$lang['repository']['UploadSuccess'] = 'Upload geslaagd';
+$lang['repository']['TranscodeNeeded'] = 'Het bestand moet getranscodeerd worden vooraleer het kan worden bekeken.';
+$lang['repository']['BrowseTitle'] = 'Browse';
+$lang['repository']['UploadTitle'] = 'Upload';
+$lang['repository']['ExportTitle'] = 'Exporteer';
+$lang['repository']['ExternalRepository'] = 'Extern repository';
+$lang['repository']['ExternalRepositories'] = 'Externe repository\'s';
+$lang['repository']['Creator'] = 'Maker';
+$lang['repository']['ViewTitle'] = 'Bekijk';
+$lang['repository']['ImportSuccessfull'] = 'Importeren geslaagd';
+$lang['repository']['NoThumbnailAvailable'] = 'Geen thumbnail beschikbaar';
 ?>

@@ -184,6 +184,7 @@ class ConditionTranslator
             $sub_condition = $condition->get_condition();
 
             $alias = $this->data_manager->get_alias($table);
+            $alias_name = null;
             if ($name_table)
             {
                 $alias_name = $this->data_manager->get_alias($name_table);

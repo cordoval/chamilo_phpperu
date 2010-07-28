@@ -46,6 +46,14 @@ class DynamicTabsRenderer
     {
         $this->tabs = $tabs;
     }
+    
+    /**
+     * Retrieves the number of tabs
+     */
+    public function size()
+    {
+    	return count($this->tabs);
+    }
 
     /**
      * @param DynamicTab $tab

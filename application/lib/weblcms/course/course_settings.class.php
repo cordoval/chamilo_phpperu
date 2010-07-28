@@ -16,6 +16,9 @@ class CourseSettings extends DataClass
     const PROPERTY_ACCESS = 'access';
     const PROPERTY_MAX_NUMBER_OF_MEMBERS = 'max_number_of_members';
 
+    const ACCESS_CLOSED = 0;
+    const ACCESS_OPEN = 1;
+
     /**
      * Get the default properties of all courses.
      * @return array The property names.
@@ -127,6 +130,12 @@ class CourseSettings extends DataClass
     {
             $this->set_default_property(self :: PROPERTY_MAX_NUMBER_OF_MEMBERS, $max_number_of_members);
     }
+    
+    static function get_access_states()
+    {
+    	return array(self :: ACCESS_OPEN => Translation :: get('Open'), self :: ACCESS_CLOSED => Translation :: get('Closed'));
+    }
+    
 //    function set_max_number_of_admin($max_number_of_admin)
 //    {
 //            $this->set_default_property(self :: PROPERTY_MAX_NUMBER_OF_ADMIN, $max_number_of_admin);

@@ -14,6 +14,11 @@ class MenuManagerMiniBarComponent extends MenuManager
     {
         $user = $this->get_user();
 
+        if(!$user)
+        {
+        	return;
+        }
+        
         $root_item_condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, 0);
         $root_items = $this->retrieve_navigation_items($root_item_condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
 

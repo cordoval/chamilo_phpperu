@@ -4,7 +4,9 @@
  * @package application.lib.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
-
+require_once dirname(__FILE__) . '/../../course/course_list_renderer/course_type_course_list_renderer.class.php';
+require_once dirname(__FILE__) . '/../../course/course_list_renderer/open_course_type_course_list_renderer.class.php';
+require_once dirname(__FILE__) . '/../../course/course_list_renderer/open_closed_course_type_course_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../../course/course_user_category.class.php';
 /**
  * Weblcms component which provides the user with a list
@@ -12,15 +14,10 @@ require_once dirname(__FILE__) . '/../../course/course_user_category.class.php';
  */
 class WeblcmsManagerHomeComponent extends WeblcmsManager
 {
+    const VIEW_MIXED = 0;
+    const VIEW_OPEN_CLOSED = 1;
+    const VIEW_OPEN = 2;
     
-    const MIXED = 0;
-    const SEPERATED = 1;
-    const OPEN_ONLY = 2;
-    
-    private $message;
-    
-    private $selected_tab = 0;
-
     /**
      * Runs this component and displays its output.
      */
@@ -32,81 +29,26 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         $this->message = Request :: get('message');
         Request :: set_get('message', null);
         
-        $this->display_header();
-        echo '<div class="clear"></div>';
+        $view_state = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
         
-        echo $this->display_menu();
-        
-        echo '<div id="tool_browser_right">';
-        echo $this->get_active_course_type_tabs();
-        echo '</div>';
-        
-        $this->display_footer();
-    }
-
-    function get_active_course_type_tabs()
-    {
-        $tabs = array();
-        $html = array();
-        
-        $course_active_types = $this->retrieve_active_course_types();
-        while ($course_type = $course_active_types->next_result())
+        switch($view_state)
         {
-            $conditions = array();
-            $user_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-            $group_condition = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());
-            $conditions[] = new OrCondition($user_condition, $group_condition);
-            $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type->get_id());
-            $condition = new AndCondition($conditions);
-            $order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager :: get_instance()->get_alias(CourseUserRelation :: get_table_name()));
-            $courses_result = $this->retrieve_user_courses($condition, null, null, $order_by);
-            if ($courses_result->size() > 0)
-            {
-                $tabs[$course_type->get_id()][0] = $courses_result;
-                $tabs[$course_type->get_id()][1] = $course_type->get_name();
-            }
+        	case self :: VIEW_MIXED:
+        		$renderer = new CourseTypeCourseListRenderer($this);
+        		break;
+        	case self :: VIEW_OPEN_CLOSED:
+        		$renderer = new OpenClosedCourseTypeCourseListRenderer($this);
+        		break;
+        	case self :: VIEW_OPEN:
+        		$renderer = new OpenCourseTypeCourseListRenderer($this);
+        		break;
         }
         
-        $conditions = array();
-        $user_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-        $group_condition = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());
-        $conditions[] = new OrCondition($user_condition, $group_condition);
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id(), CourseUserRelation :: get_table_name());
-        $conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, 0);
-        $condition = new AndCondition($conditions);
-        $order_by[] = new ObjectTableOrder(CourseUserRelation :: PROPERTY_SORT, DESC, WeblcmsDataManager :: get_instance()->get_alias(CourseUserRelation :: get_table_name()));
-        $courses_result = $this->retrieve_user_courses($condition, null, null, $order_by);
-        if ($courses_result->size() > 0)
-        {
-            $tab_name = Translation :: get('NoCourseType');
-            if (count($tabs) == 0)
-            {
-                $tab_name = null;
-            }
-            $tabs[0][0] = $courses_result;
-            $tabs[0][1] = $tab_name;
-        }
-        if (! is_null($this->message))
-        {
-            $this->display_message($this->message);
-        }
-        if (count($tabs) == 0)
-        {
-            $this->display_message(Translation :: get('NoCoursesFound'));
-        }
-        else
-        {
-            $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
-            $course_tabs = new DynamicTabsRenderer($renderer_name);
-            foreach ($tabs as $index => $tab)
-            {
-                $course_tabs->add_tab(new DynamicContentTab($index, $tab[1], null, $this->display_courses($tab[0], $index)));
-            }
-            
-            $html[] = $course_tabs->render();
-        }
+        $renderer->show_new_publication_icons();
+        $html[] = $renderer->as_html();
         
-        $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
+        
+    	$html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' . '"></script>';
         $toolbar_state = Session :: retrieve('toolbar_state');
         if ($toolbar_state == 'hide')
         {
@@ -117,7 +59,16 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
             $html[] = '<script type="text/javascript">var hide = "false";</script>';
         }
         
-        return implode($html, "\n");
+        $this->display_header();
+        echo '<div class="clear"></div>';
+        
+        echo $this->display_menu();
+        
+        echo '<div id="tool_browser_right">';
+        echo implode("\n", $html);
+        echo  '</div>';
+        
+        $this->display_footer();
     }
 
     function display_menu()
@@ -162,72 +113,6 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         $html[] = '<script type="text/javascript" src="' . Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' . '"></script>';
         $html[] = '<div class="clear"></div>';
         return implode($html, "\n");
-    }
-
-    function display_courses($courses, $course_type_id)
-    {
-        $setting = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
-        $category_0 = null;
-        $category_1 = null;
-        
-        switch ($setting)
-        {
-            case self :: MIXED :
-                $category_0 = $this->category_factory($setting);
-                break;
-            case self :: SEPERATED :
-                $arr = $this->category_factory($setting);
-                $category_0 = $arr[0];
-                $category_1 = $arr[1];
-                break;
-            case self :: OPEN_ONLY :
-                $category_0 = $this->category_factory($setting);
-                break;
-        }
-        $courses_category_0 = array();
-        $courses_category_1 = array();
-        
-        $wdm = WeblcmsDataManager :: get_instance();
-        while ($course_result = $courses->next_result())
-        {
-            $course = $wdm->retrieve_course($course_result->get_id());
-            $course->set_optional_properties($course_result->get_optional_properties());
-            if ($course)
-            {
-                switch ($setting)
-                {
-                    case self :: MIXED :
-                        $courses_category_0[] = $course;
-                        break;
-                    case self :: SEPERATED :
-                        if ($course->get_access())
-                            $courses_category_0[] = $course;
-                        else
-                            $courses_category_1[] = $course;
-                        break;
-                    case self :: OPEN_ONLY :
-                        if ($course->get_access())
-                            $courses_category_0[] = $course;
-                        break;
-                }
-            }
-        }
-        $html = array();
-        switch ($setting)
-        {
-            case self :: MIXED :
-                $html[] = $this->display_view($courses_category_0, $category_0, $course_type_id);
-                break;
-            case self :: SEPERATED :
-                $html[] = $this->display_view($courses_category_0, $category_0, $course_type_id);
-                $html[] = $this->display_view($courses_category_1, $category_1, $course_type_id);
-                break;
-            case self :: OPEN_ONLY :
-                $html[] = $this->display_view($courses_category_0, $category_0, $course_type_id);
-                break;
-        }
-        
-        return implode("\n", $html);
     }
 
     function display_create_course_link()
@@ -284,189 +169,14 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER)) . '">' . Translation :: get('RequestList') . '</a></li>';
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_move.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)) . '">' . Translation :: get('CourseCategoryManagement') . '</a></li>';
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)) . '">' . Translation :: get('ImportCourseCSV') . '</a></li>';
-        //$html[] = '<li><a href="'.$this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)) .'">'.Translation :: get('AddUserToCourse').'</a></li>';
         $html[] = '<li class="tool_list_menu" style="background-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)) . '">' . Translation :: get('ImportUsersForCourseCSV') . '</a></li>';
         
         return implode($html, "\n");
     }
-
-    function display_view($courses, $view_category, $course_type_id = 0)
+    
+    function get_course_user_category_actions(CourseUserCategory $course_user_category, CourseType $course_type, $offset, $count)
     {
-        $html = array();
-        
-        if (count($courses) > 0)
-        {
-            $title = $view_category->get_title();
-            //$html[] = '<div class="coursehomeblock block" id="courses_' . $title . '_' . $course_type_id . '" style="background-image: url(' . Theme :: get_image_path('weblcms') . 'block_weblcms.png);">';
-            $html[] = '<div class="block course_home_block" id="courses_' . $title . '_' . $course_type_id . '">';
-            
-            $setting = LocalSetting :: get('view_state', WeblcmsManager :: APPLICATION_NAME);
-            
-            if ($setting == self :: SEPERATED)
-            {
-                $html[] = '<div class="title" style="background-image: url(' . Theme :: get_image_path() . 'course_status_' . Utilities :: camelcase_to_underscores($view_category->get_title()) . '.png);"><div style="float: left;">';
-                //                $html[] = '<img src="'. Theme :: get_image_path() .'course_status_'. Utilities :: camelcase_to_underscores($view_category->get_title()) .'.png"/> ';
-                $html[] = htmlentities($title);
-                
-                $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
-                $html[] = '<div style="clear: both;"></div></div>';
-            }
-            $html[] = '<div class="description">';
-            
-            $conditions = array();
-            $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_COURSE_TYPE_ID, $course_type_id);
-            $conditions[] = new EqualityCondition(CourseTypeUserCategory :: PROPERTY_USER_ID, $this->get_user_id());
-            $condition = new AndCondition($conditions);
-            $order_by[] = new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT, DESC);
-            $categories = $this->retrieve_course_type_user_categories($condition, null, null, $order_by);
-            $temp_html = array();
-            
-            while ($category = $categories->next_result())
-            {
-                $category_courses = array();
-                $course_category = $this->retrieve_course_user_category(new EqualityCondition(CourseUserCategory :: PROPERTY_ID, $category->get_course_user_category_id()));
-                foreach ($courses as $index => $course)
-                {
-                    if ($course->get_optional_property("user_course_cat") == $course_category->get_id())
-                    {
-                        $category_courses[] = $course;
-                        unset($courses[$index]);
-                    }
-                }
-                $temp_html[] = $this->display_course_digest($category_courses, $course_category);
-            }
-            $html[] = $this->display_course_digest($courses);
-            $html = array_merge($html, $temp_html);
-            $html[] = '<div style="clear: both;"></div>';
-            $html[] = '</div>';
-            $html[] = '</div>';
-        }
-        
-        return implode($html, "\n");
-    }
-
-    function display_course_digest($courses, $course_category = null)
-    {
-        $html = array();
-        
-        if (count($courses) > 0)
-        {
-            $title = $course_category ? $course_category->get_title() : 'general';
-            $html[] = '<div class="block user_category_block" id="courses_' . $title . '">';
-            $html[] = '<div class="user_category_title title"><div style="float: left;">';
-            
-            if (isset($course_category))
-            {
-                $html[] = htmlentities($course_category->get_title());
-            }
-            else
-            {
-                $html[] = Translation :: get('GeneralCourses');
-            }
-            
-            $html[] = '</div><a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
-            $html[] = '<div style="clear: both;"></div></div>';
-            $html[] = '<div class="user_category_description description">';
-            $html[] = '<ul>';
-            foreach ($courses as $course)
-            {
-                $wdm = WeblcmsDataManager :: get_instance();
-                $course = $wdm->retrieve_course($course->get_id());
-                $tools = $course->get_tools(false);
-                
-
-                if ($course->get_access() || $this->is_teacher($course, $this->get_user()))
-                {
-                    $html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_home.png);"><a style="top: -2px; position: relative;" href="' . $this->get_course_viewing_url($course) . '">' . $course->get_name() . '</a>';
-                }
-                else
-                {
-                    $html[] = '<li style="list-style: none; margin-bottom: 5px; list-style-image: url(' . Theme :: get_common_image_path() . 'action_lock.png);"><b style="top: -2px; position: relative;">' . $course->get_name() . '</b>';
-                }
-                
-                foreach ($tools as $index => $tool)
-                { 
-                    if ($tool->visible && $this->tool_has_new_publications($tool->name, $course))
-                    {
-                        $params[WeblcmsManager :: PARAM_TOOL] = $tool->name;
-                        $params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();
-                        $params[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_VIEW_COURSE;
-                        $url = $this->get_url($params);
-                        $html[] = '<a href="' . $url . '"><img src="' . Theme :: get_image_path() . 'tool_' . $tool->name . '_new.png" alt="' . Translation :: get('New') . '"/></a>';
-                    }
-                }
-                
-                $text = array();
-                
-                if ($course->get_course_code_visible())
-                {
-                    $text[] = $course->get_visual();
-                }
-                
-                if ($course->get_course_manager_name_visible())
-                {
-                    $user = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
-                    if ($user)
-                    {
-                        $text[] = $user->get_fullname();
-                    }
-                    else
-                    {
-                        $text[] = Translation :: get('NoTitular');
-                    }
-                }
-                
-                if ($course->get_course_languages_visible())
-                {
-                    $text[] = ucfirst($course->get_language());
-                }
-                
-                if (count($text) > 0)
-                {
-                    $html[] = '<br />' . implode(' - ', $text);
-                }
-                
-                $html[] = '</li>';
-            }
-            $html[] = '</ul>';
-            
-            $html[] = '<div style="clear: both;"></div>';
-            $html[] = '</div>';
-            $html[] = '</div>';
-        }
-        
-        return implode($html, "\n");
-    }
-
-    function category_factory($setting)
-    {
-        switch ($setting)
-        {
-            case self :: MIXED :
-                //Creating Mixed
-                $cat = new CourseUserCategory();
-                $cat->set_title(Translation :: get('Mixed'));
-                return $cat;
-                break;
-            case self :: SEPERATED :
-                $arr = array();
-                //Creating Open
-                $cat = new CourseUserCategory();
-                $cat->set_title(Translation :: get('Open'));
-                $arr[] = $cat;
-                //Creating Closed
-                $cat = new CourseUserCategory();
-                $cat->set_title(Translation :: get('Closed'));
-                $arr[] = $cat;
-                return $arr;
-                break;
-            case self :: OPEN_ONLY :
-                //Creating OpenOnly
-                $cat = new CourseUserCategory();
-                $cat->set_title(Translation :: get('OpenOnly'));
-                return $cat;
-                break;
-        }
+    	return '<a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
     }
 }
 ?>

@@ -218,6 +218,9 @@ class CourseUserRelation extends DataClass
     function create()
     {
         $wdm = WeblcmsDataManager :: get_instance();
+        
+        $this->set_sort($wdm->retrieve_next_course_user_relation_sort_value($this));
+        
         $success = $wdm->create_course_user_relation($this);
         
         if (! $success)

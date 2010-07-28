@@ -43,7 +43,8 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
         if(!$this->mediamosa_external_repository_connector)
         {
             $object = $this->get_content_object();
-            $this->mediamosa_external_repository_connector = new MediamosaExternalRepositoryConnector($object->get_server_id());
+            $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($object->get_server_id());
+            $this->mediamosa_external_repository_connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
         }
         
         if(!$this->mediamosa_object)
@@ -92,7 +93,7 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
 
             $html = array();
             $i = 1;
-            $html[] = '<tr><td class="header">' . Translation :: get('Available versions').'</td></tr>';
+            $html[] = '<tr><td class="header">' . Translation :: get('Versions').'</td></tr>';
 
             if(is_array($mediafiles))
             {
@@ -107,9 +108,9 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
                 }
                 $html2 = array();
 
-                $html2[] = Translation :: get('Published by') . ' : ' . $object->get_publisher() . '<br />';
+                $html2[] = Translation :: get('PublishedBy') . ' : ' . $object->get_publisher() . '<br />';
 
-                if($object->get_creator()) $html2[] = Translation :: get('Created by') . ' : ' . $object->get_creator();
+                if($object->get_creator()) $html2[] = Translation :: get('CreatedBy') . ' : ' . $object->get_creator();
 
                 return '<table class="data_table data_table_no_header">' . implode("\n",$html) . '</table>' . implode("\n",$html2);
             }

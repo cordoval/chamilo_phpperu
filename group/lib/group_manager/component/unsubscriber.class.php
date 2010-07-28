@@ -44,7 +44,7 @@ class GroupManagerUnsubscriberComponent extends GroupManager
                 $groupreluser_ids = explode('|', $id);
                 $groupreluser = $this->retrieve_group_rel_user($groupreluser_ids[1], $groupreluser_ids[0]);
 
-                if (! isset($groupreluser))
+                if (!$groupreluser)
                     continue;
 
                 if ($groupreluser_ids[0] == $groupreluser->get_group_id())
@@ -55,6 +55,8 @@ class GroupManagerUnsubscriberComponent extends GroupManager
                     }
                     else
                     {
+                    	require_once dirname(__FILE__) . '/../../../trackers/group_changes_tracker.class.php';
+                    	
                         Event :: trigger('unsubscribe_user', GroupManager :: APPLICATION_NAME, array(
                                 ChangesTracker :: PROPERTY_REFERENCE_ID => $groupreluser->get_group_id(),
                                 GroupChangesTracker :: PROPERTY_TARGET_USER_ID => $groupreluser->get_user_id(), ChangesTracker :: PROPERTY_USER_ID => $user->get_id()));

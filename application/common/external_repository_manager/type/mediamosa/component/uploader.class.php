@@ -38,7 +38,7 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
 //        {
             //check quota if user exists
             //otherwise create one and set quota
-            $connector = MediamosaExternalRepositoryConnector :: get_instance($this);
+            $connector = $this->get_external_repository_connector();
             $user = Session :: get_user_id();
             $over_quota = true;
 
@@ -80,6 +80,7 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
                        $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY;
                        $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY] = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
                        $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $ticket_response['asset_id'];
+                       $params['message'] = Translation :: get('UploadSuccess') . Translation :: get('TranscodeNeeded');
 
                        $redirect_url = 'http://' . $_SERVER['SERVER_NAME'] . $this->get_url($params, true);
 
