@@ -75,3 +75,8 @@ syntax: regexp
 ^languages/english/sts\.inc\.php$
 syntax: regexp
 \.tmp$
+\.orig\..*$
+\.orig$
+\.chg\..*$
+\.rej$
+\.conflict\~$
