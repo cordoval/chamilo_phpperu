@@ -241,21 +241,23 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
     function display_footer()
     {
-        if(is_a($this->get_user(), User::CLASS_NAME))
-        {
-            $this->current_user_id = $this->get_user_id();
-        }
-        else
-        {
-            //anonymous user
-            $this->current_user_id = 1;
-        }
+//        if(is_a($this->get_user(), User::CLASS_NAME))
+//        {
+//            $this->current_user_id = $this->get_user_id();
+//        }
+//        else
+//        {
+//            //anonymous user
+//            $this->current_user_id = 1;
+//        }
 
         $current_action = Request :: get('action') ? Request :: get('action') : 'view';
 
         $html = array();
 
         $html[]= '<div></div>';
+        $html[]= '</div>';
+        $html[]= '</div>';
         $html[]= '</div>';
         $html[]= '</div>';
 
