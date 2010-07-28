@@ -878,4 +878,9 @@ $lang['repository']['Owner'] = 'Owner';
 $lang['repository']['AvailableSizes'] = 'Available sizes';
 $lang['repository']['PublishedBy'] = 'Published by';
 $lang['repository']['CreatedBy'] = 'Created by';
+$lang['repository']['UploadSuccess'] = 'Upload succeeded.';
+$lang['repository']['TranscodeNeeded'] = 'The file needs to be transcoded before you can view it';
+$lang['repository']['Creator'] = 'Creator';
+$lang['repository']['ImportSuccessfull'] = 'The object was successfully imported';
+$lang['repository']['NoThumbnailAvailable'] = 'No Thumbnail Available';
 ?>

@@ -24,6 +24,7 @@ $lang['common']['MarchShort'] = 'maa';
 $lang['common']['AprilShort'] = 'apr';
 $lang['common']['MayShort'] = 'mei';
 $lang['common']['JuneShort'] = 'jun';
+$lang['common']['JulyShort'] = 'jul';
 $lang['common']['AugustShort'] = 'aug';
 $lang['common']['SeptemberShort'] = 'sep';
 $lang['common']['OctoberShort'] = 'okt';
@@ -737,4 +738,8 @@ $lang['common']['h'] = 'u';
 $lang['common']['Logout'] = 'Uitloggen';
 $lang['common']['Repository'] = 'Repository';
 $lang['common']['DeleteSelectedSurveyPublicationsConfirm'] = 'Bent u zeker dat u deze publicatie(s) wil verwijderen?';
+$lang['common']['TableView'] = 'Tabelweergave';
+$lang['common']['GalleryTableView'] = 'Gallerijweergave';
+$lang['common']['SlideshowView'] = 'Slideshow';
+$lang['common']['ConfigureTitle'] = 'Instellingen';
 ?>
