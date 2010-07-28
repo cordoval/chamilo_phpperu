@@ -1178,7 +1178,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $course_user_relation->set_status($status);
         $course_user_relation->set_role(null);
         $course_user_relation->set_tutor($tutor_id);
-        $course_user_relation->set_sort($sort + 1);
         $course_user_relation->set_category(0);
         
         if ($course_user_relation->create())
