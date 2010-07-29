@@ -52,18 +52,27 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
 		$this->item_property = $item_property;
 	}
 	
-	function create_publication($object, $course, $user, $tool)
+	function create_publication($object, $course, $user, $tool, $target_users = null, $target_groups = null)
 	{
 		//publication
         if ($this->item_property->get_visibility() <= 1)
         {
             $publication = new ContentObjectPublication();
             
-            $publication->set_content_object($object->get_id());
+            $publication->set_content_object($object);
+            $publication->set_content_object_id($object->get_id());
             $publication->set_course_id($course);
             $publication->set_publisher_id($user);
             $publication->set_tool($tool);
+
+            //target users, groups
+            $publication->set_target_users($target_users);
+            //$publication->set_target_groups($target_groups);
+
+            //?
             $publication->set_category_id(0);
+
+
             //$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
             //$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
             $publication->set_from_date(0);

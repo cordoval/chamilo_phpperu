@@ -121,6 +121,9 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         
     	$new_user_id = $this->get_id_reference($this->item_property->get_insert_user_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
+
+        $new_to_group_id[] = $this->get_id_reference($this->item_property->get_to_group_id(), 'main_database.user');
+        $new_to_user_id[] = $this->get_id_reference($this->item_property->get_to_user_id(), 'main_database.user');
         
         if (! $new_user_id)
         {
@@ -129,6 +132,7 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         
         //announcement parameters
         $chamilo_announcement = new Announcement();
+
         $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Announcements'));
         
         if (! $this->get_title())
@@ -161,7 +165,7 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         //create announcement in database
         $chamilo_announcement->create_all();
         
-        $this->create_publication($chamilo_announcement, $new_course_code, $new_user_id, 'announcement');
+        $this->create_publication($chamilo_announcement, $new_course_code, $new_user_id, 'announcement', $new_to_user_id, $new_to_group_id);
         
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'annoucement', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_announcement->get_id())));
     }
