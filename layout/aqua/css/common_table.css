@@ -183,6 +183,16 @@
 	margin: 0px;
 }
 
+.gallery_table div.no_thumbnail
+{
+	margin: 1em auto 1em auto;
+}
+
+.gallery_table div.no_preview
+{
+	margin: 1em auto 1em auto;
+}
+
 /*****************************************************
  *  CALENDAR TABLE STYLES                            *
  *****************************************************/

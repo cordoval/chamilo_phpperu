@@ -2289,6 +2289,8 @@ div.no_thumbnail, div.no_preview
 	background-color: white;
 	padding: 15px;
 	width: 300px;
+	text-align: center;
+	color: #797268;
 	
 	-webkit-border-top-left-radius: 10px;
 	-webkit-border-top-right-radius: 0px;
@@ -2307,6 +2309,8 @@ div.no_thumbnail, div.no_preview
 div.no_thumbnail
 {
 	width: 150px;
+	border-width: 0px;
+	padding: 0px;
 }
 
 div.no_thumbnail div.background,
@@ -2331,4 +2335,11 @@ div.no_thumbnail div.background h3
 {
 	color: #797268;
 	font-size: 95%;
+}
+
+iframe.preview
+{
+	border: 1px solid #cccccc;
+	width: 100%;
+	height: 300px;
 }
