@@ -22,9 +22,15 @@
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>
 			</setting>
-		</category>
+                        <setting name="app_id" field="text" >
+                            <validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+                        </setting>
+                </category>
 		<category name="rights">
-			<setting name="default_user_quotum" field="text" default="100" />
+			<setting name="slave_app_ids" field="text" />
+                        <setting name="default_user_quotum" field="text" default="100" />
 			<setting name="is_upload_possible" field="checkbox" default="0">
 				<options type="static">
 					<option name="is_upload_possible" value="1" />

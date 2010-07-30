@@ -82,7 +82,7 @@ class ExternalRepositoryBrowserComponent extends ExternalRepositoryComponent
         {
             $html[] = '<div style=" width: 80%; overflow: auto; float: center">';
         }
-
+        
         $renderer = ExternalRepositoryObjectRenderer :: factory($this->get_parent()->get_renderer(), $this);
         $html[] = $renderer->as_html();
 

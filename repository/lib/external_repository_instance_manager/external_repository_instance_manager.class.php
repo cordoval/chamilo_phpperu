@@ -33,6 +33,7 @@ class ExternalRepositoryInstanceManager extends SubManager
 
     function run()
     {
+        
         $package_action = $this->get_action();
         
         switch ($package_action)

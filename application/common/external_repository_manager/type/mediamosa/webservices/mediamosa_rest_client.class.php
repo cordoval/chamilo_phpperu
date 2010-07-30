@@ -155,7 +155,20 @@ class MediamosaRestClient extends RestClient{
 
                 foreach($data as $key => $value)
                 {
-                    $tmp[] = $key .  '=' . $value;
+                    if(is_array($value))
+                    {
+                        $subtmp = array();
+                        
+                        foreach($value as $subkey => $subvalue)
+                        {
+                            $tmp[] = $key . '[]' . '=' . $subvalue;
+                        }
+                    }
+                    else
+                    {
+                        $tmp[] = $key .  '=' . $value;
+                    }
+                    
                 }
 
                 $get_string = implode('&', $tmp);

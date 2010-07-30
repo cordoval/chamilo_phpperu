@@ -52,7 +52,7 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
             else
             {
                 $mdm = MediamosaExternalRepositoryDataManager :: get_instance();
-                if($quotum = $mdm->retrieve_external_repository_user_quotum($user, Request :: get(MediamosaExternalRepositoryManager :: PARAM_SERVER)))
+                if($quotum = $mdm->retrieve_external_repository_user_quotum($user, Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY)))
                 {
                     if($connector->set_mediamosa_user_quotum($user, $quotum->get_quotum()))
                     {

@@ -182,6 +182,8 @@ class ExternalRepositoryForm extends FormValidator
 
     function update_external_repository()
     {
+        xdebug_break();
+
         $external_repository = $this->external_repository;
         $values = $this->exportValues();
 

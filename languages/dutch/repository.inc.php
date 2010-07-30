@@ -740,4 +740,5 @@ $lang['repository']['Creator'] = 'Maker';
 $lang['repository']['ViewTitle'] = 'Bekijk';
 $lang['repository']['ImportSuccessfull'] = 'Importeren geslaagd';
 $lang['repository']['NoThumbnailAvailable'] = 'Geen thumbnail beschikbaar';
+$lang['repository']['Mediamosa'] = 'Mediamosa';
 ?>

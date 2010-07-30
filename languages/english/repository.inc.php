@@ -883,4 +883,5 @@ $lang['repository']['TranscodeNeeded'] = 'The file needs to be transcoded before
 $lang['repository']['Creator'] = 'Creator';
 $lang['repository']['ImportSuccessfull'] = 'The object was successfully imported';
 $lang['repository']['NoThumbnailAvailable'] = 'No Thumbnail Available';
+$lang['repository']['Mediamosa'] = 'Mediamosa';
 ?>

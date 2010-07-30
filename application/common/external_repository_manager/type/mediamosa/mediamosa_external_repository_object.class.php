@@ -24,6 +24,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
     const PROPERTY_STATUS = 'status';
     const PROPERTY_DURATION = 'duration';
     const PROPERTY_OWNER_ID = 'owner_id';
+    const PROPERTY_PROTECTED = 'protected';
     
     const STATUS_UNAVAILABLE = 'unavailable';
     const STATUS_AVAILABLE = 'available';
@@ -34,7 +35,12 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_CONVERSION_STATE, self :: PROPERTY_DATE_PUBLISHED, self :: PROPERTY_DATE_CREATED, self :: PROPERTY_PUBLISHER, self :: PROPERTY_CREATOR, self :: PROPERTY_DEFAULT_MEDIAFILE, self :: PROPERTY_IS_DOWNLOADABLE, self :: PROPERTY_STATUS, self :: PROPERT_THUMBNAIL, self :: PROPERTY_DURATION));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONVERSION_STATE, self :: PROPERTY_DATE_PUBLISHED, self :: PROPERTY_DATE_CREATED, self :: PROPERTY_PUBLISHER, self :: PROPERTY_CREATOR, self :: PROPERTY_DEFAULT_MEDIAFILE, self :: PROPERTY_IS_DOWNLOADABLE, self :: PROPERTY_STATUS, self :: PROPERT_THUMBNAIL, self :: PROPERTY_DURATION,self :: PROPERTY_OWNER_ID, self :: PROPERTY_PROTECTED));
+    }
+
+    static function get_searchable_property_names()
+    {
+        return array(parent :: PROPERTY_TITLE, parent :: PROPERTY_DESCRIPTION, parent :: PROPERTY_CREATED, self :: PROPERTY_DATE_PUBLISHED, self :: PROPERTY_DATE_CREATED, self :: PROPERTY_PUBLISHER, self :: PROPERTY_CREATOR, self :: PROPERTY_DURATION);
     }
     
     function set_conversion_state($conversion_state)
@@ -164,6 +170,16 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
     function get_owner_id()
     {
         return $this->get_default_property(self :: PROPERTY_OWNER_ID);
+    }
+
+    function set_protected($protected)
+    {
+        $this->set_default_property(self :: PROPERTY_PROTECTED, $protected);
+    }
+
+    function get_protected()
+    {
+        $this->get_default_property(self :: PROPERTY_PROTECTED);
     }
 
     static function get_object_type()

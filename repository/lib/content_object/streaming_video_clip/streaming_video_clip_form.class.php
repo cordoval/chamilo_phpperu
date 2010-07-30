@@ -13,15 +13,15 @@ class StreamingVideoClipForm extends ContentObjectForm
 
     function streaming_video_clip_form_elements()
     {
-        $link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_TYPE . '=' . 'mediamosa';
+        //$link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=' . 'mediamosa';
         
-        $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
+        //$this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         $this->addElement('hidden', StreamingVideoClip :: PROPERTY_SERVER_ID);
         $this->addElement('hidden', StreamingVideoClip :: PROPERTY_ASSET_ID);
         $this->addElement('hidden', StreamingVideoClip :: PROPERTY_PUBLISHER);
         $this->addElement('hidden', StreamingVideoClip :: PROPERTY_CREATOR);
-        $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
-        $this->addElement('category');
+        //$this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
+        //$this->addElement('category');
     
     }
 
@@ -69,7 +69,10 @@ class StreamingVideoClipForm extends ContentObjectForm
     {
         $object = $this->get_content_object();
         $rdm = RightsDataManager :: get_instance();
-        $mmc = new MediamosaExternalRepositoryConnector($object->get_server_id());
+
+        $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($object->get_server_id());
+        $mmc = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
+
         $rights = array();
         
         $location = RepositoryRights :: get_location_id_by_identifier('content_object', $object->get_id(), Session :: get_user_id(), 'user_tree');
@@ -104,7 +107,10 @@ class StreamingVideoClipForm extends ContentObjectForm
                 $update = true;
             }
         }
-        
+
+        $asset_rights = $mmc->retrieve_mediamosa_asset_rights($object->get_asset_id());
+        $rights['aut_app'] = $asset_rights['aut_app'];
+
         //update mediamosa
         if ($update)
             $mmc->set_mediamosa_asset_rights($object->get_asset_id(), $rights, $object->get_owner_id());

@@ -40,6 +40,8 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         return Path :: get_application_library_path() . 'external_repository_manager/type/mediamosa/component/';
     }
 
+    
+
     function retrieve_external_repository_server_object($id)
     {
         if (self :: $server)
@@ -75,6 +77,11 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function run()
     {
+        $rdm = RepositoryDataManager :: get_instance();
+        $external_repository = $rdm->retrieve_external_repository(Request :: get(MediamosaExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb('#', $external_repository->get_title()));
+
         $server = Request :: get(self :: PARAM_SERVER);
         if ($server)
         {

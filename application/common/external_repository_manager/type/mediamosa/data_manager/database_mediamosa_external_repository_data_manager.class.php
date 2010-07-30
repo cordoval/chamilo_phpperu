@@ -23,6 +23,9 @@ class DatabaseMediamosaExternalRepositoryDataManager extends Database implements
 
     function retrieve_external_repository_user_quotum($user_id, $server_id)
     {
+        //TODO: create permanent solution
+        $this->create_external_repository_server_object_table();
+
         $condition1 = new EqualityCondition(ExternalRepositoryUserQuotum :: PROPERTY_USER_ID, $user_id);
         $condition2 = new EqualityCondition(ExternalRepositoryUserQuotum :: PROPERTY_SERVER_ID, $server_id);
 
@@ -97,7 +100,7 @@ class DatabaseMediamosaExternalRepositoryDataManager extends Database implements
 
     function create_external_repository_server_object_table()
     {
-
+        /*
         $query = 'CREATE TABLE IF NOT EXISTS ' . $this->get_prefix() . ExternalRepositoryServerObject :: get_table_name() . '
                   (
                         ' . ExternalRepositoryServerObject :: PROPERTY_ID . ' INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -113,7 +116,7 @@ class DatabaseMediamosaExternalRepositoryDataManager extends Database implements
                     )';
 
         $this->query($query);
-
+        */
         $query =  'CREATE TABLE IF NOT EXISTS ' . $this->get_prefix() . ExternalRepositoryUserQuotum :: get_table_name() . '
                   (
                         ' .ExternalRepositoryUserQuotum :: PROPERTY_ID. ' INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
