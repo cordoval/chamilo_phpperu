@@ -1,5 +1,5 @@
 <?php
-$lang['portfolio']['BrowsePortfolio'] = 'Doorblader portfolio';
+$lang['portfolio']['BrowsePortfolio'] = 'Doorblader Portfolio';
 $lang['portfolio']['NoPortfolioPublicationsSelected'] = 'Geen portfolio publicaties geselecteerd';
 $lang['portfolio']['CreatePortfolioItem'] = 'Creëer portfolio item';
 $lang['portfolio']['PortfolioItemCreated'] = 'Portfolio item gecreëerd';
@@ -109,6 +109,11 @@ $lang['portfolio']['Icq'] = 'Icq';
 $lang['portfolio']['Competences'] = 'Compententies';
 $lang['portfolio']['Diplomas'] = 'Diploma';
 $lang['portfolio']['Teaching'] = 'Onderwijs activiteiten';
-
+$lang['portfolio']['OnlyCertainUsersAndGroups'] = 'Alleen toegestaan voor bepaalde gebruikers en groepen';
+$lang['portfolio']['SystemsSettingsOverview'] = 'Overzicht van de Standaard Systeem Instellingen';
+$lang['portfolio']['SeeSystemSettings'] = 'bekijk de standaard systeem-instellingen';
+$lang['portfolio']['SeeAllPortfolioPermissions'] = 'bekijk de rechten op uw eigen items';
+$lang['portfolio']['PortfolioDefaultSettingsSaved'] = 'De standaard portfolio-rechten werden opgeslagen';
+$lang['portfolio']['ShowAllFeedback'] = 'Toon alle feedback';
 
 ?>
