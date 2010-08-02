@@ -11,9 +11,10 @@ class ExternalRepositoryLauncher extends LauncherApplication
     function run()
     {
         $type = $this->get_type();
-        $this->set_parameter(ExternalRepositoryManager :: PARAM_TYPE, $type);
+        $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($type);
+        $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, $type);
         
-        $external_repository_manager = ExternalRepositoryManager :: factory($type, $this);
+        $external_repository_manager = ExternalRepositoryManager :: factory($external_repository, $this);
         
         if (! $external_repository_manager->is_ready_to_be_used())
         {
@@ -36,7 +37,7 @@ class ExternalRepositoryLauncher extends LauncherApplication
 
     function get_type()
     {
-        return Request :: get(ExternalRepositoryManager :: PARAM_TYPE);
+        return Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY);
     }
 
     public function get_link($parameters = array (), $filter = array(), $encode_entities = false, $application_type = Redirect :: TYPE_APPLICATION)
