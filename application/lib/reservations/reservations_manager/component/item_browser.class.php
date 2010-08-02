@@ -28,11 +28,16 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManager
         $poolform = $this->get_poolform();
 
         $this->display_header($trail);
+        
         echo $this->ab->as_html() . '<br />';
         echo '<div style="float: left; overflow: auto; width: 18%;">' . $menu->render_as_tree() . '</div>';
         echo '<div style="float: right; width: 80%;">';
+        
         if ($poolform && $this->has_right('category', $this->get_category(), ReservationsRights :: VIEW_RIGHT))
+        {
             echo $poolform->display();
+        }
+            
         echo '<br />';
         echo $this->get_user_html();
         echo '</div><div class="clear">&nbsp;</div>';

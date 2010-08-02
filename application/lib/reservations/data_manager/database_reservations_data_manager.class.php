@@ -434,12 +434,32 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
 
     function retrieve_overview_items($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('overview_item', $condition, $offset, $count, $order_property);
+        $overview_item_table = OverviewItem :: get_table_name();
+        $overview_item_alias = $this->get_alias($overview_item_table);
+        $overview_item_table = $this->escape_table_name($overview_item_table);
+
+        $item_table = Item :: get_table_name();
+        $item_alias = $this->get_alias($item_table);
+        $item_table = $this->escape_table_name($item_table);
+
+        $query = 'SELECT ' . $overview_item_alias . '.* FROM ' . $overview_item_table . ' AS ' . $overview_item_alias . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $overview_item_alias . '.item_id=' . $item_alias . '.id';
+
+        return $this->retrieve_object_set($query, OverviewItem :: get_table_name(), $condition, $offset, $count, $order_property);
     }
 
-    function count_overview_items($condition)
+	function count_overview_items($condition)
     {
-        return $this->count_objects('overview_item', $condition);
+        $overview_item_table = OverviewItem :: get_table_name();
+        $overview_item_alias = $this->get_alias($overview_item_table);
+        $overview_item_table = $this->escape_table_name($overview_item_table);
+
+        $item_table = Item :: get_table_name();
+        $item_alias = $this->get_alias($item_table);
+        $item_table = $this->escape_table_name($item_table);
+
+        $query = 'SELECT COUNT(*) FROM ' . $overview_item_table . ' AS ' . $overview_item_alias . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $overview_item_alias . '.item_id=' . $item_alias . '.id';
+
+        return $this->count_result_set($query, OverviewItem :: get_table_name(), $condition);
     }
 
     function retrieve_quota_box_from_user_for_category($user_id, $category_id)
