@@ -201,6 +201,16 @@ abstract class MigrationDataClass extends DataClass
      * Converts the current data to chamilo 2.0 data
      */
     abstract function convert_data();
+
+    /**
+     * Returns the table that is being converted
+     */
+    abstract static function get_table_name();
+
+    /**
+     * Returns the class name
+     */
+    abstract static function get_class_name();
 }
 
 ?>

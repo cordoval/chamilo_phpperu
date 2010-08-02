@@ -59,7 +59,7 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
             return 0;
         }
         
-	function create_publication($object, $course, $user, $tool, $target_users = null, $target_groups = null)
+	function create_publication($object, $course, $user, $tool, $category_id = 0, $target_users = null, $target_groups = null)
 	{
 		//publication
         if ($this->item_property->get_visibility() <= 1)
@@ -77,7 +77,7 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
             //$publication->set_target_groups($target_groups);
 
             
-            $publication->set_category_id(0);
+            $publication->set_category_id($category_id);
 
 
             //$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
