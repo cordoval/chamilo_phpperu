@@ -40,7 +40,9 @@ class ReservationsManagerAdminReservationBrowserComponent extends ReservationsMa
 
     function get_user_html()
     {
-        $table = new ReservationBrowserTable($this, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_RESERVATIONS, ReservationsManager :: PARAM_ITEM_ID => $this->get_item()), $this->get_condition());
+        $parameters = $this->get_parameters();
+        $parameters[ReservationsManager :: PARAM_ITEM_ID] = $this->get_item();
+    	$table = new ReservationBrowserTable($this, $parameters, $this->get_condition());
 
         $html = array();
         $html[] = '<div style="float: right; width: 100%;">';

@@ -12,8 +12,6 @@ require_once dirname(__FILE__) . '/../../reservations_manager.class.php';
  */
 class ReservationBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'reservations_table';
-
     /**
      * Constructor
      * @see ContentObjectTable::ContentObjectTable()
@@ -23,19 +21,25 @@ class ReservationBrowserTable extends ObjectTable
         $model = new ReservationBrowserTableColumnModel();
         $renderer = new ReservationBrowserTableCellRenderer($browser);
         $data_provider = new ReservationBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, ReservationBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         
-        if (get_class($this->browser) == 'ReservationsManagerAdminReservationBrowserComponent' && $browser->get_user() && $browser->get_user()->is_platform_admin())
+        if (get_class($browser) == 'ReservationsManagerAdminReservationBrowserComponent' && $browser->get_user() && $browser->get_user()->is_platform_admin())
         {
-            $actions = array();
+            $actions = new ObjectTableFormActions();
             
-            $actions[] = new ObjectTableFormAction(ReservationsManager :: PARAM_REMOVE_SELECTED_RESERVATIONS, Translation :: get('RemoveSelected'));
+            $actions->add_form_action(new ObjectTableFormAction(ReservationsManager :: ACTION_DELETE_RESERVATION, Translation :: get('RemoveSelected')));
             
             $this->set_form_actions($actions);
         }
         
         $this->set_default_row_count(20);
+    }
+    
+	static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(ReservationsManager :: PARAM_RESERVATION_ID, $ids);
     }
 }
 ?>

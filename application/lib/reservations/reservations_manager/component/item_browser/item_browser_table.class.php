@@ -23,19 +23,25 @@ class ItemBrowserTable extends ObjectTable
         $model = new ItemBrowserTableColumnModel();
         $renderer = new ItemBrowserTableCellRenderer($browser);
         $data_provider = new ItemBrowserTableDataProvider($browser, $condition);
-        parent :: __construct($data_provider, ItemBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        parent :: __construct($data_provider, Utilities :: camelcase_to_underscores(__CLASS__), $model, $renderer);
         $this->set_additional_parameters($parameters);
         
         if (get_class($browser) == 'ReservationsManagerAdminItemBrowserComponent' && $browser->get_user() && $browser->get_user()->is_platform_admin())
         {
-            $actions = array();
+            $actions = new ObjectTableFormActions();
             
-            $actions[] = new ObjectTableFormAction(ReservationsManager :: PARAM_REMOVE_SELECTED_ITEMS, Translation :: get('RemoveSelected'));
+            $actions->add_form_action(new ObjectTableFormAction(ReservationsManager :: ACTION_DELETE_ITEM, Translation :: get('RemoveSelected')));
             
             $this->set_form_actions($actions);
         }
         
         $this->set_default_row_count(20);
+    }
+    
+	static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(ReservationsManager :: PARAM_ITEM_ID, $ids);
     }
 }
 ?>

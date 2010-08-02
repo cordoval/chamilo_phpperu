@@ -5,6 +5,12 @@
  */
 require_once dirname(__FILE__) . '/../reservations_data_manager.class.php';
 require_once dirname(__FILE__) . '/../reservations_rights.class.php';
+require_once dirname(__FILE__) . '/component/category_browser/category_browser_table.class.php';
+require_once dirname(__FILE__) . '/component/category_quota_box_browser/category_quota_box_browser_table.class.php';
+require_once dirname(__FILE__) . '/component/item_browser/item_browser_table.class.php';
+require_once dirname(__FILE__) . '/component/quota_box_browser/quota_box_browser_table.class.php';
+require_once dirname(__FILE__) . '/component/quota_browser/quota_browser_table.class.php';
+require_once dirname(__FILE__) . '/component/reservation_browser/reservation_browser_table.class.php';
 require_once dirname(__FILE__) . '/component/subscription_browser/subscription_browser_table.class.php';
 
 class ReservationsManager extends WebApplication
