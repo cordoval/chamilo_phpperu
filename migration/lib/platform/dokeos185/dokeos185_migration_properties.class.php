@@ -25,7 +25,7 @@ class Dokeos185MigrationProperties extends MigrationProperties
 	{
 		try
 		{
-			$data_manager = new Dokeos185DataManager();
+			$data_manager = Dokeos185DataManager::get_instance();
 		}
 		catch(Exception $e)
 		{

@@ -38,7 +38,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
 	/**
 	 * Constructor
 	 */
-	function Dokeos185DataManager()
+	final private function __construct()
 	{
 		$this->configuration = $this->get_configuration();
 		
@@ -56,7 +56,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
 	 * Retrieves the configuration from dokeos 1.8.5
 	 */
 	function get_configuration()
-    {
+        {
         if(!$this->configuration)
         {
         	$platform_path = 'file://' . PlatformSetting :: get('platform_path', MigrationManager :: APPLICATION_NAME);
@@ -182,6 +182,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     {
     	return 1;
     }
+
     
 }
 

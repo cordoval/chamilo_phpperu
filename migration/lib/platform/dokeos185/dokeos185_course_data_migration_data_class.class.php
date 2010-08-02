@@ -41,6 +41,8 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
 	{
 		return $this->course;
 	}
+        
+
 	
 	function get_item_property()
 	{
@@ -69,7 +71,7 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
             $publication->set_target_users($target_users);
             //$publication->set_target_groups($target_groups);
 
-            //?
+            
             $publication->set_category_id(0);
 
 
@@ -100,7 +102,7 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
 	}
 	
 	/**
-	 * Sets the database name of this data class which is offcourse the database name of the course
+	 * Gets the database name of this data class which is offcourse the database name of the course
 	 */
 	function get_database_name()
 	{

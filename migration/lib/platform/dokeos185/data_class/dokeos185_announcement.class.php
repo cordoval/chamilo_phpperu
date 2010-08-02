@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class
 class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
-	const TABLE_NAME = 'announcement';   
+    const TABLE_NAME = 'announcement';
     
     /**
      * Announcement properties
@@ -26,6 +26,8 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_END_DATE = 'end_date';
     const PROPERTY_DISPLAY_ORDER = 'display_order';
     const PROPERTY_EMAIL_SENT = 'email_sent';
+
+    
 
     /**
      * Get the default properties
@@ -72,6 +74,15 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         return $this->get_default_property(self :: PROPERTY_END_DATE);
     }
 
+        /**
+        * Returns the email_sent of this announcement.
+        * @return int the email_sent.
+        */
+        function get_email_sent()
+        {
+            return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
+        }
+
     /**
      * Returns the display_order of this announcement.
      * @return int the display_order.
@@ -79,15 +90,6 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
     function get_display_order()
     {
         return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER);
-    }
-
-    /**
-     * Returns the email_sent of this announcement.
-     * @return int the email_sent.
-     */
-    function get_email_sent()
-    {
-        return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
     }
 
     /**
@@ -170,7 +172,7 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'annoucement', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_announcement->get_id())));
     }
 
-	static function get_table_name()
+    static function get_table_name()
     {
         return self :: TABLE_NAME;
     }

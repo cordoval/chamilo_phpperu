@@ -164,7 +164,7 @@ class Dokeos185Document extends Dokeos185MigrationDataClass
      * @param Course $course the course of the document
      * @return true if the dropbox category is valid
      */
-    function is_valid($array)
+    function is_valid()
     {
         $course = $array['course'];
         $old_mgdm = $array['old_mgdm'];
@@ -205,7 +205,7 @@ class Dokeos185Document extends Dokeos185MigrationDataClass
      * @param Course $course the course of the document
      * @return the new document
      */
-    function convert_data
+    function convert_data()
     {
         $course = $array['course'];
         $mgdm = MigrationDataManager :: get_instance();
@@ -415,6 +415,15 @@ class Dokeos185Document extends Dokeos185MigrationDataClass
         $array['database'] = $parameters['course']->get_db_name();
         $array['table'] = 'document';
         return $array;
+    }
+    static function get_table_name()
+    {
+        return self :: TABLE_NAME;
+    }
+
+    static function get_class_name()
+    {
+    	return self :: CLASS_NAME;
     }
 }
 ?>

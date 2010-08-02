@@ -7,7 +7,7 @@
  */
 
 /**
- * Interface for the databamanagers
+ * Interface for the databasemanagers
  */
 interface MigrationDataManagerInterface
 {   

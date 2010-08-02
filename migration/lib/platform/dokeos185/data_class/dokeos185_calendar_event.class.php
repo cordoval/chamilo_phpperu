@@ -5,34 +5,27 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_calendar_event.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/calendar_event/calendar_event.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
-require_once 'dokeos185_item_property.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Calendar Event
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185CalendarEvent extends Dokeos185MigrationDataClass
+class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
 {
-    /**
-     * Migration data manager
-     */
-    private static $mgdm;
-    
-    private $item_property;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'calendar_event';
     
     /**
-     * Announcement properties
+     * Calendar event properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_CONTENT = 'content';
     const PROPERTY_START_DATE = 'start_date';
     const PROPERTY_END_DATE = 'end_date';
+    const PROPERTY_EMAIL_SENT = 'email_sent';
     
     /**
      * Default properties stored in an associative array.
@@ -138,21 +131,30 @@ class Dokeos185CalendarEvent extends Dokeos185MigrationDataClass
         return $this->get_default_property(self :: PROPERTY_END_DATE);
     }
 
+        /**
+        * Returns the email_sent of this announcement.
+        * @return int the email_sent.
+        */
+        function get_email_sent()
+        {
+            return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
+        }
     /**
      * Check if the calendar event is valid
      * @param Course $course the course where the calendar event belongs to
      * @return true if the blog is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
-        $mgdm = MigrationDataManager :: get_instance();
-        $old_mgdm = $array['old_mgdm'];
-        $this->item_property = $old_mgdm->get_item_property($course->get_db_name(), 'calendar_event', $this->get_id());
+        $this->item_property = $this->get_data_manager()->get_item_property($this->get_course(), 'announcement', $this->get_id());
+
+        //$old_mgdm = $array['old_mgdm'];
+        //$this->item_property = $old_mgdm->get_item_property($course->get_db_name(), 'calendar_event', $this->get_id());
         
-        if (! $this->get_id() || ! ($this->get_title() || $this->get_content()) || ! $this->item_property || ! $this->item_property->get_ref() || ! $this->item_property->get_insert_date())
+        if (! $this->get_id() || ! ($this->get_title() || $this->get_content()) || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! $this->get_item_property()->get_insert_date())
         {
-            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.calendar_event');
+            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'calendar_event', 'ID' => $this->get_id())));
             return false;
         }
         return true;
@@ -163,120 +165,90 @@ class Dokeos185CalendarEvent extends Dokeos185MigrationDataClass
      * @param Course $course the course where the calendar event belongs to
      * @return the new calendar event
      */
-    function convert_data
+    function convert_data()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        $course = $array['course'];
-        $new_user_id = $mgdm->get_id_reference($this->item_property->get_insert_user_id(), 'user_user');
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
+        $course = $this->get_course();
+        $new_user_id = $this->get_id_reference($this->item_property->get_insert_user_id(), 'main_database.user');
+        $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
         
         if (! $new_user_id)
         {
-            $new_user_id = $mgdm->get_owner($new_course_code);
+            $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
         
         //calendar event parameters
-        $lcms_calendar_event = new CalendarEvent();
+        $chamilo_calendar_event = new CalendarEvent();
         
-        $lcms_calendar_event->set_start_date($mgdm->make_unix_time($this->get_start_date()));
-        $lcms_calendar_event->set_end_date($mgdm->make_unix_time($this->get_end_date()));
+        $chamilo_calendar_event->set_start_date($this->get_data_manager()->make_unix_time($this->get_start_date()));
+        $chamilo_calendar_event->set_end_date($this->get_data_manager()->make_unix_time($this->get_end_date()));
         
         // Category for calendar_events already exists?
-        $lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('calendar_events'));
-        if (! $lcms_category_id)
-        {
-            
-            //Create category for tool in lcms
-            $lcms_repository_category = new RepositoryCategory();
-            $lcms_repository_category->set_user_id($new_user_id);
-            $lcms_repository_category->set_name(Translation :: get('calenderEvent'));
-            $lcms_repository_category->set_parent(0);
-            
-            //Create category in database
-            $lcms_repository_category->create();
-            
-            $lcms_calendar_event->set_parent_id($lcms_repository_category->get_id());
-        }
-        else
-        {
-            $lcms_calendar_event->set_parent_id($lcms_category_id);
-        }
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('calendar_events'));
+
+        $chamilo_calendar_event->set_parent_id($chamilo_category_id);
         
         if (! $this->get_title())
-            $lcms_calendar_event->set_title(substr($this->get_content(), 0, 20));
+            $chamilo_calendar_event->set_title(substr($this->get_content(), 0, 20));
         else
-            $lcms_calendar_event->set_title($this->get_title());
+            $chamilo_calendar_event->set_title($this->get_title());
         
         if (! $this->get_content())
-            $lcms_calendar_event->set_description($this->get_title());
+            $chamilo_calendar_event->set_description($this->get_title());
         else
-            $lcms_calendar_event->set_description($this->get_content());
+            $chamilo_calendar_event->set_description($this->get_content());
         
-        $lcms_calendar_event->set_owner_id($new_user_id);
-        $lcms_calendar_event->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
-        $lcms_calendar_event->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+        $chamilo_calendar_event->set_owner_id($new_user_id);
+        $chamilo_calendar_event->set_creation_date($this->get_data_manager()->make_unix_time($this->get_item_property()->get_insert_date()));
+        $chamilo_calendar_event->set_modification_date($this->get_data_manager()->make_unix_time($this->get_item_property()->get_lastedit_date()));
         
-        if ($this->item_property->get_visibility() == 2)
-            $lcms_calendar_event->set_state(1);
+        if ($this->get_item_property()->get_visibility() == 2)
+            $chamilo_calendar_event->set_state(1);
             
         //create announcement in database
-        $lcms_calendar_event->create_all();
+        $chamilo_calendar_event->create_all();
         
         //publication
-        if ($this->item_property->get_visibility() <= 1)
-        {
-            $publication = new ContentObjectPublication();
-            
-            $publication->set_content_object($lcms_calendar_event);
-            $publication->set_course_id($new_course_code);
-            $publication->set_publisher_id($new_user_id);
-            $publication->set_tool('calendar_event');
-            $publication->set_category_id(0);
-            //$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
-            //$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
-            $publication->set_from_date(0);
-            $publication->set_to_date(0);
-            $publication->set_publication_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
-            $publication->set_modified_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-            //$publication->set_modified_date(0);
-            //$publication->set_display_order_index($this->get_display_order());
-            $publication->set_display_order_index(0);
-            $publication->set_email_sent(0);
-            
-            $publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
-            
-            //create publication in database
-            $publication->create();
-        }
         
-        return $lcms_calendar_event;
+        $this->create_publication($chamilo_calendar_event, $new_course_code, $new_user_id, 'calendar');
+
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'calendar_event', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_calendar_event->get_id())));
+        return $chamilo_calendar_event;
     }
 
-    /**
-     * Retrieve all calendar events from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of calendar events
-     */
-    static function retrieve_data($parameters)
+//    /**
+//     * Retrieve all calendar events from the database
+//     * @param array $parameters parameters for the retrieval
+//     * @return array of calendar events
+//     */
+//    static function retrieve_data($parameters)
+//    {
+//        $old_mgdm = $parameters['old_mgdm'];
+//
+//        if ($parameters['del_files'] = ! 1)
+//            $tool_name = 'calendar_event';
+//
+//        $coursedb = $parameters['course']->get_db_name();
+//        $tablename = 'calendar_event';
+//        $classname = 'Dokeos185CalendarEvent';
+//
+//        return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+//    }
+//
+//    static function get_database_table($parameters)
+//    {
+//        $array = array();
+//        $array['database'] = $parameters['course']->get_db_name();
+//        $array['table'] = 'calendar_event';
+//        return $array;
+//    }
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        if ($parameters['del_files'] = ! 1)
-            $tool_name = 'calendar_event';
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'calendar_event';
-        $classname = 'Dokeos185CalendarEvent';
-        
-        return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'calendar_event';
-        return $array;
+    	return self :: CLASS_NAME;
     }
 }
 ?>
