@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../data_class/dokeos185_link.class.php';
 require_once dirname(__FILE__) . '/../course_data_migration_block.class.php';
+require_once dirname(__FILE__) . '/course_link_categories_migration_block.class.php';
 
 class CourseLinksMigrationBlock extends CourseDataMigrationBlock
 {
@@ -8,7 +9,7 @@ class CourseLinksMigrationBlock extends CourseDataMigrationBlock
 	
 	function get_prerequisites()
 	{
-		return array(CoursesMigrationBlock :: MIGRATION_BLOCK_NAME);
+		return array(CoursesMigrationBlock :: MIGRATION_BLOCK_NAME, CourseLinkCategoriesMigrationBlock:: MIGRATION_BLOCK_NAME);
 	}
 	
 	function get_block_name()

@@ -167,7 +167,7 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         //create announcement in database
         $chamilo_announcement->create_all();
         
-        $this->create_publication($chamilo_announcement, $new_course_code, $new_user_id, 'announcement', $new_to_user_id, $new_to_group_id);
+        $this->create_publication($chamilo_announcement, $new_course_code, $new_user_id, 'announcement', 0, $new_to_user_id, $new_to_group_id);
         
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'annoucement', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_announcement->get_id())));
     }
