@@ -34,17 +34,6 @@ abstract class ReservationsCalendarRenderer
     }
 
     /**
-     * Gets the evenst to display
-     * @see ReservationsCalendar::get_events
-     * @param int $from_date
-     * @param int $to_date
-     */
-    public function get_events($from_date, $to_date)
-    {
-        return $this->browser->get_events($from_date, $to_date);
-    }
-
-    /**
      * Gets the time
      * @return int
      */
