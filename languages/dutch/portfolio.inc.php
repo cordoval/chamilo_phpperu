@@ -1,5 +1,5 @@
 <?php
-$lang['portfolio']['BrowsePortfolio'] = 'Doorblader portfolio';
+$lang['portfolio']['BrowsePortfolio'] = 'Doorblader Portfolio';
 $lang['portfolio']['NoPortfolioPublicationsSelected'] = 'Geen portfolio publicaties geselecteerd';
 $lang['portfolio']['CreatePortfolioItem'] = 'Creëer portfolio item';
 $lang['portfolio']['PortfolioItemCreated'] = 'Portfolio item gecreëerd';
@@ -95,6 +95,25 @@ $lang['portfolio']['QuickFeedback'] = 'Snelle Feedback';
 $lang['portfolio']['ConfirmYourChoice'] = 'Gelieve te bevestigen';
 $lang['portfolio']['FeedbackPublicationDeleted'] = 'De Feedback werd verwijderd';
 
-$lang['Admin']['Admin']['Portfolio'] = 'test';
-$lang['Admin']['Importer'] = 'test';
+$lang['portfolio']['Address'] = 'Adres';
+$lang['portfolio']['Contact'] = 'Contactgegevens';
+$lang['portfolio']['Mail'] = 'e-mail';
+$lang['portfolio']['TelShort'] = 'tel';
+$lang['portfolio']['FaxShort'] = 'fax';
+$lang['portfolio']['Skype'] = 'Skype';
+$lang['portfolio']['Msn'] = 'Msn';
+$lang['portfolio']['Yim'] = 'Yim';
+$lang['portfolio']['Aim'] = 'Aim';
+$lang['portfolio']['Icq'] = 'Icq';
+
+$lang['portfolio']['Competences'] = 'Compententies';
+$lang['portfolio']['Diplomas'] = 'Diploma';
+$lang['portfolio']['Teaching'] = 'Onderwijs activiteiten';
+$lang['portfolio']['OnlyCertainUsersAndGroups'] = 'Alleen toegestaan voor bepaalde gebruikers en groepen';
+$lang['portfolio']['SystemsSettingsOverview'] = 'Overzicht van de Standaard Systeem Instellingen';
+$lang['portfolio']['SeeSystemSettings'] = 'bekijk de standaard systeem-instellingen';
+$lang['portfolio']['SeeAllPortfolioPermissions'] = 'bekijk de rechten op uw eigen items';
+$lang['portfolio']['PortfolioDefaultSettingsSaved'] = 'De standaard portfolio-rechten werden opgeslagen';
+$lang['portfolio']['ShowAllFeedback'] = 'Toon alle feedback';
+
 ?>

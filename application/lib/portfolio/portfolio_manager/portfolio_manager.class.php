@@ -29,11 +29,14 @@ class PortfolioManager extends WebApplication
     const ACTION_VIEW_PORTFOLIO = 'view_portfolio';
     const ACTION_BROWSE = 'browse';
     const ACTION_SET_PORTFOLIO_DEFAULTS = 'set_defaults';
-
+    const ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW = "rights_overview";
 
 
     const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
     const ACTION_PUBLISHER = 'publisher';
+
+    const SYSTEM_SETTINGS_INFO_FILE_LOCATION = 'application/lib/portfolio/rights/';
+    const SYSTEM_SETTINGS_INFO_FILE_NAME = 'system_settings.html';
 
     /**
      * Constructor
@@ -73,6 +76,9 @@ class PortfolioManager extends WebApplication
                 break;
             case self :: ACTION_SET_PORTFOLIO_DEFAULTS :
                 $component = $this->create_component('AdminDefaultSettingsCreator');
+                break;
+            case self :: ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW :
+                $component = $this->create_component('RightsOverview');
                 break;
             default :
                 if (PlatformSetting :: get('first_page', 'portfolio') == 0)
@@ -490,6 +496,134 @@ class PortfolioManager extends WebApplication
             }
         }
     }
+
+
+    static function get_portfolio_system_settings_page()
+    {
+        //TODO: support for multiple languates
+        return  Configuration::get_instance()->get_parameter('general', 'root_web').self::SYSTEM_SETTINGS_INFO_FILE_LOCATION.Translation::get_instance()->get_language().'_'.self::SYSTEM_SETTINGS_INFO_FILE_NAME;
+
+    }
+
+     static function set_portfolio_system_settings_page($settings_text, $language)
+    {
+        
+       $settings_file = @fopen(self::SYSTEM_SETTINGS_INFO_FILE_LOCATION.$language.'_'.self::SYSTEM_SETTINGS_INFO_FILE_NAME, "w");
+       fwrite($settings_file, $settings_text);
+       fclose($settings_file);
+
+
+    }
+
+    static function create_portfolio_system_settings_page($view, $edit, $view_feedback, $give_feedback)
+    {
+        $system_languages_list = AdminDataManager::get_instance()->retrieve_languages();
+
+        while($language = $system_languages_list->next_result())
+        {
+            if($view==1)
+            {
+                $view="OnlyCertainUsersAndGroups";
+            }
+            if($edit==1)
+            {
+                $edit="OnlyCertainUsersAndGroups";
+            }
+            if($view_feedback==1)
+            {
+                $view_feedback="OnlyCertainUsersAndGroups";
+            }
+            if($give_feedback==1)
+            {
+                $give_feedback="OnlyCertainUsersAndGroups";
+            }
+            $html_header = array();
+            $html_header[]= '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">';
+            $html_header[]= '<html>';
+            $html_header[]= '<head>';
+            $html_header[]= '    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
+            $html_header[]= '</head>';
+            $html_header[]= '<body>';
+            $html_header[]= '<ul>';
+
+
+            $html_footer = array();
+            $html_footer[] = '</ul>';
+            $html_footer[] = '</body>';
+            $html_footer[] = '</html>';
+
+            $trans = Translation::get_instance();
+            $trans->set_language($language->get_folder());
+
+            $html = array();
+            $html[] = '<div id= "portfolioSystemSettings">';
+            $html[] = "<H1>";
+            $html[] = $trans->get('SystemsSettingsOverview');
+            $html[] = "</H1>";
+
+            
+            $html[] = "<li>";
+            $html[] = $trans->get(view). " = ". $trans->get($view);
+            $html[] = "</li>";
+            $html[] = "<li>";
+            $html[] = $trans->get(edit). " = ". $trans->get($edit);
+            $html[] = "</li>";
+            $html[] = "<li>";
+            $html[] = $trans->get(viewFeedback). " = ". $trans->get($view_feedback);
+            $html[] = "</li>";
+            $html[] = "<li>";
+            $html[] = $trans->get(giveFeedback). " = ". $trans->get($give_feedback);
+            $html[] = "</li>";
+            $html[] = "</div>";
+
+            self::set_portfolio_system_settings_page(implode("\n", $html_header).implode("\n", $html).implode("\n", $html_footer), $language->get_folder());
+        }
+        
+
+    }
+
+    static function display_system_settings_link()
+    {
+        //show settings
+        $html[] = '<div align="right">';
+        $html[] ='<a class="help" target="about:blank" href="';
+        $html[] = PortfolioManager::get_portfolio_system_settings_page();
+        $html[] ='" title="';
+        $html[] = Translation :: get('SeeSystemSettings');
+        $html[] ='   ">';
+        $html[] = '<img HEIGHT = 15 WIDTH = 15 src="'.Theme ::get_image_path('portfolio'). 'help.png"  class="labeled">';
+        $html[] ='<span>';
+        $html[] =    Translation :: get('SeeSystemSettings');
+        $html[] =    '</span>';
+        $html[] ='</a>';
+        $html[] = '</div>';
+
+        return implode("\n", $html);
+    }
+
+      static function display_all_portfolio_settings_link()
+    {
+        //show settings for all user's portfolio
+        $link = Configuration::get_instance()->get_parameter('general', 'root_web') . 'run.php?' . Application :: PARAM_APPLICATION . '=' . PortfolioManager::APPLICATION_NAME. '&' . Application::PARAM_ACTION. '=' . self::ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW;
+
+        $html[] = '<div align="right">';
+        $html[] ='<a class="help" target="about:blank" href="';
+        $html[] = $link;
+
+        $html[] ='" title="';
+        $html[] = Translation :: get('SeeAllPortfolioPermissions');
+        $html[] ='   ">';
+        $html[] = '<img HEIGHT = 15 WIDTH = 15 src="'.Theme ::get_image_path('portfolio'). 'help.png"  class="labeled">';
+        $html[] ='<span>';
+        $html[] =    Translation :: get('SeeAllPortfolioPermissions');
+        $html[] =    '</span>';
+        $html[] ='</a>';
+        $html[] = '</div>';
+
+        return implode("\n", $html);
+    }
+
+
 
 
    
