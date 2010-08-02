@@ -28,26 +28,5 @@ class SubscriptionUserBrowserTable extends ObjectTable
         
         $this->set_default_row_count(20);
     }
-
-    function get_objects($offset, $count, $order_column)
-    {
-        $subscription_users = $this->get_data_provider()->get_objects();
-        $table_data = array();
-        $column_count = $this->get_column_model()->get_column_count();
-        while ($su = $subscription_users->next_result())
-        {
-            $row = array();
-            if ($this->has_form_actions())
-            {
-                $row[] = $su->get_user_id();
-            }
-            for($i = 0; $i < $column_count; $i ++)
-            {
-                $row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $su);
-            }
-            $table_data[] = $row;
-        }
-        return $table_data;
-    }
 }
 ?>

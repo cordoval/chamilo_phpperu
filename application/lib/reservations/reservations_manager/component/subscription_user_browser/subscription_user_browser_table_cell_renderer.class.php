@@ -32,5 +32,10 @@ class SubscriptionUserBrowserTableCellRenderer extends DefaultSubscriptionUserTa
     {
         return parent :: render_cell($column, $subscription_user);
     }
+    
+    function render_id_cell($subscription_user)
+    {
+    	return $subscription_user->get_user_id();
+    }
 }
 ?>

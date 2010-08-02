@@ -5,15 +5,11 @@
  */
 require_once dirname(__FILE__) . '/../reservations_data_manager.class.php';
 require_once dirname(__FILE__) . '/../reservations_rights.class.php';
+require_once dirname(__FILE__) . '/component/subscription_browser/subscription_browser_table.class.php';
 
 class ReservationsManager extends WebApplication
 {
-
     const APPLICATION_NAME = 'reservations';
-
-    const PARAM_ACTION = 'go';
-    const PARAM_MESSAGE = 'message';
-    const PARAM_ERROR_MESSAGE = 'error_message';
 
     const PARAM_CATEGORY_ID = 'category_id';
     const PARAM_ITEM_ID = 'item_id';
@@ -97,7 +93,6 @@ class ReservationsManager extends WebApplication
     {
         $this->dm = ReservationsDataManager :: get_instance();
         parent :: __construct($user);
-        $this->parse_input_from_table();
     }
 
     /**

@@ -204,7 +204,7 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
         return $this->update($subscription, $condition);
     }
 
-    function count_subscriptions($conditions = null)
+    /*function count_subscriptions($conditions = null)
     {
         return $this->count_objects(Subscription :: get_table_name(), $conditions);
     }
@@ -212,7 +212,7 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
     function retrieve_subscriptions($condition = null, $offset = null, $count = null, $order_property = null)
     {
         return $this->retrieve_objects(Subscription :: get_table_name(), $condition, $offset, $count, $order_property);
-    }
+    }*/
 
     function delete_subscription_user($subscription_user)
     {
@@ -483,7 +483,7 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
         return 0;
     }
 
-    function count_overview_list_items($condition)
+    function count_subscriptions($condition = null)
     {
         $sub_table = Subscription :: get_table_name();
         $sub_alias = $this->get_alias($sub_table);
@@ -506,7 +506,7 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
         return $this->count_result_set($query, Subscription :: get_table_name(), $condition);
     }
 
-    function retrieve_overview_list_items($condition, $offset, $count, $order_property)
+    function retrieve_subscriptions($condition = null, $offset = null, $count = null, $order_property = null)
     {
         $sub_table = Subscription :: get_table_name();
         $sub_alias = $this->get_alias($sub_table);

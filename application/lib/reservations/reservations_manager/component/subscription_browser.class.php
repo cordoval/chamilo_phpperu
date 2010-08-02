@@ -24,19 +24,13 @@ class ReservationsManagerSubscriptionBrowserComponent extends ReservationsManage
 
         $this->display_header($trail);
         echo $this->get_user_html();
-        /*
-		$rdm = ReservationsDataManager :: get_instance();
-		$used_quota = ReservationsDataManager :: calculate_used_quota('1', $this->get_user_id());
-
-		$table = new SimpleTable($used_quota, new UserQuotaCellRenderer(), null, 'user_quota');
-		echo '<br /><h3>' . Translation :: get('UsedCredits') . '</h3>' . $table->toHTML();*/
 
         $this->display_footer();
     }
 
     function get_user_html()
     {
-        $table = new SubscriptionBrowserTable($this, array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_BROWSE_SUBSCRIPTIONS), $this->get_condition());
+        $table = new SubscriptionBrowserTable($this, $this->get_parameters(), $this->get_condition());
 
         $html = array();
         $html[] = $table->as_html();
@@ -50,6 +44,13 @@ class ReservationsManagerSubscriptionBrowserComponent extends ReservationsManage
 
         $conditions[] = new EqualityCondition(Subscription :: PROPERTY_USER_ID, $user_id);
         $conditions[] = new EqualityCondition(Subscription :: PROPERTY_STATUS, Subscription :: STATUS_NORMAL);
+        
+        $time_conditions = array();
+        $time_conditions[] = new AndCondition(new EqualityCondition(Reservation :: PROPERTY_TYPE, Reservation :: TYPE_BLOCK, Reservation :: get_table_name()), new InEqualityCondition(Reservation :: PROPERTY_STOP_DATE, InequalityCondition :: GREATER_THAN, time(), Reservation :: get_table_name()));
+        $time_conditions[] = new AndCondition(new EqualityCondition(Reservation :: PROPERTY_TYPE, Reservation :: TYPE_TIMEPICKER, Reservation :: get_table_name()), new InEqualityCondition(Subscription :: PROPERTY_STOP_TIME, InequalityCondition :: GREATER_THAN, time()));
+
+        $conditions[] = new OrCondition($time_conditions);
+        
         $condition = new AndCondition($conditions);
 
         return $condition;
