@@ -3,6 +3,8 @@ require_once dirname(__FILE__) . '/google_docs_external_repository_connector.cla
 
 class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
 {
+    
+    const PARAM_EXPORT_FORMAT = 'export_format';
 
     /**
      * @param Application $application
@@ -141,7 +143,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
             
             foreach($export_types as $export_type)
             {
-                $actions[$export_type] = new ToolbarItem(Translation :: get('Import' . Utilities :: underscores_to_camelcase($export_type)), Theme :: get_common_image_path() . 'external_repository/google_docs/import/'. $export_type .'.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id(), 'format' => $export_type )), ToolbarItem :: DISPLAY_ICON);
+                $actions[$export_type] = new ToolbarItem(Translation :: get('Import' . Utilities :: underscores_to_camelcase($export_type)), Theme :: get_common_image_path() . 'external_repository/google_docs/import/'. $export_type .'.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id(), self :: PARAM_EXPORT_FORMAT => $export_type )), ToolbarItem :: DISPLAY_ICON);
             }
         }
         

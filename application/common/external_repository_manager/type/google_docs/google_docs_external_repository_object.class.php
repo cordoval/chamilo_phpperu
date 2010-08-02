@@ -43,15 +43,15 @@ class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
     {
         return $this->set_default_property(self :: PROPERTY_MODIFIER_ID, $modifier_id);
     }
-    
+
     static function get_object_type()
     {
         return self :: OBJECT_TYPE;
     }
-    
+
     function get_export_types()
     {
-        switch($this->get_type())
+        switch ($this->get_type())
         {
             case 'document' :
                 return array('pdf', 'odt', 'doc');
@@ -62,7 +62,48 @@ class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
             case 'spreadsheet' :
                 return array('pdf', 'ods', 'xls');
                 break;
+            case 'pdf' :
+                return array('pdf');
+                break;
         }
     }
+
+    /**
+     * @return string
+     */
+    function get_resource_id()
+    {
+        $id = explode(':', urldecode($this->get_id()));
+        return $id[1];
+    }
+
+//    /**
+//     * @param string $export_format
+//     * @return string
+//     */
+//    function get_export_url($export_format = 'pdf')
+//    {
+//        if (! in_array($export_format, $this->get_export_types()))
+//        {
+//            $export_format = 'pdf';
+//        }
+//        
+//        switch ($this->get_type())
+//        {
+//            case 'document' :
+//                return 'http://docs.google.com/feeds/download/'. $this->get_type() .'s/Export?docID='. $this->get_resource_id() .'&exportFormat=' . $export_format;
+//                break;
+//            case 'presentation' :
+//                return 'http://docs.google.com/feeds/download/'. $this->get_type() .'s/Export?docID='. $this->get_resource_id() .'&exportFormat=' . $export_format;
+//                break;
+//            case 'spreadsheet' :
+//                return 'http://spreadsheets.google.com/feeds/download/'. $this->get_type() .'s/Export?key='. $this->get_resource_id() .'&fmcmd=' . $export_format;
+//                break;
+//            case 'pdf' :
+//                // Get the document's content link entry.
+//                //return array('pdf');
+//                break;
+//        }
+//    }
 }
 ?>

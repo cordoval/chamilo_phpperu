@@ -32,7 +32,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
             if (! isset($_GET['token']))
             {
                 $next_url = Redirect :: current_url();
-                $scope = 'http://docs.google.com/feeds/';
+                $scope = 'http://docs.google.com/feeds/ http://spreadsheets.google.com/feeds/ http://docs.googleusercontent.com';
                 $secure = false;
                 $session = true;
                 $redirect_url = Zend_Gdata_AuthSub :: getAuthSubTokenUri($next_url, $scope, $secure, $session);
@@ -65,7 +65,47 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_object($id)
     {
-    
+        $resource_id = explode(':', urldecode($id));
+        $document = $this->google_docs->getDoc($resource_id[1], $resource_id[0]);
+        
+        $resource_id = $document->getResourceId();
+        $resource_id = explode(':', $resource_id->getText());
+        
+        if ($document->getLastViewed())
+        {
+            $last_viewed = $document->getLastViewed()->getText();
+            $last_viewed_timestamp = strtotime($last_viewed);
+        }
+        else
+        {
+            $last_viewed_timestamp = 0;
+        }
+        
+        $published = $document->getPublished()->getText();
+        $published_timestamp = strtotime($published);
+        
+        $modified = $document->getUpdated()->getText();
+        $modified_timestamp = strtotime($modified);
+        
+        $author = $document->getAuthor();
+        $author = $author[0];
+        
+        $modifier = $document->getLastModifiedBy();
+        
+        $object = new GoogleDocsExternalRepositoryObject();
+        $object->set_id($document->getResourceId()->getText());
+        $object->set_external_repository_id($this->get_external_repository_instance_id());
+        $object->set_title($document->getTitle()->getText());
+        $object->set_created($published_timestamp);
+        $object->set_type($resource_id[0]);
+        $object->set_viewed($last_viewed_timestamp);
+        $object->set_modified($modified_timestamp);
+        $object->set_owner_id($author->getEmail()->getText());
+        $object->set_modifier_id($modifier->getEmail()->getText());
+        $object->set_content($document->getContent()->getSrc());
+        $object->set_rights($this->determine_rights());
+        
+        return $object;
     }
 
     /**
@@ -214,7 +254,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
             $modifier = $document->getLastModifiedBy();
             
             $object = new GoogleDocsExternalRepositoryObject();
-            $object->set_id($resource_id[1]);
+            $object->set_id($document->getResourceId()->getText());
             $object->set_external_repository_id($this->get_external_repository_instance_id());
             $object->set_title($document->getTitle()->getText());
             $object->set_created($published_timestamp);
@@ -317,7 +357,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         }
         return $items;
     }
-    
+
     function determine_rights()
     {
         $rights = array();
@@ -326,6 +366,31 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         $rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
         return $rights;
+    }
+
+    function download_external_repository_object($object, $export_format)
+    {
+        switch ($object->get_type())
+        {
+            case 'document' :
+                $url = 'http://docs.google.com/feeds/download/' . $object->get_type() . 's/Export?docID=' . $object->get_resource_id() . '&exportFormat=' . $export_format;
+                break;
+            case 'presentation' :
+                $url = 'http://docs.google.com/feeds/download/' . $object->get_type() . 's/Export?docID=' . $object->get_resource_id() . '&exportFormat=' . $export_format;
+                break;
+            case 'spreadsheet' :
+                $url = 'http://spreadsheets.google.com/feeds/download/' . $object->get_type() . 's/Export?key=' . $object->get_resource_id() . '&fmcmd=' . $export_format;
+                break;
+            default :
+                // Get the document's content link entry.
+                //return array('pdf');
+                break;
+        }
+        
+        $session_token = $this->google_docs->getHttpClient()->getAuthSubToken();
+        $opts = array('http' => array('method' => 'GET', 'header' => "GData-Version: 3.0\r\n" . "Authorization: AuthSub token=\"$session_token\"\r\n"));
+        
+        return file_get_contents($url, false, stream_context_create($opts));
     }
 }
 ?>

@@ -100,7 +100,28 @@ abstract class ExternalRepositoryObjectDisplay
      */
     function get_preview($is_thumbnail = false)
     {
-        return Theme :: get_common_image('thumbnail');
+        if ($is_thumbnail)
+        {
+            $class = 'no_thumbnail';
+            $image = Theme :: get_common_image('thumbnail');
+            $text = '<h3>' . Translation :: get('NoThumbnailAvailable') . '</h3>';
+        }
+        else
+        {
+            $class = 'no_preview';
+            $image = Theme :: get_common_image('preview');
+            $text = '<h1>' . Translation :: get('NoPreviewAvailable') . '</h1>';
+        }
+
+        $html = array();
+        $html[] = '<div class="' . $class . '">';
+        $html[] = '<div class="background">';
+        $html[] = $image;
+        $html[] = $text;
+        $html[] = '</div>';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '</div>';
+        return implode("\n", $html);
     }
 }
 ?>
