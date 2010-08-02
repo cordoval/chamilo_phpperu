@@ -206,12 +206,12 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
 
     function count_subscriptions($conditions = null)
     {
-        return $this->count_objects('subscription', $conditions);
+        return $this->count_objects(Subscription :: get_table_name(), $conditions);
     }
 
     function retrieve_subscriptions($condition = null, $offset = null, $count = null, $order_property = null)
     {
-        return $this->retrieve_objects('subscription', $condition, $offset, $count, $order_property);
+        return $this->retrieve_objects(Subscription :: get_table_name(), $condition, $offset, $count, $order_property);
     }
 
     function delete_subscription_user($subscription_user)
@@ -501,11 +501,9 @@ class DatabaseReservationsDataManager extends Database implements ReservationsDa
         $user_alias = $this->get_alias($user_table);
         $user_table = 'user_user';
 
-        $query = 'SELECT COUNT(*) FROM ' . $sub_table . ' AS ' . $sub_alias . ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item_id=' . $item_alias . '.id' . ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.user_id';
+        $query = 'SELECT COUNT(*) FROM ' . $sub_table . ' AS ' . $sub_alias . ' JOIN ' . $res_table . ' AS ' . $res_alias . ' ON ' . $sub_alias . '.reservation_id=' . $res_alias . '.id' . ' JOIN ' . $item_table . ' AS ' . $item_alias . ' ON ' . $res_alias . '.item_id=' . $item_alias . '.id' . ' JOIN ' . $user_table . ' AS ' . $user_alias . ' ON ' . $sub_alias . '.user_id=' . $user_alias . '.id';
 
-        $count = $this->count_result_set($query, Subscription :: get_table_name(), $condition);
-
-        return $count;
+        return $this->count_result_set($query, Subscription :: get_table_name(), $condition);
     }
 
     function retrieve_overview_list_items($condition, $offset, $count, $order_property)

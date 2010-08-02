@@ -3,7 +3,7 @@
  * $Id: mini_day_calendar.class.php 217 2009-11-13 14:12:25Z chellee $
  * @package application.reservations.calendar
  */
-require_once (Path :: get_application_library_path() . 'calendar_table.class.php');
+require_once (Path :: get_application_library_path() . 'calendar/calendar_table.class.php');
 /**
  * A tabular representation of a week calendar
  */

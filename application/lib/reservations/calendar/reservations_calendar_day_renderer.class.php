@@ -4,6 +4,7 @@
  * @package application.reservations.calendar
  */
 require_once (dirname(__FILE__) . '/reservations_calendar_renderer.class.php');
+require_once dirname(__FILE__) . '/mini_day_calendar.class.php';
 /**
  * This personal calendar renderer provides a tabular week view of the events in
  * the calendar.
@@ -28,7 +29,7 @@ class ReservationsCalendarDayRenderer extends ReservationsCalendarRenderer
         }
 
         $calendar = new MiniDayCalendar($this->get_time(), 2, $item_list);
-        $from_date = strtotime(date('Y-m-d 00:00:00', $this->get_time()));
+        $from_date = strtotime(date('Y-m-d 00:00:00', $this->get_time())); 
         $to_date = strtotime('-1 Second', strtotime('+1 Day', $from_date));
         $now = time();
         $html = array();
