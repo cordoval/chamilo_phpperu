@@ -5,11 +5,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_link.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/link/link.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
-require_once 'dokeos185_item_property.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course_rel_class
@@ -17,11 +13,10 @@ require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repo
  * @author David Van Wayenbergh
  */
 
-class Dokeos185Link extends Dokeos185MigrationDataClass
+class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
-    private $item_property;
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'link';
     /**
      * course relation class properties
      */
@@ -32,13 +27,13 @@ class Dokeos185Link extends Dokeos185MigrationDataClass
     const PROPERTY_CATEGORY_ID = 'category_id';
     const PROPERTY_DISPLAY_ORDER = 'display_order';
     const PROPERTY_ON_HOMEPAGE = 'on_homepage';
-    
-    /**
-     * Default properties of the link object, stored in an associative
-     * array.
-     */
-    private $defaultProperties;
 
+    /**
+     * Default properties stored in an associative array.
+     */
+    
+    private $defaultProperties;
+    
     /**
      * Creates a new link object.
      * @param array $defaultProperties The default properties of the link
@@ -157,22 +152,21 @@ class Dokeos185Link extends Dokeos185MigrationDataClass
     {
         return $this->get_default_property(self :: PROPERTY_ON_HOMEPAGE);
     }
+    
 
     /**
      * Check if the link is valid
      * @param Course $course the course
      * @return true if the link is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
-        $mgdm = MigrationDataManager :: get_instance();
-        $old_mgdm = $array['old_mgdm'];
-        $this->item_property = $old_mgdm->get_item_property($course->get_db_name(), 'link', $this->get_id());
+        $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'link', $this->get_id()));
         
-        if (! $this->get_url() || ! $this->get_id() || ! $this->get_title() || ! $this->item_property || ! $this->item_property->get_ref() || ! $this->item_property->get_insert_date())
+        if (! $this->get_url() || ! $this->get_id() || ! $this->get_title() || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! $this->get_item_property()->get_insert_date())
         {
-            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.link');
+            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'calendar_event', 'ID' => $this->get_id())));
             return false;
         }
         return true;
@@ -183,122 +177,63 @@ class Dokeos185Link extends Dokeos185MigrationDataClass
      * @param Course $course the course
      * @return the new link
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+        $course = $this->get_course();
         $mgdm = MigrationDataManager :: get_instance();
-        $new_user_id = $mgdm->get_id_reference($this->item_property->get_insert_user_id(), 'user_user');
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
+        $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+        $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
         
         if (! $new_user_id)
         {
-            $new_user_id = $mgdm->get_owner($new_course_code);
+            $new_user_id = $this->get_data_manager()->get_owner($new_course_code);
         }
         
-        $lcms_link = new Link();
+        $chamilo_link = new Link();
         
         // Category for links already exists?
-        $lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('Links'));
-        if (! $lcms_category_id)
-        {
-            //Create category for tool in lcms
-            $lcms_repository_category = new RepositoryCategory();
-            $lcms_repository_category->set_user_id($new_user_id);
-            $lcms_repository_category->set_name(Translation :: get('Links'));
-            $lcms_repository_category->set_parent(0);
-            
-            //Create category in database
-            $lcms_repository_category->create();
-            
-            $lcms_link->set_parent_id($lcms_repository_category->get_id());
-        }
-        else
-        {
-            $lcms_link->set_parent_id($lcms_category_id);
-        }
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, 'category', Translation :: get('Links'));
         
-        $lcms_link->set_url($this->get_url());
-        $lcms_link->set_title($this->get_title());
+        $chamilo_link->set_parent_id($chamilo_category_id);
+        
+        
+        $chamilo_link->set_url($this->get_url());
+        $chamilo_link->set_title($this->get_title());
         if ($this->get_description())
-            $lcms_link->set_description($this->get_description());
+            $chamilo_link->set_description($this->get_description());
         else
-            $lcms_link->set_description($this->get_title());
+            $chamilo_link->set_description($this->get_title());
         
-        $lcms_link->set_owner_id($new_user_id);
-        $lcms_link->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
-        $lcms_link->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
+        $chamilo_link->set_owner_id($new_user_id);
+        $chamilo_link->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
+        $chamilo_link->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
         
-        if ($this->item_property->get_visibility() == 2)
-            $lcms_link->set_state(1);
+        if ($this->get_item_property()->get_visibility() == 2)
+            $chamilo_link->set_state(1);
             
         //create link in database
-        $lcms_link->create_all();
+        $chamilo_link->create_all();
         
-        //Add id references to temp table
-        $mgdm->add_id_reference($this->get_id(), $lcms_link->get_id(), 'repository_link');
+//        //Add id references to temp table
+//        $mgdm->add_id_reference($this->get_id(), $lcms_link->get_id(), 'repository_link');
         
         //publication
-        if ($this->item_property->get_visibility() <= 1)
-        {
-            $publication = new ContentObjectPublication();
-            
-            $publication->set_content_object($lcms_link);
-            $publication->set_course_id($new_course_code);
-            $publication->set_publisher_id($new_user_id);
-            $publication->set_tool('link');
-            
-            $category_id = $mgdm->get_id_reference($this->get_category_id(), $new_course_code . '.link_category');
-            if ($category_id)
-                $publication->set_category_id($category_id);
-            else
-                $publication->set_category_id(0);
-                
-            //$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
-            //$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
-            $publication->set_from_date(0);
-            $publication->set_to_date(0);
-            $publication->set_publication_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
-            $publication->set_modified_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-            //$publication->set_modified_date(0);
-            //$publication->set_display_order_index($this->get_display_order());
-            $publication->set_display_order_index(0);
-            $publication->set_email_sent(0);
-            
-            $publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
-            
-            //create publication in database
-            $publication->create();
-        }
+
+        $this->create_publication($chamilo_link, $new_course_code, $new_user_id, 'link');
+
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'link', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_link->get_id())));
+        return $chamilo_link;
         
-        return $lcms_link;
-    
     }
 
-    /**
-     * Retrieve all links from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of links
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        if ($parameters['del_files'] = ! 1)
-            $tool_name = 'link';
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'link';
-        $classname = 'Dokeos185Link';
-        
-        return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'link';
-        return $array;
+    	return self :: CLASS_NAME;
     }
 }
 ?>

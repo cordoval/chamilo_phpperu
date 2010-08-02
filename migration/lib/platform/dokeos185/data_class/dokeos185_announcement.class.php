@@ -99,9 +99,9 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        $this->item_property = $this->get_data_manager()->get_item_property($this->get_course(), 'announcement', $this->get_id());
+        $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'announcement', $this->get_id()));
         
-        if (! $this->get_id() || ! ($this->get_title() || $this->get_content()) || ! $this->item_property || ! $this->item_property->get_lastedit_date() || ! $this->item_property->get_insert_date())
+        if (! $this->get_id() || ! ($this->get_title() || $this->get_content()) || ! $this->get_item_property() || ! $this->get_item_property()->get_lastedit_date() || ! $this->get_item_property()->get_insert_date())
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'announcement', 'ID' => $this->get_id())));
@@ -121,11 +121,11 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
         
-    	$new_user_id = $this->get_id_reference($this->item_property->get_insert_user_id(), 'main_database.user');
+    	$new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
 
-        $new_to_group_id[] = $this->get_id_reference($this->item_property->get_to_group_id(), 'main_database.user');
-        $new_to_user_id[] = $this->get_id_reference($this->item_property->get_to_user_id(), 'main_database.user');
+        $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), 'main_database.user');
+        $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
         
         if (! $new_user_id)
         {
@@ -156,10 +156,10 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         }
         
         $chamilo_announcement->set_owner_id($new_user_id);
-        $chamilo_announcement->set_creation_date(strtotime($this->item_property->get_insert_date()));
-        $chamilo_announcement->set_modification_date(strtotime($this->item_property->get_lastedit_date()));
+        $chamilo_announcement->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
+        $chamilo_announcement->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
         
-        if ($this->item_property->get_visibility() == 2)
+        if ($this->get_item_property()->get_visibility() == 2)
         {
             $chamilo_announcement->set_state(1);
         }

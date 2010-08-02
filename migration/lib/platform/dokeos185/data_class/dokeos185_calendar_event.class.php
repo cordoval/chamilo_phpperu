@@ -25,7 +25,6 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_CONTENT = 'content';
     const PROPERTY_START_DATE = 'start_date';
     const PROPERTY_END_DATE = 'end_date';
-    const PROPERTY_EMAIL_SENT = 'email_sent';
     
     /**
      * Default properties stored in an associative array.
@@ -131,14 +130,6 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
         return $this->get_default_property(self :: PROPERTY_END_DATE);
     }
 
-        /**
-        * Returns the email_sent of this announcement.
-        * @return int the email_sent.
-        */
-        function get_email_sent()
-        {
-            return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
-        }
     /**
      * Check if the calendar event is valid
      * @param Course $course the course where the calendar event belongs to
@@ -146,13 +137,13 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        $this->item_property = $this->get_data_manager()->get_item_property($this->get_course(), 'announcement', $this->get_id());
+        $this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'calendar_event', $this->get_id()));
 
         //$old_mgdm = $array['old_mgdm'];
         //$this->item_property = $old_mgdm->get_item_property($course->get_db_name(), 'calendar_event', $this->get_id());
         
         if (! $this->get_id() || ! ($this->get_title() || $this->get_content()) || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! $this->get_item_property()->get_insert_date())
-        {
+    {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'calendar_event', 'ID' => $this->get_id())));
             return false;
@@ -168,7 +159,7 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
     function convert_data()
     {
         $course = $this->get_course();
-        $new_user_id = $this->get_id_reference($this->item_property->get_insert_user_id(), 'main_database.user');
+        $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
         
         if (! $new_user_id)

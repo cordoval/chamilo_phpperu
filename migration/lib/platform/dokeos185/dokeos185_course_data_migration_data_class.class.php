@@ -53,7 +53,12 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
 	{
 		$this->item_property = $item_property;
 	}
-	
+
+        function get_email_sent()
+        {
+            return 0;
+        }
+        
 	function create_publication($object, $course, $user, $tool, $target_users = null, $target_groups = null)
 	{
 		//publication
@@ -85,14 +90,7 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
             //$publication->set_display_order_index($this->get_display_order());
             $publication->set_display_order_index(0);
             
-            if ($this->get_email_sent())
-            {
-                $publication->set_email_sent($this->get_email_sent());
-            }
-            else
-            {
-                $publication->set_email_sent(0);
-            }
+            $publication->set_email_sent($this->get_email_sent());
             
             $publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
             
