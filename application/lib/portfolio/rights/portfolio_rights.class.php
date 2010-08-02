@@ -19,6 +19,7 @@
 require_once dirname(__FILE__) . '/portfolio_group_right_location.class.php';
 require_once dirname(__FILE__) . '/portfolio_location.class.php';
 require_once dirname(__FILE__) . '/portfolio_user_right_location.class.php';
+require_once dirname(__FILE__) . '/../forms/portfolio_publication_form.class.php';
 
 
 
@@ -621,6 +622,14 @@ class PortfolioRights {
         }
 
         $success &= $location->save();
+        
+        if($success)
+        {
+               PortfolioManager::create_portfolio_system_settings_page($view_option, $edit_option, $fbv_option, $fbg_option);
+        }
+
+
+
        return $success;
     }
 
@@ -1354,6 +1363,207 @@ class PortfolioRights {
             return true;
 
         }
+
+
+     /**
+     * this function returns all the actual rights set for a publication
+      * when a location inherits it gets the rights from a non-inheriting parent
+     * @param $location = object for wich to return the rights
+     * @return rights: array with all the rights
+     */
+    static function get_all_actual_rights($location)
+    {
+        if($location)
+        {
+            $inherits = $location->get_inherit();
+            $publisher = $location->get_tree_identifier();
+            $rights = array();
+            $view_option ='';
+            $edit_option='';
+            $fbv_option ='';
+            $fbg_option ='';
+
+            if($location->inherits())
+            {
+                //RESULT3: YES --> a check is done untill no inheriting parent is found then TO CHECK4
+                $parents_set = $location->get_parents();
+                $found = false;
+
+
+                    while($found == false && $location = $parents_set->next_result())
+                    {
+                        if($location->inherits())
+                        {
+                           $found = false;
+                        }
+                        else
+                        {
+                            $found = true;
+                        }
+                     }
+
+
+                //CHECK3b: IS LOCATION THE TREE's ROOT
+                if($location->get_parent() == 0)
+                {
+                    //RESULT3b: YES: default rights apply
+                    $location = self::get_default_location();
+                }
+            }
+
+//            while($inherits)
+//            {
+//                $parent = $location->get_parent();
+//                $pdm = PortfolioDataManager::get_instance();
+//
+//                $conditions = array();
+//                $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TREE_IDENTIFIER, $user_id);
+//                $conditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_IDENTIFIER, $parent);
+//
+//                $typeconditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TYPE, self::TYPE_PORTFOLIO_FOLDER);
+//                $typeconditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TYPE, self::TYPE_PORTFOLIO_SUB_FOLDER);
+//                $typeconditions[] = new EqualityCondition(PortfolioLocation :: PROPERTY_TYPE, self::TYPE_ROOT);
+//                $conditions[] = new OrCondition($typeconditions);
+//
+//                $condition = new AndCondition($conditions);
+//                $location_set = self::retrieve_locations($condition, 0,1);
+//                $nr_locations = $location_set->size();
+//                    if(!($nr_locations > 0))
+//                    {
+//                        //TODO: no locations found --> error or imported from repository????
+//                        $inherits = "false";
+//                    }
+//                    else if($nr_locations == 1)
+//                    {
+//                        $location = $location_set->next_result();
+//                    }
+//                    else
+//                    {
+//                        //TODO: more then one location found --> problem LOOK AT CONTENT OBJECTS
+//                        $inherits = "false";
+//                    }
+//
+//                    $inherits = $location->get_inherit();
+//            }
+
+
+
+                $rights = self::get_rights_on_location($location->get_id());
+
+                $user_rights = $rights[self::USER_RIGHTS]->as_array();
+                $rights[self::USER_RIGHTS] = $user_rights;
+                if(isset($user_rights))
+                {
+                    foreach ($user_rights as $uright)
+                    {
+                          $rights[$uright->get_right_id()][self::USER_RIGHTS][]= $uright->get_user_id();
+                    }
+                }
+
+                $group_rights = $rights[self::GROUP_RIGHTS]->as_array();
+                $rights[self::GROUP_RIGHTS] = $group_rights;
+                if(isset($group_rights))
+                {
+                    foreach($group_rights as $gright)
+                    {
+                        $rights[$gright->get_right_id()][self::GROUP_RIGHTS][]= $gright->get_group_id();
+                    }
+                }
+                //VIEW RIGHTS
+                if(in_array(self::ANONYMOUS_USERS_ID, $rights[self::VIEW_RIGHT][self::USER_RIGHTS]))
+                {
+                    $view_option = self::RADIO_OPTION_ANONYMOUS;
+                    //right set for anonymous user (1) --> right set for everybody
+                }
+                else if(in_array(self::ALL_USERS_ID, $rights[self::VIEW_RIGHT][self::USER_RIGHTS]))
+                {
+                    $view_option = self::RADIO_OPTION_ALLUSERS;
+                    //right set for all users (0) --> right set for everybody logged in
+                }
+                else if((count($rights[self::VIEW_RIGHT][self::USER_RIGHTS]) >0) || (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
+                {
+                    $view_option = self::RADIO_OPTION_GROUPS_USERS;
+                    //right set for groups or users
+                }
+                else
+                {
+                    $view_option = self::RADIO_OPTION_ME;
+                    //no rights set --> right set for owner but nobody else
+                }
+                //EDIT RIGHTS
+                if(in_array(self::ANONYMOUS_USERS_ID, $rights[self::EDIT_RIGHT][self::USER_RIGHTS]))
+                {
+                    $edit_option = self::RADIO_OPTION_ANONYMOUS;
+                    //right set for anonymous user --> right set for everybody
+                }
+                else if (in_array(self::ALL_USERS_ID, $rights[self::EDIT_RIGHT][self::USER_RIGHTS]))
+                {
+                    $edit_option = self::RADIO_OPTION_ALLUSERS;
+                    //right set for all users (0) --> right set for everybody logged in
+                }
+                else if((count($rights[self::EDIT_RIGHT][self::USER_RIGHTS]) >0) || (count($rights[PortfolioPublicationForm::RIGHT_VIEW][self::GROUP_RIGHTS]) >0))
+                {
+                    $edit_option = self::RADIO_OPTION_GROUPS_USERS;
+                    //right set for groups or users
+                }
+                else
+                {
+                    $edit_option =  self::RADIO_OPTION_ME;
+                    //no rights set --> right set for owner but nobody else
+                }
+                //FEEDBACK VIEW RIGHTS
+                if(in_array(self::ANONYMOUS_USERS_ID, $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                {
+                    $fbv_option = self::RADIO_OPTION_ANONYMOUS;
+                }
+                else if (in_array(self::ALL_USERS_ID, $rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                {
+                    $fbv_option = self::RADIO_OPTION_ALLUSERS;
+                    //right set for all users (0) --> right set for everybody logged in
+                }
+                else if((count($rights[self::VIEW_FEEDBACK_RIGHT][self::USER_RIGHTS]) >0) || (count($rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK][self::GROUP_RIGHTS]) >0))
+                {
+                    $fbv_option = self::RADIO_OPTION_GROUPS_USERS;
+                }
+                else
+                {
+                    $fbv_option =  self::RADIO_OPTION_ME;
+                    //no rights set --> right set for owner but nobody else
+                }
+                //FEEDBACK GIVE RIGHTS
+                $nr_fbg = count($rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]);
+                if(in_array(self::ANONYMOUS_USERS_ID, $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                {
+                    $fbg_option = self::RADIO_OPTION_ANONYMOUS;
+                }
+                else if (in_array(self::ALL_USERS_ID, $rights[self::GIVE_FEEDBACK_RIGHT][self::USER_RIGHTS]))
+                {
+                    $fbg_option = self::RADIO_OPTION_ALLUSERS;
+                    //right set for all users (0) --> right set for everybody logged in
+                }
+                else if(($nr_fbg >0) || (count($rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK][self::GROUP_RIGHTS]) >0))
+                {
+                    $fbg_option = self::RADIO_OPTION_GROUPS_USERS;
+                }
+                else
+                {
+                    $fbg_option =  self::RADIO_OPTION_ME;
+                    //no rights set --> right set for owner but nobody else
+                }
+            
+//            $rights[PortfolioPublicationForm::INHERIT_OR_SET]['option']= $inherits;
+            $rights[PortfolioPublicationForm::RIGHT_EDIT]['option']= $edit_option;
+            $rights[PortfolioPublicationForm::RIGHT_VIEW]['option']= $view_option;
+            $rights[PortfolioPublicationForm::RIGHT_VIEW_FEEDBACK]['option']= $fbv_option;
+            $rights[PortfolioPublicationForm::RIGHT_GIVE_FEEDBACK]['option']= $fbg_option;
+            return $rights;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
 
 
 
