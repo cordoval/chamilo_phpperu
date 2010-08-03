@@ -3,14 +3,14 @@
  * $Id: user.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.user_right_manager.component
  */
-require_once Path :: get_rights_path() . 'lib/user_right_manager/component/location_user_browser_table/location_user_browser_table.class.php';
+//require_once Path :: get_rights_path() . 'lib/user_right_manager/component/location_user_browser_table/location_user_browser_table.class.php';
+
 
 class UserRightManagerUserComponent extends UserRightManager
-{
-    private $action_bar;
-    
+{    
     private $application;
     private $location;
+    private $root;
 
     /**
      * Runs this component and displays its output.
@@ -36,7 +36,7 @@ class UserRightManagerUserComponent extends UserRightManager
         $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
         $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, 'root');
         $condition = new AndCondition($conditions);
-        $root = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
+        $this->root = RightsDataManager :: get_instance()->retrieve_locations($condition, null, 1, array(new ObjectTableOrder(Location :: PROPERTY_LOCATION)))->next_result();
         
         if (isset($location))
         {
@@ -44,7 +44,7 @@ class UserRightManagerUserComponent extends UserRightManager
         }
         else
         {
-            $this->location = $root;
+            $this->location = $this->root;
         }
         
         $parents = array_reverse($this->location->get_parents()->as_array());
@@ -53,56 +53,37 @@ class UserRightManagerUserComponent extends UserRightManager
             $trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
         }
         
-        $this->action_bar = $this->get_action_bar();
-        
-        $this->display_header();
+        $manager = new RightsEditorManager($this, array($this->location));
+        $manager->set_modus(RightsEditorManager :: MODUS_USERS);
+        $manager->set_parameter(UserRightManager :: PARAM_LOCATION, $this->location->get_id());
+        $manager->run();
+    }
+
+    function display_header()
+    {
+        parent :: display_header();
         
         $html = array();
         $application_url = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_SOURCE => Application :: PLACEHOLDER_APPLICATION));
         $html[] = BasicApplication :: get_selecter($application_url, $this->application);
-        $html[] = $this->action_bar->as_html() . '<br />';
         
         $url_format = $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_LOCATION_USER_RIGHTS, UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_LOCATION => '%s'));
         $url_format = str_replace('=%25s', '=%s', $url_format);
-        $location_menu = new LocationRightMenu($root->get_id(), $this->location->get_id(), $url_format);
+        $location_menu = new LocationRightMenu($this->root->get_id(), $this->location->get_id(), $url_format);
         $html[] = '<div style="float: left; width: 18%; overflow: auto; height: 500px;">';
         $html[] = $location_menu->render_as_tree();
         $html[] = '</div>';
-        
-        $params = array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id());
-        $params[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-        $table = new LocationUserBrowserTable($this, array_merge($this->get_parameters(), $params), $this->get_condition());
-        
         $html[] = '<div style="float: right; width: 80%;">';
-        $html[] = $table->as_html();
-        $html[] = RightsUtilities :: get_rights_legend();
-        $html[] = '</div>';
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'rights/javascript/configure_user.js');
-        
         echo implode("\n", $html);
-        
-        $this->display_footer();
     }
 
-    function get_condition()
+    function display_footer()
     {
-        //return null;
+        $html = array();
+        $html[] = '</div>';
+        echo implode("\n", $html);
         
-
-        //$condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->location->get_id());
-        
-
-        $query = $this->action_bar->get_query();
-        if (isset($query) && $query != '')
-        {
-            $or_conditions = array();
-            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*', User :: get_table_name());
-            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', User :: get_table_name());
-            $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', User :: get_table_name());
-            $condition = new OrCondition($or_conditions);
-        }
-        
-        return $condition;
+        parent :: display_footer();
     }
 
     function get_source()
@@ -115,13 +96,9 @@ class UserRightManagerUserComponent extends UserRightManager
         return $this->location;
     }
 
-    function get_action_bar()
+    function get_available_rights()
     {
-        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->set_search_url($this->get_url(array(UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_LOCATION => $this->location->get_id())));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_LOCATION => $this->location->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
-        return $action_bar;
+        return RightsUtilities :: get_available_rights($this->get_source());
     }
 }
 ?>

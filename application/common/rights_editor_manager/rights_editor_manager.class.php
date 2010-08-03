@@ -28,6 +28,10 @@ class RightsEditorManager extends SubManager
 
     private $modus;
 
+    /**
+     * @param unknown_type $parent
+     * @param array $locations
+     */
     function RightsEditorManager($parent, $locations)
     {
         parent :: __construct($parent);
