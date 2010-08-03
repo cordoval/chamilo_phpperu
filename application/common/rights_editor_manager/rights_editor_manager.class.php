@@ -12,7 +12,7 @@ class RightsEditorManager extends SubManager
     const ACTION_SET_USER_RIGHTS = 'set_user_rights';
     const ACTION_SET_GROUP_RIGHTS = 'set_group_rights';
 
-    const PARAM_GROUP = 'group';
+    const PARAM_GROUP = 'group_id';
 
     const MODUS_USERS = 0;
     const MODUS_GROUPS = 1;

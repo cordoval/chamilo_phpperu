@@ -12,6 +12,8 @@ if (Authentication :: is_valid())
 {
     $conditions = array();
     
+    $conditions[] = new EqualityCondition(Item :: PROPERTY_STATUS, Item :: STATUS_NORMAL);
+    
     if (isset($_GET['query']))
     {
         $q = '*' . $_GET['query'] . '*';

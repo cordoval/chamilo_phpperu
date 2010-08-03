@@ -136,6 +136,8 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
         $chamilo_announcement = new Announcement();
 
         $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Announcements'));
+
+        $chamilo_announcement->set_parent_id($chamilo_category_id);
         
         if (! $this->get_title())
         {
