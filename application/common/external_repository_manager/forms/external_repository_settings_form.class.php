@@ -268,12 +268,12 @@ class ExternalRepositorySettingsForm extends FormValidator
             {
                 if ($setting['user_setting'] && $this->is_user_setting_form)
                 {
-                    $configuration_value = $this->configurer->get_user_setting($name);
+                    $configuration_value = ExternalRepositoryUserSetting :: get($name, $this->configurer->get_external_repository()->get_id());
                     //                    $configuration_value = LocalSetting :: get($name, $application);
                 }
                 else
                 {
-                    $configuration_value = $this->configurer->get_setting($name);
+                    $configuration_value = ExternalRepositorySetting :: get($name, $this->configurer->get_external_repository()->get_id());
                 }
 
                 if (isset($configuration_value))
