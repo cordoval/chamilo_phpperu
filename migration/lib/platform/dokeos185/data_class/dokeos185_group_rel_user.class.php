@@ -5,7 +5,7 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_group_rel_user.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Group Tutor Relation
@@ -13,12 +13,13 @@ require_once dirname(__FILE__) . '/../../lib/import/import_group_rel_user.class.
  * @author David Van Wayenbergh
  */
 
-class Dokeos185GroupRelUser extends Dokeos185MigrationDataClass
+class Dokeos185GroupRelUser extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
-    
+
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'group_rel_user';
     /**
-     * group tutor relation properties
+     * group user relation properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_USER_ID = 'user_id';
@@ -138,9 +139,15 @@ class Dokeos185GroupRelUser extends Dokeos185MigrationDataClass
      * @param Course $course the course
      * @return true if the group user relation is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        if (! $this->get_user_id() || ! $this->get_group_id())
+        {
+            $this->create_failed_element($this->get_id());
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -148,33 +155,27 @@ class Dokeos185GroupRelUser extends Dokeos185MigrationDataClass
      * @param Course $course the course
      * @return the new group user relation
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+        $new_group_id = $this->get_id_reference($this->get_group_id(), $this->get_database_name() . '.group_info');
+        $new_user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
+
+        $course_group_user_relation = new CourseGroupUserRelation();
+        $course_group_user_relation->set_course_group($new_group_id);
+        $course_group_user_relation->set_user($new_user_id);
+        $course_group_user_relation->create();
+
     }
 
-    /**
-     * Retrieve all group user relations from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of group user relations
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        self :: $mgdm = $parameters['mgdm'];
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'group_rel_user';
-        $classname = 'Dokeos185GroupRelUser';
-        
-        return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'group_rel_user';
-        return $array;
+    	return self :: CLASS_NAME;
     }
+
 }
 ?>

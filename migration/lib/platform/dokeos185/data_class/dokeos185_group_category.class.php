@@ -14,11 +14,9 @@ require_once dirname(__FILE__) . '/../../lib/import/import_group.class.php';
  */
 class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
 {
-    /**
-     * Migration data manager
-     */
-    private static $mgdm;
-    
+
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'group_category';
     /**
      * Group properties
      */
@@ -109,7 +107,7 @@ class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
      */
     function get_name()
     {
-        return $this->get_default_property(self :: PROPERTY_NAME);
+        return $this->get_default_property(self :: PROPERTY_TITLE);
     }
 
     /**
@@ -207,9 +205,15 @@ class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
      * @param Course $course the course
      * @return true if the group category is valid 
      */
-    function is_valid_group_category($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        if (! $this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL)
+        {
+            $this->create_failed_element($this->get_id());
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -217,50 +221,19 @@ class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
      * @param Course $course the course
      * @return the new group category
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
-    }
-
-    /**
-     * Retrieve all group categories from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of group categories
-     */
-    static function retrieve_data($parameters)
-    {
-        self :: $mgdm = $parameters['mgdm'];
         
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'group_category';
-        $classname = 'Dokeos185GroupCategory';
-        
-        return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
-    }
-
-    static function get_database_table($parameters)
-    {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'group_category';
-        return $array;
     }
     
-	/**
-	 * @param unknown_type $array
-	 */
-	function is_valid($array)
-	{
-		
-	}
+    static function get_table_name()
+    {
+        return self :: TABLE_NAME;
+    }
 
-	/**
-	 * @param unknown_type $array
-	 */
-	function convert_data
-	{
-		
-	}
-
+    static function get_class_name()
+    {
+    	return self :: CLASS_NAME;
+    }
 }
 ?>
