@@ -80,7 +80,8 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
             $group = Request :: get(RightsEditorManager :: PARAM_GROUP);
 
-            $group_menu = new GroupMenu($group, 'core.php?go=rights&application=repository&category=' . Request :: get('category') . '&' . self :: PARAM_TYPE . '=group&object=' . Request :: get('object') . '&group=%s');
+            $url = $this->get_parent()->get_url(array(self :: PARAM_TYPE => 'group')) . '&group_id=%s';
+            $group_menu = new GroupMenu($group, $url);
             $html[] = $group_menu->render_as_tree();
 
             $html[] = '</div>';
@@ -90,7 +91,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
             $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_group.js');
         }
 
-        $html[] = '<div class="clear"></div>';
+        $html[] = '<div class="clear"></div><br />';
         $html[] = RightsUtilities :: get_rights_legend();
 
         echo implode("\n", $html);
@@ -136,14 +137,14 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
             if ($this->type == self :: TYPE_USER)
             {
                 $search_conditions = array();
-                $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, $query);
-                $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, $query);
-                $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, $query);
+                $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
+                $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+                $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
                 $search_condition = new OrCondition($search_conditions);
             }
             else
             {
-                $search_condition = new PatternMatchCondition(Group :: PROPERTY_NAME, $query);
+                $search_condition = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*');
             }
 
             $conditions[] = $search_condition;
@@ -151,7 +152,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
 
         if ($this->type == self :: TYPE_GROUP)
         {
-            $group = Request :: get(RightsEditorManager :: PARAM_GROUP) ? Request :: get(RightsEditorManager :: PARAM_GROUP) : 0;
+            $group = Request :: get(RightsEditorManager :: PARAM_GROUP) ? Request :: get(RightsEditorManager :: PARAM_GROUP) : 1;
             $parent_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $group);
             $conditions[] = $parent_condition;
 
@@ -198,9 +199,9 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->set_search_url($this->get_url());
+        $action_bar->set_search_url($this->get_url(array(self :: PARAM_TYPE => $this->type)));
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_TYPE => $this->type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
     }

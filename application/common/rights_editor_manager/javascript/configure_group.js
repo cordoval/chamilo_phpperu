@@ -38,7 +38,7 @@
 					{
 						var newClass = $.ajax({
 							type: "POST",
-							url: "./application/common/rights_editor_manager/javascript/ajax/group_right_location_class",
+							url: "./application/common/rights_editor_manager/javascript/ajax/group_right_location_class.php",
 							data: { rights : id },
 							async: false
 						}).responseText;
