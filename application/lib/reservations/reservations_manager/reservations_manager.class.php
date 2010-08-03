@@ -311,10 +311,10 @@ class ReservationsManager extends WebApplication
     public function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Categories'), Theme :: get_image_path() . 'browse_category.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CATEGORIES)));
-        $links[] = new DynamicAction(Translation :: get('Items'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_ITEMS)));
-        $links[] = new DynamicAction(Translation :: get('Quotas'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTAS)));
-        $links[] = new DynamicAction(Translation :: get('QuotaBoxes'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTA_BOXES)));
+        $links[] = new DynamicAction(Translation :: get('Categories'), Translation :: get('CategoriesDescription'), Theme :: get_image_path() . 'browse_category.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CATEGORIES)));
+        $links[] = new DynamicAction(Translation :: get('Items'), Translation :: get('ItemsDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_ITEMS)));
+        $links[] = new DynamicAction(Translation :: get('Quotas'), Translation :: get('QuotasDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTAS)));
+        $links[] = new DynamicAction(Translation :: get('QuotaBoxes'), Translation :: get('QuotaBoxesDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_QUOTA_BOXES)));
 
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
