@@ -5,21 +5,19 @@
  * @package migration.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_group.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/course_group/course_group.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Group (table group_info)
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Group extends Dokeos185MigrationDataClass
+class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
 {
-    /**
-     * Migration data manager
-     */
-    private static $mgdm;
     
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'group_info';
+
     /**
      * Group properties
      */
@@ -208,13 +206,12 @@ class Dokeos185Group extends Dokeos185MigrationDataClass
      * @param Course $course the course
      * @return true if the group is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        $course = $array['course'];
+
         if (! $this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL)
         {
-            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.group');
+            $this->create_failed_element($this->get_id());
             return false;
         }
         
@@ -226,57 +223,42 @@ class Dokeos185Group extends Dokeos185MigrationDataClass
      * @param Course $course the course
      * @return the new group
      */
-    function convert_data
+    function convert_data()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        $course = $array['course'];
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
+        $course = $this->get_course();
+        $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
         
-        $lcms_group = new CourseGroup();
-        $lcms_group->set_course_code($new_course_code);
-        $lcms_group->set_name($this->get_name());
-        $lcms_group->set_max_number_of_members($this->get_max_student());
+        $chamilo_lcms_group = new CourseGroup();
+        $chamilo_lcms_group->set_course_code($new_course_code);
+        $chamilo_lcms_group->set_name($this->get_name());
+        $chamilo_lcms_group->set_max_number_of_members($this->get_max_student());
         
         if ($this->get_description())
         {
-            $lcms_group->set_description($this->get_description());
+            $chamilo_lcms_group->set_description($this->get_description());
         }
         else
         {
-            $lcms_group->set_description($this->get_name());
+            $chamilo_lcms_group->set_description($this->get_name());
         }
         
-        $lcms_group->set_self_registration_allowed($this->get_self_registration_allowed());
-        $lcms_group->set_self_unregistration_allowed($this->get_self_unregistration_allowed());
-        $lcms_group->create();
-        
-        $mgdm->add_id_reference($old_id, $lcms_group->get_id(), 'weblcms_group');
-        
-        return $lcms_group;
+        $chamilo_lcms_group->set_self_registration_allowed($this->get_self_registration_allowed());
+        $chamilo_lcms_group->set_self_unregistration_allowed($this->get_self_unregistration_allowed());
+        $chamilo_lcms_group->create();
+
+        $this->create_id_reference($this->get_id(), $chamilo_lcms_group->get_id());
+                
+        return $chamilo_lcms_group;
+    }
+    static function get_table_name()
+    {
+        return self :: TABLE_NAME;
     }
 
-    /**
-     * Retrieve all groups from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of groups
-     */
-    static function retrieve_data($parameters)
+    static function get_class_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'group_info';
-        $classname = 'Dokeos185Group';
-        
-        return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+    	return self :: CLASS_NAME;
     }
 
-    static function get_database_table($parameters)
-    {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'group_info';
-        return $array;
-    }
 }
 ?>
