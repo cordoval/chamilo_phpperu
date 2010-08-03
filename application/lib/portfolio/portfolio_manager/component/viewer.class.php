@@ -241,21 +241,23 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
     function display_footer()
     {
-        if(is_a($this->get_user(), User::CLASS_NAME))
-        {
-            $this->current_user_id = $this->get_user_id();
-        }
-        else
-        {
-            //anonymous user
-            $this->current_user_id = 1;
-        }
+//        if(is_a($this->get_user(), User::CLASS_NAME))
+//        {
+//            $this->current_user_id = $this->get_user_id();
+//        }
+//        else
+//        {
+//            //anonymous user
+//            $this->current_user_id = 1;
+//        }
 
         $current_action = Request :: get('action') ? Request :: get('action') : 'view';
 
         $html = array();
 
         $html[]= '<div></div>';
+        $html[]= '</div>';
+        $html[]= '</div>';
         $html[]= '</div>';
         $html[]= '</div>';
 
@@ -455,7 +457,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $success = true;
         $allow_new_version = ($this->selected_object->get_type() != Portfolio :: get_type_name());
 
-        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
+        $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $this->selected_object, 'content_object_form', 'post', $this->get_url(array(PortfolioManager::PARAM_PORTFOLIO_OWNER_ID => $this->owner_user_id, 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
 
         if ($form->validate())
         {
@@ -494,7 +496,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
                 }
             }
 
-            $this->redirect($success ? Translation :: get('PortfolioUpdated') : Translation :: get('PortfolioNotUpdated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid));
+            $this->redirect($success ? Translation :: get('PortfolioUpdated') : Translation :: get('PortfolioNotUpdated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->owner_user_id, 'pid' => $this->pid, 'cid' => $this->cid));
         }
         else
         {

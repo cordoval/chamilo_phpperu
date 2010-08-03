@@ -1,0 +1,53 @@
+@CHARSET "ISO-8859-1";
+
+/*****************************************************
+ *  PORTFOLIO STYLES                                      *
+ *****************************************************/
+.permissionsItem {
+	display: block;
+        float:left;
+        width: 95%;
+}
+
+.permissionsInfo {
+        margin: 0 auto;
+        height: 30px;
+        border-top-width: 1px;
+       border-top-style: solid;
+       border-top-color: gray;
+       border-bottom-width: 1px;
+       border-bottom-style: solid;
+       border-bottom-color: gray;
+}
+
+
+
+.titlePermissions {
+
+       float:left;
+       font-weight: bolder;
+       display: block;
+       vertical-align: middle;
+}
+
+.permissions{
+	display: block;
+        float:right;
+}
+
+.permissionsIcon {
+	background-color: #F0F0F0 ;
+        border-style: solid;
+	border-color: white;
+        border-right-width: 20px;
+        border-left-width: 20px;
+        float:left;
+
+}
+
+.subs {
+
+        padding-left:  25px;
+
+}
+

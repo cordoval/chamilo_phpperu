@@ -67,5 +67,9 @@ $lang['Admin']['SetPortfolioDefaults'] = 'Set default portfolio permissions';
 
 $lang['portfolio']['Delete_portfolio_publication'] = 'Delete selected portfolio';
 $lang['portfolio']['Delete_portfolio_item'] = 'Delete selected portfolio-item';
+$lang['portfolio']['OnlyCertainUsersAndGroups'] = 'Only allowed for certain groups and users';
+$lang['portfolio']['SystemsSettingsOverview'] = 'Default System Settings Overview';
+$lang['portfolio']['SeeSystemSettings'] = 'View Default System Settings';
+$lang['portfolio']['SeeAllPortfolioPermissions'] = 'View rights on your items';
 
 ?>

@@ -106,6 +106,9 @@ class PortfolioPublicationForm extends FormValidator
 
         $this->add_inherit_set_option($this->rights_array, $inherit_default, $radioOptions, $attributes1, $defaultSelected);
 
+
+        $this->addElement('html', PortfolioManager::display_system_settings_link());
+        $this->addElement('html', PortfolioManager::display_all_portfolio_settings_link());
        
     }
 
@@ -218,8 +221,8 @@ class PortfolioPublicationForm extends FormValidator
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
        
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        
 
+        
         parent :: setDefaults($defaults);
     }
 
@@ -549,6 +552,6 @@ class PortfolioPublicationForm extends FormValidator
 
     }
 
-
+    
 }
 ?>

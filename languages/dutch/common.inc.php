@@ -722,7 +722,6 @@ $lang['common']['Update'] = 'Wijzigen';
 $lang['common']['Importer'] = '';
 $lang['common']['GeneralPasswordRequirements'] = '';
 $lang['common']['TitleIsRequired'] = '';
-$lang['common']['JulyShort'] = '';
 $lang['common']['Invalid'] = '';
 $lang['common']['UpdateFailed'] = '';
 $lang['common']['DeleteFailed'] = '';
@@ -738,8 +737,23 @@ $lang['common']['h'] = 'u';
 $lang['common']['Logout'] = 'Uitloggen';
 $lang['common']['Repository'] = 'Repository';
 $lang['common']['DeleteSelectedSurveyPublicationsConfirm'] = 'Bent u zeker dat u deze publicatie(s) wil verwijderen?';
+
+$lang['common']['Address'] = 'Adres';
+$lang['common']['Contact'] = 'Contactgegevens';
+$lang['common']['Mail'] = 'e-mail';
 $lang['common']['TableView'] = 'Tabelweergave';
 $lang['common']['GalleryTableView'] = 'Gallerijweergave';
 $lang['common']['SlideshowView'] = 'Slideshow';
 $lang['common']['ConfigureTitle'] = 'Instellingen';
+$lang['common']['TelShort'] = 'tel';
+$lang['common']['FaxShort'] = 'fax';
+$lang['common']['Skype'] = 'Skype';
+$lang['common']['Msn'] = 'Msn';
+$lang['common']['Yim'] = 'Yim';
+$lang['common']['Aim'] = 'Aim';
+$lang['common']['Icq'] = 'Icq';
+
+$lang['common']['Competences'] = 'Compententies';
+$lang['common']['Diplomas'] = 'Diploma';
+$lang['common']['Teaching'] = 'Onderwijs activiteiten';
 ?>
