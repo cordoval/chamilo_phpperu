@@ -217,9 +217,9 @@ class RightsUtilities
                     {
                         foreach ($parents as $parent)
                         {
-                            $right = $rdm->retrieve_rights_template_right_location($right, $group_template->get_id(), $parent->get_id());
+                            $group_template_right_location = $rdm->retrieve_rights_template_right_location($right, $group_template->get_id(), $parent->get_id());
 
-                            if ($right instanceof RightsTemplateRightLocation && $right->is_enabled())
+                            if ($group_template_right_location instanceof RightsTemplateRightLocation && $group_template_right_location->is_enabled())
                             {
                                 return true;
                             }
@@ -233,9 +233,9 @@ class RightsUtilities
 
                     foreach ($parents as $parent)
                     {
-                        $right = $rdm->retrieve_group_right_location($right, $group->get_id(), $parent->get_id());
+                        $group_right_location = $rdm->retrieve_group_right_location($right, $group->get_id(), $parent->get_id());
 
-                        if ($right instanceof GroupRightLocation && $right->is_enabled())
+                        if ($group_right_location instanceof GroupRightLocation && $group_right_location->is_enabled())
                         {
                             return true;
                         }
@@ -255,9 +255,9 @@ class RightsUtilities
             {
                 foreach ($parents as $parent)
                 {
-                    $right = $rdm->retrieve_rights_template_right_location($right, $user_template->get_id(), $parent->get_id());
+                    $user_template_right_location = $rdm->retrieve_rights_template_right_location($right, $user_template->get_id(), $parent->get_id());
 
-                    if ($right instanceof RightsTemplateRightLocation && $right->is_enabled())
+                    if ($user_template_right_location instanceof RightsTemplateRightLocation && $user_template_right_location->is_enabled())
                     {
                         return true;
                     }
@@ -272,9 +272,9 @@ class RightsUtilities
             // Check right for the individual user
             foreach ($parents as $parent)
             {
-                $right = $rdm->retrieve_user_right_location($right, $user->get_id(), $parent->get_id());
+                $user_right_location = $rdm->retrieve_user_right_location($right, $user->get_id(), $parent->get_id());
 
-                if ($right instanceof UserRightLocation && $right->is_enabled())
+                if ($user_right_location instanceof UserRightLocation && $user_right_location->is_enabled())
                 {
                     return true;
                 }

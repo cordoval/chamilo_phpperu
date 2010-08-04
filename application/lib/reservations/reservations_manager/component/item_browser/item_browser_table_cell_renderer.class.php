@@ -19,7 +19,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
 
     /**
      * Constructor
-     * @param RepositoryManagerBrowserComponent $browser
+     * @param ReservationsManager $browser
      */
     function ItemBrowserTableCellRenderer($browser)
     {

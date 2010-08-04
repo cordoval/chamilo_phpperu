@@ -322,57 +322,6 @@ class ReservationsManager extends WebApplication
     }
 
     /**
-     * Parse the input from the sortable tables and process input accordingly
-     */
-    private function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $selected_ids = $_POST['reservations_table' . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_REMOVE_SELECTED_CATEGORIES :
-                    $this->set_action(self :: ACTION_DELETE_CATEGORY);
-                    $_GET[self :: PARAM_CATEGORY_ID] = $selected_ids;
-                    break;
-                case self :: PARAM_REMOVE_SELECTED_ITEMS :
-                    $this->set_action(self :: ACTION_DELETE_ITEM);
-                    $_GET[self :: PARAM_ITEM_ID] = $selected_ids;
-                    break;
-                case self :: PARAM_REMOVE_SELECTED_RESERVATIONS :
-                    $this->set_action(self :: ACTION_DELETE_RESERVATION);
-                    $_GET[self :: PARAM_RESERVATION_ID] = $selected_ids;
-                    break;
-                case self :: PARAM_REMOVE_SELECTED_SUBSCRIPTIONS :
-                    $this->set_action(self :: ACTION_DELETE_SUBSCRIPTION);
-                    $_GET[self :: PARAM_SUBSCRIPTION_ID] = $selected_ids;
-                    break;
-                case self :: PARAM_REMOVE_SELECTED_QUOTAS :
-                    $this->set_action(self :: ACTION_DELETE_QUOTA);
-                    $_GET[self :: PARAM_QUOTA_ID] = $selected_ids;
-                    break;
-                case self :: PARAM_REMOVE_SELECTED_QUOTA_BOXES :
-                    $this->set_action(self :: ACTION_DELETE_QUOTA_BOX);
-                    $_GET[self :: PARAM_QUOTA_BOX_ID] = $selected_ids;
-                    break;
-                case self :: PARAM_REMOVE_SELECTED_REF_QUOTAS :
-                    $this->set_action(self :: ACTION_DELETE_REF_QUOTA);
-                    $_GET[self :: PARAM_QUOTA_ID] = $selected_ids;
-                    break;
-            }
-        }
-    }
-
-    /**
      * DataManager Functions
      */
     function count_items($condition = null)
