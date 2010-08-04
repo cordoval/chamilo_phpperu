@@ -1,6 +1,8 @@
 <?php
 
 require_once dirname(__FILE__) . '/../course_data_migration_block.class.php';
+require_once dirname(__FILE__) . '/../data_class/dokeos185_document.class.php';
+
 
 class CourseDocumentsMigrationBlock extends CourseDataMigrationBlock
 {
@@ -18,8 +20,7 @@ class CourseDocumentsMigrationBlock extends CourseDataMigrationBlock
 	
 	function get_course_data_classes()
 	{
-		//return array(new Dokeos185Document());
-                return array();
+		return array(new Dokeos185Document());
 	}
 }
 

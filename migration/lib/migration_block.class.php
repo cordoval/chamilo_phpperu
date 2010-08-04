@@ -201,23 +201,23 @@ abstract class MigrationBlock
 			$failed_objects = $records_migrated = 0;
 			
 			while ($records_migrated < $total_count)
-        	{
-	            $offset = $records_migrated;
-	            $limit = self :: MAX_RETRIEVE_LIMIT;
-	            
-	            $objects = $data_class->get_data_manager()->retrieve_all_objects($data_class, $offset, $limit);
-	            while($object = $objects->next_result())
-	            {
-	            	if(!$this->convert_object($object))
-	            	{
-	            		$failed_objects++;
-	            	}
-	            	
-	            	$this->get_file_logger()->log_message($object->get_message());
-	            	
-	            	$records_migrated++;
-	            }
-        	}
+                        {
+                            $offset = $records_migrated;
+                            $limit = self :: MAX_RETRIEVE_LIMIT;
+
+                            $objects = $data_class->get_data_manager()->retrieve_all_objects($data_class, $offset, $limit);
+                            while($object = $objects->next_result())
+                            {
+                                if(!$this->convert_object($object))
+                                {
+                                        $failed_objects++;
+                                }
+
+                                $this->get_file_logger()->log_message($object->get_message());
+
+                                $records_migrated++;
+                            }
+                        }
 
         	$migrated_objects = $total_count - $failed_objects;
         	
