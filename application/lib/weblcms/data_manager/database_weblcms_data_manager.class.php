@@ -1103,13 +1103,18 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $condition = new AndCondition($conditions);
         
         $has_user_relations = $this->count_objects(CourseUserRelation :: get_table_name(), $condition) > 0;
-        
-        $conditions = array();
-        $conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $user->get_groups(true));
-        $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id);
-        $condition = new AndCondition($conditions);
-        
-        $has_group_relations = $this->count_objects(CourseGroupRelation :: get_table_name(), $condition) > 0;
+
+        $groups = $user->get_groups(true);
+        if($groups)
+        {
+            $conditions = array();
+            $conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $user->get_groups(true));
+            $conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id);
+            $condition = new AndCondition($conditions);
+            $has_group_relations = $this->count_objects(CourseGroupRelation :: get_table_name(), $condition) > 0;
+        }
+        else
+            $has_group_relations = false;
         
         
         return $has_user_relations || $has_group_relations;

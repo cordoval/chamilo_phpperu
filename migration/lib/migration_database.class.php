@@ -56,14 +56,6 @@ class MigrationDatabase Extends Database
         }
         return $object;
     }
-    function make_unix_time($date)
-    {
-        list($dat, $tim) = explode(" ", $date);
-        list($y, $mo, $d) = explode("-", $dat);
-        list($h, $mi, $s) = explode(":", $tim);
-
-        return mktime($h, $mi, $s, $mo, $d, $y);
-    }
 }
 
 ?>

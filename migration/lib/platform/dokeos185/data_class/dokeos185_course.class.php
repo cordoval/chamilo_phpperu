@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 require_once Path :: get(SYS_PATH) . 'application/lib/weblcms/course/course.class.php';
+require_once dirname(__FILE__) . '/dokeos185_user.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 course
@@ -286,50 +287,61 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
         
         if ($is_registered )
         {
-        	//Course - General
-        	$chamilo_course = new Course();
+            //Course - General
+            $chamilo_course = new Course();
 
-        	//title & visual_code
-        	$chamilo_course->set_name($this->get_title());
-        	$new_visual_code = $this->check_visual_code($this->get_visual_code());
-        	$chamilo_course->set_visual($new_visual_code);
-        	
-			//titular id
-        	$udm = UserDataManager :: get_instance();
-        	$titular = $udm->retrieve_user_by_fullname($this->get_tutor_name());
-        	if ($titular)
-        	{
-            	$titular_id = $titular->get_id();
-        	}
+            //title & visual_code
+            $chamilo_course->set_name($this->get_title());
+            $new_visual_code = $this->check_visual_code($this->get_visual_code());
+            $chamilo_course->set_visual($new_visual_code);
+
+                    //titular id
+            $titular = $this->get_data_manager()->retrieve_user_by_fullname($this->get_tutor_name());
+
+            if ($titular)
+            {
+                $titular_id = $this->get_id_reference($titular->get_optional_property('user_id'), 'main_database.user');
+            }
             else
             {
-            	$titular_id = 0;
+                $titular_id = 0;
             }
+
+            $chamilo_course->set_titular($titular_id);
+
+            //category
+            $category_id = $this->get_id_reference($this->get_category_code(), 'main_database.course_category');
+            if ($category_id)
+            {
+                $chamilo_course->set_category($category_id);
+            }
+
+            //departement_name & url
+            $chamilo_course->set_extlink_name($this->get_department_name());
+            $chamilo_course->set_extlink_url($this->get_department_url());
+
+            //Course - Settings
+            if (AdminDataManager :: is_language_active($this->get_course_language()))
+            {
+                $chamilo_course->set_language($this->get_course_language());
+
+            }
+            else
+            {
+                $chamilo_course->set_language('english');
+            }
+
+            //visibility = 3: Open - access allowed for the whole world
+            //visibility = 2: Open - access allowed for users registered on the platform
+            //visibility = 1: Private access (site accessible only to people on the user list)
+            //visibility = 0: Completely closed; the course is only accessible to the course admin.
+
+            //chamilo: only 1 and 0 (open and closed)
+            if($this->get_visibility()>=1) //visibility=2 is also possible
+                $chamilo_course->set_visibility(1);
+            else
+                $chamilo_course->set_visibility(0);
             
-        	$chamilo_course->set_titular($titular_id);
-
-        	//category
-        	$category_id = $this->get_id_reference($this->get_category_code(), 'main_database.course_category');
-        	if ($category_id)
-        	{
-        		$chamilo_course->set_category($category_id);
-        	}
-        	
-       		//departement_name & url
-       		$chamilo_course->set_extlink_name($this->get_department_name());
-        	$chamilo_course->set_extlink_url($this->get_department_url());
-       		
-        	//Course - Settings
-       		if (AdminDataManager :: is_language_active($this->get_course_language()))
-        	{
-            	$chamilo_course->set_language($this->get_course_language());
-        	}
-            else
-            {
-            	$chamilo_course->set_language('english');
-            }
-
-            $chamilo_course->set_visibility($this->get_visibility());
             $chamilo_course->set_max_number_of_members(0);
             
             //Course - Lay-out
@@ -337,22 +349,23 @@ class Dokeos185Course extends Dokeos185MigrationDataClass
             //Course - Tools
             
             //Course - Rights
-        	/*$chamilo_course->set_subscribe_allowed($this->get_subscribe());
-        	$chamilo_course->set_unsubscribe_allowed($this->get_unsubscribe());*/
-        	
-        	//Courses - Creation/Modification Dates
-        	$chamilo_course->set_default_property(Course :: PROPERTY_LAST_VISIT, $this->get_last_visit());
-        	$chamilo_course->set_default_property(Course :: PROPERTY_LAST_EDIT, $this->get_last_edit());
-        	$chamilo_course->set_default_property(Course :: PROPERTY_CREATION_DATE, $this->get_creation_date());
-        	$chamilo_course->set_default_property(Course :: PROPERTY_EXPIRATION_DATE, $this->get_expiration_date());
+            $chamilo_course->set_direct_subscribe_available($this->get_subscribe());
+            //$chamilo_course->set_subscribe_allowed($this->get_subscribe());
+            $chamilo_course->set_unsubscribe_available($this->get_unsubscribe());
 
-        	//create course in database
-        	$chamilo_course->create();
+            //Courses - Creation/Modification Dates
+            $chamilo_course->set_default_property(Course :: PROPERTY_LAST_VISIT, $this->get_last_visit());
+            $chamilo_course->set_default_property(Course :: PROPERTY_LAST_EDIT, $this->get_last_edit());
+            $chamilo_course->set_default_property(Course :: PROPERTY_CREATION_DATE, $this->get_creation_date());
+            $chamilo_course->set_default_property(Course :: PROPERTY_EXPIRATION_DATE, $this->get_expiration_date());
 
-        	//Add id references to temp table
-        	$this->create_id_reference($this->get_code(), $chamilo_course->get_id());
-        	
-        	$this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'course', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_course->get_code())));
+            //create course in database
+            $chamilo_course->create();
+
+            //Add id references to temp table
+            $this->create_id_reference($this->get_code(), $chamilo_course->get_id());
+
+            $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'course', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_course->get_code())));
     	}
     }
 

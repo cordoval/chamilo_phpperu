@@ -211,9 +211,18 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManager
         }
 
         $visibility_conditions = array();
-        $visibility_conditions[] = new EqualityCondition(CourseSettings :: PROPERTY_VISIBILITY, '1', CourseSettings :: get_table_name());
-        $visibility_conditions[] = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, '1', CourseType :: get_table_name());
-        $visibility_condition = new AndCondition($visibility_conditions);
+        
+        $visibility_and_conditions[] = new EqualityCondition(CourseSettings :: PROPERTY_VISIBILITY, '1', CourseSettings :: get_table_name());
+
+        $visibility_or_conditions[] = new EqualityCondition(CourseType :: PROPERTY_ACTIVE, '1', CourseType :: get_table_name());
+
+        //typeless courses are always active. Condition below needed because typeless is not defined in database (no typeless row in CourseType table, so no active property)
+        $visibility_or_conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, '0', Course :: get_table_name()); 
+
+        $visibility_and_conditions[] = new OrCondition($visibility_or_conditions);
+        
+        $visibility_condition = new AndCondition($visibility_and_conditions);
+
         if(is_null($condition))
         	$condition = $visibility_condition;
         else
