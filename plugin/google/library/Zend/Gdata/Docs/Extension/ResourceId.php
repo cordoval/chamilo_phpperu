@@ -47,5 +47,22 @@ class Zend_Gdata_Docs_Extension_ResourceId extends Zend_Gdata_Extension
         parent::__construct();
         $this->_text = $text;
     }
+    
+    private function getResourceIdParts()
+    {
+        return explode(':', $this->getText());
+    }
+    
+    public function getId()
+    {
+        $resourceParts = $this->getResourceIdParts();
+        return $resourceParts[1];
+    }
+    
+    public function getType()
+    {
+        $resourceParts = $this->getResourceIdParts();
+        return $resourceParts[0];
+    }
 
 }

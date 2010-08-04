@@ -73,37 +73,30 @@ class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
      */
     function get_resource_id()
     {
-        $id = explode(':', urldecode($this->get_id()));
-        return $id[1];
+        return url_encode($this->get_type() . ':' . $this->get_id());
     }
 
-//    /**
-//     * @param string $export_format
-//     * @return string
-//     */
-//    function get_export_url($export_format = 'pdf')
-//    {
-//        if (! in_array($export_format, $this->get_export_types()))
-//        {
-//            $export_format = 'pdf';
-//        }
-//        
-//        switch ($this->get_type())
-//        {
-//            case 'document' :
-//                return 'http://docs.google.com/feeds/download/'. $this->get_type() .'s/Export?docID='. $this->get_resource_id() .'&exportFormat=' . $export_format;
-//                break;
-//            case 'presentation' :
-//                return 'http://docs.google.com/feeds/download/'. $this->get_type() .'s/Export?docID='. $this->get_resource_id() .'&exportFormat=' . $export_format;
-//                break;
-//            case 'spreadsheet' :
-//                return 'http://spreadsheets.google.com/feeds/download/'. $this->get_type() .'s/Export?key='. $this->get_resource_id() .'&fmcmd=' . $export_format;
-//                break;
-//            case 'pdf' :
-//                // Get the document's content link entry.
-//                //return array('pdf');
-//                break;
-//        }
-//    }
+    function get_content_data($export_format)
+    {
+        switch ($this->get_type())
+        {
+            case 'document' :
+                $url = $this->get_content() . '&exportFormat=' . $export_format;
+                break;
+            case 'presentation' :
+                $url = $this->get_content() . '&exportFormat=' . $export_format;
+                break;
+            case 'spreadsheet' :
+                $url = $this->get_content() . '&fmcmd=' . $export_format;
+                break;
+            default :
+                // Get the document's content link entry.
+                //return array('pdf');
+                break;
+        }
+        
+        $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($this->get_external_repository_id());
+        return GoogleDocsExternalRepositoryConnector :: get_instance($external_repository)->download_external_repository_object($url);
+    }
 }
 ?>

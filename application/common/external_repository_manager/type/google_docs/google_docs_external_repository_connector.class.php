@@ -13,6 +13,9 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
     const PUBLISHED = 'published';
     const VIEW_COUNT = 'viewCount';
     const RATING = 'rating';
+    
+    const FOLDERS_MINE = 1;
+    const FOLDERS_SHARED = 2;
 
     /**
      * @param ExternalRepository $external_repository_instance
@@ -65,8 +68,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_object($id)
     {
-        $resource_id = explode(':', urldecode($id));
-        $document = $this->google_docs->getDoc($resource_id[1], $resource_id[0]);
+        $document = $this->google_docs->getDoc($id, '');
         
         $resource_id = $document->getResourceId();
         $resource_id = explode(':', $resource_id->getText());
@@ -93,7 +95,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         $modifier = $document->getLastModifiedBy();
         
         $object = new GoogleDocsExternalRepositoryObject();
-        $object->set_id($document->getResourceId()->getText());
+        $object->set_id($resource_id[1]);
         $object->set_external_repository_id($this->get_external_repository_instance_id());
         $object->set_title($document->getTitle()->getText());
         $object->set_created($published_timestamp);
@@ -102,7 +104,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         $object->set_modified($modified_timestamp);
         $object->set_owner_id($author->getEmail()->getText());
         $object->set_modifier_id($modifier->getEmail()->getText());
-        $object->set_content($document->getContent()->getSrc());
+        $object->set_content($this->determine_content_url($object));
         $object->set_rights($this->determine_rights());
         
         return $object;
@@ -160,34 +162,6 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         $post_url = $token_array['url'];
         
         return $token_array;
-    }
-
-    function get_video_feed($query)
-    {
-        $feed = Request :: get(YoutubeExternalRepositoryManager :: PARAM_FEED_TYPE);
-        switch ($feed)
-        {
-            case YoutubeExternalRepositoryManager :: FEED_TYPE_GENERAL :
-                return @ $this->google_docs->getVideoFeed($query->getQueryUrl(2));
-                break;
-            case YoutubeExternalRepositoryManager :: FEED_TYPE_MYVIDEOS :
-                return $this->google_docs->getUserUploads('default', $query->getQueryUrl(2));
-                break;
-            case YoutubeExternalRepositoryManager :: FEED_STANDARD_TYPE :
-                $identifier = Request :: get(YoutubeExternalRepositoryManager :: PARAM_FEED_IDENTIFIER);
-                if (! $identifier || ! in_array($identifier, $this->get_standard_feeds()))
-                {
-                    $identifier = 'most_viewed';
-                }
-                $new_query = $this->google_docs->newVideoQuery('http://gdata.youtube.com/feeds/api/standardfeeds/' . $identifier);
-                $new_query->setOrderBy($query->getOrderBy());
-                $new_query->setVideoQuery($query->getVideoQuery());
-                $new_query->setStartIndex($query->getStartIndex());
-                $new_query->setMaxResults($query->getMaxResults());
-                return @ $this->google_docs->getVideoFeed($new_query->getQueryUrl(2));
-            default :
-                return @ $this->google_docs->getVideoFeed($query->getQueryUrl(2));
-        }
     }
 
     /* (non-PHPdoc)
@@ -254,7 +228,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
             $modifier = $document->getLastModifiedBy();
             
             $object = new GoogleDocsExternalRepositoryObject();
-            $object->set_id($document->getResourceId()->getText());
+            $object->set_id($resource_id[1]);
             $object->set_external_repository_id($this->get_external_repository_instance_id());
             $object->set_title($document->getTitle()->getText());
             $object->set_created($published_timestamp);
@@ -263,13 +237,35 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
             $object->set_modified($modified_timestamp);
             $object->set_owner_id($author->getEmail()->getText());
             $object->set_modifier_id($modifier->getEmail()->getText());
-            $object->set_content($document->getContent()->getSrc());
+            $object->set_content($this->determine_content_url($object));
             $object->set_rights($this->determine_rights());
             
             $objects[] = $object;
         }
         
         return new ArrayResultSet($objects);
+    }
+
+    function determine_content_url($object)
+    {
+        switch ($object->get_type())
+        {
+            case 'document' :
+                $url = 'http://docs.google.com/feeds/download/' . $object->get_type() . 's/Export?docID=' . $object->get_id();
+                break;
+            case 'presentation' :
+                $url = 'http://docs.google.com/feeds/download/' . $object->get_type() . 's/Export?docID=' . $object->get_id();
+                break;
+            case 'spreadsheet' :
+                $url = 'http://spreadsheets.google.com/feeds/download/' . $object->get_type() . 's/Export?key=' . $object->get_id();
+                break;
+            default :
+                // Get the document's content link entry.
+                //return array('pdf');
+                break;
+        }
+        
+        return $url;
     }
 
     /**
@@ -283,30 +279,33 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         
         $my_folders = array();
         $my_folders['title'] = Translation :: get('MyFolders');
-        $my_folders['url'] = str_replace('__PLACEHOLDER__', '', $folder_url);
+        $my_folders['url'] = str_replace('__PLACEHOLDER__', self :: FOLDERS_MINE, $folder_url);
         $my_folders['class'] = 'category';
         
         $shared_folders = array();
         $shared_folders['title'] = Translation :: get('SharedFolders');
-        $shared_folders['url'] = str_replace('__PLACEHOLDER__', '', $folder_url);
+        $shared_folders['url'] = str_replace('__PLACEHOLDER__', self :: FOLDERS_SHARED, $folder_url);
         $shared_folders['class'] = 'shared_objects';
         
         $objects = array();
         foreach ($folders_feed->entries as $folder)
         {
-            if ($folder->getLink('http://schemas.google.com/docs/2007#parent') instanceof Zend_Gdata_App_Extension_Link)
+            $parent_link = $folder->getLink('http://schemas.google.com/docs/2007#parent');
+            if ($parent_link instanceof Zend_Gdata_App_Extension_Link)
             {
-                $parent = $folder->getLink('http://schemas.google.com/docs/2007#parent')->getTitle();
+                $parent_url = $parent_link->getHref();
+                $parent_id = explode(':', urldecode(str_replace('http://docs.google.com/feeds/documents/private/full/', '', $parent_url)));
+                $parent = $parent_id[1];
             }
             else
             {
                 if ($folder->getEditLink())
                 {
-                    $parent = '--my--';
+                    $parent = self :: FOLDERS_MINE;
                 }
                 else
                 {
-                    $parent = '--shared--';
+                    $parent = self :: FOLDERS_SHARED;
                 }
             }
             
@@ -315,18 +314,17 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
                 $objects[$parent] = array();
             }
             
-            if (! isset($objects[$parent][$folder->getTitle()->getText()]))
+            if (! isset($objects[$parent][$folder->getResourceId()->getId()]))
             {
-                $objects[$parent][$folder->getTitle()->getText()] = $folder;
+                $objects[$parent][$folder->getResourceId()->getId()] = $folder;
             }
         }
         
-        $my_folders['sub'] = $this->get_folder_tree('--my--', $objects, $folder_url);
-        $shared_folders['sub'] = $this->get_folder_tree('--shared--', $objects, $folder_url);
+        $my_folders['sub'] = $this->get_folder_tree(self :: FOLDERS_MINE, $objects, $folder_url);
+        $shared_folders['sub'] = $this->get_folder_tree(self :: FOLDERS_SHARED, $objects, $folder_url);
         
         $folder_root[] = $my_folders;
         $folder_root[] = $shared_folders;
-        
         return $folder_root;
     }
 
@@ -343,10 +341,10 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             $sub_folder = array();
             $sub_folder['title'] = $child->getTitle()->getText();
-            $sub_folder['url'] = str_replace('__PLACEHOLDER__', urlencode($child->getTitle()->getText()), $folder_url);
+            $sub_folder['url'] = str_replace('__PLACEHOLDER__', $child->getResourceId()->getId(), $folder_url);
             $sub_folder['class'] = 'category';
             
-            $children = $this->get_folder_tree($child->getTitle()->getText(), $folders, $folder_url);
+            $children = $this->get_folder_tree($child->getResourceId()->getId(), $folders, $folder_url);
             
             if (count($children) > 0)
             {
@@ -368,25 +366,8 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         return $rights;
     }
 
-    function download_external_repository_object($object, $export_format)
+    function download_external_repository_object($url)
     {
-        switch ($object->get_type())
-        {
-            case 'document' :
-                $url = 'http://docs.google.com/feeds/download/' . $object->get_type() . 's/Export?docID=' . $object->get_resource_id() . '&exportFormat=' . $export_format;
-                break;
-            case 'presentation' :
-                $url = 'http://docs.google.com/feeds/download/' . $object->get_type() . 's/Export?docID=' . $object->get_resource_id() . '&exportFormat=' . $export_format;
-                break;
-            case 'spreadsheet' :
-                $url = 'http://spreadsheets.google.com/feeds/download/' . $object->get_type() . 's/Export?key=' . $object->get_resource_id() . '&fmcmd=' . $export_format;
-                break;
-            default :
-                // Get the document's content link entry.
-                //return array('pdf');
-                break;
-        }
-        
         $session_token = $this->google_docs->getHttpClient()->getAuthSubToken();
         $opts = array('http' => array('method' => 'GET', 'header' => "GData-Version: 3.0\r\n" . "Authorization: AuthSub token=\"$session_token\"\r\n"));
         
