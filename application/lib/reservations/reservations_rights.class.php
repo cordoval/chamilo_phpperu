@@ -52,7 +52,7 @@ class ReservationsRights
     
 	static function create_location_in_reservations_subtree($name, $type, $identifier, $parent)
     {
-    	return RightsUtilities :: create_location($name, ReservationsManager :: APPLICATION_NAME, $type, $identifier, 0, $parent, 0, 0, 'reservations_tree');
+    	return RightsUtilities :: create_location($name, ReservationsManager :: APPLICATION_NAME, $type, $identifier, 1, $parent, 0, 0, 'reservations_tree');
     }
     
     static function get_reservations_subtree_root()
