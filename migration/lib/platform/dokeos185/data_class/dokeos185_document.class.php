@@ -298,58 +298,12 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
                     //create publication in weblcms
                     $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
-//                    $publication = new ContentObjectPublication();
-//                    //$publication->set_content_object($chamilo_repository_document);
-//                    $publication->set_content_object_id($chamilo_repository_document->get_id());
-//                    $publication->set_course_id($new_course_code);
-//                    unset($new_course_code);
-//
-//                    $publication->set_publisher_id($new_user_id);
-//                    unset($new_user_id);
-//
-//                    $publication->set_tool('document');
-//                    $publication->set_category_id($parent_id);
-//
-//                    $publication->set_from_date(0);
-//                    $publication->set_to_date(0);
-//                    $publication->set_publication_date(strtotime($this->get_item_property()->get_insert_date()));
-//                    $publication->set_modified_date(strtotime($this->get_item_property()->get_lastedit_date()));
-//
-//                    $publication->set_display_order_index(0);
-//                    $publication->set_email_sent(0);
-//
-//                    $publication->set_hidden($this->get_item_property()->get_visibility() == 1 ? 0 : 1);
-
-                    //create publication in database
-                    //$publication->create();
                 }
             }
         }
 
     }
 
-    /**
-     * Retrieve all documents from the database
-     * @param Course $course the course of the document
-     * @param MigrationDataManager $mgdm the migration data manager
-     * @param bool $include_deleted_files 
-     * @return array of blogs
-     */
-    static function retrieve_data($parameters)
-    {
-        
-        $old_mgdm = $parameters['old_mgdm'];
-        $course = $parameters['course'];
-        return $old_mgdm->get_all_documents($course, $parameters['del_files'], $parameters['offset'], $parameters['limit']);
-    }
-
-    static function get_database_table($parameters)
-    {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'document';
-        return $array;
-    }
     static function get_table_name()
     {
         return self :: TABLE_NAME;
