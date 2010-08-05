@@ -204,6 +204,9 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
             $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
             $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
+            
+            $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
+            $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
 
             if (! $new_user_id)
             {
@@ -294,30 +297,31 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
                     }
 
                     //create publication in weblcms
-                    $publication = new ContentObjectPublication();
-                    //$publication->set_content_object($chamilo_repository_document);
-                    $publication->set_content_object_id($chamilo_repository_document->get_id());
-                    $publication->set_course_id($new_course_code);
-                    unset($new_course_code);
-
-                    $publication->set_publisher_id($new_user_id);
-                    unset($new_user_id);
-
-                    $publication->set_tool('document');
-                    $publication->set_category_id($parent_id);
-
-                    $publication->set_from_date(0);
-                    $publication->set_to_date(0);
-                    $publication->set_publication_date(strtotime($this->get_item_property()->get_insert_date()));
-                    $publication->set_modified_date(strtotime($this->get_item_property()->get_lastedit_date()));
-
-                    $publication->set_display_order_index(0);
-                    $publication->set_email_sent(0);
-
-                    $publication->set_hidden($this->get_item_property()->get_visibility() == 1 ? 0 : 1);
+                    $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
+//                    $publication = new ContentObjectPublication();
+//                    //$publication->set_content_object($chamilo_repository_document);
+//                    $publication->set_content_object_id($chamilo_repository_document->get_id());
+//                    $publication->set_course_id($new_course_code);
+//                    unset($new_course_code);
+//
+//                    $publication->set_publisher_id($new_user_id);
+//                    unset($new_user_id);
+//
+//                    $publication->set_tool('document');
+//                    $publication->set_category_id($parent_id);
+//
+//                    $publication->set_from_date(0);
+//                    $publication->set_to_date(0);
+//                    $publication->set_publication_date(strtotime($this->get_item_property()->get_insert_date()));
+//                    $publication->set_modified_date(strtotime($this->get_item_property()->get_lastedit_date()));
+//
+//                    $publication->set_display_order_index(0);
+//                    $publication->set_email_sent(0);
+//
+//                    $publication->set_hidden($this->get_item_property()->get_visibility() == 1 ? 0 : 1);
 
                     //create publication in database
-                    $publication->create();
+                    //$publication->create();
                 }
             }
         }

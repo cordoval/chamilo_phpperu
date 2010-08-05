@@ -183,7 +183,9 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
         $mgdm = MigrationDataManager :: get_instance();
         $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
-
+        $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
+        $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
+        
         //the $this->category_id is the id of the category in which the link resides in a dokeos 1.8.5 course (in chamilo: the publication category, not the repository category id!)
         $new_publication_category_id = $this->get_id_reference($this->get_category_id(), $this->get_database_name() . '.link_category' );
         
@@ -222,7 +224,7 @@ class Dokeos185Link extends Dokeos185CourseDataMigrationDataClass
         
         //publication
 
-        $this->create_publication($chamilo_link, $new_course_code, $new_user_id, 'link', $new_publication_category_id);
+        $this->create_publication($chamilo_link, $new_course_code, $new_user_id, 'link', $new_publication_category_id, $new_to_user_id, $new_to_group_id);
 
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'link', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_link->get_id())));
         return $chamilo_link;

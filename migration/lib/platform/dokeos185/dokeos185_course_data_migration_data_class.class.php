@@ -36,6 +36,7 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
 	
 	/**
 	 * Retrieves the course
+         * @return Course
 	 */
 	function get_course()
 	{
@@ -74,7 +75,7 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
 
             //target users, groups
             $publication->set_target_users($target_users);
-            //$publication->set_target_groups($target_groups);
+            $publication->set_target_course_groups($target_groups);
 
             
             $publication->set_category_id($category_id);
