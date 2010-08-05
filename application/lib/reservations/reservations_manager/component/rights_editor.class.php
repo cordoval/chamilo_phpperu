@@ -17,6 +17,19 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManager
      */
     function run()
     {
+    	$trail = BreadcrumbTrail :: get_instance();
+        $trail->add(new Breadcrumb(parent :: get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
+        
+        $type = Request :: get('type');
+        
+        if ($type == 'category')
+        {
+            $trail->add(new Breadcrumb(parent :: get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES)), Translation :: get('ManageCategories')));
+        }
+        else
+        {
+            $trail->add(new Breadcrumb(parent :: get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ManageItems')));
+        }
         
         $type = Request :: get('type');
         $id = Request :: get('id');
@@ -50,27 +63,6 @@ class ReservationsManagerRightsEditorComponent extends ReservationsManager
         }
         
         return $rights;
-    }
-
-    function display_header($old_trail)
-    {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(parent :: get_url(array(ReservationsManager :: PARAM_ACTION => null)), Translation :: get('Reservations')));
-        
-        $type = Request :: get('type');
-        
-        if ($type == 'category')
-        {
-            $trail->add(new Breadcrumb(parent :: get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_CATEGORIES)), Translation :: get('ManageCategories')));
-        }
-        else
-        {
-            $trail->add(new Breadcrumb(parent :: get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_ADMIN_BROWSE_ITEMS)), Translation :: get('ManageItems')));
-        }
-        
-        $trail->merge($old_trail);
-        
-        parent :: display_header($trail);
     }
 
     function get_url($parameters)
