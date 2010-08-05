@@ -6,6 +6,7 @@
  */
 
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
+require_once dirname(__FILE__) . '/dokeos185_group.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 announcement
@@ -124,7 +125,7 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
     	$new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
 
-        $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), 'main_database.user');
+        $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.' . Dokeos185Group::get_table_name());
         $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
         
         if (! $new_user_id)
