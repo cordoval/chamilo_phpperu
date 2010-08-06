@@ -25,7 +25,7 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
 
         if(!$this->connection_lost)
         {
-             $video_element = $this->get_video_player_as_html();
+            $video_element = $this->get_video_player_as_html();
 
             $additional_properties = $this->get_additional_properties();
 
@@ -40,16 +40,29 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
     
     function set_mediamosa_object()
     {
+//        if(!$this->mediamosa_external_repository_connector)
+//        {
+//            $object = $this->get_content_object();
+//            $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($object->get_server_id());
+//            $this->mediamosa_external_repository_connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
+//        }
+//
+        
         if(!$this->mediamosa_external_repository_connector)
         {
             $object = $this->get_content_object();
-            $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($object->get_server_id());
+
+            $rdm = RepositoryDataManager :: get_instance();
+            $condition = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
+            $sync = $rdm->retrieve_external_repository_sync($condition);
+
+            $external_repository = $sync->get_external_repository();
             $this->mediamosa_external_repository_connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository);
         }
-        
+
         if(!$this->mediamosa_object)
         {
-            if(!$this->mediamosa_object = $this->mediamosa_external_repository_connector->retrieve_mediamosa_asset($object->get_asset_id())){
+            if(!$this->mediamosa_object = $this->mediamosa_external_repository_connector->retrieve_mediamosa_asset($sync->get_external_repository_object_id())){
                 $this->connection_lost = true;
             }
         }

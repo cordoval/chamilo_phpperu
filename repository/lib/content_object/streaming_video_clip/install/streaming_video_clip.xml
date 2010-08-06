@@ -2,8 +2,7 @@
 <object name="streaming_video_clip">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="server_id" type="integer" unsigned="1" notnull="1"/>
-  <property name="asset_id" type="text" length="32" fixed="1" notnull="1" />
+  <property name="thumbnail_url" type="text" length="255" fixed="1" notnull="1" />
   <property name="publisher" type="text" length="255" fixed="1" notnull="1" />
   <property name="creator" type="text" length="255" fixed="1" notnull="1" />
  </properties>

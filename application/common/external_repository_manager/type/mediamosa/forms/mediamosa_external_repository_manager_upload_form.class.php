@@ -36,7 +36,7 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator {
         {
             foreach($profiles as $profile_id => $profile)
             {
-                $this->addElement('hidden', 'transcode[]',$profile_id);
+                $this->addElement('hidden', 'transcode[]', $profile_id);
             }
         }
         else
