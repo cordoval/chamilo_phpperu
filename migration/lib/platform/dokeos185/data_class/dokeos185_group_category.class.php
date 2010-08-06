@@ -4,7 +4,6 @@
  * $Id: dokeos185_group_category.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../../lib/import/import_group.class.php';
 
 /**
@@ -14,7 +13,6 @@ require_once dirname(__FILE__) . '/../../lib/import/import_group.class.php';
  */
 class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
 {
-
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'group_category';
     /**
@@ -32,7 +30,7 @@ class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
     const PROPERTY_DISPLAY_ORDER = 'display_order';
     const PROPERTY_self_REG_ALLOWED = 'self_reg_allowed';
     const PROPERTY_self_UNREG_ALLOWED = 'self_unreg_allowed';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -42,7 +40,7 @@ class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
      * Creates a new dokeos185 Announcement object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185Group($defaultProperties = array ())
+    function Dokeos185Group($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -207,8 +205,7 @@ class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        if (! $this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL)
-        {
+        if (!$this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL) {
             $this->create_failed_element($this->get_id());
             return false;
         }
@@ -225,7 +222,7 @@ class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
     {
         
     }
-    
+
     static function get_table_name()
     {
         return self :: TABLE_NAME;
@@ -233,7 +230,8 @@ class Dokeos185GroupCategory extends Dokeos185MigrationDataClass
 
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
+
 }
 ?>

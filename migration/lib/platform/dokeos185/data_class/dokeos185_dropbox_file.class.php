@@ -1,9 +1,11 @@
 <?php
+
 /**
  * $Id: dokeos185_dropbox_file.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
+
 /**
  * This class presents a Dokeos185 dropbox_file
  *
@@ -11,6 +13,7 @@ require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class
  */
 class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
 {
+
     private $directory;
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'dropbox_file';
@@ -28,7 +31,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_LAST_UPLOAD_DATE = 'last_upload_date';
     const PROPERTY_CAT_ID = 'cat_id';
     const PROPERTY_SESSION_ID = 'session_id';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -38,7 +41,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
      * Creates a new Dokeos185DropboxFile object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185DropboxFile($defaultProperties = array ())
+    function Dokeos185DropboxFile($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -191,7 +194,6 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
      * Check if the dropboxfile is valid
      * @param array $courses the parameters for the validation
      */
-    
     function is_valid()
     {
         $course = $this->get_course();
@@ -199,47 +201,38 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
 
         $filename = $this->get_filename();
         $old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
-        
+
         $filename = iconv("UTF-8", "ISO-8859-1", $filename);
         $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
 
         $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
-        
-        if (! $this->get_id())
-        {
+
+        if (!$this->get_id()) {
             //echo 'Error in ID at course : ' . $course->get_db_name() .' ';
             $this->create_failed_element($this->get_id());
             return false;
-        }
-        else 
-            if (! $this->get_item_property())
-            {
-                //echo 'Error in property at course : ' . $course->get_db_name() .' ';
+        } else
+        if (!$this->get_item_property()) {
+            //echo 'Error in property at course : ' . $course->get_db_name() .' ';
             $this->create_failed_element($this->get_id());
-                return false;
-            }
-            else 
-                if (! $this->get_item_property()->get_ref())
-                {
-                    //echo 'Error in reference at course : ' . $course->get_db_name() .' ';
-                    $this->create_failed_element($this->get_id());
-                    return false;
-                }
-                else 
-                    if (! $this->get_item_property()->get_insert_date())
-                    {
-                        //echo 'Error in insert_date at course : ' . $course->get_db_name() .' ';
-                        $this->create_failed_element($this->get_id());
-                        return false;
-                    }
-                    else 
-                        if (! file_exists($this->directory . $filename))
-                        {
-                            //echo 'Error in full_path at course : ' . $course->get_db_name() .'ID : ' . $this->get_id();
-                            $this->create_failed_element($this->get_id());
-                            return false;
-                        }
-       
+            return false;
+        } else
+        if (!$this->get_item_property()->get_ref()) {
+            //echo 'Error in reference at course : ' . $course->get_db_name() .' ';
+            $this->create_failed_element($this->get_id());
+            return false;
+        } else
+        if (!$this->get_item_property()->get_insert_date()) {
+            //echo 'Error in insert_date at course : ' . $course->get_db_name() .' ';
+            $this->create_failed_element($this->get_id());
+            return false;
+        } else
+        if (!file_exists($this->directory . $filename)) {
+            //echo 'Error in full_path at course : ' . $course->get_db_name() .'ID : ' . $this->get_id();
+            $this->create_failed_element($this->get_id());
+            return false;
+        }
+
         return true;
     }
 
@@ -261,17 +254,15 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
         $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
         $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
 
-        if (! $new_user_id)
-        {
+        if (!$new_user_id) {
             $new_user_id = $this->get_owner($new_course_code);
-        
         }
-        
+
         $new_path = $new_user_id . '/';
         $old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
-        
+
         $new_rel_path = 'files/repository/' . $new_path;
-        
+
         //$filename_split = split('/', $this->get_);
         $original_filename = $this->get_title(); //get_file_name returns a hash
 
@@ -281,8 +272,7 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
 
         $hash_filename = $this->migrate_file($this->directory, $new_path, $this->get_filename(), $unique_hash);
 
-        if ($hash_filename)
-        {
+        if ($hash_filename) {
             //Create document in repository
             $chamilo_repository_document = new Document();
             $chamilo_repository_document->set_filename($original_filename);
@@ -290,9 +280,9 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $chamilo_repository_document->set_filesize($this->get_filesize());
             $chamilo_repository_document->set_hash($unique_hash);
             if ($this->get_title())
-                    $chamilo_repository_document->set_title($this->get_title());
-                else
-                    $chamilo_repository_document->set_title($original_filename);
+                $chamilo_repository_document->set_title($this->get_title());
+            else
+                $chamilo_repository_document->set_title($original_filename);
             $chamilo_repository_document->set_description($this->get_description());
             $chamilo_repository_document->set_comment('...');
             $chamilo_repository_document->set_owner_id($new_user_id);
@@ -313,12 +303,8 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
             $this->create_id_reference($this->get_id(), $chamilo_repository_document->get_id());
 
             //publication
-            $parent_id=$this->get_id_reference($this->get_cat_id(), 'dokeos_DOKEOSCOURSE.dropbox_category');
+            $parent_id = $this->get_id_reference($this->get_cat_id(), 'dokeos_DOKEOSCOURSE.dropbox_category');
             $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
-
-            
-            
-            
         }
         return $chamilo_repository_document;
     }
@@ -330,8 +316,8 @@ class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
 
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
-}
 
+}
 ?>
