@@ -65,7 +65,7 @@
 class ContentObject extends DataClass
 {
     const CLASS_NAME = __CLASS__;
-
+    
     /**
      * Constant to define the normal state of a learning object
      */
@@ -94,23 +94,26 @@ class ContentObject extends DataClass
     const PROPERTY_COMMENT = 'comment';
     const PROPERTY_CONTENT_HASH = 'content_hash';
     /**#@-*/
-
+    
+    const ATTACHMENT_ALL = 'all';
+    const ATTACHMENT_NORMAL = 'normal';
+    
     /**
      * Additional properties specific to this type of learning object, stored
      * in an associative array.
      */
     private $additionalProperties;
-
+    
     /**
      * Learning objects attached to this learning object.
      */
-    private $attachments;
-
+    private $attachments = array();
+    
     /**
      * Learning objects included into this learning object.
      */
     private $includes;
-
+    
     /**
      * The state that this learning object had when it was retrieved. Used to
      * determine if the state of its children should be updated upon updating
@@ -162,7 +165,7 @@ class ContentObject extends DataClass
         {
             return $type;
         }
-
+        
         return self :: class_to_type(get_class($this));
     }
 
@@ -218,9 +221,9 @@ class ContentObject extends DataClass
     {
         $dm = RepositoryDataManager :: get_instance();
         $version = $dm->retrieve_content_object($id);
-
+        
         $lod = ContentObjectDifference :: factory($this, $version);
-
+        
         return $lod;
     }
 
@@ -276,14 +279,23 @@ class ContentObject extends DataClass
      * Returns the learning objects attached to this learning object.
      * @return array The learning objects.
      */
-    function get_attached_content_objects()
+    function get_attached_content_objects($type = self :: ATTACHMENT_NORMAL)
     {
-        if (! is_array($this->attachments))
+        if (! is_array($this->attachments[$type]))
         {
             $dm = RepositoryDataManager :: get_instance();
-            $this->attachments = $dm->retrieve_attached_content_objects($this);
+            
+            $conditions = array();
+            $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
+            if ($type != self :: ATTACHMENT_ALL)
+            {
+                $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_TYPE, $type);
+            }
+            $condition = new AndCondition($conditions);
+            
+            $this->attachments[$type] = $dm->retrieve_attached_content_objects($condition);
         }
-        return $this->attachments;
+        return $this->attachments[$type];
     }
 
     /**
@@ -470,7 +482,7 @@ class ContentObject extends DataClass
     {
         $rdm = RepositoryDataManager :: get_instance();
         return count($rdm->get_version_ids($this));
-
+    
     }
 
     /**
@@ -481,17 +493,17 @@ class ContentObject extends DataClass
         $owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
         $qm = new QuotaManager($owner);
         return $qm->get_max_versions($this->get_type()) - $this->get_version_count();
-
+    
     }
 
     /**
      * Attaches the learning object with the given ID to this learning object.
      * @param int $id The ID of the learning object to attach.
      */
-    function attach_content_object($id)
+    function attach_content_object($id, $type = self :: ATTACHMENT_NORMAL)
     {
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->attach_content_object($this, $id);
+        return $dm->attach_content_object($this, $id, $type);
     }
 
     /**
@@ -501,9 +513,9 @@ class ContentObject extends DataClass
     function include_content_object($id)
     {
         $rdm = RepositoryDataManager :: get_instance();
-
+        
         $is_already_included = $rdm->is_content_object_already_included($this, $id);
-
+        
         if ($is_already_included)
         {
             return true;
@@ -522,10 +534,10 @@ class ContentObject extends DataClass
      * @return boolean True if the attachment was removed, false if it did not
      * exist.
      */
-    function detach_content_object($id)
+    function detach_content_object($id, $type = self :: ATTACHMENT_NORMAL)
     {
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->detach_content_object($this, $id);
+        return $dm->detach_content_object($this, $id, $type);
     }
 
     /**
@@ -594,22 +606,22 @@ class ContentObject extends DataClass
      */
     function create()
     {
-
+        
         $dm = RepositoryDataManager :: get_instance();
         $now = time();
-
+        
         $this->set_creation_date($now);
         $this->set_modification_date($now);
         $this->set_object_number($dm->get_next_content_object_number());
-
+        
         if (! $dm->create_content_object($this, 'new'))
         {
             return false;
         }
-
+        
         if ($this->get_owner_id() == 0)
             return true;
-
+        
         $parent = $this->get_parent_id();
         if (! $parent)
         {
@@ -619,12 +631,12 @@ class ContentObject extends DataClass
         {
             $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree('repository_category', $this->get_parent_id(), $this->get_owner_id());
         }
-
+        
         if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), 'content_object', $this->get_id(), $parent_id, $this->get_owner_id()))
         {
             return false;
         }
-
+        
         return true;
     }
 
@@ -633,15 +645,15 @@ class ContentObject extends DataClass
         $dm = RepositoryDataManager :: get_instance();
         $object_number = $dm->get_next_content_object_number();
         $this->set_object_number($object_number);
-
+        
         if (! $dm->create_content_object($this, 'new'))
         {
             return false;
         }
-
+        
         if ($this->get_owner_id() == 0)
             return true;
-
+        
         $parent = $this->get_parent_id();
         if (! $parent)
         {
@@ -651,12 +663,12 @@ class ContentObject extends DataClass
         {
             $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree('repository_category', $this->get_parent_id(), $this->get_owner_id());
         }
-
+        
         if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), 'content_object', $this->get_id(), $parent_id, $this->get_owner_id()))
         {
             return false;
         }
-
+        
         return true;
     }
 
@@ -701,7 +713,7 @@ class ContentObject extends DataClass
     {
         $this->set_modification_date(time());
         $this->set_state(self :: STATE_RECYCLED);
-
+        
         $dm = RepositoryDataManager :: get_instance();
         return $dm->update_content_object($this);
     }
@@ -717,10 +729,10 @@ class ContentObject extends DataClass
     {
         $now = time();
         $dm = RepositoryDataManager :: get_instance();
-
+        
         $this->set_creation_date($now);
         $this->set_modification_date($now);
-
+        
         $success = $dm->create_content_object($this, 'version');
         if (! $success)
         {
@@ -775,8 +787,15 @@ class ContentObject extends DataClass
     function delete_links()
     {
         $rdm = RepositoryDataManager :: get_instance();
-
-        if (RepositoryDataManager :: delete_content_object_publications($this) && $rdm->delete_content_object_attachments($this) && $rdm->delete_content_object_includes($this) && RepositoryDataManager :: delete_clois_for_content_object($this) && $rdm->delete_assisting_content_objects($this))
+        
+        // Delete attachment links of the object
+        $condition = new EqualityCondition(ContentObjectAttachment :: PROPERTY_ATTACHMENT_ID, $this->get_id());
+        if (!$rdm->delete_content_object_attachments($condition))
+        {
+            return false;
+        }
+        
+        if (RepositoryDataManager :: delete_content_object_publications($this) && $rdm->delete_content_object_includes($this) && RepositoryDataManager :: delete_clois_for_content_object($this) && $rdm->delete_assisting_content_objects($this))
         {
             return true;
         }
@@ -909,9 +928,7 @@ class ContentObject extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(
-                self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE,
-                self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
+        return parent :: get_default_property_names(array(self :: PROPERTY_OWNER_ID, self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_COMMENT, self :: PROPERTY_CONTENT_HASH));
     }
 
     static function get_additional_property_names()
@@ -988,7 +1005,7 @@ class ContentObject extends DataClass
         {
             return null; //here is the problem with the repository
         }
-
+        
         $class = self :: type_to_class($type);
         require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
@@ -1002,7 +1019,7 @@ class ContentObject extends DataClass
     {
         $class = self :: type_to_class($type);
         require_once dirname(__FILE__) . '/content_object/' . $type . '/' . $type . '.class.php';
-
+        
         $properties = call_user_func(array($class, 'get_additional_property_names'));
         return ! empty($properties);
     }
@@ -1023,7 +1040,7 @@ class ContentObject extends DataClass
         /*require_once dirname(__FILE__) . '/content_object_form.class.php';
 		$form = ContentObjectForm :: factory($this->get_type(), $this, $this->get_type());
 		return $form->get_html_editors();*/
-
+        
         return array(self :: PROPERTY_DESCRIPTION);
     }
 
@@ -1061,7 +1078,7 @@ class ContentObject extends DataClass
     {
         return array();
     }
-    
+
     /**
      * @return ObjectResultSet
      */
@@ -1073,13 +1090,13 @@ class ContentObject extends DataClass
             $sync_conditions[] = new EqualityCondition(ExternalRepositorySync :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
             $sync_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id(), ContentObject :: get_table_name());
             $sync_condition = new AndCondition($sync_conditions);
-
+            
             $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_syncs($sync_condition);
         }
-
+        
         return $this->synchronization_data;
     }
-    
+
     function is_external()
     {
         return $this->get_synchronization_data()->size() > 0;

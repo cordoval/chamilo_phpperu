@@ -25,7 +25,7 @@ class ComicBook extends ContentObject implements Versionable
 	const PROPERTY_EDITOR = 'editor';
 	const PROPERTY_COLLECTION = 'collection';
 	const PROPERTY_COLLECTION_ISSUE = 'collection_issue';
-	const PROPERTY_TYPE = 'type';
+	const PROPERTY_BOOK_TYPE = 'book_type';
 	const PROPERTY_BINDING = 'binding';
 	const PROPERTY_PAGES = 'pages';
 	const PROPERTY_YEAR = 'year';
@@ -49,7 +49,7 @@ class ComicBook extends ContentObject implements Versionable
 	 */
 	static function get_additional_property_names()
 	{
-		return array (self :: PROPERTY_ORIGINAL_TITLE, self :: PROPERTY_ISSUE, self :: PROPERTY_SERIES, self :: PROPERTY_ORIGINAL_SERIES, self :: PROPERTY_SUBSERIES, self :: PROPERTY_ARTIST, self :: PROPERTY_WRITER, self :: PROPERTY_COLORIST, self :: PROPERTY_INKER, self :: PROPERTY_EDITOR, self :: PROPERTY_COLLECTION, self :: PROPERTY_COLLECTION_ISSUE, self :: PROPERTY_TYPE, self :: PROPERTY_BINDING, self :: PROPERTY_PAGES, self :: PROPERTY_YEAR, self :: PROPERTY_GENRE, self :: PROPERTY_LIMITED, self :: PROPERTY_SIGNED, self :: PROPERTY_LANGUAGE, self :: PROPERTY_COLOUR, self :: PROPERTY_WEIGHT, self :: PROPERTY_PRICE, self :: PROPERTY_CURRENCY, self :: PROPERTY_SYNOPSIS, self :: PROPERTY_REVIEW, self :: PROPERTY_COVERS, self :: PROPERTY_EXTRACTS, self :: PROPERTY_TAGS);
+		return array (self :: PROPERTY_ORIGINAL_TITLE, self :: PROPERTY_ISSUE, self :: PROPERTY_SERIES, self :: PROPERTY_ORIGINAL_SERIES, self :: PROPERTY_SUBSERIES, self :: PROPERTY_ARTIST, self :: PROPERTY_WRITER, self :: PROPERTY_COLORIST, self :: PROPERTY_INKER, self :: PROPERTY_EDITOR, self :: PROPERTY_COLLECTION, self :: PROPERTY_COLLECTION_ISSUE, self :: PROPERTY_BOOK_TYPE, self :: PROPERTY_BINDING, self :: PROPERTY_PAGES, self :: PROPERTY_YEAR, self :: PROPERTY_GENRE, self :: PROPERTY_LIMITED, self :: PROPERTY_SIGNED, self :: PROPERTY_LANGUAGE, self :: PROPERTY_COLOUR, self :: PROPERTY_WEIGHT, self :: PROPERTY_PRICE, self :: PROPERTY_CURRENCY, self :: PROPERTY_SYNOPSIS, self :: PROPERTY_REVIEW, self :: PROPERTY_COVERS, self :: PROPERTY_EXTRACTS, self :: PROPERTY_TAGS);
 	}
 
 	/**
@@ -269,21 +269,21 @@ class ComicBook extends ContentObject implements Versionable
 	}
 
 	/**
-	 * Returns the type of this ComicBook.
-	 * @return the type.
+	 * Returns the book_type of this ComicBook.
+	 * @return the book_type.
 	 */
-	function get_type()
+	function get_book_type()
 	{
-		return $this->get_additional_property(self :: PROPERTY_TYPE);
+		return $this->get_additional_property(self :: PROPERTY_BOOK_TYPE);
 	}
 
 	/**
 	 * Sets the type of this ComicBook.
 	 * @param type
 	 */
-	function set_type($type)
+	function set_book_type($book_type)
 	{
-		$this->set_additional_property(self :: PROPERTY_TYPE, $type);
+		$this->set_additional_property(self :: PROPERTY_BOOK_TYPE, $book_type);
 	}
 
 	/**

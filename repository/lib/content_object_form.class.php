@@ -459,10 +459,10 @@ EOT;
         // Process attachments
         if ($object instanceof AttachmentSupport)
         {
-            foreach ($values['attachments'] as $aid)
+            foreach ($values['attachments'] as $attachment_id)
             {
-                $aid = str_replace('lo_', '', $aid);
-                $object->attach_content_object($aid);
+                $attachment_id = str_replace('lo_', '', $attachment_id);
+                $object->attach_content_object($attachment_id, ContentObject :: ATTACHMENT_NORMAL);
             }
         }
         return $object;
@@ -546,15 +546,15 @@ EOT;
 			 *      existing IDs against the ones that need to be added, and
 			 *      attaches and detaches accordingly.
 			 */
-            foreach ($object->get_attached_content_objects() as $o)
+            foreach ($object->get_attached_content_objects() as $attached_object_id)
             {
-                $object->detach_content_object($o->get_id());
+                $object->detach_content_object($attached_object_id->get_id(), ContentObject :: ATTACHMENT_NORMAL);
             }
             
-            foreach ($values['attachments'] as $aid)
+            foreach ($values['attachments'] as $attachment_id)
             {
-                $aid = str_replace('lo_', '', $aid);
-                $object->attach_content_object($aid);
+                $attachment_id = str_replace('lo_', '', $attachment_id);
+                $object->attach_content_object($attachment_id, ContentObject :: ATTACHMENT_NORMAL);
             }
         }
         return $result;
