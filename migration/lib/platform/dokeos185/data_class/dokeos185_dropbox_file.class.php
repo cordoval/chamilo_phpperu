@@ -1,28 +1,22 @@
 <?php
+
 /**
  * $Id: dokeos185_dropbox_file.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_dropbox_file.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/document/document.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
-require_once 'dokeos185_item_property.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/category_manager/content_object_publication_category.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 dropbox_file
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185DropboxFile extends Dokeos185MigrationDataClass
+class Dokeos185DropboxFile extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
-    
-    private $item_property;
-    
-    private static $files = array();
-    
+
+    private $directory;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'dropbox_file';
     /**
      * Dokeos185DropboxFile properties
      */
@@ -37,7 +31,7 @@ class Dokeos185DropboxFile extends Dokeos185MigrationDataClass
     const PROPERTY_LAST_UPLOAD_DATE = 'last_upload_date';
     const PROPERTY_CAT_ID = 'cat_id';
     const PROPERTY_SESSION_ID = 'session_id';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -47,7 +41,7 @@ class Dokeos185DropboxFile extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185DropboxFile object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185DropboxFile($defaultProperties = array ())
+    function Dokeos185DropboxFile($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -200,59 +194,45 @@ class Dokeos185DropboxFile extends Dokeos185MigrationDataClass
      * Check if the dropboxfile is valid
      * @param array $courses the parameters for the validation
      */
-    
-    function is_valid($courses)
+    function is_valid()
     {
-        $course = $courses['course'];
-        $mgdm = MigrationDataManager :: get_instance();
-        $old_mgdm = $courses['old_mgdm'];
-        $this->item_property = $old_mgdm->get_item_property($course->get_db_name(), 'dropbox', $this->get_id());
-        
+        $course = $this->get_course();
+        $this->set_item_property($this->get_data_manager()->get_item_property($course, 'document', $this->get_id()));
+
         $filename = $this->get_filename();
         $old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
-        
+
         $filename = iconv("UTF-8", "ISO-8859-1", $filename);
         $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
-        
-        if (! $this->get_id())
-        {
+
+        $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
+
+        if (!$this->get_id()) {
             //echo 'Error in ID at course : ' . $course->get_db_name() .' ';
-            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.dropbox_file');
+            $this->create_failed_element($this->get_id());
+            return false;
+        } else
+        if (!$this->get_item_property()) {
+            //echo 'Error in property at course : ' . $course->get_db_name() .' ';
+            $this->create_failed_element($this->get_id());
+            return false;
+        } else
+        if (!$this->get_item_property()->get_ref()) {
+            //echo 'Error in reference at course : ' . $course->get_db_name() .' ';
+            $this->create_failed_element($this->get_id());
+            return false;
+        } else
+        if (!$this->get_item_property()->get_insert_date()) {
+            //echo 'Error in insert_date at course : ' . $course->get_db_name() .' ';
+            $this->create_failed_element($this->get_id());
+            return false;
+        } else
+        if (!file_exists($this->directory . $filename)) {
+            //echo 'Error in full_path at course : ' . $course->get_db_name() .'ID : ' . $this->get_id();
+            $this->create_failed_element($this->get_id());
             return false;
         }
-        else 
-            if (! $this->item_property)
-            {
-                //echo 'Error in property at course : ' . $course->get_db_name() .' ';
-                $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.dropbox_file');
-                return false;
-            }
-            else 
-                if (! $this->item_property->get_ref())
-                {
-                    //echo 'Error in reference at course : ' . $course->get_db_name() .' ';
-                    $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.dropbox_file');
-                    return false;
-                }
-                else 
-                    if (! $this->item_property->get_insert_date())
-                    {
-                        //echo 'Error in insert_date at course : ' . $course->get_db_name() .' ';
-                        $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.dropbox_file');
-                        return false;
-                    }
-                    else 
-                        if (! file_exists($old_mgdm->append_full_path(false, $old_rel_path . $filename)))
-                        {
-                            //echo 'Error in full_path at course : ' . $course->get_db_name() .'ID : ' . $this->get_id();
-                            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.dropbox_file');
-                            return false;
-                        }
-        
-        //Close the logfile
-        /*$this->passedtime = $this->logfile->write_passed_time();
-		$this->logfile->close_file();*/
-        
+
         return true;
     }
 
@@ -261,199 +241,83 @@ class Dokeos185DropboxFile extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new dropbox file
      */
-    function convert_data
+    function convert_data()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        $old_mgdm = $array['old_mgdm'];
         if ($this->get_uploader_id())
-            $new_user_id = $mgdm->get_id_reference($this->get_uploader_id(), 'user_user');
+            $new_user_id = $this->get_id_reference($this->get_uploader_id(), 'main_database.user');
         else
-            $new_user_id = $mgdm->get_id_reference($this->item_property->get_insert_user_id(), 'user_user');
-        
-        $course = $array['course'];
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
-        
-        if (! $new_user_id)
-        {
-            $new_user_id = $mgdm->get_owner($new_course_code);
-        
+            $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+
+        $course = $this->get_course();
+        $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
+
+        $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
+        $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
+
+        if (!$new_user_id) {
+            $new_user_id = $this->get_owner($new_course_code);
         }
-        
+
         $new_path = $new_user_id . '/';
         $old_rel_path = 'courses/' . $course->get_directory() . '/dropbox/';
-        
+
         $new_rel_path = 'files/repository/' . $new_path;
-        
-        $lcms_document = null;
-        
-        $filename = iconv("UTF-8", "ISO-8859-1", $this->get_filename());
-        $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
-        
-        $document_md5 = md5_file($old_mgdm->append_full_path(false, $old_rel_path . $filename));
-        $document_id = $mgdm->get_document_from_md5($new_user_id, $document_md5);
-        
-        if (! $document_id)
-        {
-            $file = $old_mgdm->move_file($old_rel_path, $new_rel_path, $filename);
-            
-            if ($file)
-            {
-                //document parameters
-                $lcms_document = new Document();
-                
-                $lcms_document->set_filesize($this->get_filesize());
-                if ($this->get_title())
-                    $lcms_document->set_title($this->get_title());
-                else
-                    $lcms_document->set_title($filename);
-                $lcms_document->set_description('...');
-                
-                $lcms_document->set_owner_id($new_user_id);
-                $lcms_document->set_creation_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
-                $lcms_document->set_modification_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-                $lcms_document->set_path($new_path . $file);
-                $lcms_document->set_filename($file);
-                
-                // Category for announcements already exists?
-                $lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('dropboxes'));
-                if (! $lcms_category_id)
-                {
-                    //Create category for tool in lcms
-                    $lcms_repository_category = new Category();
-                    $lcms_repository_category->set_owner_id($new_user_id);
-                    $lcms_repository_category->set_title(Translation :: get('dropboxes'));
-                    $lcms_repository_category->set_description('...');
-                    
-                    //Retrieve repository id from dropbox
-                    $repository_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('MyRepository'));
-                    $lcms_repository_category->set_parent_id($repository_id);
-                    
-                    //Create category in database
-                    $lcms_repository_category->create();
-                    
-                    $lcms_document->set_parent_id($lcms_repository_category->get_id());
-                }
-                else
-                {
-                    $lcms_document->set_parent_id($lcms_category_id);
-                }
-                
-                if ($this->item_property->get_visibility() == 2)
-                    $lcms_document->set_state(1);
-                    
-                //create document in database
-                $lcms_document->create_all();
-                
-                $mgdm->add_file_md5($new_user_id, $lcms_document->get_id(), $document_md5);
-            }
+
+        //$filename_split = split('/', $this->get_);
+        $original_filename = $this->get_title(); //get_file_name returns a hash
+
+        $base_hash = md5($original_filename);
+        $new_path = Path :: get(SYS_REPO_PATH) . $new_user_id . '/' . Text :: char_at($base_hash, 0) . '/';
+        $unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
+
+        $hash_filename = $this->migrate_file($this->directory, $new_path, $this->get_filename(), $unique_hash);
+
+        if ($hash_filename) {
+            //Create document in repository
+            $chamilo_repository_document = new Document();
+            $chamilo_repository_document->set_filename($original_filename);
+            $chamilo_repository_document->set_path($new_user_id . '/' . Text :: char_at($base_hash, 0) . '/' . $unique_hash);  //!!!!!!!
+            $chamilo_repository_document->set_filesize($this->get_filesize());
+            $chamilo_repository_document->set_hash($unique_hash);
+            if ($this->get_title())
+                $chamilo_repository_document->set_title($this->get_title());
             else
-            {
-                $document_id = $mgdm->get_document_id($new_rel_path . $filename, $new_user_id);
-                if ($document_id)
-                {
-                    $lcms_document = new ContentObject();
-                    $lcms_document->set_id($document_id);
-                }
-            }
-        
+                $chamilo_repository_document->set_title($original_filename);
+            $chamilo_repository_document->set_description($this->get_description());
+            $chamilo_repository_document->set_comment('...');
+            $chamilo_repository_document->set_owner_id($new_user_id);
+            $chamilo_repository_document->set_creation_date(strtotime($this->get_item_property()->get_insert_date()));
+            $chamilo_repository_document->set_modification_date(strtotime($this->get_item_property()->get_lastedit_date()));
+
+            $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Documents'));
+            $chamilo_repository_document->set_parent_id($chamilo_category_id);
+
+            if ($this->get_item_property()->get_visibility() == 2)
+                $chamilo_repository_document->set_state(1);
+
+            //Create document in db
+            $chamilo_repository_document->create();
+
+            //Add id references to migration table
+
+            $this->create_id_reference($this->get_id(), $chamilo_repository_document->get_id());
+
+            //publication
+            $parent_id = $this->get_id_reference($this->get_cat_id(), 'dokeos_DOKEOSCOURSE.dropbox_category');
+            $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
         }
-        else
-        {
-            $lcms_document = new ContentObject();
-            $lcms_document->set_id($document_id);
-        }
-        /*	
-		//publication
-		if($this->item_property->get_visibility() <= 1 && $lcms_document) 
-		{
-			// Categories already exists?
-			$file_split = array();
-			$file_split = split('/', $old_path);
-			
-			array_shift($file_split);
-			array_pop($file_split);
-			
-			$parent = 0;
-			
-			foreach($file_split as $cat)
-			{
-				$lcms_category_id = self :: $mgdm->publication_category_exist($cat, $new_course_code,
-					'document',$parent);
-				
-				if(!$lcms_category_id)
-				{
-					//Create category for tool in lcms
-					$lcms_category = new ContentObjectPublicationCategory();
-					$lcms_category->set_title($cat);
-					$lcms_category->set_course($new_course_code);
-					$lcms_category->set_tool('document');
-					$lcms_category->set_parent_category_id($parent);
-					
-					//Create category in database
-					$lcms_category->create();
-					$parent = $lcms_category->get_id();
-				}
-				else
-				{
-					$parent = $lcms_category_id;
-				}
-				
-			}	
-		
-			$publication = new ContentObjectPublication();
-			
-			$publication->set_content_object($lcms_document);
-			$publication->set_course_id($new_course_code);
-			$publication->set_publisher_id($new_user_id);
-			$publication->set_tool('document');
-			$publication->set_category_id($parent);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
-			$publication->set_from_date(0);
-			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-			//$publication->set_modified_date(0);
-			//$publication->set_display_order_index($this->get_display_order());
-			$publication->set_display_order_index(0);
-			$publication->set_email_sent(0);
-			
-			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
-			
-			//create publication in database
-			$publication->create();		
-		}
-		*/
-        
-        return $lcms_document;
+        return $chamilo_repository_document;
     }
 
-    /**
-     * Retrieve all dropbox files from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of dropbox files
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        if ($parameters['del_files'] = ! 1)
-            $tool_name = 'dropbox';
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'dropbox_file';
-        $classname = 'Dokeos185DropboxFile';
-        
-        return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'dropbox_file';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
 }
-
 ?>

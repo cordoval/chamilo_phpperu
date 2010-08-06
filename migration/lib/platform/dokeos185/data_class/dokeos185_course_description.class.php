@@ -4,28 +4,24 @@
  * $Id: dokeos185_course_description.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_course_description.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/description/description.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Course Description
  *
  * @author Sven Vanpoucke
  */
-
-class Dokeos185CourseDescription extends Dokeos185MigrationDataClass
+class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
 {
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'course_description';
     /**
      * course description properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
     const PROPERTY_CONTENT = 'content';
-    
+
     /**
      * Default properties of the course description object, stored in an associative
      * array.
@@ -37,7 +33,7 @@ class Dokeos185CourseDescription extends Dokeos185MigrationDataClass
      * @param array $defaultProperties The default properties of the course description
      *                                 object. Associative array.
      */
-    function Dokeos185CourseDescription($defaultProperties = array ())
+    function Dokeos185CourseDescription($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -120,13 +116,11 @@ class Dokeos185CourseDescription extends Dokeos185MigrationDataClass
      * @param Course $Course the course where the description belongs to
      * @return true if the course description is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        $course = $array['course'];
-        if (! $this->get_id() || ! ($this->get_title() || $this->get_content()))
-        {
-            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.description');
+
+        if (!$this->get_id() || !($this->get_title() || $this->get_content())) {
+            $this->create_failed_element($this->get_id());
             return false;
         }
         return true;
@@ -137,96 +131,72 @@ class Dokeos185CourseDescription extends Dokeos185MigrationDataClass
      * @param Course $Course the course where the description belongs to
      * @return the new course description
      */
-    function convert_data
+    function convert_data()
     {
-        $old_mgdm = $array['old_mgdm'];
-        $mgdm = MigrationDataManager :: get_instance();
-        $course = $array['course'];
-        $lcms_content = new Description();
-        
-        if (! $this->get_title())
-            $lcms_content->set_title(substr($this->get_content(), 0, 20));
+        $chamilo_description = new Description();
+
+        if (!$this->get_title())
+            $chamilo_description->set_title(substr($this->get_content(), 0, 20));
         else
-            $lcms_content->set_title($this->get_title());
-        
-        if (! $this->get_content())
-            $lcms_content->set_description($this->get_title());
+            $chamilo_description->set_title($this->get_title());
+
+        if (!$this->get_content())
+            $chamilo_description->set_description($this->get_title());
         else
-            $lcms_content->set_description($this->get_content());
-        
-        $user_id = $mgdm->get_id_reference($old_mgdm->get_old_admin_id(), 'user_user');
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
-        
+            $chamilo_description->set_description($this->get_content());
+
+        $new_user_id = $this->get_id_reference($this->get_data_manager()->get_admin_id(), 'main_database.user');
+        $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
+
         // Category for contents already exists?
-        $lcms_category_id = $mgdm->get_parent_id($user_id, 'category', Translation :: get('descriptions'));
-        if (! $lcms_category_id)
-        {
-            ///Create category for user in lcms
-            $lcms_repository_category = new RepositoryCategory();
-            $lcms_repository_category->set_user_id($user_id);
-            $lcms_repository_category->set_name(Translation :: get('courseDescription'));
-            $lcms_repository_category->set_parent(0);
-            
-            //Create category in database
-            $lcms_repository_category->create();
-            
-            $lcms_content->set_parent_id($lcms_repository_category->get_id());
-        }
-        else
-        {
-            $lcms_content->set_parent_id($lcms_category_id);
-        }
-        
-        $lcms_content->set_owner_id($user_id);
-        $lcms_content->create();
-        
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('descriptions'));
+
+        $chamilo_description->set_parent_id($chamilo_category_id);
+
+        $chamilo_description->set_owner_id($new_user_id);
+
+        //create in chamilo db
+        $chamilo_description->create();
+
+        //create publication: To get visbility status, the dokeos185_tool table needs to be converted! (normally this status is retrieved in item property)
+        //$this->create_publication($chamilo_description, $new_course_code, $new_user_id, 'description');
+
         $publication = new ContentObjectPublication();
-        
-        $publication->set_content_object($lcms_content);
+
+        $publication->set_content_object($chamilo_description);
+        $publication->set_content_object_id($chamilo_description->get_id());
         $publication->set_course_id($new_course_code);
-        $publication->set_publisher_id($user_id);
+        $publication->set_publisher_id($new_user_id);
         $publication->set_tool('description');
+
         $publication->set_category_id(0);
+
+
         $publication->set_from_date(0);
         $publication->set_to_date(0);
-        
-        $now = time();
-        $publication->set_publication_date($now);
-        $publication->set_modified_date($now);
-        
+        $publication->set_publication_date(0);
+        $publication->set_modified_date(0);
+        //$publication->set_modified_date(0);
+        //$publication->set_display_order_index($this->get_display_order());
         $publication->set_display_order_index(0);
-        $publication->set_email_sent(0);
-        $publication->set_hidden(0);
-        
-        //create publication in database
+
+        $publication->set_email_sent($this->get_email_sent());
+
+        //$publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
         $publication->create();
-        
-        return $lcms_content;
-    
+
+        return $chamilo_description;
     }
 
-    /**
-     * Retrieve all course descriptions from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of course descriptions
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = $parameters['course']->get_db_name();
-        $tablename = 'course_description';
-        $classname = 'Dokeos185CourseDescription';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'course_description';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
 }
 ?>

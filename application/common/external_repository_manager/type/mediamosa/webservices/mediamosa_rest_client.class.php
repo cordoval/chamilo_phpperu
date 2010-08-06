@@ -12,9 +12,8 @@ require_once dirname(__FILE__).'/mediamosa_rest_result.class.php';
 class MediamosaRestClient extends RestClient{
 
     private $mediamosa_url;
-    private $header_data;
     private $connector_cookie = null;
-    private $proxy;
+    
 
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
@@ -115,18 +114,33 @@ class MediamosaRestClient extends RestClient{
                 return $this->connector_cookie;
             }
         }
-
         return false;
     }
 
-    function set_header_data($name,$value)
+    function array_to_url($data)
     {
-        $this->header_data[] = array('name' => $name, 'value' => $value);
-    }
+        if(is_array($data))
+        {
+            $tmp = array();
 
-    function get_header_data()
-    {
-        return $this->header_data;
+            foreach($data as $key => $value)
+            {
+                if(is_array($value))
+                {
+                    $subtmp = array();
+
+                    foreach($value as $subkey => $subvalue)
+                    {
+                        $tmp[] = $key . '[]' . '=' . $subvalue;
+                    }
+                }
+                else
+                {
+                    $tmp[] = $key .  '=' . $value;
+                }
+            }
+            return implode('&', $tmp);
+        }
     }
 
     /*
@@ -168,7 +182,6 @@ class MediamosaRestClient extends RestClient{
                     {
                         $tmp[] = $key .  '=' . $value;
                     }
-                    
                 }
 
                 $get_string = implode('&', $tmp);
@@ -211,6 +224,9 @@ class MediamosaRestClient extends RestClient{
 
         $request = new HTTP_Request($this->get_url(), $request_properties);
 
+        /*
+         * addition
+         */
         //possibly set a proxy
         if($proxy = $this->get_proxy()) $request->setProxy($proxy['server'], $proxy['port']);
 
@@ -219,8 +235,7 @@ class MediamosaRestClient extends RestClient{
         
         if(isset($data_to_send))
         {
-            //TODO:jens --> redistribute this so it works in all situations
-            //problem possible when key = content 
+            
            if(is_string($data_to_send))
             {
                  $request->setBody($data_to_send);
@@ -267,7 +282,10 @@ class MediamosaRestClient extends RestClient{
 
                 $request->setBody($file_content);
             }
-            else
+            /*
+             * addition
+             */
+            elseif(is_array($data_to_send))
             {
                 foreach($data_to_send as $key => $value)
                 {
@@ -283,11 +301,11 @@ class MediamosaRestClient extends RestClient{
                 $request->addHeader('Content-type', $data_to_send['mime']);
             }
 
-            //TODO: jens --> implement in restclient class*/
+
             /*
-             * OVERRIDE
+             * addition
              */
-            /*add additional headers*/
+           /*add additional headers*/
             
             if(is_array($this->get_header_data()))
             {
@@ -304,6 +322,9 @@ class MediamosaRestClient extends RestClient{
         {
             $result->set_response_http_code($request->getResponseCode());
             $result->set_response_content($request->getResponseBody());
+            /*
+             * addition
+             */
             $result->set_response_header($request->getResponseHeader());
             $result->set_response_cookies($request->getResponseCookies());
         }
@@ -316,180 +337,8 @@ class MediamosaRestClient extends RestClient{
         return $result;
     }
 
-    /**
-     * Send the request by using the cURL extension
-     *
-     * @return RestResult
-     */
-    protected function send_curl_request()
-    {
-        $result = new MediaMosaRestResult();
-        $result->set_request_connexion_mode($this->connexion_mode);
-        $result->set_request_http_method($this->http_method);
-        $result->set_request_sent_data($this->data_to_send);
+    
 
-        $url_info = parse_url($this->url);
-
-        if(isset($url_info['port']))
-        {
-            $url = $url_info['scheme'] . '://' . $url_info['host'] . $url_info['path'];
-
-            if(isset($url_info['query']) && strlen($url_info['query']) > 0)
-            {
-                $url .= '?' . $url_info['query'];
-            }
-
-            $result->set_request_port($url_info['port']);
-
-            $curl = curl_init($url);
-            curl_setopt($curl, CURLOPT_PORT, $url_info['port']);
-        }
-        else
-        {
-            $url = $this->url;
-
-            $curl = curl_init($url);
-        }
-
-        $result->set_request_url($url);
-
-        $headers = array();
-
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->http_method);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-        if($this->check_target_certificate)
-        {
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-
-            if(isset($this->target_ca_file))
-            {
-                curl_setopt($curl, CURLOPT_CAINFO, $this->target_ca_file);
-            }
-        }
-        else
-        {
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        }
-
-    	/*
-         * Client certificate used for authentication
-         */
-        if(isset($this->client_certificate_file))
-        {
-            curl_setopt($curl, CURLOPT_SSLCERT, $this->client_certificate_file);
-        }
-
-        /*
-         * Client certificate key used for authentication
-         */
-        if(isset($this->client_certificate_key_file))
-        {
-            curl_setopt($curl, CURLOPT_SSLKEY, $this->client_certificate_key_file);
-        }
-
-    	/*
-         * Client certificate key password used for authentication
-         */
-        if(isset($this->client_certificate_key_password))
-        {
-            curl_setopt($curl, CURLOPT_SSLKEYPASSWD, $this->client_certificate_key_password);
-        }
-
-        if(isset($this->basic_login) && isset($this->basic_password))
-        {
-            curl_setopt($curl, CURLOPT_USERPWD, $this->basic_login . ':' . $this->basic_password);
-        }
-
-        if(isset($this->data_to_send))
-        {
-            curl_setopt($curl, CURLOPT_POST, 1);
-
-            if(is_string($this->data_to_send))
-            {
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $this->data_to_send);
-            }
-            elseif(is_array($this->data_to_send))
-            {
-                if(isset($this->data_to_send['content']))
-                {
-                    /*
-                     * If $this->data_to_send is an array and the content to send
-                     * is in $this->data_to_send['content'], we use it
-                     */
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $this->data_to_send['content']);
-                }
-                elseif(isset($this->data_to_send['file']))
-                {
-                    /*
-                     * In case of a file to send, the upload works with an array.
-                     * The value of the file must begin with an '@'
-                     * e.g:
-                     * 		$this->data_to_send['file'] --> array('myDocument.pdf' => '@/path/to/file')
-                     */
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $this->data_to_send['file']);
-                }
-
-                /*
-                 * If the mime type is given as a parameter, we use it to set the content-type request
-                 */
-                if(isset($this->data_to_send['mime']))
-                {
-                    $this->data_to_send_mimetype = $this->data_to_send['mime'];
-                }
-            }
-        }
-
-        if(isset($this->data_to_send_mimetype))
-        {
-            $headers[] = 'Content-type: ' . $this->data_to_send_mimetype;
-        }
-
-        if(count($headers) > 0)
-        {
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        }
-
-        $response_content   = curl_exec($curl);
-        $response_http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $response_mime_type = curl_getinfo($curl, CURLINFO_CONTENT_TYPE);
-        $response_error     = curl_error($curl);
-
-        $result->set_response_content($response_content);
-        $result->set_response_http_code($response_http_code);
-        $result->set_response_mime_type($response_mime_type);
-
-        if(isset($response_error) && strlen($response_error) > 0)
-        {
-            $result->set_response_error($response_error);
-        }
-        elseif($response_http_code < 200 || $response_http_code >= 300)
-        {
-            $result->set_response_error('The REST request returned an HTTP error code of ' . $response_http_code . ' (' . $this->get_http_code_translation($response_http_code) . ')');
-        }
-
-        curl_close($curl);
-
-        return $result;
-    }
-
-    function set_proxy($server, $port, $username = null, $password = null)
-    {
-        $proxy = array();
-        $proxy['server'] = $server;
-        $proxy['port'] = $port;
-        
-        if($username)$proxy['username'];
-        if($password)$proxy['password'];
-
-        $this->proxy = $proxy;
-    }
-
-    function get_proxy()
-    {
-        return (is_array($this->proxy)) ? $this->proxy : false;
-    }
+    
 }
 ?>

@@ -1,20 +1,21 @@
 <?php
+
 /**
  * $Id: dokeos185_course_setting.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_course_setting.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a dokeos185 course_setting
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185CourseSetting extends Dokeos185MigrationDataClass
+class Dokeos185CourseSetting extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'course_setting';
+
     /**
      * Dokeos185CourseSetting properties
      */
@@ -27,7 +28,7 @@ class Dokeos185CourseSetting extends Dokeos185MigrationDataClass
     const PROPERTY_TITLE = 'title';
     const PROPERTY_COMMENT = 'comment';
     const PROPERTY_SUBKEYTEXT = 'subkeytext';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -37,7 +38,7 @@ class Dokeos185CourseSetting extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185CourseSetting object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185CourseSetting($defaultProperties = array ())
+    function Dokeos185CourseSetting($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -254,44 +255,41 @@ class Dokeos185CourseSetting extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the validation
      * @return true if the course setting is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+
+        if (!$this->get_id() || !($this->get_variable() || $this->get_category())) {
+            $this->create_failed_element($this->get_id());
+            return false;
+        }
+        return true;
     }
 
     /**
      * Convert to new course setting
      * @param array $array the parameters for the conversion
      * @return the new course setting
+     * @todo implementation
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+        $chamilo_setting = new Setting();
+        $chamilo_setting->set_variable($this->get_variable());
+        $chamilo_setting->set_value($this->get_value());
+        $chamilo_setting->set_application($this->get_category());
+        //
+        //$chamilo_setting->create();
     }
 
-    /**
-     * Retrieve all course settings from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of course settings
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        self :: $mgdm = $parameters['mgdm'];
-        
-        $db = $parameters['course']->get_db_name();
-        $tablename = 'course_setting';
-        $classname = 'Dokeos185CourseSetting';
-        
-        return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'course_setting';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
 }
-
 ?>

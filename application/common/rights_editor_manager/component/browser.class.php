@@ -50,7 +50,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         
         $this->action_bar = $this->get_action_bar();
         
-        $this->display_header($trail);
+        $this->display_header();
         
         $this->display_type_selector();
         

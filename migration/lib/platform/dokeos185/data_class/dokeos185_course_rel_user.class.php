@@ -4,7 +4,6 @@
  * $Id: dokeos185_course_rel_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 require_once Path :: get(SYS_PATH) . 'application/lib/weblcms/course/course_user_relation.class.php';
 
@@ -14,13 +13,12 @@ require_once Path :: get(SYS_PATH) . 'application/lib/weblcms/course/course_user
  * @author David Van Wayenberghµ
  * @author Sven Vanpoucke
  */
-
 class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
-	const TABLE_NAME = 'course_rel_user';   
-	const DATABASE_NAME = 'main_database';
-    
+    const TABLE_NAME = 'course_rel_user';
+    const DATABASE_NAME = 'main_database';
+
     /**
      * course relation user properties
      */
@@ -32,7 +30,7 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
     const PROPERTY_TUTOR_ID = 'tutor_id';
     const PROPERTY_SORT = 'sort';
     const PROPERTY_USER_COURSE_CAT = 'user_course_cat';
-    
+
     /**
      * Get the default properties of all courses.
      * @return array The property names.
@@ -45,7 +43,7 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
     /**
      * RELATION USER GETTERS AND SETTERS
      */
-    
+
     /**
      * Returns the course_code of this rel_user.
      * @return String The course_code.
@@ -124,14 +122,13 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        if (! $this->get_course_code() || ! $this->get_user_id() || $this->get_status() == NULL || $this->get_group_id() == NULL || $this->get_tutor_id() == NULL || 
-            $this->get_failed_element($this->get_course_code(), 'main_database.course') || $this->get_failed_element('main_database.user', $this->get_user_id()))
-        {
+        if (!$this->get_course_code() || !$this->get_user_id() || $this->get_status() == NULL || $this->get_group_id() == NULL || $this->get_tutor_id() == NULL ||
+                $this->get_failed_element($this->get_course_code(), 'main_database.course') || $this->get_failed_element('main_database.user', $this->get_user_id())) {
             $this->create_failed_element($this->get_user_id() . '-' . $this->get_course_code());
             $this->set_message(Translation :: get('CourseRelUserInvalidMessage', array('USER_ID' => $this->get_user_id(), 'COURSE_ID' => $this->get_course_code())));
             return false;
         }
-        
+
         return true;
     }
 
@@ -143,35 +140,30 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
     {
         //course_rel_user parameters
         $chamilo_course_rel_user = new CourseUserRelation();
-        
+
         $course_code = $this->get_id_reference($this->get_course_code(), 'main_database.course');
-        if ($course_code)
-        {
+        if ($course_code) {
             $chamilo_course_rel_user->set_course($course_code);
         }
 
         $user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
-        if ($user_id)
-        {
+        if ($user_id) {
             $chamilo_course_rel_user->set_user($user_id);
         }
-        
+
         $chamilo_course_rel_user->set_status($this->get_status());
         $chamilo_course_rel_user->set_role($this->get_role());
         $chamilo_course_rel_user->set_course_group($this->get_group_id());
         $chamilo_course_rel_user->set_tutor($this->get_tutor_id());
         $chamilo_course_rel_user->set_sort($this->get_sort());
-        
+
         $user_course_category_id = $this->get_id_reference($this->get_user_course_cat(), 'user_personal_database.user_course_category');
-        if ($user_course_category_id)
-        {
+        if ($user_course_category_id) {
             $chamilo_course_rel_user->set_category($user_course_category_id);
-        }
-        else
-        {
+        } else {
             $chamilo_course_rel_user->set_category(0);
         }
-        
+
         //create user in database
         $chamilo_course_rel_user->create();
         $this->set_message(Translation :: get('CourseRelUserConvertedMessage', array('USER_ID' => $this->get_user_id(), 'COURSE_ID' => $this->get_course_code())));
@@ -181,14 +173,15 @@ class Dokeos185CourseRelUser extends Dokeos185MigrationDataClass
     {
         return self :: TABLE_NAME;
     }
-    
+
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
-    
+
     function get_database_name()
     {
-    	return self :: DATABASE_NAME;
+        return self :: DATABASE_NAME;
     }
+
 }

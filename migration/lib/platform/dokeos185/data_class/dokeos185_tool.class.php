@@ -1,33 +1,32 @@
 <?php
+
 /**
  * $Id: dokeos185_tool.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_tool.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/weblcms_data_manager.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 Tool
  *
  * @author Van Wayenbergh David
  */
-class Dokeos185Tool extends Dokeos185MigrationDataClass
+class Dokeos185Tool extends Dokeos185CourseDataMigrationDataClass
 {
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'tool';
     /**
      * Migration data manager
      */
-    private static $mgdm;
-    
     private $convert = array('course_description' => 'description', 'calendar_event' => 'calendar', 'document' => 'document', 'learnpath' => 'learning_path', 'link' => 'link', 'announcement' => 'announcement', 'forum' => 'forum', 'dropbox' => 'dropbox', 'user' => 'user', 'group' => 'group', 'chat' => 'chat', 'tracking' => 'statics', 'course_setting' => 'course_settings', 'survey' => 'learning_style_survey', 'course_maintenance' => 'maintenance');
-    
+
     /**
      * Announcement properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_NAME = 'name';
     const PROPERTY_VISIBILITY = 'visibility';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -37,7 +36,7 @@ class Dokeos185Tool extends Dokeos185MigrationDataClass
      * Creates a new dokeos185 Tool object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185Tool($defaultProperties = array ())
+    function Dokeos185Tool($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -117,9 +116,13 @@ class Dokeos185Tool extends Dokeos185MigrationDataClass
     /**
      * Checks if tool is valid
      */
-    function is_valid($array)
+    function is_valid()
     {
-        return isset($this->convert[$this->get_name()]);
+        if (!$this->get_name()) {
+            $this->create_failed_element($this->get_id());
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -127,38 +130,25 @@ class Dokeos185Tool extends Dokeos185MigrationDataClass
      * @param String $course
      * @return dokeos185tool
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
         $value = $this->convert[$this->get_name()];
+        $new_course_id = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
         $db = WeblcmsDataManager :: get_instance();
-        $db->set_module_visible($course->get->get_title(), $value, $this->get_visibility);
-        
+        $db->set_module_visible($new_course_id, $value, $this->get_visibility());
+
         return $this;
     }
 
-    /**
-     * Get all the tools of a course
-     * @param Array $parameters
-     * @return Array of dokeos185tool
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = $parameters['course']->get_db_name();
-        $tablename = 'tool';
-        $classname = 'Dokeos185Tool';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'tool';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
 }
 ?>

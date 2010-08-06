@@ -13,7 +13,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
     
     const OBJECT_TYPE = 'mediamosa';
     
-    const PROPERTY_CONVERSION_STATE = 'conversion_state';
+    //const PROPERTY_CONVERSION_STATE = 'conversion_state';
     const PROPERTY_DATE_PUBLISHED = 'date'; //date of publishing
     const PROPERTY_DATE_CREATED = 'creation_date'; //date of creation
     const PROPERTY_PUBLISHER = 'publisher';
@@ -23,15 +23,14 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
     const PROPERTY_THUMBNAIL = 'thumbnail';
     const PROPERTY_STATUS = 'status';
     const PROPERTY_DURATION = 'duration';
-    const PROPERTY_OWNER_ID = 'owner_id';
     const PROPERTY_PROTECTED = 'protected';
     
     const STATUS_UNAVAILABLE = 'unavailable';
     const STATUS_AVAILABLE = 'available';
-    const STATE_PUBLIC = 0;
+    /*const STATE_PUBLIC = 0;
     const STATE_QUEUED = 1;
     const STATE_TRANSCODING = 2;
-    const STATE_ERRONEOUS = 3;
+    const STATE_ERRONEOUS = 3;*/
 
     static function get_default_property_names()
     {
@@ -43,7 +42,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
         return array(parent :: PROPERTY_TITLE, parent :: PROPERTY_DESCRIPTION, parent :: PROPERTY_CREATED, self :: PROPERTY_DATE_PUBLISHED, self :: PROPERTY_DATE_CREATED, self :: PROPERTY_PUBLISHER, self :: PROPERTY_CREATOR, self :: PROPERTY_DURATION);
     }
     
-    function set_conversion_state($conversion_state)
+    /*function set_conversion_state($conversion_state)
     {
         $this->set_default_property(self :: PROPERTY_CONVERSION_STATE, $conversion_state);
     }
@@ -51,7 +50,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
     function get_conversion_state()
     {
         return $this->get_default_property(self :: PROPERTY_CONVERSION_STATE);
-    }
+    }*/
 
     function set_date($date)
     {
@@ -160,16 +159,6 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
     function get_duration()
     {
         return $this->get_default_property(self :: PROPERTY_DURATION);
-    }
-
-    function set_owner_id($owner_id)
-    {
-        $this->set_default_property(self :: PROPERTY_OWNER_ID, $owner_id);
-    }
-
-    function get_owner_id()
-    {
-        return $this->get_default_property(self :: PROPERTY_OWNER_ID);
     }
 
     function set_protected($protected)

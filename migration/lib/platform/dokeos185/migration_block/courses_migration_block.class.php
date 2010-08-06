@@ -17,7 +17,7 @@ class CoursesMigrationBlock extends MigrationBlock
 	
 	function get_prerequisites()
 	{
-		return array(UsersMigrationBlock :: MIGRATION_BLOCK_NAME);
+		return array(UsersMigrationBlock :: MIGRATION_BLOCK_NAME, ClassesMigrationBlock:: MIGRATION_BLOCK_NAME);
 	}
 	
 	function get_data_classes()

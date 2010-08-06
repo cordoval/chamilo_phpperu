@@ -64,7 +64,10 @@ class RestResult
 	*/ 
 	private $response_error;
 	
-	
+	private $response_header;
+
+        private $response_cookies;
+        
 	/****************************************************************************************/
     
 	function RestResult() 
@@ -298,7 +301,32 @@ class RestResult
 	
 	
 	/****************************************************************************************/
-	
-	
+	 function set_response_header($response_header)
+    {
+        $this->response_header = $response_header;
+    }
+
+    function get_response_header()
+    {
+        return $this->response_header;
+    }
+
+    /*
+     * sets cookies
+     * @param cookies
+     */
+    function set_response_cookies($response_cookies)
+    {
+        $this->response_cookies = $response_cookies;
+    }
+
+    /*
+     * gets reponse_cookies
+     * @return cookies
+     */
+    function get_response_cookies()
+    {
+        return isset($this->response_cookies) ? $this->response_cookies : false;
+    }
 }
 ?>
