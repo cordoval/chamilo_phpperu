@@ -131,6 +131,7 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
 
     function get_preview($is_thumbnail = false)
     {
+        $this->set_mediamosa_object();
         $object = $this->get_content_object();
 
         if ($is_thumbnail)
@@ -141,11 +142,6 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
             }
             
          }
-        else
-        {
-            $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
-            return '<img src="' . $url . '" alt="" style="max-width: 800px; border: 1px solid #f0f0f0;"/>';
-        }
     }
 }
 ?>

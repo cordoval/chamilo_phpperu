@@ -7,7 +7,6 @@ class StreamingVideoClip extends ContentObject implements Versionable
     
     const PROPERTY_PUBLISHER = 'publisher';
     const PROPERTY_CREATOR = 'creator';
-    const PROPERTY_THUMBNAIL_URL = 'thumbnail_url';
 
     const CLASS_NAME = __CLASS__;
 
@@ -43,15 +42,7 @@ class StreamingVideoClip extends ContentObject implements Versionable
         return $this->get_additional_property(self :: PROPERTY_CREATOR);
     }
 
-    function set_thumbnail_url($thumbnail)
-    {
-        $this->set_additional_property(self :: PROPERTY_THUMBNAIL_URL, $thumbnail);
-    }
-
-    function get_thumbnail_url()
-    {
-        return $this->get_additional_property(self :: PROPERTY_THUMBNAIL_URL);
-    }
+    
     
 //    /**
 //     * @return ExternalRepository
