@@ -149,13 +149,13 @@ class Dokeos185ItemProperty extends DataClass
 
     function get_data_manager() 
     {
-		return Dokeos185DataManager :: get_instance();	
-	}
+	return Dokeos185DataManager :: get_instance();	
+    }
 	
-	function get_table_name()
-	{
-		return self :: TABLE_NAME;
-	}
+    static function get_table_name()
+    {
+	return self :: TABLE_NAME;
+    }
 
 }
 ?>
