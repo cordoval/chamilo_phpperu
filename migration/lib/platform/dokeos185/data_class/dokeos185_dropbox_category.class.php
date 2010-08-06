@@ -1,10 +1,11 @@
 <?php
+
 /**
  * $Id: dokeos185_dropbox_category.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
+
 /**
  * This class presents a Dokeos185 dropbox_category
  *
@@ -23,7 +24,7 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_RECEIVED = 'received';
     const PROPERTY_SENT = 'sent';
     const PROPERTY_USER_ID = 'user_id';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -33,7 +34,7 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
      * Creates a new Dokeos185DropboxCategory object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185DropboxCategory($defaultProperties = array ())
+    function Dokeos185DropboxCategory($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -144,12 +145,11 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (! $this->get_cat_name())
-        {
+        if (!$this->get_cat_name()) {
             $this->create_failed_element($this->get_cat_id());
             return false;
         }
-        
+
         return true;
     }
 
@@ -180,17 +180,16 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
         $chamilo_course_dropbox_category->set_parent($category->get_id());
         $chamilo_course_dropbox_category->set_course($new_course_code);
         $chamilo_course_dropbox_category->set_tool('document');
-        
+
         //create course_category in database
         $chamilo_course_dropbox_category->create();
-        
+
         //Add id references to temp table
         $this->create_id_reference($this->get_cat_id(), $chamilo_course_dropbox_category->get_id());
-        
+
         return $chamilo_course_dropbox_category;
     }
-    
-    
+
     static function get_table_name()
     {
         return self :: TABLE_NAME;
@@ -198,9 +197,8 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
 
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
 
 }
-
 ?>

@@ -4,7 +4,6 @@
  * $Id: dokeos185_calendar_event.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
@@ -16,7 +15,7 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'calendar_event';
-    
+
     /**
      * Calendar event properties
      */
@@ -25,7 +24,7 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_CONTENT = 'content';
     const PROPERTY_START_DATE = 'start_date';
     const PROPERTY_END_DATE = 'end_date';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -35,7 +34,7 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
      * Creates a new dokeos185 Calender Event object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185CalendarEvent($defaultProperties = array ())
+    function Dokeos185CalendarEvent($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -141,9 +140,8 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
 
         //$old_mgdm = $array['old_mgdm'];
         //$this->item_property = $old_mgdm->get_item_property($course->get_db_name(), 'calendar_event', $this->get_id());
-        
-        if (! $this->get_id() || ! ($this->get_title() || $this->get_content()) || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! $this->get_item_property()->get_insert_date())
-    {
+
+        if (!$this->get_id() || !($this->get_title() || $this->get_content()) || !$this->get_item_property() || !$this->get_item_property()->get_ref() || !$this->get_item_property()->get_insert_date()) {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'calendar_event', 'ID' => $this->get_id())));
             return false;
@@ -161,45 +159,44 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
         $course = $this->get_course();
         $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
-        
-        if (! $new_user_id)
-        {
+
+        if (!$new_user_id) {
             $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
-        
+
         //calendar event parameters
         $chamilo_calendar_event = new CalendarEvent();
-        
+
         $chamilo_calendar_event->set_start_date($this->get_data_manager()->make_unix_time($this->get_start_date()));
         $chamilo_calendar_event->set_end_date($this->get_data_manager()->make_unix_time($this->get_end_date()));
-        
+
         // Category for calendar_events already exists?
         $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('calendar_events'));
 
         $chamilo_calendar_event->set_parent_id($chamilo_category_id);
-        
-        if (! $this->get_title())
+
+        if (!$this->get_title())
             $chamilo_calendar_event->set_title(substr($this->get_content(), 0, 20));
         else
             $chamilo_calendar_event->set_title($this->get_title());
-        
-        if (! $this->get_content())
+
+        if (!$this->get_content())
             $chamilo_calendar_event->set_description($this->get_title());
         else
             $chamilo_calendar_event->set_description($this->get_content());
-        
+
         $chamilo_calendar_event->set_owner_id($new_user_id);
         $chamilo_calendar_event->set_creation_date($this->get_data_manager()->make_unix_time($this->get_item_property()->get_insert_date()));
         $chamilo_calendar_event->set_modification_date($this->get_data_manager()->make_unix_time($this->get_item_property()->get_lastedit_date()));
-        
+
         if ($this->get_item_property()->get_visibility() == 2)
             $chamilo_calendar_event->set_state(1);
-            
+
         //create announcement in database
         $chamilo_calendar_event->create_all();
-        
+
         //publication
-        
+
         $this->create_publication($chamilo_calendar_event, $new_course_code, $new_user_id, 'calendar');
 
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'calendar_event', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_calendar_event->get_id())));
@@ -239,7 +236,8 @@ class Dokeos185CalendarEvent extends Dokeos185CourseDataMigrationDataClass
 
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
+
 }
 ?>

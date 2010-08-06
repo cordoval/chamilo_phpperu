@@ -4,7 +4,6 @@
  * $Id: dokeos185_class.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
 /**
@@ -13,21 +12,19 @@ require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
  * @author David Van Wayenberghµ
  * @author Sven Vanpoucke
  */
-
 class Dokeos185Class extends Dokeos185MigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
-	const TABLE_NAME = 'class';   
-	const DATABASE_NAME = 'main_database';
-	 
+    const TABLE_NAME = 'class';
+    const DATABASE_NAME = 'main_database';
+
     /**
      * course relation user properties
      */
-    
     const PROPERTY_ID = 'id';
     const PROPERTY_CODE = 'code';
     const PROPERTY_NAME = 'name';
- 
+
     /**
      * Default properties of the class object, stored in an associative
      * array.
@@ -76,9 +73,8 @@ class Dokeos185Class extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-    	$mgdm = MigrationDataManager :: get_instance();
-        if (!$this->get_name())
-        {
+        $mgdm = MigrationDataManager :: get_instance();
+        if (!$this->get_name()) {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'class', 'ID' => $this->get_id())));
             return false;
@@ -93,44 +89,42 @@ class Dokeos185Class extends Dokeos185MigrationDataClass
     function convert_data()
     {
         $chamilo_class = new Group();
-        
+
         $chamilo_class->set_name($this->get_name());
-        
-        if ($this->get_code())
-        {
+
+        if ($this->get_code()) {
             $chamilo_class->set_code($this->get_code());
-        }
-        else
-        {
+        } else {
             $code = strtoupper(str_replace(' ', '', $this->get_name()));
-        	$chamilo_class->set_code($code);
+            $chamilo_class->set_code($code);
         }
-        
- 		$chamilo_class->set_description($this->get_name());
- 		$chamilo_class->set_parent(GroupDataManager :: get_root_group()->get_id());
-        
+
+        $chamilo_class->set_description($this->get_name());
+        $chamilo_class->set_parent(GroupDataManager :: get_root_group()->get_id());
+
         //create course in database
         $chamilo_class->create();
-        
+
         //Add id references to temp table
         $this->create_id_reference($this->get_id(), $chamilo_class->get_id());
-        
+
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'class', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_class->get_id())));
     }
 
-	static function get_table_name()
+    static function get_table_name()
     {
         return self :: TABLE_NAME;
     }
-    
+
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
-    
+
     function get_database_name()
     {
-    	return self :: DATABASE_NAME;
+        return self :: DATABASE_NAME;
     }
+
 }
 ?>

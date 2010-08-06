@@ -1,9 +1,9 @@
 <?php
+
 /**
  * $Id: dokeos185_dropbox_feedback.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
@@ -13,7 +13,6 @@ require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class
  */
 class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
 {
-
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'dropbox_feedback';
     /**
@@ -24,7 +23,7 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_AUTHOR_USER_ID = 'author_user_id';
     const PROPERTY_FEEDBACK = 'feedback';
     const PROPERTY_FEEDBACK_DATE = 'feedback_date';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -34,7 +33,7 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
      * Creates a new Dokeos185DropboxFeedback object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185DropboxFeedback($defaultProperties = array ())
+    function Dokeos185DropboxFeedback($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -137,8 +136,7 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
     {
         //$this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'dropbox', $this->get_feedback_id())); //no instance in item_property table dokeos185
 
-        if (! $this->get_feedback_id() || ! $this->get_feedback() || ! $this->get_feedback_date())
-        {
+        if (!$this->get_feedback_id() || !$this->get_feedback() || !$this->get_feedback_date()) {
             $this->create_failed_element($this->get_feedback_id());
             return false;
         }
@@ -154,25 +152,24 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
     {
         $new_user_id = $this->get_id_reference($this->get_author_user_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
-        $feedback_content_object_id=$this->get_id_reference($this->get_file_id(), $this->get_database_name() . '.dropbox_file'); //repository content object item to which it refers in old dokeos
+        $feedback_content_object_id = $this->get_id_reference($this->get_file_id(), $this->get_database_name() . '.dropbox_file'); //repository content object item to which it refers in old dokeos
 
-        if (! $new_user_id)
-        {
+        if (!$new_user_id) {
             $new_user_id = $this->get_owner($new_course_code);
         }
 
         //dropbox_feedback parameters
         $chamilo_course_dropbox_feedback = new Feedback();
-        
+
         // Category for dropbox already exists?
         $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Documents'));
 
         $chamilo_course_dropbox_feedback->set_parent_id($chamilo_category_id);
-        
-        
+
+
         $chamilo_course_dropbox_feedback->set_title(substr($this->get_feedback(), 0, 20));
         $chamilo_course_dropbox_feedback->set_description($this->get_feedback());
-        
+
         $chamilo_course_dropbox_feedback->set_owner_id($new_user_id);
         $chamilo_course_dropbox_feedback->set_creation_date(strtotime($this->get_feedback_date()));
         $chamilo_course_dropbox_feedback->set_modification_date(strtotime($this->get_feedback_date()));
@@ -194,7 +191,7 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
         $feedback_publication->set_creation_date(strtotime($chamilo_course_dropbox_feedback->get_creation_date()));
         $feedback_publication->set_modification_date(strtotime($chamilo_course_dropbox_feedback->get_modification_date()));
         $feedback_publication->create();
-        
+
         return $chamilo_course_dropbox_feedback;
     }
 
@@ -205,8 +202,8 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
 
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
-}
 
+}
 ?>

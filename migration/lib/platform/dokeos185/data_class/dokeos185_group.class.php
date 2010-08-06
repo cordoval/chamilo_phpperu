@@ -4,7 +4,6 @@
  * $Id: dokeos185_group.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
@@ -14,7 +13,6 @@ require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class
  */
 class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
 {
-    
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'group_info';
 
@@ -33,7 +31,7 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
     const PROPERTY_SECRET_DIRECTORY = 'secret_directory';
     const PROPERTY_self_REGISTRATION_ALLOWED = 'self_registration_allowed';
     const PROPERTY_self_UNREGISTRATION_ALLOWED = 'self_unregistration_allowed';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -43,7 +41,7 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
      * Creates a new dokeos185 Announcement object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185Group($defaultProperties = array ())
+    function Dokeos185Group($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -209,12 +207,11 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
     function is_valid()
     {
 
-        if (! $this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL)
-        {
+        if (!$this->get_name() || $this->get_self_registration_allowed() == NULL || $this->get_self_unregistration_allowed() == NULL) {
             $this->create_failed_element($this->get_id());
             return false;
         }
-        
+
         return true;
     }
 
@@ -227,29 +224,27 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
-        
+
         $chamilo_lcms_group = new CourseGroup();
         $chamilo_lcms_group->set_course_code($new_course_code);
         $chamilo_lcms_group->set_name($this->get_name());
         $chamilo_lcms_group->set_max_number_of_members($this->get_max_student());
-        
-        if ($this->get_description())
-        {
+
+        if ($this->get_description()) {
             $chamilo_lcms_group->set_description($this->get_description());
-        }
-        else
-        {
+        } else {
             $chamilo_lcms_group->set_description($this->get_name());
         }
-        
+
         $chamilo_lcms_group->set_self_registration_allowed($this->get_self_registration_allowed());
         $chamilo_lcms_group->set_self_unregistration_allowed($this->get_self_unregistration_allowed());
         $chamilo_lcms_group->create();
 
         $this->create_id_reference($this->get_id(), $chamilo_lcms_group->get_id());
-                
+
         return $chamilo_lcms_group;
     }
+
     static function get_table_name()
     {
         return self :: TABLE_NAME;
@@ -257,7 +252,7 @@ class Dokeos185Group extends Dokeos185CourseDataMigrationDataClass
 
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
 
 }

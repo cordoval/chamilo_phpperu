@@ -11,7 +11,8 @@ require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
+class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass
+{
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'course_description';
     /**
@@ -32,7 +33,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * @param array $defaultProperties The default properties of the course description
      *                                 object. Associative array.
      */
-    function Dokeos185CourseDescription($defaultProperties = array()) {
+    function Dokeos185CourseDescription($defaultProperties = array())
+    {
         $this->defaultProperties = $defaultProperties;
     }
 
@@ -40,7 +42,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * Gets a default property of this course description object by name.
      * @param string $name The name of the property.
      */
-    function get_default_property($name) {
+    function get_default_property($name)
+    {
         return $this->defaultProperties[$name];
     }
 
@@ -48,7 +51,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * Gets the default properties of this course description.
      * @return array An associative array containing the properties.
      */
-    function get_default_properties() {
+    function get_default_properties()
+    {
         return $this->defaultProperties;
     }
 
@@ -56,7 +60,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * Get the default properties of all link categories.
      * @return array The property names.
      */
-    static function get_default_property_names() {
+    static function get_default_property_names()
+    {
         return array(self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_CONTENT);
     }
 
@@ -65,7 +70,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * @param string $name The name of the property.
      * @param mixed $value The new value for the property.
      */
-    function set_default_property($name, $value) {
+    function set_default_property($name, $value)
+    {
         $this->defaultProperties[$name] = $value;
     }
 
@@ -73,7 +79,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * Sets the default properties of this link.
      * @param array $defaultProperties An associative array containing the properties.
      */
-    function set_default_properties($defaultProperties) {
+    function set_default_properties($defaultProperties)
+    {
         return $this->defaultProperties = $defaultProperties;
     }
 
@@ -81,7 +88,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * Returns the id of this course description.
      * @return int The id.
      */
-    function get_id() {
+    function get_id()
+    {
         return $this->get_default_property(self :: PROPERTY_ID);
     }
 
@@ -89,7 +97,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * Returns the title of this course description.
      * @return String The title.
      */
-    function get_title() {
+    function get_title()
+    {
         return $this->get_default_property(self :: PROPERTY_TITLE);
     }
 
@@ -97,7 +106,8 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * Returns the content of this course content.
      * @return String The content.
      */
-    function get_content() {
+    function get_content()
+    {
         return $this->get_default_property(self :: PROPERTY_CONTENT);
     }
 
@@ -106,10 +116,11 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * @param Course $Course the course where the description belongs to
      * @return true if the course description is valid 
      */
-    function is_valid() {
+    function is_valid()
+    {
 
         if (!$this->get_id() || !($this->get_title() || $this->get_content())) {
-            $this->add_failed_element($this->get_id());
+            $this->create_failed_element($this->get_id());
             return false;
         }
         return true;
@@ -120,18 +131,19 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
      * @param Course $Course the course where the description belongs to
      * @return the new course description
      */
-    function convert_data() {
-        $chamilo_course_description = new Description();
+    function convert_data()
+    {
+        $chamilo_description = new Description();
 
         if (!$this->get_title())
-            $chamilo_course_description->set_title(substr($this->get_content(), 0, 20));
+            $chamilo_description->set_title(substr($this->get_content(), 0, 20));
         else
-            $chamilo_course_description->set_title($this->get_title());
+            $chamilo_description->set_title($this->get_title());
 
         if (!$this->get_content())
-            $chamilo_course_description->set_description($this->get_title());
+            $chamilo_description->set_description($this->get_title());
         else
-            $chamilo_course_description->set_description($this->get_content());
+            $chamilo_description->set_description($this->get_content());
 
         $new_user_id = $this->get_id_reference($this->get_data_manager()->get_admin_id(), 'main_database.user');
         $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
@@ -139,20 +151,20 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
         // Category for contents already exists?
         $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('descriptions'));
 
-        $chamilo_course_description->set_parent_id($chamilo_category_id);
+        $chamilo_description->set_parent_id($chamilo_category_id);
 
-        $chamilo_course_description->set_owner_id($new_user_id);
+        $chamilo_description->set_owner_id($new_user_id);
 
         //create in chamilo db
-        $chamilo_course_description->create();
+        $chamilo_description->create();
 
         //create publication: To get visbility status, the dokeos185_tool table needs to be converted! (normally this status is retrieved in item property)
-        //$this->create_publication($chamilo_course_description, $new_course_code, $new_user_id, 'description');
+        //$this->create_publication($chamilo_description, $new_course_code, $new_user_id, 'description');
 
         $publication = new ContentObjectPublication();
 
-        $publication->set_content_object($chamilo_course_description);
-        $publication->set_content_object_id($chamilo_course_description->get_id());
+        $publication->set_content_object($chamilo_description);
+        $publication->set_content_object_id($chamilo_description->get_id());
         $publication->set_course_id($new_course_code);
         $publication->set_publisher_id($new_user_id);
         $publication->set_tool('description');
@@ -173,14 +185,16 @@ class Dokeos185CourseDescription extends Dokeos185CourseDataMigrationDataClass {
         //$publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
         $publication->create();
 
-        return $chamilo_course_description;
+        return $chamilo_description;
     }
 
-    static function get_table_name() {
+    static function get_table_name()
+    {
         return self :: TABLE_NAME;
     }
 
-    static function get_class_name() {
+    static function get_class_name()
+    {
         return self :: CLASS_NAME;
     }
 
