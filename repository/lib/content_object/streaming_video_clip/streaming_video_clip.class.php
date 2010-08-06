@@ -17,7 +17,7 @@ class StreamingVideoClip extends ContentObject implements Versionable
 
     static function get_additional_property_names()
     {
-        return array(self :: PROPERTY_CREATOR, self :: PROPERTY_PUBLISHER, self :: PROPERTY_THUMBNAIL_URL);
+        return array(self :: PROPERTY_CREATOR, self :: PROPERTY_PUBLISHER);
     }
 
 

@@ -136,12 +136,8 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
 
         if ($is_thumbnail)
         {
-            if($object->get_thumbnail_url())
-            {
                 return '<img src="' . $this->mediamosa_object->get_thumbnail() . '" title="' . $object->get_title() . '" class="thumbnail" />';
-            }
-            
-         }
+        }
     }
 }
 ?>
