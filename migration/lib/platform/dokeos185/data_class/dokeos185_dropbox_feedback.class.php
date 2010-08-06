@@ -4,19 +4,18 @@
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_dropbox_feedback.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/feedback/feedback.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 dropbox_feedback
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185DropboxFeedback extends Dokeos185MigrationDataClass
+class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
+
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'dropbox_feedback';
     /**
      * Dokeos185DropboxFeedback properties
      */
@@ -134,13 +133,13 @@ class Dokeos185DropboxFeedback extends Dokeos185MigrationDataClass
      * Check if the dropbox feedback is valid
      * @param array $array the parameters for the validation
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
-        $mgdm = MigrationDataManager :: get_instance();
+        //$this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'dropbox', $this->get_feedback_id())); //no instance in item_property table dokeos185
+
         if (! $this->get_feedback_id() || ! $this->get_feedback() || ! $this->get_feedback_date())
         {
-            $mgdm->add_failed_element($this->get_feedback_id(), $course->get_db_name() . '.dropbox_feedback');
+            $this->create_failed_element($this->get_feedback_id());
             return false;
         }
         return true;
@@ -151,76 +150,62 @@ class Dokeos185DropboxFeedback extends Dokeos185MigrationDataClass
      * @param array $courses the parameters for the conversion
      * @return the new dropbox feedback
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $courses['course'];
-        $mgdm = MigrationDataManager :: get_instance();
-        $new_user_id = $mgdm->get_id_reference($this->get_author_user_id(), 'user_user');
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
-        
+        $new_user_id = $this->get_id_reference($this->get_author_user_id(), 'main_database.user');
+        $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
+        $feedback_content_object_id=$this->get_id_reference($this->get_file_id(), $this->get_database_name() . '.dropbox_file'); //repository content object item to which it refers in old dokeos
+
         if (! $new_user_id)
         {
-            $new_user_id = $mgdm->get_owner($new_course_code);
+            $new_user_id = $this->get_owner($new_course_code);
         }
-        
+
         //dropbox_feedback parameters
-        $lcms_dropbox_feedback = new Feedback();
+        $chamilo_course_dropbox_feedback = new Feedback();
         
         // Category for dropbox already exists?
-        $lcms_category_id = $mgdm->get_parent_id($new_user_id, 'dropbox', Translation :: get('dropboxes'));
-        if (! $lcms_category_id)
-        {
-            //Create category for tool in lcms
-            $lcms_repository_category = new RepositoryCategory();
-            $lcms_repository_category->set_user_id($new_user_id);
-            $lcms_repository_category->set_name(Translation :: get('DropboxFeedback'));
-            $lcms_repository_category->set_parent(0);
-            
-            //Create category in database
-            $lcms_repository_category->create();
-            
-            $lcms_dropbox_feedback->set_parent_id($lcms_repository_category->get_id());
-        }
-        else
-        {
-            $lcms_dropbox_feedback->set_parent_id($lcms_category_id);
-        }
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Documents'));
+
+        $chamilo_course_dropbox_feedback->set_parent_id($chamilo_category_id);
         
-        $lcms_dropbox_feedback->set_title(substr($this->get_feedback(), 0, 20));
-        $lcms_dropbox_feedback->set_description($this->get_feedback());
         
-        $lcms_dropbox_feedback->set_owner_id($new_user_id);
-        $lcms_dropbox_feedback->set_creation_date($mgdm->make_unix_time($this->get_feedback_date()));
-        $lcms_dropbox_feedback->set_modification_date($mgdm->make_unix_time($this->get_feedback_date()));
+        $chamilo_course_dropbox_feedback->set_title(substr($this->get_feedback(), 0, 20));
+        $chamilo_course_dropbox_feedback->set_description($this->get_feedback());
         
-        //create announcement in database
-        $lcms_dropbox_feedback->create_all();
+        $chamilo_course_dropbox_feedback->set_owner_id($new_user_id);
+        $chamilo_course_dropbox_feedback->set_creation_date(strtotime($this->get_feedback_date()));
+        $chamilo_course_dropbox_feedback->set_modification_date(strtotime($this->get_feedback_date()));
+
+
+        //create feedback in database
+        $chamilo_course_dropbox_feedback->create_all();
+
+        //attach it to a publication
+        $feedback_publication = new FeedbackPublication();
+        $feedback_publication->set_application('weblcms');
+        $feedback_publication->set_fid($chamilo_course_dropbox_feedback->get_id());
+
+        //feedback is attached to publication, not to content object itself
+        $condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, $feedback_content_object_id);
+        $publication = WeblcmsDataManager::get_instance()->retrieve_content_object_publications($condition)->next_result();
+
+        $feedback_publication->set_pid($publication->get_id());
+        $feedback_publication->set_creation_date(strtotime($chamilo_course_dropbox_feedback->get_creation_date()));
+        $feedback_publication->set_modification_date(strtotime($chamilo_course_dropbox_feedback->get_modification_date()));
+        $feedback_publication->create();
         
-        return $lcms_dropbox_feedback;
+        return $chamilo_course_dropbox_feedback;
     }
 
-    /**
-     * Retrieve all dropbox feedbacks from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of dropbox feedbacks
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'dropbox_feedback';
-        $classname = 'Dokeos185DropboxFeedback';
-        
-        return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'dropbox_feedback';
-        return $array;
+    	return self :: CLASS_NAME;
     }
 }
 

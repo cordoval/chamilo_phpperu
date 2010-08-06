@@ -50,6 +50,7 @@ class FeedbackManagerCreatorComponent extends FeedbackManager
 
             $message = 'FeedbackCreated';
             $redirect = $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => $this->get_parameter(self::PARAM_OLD_ACTION), RepoViewer :: PARAM_ACTION => null));
+        }
 
     }
 }

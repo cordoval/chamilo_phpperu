@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . '/../course_data_migration_block.class.php';
 require_once dirname(__FILE__) . '/../data_class/dokeos185_dropbox_category.class.php';
 require_once dirname(__FILE__) . '/../data_class/dokeos185_dropbox_file.class.php';
+require_once dirname(__FILE__) . '/../data_class/dokeos185_dropbox_feedback.class.php';
 
 class CourseDropboxesMigrationBlock extends CourseDataMigrationBlock
 {
@@ -19,7 +20,7 @@ class CourseDropboxesMigrationBlock extends CourseDataMigrationBlock
 	
 	function get_course_data_classes()
 	{
-		return array(new Dokeos185DropboxCategory(), new Dokeos185DropboxFile());
+		return array(new Dokeos185DropboxCategory(), new Dokeos185DropboxFile(), new Dokeos185DropboxFeedback());
 	}
 }
 
