@@ -129,5 +129,23 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
             }
         }
 
+    function get_preview($is_thumbnail = false)
+    {
+        $object = $this->get_content_object();
+
+        if ($is_thumbnail)
+        {
+            if($object->get_thumbnail_url())
+            {
+                return '<img src="' . $this->mediamosa_object->get_thumbnail() . '" title="' . $object->get_title() . '" class="thumbnail" />';
+            }
+            
+         }
+        else
+        {
+            $url = Path :: get(WEB_PATH) . RepositoryManager :: get_document_downloader_url($object->get_id());
+            return '<img src="' . $url . '" alt="" style="max-width: 800px; border: 1px solid #f0f0f0;"/>';
+        }
+    }
 }
 ?>

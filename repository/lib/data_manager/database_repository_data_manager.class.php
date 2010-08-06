@@ -47,6 +47,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     // Inherited.
     function retrieve_content_object($id, $type = null)
     {
+        
         if (! isset($id) || strlen($id) == 0 || $id == DataClass :: NO_UID)
         {
             return null;
