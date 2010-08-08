@@ -36,7 +36,7 @@ class EncyclopediaItemForm extends ContentObjectForm
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         
-        $this->addElement('image_selecter', EncyclopediaItem :: PROPERTY_IMAGE, Translation :: get('Image'), $url, $locale);
+        $this->addElement('image_selecter', EncyclopediaItem :: ATTACHMENT_IMAGE, Translation :: get('Image'), $url, $locale);
         
         $this->addElement('textarea', EncyclopediaItem :: PROPERTY_TAGS, Translation :: get('Tags'), array('cols' => '70', 'rows' => '5'));
         $this->addRule(EncyclopediaItem :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -47,7 +47,7 @@ class EncyclopediaItemForm extends ContentObjectForm
         $content_object = $this->get_content_object();
         if (isset($content_object))
         {
-        	$defaults[EncyclopediaItem :: PROPERTY_IMAGE] = $content_object->get_image();
+        	$defaults[EncyclopediaItem :: ATTACHMENT_IMAGE] = $content_object->get_image(true);
         	$defaults[EncyclopediaItem :: PROPERTY_TAGS] = $content_object->get_tags();
         }
         parent :: setDefaults($defaults);
@@ -58,7 +58,9 @@ class EncyclopediaItemForm extends ContentObjectForm
         $object = new EncyclopediaItem();
         $this->fill_properties($object);
         parent :: set_content_object($object);
-        return parent :: create_content_object();
+        $object = parent :: create_content_object();
+        $object->set_images($this->exportValue(EncyclopediaItem :: ATTACHMENT_IMAGE));
+        return $object;
     }
 
     function update_content_object()
@@ -66,12 +68,13 @@ class EncyclopediaItemForm extends ContentObjectForm
         $object = $this->get_content_object();
         $this->fill_properties($object);
         parent :: set_content_object($object);
-        return parent :: update_content_object();
+        parent :: update_content_object();
+        $object->set_images($this->exportValue(EncyclopediaItem :: ATTACHMENT_IMAGE));
+        return true;
     }
 
     private function fill_properties($object)
     {
-    	$object->set_image($this->exportValue(EncyclopediaItem :: PROPERTY_IMAGE));
     	$object->set_tags($this->exportValue(EncyclopediaItem :: PROPERTY_TAGS));
     }
 }

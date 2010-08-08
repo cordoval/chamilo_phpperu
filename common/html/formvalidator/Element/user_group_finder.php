@@ -21,23 +21,22 @@ class HTML_QuickForm_user_group_finder extends HTML_QuickForm_element_finder
     function getValue()
     {
         $results = array();
-//        $results['user'] = array();
-//        $results['group'] = array();
-//        $results['platform'] = array();
-
         $values = $this->get_active_elements();
-
-        // Process the array values so we end up with a 2-dimensional array (users and groups)
-
+        
+        /**
+         * Process the array values so we end up with a 2-dimensional array
+         * Keys are the selection type, values are the selected objects
+         */
+        
         foreach ($values as $value)
         {
             $value = explode('_', $value['id']);
-
-            if (!isset($results[$value[0]]) || !is_array($results[$value[0]]))
+            
+            if (! isset($results[$value[0]]) || ! is_array($results[$value[0]]))
             {
                 $results[$value[0]] = array();
             }
-
+            
             $results[$value[0]][] = $value[1];
         }
         

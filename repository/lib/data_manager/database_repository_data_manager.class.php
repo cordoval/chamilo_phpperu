@@ -109,8 +109,8 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
             $max_objects = null;
         }
         
-        //dump($query);
-        //dump($params);
+        //        dump($query);
+        //        dump($params);
         
 
         $this->set_limit(intval($max_objects), intval($offset));
@@ -456,11 +456,46 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return ($count == 1 ? true : false);
     }
 
+    /**
+     * @param Condition $condition
+     * @return Array
+     */
+    function retrieve_attached_content_object_ids(Condition $condition)
+    {
+        return $this->retrieve_distinct(ContentObjectAttachment :: get_table_name(), ContentObjectAttachment :: PROPERTY_ATTACHMENT_ID, $condition);
+    }
+
+    /**
+     * @param Condition $condition
+     * @return boolean|ContentObject
+     */
+    function retrieve_attached_content_object(Condition $condition)
+    {
+        $attachment_ids = $this->retrieve_attached_content_object_ids($condition);
+        
+        if (count($attachment_ids) != 1)
+        {
+            return false;
+        }
+        else
+        {
+            return $this->retrieve_content_object($attachment_ids[0]);
+        }
+    }
+
     // Inherited.
     function retrieve_attached_content_objects(Condition $condition)
     {
-        $subselect_condition = new SubselectCondition(ContentObject :: PROPERTY_ID, ContentObjectAttachment :: PROPERTY_ATTACHMENT_ID, ContentObjectAttachment :: get_table_name(), $condition, ContentObject :: get_table_name());
-        return $this->retrieve_content_objects($subselect_condition)->as_array();
+        $attachment_ids = $this->retrieve_attached_content_object_ids($condition);
+        
+        // Add non-existing element to avoid problems with 
+        if (count($attachment_ids) == 0)
+        {
+            $attachment_ids[] = - 1;
+        }
+        
+        $object_condition = new InCondition(ContentObject :: PROPERTY_ID, $attachment_ids, ContentObject :: get_table_name());
+        return $this->retrieve_content_objects($object_condition)->as_array();
     }
 
     function count_objects_to_which_object_is_attached($object)
@@ -573,7 +608,14 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $props[ContentObjectAttachment :: PROPERTY_ATTACHMENT_ID] = $attachment_id;
         $props[ContentObjectAttachment :: PROPERTY_TYPE] = $type;
         $this->get_connection()->loadModule('Extended');
-        $this->get_connection()->extended->autoExecute($this->get_table_name(ContentObjectAttachment :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
+        if ($this->get_connection()->extended->autoExecute($this->get_table_name(ContentObjectAttachment :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     // Inherited.
@@ -582,6 +624,17 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
         $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_ATTACHMENT_ID, $attachment_id);
+        $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_TYPE, $type);
+        $condition = new AndCondition($conditions);
+        
+        return $this->delete_content_object_attachments($condition);
+    }
+    
+    // Inherited.
+    function detach_content_objects($object, $type)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_CONTENT_OBJECT_ID, $object->get_id());
         $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_TYPE, $type);
         $condition = new AndCondition($conditions);
         
