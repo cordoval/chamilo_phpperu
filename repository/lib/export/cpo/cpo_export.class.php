@@ -334,16 +334,26 @@ class CpoExport extends ContentObjectExport
         }
 
         //Attachments
+        $condition = new EqualityCondition(ContentObjectAttachment::PROPERTY_CONTENT_OBJECT_ID, $content_object->get_id());
+        $content_object_attachments = RepositoryDataManager :: get_instance()->retrieve_content_object_attachments($condition);
         $attachments = $content_object->get_attached_content_objects();
-        if (count($attachments) > 0)
+        if ($content_object_attachments->size() > 0)
         {
             $attachments_element = $doc->createElement('attachments');
             $lo->appendChild($attachments_element);
 
-            foreach ($attachments as $attachment)
+            while ($content_object_attachment = $content_object_attachments->next_result())
             {
+                $attachment = $content_object_attachment->get_attachment_object();
+                
                 $attachment_element = $doc->createElement('attachment');
                 $attachments_element->appendChild($attachment_element);
+                
+                $type = $doc->createAttribute('type');
+                $attachment_element->appendChild($type);
+                
+                $type_value = $doc->createTextNode($content_object_attachment->get_type());
+                $type->appendChild($type_value);
 
                 $id_ref = $doc->createAttribute('idref');
                 $attachment_element->appendChild($id_ref);

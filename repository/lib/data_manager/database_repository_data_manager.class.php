@@ -511,6 +511,11 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         $condition = new SubselectCondition(ContentObject :: PROPERTY_ID, 'content_object_id', 'content_object_attachment', $subselect_condition, ContentObject :: get_table_name());
         return $this->retrieve_content_objects($condition);
     }
+    
+    function retrieve_content_object_attachments($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(ContentObjectAttachment :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
 
     function count_objects_in_which_object_is_included($object)
     {

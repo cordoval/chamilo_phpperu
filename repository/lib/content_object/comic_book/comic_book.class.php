@@ -587,5 +587,15 @@ class ComicBook extends ContentObject implements Versionable
         $this->truncate_attachments(self :: ATTACHMENT_COVER);
         $this->attach_content_objects($covers, self :: ATTACHMENT_COVER);
     }
+    
+    function has_covers()
+    {
+        return count($this->get_covers(true)) > 0;
+    }
+    
+    function get_first_cover()
+    {
+        return array_shift($this->get_covers());
+    }
 }
 ?>

@@ -437,7 +437,8 @@ class CpoImport extends ContentObjectImport
 		                    continue;
 		                
 		                $idref = $attachment->getAttribute('idref');
-		                $this->lo_attachments[$id][] = $idref;
+		                $type = $attachment->getAttribute('type');
+		                $this->lo_attachments[$id][] = array('idref' => $idref, 'type' => $type);
 		            
 		            }
 	            }
@@ -573,8 +574,8 @@ class CpoImport extends ContentObjectImport
             
             foreach ($children as $child)
             {
-                if ($this->content_object_reference[$child])
-                    $lo->attach_content_object($this->content_object_reference[$child]);
+                if ($this->content_object_reference[$child['idref']])
+                    $lo->attach_content_object($this->content_object_reference[$child['idref']], $child['type']);
             }
         }
     }
