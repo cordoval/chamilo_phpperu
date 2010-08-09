@@ -57,13 +57,14 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
     function build_basic_form()
     {
         $this->addElement('text', MediamosaExternalRepositoryObject::PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
-        $this->addRule(MediaMosaExternalRepositoryObject::PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addRule(MediaMosaExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
         //$this->addElement('textarea', MediaMosaExternalRepositoryObject::PROPERTY_TAGS, Translation :: get('Tags'), array("rows" => "1", "cols" => "80"));
         //$this->addRule(MediaMosaExternalRepositoryObject::PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
 
         $this->addElement('textarea', MediaMosaExternalRepositoryObject::PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "110"));
         $this->addElement('text', MediamosaExternalRepositoryObject :: PROPERTY_CREATOR, Translation :: get('Creator'), array("size" => "50"));
+
         //doesn't yet seem to be settable
         //$this->addElement('checkbox', MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE, Translation :: get('Is downloadable'));
 
@@ -156,8 +157,9 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
                         {
                             $rights['aut_app'][] = $slave;
                         }
-                        $connector->set_mediamosa_asset_rights($asset_id, $rights, Session :: get_user_id(), false);
-                        $connector->set_mediamosa_mediafile_rights($mediafile_id, $rights, Session :: get_user_id());
+                       xdebug_break();
+                        $connector->set_mediamosa_asset_rights($asset_id, $rights, $connector->get_mediamosa_user_id(Session :: get_user_id()), false);
+                        $connector->set_mediamosa_mediafile_rights($mediafile_id, $rights, $connector->get_mediamosa_user_id(Session :: get_user_id()));
 
                         return $ticket_return;
                     }

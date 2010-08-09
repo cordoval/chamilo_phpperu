@@ -704,7 +704,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
      */
     function record_to_content_object($record, $additional_properties_known = false)
     {
-        if (! is_array($record) || ! count($record))
+       if (! is_array($record) || ! count($record))
         {
             throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
         }
