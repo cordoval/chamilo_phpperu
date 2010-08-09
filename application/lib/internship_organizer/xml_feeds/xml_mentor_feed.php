@@ -66,19 +66,19 @@ function dump_tree($mentors)
 {
     if (contains_results($mentors))
     {
-        echo '<node id="0" classes="category unlinked" title="', Translation :: get('InternshipOrganizerMentors'), '">', "\n";
+        echo '<node id="0" classes="category unlinked" title="' . Translation :: get('InternshipOrganizerMentors') . '">' . "\n";
         
         foreach ($mentors as $mentor)
         {
-            $id = $mentor->get_id();
+            $id = 'mentor_' . $mentor->get_id();
             $name = strip_tags($mentor->get_firstname().' '.$mentor->get_lastname());
             $description = strip_tags($mentor->get_title().' '.$mentor->get_email());
             $description = preg_replace("/[\n\r]/", "", $description);
             
-            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlspecialchars($name), '" description="', htmlspecialchars(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
+            echo '<leaf id="' . $id . '" classes="' . '' . '" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
         
-        echo '</node>', "\n";
+        echo '</node>' . "\n";
     
     }
 }

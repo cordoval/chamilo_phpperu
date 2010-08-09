@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: xml_role_feed.php 214 2009-11-13 13:57:37Z vanpouckesven $
+ * $Id: xml_rights_template_feed.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.xml_feeds
  */
 require_once dirname(__FILE__) . '/../../common/global.inc.php';
@@ -66,7 +66,7 @@ function dump_tree($rights_templates)
     while ($rights_template = $rights_templates->next_result())
     {
         $value = RightsUtilities :: rights_template_for_element_finder($rights_template);
-        echo '<leaf id="', $rights_template->get_id(), '" classes="', $value['class'], '" title="', htmlentities($value['title']), '" description="', htmlentities(isset($value['description']) && ! empty($value['description']) ? $value['description'] : $value['title']), '"/>', "\n";
+        echo '<leaf id="template_' . $rights_template->get_id() . '" classes="' . $value['class'] . '" title="' . htmlentities($value['title']) . '" description="' . htmlentities(isset($value['description']) && ! empty($value['description']) ? $value['description'] : $value['title']) . '"/>', "\n";
     }
 
     echo '</node>', "\n";

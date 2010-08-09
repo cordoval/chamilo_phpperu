@@ -85,7 +85,7 @@ class InternshipOrganizerMomentPublicationForm extends FormValidator
     {
         $values = $this->exportValues();
         
-        $moment_rel_user_ids = $values[self :: PARAM_TARGET];
+        $moment_rel_user_ids = $values[self :: PARAM_TARGET]['moment'];
         $ids = unserialize($values['ids']);
         $succes = false;
         

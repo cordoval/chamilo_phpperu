@@ -215,7 +215,7 @@ class CategoryQuotaBoxForm extends FormValidator
     {
         $rdm = ReservationsDataManager :: get_instance();
         $succes = true;
-        $selected_users = $values['users'];
+        $selected_users = $values['users']['user'];
 
         $rdm->empty_quota_box_rel_category($quota_box_rel_category->get_id());
 

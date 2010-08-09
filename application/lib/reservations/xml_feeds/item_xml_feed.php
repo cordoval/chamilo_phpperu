@@ -67,7 +67,7 @@ function dump_tree($items)
         echo '<node class="type_category unlinked" id="items" title="Items">';
         foreach ($items as $item)
         {
-            echo '<leaf id="' . $item->get_id() . '" class="' . 'type type_group' . '" title="' . htmlspecialchars($item->get_name()) . '" description="' . htmlspecialchars($item->get_name()) . '"/>' . "\n";
+            echo '<leaf id="item_' . $item->get_id() . '" class="' . 'type type_group' . '" title="' . htmlspecialchars($item->get_name()) . '" description="' . htmlspecialchars($item->get_name()) . '"/>' . "\n";
         }
         echo '</node>';
     }

@@ -62,7 +62,7 @@ class OverviewItemForm extends FormValidator
         
         $succes = true;
         
-        foreach ($values['items'] as $item)
+        foreach ($values['items']['item'] as $item)
         {
             $overview_item = new OverviewItem();
             $overview_item->set_user_id($this->user->get_id());

@@ -82,7 +82,7 @@ function dump_tree($agreement_rel_users)
         
         foreach ($agreement_rel_users as $agreement_rel_user)
         {
-            $id = $agreement_rel_user->get_agreement_id() . '|' . $agreement_rel_user->get_user_id() . '|' . $agreement_rel_user->get_user_type();
+            $id = 'agreement_' . $agreement_rel_user->get_agreement_id() . '|' . $agreement_rel_user->get_user_id() . '|' . $agreement_rel_user->get_user_type();
             $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreement_rel_user->get_agreement_id());
             $user_type = InternshipOrganizerUserType :: get_user_type_name($agreement_rel_user->get_user_type());
             $user = UserDataManager :: get_instance()->retrieve_user($agreement_rel_user->get_user_id());
@@ -91,7 +91,7 @@ function dump_tree($agreement_rel_users)
             //            $description = preg_replace("/[\n\r]/", "", $description);
             
 
-            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlspecialchars($name), '" description="', htmlspecialchars(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
+            echo '<leaf id="' .  $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
         
         echo '</node>', "\n";

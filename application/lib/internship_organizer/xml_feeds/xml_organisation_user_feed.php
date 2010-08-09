@@ -83,15 +83,15 @@ function dump_tree($users)
         
         foreach ($users as $user)
         {
-            $id = $user->get_id();
+            $id = 'user_' . $user->get_id();
             $name = strip_tags($user->get_firstname().' '.$user->get_lastname());
 //            $description = strip_tags($period->get_description());
 //            $description = preg_replace("/[\n\r]/", "", $description);
             
-            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlspecialchars($name), '" description="', htmlspecialchars(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
+            echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
         
-        echo '</node>', "\n";
+        echo '</node>' . "\n";
     
     }
 }

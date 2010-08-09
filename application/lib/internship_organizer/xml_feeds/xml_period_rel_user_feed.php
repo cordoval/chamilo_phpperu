@@ -86,7 +86,7 @@ function dump_tree($period_rel_users)
         
         foreach ($period_rel_users as $period_rel_user)
         {
-            $id = $period_rel_user->get_user_id() . '|' . $period_rel_user->get_user_type();
+            $id = 'user_' . $period_rel_user->get_user_id() . '|' . $period_rel_user->get_user_type();
             $user_type = InternshipOrganizerUserType :: get_user_type_name($period_rel_user->get_user_type());
             $user = UserDataManager :: get_instance()->retrieve_user($period_rel_user->get_user_id());
             $name = strip_tags($user->get_firstname() . ' ' . $user->get_lastname() . ' - ' . $user_type);

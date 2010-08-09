@@ -104,7 +104,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
         }
      
         
-        $period_ids = $values[self :: PARAM_TARGET];
+        $period_ids = $values[self :: PARAM_TARGET]['period'];
         $ids = unserialize($values['ids']);
         $succes = false;
         if (count($user_types))

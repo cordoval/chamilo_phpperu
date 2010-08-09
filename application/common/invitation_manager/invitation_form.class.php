@@ -155,7 +155,7 @@ class InvitationForm extends FormValidator
                         $invitation->set_anonymous($properties[Invitation :: PROPERTY_ANONYMOUS]);
                         $invitation->set_title($properties[Invitation :: PROPERTY_TITLE]);
                         $invitation->set_message($properties[Invitation :: PROPERTY_MESSAGE]);
-                        $invitation->set_rights_templates($properties[Invitation :: PROPERTY_RIGHTS_TEMPLATES]);
+                        $invitation->set_rights_templates($properties[Invitation :: PROPERTY_RIGHTS_TEMPLATES]['template']);
                         $invitation->update();
                     }
                 }

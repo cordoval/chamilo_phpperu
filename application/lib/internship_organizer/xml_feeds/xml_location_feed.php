@@ -71,11 +71,11 @@ function dump_tree($locations)
         
         foreach ($locations as $location)
         {
-            $id = $location->get_id();
+            $id = 'location_' . $location->get_id();
             $name = strip_tags($location->get_name() . ' ' . $location->get_address());
             $description = strip_tags($location->get_description());
             $description = preg_replace("/[\n\r]/", "", $description);
-            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlspecialchars($name), '" description="', htmlspecialchars(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
+            echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
         
         echo '</node>', "\n";

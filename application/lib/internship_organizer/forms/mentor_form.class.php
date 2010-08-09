@@ -135,7 +135,7 @@ class InternshipOrganizerMentorForm extends FormValidator
         {
             
             $mentor_id = $mentor->get_id();
-            $users = $values[self :: PARAM_TARGET_USERS];
+            $users = $values[self :: PARAM_TARGET_USERS]['user'];
             
             foreach ($users as $user_id)
             {
@@ -145,7 +145,7 @@ class InternshipOrganizerMentorForm extends FormValidator
                 $mentor_rel_user->create();
             }
             
-            $locations = $values[self :: PARAM_TARGET_LOCATIONS];
+            $locations = $values[self :: PARAM_TARGET_LOCATIONS]['location'];
             
             foreach ($locations as $location_id)
             {

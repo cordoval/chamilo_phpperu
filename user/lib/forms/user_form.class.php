@@ -237,7 +237,7 @@ class UserForm extends FormValidator
 
         $value = $user->update();
 
-        if (! $user->update_rights_template_links($values['rights_templates']))
+        if (! $user->update_rights_template_links($values['rights_templates']['template']))
         {
             return false;
         }
@@ -310,7 +310,7 @@ class UserForm extends FormValidator
 
             $value = $user->create();
 
-            foreach ($values['rights_templates'] as $rights_template_id)
+            foreach ($values['rights_templates']['template'] as $rights_template_id)
             {
                 $user->add_rights_template_link($rights_template_id);
             }

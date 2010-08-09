@@ -82,7 +82,7 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
     {
         $values = $this->exportValues();
         
-        $agreement_rel_user_ids = $values[self :: PARAM_TARGET];
+        $agreement_rel_user_ids = $values[self :: PARAM_TARGET]['agreement'];
         $ids = unserialize($values['ids']);
         $succes = false;
         
