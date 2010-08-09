@@ -41,14 +41,16 @@ class StreamingVideoClipForm extends ContentObjectForm
 
     function create_content_object()
     {
-        $object = new StreamingVideoClip();
-        
-        $object->set_server_id($this->exportValue(StreamingVideoClip :: PROPERTY_SERVER_ID));
-        $object->set_asset_id($this->exportValue(StreamingVideoClip :: PROPERTY_ASSET_ID));
-        
-        $this->set_content_object($object);
-        
-        return parent :: create_content_object();
+//        $object = new StreamingVideoClip();
+//
+//        $object->set_server_id($this->exportValue(StreamingVideoClip :: PROPERTY_SERVER_ID));
+//        $object->set_asset_id($this->exportValue(StreamingVideoClip :: PROPERTY_ASSET_ID));
+//        $object->set_creator($this->exportValue(StreamingVideoClip :: PROPERTY_CREATOR));
+//        $object->set_publisher($this->exportValue(StreamingVideoClip :: PROPERTY_PUBLISHER));
+//
+//        $this->set_content_object($object);
+//
+//        return parent :: create_content_object();
     }
 
     function update_content_object()

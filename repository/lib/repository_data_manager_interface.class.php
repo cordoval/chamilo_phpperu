@@ -246,7 +246,7 @@ interface RepositoryDataManagerInterface
      */
     function retrieve_content_object_by_user($user_id);
 
-    function delete_content_object_attachments($object);
+    function delete_content_object_attachments(Condition $condition);
 
     function delete_content_object_includes($object);
 
@@ -262,11 +262,10 @@ interface RepositoryDataManagerInterface
     /**
      * Returns the learning objects that are attached to the learning object
      * with the given ID.
-     * @param ContentObject $object The learning object for which to retrieve
-     * attachments.
+     * @param Condition $condition The conditions to apply to the query
      * @return array The attached learning objects.
      */
-    function retrieve_attached_content_objects($object);
+    function retrieve_attached_content_objects(Condition $condition);
 
     /**
      * Counts the content objects to which the selected content object are attached to
@@ -321,7 +320,7 @@ interface RepositoryDataManagerInterface
      * learning object to.
      * @param int $attachment_id The ID of the object to attach.
      */
-    function attach_content_object($object, $attachment_id);
+    function attach_content_object($object, $attachment_id, $type);
 
     /**
      * Removes a learning object from another's attachment list.
@@ -331,7 +330,7 @@ interface RepositoryDataManagerInterface
      * @return boolean True if the attachment was removed, false if it did not
      * exist.
      */
-    function detach_content_object($object, $attachment_id);
+    function detach_content_object($object, $attachment_id, $type);
 
     /**
      * Adds a learning object to another's include list.

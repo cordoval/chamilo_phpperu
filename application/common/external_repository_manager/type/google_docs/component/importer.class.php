@@ -34,7 +34,8 @@ class GoogleDocsExternalRepositoryManagerImporterComponent extends GoogleDocsExt
             $document->set_owner_id($this->get_user_id());
             $document->set_filename(Filesystem :: create_safe_name($external_object->get_title()) . '.' . $export_format);
             
-            $document->set_in_memory_file($this->get_external_repository_connector()->download_external_repository_object($external_object, $export_format));
+            $document->set_in_memory_file($external_object->get_content_data($export_format));
+            //$document->set_in_memory_file($this->get_external_repository_connector()->download_external_repository_object($external_object, $export_format));
             
             if ($document->create())
             {

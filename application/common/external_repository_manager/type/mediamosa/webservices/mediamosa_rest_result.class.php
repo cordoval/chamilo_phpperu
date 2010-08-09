@@ -7,19 +7,11 @@
  */
 class MediamosaRestResult extends RestResult {
 
-    protected $response_header;
-    private $response_cookies;
+    
+    
     private $response_content_xml;
 
-    function set_response_header($response_header)
-    {
-        $this->response_header = $response_header;
-    }
-    
-    function get_response_header()
-    {
-        return $this->response_header;
-    }
+   
     
     function set_response_content_xml()
     {
@@ -46,23 +38,7 @@ class MediamosaRestResult extends RestResult {
 
     }
 
-    /*
-     * sets cookies
-     * @param cookies
-     */
-    function set_response_cookies($response_cookies)
-    {
-        $this->response_cookies = $response_cookies;
-    }
-
-    /*
-     * gets reponse_cookies
-     * @return cookies
-     */
-    function get_response_cookies()
-    {
-        return isset($this->response_cookies) ? $this->response_cookies : false;
-    }
+    
 
     //verifies if request has succeeded
     function check_result($error = false, $ok = false)

@@ -6,15 +6,13 @@
  */
 require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
-
 /**
  * This class represents an old Dokeos 1.8.5 document
  *
  * @author David Van Wayenbergh
  */
-
 class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
-{    
+{
     /**
      * document properties
      */
@@ -40,7 +38,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
      * @param array $defaultProperties The default properties of the document
      *                                 object. Associative array.
      */
-    function Dokeos185Document($defaultProperties = array ())
+    function Dokeos185Document($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -165,7 +163,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
     {
         $course = $this->get_course();
         $this->set_item_property($this->get_data_manager()->get_item_property($course, 'document', $this->get_id()));
-        
+
         $pos = strrpos($this->get_path(), '/');
         $filename = substr($this->get_path(), $pos);
         $old_path = substr($this->get_path(), 0, $pos);
@@ -176,12 +174,11 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
         $filename = iconv("UTF-8", "ISO-8859-1", $filename);
         $old_rel_path = iconv("UTF-8", "ISO-8859-1", $old_rel_path);
-        
+
         $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
 
 
-        if (! $this->get_id() || ! $this->get_path() || ! $this->get_filetype() || ! $this->get_item_property() || ! $this->get_item_property()->get_ref() || ! $this->get_item_property()->get_insert_date() || ! file_exists($this->directory . $filename))
-        {
+        if (!$this->get_id() || !$this->get_path() || !$this->get_filetype() || !$this->get_item_property() || !$this->get_item_property()->get_ref() || !$this->get_item_property()->get_insert_date() || !file_exists($this->directory . $filename)) {
             $this->create_failed_element($this->get_id());
             return false;
         }
@@ -198,15 +195,16 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
      */
     function convert_data()
     {
-        if($this->get_filetype()=='file') //folders are converted to categories in the publication part (the correct folders are parsed from the file path)
-        {
+        if ($this->get_filetype() == 'file') { //folders are converted to categories in the publication part (the correct folders are parsed from the file path)
             $course = $this->get_course();
 
             $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
             $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
 
-            if (! $new_user_id)
-            {
+            $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
+            $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
+
+            if (!$new_user_id) {
                 $new_user_id = $this->get_owner($new_course_code);
             }
 
@@ -219,8 +217,7 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
             $hash_filename = $this->migrate_file($this->directory, $new_path, $original_filename, $unique_hash);
 
-            if ($hash_filename)
-            {
+            if ($hash_filename) {
                 //Create document in repository
                 $chamilo_repository_document = new Document();
                 $chamilo_repository_document->set_filename($original_filename);
@@ -228,9 +225,9 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
                 $chamilo_repository_document->set_filesize($this->get_size());
                 $chamilo_repository_document->set_hash($unique_hash);
                 if ($this->get_title())
-                        $chamilo_repository_document->set_title($this->get_title());
-                    else
-                        $chamilo_repository_document->set_title($original_filename);
+                    $chamilo_repository_document->set_title($this->get_title());
+                else
+                    $chamilo_repository_document->set_title($original_filename);
                 $chamilo_repository_document->set_description('...');
                 $chamilo_repository_document->set_comment($this->get_comment());
                 $chamilo_repository_document->set_owner_id($new_user_id);
@@ -252,15 +249,13 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
                 //publication
 
-                if ($this->get_item_property()->get_visibility() <= 1)
-                {
+                if ($this->get_item_property()->get_visibility() <= 1) {
                     $categories = split('/', $this->get_path());
                     array_shift($categories); //remove empty array value
                     array_pop($categories); //remove filename
                     $parent_id = 0;
 
-                    foreach($categories as $categorie_name)
-                    {
+                    foreach ($categories as $categorie_name) {
 
                         //check if the category already exists. (move to weblcmdatamanager?)
                         //(Optimalisation: cache created categories)
@@ -274,78 +269,29 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
                         $category = WeblcmsDataManager::get_instance()->retrieve_content_object_publication_categories($condition)->next_result();
 
-                        if(!$category)
-                        {
-                                //Create category for tool in weblcms
-                                $category = new ContentObjectPublicationCategory();
-                                $category->set_name($categorie_name);
-                                $category->set_course($new_course_code);
-                                $category->set_tool('document');
-                                $category->set_parent($parent_id);
+                        if (!$category) {
+                            //Create category for tool in weblcms
+                            $category = new ContentObjectPublicationCategory();
+                            $category->set_name($categorie_name);
+                            $category->set_course($new_course_code);
+                            $category->set_tool('document');
+                            $category->set_parent($parent_id);
 
-                                //Create category in database
-                                $category->create();
-                                $parent_id = $category->get_id();
-                        }
-                        else
-                        {
+                            //Create category in database
+                            $category->create();
+                            $parent_id = $category->get_id();
+                        } else {
                             $parent_id = $category->get_id();
                         }
                     }
 
                     //create publication in weblcms
-                    $publication = new ContentObjectPublication();
-                    //$publication->set_content_object($chamilo_repository_document);
-                    $publication->set_content_object_id($chamilo_repository_document->get_id());
-                    $publication->set_course_id($new_course_code);
-                    unset($new_course_code);
-
-                    $publication->set_publisher_id($new_user_id);
-                    unset($new_user_id);
-
-                    $publication->set_tool('document');
-                    $publication->set_category_id($parent_id);
-
-                    $publication->set_from_date(0);
-                    $publication->set_to_date(0);
-                    $publication->set_publication_date(strtotime($this->get_item_property()->get_insert_date()));
-                    $publication->set_modified_date(strtotime($this->get_item_property()->get_lastedit_date()));
-
-                    $publication->set_display_order_index(0);
-                    $publication->set_email_sent(0);
-
-                    $publication->set_hidden($this->get_item_property()->get_visibility() == 1 ? 0 : 1);
-
-                    //create publication in database
-                    $publication->create();
+                    $this->create_publication($chamilo_repository_document, $new_course_code, $new_user_id, 'document', $parent_id, $new_to_user_id, $new_to_group_id);
                 }
             }
         }
-
     }
 
-    /**
-     * Retrieve all documents from the database
-     * @param Course $course the course of the document
-     * @param MigrationDataManager $mgdm the migration data manager
-     * @param bool $include_deleted_files 
-     * @return array of blogs
-     */
-    static function retrieve_data($parameters)
-    {
-        
-        $old_mgdm = $parameters['old_mgdm'];
-        $course = $parameters['course'];
-        return $old_mgdm->get_all_documents($course, $parameters['del_files'], $parameters['offset'], $parameters['limit']);
-    }
-
-    static function get_database_table($parameters)
-    {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'document';
-        return $array;
-    }
     static function get_table_name()
     {
         return self :: TABLE_NAME;
@@ -353,7 +299,8 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
+
 }
 ?>

@@ -47,7 +47,7 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
             $conditions[] = new EqualityCondition(Reservation :: PROPERTY_STATUS, Reservation :: STATUS_NORMAL);
             $condition = new AndCondition($conditions);
 
-            $reservations = $rdm->retrieve_reservations($condition);
+            $reservations = $rdm->retrieve_reservations($condition, null, null, new ObjectTableOrder(Reservation :: PROPERTY_START_DATE));
 
             while ($reservation = $reservations->next_result())
             {
@@ -65,7 +65,7 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
                     $conditions[] = new EqualityCondition(Subscription :: PROPERTY_STATUS, Subscription :: STATUS_NORMAL);
                     $condition = new AndCondition($conditions);
 
-                    $subscriptions = $rdm->retrieve_subscriptions($condition);
+                    $subscriptions = $rdm->retrieve_subscriptions($condition, null, null, new ObjectTableOrder(Subscription :: PROPERTY_START_TIME));
                     if ($reservation->get_type() != Reservation :: TYPE_TIMEPICKER)
                     {
                         if ($subscriptions->size() == 0 || $subscriptions->size() < $reservation->get_max_users())
@@ -106,7 +106,7 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
 
                                 if (($difference = ($start_time - $previous_stop_time)) > 0)
                                 {
-                                    if ($difference > ($reservation->get_timepicker_min() * 60))
+                                    if ($difference >= ($reservation->get_timepicker_min() * 60))
                                     {
                                         $times[] = array('start_date' => $previous_stop, 'stop_date' => $start, 'type' => 'Timepicker', 'url' => $bool ? $url : '');
                                     }
@@ -155,7 +155,7 @@ class ReservationsCalendarWeekRenderer extends ReservationsCalendarRenderer
             {
                 $start_date = $time['start_date'];
                 $end_date = $time['stop_date'];
-                if ($table_date < $start_date && $start_date < $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
+                if ($table_date <= $start_date && $start_date < $next_table_date || $table_date < $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
                 {
                     $blocks[] = $time;
                 }

@@ -56,6 +56,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function get_mediamosa_group_id($user_id)
     {
+        if(!$this->user_id_prefix) $this->get_user_id_prefix();
         return $this->user_id_prefix  . $group_id;
     }
 
@@ -71,14 +72,14 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     
     }
 
-    function create_mediamosa_user($user_id, $quotum = null)
+    function create_mediamosa_user($chamilo_user_id, $quotum = null)
     {
-        if ($user_id)
+        if ($chamilo_user_id)
         {
             $data = array();
-            if ($quotum)
-                $data['quotum'] = $quotum;
-            $data['user'] = $this->get_mediamosa_user_id($user_id);
+            
+            if ($quotum) $data['quotum'] = $quotum;
+            $data['user'] = $this->get_mediamosa_user_id($chamilo_user_id);
             
             if ($response = $this->request(self :: METHOD_POST, '/user/create', $data))
             {
@@ -98,19 +99,19 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
      * @param int quotum
      * @return boolean
      */
-    function set_mediamosa_user_quotum($user_id, $quotum)
+    function set_mediamosa_user_quotum($chamilo_user_id, $quotum)
     {
-        if ($user_id && $quotum)
+        if ($chamilo_user_id && $quotum)
         {
             $data = array();
             $data['quotum'] = $quotum;
             
-            if ($response = $this->request(self :: METHOD_POST, '/user/' . $this->get_mediamosa_user_id($user_id), $data))
+            if ($response = $this->request(self :: METHOD_POST, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id), $data))
             {
                 if ($response->check_result())
                     return true;
                 
-                if ($this->create_mediamosa_user($user_id, $quotum))
+                if ($this->create_mediamosa_user($chamilo_user_id, $quotum))
                     return true;
             }
         }
@@ -133,9 +134,9 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
      * @param int $user_id
      * @return simplexmlobject user
      */
-    function retrieve_mediamosa_user($user_id)
+    function retrieve_mediamosa_user($chamilo_user_id)
     {
-        if ($response = $this->request(self :: METHOD_GET, '/user/' . $this->get_mediamosa_user_id($user_id)))
+        if ($response = $this->request(self :: METHOD_GET, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id)))
         {
             if ($response->check_result())
             {
@@ -379,8 +380,6 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $mediamosa_asset->set_date((string) $asset->dublin_core->date);
             ((string) $asset->vpx_still_url) ? $mediamosa_asset->set_thumbnail((string) $asset->vpx_still_url) : $mediamosa_asset->set_thumbnail(self :: PLACEHOLDER_URL);
             $mediamosa_asset->set_creator((string) $asset->dublin_core->creator);
-            //TODO:jens -> implement status
-            $mediamosa_asset->set_status($status);
             $mediamosa_asset->set_type(MediamosaExternalRepositoryObject :: OBJECT_TYPE);
             $mediamosa_asset->set_owner_id((string) $asset->owner_id); //owner id = mediamosa id
             $mediamosa_asset->set_protected((string) $asset->is_protected);
@@ -1107,7 +1106,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                 {
                     $data[$k] = $right;
                 }
-                $data['user_id'] = $this->get_mediamosa_user_id($owner_id);
+                $data['user_id'] = $owner_id;
                 
                 if ($response = $this->request(self :: METHOD_POST, '/asset/' . $asset_id . '/acl', $data))
                 {
@@ -1169,7 +1168,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                     $data[$k] = $right;
                 }
                 
-                $data['user_id'] = $this->get_mediamosa_user_id($owner_id);
+                $data['user_id'] = $owner_id;
                 
                 if ($response = $this->request(self :: METHOD_POST, '/mediafile/' . $mediafile_id . '/acl', $data))
                 {

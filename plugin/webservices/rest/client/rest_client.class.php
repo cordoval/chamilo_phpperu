@@ -75,6 +75,11 @@ class RestClient
      */
     private $data_to_send_mimetype = null;
     
+    /*
+     * @var array
+     */
+    private $header_data = null;
+
     /**
     * client certificate path to use. The file may contain the certificate and the key as well.
     * The certificate format must be PEM.
@@ -110,6 +115,11 @@ class RestClient
     * @var string
     */ 
     private $target_ca_file;
+
+    /*
+     * @var array
+     */
+    private $proxy = null;
     
     /****************************************************************************************/
     
@@ -442,7 +452,43 @@ class RestClient
                 break;
         }
     }
-    
+
+    function set_data_to_send_mimetype($data_to_send_mimetype)
+    {
+        $this->data_to_send_mimetype = $data_to_send_mimetype;
+    }
+
+    function get_data_to_send_mimetype()
+    {
+        return $this->data_to_send_mimetype;
+    }
+
+    function set_proxy($server, $port, $username = null, $password = null)
+    {
+        $proxy = array();
+        $proxy['server'] = $server;
+        $proxy['port'] = $port;
+
+        if($username)$proxy['username'];
+        if($password)$proxy['password'];
+
+        $this->proxy = $proxy;
+    }
+
+    function set_header_data($name,$value)
+    {
+        $this->header_data[] = array('name' => $name, 'value' => $value);
+    }
+
+    function get_header_data()
+    {
+        return $this->header_data;
+    }
+
+    function get_proxy()
+    {
+        return (is_array($this->proxy)) ? $this->proxy : false;
+    }
     
     /**
      * Send the request by using the cURL extension
