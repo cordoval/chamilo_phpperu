@@ -1,39 +1,41 @@
 <?php
+
 /**
  * $Id: dokeos185_tool_intro.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_tool_intro.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/description/description.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 tool_intro
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185ToolIntro extends Dokeos185MigrationDataClass
+class Dokeos185ToolIntro extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'tool_intro';
     /**
      * Dokeos185ToolIntro properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_INTRO_TEXT = 'intro_text';
-    
+
     /**
      * Default properties stored in an associative array.
      */
     private $defaultProperties;
+    /**
+     * Map from id to correct chamilo tool
+     * @todo add remaining mappings
+     */
+    private $convert = array('course_homepage' => 'home');
 
     /**
      * Creates a new Dokeos185ToolIntro object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185ToolIntro($defaultProperties = array ())
+    function Dokeos185ToolIntro($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -106,23 +108,12 @@ class Dokeos185ToolIntro extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return Boolean
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
-        $mgdm = MigrationDataManager :: get_instance();
-        if (! $this->get_intro_text())
-        {
-            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.toolintro');
-            unset($mgdm);
-            unset($course);
-            $array = array();
-            unset($array);
+        if (!$this->get_intro_text()) {
+            $this->create_failed_element($this->get_id());
             return false;
         }
-        unset($mgdm);
-        unset($course);
-        $array = array();
-        unset($array);
         return true;
     }
 
@@ -131,98 +122,59 @@ class Dokeos185ToolIntro extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return Description
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
-        $mgdm = MigrationDataManager :: get_instance();
-        
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
-        $user_id = $mgdm->get_owner($new_course_code);
-        
-        $lcms_tool_intro = new Description();
-        $lcms_tool_intro->set_title($this->get_intro_text());
-        
-        $lcms_tool_intro->set_description($this->get_intro_text());
-        
+        $new_course_id = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
+        $owner_id = $this->get_data_manager()->get_owner_id();
+
+        $chamilo_tool_intro = new Introduction();
+        $chamilo_tool_intro->set_title($this->get_intro_text());
+
+        $chamilo_tool_intro->set_description($this->get_intro_text());
+
         // Category for contents already exists?
-        $lcms_category_id = $mgdm->get_parent_id($user_id, 'category', Translation :: get('descriptions'));
-        if (! $lcms_category_id)
-        {
-            
-            //Create category for tool in lcms
-            $lcms_repository_category = new RepositoryCategory();
-            $lcms_repository_category->set_user_id($user_id);
-            $lcms_repository_category->set_name(Translation :: get('toolIntro'));
-            $lcms_repository_category->set_parent(0);
-            
-            //Create category in database
-            $lcms_repository_category->create();
-            
-            $lcms_tool_intro->set_parent_id($lcms_repository_category->get_id());
-        }
-        else
-        {
-            $lcms_tool_intro->set_parent_id($lcms_category_id);
-        }
-        
-        $lcms_tool_intro->set_owner_id($user_id);
-        $lcms_tool_intro->create();
-        
+        $chamilo_repository_category_id = RepositoryDataManager::get_repository_category_by_name_or_create_new($owner_id, 'descriptions');
+        $chamilo_tool_intro->set_parent_id($chamilo_repository_category_id);
+
+        $chamilo_tool_intro->set_owner_id($owner_id);
+        $chamilo_tool_intro->create();
+
+        //$this->create_publication($$chamilo_tool_intro, $new_course_code, $owner_id, $tool, 'description');
+
         $publication = new ContentObjectPublication();
-        $publication->set_content_object($lcms_tool_intro);
-        $publication->set_course_id($new_course_code);
-        $publication->set_publisher_id($user_id);
-        $publication->set_tool('description');
+        $publication->set_content_object($chamilo_tool_intro);
+        $publication->set_content_object_id($chamilo_tool_intro->get_id());
+        $publication->set_course_id($new_course_id);
+        $publication->set_publisher_id($owner_id);
+        $publication->set_tool($this->convert[$this->get_id()]);
+
         $publication->set_category_id(0);
         $publication->set_from_date(0);
         $publication->set_to_date(0);
-        
-        $now = time();
-        $publication->set_publication_date($now);
-        $publication->set_modified_date($now);
-        
+        $publication->set_publication_date(0);
+        $publication->set_modified_date(0);
+        //$publication->set_modified_date(0);
+        //$publication->set_display_order_index($this->get_display_order());
         $publication->set_display_order_index(0);
-        $publication->set_email_sent(0);
-        $publication->set_hidden(0);
-        
-        //create publication in database
+
+        $publication->set_email_sent($this->get_email_sent());
+
         $publication->create();
+        //create publication in database
         
-        unset($course);
-        unset($mgdm);
-        unset($new_course_code);
-        unset($user_id);
-        unset($lcms_category_id);
-        unset($lcms_repository_category);
-        unset($repository_id);
-        unset($publication);
-        unset($now);
-        $array = array();
-        unset($array);
-        return $lcms_tool_intro;
-    
+
+        return $chamilo_tool_intro;
     }
 
-    /**
-     * Get all the tool intro's of a course
-     * @param Array $parameters
-     * @return array of dokeos185toolintro
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        return $old_mgdm->get_all($parameters['course']->get_db_name(), 'tool_intro', 'Dokeos185ToolIntro', $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'tool_intro';
-        $parameters = array();
-        unset($parameters);
-        return $array;
+        return self :: CLASS_NAME;
     }
+
 }
-
 ?>
