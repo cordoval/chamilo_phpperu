@@ -180,7 +180,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     
     function get_owner_id()
     {
-    	return 1;
+    	return 2;
     }
 
     function retrieve_user_by_fullname($fullname)
