@@ -464,7 +464,8 @@ class Dokeos185User extends Dokeos185MigrationDataClass
         	$chamilo_repository_profile->set_title($this->get_lastname().' '.$this->get_firstname());
         	$chamilo_repository_profile->set_parent_id($chamilo_category_id);
         	$chamilo_repository_profile->set_phone($this->get_phone());
-
+			$chamilo_repository_profile->set_owner_id($chamilo_user->get_id());
+			
         	//Create profile in database
         	$chamilo_repository_profile->create();
 

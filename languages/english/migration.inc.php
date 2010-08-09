@@ -50,8 +50,8 @@ $lang['migration']['SelectBlocks'] = 'Select blocks';
 
 $lang['migration']['StartMigration'] = 'Start migration';
 $lang['migration']['StartMigrationForTable'] = 'Start migration for table <b>{TABLE}</b>';
-$lang['migration']['ObjectsMigrated'] = '<b>{OBJECTCOUNT}</b> object are migrated.';
-$lang['migration']['ObjectsNotMigrated'] = '<b>{OBJECTCOUNT}</b> object are not migrated because they are invalid.';
+$lang['migration']['ObjectsMigrated'] = '<b>{OBJECTCOUNT}</b> objects are migrated.';
+$lang['migration']['ObjectsNotMigrated'] = '<b>{OBJECTCOUNT}</b> objects are not migrated because they are invalid.';
 $lang['migration']['ObjectMigrated'] = '<b>1</b> object is migrated.';
 $lang['migration']['ObjectNotMigrated'] = '<b>1</b> object is not migrated because it is invalid.';
 $lang['migration']['GeneralInvalidMessage'] = 'FAILED: {TYPE} is not valid ( ID: {ID} )';
@@ -59,6 +59,8 @@ $lang['migration']['GeneralConvertedMessage'] ='SUCCES: new {TYPE} added ( OLD I
 $lang['migration']['FinishedMigrationForTable'] = 'Finished migration for table <b>{TABLE}</b>';
 $lang['migration']['MigrationComplete'] = 'Migration complete in {TIME}';
 $lang['migration']['MigrationBlockAlreadyMigrated'] = 'Migration block already migrated';
+$lang['migration']['MigrationResultsForTable'] = 'Migration results for table <b>{TABLE}</b>';
+$lang['migration']['MigrationFinished'] = 'Migration finished';
 
 $lang['migration']['UsersMigrationBlockInfoNext'] = 'On the next page the users will be migrated';
 $lang['migration']['UsersMigrationBlockInfo'] = 'On this page the users will be migrated';
@@ -81,4 +83,8 @@ $lang['migration']['CourseRelClassInvalidMessage'] = 'FAILED: course class is no
 $lang['migration']['CourseRelClassConvertedMessage'] = 'SUCCES: new course class added (CLASS: {CLASS_ID} - COURSE: {COURSE_ID})';
 $lang['migration']['CourseRelUserInvalidMessage'] = 'FAILED: course user is not valid (USER: {USER_ID} - COURSE: {COURSE_ID})';
 $lang['migration']['CourseRelUserConvertedMessage'] = 'SUCCES: new course user added (USER: {USER_ID} - COURSE: {COURSE_ID})';
+
+$lang['migration']['CourseForumsMigrationBlockInfoNext'] = 'On the next page all the forum categories, forums, forum threads and forum posts from all the courses will be migrated';
+$lang['migration']['CourseForumsMigrationBlockInfo'] = 'On this page all the forum categories, forums, forum threads and forum posts from all the courses will be migrated';
+
 ?>
