@@ -4,22 +4,22 @@
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_forum_post.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/forum_post/forum_post.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
+//require_once dirname(__FILE__) . '/../../lib/import/import_forum_post.class.php';
+//require_once dirname(__FILE__) . '/../../../repository/lib/content_object/forum_post/forum_post.class.php';
+//require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
+//require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
+
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 forum_post
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185ForumPost extends Dokeos185MigrationDataClass
+class Dokeos185ForumPost extends Dokeos185CourseDataMigrationDataClass
 {
-    /** 
-     * Migration data manager
-     */
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'forum_post';
     
     /**
      * Dokeos185ForumPost properties
@@ -37,62 +37,12 @@ class Dokeos185ForumPost extends Dokeos185MigrationDataClass
     const PROPERTY_VISIBLE = 'visible';
     
     /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new Dokeos185ForumPost object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185ForumPost($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    /**
      * Get the default properties
      * @return array The property names.
      */
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_POST_ID, self :: PROPERTY_POST_TITLE, self :: PROPERTY_POST_TEXT, self :: PROPERTY_THREAD_ID, self :: PROPERTY_FORUM_ID, self :: PROPERTY_POSTER_ID, self :: PROPERTY_POSTER_NAME, self :: PROPERTY_POST_DATE, self :: PROPERTY_POST_NOTIFICATION, self :: PROPERTY_POST_PARENT_ID, self :: PROPERTY_VISIBLE);
-    }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -195,44 +145,16 @@ class Dokeos185ForumPost extends Dokeos185MigrationDataClass
     }
 
     /**
-     * Retrieve all forum posts from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of forum posts
-     */
-    static function retrieve_data($parameters)
-    {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-       	/*if ($parameters['del_files'] = ! 1)
-            $tool_name = 'forum_post';*/
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'forum_post';
-        $classname = 'Dokeos185ForumPost';
-        
-        return $old_mgdm->get_all($coursedb, $tablename, $classname, null, $parameters['offset'], $parameters['limit']);
-    }
-
-    static function get_database_table($parameters)
-    {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'forum_post';
-        return $array;
-    }
-
-    /**
      * Check if the forum post is valid
      * @param array $array the parameters for the validation
      * @return true if the forum post is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
-        $mgdm = MigrationDataManager :: get_instance();
         if (! $this->get_post_id() || ! ($this->get_post_title() || $this->get_post_text()))
         {
-            $mgdm->add_failed_element($this->get_post_id(), $course->get_db_name() . '.forum_post');
+            $this->create_failed_element($this->get_post_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'forum_post', 'ID' => $this->get_post_id())));
             return false;
         }
         return true;
@@ -243,112 +165,72 @@ class Dokeos185ForumPost extends Dokeos185MigrationDataClass
      * @param array $array the parameters for the conversion
      * @return the new forum post
      */
-    function convert_data
+    function convert_data()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        $new_user_id = $mgdm->get_id_reference($this->get_poster_id(), 'user_user');
-        $course = $array['course'];
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
+       	$course = $this->get_course();
         
-        if (! $new_user_id)
+    	$new_user_id = $this->get_id_reference($this->get_poster_id(), 'main_database.user');
+        $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
+        
+    	if (! $new_user_id)
         {
-            $new_user_id = $mgdm->get_owner($new_course_code);
+            $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         }
         
         //forum parameters
-        $lcms_forum_post = new ForumPost();
+        $chamilo_forum_post = new ForumPost();
         
         // Category for forum_post already exists?
-        $lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('forums'));
-        if (! $lcms_category_id)
-        {
-            //Create category for tool in lcms
-            $lcms_repository_category = new RepositoryCategory();
-            $lcms_repository_category->set_user_id($new_user_id);
-            $lcms_repository_category->set_name(Translation :: get('ForumPost'));
-            $lcms_repository_category->set_parent(0);
-            
-            //Create category in database
-            $lcms_repository_category->create();
-            
-            $lcms_forum_post->set_parent_id($lcms_repository_category->get_id());
-        }
-        else
-        {
-            $lcms_forum_post->set_parent_id($lcms_category_id);
-        }
+        $category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Forum'));
+        $chamilo_forum_post->set_parent_id($category_id);
         
         if (! $this->get_post_title())
-            $lcms_forum_post->set_title(substr($this->get_post_text(), 0, 20));
+        {
+            $chamilo_forum_post->set_title(substr($this->get_post_text(), 0, 20));
+    	}
         else
-            $lcms_forum_post->set_title($this->get_post_title());
+        {
+            $chamilo_forum_post->set_title($this->get_post_title());
+        }
         
         if (! $this->get_post_text())
-            $lcms_forum_post->set_description($this->get_post_title());
+        {
+            $chamilo_forum_post->set_description($this->get_post_title());
+        }
         else
-            $lcms_forum_post->set_description($this->get_post_text());
+        {
+            $chamilo_forum_post->set_description($this->get_post_text());
+        }
         
-        $lcms_forum_post->set_owner_id($new_user_id);
-        $lcms_forum_post->set_creation_date($mgdm->make_unix_time($this->get_post_date()));
-        $lcms_forum_post->set_modification_date($mgdm->make_unix_time($this->get_post_date()));
-        
-        /*$parentpost = $mgdm->get_id_reference($this->get_post_parent_id(),'repository_forum_forum');
-		
-		if($parentpost)
-			$lcms_forum_post->set_parent_post_id($parentpost);*/
-        
-        //if($this->get_visible() == 2)
-        //$lcms_forum_post->set_state(1);
-        
+        $chamilo_forum_post->set_owner_id($new_user_id);
+        $chamilo_forum_post->set_creation_date(strtotime($this->get_post_date()));
+        $chamilo_forum_post->set_modification_date(strtotime($this->get_post_date()));        
 
         //create announcement in database
-        $lcms_forum_post->create_all();
+        $chamilo_forum_post->create_all();
         
-        $mgdm->add_id_reference($this->get_post_id, $lcms_forum_post->get_id(), 'repository_forum_post');
+        $this->create_id_reference($this->get_post_id(), $chamilo_forum_post->get_id());
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'forum_post', 'OLD_ID' => $this->get_post_id(), 'NEW_ID' => $chamilo_forum_post->get_id())));
         
-    	$parent_topic = $mgdm->get_id_reference($this->get_thread_id(), 'repository_forum_thread');
+    	$parent_topic = $this->get_id_reference($this->get_thread_id(),  $this->get_database_name() . '.forum_thread');
         if($parent_topic)
         {
         	$wrapper = ComplexContentObjectItem :: factory('forum_post');
         	$wrapper->set_user_id($new_user_id);
         	$wrapper->set_parent($parent_topic);
-        	$wrapper->set_ref($lcms_forum_post->get_id());
+        	$wrapper->set_ref($chamilo_forum_post->get_id());
         	$wrapper->create();
         }
-        
-        /*
-		//publication
-		if($this->item_property->get_visibility() <= 1) 
-		{
-			$publication = new ContentObjectPublication();
-			
-			$publication->set_content_object($lcms_announcement);
-			$publication->set_course_id($new_course_code);
-			$publication->set_publisher_id($new_user_id);
-			$publication->set_tool('announcement');
-			$publication->set_category_id(0);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
-			$publication->set_from_date(0);
-			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-			//$publication->set_modified_date(0);
-			//$publication->set_display_order_index($this->get_display_order());
-			$publication->set_display_order_index(0);
-			
-			if($this->get_email_sent())
-				$publication->set_email_sent($this->get_email_sent());
-			else
-				$publication->set_email_sent(0);
-			
-			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
-			
-			//create publication in database
-			$publication->create();
-		}
-		*/
-        return $lcms_forum_post;
+    }
+    
+	static function get_table_name()
+    {
+        return self :: TABLE_NAME;
+    }
+    
+    static function get_class_name()
+    {
+    	return self :: CLASS_NAME;
     }
 
 }

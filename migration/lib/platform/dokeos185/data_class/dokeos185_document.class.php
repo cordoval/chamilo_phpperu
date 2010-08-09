@@ -213,17 +213,17 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
             $base_hash = md5($original_filename);
             $new_path = Path :: get(SYS_REPO_PATH) . $new_user_id . '/' . Text :: char_at($base_hash, 0) . '/';
-            $unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
+            //$unique_hash = FileSystem :: create_unique_name($new_path, $base_hash);
 
-            $hash_filename = $this->migrate_file($this->directory, $new_path, $original_filename, $unique_hash);
+            $hash_filename = $this->migrate_file($this->directory, $new_path, $original_filename, $base_hash);
 
             if ($hash_filename) {
                 //Create document in repository
                 $chamilo_repository_document = new Document();
                 $chamilo_repository_document->set_filename($original_filename);
-                $chamilo_repository_document->set_path($new_user_id . '/' . Text :: char_at($base_hash, 0) . '/' . $unique_hash);  //!!!!!!!
+                $chamilo_repository_document->set_path($new_user_id . '/' . Text :: char_at($hash_filename, 0) . '/' . $hash_filename);  //!!!!!!!
                 $chamilo_repository_document->set_filesize($this->get_size());
-                $chamilo_repository_document->set_hash($unique_hash);
+                $chamilo_repository_document->set_hash($hash_filename);
                 if ($this->get_title())
                     $chamilo_repository_document->set_title($this->get_title());
                 else

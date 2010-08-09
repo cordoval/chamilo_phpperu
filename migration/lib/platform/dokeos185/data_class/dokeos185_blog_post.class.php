@@ -4,16 +4,17 @@
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_blog_post.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 blog_post
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185BlogPost extends Dokeos185MigrationDataClass
+class Dokeos185BlogPost extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'blog';
     
     /**
      * Dokeos185BlogPost properties
@@ -24,38 +25,6 @@ class Dokeos185BlogPost extends Dokeos185MigrationDataClass
     const PROPERTY_DATE_CREATION = 'date_creation';
     const PROPERTY_BLOG_ID = 'blog_id';
     const PROPERTY_AUTHOR_ID = 'author_id';
-    
-    /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new Dokeos185BlogPost object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185BlogPost($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
 
     /**
      * Get the default properties
@@ -64,24 +33,6 @@ class Dokeos185BlogPost extends Dokeos185MigrationDataClass
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_POST_ID, self :: PROPERTY_TITLE, self :: PROPERTY_FULL_TEXT, self :: PROPERTY_DATE_CREATION, self :: PROPERTY_BLOG_ID, self :: PROPERTY_AUTHOR_ID);
-    }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -140,43 +91,28 @@ class Dokeos185BlogPost extends Dokeos185MigrationDataClass
 
     /**
      * Check if the blog post is valid
-     * @param array $array the parameters for the validation
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+    	return false;
     }
 
     /**
      * Convert to new blog post
      * @param array $array the parameters for the conversion
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
     }
 
-    /**
-     * Retrieve all blog posts from the database
-     * @param array $parameters parameters for the retrieval
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        self :: $mgdm = $parameters['mgdm'];
-        
-        $db = $parameters['course']->get_db_name();
-        $tablename = 'blog_post';
-        $classname = 'Dokeos185BlogPost';
-        
-        return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
-
-    static function get_database_table($parameters)
+    
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'blog_post';
-        return $array;
+    	return self :: CLASS_NAME;
     }
 }
 

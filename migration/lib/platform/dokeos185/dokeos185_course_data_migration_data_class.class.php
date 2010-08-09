@@ -63,41 +63,42 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
 	function create_publication($object, $course, $user, $tool, $category_id = 0, $target_users = null, $target_groups = null)
 	{
 		//publication
-        if ($this->item_property->get_visibility() <= 1)
+        $publication = new ContentObjectPublication();
+            
+        $publication->set_content_object($object);
+        $publication->set_content_object_id($object->get_id());
+        $publication->set_course_id($course);
+        $publication->set_publisher_id($user);
+        $publication->set_tool($tool);
+
+        //target users, groups
+        $publication->set_target_users($target_users);
+        $publication->set_target_course_groups($target_groups);
+          
+        $publication->set_category_id($category_id);
+
+        $publication->set_from_date(0);
+        $publication->set_to_date(0);
+
+        $publication->set_display_order_index(0);
+            
+        $publication->set_email_sent($this->get_email_sent());
+            
+        if($this->item_property)
         {
-            $publication = new ContentObjectPublication();
-            
-            $publication->set_content_object($object);
-            $publication->set_content_object_id($object->get_id());
-            $publication->set_course_id($course);
-            $publication->set_publisher_id($user);
-            $publication->set_tool($tool);
-
-            //target users, groups
-            $publication->set_target_users($target_users);
-            $publication->set_target_course_groups($target_groups);
-
-            
-            $publication->set_category_id($category_id);
-
-
-            //$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
-            //$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
-            $publication->set_from_date(0);
-            $publication->set_to_date(0);
-            $publication->set_publication_date(strtotime($this->item_property->get_insert_date()));
-            $publication->set_modified_date(strtotime($this->item_property->get_lastedit_date()));
-            //$publication->set_modified_date(0);
-            //$publication->set_display_order_index($this->get_display_order());
-            $publication->set_display_order_index(0);
-            
-            $publication->set_email_sent($this->get_email_sent());
-            
-            $publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
-            
-            //create publication in database
-            $publication->create();
+      		$publication->set_hidden($this->item_property->get_visibility() == 1 ? 0 : 1);
+      		$publication->set_publication_date(strtotime($this->item_property->get_insert_date()));
+        	$publication->set_modified_date(strtotime($this->item_property->get_lastedit_date()));
         }
+        else
+        {
+        	$publication->set_hidden($object->get_state());
+        	$publication->set_publication_date($object->get_creation_date());
+        	$publication->set_modified_date($object->get_modification_date());
+        }
+            
+        //create publication in database
+        $publication->create();
 	}
 	
 	/**

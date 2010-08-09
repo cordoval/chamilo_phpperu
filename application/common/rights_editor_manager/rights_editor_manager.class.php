@@ -52,6 +52,25 @@ class RightsEditorManager extends SubManager
         }
     }
 
+    function factory($content_object, $parent , $locations)
+    {
+        if($content_object)
+        {
+            $type = $content_object->get_type_name();
+            $file = Path :: get_repository_path() . '/lib/content_object/' . $type . '/rights/' . $type . '_rights_editor_manager.class.php';
+            if (file_exists($file))
+            {
+                require_once $file;
+
+                $class = Utilities :: underscores_to_camelcase($type) . 'RightsEditorManager';
+                $manager = new $class($parent, $locations);
+
+                return $manager;
+            }
+        }
+        return new RightsEditorManager($parent, $locations);
+    }
+
     function run()
     {
         $parent = $this->get_parameter(self :: PARAM_RIGHTS_EDITOR_ACTION);
@@ -71,7 +90,6 @@ class RightsEditorManager extends SubManager
                 $component = $this->create_component('Browser');
                 break;
         }
-
         $component->run();
     }
 

@@ -555,5 +555,15 @@ class RepositoryDataManager
         return $category->get_id();       
         
     }
+    
+    static function retrieve_document_from_hash($user_id, $hash)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(Document :: PROPERTY_HASH, $hash);
+        $conditions[] = new EqualityCondition(Document :: PROPERTY_OWNER_ID, $user_id);
+        $condition = new AndCondition($conditions);
+        
+        return self :: get_instance()->retrieve_content_objects($condition, null, 0, 1)->next_result();
+    }
 }
 ?>

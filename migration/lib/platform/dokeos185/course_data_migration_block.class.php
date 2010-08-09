@@ -65,6 +65,7 @@ abstract class CourseDataMigrationBlock extends MigrationBlock
 	protected function finish_migration()
 	{
 		$this->log_data_class_statusses();
+		$this->log_message_and_file("<br />\n");
 		parent :: finish_migration();
 	}
 	

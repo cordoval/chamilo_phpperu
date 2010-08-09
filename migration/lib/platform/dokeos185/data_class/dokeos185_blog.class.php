@@ -4,16 +4,17 @@
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_blog.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 blog
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185Blog extends Dokeos185MigrationDataClass
+class Dokeos185Blog extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'blog';
     
     /**
      * Dokeos185Blog properties
@@ -23,38 +24,6 @@ class Dokeos185Blog extends Dokeos185MigrationDataClass
     const PROPERTY_BLOG_SUBTITLE = 'blog_subtitle';
     const PROPERTY_DATE_CREATION = 'date_creation';
     const PROPERTY_VISIBILITY = 'visibility';
-    
-    /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new Dokeos185Blog object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185Blog($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
 
     /**
      * Get the default properties
@@ -63,24 +32,6 @@ class Dokeos185Blog extends Dokeos185MigrationDataClass
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_BLOG_ID, self :: PROPERTY_BLOG_NAME, self :: PROPERTY_BLOG_SUBTITLE, self :: PROPERTY_DATE_CREATION, self :: PROPERTY_VISIBILITY);
-    }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -130,46 +81,78 @@ class Dokeos185Blog extends Dokeos185MigrationDataClass
 
     /**
      * Check if the blog is valid
-     * @param array $array the parameters for the validation
      * @return true if the blog is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        if (! $this->get_blog_id() || ! ($this->get_blog_name() || $this->get_blog_subtitle()) || !$this->get_date_creation())
+        {
+            $this->create_failed_element($this->get_blog_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'blog', 'ID' => $this->get_blog_id())));
+            return false;
+        }
+        return true;
     }
 
     /**
      * Convert to new blog
-     * @param array $array the parameters for the conversion
      * @return the new blog
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+    	$course = $this->get_course();
+
+        $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
+        $new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
+        
+        $chamilo_blog = new Blog();
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Blogs'));
+
+        $chamilo_blog->set_parent_id($chamilo_category_id);
+        
+        if (! $this->get_blog_name())
+        {
+            $chamilo_blog->set_title(Utilities :: truncate_string($this->get_blog_subtitle(), 20));
+        }
+        else
+        {
+            $chamilo_blog->set_title($this->get_blog_name());
+        }
+        
+        if (! $this->get_blog_subtitle())
+        {
+            $chamilo_blog->set_description($this->get_blog_name());
+        }
+        else
+        {
+            $chamilo_blog->set_description($this->get_blog_subtitle());
+        }
+        
+        $chamilo_blog->set_owner_id($new_user_id);
+        $chamilo_blog->set_creation_date(strtotime($this->get_date_creation()));
+        $chamilo_blog->set_modification_date(strtotime($this->get_date_creation()));
+        
+        if ($this->get_visibility() == 2)
+        {
+            $chamilo_blog->set_state(1);
+        }
+            
+        //create announcement in database
+        $chamilo_blog->create_all();
+        
+        $this->create_publication($chamilo_blog, $new_course_code, $new_user_id, 'blog');
+        
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'blog', 'OLD_ID' => $this->get_blog_id(), 'NEW_ID' => $chamilo_blog->get_id())));
     }
 
-    /**
-     * Retrieve all blogs from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of blogs
-     */
-    static function retrieve_data($parameters)
+	static function get_table_name()
     {
-        self :: $mgdm = $parameters['mgdm'];
-        
-        $db = $parameters['course']->get_db_name();
-        $tablename = 'blog';
-        $classname = 'Dokeos185Blog';
-        
-        return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
-
-    static function get_database_table($parameters)
+    
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'blog';
-        return $array;
+    	return self :: CLASS_NAME;
     }
 }
 

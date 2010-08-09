@@ -307,9 +307,14 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                            if(!isset($this->asset_cache[(string) $asset->asset_id]))
                            {
                                $object = $this->create_mediamosa_external_repository_object($asset);
-                               $objects[] = $object;
-                               $this->asset_cache[(string) $asset->asset_id] = $object;
 
+                               $asset_rights = $object->get_rights();
+                               //if($asset_rights[ExternalRepositoryObject :: RIGHT_USE])
+                               //{
+                                   $objects[] = $object;
+                                   $this->asset_cache[(string) $asset->asset_id] = $object;
+                               //}
+                               
                                if($update_master_slave) $this->update_asset_master_slave_settings($object);
                            }
                            else
@@ -455,6 +460,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function determine_rights(MediamosaExternalRepositoryObject $asset)
     {
+        
         $asset_rights = array();
         $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
         
@@ -1107,7 +1113,8 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                     $data[$k] = $right;
                 }
                 $data['user_id'] = $owner_id;
-                
+                //$data['replace'] = 'true';
+
                 if ($response = $this->request(self :: METHOD_POST, '/asset/' . $asset_id . '/acl', $data))
                 {
                     if ($response->check_result())

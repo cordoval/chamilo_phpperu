@@ -13,7 +13,7 @@ require_once 'MDB2.php';
  * @author Sven Vanpoucke
  * @author David Van Wayenbergh
  */
-class Dokeos185DataManager
+class OldDokeos185DataManager
 {
     /**
      * MDB2 instance
