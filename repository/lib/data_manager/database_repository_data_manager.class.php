@@ -76,6 +76,28 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         
         return self :: record_to_content_object($record, isset($type));
     }
+    
+    function retrieve_content_object_by_condition($condition, $type)
+    {
+        if (RepositoryDataManager :: is_extended_type($type))
+        {
+            $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
+            $type_alias = $this->get_alias($type);
+            
+            $query = 'SELECT * FROM ' . $this->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $content_object_alias;
+            $query .= ' JOIN ' . $this->escape_table_name($type) . ' AS ' . $type_alias . ' ON ' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $content_object_alias) . '=' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $type_alias);
+          
+            $record = $this->retrieve_row($query, ContentObject :: get_table_name(), $condition);
+        }
+        else
+        {
+            $record = $this->retrieve_record(ContentObject :: get_table_name(), $condition);
+        }
+        
+        if($record)
+        	return self :: record_to_content_object($record, true);
+    }
+    
 
     // Inherited.
     // TODO: Extract methods.
