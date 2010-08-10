@@ -48,11 +48,18 @@ abstract class CourseDataMigrationBlock extends MigrationBlock
 	        {
 	          	$this->course = $course;
 	          	
+	          	$courses_migrated++;
+	          	
+	          	$id_reference = MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($course->get_code(), 'main_database.course');
+	          	if(!$id_reference)
+	          	{
+	          		$this->get_file_logger()->log_message(Translation :: get('CourseDataCanNotBeMigrated', array('COURSE' => $course->get_code())) . "<br />\n");
+	          		continue;
+	          	}
+	          	
 	          	$this->get_file_logger()->log_message(Translation :: get('StartMigrationCourse', array('COURSE' => $course->get_code())));
 	          	parent :: migrate_data();
 	          	$this->get_file_logger()->log_message(Translation :: get('FinishMigrationCourse', array('COURSE' => $course->get_code())) . "<br />\n");
-	          	
-	           	$courses_migrated++;
 	        }
         }
 	}
@@ -65,7 +72,7 @@ abstract class CourseDataMigrationBlock extends MigrationBlock
 	protected function finish_migration()
 	{
 		$this->log_data_class_statusses();
-		$this->log_message_and_file("<br />\n");
+		$this->log_message_and_file("");
 		parent :: finish_migration();
 	}
 	
@@ -76,7 +83,16 @@ abstract class CourseDataMigrationBlock extends MigrationBlock
 			$this->log_message_and_file(Translation :: get('MigrationResultsForTable', array('TABLE' => $data_class->get_table_name())));
 			
 			$migrated_objects = $this->migration_status[$data_class->get_class_name()]['migrated'];
+			if(!$migrated_objects)
+			{
+				$migrated_objects = 0;
+			}
+			
 			$failed_objects = $this->migration_status[$data_class->get_class_name()]['failed'];
+			if(!$failed_objects)
+			{
+				$failed_objects = 0;
+			}
 			
 			if($migrated_objects == 1)
 			{
@@ -97,6 +113,8 @@ abstract class CourseDataMigrationBlock extends MigrationBlock
 			{
 				$message = 'ObjectsNotMigrated';
 			}
+			
+			$this->log_message_and_file(Translation :: get($message, array('OBJECTCOUNT' => $failed_objects)));
 		}
 	}
 	

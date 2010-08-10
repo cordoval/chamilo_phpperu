@@ -51,6 +51,9 @@ $lang['migration']['SelectBlocks'] = 'Select blocks';
 
 $lang['migration']['StartMigration'] = 'Start migration';
 $lang['migration']['StartMigrationForTable'] = 'Start migration for table <b>{TABLE}</b>';
+$lang['migration']['StartMigrationCourse'] = 'Start migration for course {COURSE}';
+$lang['migration']['FinishMigrationCourse'] = 'Migration finished for course {COURSE}';
+$lang['migration']['CourseDataCanNotBeMigrated'] = 'Course data can not be migrated because course {COURSE} has not been migrated.';
 $lang['migration']['ObjectsMigrated'] = '<b>{OBJECTCOUNT}</b> objects are migrated.';
 $lang['migration']['ObjectsNotMigrated'] = '<b>{OBJECTCOUNT}</b> objects are not migrated because they are invalid.';
 $lang['migration']['ObjectMigrated'] = '<b>1</b> object is migrated.';

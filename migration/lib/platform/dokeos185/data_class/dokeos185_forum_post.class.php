@@ -212,14 +212,10 @@ class Dokeos185ForumPost extends Dokeos185CourseDataMigrationDataClass
         $this->create_id_reference($this->get_post_id(), $chamilo_forum_post->get_id());
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'forum_post', 'OLD_ID' => $this->get_post_id(), 'NEW_ID' => $chamilo_forum_post->get_id())));
         
-    	$parent_topic = $this->get_id_reference($this->get_thread_id(),  $this->get_database_name() . '.forum_thread');
-        if($parent_topic)
+    	$parent_topic_id = $this->get_id_reference($this->get_thread_id(),  $this->get_database_name() . '.forum_thread');
+        if($parent_topic_id)
         {
-        	$wrapper = ComplexContentObjectItem :: factory('forum_post');
-        	$wrapper->set_user_id($new_user_id);
-        	$wrapper->set_parent($parent_topic);
-        	$wrapper->set_ref($chamilo_forum_post->get_id());
-        	$wrapper->create();
+        	$this->create_complex_content_object_item($chamilo_forum_post, $parent_topic_id, $new_user_id);
         }
     }
     
