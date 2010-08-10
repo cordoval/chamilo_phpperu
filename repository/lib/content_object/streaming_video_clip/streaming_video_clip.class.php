@@ -5,8 +5,8 @@
 class StreamingVideoClip extends ContentObject implements Versionable
 {
     
-    const PROPERTY_PUBLISHER = 'publisher';
-    const PROPERTY_CREATOR = 'creator';
+    //const PROPERTY_PUBLISHER = 'publisher';
+    //const PROPERTY_CREATOR = 'creator';
 
     const CLASS_NAME = __CLASS__;
 
@@ -15,14 +15,14 @@ class StreamingVideoClip extends ContentObject implements Versionable
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
-    static function get_additional_property_names()
+    /*static function get_additional_property_names()
     {
         return array(self :: PROPERTY_CREATOR, self :: PROPERTY_PUBLISHER);
-    }
+    }*/
 
 
 
-     function set_publisher($publisher)
+    /* function set_publisher($publisher)
     {
         $this->set_additional_property(self :: PROPERTY_PUBLISHER, $publisher);
     }
@@ -40,7 +40,7 @@ class StreamingVideoClip extends ContentObject implements Versionable
     function get_creator()
     {
         return $this->get_additional_property(self :: PROPERTY_CREATOR);
-    }
+    }*/
 
     
     

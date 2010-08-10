@@ -125,7 +125,7 @@ class GroupForm extends FormValidator
             $group->move($new_parent);
         }
 
-        if (! $group->update_rights_template_links($values['rights_templates']))
+        if (! $group->update_rights_template_links($values['rights_templates']['template']))
         {
             return false;
         }
@@ -150,7 +150,7 @@ class GroupForm extends FormValidator
 
         $value = $group->create();
 
-        foreach ($values['rights_templates'] as $rights_template_id)
+        foreach ($values['rights_templates']['template'] as $rights_template_id)
         {
             $group->add_rights_template_link($rights_template_id);
         }

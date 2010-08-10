@@ -108,6 +108,7 @@ class ContentObject extends DataClass
      * Learning objects attached to this learning object.
      */
     private $attachments = array();
+    private $attachment_ids = array();
     
     /**
      * Learning objects included into this learning object.
@@ -283,8 +284,28 @@ class ContentObject extends DataClass
     {
         if (! is_array($this->attachments[$type]))
         {
-            $dm = RepositoryDataManager :: get_instance();
+            $attachment_ids = $this->get_attached_content_object_ids($type);
+            // Add non-existing element to avoid problems with empty InCondition
+            if (count($attachment_ids) == 0)
+            {
+                $attachment_ids[] = - 1;
+            }
             
+            $condition = new InCondition(ContentObject :: PROPERTY_ID, $attachment_ids, ContentObject :: get_table_name());
+            $this->attachments[$type] = $this->get_data_manager()->retrieve_content_objects($condition)->as_array();
+        }
+        
+        return $this->attachments[$type];
+    }
+
+    /**
+     * Returns the learning object ids attached to this learning object.
+     * @return array The learning objects.
+     */
+    function get_attached_content_object_ids($type = self :: ATTACHMENT_NORMAL)
+    {
+        if (! is_array($this->attachment_ids[$type]))
+        {
             $conditions = array();
             $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
             if ($type != self :: ATTACHMENT_ALL)
@@ -292,10 +313,9 @@ class ContentObject extends DataClass
                 $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_TYPE, $type);
             }
             $condition = new AndCondition($conditions);
-            
-            $this->attachments[$type] = $dm->retrieve_attached_content_objects($condition);
+            $this->attachment_ids[$type] = $this->get_data_manager()->retrieve_attached_content_object_ids($condition);
         }
-        return $this->attachments[$type];
+        return $this->attachment_ids[$type];
     }
 
     /**
@@ -506,6 +526,23 @@ class ContentObject extends DataClass
         return $dm->attach_content_object($this, $id, $type);
     }
 
+    function attach_content_objects($ids = array(), $type = self :: ATTACHMENT_NORMAL)
+    {
+        if (! is_array($ids))
+        {
+            $ids = array($ids);
+        }
+        
+        foreach ($ids as $id)
+        {
+            if (! $this->attach_content_object($id, $type))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Includes the learning object with the given ID in this learning object.
      * @param int $id The ID of the learning object to include.
@@ -538,6 +575,33 @@ class ContentObject extends DataClass
     {
         $dm = RepositoryDataManager :: get_instance();
         return $dm->detach_content_object($this, $id, $type);
+    }
+
+    function detach_content_objects($ids = array(), $type = self :: ATTACHMENT_NORMAL)
+    {
+        if (! is_array($ids))
+        {
+            $ids = array($ids);
+        }
+        
+        foreach ($ids as $id)
+        {
+            if (! $this->detach_content_object($id, $type))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function truncate_attachments($type = self :: ATTACHMENT_NORMAL)
+    {
+        // Delete all types of attachments (only the links, not the actual objects)
+        $conditions = array();
+        $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
+        $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_TYPE, $type);
+        $condition = new AndCondition($conditions);
+        return $this->get_data_manager()->delete_content_object_attachments($condition);
     }
 
     /**
@@ -790,7 +854,7 @@ class ContentObject extends DataClass
         
         // Delete attachment links of the object
         $condition = new EqualityCondition(ContentObjectAttachment :: PROPERTY_ATTACHMENT_ID, $this->get_id());
-        if (!$rdm->delete_content_object_attachments($condition))
+        if (! $rdm->delete_content_object_attachments($condition))
         {
             return false;
         }

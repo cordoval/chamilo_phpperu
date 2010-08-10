@@ -71,6 +71,7 @@ class SubscriptionUserForm extends FormValidator
         
         $subscription = $this->subscription;
         $export_users = $this->exportValue('users');
+        $export_users = $export_users['user'];
         
         $condition = new EqualityCondition(SubscriptionUser :: PROPERTY_SUBSCRIPTION_ID, $subscription->get_id());
         $users = ReservationsDataManager :: get_instance()->retrieve_subscription_users($condition);

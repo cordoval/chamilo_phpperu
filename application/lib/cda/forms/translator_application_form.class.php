@@ -46,18 +46,6 @@ class TranslatorApplicationForm extends FormValidator
     		$this->addElement('select', TranslatorApplication :: PROPERTY_SOURCE_LANGUAGE_ID, Translation :: get('SourceLanguage'), $this->get_source_languages());
     	}
 
-//		$url = Path :: get(WEB_PATH) . 'application/lib/cda/xml_feeds/xml_cda_languages_feed.php';
-//		$locale = array();
-//		$locale['Display'] = Translation :: get('SelectLanguages');
-//		$locale['Searching'] = Translation :: get('Searching');
-//		$locale['NoResults'] = Translation :: get('NoResults');
-//		$locale['Error'] = Translation :: get('Error');
-//		$hidden = false;
-
-//		$elem = $this->addElement('element_finder', TranslatorApplication :: PROPERTY_DESTINATION_LANGUAGE_ID, Translation :: get('DestinationLanguages'), $url, $locale);
-//		$elem->setDefaults(array());
-//		$elem->excludeElements(array());
-
     	$target_languages = $this->get_target_languages();
 
     	if (count($target_languages) > 0)

@@ -57,6 +57,7 @@ $lang['repository']['ContentObjectImport'] = 'Importeer leerobject';
 $lang['repository']['AddExistingContentObject'] = 'Bestaande leerobjecten toevoegen';
 $lang['repository']['ContentObjectNotImported'] = 'Leerobject niet geïmporteerd';
 $lang['repository']['ContentObjectImported'] = 'Leerobject geïmporteerd';
+$lang['repository']['ImportSuccesfull'] = 'Het object is met success geïmporteerd';
 $lang['repository']['AddObjects'] = 'Objecten toevoegen';
 $lang['repository']['Metadata'] = 'Metadata';
 $lang['repository']['BrowseComplex'] = 'Navigeer complex leerobject';

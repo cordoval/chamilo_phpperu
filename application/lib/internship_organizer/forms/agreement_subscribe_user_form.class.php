@@ -47,7 +47,7 @@ class InternshipOrganizerAgreementSubscribeUserForm extends FormValidator
         $agreement_id = $this->agreement->get_id();
         
         $values = $this->exportValues();
-        $user_ids = $values[self :: PARAM_TARGET];
+        $user_ids = $values[self :: PARAM_TARGET]['user'];
         
         $succes = false;
         

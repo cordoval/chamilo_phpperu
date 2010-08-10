@@ -3,11 +3,12 @@
 	<properties>
 		<property name="content_object_id" type="integer" unsigned="1" notnull="1" />
 		<property name="attachment_id" type="integer" unsigned="1" notnull="1" />
-		<property name="type" type="text" length="100" fixed="true" notnull="1" default="normal" />
+		<property name="type" type="text" length="20" fixed="true" notnull="1" default="normal" />
 	</properties>
 	<index name="id" type="primary">
 		<indexproperty name="content_object_id" />
 		<indexproperty name="attachment_id" />
+		<indexproperty name="type" />
 	</index>
 	<index name="content_object_id">
 		<indexproperty name="content_object_id" />

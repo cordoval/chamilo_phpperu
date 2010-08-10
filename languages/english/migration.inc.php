@@ -7,6 +7,7 @@ $lang['migration']['MigrateClasses'] = 'Migrate classes';
 $lang['migration']['MigrateCourses'] = 'Migrate courses';
 $lang['migration']['MigrateCourseAnnouncements'] = 'Migrate course announcements';
 $lang['migration']['MigrateCourseAssignments'] = 'Migrate course assignments';
+$lang['migration']['MigrateCourseBlogs'] = 'Migrate course blogs';
 $lang['migration']['MigrateCourseCalendarEvents'] = 'Migrate course calendar events';
 $lang['migration']['MigrateCourseDocuments'] = 'Migrate course documents';
 $lang['migration']['MigrateCourseDropboxes'] = 'Migrate course dropboxes';
@@ -83,6 +84,9 @@ $lang['migration']['CourseRelClassInvalidMessage'] = 'FAILED: course class is no
 $lang['migration']['CourseRelClassConvertedMessage'] = 'SUCCES: new course class added (CLASS: {CLASS_ID} - COURSE: {COURSE_ID})';
 $lang['migration']['CourseRelUserInvalidMessage'] = 'FAILED: course user is not valid (USER: {USER_ID} - COURSE: {COURSE_ID})';
 $lang['migration']['CourseRelUserConvertedMessage'] = 'SUCCES: new course user added (USER: {USER_ID} - COURSE: {COURSE_ID})';
+
+$lang['migration']['CourseBlogsMigrationBlockInfoNext'] = 'On the next page all the blogs, blog posts, blog comments and blog attachments from all the courses will be migrated';
+$lang['migration']['CourseBlogsMigrationBlockInfo'] = 'On this page all the blogs, blog posts, blog comments and blog attachments from all the courses will be migrated';
 
 $lang['migration']['CourseForumsMigrationBlockInfoNext'] = 'On the next page all the forum categories, forums, forum threads and forum posts from all the courses will be migrated';
 $lang['migration']['CourseForumsMigrationBlockInfo'] = 'On this page all the forum categories, forums, forum threads and forum posts from all the courses will be migrated';

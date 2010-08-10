@@ -69,7 +69,7 @@ class GroupRightsTemplateManagerForm extends FormValidator
     {
         $group = $this->group;
         $values = $this->exportValues();
-        return $group->update_rights_template_links($values['rights_templates']);
+        return $group->update_rights_template_links($values['rights_templates']['template']);
     }
 
 }

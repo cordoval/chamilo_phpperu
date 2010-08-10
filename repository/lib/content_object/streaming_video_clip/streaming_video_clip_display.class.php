@@ -121,9 +121,9 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
                 }
                 $html2 = array();
 
-                $html2[] = Translation :: get('PublishedBy') . ' : ' . $object->get_publisher() . '<br />';
+                $html2[] = Translation :: get('PublishedBy') . ' : ' . $this->mediamosa_object->get_publisher() . '<br />';
 
-                if($object->get_creator()) $html2[] = Translation :: get('CreatedBy') . ' : ' . $object->get_creator();
+                if($this->mediamosa_object->get_creator()) $html2[] = Translation :: get('CreatedBy') . ' : ' . $this->mediamosa_object->get_creator();
 
                 return '<table class="data_table data_table_no_header">' . implode("\n",$html) . '</table>' . implode("\n",$html2);
             }
@@ -131,12 +131,20 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
 
     function get_preview($is_thumbnail = false)
     {
+        xdebug_break();
         $this->set_mediamosa_object();
         $object = $this->get_content_object();
 
-        if ($is_thumbnail)
+        if ($is_thumbnail && $this->mediamosa_object)
         {
                 return '<img src="' . $this->mediamosa_object->get_thumbnail() . '" title="' . $object->get_title() . '" class="thumbnail" />';
+        }
+        else
+        {
+            if(!$this->mediamosa_object)
+            {
+                return Translation :: get('ConnectionLost');
+            }
         }
     }
 }

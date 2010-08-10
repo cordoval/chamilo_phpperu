@@ -55,7 +55,7 @@ class LaikaMailerForm extends FormValidator
 
         $subject = $values['subject'];
         $message = $values['message'];
-        $recipients = $values['recipients'];
+        $recipients = $values['recipients']['user'];
 
         $user = $this->user;
         $from = array(Mail :: NAME => $user->get_fullname(), Mail :: EMAIL => $user->get_email());

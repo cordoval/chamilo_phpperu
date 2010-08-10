@@ -83,7 +83,7 @@ class BuddyListItemForm extends FormValidator
         
         $succes = true;
         
-        $users = $values['users'];
+        $users = $values['users']['user'];
         foreach ($users as $us)
         {
             $buddy = new BuddyListItem();

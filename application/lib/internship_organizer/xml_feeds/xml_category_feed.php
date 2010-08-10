@@ -66,11 +66,11 @@ function dump_tree($categories)
         
         foreach ($categories as $category)
         {
-            $id = $category->get_id();
+            $id = 'category_' . $category->get_id();
             $name = $category->get_name();
             $description = $category->get_description();
             
-            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlentities($name), '" description="', htmlentities(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
+            echo '<leaf id="' . $id . '" classes="" title="' . htmlentities($name) . '" description="' . htmlentities(isset($description) && ! empty($description) ? $description : $name), '"/>' . "\n";
         }
         
         echo '</node>', "\n";

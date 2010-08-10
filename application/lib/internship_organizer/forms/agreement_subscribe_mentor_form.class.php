@@ -58,7 +58,7 @@ class InternshipOrganizerAgreementSubscribeMentorForm extends FormValidator
         $agreement_id = $this->agreement->get_id();
         
         $values = $this->exportValues();
-        $mentor_ids = $values[self :: PARAM_TARGET];
+        $mentor_ids = $values[self :: PARAM_TARGET]['mentor'];
         
         $succes = false;
         

@@ -90,13 +90,13 @@ function dump_tree($moment_rel_users)
             $user_id = $moment_rel_user->get_optional_property('user_id');
         	$moment_id = $moment_rel_user->get_id();
         	$moment = InternshipOrganizerDataManager::get_instance()->retrieve_moment($moment_id);
-        	$id = $moment_id . '|' . $user_id . '|' .$user_type_index ;
+        	$id = 'moment_' . $moment_id . '|' . $user_id . '|' .$user_type_index ;
             $user = UserDataManager :: get_instance()->retrieve_user($user_id);
             $name = strip_tags($moment->get_name() . ' ' . $user->get_firstname() . ' ' . $user->get_lastname() . ' - ' . $user_type);
             $begin = $moment->get_begin();
             $end = $moment->get_end();
 	        $description =$begin.' - '.$end;
-            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlspecialchars($name), '" description="', htmlspecialchars(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
+            echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
          echo '</node>', "\n";
     

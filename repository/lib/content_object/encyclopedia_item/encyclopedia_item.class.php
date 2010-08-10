@@ -13,8 +13,9 @@ class EncyclopediaItem extends ContentObject implements Versionable
 	/**
 	 * EncyclopediaItem properties
 	 */
-	const PROPERTY_IMAGE = 'image';
 	const PROPERTY_TAGS = 'tags';
+	
+	const ATTACHMENT_IMAGE = 'image';
 
 	/**
 	 * Get the additional properties
@@ -22,25 +23,40 @@ class EncyclopediaItem extends ContentObject implements Versionable
 	 */
 	static function get_additional_property_names()
 	{
-		return array (self :: PROPERTY_IMAGE, self :: PROPERTY_TAGS);
+		return array (self :: PROPERTY_TAGS);
+	}
+	
+	function get_image($only_return_id = false)
+	{
+	    $image = array_shift($this->get_images());
+	    
+	    if (is_null($image))
+	    {
+	        return $only_return_id ? $image : false;
+	    }
+	    else
+	    {
+	        return $only_return_id ? $image->get_id() : $image;
+	    }
 	}
 
 	/**
 	 * Returns the image of this EncyclopediaItem.
-	 * @return the image.
+	 * @return Array.
 	 */
-	function get_image()
+	function get_images()
 	{
-		return $this->get_additional_property(self :: PROPERTY_IMAGE);
+	   return $this->get_attached_content_objects(self :: ATTACHMENT_IMAGE); 
 	}
 
 	/**
 	 * Sets the image of this EncyclopediaItem.
-	 * @param image
+	 * @param Array image
 	 */
-	function set_image($image)
+	function set_images($images = array())
 	{
-		$this->set_additional_property(self :: PROPERTY_IMAGE, $image);
+	    $this->truncate_attachments(self :: ATTACHMENT_IMAGE);
+	    $this->attach_content_objects($images, self :: ATTACHMENT_IMAGE);
 	}
 
 	/**

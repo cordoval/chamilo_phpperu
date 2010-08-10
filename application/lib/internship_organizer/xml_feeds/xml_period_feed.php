@@ -62,19 +62,19 @@ function dump_tree($periods)
 {
     if (contains_results($periods))
     {
-        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Periods'), '">', "\n";
+        echo '<node id="0" classes="category unlinked" title="' . Translation :: get('Periods') . '">' . "\n";
         
         foreach ($periods as $period)
         {
-            $id = $period->get_id();
+            $id = 'period_' . $period->get_id();
             $name = strip_tags($period->get_name());
             $description = strip_tags($period->get_description());
             $description = preg_replace("/[\n\r]/", "", $description);
             
-            echo '<leaf id="', $id, '" classes="', '', '" title="', htmlspecialchars($name), '" description="', htmlspecialchars(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
+            echo '<leaf id="' . $id . '" classes="" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
         }
         
-        echo '</node>', "\n";
+        echo '</node>' . "\n";
     
     }
 }

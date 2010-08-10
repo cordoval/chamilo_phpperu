@@ -49,7 +49,7 @@ class InternshipOrganizerPeriodSubscribeCategoryForm extends FormValidator
         $period_id = $this->period->get_id();
         
         $values = $this->exportValues();
-        $category_ids = $values[self :: PARAM_TARGET];
+        $category_ids = $values[self :: PARAM_TARGET]['category'];
         
         $succes = false;
         

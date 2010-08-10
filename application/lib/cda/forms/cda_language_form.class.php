@@ -124,7 +124,7 @@ class CdaLanguageForm extends FormValidator
     	}
     	
     	$original_moderators = $this->get_moderators();
-    	$current_moderators = $values['moderators'];
+    	$current_moderators = $values['moderators']['user'];
     	
     	$moderators_to_remove = array_diff($original_moderators, $current_moderators);
     	$moderators_to_add = array_diff($current_moderators, $original_moderators);
@@ -173,7 +173,7 @@ class CdaLanguageForm extends FormValidator
     		return false;
     	}
     	
-    	$moderators = $values['moderators'];
+    	$moderators = $values['moderators']['user'];
     	$location = CdaRights :: get_location_id_by_identifier_from_languages_subtree($cda_language->get_table_name(), $cda_language->get_id());
     	
     	foreach ($moderators as $moderator)

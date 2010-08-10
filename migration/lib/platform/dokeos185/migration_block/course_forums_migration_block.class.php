@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../data_class/dokeos185_forum_category.class.
 require_once dirname(__FILE__) . '/../data_class/dokeos185_forum_forum.class.php';
 require_once dirname(__FILE__) . '/../data_class/dokeos185_forum_thread.class.php';
 require_once dirname(__FILE__) . '/../data_class/dokeos185_forum_post.class.php';
+require_once dirname(__FILE__) . '/../data_class/dokeos185_forum_attachment.class.php';
 require_once dirname(__FILE__) . '/../course_data_migration_block.class.php';
 
 class CourseForumsMigrationBlock extends CourseDataMigrationBlock
@@ -22,7 +23,7 @@ class CourseForumsMigrationBlock extends CourseDataMigrationBlock
 	
 	function get_course_data_classes()
 	{
-		return array(new Dokeos185ForumCategory(), new Dokeos185ForumForum(), new Dokeos185ForumThread(), new Dokeos185ForumPost());
+		return array(new Dokeos185ForumCategory(), new Dokeos185ForumForum(), new Dokeos185ForumThread(), new Dokeos185ForumPost(), new Dokeos185ForumAttachment());
 	}
 }
 

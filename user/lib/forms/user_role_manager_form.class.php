@@ -69,7 +69,7 @@ class UserRightsTemplateManagerForm extends FormValidator
     {
         $user = $this->user;
         $values = $this->exportValues();
-        return $user->update_rights_template_links($values['rights_templates']);
+        return $user->update_rights_template_links($values['rights_templates']['template']);
     }
 
 }

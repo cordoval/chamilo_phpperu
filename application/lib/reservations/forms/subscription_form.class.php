@@ -298,7 +298,7 @@ class SubscriptionForm extends FormValidator
         //	$udm = UserDataManager :: get_instance();
 
 
-        foreach ($users as $user)
+        foreach ($users['user'] as $user)
         {
             //			if($this->item->get_salto_id() != null && $this->item->get_salto_id() != 0)
             //			{

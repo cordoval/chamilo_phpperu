@@ -30,8 +30,9 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager
             $locations[] = RepositoryRights :: get_location_by_identifier('content_object', $object_id, $this->get_user_id(), 'user_tree');
         }
 
-        $manager = new RightsEditorManager($this, $locations);
-
+        //$manager = new RightsEditorManager($this, $locations);
+        $manager = RightsEditorManager :: factory($this->retrieve_content_object($object_id), $this, $locations);
+      
         $manager->exclude_users(array($this->get_user_id()));
         $manager->run();
     }
