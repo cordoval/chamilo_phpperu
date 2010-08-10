@@ -55,20 +55,30 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
 		$this->item_property = $item_property;
 	}
 
-        function get_email_sent()
-        {
-            return 0;
-        }
-        
-	function create_publication($object, $course, $user, $tool, $category_id = 0, $target_users = null, $target_groups = null)
+    function get_email_sent()
+    {
+        return 0;
+    }
+    
+    /**
+     * Creates a publication from a content object
+     * @param ContentObject $object
+     * @param int $course_id
+     * @param int $user_id
+     * @param String $tool
+     * @param int $category_id
+     * @param array() $target_users
+     * @param array() $target_groups
+     */
+	function create_publication($object, $course_id, $user_id, $tool, $category_id = 0, $target_users = null, $target_groups = null)
 	{
 		//publication
         $publication = new ContentObjectPublication();
             
         $publication->set_content_object($object);
         $publication->set_content_object_id($object->get_id());
-        $publication->set_course_id($course);
-        $publication->set_publisher_id($user);
+        $publication->set_course_id($course_id);
+        $publication->set_publisher_id($user_id);
         $publication->set_tool($tool);
 
         //target users, groups
@@ -92,13 +102,56 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
         }
         else
         {
-        	$publication->set_hidden($object->get_state());
+        	$publication->set_hidden($object->get_state() - 1);
         	$publication->set_publication_date($object->get_creation_date());
         	$publication->set_modified_date($object->get_modification_date());
         }
             
         //create publication in database
         $publication->create();
+        
+		return $publication;        
+	}
+	
+	/**
+	 * Creates a complex content object item with given parametesr
+	 * @param ContentObject $object
+	 * @param int $parent_id
+	 * @param int $user_id
+	 * @param int $add_date
+	 * @param array() $additional_properties
+	 */
+	function create_complex_content_object_item($object, $parent_id, $user_id, $add_date = null, $additional_properties = array())
+	{
+		$complex_content_object_item = ComplexContentObjectItem :: factory($object->get_type());
+        $complex_content_object_item->set_user_id($user_id);
+        $complex_content_object_item->set_parent($parent_id);
+        $complex_content_object_item->set_ref($object->get_id());
+        $complex_content_object_item->set_add_date($add_date ? $add_date : time());
+        $complex_content_object_item->set_additional_properties($additional_properties);
+        $complex_content_object_item->create();
+        
+        return $complex_content_object_item;
+	}
+	
+	/**
+	 * Creates a feedback publication
+	 * @param ContentObject $object
+	 * @param int $publication_id
+	 * @param int $complex_content_object_item_id
+	 */
+	function create_feedback($object, $publication_id, $complex_content_object_item_id, $creation_date = null, $modification_date = null)
+	{
+		$feedback = new FeedbackPublication();
+		$feedback->set_application('weblcms');
+		$feedback->set_fid($object->get_id());
+		$feedback->set_pid($publication_id);
+		$feedback->set_cid($complex_content_object_item_id);
+		$feedback->set_creation_date($creation_date ? $creation_date : time());
+		$feedback->set_modification_date($modification_date ? $modification_date : time());
+		$feedback->create();
+		
+		return $feedback;
 	}
 	
 	/**

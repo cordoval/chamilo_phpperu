@@ -150,7 +150,12 @@ class ComplexContentObjectItem extends DataClass
     function create()
     {
         $rdm = RepositoryDataManager :: get_instance();
-        $this->set_add_date(time());
+        
+        if(!$this->get_add_date())
+        {
+        	$this->set_add_date(time());
+        }
+        
         if(!$this->get_display_order())
         {
         	$this->set_display_order($rdm->select_next_display_order($this->get_parent()));

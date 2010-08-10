@@ -17,6 +17,12 @@ abstract class MigrationDataClass extends DataClass
 	private $message;
 	
 	/**
+	 * Caching variable for id references
+	 * @var $id_references[$table][$old_id] = $new_id;
+	 */
+	private $id_references;
+	
+	/**
 	 * Returns the message
 	 */
 	function get_message()
@@ -110,11 +116,16 @@ abstract class MigrationDataClass extends DataClass
 			$table = $this->get_table_name();
 		}
 		
-		$id_reference = MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($old_id, $table);
-		if($id_reference)
+		if(!$this->id_references[$table][$old_id])
 		{
-			return $id_reference->get_new_id();
-		} 
+			$id_reference = MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($old_id, $table);
+			if($id_reference)
+			{
+				$this->id_references[$table][$old_id] = $id_reference->get_new_id();
+			} 
+		}
+		
+		return $this->id_references[$table][$old_id];
 	}
 	
 	/**

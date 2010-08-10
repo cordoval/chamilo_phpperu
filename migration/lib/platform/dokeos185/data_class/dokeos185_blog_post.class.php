@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class
 class Dokeos185BlogPost extends Dokeos185CourseDataMigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
-    const TABLE_NAME = 'blog';
+    const TABLE_NAME = 'blog_post';
     
     /**
      * Dokeos185BlogPost properties
@@ -94,7 +94,13 @@ class Dokeos185BlogPost extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-    	return false;
+    	if(!$this->get_blog_id() || !($this->get_title() || $this->get_full_text()) || !$this->get_date_creation())
+    	{
+            $this->create_failed_element($this->get_post_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'blog_post', 'ID' => $this->get_post_id())));
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -103,6 +109,55 @@ class Dokeos185BlogPost extends Dokeos185CourseDataMigrationDataClass
      */
     function convert_data()
     {
+    	$course = $this->get_course();
+
+        $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
+        $new_user_id = $this->get_id_reference($this->get_author_id(), 'main_database.user');
+        
+        if(!$new_user_id)
+        {
+        	$new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
+        }
+        
+        $chamilo_blog_item = new BlogItem();
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Blogs'));
+
+        $chamilo_blog_item->set_parent_id($chamilo_category_id);
+        
+        if (! $this->get_title())
+        {
+            $chamilo_blog_item->set_title(Utilities :: truncate_string($this->get_full_text(), 20));
+        }
+        else
+        {
+            $chamilo_blog_item->set_title($this->get_title());
+        }
+        
+        if (! $this->get_full_text())
+        {
+            $chamilo_blog_item->set_description($this->get_title());
+        }
+        else
+        {
+            $chamilo_blog_item->set_description($this->get_full_text());
+        }
+        
+        $chamilo_blog_item->set_owner_id($new_user_id);
+        $chamilo_blog_item->set_creation_date(strtotime($this->get_date_creation()));
+        $chamilo_blog_item->set_modification_date(strtotime($this->get_date_creation()));
+            
+        //create announcement in database
+        $chamilo_blog_item->create_all();
+        
+    	$parent_blog_id = $this->get_id_reference($this->get_blog_id(),  $this->get_database_name() . '.blog');
+        if($parent_blog_id)
+        {
+        	$complex_content_object_item = $this->create_complex_content_object_item($chamilo_blog_item, $parent_blog_id, $new_user_id, strtotime($this->get_date_creation()));
+        }
+        
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'blog_post', 'OLD_ID' => $this->get_post_id(), 'NEW_ID' => $chamilo_blog_item->get_id())));
+        $this->create_id_reference($this->get_post_id(), $chamilo_blog_item->get_id());
+        $this->create_id_reference($this->get_blog_id(), $complex_content_object_item->get_id(), $this->get_database_name() . '.' . $this->get_table_name() . '.complex');
     }
 
     static function get_table_name()
