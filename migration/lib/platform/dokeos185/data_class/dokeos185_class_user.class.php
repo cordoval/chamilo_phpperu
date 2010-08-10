@@ -1,9 +1,9 @@
 <?php
+
 /**
  * $Id: dokeos185_class_user.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.platform.dokeos185
  */
-
 require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
 
@@ -13,20 +13,18 @@ require_once dirname(__FILE__) . '/../dokeos185_data_manager.class.php';
  * @author David Van Wayenbergh
  * @author Sven Vanpoucke
  */
-
 class Dokeos185ClassUser extends Dokeos185MigrationDataClass
 {
     const CLASS_NAME = __CLASS__;
-	const TABLE_NAME = 'class_user';   
-	const DATABASE_NAME = 'main_database';
-	
+    const TABLE_NAME = 'class_user';
+    const DATABASE_NAME = 'main_database';
+
     /**
      * class relation user properties
      */
-    
     const PROPERTY_CLASS_ID = 'class_id';
     const PROPERTY_USER_ID = 'user_id';
-    
+
     /**
      * Get the default properties of all classe_users.
      * @return array The property names.
@@ -59,15 +57,15 @@ class Dokeos185ClassUser extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        if (! $this->get_class_id() || ! $this->get_user_id() ||
-        	  $this->get_failed_element($this->get_class_id(), 'main_database.class') || 
-        	  $this->get_failed_element($this->get_user_id(), 'main_database.user'))
+        if (!$this->get_class_id() || !$this->get_user_id() ||
+                $this->get_failed_element($this->get_class_id(), 'main_database.class') ||
+                $this->get_failed_element($this->get_user_id(), 'main_database.user'))
         {
             $this->create_failed_element($this->get_class_id() . ' - ' . $this->get_user_id());
             $this->set_message(Translation :: get('ClassUserInvalidMessage', array('CLASS_ID' => $this->get_class_id(), 'USER_ID' => $this->get_user_id())));
             return false;
         }
-        
+
         return true;
     }
 
@@ -79,36 +77,37 @@ class Dokeos185ClassUser extends Dokeos185MigrationDataClass
     function convert_data()
     {
         $lcms_class_user = new GroupRelUser();
-        
+
         $class_id = $this->get_id_reference($this->get_class_id(), 'main_database.class');
         if ($class_id)
         {
             $lcms_class_user->set_group_id($class_id);
         }
-        
+
         $user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
         if ($user_id)
         {
             $lcms_class_user->set_user_id($user_id);
         }
-        
+
         $lcms_class_user->create();
         $this->set_message(Translation :: get('ClassUserConvertedMessage', array('CLASS_ID' => $this->get_class_id(), 'USER_ID' => $this->get_user_id())));
     }
-    
-	static function get_table_name()
+
+    static function get_table_name()
     {
         return self :: TABLE_NAME;
     }
-    
+
     static function get_class_name()
     {
-    	return self :: CLASS_NAME;
+        return self :: CLASS_NAME;
     }
-    
+
     function get_database_name()
     {
-    	return self :: DATABASE_NAME;
+        return self :: DATABASE_NAME;
     }
+
 }
 ?>

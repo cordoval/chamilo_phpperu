@@ -1,11 +1,11 @@
 <?php
+
+
 /**
  * $Id: dokeos185_track_cos.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_track_cos.class.php';
-require_once dirname(__FILE__) . '/../../../user/trackers/os_tracker.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 track_c_os
@@ -14,15 +14,17 @@ require_once dirname(__FILE__) . '/../../../user/trackers/os_tracker.class.php';
  */
 class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
 {
-    private static $mgdm;
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'track_c_os';
+    const DATABASE_NAME = 'statistics_database';
+
     /**
      * Dokeos185TrackCOs properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_OS = 'os';
     const PROPERTY_COUNTER = 'counter';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -32,7 +34,7 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackCOs object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackCOs($defaultProperties = array ())
+    function Dokeos185TrackCOs($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -113,12 +115,10 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
      * Validation checks
      * @param Array $array
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        if (! $this->get_os() || $this->get_counter() == null)
-        {
-            $mgdm->add_failed_element($this->get_id(), 'track_c_os');
+        if (!$this->get_os() || $this->get_counter() == null) {
+            $this->create_failed_element($this->get_id());
             return false;
         }
         return true;
@@ -128,7 +128,7 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
      * Convertion
      * @param Array $array
      */
-    function convert_data
+    function convert_data()
     {
         $conditions = array();
         $conditions[] = new EqualityCondition('type', 'os');
@@ -136,16 +136,13 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
         $condtion = new AndCondition($conditions);
         $ostracker = new OSTracker();
         $trackeritems = $ostracker->retrieve_tracker_items($condtion);
-        
-        if (count($trackeritems) != 0)
-        {
+
+        if (count($trackeritems) != 0) {
             $ostracker = $trackeritems[0];
             $ostracker->set_value($ostracker->get_value() + $this->get_counter());
             $ostracker->update();
-        }
-        else
-        {
-            
+        } else {
+
             $ostracker->set_name($this->get_os());
             $ostracker->set_value($this->get_counter());
             $ostracker->create();
@@ -153,29 +150,19 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
         return $ostracker;
     }
 
-    /**
-     * Gets all the trackers
-     * @param Array $array
-     * @return Array
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = 'statistics_database';
-        $tablename = 'track_c_os';
-        $classname = 'Dokeos185TrackCOs';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'statistics_database';
-        $array['table'] = 'track_c_os';
-        return $array;
+        return self :: CLASS_NAME;
     }
+    function get_database_name()
+    {
+    	return self :: DATABASE_NAME;
+    }
+
 }
-
 ?>

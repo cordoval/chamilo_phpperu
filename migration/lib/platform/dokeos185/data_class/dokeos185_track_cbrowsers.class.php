@@ -1,11 +1,10 @@
 <?php
+
 /**
  * $Id: dokeos185_track_cbrowsers.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_track_cbrowsers.class.php';
-require_once dirname(__FILE__) . '/../../../user/trackers/browsers_tracker.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 track_c_browsers
@@ -14,15 +13,18 @@ require_once dirname(__FILE__) . '/../../../user/trackers/browsers_tracker.class
  */
 class Dokeos185TrackCBrowsers extends Dokeos185MigrationDataClass
 {
-    private static $mgdm;
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'track_c_browsers';
+    const DATABASE_NAME = 'statistics_database';
+
+
     /**
      * Dokeos185TrackCBrowsers properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_BROWSER = 'browser';
     const PROPERTY_COUNTER = 'counter';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -32,7 +34,7 @@ class Dokeos185TrackCBrowsers extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackCBrowsers object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackCBrowsers($defaultProperties = array ())
+    function Dokeos185TrackCBrowsers($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -113,11 +115,11 @@ class Dokeos185TrackCBrowsers extends Dokeos185MigrationDataClass
      * Validation checks
      * @param Array $array
      */
-    function is_valid($array)
+    function is_valid()
     {
-        if (! $this->get_browser() || $this->get_counter() == null)
+        if (!$this->get_browser() || $this->get_counter() == null)
         {
-            self :: $mgdm->add_failed_element($this->get_id(), 'track_c_browsers');
+            $this->create_failed_element($this->get_id());
             return false;
         }
         return true;
@@ -127,7 +129,7 @@ class Dokeos185TrackCBrowsers extends Dokeos185MigrationDataClass
      * Convertion
      * @param Array $array
      */
-    function convert_data
+    function convert_data()
     {
         $conditions = array();
         $conditions[] = new EqualityCondition('type', 'browser');
@@ -135,7 +137,7 @@ class Dokeos185TrackCBrowsers extends Dokeos185MigrationDataClass
         $condtion = new AndCondition($conditions);
         $browsertracker = new BrowsersTracker();
         $trackeritems = $browsertracker->retrieve_tracker_items($condtion);
-        
+
         if (count($trackeritems) != 0)
         {
             $browsertracker = $trackeritems[0];
@@ -144,7 +146,7 @@ class Dokeos185TrackCBrowsers extends Dokeos185MigrationDataClass
         }
         else
         {
-            
+
             $browsertracker->set_name($this->get_browser());
             $browsertracker->set_value($this->get_counter());
             $browsertracker->create();
@@ -152,29 +154,20 @@ class Dokeos185TrackCBrowsers extends Dokeos185MigrationDataClass
         return $browsertracker;
     }
 
-    /**
-     * Gets all the trackers
-     * @param Array $array
-     * @return Array
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = 'statistics_database';
-        $tablename = 'track_c_browsers';
-        $classname = 'Dokeos185TrackCBrowsers';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'statistics_database';
-        $array['table'] = 'track_c_browsers';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
+    function get_database_name()
+    {
+        return self :: DATABASE_NAME;
+    }
+
 }
-
 ?>

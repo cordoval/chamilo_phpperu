@@ -1,10 +1,10 @@
 <?php
+
 /**
  * $Id: dokeos185_track_eopen.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_track_eopen.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 track_e_open
@@ -13,7 +13,9 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_eopen.class.php
  */
 class Dokeos185TrackEOpen extends Dokeos185MigrationDataClass
 {
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'track_e_open';
+    const DATABASE_NAME = 'statistics_database';
     /**
      * Dokeos185TrackEOpen properties
      */
@@ -22,7 +24,7 @@ class Dokeos185TrackEOpen extends Dokeos185MigrationDataClass
     const PROPERTY_OPEN_AGENT = 'open_agent';
     const PROPERTY_OPEN_REFERER = 'open_referer';
     const PROPERTY_OPEN_DATE = 'open_date';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -32,7 +34,7 @@ class Dokeos185TrackEOpen extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEOpen object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEOpen($defaultProperties = array ())
+    function Dokeos185TrackEOpen($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -131,43 +133,32 @@ class Dokeos185TrackEOpen extends Dokeos185MigrationDataClass
      * Validation checks
      * @param Array $array
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
     }
 
     /**
      * Convertion
      * @param Array $array
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
     }
 
-    /**
-     * Gets all the trackers
-     * @param Array $array
-     * @return Array
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = 'statistics_database';
-        $tablename = 'track_e_open';
-        $classname = 'Dokeos185TrackEOpen';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'statistics_database';
-        $array['table'] = 'track_e_open';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
+    function get_database_name()
+    {
+        return self :: DATABASE_NAME;
+    }
+
 }
-
 ?>

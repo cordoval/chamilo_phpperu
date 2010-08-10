@@ -1,10 +1,10 @@
 <?php
+
 /**
  * $Id: dokeos185_track_eattempt.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_track_eattempt.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 track_e_attempt
@@ -13,8 +13,10 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_eattempt.class.
  */
 class Dokeos185TrackEAttempt extends Dokeos185MigrationDataClass
 {
-    private static $mgdm;
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'track_e_attempt';
+    const DATABASE_NAME = 'statistics_database';
+
     /**
      * Dokeos185TrackEAttempt properties
      */
@@ -27,7 +29,7 @@ class Dokeos185TrackEAttempt extends Dokeos185MigrationDataClass
     const PROPERTY_COURSE_CODE = 'course_code';
     const PROPERTY_POSITION = 'position';
     const PROPERTY_TMS = 'tms';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -37,7 +39,7 @@ class Dokeos185TrackEAttempt extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEAttempt object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEAttempt($defaultProperties = array ())
+    function Dokeos185TrackEAttempt($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -171,44 +173,41 @@ class Dokeos185TrackEAttempt extends Dokeos185MigrationDataClass
     /**
      * Validation checks
      * @param Array $array
+     * @todo
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        if (!$this->get_answer() || !$this->get_tms())
+        {
+            $this->create_failed_element($this->get_id());
+            return false;
+        }
+        return true;
     }
 
     /**
      * Convertion
      * @param Array $array
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+        
     }
 
-    /**
-     * Gets all the trackers
-     * @param Array $array
-     * @return Array
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = 'statistics_database';
-        $tablename = 'track_e_attempt';
-        $classname = 'Dokeos185TrackEAttempt';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'statistics_database';
-        $array['table'] = 'track_e_attempt';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
+    function get_database_name()
+    {
+        return self :: DATABASE_NAME;
+    }
+
 }
-
 ?>

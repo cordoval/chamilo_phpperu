@@ -1,10 +1,10 @@
 <?php
+
 /**
  * $Id: dokeos185_track_eaccess.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_track_eaccess.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 track_e_access
@@ -13,8 +13,10 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_eaccess.class.p
  */
 class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
 {
-    private static $mgdm;
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'track_e_access';
+    const DATABASE_NAME = 'statistics_database';
+
     /**
      * Dokeos185TrackEAccess properties
      */
@@ -23,7 +25,7 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
     const PROPERTY_ACCESS_DATE = 'access_date';
     const PROPERTY_ACCESS_COURS_CODE = 'access_cours_code';
     const PROPERTY_ACCESS_TOOL = 'access_tool';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -33,7 +35,7 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEAccess object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEAccess($defaultProperties = array ())
+    function Dokeos185TrackEAccess($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -114,7 +116,7 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
      * Returns the access_cours_code of this Dokeos185TrackEAccess.
      * @return the access_cours_code.
      */
-    function get_access_cours_code()
+    function get_access_course_code()
     {
         return $this->get_default_property(self :: PROPERTY_ACCESS_COURS_CODE);
     }
@@ -131,44 +133,59 @@ class Dokeos185TrackEAccess extends Dokeos185MigrationDataClass
     /**
      * Validation checks
      * @param Array $array
+     * @todo
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+
+        $new_user_id = $this->get_id_reference($this->get_access_user_id(), 'main_database.user');
+
+        if (!$new_user_id) //if the user id doesn't exist anymore, the data can be ignored
+        {
+            $this->create_failed_element($this->get_id());
+            return false;
+        }
+        return true;
     }
 
     /**
      * Convertion
      * @param Array $array
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+        $visit_tracker = new VisitTracker();
+        $new_course_id = $this->get_id_reference($this->get_access_course_code(), 'main_database.course');
+        $new_user_id = $this->get_id_reference($this->get_access_user_id(), 'main_database.user');
+        $tool = $this->get_access_tool();
+
+        if ($tool)
+            $url = "/hg/run.php?go=courseviewer&course=$new_course_id&application=weblcms&tool=$tool";
+        else
+            $url="/hg/run.php?go=courseviewer&course=$new_course_id&application=weblcms";
+
+        $visit_tracker->set_enter_date(strtotime($this->get_access_date()));
+        $visit_tracker->set_leave_date(strtotime($this->get_access_date()));
+        $visit_tracker->set_location($url);
+        $visit_tracker->set_user_id($new_user_id);
+
+        $visit_tracker->create();
     }
 
-    /**
-     * Gets all the trackers
-     * @param Array $array
-     * @return Array
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = 'statistics_database';
-        $tablename = 'track_e_access';
-        $classname = 'Dokeos185TrackEAccess';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'statistics_database';
-        $array['table'] = 'track_e_access';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
+    function get_database_name()
+    {
+        return self :: DATABASE_NAME;
+    }
+
 }
-
 ?>

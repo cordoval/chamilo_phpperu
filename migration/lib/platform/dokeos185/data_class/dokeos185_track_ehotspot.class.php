@@ -1,10 +1,10 @@
 <?php
+
 /**
  * $Id: dokeos185_track_ehotspot.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_track_ehotspot.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 track_e_hotspot
@@ -13,8 +13,10 @@ require_once dirname(__FILE__) . '/../../lib/import/import_track_ehotspot.class.
  */
 class Dokeos185TrackEHotspot extends Dokeos185MigrationDataClass
 {
-    private static $mgdm;
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'track_e_hotspot';
+    const DATABASE_NAME = 'statistics_database';
+
     /**
      * Dokeos185TrackEHotspot properties
      */
@@ -26,7 +28,7 @@ class Dokeos185TrackEHotspot extends Dokeos185MigrationDataClass
     const PROPERTY_HOTSPOT_ANSWER_ID = 'hotspot_answer_id';
     const PROPERTY_HOTSPOT_CORRECT = 'hotspot_correct';
     const PROPERTY_HOTSPOT_COORDINATE = 'hotspot_coordinate';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -36,7 +38,7 @@ class Dokeos185TrackEHotspot extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackEHotspot object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackEHotspot($defaultProperties = array ())
+    function Dokeos185TrackEHotspot($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -162,43 +164,34 @@ class Dokeos185TrackEHotspot extends Dokeos185MigrationDataClass
      * Validation checks
      * @param Array $array
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+
     }
 
     /**
      * Convertion
      * @param Array $array
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+
     }
 
-    /**
-     * Gets all the trackers
-     * @param Array $array
-     * @return Array
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = 'statistics_database';
-        $tablename = 'track_e_hotspot';
-        $classname = 'Dokeos185TrackEHotspot';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'statistics_database';
-        $array['table'] = 'track_e_hotspot';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
+    function get_database_name()
+    {
+        return self :: DATABASE_NAME;
+    }
+
 }
-
 ?>

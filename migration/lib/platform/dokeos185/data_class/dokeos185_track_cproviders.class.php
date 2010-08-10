@@ -1,11 +1,10 @@
 <?php
+
 /**
  * $Id: dokeos185_track_cproviders.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_track_cproviders.class.php';
-require_once dirname(__FILE__) . '/../../../user/trackers/providers_tracker.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 track_c_providers
@@ -14,15 +13,17 @@ require_once dirname(__FILE__) . '/../../../user/trackers/providers_tracker.clas
  */
 class Dokeos185TrackCProviders extends Dokeos185MigrationDataClass
 {
-    private static $mgdm;
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'track_c_providers';
+    const DATABASE_NAME = 'statistics_database';
+
     /**
      * Dokeos185TrackCProviders properties
      */
     const PROPERTY_ID = 'id';
     const PROPERTY_PROVIDER = 'provider';
     const PROPERTY_COUNTER = 'counter';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -32,7 +33,7 @@ class Dokeos185TrackCProviders extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackCProviders object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackCProviders($defaultProperties = array ())
+    function Dokeos185TrackCProviders($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -113,12 +114,11 @@ class Dokeos185TrackCProviders extends Dokeos185MigrationDataClass
      * Validation checks
      * @param Array $array
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        if (! $this->get_provider() || $this->get_counter() == null)
+        if (!$this->get_provider() || $this->get_counter() == null)
         {
-            $mgdm->add_failed_element($this->get_id(), 'track_c_providers');
+            $this->create_failed_element($this->get_id());
             return false;
         }
         return true;
@@ -128,7 +128,7 @@ class Dokeos185TrackCProviders extends Dokeos185MigrationDataClass
      * Convertion
      * @param Array $array
      */
-    function convert_data
+    function convert_data()
     {
         $conditions = array();
         $conditions[] = new EqualityCondition('type', 'provider');
@@ -136,7 +136,7 @@ class Dokeos185TrackCProviders extends Dokeos185MigrationDataClass
         $condtion = new AndCondition($conditions);
         $providertracker = new ProvidersTracker();
         $trackeritems = $providertracker->retrieve_tracker_items($condtion);
-        
+
         if (count($trackeritems) != 0)
         {
             $providertracker = $trackeritems[0];
@@ -145,7 +145,6 @@ class Dokeos185TrackCProviders extends Dokeos185MigrationDataClass
         }
         else
         {
-            
             $providertracker->set_name($this->get_provider());
             $providertracker->set_value($this->get_counter());
             $providertracker->create();
@@ -153,29 +152,20 @@ class Dokeos185TrackCProviders extends Dokeos185MigrationDataClass
         return $providertracker;
     }
 
-    /**
-     * Gets all the trackers
-     * @param Array $array
-     * @return Array
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = 'statistics_database';
-        $tablename = 'track_c_providers';
-        $classname = 'Dokeos185TrackCProviders';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'statistics_database';
-        $array['table'] = 'track_c_providers';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
+    function get_database_name()
+    {
+        return self :: DATABASE_NAME;
+    }
+
 }
-
 ?>

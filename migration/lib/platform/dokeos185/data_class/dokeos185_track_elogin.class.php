@@ -1,11 +1,13 @@
 <?php
+
+require_once dirname(__FILE__) . "/../../../../../user/trackers/login_logout_tracker.class.php";
+
+require_once dirname(__FILE__) . '/../dokeos185_migration_data_class.class.php';
+
 /**
  * $Id: dokeos185_track_elogin.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_track_elogin.class.php';
-require_once dirname(__FILE__) . '/../../../user/trackers/login_logout_tracker.class.php';
 
 /**
  * This class presents a Dokeos185 track_e_login
@@ -14,8 +16,9 @@ require_once dirname(__FILE__) . '/../../../user/trackers/login_logout_tracker.c
  */
 class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
 {
-    private static $mgdm;
-    
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'track_e_login';
+    const DATABASE_NAME = 'statistics_database';
     /**
      * Dokeos185TrackELogin properties
      */
@@ -24,7 +27,7 @@ class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
     const PROPERTY_LOGIN_DATE = 'login_date';
     const PROPERTY_LOGIN_IP = 'login_ip';
     const PROPERTY_LOGOUT_DATE = 'logout_date';
-    
+
     /**
      * Default properties stored in an associative array.
      */
@@ -34,7 +37,7 @@ class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
      * Creates a new Dokeos185TrackELogin object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185TrackELogin($defaultProperties = array ())
+    function Dokeos185TrackELogin($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -133,13 +136,12 @@ class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
      * Validation checks
      * @param Array $array
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $mgdm = MigrationDataManager :: get_instance();
-        
-        if (! $this->get_login_user_id() || ! $this->get_login_date() || ! $this->get_login_ip() || $mgdm->get_failed_element($this->get_login_user_id(), 'dokeos_main.user') || ! $mgdm->get_id_reference($this->get_login_user_id(), 'user_user'))
+
+        if (!$this->get_login_user_id() || !$this->get_login_date() || !$this->get_login_ip() || $this->get_failed_element($this->get_login_user_id(), 'main_database.user') || !$this->get_id_reference($this->get_login_user_id(), 'main_database.user'))
         {
-            $mgdm->add_failed_element($this->get_login_id(), 'track_e_login');
+            $this->create_failed_element($this->get_id());
             return false;
         }
         return true;
@@ -149,53 +151,44 @@ class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
      * Convertion
      * @param Array $array
      */
-    function convert_data
+    function convert_data()
     {
         $login = new LoginLogoutTracker();
         $mgdm = MigrationDataManager :: get_instance();
-        
-        $new_user_id = $mgdm->get_id_reference($this->get_login_user_id(), 'user_user');
+
+        $new_user_id = $this->get_id_reference($this->get_login_user_id(), 'main_database.user');
         $login->set_user_id($new_user_id);
         $login->set_ip($this->get_login_ip());
-        $login->set_date($mgdm->make_unix_time($this->get_login_date()));
+        $login->set_date(strtotime($this->get_login_date()));
         $login->set_type('login');
         $login->create();
-        
+
         if ($this->get_logout_date() != null)
         {
             $login = new LoginLogoutTracker();
             $login->set_user_id($new_user_id);
             $login->set_ip($this->get_login_ip());
-            $login->set_date($mgdm->make_unix_time($this->get_logout_date()));
+            $login->set_date(strtotime($this->get_logout_date()));
             $login->set_type('logout');
             $login->create();
         }
         return $login;
     }
 
-    /**
-     * Gets all the trackers
-     * @param Array $array
-     * @return Array
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $db = 'statistics_database';
-        $tablename = 'track_e_login';
-        $classname = 'Dokeos185TrackELogin';
-        
-        return $old_mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
 
-    static function get_database_table($parameters)
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = 'statistics_database';
-        $array['table'] = 'track_e_login';
-        return $array;
+        return self :: CLASS_NAME;
     }
+
+    function get_database_name()
+    {
+        return self :: DATABASE_NAME;
+    }
+
 }
-
 ?>
