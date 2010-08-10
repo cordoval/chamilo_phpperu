@@ -15,7 +15,6 @@ class MediamosaExternalRepositoryManagerImporterComponent extends MediamosaExter
 
     function import_external_repository_object($object)
     {
-        xdebug_break();
         if ($object->is_importable())
         {
            

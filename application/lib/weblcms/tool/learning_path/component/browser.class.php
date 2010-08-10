@@ -21,8 +21,7 @@ class LearningPathToolBrowserComponent extends LearningPathTool
         
         return $actions;
     }
-    
-	function get_content_object_publication_table_cell_renderer($tool_browser)
+    function get_content_object_publication_table_cell_renderer($tool_browser)
     {
         return new LearningPathCellRenderer($tool_browser);
     }
