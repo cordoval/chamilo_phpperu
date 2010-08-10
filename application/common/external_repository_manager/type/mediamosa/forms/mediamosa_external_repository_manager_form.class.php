@@ -126,7 +126,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
        {
            if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id))
             //if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id, $this->exportValue(MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE)))
-            {
+           {
                 //on succes add rights ??
                 //TODO:jens-> ACL rights
                 //$connector->add_mediamosa_mediafile_rights($mediafile_id, $rights);
@@ -153,11 +153,12 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
 
                         //create master slave acl settings
                         $slaves = explode('|', ExternalRepositorySetting :: get('slave_app_ids', Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY)));
+
                         foreach($slaves as $slave)
                         {
                             $rights['aut_app'][] = $slave;
                         }
-                       xdebug_break();
+
                         $connector->set_mediamosa_asset_rights($asset_id, $rights, $connector->get_mediamosa_user_id(Session :: get_user_id()), false);
                         $connector->set_mediamosa_mediafile_rights($mediafile_id, $rights, $connector->get_mediamosa_user_id(Session :: get_user_id()));
 
