@@ -94,4 +94,9 @@ $lang['migration']['CourseBlogsMigrationBlockInfo'] = 'On this page all the blog
 $lang['migration']['CourseForumsMigrationBlockInfoNext'] = 'On the next page all the forum categories, forums, forum threads and forum posts from all the courses will be migrated';
 $lang['migration']['CourseForumsMigrationBlockInfo'] = 'On this page all the forum categories, forums, forum threads and forum posts from all the courses will be migrated';
 
+$lang['migration']['CourseQuizzesMigrationBlockInfoNext'] = 'On the next page all the quizzes, quiz questions and quiz answers from all the courses will be migrated';
+$lang['migration']['CourseQuizzesMigrationBlockInfo'] = 'On this page all the quizzes, quiz questions and quiz answers from all the courses will be migrated';
+$lang['migration']['QuizRelQuestionInvalidMessage'] = 'FAILED: quiz rel question is not valid (QUIZ: {QUIZ} - QUESTION: {QUESTION})';
+$lang['migration']['QuizRelQuestionConvertedMessage'] = 'SUCCES: new quiz rel question added (QUIZ: {QUIZ} - QUESTION: {QUESTION}) - (COMPLEX CONTENT OBJECT ITEM: {NEW_ID})';
+
 ?>

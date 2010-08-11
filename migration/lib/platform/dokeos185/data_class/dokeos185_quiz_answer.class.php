@@ -4,14 +4,17 @@
  * @package migration.lib.platform.dokeos185
  */
 
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
+
 /**
  * This class presents a Dokeos185 quiz_answer
  *
  * @author Sven Vanpouckes
  */
-class Dokeos185QuizAnswer
+class Dokeos185QuizAnswer extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'quiz_answer';
     
     /**
      * Dokeos185QuizAnswer properties
@@ -27,62 +30,12 @@ class Dokeos185QuizAnswer
     const PROPERTY_HOTSPOT_TYPE = 'hotspot_type';
     
     /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new Dokeos185QuizAnswer object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185QuizAnswer($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    /**
      * Get the default properties
      * @return array The property names.
      */
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_QUESTION_ID, self :: PROPERTY_ANSWER, self :: PROPERTY_CORRECT, self :: PROPERTY_COMMENT, self :: PROPERTY_PONDERATION, self :: PROPERTY_POSITION, self :: PROPERTY_HOTSPOT_COORDINATES, self :: PROPERTY_HOTSPOT_TYPE);
-    }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -166,28 +119,30 @@ class Dokeos185QuizAnswer
         return $this->get_default_property(self :: PROPERTY_HOTSPOT_TYPE);
     }
 
-    /**
-     * Gets all the quizanswer of a course
-     * @param Array $array
-     * @return Array of dokeos185quizanswer
+	/**
+     * Check if the object is valid
      */
-    static function retrieve_data($parameters)
+    function is_valid()
     {
-        self :: $mgdm = $parameters['mgdm'];
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'quiz_answer';
-        $classname = 'Dokeos185QuizAnswer';
-        
-        return self :: $mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+    	return false;
     }
 
-    static function get_database_table($parameters)
+    /**
+     * Convert
+     */
+    function convert_data()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'quiz_answer';
-        return $array;
+    	
+    }
+
+    static function get_table_name()
+    {
+        return self :: TABLE_NAME;
+    }
+    
+    static function get_class_name()
+    {
+    	return self :: CLASS_NAME;
     }
 }
 

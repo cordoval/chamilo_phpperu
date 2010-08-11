@@ -183,6 +183,10 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	return 2;
     }
 
+    /**
+     * Retrieves the uers by fullname
+     * @param String $fullname
+     */
     function retrieve_user_by_fullname($fullname)
     {
         $name = explode(' ', $fullname);
@@ -207,7 +211,18 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
         return $object;
     }
 
-    
+    /**
+     * Retrieves all the relations from a question to the several quizzes
+     * @param Dokeos185Course $course
+     * @param int $question_id
+     */
+    function retrieve_quiz_rel_questions($course, $question_id)
+    {
+    	$this->set_database($course->get_db_name());
+    	
+    	$condition = new EqualityCondition(Dokeos185QuizRelQuestion :: PROPERTY_QUESTION_ID, $question_id);
+    	return $this->retrieve_objects(Dokeos185QuizRelQuestion :: get_table_name(), $condition, null, null, null, 'Dokeos185QuizRelQuestion');
+    }
 }
 
 ?>
