@@ -206,23 +206,19 @@ class Dokeos185ForumThread extends Dokeos185CourseDataMigrationDataClass
         $this->create_id_reference($this->get_thread_id(), $chamilo_forum_topic->get_id());
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'forum_thread', 'OLD_ID' => $this->get_thread_id(), 'NEW_ID' => $chamilo_forum_topic->get_id())));
 		
-    	$parent_forum = $this->get_id_reference($this->get_forum_id(),  $this->get_database_name() . '.forum_forum');
-        if($parent_forum)
+    	$parent_forum_id = $this->get_id_reference($this->get_forum_id(),  $this->get_database_name() . '.forum_forum');
+        if($parent_forum_id)
         {
-        	$wrapper = ComplexContentObjectItem :: factory('forum_topic');
-        	$wrapper->set_user_id($new_user_id);
-        	$wrapper->set_parent($parent_forum);
-        	$wrapper->set_ref($chamilo_forum_topic->get_id());
-        
-        	if($this->get_thread_sticky())
+        	/*if($this->get_thread_sticky())
         	{
-        		$wrapper->set_type(1);
+        		$additional_properties[ForumTopic :: PROPERTY_] = 1;
         	}
         	else 
         	{
-        		$wrapper->set_type(0);
-        	}
-        	$wrapper->create();
+        		$additional_properties[ForumTopic :: PROPERTY_STATE] = 0;
+        	}*/
+        	
+        	$this->create_complex_content_object_item($chamilo_forum_topic, $parent_forum_id, $new_user_id);
         }
     }
 

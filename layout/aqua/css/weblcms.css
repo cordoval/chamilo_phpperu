@@ -514,9 +514,9 @@ div.blog_item div.information_box
 	padding: 10px;
 }
 
-div.information_box div.user_image
+div.information_box img.user_image
 {
-	width: 100px;
+	max-width: 100px;
 }
 
 div.blog_item div.message_box
@@ -534,7 +534,7 @@ div.message_box div.title
 
 div.message_box div.description
 {
-	padding: 0px 10px 0px 10px;
+	padding: 10px 10px 0px 10px;
 }
 
 div.blog_item div.actions_box

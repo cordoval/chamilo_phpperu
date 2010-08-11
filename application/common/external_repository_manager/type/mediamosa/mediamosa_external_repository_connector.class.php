@@ -54,7 +54,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         return $this->user_id_prefix . $user_id;
     }
 
-    function get_mediamosa_group_id($user_id)
+    function get_mediamosa_group_id($group_id)
     {
         if(!$this->user_id_prefix) $this->get_user_id_prefix();
         return $this->user_id_prefix  . $group_id;
@@ -701,8 +701,6 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $data = array();
             
             $chamilo_user = $this->retrieve_chamilo_user(Session :: get_user_id());
-
-            xdebug_break();
 
             if($chamilo_user->is_platform_admin()){
                 if(!$asset = $this->asset_cache[$asset_id])

@@ -101,7 +101,7 @@ class StreamingVideoClipRightsEditorManager extends RightsEditorManager
         
         $asset_rights = $mmc->retrieve_mediamosa_asset_rights($sync->get_external_repository_object_id(), $owner_id);
         $rights['aut_app'] = $asset_rights['aut_app'];
-xdebug_break();
+
         //update mediamosa
         if ($update) $mmc->set_mediamosa_asset_rights($sync->get_external_repository_object_id(), $rights, $owner_id);
         //$mmc->set_mediamosa_mediafile_rights($sync->get_external_repository_object_id(), $rights, $owner_id);

@@ -131,7 +131,7 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
 
     function get_preview($is_thumbnail = false)
     {
-        xdebug_break();
+       
         $this->set_mediamosa_object();
         $object = $this->get_content_object();
 
@@ -145,6 +145,26 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
             {
                 return Translation :: get('ConnectionLost');
             }
+        }
+    }
+
+    function get_description()
+    {
+        $html = parent :: get_description();
+
+        $this->set_mediamosa_object();
+
+        if(!$this->connection_lost)
+        {
+            $video_element = $this->get_video_player_as_html();
+
+            $additional_properties = $this->get_additional_properties();
+
+            return str_replace(self :: DESCRIPTION_MARKER, '<div class="link_url" style="margin-top: 1em;">' . $video_element . '<br/>' .$additional_properties. '</div>' . self :: DESCRIPTION_MARKER, $html);
+        }
+        else
+        {
+            return '<div>' . Translation :: get('ConnectionLost') . '</div>';
         }
     }
 }

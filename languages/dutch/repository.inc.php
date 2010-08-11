@@ -312,10 +312,11 @@ $lang['repository']['PortfolioAddContentObject'] = '';
 $lang['repository']['ResultsFor'] = '';
 $lang['repository']['ContentObjectReused'] = '';
 $lang['repository']['InvalidURLException'] = '';
-$lang['repository']['ReUse'] = '';
-$lang['repository']['SearchRight'] = '';
-$lang['repository']['UseRight'] = '';
-$lang['repository']['ReuseRight'] = '';
+$lang['repository']['ReUse'] = 'Hergebruiken';
+$lang['repository']['SearchRight'] = 'Zoeken';
+$lang['repository']['UseRight'] = 'Gebruiken';
+$lang['repository']['ReuseRight'] = 'Hergebruiken';
+$lang['repository']['BrowseRights'] = 'Rechten bekijken';
 $lang['repository']['MetadataSaved'] = '';
 $lang['repository']['MetadataMapperNotFound'] = '';
 $lang['repository']['MetadataLOMIdentifiers'] = '';
@@ -726,19 +727,9 @@ $lang['repository']['SubContexts'] = 'Subcontexten';
 $lang['repository']['AddSurveyPages'] = 'Enquêtepagina\'s toevoegen';
 $lang['repository']['AddPages'] = 'Pagina\'s toevoegen';
 $lang['repository']['SurveyContextTemplateDetails'] = 'Enquêtecontext template details';
-
-
-
-
 $lang['repository']['TableView'] = 'Tabel weergave';
 $lang['repository']['GalleryTableView'] = 'Gallerij weergave';
 $lang['repository']['SlideshowView'] = 'Die weergave';
-
-    
-
-
-
-
 $lang['repository']['Owner'] = 'Eigenaar';
 $lang['repository']['AvailableSizes'] = 'Beschikbare groottes';
 $lang['repository']['PublishedBy'] = 'Gepubliceerd door';
@@ -755,4 +746,6 @@ $lang['repository']['ViewTitle'] = 'Bekijk';
 $lang['repository']['ImportSuccessfull'] = 'Importeren geslaagd';
 $lang['repository']['NoThumbnailAvailable'] = 'Geen thumbnail beschikbaar';
 $lang['repository']['Mediamosa'] = 'Mediamosa';
+
+
 ?>

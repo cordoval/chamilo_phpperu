@@ -11,7 +11,6 @@ class DefaultExternalRepositoryGalleryObjectTableDataProvider extends GalleryObj
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        xdebug_break();
         $order_property = $this->get_order_property($order_property);
         return $this->get_browser()->retrieve_external_repository_objects($this->get_condition(), $order_property, $offset, $count);
     }

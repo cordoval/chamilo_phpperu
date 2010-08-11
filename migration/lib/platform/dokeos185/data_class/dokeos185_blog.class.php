@@ -132,6 +132,8 @@ class Dokeos185Blog extends Dokeos185CourseDataMigrationDataClass
         $chamilo_blog->set_creation_date(strtotime($this->get_date_creation()));
         $chamilo_blog->set_modification_date(strtotime($this->get_date_creation()));
         
+        $chamilo_blog->set_blog_layout('personal');
+        
         if ($this->get_visibility() == 2)
         {
             $chamilo_blog->set_state(1);
@@ -139,10 +141,11 @@ class Dokeos185Blog extends Dokeos185CourseDataMigrationDataClass
             
         //create announcement in database
         $chamilo_blog->create_all();
-        
-        $this->create_publication($chamilo_blog, $new_course_code, $new_user_id, 'blog');
+        $publication = $this->create_publication($chamilo_blog, $new_course_code, $new_user_id, 'blog');
         
         $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'blog', 'OLD_ID' => $this->get_blog_id(), 'NEW_ID' => $chamilo_blog->get_id())));
+        $this->create_id_reference($this->get_blog_id(), $chamilo_blog->get_id());
+        $this->create_id_reference($this->get_blog_id(), $publication->get_id(), $this->get_database_name() . '.' . $this->get_table_name() . '.publication');
     }
 
 	static function get_table_name()
