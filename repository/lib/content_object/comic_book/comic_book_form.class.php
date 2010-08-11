@@ -94,7 +94,7 @@ class ComicBookForm extends ContentObjectForm
         
         $this->addElement('category');
         
-        $this->addElement('category', Translation :: get('Images'));
+        $this->addElement('category', Translation :: get('Links'));
         
         $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
         $locale = array();
@@ -112,6 +112,13 @@ class ComicBookForm extends ContentObjectForm
         
         $extract = $this->addElement('image_selecter', ComicBook :: ATTACHMENT_EXTRACT, Translation :: get('Extract'), $url, $locale);
         $extract->setHeight('100');
+        
+        $url = $this->get_path(WEB_PATH) . 'repository/lib/content_object/encyclopedia_item/xml_feeds/xml_encyclopedia_item_feed.php';
+        $locale['Display'] = Translation :: get('SelectEncyclopediaItems');
+        
+        $encyclopedia_items = Utilities :: content_objects_for_element_finder($this->get_content_object()->get_encyclopedia_items());
+        $encyclopedia_item = $this->addElement('element_finder', ComicBook :: ATTACHMENT_ENCYCLOPEDIA_ITEM, Translation :: get('EncyclopediaItems'), $url, $locale, $encyclopedia_items);
+        $encyclopedia_item->setHeight('100');
     }
 
     function setDefaults($defaults = array ())

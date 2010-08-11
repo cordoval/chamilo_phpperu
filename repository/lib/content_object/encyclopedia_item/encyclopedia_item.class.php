@@ -16,6 +16,7 @@ class EncyclopediaItem extends ContentObject implements Versionable
 	const PROPERTY_TAGS = 'tags';
 	
 	const ATTACHMENT_IMAGE = 'image';
+	const ATTACHMENT_COMIC_BOOK = 'comic_book';
 
 	/**
 	 * Get the additional properties
@@ -82,5 +83,33 @@ class EncyclopediaItem extends ContentObject implements Versionable
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+    function get_comic_books($only_return_id = false)
+    {
+        if ($only_return_id)
+        {
+            return $this->get_attached_content_object_ids(self :: ATTACHMENT_COMIC_BOOK);
+        }
+        else
+        {
+            return $this->get_attached_content_objects(self :: ATTACHMENT_COMIC_BOOK);
+        }
+    }
+
+    function set_comic_books($comic_books = array())
+    {
+        $this->truncate_attachments(self :: ATTACHMENT_COMIC_BOOK);
+        $this->attach_content_objects($comic_books, self :: ATTACHMENT_COVER);
+    }
+    
+    function has_comic_books()
+    {
+        return count($this->get_comic_books(true)) > 0;
+    }
+    
+    function get_first_comic_book()
+    {
+        return array_shift($this->get_comic_books());
+    }
 }
 ?>

@@ -24,6 +24,13 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
+			<content_objects>
+				<dependency>
+		  			<id>comic_book</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>2</severity>
+				</dependency>
+			</content_objects>
 		</dependencies>
 	</package>
 </packages>

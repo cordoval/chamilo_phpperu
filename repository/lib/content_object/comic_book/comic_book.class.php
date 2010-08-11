@@ -43,6 +43,7 @@ class ComicBook extends ContentObject implements Versionable
     
     const ATTACHMENT_COVER = 'cover';
     const ATTACHMENT_EXTRACT = 'extract';
+    const ATTACHMENT_ENCYCLOPEDIA_ITEM = 'encyclopedia_item';
 
     /**
      * Get the additional properties
@@ -587,15 +588,43 @@ class ComicBook extends ContentObject implements Versionable
         $this->truncate_attachments(self :: ATTACHMENT_COVER);
         $this->attach_content_objects($covers, self :: ATTACHMENT_COVER);
     }
-    
+
     function has_covers()
     {
         return count($this->get_covers(true)) > 0;
     }
-    
+
     function get_first_cover()
     {
         return array_shift($this->get_covers());
+    }
+
+    function get_encyclopedia_items($only_return_id = false)
+    {
+        if ($only_return_id)
+        {
+            return $this->get_attached_content_object_ids(self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+        }
+        else
+        {
+            return $this->get_attached_content_objects(self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+        }
+    }
+
+    function set_encyclopedia_items($encyclopedia_items = array())
+    {
+        $this->truncate_attachments(self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+        $this->attach_content_objects($encyclopedia_items, self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+    }
+
+    function has_encyclopedia_items()
+    {
+        return count($this->get_encyclopedia_items(true)) > 0;
+    }
+
+    function get_first_encyclopedia_item()
+    {
+        return array_shift($this->get_encyclopedia_items());
     }
 }
 ?>
