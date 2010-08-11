@@ -105,7 +105,7 @@ class Dokeos185QuizQuestion extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (! $this->get_id() || ! $this->get_type() || ! $this->get_question() || ! $this->get_position() || $this->get_type() == 6)
+        if (! $this->get_id() || ! $this->get_type() || ! $this->get_question() || $this->get_type() == 6)
         {
             $this->create_failed_element($this->get_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'quiz_question', 'ID' => $this->get_id())));
@@ -166,9 +166,6 @@ class Dokeos185QuizQuestion extends Dokeos185CourseDataMigrationDataClass
         $chamilo_question->set_owner_id($new_user_id);
         $chamilo_question->create();
         
-        $this->create_id_reference($this->get_id(), $chamilo_question->get_id());
-        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'quiz_question', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_question->get_id())));
-        
         // Retrieve all the connections to the different quizzes and convert them because we need to store ponderation and position as well
         $quiz_rel_questions = $this->get_data_manager()->retrieve_quiz_rel_questions($course, $this->get_id());
         while($quiz_rel_question = $quiz_rel_questions->next_result())
@@ -180,6 +177,9 @@ class Dokeos185QuizQuestion extends Dokeos185CourseDataMigrationDataClass
         		$quiz_rel_question->convert_relation_data($chamilo_question->get_id(), $this->get_ponderation());
         	}
         }
+        
+        $this->create_id_reference($this->get_id(), $chamilo_question->get_id());
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'quiz_question', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_question->get_id())));
     }
     
 	static function get_table_name()
