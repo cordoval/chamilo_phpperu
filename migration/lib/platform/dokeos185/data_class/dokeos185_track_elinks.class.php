@@ -136,6 +136,16 @@ class Dokeos185TrackELinks extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
+        //check if the user and link are migrated
+        $new_user_id = $this->get_id_reference($this->get_down_user_id(), 'main_database.user');
+        //$new_link_id = $this->get_id_reference($this->get_links_link_id()); //check if document exists
+
+        if (!$new_user_id) //if the user id or the link doesn't exist anymore, the data can be ignored
+        {
+            $this->create_failed_element($this->get_id());
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -144,6 +154,7 @@ class Dokeos185TrackELinks extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
+
     }
 
     static function get_table_name()

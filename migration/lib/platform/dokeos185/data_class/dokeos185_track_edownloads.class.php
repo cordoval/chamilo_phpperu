@@ -135,7 +135,15 @@ class Dokeos185TrackEDownloads extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
+        $new_user_id = $this->get_id_reference($this->get_down_user_id(), 'main_database.user');
+        $new_doc_id; //check if document exists
 
+        if (!$new_user_id) //if the user id doesn't exist anymore, the data can be ignored
+        {
+            $this->create_failed_element($this->get_id());
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -144,7 +152,7 @@ class Dokeos185TrackEDownloads extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
-
+        //
     }
 
     static function get_table_name()

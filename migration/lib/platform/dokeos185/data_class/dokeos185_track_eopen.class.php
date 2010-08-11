@@ -135,6 +135,7 @@ class Dokeos185TrackEOpen extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
+
     }
 
     /**
@@ -143,6 +144,7 @@ class Dokeos185TrackEOpen extends Dokeos185MigrationDataClass
      */
     function convert_data()
     {
+
     }
 
     static function get_table_name()

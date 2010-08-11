@@ -139,7 +139,7 @@ class Dokeos185TrackELogin extends Dokeos185MigrationDataClass
     function is_valid()
     {
 
-        if (!$this->get_login_user_id() || !$this->get_login_date() || !$this->get_login_ip() || $this->get_failed_element($this->get_login_user_id(), 'main_database.user') || !$this->get_id_reference($this->get_login_user_id(), 'main_database.user'))
+        if (!$this->get_login_user_id() || !$this->get_login_date() || !$this->get_login_ip() || !$this->get_id_reference($this->get_login_user_id(), 'main_database.user'))
         {
             $this->create_failed_element($this->get_id());
             return false;
