@@ -57,8 +57,8 @@ class EncyclopediaItemForm extends ContentObjectForm
         $content_object = $this->get_content_object();
         if (isset($content_object))
         {
-        	$defaults[EncyclopediaItem :: ATTACHMENT_IMAGE] = $content_object->get_image(true);
-        	$defaults[EncyclopediaItem :: PROPERTY_TAGS] = $content_object->get_tags();
+            $defaults[EncyclopediaItem :: ATTACHMENT_IMAGE] = $content_object->get_image(true);
+            $defaults[EncyclopediaItem :: PROPERTY_TAGS] = $content_object->get_tags();
         }
         parent :: setDefaults($defaults);
     }
@@ -69,7 +69,7 @@ class EncyclopediaItemForm extends ContentObjectForm
         $this->fill_properties($object);
         parent :: set_content_object($object);
         $object = parent :: create_content_object();
-        $object->set_images($this->exportValue(EncyclopediaItem :: ATTACHMENT_IMAGE));
+        $this->process_attachments($object);
         return $object;
     }
 
@@ -79,13 +79,22 @@ class EncyclopediaItemForm extends ContentObjectForm
         $this->fill_properties($object);
         parent :: set_content_object($object);
         parent :: update_content_object();
-        $object->set_images($this->exportValue(EncyclopediaItem :: ATTACHMENT_IMAGE));
+        $this->process_attachments($object);
         return true;
+    }
+
+    private function process_attachments(ContentObject $object)
+    {
+        $object->set_images($this->exportValue(EncyclopediaItem :: ATTACHMENT_IMAGE));
+        
+        $comic_books = $this->exportValue(EncyclopediaItem :: ATTACHMENT_COMIC_BOOK);
+        $comic_books['lo'] = !isset($comic_books['lo']) ? array() : $comic_books['lo'];
+        $object->set_comic_books($comic_books['lo']);
     }
 
     private function fill_properties($object)
     {
-    	$object->set_tags($this->exportValue(EncyclopediaItem :: PROPERTY_TAGS));
+        $object->set_tags($this->exportValue(EncyclopediaItem :: PROPERTY_TAGS));
     }
 }
 ?>

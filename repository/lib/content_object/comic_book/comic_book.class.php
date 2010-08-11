@@ -612,9 +612,27 @@ class ComicBook extends ContentObject implements Versionable
     }
 
     function set_encyclopedia_items($encyclopedia_items = array())
-    {
-        $this->truncate_attachments(self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
-        $this->attach_content_objects($encyclopedia_items, self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+    {        
+        $current_encyclopedia_items = $this->get_encyclopedia_items(true);
+        
+        $add = array_diff($encyclopedia_items, $current_encyclopedia_items);
+        $delete = array_diff($current_encyclopedia_items, $encyclopedia_items);
+        
+        foreach ($add as $encyclopedia_item)
+        {
+            $this->attach_content_object($encyclopedia_item, self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+            $encyclopedia_item = $this->get_data_manager()->retrieve_content_object($encyclopedia_item);
+            $encyclopedia_item->attach_content_object($this->get_id(), EncyclopediaItem :: ATTACHMENT_COMIC_BOOK);
+        }
+        
+        foreach ($delete as $encyclopedia_item)
+        {
+            $this->detach_content_object($encyclopedia_item, self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+            $encyclopedia_item = $this->get_data_manager()->retrieve_content_object($encyclopedia_item);
+            $encyclopedia_item->detach_content_object($this->get_id(), EncyclopediaItem :: ATTACHMENT_COMIC_BOOK);
+        }
+        
+        $this->truncate_attachment_cache(self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
     }
 
     function has_encyclopedia_items()
