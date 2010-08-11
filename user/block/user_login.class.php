@@ -107,7 +107,7 @@ class UserLogin extends UserBlock
 
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
-        $form->setDefaults(array('login' => Translation :: get('EnterUsername'), 'password' => '*******'));
+//        $form->setDefaults(array('login' => Translation :: get('EnterUsername'), 'password' => '*******'));
         return $form->toHtml();
     }
 

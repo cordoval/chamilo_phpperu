@@ -43,6 +43,7 @@ class ComicBook extends ContentObject implements Versionable
     
     const ATTACHMENT_COVER = 'cover';
     const ATTACHMENT_EXTRACT = 'extract';
+    const ATTACHMENT_ENCYCLOPEDIA_ITEM = 'encyclopedia_item';
 
     /**
      * Get the additional properties
@@ -587,15 +588,61 @@ class ComicBook extends ContentObject implements Versionable
         $this->truncate_attachments(self :: ATTACHMENT_COVER);
         $this->attach_content_objects($covers, self :: ATTACHMENT_COVER);
     }
-    
+
     function has_covers()
     {
         return count($this->get_covers(true)) > 0;
     }
-    
+
     function get_first_cover()
     {
         return array_shift($this->get_covers());
+    }
+
+    function get_encyclopedia_items($only_return_id = false)
+    {
+        if ($only_return_id)
+        {
+            return $this->get_attached_content_object_ids(self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+        }
+        else
+        {
+            return $this->get_attached_content_objects(self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+        }
+    }
+
+    function set_encyclopedia_items($encyclopedia_items = array())
+    {        
+        $current_encyclopedia_items = $this->get_encyclopedia_items(true);
+        
+        $add = array_diff($encyclopedia_items, $current_encyclopedia_items);
+        $delete = array_diff($current_encyclopedia_items, $encyclopedia_items);
+        
+        foreach ($add as $encyclopedia_item)
+        {
+            $this->attach_content_object($encyclopedia_item, self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+            $encyclopedia_item = $this->get_data_manager()->retrieve_content_object($encyclopedia_item);
+            $encyclopedia_item->attach_content_object($this->get_id(), EncyclopediaItem :: ATTACHMENT_COMIC_BOOK);
+        }
+        
+        foreach ($delete as $encyclopedia_item)
+        {
+            $this->detach_content_object($encyclopedia_item, self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+            $encyclopedia_item = $this->get_data_manager()->retrieve_content_object($encyclopedia_item);
+            $encyclopedia_item->detach_content_object($this->get_id(), EncyclopediaItem :: ATTACHMENT_COMIC_BOOK);
+        }
+        
+        $this->truncate_attachment_cache(self :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+    }
+
+    function has_encyclopedia_items()
+    {
+        return count($this->get_encyclopedia_items(true)) > 0;
+    }
+
+    function get_first_encyclopedia_item()
+    {
+        return array_shift($this->get_encyclopedia_items());
     }
 }
 ?>

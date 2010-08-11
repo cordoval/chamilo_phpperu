@@ -94,24 +94,31 @@ class ComicBookForm extends ContentObjectForm
         
         $this->addElement('category');
         
-        $this->addElement('category', Translation :: get('Images'));
+        $this->addElement('category', Translation :: get('Links'));
         
-        $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
         $locale = array();
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
+        
+        // Comic book covers
+        $url = $this->get_path(WEB_PATH) . 'repository/xml_feeds/xml_image_feed.php';
         $locale['Display'] = Translation :: get('SelectCovers');
-        
         $covers = Utilities :: content_objects_for_element_finder($this->get_content_object()->get_covers());
-        
         $cover = $this->addElement('element_finder', ComicBook :: ATTACHMENT_COVER, Translation :: get('Covers'), $url, $locale, $covers);
         $cover->setHeight('100');
         
+        // Comic book extract
         $locale['Display'] = Translation :: get('SelectExtract');
-        
         $extract = $this->addElement('image_selecter', ComicBook :: ATTACHMENT_EXTRACT, Translation :: get('Extract'), $url, $locale);
         $extract->setHeight('100');
+        
+        // Encyclopedia items related to the comic book
+        $url = $this->get_path(WEB_PATH) . 'repository/lib/content_object/encyclopedia_item/xml_feeds/xml_encyclopedia_item_feed.php';
+        $locale['Display'] = Translation :: get('SelectEncyclopediaItems');
+        $encyclopedia_items = Utilities :: content_objects_for_element_finder($this->get_content_object()->get_encyclopedia_items());
+        $encyclopedia_item = $this->addElement('element_finder', ComicBook :: ATTACHMENT_ENCYCLOPEDIA_ITEM, Translation :: get('EncyclopediaItems'), $url, $locale, $encyclopedia_items);
+        $encyclopedia_item->setHeight('100');
     }
 
     function setDefaults($defaults = array ())
@@ -146,7 +153,6 @@ class ComicBookForm extends ContentObjectForm
             $defaults[ComicBook :: PROPERTY_SYNOPSIS] = $content_object->get_synopsis();
             $defaults[ComicBook :: PROPERTY_FACTS] = $content_object->get_facts();
             
-            //$defaults[ComicBook :: ATTACHMENT_COVER] = $content_object->get_covers(true);
             $defaults[ComicBook :: ATTACHMENT_EXTRACT] = $content_object->get_extract(true);
             $defaults[ComicBook :: PROPERTY_TAGS] = $content_object->get_tags();
         }
@@ -159,10 +165,7 @@ class ComicBookForm extends ContentObjectForm
         $this->fill_properties($object);
         parent :: set_content_object($object);
         $object = parent :: create_content_object();
-        
-        $covers = $this->exportValue(ComicBook :: ATTACHMENT_COVER);
-        $object->set_covers($covers['lo']);
-        $object->set_extracts($this->exportValue(ComicBook :: ATTACHMENT_EXTRACT));
+        $this->process_attachments($object);
         return $object;
     }
 
@@ -172,11 +175,20 @@ class ComicBookForm extends ContentObjectForm
         $this->fill_properties($object);
         parent :: set_content_object($object);
         parent :: update_content_object();
-        
+        $this->process_attachments($object);
+        return true;
+    }
+    
+    private function process_attachments(ContentObject $object)
+    {
         $covers = $this->exportValue(ComicBook :: ATTACHMENT_COVER);
         $object->set_covers($covers['lo']);
+        
+        $encyclopedia_items = $this->exportValue(ComicBook :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+        $encyclopedia_items['lo'] = !isset($encyclopedia_items['lo']) ? array() : $encyclopedia_items['lo'];
+        $object->set_encyclopedia_items($encyclopedia_items['lo']);
+        
         $object->set_extracts($this->exportValue(ComicBook :: ATTACHMENT_EXTRACT));
-        return true;
     }
 
     private function fill_properties($object)
