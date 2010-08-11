@@ -4,26 +4,17 @@
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_quiz_question.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/fill_in_blanks_question/fill_in_blanks_question.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/matching_question/matching_question.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/multiple_choice_question/multiple_choice_question.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/open_question/open_question.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/category/category.class.php';
-require_once dirname(__FILE__) . '/dokeos185_quiz_answer.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 quiz_question
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185QuizQuestion extends Dokeos185MigrationDataClass
+class Dokeos185QuizQuestion extends Dokeos185CourseDataMigrationDataClass
 {
-    /** 
-     * Migration data manager
-     */
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'quiz_question';
     
     /**
      * Dokeos185QuizQuestion properties
@@ -35,39 +26,7 @@ class Dokeos185QuizQuestion extends Dokeos185MigrationDataClass
     const PROPERTY_POSITION = 'position';
     const PROPERTY_TYPE = 'type';
     const PROPERTY_PICTURE = 'picture';
-    
-    /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new Dokeos185QuizQuestion object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185QuizQuestion($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
+ 
     /**
      * Get the default properties
      * @return array The property names.
@@ -75,24 +34,6 @@ class Dokeos185QuizQuestion extends Dokeos185MigrationDataClass
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_QUESTION, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PONDERATION, self :: PROPERTY_POSITION, self :: PROPERTY_TYPE, self :: PROPERTY_PICTURE);
-    }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -159,44 +100,15 @@ class Dokeos185QuizQuestion extends Dokeos185MigrationDataClass
     }
 
     /**
-     * Gets all the quizquestion of a course
-     * @param Array $array
-     * @return Array of dokeos185quizquestion
-     */
-    static function retrieve_data($parameters)
-    {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        if ($parameters['del_files'] = ! 1)
-            $tool_name = 'quiz_question';
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'quiz_question';
-        $classname = 'Dokeos185QuizQuestion';
-        
-        return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
-    }
-
-    static function get_database_table($parameters)
-    {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'quiz_question';
-        return $array;
-    }
-
-    /**
      * Checks if a quizquestion is valid
-     * @param Array $array
      * @return Boolean
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
-        $mgdm = MigrationDataManager :: get_instance();
-        if (! $this->get_id() || ! $this->get_type() || ! $this->get_question() || ! $this->get_position())
+        if (! $this->get_id() || ! $this->get_type() || ! $this->get_question() || ! $this->get_position() || $this->get_type() == 6)
         {
-            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.quiz_question');
+            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'quiz_question', 'ID' => $this->get_id())));
             return false;
         }
         return true;
@@ -204,19 +116,14 @@ class Dokeos185QuizQuestion extends Dokeos185MigrationDataClass
 
     /**
      * migrate quizquestion, sets category
-     * @param Array $array
-     * @return 
      */
-    function convert_data
+    function convert_data()
     {
-        $old_mgdm = $array['old_mgdm'];
-        $mgdm = MigrationDataManager :: get_instance();
-        $course = $array['course'];
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
+		$course = $this->get_course();
         
-        $answers = array();
-        $answers = $old_mgdm->get_all_question_answer($course->get_db_name(), $this->get_id());
-        $new_user_id = $mgdm->get_owner($course->get_code());
+    	//$new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
+        $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
+		$new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
         
         //sort of quiz question
         $type = $this->get_type();
@@ -224,93 +131,65 @@ class Dokeos185QuizQuestion extends Dokeos185MigrationDataClass
         switch ($type)
         {
             case 1 :
-                $lcms_question = new MultipleChoiceQuestion();
+                $chamilo_question = new AssessmentMultipleChoiceQuestion();
+                $chamilo_question->set_answer_type(AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_RADIO);
                 break;
             case 2 :
-                $lcms_question = new MultipleChoiceQuestion();
+                $chamilo_question = new AssessmentMultipleChoiceQuestion();
+                $chamilo_question->set_answer_type(AssessmentMultipleChoiceQuestion :: ANSWER_TYPE_CHECKBOX);
                 break;
             case 3 :
-                $lcms_question = new FillInBlanksQuestion();
-                //$lcms_question = $answers[0];
+                $chamilo_question = new FillInBlanksQuestion();
                 break;
             case 4 :
-                $lcms_question = new MatchingQuestion();
+                $chamilo_question = new AssessmentMatchingQuestion();
                 break;
             default :
-                $lcms_question = new OpenQuestion();
+                $chamilo_question = new AssessmentOpenQuestion();
                 break;
         }
         
-        // Category for quiz questions already exists?
-        $lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('quizzes'));
-        if (! $lcms_category_id)
-        {
-            //Create category for tool in lcms
-            $lcms_repository_category = new Category();
-            $lcms_repository_category->set_owner_id($new_user_id);
-            $lcms_repository_category->set_title(Translation :: get('quizzes'));
-            $lcms_repository_category->set_description('...');
-            
-            //Retrieve repository id from course
-            $repository_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('MyRepository'));
-            $lcms_repository_category->set_parent_id($repository_id);
-            
-            //Create category in database
-            $lcms_repository_category->create();
-            
-            $lcms_question->set_parent_id($lcms_repository_category->get_id());
-        }
-        else
-        {
-            $lcms_question->set_parent_id($lcms_category_id);
-        }
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Assessments'));
+        $chamilo_question->set_parent_id($chamilo_category_id);
         
-        $lcms_question->set_title($this->get_question());
+        $chamilo_question->set_title($this->get_question());
         
         if (! $this->get_description())
-            $lcms_question->set_description($this->get_question());
+        {
+            $chamilo_question->set_description($this->get_question());
+        }
         else
-            $lcms_question->set_description($this->get_description());
+        {
+            $chamilo_question->set_description($this->get_description());
+        }
         
-        $lcms_question->set_owner_id($new_user_id);
-        $lcms_question->set_display_order_index($this->get_position());
+        $chamilo_question->set_owner_id($new_user_id);
+        $chamilo_question->create();
         
-        //create announcement in database
-        $lcms_question->create();
+        $this->create_id_reference($this->get_id(), $chamilo_question->get_id());
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'quiz_question', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $chamilo_question->get_id())));
         
-        /*
-		//publication
-		if($this->item_property->get_visibility() <= 1) 
-		{
-			$publication = new ContentObjectPublication();
-			
-			$publication->set_content_object($lcms_announcement);
-			$publication->set_course_id($new_course_code);
-			$publication->set_publisher_id($new_user_id);
-			$publication->set_tool('announcement');
-			$publication->set_category_id(0);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
-			$publication->set_from_date(0);
-			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-			//$publication->set_modified_date(0);
-			//$publication->set_display_order_index($this->get_display_order());
-			$publication->set_display_order_index(0);
-			
-			if($this->get_email_sent())
-				$publication->set_email_sent($this->get_email_sent());
-			else
-				$publication->set_email_sent(0);
-			
-			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
-			
-			//create publication in database
-			$publication->create();
-		}
-		*/
-        return $lcms_question;
+        // Retrieve all the connections to the different quizzes and convert them because we need to store ponderation and position as well
+        $quiz_rel_questions = $this->get_data_manager()->retrieve_quiz_rel_questions($course, $this->get_id());
+        while($quiz_rel_question = $quiz_rel_questions->next_result())
+        {
+        	$quiz_rel_question->set_course($this->get_course());
+        	
+        	if($quiz_rel_question->is_relation_valid($chamilo_question->get_id(), $this->get_ponderation()))
+        	{
+        		$quiz_rel_question->convert_relation_data($chamilo_question->get_id(), $this->get_ponderation());
+        	}
+        }
+    }
+    
+	static function get_table_name()
+    {
+        return self :: TABLE_NAME;
+    }
+    
+    static function get_class_name()
+    {
+    	return self :: CLASS_NAME;
     }
 }
 

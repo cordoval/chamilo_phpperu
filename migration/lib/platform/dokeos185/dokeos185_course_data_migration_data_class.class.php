@@ -121,13 +121,14 @@ abstract class Dokeos185CourseDataMigrationDataClass extends Dokeos185MigrationD
 	 * @param int $add_date
 	 * @param array() $additional_properties
 	 */
-	function create_complex_content_object_item($object, $parent_id, $user_id, $add_date = null, $additional_properties = array())
+	function create_complex_content_object_item($object, $parent_id, $user_id, $add_date = null, $display_order = null, $additional_properties = array())
 	{
 		$complex_content_object_item = ComplexContentObjectItem :: factory($object->get_type());
         $complex_content_object_item->set_user_id($user_id);
         $complex_content_object_item->set_parent($parent_id);
         $complex_content_object_item->set_ref($object->get_id());
         $complex_content_object_item->set_add_date($add_date ? $add_date : time());
+        $complex_content_object_item->set_display_order($display_order);
         $complex_content_object_item->set_additional_properties($additional_properties);
         $complex_content_object_item->create();
         

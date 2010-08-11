@@ -115,8 +115,6 @@ class Dokeos185Announcement extends Dokeos185CourseDataMigrationDataClass
      * Convert to new announcement 
      * Create announcement
      * Create publication
-     * @param Course $course the course to which the announcement belongs
-     * @return the new announcement
      */
     function convert_data()
     {
