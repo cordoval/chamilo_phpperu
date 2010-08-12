@@ -21,10 +21,17 @@ $xml_files = Filesystem :: get_directory_content($xml_path, Filesystem :: LIST_F
 
 foreach ($xml_files as $xml_file)
 {
+    
     $xml_file_path = $xml_path . $xml_file;
     log_message('Start generating content object for: ' . $xml_file);
     log_message('Retrieving properties');
     $xml_definition = retrieve_properties_from_xml_file($xml_file_path);
+    
+    if (file_exists(Path :: get_repository_path() . 'lib/content_object/' . $xml_definition['name'] . '/' . $xml_definition['name'] . '.xml'))
+    {
+        log_message('Object type already exists');
+        continue;
+    }
     
     log_message('Creating folder: ' . $xml_definition['name']);
     create_folder($xml_definition['name']);
