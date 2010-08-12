@@ -3,17 +3,18 @@
  * $Id: dokeos185_lpiv_objective.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_lp_iv_objective.class.php';
+require_once Path :: get_web_application_path('weblcms') . '/trackers/weblcms_lpi_attempt_objective_tracker.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 lp_iv_objective
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185LpIvObjective extends Dokeos185MigrationDataClass
+class Dokeos185LpIvObjective extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'lp_iv_objective';
     
     /**
      * Dokeos185LpIvObjective properties
@@ -28,62 +29,12 @@ class Dokeos185LpIvObjective extends Dokeos185MigrationDataClass
     const PROPERTY_STATUS = 'status';
     
     /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new Dokeos185LpIvObjective object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185LpIvObjective($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
-    /**
      * Get the default properties
      * @return array The property names.
      */
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_LP_IV_ID, self :: PROPERTY_ORDER_ID, self :: PROPERTY_OBJECTIVE_ID, self :: PROPERTY_SCORE_RAW, self :: PROPERTY_SCORE_MAX, self :: PROPERTY_SCORE_MIN, self :: PROPERTY_STATUS);
-    }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -160,46 +111,50 @@ class Dokeos185LpIvObjective extends Dokeos185MigrationDataClass
 
     /**
      * Check if the lp iv objective is valid
-     * @param array $array the parameters for the validation
      * @return true if the lp iv objective is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+    	$new_lp_item_view_id = $this->get_id_reference($this->get_lp_iv_id(), $this->get_database_name() . '.lp_item_view');
+        
+        if (! $this->get_id() || ! $new_lp_item_view_id)
+        {
+            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'learning_path_item_view_objective', 'ID' => $this->get_id())));
+            return false;
+        }
+        return true;
     }
 
     /**
      * Convert to new lp iv objective
-     * @param array $array the parameters for the conversion
-     * @return the new lp iv objective
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+    	$new_lp_item_view_id = $this->get_id_reference($this->get_lp_iv_id(), $this->get_database_name() . '.lp_item_view');
+    	
+    	$tracker = new WeblcmsLpiAttemptObjectiveTracker();
+    	$tracker->set_lpi_view_id($new_lp_item_view_id);
+    	$tracker->set_objective_id($this->get_objective_id());
+    	$tracker->set_score_raw($this->get_score_raw());
+    	$tracker->set_score_max($this->get_score_max());
+    	$tracker->set_score_min($this->get_score_min());
+    	$tracker->set_status($this->get_status());
+    	$tracker->set_display_order($this->get_order_id());
+    	$tracker->create();
+    	
+    	$this->create_id_reference($this->get_id(), $tracker->get_id());
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'learning_path_item_view_objective', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $tracker->get_id())));
     }
 
-    /**
-     * Retrieve all lp iv objectives from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of lp iv objectives
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        self :: $mgdm = $parameters['mgdm'];
-        
-        $db = $parameters['course']->get_db_name();
-        $tablename = 'lp_iv_objective';
-        $classname = 'Dokeos185LpIvObjective';
-        
-        return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
-
-    static function get_database_table($parameters)
+    
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'lp_iv_objective';
-        return $array;
+    	return self :: CLASS_NAME;
     }
 }
 

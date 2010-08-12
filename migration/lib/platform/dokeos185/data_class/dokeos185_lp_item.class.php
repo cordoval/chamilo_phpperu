@@ -4,22 +4,17 @@
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_lp_item.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/learning_path_item/learning_path_item.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/category_manager/repository_category.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 lp_item
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185LpItem extends Dokeos185MigrationDataClass
+class Dokeos185LpItem extends Dokeos185CourseDataMigrationDataClass
 {
-    /**
-     * Migration data manager
-     */
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'lp_item';
     
     /**
      * Dokeos185LpItem properties
@@ -42,38 +37,6 @@ class Dokeos185LpItem extends Dokeos185MigrationDataClass
     const PROPERTY_PARAMETERS = 'parameters';
     const PROPERTY_LAUNCH_DATA = 'launch_data';
     const PROPERTY_MAX_TIME_ALLOWED = 'max_time_allowed';
-    
-    /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new Dokeos185LpItem object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185LpItem($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
 
     /**
      * Get the default properties
@@ -83,25 +46,7 @@ class Dokeos185LpItem extends Dokeos185MigrationDataClass
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_LP_ID, self :: PROPERTY_ITEM_TYPE, self :: PROPERTY_REF, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PATH, self :: PROPERTY_MIN_SCORE, self :: PROPERTY_MAX_SCORE, self :: PROPERTY_MASTERY_SCORE, self :: PROPERTY_PARENT_ITEM_ID, self :: PROPERTY_PREVIOUS_ITEM_ID, self :: PROPERTY_NEXT_ITEM_ID, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_PREREQUISITE, self :: PROPERTY_PARAMETERS, self :: PROPERTY_LAUNCH_DATA, self :: PROPERTY_MAX_TIME_ALLOWED);
     }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
+    
     /**
      * Returns the id of this Dokeos185LpItem.
      * @return the id.
@@ -266,16 +211,24 @@ class Dokeos185LpItem extends Dokeos185MigrationDataClass
 
     /**
      * Check if the lp item is valid
-     * @param array $array the parameters for the validation
      * @return true if the lp item is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
-        $mgdm = MigrationDataManager :: get_instance();
-        if (! $this->get_id() || ! $this->get_item_type() || ! ($this->get_title() || $this->get_description()) || ! $mgdm->get_id_reference($this->get_lp_id(), 'repository_learning_path'))
+    	if($this->get_item_type() == 'forum')
         {
-            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.lp_item');
+        	$this->set_default_property(self :: PROPERTY_ITEM_TYPE, 'forum_forum');
+        }
+        
+    	$new_learning_path_id = $this->get_id_reference($this->get_lp_id(), $this->get_database_name() . '.lp');
+        $reference_content_object_id = $this->get_id_reference($this->get_path(), $this->get_database_name() . '.' . $this->get_item_type());
+        $parent_item_id = $this->get_id_reference($this->get_parent_item_id(), $this->get_database_name() . '.lp_item');
+        
+        if (! $this->get_id() || ! $this->get_item_type() || ! ($this->get_title() || $this->get_description()) || !$new_learning_path_id || 
+        	  ($this->get_item_type() != 'dokeos_chapter' && !$reference_content_object_id) || ($this->get_parent_item_id() > 0 && !$parent_item_id))
+        {
+            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'learning_path_item', 'ID' => $this->get_id())));
             return false;
         }
         return true;
@@ -283,256 +236,133 @@ class Dokeos185LpItem extends Dokeos185MigrationDataClass
 
     /**
      * Convert to new lp item
-     * @param array $array the parameters for the conversion
-     * @return the new lp item
      */
-    function convert_data
+    function convert_data()
     {
+        $course = $this->get_course();
+        $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
         
-        $mgdm = MigrationDataManager :: get_instance();
-        $id = $mgdm->get_id_reference($this->get_lp_id(), 'repository_learning_path');
-        $course = $array['course'];
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
+        $new_learning_path_id = $this->get_id_reference($this->get_lp_id(), $this->get_database_name() . '.lp');
+        $learning_path = RepositoryDataManager :: get_instance()->retrieve_content_object($new_learning_path_id, 'learning_path');
         
-        if ($id)
-        {
-            $lo = $mgdm->get_owner_content_object($id, 'learning_path');
-            $new_user_id = $lo->get_owner_id();
+		$new_user_id = $learning_path->get_owner_id();
         
-        }
-        else
-        {
-            $new_user_id = $mgdm->get_owner($new_course_code);
-        }
-        
-        //$new_user_id = $lo->get_owner_id();
-        $course = $array['course'];
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
-        
-        /*if($this->get_item_type() == 'dokeos_chapter') //not used anymore
-		{
-			$lcms_lp_item = new LearningPathChapter();
-		}
-		else
-		{*/
-        $referentie = 0;
-        
-        //different types off LPI
-        switch ($this->get_item_type())
-        {
-            case 'document' :
-                $referentie = $mgdm->get_id_reference($this->get_path(), 'repository_document');
-                break;
-            case 'quiz' :
-                $referentie = $mgdm->get_id_reference($this->get_path(), 'exercice');
-                break;
-            case 'link' :
-                $referentie = $mgdm->get_id_reference($this->get_path(), 'repository_link');
-                break;
-            case 'student_publication' :
-                $referentie = $mgdm->get_id_reference($this->get_path(), 'repository_work');
-                break;
-            case 'forum' :
-                $referentie = $mgdm->get_id_reference($this->get_path(), 'repository_forum');
-                break;
-            case 'thread' :
-                $referentie = $mgdm->get_id_reference($this->get_path(), 'repository_forum_thread');
-                break;
-            case 'announcement' :
-                $referentie = $mgdm->get_id_reference($this->get_path(), 'announcement');
-                break;
-        }
+        $chamilo_learning_path_item = new LearningPathItem();
 
-        if(!$referentie)
-        	$referentie = 0;
+        $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('LearningPaths'));
+        $chamilo_learning_path_item->set_parent_id($chamilo_category_id);
+        
+        $reference_content_object_id = $this->get_id_reference($this->get_path(), $this->get_database_name() . '.' . $this->get_item_type());
         
        	if($this->get_item_type() == 'dokeos_chapter')
        	{
-       		$lcms_lp = new LearningPath();
-       		
-       		// Category for lp item/chapter already exists?
-	        $lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('LearningPaths'));
-	        if (! $lcms_category_id)
-	        {
-	            //Create category for tool in lcms
-	            $lcms_repository_category = new RepositoryCategory();
-	            $lcms_repository_category->set_user_id($new_user_id);
-	            $lcms_repository_category->set_name(Translation :: get('LearningPaths'));
-	            $lcms_repository_category->set_parent(0);
-	            
-	            //Create category in database
-	            $lcms_repository_category->create();
-	            
-	            $lcms_lp->set_parent_id($lcms_repository_category->get_id());
-	        }
-	        else
-	        {
-	            $lcms_lp->set_parent_id($lcms_category_id);
-	        }
-	        
-	        if (! $this->get_title())
-	        {
-	            $lcms_lp->set_title(substr($this->get_description(), 0, 20));
-	        }
-	        else
-	            $lcms_lp->set_title($this->get_title());
-	        
-	        if (! $this->get_description())
-	            $lcms_lp->set_description($this->get_title());
-	        else
-	            $lcms_lp->set_description($this->get_description());
-	        
-	        $lcms_lp->set_owner_id($new_user_id);
-	        //$lcms_lp->set_display_order_index($this->get_display_order());
-	        
-	        $lcms_lp->set_version('chamilo');
-	        
-	        //create item in database
-	        $lcms_lp->create_all();
-	        
-	        //Add id references to temp table
-	        $mgdm->add_id_reference($this->get_id(), $lcms_lp->get_id(), 'lp_chapter');
-	        
-	        if(!$this->get_parent_item_id())
-	       		$parent_lp = $mgdm->get_id_reference($this->get_lp_id(), 'repository_learning_path');
-	       	else 
-	       		$parent_lp = $mgdm->get_id_reference($this->get_parent_item_id(), 'lp_chapter');
-	       		
-	        if($parent_lp)
-	        {
-	        	$wrapper = ComplexContentObjectItem :: factory('learning_path');
-	        	$wrapper->set_user_id($new_user_id);
-	        	$wrapper->set_parent($parent_lp);
-	        	$wrapper->set_ref($lcms_lp->get_id());
-	        	$wrapper->create();
-	        }
-	        
-	        $lcms_lp_item = $lcms_lp;
+       		$new_object = $this->create_new_learning_path($learning_path);
        	}
        	else 
        	{
-	        $lcms_lp_item = new LearningPathItem();
-       		// Category for lp item/chapter already exists?
-	        $lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('LearningPathItems'));
-	        if (! $lcms_category_id)
-	        {
-	            //Create category for tool in lcms
-	            $lcms_repository_category = new RepositoryCategory();
-	            $lcms_repository_category->set_user_id($new_user_id);
-	            $lcms_repository_category->set_name(Translation :: get('LearningPathItems'));
-	            $lcms_repository_category->set_parent(0);
-	            
-	            //Create category in database
-	            $lcms_repository_category->create();
-	            
-	            $lcms_lp_item->set_parent_id($lcms_repository_category->get_id());
-	        }
-	        else
-	        {
-	            $lcms_lp_item->set_parent_id($lcms_category_id);
-	        }
-	        
-	        if (! $this->get_title())
-	        {
-	            $lcms_lp_item->set_title(substr($this->get_description(), 0, 20));
-	        }
-	        else
-	            $lcms_lp_item->set_title($this->get_title());
-	        
-	        if (! $this->get_description())
-	            $lcms_lp_item->set_description($this->get_title());
-	        else
-	            $lcms_lp_item->set_description($this->get_description());
-	        
-	        $lcms_lp_item->set_reference($referentie);
-	        $lcms_lp_item->set_owner_id($new_user_id);
-	        $lcms_lp_item->set_display_order_index($this->get_display_order());
-	        
-	        //create item in database
-	        $lcms_lp_item->create_all();
-	        
-	        //Add id references to temp table
-	        $mgdm->add_id_reference($this->get_id(), $lcms_lp_item->get_id(), 'lp_item');
-        
-	    	if(!$this->get_parent_item_id())
-	       		$parent_lp = $mgdm->get_id_reference($this->get_lp_id(), 'repository_learning_path');
-	       	else 
-	       		$parent_lp = $mgdm->get_id_reference($this->get_parent_item_id(), 'lp_chapter');
-	       		
-	        if($parent_lp)
-	        {
-	        	$wrapper = ComplexContentObjectItem :: factory('learning_path_item');
-	        	$wrapper->set_user_id($new_user_id);
-	        	$wrapper->set_parent($parent_lp);
-	        	$wrapper->set_ref($lcms_lp_item->get_id());
-	        	if($this->get_prerequisite())
-	        		$wrapper->set_prerequisites($mgdm->get_id_reference($this->get_prerequisite(), 'complex_lp_item'));
-	        	$wrapper->create();
-	        	
-	        	$mgdm->add_id_reference($this->get_id(), $wrapper->get_id(), 'complex_lp_item');
-	        }
+	        $new_object = $this->create_new_learning_path_item($learning_path);
        	}
-       
-        /*
-		//publication
-		if($this->item_property->get_visibility() <= 1) 
-		{
-			$publication = new ContentObjectPublication();
-			
-			$publication->set_content_object($lcms_announcement);
-			$publication->set_course_id($new_course_code);
-			$publication->set_publisher_id($new_user_id);
-			$publication->set_tool('announcement');
-			$publication->set_category_id(0);
-			//$publication->set_from_date(self :: $mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date(self :: $mgdm->make_unix_time($this->item_property->get_end_visible()));
-			$publication->set_from_date(0);
-			$publication->set_to_date(0);
-			$publication->set_publication_date(self :: $mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date(self :: $mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-			//$publication->set_modified_date(0);
-			//$publication->set_display_order_index($this->get_display_order());
-			$publication->set_display_order_index(0);
-			
-			if($this->get_email_sent())
-				$publication->set_email_sent($this->get_email_sent());
-			else
-				$publication->set_email_sent(0);
-			
-			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
-			
-			//create publication in database
-			$publication->create();
-		}
-		*/
-        return $lcms_lp_item;
+       	
+    	if(!$this->get_parent_item_id())
+        {
+       		$parent_lp = $learning_path->get_id();
+        }
+       	else
+       	{ 
+       		$parent_lp = $this->get_id_reference($this->get_parent_item_id(), $this->get_database_name() . '.lp_item');
+       	}
+       	
+        if($parent_lp)
+        {
+        	$prerequisites = $this->get_id_reference($this->get_prerequisite(), $this->get_database_name() . '.lp_item');
+        	$this->create_complex_content_object_item($new_object, $parent_lp, $new_user_id, null, $this->get_display_order(), array('prerequisites' => $prerequisites));
+        }
+        
+        $this->create_id_reference($this->get_id(), $new_object->get_id());
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'learning_path_item', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $new_object->get_id())));
     }
-
+    
     /**
-     * Retrieve all lp items from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of lp items
+     * Creates a new learning path from a dokeos chapter
+     * @param LearningPath $main_learning_path
      */
-    static function retrieve_data($parameters)
+    private function create_new_learning_path($main_learning_path)
     {
-        $old_mgdm = $parameters['old_mgdm'];
+		$chamilo_learning_path = new LearningPath();
+       		
+       	$chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($main_learning_path->get_owner_id(), Translation :: get('LearningPaths'));
+        $chamilo_learning_path->set_parent_id($chamilo_category_id);
         
-        if ($parameters['del_files'] = ! 1)
-            $tool_name = 'lp_item';
+        if (! $this->get_title())
+        {
+            $chamilo_learning_path->set_title(substr($this->get_description(), 0, 20));
+        }
+        else
+        {
+            $chamilo_learning_path->set_title($this->get_title());
+        }
         
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'lp_item';
-        $classname = 'Dokeos185LpItem';
+        if (! $this->get_description())
+        {
+            $chamilo_learning_path->set_description($this->get_title());
+        }
+        else
+        {
+            $chamilo_learning_path->set_description($this->get_description());
+        }
         
-        return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        $chamilo_learning_path->set_owner_id($main_learning_path->get_owner_id());
+        $chamilo_learning_path->set_version('chamilo');
+        $chamilo_learning_path->set_creation_date($main_learning_path->get_creation_date());
+        $chamilo_learning_path->set_modification_date($main_learning_path->get_modification_date());
+        
+        //create item in database
+        $chamilo_learning_path->create_all();
+
+        return $chamilo_learning_path;
+    }
+    
+    private function create_new_learning_path_item($main_learning_path)
+    {
+    	$chamilo_learning_path_item = new LearningPathItem();
+    	
+       	$chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($main_learning_path->get_owner_id(), Translation :: get('LearningPaths'));
+        $chamilo_learning_path_item->set_parent_id($chamilo_category_id);
+        
+        if (! $this->get_title())
+        {
+            $chamilo_learning_path_item->set_title(substr($this->get_description(), 0, 20));
+        }
+        else
+            $chamilo_learning_path_item->set_title($this->get_title());
+        
+        if (! $this->get_description())
+            $chamilo_learning_path_item->set_description($this->get_title());
+        else
+            $chamilo_learning_path_item->set_description($this->get_description());
+        
+        $reference_content_object_id = $this->get_id_reference($this->get_path(), $this->get_database_name() . '.' . $this->get_item_type()); 
+        $chamilo_learning_path_item->set_reference($reference_content_object_id);
+        
+        $chamilo_learning_path_item->set_owner_id($main_learning_path->get_owner_id());
+        $chamilo_learning_path_item->set_creation_date($main_learning_path->get_creation_date());
+        $chamilo_learning_path_item->set_modification_date($main_learning_path->get_modification_date());
+        $chamilo_learning_path_item->set_mastery_score($this->get_mastery_score());
+        
+        //create item in database
+        $chamilo_learning_path_item->create_all();
+        
+    	return $chamilo_learning_path_item;
     }
 
-    static function get_database_table($parameters)
+	static function get_table_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'lp_item';
-        return $array;
+        return self :: TABLE_NAME;
+    }
+    
+    static function get_class_name()
+    {
+    	return self :: CLASS_NAME;
     }
 }
 

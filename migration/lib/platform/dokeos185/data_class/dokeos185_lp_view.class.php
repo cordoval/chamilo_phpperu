@@ -4,16 +4,18 @@
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_lp_view.class.php';
+require_once Path :: get_web_application_path('weblcms') . '/trackers/weblcms_lp_attempt_tracker.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 lp_view
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185LpView extends Dokeos185MigrationDataClass
+class Dokeos185LpView extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'lp_view';
     
     /**
      * Dokeos185LpView properties
@@ -24,39 +26,7 @@ class Dokeos185LpView extends Dokeos185MigrationDataClass
     const PROPERTY_VIEW_COUNT = 'view_count';
     const PROPERTY_LAST_ITEM = 'last_item';
     const PROPERTY_PROGRESS = 'progress';
-    
-    /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new Dokeos185LpView object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185LpView($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
+   
     /**
      * Get the default properties
      * @return array The property names.
@@ -64,24 +34,6 @@ class Dokeos185LpView extends Dokeos185MigrationDataClass
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_LP_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_VIEW_COUNT, self :: PROPERTY_LAST_ITEM, self :: PROPERTY_PROGRESS);
-    }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -140,46 +92,52 @@ class Dokeos185LpView extends Dokeos185MigrationDataClass
 
     /**
      * Check if the lp view is valid
-     * @param array $array the parameters for the validation
      * @return true if the lp view is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        $new_lp_id = $this->get_id_reference($this->get_lp_id(), $this->get_database_name() . '.lp');
+        $new_user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
+        
+        if (! $this->get_id() || ! $new_lp_id || ! $new_user_id)
+        {
+            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'learning_path_view', 'ID' => $this->get_id())));
+            return false;
+        }
+        return true;
     }
 
     /**
      * Convert to new lp view
-     * @param array $array the parameters for the conversion
-     * @return the new lp view
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+        $course = $this->get_course();
+        
+    	$new_user_id = $this->get_id_reference($this->get_user_id(), 'main_database.user');
+    	$new_course_id = $this->get_id_reference($course->get_code(), 'main_database.course');
+    	$new_lp_id = $this->get_id_reference($this->get_lp_id(), $this->get_database_name() . '.lp');
+    	
+    	$tracker = new WeblcmsLpAttemptTracker();
+    	$tracker->set_course_id($new_course_id);
+    	$tracker->set_user_id($new_user_id);
+    	$tracker->set_lp_id($new_lp_id);
+    	$tracker->set_progress($this->get_progress());
+    	$tracker->create();
+    	
+    	$this->create_id_reference($this->get_id(), $tracker->get_id());
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'learning_path_view', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $tracker->get_id())));
     }
 
-    /**
-     * Retrieve all lp views from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of lp views
-     */
-    static function retrieve_data($parameters)
+    static function get_table_name()
     {
-        self :: $mgdm = $parameters['mgdm'];
-        
-        $db = $parameters['course']->get_db_name();
-        $tablename = 'lp_view';
-        $classname = 'Dokeos185LpView';
-        
-        return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
-
-    static function get_database_table($parameters)
+    
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'lp_view';
-        return $array;
+    	return self :: CLASS_NAME;
     }
 }
 

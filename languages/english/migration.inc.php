@@ -99,4 +99,7 @@ $lang['migration']['CourseQuizzesMigrationBlockInfo'] = 'On this page all the qu
 $lang['migration']['QuizRelQuestionInvalidMessage'] = 'FAILED: quiz rel question is not valid (QUIZ: {QUIZ} - QUESTION: {QUESTION})';
 $lang['migration']['QuizRelQuestionConvertedMessage'] = 'SUCCES: new quiz rel question added (QUIZ: {QUIZ} - QUESTION: {QUESTION}) - (COMPLEX CONTENT OBJECT ITEM: {NEW_ID})';
 
+$lang['migration']['CourseLearningPathsMigrationBlockInfoNext'] = 'On the next page all the learning paths, learning path chapters, learning path items and learning path statistics from all the courses will be migrated';
+$lang['migration']['CourseLearningPathsMigrationBlockInfo'] = 'On this page all the learning paths, learning path chapters, learning path items and learning path statistics from all the courses will be migrated';
+
 ?>

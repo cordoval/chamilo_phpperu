@@ -4,16 +4,18 @@
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_lp_item_view.class.php';
+require_once Path :: get_web_application_path('weblcms') . '/trackers/weblcms_lpi_attempt_tracker.class.php';
+require_once dirname(__FILE__) . '/../dokeos185_course_data_migration_data_class.class.php';
 
 /**
  * This class presents a Dokeos185 lp_item_view
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185LpItemView extends Dokeos185MigrationDataClass
+class Dokeos185LpItemView extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'lp_item_view';
     
     /**
      * Dokeos185LpItemView properties
@@ -30,39 +32,7 @@ class Dokeos185LpItemView extends Dokeos185MigrationDataClass
     const PROPERTY_LESSON_LOCATION = 'lesson_location';
     const PROPERTY_CORE_EXIT = 'core_exit';
     const PROPERTY_MAX_SCORE = 'max_score';
-    
-    /**
-     * Default properties stored in an associative array.
-     */
-    private $defaultProperties;
-
-    /**
-     * Creates a new Dokeos185LpItemView object
-     * @param array $defaultProperties The default properties
-     */
-    function Dokeos185LpItemView($defaultProperties = array ())
-    {
-        $this->defaultProperties = $defaultProperties;
-    }
-
-    /**
-     * Gets a default property by name.
-     * @param string $name The name of the property.
-     */
-    function get_default_property($name)
-    {
-        return $this->defaultProperties[$name];
-    }
-
-    /**
-     * Gets the default properties
-     * @return array An associative array containing the properties.
-     */
-    function get_default_properties()
-    {
-        return $this->defaultProperties;
-    }
-
+   
     /**
      * Get the default properties
      * @return array The property names.
@@ -70,24 +40,6 @@ class Dokeos185LpItemView extends Dokeos185MigrationDataClass
     static function get_default_property_names()
     {
         return array(self :: PROPERTY_ID, self :: PROPERTY_LP_ITEM_ID, self :: PROPERTY_LP_VIEW_ID, self :: PROPERTY_VIEW_COUNT, self :: PROPERTY_START_TIME, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_SCORE, self :: PROPERTY_STATUS, self :: PROPERTY_SUSPEND_DATA, self :: PROPERTY_LESSON_LOCATION, self :: PROPERTY_CORE_EXIT, self :: PROPERTY_MAX_SCORE);
-    }
-
-    /**
-     * Sets a default property by name.
-     * @param string $name The name of the property.
-     * @param mixed $value The new value for the property.
-     */
-    function set_default_property($name, $value)
-    {
-        $this->defaultProperties[$name] = $value;
-    }
-
-    /**
-     * Sets the default properties of this class
-     */
-    function set_default_properties($defaultProperties)
-    {
-        $this->defaultProperties = $defaultProperties;
     }
 
     /**
@@ -200,46 +152,55 @@ class Dokeos185LpItemView extends Dokeos185MigrationDataClass
 
     /**
      * Check if the lp item view is valid
-     * @param array $array the parameters for the validation
      * @return true if the lp item view is valid 
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        $new_lp_item_id = $this->get_id_reference($this->get_lp_item_id(), $this->get_database_name() . '.lp_item');
+        $new_lp_view_id = $this->get_id_reference($this->get_lp_view_id(), $this->get_database_name() . '.lp_view');
+        
+        if (! $this->get_id() || ! $new_lp_item_id || ! $new_lp_view_id)
+        {
+            $this->create_failed_element($this->get_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'learning_path_item_view', 'ID' => $this->get_id())));
+            return false;
+        }
+        return true;
     }
 
     /**
      * Convert to new lp item view
-     * @param array $array the parameters for the conversion
-     * @return the new lp item view
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+        $new_lp_item_id = $this->get_id_reference($this->get_lp_item_id(), $this->get_database_name() . '.lp_item');
+        $new_lp_view_id = $this->get_id_reference($this->get_lp_view_id(), $this->get_database_name() . '.lp_view');
+    	
+    	$tracker = new WeblcmsLpiAttemptTracker();
+    	$tracker->set_lp_item_id($new_lp_item_id);
+    	$tracker->set_lp_view_id($new_lp_view_id);
+    	$tracker->set_start_time($this->get_start_time());
+    	$tracker->set_total_time($this->get_total_time());
+    	$tracker->set_score($this->get_score());
+    	$tracker->set_status($this->get_status());
+    	$tracker->set_lesson_location($this->get_lesson_location());
+    	$tracker->set_suspend_data($this->get_suspend_data());
+    	$tracker->set_min_score(0);
+    	$tracker->set_max_score($this->get_max_score());
+    	$tracker->create();
+    	
+    	$this->create_id_reference($this->get_id(), $tracker->get_id());
+        $this->set_message(Translation :: get('GeneralConvertedMessage', array('TYPE' => 'learning_path_view', 'OLD_ID' => $this->get_id(), 'NEW_ID' => $tracker->get_id())));
     }
 
-    /**
-     * Retrieve all lp item views from the database
-     * @param array $parameters parameters for the retrieval
-     * @return array of lp item views
-     */
-    static function retrieve_data($parameters)
+	static function get_table_name()
     {
-        self :: $mgdm = $parameters['mgdm'];
-        
-        $db = $parameters['course']->get_db_name();
-        $tablename = 'lp_item_view';
-        $classname = 'Dokeos185LpItemView';
-        
-        return self :: $mgdm->get_all($db, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: TABLE_NAME;
     }
-
-    static function get_database_table($parameters)
+    
+    static function get_class_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'lp_item_view';
-        return $array;
+    	return self :: CLASS_NAME;
     }
 }
 
