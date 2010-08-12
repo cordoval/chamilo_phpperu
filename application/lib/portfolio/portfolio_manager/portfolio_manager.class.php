@@ -21,6 +21,9 @@ class PortfolioManager extends WebApplication
     const PARAM_PORTFOLIO_OWNER_ID = 'poid';
     const PARAM_PARENT = 'parent';
     const PARAM_PARENT_PORTFOLIO = 'parent_portfolio';
+
+    const PROPERTY_PID = 'pid';
+    const PROPERTY_CID = 'cid';
     
     const ACTION_DELETE_PORTFOLIO_PUBLICATION = 'delete_portfolio_publication';
     const ACTION_DELETE_PORTFOLIO_ITEM = 'delete_portfolio_item';

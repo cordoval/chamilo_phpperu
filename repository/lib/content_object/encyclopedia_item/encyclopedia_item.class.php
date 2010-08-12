@@ -16,6 +16,7 @@ class EncyclopediaItem extends ContentObject implements Versionable
 	const PROPERTY_TAGS = 'tags';
 	
 	const ATTACHMENT_IMAGE = 'image';
+	const ATTACHMENT_COMIC_BOOK = 'comic_book';
 
 	/**
 	 * Get the additional properties
@@ -82,5 +83,46 @@ class EncyclopediaItem extends ContentObject implements Versionable
 	{
 		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+    function get_comic_books($only_return_id = false)
+    {
+        if ($only_return_id)
+        {
+            return $this->get_attached_content_object_ids(self :: ATTACHMENT_COMIC_BOOK);
+        }
+        else
+        {
+            return $this->get_attached_content_objects(self :: ATTACHMENT_COMIC_BOOK);
+        }
+    }
+
+    function set_comic_books($comic_books = array())
+    {
+        $current_comic_books = $this->get_comic_books(true);
+        
+        $add = array_diff($comic_books, $current_comic_books);
+        $delete = array_diff($current_comic_books, $comic_books);
+        
+        foreach ($add as $comic_book)
+        {
+            $this->attach_content_object($comic_book, self :: ATTACHMENT_COMIC_BOOK);
+            $comic_book = $this->get_data_manager()->retrieve_content_object($comic_book);
+            $comic_book->attach_content_object($this->get_id(), ComicBook :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+        }
+        
+        foreach ($delete as $comic_book)
+        {
+            $this->detach_content_object($comic_book, self :: ATTACHMENT_COMIC_BOOK);
+            $comic_book = $this->get_data_manager()->retrieve_content_object($comic_book);
+            $comic_book->detach_content_object($this->get_id(), ComicBook :: ATTACHMENT_ENCYCLOPEDIA_ITEM);
+        }
+        
+        $this->truncate_attachment_cache(self :: ATTACHMENT_COMIC_BOOK);
+    }
+    
+    function has_comic_books()
+    {
+        return count($this->get_comic_books(true)) > 0;
+    }
 }
 ?>

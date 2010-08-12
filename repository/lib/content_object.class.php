@@ -596,13 +596,26 @@ class ContentObject extends DataClass
 
     function truncate_attachments($type = self :: ATTACHMENT_NORMAL)
     {
-        // Delete all types of attachments (only the links, not the actual objects)
+        // Reset the cache
+        $this->truncate_attachment_cache($type);
+        
+        // Delete all types of attachments from persistent storage (only the links, not the actual objects)
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_CONTENT_OBJECT_ID, $this->get_id());
         $conditions[] = new EqualityCondition(ContentObjectAttachment :: PROPERTY_TYPE, $type);
         $condition = new AndCondition($conditions);
         return $this->get_data_manager()->delete_content_object_attachments($condition);
     }
+    
+    /**
+     * Empty the lazy load variables to trigger a new retrieve
+     * @param String $type
+     */
+    function truncate_attachment_cache($type = self :: ATTACHMENT_NORMAL)
+    {
+        unset($this->attachment_ids[$type]);
+        unset($this->attachments[$type]);
+    } 
 
     /**
      * Removes the learning object with the given ID from this learning

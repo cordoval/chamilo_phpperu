@@ -282,7 +282,7 @@
 				}
 				
 				// Process image selection
-				$('.inactive_elements a:not(.disabled, .category)').live('click', processSelectedImage);
+				$('a:not(.disabled, .category)', inactiveBox).live('click', processSelectedImage);
 				
 				// Allow selection of a different image
 				$("#change_image").bind('click', resetImage);
