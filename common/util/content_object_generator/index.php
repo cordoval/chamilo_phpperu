@@ -27,7 +27,7 @@ foreach ($xml_files as $xml_file)
     log_message('Retrieving properties');
     $xml_definition = retrieve_properties_from_xml_file($xml_file_path);
     
-    if (file_exists(Path :: get_repository_path() . 'lib/content_object/' . $xml_definition['name'] . '/' . $xml_definition['name'] . '.xml'))
+    if (file_exists(Path :: get_repository_path() . 'lib/content_object/' . $xml_definition['name'] . '/install/' . $xml_definition['name'] . '.xml'))
     {
         log_message('Object type already exists');
     }
@@ -48,6 +48,9 @@ foreach ($xml_files as $xml_file)
         log_message('Generating package.info');
         $package_info_generator->generate_package_info($xml_definition, $author);
         
+        log_message('Generating settings.xml');
+        $package_info_generator->generate_settings($xml_definition);
+        
         $additional_class_generator->set_xml_definition($xml_definition);
         $additional_class_generator->set_author($author);
         
@@ -65,6 +68,9 @@ foreach ($xml_files as $xml_file)
         
         log_message('Generating complex data class form');
         $additional_class_generator->generate_complex_data_class_form();
+        
+        log_message('Generating data class installer');
+        $additional_class_generator->generate_data_class_installer();
         
         log_message('Generating data class form');
         $form_generator->generate_form($xml_definition, $author);
@@ -126,7 +132,7 @@ function create_folder($name)
 function move_file($name)
 {
     $old_file = dirname(__FILE__) . '/xml_schemas/' . $name . '.xml';
-    $new_file = Path :: get_repository_path() . 'lib/content_object/' . $name . '/' . $name . '.xml';
+    $new_file = Path :: get_repository_path() . 'lib/content_object/' . $name . '/install/' . $name . '.xml';
     Filesystem :: copy_file($old_file, $new_file);
     return $new_file;
 }

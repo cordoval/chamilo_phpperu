@@ -211,6 +211,37 @@ class AdditionalClassGenerator
             fclose($file);
         }
     }
+
+    /**
+     * 
+     */
+    function generate_data_class_installer()
+    {
+        $template = new MyTemplate();
+        $template->set_rootdir(dirname(__FILE__));
+        
+        $location = Path :: get_repository_path() . 'lib/content_object/' . $this->xml_definition['name'] . '/install';
+        
+        if (! is_dir($location))
+        {
+            mkdir($location, 0777, true);
+        }
+        
+        $file = fopen($location . '/' . $this->xml_definition['name'] . '_installer.class.php', 'w+');
+        
+        if ($file)
+        {
+            $template->set_filenames(array('data_class_installer' => 'data_class_installer.template'));
+            $classname = Utilities :: underscores_to_camelcase($this->xml_definition['name']);
+            $description = 'This class is used to install the ' . strtolower(Utilities :: underscores_to_camelcase_with_spaces($this->xml_definition['name'])) . ' content object';
+            
+            $template->assign_vars(array('TYPE' => $this->xml_definition['name'], 'DESCRIPTION' => $description, 'AUTHOR' => $this->author, 'OBJECT_CLASS' => $classname));
+            
+            $string = "<?php\n" . $template->pparse_return('data_class_installer') . "?>";
+            fwrite($file, $string);
+            fclose($file);
+        }
+    }
 }
 
 ?>
