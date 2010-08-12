@@ -21,46 +21,60 @@ $xml_files = Filesystem :: get_directory_content($xml_path, Filesystem :: LIST_F
 
 foreach ($xml_files as $xml_file)
 {
+    
     $xml_file_path = $xml_path . $xml_file;
     log_message('Start generating content object for: ' . $xml_file);
     log_message('Retrieving properties');
     $xml_definition = retrieve_properties_from_xml_file($xml_file_path);
     
-    log_message('Creating folder: ' . $xml_definition['name']);
-    create_folder($xml_definition['name']);
-    log_message('Moving XML file');
-    $new_path = move_file($xml_definition['name']);
-    
-    $classname = Utilities :: underscores_to_camelcase($xml_definition['name']);
-    $description = 'This class describes a ' . $classname . ' data object';
-    
-    //    dump($xml_definition);
-    log_message('Generating data class');
-    $data_class_generator->generate_data_class($xml_definition, $author);
-    
-    log_message('Generating package.info');
-    $package_info_generator->generate_package_info($xml_definition, $author);
-    
-    $additional_class_generator->set_xml_definition($xml_definition);
-    $additional_class_generator->set_author($author);
-    
-    log_message('Generating data class display');
-    $additional_class_generator->generate_data_class_display();
-    
-    log_message('Generating data class difference');
-    $additional_class_generator->generate_data_class_difference();
-    
-    log_message('Generating data class difference display');
-    $additional_class_generator->generate_data_class_difference_display();
-    
-    log_message('Generating complex data class');
-    $additional_class_generator->generate_complex_data_class();
-    
-    log_message('Generating complex data class form');
-    $additional_class_generator->generate_complex_data_class_form();
-    
-    log_message('Generating data class form');
-    $form_generator->generate_form($xml_definition, $author);
+    if (file_exists(Path :: get_repository_path() . 'lib/content_object/' . $xml_definition['name'] . '/install/' . $xml_definition['name'] . '.xml'))
+    {
+        log_message('Object type already exists');
+    }
+    else
+    {
+        log_message('Creating folder: ' . $xml_definition['name']);
+        create_folder($xml_definition['name']);
+        log_message('Moving XML file');
+        $new_path = move_file($xml_definition['name']);
+        
+        $classname = Utilities :: underscores_to_camelcase($xml_definition['name']);
+        $description = 'This class describes a ' . $classname . ' data object';
+        
+        //    dump($xml_definition);
+        log_message('Generating data class');
+        $data_class_generator->generate_data_class($xml_definition, $author);
+        
+        log_message('Generating package.info');
+        $package_info_generator->generate_package_info($xml_definition, $author);
+        
+        log_message('Generating settings.xml');
+        $package_info_generator->generate_settings($xml_definition);
+        
+        $additional_class_generator->set_xml_definition($xml_definition);
+        $additional_class_generator->set_author($author);
+        
+        log_message('Generating data class display');
+        $additional_class_generator->generate_data_class_display();
+        
+        log_message('Generating data class difference');
+        $additional_class_generator->generate_data_class_difference();
+        
+        log_message('Generating data class difference display');
+        $additional_class_generator->generate_data_class_difference_display();
+        
+        log_message('Generating complex data class');
+        $additional_class_generator->generate_complex_data_class();
+        
+        log_message('Generating complex data class form');
+        $additional_class_generator->generate_complex_data_class_form();
+        
+        log_message('Generating data class installer');
+        $additional_class_generator->generate_data_class_installer();
+        
+        log_message('Generating data class form');
+        $form_generator->generate_form($xml_definition, $author);
+    }
     
     echo '<hr />';
 }
@@ -118,7 +132,7 @@ function create_folder($name)
 function move_file($name)
 {
     $old_file = dirname(__FILE__) . '/xml_schemas/' . $name . '.xml';
-    $new_file = Path :: get_repository_path() . 'lib/content_object/' . $name . '/' . $name . '.xml';
+    $new_file = Path :: get_repository_path() . 'lib/content_object/' . $name . '/install/' . $name . '.xml';
     Filesystem :: copy_file($old_file, $new_file);
     return $new_file;
 }

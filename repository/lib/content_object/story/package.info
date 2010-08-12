@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>News Article</name>
-		<code>news_article</code>
+		<name>Story</name>
+		<code>story</code>
 		<section>content_object</section>
-		<category>news</category>
 		<author>Hans De Bisschop</author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/n/news_article/news_article-1.0.0.zip</filename>
+		<filename>pool/main/objects/s/story/story-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
