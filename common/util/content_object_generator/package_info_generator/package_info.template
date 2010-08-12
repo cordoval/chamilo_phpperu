@@ -4,6 +4,7 @@
 		<name>{CONTENT_OBJECT_NAME}</name>
 		<code>{CODE}</code>
 		<section>content_object</section>
+		<category>general</category>
 		<author>{AUTHOR}</author>
 		<version>1.0.0</version>
 		<filename>pool/main/objects/{FOLDER}/{CODE}/{CODE}-1.0.0.zip</filename>
