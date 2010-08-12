@@ -1,22 +1,20 @@
 <?php
+
+require_once dirname(__FILE__) . "/../dokeos185_course_data_migration_data_class.class.php";
 /**
  * $Id: dokeos185_survey_question.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
  */
-
-require_once dirname(__FILE__) . '/../../lib/import/import_survey_question.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/learning_style_survey_question/learning_style_survey_question.class.php';
-require_once dirname(__FILE__) . '/../../../application/lib/weblcms/content_object_publication.class.php';
-require_once dirname(__FILE__) . '/../../../repository/lib/content_object/category/category.class.php';
 
 /**
  * This class presents a Dokeos185 survey_question
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185SurveyQuestion
+class Dokeos185SurveyQuestion extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'survey_question';
     /**
      * Dokeos185SurveyQuestion properties
      */
@@ -29,7 +27,16 @@ class Dokeos185SurveyQuestion
     const PROPERTY_SORT = 'sort';
     const PROPERTY_SHARED_QUESTION_ID = 'shared_question_id';
     const PROPERTY_MAX_VALUE = 'max_value';
-    
+
+    const TYPE_YESNO = 'yesno';
+    const TYPE_SCORE = 'score';
+    const TYPE_MULTIPLE_RESPONSE = 'multipleresponse';
+    const TYPE_MULTIPLE_CHOICE = 'multiplechoice';
+    const TYPE_OPEN = 'open';
+    const TYPE_DROPDOWN = 'dropdown';
+    const TYPE_PERCENTAGE = 'percentage';
+    const TYPE_FEEDBACK = 'comment';
+    const TYPE_PAGEBREAK = 'pagebreak';
     /**
      * Default properties stored in an associative array.
      */
@@ -39,7 +46,7 @@ class Dokeos185SurveyQuestion
      * Creates a new Dokeos185SurveyQuestion object
      * @param array $defaultProperties The default properties
      */
-    function Dokeos185SurveyQuestion($defaultProperties = array ())
+    function Dokeos185SurveyQuestion($defaultProperties = array())
     {
         $this->defaultProperties = $defaultProperties;
     }
@@ -171,45 +178,17 @@ class Dokeos185SurveyQuestion
     }
 
     /**
-     * Gets all the survey questions of a course
-     * @param Array $array
-     * @return Array of dokeos185surveyquestion
-     */
-    static function retrieve_data($parameters)
-    {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        if ($parameters['del_files'] = ! 1)
-            $tool_name = 'survey_question';
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'survey_question';
-        $classname = 'Dokeos185SurveyQuestion';
-        
-        return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
-    }
-
-    static function get_database_table($parameters)
-    {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'survey_question';
-        return $array;
-    }
-
-    /**
      * Checks if a surveyquestion is valid
      * @param Array $array
      * @return Boolean
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
-        
-        if (! $this->get_survey_question())
+        if (!$this->get_survey_question())
         {
-            $mgdm = MigrationDataManager :: get_instance();
-            $mgdm->add_failed_element($this->get_id(), $course->get_db_name() . '.survey');
+            $this->create_failed_element($this->get_question_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'survey_question', 'ID' => $this->get_question_id())));
+
             return false;
         }
         return true;
@@ -220,88 +199,122 @@ class Dokeos185SurveyQuestion
      * @param Array $array
      * @return LearningStyleSurveyQuestion
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
-        $mgdm = MigrationDataManager :: get_instance();
-        
-        $new_course_code = $mgdm->get_id_reference($course->get_code(), 'weblcms_course');
-        $new_user_id = $mgdm->get_owner($new_course_code);
-        
-        //survey question parameters
-        $lcms_survey_question = new LearningStyleSurveyQuestion();
-        
-        // Category for surveys already exists?
-        $lcms_category_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('surveys'));
-        if (! $lcms_category_id)
-        {
-            //Create category for tool in lcms
-            $lcms_repository_category = new Category();
-            $lcms_repository_category->set_owner_id($new_user_id);
-            $lcms_repository_category->set_title(Translation :: get('surveys'));
-            $lcms_repository_category->set_description('...');
-            
-            //Retrieve repository id from course
-            $repository_id = $mgdm->get_parent_id($new_user_id, 'category', Translation :: get('MyRepository'));
-            $lcms_repository_category->set_parent_id($repository_id);
-            
-            //Create category in database
-            $lcms_repository_category->create();
-            
-            $lcms_survey_question->set_parent_id($lcms_repository_category->get_id());
-        }
-        else
-        {
-            $lcms_survey_question->set_parent_id($lcms_category_id);
-        }
-        
-        $lcms_survey_question->set_title($this->get_survey_question());
-        
-        $lcms_survey_question->set_description('...');
-        if ($this->get_survey_question_comment())
-            $lcms_survey_question->set_comment($this->get_survey_question_comment());
-        
-        $lcms_survey_question->set_owner_id($new_user_id);
-        $lcms_survey_question->set_display_order_index($this->get_sort());
-        
-        //create announcement in database
-        $lcms_survey_question->create();
-        
-        //publication
-        /*
-		if($this->item_property->get_visibility() <= 1) 
-		{
-			$publication = new ContentObjectPublication();
-			
-			$publication->set_content_object($lcms_announcement);
-			$publication->set_course_id($new_course_code);
-			$publication->set_publisher_id($new_user_id);
-			$publication->set_tool('announcement');
-			$publication->set_category_id(0);
-			//$publication->set_from_date($mgdm->make_unix_time($this->item_property->get_start_visible()));
-			//$publication->set_to_date($mgdm->make_unix_time($this->item_property->get_end_visible()));
-			$publication->set_from_date(0);
-			$publication->set_to_date(0);
-			$publication->set_publication_date($mgdm->make_unix_time($this->item_property->get_insert_date()));
-			$publication->set_modified_date($mgdm->make_unix_time($this->item_property->get_lastedit_date()));
-			//$publication->set_modified_date(0);
-			//$publication->set_display_order_index($this->get_display_order());
-			$publication->set_display_order_index(0);
-			
-			if($this->get_email_sent())
-				$publication->set_email_sent($this->get_email_sent());
-			else
-				$publication->set_email_sent(0);
-			
-			$publication->set_hidden($this->item_property->get_visibility() == 1?0:1);
-			
-			//create publication in database
-			$publication->create();
-		}
-		*/
-        
-        return $lcms_survey_question;
-    }
-}
+        $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
+        //$new_user_id = $this->get_data_manager()->get_owner_id($new_course_code);
+        //temporary until getowner works
+        $new_user_id = $this->get_id_reference($this->get_survey_id(), $this->get_database_name() . '.survey.temp_user');
 
+        //survey to which the question is attached (already migrated)
+        $survey_id = $this->get_id_reference($this->get_survey_id(), $this->get_database_name() . '.survey');
+
+        $survey = RepositoryDataManager::get_instance()->retrieve_content_object($survey_id);
+
+        //the current_page holds the page of the survey that we'll be adding content to
+        $pages = $survey->get_pages();
+        $pages_count = count($pages);
+        
+        if ($pages_count > 0)
+            $current_page = $pages[count($pages) - 1];
+        else
+            $current_page = $this->create_new_survey_page($new_user_id, $survey_id, 'first page');
+
+        //survey question parameters
+        $chamilo_survey_question = null;
+        switch ($this->get_type())
+        {
+            case self :: TYPE_YESNO :
+                $chamilo_survey_question = new SurveyMultipleChoiceQuestion();
+                $chamilo_survey_question->set_answer_type(SurveyMultipleChoiceQuestion::ANSWER_TYPE_RADIO);
+                break;
+            case self :: TYPE_MULTIPLE_CHOICE :
+                $chamilo_survey_question = new SurveyMultipleChoiceQuestion();
+                $chamilo_survey_question->set_answer_type(SurveyMultipleChoiceQuestion::ANSWER_TYPE_RADIO);
+                break;
+            case self :: TYPE_MULTIPLE_RESPONSE :
+                $chamilo_survey_question = new SurveyMultipleChoiceQuestion();
+                $chamilo_survey_question->set_answer_type(SurveyMultipleChoiceQuestion::ANSWER_TYPE_CHECKBOX);
+                break;
+            case self :: TYPE_OPEN :
+                $chamilo_survey_question = new SurveyOpenQuestion();
+                break;
+            case self :: TYPE_DROPDOWN :
+                $chamilo_survey_question = new SurveySelectQuestion();
+                break;
+            case self :: TYPE_PERCENTAGE :
+                $chamilo_survey_question = new SurveyRatingQuestion();
+                break;
+            case self :: TYPE_FEEDBACK :
+                $chamilo_survey_question = new SurveyDescription();
+                break;
+            case self :: TYPE_PAGEBREAK :
+                $current_page = $this->create_new_survey_page($new_user_id, $survey_id, $this->get_survey_question());
+                return null; // not a real chamilo answertype
+                break;
+            default :
+                $chamilo_survey_question = new SurveyDescription();
+                break;
+        }
+
+        //set the additional properties
+
+        $repository_category_id = RepositoryDataManager::get_repository_category_by_name_or_create_new($new_user_id, 'Surveys');
+        $chamilo_survey_question->set_parent_id($repository_category_id);
+
+        $chamilo_survey_question->set_title($this->get_survey_question());
+
+        $chamilo_survey_question->set_description('...');
+        if ($this->get_survey_question_comment())
+            $chamilo_survey_question->set_comment($this->get_survey_question_comment());
+
+        $chamilo_survey_question->set_owner_id($new_user_id);
+        //$chamilo_survey_question->set_display_order_index();
+
+        //create announcement in database
+        $chamilo_survey_question->create();
+
+        //connect the question to the right page
+        $this->create_complex_content_object_item($chamilo_survey_question, $current_page->get_id(), $new_user_id, 0);
+
+        //create reference in migration table
+        $this->create_id_reference($this->get_question_id(), $chamilo_survey_question->get_id());
+
+        return $chamilo_survey_question;
+        }
+
+    /**
+     * Creates a new page after the last one and adds it to the relevant survey
+     * @param int $new_user_id the chamilo user
+     * @param int $survey_id   the chamilo survey
+     * @param string $title    the title of the page
+     * @return SurveyPage
+     */
+    private function create_new_survey_page($new_user_id, $survey_id, $title = 'new migrated page')
+    {
+        $current_page = new SurveyPage ();
+        $current_page->set_owner_id($new_user_id);
+        $current_page->set_title($title);
+        $current_page->set_creation_date(0);
+        $current_page->set_modification_date(0);
+
+        $current_page->create_all();
+
+        //connect the page to the survey
+        $this->create_complex_content_object_item($current_page, $survey_id, $new_user_id, 0);
+
+        return $current_page;
+    }
+
+    public static function get_class_name()
+    {
+        return self :: CLASS_NAME;
+    }
+
+    public static function get_table_name()
+    {
+        return self :: TABLE_NAME;
+    }
+
+}
 ?>
