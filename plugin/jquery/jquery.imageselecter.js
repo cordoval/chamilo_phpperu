@@ -260,7 +260,7 @@
 				$(this).bind('update_search', updateSearchResults);
 				
 				// Initialize the uploadify plugin
-				$('#uploadify').uploadify ({
+				$('#' + settings.name + '_uploadify').uploadify ({
 					'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/uploadify.swf',
 					'script': getPath('WEB_PATH') + 'common/javascript/ajax/upload_image.php',
 					'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify2/cancel.png',

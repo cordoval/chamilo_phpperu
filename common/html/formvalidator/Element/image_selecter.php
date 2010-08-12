@@ -123,7 +123,7 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
 		 */
         $html = array();
         $html[] = '<div id="image_select" style="display: none;">';
-        $html[] = '<div id="uploadify"></div>';
+        $html[] = '<div id="' . $this->getName() . '_uploadify"></div>';
         
         if ($this->isCollapsed())
         {
@@ -201,11 +201,11 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
         $html[] = '<button id="change_image" class="negative delete">' . htmlentities(Translation :: get('SelectAnotherImage')) . '</button>';
         $html[] = '<div class="clear">&nbsp;</div>';
         $html[] = '</div>';
-        
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js');
-        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.imageselecter.js');
+
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/swfobject.js');
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify2/jquery.uploadify.v2.1.0.min.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js');
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.imageselecter.js');
         $html[] = '<script type="text/javascript">';
         
         $exclude_ids = array();
@@ -226,7 +226,13 @@ class HTML_QuickForm_image_selecter extends HTML_QuickForm_group
         $default_query = $this->options['default_query'];
         $default_query = (isset($default_query) && ! empty($default_query) ? ', defaultQuery: "' . $default_query . '"' : '');
         
-        $html[] = '$("#' . $id . '").elementselecter({ name: "' . $this->getName() . '", search: "' . $this->search_url . '"' . $load_elements . $default_query . ' });';
+        $html[] = '$(function () {';
+        $html[] = '	$(document).ready(function ()'; 
+		$html[] = '	{';
+        $html[] = '		$("#' . $id . '").elementselecter({ name: "' . $this->getName() . '", search: "' . $this->search_url . '"' . $load_elements . $default_query . ' });';
+        $html[] = '	});';
+        $html[] = '});';
+        
         $html[] = '</script>';
         
         return implode("\n", $html);
