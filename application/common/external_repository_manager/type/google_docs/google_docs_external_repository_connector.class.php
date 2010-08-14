@@ -188,10 +188,16 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
+        $folder = Request :: get(GoogleDocsExternalRepositoryManager :: PARAM_FOLDER);
+        
         if (isset($condition))
         {
             $query = new Zend_Gdata_Docs_Query();
             $query->setQuery($condition);
+        }
+        elseif (isset($folder))
+        {
+            $query = 'http://docs.google.com/feeds/folders/private/full/folder%3A' . $folder;
         }
         else
         {
@@ -279,12 +285,13 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         
         $my_folders = array();
         $my_folders['title'] = Translation :: get('MyFolders');
-        $my_folders['url'] = str_replace('__PLACEHOLDER__', self :: FOLDERS_MINE, $folder_url);
+        $my_folders['url'] = '#';
         $my_folders['class'] = 'category';
         
         $shared_folders = array();
         $shared_folders['title'] = Translation :: get('SharedFolders');
-        $shared_folders['url'] = str_replace('__PLACEHOLDER__', self :: FOLDERS_SHARED, $folder_url);
+        //$shared_folders['url'] = str_replace('__PLACEHOLDER__', null, $folder_url);
+        $shared_folders['url'] = '#';
         $shared_folders['class'] = 'shared_objects';
         
         $objects = array();
@@ -322,7 +329,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         
         $my_folders['sub'] = $this->get_folder_tree(self :: FOLDERS_MINE, $objects, $folder_url);
         $shared_folders['sub'] = $this->get_folder_tree(self :: FOLDERS_SHARED, $objects, $folder_url);
-        
+
         $folder_root[] = $my_folders;
         $folder_root[] = $shared_folders;
         return $folder_root;

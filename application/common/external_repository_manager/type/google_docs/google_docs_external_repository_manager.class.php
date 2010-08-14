@@ -5,6 +5,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
 {
     
     const PARAM_EXPORT_FORMAT = 'export_format';
+    const PARAM_FOLDER = 'folder';
 
     /**
      * @param Application $application
@@ -56,7 +57,25 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_menu_items()
     {
-        return $this->get_external_repository_connector()->retrieve_folders($this->get_url(array('folder' => '__PLACEHOLDER__')));
+        $menu_items = array();
+        
+        $line = array();
+        $line['title'] = '';
+        $line['class'] = 'divider';
+        
+        $all_items = array();
+        $all_items['title'] = Translation :: get('AllItems');
+        $all_items['url'] = $this->get_url(array(self :: PARAM_FOLDER => null));
+        $all_items['class'] = 'home';
+        
+        $menu_items[] = $all_items;
+        $menu_items[] = $line;
+        
+        $folders = $this->get_external_repository_connector()->retrieve_folders($this->get_url(array(self :: PARAM_FOLDER => '__PLACEHOLDER__')));
+        
+        $menu_items = array_merge($menu_items, $folders);
+        
+        return $menu_items;
     }
 
     /* (non-PHPdoc)
@@ -128,22 +147,22 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         $document_conditions[] = new PatternMatchCondition(Document :: PROPERTY_FILENAME, '*.ppt', Document :: get_type_name());
         return new OrCondition($document_conditions);
     }
-    
+
     /**
      * @param ExternalRepositoryObject $object
      * @return array
      */
     function get_external_repository_object_actions(GoogleDocsExternalRepositoryObject $object)
     {
-        $actions = parent ::  get_external_repository_object_actions($object);
-        if (in_array(ExternalRepositoryManager::ACTION_IMPORT_EXTERNAL_REPOSITORY, array_keys($actions)))
+        $actions = parent :: get_external_repository_object_actions($object);
+        if (in_array(ExternalRepositoryManager :: ACTION_IMPORT_EXTERNAL_REPOSITORY, array_keys($actions)))
         {
-            unset($actions[ExternalRepositoryManager::ACTION_IMPORT_EXTERNAL_REPOSITORY]);
+            unset($actions[ExternalRepositoryManager :: ACTION_IMPORT_EXTERNAL_REPOSITORY]);
             $export_types = $object->get_export_types();
             
-            foreach($export_types as $export_type)
+            foreach ($export_types as $export_type)
             {
-                $actions[$export_type] = new ToolbarItem(Translation :: get('Import' . Utilities :: underscores_to_camelcase($export_type)), Theme :: get_common_image_path() . 'external_repository/google_docs/import/'. $export_type .'.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id(), self :: PARAM_EXPORT_FORMAT => $export_type )), ToolbarItem :: DISPLAY_ICON);
+                $actions[$export_type] = new ToolbarItem(Translation :: get('Import' . Utilities :: underscores_to_camelcase($export_type)), Theme :: get_common_image_path() . 'external_repository/google_docs/import/' . $export_type . '.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id(), self :: PARAM_EXPORT_FORMAT => $export_type)), ToolbarItem :: DISPLAY_ICON);
             }
         }
         
