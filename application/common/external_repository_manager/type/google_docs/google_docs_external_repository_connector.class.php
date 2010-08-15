@@ -1,6 +1,7 @@
 <?php
 require_once 'Zend/Loader.php';
 require_once dirname(__FILE__) . '/google_docs_external_repository_object.class.php';
+require_once dirname(__FILE__) . '/google_docs_external_repository_object_acl.class.php';
 
 class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
 {
@@ -118,6 +119,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         $object->set_modifier_id($modifier->getEmail()->getText());
         $object->set_content($this->determine_content_url($object));
         $object->set_rights($this->determine_rights());
+        $object->set_acl($this->get_document_acl($resource_id[1]));
         
         return $object;
     }
@@ -181,8 +183,6 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function count_external_repository_objects($condition)
     {
-        //dump($this->google_docs->getDocumentAclFeed('0B8n8rrWLColvMzdiMTAxMjAtMzU3OS00MmZkLTllNjItNzU0MTY1OTllNWEy'));
-        //exit;
         return $this->get_documents_feed($condition)->getTotalResults()->getText();
     }
 
@@ -267,11 +267,54 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
             $object->set_modifier_id($modifier->getEmail()->getText());
             $object->set_content($this->determine_content_url($object));
             $object->set_rights($this->determine_rights());
+            $object->set_acl($this->get_document_acl($resource_id[1]));
             
             $objects[] = $object;
         }
         
         return new ArrayResultSet($objects);
+    }
+
+    private function get_document_acl($document_id)
+    {
+        $acl_feed = $this->google_docs->getDocumentAclFeed($document_id);
+        $document_acl = new GoogleDocsExternalRepositoryObjectAcl();
+        
+        foreach ($acl_feed->entries as $acl)
+        {
+            $scope = $acl->getScope();
+            $role = $acl->getRole();
+            $key = $acl->getWithKey();
+            
+            if ($scope->getType() == 'default')
+            {
+                if (! is_null($key))
+                {
+                    $document_acl->set_public($key->getRole()->getValue(), $key->getKey());
+                }
+                else
+                {
+                    $document_acl->set_public($role->getValue());
+                }
+            }
+            elseif ($scope->getType() == 'user')
+            {
+                if ($role->getValue() == GoogleDocsExternalRepositoryObjectAcl :: ACL_OWNER)
+                {
+                    $document_acl->set_owner($scope->getValue());
+                }
+                elseif ($role->getValue() == GoogleDocsExternalRepositoryObjectAcl :: ACL_READER)
+                {
+                    $document_acl->add_viewer($scope->getValue());
+                }
+                elseif ($role->getValue() == GoogleDocsExternalRepositoryObjectAcl :: ACL_WRITER)
+                {
+                    $document_acl->add_collaborator($scope->getValue());
+                }
+            }
+        }
+        
+        return $document_acl;
     }
 
     function determine_content_url($object)

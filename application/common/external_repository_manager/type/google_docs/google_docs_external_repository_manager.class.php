@@ -83,7 +83,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         $shared = array();
         $shared['title'] = Translation :: get('SharedWithMe');
         $shared['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_SHARED));
-        $shared['class'] = 'user';
+        $shared['class'] = 'external_repository';
         
         $starred = array();
         $starred['title'] = Translation :: get('Starred');
