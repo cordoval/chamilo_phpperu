@@ -80,6 +80,11 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         $viewed['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_VIEWED));
         $viewed['class'] = 'userview';
         
+        $shared = array();
+        $shared['title'] = Translation :: get('SharedWithMe');
+        $shared['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_SHARED));
+        $shared['class'] = 'user';
+        
         $starred = array();
         $starred['title'] = Translation :: get('Starred');
         $starred['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_STARRED));
@@ -131,6 +136,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         
         $menu_items[] = $owned;
         $menu_items[] = $viewed;
+        $menu_items[] = $shared;
         $menu_items[] = $starred;
         $menu_items[] = $hidden;
         $menu_items[] = $trashed;

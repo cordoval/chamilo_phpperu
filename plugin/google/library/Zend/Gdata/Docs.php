@@ -37,6 +37,16 @@ require_once 'Zend/Gdata/Docs/DocumentListFeed.php';
 require_once 'Zend/Gdata/Docs/DocumentListEntry.php';
 
 /**
+ * @see Zend_Gdata_Docs_DocumentAclFeed
+ */
+require_once 'Zend/Gdata/Docs/DocumentAclFeed.php';
+
+/**
+ * @see Zend_Gdata_Docs_DocumentAclEntry
+ */
+require_once 'Zend/Gdata/Docs/DocumentAclEntry.php';
+
+/**
  * @see Zend_Gdata_App_Extension_Category
  */
 require_once 'Zend/Gdata/App/Extension/Category.php';
@@ -60,6 +70,7 @@ class Zend_Gdata_Docs extends Zend_Gdata
 {
 
     const DOCUMENTS_LIST_FEED_URI = 'http://docs.google.com/feeds/documents/private/full';
+    const DOCUMENT_ACL_FEED_URI = 'http://docs.google.com/feeds/acl/private/full';
     const DOCUMENTS_FOLDER_FEED_URI = 'http://docs.google.com/feeds/folders/private/full';
     const DOCUMENTS_CATEGORY_SCHEMA = 'http://schemas.google.com/g/2005#kind';
     const DOCUMENTS_CATEGORY_TERM = 'http://schemas.google.com/docs/2007#folder';
@@ -83,6 +94,16 @@ class Zend_Gdata_Docs extends Zend_Gdata
       'XLSX'=>'application/vnd.ms-excel',
       'PPT'=>'application/vnd.ms-powerpoint',
       'PPS'=>'application/vnd.ms-powerpoint');
+    
+    /**
+     * Namespaces used for Zend_Gdata_Docs
+     *
+     * @var array
+     */
+    public static $namespaces = array(
+        array('gd', 'http://schemas.google.com/g/2005', 1, 0),
+        array('gAcl', 'http://schemas.google.com/acl/2007', 1, 0)
+    );
 
     /**
      * Create Gdata_Docs object
@@ -172,6 +193,12 @@ class Zend_Gdata_Docs extends Zend_Gdata
             $uri = $location;
         }
         return parent::getEntry($uri, 'Zend_Gdata_Docs_DocumentListEntry');
+    }
+    
+    public function getDocumentAclFeed($docId)
+    {
+        $uri = self :: DOCUMENT_ACL_FEED_URI . '/' . $docId;
+        return parent::getEntry($uri, 'Zend_Gdata_Docs_DocumentAclFeed');
     }
 
     /**

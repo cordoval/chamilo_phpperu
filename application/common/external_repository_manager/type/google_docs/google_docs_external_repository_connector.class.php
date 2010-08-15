@@ -19,7 +19,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
     
     const DOCUMENTS_OWNED = 'mine';
     const DOCUMENTS_VIEWED = 'viewed';
-    const DOCUMENTS_SHARED = 'shared-with-me';
+    const DOCUMENTS_SHARED = '-mine';
     const DOCUMENTS_STARRED = 'starred';
     const DOCUMENTS_HIDDEN = 'hidden';
     const DOCUMENTS_TRASH = 'trashed';
@@ -181,6 +181,8 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function count_external_repository_objects($condition)
     {
+        //dump($this->google_docs->getDocumentAclFeed('0B8n8rrWLColvMzdiMTAxMjAtMzU3OS00MmZkLTllNjItNzU0MTY1OTllNWEy'));
+        //exit;
         return $this->get_documents_feed($condition)->getTotalResults()->getText();
     }
 
