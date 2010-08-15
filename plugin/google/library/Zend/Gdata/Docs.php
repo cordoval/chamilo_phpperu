@@ -159,7 +159,7 @@ class Zend_Gdata_Docs extends Zend_Gdata
         }
         else
         {
-            $uri = self :: DOCUMENTS_LIST_FEED_URI . '/-/' . $folderName . ($showFolders ? '?showfolders=true' : '');
+            $uri = self::DOCUMENTS_LIST_FEED_URI . '/-/' . $folderName . ($showFolders ? '?showfolders=true' : '');
             return $this->getDocumentListFeed($uri);
         }
     }
@@ -171,7 +171,7 @@ class Zend_Gdata_Docs extends Zend_Gdata
     
     public function getFolderListFeed($folderId)
     {
-        $uri = self :: DOCUMENTS_FOLDER_FEED_URI . '/folder%3A' . $folderId;
+        $uri = self::DOCUMENTS_FOLDER_FEED_URI . '/folder%3A' . $folderId;
         return $this->getDocumentListFeed($uri);
     }
 
@@ -197,7 +197,7 @@ class Zend_Gdata_Docs extends Zend_Gdata
     
     public function getDocumentAclFeed($docId)
     {
-        $uri = self :: DOCUMENT_ACL_FEED_URI . '/' . $docId;
+        $uri = self::DOCUMENT_ACL_FEED_URI . '/' . $docId;
         return parent::getEntry($uri, 'Zend_Gdata_Docs_DocumentAclFeed');
     }
 
