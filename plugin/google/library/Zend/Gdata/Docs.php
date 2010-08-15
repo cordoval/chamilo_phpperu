@@ -148,6 +148,7 @@ class Zend_Gdata_Docs extends Zend_Gdata
         } else {
             $uri = $location;
         }
+        
         return parent::getFeed($uri, 'Zend_Gdata_Docs_DocumentListFeed');
     }
     

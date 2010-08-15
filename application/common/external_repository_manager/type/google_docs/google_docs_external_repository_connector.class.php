@@ -183,7 +183,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function count_external_repository_objects($condition)
     {
-        return $this->get_documents_feed($condition)->getTotalResults()->getText();
+        return $this->get_documents_feed($condition, array(), 1, 1)->getTotalResults()->getText();
     }
 
     private function get_special_folder_names()
@@ -191,31 +191,48 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         return array(self :: DOCUMENTS_DOCUMENTS, self :: DOCUMENTS_DRAWINGS, self :: DOCUMENTS_FILES, self :: DOCUMENTS_HIDDEN, self :: DOCUMENTS_VIEWED, self :: DOCUMENTS_OWNED, self :: DOCUMENTS_PRESENTATIONS, self :: DOCUMENTS_SHARED, self :: DOCUMENTS_SPREADSHEETS, self :: DOCUMENTS_STARRED, self :: DOCUMENTS_TRASH);
     }
 
-    private function get_documents_feed($condition)
+    private function get_documents_feed($condition, $order_property = null, $offset = null, $count = null)
     {
         $folder = Request :: get(GoogleDocsExternalRepositoryManager :: PARAM_FOLDER);
+        $query = new Zend_Gdata_Docs_Query();
         
         if (isset($condition))
         {
-            $query = new Zend_Gdata_Docs_Query();
             $query->setQuery($condition);
-            return $this->google_docs->getDocumentListFeed($query);
         }
         elseif (isset($folder))
         {
             if (in_array($folder, $this->get_special_folder_names()))
             {
-                return $this->google_docs->getNamedListFeed($folder);
+                $query->setCategory($folder);
             }
             else
             {
-                return $this->google_docs->getFolderListFeed($folder);
+                $query->setFolder($folder);
             }
         }
-        else
+        
+        if (count($order_property) > 0)
         {
-            $query = null;
-            return $this->google_docs->getDocumentListFeed($query);
+            switch($order_property[0]->get_property())
+            {
+                case GoogleDocsExternalRepositoryObject::PROPERTY_CREATED :
+                    $property = 'last-modified';
+                    break;
+                case GoogleDocsExternalRepositoryObject::PROPERTY_TITLE :
+                    $property = 'title';
+                    break;
+                default :
+                    $property = null;
+            }
+            $query->setOrderBy($property);
+        }
+        
+        $query->setMaxResults($count);
+        
+        if($offset)
+        {
+            $query->setStartIndex($offset - 1);
         }
         
         return $this->google_docs->getDocumentListFeed($query);
@@ -226,7 +243,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-        $documents_feed = $this->get_documents_feed($condition);
+        $documents_feed = $this->get_documents_feed($condition, $order_property, $offset, $count);
         
         $objects = array();
         foreach ($documents_feed->entries as $document)
