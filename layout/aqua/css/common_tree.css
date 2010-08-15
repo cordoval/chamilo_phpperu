@@ -223,6 +223,26 @@ ul.tree-menu li div a.category {
 	background-image: url(../images/common/treemenu/tree-folder-closed.png);
 }
 
+ul.tree-menu li div a.hidden {
+	background-image: url(../images/common/treemenu/hidden.png);
+}
+
+ul.tree-menu li div a.google_docs_pdf {
+	background-image: url(../images/common/external_repository/google_docs/types/pdf.png);
+}
+
+ul.tree-menu li div a.google_docs_document {
+	background-image: url(../images/common/external_repository/google_docs/types/document.png);
+}
+
+ul.tree-menu li div a.google_docs_presentation {
+	background-image: url(../images/common/external_repository/google_docs/types/presentation.png);
+}
+
+ul.tree-menu li div a.google_docs_spreadsheet {
+	background-image: url(../images/common/external_repository/google_docs/types/spreadsheet.png);
+}
+
 ul.tree-menu li div a.survey {
 	background-image: url(../images/common/treemenu/survey.png);
 }

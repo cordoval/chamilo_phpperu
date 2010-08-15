@@ -64,8 +64,6 @@ class Zend_Gdata_Docs extends Zend_Gdata
     const DOCUMENTS_CATEGORY_SCHEMA = 'http://schemas.google.com/g/2005#kind';
     const DOCUMENTS_CATEGORY_TERM = 'http://schemas.google.com/docs/2007#folder';
     const AUTH_SERVICE_NAME = 'writely';
-    
-    const DOCUMENTS_FOLDERS_FEED_URI = 'http://docs.google.com/feeds/documents/private/full/-/';
 
     protected $_defaultPostUri = self::DOCUMENTS_LIST_FEED_URI;
 
@@ -132,16 +130,27 @@ class Zend_Gdata_Docs extends Zend_Gdata
         return parent::getFeed($uri, 'Zend_Gdata_Docs_DocumentListFeed');
     }
     
-    public function getFolderListFeed($folder_name = '')
+    public function getNamedListFeed($folderName = null, $showFolders = false)
+    {        
+        if (!$folderName)
+        {
+            return $this->getDocumentListFeed();
+        }
+        else
+        {
+            $uri = self :: DOCUMENTS_LIST_FEED_URI . '/-/' . $folderName . ($showFolders ? '?showfolders=true' : '');
+            return $this->getDocumentListFeed($uri);
+        }
+    }
+    
+    public function getFoldersListFeed()
     {
-//        if (!$folder_name)
-//        {
-            $uri = self :: DOCUMENTS_FOLDERS_FEED_URI . 'folder?showfolders=true';
-//        }
-//        else
-//        {
-//            $uri = self :: DOCUMENTS_FOLDERS_FEED_URI . $folder_name . '?showfolders=true';
-//        }
+        return $this->getNamedListFeed('folder', true);
+    }
+    
+    public function getFolderListFeed($folderId)
+    {
+        $uri = self :: DOCUMENTS_FOLDER_FEED_URI . '/folder%3A' . $folderId;
         return $this->getDocumentListFeed($uri);
     }
 

@@ -16,6 +16,18 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
     
     const FOLDERS_MINE = 1;
     const FOLDERS_SHARED = 2;
+    
+    const DOCUMENTS_OWNED = 'mine';
+    const DOCUMENTS_VIEWED = 'viewed';
+    const DOCUMENTS_SHARED = 'shared-with-me';
+    const DOCUMENTS_STARRED = 'starred';
+    const DOCUMENTS_HIDDEN = 'hidden';
+    const DOCUMENTS_TRASH = 'trashed';
+    const DOCUMENTS_FILES = 'pdf';
+    const DOCUMENTS_DOCUMENTS = 'document';
+    const DOCUMENTS_PRESENTATIONS = 'presentation';
+    const DOCUMENTS_SPREADSHEETS = 'spreadsheet';
+    const DOCUMENTS_DRAWINGS = 'drawings';
 
     /**
      * @param ExternalRepository $external_repository_instance
@@ -169,24 +181,15 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function count_external_repository_objects($condition)
     {
-        if (isset($condition))
-        {
-            $query = new Zend_Gdata_Docs_Query();
-            $query->setQuery($condition);
-        }
-        else
-        {
-            $query = null;
-        }
-        
-        $documents_feed = $this->google_docs->getDocumentListFeed($query);
-        return $documents_feed->getTotalResults()->getText();
+        return $this->get_documents_feed($condition)->getTotalResults()->getText();
     }
 
-    /* (non-PHPdoc)
-     * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_objects()
-     */
-    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
+    private function get_special_folder_names()
+    {
+        return array(self :: DOCUMENTS_DOCUMENTS, self :: DOCUMENTS_DRAWINGS, self :: DOCUMENTS_FILES, self :: DOCUMENTS_HIDDEN, self :: DOCUMENTS_VIEWED, self :: DOCUMENTS_OWNED, self :: DOCUMENTS_PRESENTATIONS, self :: DOCUMENTS_SHARED, self :: DOCUMENTS_SPREADSHEETS, self :: DOCUMENTS_STARRED, self :: DOCUMENTS_TRASH);
+    }
+
+    private function get_documents_feed($condition)
     {
         $folder = Request :: get(GoogleDocsExternalRepositoryManager :: PARAM_FOLDER);
         
@@ -194,17 +197,34 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             $query = new Zend_Gdata_Docs_Query();
             $query->setQuery($condition);
+            return $this->google_docs->getDocumentListFeed($query);
         }
         elseif (isset($folder))
         {
-            $query = 'http://docs.google.com/feeds/folders/private/full/folder%3A' . $folder;
+            if (in_array($folder, $this->get_special_folder_names()))
+            {
+                return $this->google_docs->getNamedListFeed($folder);
+            }
+            else
+            {
+                return $this->google_docs->getFolderListFeed($folder);
+            }
         }
         else
         {
             $query = null;
+            return $this->google_docs->getDocumentListFeed($query);
         }
         
-        $documents_feed = $this->google_docs->getDocumentListFeed($query);
+        return $this->google_docs->getDocumentListFeed($query);
+    }
+
+    /* (non-PHPdoc)
+     * @see application/common/external_repository_manager/ExternalRepositoryConnector#retrieve_external_repository_objects()
+     */
+    function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
+    {
+        $documents_feed = $this->get_documents_feed($condition);
         
         $objects = array();
         foreach ($documents_feed->entries as $document)
@@ -281,7 +301,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
     function retrieve_folders($folder_url)
     {
         $folder_root = array();
-        $folders_feed = $this->google_docs->getFolderListFeed();
+        $folders_feed = $this->google_docs->getFoldersListFeed();
         
         $my_folders = array();
         $my_folders['title'] = Translation :: get('MyFolders');
@@ -329,7 +349,7 @@ class GoogleDocsExternalRepositoryConnector extends ExternalRepositoryConnector
         
         $my_folders['sub'] = $this->get_folder_tree(self :: FOLDERS_MINE, $objects, $folder_url);
         $shared_folders['sub'] = $this->get_folder_tree(self :: FOLDERS_SHARED, $objects, $folder_url);
-
+        
         $folder_root[] = $my_folders;
         $folder_root[] = $shared_folders;
         return $folder_root;

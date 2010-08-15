@@ -63,16 +63,82 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         $line['title'] = '';
         $line['class'] = 'divider';
         
+        // Basic list of all documents
         $all_items = array();
         $all_items['title'] = Translation :: get('AllItems');
         $all_items['url'] = $this->get_url(array(self :: PARAM_FOLDER => null));
         $all_items['class'] = 'home';
         
+        // Special lists of documents
+        $owned = array();
+        $owned['title'] = Translation :: get('OwnedByMe');
+        $owned['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_OWNED));
+        $owned['class'] = 'user';
+        
+        $viewed = array();
+        $viewed['title'] = Translation :: get('OpenedByMe');
+        $viewed['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_VIEWED));
+        $viewed['class'] = 'userview';
+        
+        $starred = array();
+        $starred['title'] = Translation :: get('Starred');
+        $starred['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_STARRED));
+        $starred['class'] = 'template';
+        
+        $hidden = array();
+        $hidden['title'] = Translation :: get('Hidden');
+        $hidden['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_HIDDEN));
+        $hidden['class'] = 'hidden';
+        
+        $trashed = array();
+        $trashed['title'] = Translation :: get('Trash');
+        $trashed['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_TRASH));
+        $trashed['class'] = 'trash';
+        
+        // Document types
+        $types = array();
+        $types['title'] = Translation :: get('DocumentTypes');
+        $types['url'] = '#';
+        $types['class'] = 'category';       
+        $types['sub'] = array();
+        
+        $pdfs = array();
+        $pdfs['title'] = Translation :: get('PDFs');
+        $pdfs['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_FILES));
+        $pdfs['class'] = 'google_docs_pdf';
+        $types['sub'][] = $pdfs;
+        
+        $documents = array();
+        $documents['title'] = Translation :: get('Documents');
+        $documents['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_DOCUMENTS));
+        $documents['class'] = 'google_docs_document';
+        $types['sub'][] = $documents;
+        
+        $presentations = array();
+        $presentations['title'] = Translation :: get('Presentations');
+        $presentations['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_PRESENTATIONS));
+        $presentations['class'] = 'google_docs_presentation';
+        $types['sub'][] = $presentations;
+        
+        $spreadsheets = array();
+        $spreadsheets['title'] = Translation :: get('Spreadsheets');
+        $spreadsheets['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_SPREADSHEETS));
+        $spreadsheets['class'] = 'google_docs_spreadsheet';
+        $types['sub'][] = $spreadsheets;
+        
         $menu_items[] = $all_items;
         $menu_items[] = $line;
         
-        $folders = $this->get_external_repository_connector()->retrieve_folders($this->get_url(array(self :: PARAM_FOLDER => '__PLACEHOLDER__')));
+        $menu_items[] = $owned;
+        $menu_items[] = $viewed;
+        $menu_items[] = $starred;
+        $menu_items[] = $hidden;
+        $menu_items[] = $trashed;
+        $menu_items[] = $types;
         
+        // User defined folders
+        $menu_items[] = $line;
+        $folders = $this->get_external_repository_connector()->retrieve_folders($this->get_url(array(self :: PARAM_FOLDER => '__PLACEHOLDER__')));
         $menu_items = array_merge($menu_items, $folders);
         
         return $menu_items;
