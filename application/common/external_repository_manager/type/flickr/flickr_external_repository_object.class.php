@@ -127,6 +127,12 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
     {
         return $this->get_default_property(self :: PROPERTY_LICENSE);
     }
+    
+    function get_license_id()
+    {
+        $license = $this->get_license();
+        return $license['id'];
+    }
 
     function get_license_url()
     {
@@ -142,23 +148,19 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
 
     function get_license_string()
     {
-        $license_name = $this->get_license_name();
-        $license_url = $this->get_license_url();
-
-        if ($license_url)
+        if ($this->get_license_url())
         {
-            return '<a href="' . $license_url . '">' . $license_name . '</a>';
+            return '<a href="' . $this->get_license_url() . '">' . $this->get_license_name() . '</a>';
         }
         else
         {
-            return $license_name;
+            return $this->get_license_name();
         }
     }
 
     function get_license_icon()
     {
-        $license = $this->get_license();
-        return '<a href="' . $this->get_license_url() . '">' . Theme :: get_common_image('external_repository/flickr/licenses/license_' . $license['id']) . '</a>';
+        return Theme :: get_common_image('external_repository/flickr/licenses/license_' . $this->get_license_id(), 'png', $this->get_license_name(), $this->get_license_url(), ToolbarItem :: DISPLAY_ICON);
     }
 
     function set_license($license)
