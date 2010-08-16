@@ -75,51 +75,49 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_object($id)
     {
-//        $id = explode(':', $id);
-//        
-//        $query = new Zend_Gdata_Photos_PhotoQuery();
-//        $query->setUser('default');
-//        $query->setAlbumId($id[0]);
-//        $query->setPhotoId($id[1]);
-//        $query->setType("entry");
-//        
-//        $photoEntry = $this->picasa->getPhotoEntry($query);
-//        dump($photoEntry);
-//        exit();
-//        
-//        $published = $photoEntry->getPublished()->getText();
-//        $published_timestamp = strtotime($published);
-//        
-//        $modified = $photoEntry->getUpdated()->getText();
-//        $modified_timestamp = strtotime($modified);
+        $id = explode(':', $id);
+        
+        $query = new Zend_Gdata_Photos_PhotoQuery();
+        $query->setUser($id[0]);
+        $query->setAlbumId($id[1]);
+        $query->setPhotoId($id[2]);
+        $query->setType("entry");
+        
+        $photoEntry = $this->picasa->getPhotoEntry($query);
+        
+        $published = $photoEntry->getPublished()->getText();
+        $published_timestamp = strtotime($published);
+        
+        $modified = $photoEntry->getUpdated()->getText();
+        $modified_timestamp = strtotime($modified);
         
         $object = new PicasaExternalRepositoryObject();
-//        $object->set_id($photoEntry->getGphotoId()->getText());
-//        $object->set_external_repository_id($this->get_external_repository_instance_id());
-//        $object->set_title($photoEntry->getTitle()->getText());
-//        $object->set_description($photoEntry->getSummary()->getText());
-//        
-//        $author = $photoEntry->getAuthor();
-//        if (count($author) > 0)
-//        {
-//            $author = $author[0];
-//            $object->set_owner_id($author->getEmail()->getText());
-//        }
-//        
-//        $object->set_created($published_timestamp);
-//        $object->set_type('image');
-//        $object->set_modified($modified_timestamp);
-//        $object->set_rights($this->determine_rights());
-//        
-//        $originals = $photoEntry->getMediaGroup()->getContent();
-//        $thumbnails = $photoEntry->getMediaGroup()->getThumbnail();
-//        
-//        $photo_urls = array();
-//        $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_SMALL] = array('source' => $thumbnails[0]->getUrl(), 'width' => $thumbnails[0]->getWidth(), 'height' => $thumbnails[0]->getHeight());
-//        $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_MEDIUM] = array('source' => $thumbnails[1]->getUrl(), 'width' => $thumbnails[1]->getWidth(), 'height' => $thumbnails[1]->getHeight());
-//        $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_LARGE] = array('source' => $thumbnails[2]->getUrl(), 'width' => $thumbnails[2]->getWidth(), 'height' => $thumbnails[2]->getHeight());
-//        $photo_urls[PicasaExternalRepositoryObject :: SIZE_ORIGINAL] = array('source' => $originals[0]->getUrl(), 'width' => $originals[0]->getWidth(), 'height' => $originals[0]->getHeight());
-//        $object->set_urls($photo_urls);
+        $object->set_id($photoEntry->getGphotoId()->getText());
+        $object->set_external_repository_id($this->get_external_repository_instance_id());
+        $object->set_title($photoEntry->getTitle()->getText());
+        $object->set_description($photoEntry->getSummary()->getText());
+        
+        $author = $photoEntry->getAuthor();
+        if (count($author) > 0)
+        {
+            $author = $author[0];
+            $object->set_owner_id($author->getEmail()->getText());
+        }
+        
+        $object->set_created($published_timestamp);
+        $object->set_type('image');
+        $object->set_modified($modified_timestamp);
+        $object->set_rights($this->determine_rights());
+        
+        $originals = $photoEntry->getMediaGroup()->getContent();
+        $thumbnails = $photoEntry->getMediaGroup()->getThumbnail();
+        
+        $photo_urls = array();
+        $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_SMALL] = array('source' => $thumbnails[0]->getUrl(), 'width' => $thumbnails[0]->getWidth(), 'height' => $thumbnails[0]->getHeight());
+        $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_MEDIUM] = array('source' => $thumbnails[1]->getUrl(), 'width' => $thumbnails[1]->getWidth(), 'height' => $thumbnails[1]->getHeight());
+        $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_LARGE] = array('source' => $thumbnails[2]->getUrl(), 'width' => $thumbnails[2]->getWidth(), 'height' => $thumbnails[2]->getHeight());
+        $photo_urls[PicasaExternalRepositoryObject :: SIZE_ORIGINAL] = array('source' => $originals[0]->getUrl(), 'width' => $originals[0]->getWidth(), 'height' => $originals[0]->getHeight());
+        $object->set_urls($photo_urls);
         
         return $object;
     }
@@ -238,18 +236,15 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
             $modified = $photoEntry->getUpdated()->getText();
             $modified_timestamp = strtotime($modified);
             
+            $author = $photoEntry->getAuthor();
+            $author = $author[0];
+            
             $object = new PicasaExternalRepositoryObject();
-            $object->set_id($photoEntry->getGphotoAlbumId()->getText() . ':' . $photoEntry->getGphotoId()->getText());
+            $object->set_id($author->getEmail()->getText() . ':' . $photoEntry->getGphotoAlbumId()->getText() . ':' . $photoEntry->getGphotoId()->getText());
             $object->set_external_repository_id($this->get_external_repository_instance_id());
             $object->set_title($photoEntry->getTitle()->getText());
             $object->set_description($photoEntry->getSummary()->getText());
-            
-            $author = $photoEntry->getAuthor();
-            if (count($author) > 0)
-            {
-                $author = $author[0];
-                $object->set_owner_id($author->getEmail()->getText());
-            }
+            $object->set_owner_id($author->getName()->getText());
             
             $object->set_created($published_timestamp);
             $object->set_type('image');
