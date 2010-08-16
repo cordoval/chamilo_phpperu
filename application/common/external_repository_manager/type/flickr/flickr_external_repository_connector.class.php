@@ -249,9 +249,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
                 $types[] = strtolower($photo['originalformat']);
             }
             $object->set_type(implode('_', $types));
-
-            //            $object->set_rights($this->determine_rights($photo['license'], $photo['owner']));
-
+            $object->set_rights($this->determine_rights($photo['license'], $photo['owner']));
 
             $objects[] = $object;
         }

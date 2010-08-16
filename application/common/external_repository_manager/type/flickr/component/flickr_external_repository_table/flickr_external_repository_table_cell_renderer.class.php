@@ -3,12 +3,12 @@
  * $Id: repository_browser_table_cell_renderer.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager.component.browser
  */
-require_once dirname(__FILE__) . '/external_repository_browser_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../table/default_external_repository_object_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/flickr_external_repository_table_column_model.class.php';
+require_once dirname(__FILE__) . '/../../../../table/default_external_repository_object_table_cell_renderer.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalRepositoryObjectTableCellRenderer
+class FlickrExternalRepositoryTableCellRenderer extends DefaultExternalRepositoryObjectTableCellRenderer
 {
     /**
      * The repository browser component
@@ -19,7 +19,7 @@ class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalReposito
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function ExternalRepositoryBrowserTableCellRenderer($browser)
+    function FlickrExternalRepositoryTableCellRenderer($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -28,7 +28,7 @@ class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalReposito
     // Inherited
     function render_cell($column, $external_object)
     {
-        if ($column === ExternalRepositoryBrowserTableColumnModel :: get_modification_column())
+        if ($column === FlickrExternalRepositoryTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($external_object);
         }
