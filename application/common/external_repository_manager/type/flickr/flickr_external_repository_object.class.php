@@ -164,5 +164,25 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
     {
         return self :: OBJECT_TYPE;
     }
+
+    static function get_possible_sizes()
+    {
+        return array('sq' => self :: SIZE_SQUARE, 't' => self :: SIZE_THUMBNAIL, 's' => self :: SIZE_SMALL, 'm' => self :: SIZE_MEDIUM, 'l' => self :: SIZE_LARGE, 'o' => self :: SIZE_ORIGINAL);
+    }
+
+    static function get_possible_licenses()
+    {
+        $licenses = array();
+        $licenses[0] = array('name' => 'All Rights Reserved', 'url' => '');
+        $licenses[1] = array('name' => 'Attribution-NonCommercial-ShareAlike License', 'url' => 'http://creativecommons.org/licenses/by-nc-sa/2.0/');
+        $licenses[2] = array('name' => 'Attribution-NonCommercial License', 'url' => 'http://creativecommons.org/licenses/by-nc/2.0/');
+        $licenses[3] = array('name' => 'Attribution-NonCommercial-NoDerivs License', 'url' => 'http://creativecommons.org/licenses/by-nc-nd/2.0/');
+        $licenses[4] = array('name' => 'Attribution License', 'url' => 'http://creativecommons.org/licenses/by/2.0/');
+        $licenses[5] = array('name' => 'Attribution-ShareAlike License', 'url' => 'http://creativecommons.org/licenses/by-sa/2.0/');
+        $licenses[6] = array('name' => 'Attribution-NoDerivs License', 'url' => 'http://creativecommons.org/licenses/by-nd/2.0/');
+        $licenses[7] = array('name' => 'No known copyright restrictions', 'url' => 'http://www.flickr.com/commons/usage/');
+        $licenses[8] = array('name' => 'United States Government Work', 'url' => 'http://www.usa.gov/copyright.shtml');
+        return $licenses;
+    }
 }
 ?>
