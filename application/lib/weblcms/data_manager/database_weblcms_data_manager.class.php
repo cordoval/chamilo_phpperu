@@ -2816,6 +2816,36 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     	
         return $this->retrieve_object_set($query, CourseUserCategory :: get_table_name(), $condition, null, null, new ObjectTableOrder(CourseTypeUserCategory :: PROPERTY_SORT, SORT_ASC, $course_type_user_category_alias));
     }
+    
+    function get_user_with_most_publications_in_course($course_id)
+    {
+    	$content_object_publication_table_name = $this->get_table_name(ContentObjectPublication :: get_table_name());
+    	$course_rel_user_table_name = $this->get_table_name(CourseUserRelation :: get_table_name());
+    	$content_object_publication_table_alias = $this->get_alias(ContentObjectPublication :: get_table_name());
+    	$course_rel_user_table_alias = $this->get_alias(CourseUserRelation :: get_table_name());
+    	
+    	$query = 'SELECT COUNT(*) as count, ' . ContentObjectPublication :: PROPERTY_PUBLISHER_ID . ' FROM ' . $content_object_publication_table_name . ' AS ' . $content_object_publication_table_alias .
+    	 	     ' JOIN ' . $course_rel_user_table_name . ' AS ' . $course_rel_user_table_alias . ' ON ' . 
+    			 $course_rel_user_table_alias . '.' . CourseUserRelation :: PROPERTY_COURSE . ' = ' . $content_object_publication_table_alias . '.' . ContentObjectPublication :: PROPERTY_COURSE_ID . ' AND ' .
+    			 $course_rel_user_table_alias . '.' . CourseUserRelation :: PROPERTY_USER . ' = ' . $content_object_publication_table_alias . '.' . ContentObjectPublication :: PROPERTY_PUBLISHER_ID;
+
+    	$condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_id);
+		$translator = new ConditionTranslator($this, $this->get_alias(ContentObjectPublication :: get_table_name()));
+        $query .= $translator->render_query($condition);
+    	
+    	$query .= ' GROUP BY ' . $content_object_publication_table_alias . '.' . ContentObjectPublication :: PROPERTY_PUBLISHER_ID;
+    	$query .= ' ORDER BY count DESC LIMIT 0,1';
+    	
+    	$result = $this->query($query);
+    	$res = $this->query($query);
+        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+        $res->free();
+        
+        if($record['count'] > 0)
+        {
+        	return $record['publisher_id'];
+        }
+    }
 
 }
 ?>

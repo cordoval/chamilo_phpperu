@@ -810,6 +810,8 @@ interface WeblcmsDataManagerInterface
     function count_new_publications_from_course($course, $user);
     
     function retrieve_course_user_categories_from_course_type($course_type_id, $user_id);
+    
+    function get_user_with_most_publications_in_course($course_id);
 
 }
 ?>
