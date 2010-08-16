@@ -803,4 +803,17 @@ $lang['common']['Collaborators'] = 'Collaborators';
 $lang['common']['Viewer'] = 'Viewer';
 $lang['common']['Viewers'] = 'Viewers';
 $lang['common']['NotShared'] = 'Not shared';
+
+$lang['common']['AllItems'] = 'All items';
+$lang['common']['OwnedByMe'] = 'Owned by me';
+$lang['common']['OpenedByMe'] = 'Opened by me';
+$lang['common']['SharedWithMe'] = 'Shared with me';
+$lang['common']['Starred'] = 'Starred';
+$lang['common']['Trash'] = 'Trash';
+$lang['common']['DocumentTypes'] = 'Types';
+$lang['common']['PDFs'] = 'PDFs';
+$lang['common']['Documents'] = 'Documents';
+$lang['common']['Presentations'] = 'Presentations';
+$lang['common']['Spreadsheets'] = 'Spreadsheets';
+$lang['common']['Created'] = 'Created';
 ?>

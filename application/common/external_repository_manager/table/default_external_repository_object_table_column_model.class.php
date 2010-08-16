@@ -16,7 +16,7 @@ class DefaultExternalRepositoryObjectTableColumnModel extends ObjectTableColumnM
     private static function get_default_columns()
     {
         $columns = array();
-        $columns[] = new ObjectTableColumn(ExternalRepositoryObject :: PROPERTY_TYPE);
+        $columns[] = new ObjectTableColumn(ExternalRepositoryObject :: PROPERTY_TYPE, false);
         $columns[] = new ObjectTableColumn(ExternalRepositoryObject :: PROPERTY_TITLE);
         $columns[] = new ObjectTableColumn(ExternalRepositoryObject :: PROPERTY_DESCRIPTION);
         $columns[] = new ObjectTableColumn(ExternalRepositoryObject :: PROPERTY_CREATED);
