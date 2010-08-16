@@ -21,8 +21,7 @@ class FlickrExternalRepositoryTableColumnModel extends DefaultExternalRepository
     {
         parent :: __construct();
         $this->set_default_order_column(1);
-//        $this->add_column(new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE));
-//        $this->add_column(new StaticTableColumn(Translation :: get('Versions')));
+        $this->add_column(new ObjectTableColumn(FlickrExternalRepositoryObject :: PROPERTY_LICENSE));
         $this->add_column(self :: get_modification_column());
     }
 

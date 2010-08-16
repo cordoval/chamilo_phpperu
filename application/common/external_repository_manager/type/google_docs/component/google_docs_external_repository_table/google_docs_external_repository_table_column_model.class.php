@@ -21,8 +21,8 @@ class GoogleDocsExternalRepositoryTableColumnModel extends DefaultExternalReposi
     {
         parent :: __construct();
         $this->set_default_order_column(1);
-//        $this->add_column(new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE));
-//        $this->add_column(new StaticTableColumn(Translation :: get('Versions')));
+        $this->delete_column(2);
+        $this->add_column(new ObjectTableColumn(GoogleDocsExternalRepositoryObject :: PROPERTY_ACL, false));
         $this->add_column(self :: get_modification_column());
     }
 

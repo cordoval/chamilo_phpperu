@@ -39,6 +39,8 @@ class FlickrExternalRepositoryTableCellRenderer extends DefaultExternalRepositor
                 $title = parent :: render_cell($column, $external_object);
                 $title_short = Utilities :: truncate_string($title, 50, false);
                 return '<a href="' . htmlentities($this->browser->get_external_repository_object_viewing_url($external_object)) . '" title="' . $title . '">' . $title_short . '</a>';
+            case FlickrExternalRepositoryObject :: PROPERTY_LICENSE :
+                return $external_object->get_license_icon();
         }
         return parent :: render_cell($column, $external_object);
     }
