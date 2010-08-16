@@ -15,27 +15,27 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
     const SORT_DATE_TAKEN = 'date-taken';
     const SORT_INTERESTINGNESS = 'interestingness';
     const SORT_RELEVANCE = 'relevance';
-    
+
     /**
      * @var phpFlickr
      */
     private $flickr;
-    
+
     /**
      * @var string
      */
     private $key;
-    
+
     /**
      * @var string
      */
     private $secret;
-    
+
     /**
      * @var array
      */
     private $licenses;
-    
+
     /**
      * The id of the user on Flickr
      * @var string
@@ -48,17 +48,17 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
     function FlickrExternalRepositoryConnector($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
-        
+
         $this->key = ExternalRepositorySetting :: get('key', $this->get_external_repository_instance_id());
         $this->secret = ExternalRepositorySetting :: get('secret', $this->get_external_repository_instance_id());
         $this->flickr = new phpFlickr($this->key, $this->secret);
-        
+
         $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
-        
+
         if (! $session_token)
         {
             $frob = Request :: get('frob');
-            
+
             if (! $frob)
             {
                 $this->flickr->auth("delete", Redirect :: current_url());
@@ -104,14 +104,14 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
         if (! isset($this->licenses))
         {
             $raw_licenses = $this->flickr->photos_licenses_getInfo();
-            
+
             $this->licenses = array();
             foreach ($raw_licenses as $raw_license)
             {
                 $this->licenses[$raw_license['id']] = array('name' => $raw_license['name'], 'url' => $raw_license['url']);
             }
         }
-        
+
         return $this->licenses;
     }
 
@@ -125,7 +125,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
             $hidden = $this->flickr->prefs_getHidden();
             $this->user_id = $hidden['nsid'];
         }
-        
+
         return $this->user_id;
     }
 
@@ -139,27 +139,27 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
     function retrieve_photos($condition = null, $order_property, $offset, $count)
     {
         $feed_type = Request :: get(FlickrExternalRepositoryManager :: PARAM_FEED_TYPE);
-        
+
         $offset = (($offset - ($offset % $count)) / $count) + 1;
-        $attributes = 'description,date_upload,owner_name,license,media,original_format,last_update';
-        
+        $attributes = 'description,date_upload,owner_name,license,media,original_format,last_update,url_sq,url_t,url_s,url_m,url_l,url_o';
+
         $search_parameters = array();
         $search_parameters['api_key'] = $this->key;
         $search_parameters['per_page'] = $count;
         $search_parameters['page'] = $offset;
         $search_parameters['text'] = $condition;
         $search_parameters['extras'] = $attributes;
-        
+
         if ($order_property)
         {
             $order_direction = $this->convert_order_property($order_property);
-            
+
             if ($order_direction)
             {
                 $search_parameters['sort'] = $order_direction;
             }
         }
-        
+
         switch ($feed_type)
         {
             case FlickrExternalRepositoryManager :: FEED_TYPE_GENERAL :
@@ -179,7 +179,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
                 $photos = ($condition ? $this->flickr->photos_search($search_parameters) : $this->flickr->photos_getRecent($attributes, $count, $offset));
                 break;
         }
-        
+
         return $photos;
     }
 
@@ -193,10 +193,11 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
     function retrieve_external_repository_objects($condition = null, $order_property, $offset, $count)
     {
         $photos = $this->retrieve_photos($condition, $order_property, $offset, $count);
-        $licenses = $this->retrieve_licenses();
-        
+        //$licenses = $this->retrieve_licenses();
+        $licenses = FlickrExternalRepositoryObject :: get_possible_licenses();
+
         $objects = array();
-        
+
         foreach ($photos['photo'] as $photo)
         {
             $object = new FlickrExternalRepositoryObject();
@@ -207,22 +208,40 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
             $object->set_created($photo['dateupload']);
             $object->set_modified($photo['lastupdate']);
             $object->set_owner_id($photo['ownername']);
-            
-            $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
+
             $photo_urls = array();
-            
-            foreach ($photo_sizes as $photo_size)
+            foreach (FlickrExternalRepositoryObject :: get_possible_sizes() as $key => $size)
             {
-                $key = strtolower($photo_size['label']);
-                unset($photo_size['label']);
-                unset($photo_size['media']);
-                unset($photo_size['url']);
-                $photo_urls[$key] = $photo_size;
+                if (isset($photo['url_' . $key]))
+                {
+                    $photo_urls[$size] = array('source' => $photo['url_' . $key], 'width' => $photo['width_' . $key], 'height' => $photo['height_' . $key]);
+                }
             }
-            
             $object->set_urls($photo_urls);
+
+            //            $photo_size = array();
+            //            $photo_size['source'] = $photo['url_sq'];
+            //            $photo_size['width'] = 75;
+            //            $photo_size['height'] = 75;
+            //
+            //            $object->set_urls(array('square' => $photo_size));
+            //
+            //            $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
+            //            $photo_urls = array();
+            //
+            //            foreach ($photo_sizes as $photo_size)
+            //            {
+            //                $key = strtolower($photo_size['label']);
+            //                unset($photo_size['label']);
+            //                unset($photo_size['media']);
+            //                unset($photo_size['url']);
+            //                $photo_urls[$key] = $photo_size;
+            //            }
+            //            $object->set_urls($photo_urls);
+
+
             $object->set_license($licenses[$photo['license']]);
-            
+
             $types = array();
             $types[] = $photo['media'];
             if (isset($photo['originalformat']))
@@ -230,12 +249,11 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
                 $types[] = strtolower($photo['originalformat']);
             }
             $object->set_type(implode('_', $types));
-            
             $object->set_rights($this->determine_rights($photo['license'], $photo['owner']));
-            
+
             $objects[] = $object;
         }
-        
+
         return new ArrayResultSet($objects);
     }
 
@@ -274,7 +292,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
             else
             {
                 $sorting_direction = $order_properties[0]->get_direction();
-                
+
                 if ($sorting_direction == SORT_ASC)
                 {
                     return $order_property . '-asc';
@@ -285,7 +303,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
                 }
             }
         }
-        
+
         return null;
     }
 
@@ -296,7 +314,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $feed_type = Request :: get(FlickrExternalRepositoryManager :: PARAM_FEED_TYPE);
         $query = ActionBarSearchForm :: get_query();
-        
+
         if (($feed_type == FlickrExternalRepositoryManager :: FEED_TYPE_GENERAL && $query) || $feed_type == FlickrExternalRepositoryManager :: FEED_TYPE_MY_PHOTOS)
         {
             return array(self :: SORT_DATE_POSTED, self :: SORT_DATE_TAKEN, self :: SORT_INTERESTINGNESS, self :: SORT_RELEVANCE);
@@ -305,7 +323,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             return array();
         }
-    
+
     }
 
     /* (non-PHPdoc)
@@ -313,9 +331,10 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_object($id)
     {
-        $licenses = $this->retrieve_licenses();
+        //$licenses = $this->retrieve_licenses();
+        $licenses = FlickrExternalRepositoryObject :: get_possible_licenses();
         $photo = $this->flickr->photos_getInfo($id);
-        
+
         $object = new FlickrExternalRepositoryObject();
         $object->set_external_repository_id($this->get_external_repository_instance_id());
         $object->set_id($photo['id']);
@@ -324,29 +343,32 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
         $object->set_created($photo['dateuploaded']);
         $object->set_modified($photo['dates']['lastupdate']);
         $object->set_owner_id($photo['owner']['username']);
-        
+
         $tags = array();
         foreach ($photo['tags']['tag'] as $tag)
         {
             $tags[] = array('display' => $tag['raw'], 'text' => $tag['_content']);
         }
         $object->set_tags($tags);
-        
+
         $photo_sizes = $this->flickr->photos_getSizes($photo['id']);
         $photo_urls = array();
-        
+
         foreach ($photo_sizes as $photo_size)
         {
             $key = strtolower($photo_size['label']);
-            unset($photo_size['label']);
-            unset($photo_size['media']);
-            unset($photo_size['url']);
-            $photo_urls[$key] = $photo_size;
+            if (in_array($key, FlickrExternalRepositoryObject :: get_possible_sizes()))
+            {
+                unset($photo_size['label']);
+                unset($photo_size['media']);
+                unset($photo_size['url']);
+                $photo_urls[$key] = $photo_size;
+            }
         }
-        
+
         $object->set_urls($photo_urls);
         $object->set_license($licenses[$photo['license']]);
-        
+
         $types = array();
         $types[] = $photo['media'];
         if (isset($photo['originalformat']))
@@ -354,9 +376,9 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
             $types[] = strtolower($photo['originalformat']);
         }
         $object->set_type(implode('_', $types));
-        
+
         $object->set_rights($this->determine_rights($photo['license'], $photo['owner']['nsid']));
-        
+
         return $object;
     }
 
@@ -367,7 +389,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
     function update_external_repository_object($values)
     {
         $success = $this->flickr->photos_setMeta($values[FlickrExternalRepositoryObject :: PROPERTY_ID], $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION]);
-        
+
         if (! $success)
         {
             return false;
@@ -376,15 +398,15 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             $tags = explode(',', $values[FlickrExternalRepositoryObject :: PROPERTY_TAGS]);
             $tags = '"' . implode('" "', $tags) . '"';
-            
+
             $success = $this->flickr->photos_setTags($values[FlickrExternalRepositoryObject :: PROPERTY_ID], $tags);
-            
+
             if (! $success)
             {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -397,7 +419,7 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $tags = explode(',', $values[FlickrExternalRepositoryObject :: PROPERTY_TAGS]);
         $tags = '"' . implode('" "', $tags) . '"';
-        
+
         return $this->flickr->sync_upload($photo_path, $values[FlickrExternalRepositoryObject :: PROPERTY_TITLE], $values[FlickrExternalRepositoryObject :: PROPERTY_DESCRIPTION], $tags);
     }
 
@@ -420,13 +442,13 @@ class FlickrExternalRepositoryConnector extends ExternalRepositoryConnector
         $users_match = ($this->retrieve_user_id() == $photo_user_id ? true : false);
         //$compatible_license = ($license == 0 ? false : true);
         $compatible_license = true;
-        
+
         $rights = array();
         $rights[ExternalRepositoryObject :: RIGHT_USE] = $compatible_license || $users_match;
         $rights[ExternalRepositoryObject :: RIGHT_EDIT] = $users_match;
         $rights[ExternalRepositoryObject :: RIGHT_DELETE] = $users_match;
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = $compatible_license || $users_match;
-        
+
         return $rights;
     }
 

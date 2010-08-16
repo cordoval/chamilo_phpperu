@@ -8,11 +8,11 @@ require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
 
 class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
 {
-    
+
     private $mediafiles;
-    
+
     const OBJECT_TYPE = 'mediamosa';
-    
+
     //const PROPERTY_CONVERSION_STATE = 'conversion_state';
     const PROPERTY_DATE_PUBLISHED = 'date'; //date of publishing
     const PROPERTY_DATE_CREATED = 'creation_date'; //date of creation
@@ -24,7 +24,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
     const PROPERTY_STATUS = 'status';
     const PROPERTY_DURATION = 'duration';
     const PROPERTY_PROTECTED = 'protected';
-    
+
     const STATUS_UNAVAILABLE = 'unavailable';
     const STATUS_AVAILABLE = 'available';
     /*const STATE_PUBLIC = 0;
@@ -41,7 +41,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
     {
         return array(parent :: PROPERTY_TITLE, parent :: PROPERTY_DESCRIPTION, parent :: PROPERTY_CREATED, self :: PROPERTY_DATE_PUBLISHED, self :: PROPERTY_DATE_CREATED, self :: PROPERTY_PUBLISHER, self :: PROPERTY_CREATOR, self :: PROPERTY_DURATION);
     }
-    
+
     /*function set_conversion_state($conversion_state)
     {
         $this->set_default_property(self :: PROPERTY_CONVERSION_STATE, $conversion_state);
@@ -108,7 +108,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
 
     function get_default_mediafile()
     {
-        
+
         if (! $this->get_default_property(self :: PROPERTY_DEFAULT_MEDIAFILE))
         {
             if (is_array($this->mediafiles))
@@ -174,6 +174,11 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
     static function get_object_type()
     {
         return self :: OBJECT_TYPE;
+    }
+
+    function get_type()
+    {
+        return 'video';
     }
 }
 ?>
