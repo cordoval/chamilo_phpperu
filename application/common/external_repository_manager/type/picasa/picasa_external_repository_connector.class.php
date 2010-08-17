@@ -9,6 +9,8 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     private $picasa;
     
+    const PHOTOS_MINE = 'mine';
+    
     /**
      * The id of the user on Picasa
      * @var string
@@ -192,54 +194,61 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function count_external_repository_objects($condition)
     {
-        $query = $this->picasa->newQuery("http://picasaweb.google.com/data/feed/api/all");
-        $query->setParam("kind", "photo");
-        $query->setMaxResults(1);
-        $query->setStartIndex(1);
-        
-        if (! empty($condition))
-        {
-            $query->setQuery($condition);
-        }
-        
-        return $this->picasa->getUserFeed(null, $query)->getTotalResults()->getText();
+        return $this->get_photos_feed($condition, $order_property, 0, 1)->getTotalResults()->getText();
     }
 
-    private function get_documents_feed($condition, $order_property = null, $offset = null, $count = null)
+    private function get_special_folder_names()
     {
-        $folder = Request :: get(PicasaExternalRepositoryManager :: PARAM_FOLDER);
-        $query = new Zend_Gdata_Docs_Query();
+        return array(self :: PHOTOS_MINE);
+    }
+
+    private function get_photos_feed($condition, $order_property = null, $offset = null, $count = null)
+    {
+        $folder = Request :: get(ExternalRepositoryManager :: PARAM_FOLDER);
         
-        if (isset($condition))
+        if ($folder == self :: PHOTOS_MINE)
         {
-            $query->setQuery($condition);
+            $query = $this->picasa->newUserQuery();
+            $query->setUser('default');
+            $query->setKind('photo');
         }
-        elseif (isset($folder))
+        else
         {
-            if (in_array($folder, $this->get_special_folder_names()))
+            $query = $this->picasa->newQuery("http://picasaweb.google.com/data/feed/api/all");
+            $query->setParam("kind", "photo");
+            
+            if (! empty($condition))
             {
-                $query->setCategory($folder);
+                $query->setQuery($condition);
             }
-            else
-            {
-                $query->setFolder($folder);
-            }
+            
+        //            if (isset($folder))
+        //            {
+        //                if (in_array($folder, $this->get_special_folder_names()))
+        //                {
+        //                    $query->setCategory($folder);
+        //                }
+        //                else
+        //                {
+        //                    $query->setFolder($folder);
+        //                }
+        //            }
         }
         
         if (count($order_property) > 0)
         {
             switch ($order_property[0]->get_property())
             {
-                case PicasaExternalRepositoryObject :: PROPERTY_CREATED :
-                    $property = 'last-modified';
-                    break;
-                case PicasaExternalRepositoryObject :: PROPERTY_TITLE :
-                    $property = 'title';
-                    break;
-                default :
-                    $property = null;
+                //                case PicasaExternalRepositoryObject :: PROPERTY_CREATED :
+            //                    $property = 'last-modified';
+            //                    break;
+            //                case PicasaExternalRepositoryObject :: PROPERTY_TITLE :
+            //                    $property = 'title';
+            //                    break;
+            //                default :
+            //                    $property = null;
             }
-            $query->setOrderBy($property);
+            //            $query->setOrderBy($property);
         }
         
         $query->setMaxResults($count);
@@ -249,7 +258,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
             $query->setStartIndex($offset + 1);
         }
         
-        return $this->picasa->getDocumentListFeed($query);
+        return $this->picasa->getUserFeed(null, $query);
     }
 
     /* (non-PHPdoc)
@@ -257,27 +266,28 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-        $query = $this->picasa->newQuery("http://picasaweb.google.com/data/feed/api/all");
-        $query->setParam("kind", "photo");
-        $query->setMaxResults($count);
-        $query->setStartIndex($offset + 1);
-        
-        if (! empty($condition))
-        {
-            $query->setQuery($condition);
-        }
-        
-        $user_feed = $this->picasa->getUserFeed(null, $query);
+        $user_feed = $this->get_photos_feed($condition, $order_property, $offset, $count);
         
         $objects = array();
         foreach ($user_feed as $photo_entry)
         {
             $author = array_shift($photo_entry->getAuthor());
             
+            if ($author)
+            {
+                $author_id = $author->getEmail()->getText();
+                $author_name = $author->getName()->getText();
+            }
+            else
+            {
+                $author_id = $this->get_authenticated_user();
+                $author_name = $this->get_authenticated_user();
+            }
+            
             $object = $this->process_photo_entry($photo_entry);
-            $object->set_owner_id($author->getEmail()->getText());
-            $object->set_owner($author->getName()->getText());
-            $object->set_id($author->getEmail()->getText() . ':' . $photo_entry->getGphotoAlbumId()->getText() . ':' . $photo_entry->getGphotoId()->getText());
+            $object->set_owner_id($author_id);
+            $object->set_owner($author_name);
+            $object->set_id($object->get_owner_id() . ':' . $photo_entry->getGphotoAlbumId()->getText() . ':' . $photo_entry->getGphotoId()->getText());
             $object->set_rights($this->determine_rights($object->get_owner_id()));
             
             $objects[] = $object;
