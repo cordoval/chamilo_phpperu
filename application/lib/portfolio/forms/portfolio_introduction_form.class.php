@@ -75,8 +75,10 @@ class PortfolioIntroductionForm extends FormValidator
         $pdm = PortfolioDataManager::get_instance();
         $info = $pdm->retrieve_portfolio_information_by_user($this->user->get_id());
 
-
-        $defaults['introduction'] =  $info->get_introduction();
+        if(is_set($info))
+        {
+            $defaults['introduction'] =  $info->get_introduction();
+        }
         
         parent :: setDefaults($defaults);
     }
