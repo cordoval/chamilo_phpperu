@@ -10,6 +10,12 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     private $picasa;
 
     /**
+     * The id of the user on Picasa
+     * @var string
+     */
+    private $user_id;
+
+    /**
      * @param ExternalRepository $external_repository_instance
      */
     function PicasaExternalRepositoryConnector($external_repository_instance)
@@ -57,6 +63,10 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
 
     private function process_photo_entry(Zend_Gdata_Photos_PhotoEntry $photo_entry)
     {
+        //        dump($photo_entry);
+        //        exit;
+
+
         $object = new PicasaExternalRepositoryObject();
 
         $published = $photo_entry->getPublished()->getText();
@@ -89,6 +99,20 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
 
         $license = $photo_entry->getGphotoLicense();
         $object->set_license(array('id' => $license->getId(), 'name' => $license->getName(), 'url' => $license->getUrl()));
+
+        if ($photo_entry->getMediaGroup()->getKeywords() instanceof Zend_Gdata_Media_Extension_MediaKeywords)
+        {
+            $tags = array();
+            $tags_elements = explode(',', $photo_entry->getMediaGroup()->getKeywords()->getText());
+
+            foreach ($tags_elements as $tag)
+            {
+                $tags[] = $tag;
+            }
+
+            $object->set_tags($tags);
+
+        }
 
         return $object;
     }
@@ -250,6 +274,65 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
         $rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
         return $rights;
+    }
+
+    private function get_authenticated_user()
+    {
+        if (! isset($this->user_id))
+        {
+            $user_query = new Zend_Gdata_Photos_UserQuery();
+            $user_query->setUser('default');
+            $user_query->setType('entry');
+
+            $this->user_id = $this->picasa->getUserEntry($user_query)->getGphotoUser();
+        }
+
+        return $this->user_id;
+    }
+
+    function get_authenticated_user_albums()
+    {
+        $albums = array();
+        $albums['default'] = Translation :: get('PicasaDropBoxAlbum');
+
+        $user_feed = $this->picasa->getUserFeed('default');
+
+        foreach ($user_feed as $album)
+        {
+            $albums[$album->getGphotoId()->getText()] = $album->getTitle()->getText() . ' (' . $album->getGphotoNumPhotos() . ')';
+        }
+
+        return $albums;
+    }
+
+    /**
+     * @param array $values
+     * @param string $photo_path
+     * @return mixed
+     */
+    function create_external_repository_object($values, $photo)
+    {
+        $media_source = $this->picasa->newMediaFileSource($photo['tmp_name']);
+        $media_source->setContentType($photo["type"]);
+
+        $entry = $this->picasa->newPhotoEntry();
+        $entry->setMediaSource($media_source);
+        $entry->setTitle($this->picasa->newTitle($photo['name']));
+        //$entry->setTitle($this->picasa->newTitle($values[PicasaExternalRepositoryObject :: PROPERTY_TITLE]));
+        //$entry->setSummary($this->picasa->newSummary($values[PicasaExternalRepositoryObject :: PROPERTY_DESCRIPTION]));
+        $entry->setSummary($this->picasa->newSummary($values[PicasaExternalRepositoryObject :: PROPERTY_TITLE]));
+
+        $keywords = new Zend_Gdata_Media_Extension_MediaKeywords();
+        $keywords->setText($values[PicasaExternalRepositoryObject :: PROPERTY_TAGS]);
+        $entry->mediaGroup = new Zend_Gdata_Media_Extension_MediaGroup();
+        $entry->mediaGroup->keywords = $keywords;
+
+        $album_query = $this->picasa->newAlbumQuery();
+        $album_query->setUser($this->get_authenticated_user());
+        $album_query->setAlbumId($values[PicasaExternalRepositoryObject :: PROPERTY_ALBUM]);
+
+        $entry = $this->picasa->insertPhotoEntry($entry, $album_query->getQueryUrl());
+        return $this->get_authenticated_user() . ':' . $entry->getGphotoAlbumId()->getText() . ':' . $entry->getGphotoId()->getText();
     }
 }
 ?>

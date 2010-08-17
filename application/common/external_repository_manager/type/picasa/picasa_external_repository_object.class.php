@@ -8,6 +8,8 @@ class PicasaExternalRepositoryObject extends ExternalRepositoryObject
     const PROPERTY_URLS = 'urls';
     const PROPERTY_LICENSE = 'license';
     const PROPERTY_OWNER = 'owner';
+    const PROPERTY_TAGS = 'tags';
+    const PROPERTY_ALBUM = 'album';
 
     const SIZE_THUMBNAIL = 'thumbnail';
     const SIZE_MEDIUM = 'medium';
@@ -15,7 +17,7 @@ class PicasaExternalRepositoryObject extends ExternalRepositoryObject
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_URLS, self :: PROPERTY_LICENSE, self :: PROPERTY_OWNER));
+        return parent :: get_default_property_names(array(self :: PROPERTY_URLS, self :: PROPERTY_LICENSE, self :: PROPERTY_OWNER, self :: PROPERTY_TAGS, self :: PROPERTY_ALBUM));
     }
 
     static function get_default_sizes()
@@ -153,6 +155,21 @@ class PicasaExternalRepositoryObject extends ExternalRepositoryObject
         $string .= $this->get_owner_id();
         $string .= ($this->get_owner() ? ')' : '');
         return $string;
+    }
+
+    function get_tags()
+    {
+        return $this->get_default_property(self :: PROPERTY_TAGS);
+    }
+
+    function set_tags($tags)
+    {
+        return $this->set_default_property(self :: PROPERTY_TAGS, $tags);
+    }
+
+    function get_tags_string()
+    {
+        return implode(', ', $this->get_tags());
     }
 
     static function get_object_type()
