@@ -159,7 +159,8 @@ class Dokeos185Quiz extends Dokeos185CourseDataMigrationDataClass
         
         if($this->get_description())
         {
-        	$description = $this->parse_text_field_for_images($this->get_description());
+        	$description = $this->parse_text_field($this->get_description());
+        	       	
         	$chamilo_assessment->set_description($description);
         }
         else
@@ -188,6 +189,15 @@ class Dokeos185Quiz extends Dokeos185CourseDataMigrationDataClass
 		$chamilo_assessment->set_random_questions($this->get_random());
         
         $chamilo_assessment->create_all();
+        
+        if($this->get_included_objects())
+        {
+        	foreach($this->get_included_objects() as $included_object_id)
+        	{
+        		$chamilo_assessment->include_content_object($included_object_id);
+        	}
+        }
+        
         $this->create_publication($chamilo_assessment, $new_course_code, $new_user_id, 'assessment');
 
         $this->create_id_reference($this->get_id(), $chamilo_assessment->get_id());
