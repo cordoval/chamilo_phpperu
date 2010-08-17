@@ -139,6 +139,12 @@ class PicasaExternalRepositoryManager extends ExternalRepositoryManager
             case ExternalRepositoryManager :: ACTION_UPLOAD_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Uploader', $this);
                 break;
+            case ExternalRepositoryManager :: ACTION_EDIT_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Editor', $this);
+                break;
+            case ExternalRepositoryManager :: ACTION_DELETE_EXTERNAL_REPOSITORY :
+                $component = $this->create_component('Deleter', $this);
+                break;
             default :
                 $component = $this->create_component('Browser', $this);
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);

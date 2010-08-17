@@ -9,7 +9,7 @@ class PicasaExternalRepositoryObject extends ExternalRepositoryObject
     const PROPERTY_LICENSE = 'license';
     const PROPERTY_OWNER = 'owner';
     const PROPERTY_TAGS = 'tags';
-    const PROPERTY_ALBUM = 'album';
+    const PROPERTY_ALBUM_ID = 'album_id';
 
     const SIZE_THUMBNAIL = 'thumbnail';
     const SIZE_MEDIUM = 'medium';
@@ -17,7 +17,7 @@ class PicasaExternalRepositoryObject extends ExternalRepositoryObject
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_URLS, self :: PROPERTY_LICENSE, self :: PROPERTY_OWNER, self :: PROPERTY_TAGS, self :: PROPERTY_ALBUM));
+        return parent :: get_default_property_names(array(self :: PROPERTY_URLS, self :: PROPERTY_LICENSE, self :: PROPERTY_OWNER, self :: PROPERTY_TAGS, self :: PROPERTY_ALBUM_ID));
     }
 
     static function get_default_sizes()
@@ -151,9 +151,9 @@ class PicasaExternalRepositoryObject extends ExternalRepositoryObject
 
     function get_owner_string()
     {
-        $string = ($this->get_owner() ? $this->get_owner() . ' (' : '');
+        $string = ($this->get_owner() && $this->get_owner() != $this->get_owner_id() ? $this->get_owner() . ' (' : '');
         $string .= $this->get_owner_id();
-        $string .= ($this->get_owner() ? ')' : '');
+        $string .= ($this->get_owner() && $this->get_owner() != $this->get_owner_id() ? ')' : '');
         return $string;
     }
 
@@ -170,6 +170,16 @@ class PicasaExternalRepositoryObject extends ExternalRepositoryObject
     function get_tags_string()
     {
         return implode(', ', $this->get_tags());
+    }
+    
+    function get_album_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_ALBUM_ID);
+    }
+
+    function set_album_id($album_id)
+    {
+        return $this->set_default_property(self :: PROPERTY_ALBUM_ID, $album_id);
     }
 
     static function get_object_type()
