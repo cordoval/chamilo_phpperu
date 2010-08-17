@@ -6,6 +6,7 @@
 		<property name="last_updated_item_id" type="integer" notnull="1" />
 		<property name="last_updated_item_type" type="integer" notnull="1"/>
 		<property name="last_action" type="integer" notnull="1" />
+                <property name="introduction" type="text" length="255" notnull="1" default="intro" />
 	</properties>
         <index name="user_id" type="primary">
 		<indexproperty name="user_id" />

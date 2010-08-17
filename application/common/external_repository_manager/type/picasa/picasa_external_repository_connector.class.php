@@ -8,21 +8,12 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
      * @var Zend_Gdata_Photos
      */
     private $picasa;
-    
-    const FOLDERS_MINE = 1;
-    const FOLDERS_SHARED = 2;
-    
-    const DOCUMENTS_OWNED = 'mine';
-    const DOCUMENTS_VIEWED = 'viewed';
-    const DOCUMENTS_SHARED = '-mine';
-    const DOCUMENTS_STARRED = 'starred';
-    const DOCUMENTS_HIDDEN = 'hidden';
-    const DOCUMENTS_TRASH = 'trashed';
-    const DOCUMENTS_FILES = 'pdf';
-    const DOCUMENTS_DOCUMENTS = 'document';
-    const DOCUMENTS_PRESENTATIONS = 'presentation';
-    const DOCUMENTS_SPREADSHEETS = 'spreadsheet';
-    const DOCUMENTS_DRAWINGS = 'drawings';
+
+    /**
+     * The id of the user on Picasa
+     * @var string
+     */
+    private $user_id;
 
     /**
      * @param ExternalRepository $external_repository_instance
@@ -30,13 +21,13 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     function PicasaExternalRepositoryConnector($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
-        
+
         $session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
-        
+
         Zend_Loader :: loadClass('Zend_Gdata_Photos');
         Zend_Loader :: loadClass('Zend_Gdata_Photos_PhotoQuery');
         Zend_Loader :: loadClass('Zend_Gdata_AuthSub');
-        
+
         if (! $session_token)
         {
             if (! isset($_GET['token']))
@@ -46,13 +37,13 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
                 $secure = false;
                 $session = true;
                 $redirect_url = Zend_Gdata_AuthSub :: getAuthSubTokenUri($next_url, $scope, $secure, $session);
-                
+
                 header('Location: ' . $redirect_url);
             }
             else
             {
                 $session_token = Zend_Gdata_AuthSub :: getAuthSubSessionToken($_GET['token']);
-                
+
                 if ($session_token)
                 {
                     $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
@@ -64,10 +55,66 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
                 }
             }
         }
-        
+
         $httpClient = Zend_Gdata_AuthSub :: getHttpClient($session_token);
         $application = PlatformSetting :: get('site_name');
         $this->picasa = new Zend_Gdata_Photos($httpClient, $application);
+    }
+
+    private function process_photo_entry(Zend_Gdata_Photos_PhotoEntry $photo_entry)
+    {
+        //        dump($photo_entry);
+        //        exit;
+
+
+        $object = new PicasaExternalRepositoryObject();
+
+        $published = $photo_entry->getPublished()->getText();
+        $published_timestamp = strtotime($published);
+
+        $modified = $photo_entry->getUpdated()->getText();
+        $modified_timestamp = strtotime($modified);
+
+        $object->set_external_repository_id($this->get_external_repository_instance_id());
+        $object->set_title($photo_entry->getTitle()->getText());
+        $object->set_description($photo_entry->getSummary()->getText());
+
+        $object->set_created($published_timestamp);
+        $object->set_modified($modified_timestamp);
+        $object->set_rights($this->determine_rights());
+
+        $original = array_shift($photo_entry->getMediaGroup()->getContent());
+        $thumbnail = array_shift($photo_entry->getMediaGroup()->getThumbnail());
+
+        $medium_url = str_replace('/s72/', '/s500/', $thumbnail->getUrl());
+        $medium_info = getimagesize($medium_url);
+
+        $photo_urls = array();
+        $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL] = array('source' => $thumbnail->getUrl(), 'width' => $thumbnail->getWidth(), 'height' => $thumbnail->getHeight());
+        $photo_urls[PicasaExternalRepositoryObject :: SIZE_MEDIUM] = array('source' => $medium_url, 'width' => $medium_info[0], 'height' => $medium_info[1]);
+        $photo_urls[PicasaExternalRepositoryObject :: SIZE_ORIGINAL] = array('source' => $original->getUrl(), 'width' => $original->getWidth(), 'height' => $original->getHeight());
+        $object->set_urls($photo_urls);
+
+        $object->set_type(str_replace('/', '_', $original->getType()));
+
+        $license = $photo_entry->getGphotoLicense();
+        $object->set_license(array('id' => $license->getId(), 'name' => $license->getName(), 'url' => $license->getUrl()));
+
+        if ($photo_entry->getMediaGroup()->getKeywords() instanceof Zend_Gdata_Media_Extension_MediaKeywords)
+        {
+            $tags = array();
+            $tags_elements = explode(',', $photo_entry->getMediaGroup()->getKeywords()->getText());
+
+            foreach ($tags_elements as $tag)
+            {
+                $tags[] = $tag;
+            }
+
+            $object->set_tags($tags);
+
+        }
+
+        return $object;
     }
 
     /**
@@ -75,50 +122,26 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_external_repository_object($id)
     {
-        $id = explode(':', $id);
-        
-        $query = new Zend_Gdata_Photos_PhotoQuery();
-        $query->setUser($id[0]);
-        $query->setAlbumId($id[1]);
-        $query->setPhotoId($id[2]);
-        $query->setType("entry");
-        
-        $photoEntry = $this->picasa->getPhotoEntry($query);
-        
-        $published = $photoEntry->getPublished()->getText();
-        $published_timestamp = strtotime($published);
-        
-        $modified = $photoEntry->getUpdated()->getText();
-        $modified_timestamp = strtotime($modified);
-        
-        $object = new PicasaExternalRepositoryObject();
-        $object->set_id($photoEntry->getGphotoId()->getText());
-        $object->set_external_repository_id($this->get_external_repository_instance_id());
-        $object->set_title($photoEntry->getTitle()->getText());
-        $object->set_description($photoEntry->getSummary()->getText());
-        
-        $author = $photoEntry->getAuthor();
-        if (count($author) > 0)
-        {
-            $author = $author[0];
-            $object->set_owner_id($author->getEmail()->getText());
-        }
-        
-        $object->set_created($published_timestamp);
-        $object->set_type('image');
-        $object->set_modified($modified_timestamp);
-        $object->set_rights($this->determine_rights());
-        
-        $originals = $photoEntry->getMediaGroup()->getContent();
-        $thumbnails = $photoEntry->getMediaGroup()->getThumbnail();
-        
-        $photo_urls = array();
-        $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_SMALL] = array('source' => $thumbnails[0]->getUrl(), 'width' => $thumbnails[0]->getWidth(), 'height' => $thumbnails[0]->getHeight());
-        $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_MEDIUM] = array('source' => $thumbnails[1]->getUrl(), 'width' => $thumbnails[1]->getWidth(), 'height' => $thumbnails[1]->getHeight());
-        $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_LARGE] = array('source' => $thumbnails[2]->getUrl(), 'width' => $thumbnails[2]->getWidth(), 'height' => $thumbnails[2]->getHeight());
-        $photo_urls[PicasaExternalRepositoryObject :: SIZE_ORIGINAL] = array('source' => $originals[0]->getUrl(), 'width' => $originals[0]->getWidth(), 'height' => $originals[0]->getHeight());
-        $object->set_urls($photo_urls);
-        
+        $identifiers = explode(':', $id);
+
+        $photo_query = new Zend_Gdata_Photos_PhotoQuery();
+        $photo_query->setUser($identifiers[0]);
+        $photo_query->setAlbumId($identifiers[1]);
+        $photo_query->setPhotoId($identifiers[2]);
+        $photo_query->setType("entry");
+
+        $user_query = new Zend_Gdata_Photos_UserQuery();
+        $user_query->setUser($identifiers[0]);
+        $user_query->setType("entry");
+
+        $photo_entry = $this->picasa->getPhotoEntry($photo_query);
+        $photo_user = $this->picasa->getUserEntry($user_query);
+
+        $object = $this->process_photo_entry($photo_entry);
+        $object->set_owner_id($photo_user->getGphotoUser());
+        $object->set_owner($photo_user->getGphotoNickname());
+        $object->set_id($photo_user->getGphotoUser() . ':' . $photo_entry->getGphotoAlbumId()->getText() . ':' . $photo_entry->getGphotoId()->getText());
+
         return $object;
     }
 
@@ -127,7 +150,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function delete_external_repository_object($id)
     {
-    
+
     }
 
     /**
@@ -135,7 +158,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function export_external_repository_object($content_object)
     {
-    
+
     }
 
     /**
@@ -164,7 +187,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
         $query->setParam("kind", "photo");
         $query->setMaxResults(1);
         $query->setStartIndex(1);
-        
+
         return $this->picasa->getUserFeed(null, $query)->getTotalResults()->getText();
     }
 
@@ -172,7 +195,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $folder = Request :: get(PicasaExternalRepositoryManager :: PARAM_FOLDER);
         $query = new Zend_Gdata_Docs_Query();
-        
+
         if (isset($condition))
         {
             $query->setQuery($condition);
@@ -188,7 +211,7 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
                 $query->setFolder($folder);
             }
         }
-        
+
         if (count($order_property) > 0)
         {
             switch ($order_property[0]->get_property())
@@ -204,14 +227,14 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
             }
             $query->setOrderBy($property);
         }
-        
+
         $query->setMaxResults($count);
-        
+
         if ($offset)
         {
             $query->setStartIndex($offset + 1);
         }
-        
+
         return $this->picasa->getDocumentListFeed($query);
     }
 
@@ -224,46 +247,22 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
         $query->setParam("kind", "photo");
         $query->setMaxResults($count);
         $query->setStartIndex($offset + 1);
-        
-        $userFeed = $this->picasa->getUserFeed(null, $query);
-        
+
+        $user_feed = $this->picasa->getUserFeed(null, $query);
+
         $objects = array();
-        foreach ($userFeed as $photoEntry)
+        foreach ($user_feed as $photo_entry)
         {
-            $published = $photoEntry->getPublished()->getText();
-            $published_timestamp = strtotime($published);
-            
-            $modified = $photoEntry->getUpdated()->getText();
-            $modified_timestamp = strtotime($modified);
-            
-            $author = $photoEntry->getAuthor();
-            $author = $author[0];
-            
-            $object = new PicasaExternalRepositoryObject();
-            $object->set_id($author->getEmail()->getText() . ':' . $photoEntry->getGphotoAlbumId()->getText() . ':' . $photoEntry->getGphotoId()->getText());
-            $object->set_external_repository_id($this->get_external_repository_instance_id());
-            $object->set_title($photoEntry->getTitle()->getText());
-            $object->set_description($photoEntry->getSummary()->getText());
-            $object->set_owner_id($author->getName()->getText());
-            
-            $object->set_created($published_timestamp);
-            $object->set_type('image');
-            $object->set_modified($modified_timestamp);
-            $object->set_rights($this->determine_rights());
-            
-            $originals = $photoEntry->getMediaGroup()->getContent();
-            $thumbnails = $photoEntry->getMediaGroup()->getThumbnail();
-            
-            $photo_urls = array();
-            $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_SMALL] = array('source' => $thumbnails[0]->getUrl(), 'width' => $thumbnails[0]->getWidth(), 'height' => $thumbnails[0]->getHeight());
-            $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_MEDIUM] = array('source' => $thumbnails[1]->getUrl(), 'width' => $thumbnails[1]->getWidth(), 'height' => $thumbnails[1]->getHeight());
-            $photo_urls[PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_LARGE] = array('source' => $thumbnails[2]->getUrl(), 'width' => $thumbnails[2]->getWidth(), 'height' => $thumbnails[2]->getHeight());
-            $photo_urls[PicasaExternalRepositoryObject :: SIZE_ORIGINAL] = array('source' => $originals[0]->getUrl(), 'width' => $originals[0]->getWidth(), 'height' => $originals[0]->getHeight());
-            $object->set_urls($photo_urls);
-            
+            $author = array_shift($photo_entry->getAuthor());
+
+            $object = $this->process_photo_entry($photo_entry);
+            $object->set_owner_id($author->getEmail()->getText());
+            $object->set_owner($author->getName()->getText());
+            $object->set_id($author->getEmail()->getText() . ':' . $photo_entry->getGphotoAlbumId()->getText() . ':' . $photo_entry->getGphotoId()->getText());
+
             $objects[] = $object;
         }
-        
+
         return new ArrayResultSet($objects);
     }
 
@@ -275,6 +274,65 @@ class PicasaExternalRepositoryConnector extends ExternalRepositoryConnector
         $rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
         return $rights;
+    }
+
+    private function get_authenticated_user()
+    {
+        if (! isset($this->user_id))
+        {
+            $user_query = new Zend_Gdata_Photos_UserQuery();
+            $user_query->setUser('default');
+            $user_query->setType('entry');
+
+            $this->user_id = $this->picasa->getUserEntry($user_query)->getGphotoUser();
+        }
+
+        return $this->user_id;
+    }
+
+    function get_authenticated_user_albums()
+    {
+        $albums = array();
+        $albums['default'] = Translation :: get('PicasaDropBoxAlbum');
+
+        $user_feed = $this->picasa->getUserFeed('default');
+
+        foreach ($user_feed as $album)
+        {
+            $albums[$album->getGphotoId()->getText()] = $album->getTitle()->getText() . ' (' . $album->getGphotoNumPhotos() . ')';
+        }
+
+        return $albums;
+    }
+
+    /**
+     * @param array $values
+     * @param string $photo_path
+     * @return mixed
+     */
+    function create_external_repository_object($values, $photo)
+    {
+        $media_source = $this->picasa->newMediaFileSource($photo['tmp_name']);
+        $media_source->setContentType($photo["type"]);
+
+        $entry = $this->picasa->newPhotoEntry();
+        $entry->setMediaSource($media_source);
+        $entry->setTitle($this->picasa->newTitle($photo['name']));
+        //$entry->setTitle($this->picasa->newTitle($values[PicasaExternalRepositoryObject :: PROPERTY_TITLE]));
+        //$entry->setSummary($this->picasa->newSummary($values[PicasaExternalRepositoryObject :: PROPERTY_DESCRIPTION]));
+        $entry->setSummary($this->picasa->newSummary($values[PicasaExternalRepositoryObject :: PROPERTY_TITLE]));
+
+        $keywords = new Zend_Gdata_Media_Extension_MediaKeywords();
+        $keywords->setText($values[PicasaExternalRepositoryObject :: PROPERTY_TAGS]);
+        $entry->mediaGroup = new Zend_Gdata_Media_Extension_MediaGroup();
+        $entry->mediaGroup->keywords = $keywords;
+
+        $album_query = $this->picasa->newAlbumQuery();
+        $album_query->setUser($this->get_authenticated_user());
+        $album_query->setAlbumId($values[PicasaExternalRepositoryObject :: PROPERTY_ALBUM]);
+
+        $entry = $this->picasa->insertPhotoEntry($entry, $album_query->getQueryUrl());
+        return $this->get_authenticated_user() . ':' . $entry->getGphotoAlbumId()->getText() . ':' . $entry->getGphotoId()->getText();
     }
 }
 ?>

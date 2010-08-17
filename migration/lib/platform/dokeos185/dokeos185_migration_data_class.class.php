@@ -5,6 +5,7 @@
  */
 
 require_once dirname(__FILE__) . '/dokeos185_data_manager.class.php';
+require_once dirname(__FILE__) . '/dokeos185_text_field_parser.class.php';
 
 /**
  * Abstract import class
@@ -13,7 +14,18 @@ require_once dirname(__FILE__) . '/dokeos185_data_manager.class.php';
 abstract class Dokeos185MigrationDataClass extends MigrationDataClass
 {
 	const PLATFORM = 'dokeos185';
+	
+	/**
+	 * List of all the objects that are included
+	 * @var int[] - ContentObjectId
+	 */
+	private $included_objects;
     
+	function Dokeos185MigrationDataClass()
+	{
+		$this->included_objects = array();
+	}
+	
     /**
      * Factory to retrieve the correct class of an old system
      * @param string $old_system the old system
@@ -91,6 +103,42 @@ abstract class Dokeos185MigrationDataClass extends MigrationDataClass
 		}
 		
 		return parent :: get_id_reference($old_id, $table);
+	}
+	
+	/**
+	 * Parse a text field with multiple parsers
+	 * @param String $field
+	 * @param String[] $types
+	 */
+	function parse_text_field($field, $types = array(Dokeos185TextFieldParser :: TYPE_IMAGE))
+	{
+		foreach($types as $type)
+		{
+			$parser = Dokeos185TextFieldParser :: factory($type);
+			$field = $parser->parse($field);
+			$this->included_objects = array_merge($this->included_objects, $parser->get_included_objects());
+		}
+		
+		return $field;
+	}
+	
+	/**
+	 * Parse a text field with all parsers
+	 * @param String field
+	 */
+	function parse_text_field_with_all_types($field)
+	{
+		return $this->parse($field, array(Dokeos185TextFieldParser :: TYPE_IMAGE, Dokeos185TextFieldParser :: TYPE_FLASH, Dokeos185TextFieldParser :: TYPE_AUDIO));
+	}
+	
+	function set_included_objects($included_objects)
+	{
+		$this->included_objects = $included_objects;
+	}
+	
+	function get_included_objects()
+	{
+		return $this->included_objects;
 	}
 	
     abstract function get_database_name();
