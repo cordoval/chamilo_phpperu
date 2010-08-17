@@ -159,8 +159,8 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
                             $rights['aut_app'][] = $slave;
                         }
 
-                        $connector->set_mediamosa_asset_rights($asset_id, $rights, $connector->get_mediamosa_user_id(Session :: get_user_id()), false);
-                        $connector->set_mediamosa_mediafile_rights($mediafile_id, $rights, $connector->get_mediamosa_user_id(Session :: get_user_id()));
+                        $connector->set_mediamosa_asset_rights($asset_id, $rights, Session :: get_user_id(), false);
+                        $connector->set_mediamosa_mediafile_rights($mediafile_id, $rights, Session :: get_user_id());
 
                         return $ticket_return;
                     }

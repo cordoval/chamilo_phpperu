@@ -320,6 +320,7 @@ $lang['repository']['JpgOnly'] = 'Only JPG';
 $lang['repository']['Design'] = 'Design';
 $lang['repository']['QuestionAdded'] = 'The question has been added.';
 $lang['repository']['CanNotConnectToFeed'] = 'Cannot connect to the feed';
+$lang['repository']['ConnectionLost'] = 'The connection with the external object is lost';
 $lang['repository']['ObjectAdded'] = 'Object added';
 $lang['repository']['SelectAsHomepage'] = 'Select as Homepage';
 $lang['repository']['HomepageSelected'] = 'Homepage selected';

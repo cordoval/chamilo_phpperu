@@ -15,7 +15,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
 
     //const PROPERTY_CONVERSION_STATE = 'conversion_state';
     const PROPERTY_DATE_PUBLISHED = 'date'; //date of publishing
-    const PROPERTY_DATE_CREATED = 'creation_date'; //date of creation
+    const PROPERTY_DATE_CREATED = 'created'; //date of creation
     const PROPERTY_PUBLISHER = 'publisher';
     const PROPERTY_CREATOR = 'creator';
     const PROPERTY_DEFAULT_MEDIAFILE = 'default_mediafile';
@@ -39,7 +39,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
 
     static function get_searchable_property_names()
     {
-        return array(parent :: PROPERTY_TITLE, parent :: PROPERTY_DESCRIPTION, parent :: PROPERTY_CREATED, self :: PROPERTY_DATE_PUBLISHED, self :: PROPERTY_DATE_CREATED, self :: PROPERTY_PUBLISHER, self :: PROPERTY_CREATOR, self :: PROPERTY_DURATION);
+        return array(parent :: PROPERTY_TITLE, parent :: PROPERTY_DESCRIPTION, parent :: PROPERTY_CREATED, self :: PROPERTY_DATE_PUBLISHED, self :: PROPERTY_DATE_CREATED, self :: PROPERTY_PUBLISHER, self :: PROPERTY_CREATOR);
     }
 
     /*function set_conversion_state($conversion_state)
