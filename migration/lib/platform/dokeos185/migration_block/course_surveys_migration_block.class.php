@@ -1,5 +1,9 @@
 <?php
 
+require_once dirname(__FILE__) . "/../data_class/dokeos185_survey_invitation.class.php";
+
+require_once dirname(__FILE__) . "/../data_class/dokeos185_survey_answer.class.php";
+
 require_once dirname(__FILE__) . "/../data_class/dokeos185_survey_question.class.php";
 
 require_once dirname(__FILE__) . "/../data_class/dokeos185_survey_question_option.class.php";
@@ -24,7 +28,7 @@ class CourseSurveysMigrationBlock extends CourseDataMigrationBlock
 	
 	function get_course_data_classes()
 	{
-		return array(new Dokeos185Survey(), new Dokeos185SurveyQuestion(), new Dokeos185SurveyQuestionOption());
+		return array(new Dokeos185Survey(), new Dokeos185SurveyQuestion(), new Dokeos185SurveyQuestionOption(), new Dokeos185SurveyAnswer(), new Dokeos185SurveyInvitation());
 	}
 }
 
