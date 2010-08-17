@@ -8,7 +8,11 @@ class SurveyContextRegistrationForm extends FormValidator
     const RESULT_SUCCESS = 'ContextTypeUpdated';
     const RESULT_ERROR = 'ContextTypeUpdateFailed';
     
-    const PROPERTIES = 'properties';
+    const PROPERTIES = 'properties_';
+    const PROPERTY_KEYS = 'keys_';
+    
+    const ROOT_DIR = 'lib/content_object/survey/';
+    const CONTEXT = 'context';
     
     private $context_registration;
     private $user;
@@ -20,7 +24,7 @@ class SurveyContextRegistrationForm extends FormValidator
      */
     function SurveyContextRegistrationForm($form_type, $action, $context_registration, $user, $manager)
     {
-        parent :: __construct('survey_context_registration_form', 'post', $action);
+        parent :: __construct('context_registration_form', 'post', $action);
         
         $this->context_registration = $context_registration;
         $this->user = $user;
@@ -44,15 +48,14 @@ class SurveyContextRegistrationForm extends FormValidator
     function build_header()
     {
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('general') . '</span>');
-        $this->add_textfield(SurveyContextRegistration :: PROPERTY_NAME, Translation :: get('name'), true);
-        $this->add_html_editor(SurveyContextRegistration :: PROPERTY_DESCRIPTION, Translation :: get('description'), false);
+        $this->addElement('html', '<span class="category">' . Translation :: get('SurveyContextRegistrationGeneral') . '</span>');
+        $this->add_textfield(SurveyContextRegistration :: PROPERTY_NAME, Translation :: get('SurveyContextRegistrationName'), true);
+        $this->add_html_editor(SurveyContextRegistration :: PROPERTY_DESCRIPTION, Translation :: get('SurveyContextRegistrationDescription'), false);
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
         
-    	
         $this->addElement('html', '<div class="configuration_form">');
-        $this->addElement('html', '<span class="category">' . Translation :: get('Properties') . '</span>');
+        $this->addElement('html', '<span class="category">' . Translation :: get('SurveyContextRegistrationProperties') . '</span>');
     }
 
     function build_footer($action_name)
@@ -60,20 +63,25 @@ class SurveyContextRegistrationForm extends FormValidator
         $this->addElement('html', '<div style="clear: both;"></div>');
         $this->addElement('html', '</div>');
         
-        // Submit button
-        //$this->addElement('submit', 'submit', 'OK');
-        
-
         $buttons[] = $this->createElement('style_submit_button', 'create', Translation :: get($action_name), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/category_form.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/survey_context_registration_form.js'));
     }
 
-    function add_name_field($number = null)
+    function add_property_field($number = null)
     {
-        $element = $this->createElement('text', self :: PROPERTIES . $number, Translation :: get('Name'), array("size" => "50"));
+        
+        $element = $this->createElement('text', self :: PROPERTIES . $number, Translation :: get('SurveyContextRegistrationProperty'), array("size" => "50"));
+        //$this->addRule(PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('ThisFieldIsRequired'), 'required');
+        return $element;
+    }
+
+    function add_property_key_field($number = null)
+    {
+        
+        $element = $this->createElement('checkbox', self :: PROPERTY_KEYS . $number, Translation :: get('SurveyContextRegistrationProperty'));
         //$this->addRule(PlatformCategory :: PROPERTY_NAME . $number, Translation :: get('ThisFieldIsRequired'), 'required');
         return $element;
     }
@@ -117,12 +125,14 @@ class SurveyContextRegistrationForm extends FormValidator
             if (! in_array($option_number, $_SESSION['mc_skip_options']))
             {
                 $group = array();
-                $group[] = $this->add_name_field($option_number);
+                $group[] = $this->add_property_field($option_number);
+                $group[] = $this->createElement('static', '', 'label', ' ' . Translation :: get('SurveyContextRegistrationPropertyIsKey') . ' ');
+                $group[] = $this->add_property_key_field($option_number);
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 1)
                 {
                     $group[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png', array('style="border: 0px;"'));
                 }
-                $this->addGroup($group, self :: PROPERTIES . $option_number, Translation :: get('Properties'), '', false);
+                $this->addGroup($group, self :: PROPERTIES . $option_number, Translation :: get('SurveyContextRegistrationProperty'), '', false);
                 $this->addRule(self :: PROPERTIES . $option_number, Translation :: get('ThisFieldIsRequired'), 'required');
             }
         }
@@ -145,7 +155,7 @@ class SurveyContextRegistrationForm extends FormValidator
      */
     function build_editing_form()
     {
-        $this->addElement($this->add_name_field());
+        //        $this->addElement($this->add_name_field());
         $this->addElement('hidden', SurveyContextRegistration :: PROPERTY_ID);
         $this->build_footer('Update');
     }
@@ -153,35 +163,54 @@ class SurveyContextRegistrationForm extends FormValidator
     function create_context_registration()
     {
         $values = $this->exportValues();
-        //dump($values);
         
-
+        $name = $values[SurveyContextRegistration :: PROPERTY_NAME];
+        
+        $condition = new EqualityCondition(SurveyContextRegistration :: PROPERTY_NAME, $name);
+        $context_registrations = SurveyContextDataManager :: get_instance()->retrieve_survey_context_registrations($condition);
+        $context_registration = $context_registrations->next_result();
+        
         $result = true;
         
-        foreach ($values as $key => $value)
+        if (! $context_registration)
         {
-            if (strpos($key, 'name') !== false)
+            $type = 'survey_' . strtolower($name) . '_context';
+            
+            $context_registration = $this->context_registration;
+            $context_registration->set_name($name);
+            $context_registration->set_description($values[SurveyContextRegistration :: PROPERTY_DESCRIPTION]);
+            $context_registration->set_type($type);
+            
+            $properties = array();
+            
+            foreach ($values as $key => $value)
             {
-                $category = $this->manager->get_category();
-                $category->set_name($value);
-                $category->set_parent($this->category->get_parent());
-                
-                $conditions = array();
-                $conditions[] = new EqualityCondition(SurveyContextRegistration :: PROPERTY_NAME, $category->get_name());
-                $conditions[] = new EqualityCondition(SurveyContextRegistration :: PROPERTY_PARENT, $category->get_parent());
-                $condition = new AndCondition($conditions);
-                $cats = $this->manager->count_categories($condition);
-                
-                if ($cats > 0)
+                if (strpos($key, self :: PROPERTIES) !== false)
                 {
-                    $result = false;
-                }
-                else
-                {
-                    $result &= $category->create();
+                    $keys = explode('_', $key);
+                    $number = $keys[1];
+                    
+                    $number = $is_key = $values[self :: PROPERTY_KEYS . $number];
+                    if (! $is_key)
+                    {
+                        $is_key = 0;
+                    }
+                    $properties[$value] = $is_key;
+                
                 }
             }
         }
+        else
+        {
+            $result = false;
+        }
+        
+        $this->create_files($type);
+        
+        dump($properties);
+        
+        exit();
+        
         return $result;
     }
 
@@ -206,5 +235,77 @@ class SurveyContextRegistrationForm extends FormValidator
         $defaults[SurveyContextRegistration :: PROPERTY_DESCRIPTION] = $context_registration->get_description();
         parent :: setDefaults($defaults);
     }
+
+    function create_files($type)
+    {
+        
+        $filename = $type;
+        $repository_directory = Path :: get_repository_path();
+        
+        $path = $repository_directory . self :: ROOT_DIR;
+        $new_dir = $path . self :: CONTEXT . '/' . $type;
+        dump($new_dir);
+        
+        Filesystem :: create_dir($new_dir);
+        
+       
+        
+    //        $this->get_content($path);
+    //        
+    //        Filesystem :: file_send_for_download($path, true, $filename);
+    //        Filesystem :: remove($path);
+    
+
+    }
+
+    function get_class_file($type, $properties)
+    {
+        
+        $context_class = array();
+        
+        $context_class[] = '<?php';
+        $context_class[] = 'Path :: get_repository_path()' . 'lib/content_object/survey/.\'survey_context.class.php\');';
+        
+        $context_class[] = 'class SurveyDefaultContext extends SurveyContext';
+        $context_class[] = '{';
+        
+        $context_class[] = '   const CLASS_NAME = __CLASS__;';
+        $context_class[] = '  const PROPERTY_DESCRIPTION = \'description\';';
+        $context_class[] = ' const PROPERTY_DEFAULT_KEY = \'NOCONTEXT\';';
+        
+        $context_class[] = ' private $default_context;';
+        
+        $context_class[] = '  static function get_additional_property_names()';
+        $context_class[] = '  {';
+        $context_class[] = ' return array(self :: PROPERTY_DESCRIPTION);';
+        $context_class[] = ' }';
+        
+        $context_class[] = ' function get_description()';
+        $context_class[] = '   {';
+        $context_class[] = '     return $this->get_additional_property(self :: PROPERTY_DESCRIPTION);';
+        $context_class[] = '  }';
+        
+        $context_class[] = '  function set_description($description)';
+        $context_class[] = ' {';
+        $context_class[] = '    $this->set_additional_property(self :: PROPERTY_DESCRIPTION, $description);';
+        $context_class[] = ' }';
+        
+        $context_class[] = '  static public function get_allowed_keys()';
+        $context_class[] = ' {';
+        $context_class[] = '  return array(self :: PROPERTY_DEFAULT_KEY);';
+        $context_class[] = '  }';
+        
+        $context_class[] = ' static function get_table_name()';
+        $context_class[] = '{';
+        $context_class[] = '  return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);';
+        $context_class[] = '}';
+        
+        $context_class[] = '}';
+        
+        $context_class[] = '?>';
+        
+        
+    }
+
 }
 ?>

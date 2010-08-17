@@ -12,6 +12,7 @@ class SurveyContextManager extends SubManager
     
     const PARAM_CONTEXT_REGISTRATION_ID = 'context_registration_id';
     const PARAM_CONTEXT_ID = 'context_id';
+     const PARAM_CONTEXT = 'context';
     
     const ACTION_CREATE_CONTEXT_REGISTRATION = 'create_context_registration';
     const ACTION_EDIT_CONTEXT_REGISTRATION = 'edit_context_registration';
@@ -41,7 +42,9 @@ class SurveyContextManager extends SubManager
 
     function run()
     {
-        $action = $this->get_parameter(self :: PARAM_ACTION);
+        $this->set_parameter(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE, Survey::get_type_name());
+        $this->set_parameter(RepositoryManager :: PARAM_CONTENT_OBJECT_MANAGER_TYPE, self :: PARAM_CONTEXT);
+    	$action = $this->get_parameter(self :: PARAM_ACTION);
         
         switch ($action)
         {
@@ -74,17 +77,17 @@ class SurveyContextManager extends SubManager
 
     function get_context_registration_viewing_url($context_registration)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_REGISTRATION, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id(), 'type' => 'survey', 'manage' => 'context'));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTEXT_REGISTRATION, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id()));
     }
 
     function get_context_registration_creation_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTEXT_REGISTRATION, 'type' => 'survey', 'manage' => 'context'));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTEXT_REGISTRATION));
     }
 
     function get_context_creation_url($context_registration)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTEXT, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id(), 'type' => 'survey', 'manage' => 'context'));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTEXT, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id()));
     }
 
 }

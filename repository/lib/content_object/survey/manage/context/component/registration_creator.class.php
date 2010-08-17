@@ -14,8 +14,7 @@ class SurveyContextManagerRegistrationCreatorComponent extends SurveyContextMana
         $trail = BreadcrumbTrail :: get_instance();
                
         $context_registration = new SurveyContextRegistration();
-                     
-       
+    
         $form = new SurveyContextRegistrationForm(SurveyContextRegistrationForm :: TYPE_CREATE, $this->get_url(), $context_registration,  $this->get_user(), $this);
         
         if ($form->validate())
