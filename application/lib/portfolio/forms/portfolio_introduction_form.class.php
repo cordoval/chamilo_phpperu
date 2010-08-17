@@ -75,7 +75,8 @@ class PortfolioIntroductionForm extends FormValidator
         $pdm = PortfolioDataManager::get_instance();
         $info = $pdm->retrieve_portfolio_information_by_user($this->user->get_id());
 
-        if(is_set($info))
+
+        if(isset($info) && $info != false)
         {
             $defaults['introduction'] =  $info->get_introduction();
         }
@@ -102,6 +103,17 @@ class PortfolioIntroductionForm extends FormValidator
 
         $pdm = PortfolioDataManager::get_instance();
         $info = $pdm->retrieve_portfolio_information_by_user($this->user->get_id());
+
+        if(!isset($info) || $info ==false )
+        {
+            $info = new PortfolioInformation();
+            $info->set_user_id($this->user->get_id());
+            $info->set_last_updated_date(time());
+
+            $info->set_last_updated_item_type(PortfolioRights::TYPE_PORTFOLIO_FOLDER);
+            $info->set_last_action(PortfolioInformation::ACTION_PORTFOLIO_INTRODUCTION_SET);
+            $success &= $info->create();
+        }
 
         $info->set_introduction($values[introduction]);
 
