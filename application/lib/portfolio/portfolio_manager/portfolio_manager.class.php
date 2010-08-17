@@ -29,6 +29,7 @@ class PortfolioManager extends WebApplication
     const ACTION_DELETE_PORTFOLIO_ITEM = 'delete_portfolio_item';
     const ACTION_CREATE_PORTFOLIO_PUBLICATION = 'create_portfolio_publication';
     const ACTION_CREATE_PORTFOLIO_ITEM = 'create_portfolio_item';
+    const ACTION_CREATE_PORTFOLIO_INTRODUCTION = 'create_portfolio_introduction';
     const ACTION_VIEW_PORTFOLIO = 'view_portfolio';
     const ACTION_BROWSE = 'browse';
     const ACTION_SET_PORTFOLIO_DEFAULTS = 'set_defaults';
@@ -73,6 +74,9 @@ class PortfolioManager extends WebApplication
                 break;
             case self :: ACTION_CREATE_PORTFOLIO_ITEM :
                 $component = $this->create_component('PortfolioItemCreator');
+                break;
+            case self :: ACTION_CREATE_PORTFOLIO_INTRODUCTION :
+                $component = $this->create_component('PortfolioIntroductionCreator');
                 break;
             case self :: ACTION_BROWSE :
                 $component = $this->create_component('Browser');
@@ -177,6 +181,11 @@ class PortfolioManager extends WebApplication
     function get_create_portfolio_publication_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PORTFOLIO_PUBLICATION));
+    }
+
+    function get_create_portfolio_introduction_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PORTFOLIO_INTRODUCTION));
     }
 
     function get_delete_portfolio_publication_url($portfolio_publication)
