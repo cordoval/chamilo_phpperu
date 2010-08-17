@@ -10,6 +10,10 @@ class PicasaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
 
         $properties = parent :: get_display_properties();
         $properties[Translation :: get('AvailableSizes')] = $object->get_available_sizes_string();
+        $properties[Translation :: get('License')] = $object->get_license_icon();
+
+        // Overwrite the original owner value, since Picasa gives us a bit more info
+        $properties[Translation :: get('Owner')] = $object->get_owner_string();
 
         return $properties;
     }
@@ -17,7 +21,7 @@ class PicasaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
     function get_preview($is_thumbnail = false)
     {
         $object = $this->get_object();
-        $size = ($is_thumbnail ? PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_MEDIUM : PicasaExternalRepositoryObject :: SIZE_THUMBNAIL_LARGE);
+        $size = ($is_thumbnail ? PicasaExternalRepositoryObject :: SIZE_THUMBNAIL : PicasaExternalRepositoryObject :: SIZE_MEDIUM);
         $class = ($is_thumbnail ? 'thumbnail' : 'with_border');
 
         $html = array();
