@@ -12,7 +12,7 @@
 			</setting>
 		</category>
 		<category name="credentials">
-			<setting name="loginname" field="text">
+			<setting name="login" field="text">
 				<validations>
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>
@@ -22,7 +22,6 @@
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>
 			</setting>
-
                 </category>
 		<category name="rights">
 			<setting name="slave_app_ids" field="text" />
@@ -37,13 +36,12 @@
 				/> </options> </setting>
 			-->
 		</category>
-                <category name="maintenance">
+                 <category name="maintenance">
                     <setting name="remove_originals" field="checkbox">
                         <options type="static">
                                 <option name="remove_originals" value="0" />
                         </options>
                      </setting>
                 </category>
-
 	</settings>
 </application>
