@@ -134,7 +134,7 @@ class Dokeos185TrackCReferers extends Dokeos185MigrationDataClass
         $conditions[] = new EqualityCondition('type', 'referer');
         $conditions[] = new EqualityCondition('name', $this->get_referer());
         $condtion = new AndCondition($conditions);
-        $referertracker = new OSTracker();
+        $referertracker = new ReferrersTracker();
         $trackeritems = $referertracker->retrieve_tracker_items($condtion);
 
         if (count($trackeritems) != 0)
@@ -169,4 +169,5 @@ class Dokeos185TrackCReferers extends Dokeos185MigrationDataClass
     }
 
 }
+
 ?>

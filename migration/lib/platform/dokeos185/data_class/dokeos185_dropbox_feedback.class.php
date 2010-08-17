@@ -136,7 +136,8 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
     {
         //$this->set_item_property($this->get_data_manager()->get_item_property($this->get_course(), 'dropbox', $this->get_feedback_id())); //no instance in item_property table dokeos185
 
-        if (!$this->get_feedback_id() || !$this->get_feedback() || !$this->get_feedback_date()) {
+        if (!$this->get_feedback_id() || !$this->get_feedback() || !$this->get_feedback_date())
+        {
             $this->create_failed_element($this->get_feedback_id());
             return false;
         }
@@ -154,7 +155,8 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
         $new_course_code = $this->get_id_reference($this->get_course()->get_code(), 'main_database.course');
         $feedback_content_object_id = $this->get_id_reference($this->get_file_id(), $this->get_database_name() . '.dropbox_file'); //repository content object item to which it refers in old dokeos
 
-        if (!$new_user_id) {
+        if (!$new_user_id)
+        {
             $new_user_id = $this->get_owner($new_course_code);
         }
 
@@ -206,4 +208,5 @@ class Dokeos185DropboxFeedback extends Dokeos185CourseDataMigrationDataClass
     }
 
 }
+
 ?>
