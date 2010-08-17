@@ -17,6 +17,7 @@ class PortfolioInformation extends DataClass
     const PROPERTY_LAST_UPDATED_ITEM ="last_updated_item_id";
     const PROPERTY_LAS_UPDATED_ITEM_TYPE ="last_updated_item_type" ;
     const PROPERTY_LAST_ACTION ="last_action" ;
+    const PROPERTY_INTRODUCTION_TEXT = "introduction";
 
 
 
@@ -37,7 +38,7 @@ class PortfolioInformation extends DataClass
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self::PROPERTY_USER_ID, self::PROPERTY_LAST_UPDATED_DATE, self::PROPERTY_LAST_UPDATED_ITEM, self::PROPERTY_LAS_UPDATED_ITEM_TYPE, self::PROPERTY_LAST_ACTION));
+        return parent :: get_default_property_names(array(self::PROPERTY_USER_ID, self::PROPERTY_LAST_UPDATED_DATE, self::PROPERTY_LAST_UPDATED_ITEM, self::PROPERTY_LAS_UPDATED_ITEM_TYPE, self::PROPERTY_LAST_ACTION, self::PROPERTY_INTRODUCTION_TEXT));
     }
 
     /**
@@ -70,7 +71,16 @@ class PortfolioInformation extends DataClass
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
+    function get_introduction()
+    {
+        return $this->get_default_property(self :: PROPERTY_INTRODUCTION_TEXT);
+    }
 
+
+    function set_introduction($intro_text)
+    {
+        $this->set_default_property(self :: PROPERTY_INTRODUCTION_TEXT, $intro_text);
+    }
     
     function get_user_id()
     {
@@ -121,8 +131,23 @@ class PortfolioInformation extends DataClass
     function get_portfolio_info_text()
     {
         //TODO implement text
-        $text = '<div>';
-        $text .= Translation :: get('PortfolioIntroduction');
+        $text = '<div class="portfolio_introduction">';
+
+        if($this->get_introduction() == 'intro')
+        {
+            $text .= Translation :: get('PortfolioIntroductionStandardText');
+            $text .= '<br />';
+            $text .= '<br />';
+            $text .= '<br />';
+        }
+        else
+        {
+            $text .= $this->get_introduction();
+            $text .= '<br />';
+            $text .= '<br />';
+            $text .= '<br />';
+        }
+        
         
         $text .= '</div><div>';
         $text .= Translation :: get('LastChangedDate');

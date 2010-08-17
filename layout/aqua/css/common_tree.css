@@ -134,6 +134,11 @@ ul.tree-menu li div a.matterhorn {
 	background-image: url(../images/common/external_repository/matterhorn/logo/16.png);
 }
 
+ul.tree-menu li div a.picasa {
+	clear: both;
+	background-image: url(../images/common/external_repository/picasa/logo/16.png);
+}
+
 ul.tree-menu li div a.disabled {
 	color: #9f9f9f;
 	cursor: default;

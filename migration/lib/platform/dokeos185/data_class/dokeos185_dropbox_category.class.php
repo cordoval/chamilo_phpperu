@@ -145,7 +145,8 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_cat_name()) {
+        if (!$this->get_cat_name())
+        {
             $this->create_failed_element($this->get_cat_id());
             return false;
         }
@@ -177,6 +178,8 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
         $category = WeblcmsDataManager::get_instance()->retrieve_content_object_publication_categories($condition)->next_result();
 
         $chamilo_course_dropbox_category->set_name($this->get_cat_name());
+
+        //the parent is always the already existing dropbox category, because in the old dokeos there are no nested dropbox categories
         $chamilo_course_dropbox_category->set_parent($category->get_id());
         $chamilo_course_dropbox_category->set_course($new_course_code);
         $chamilo_course_dropbox_category->set_tool('document');
@@ -201,4 +204,5 @@ class Dokeos185DropboxCategory extends Dokeos185CourseDataMigrationDataClass
     }
 
 }
+
 ?>

@@ -20,6 +20,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     private $chamilo_user;
     private $asset_cache = array();
     private static $user_id_prefix;
+    private $count;
     
     const METHOD_POST = MediamosaRestClient :: METHOD_POST;
     const METHOD_GET = MediamosaRestClient :: METHOD_GET;
@@ -48,17 +49,17 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         return $this->user_id_prefix;
     }
 
-    function get_mediamosa_user_id($user_id)
-    {
-        if(!$this->user_id_prefix) $this->get_user_id_prefix();
-        return $this->user_id_prefix . $user_id;
-    }
+//    function get_mediamosa_user_id($user_id)
+//    {
+//        if(!$this->user_id_prefix) $this->get_user_id_prefix();
+//        return $this->user_id_prefix . $user_id;
+//    }
 
-    function get_mediamosa_group_id($group_id)
-    {
-        if(!$this->user_id_prefix) $this->get_user_id_prefix();
-        return $this->user_id_prefix  . $group_id;
-    }
+//    function get_mediamosa_group_id($group_id)
+//    {
+//        if(!$this->user_id_prefix) $this->get_user_id_prefix();
+//        return $this->user_id_prefix  . $group_id;
+//    }
 
     function retrieve_chamilo_user($user_id)
     {
@@ -79,7 +80,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $data = array();
             
             if ($quotum) $data['quotum'] = $quotum;
-            $data['user'] = $this->get_mediamosa_user_id($chamilo_user_id);
+            $data['user'] = $chamilo_user_id;
             
             if ($response = $this->request(self :: METHOD_POST, '/user/create', $data))
             {
@@ -106,7 +107,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $data = array();
             $data['quotum'] = $quotum;
             
-            if ($response = $this->request(self :: METHOD_POST, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id), $data))
+            if ($response = $this->request(self :: METHOD_POST, '/user/' . $chamilo_user_id, $data))
             {
                 if ($response->check_result())
                     return true;
@@ -136,7 +137,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
      */
     function retrieve_mediamosa_user($chamilo_user_id)
     {
-        if ($response = $this->request(self :: METHOD_GET, '/user/' . $this->get_mediamosa_user_id($chamilo_user_id)))
+        if ($response = $this->request(self :: METHOD_GET, '/user/' . $chamilo_user_id))
         {
             if ($response->check_result())
             {
@@ -250,7 +251,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         }
         else
         {
-            $params['limit'] = 200;
+            $params['limit'] = 200; //this is max liit according to mediamosa
         }
 
         if($offset) $params['offset'] = $offset;
@@ -260,11 +261,11 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         
         $chamilo_user = $this->retrieve_chamilo_user(Session :: get_user_id());
         
-        $params['user_id'] = $this->get_mediamosa_user_id($chamilo_user->get_id());
+        $params['user_id'] = $chamilo_user->get_id();
         
         $params['app_id'] = ExternalRepositorySetting :: get('app_id', $this->get_external_repository_instance_id());
 //        $cql['aut_app'] = '^' . ExternalRepositorySetting :: get('app_id', $this->get_external_repository_instance_id()) . '^';
-//        $cql['aut_user'] = '^' . $this->get_mediamosa_user_id($chamilo_user->get_id()) . '^';
+//        $cql['aut_user'] = '^' . $chamilo_user->get_id() . '^';
 //
 //        $gdm = GroupDataManager :: get_instance();
 //        $groups = $gdm->retrieve_user_groups($chamilo_user->get_id());
@@ -282,15 +283,16 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $params['is_app_admin'] = 'TRUE';
         }
         
-        if($condition) $cql = $this->create_cql_query($condition) . ' sortby title/sort.descending';
-        else $cql = ' sortby title/sort.descending';
+        if($condition) $cql = $this->create_cql_query($condition) . ' sortby title/sort.ascending';
+        else $cql = 'sortby title/sort.ascending';
 
         $params['cql'] = urlencode($cql);
-
+        //$params['cql'] = $cql;
+       
         //if no params exist no request will produce error
         if (count($params) > 1)
         {
-            if ($response = $this->request(self :: METHOD_GET, '/asset' . $condition, $params))
+            if ($response = $this->request(self :: METHOD_GET, '/asset', $params))
             {
 
                 $objects = array();
@@ -311,8 +313,11 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                                $asset_rights = $object->get_rights();
                                //if($asset_rights[ExternalRepositoryObject :: RIGHT_USE])
                                //{
-                                   $objects[] = $object;
-                                   $this->asset_cache[(string) $asset->asset_id] = $object;
+                                   
+                               
+                               $objects[] = $object;
+                               $this->asset_cache[(string) $asset->asset_id] = $object;
+                               
                                //}
                                
                                if($update_master_slave) $this->update_asset_master_slave_settings($object);
@@ -331,15 +336,15 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     
     function create_cql_query($searchString)
     {
-        if(! empty($searchsting))
+        if(! empty($searchString))
         {
-            $searchstring = trim(addslashes($searchString));
+            $searchString = trim(addslashes($searchString));
         
             $index = array();
 
             foreach(MediamosaExternalRepositoryObject :: get_searchable_property_names() as $tag)
             {
-                $index[] = '"' . $tag . '"';
+                $index[] = ' ' . $tag . '==' .$searchString. ' ';
             }
             return implode('OR' , $index);
         }
@@ -358,7 +363,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $this->retrieve_external_repository_objects($condition, $order_property, $offset, $count);
         }
         
-        return count($this->asset_cache);
+        return $this->count;
     }
 
     /*
@@ -402,7 +407,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             {
                 //if there is still an original mediafile
                 //see if it can be removed
-                if ((string) $mediafile->is_original_file == 'TRUE')
+                if ((string) $mediafile->is_original_file == 'TRUE' && ExternalRepositorySetting :: get('remove_originals', $this->get_external_repository_instance_id()))
                 {
                     $this->remove_mediamosa_original_mediafile($asset);
                 }
@@ -482,7 +487,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                 {
                     foreach ($rights['aut_user'] as $n => $aut_user)
                     {
-                        if ($aut_user == $this->get_mediamosa_user_id(Session :: get_user_id()))
+                        if ($aut_user == Session :: get_user_id())
                         {
                             $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
                         }
@@ -504,7 +509,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                         
                         foreach ($rights['aut_group'] as $n => $aut_group)
                         {
-                            if (isset($test_groups[$this->get_mediamosa_group_id($aut_group)]))
+                            if (isset($test_groups[$aut_group]))
                             {
                                 $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
                             }
@@ -514,7 +519,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             }
         }
         
-        if ($chamilo_user->is_platform_admin() || ($asset->get_owner_id() == $this->get_mediamosa_user_id($chamilo_user->get_id())))
+        if ($chamilo_user->is_platform_admin() || ($asset->get_owner_id() == $chamilo_user->get_id()))
         {
             $asset_rights[ExternalRepositoryObject :: RIGHT_EDIT] = true;
             $asset_rights[ExternalRepositoryObject :: RIGHT_DELETE] = true;
@@ -630,7 +635,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     function create_mediamosa_asset()
     {
         $data = array();
-        $data['user_id'] = $this->get_mediamosa_user_id(Session :: get_user_id());
+        $data['user_id'] = Session :: get_user_id();
         
         if ($response = $this->request(self :: METHOD_POST, '/asset/create', $data))
         {
@@ -660,7 +665,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         if ($asset_id)
         {
             $data = array();
-            $data['user_id'] = $this->get_mediamosa_user_id(Session :: get_user_id());
+            $data['user_id'] = Session :: get_user_id();
             
             if ($response = $this->request(self :: METHOD_GET, '/asset/' . $asset_id, $data))
             {
@@ -711,7 +716,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             }
             else
             {
-                $data['user_id'] = $this->get_mediamosa_user_id(Session :: get_user_id());
+                $data['user_id'] = Session :: get_user_id();
             }
             
             if ($cascade == true)
@@ -743,7 +748,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             $data = array();
             $data['asset_id'] = $asset_ids;
-            $data['user_id'] = $this->get_mediamosa_user_id(Session :: get_user_id());
+            $data['user_id'] = Session :: get_user_id();
             if ($cascade == true)
             {
                 $data['delete'] = 'cascade';
@@ -782,7 +787,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         if ($asset_id)
         {
-            $data['user_id'] = $this->get_mediamosa_user_id(Session :: get_user_id());
+            $data['user_id'] = Session :: get_user_id();
             $data['asset_id'] = $asset_id;
             if ($is_downloadable)
                 $data['is_downloadable'] = true;
@@ -809,7 +814,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         if ($mediafile_id)
         {
             $data = array();
-            $data['user_id'] = $this->get_mediamosa_user_id(Session :: get_user_id());
+            $data['user_id'] = Session :: get_user_id();
             
             if ($response = $this->request(self :: METHOD_POST, 'mediafile/' . $mediafile_id . '/delete', $data))
             {
@@ -834,7 +839,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         {
             if (is_array($data))
             {
-                $data['user_id'] = $this->get_mediamosa_user_id(Session :: get_user_id());
+                $data['user_id'] = Session :: get_user_id();
                 //if metadata exists -> overwrite
                 //TODO : check if these properties also apply when updating metadata
                 $data['replace'] = 'TRUE';
@@ -865,7 +870,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         if ($mediafile_id)
         {
             $data = array();
-            $data['user_id'] = $this->get_mediamosa_user_id(Session :: get_user_id());
+            $data['user_id'] = Session :: get_user_id();
             //$data['mediafile_id'] = $mediafile_id; //TODO : necessary?
             
 
@@ -915,7 +920,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $data = array();
             
             //TODO:jens->check if remove has no impications
-            $data['user_id'] = $this->get_mediamosa_user_id('2');
+            $data['user_id'] = '2';
             ;
             $data['is_app_admin'] = 'TRUE';
             
@@ -998,7 +1003,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $data['mediafile_id'] = $mediafile_id;
             $data['response'] = $response;
             
-            $data['user_id'] = $this->get_mediamosa_user_id(Session :: get_user_id());
+            $data['user_id'] = Session :: get_user_id();
             //$data['group_id']
             //
             //get object or url

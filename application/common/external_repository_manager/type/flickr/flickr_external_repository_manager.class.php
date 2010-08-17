@@ -128,7 +128,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
     }
 
     function run()
-    {        
+    {
         $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
 
         switch ($parent)
@@ -168,7 +168,7 @@ class FlickrExternalRepositoryManager extends ExternalRepositoryManager
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
                 break;
         }
-        
+
         $component->run();
     }
 

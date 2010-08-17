@@ -178,7 +178,8 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
         $this->directory = $this->get_data_manager()->get_sys_path() . $old_rel_path;
 
 
-        if (!$this->get_id() || !$this->get_path() || !$this->get_filetype() || !$this->get_item_property() || !$this->get_item_property()->get_ref() || !$this->get_item_property()->get_insert_date() || !file_exists($this->directory . $filename)) {
+        if (!$this->get_id() || !$this->get_path() || !$this->get_filetype() || !$this->get_item_property() || !$this->get_item_property()->get_ref() || !$this->get_item_property()->get_insert_date() || !file_exists($this->directory . $filename))
+        {
             $this->create_failed_element($this->get_id());
             return false;
         }
@@ -195,7 +196,8 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
      */
     function convert_data()
     {
-        if ($this->get_filetype() == 'file') { //folders are converted to categories in the publication part (the correct folders are parsed from the file path)
+        if ($this->get_filetype() == 'file')
+        { //folders are converted to categories in the publication part (the correct folders are parsed from the file path)
             $course = $this->get_course();
 
             $new_user_id = $this->get_id_reference($this->get_item_property()->get_insert_user_id(), 'main_database.user');
@@ -204,7 +206,8 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
             $new_to_group_id[] = $this->get_id_reference($this->get_item_property()->get_to_group_id(), $this->get_database_name() . '.group_info');
             $new_to_user_id[] = $this->get_id_reference($this->get_item_property()->get_to_user_id(), 'main_database.user');
 
-            if (!$new_user_id) {
+            if (!$new_user_id)
+            {
                 $new_user_id = $this->get_owner($new_course_code);
             }
 
@@ -217,7 +220,8 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
             $hash_filename = $this->migrate_file($this->directory, $new_path, $original_filename, $base_hash);
 
-            if ($hash_filename) {
+            if ($hash_filename)
+            {
                 //Create document in repository
                 $chamilo_repository_document = new Document();
                 $chamilo_repository_document->set_filename($original_filename);
@@ -249,13 +253,15 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
                 //publication
 
-                if ($this->get_item_property()->get_visibility() <= 1) {
+                if ($this->get_item_property()->get_visibility() <= 1)
+                {
                     $categories = split('/', $this->get_path());
                     array_shift($categories); //remove empty array value
                     array_pop($categories); //remove filename
                     $parent_id = 0;
 
-                    foreach ($categories as $categorie_name) {
+                    foreach ($categories as $categorie_name)
+                    {
 
                         //check if the category already exists. (move to weblcmdatamanager?)
                         //(Optimalisation: cache created categories)
@@ -269,7 +275,8 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
 
                         $category = WeblcmsDataManager::get_instance()->retrieve_content_object_publication_categories($condition)->next_result();
 
-                        if (!$category) {
+                        if (!$category)
+                        {
                             //Create category for tool in weblcms
                             $category = new ContentObjectPublicationCategory();
                             $category->set_name($categorie_name);
@@ -280,7 +287,9 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
                             //Create category in database
                             $category->create();
                             $parent_id = $category->get_id();
-                        } else {
+                        }
+                        else
+                        {
                             $parent_id = $category->get_id();
                         }
                     }
@@ -303,4 +312,5 @@ class Dokeos185Document extends Dokeos185CourseDataMigrationDataClass
     }
 
 }
+
 ?>

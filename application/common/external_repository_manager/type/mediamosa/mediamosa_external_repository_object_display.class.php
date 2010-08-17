@@ -10,7 +10,21 @@ class MediamosaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
 
     function get_display_properties()
     {
-        $properties = parent :: get_display_properties();
+        $object = $this->get_object();
+
+        $properties = array();
+        $properties[Translation :: get('Title')] = $object->get_title();
+
+        if ($object->get_description())
+        {
+            $properties[Translation :: get('Description')] = $object->get_description();
+        }
+
+        $properties[Translation :: get('UploadedOn')] = DatetimeUtilities :: format_locale_date(null, $object->get_created());
+        if ($object->get_created() != $object->get_modified())
+        {
+            $properties[Translation :: get('ModifiedOn')] = DatetimeUtilities :: format_locale_date(null, $object->get_modified());
+        }
 
         //get different mediafiles (+status)
         $object = $this->get_object();

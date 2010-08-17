@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../external_repository_object.class.php';
 class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
 {
     const OBJECT_TYPE = 'google_docs';
-    
+
     const PROPERTY_VIEWED = 'viewed';
     const PROPERTY_CONTENT = 'content';
     const PROPERTY_MODIFIER_ID = 'modifier_id';
@@ -44,7 +44,7 @@ class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
     {
         return $this->set_default_property(self :: PROPERTY_MODIFIER_ID, $modifier_id);
     }
-    
+
     function get_acl()
     {
         return $this->get_default_property(self :: PROPERTY_ACL);
@@ -105,14 +105,9 @@ class GoogleDocsExternalRepositoryObject extends ExternalRepositoryObject
                 //return array('pdf');
                 break;
         }
-        
+
         $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($this->get_external_repository_id());
         return GoogleDocsExternalRepositoryConnector :: get_instance($external_repository)->download_external_repository_object($url);
-    }
-    
-    function get_description()
-    {
-        return $this->get_acl();
     }
 }
 ?>

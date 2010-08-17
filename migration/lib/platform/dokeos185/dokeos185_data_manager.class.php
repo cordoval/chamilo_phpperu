@@ -178,9 +178,40 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	return $this->retrieve_objects(Dokeos185ItemProperty :: get_table_name(), $condition, null, null, null, 'Dokeos185ItemProperty')->next_result();
     }
     
-    function get_owner_id()
+    /**
+     * Algorithm to determine the owner of an object in a course
+     * Count the number of course teachers (with status 1) and if there is only 1. This user will become the owner
+     * Retrieve the user that is subscribed as a teacher and is the titular of the course
+     * Retrieve the user that has the most publications in the course
+     * Return the administrator
+     * @param int $course_id
+     */
+    function get_owner_id($course_id)
     {
-    	return 2;
+    	//Check if there is only one owner
+    	$wdm = WeblcmsDataManager :: get_instance();
+    	$count = $wdm->count_course_user_relations(new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id));
+    	if($count == 1)
+    	{
+    		return $wdm->retrieve_course_user_relations(new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id))->next_result()->get_user();
+    	}
+    	
+    	//Check for the titular
+    	$course = $wdm->retrieve_course($course_id);
+    	$user_relation = $wdm->retrieve_course_user_relation($course_id, $course->get_titular());
+    	if($user_relation)
+    	{
+    		return $course->get_titular();
+    	}
+    	
+    	//Check for the user with the most publications
+    	$possible_owner = $wdm->get_user_with_most_publications_in_course($course_id);
+    	if($possible_owner)
+    	{
+    		return $possible_owner;
+    	}
+    	
+    	return MigrationDataManager :: retrieve_id_reference_by_old_id_and_table($this->get_admin_id(), 'main_database.user');
     }
 
     /**
@@ -197,12 +228,12 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
         $conditions1 = array();
         $conditions2 = array();
 
-        $conditions1[] = new EqualityCondition(User :: PROPERTY_FIRSTNAME, $firstname);
-        $conditions1[] = new EqualityCondition(User :: PROPERTY_LASTNAME, $lastname);
+        $conditions1[] = new EqualityCondition(Dokeos185User :: PROPERTY_FIRSTNAME, $firstname);
+        $conditions1[] = new EqualityCondition(Dokeos185User :: PROPERTY_LASTNAME, $lastname);
         $conditions[] = new AndCondition($conditions1);
 
-        $conditions2[] = new EqualityCondition(User :: PROPERTY_FIRSTNAME, $lastname);
-        $conditions2[] = new EqualityCondition(User :: PROPERTY_LASTNAME, $firstname);
+        $conditions2[] = new EqualityCondition(Dokeos185User :: PROPERTY_FIRSTNAME, $lastname);
+        $conditions2[] = new EqualityCondition(Dokeos185User :: PROPERTY_LASTNAME, $firstname);
         $conditions[] = new AndCondition($conditions2);
 
         $condition = new OrCondition($conditions);

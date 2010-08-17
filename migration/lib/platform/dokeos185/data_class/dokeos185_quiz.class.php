@@ -157,22 +157,24 @@ class Dokeos185Quiz extends Dokeos185CourseDataMigrationDataClass
         $chamilo_category_id = RepositoryDataManager :: get_repository_category_by_name_or_create_new($new_user_id, Translation :: get('Assessments'));
         $chamilo_assessment->set_parent_id($chamilo_category_id);
         
+        if($this->get_description())
+        {
+        	$description = $this->parse_text_field($this->get_description());
+        	       	
+        	$chamilo_assessment->set_description($description);
+        }
+        else
+        {
+        	$chamilo_assessment->set_description($this->get_title());
+        }
+        
         if (! $this->get_title())
         {
-            $chamilo_assessment->set_title(Utilities :: truncate_string($this->get_description(), 20));
+            $chamilo_assessment->set_title(Utilities :: truncate_string($description, 20));
         }
         else
         {
             $chamilo_assessment->set_title($this->get_title());
-        }
-        
-        if (! $this->get_description())
-        {
-            $chamilo_assessment->set_description($this->get_title());
-        }
-        else
-        {
-            $chamilo_assessment->set_description($this->get_description());
         }
         
         $chamilo_assessment->set_owner_id($new_user_id);
@@ -187,6 +189,15 @@ class Dokeos185Quiz extends Dokeos185CourseDataMigrationDataClass
 		$chamilo_assessment->set_random_questions($this->get_random());
         
         $chamilo_assessment->create_all();
+        
+        if($this->get_included_objects())
+        {
+        	foreach($this->get_included_objects() as $included_object_id)
+        	{
+        		$chamilo_assessment->include_content_object($included_object_id);
+        	}
+        }
+        
         $this->create_publication($chamilo_assessment, $new_course_code, $new_user_id, 'assessment');
 
         $this->create_id_reference($this->get_id(), $chamilo_assessment->get_id());

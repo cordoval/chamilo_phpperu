@@ -158,7 +158,7 @@ class ReservationsDataManager
     {
         $days = ($start_date - time()) / (3600 * 24);
 
-        $time = $stop_date - $start_date;
+        $time = ($stop_date - $start_date) / 3600;
         $needed_credits = $time * $item->get_credits();
 
         if (! self :: $used_quota[$item->get_category()])

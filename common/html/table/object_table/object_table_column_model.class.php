@@ -76,6 +76,16 @@ class ObjectTableColumnModel
     }
 
     /**
+     * Delete a column
+     * @param int $column_index
+     */
+    function delete_column($column_index)
+    {
+        unset($this->columns[$column_index]);
+        $this->columns = array_values($this->columns);
+    }
+
+    /**
      * Gets the index of the column to order objects by, by default.
      * @return int The column index.
      */

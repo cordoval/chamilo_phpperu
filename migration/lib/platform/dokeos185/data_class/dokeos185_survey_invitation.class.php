@@ -4,17 +4,18 @@
  * @package migration.lib.platform.dokeos185
  */
 
-require_once dirname(__FILE__) . '/../../lib/import/import_survey_invitation.class.php';
+require_once dirname(__FILE__) . "/../dokeos185_course_data_migration_data_class.class.php";
 
 /**
  * This class presents a Dokeos185 survey_invitation
  *
  * @author Sven Vanpoucke
  */
-class Dokeos185SurveyInvitation extends Dokeos185MigrationDataClass
+class Dokeos185SurveyInvitation extends Dokeos185CourseDataMigrationDataClass
 {
-    private static $mgdm;
-    
+
+    const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'survey_invitation';
     /**
      * Dokeos185SurveyInvitation properties
      */
@@ -153,9 +154,16 @@ class Dokeos185SurveyInvitation extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return Boolean
      */
-    function is_valid($array)
+    function is_valid()
     {
-        $course = $array['course'];
+        if (! $this->get_id_reference($this->get_survey_code(), $this->get_database_name() . '.survey') && ! $this->get_id_reference($this->get_user(), 'main_database.user'))
+        {
+            $this->create_failed_element($this->get_answer_id());
+            $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'survey_answer', 'ID' => $this->get_answer_id())));
+
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -163,34 +171,21 @@ class Dokeos185SurveyInvitation extends Dokeos185MigrationDataClass
      * @param Array $array
      * @return 
      */
-    function convert_data
+    function convert_data()
     {
-        $course = $array['course'];
+        
     }
 
-    /**
-     * Gets all the survey questions of a course
-     * @param Array $array
-     * @return Array of dokeos185surveyinvitation
-     */
-    static function retrieve_data($parameters)
+    public static function get_class_name()
     {
-        $old_mgdm = $parameters['old_mgdm'];
-        
-        $coursedb = $parameters['course']->get_db_name();
-        $tablename = 'survey_invitation';
-        $classname = 'Dokeos185SurveyInvitation';
-        
-        return $old_mgdm->get_all($coursedb, $tablename, $classname, $tool_name, $parameters['offset'], $parameters['limit']);
+        return self :: CLASS_NAME;
     }
 
-    static function get_database_table($parameters)
+    public static function get_table_name()
     {
-        $array = array();
-        $array['database'] = $parameters['course']->get_db_name();
-        $array['table'] = 'survey_invitation';
-        return $array;
+        return self :: TABLE_NAME;
     }
+
 }
 
 ?>

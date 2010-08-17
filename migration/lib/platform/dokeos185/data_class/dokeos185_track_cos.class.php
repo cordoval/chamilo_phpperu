@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * $Id: dokeos185_track_cos.class.php 221 2009-11-13 14:36:41Z vanpouckesven $
  * @package migration.lib.platform.dokeos185
@@ -117,7 +116,8 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
      */
     function is_valid()
     {
-        if (!$this->get_os() || $this->get_counter() == null) {
+        if (!$this->get_os() || $this->get_counter() == null)
+        {
             $this->create_failed_element($this->get_id());
             return false;
         }
@@ -137,11 +137,14 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
         $ostracker = new OSTracker();
         $trackeritems = $ostracker->retrieve_tracker_items($condtion);
 
-        if (count($trackeritems) != 0) {
+        if (count($trackeritems) != 0)
+        {
             $ostracker = $trackeritems[0];
             $ostracker->set_value($ostracker->get_value() + $this->get_counter());
             $ostracker->update();
-        } else {
+        }
+        else
+        {
 
             $ostracker->set_name($this->get_os());
             $ostracker->set_value($this->get_counter());
@@ -159,10 +162,12 @@ class Dokeos185TrackCOs extends Dokeos185MigrationDataClass
     {
         return self :: CLASS_NAME;
     }
+
     function get_database_name()
     {
-    	return self :: DATABASE_NAME;
+        return self :: DATABASE_NAME;
     }
 
 }
+
 ?>

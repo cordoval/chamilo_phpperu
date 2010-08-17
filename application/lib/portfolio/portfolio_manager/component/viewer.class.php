@@ -293,6 +293,12 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishNewPortfolio'), Theme :: get_common_image_path() . 'content_object/portfolio.png', $this->get_create_portfolio_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
+        if($this->portfolio_identifier == self::PROPERTY_ROOT)
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ChangeIntroductionText'), Theme :: get_common_image_path() . 'content_object/portfolio.png', $this->get_create_portfolio_introduction_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+
+
         if ($this->selected_object ) {
 
             if($this->selected_object->get_type() == Portfolio :: get_type_name()) {
@@ -351,7 +357,14 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             }
             else
              {
+                $html[] = '<div>';
                 $html[] = Translation :: get('PortfolioNotUpdatedYet');
+                $html[] = '<br />';
+                $html[] = '<br />';
+                $html[] = '</div>';
+                $html[] = '<div class="portfolio_introduction">';
+                $html[]= Translation :: get('PortfolioIntroductionStandardText');
+                $html[] = '</div>';
             }
 
         }

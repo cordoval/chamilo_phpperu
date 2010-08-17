@@ -127,6 +127,12 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
     {
         return $this->get_default_property(self :: PROPERTY_LICENSE);
     }
+    
+    function get_license_id()
+    {
+        $license = $this->get_license();
+        return $license['id'];
+    }
 
     function get_license_url()
     {
@@ -142,17 +148,19 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
 
     function get_license_string()
     {
-        $license_name = $this->get_license_name();
-        $license_url = $this->get_license_url();
-
-        if ($license_url)
+        if ($this->get_license_url())
         {
-            return '<a href="' . $license_url . '">' . $license_name . '</a>';
+            return '<a href="' . $this->get_license_url() . '">' . $this->get_license_name() . '</a>';
         }
         else
         {
-            return $license_name;
+            return $this->get_license_name();
         }
+    }
+
+    function get_license_icon()
+    {
+        return Theme :: get_common_image('external_repository/flickr/licenses/license_' . $this->get_license_id(), 'png', $this->get_license_name(), $this->get_license_url(), ToolbarItem :: DISPLAY_ICON);
     }
 
     function set_license($license)
@@ -163,6 +171,26 @@ class FlickrExternalRepositoryObject extends ExternalRepositoryObject
     static function get_object_type()
     {
         return self :: OBJECT_TYPE;
+    }
+
+    static function get_possible_sizes()
+    {
+        return array('sq' => self :: SIZE_SQUARE, 't' => self :: SIZE_THUMBNAIL, 's' => self :: SIZE_SMALL, 'm' => self :: SIZE_MEDIUM, 'l' => self :: SIZE_LARGE, 'o' => self :: SIZE_ORIGINAL);
+    }
+
+    static function get_possible_licenses()
+    {
+        $licenses = array();
+        $licenses[0] = array('id' => 0, 'name' => 'All Rights Reserved', 'url' => '');
+        $licenses[1] = array('id' => 1, 'name' => 'Attribution-NonCommercial-ShareAlike License', 'url' => 'http://creativecommons.org/licenses/by-nc-sa/2.0/');
+        $licenses[2] = array('id' => 2, 'name' => 'Attribution-NonCommercial License', 'url' => 'http://creativecommons.org/licenses/by-nc/2.0/');
+        $licenses[3] = array('id' => 3, 'name' => 'Attribution-NonCommercial-NoDerivs License', 'url' => 'http://creativecommons.org/licenses/by-nc-nd/2.0/');
+        $licenses[4] = array('id' => 4, 'name' => 'Attribution License', 'url' => 'http://creativecommons.org/licenses/by/2.0/');
+        $licenses[5] = array('id' => 5, 'name' => 'Attribution-ShareAlike License', 'url' => 'http://creativecommons.org/licenses/by-sa/2.0/');
+        $licenses[6] = array('id' => 6, 'name' => 'Attribution-NoDerivs License', 'url' => 'http://creativecommons.org/licenses/by-nd/2.0/');
+        $licenses[7] = array('id' => 7, 'name' => 'No known copyright restrictions', 'url' => 'http://www.flickr.com/commons/usage/');
+        $licenses[8] = array('id' => 8, 'name' => 'United States Government Work', 'url' => 'http://www.usa.gov/copyright.shtml');
+        return $licenses;
     }
 }
 ?>

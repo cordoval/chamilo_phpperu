@@ -67,7 +67,7 @@ class StreamingVideoClipRightsEditorManager extends RightsEditorManager
         {
             while ($rights_user = $rights_users->next_result())
             {
-                $rights['aut_user'][] = $mmc->get_mediamosa_user_id($rights_user->get_user_id());
+                $rights['aut_user'][] = $rights_user->get_user_id();
                 $update = true;
             }
         }
@@ -79,7 +79,7 @@ class StreamingVideoClipRightsEditorManager extends RightsEditorManager
         {
             while ($rights_group = $rights_groups->next_result())
             {
-                $rights['aut_group'][] = $mmc->get_mediamosa_group_id($rights_group->get_group_id());
+                $rights['aut_group'][] = $rights_group->get_group_id();
                 $update = true;
             }
         }
