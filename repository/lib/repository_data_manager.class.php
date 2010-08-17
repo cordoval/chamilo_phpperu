@@ -565,5 +565,11 @@ class RepositoryDataManager
         
         return self :: get_instance()->retrieve_content_object_by_condition($condition, 'document');
     }
+    
+    static function get_document_by_filename($filename)
+    {
+    	$condition = new EqualityCondition(Document :: PROPERTY_FILENAME, $filename, 'document');
+        return self :: get_instance()->retrieve_content_object_by_condition($condition, 'document');
+    }
 }
 ?>

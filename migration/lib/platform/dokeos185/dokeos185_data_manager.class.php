@@ -193,7 +193,7 @@ class Dokeos185DataManager extends MigrationDatabase implements PlatformMigratio
     	$count = $wdm->count_course_user_relations(new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id));
     	if($count == 1)
     	{
-    		return $wdm->retrieve_course_user_relations(new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id))->next_result()->get_user_id();
+    		return $wdm->retrieve_course_user_relations(new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course_id))->next_result()->get_user();
     	}
     	
     	//Check for the titular
