@@ -27,6 +27,7 @@ class PortfolioInformation extends DataClass
     const ACTION_EDITED = 4;
     const ACTION_FIRST_PORTFOLIO_CREATED = 5;
     const ACTION_DELETED = 6;
+    const ACTION_PORTFOLIO_INTRODUCTION_SET = 7;
 
 
 
@@ -177,6 +178,10 @@ class PortfolioInformation extends DataClass
         else if($action == self::ACTION_DELETED)
         {
             $text .= Translation :: get('PortfolioDeleted');
+        }
+        else if($action == self::ACTION_PORTFOLIO_INTRODUCTION_SET)
+        {
+            $text .= Translation :: get('PortfolioIntroductionChanged');
         }
         else
         {
