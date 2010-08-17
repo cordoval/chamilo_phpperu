@@ -174,6 +174,27 @@ abstract class MigrationDataClass extends DataClass
 
         return $secure_filename;
     }
+    
+    /**
+     * Parses a text field for image tags and replaces them to the correct repository content object id
+     */
+    function parse_text_field_for_images($text_field)
+    {
+    	$tags = Text :: parse_html_file($text_field, 'img');
+    	foreach($tags as $tag)
+    	{
+    		$src = $tag->getAttribute('src');
+    		$filename = basename($src);
+    		$document = RepositoryDataManager :: get_document_by_filename($filename);
+    		if($document)
+    		{
+    			$url = RepositoryManager :: get_document_downloader_url($document->get_id());
+    			$text_field = str_replace($src, $url, $text_field);
+    		}
+    	}
+    	
+    	return $text_field;
+    }
 	
     /**
      * Factory to retrieve the correct class of an old system
