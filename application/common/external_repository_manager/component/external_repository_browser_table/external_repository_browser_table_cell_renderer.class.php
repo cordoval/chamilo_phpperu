@@ -27,20 +27,19 @@ class ExternalRepositoryBrowserTableCellRenderer extends DefaultExternalReposito
 
     // Inherited
     function render_cell($column, $external_object)
-
-    {//$html[] = '<h3>' . Utilities ::truncate_string($object->get_title(), 25) . '</h3>';
+    {
         if ($column === ExternalRepositoryBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($external_object);
         }
 
-                switch ($column->get_name())
-                {
-                    case ExternalRepositoryObject :: PROPERTY_TITLE :
-                        $title = parent :: render_cell($column, $external_object);
-                        $title_short = Utilities :: truncate_string($title, 50, false);
-                        return '<a href="' . htmlentities($this->browser->get_external_repository_object_viewing_url($external_object)) . '" title="' . $title . '">' . $title_short . '</a>';
-                }
+        switch ($column->get_name())
+        {
+            case ExternalRepositoryObject :: PROPERTY_TITLE :
+                $title = parent :: render_cell($column, $external_object);
+                $title_short = Utilities :: truncate_string($title, 50, false);
+                return '<a href="' . htmlentities($this->browser->get_external_repository_object_viewing_url($external_object)) . '" title="' . $title . '">' . $title_short . '</a>';
+        }
         return parent :: render_cell($column, $external_object);
     }
 

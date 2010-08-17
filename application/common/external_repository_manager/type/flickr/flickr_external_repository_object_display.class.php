@@ -11,7 +11,7 @@ class FlickrExternalRepositoryObjectDisplay extends ExternalRepositoryObjectDisp
         $properties = parent :: get_display_properties();
         $properties[Translation :: get('AvailableSizes')] = $object->get_available_sizes_string();
         $properties[Translation :: get('Tags')] = $object->get_tags_string();
-        $properties[Translation :: get('License')] = $object->get_license_string();
+        $properties[Translation :: get('License')] = $object->get_license_icon();
 
         return $properties;
     }

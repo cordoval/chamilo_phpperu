@@ -51,7 +51,7 @@ class ExternalRepositoryBrowserComponent extends ExternalRepositoryComponent
         $html = array();
         if ($this->menu->count_menu_items() > 0)
         {
-            $html[] = '<div style=" width: 20%; overflow: auto; float: left">';
+            $html[] = '<div style=" width: 20%; overflow: auto; float: left;">';
             $html[] = $this->menu->render_as_tree();
             $html[] = '</div>';
         }
@@ -80,7 +80,7 @@ class ExternalRepositoryBrowserComponent extends ExternalRepositoryComponent
         }
         if ($this->menu->count_menu_items() > 0)
         {
-            $html[] = '<div style=" width: 80%; overflow: auto; float: center">';
+            $html[] = '<div style=" width: 80%; overflow: auto; float: left;">';
         }
         
         $renderer = ExternalRepositoryObjectRenderer :: factory($this->get_parent()->get_renderer(), $this);

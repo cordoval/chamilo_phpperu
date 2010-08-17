@@ -11,6 +11,7 @@ class GoogleDocsExternalRepositoryObjectDisplay extends ExternalRepositoryObject
         $properties = parent :: get_display_properties();
         $properties[Translation :: get('LastViewed')] = DatetimeUtilities :: format_locale_date(null, $object->get_viewed());
         $properties[Translation :: get('LastModifiedBy')] = $object->get_modifier_id();
+        $properties[Translation :: get('SharedWith')] = $object->get_acl();
         
         return $properties;
     }

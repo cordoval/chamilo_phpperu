@@ -46,6 +46,13 @@ class Zend_Gdata_Docs_Query extends Zend_Gdata_Query
      * @var string
      */
     const DOCUMENTS_LIST_FEED_URI = 'http://docs.google.com/feeds/documents';
+    
+    /**
+     * The base URL for retrieving a folder's document list
+     *
+     * @var string
+     */
+    const DOCUMENTS_FOLDER_FEED_URI = 'http://docs.google.com/feeds/folders';
 
     /**
      * The generic base URL used by some inherited methods
@@ -71,6 +78,13 @@ class Zend_Gdata_Docs_Query extends Zend_Gdata_Query
      * @var string
      */
     protected $_projection = 'full';
+    
+    /**
+     * The document folder the query should be applied to.
+     *
+     * @var string
+     */
+    protected $_folder = null;
 
     /**
      * Constructs a new instance of a Zend_Gdata_Docs_Query object.
@@ -104,6 +118,17 @@ class Zend_Gdata_Docs_Query extends Zend_Gdata_Query
         $this->_visibility = $value;
         return $this;
     }
+    
+    /**
+     * Sets the folder for this query.
+     *
+     * @return Zend_Gdata_Docs_Query Provides a fluent interface
+     */
+    public function setFolder($value)
+    {
+        $this->_folder = $value;
+        return $this;
+    }
 
     /**
      * Gets the projection for this query.
@@ -123,6 +148,16 @@ class Zend_Gdata_Docs_Query extends Zend_Gdata_Query
     public function getVisibility()
     {
         return $this->_visibility;
+    }
+    
+    /**
+     * Gets the folder for this query.
+     *
+     * @return string folder
+     */
+    public function getFolder()
+    {
+        return $this->_folder;
     }
 
     /**
@@ -189,6 +224,37 @@ class Zend_Gdata_Docs_Query extends Zend_Gdata_Query
             return false;
         }
     }
+    
+    /**
+     * Sets the orderby attribute for this query. The orderby parameter is used
+     * to order the results.
+     *
+     * @param string $value
+     * @return Zend_Gdata_Docs_Query Provides a fluent interface
+     */
+    public function setOrderBy($value)
+    {
+        if ($value !== null) {
+            $this->_params['orderby'] = $value;
+        } else {
+            unset($this->_params['orderby']);
+        }
+        return $this;
+    }
+
+    /**
+     * Gets the orderby attribute for this query.
+     *
+     * @return string orderby
+     */
+    public function getOrderBy()
+    {
+        if (array_key_exists('orderby', $this->_params)) {
+            return $this->_params['orderby'];
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Gets the full query URL for this query.
@@ -197,7 +263,14 @@ class Zend_Gdata_Docs_Query extends Zend_Gdata_Query
      */
     public function getQueryUrl()
     {
-        $uri = $this->_defaultFeedUri;
+        if ($this->_folder !== null)
+        {
+            $uri = self :: DOCUMENTS_FOLDER_FEED_URI;
+        }
+        else
+        {
+            $uri = $this->_defaultFeedUri;
+        }
 
         if ($this->_visibility !== null) {
             $uri .= '/' . $this->_visibility;
@@ -213,6 +286,15 @@ class Zend_Gdata_Docs_Query extends Zend_Gdata_Query
             require_once 'Zend/Gdata/App/Exception.php';
             throw new Zend_Gdata_App_Exception(
                 'A projection must be provided for cell queries.');
+        }
+        
+        if ($this->_folder !== null)
+        {
+            $uri .= '/folder%3A' . $this->_folder;
+        }
+        
+        if ($this->getCategory() !== null) {
+            $uri .= '/-/' . $this->_category;
         }
 
         $uri .= $this->getQueryString();

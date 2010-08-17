@@ -11,7 +11,8 @@ class TableExternalRepositoryObjectRenderer extends ExternalRepositoryObjectRend
      */
     function as_html()
     {
-        $table = new ExternalRepositoryBrowserTable($this, $this->get_parameters(), $this->get_condition());
+        $external_repository_manager_type = $this->get_external_repository_browser()->get_repository_type();
+        $table = ExternalRepositoryBrowserTable :: factory($external_repository_manager_type, $this, $this->get_parameters(), $this->get_condition());
         return $table->as_html();
     }
 }
