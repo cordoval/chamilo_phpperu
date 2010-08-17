@@ -102,6 +102,11 @@ require_once 'Zend/Gdata/Geo/Extension/GeoRssWhere.php';
 require_once 'Zend/Gdata/App/Extension/Category.php';
 
 /**
+ * @see Zend_Gdata_Photos_Extension_License
+ */
+require_once 'Zend/Gdata/Photos/Extension/License.php';
+
+/**
  * Data model class for a Comment Entry.
  *
  * To transfer user entries to and from the servers, including
@@ -213,6 +218,13 @@ class Zend_Gdata_Photos_PhotoEntry extends Zend_Gdata_Media_Entry
     protected $_geoRssWhere = null;
 
     /**
+     * gphoto:license element
+     *
+     * @var Zend_Gdata_Photos_Extension_License
+     */
+    protected $_gphotoLicense = null;
+
+    /**
      * Create a new instance.
      *
      * @param DOMElement $element (optional) DOMElement from which this
@@ -279,6 +291,9 @@ class Zend_Gdata_Photos_PhotoEntry extends Zend_Gdata_Media_Entry
         }
         if ($this->_geoRssWhere !== null) {
             $element->appendChild($this->_geoRssWhere->getDOM($element->ownerDocument));
+        }
+        if ($this->_gphotoLicense !== null) {
+            $element->appendChild($this->_gphotoLicense->getDOM($element->ownerDocument));
         }
         return $element;
     }
@@ -358,6 +373,11 @@ class Zend_Gdata_Photos_PhotoEntry extends Zend_Gdata_Media_Entry
                 $geoRssWhere = new Zend_Gdata_Geo_Extension_GeoRssWhere();
                 $geoRssWhere->transferFromDOM($child);
                 $this->_geoRssWhere = $geoRssWhere;
+                break;
+            case $this->lookupNamespace('gphoto') . ':' . 'license';
+                $license = new Zend_Gdata_Photos_Extension_License();
+                $license->transferFromDOM($child);
+                $this->_gphotoLicense = $license;
                 break;
             default:
                 parent::takeChildFromDOM($child);
@@ -662,6 +682,29 @@ class Zend_Gdata_Photos_PhotoEntry extends Zend_Gdata_Media_Entry
     public function setGeoRssWhere($value)
     {
         $this->_geoRssWhere = $value;
+        return $this;
+    }
+
+    /**
+     * Get the value for this element's gphoto:license attribute.
+     *
+     * @see setGphotoLicense
+     * @return string The requested attribute.
+     */
+    public function getGphotoLicense()
+    {
+        return $this->_gphotoLicense;
+    }
+
+    /**
+     * Set the value for this element's gphoto:license attribute.
+     *
+     * @param string $value The desired value for this attribute.
+     * @return Zend_Gdata_Photos_Extension_License The element being modified.
+     */
+    public function setGphotoLicense($value)
+    {
+        $this->_gphotoLicense = $value;
         return $this;
     }
 
