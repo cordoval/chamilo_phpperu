@@ -156,6 +156,11 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     {
         return $this->count_objects(RightsTemplate :: get_table_name(), $condition);
     }
+    
+    function count_type_templates($condition = null)
+    {
+        return $this->count_objects(TypeTemplate :: get_table_name(), $condition);
+    }
 
     function update_location($location)
     {

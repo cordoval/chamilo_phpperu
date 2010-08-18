@@ -15,6 +15,7 @@ class TypeTemplateManager extends SubManager
     const ACTION_EDIT_TYPE_TEMPLATE = 'edit';
     const ACTION_DELETE_TYPE_TEMPLATES = 'delete';
     const ACTION_CREATE_TYPE_TEMPLATE = 'create';
+    const ACTION_CONFIGURE_TYPE_TEMPLATES = 'configure';
 
     function TypeTemplateManager($rights_manager)
     {
@@ -81,6 +82,11 @@ class TypeTemplateManager extends SubManager
     function retrieve_type_template($id)
     {
         return $this->get_parent()->retrieve_type_template($id);
+    }
+
+    function get_manage_type_template_rights_url($type_template)
+    {
+        return $this->get_url(array(self :: PARAM_TYPE_TEMPLATE_ACTION => self :: ACTION_CONFIGURE_TYPE_TEMPLATES, self :: PARAM_TYPE_TEMPLATE_ID => $type_template->get_id()));
     }
 }
 ?>
