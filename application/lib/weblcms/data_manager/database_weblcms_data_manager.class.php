@@ -741,6 +741,15 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $condition = new EqualityCondition(CourseModule :: PROPERTY_ID, $id);
         return $this->retrieve_object(CourseModule :: get_table_name(), $condition);
     }
+    
+    function retrieve_course_module_by_name($course_id, $course_module)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(CourseModule :: PROPERTY_COURSE_CODE, $course_id);
+    	$conditions[] = new EqualityCondition(CourseModule :: PROPERTY_NAME, $course_module);
+    	$condition = new AndCondition($conditions);
+    	return $this->retrieve_object(CourseModule :: get_table_name(), $condition);
+    }
 
     function retrieve_course_settings($id)
     {
@@ -960,7 +969,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $course->set_creation_date($now);
         $course->set_expiration_date($now);
         
-        return $this->create($course);
+        $succes = $this->create($course);
+        
+        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), 'root', $course->get_id(), 0, $course->get_id());
+        
+        return $succes;
     }
 
     function create_course_modules($course_modules, $course_code)
@@ -1000,7 +1013,12 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function create_course_module($course_module)
     {
-        return $this->create($course_module);
+    	$result = $this->create($course_module);
+    	
+    	$location = WeblcmsRights :: create_location_in_courses_subtree($course_module->get_name(), 'course_module', $course_module->get_id(), 
+    			    WeblcmsRights :: get_courses_subtree_root_id($course_module->get_course_code()), $course_module->get_course_code());
+    	
+    	return $result;
     }
 
     function create_course_settings($course_settings)
@@ -1086,7 +1104,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function create_course_all($course)
     {
-        return $this->create($course);
+        $succes = $this->create($course);
+        
+        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), 'root', $course->get_id(), 0, $course->get_id());
+        
+        return $succes;
     }
 
     function is_subscribed($course, User $user)
@@ -2518,7 +2540,22 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function create_content_object_publication_category($content_object_publication_category)
     {
-        return $this->create($content_object_publication_category);
+        $succes = $this->create($content_object_publication_category);
+        
+        if($content_object_publication_category->get_parent())
+        {
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('content_object_publication_category', $content_object_publication_category->get_parent(), $content_object_publication_category->get_course());
+        }
+        else
+        {
+        	$course_module_id = $this->retrieve_course_module_by_name($content_object_publication_category->get_course(), $content_object_publication_category->get_tool());
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('course_module', $course_module_id, $content_object_publication_category->get_course());
+        }
+ 
+        $location = WeblcmsRights :: create_location_in_courses_subtree($content_object_publication_category->get_name(), 'content_object_publication_category', $content_object_publication_category->get_id(), 
+    			    $parent, $content_object_publication_category->get_course()); dump($location);
+    			    
+    	return $succes;
     }
 
     function count_content_object_publication_categories($conditions = null)
