@@ -6,7 +6,7 @@
  */
 
 
-require_once Path :: get_application_path() . 'lib/group_manager/group_manager.class.php';
+require_once Path :: get_group_path() . 'lib/group_manager/group_manager.class.php';
 
 class GroupRights
 {
