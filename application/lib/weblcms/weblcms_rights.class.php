@@ -3,7 +3,7 @@
  * $Id: weblcms_rights.class.php 218 2009-11-13 14:21:26Z kariboe $
  * @package application.lib.weblcms
  */
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
+require_once Path :: get_group_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
 
 class WeblcmsRights
 {
