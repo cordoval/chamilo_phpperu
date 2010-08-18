@@ -14,14 +14,6 @@ class UserManagerEmailerComponent extends UserManager
     {
         $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
         
-	    if (!($this->get_user()->is_platform_admin()))
-        {
-            $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
-            $this->display_footer();
-            exit();
-        }
-        
         if(!is_array($ids))
         {
         	$ids = array($ids);
@@ -33,7 +25,10 @@ class UserManagerEmailerComponent extends UserManager
         	
 			foreach($ids as $id)
 			{
-	            $users[] = $this->retrieve_user($id);
+	            if(UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
+	            {
+					$users[] = $this->retrieve_user($id);
+	            }
 			}
 			
 			$manager = new EmailManager($this, $users);

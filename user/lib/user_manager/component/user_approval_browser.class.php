@@ -21,7 +21,7 @@ class UserManagerUserApprovalBrowserComponent extends UserManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserApproveBrowser')));
         $trail->add_help('user general');
 
-        if (! $this->get_user()->is_platform_admin())
+        if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER_BROWSER, UserRights :: TYPE_COMPONENT));
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));

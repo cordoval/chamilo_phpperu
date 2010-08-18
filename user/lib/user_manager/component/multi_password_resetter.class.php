@@ -14,7 +14,7 @@ class UserManagerMultiPasswordResetterComponent extends UserManager
     {
         $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
 
-        if (! $this->get_user()->is_platform_admin())
+        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, 0))
         {
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add_help('user general');

@@ -15,16 +15,6 @@ class UserManagerActiveChangerComponent extends UserManager
         $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
 		$active = Request :: get(UserManager :: PARAM_ACTIVE);
 
-	    if (! $this->get_user()->is_platform_admin())
-        {
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add_help('user general');
-            $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
-            $this->display_footer();
-            exit();
-        }
-
         if(!is_array($ids))
         {
         	$ids = array($ids);
@@ -36,7 +26,13 @@ class UserManagerActiveChangerComponent extends UserManager
 
 			foreach($ids as $id)
 			{
-	            $user = $this->retrieve_user($id);
+	            if(!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
+	            {
+	            	$failures++;
+	            	continue;	
+	            }
+	            
+				$user = $this->retrieve_user($id);
 	            $user->set_active($active);
 
 	            if ($user->update())
