@@ -46,19 +46,22 @@ class UserApprovalBrowserTableCellRenderer extends DefaultUserTableCellRenderer
     {
         $toolbar = new Toolbar();
         
-		$toolbar->add_item(new ToolbarItem(
-       		Translation :: get('Approve'),
-        	Theme :: get_common_image_path().'action_activate.png', 
-			 $this->browser->get_approve_user_url($user),
-		 	ToolbarItem :: DISPLAY_ICON
-		));
-			
-		$toolbar->add_item(new ToolbarItem(
-       		Translation :: get('Deny'),
-        	Theme :: get_common_image_path().'action_deinstall.png', 
-			$this->browser->get_deny_user_url($user),
-			ToolbarItem :: DISPLAY_ICON
-		));
+        if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER, UserRights :: TYPE_COMPONENT));
+        {
+	        $toolbar->add_item(new ToolbarItem(
+	       		Translation :: get('Approve'),
+	        	Theme :: get_common_image_path().'action_activate.png', 
+				 $this->browser->get_approve_user_url($user),
+			 	ToolbarItem :: DISPLAY_ICON
+			));
+				
+			$toolbar->add_item(new ToolbarItem(
+	       		Translation :: get('Deny'),
+	        	Theme :: get_common_image_path().'action_deinstall.png', 
+				$this->browser->get_deny_user_url($user),
+				ToolbarItem :: DISPLAY_ICON
+			));
+        }
         
         return $toolbar->as_html();
     }

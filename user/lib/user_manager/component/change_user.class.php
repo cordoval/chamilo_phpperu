@@ -15,7 +15,15 @@ class UserManagerChangeUserComponent extends UserManager
         $id = Request :: get(UserManager :: PARAM_USER_USER_ID);
         if ($id)
         {
-            $success = true;
+        	if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
+		    {
+		      	$this->display_header();
+		        Display :: error_message(Translation :: get("NotAllowed"));
+		        $this->display_footer();
+		        exit();
+		    }
+		    
+        	$success = true;
             $_SESSION['_uid'] = $id;
             $_SESSION['_as_admin'] = $this->get_user_id();
             header('Location: index.php');

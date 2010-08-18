@@ -20,15 +20,19 @@ class UserManagerQuotaComponent extends UserManager
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
         $trail->add_help('user general');
         
-        if (! $this->get_user()->is_platform_admin())
-        {
-            Display :: not_allowed();
-        }
         $id = Request :: get(UserManager :: PARAM_USER_USER_ID);
+        
         if ($id)
         {
+	        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
+	        {
+	        	$this->display_header();
+	            Display :: error_message(Translation :: get("NotAllowed"));
+	            $this->display_footer();
+	            exit();
+	        }
             
-            $user = $this->retrieve_user($id);
+        	$user = $this->retrieve_user($id);
             $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_DETAIL, UserManager :: PARAM_USER_USER_ID => $id)), Translation :: get('DetailsOf') . ': ' . $user->get_fullname()));
             //$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)), $user->get_fullname()));
             

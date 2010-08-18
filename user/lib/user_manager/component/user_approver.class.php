@@ -17,7 +17,8 @@ class UserManagerUserApproverComponent extends UserManager
     {
         $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
         $choice = Request :: get(self :: PARAM_CHOICE);
-        if (! $this->get_user()->is_platform_admin())
+        
+        if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER, UserRights :: TYPE_COMPONENT));
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));

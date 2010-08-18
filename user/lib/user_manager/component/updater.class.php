@@ -22,7 +22,15 @@ class UserManagerUpdaterComponent extends UserManager
         $id = Request :: get(UserManager :: PARAM_USER_USER_ID);
         if ($id)
         {
-            $user = $this->retrieve_user($id);
+	        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $id))
+		    {
+		      	$this->display_header();
+		        Display :: error_message(Translation :: get("NotAllowed"));
+		        $this->display_footer();
+		        exit();
+		    }
+	    
+        	$user = $this->retrieve_user($id);
             
             $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_DETAIL, UserManager :: PARAM_USER_USER_ID => $id)), Translation :: get('DetailsOf') . ': ' . $user->get_fullname()));
             

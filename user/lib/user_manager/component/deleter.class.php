@@ -14,16 +14,6 @@ class UserManagerDeleterComponent extends UserManager
     {
         $ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
         
-	    if (! $this->get_user()->is_platform_admin())
-        {
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add_help('user general');
-            $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
-            $this->display_footer();
-            exit();
-        }
-        
         if(!is_array($ids))
         {
         	$ids = array($ids);
@@ -37,9 +27,10 @@ class UserManagerDeleterComponent extends UserManager
 			{
 	            $user = $this->retrieve_user($id);
 	            
-	            if (!UserDataManager :: get_instance()->user_deletion_allowed($user))
+				if( !UserRights :: is_allowed_in_users_subtree(UserRights :: DELETE_RIGHT, $id) || !UserDataManager :: user_deletion_allowed($user) )
 	            {
-	                continue;
+	                $failures++;
+	            	continue;
 	            }
 	            
 	            if ($user->delete())

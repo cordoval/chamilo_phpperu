@@ -33,6 +33,14 @@ class UserManagerQuotaViewerComponent extends UserManager
         else
             $this->selected_user = UserDataManager :: get_instance()->retrieve_user($selected_user_id);
 
+        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $this->selected_user->get_id()))
+        {
+        	$this->display_header();
+            Display :: error_message(Translation :: get("NotAllowed"));
+            $this->display_footer();
+            exit();
+        }
+            
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users')));
         $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));

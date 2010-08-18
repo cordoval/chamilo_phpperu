@@ -20,7 +20,7 @@ class UserManagerCreatorComponent extends UserManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreate')));
         $trail->add_help('user general');
         
-        if (isset($user_id) && ! $this->get_user()->is_platform_admin())
+        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: ADD_RIGHT, 0))
         {
             $this->display_header();
             Display :: warning_message(Translation :: get('AlreadyRegistered'));

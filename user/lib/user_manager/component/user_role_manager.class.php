@@ -19,6 +19,15 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager
         $trail->add_help('user general');
         
         $user_id = Request :: get(UserManager :: PARAM_USER_USER_ID);
+        
+    	if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user_id))
+	    {
+	      	$this->display_header();
+	        Display :: error_message(Translation :: get("NotAllowed"));
+	        $this->display_footer();
+	        exit();
+	    }
+        
         if (! $user_id)
         {
             $this->display_header();
