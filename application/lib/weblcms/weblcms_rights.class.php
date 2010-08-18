@@ -47,29 +47,29 @@ class WeblcmsRights
         return RightsUtilities :: get_root(WeblcmsManager :: APPLICATION_NAME);
     }
     
-	static function create_location_in_courses_subtree($name, $type, $identifier, $parent)
+	static function create_location_in_courses_subtree($name, $type, $identifier, $parent, $tree_identifier = 0)
     {
-    	return RightsUtilities :: create_location($name, WeblcmsManager :: APPLICATION_NAME, $type, $identifier, 0, $parent, 0, 0, 'courses_tree');
+    	return RightsUtilities :: create_location($name, WeblcmsManager :: APPLICATION_NAME, $type, $identifier, 1, $parent, 0, $tree_identifier, 'courses_tree');
     }
     
-    static function get_courses_subtree_root()
+    static function get_courses_subtree_root($tree_identifier = 0)
     {
-    	return RightsUtilities :: get_root(WeblcmsManager :: APPLICATION_NAME, 'courses_tree');
+    	return RightsUtilities :: get_root(WeblcmsManager :: APPLICATION_NAME, 'courses_tree', $tree_identifier);
     }
     
-	static function get_courses_subtree_root_id()
+	static function get_courses_subtree_root_id($tree_identifier = 0)
     {
-    	return RightsUtilities :: get_root_id(WeblcmsManager :: APPLICATION_NAME, 'courses_tree');
+    	return RightsUtilities :: get_root_id(WeblcmsManager :: APPLICATION_NAME, 'courses_tree', $tree_identifier);
     }
     
-    static function get_location_id_by_identifier_from_courses_subtree($type, $identifier)
+    static function get_location_id_by_identifier_from_courses_subtree($type, $identifier, $tree_identifier = 0)
     {
-    	return RightsUtilities :: get_location_id_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $identifier, 0, 'courses_tree');
+    	return RightsUtilities :: get_location_id_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $tree_identifier, 0, 'courses_tree');
     }
     
-	static function is_allowed_in_courses_subtree($right, $location, $type)
+	static function is_allowed_in_courses_subtree($right, $location, $type, $tree_identifier = 0)
     {
-    	 return RightsUtilities :: is_allowed($right, $location, $type, WeblcmsManager :: APPLICATION_NAME, null, 0, 'courses_tree');
+    	 return RightsUtilities :: is_allowed($right, $location, $type, WeblcmsManager :: APPLICATION_NAME, null, $tree_identifier, 'courses_tree');
     }
 }
 ?>
