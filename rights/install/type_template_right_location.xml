@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="type_template_right_location">
+	<properties>
+		<property name="type_template_id" type="integer" unsigned="1" notnull="1" />
+		<property name="right_id" type="integer" unsigned="1" notnull="1" />
+		<property name="application" type="text" length="30" fixed="true" notnull="1" />
+		<property name="tree_type" type="text" length="20" fixed="true" notnull="1" />
+		<property name="type" type="text" length="20" fixed="true" notnull="1" />
+		<property name="value" type="integer" length="1" unsigned="1" notnull="1" />
+	</properties>
+	<index name="type_template_right_location" type="primary">
+		<indexproperty name="type_template_id" />
+		<indexproperty name="right_id" />
+		<indexproperty name="tree_type" />
+		<indexproperty name="type" />
+		<indexproperty name="application" />
+	</index>
+	<index name="type_template_id">
+		<indexproperty name="type_template_id" />
+	</index>
+	<index name="right_id">
+		<indexproperty name="right_id" />
+	</index>
+	<index name="tree_type">
+		<indexproperty name="tree_type" />
+	</index>
+	<index name="type">
+		<indexproperty name="type" />
+	</index>
+	<index name="application">
+		<indexproperty name="application" />
+	</index>
+</object>

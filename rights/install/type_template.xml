@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="type_template">
+	<properties>
+		<property name="id" type="integer" unsigned="1" notnull="1" autoincrement="true" />
+		<property name="name" type="text" length="250" fixed="true" unsigned="1" notnull="1" />
+		<property name="description" type="text" />
+	</properties>
+</object>
