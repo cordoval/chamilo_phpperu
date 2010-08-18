@@ -3,11 +3,11 @@
  * @package rights.lib
  * @author Hans de Bisschop
  */
-class RightsTypeTemplateRightLocation extends DataClass
+class TypeTemplateRightLocation extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const PROPERTY_RIGHT_ID = 'right_id';
-    const PROPERTY_RIGHTS_TYPE_TEMPLATE_ID = 'rights_type_template_id';
+    const PROPERTY_TYPE_TEMPLATE_ID = 'type_template_id';
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_TREE_TYPE = 'tree_type';
     const PROPERTY_TYPE = 'type';
@@ -19,7 +19,7 @@ class RightsTypeTemplateRightLocation extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_RIGHT_ID, self :: PROPERTY_RIGHTS_TYPE_TEMPLATE_ID, self :: PROPERTY_APPLICATION, self :: PROPERTY_TREE_TYPE, self :: PROPERTY_TYPE, self :: PROPERTY_VALUE);
+        return array(self :: PROPERTY_RIGHT_ID, self :: PROPERTY_TYPE_TEMPLATE_ID, self :: PROPERTY_APPLICATION, self :: PROPERTY_TREE_TYPE, self :: PROPERTY_TYPE, self :: PROPERTY_VALUE);
     }
 
     /**
@@ -40,14 +40,14 @@ class RightsTypeTemplateRightLocation extends DataClass
         $this->set_default_property(self :: PROPERTY_RIGHT_ID, $right_id);
     }
 
-    function get_rights_type_template_id()
+    function get_type_template_id()
     {
-        return $this->get_default_property(self :: PROPERTY_RIGHTS_TYPE_TEMPLATE_ID);
+        return $this->get_default_property(self :: PROPERTY_TYPE_TEMPLATE_ID);
     }
 
-    function set_rights_type_template_id($rights_type_template_id)
+    function set_type_template_id($type_template_id)
     {
-        $this->set_default_property(self :: PROPERTY_RIGHTS_TYPE_TEMPLATE_ID, $rights_type_template_id);
+        $this->set_default_property(self :: PROPERTY_TYPE_TEMPLATE_ID, $type_template_id);
     }
 
     function get_application()

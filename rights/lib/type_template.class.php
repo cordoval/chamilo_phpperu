@@ -5,7 +5,7 @@
  * @author Hans de Bisschop
  */
 
-class RightsTypeTemplate extends DataClass
+class TypeTemplate extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const PROPERTY_NAME = 'name';

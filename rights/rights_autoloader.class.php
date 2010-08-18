@@ -30,7 +30,8 @@ class RightsAutoloader
 	static function check_for_general_files($classname)
 	{
 		$list = array('group_right_location', 'location_menu', 'location_right_menu', 'location', 'right', 'rights_data_manager',
-					  'rights_template_right_location', 'rights_template', 'rights_utilities', 'user_right_location');
+					  'rights_template_right_location', 'rights_template', 'rights_utilities', 'user_right_location',
+					  'type_template', 'type_template_right_location');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
@@ -66,6 +67,7 @@ class RightsAutoloader
 					  'group_right_manager_component' => 'group_right_manager/group_right_manager_component.class.php',
 					  'location_manager' => 'location_manager/location_manager.class.php',
 					  'location_manager_component' => 'location_manager/location_manager_component.class.php',
+					  'type_template_manager' => 'type_template_manager/type_template_manager.class.php',
 					  'rights_template_manager' => 'rights_template_manager/rights_template_manager.class.php',
 					  'rights_template_manager_component' => 'rights_template_manager/rights_template_manager_component.class.php',
 					  'user_right_manager' => 'user_right_manager/user_right_manager.class.php',
