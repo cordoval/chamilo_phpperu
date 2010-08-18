@@ -64,7 +64,7 @@ class WeblcmsRights
     
     static function get_location_id_by_identifier_from_courses_subtree($type, $identifier, $tree_identifier = 0)
     {
-    	return RightsUtilities :: get_location_id_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $tree_identifier, 0, 'courses_tree');
+    	return RightsUtilities :: get_location_id_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $identifier, $tree_identifier, 'courses_tree');
     }
     
 	static function is_allowed_in_courses_subtree($right, $location, $type, $tree_identifier = 0)
