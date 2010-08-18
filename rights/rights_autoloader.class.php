@@ -46,7 +46,7 @@ class RightsAutoloader
 
 	static function check_for_form_files($classname)
 	{
-		$list = array('right_request_form', 'rights_template_form');
+		$list = array('right_request_form', 'rights_template_form', 'type_template_form');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
