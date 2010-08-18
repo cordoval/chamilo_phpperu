@@ -986,6 +986,17 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         
         $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), 'root', $course->get_id(), 0, $course->get_id());
         
+        if($course->get_category())
+        {
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('course_category', $course->get_category());
+        }
+        else
+        {
+        	$parent = WeblcmsRights :: get_courses_subtree_root_id();
+        }
+        
+        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), 'course', $course->get_id(), $parent, 0);
+        
         return $succes;
     }
 
