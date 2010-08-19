@@ -16,6 +16,7 @@ class RightsManager extends CoreApplication
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_COMPONENT_ACTION = 'action';
     
+    const ACTION_MANAGE_TYPE_TEMPLATES = 'type_template';
     const ACTION_MANAGE_RIGHTS_TEMPLATES = 'template';
     const ACTION_MANAGE_USER_RIGHTS = 'user';
     const ACTION_MANAGE_GROUP_RIGHTS = 'group';
@@ -52,6 +53,9 @@ class RightsManager extends CoreApplication
         $component = null;
         switch ($action)
         {
+            case self :: ACTION_MANAGE_TYPE_TEMPLATES :
+                $component = $this->create_component('TypeTemplater');
+                break;
             case self :: ACTION_MANAGE_RIGHTS_TEMPLATES :
                 $component = $this->create_component('Templater');
                 break;
@@ -78,10 +82,20 @@ class RightsManager extends CoreApplication
     {
         return RightsDataManager :: get_instance()->retrieve_rights_templates($condition, $offset, $count, $order_property);
     }
+    
+    function retrieve_type_templates($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+        return RightsDataManager :: get_instance()->retrieve_type_templates($condition, $offset, $count, $order_property);
+    }
 
     function count_rights_templates($condition = null)
     {
         return RightsDataManager :: get_instance()->count_rights_templates($condition);
+    }
+    
+    function count_type_templates($condition = null)
+    {
+        return RightsDataManager :: get_instance()->count_type_templates($condition);
     }
 
     function count_locations($condition = null)
@@ -108,6 +122,11 @@ class RightsManager extends CoreApplication
     {
         return RightsDataManager :: get_instance()->retrieve_rights_template($id);
     }
+    
+    function retrieve_type_template($id)
+    {
+        return RightsDataManager :: get_instance()->retrieve_type_template($id);
+    }
 
     function retrieve_location($id)
     {
@@ -123,6 +142,7 @@ class RightsManager extends CoreApplication
     {
         $links = array();
         $links[] = new DynamicAction(Translation :: get('Locations'), Translation :: get('LocationsDescription'), Theme :: get_image_path() . 'browse_location.png', $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS)));
+        $links[] = new DynamicAction(Translation :: get('TypeTemplates'), Translation :: get('TypeTemplatesDescription'), Theme :: get_image_path() . 'browse_template.png', $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_TYPE_TEMPLATES)));
         $links[] = new DynamicAction(Translation :: get('RightsTemplates'), Translation :: get('RightsTemplatesDescription'), Theme :: get_image_path() . 'browse_template.png', $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)));
         $links[] = new DynamicAction(Translation :: get('RightsTemplatePermissions'), Translation :: get('RightsTemplatePermissionsDescription'), Theme :: get_image_path() . 'browse_permission_template.png', $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_LOCATION_RIGHTS_TEMPLATES)));
         $links[] = new DynamicAction(Translation :: get('UserPermissions'), Translation :: get('UserPermissionsDescription'), Theme :: get_image_path() . 'browse_permission_user.png', $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_LOCATION_USER_RIGHTS)));

@@ -23,7 +23,16 @@ class UserInstaller extends Installer
      */
     function install_extra()
     {
-        if (! $this->create_anonymous_user())
+    	if (!UserRights :: create_user_subtree_root_location())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('AnonymousAccountCreated'));
+        }
+        
+    	if (! $this->create_anonymous_user())
         {
             return false;
         }

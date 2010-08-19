@@ -22,7 +22,7 @@ class UserManagerAdminUserBrowserComponent extends UserManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserList')));
         $trail->add_help('user general');
 
-        if (! $this->get_user()->is_platform_admin())
+        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: VIEW_RIGHT, 0))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
@@ -129,7 +129,11 @@ class UserManagerAdminUserBrowserComponent extends UserManager
 
         $action_bar->set_search_url($this->get_url());
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        if(UserRights :: is_allowed_in_users_subtree(UserRights :: ADD_RIGHT, 0))
+        {
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));	
+        }
+        
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
     }

@@ -29,6 +29,7 @@ class UserManagerResetPasswordComponent extends UserManager
         {
             Display :: not_allowed();
         }
+        
         if (isset($user_id))
         {
             $this->display_header();
@@ -36,6 +37,7 @@ class UserManagerResetPasswordComponent extends UserManager
             $this->display_footer();
             exit();
         }
+        
         $this->display_header();
         $request_key = Request :: get(self :: PARAM_RESET_KEY);
         $request_user_id = Request :: get(User :: PROPERTY_ID);

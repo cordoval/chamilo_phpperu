@@ -38,6 +38,7 @@ class UserManager extends CoreApplication
     const ACTION_ACTIVATE = 'activate';
     const ACTION_DEACTIVATE = 'deactivate';
     const ACTION_RESET_PASSWORD_MULTI = 'reset_pass_multi';
+    const ACTION_EDIT_RIGHTS = 'edit_rights';
 
     const ACTION_VIEW_BUDDYLIST = 'buddy_view';
     const ACTION_CREATE_BUDDYLIST_CATEGORY = 'buddy_create_category';
@@ -256,6 +257,9 @@ class UserManager extends CoreApplication
                 break;
             case self :: ACTION_REGISTER_INVITED_USER:
             	$component = $this->create_component('Inviter');
+                break;
+            case self :: ACTION_EDIT_RIGHTS:
+            	$component = $this->create_component('RightsEditor');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_USERS);

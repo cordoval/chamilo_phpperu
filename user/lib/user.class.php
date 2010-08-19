@@ -582,7 +582,27 @@ class User extends DataClass
             $userquota->create();
         }
 
+        if(!UserRights :: create_location_in_users_subtree($this->get_fullname(), $this->get_id(), UserRights :: get_users_subtree_root_id()))
+        {
+        	$this->delete();
+        	return false;
+        }
+        
         return $succes;
+    }
+    
+    function delete()
+    {
+    	$location = UserRights :: get_location_by_identifier_from_users_subtree($this->get_id());
+    	if($location)
+    	{
+    		if(!$location->remove())
+    		{
+        		return false;
+    		}
+        }
+        
+        return parent :: delete();
     }
 
     static function get_table_name()

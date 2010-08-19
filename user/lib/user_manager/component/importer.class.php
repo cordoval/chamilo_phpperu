@@ -19,7 +19,7 @@ class UserManagerImporterComponent extends UserManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ImportUsers')));
         $trail->add_help('user general');
         
-        if (! $this->get_user()->is_platform_admin())
+        if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, 0))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
