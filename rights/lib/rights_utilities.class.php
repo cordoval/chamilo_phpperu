@@ -485,8 +485,15 @@ class RightsUtilities
 
             if ($rights_template_right_location)
             {
-                $rights_template_right_location->invert();
-                return $rights_template_right_location->update();
+                if ($rights_template_right_location->is_enabled())
+                {
+                    return $rights_template_right_location->delete();
+                }
+                else
+                {
+                    $rights_template_right_location->invert();
+                    return $rights_template_right_location->update();
+                }
             }
             else
             {
@@ -513,8 +520,15 @@ class RightsUtilities
 
             if ($user_right_location)
             {
-                $user_right_location->invert();
-                return $user_right_location->update();
+                if ($user_right_location->is_enabled())
+                {
+                    return $user_right_location->delete();
+                }
+                else
+                {
+                    $user_right_location->invert();
+                    return $user_right_location->update();
+                }
             }
             else
             {
@@ -541,8 +555,15 @@ class RightsUtilities
 
             if ($group_right_location)
             {
-                $group_right_location->invert();
-                return $group_right_location->update();
+                if ($group_right_location->is_enabled())
+                {
+                    return $group_right_location->delete();
+                }
+                else
+                {
+                    $group_right_location->invert();
+                    return $group_right_location->update();
+                }
             }
             else
             {
@@ -598,17 +619,31 @@ class RightsUtilities
 
             if ($user_right_location)
             {
-                $user_right_location->set_value($value);
-                return $user_right_location->update();
+                if ($value == true)
+                {
+                    $user_right_location->set_value($value);
+                    return $user_right_location->update();
+                }
+                else
+                {
+                    return $user_right_location->delete();
+                }
             }
             else
             {
-                $user_right_location = new UserRightLocation();
-                $user_right_location->set_location_id($location);
-                $user_right_location->set_right_id($right);
-                $user_right_location->set_user_id($user);
-                $user_right_location->set_value($value);
-                return $user_right_location->create();
+                if ($value == true)
+                {
+                    $user_right_location = new UserRightLocation();
+                    $user_right_location->set_location_id($location);
+                    $user_right_location->set_right_id($right);
+                    $user_right_location->set_user_id($user);
+                    $user_right_location->set_value($value);
+                    return $user_right_location->create();
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
         else
@@ -626,17 +661,31 @@ class RightsUtilities
 
             if ($group_right_location)
             {
-                $group_right_location->set_value($value);
-                return $group_right_location->update();
+                if ($value == true)
+                {
+                    $group_right_location->set_value($value);
+                    return $group_right_location->update();
+                }
+                else
+                {
+                    return $group_right_location->delete();
+                }
             }
             else
             {
-                $group_right_location = new GroupRightLocation();
-                $group_right_location->set_location_id($location);
-                $group_right_location->set_right_id($right);
-                $group_right_location->set_group_id($group);
-                $group_right_location->set_value($value);
-                return $group_right_location->create();
+                if ($value == true)
+                {
+                    $group_right_location = new GroupRightLocation();
+                    $group_right_location->set_location_id($location);
+                    $group_right_location->set_right_id($right);
+                    $group_right_location->set_group_id($group);
+                    $group_right_location->set_value($value);
+                    return $group_right_location->create();
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
         else
@@ -693,7 +742,7 @@ class RightsUtilities
         $rdm = RightsDataManager :: get_instance();
         $object = $rdm->retrieve_rights_template_right_location($right_id, $rights_template_id, $location_id);
 
-        if ($object)
+        if ($object instanceof RightsTemplateRightLocation)
         {
             return $object->get_value();
         }
@@ -708,7 +757,7 @@ class RightsUtilities
         $rdm = RightsDataManager :: get_instance();
         $object = $rdm->retrieve_user_right_location($right_id, $user_id, $location_id);
 
-        if ($object)
+        if ($object instanceof UserRightLocation)
         {
             return $object->get_value();
         }
@@ -723,7 +772,7 @@ class RightsUtilities
         $rdm = RightsDataManager :: get_instance();
         $object = $rdm->retrieve_group_right_location($right_id, $group_id, $location_id);
 
-        if ($object)
+        if ($object instanceof GroupRightLocation)
         {
             return $object->get_value();
         }
