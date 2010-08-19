@@ -420,9 +420,9 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
     
     function delete_type_template($type_template)
     {
-        // Delete all type_template_right_locations for that specific rights_template
-        $condition = new EqualityCondition(TypeTemplateRightLocation :: PROPERTY_TYPE_TEMPLATE_ID, $type_template->get_id());
-        $this->delete_type_template_right_locations($condition);
+//        // Delete all type_template_right_locations for that specific rights_template
+//        $condition = new EqualityCondition(TypeTemplateRightLocation :: PROPERTY_TYPE_TEMPLATE_ID, $type_template->get_id());
+//        $this->delete_type_template_right_locations($condition);
 
         // Delete the actual type_template
         $condition = new EqualityCondition(TypeTemplate :: PROPERTY_ID, $type_template->get_id());
