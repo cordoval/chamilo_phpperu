@@ -1,11 +1,13 @@
 <?php
+require_once dirname(__FILE__) ."/../../group_rights.class.php";
+
 /**
  * $Id: viewer.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
  */
-
 class GroupManagerViewerComponent extends GroupManager
 {
+
     private $group;
     private $ab;
     private $root_group;
@@ -26,7 +28,7 @@ class GroupManagerViewerComponent extends GroupManager
 
             $group = $this->group;
 
-            if (! $this->get_user()->is_platform_admin())
+            if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::VIEW_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
             {
                 Display :: not_allowed();
             }
@@ -67,9 +69,9 @@ class GroupManagerViewerComponent extends GroupManager
 
             echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_users.png);">';
             echo '<div class="title">' . Translation :: get('Users') . '</div>';
-            
+
             $parameters = $this->get_parameters();
-        	$parameters[GroupManager :: PARAM_GROUP_ID] = $id;
+            $parameters[GroupManager :: PARAM_GROUP_ID] = $id;
             $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
             $table = new GroupRelUserBrowserTable($this, $parameters, $this->get_condition());
             echo $table->as_html();
@@ -107,7 +109,6 @@ class GroupManagerViewerComponent extends GroupManager
                 $conditions[] = new OrCondition($userconditions);
             else
                 $conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, 0);
-
         }
 
         $condition = new AndCondition($conditions);
@@ -126,31 +127,41 @@ class GroupManagerViewerComponent extends GroupManager
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_group_editing_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if($this->group != $this->root_group)
+        if ($this->group != $this->root_group)
         {
-        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_manage_group_rights_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::SUBSCRIBE_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::EDIT_RIGHTS_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_group_edit_rights_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
         $condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
         $users = $this->retrieve_group_rel_users($condition);
         $visible = ($users->size() > 0);
 
-        if ($visible)
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::UNSUBSCRIBE_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
-            $toolbar_data[] = array('href' => $this->get_group_emptying_url($group), 'label' => Translation :: get('Truncate'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $this->get_group_emptying_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
-        else
-        {
-            $toolbar_data[] = array('label' => Translation :: get('TruncateNA'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_image_path() . 'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            if ($visible)
+            {
+                $toolbar_data[] = array('href' => $this->get_group_emptying_url($group), 'label' => Translation :: get('Truncate'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+
+                $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_image_path() . 'action_recycle_bin.png', $this->get_group_emptying_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            }
+            else
+            {
+                $toolbar_data[] = array('label' => Translation :: get('TruncateNA'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin_na.png', 'display' => Utilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+                $action_bar->add_tool_action(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_image_path() . 'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            }
         }
 
         return $action_bar;
     }
 
 }
+
 ?>

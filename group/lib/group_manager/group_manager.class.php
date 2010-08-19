@@ -32,6 +32,7 @@ class GroupManager extends CoreApplication
     const ACTION_SUBSCRIBE_USER_BROWSER = 'subscribe_browser';
     const ACTION_UNSUBSCRIBE_USER_FROM_GROUP = 'unsubscribe';
     const ACTION_MANAGE_RIGHTS_TEMPLATES = 'manage_group_rights_templates';
+    const ACTION_EDIT_RIGHTS = 'edit_group_rights';
     
     private $parameters;
     private $search_parameters;
@@ -90,6 +91,9 @@ class GroupManager extends CoreApplication
                 break;
             case self :: ACTION_IMPORT :
                 $component = $this->create_component('Importer');
+                break;
+            case self :: ACTION_EDIT_RIGHTS:
+                $component = $this->create_component('RightsEditor');
                 break;
             case self :: ACTION_IMPORT_GROUP_USERS :
                 $component = $this->create_component('GroupUserImporter');
@@ -312,6 +316,11 @@ class GroupManager extends CoreApplication
     function get_group_emptying_url($group)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TRUNCATE_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
+    }
+
+    function get_group_edit_rights_url($group)
+    {
+       return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_GROUP_ID => $group->get_id()));
     }
 
     function get_group_viewing_url($group)

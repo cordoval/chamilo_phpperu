@@ -125,11 +125,13 @@ class Dokeos185BlogComment extends Dokeos185CourseDataMigrationDataClass
      */
     function is_valid()
     {
-    	$blog_publication_id = $this->get_id_reference($this->get_blog_id(),  $this->get_database_name() . '.blog.publication');
-    	$complex_blog_post_id = $this->get_id_reference($this->get_post_id(),  $this->get_database_name() . '.blog_post.complex');
-    	
-    	if(!$this->get_blog_id() || !$this->get_post_id() || $this->get_task_id() || !($this->get_title() || $this->get_comment()) || !$this->get_date_creation() || !$blog_publication_id || !$complex_blog_post_id)
-    	{
+        $blog_publication_id = $this->get_id_reference($this->get_blog_id(), $this->get_database_name() . '.blog.publication');
+        $complex_blog_post_id = $this->get_id_reference($this->get_post_id(), $this->get_database_name() . '.blog_post.complex');
+        $new_user_id = $this->get_id_reference($this->get_author_id(), 'main_database.user');
+
+
+        if (!$new_user_id || !$this->get_blog_id() || !$this->get_post_id() || $this->get_task_id() || !($this->get_title() || $this->get_comment()) || !$this->get_date_creation() || !$blog_publication_id || !$complex_blog_post_id)
+        {
             $this->create_failed_element($this->get_comment_id());
             $this->set_message(Translation :: get('GeneralInvalidMessage', array('TYPE' => 'blog_comment', 'ID' => $this->get_comment_id())));
             return false;
@@ -143,7 +145,7 @@ class Dokeos185BlogComment extends Dokeos185CourseDataMigrationDataClass
     function convert_data()
     {
     	$course = $this->get_course();
-		$date = strtotime($this->get_date_creation());
+        $date = strtotime($this->get_date_creation());
 		
         $new_course_code = $this->get_id_reference($course->get_code(), 'main_database.course');
         $new_user_id = $this->get_id_reference($this->get_author_id(), 'main_database.user');

@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__) ."/../../group_rights.class.php";
+
 /**
  * $Id: browser.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
@@ -18,6 +20,14 @@ class GroupManagerBrowserComponent extends GroupManager
     private $action_bar;
     private $group;
     private $root_group;
+    private $edit_right;
+    private     $view_right;
+    private     $create_right;
+    private     $export_right;
+    private     $move_right;
+    private     $subscribe_right;
+    private     $unsubscribe_right;
+    private     $delete_right;
 
     /**
      * Runs this component and displays its output.
@@ -30,8 +40,19 @@ class GroupManagerBrowserComponent extends GroupManager
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupList')));
         $trail->add_help('group general');
+        
+        
+        $this->edit_right = GroupRights::is_allowed_in_groups_subtree(GroupRights::EDIT_RIGHT, $this->get_group());
+        $this->view_right = GroupRights::is_allowed_in_groups_subtree(GroupRights::VIEW_RIGHT, $this->get_group());
+        $this->create_right = GroupRights::is_allowed_in_groups_subtree(GroupRights::CREATE_RIGHT, $this->get_group());
+        $this->export_right = GroupRights::is_allowed_in_groups_subtree(GroupRights::EXPORT_RIGHT, $this->get_group());
+        $this->move_right = GroupRights::is_allowed_in_groups_subtree(GroupRights::MOVE_RIGHT, $this->get_group());
+        $this->subscribe_right = GroupRights::is_allowed_in_groups_subtree(GroupRights::SUBSCRIBE_RIGHT, $this->get_group());
+        $this->unsubscribe_right = GroupRights::is_allowed_in_groups_subtree(GroupRights::UNSUBSCRIBE_RIGHT, $this->get_group());
+        $this->delete_right = GroupRights::is_allowed_in_groups_subtree(GroupRights::DELETE_RIGHT, $this->get_group());
+        
 
-        if (! $this->get_user()->is_platform_admin())
+        if (!($this->edit_right || $this->view_right || $this->export_right || $this->subscribe_right || $this->unsubscribe_right || $this->delete_right || $this->move_right || $this->create_right))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
@@ -196,7 +217,12 @@ class GroupManagerBrowserComponent extends GroupManager
 
         $action_bar->set_search_url($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())));
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_group_url($this->get_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        if ($this->create_right)
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_group_url($this->get_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewRoot'), Theme :: get_common_image_path() . 'action_home.png', $this->get_group_viewing_url($this->get_root_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 

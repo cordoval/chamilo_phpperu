@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**
  * $Id: creator.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
@@ -18,7 +19,7 @@ class GroupManagerCreatorComponent extends GroupManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateGroup')));
         $trail->add_help('group general');
 
-        if (! $this->get_user()->is_platform_admin())
+        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::CREATE_RIGHT, Request::get(GroupManager::PARAM_GROUP_ID)))
         {
             $this->display_header($trail, false);
             Display :: warning_message(Translation :: get('NotAllowed'));

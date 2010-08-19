@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**
  * $Id: deleter.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
@@ -14,7 +15,7 @@ class GroupManagerDeleterComponent extends GroupManager
     {
         $user = $this->get_user();
 
-        if (! $user->is_platform_admin())
+        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::DELETE_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));

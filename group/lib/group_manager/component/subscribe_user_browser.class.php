@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__) ."/../../group_rights.class.php";
 /**
  * $Id: subscribe_user_browser.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
@@ -30,7 +31,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManager
 
         $trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group_id)), Translation :: get('AddUsers')));
 
-        if (! $this->get_user()->is_platform_admin())
+        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::SUBSCRIBE_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $this->display_header();
             Display :: error_message(Translation :: get('NotAllowed'));
