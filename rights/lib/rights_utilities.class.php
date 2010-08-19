@@ -460,9 +460,8 @@ class RightsUtilities
         }
         else
         {
-            // echo 'no location for that identifier ';
+            return 0;
         }
-        return null;
     }
 
     static function get_rights_legend()
@@ -489,7 +488,7 @@ class RightsUtilities
 
     static function invert_rights_template_right_location($right, $rights_template, $location)
     {
-        if (isset($rights_template) && isset($right) && isset($location))
+        if (!empty($rights_template) && !empty($right) && !empty($location))
         {
             $rdm = RightsDataManager :: get_instance();
             $rights_template_right_location = $rdm->retrieve_rights_template_right_location($right, $rights_template, $location);
@@ -524,7 +523,7 @@ class RightsUtilities
 
     static function invert_user_right_location($right, $user, $location)
     {
-        if (isset($user) && isset($right) && isset($location))
+        if (!empty($user) && !empty($right) && !empty($location))
         {
             $rdm = RightsDataManager :: get_instance();
             $user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
@@ -559,7 +558,7 @@ class RightsUtilities
 
     static function invert_group_right_location($right, $group, $location)
     {
-        if (isset($group) && isset($right) && isset($location))
+        if (!empty($group) && !empty($right) && !empty($location))
         {
             $rdm = RightsDataManager :: get_instance();
             $group_right_location = $rdm->retrieve_group_right_location($right, $group, $location);
@@ -594,7 +593,7 @@ class RightsUtilities
 
     static function set_rights_template_right_location_value($right, $rights_template, $location, $value)
     {
-        if (isset($rights_template) && isset($right) && isset($location) && isset($value))
+        if (!empty($rights_template) && !empty($right) && !empty($location) && isset($value))
         {
             $rdm = RightsDataManager :: get_instance();
             $rights_template_right_location = $rdm->retrieve_rights_template_right_location($right, $rights_template, $location);
@@ -622,7 +621,7 @@ class RightsUtilities
 
     static function set_user_right_location_value($right, $user, $location, $value)
     {
-        if (isset($user) && isset($right) && isset($location) && isset($value))
+        if (!empty($user) && !empty($right) && !empty($location) && isset($value))
         {
             $rdm = RightsDataManager :: get_instance();
             $user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
@@ -664,7 +663,7 @@ class RightsUtilities
 
     static function set_group_right_location_value($right, $group, $location, $value)
     {
-        if (isset($group) && isset($right) && isset($location) && isset($value))
+        if (!empty($group) && !empty($right) && !empty($location) && isset($value))
         {
             $rdm = RightsDataManager :: get_instance();
             $group_right_location = $rdm->retrieve_group_right_location($right, $group, $location);
