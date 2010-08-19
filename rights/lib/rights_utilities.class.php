@@ -46,19 +46,26 @@ class RightsUtilities
     static function create_application_root_location($application)
     {
         $xml = self :: parse_locations_file($application);
-
-        $root = self :: create_location($xml['name'], $application, $xml['type'], $xml['identifier'], 0, 0, 0, 0, 'root', true);
-        if (! $root)
+        
+        if ($xml === false)
         {
-            return false;
+            return true;
         }
-
-        if (isset($xml['children']) && isset($xml['children']['location']) && count($xml['children']['location']) > 0)
+        else
         {
-            self :: parse_tree($application, $xml, $root->get_id());
+            $root = self :: create_location($xml['name'], $application, $xml['type'], $xml['identifier'], 0, 0, 0, 0, 'root', true);
+            if (! $root)
+            {
+                return false;
+            }
+    
+            if (isset($xml['children']) && isset($xml['children']['location']) && count($xml['children']['location']) > 0)
+            {
+                self :: parse_tree($application, $xml, $root->get_id());
+            }
+    
+            return true;
         }
-
-        return true;
     }
 
     static function create_subtree_root_location($application, $tree_identifier, $tree_type, $return_location = false)
@@ -91,9 +98,13 @@ class RightsUtilities
             {
                 $data = $unserializer->getUnserializedData();
             }
+            
+            return $data;
         }
-
-        return $data;
+        else
+        {
+            return false;
+        }
     }
 
     static function parse_tree($application, $xml, $parent)
@@ -613,7 +624,6 @@ class RightsUtilities
     {
         if (isset($user) && isset($right) && isset($location) && isset($value))
         {
-            //echo 'start<br />';
             $rdm = RightsDataManager :: get_instance();
             $user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
 
