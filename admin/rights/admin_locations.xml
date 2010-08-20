@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<location name="admin" type="root" identifier="0">
+<location name="admin" type="0" identifier="0">
 	<children>
 		<location name="System Announcements" type="admin_manager_component"
 			identifier="1" />

@@ -19,7 +19,7 @@ class GroupManagerCreatorComponent extends GroupManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateGroup')));
         $trail->add_help('group general');
 
-        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::CREATE_RIGHT, Request::get(GroupManager::PARAM_GROUP_ID)))
+        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_CREATE, Request::get(GroupManager::PARAM_GROUP_ID)))
         {
             $this->display_header($trail, false);
             Display :: warning_message(Translation :: get('NotAllowed'));

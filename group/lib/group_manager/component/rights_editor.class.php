@@ -38,8 +38,8 @@ class GroupManagerRightsEditorComponent extends GroupManager
     {
         $array = GroupRights :: get_available_rights();
 //        unset($array['ADD_RIGHT']);
-//        unset($array['EDIT_RIGHT']);
-//        unset($array['DELETE_RIGHT']);
+//        unset($array['RIGHT_EDIT']);
+//        unset($array['RIGHT_DELETE']);
 
         return $array;
     }

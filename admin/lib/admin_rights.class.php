@@ -4,37 +4,27 @@
  * $Id: admin_rights.class.php 184 2009-11-13 09:51:32Z vanpouckesven $
  * @package admin.lib
  */
-class AdminRights
+class AdminRights extends RightsUtilities
 {
-    const VIEW_RIGHT = '1';
-    const ADD_RIGHT = '2';
-    const EDIT_RIGHT = '3';
-    const DELETE_RIGHT = '4';
+    const RIGHT_VIEW = 1;
+    const RIGHT_ADD = 2;
+    const RIGHT_EDIT = 3;
+    const RIGHT_DELETE = 4;
 
     const LOCATION_SYSTEM_ANNOUNECEMENTS = 1;
     const LOCATION_SETTINGS = 2;
     const LOCATION_CATEGORY_MANAGER = 3;
 
-    function get_available_rights()
+    const TYPE_ROOT = 0;
+
+    static function get_available_rights()
     {
-        $reflect = new ReflectionClass('AdminRights');
-
-	    $rights = $reflect->getConstants();
-
-	    foreach($rights as $key => $right)
-		{
-			if(substr(strtolower($key), 0, 8) == 'location')
-			{
-				unset($rights[$key]);
-			}
-		}
-
-	    return $rights;
+        return parent :: get_available_rights(AdminManager :: APPLICATION_NAME);
     }
 
-    function is_allowed($right, $location = 0, $type = 'root')
+    static function is_allowed($right, $location = 0, $type = self :: TYPE_ROOT)
     {
-        return RightsUtilities :: is_allowed($right, $location, $type, 'admin');
+        return parent :: is_allowed($right, $location, $type, AdminManager :: APPLICATION_NAME);
     }
 }
 ?>

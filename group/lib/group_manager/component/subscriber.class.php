@@ -15,7 +15,7 @@ class GroupManagerSubscriberComponent extends GroupManager
     {
         $user = $this->get_user();
         $group_id = Request :: get(GroupManager :: PARAM_GROUP_ID);
-        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::SUBSCRIBE_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_SUBSCRIBE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));

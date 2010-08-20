@@ -276,7 +276,7 @@ class Group extends DataClass
     {
         $gdm = $this->get_data_manager();
         
-        if (! GroupRights :: is_allowed_in_groups_subtree(GroupRights :: CREATE_RIGHT, $new_parent_id))
+        if (! GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $new_parent_id))
         {
             return false;
         }

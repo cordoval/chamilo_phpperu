@@ -24,7 +24,7 @@ class PackageManagerBrowserComponent extends PackageManager
         //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('InstalledPackageList')));
         $trail->add_help('administration install');
         
-        if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
+        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));

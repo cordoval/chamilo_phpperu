@@ -28,7 +28,7 @@ class GroupManagerViewerComponent extends GroupManager
 
             $group = $this->group;
 
-            if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::VIEW_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+            if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_VIEW, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
             {
                 Display :: not_allowed();
             }
@@ -132,11 +132,11 @@ class GroupManagerViewerComponent extends GroupManager
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::SUBSCRIBE_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_SUBSCRIBE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::EDIT_RIGHTS_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EDIT_RIGHTS, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_group_edit_rights_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -144,7 +144,7 @@ class GroupManagerViewerComponent extends GroupManager
         $users = $this->retrieve_group_rel_users($condition);
         $visible = ($users->size() > 0);
 
-        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::UNSUBSCRIBE_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_UNSUBSCRIBE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             if ($visible)
             {
