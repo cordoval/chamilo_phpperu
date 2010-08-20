@@ -72,7 +72,7 @@ class AdminDataManager
     	return ($registration->get_status() == Registration :: STATUS_ACTIVE);
     }
 
-    function is_registered($name, $type = Registration :: TYPE_APPLICATION)
+    static function is_registered($name, $type = Registration :: TYPE_APPLICATION)
     {
     	$conditions = array();
     	$conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $name);
@@ -80,6 +80,16 @@ class AdminDataManager
     	$condition = new AndCondition($conditions);
 
     	return (self :: get_instance()->count_registrations($condition) > 0);
+    }
+    
+	static function get_registration($name, $type = Registration :: TYPE_APPLICATION)
+    {
+    	$conditions = array();
+    	$conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $name);
+    	$conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, $type);
+    	$condition = new AndCondition($conditions);
+
+    	return self :: get_instance()->retrieve_registrations($condition)->next_result();
     }
 
 }

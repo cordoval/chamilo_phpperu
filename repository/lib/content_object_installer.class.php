@@ -308,6 +308,13 @@ abstract class ContentObjectInstaller
         {
             return $this->installation_failed(Translation :: get('ContentObjectRegistrationFailed'));
         }
+        
+        $succes = RepositoryRights :: create_location_in_content_objects_subtree($this->get_content_object(), $content_object_registration->get_id(), RepositoryRights :: get_content_objects_subtree_root_id());
+        if(!$succes)
+        {
+        	return $this->installation_failed(Translation :: get('ContentObjectLocationRegistrationFailed'));
+        }
+        
         return true;
     }
 

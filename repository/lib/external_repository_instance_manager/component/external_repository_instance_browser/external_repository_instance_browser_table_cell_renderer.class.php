@@ -63,6 +63,8 @@ class ExternalRepositoryInstanceBrowserTableCellRenderer extends DefaultExternal
         
         $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_UPDATE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_DELETE_INSTANCE, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON, true));
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_url(array(ExternalRepositoryInstanceManager :: PARAM_INSTANCE_ACTION => ExternalRepositoryInstanceManager :: ACTION_MANAGE_INSTANCE_RIGHTS, ExternalRepositoryInstanceManager :: PARAM_INSTANCE => $external_repository->get_id())), ToolbarItem :: DISPLAY_ICON));
         //        $toolbar->add_items($this->browser->get_content_object_actions($external_repository));
         return $toolbar->as_html();
     }

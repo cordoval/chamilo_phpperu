@@ -397,6 +397,12 @@ class ExternalRepository extends RepositoryDataClass
             }
         }
         
+    	$succes = RepositoryRights :: create_location_in_external_repositories_subtree($this->get_title(), $this->get_id(), RepositoryRights :: get_external_repositories_subtree_root_id());
+        if(!$succes)
+        {
+            return false;
+        }
+        
         return true;
     }
 
@@ -418,6 +424,15 @@ class ExternalRepository extends RepositoryDataClass
                     return false;
                 }
             }
+        }
+        
+        $location = RepositoryRights :: get_location_by_identifier_from_external_repositories_subtree($this->get_id());
+        if($location)
+        {
+        	if(!$location->remove())
+        	{
+        		return false;
+        	}
         }
         
         return true;

@@ -19,6 +19,7 @@ class ExternalRepositoryInstanceManager extends SubManager
     const ACTION_UPDATE_INSTANCE = 'update';
     const ACTION_DELETE_INSTANCE = 'remove';
     const ACTION_CREATE_INSTANCE = 'create';
+    const ACTION_MANAGE_INSTANCE_RIGHTS = 'manage_rights';
 
     function ExternalRepositoryInstanceManager($repository_manager)
     {
@@ -55,6 +56,9 @@ class ExternalRepositoryInstanceManager extends SubManager
                 break;
             case self :: ACTION_DEACTIVATE_INSTANCE :
                 $component = $this->create_component('Deactivator');
+                break;
+            case self :: ACTION_MANAGE_INSTANCE_RIGHTS :
+                $component = $this->create_component('RightsEditor');
                 break;
             default :
                 $component = $this->create_component('Browser');

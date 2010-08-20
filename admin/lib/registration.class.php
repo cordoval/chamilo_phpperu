@@ -168,5 +168,22 @@ class Registration extends DataClass
             return true;
         }
     }
+    
+    function delete()
+    {
+    	if($this->get_type() == self :: TYPE_CONTENT_OBJECT)
+    	{
+	    	$location = RepositoryRights :: get_location_by_identifier_from_content_objects_subtree($this->get_id());
+	        if($location)
+	        {
+	        	if(!$location->remove())
+	        	{
+	        		return false;
+	        	}
+	        }	
+    	}
+    	
+    	return parent :: delete();
+    }
 }
 ?>

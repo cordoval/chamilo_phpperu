@@ -45,7 +45,25 @@ class RepositoryInstaller extends Installer
         //            }
         //        }
 
-
+		if (!RepositoryRights :: create_content_objects_subtree_root_location())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ContentObjectsSubtreeCreated'));
+        }
+        
+        if (!RepositoryRights :: create_external_repositories_subtree_root_location())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoriesSubtreeCreated'));
+        }
+        
+        
         if (! $this->add_metadata_catalogs())
         {
             return false;
@@ -184,6 +202,7 @@ class RepositoryInstaller extends Installer
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Flickr');
         }
+        
         return true;
     }
 }
