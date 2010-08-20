@@ -903,5 +903,20 @@ class RightsUtilities
             return array();
         }
     }
+    
+    static function get_allowed_locations($rights = array(), $application, $type, $user_id, $tree_identifier = null, $tree_type = null)
+    {
+    	/**
+    	 * Retrieve the locations from the application and the given type, optionally treeidentifier and tree type, and add them to an array
+    	 * For each of the locations, retrieve the parents and add them to the array (only if parent is unique)
+    	 * Retrieve all the user groups
+    	 * Retrieve al the user templates
+    	 * 
+    	 * Retrieve all the locations joined with the user location relation table and group location relation table and template location relation table where 
+    	 * the user, the rights, the groups, the templates and the given locations are in from the given type in the given tree
+    	 * 
+    	 *  return the identifiers of these locations
+    	 */
+    }
 }
 ?>
