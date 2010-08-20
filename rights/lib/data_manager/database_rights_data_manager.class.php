@@ -446,7 +446,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
 
     function retrieve_shared_content_objects_for_user($user_id, $rights)
     {
-        $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
+        $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, RepositoryRights :: TYPE_USER_CONTENT_OBJECT);
         $conditions[] = new SubSelectcondition(UserRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, Location :: get_table_name(), $subcondition);
         $conditions[] = new EqualityCondition(UserRightLocation :: PROPERTY_USER_ID, $user_id);
         $conditions[] = new InCondition(UserRightLocation :: PROPERTY_RIGHT_ID, $rights);
@@ -458,7 +458,7 @@ class DatabaseRightsDataManager extends Database implements RightsDataManagerInt
 
     function retrieve_shared_content_objects_for_groups($group_ids, $rights)
     {
-        $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, 'content_object');
+        $subcondition = new EqualityCondition(Location :: PROPERTY_TYPE, RepositoryRights :: TYPE_USER_CONTENT_OBJECT);
         $conditions[] = new SubSelectcondition(GroupRightLocation :: PROPERTY_LOCATION_ID, Location :: PROPERTY_ID, Location :: get_table_name(), $subcondition);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_GROUP_ID, $group_ids);
         $conditions[] = new InCondition(GroupRightLocation :: PROPERTY_RIGHT_ID, $rights);

@@ -42,10 +42,10 @@ class RepositoryCategory extends PlatformCategory
         }
         else
         {
-            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree('repository_category', $this->get_parent(), $user_id); 
+            $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $user_id); 
         }
         
-    	if (!RepositoryRights :: create_location_in_user_tree($this->get_name(), 'repository_category', $this->get_id(), $parent_id, $user_id))
+    	if (!RepositoryRights :: create_location_in_user_tree($this->get_name(), RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $parent_id, $user_id))
         {
             return false;
         }
@@ -60,7 +60,16 @@ class RepositoryCategory extends PlatformCategory
 
     function delete()
     {
-        return RepositoryDataManager :: get_instance()->delete_category($this);
+    	$location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
+		if($location)
+		{
+			if(!$location->remove())
+			{
+				return false;
+			}
+		}
+		
+    	return RepositoryDataManager :: get_instance()->delete_category($this);
     }
 
     static function get_table_name()

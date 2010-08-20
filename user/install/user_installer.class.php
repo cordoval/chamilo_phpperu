@@ -29,7 +29,7 @@ class UserInstaller extends Installer
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('AnonymousAccountCreated'));
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('UsersSubtreeCreated'));
         }
         
     	if (! $this->create_anonymous_user())
