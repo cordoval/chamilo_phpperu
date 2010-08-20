@@ -205,7 +205,7 @@ class SurveyContextRegistrationForm extends FormValidator
             $result = false;
         }
         
-        $this->create_files($type);
+        $this->create_files($type, $properties);
         
         dump($properties);
         
@@ -236,7 +236,7 @@ class SurveyContextRegistrationForm extends FormValidator
         parent :: setDefaults($defaults);
     }
 
-    function create_files($type)
+    function create_files($type, $properties)
     {
         
         $filename = $type;
@@ -248,14 +248,13 @@ class SurveyContextRegistrationForm extends FormValidator
         
         Filesystem :: create_dir($new_dir);
         
-       
+        $content = $this->get_class_file($type, $properties);
+        Filesystem :: write_to_file($new_dir . '/' . $type . '.class.php', $content);
         
-    //        $this->get_content($path);
-    //        
-    //        Filesystem :: file_send_for_download($path, true, $filename);
-    //        Filesystem :: remove($path);
-    
-
+        $content = $this->get_xml_file($type, $properties);
+        Filesystem :: write_to_file($new_dir . '/' . $type . '.xml', $content);
+   	
+        	
     }
 
     function get_class_file($type, $properties)
@@ -264,47 +263,87 @@ class SurveyContextRegistrationForm extends FormValidator
         $context_class = array();
         
         $context_class[] = '<?php';
-        $context_class[] = 'Path :: get_repository_path()' . 'lib/content_object/survey/.\'survey_context.class.php\');';
+        $context_class[] = 'require_once (Path :: get_repository_path()' . '\.\'lib/content_object/survey/survey_context.class.php\');';
         
-        $context_class[] = 'class SurveyDefaultContext extends SurveyContext';
+        $context_class[] = 'class ' . Utilities :: underscores_to_camelcase($type) . ' extends SurveyContext';
         $context_class[] = '{';
         
-        $context_class[] = '   const CLASS_NAME = __CLASS__;';
-        $context_class[] = '  const PROPERTY_DESCRIPTION = \'description\';';
-        $context_class[] = ' const PROPERTY_DEFAULT_KEY = \'NOCONTEXT\';';
+        $context_class[] = ' const CLASS_NAME = __CLASS__;';
+        $context_class[] = '';
         
-        $context_class[] = ' private $default_context;';
+        $additional_property_names = array();
+        $allowed_keys = array();
         
-        $context_class[] = '  static function get_additional_property_names()';
-        $context_class[] = '  {';
-        $context_class[] = ' return array(self :: PROPERTY_DESCRIPTION);';
-        $context_class[] = ' }';
+        foreach ($properties as $property => $is_key)
+        {
+            $context_class[] = ' const PROPERTY_' . strtoupper($property) . ' = \'' . strtolower($property) . '\';';
+            $additional_property_names[] = 'self :: PROPERTY_' . strtoupper($property);
+            if ($is_key)
+            {
+                $allowed_keys[] = 'self :: PROPERTY_' . strtoupper($property);
+            }
+        }
+        $context_class[] = '';
         
-        $context_class[] = ' function get_description()';
-        $context_class[] = '   {';
-        $context_class[] = '     return $this->get_additional_property(self :: PROPERTY_DESCRIPTION);';
-        $context_class[] = '  }';
+        $context_class[] = 'static function get_additional_property_names()';
+        $context_class[] = '{';
+        $context_class[] = 'return array(' . implode(', ', $additional_property_names) . ');';
+        $context_class[] = '}';
         
-        $context_class[] = '  function set_description($description)';
-        $context_class[] = ' {';
-        $context_class[] = '    $this->set_additional_property(self :: PROPERTY_DESCRIPTION, $description);';
-        $context_class[] = ' }';
+        foreach ($properties as $property => $is_key)
+        {
+            
+            $context_class[] = 'function get_' . strtolower($property) . '()';
+            $context_class[] = '{';
+            $context_class[] = '  return $this->get_additional_property(self :: PROPERTY_' . strtoupper($property) . ');';
+            $context_class[] = '}';
+            
+            $context_class[] = '';
+            
+            $context_class[] = 'function set_' . strtolower($property) . '($' . strtolower($property) . ')';
+            $context_class[] = '{';
+            $context_class[] = '   $this->set_additional_property(self :: PROPERTY_' . strtoupper($property) . ', $' . strtolower($property) . ');';
+            $context_class[] = '}';
+        }
         
-        $context_class[] = '  static public function get_allowed_keys()';
-        $context_class[] = ' {';
-        $context_class[] = '  return array(self :: PROPERTY_DEFAULT_KEY);';
-        $context_class[] = '  }';
+        $context_class[] = 'static public function get_allowed_keys()';
+        $context_class[] = '{';
+        $context_class[] = '	 return array(' . implode(', ', $allowed_keys) . ');';
+        $context_class[] = '}';
         
-        $context_class[] = ' static function get_table_name()';
+        $context_class[] = 'static function get_table_name()';
         $context_class[] = '{';
         $context_class[] = '  return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);';
         $context_class[] = '}';
         
         $context_class[] = '}';
-        
         $context_class[] = '?>';
         
+        $content = implode("\n", $context_class);
+        return $content;
+    
+    }
+
+    function get_xml_file($type)
+    {
+        $context_class = array();
+        $context_class[] = '<?xml version="1.0" encoding="UTF-8"?>';
+        $context_class[] = '<object name="'.$type.'">';
+        $context_class[] = '	<properties>';
+        $context_class[] = '		<property name="id" type="integer" unsigned="1" notnull="1" />';
         
+    	foreach ($properties as $property => $is_key)
+        {
+            $context_class[] = '		<property name="'.strtolower($property).'" type="text" />';
+        }
+       
+        $context_class[] = '	</properties>';
+        $context_class[] = '	<index name="id" type="primary">';
+        $context_class[] = '		<indexproperty name="id" />';
+        $context_class[] = '	</index>';
+        $context_class[] = '</object>';
+        $content = implode("\n", $context_class);
+        return $content;
     }
 
 }
