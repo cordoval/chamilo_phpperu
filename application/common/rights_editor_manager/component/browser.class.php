@@ -224,6 +224,21 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(self :: PARAM_TYPE => $this->type)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
+        $locations = $this->get_locations();
+        if(count($locations) == 1)
+        {
+        	$location = $locations[0];
+        	$url = $this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_CHANGE_INHERIT));
+        	if($location->inherits())
+        	{
+        		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NoInherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	}
+        	else
+        	{
+        		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Inherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	}
+        }
+        
         return $action_bar;
     }
 

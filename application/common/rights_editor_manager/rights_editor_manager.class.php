@@ -11,6 +11,7 @@ class RightsEditorManager extends SubManager
     const ACTION_BROWSE_RIGHTS = 'browse';
     const ACTION_SET_USER_RIGHTS = 'set_user_rights';
     const ACTION_SET_GROUP_RIGHTS = 'set_group_rights';
+    const ACTION_CHANGE_INHERIT = 'change_inherit';
 
     const PARAM_GROUP = 'group_id';
 
@@ -86,6 +87,9 @@ class RightsEditorManager extends SubManager
             case self :: ACTION_SET_GROUP_RIGHTS :
                 $component = $this->create_component('GroupRightsSetter');
                 break;
+            case self :: ACTION_CHANGE_INHERIT:
+            	$component = $this->create_component('InheritChanger');
+            	break;
             default :
                 $component = $this->create_component('Browser');
                 break;

@@ -114,6 +114,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES = 'copy_co_to_templates';
     const ACTION_COPY_CONTENT_OBJECT_FROM_TEMPLATES = 'copy_co_from_templates';
     const ACTION_MANAGE_CONTENT_OBJECT = 'manage_content_object';
+    const ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS = 'manage_co_registrations';
     const ACTION_RECYCLE_CONTENT_OBJECTS = 'recycle';
     const ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY = 'delete_permanently';
 
@@ -354,6 +355,9 @@ class RepositoryManager extends CoreApplication
                 break;
             case self :: ACTION_MANAGE_CONTENT_OBJECT :
                 $component = $this->create_component('ContentObjectManager');
+                break;
+            case self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS :
+                $component = $this->create_component('ContentObjectRegistrationBrowser');
                 break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_CONTENT_OBJECTS);
@@ -805,10 +809,14 @@ class RepositoryManager extends CoreApplication
      * @param String $content_object_type The learning object.
      * @return string The requested URL.
      */
-    function get_content_object_type_rights_editing_url($content_object_type)
+    function get_content_object_type_rights_editing_url($registration)
     {
-        $registration = AdminDataManager :: get_registration($content_object_type, Registration :: TYPE_CONTENT_OBJECT);
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_IDENTIFIER => $registration->get_id(), self :: PARAM_TYPE => RepositoryRights :: TYPE_CONTENT_OBJECT));
+    	if($registration)
+    	{
+    		$id = $registration->get_id();
+    	}
+    	
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_IDENTIFIER => $id, self :: PARAM_TYPE => RepositoryRights :: TYPE_CONTENT_OBJECT));
     }
 
     /**
@@ -1238,6 +1246,8 @@ class RepositoryManager extends CoreApplication
         $links[] = new DynamicAction(Translation :: get('ImportTemplate'), Translation :: get('ImportTemplateDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
         $links[] = new DynamicAction(Translation :: get('ManageExternalRepositoryManagerInstances'), Translation :: get('ManageExternalRepositoryManagerInstancesDescription'), Theme :: get_image_path() . 'browse_repository.png', $this->get_link(array(
                 Application :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES)));
+        $links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', $this->get_link(array(
+                Application :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS)));
 
         $info['search'] = $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS));
         $info['links'] = $links;

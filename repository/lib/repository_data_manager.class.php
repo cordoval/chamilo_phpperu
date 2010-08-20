@@ -89,7 +89,12 @@ class RepositoryDataManager
 
         while ($content_object = $content_objects->next_result())
         {
-            $active_content_objects[] = $content_object->get_name();
+        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: VIEW_RIGHT, $content_object->get_id()))
+        	{
+        		continue;
+        	}
+        	
+        	$active_content_objects[] = $content_object->get_name();
         }
 
         return $active_content_objects;

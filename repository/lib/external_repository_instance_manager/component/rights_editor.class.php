@@ -17,12 +17,17 @@ class ExternalRepositoryInstanceManagerRightsEditorComponent extends ExternalRep
     {
         $identifiers = Request :: get(self :: PARAM_INSTANCE);
         
-        if (! is_array($identifiers))
+        $locations = array();
+        
+    	if(!$identifiers)
+		{
+        	$locations[] = RepositoryRights :: get_external_repositories_subtree_root();
+		}
+        
+        if ($identifiers && ! is_array($identifiers))
         {
             $identifiers = array($identifiers);
         }
-
-        $locations = array();
 
         foreach ($identifiers as $identifier)
         {

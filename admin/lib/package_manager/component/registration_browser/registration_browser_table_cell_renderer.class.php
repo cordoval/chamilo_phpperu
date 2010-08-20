@@ -35,6 +35,11 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
 
         return parent :: render_cell($column, $registration);
     }
+    
+    function get_browser()
+    {
+    	return $this->browser;
+    }
 
     /**
      * Gets the action links to display

@@ -29,13 +29,9 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
         $extra_params = array();
         $this->forbidden_types = array(PortfolioItem :: get_type_name(), LearningPathItem :: get_type_name(), ScormItem :: get_type_name());
 
-        foreach ($this->get_content_object_types(true) as $type)
+        foreach ($this->get_allowed_content_object_types() as $type)
         {
-            $setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
-            if (($setting || $this->get_user()->is_platform_admin()) && ! in_array($type, $this->forbidden_types))
-            {
-                $type_options[$type] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
-            }
+        	$type_options[$type] = Translation :: get(ContentObject :: type_to_class($type) . 'TypeName');
         }
 
         $type_form = new FormValidator('create_type', 'post', $this->get_url($extra_params));
@@ -153,36 +149,6 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
 
     function get_content_object_type_counts($use_general_statistics = false)
     {
-        //        $categories = array();
-        //        $categories['assessment'] = array('assessment', 'assessment_hotspot_question', 'assessment_match_numeric_question', 'assessment_match_question', 'assessment_match_text_question', 'assessment_matching_question', 'assessment_matrix_question', 'assessment_multiple_choice_question', 'assessment_open_question', 'assessment_rating_question', 'assessment_select_question', 'fill_in_the_blanks', 'hot_potatoes', 'ordering_question');
-        //        $categories['agenda'] = array('calendar_event', 'external_calendar', 'task');
-        //        $categories['news'] = array('announcement', 'news_article', 'system_announcement');
-        //        $categories['media'] = array('document', 'streaming_video_clip', 'youtube');
-        //        $categories['collaboration'] = array('blog_post', 'forum', 'forum_post', 'forum_topic', 'glossary', 'glossary_item', 'learning_path', 'portfolio', 'profile', 'research_event', 'research_publication', 'template', 'wiki', 'wiki_page');
-        //        $categories['survey'] = array('survey', 'survey_description', 'survey_matching_question', 'survey_matrix_question', 'survey_multiple_choice_question', 'survey_open_question', 'survey_page', 'survey_rating_question', 'survey_select_question');
-        //        $categories['peer_assessment'] = array('competence', 'criteria', 'indicator', 'peer_assessment');
-        //        $categories['general'] = array('comic_book', 'description', 'enclyclopedia', 'feedback', 'introduction', 'link', 'note', 'personal_message', 'physical_location', 'rss_feed');
-        //
-        //        $selection = array();
-        //
-        //        foreach($categories as $category => $object_types)
-        //        {
-        //            $selection[] = '<div class="create_category">';
-        //            $selection[] = '<span class="title">' . Translation :: get(Utilities :: underscores_to_camelcase($category)) . '</span>';
-        //
-        //            foreach ($object_types as $object_type)
-        //            {
-        //                $selection[] = '<a href="' . $this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $object_type)) . '"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/' . $object_type . '.png);">';
-        //                $selection[] = Translation :: get(ContentObject :: type_to_class($object_type) . 'TypeName');
-        //                $selection[] = '</div></a>';
-        //            }
-        //
-        //            $selection[] = '</div>';
-        //        }
-        //
-        //        return implode("\n", $selection);
-
-
         $type_categories = array();
         $type_counts = array();
         $categories = array();
@@ -197,13 +163,9 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
             $condition = null;
         }
 
-        foreach ($this->get_content_object_types(true) as $type)
+        foreach ($this->get_allowed_content_object_types() as $type)
         {
-            $setting = PlatformSetting :: get('allow_' . $type . '_creation', RepositoryManager :: APPLICATION_NAME);
-            if (($setting || $this->get_user()->is_platform_admin()) && ! in_array($type, $this->forbidden_types))
-            {
-
-                $package_info = PackageInfo :: factory(Registration :: TYPE_CONTENT_OBJECT, $type);
+        		$package_info = PackageInfo :: factory(Registration :: TYPE_CONTENT_OBJECT, $type);
                 $package_info = $package_info->get_package_info();
                 $category = $package_info['package']['category'];
                 $category_name = Translation :: get(Utilities :: underscores_to_camelcase($category));
@@ -226,7 +188,6 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
                 {
                     $most_used_type_count = $count;
                 }
-            }
         }
 
         arsort($type_counts, SORT_STRING);
@@ -275,6 +236,21 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
 
         return implode("\n", $html);
+    }
+    
+    function get_allowed_content_object_types()
+    {
+    	$types = $this->get_content_object_types(true);
+    	foreach($types as $index => $type)
+    	{
+    		$registration = AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT);
+        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, $registration->get_id())) 
+        	{
+        		unset($types[$index]);
+        	}
+    	}
+    	
+    	return $types;
     }
 }
 ?>

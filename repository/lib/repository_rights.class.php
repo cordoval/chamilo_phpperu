@@ -36,7 +36,7 @@ class RepositoryRights
     
     static function get_available_rights_for_content_object_subtree()
     {
-    	return array('View' => self :: VIEW_RIGHT, 'Add' => self :: ADD_RIGHT, 'Use' => self :: USE_RIGHT);
+    	return array('View' => self :: VIEW_RIGHT, 'Add' => self :: ADD_RIGHT);
     }
     
     static function get_available_rights_for_external_repositories_substree()
@@ -78,12 +78,17 @@ class RepositoryRights
 
 	static function create_location_in_user_tree($name, $type, $identifier, $parent, $user_id)
     {
-    	return RightsUtilities :: create_location($name, RepositoryManager :: APPLICATION_NAME, $type, $identifier, 0, $parent, 0, $user_id, self :: TREE_TYPE_USER);
+    	return RightsUtilities :: create_location($name, RepositoryManager :: APPLICATION_NAME, $type, $identifier, 1, $parent, 0, $user_id, self :: TREE_TYPE_USER);
     }
 
-    function get_user_root_id($user_id)
+    static function get_user_root_id($user_id)
     {
         return RightsUtilities :: get_root_id(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_USER, $user_id);
+    }
+    
+	static function get_user_root($user_id)
+    {
+        return RightsUtilities :: get_root(RepositoryManager :: APPLICATION_NAME, self :: TREE_TYPE_USER, $user_id);
     }
     
 	static function get_location_id_by_identifier_from_user_subtree($type, $identifier, $user_id)
@@ -135,7 +140,7 @@ class RepositoryRights
     
     static function create_content_objects_subtree_root_location()
     {
-    	return RightsUtilities :: create_location('co_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 1, 0, 0, 0, self :: TREE_TYPE_CONTENT_OBJECT);
+    	return RightsUtilities :: create_location('co_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_CONTENT_OBJECT);
     }
     
 	// External Repositories subtree
@@ -172,7 +177,7 @@ class RepositoryRights
     
     static function create_external_repositories_subtree_root_location()
     {
-    	return RightsUtilities :: create_location('ext_rep_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 1, 0, 0, 0, self :: TREE_TYPE_EXTERNAL_REPOSITORY);
+    	return RightsUtilities :: create_location('ext_rep_tree', RepositoryManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_EXTERNAL_REPOSITORY);
     }
 }
 ?>

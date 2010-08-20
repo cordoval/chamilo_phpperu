@@ -78,7 +78,7 @@ class UserRights
     
     static function create_user_subtree_root_location()
     {
-    	return RightsUtilities :: create_location('user_tree', UserManager :: APPLICATION_NAME, 0, 0, 1, 0, 0, 0, self :: TREE_TYPE_USER);
+    	return RightsUtilities :: create_location('user_tree', UserManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_USER);
     }
 }
 ?>

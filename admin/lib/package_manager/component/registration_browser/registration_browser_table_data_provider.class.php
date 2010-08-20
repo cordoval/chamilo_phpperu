@@ -33,7 +33,7 @@ class RegistrationBrowserTableDataProvider extends ObjectTableDataProvider
     {
         $order_property = $this->get_order_property($order_property);
         
-        return $this->get_browser()->retrieve_registrations($this->get_condition(), $order_property, $offset, $count);
+        return AdminDataManager :: get_instance()->retrieve_registrations($this->get_condition(), $order_property, $offset, $count);
     }
 
     /**
@@ -42,7 +42,7 @@ class RegistrationBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        return $this->get_browser()->count_registrations($this->get_condition());
+        return AdminDataManager :: get_instance()->count_registrations($this->get_condition());
     }
 }
 ?>

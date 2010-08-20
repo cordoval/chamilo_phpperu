@@ -23,28 +23,42 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager
         $this->set_parameter(self :: PARAM_TYPE, $type);
         $this->set_parameter(self :: PARAM_IDENTIFIER, $identifiers);
         
+        $locations = array();
+        
         switch($type)
         {
         	case RepositoryRights :: TYPE_CONTENT_OBJECT: 
         		$tree = RepositoryRights :: TREE_TYPE_CONTENT_OBJECT;
+        		$tree_identifier = 0;
+        		if(!$identifiers)
+        		{
+        			$locations[] = RepositoryRights :: get_content_objects_subtree_root();
+        		}
         		break;
         	case RepositoryRights :: TYPE_EXTERNAL_REPOSITORY:
         		$tree = RepositoryRights :: TREE_TYPE_EXTERNAL_REPOSITORY; 	
+        		$tree_identifier = 0;
+        		if(!$identifiers)
+        		{
+        			$locations[] = RepositoryRights :: get_external_repositories_subtree_root();
+        		}
         		break;
         	default:
         		$tree = RepositoryRights :: TREE_TYPE_USER;
         		$tree_identifier = $this->get_user_id(); 
+       		    if(!$identifiers)
+        		{
+        			$locations[] = RepositoryRights :: get_user_root($this->get_user_id());
+        		}
         		break;
         }
         
         $this->tree = $tree;
         
-        if (! is_array($identifiers))
+        if ($identifiers && ! is_array($identifiers))
         {
             $identifiers = array($identifiers);
         }
-
-        $locations = array();
 
         foreach ($identifiers as $identifier)
         {
