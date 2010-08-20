@@ -56,4 +56,9 @@ abstract class PlatformCategory extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
     }
+    
+    function update($move = false)
+    {
+    	return parent :: update();
+    }
 }

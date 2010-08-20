@@ -53,9 +53,29 @@ class RepositoryCategory extends PlatformCategory
         return true;
     }
 
-    function update()
+    function update($move = false)
     {
-        return RepositoryDataManager :: get_instance()->update_category($this);
+        if(!RepositoryDataManager :: get_instance()->update_category($this))
+        {
+        	return false;
+        }     
+        
+    	if($move)
+        {
+        	if($this->get_parent())
+        	{
+        		$new_parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent(), $this->get_user_id());
+        	}
+        	else
+        	{
+        		$new_parent_id = RepositoryRights :: get_user_root_id();	
+        	}
+        	
+        	$location =  RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_id(), $this->get_user_id());
+        	return $location->move($new_parent_id);
+        }
+        
+    	return true; 
     }
 
     function delete()

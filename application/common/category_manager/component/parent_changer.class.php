@@ -55,7 +55,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
                 {
                     $category->set_parent($new_parent);
                     $category->set_display_order($this->get_next_category_display_order($new_parent));
-                    $success &= $category->update();
+                    $success &= $category->update(true);
                 }
                 
                 $this->clean_display_order_old_parent($parent);

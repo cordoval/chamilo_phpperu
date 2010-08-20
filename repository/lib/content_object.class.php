@@ -799,7 +799,24 @@ class ContentObject extends DataClass
     {
         $this->set_parent_id($new_parent_id);
         $dm = RepositoryDataManager :: get_instance();
-        return $dm->update_content_object($this);
+        $succes = $dm->update_content_object($this);
+        if(!$succes)
+        {
+        	return false;
+        }
+        
+        if($new_parent_id == 0)
+        {
+        	$new_parent = RepositoryRights :: get_user_root_id();
+        }
+        else
+        {
+        	$new_parent = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $new_parent_id, $this->get_owner_id());
+        }
+        
+        $location = RepositoryRights :: get_location_by_identifier_from_users_subtree(RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $this->get_owner_id());
+        
+        return $location->move($new_parent);
     }
 
     function version($trueUpdate = true)
