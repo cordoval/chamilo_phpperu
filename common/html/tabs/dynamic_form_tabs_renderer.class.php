@@ -41,7 +41,7 @@ class DynamicFormTabsRenderer extends DynamicTabsRenderer
     public function footer()
     {
         $html = array();
-        $html[] = ResourceManager::get_instance()->get_resource_html(Path :: get_library_path() . 'javascript/dynamic_form_tabs.js');
+        $html[] = ResourceManager::get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/dynamic_form_tabs.js');
         $html[] = parent :: footer();
         return implode("\n", $html);
     }

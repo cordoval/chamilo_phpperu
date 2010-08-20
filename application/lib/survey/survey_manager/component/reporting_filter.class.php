@@ -52,6 +52,14 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
 		        
 	            $this->display_header($trail, true);
 	            echo $wizard->toHtml();
+	            /*
+	             Just a little pretest
+	             if(Request :: get("filter") != null)
+	            {
+	            	
+	            	$reporting_viewer = new ReportingViewer($this);
+	            	echo $reporting_viewer->show_all_blocks();
+	            }*/
 	            $this->display_footer();
 	        
 	        }
