@@ -75,17 +75,17 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 
         $toolbar = new Toolbar();
 
-        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::EDIT_RIGHT, $group->get_id()))
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EDIT, $group->get_id()))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png',
                             $this->browser->get_group_editing_url($group), ToolbarItem :: DISPLAY_ICON));
         }
-        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::SUBSCRIBE_RIGHT, $group->get_id()))
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_SUBSCRIBE, $group->get_id()))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png',
                             $this->browser->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON));
         }
-        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::EDIT_RIGHTS_RIGHT, $group->get_id()))
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EDIT_RIGHTS, $group->get_id()))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('EditRights'), Theme :: get_common_image_path() . 'action_rights.png',
                             $this->browser->get_group_edit_rights_url($group), ToolbarItem :: DISPLAY_ICON));
@@ -95,7 +95,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
         $visible = ($users->size() > 0);
 
 
-        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::EDIT_RIGHT, $group->get_id()))
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EDIT, $group->get_id()))
         {
             if ($visible)
             {
@@ -118,7 +118,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
                 ));
             }
         }
-        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::DELETE_RIGHT, $group->get_id()))
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_DELETE, $group->get_id()))
         {
             $toolbar->add_item(new ToolbarItem(
                             Translation :: get('Delete'),
@@ -130,7 +130,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
         }
 
 
-        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::MOVE_RIGHT, $group->get_id()))
+        if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_MOVE, $group->get_id()))
         {
             $toolbar->add_item(new ToolbarItem(
                             Translation :: get('Move'),

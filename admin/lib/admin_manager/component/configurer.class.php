@@ -29,7 +29,7 @@ class AdminManagerConfigurerComponent extends AdminManager
         $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_WEB_APPLICATION => $application)), Translation :: get(Utilities :: underscores_to_camelcase($application))));
         $trail->add_help('administration');
 
-        if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, AdminRights :: LOCATION_SETTINGS, 'admin_manager_component'))
+        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW, AdminRights :: LOCATION_SETTINGS, 'admin_manager_component'))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));

@@ -27,6 +27,7 @@
 	padding: 6px 10px 6px 10px;
 	background: #d4e0f1 url(../images/common/background_table_header.png)
 		repeat-x;
+	overflow: hidden;
 }
 
 .data_table td.header {
@@ -43,10 +44,9 @@
 		repeat-x;
 }
 
-.data_table tr.row_even td.header
-{
-	background: #EBEBEB url(../images/common/background_table_header_grey.png)
-		repeat-x;
+.data_table tr.row_even td.header {
+	background: #EBEBEB
+		url(../images/common/background_table_header_grey.png) repeat-x;
 	color: #7b7b7b;
 }
 
@@ -103,22 +103,19 @@
 	color: #797268;
 }
 
-.data_table div.no_thumbnail
-{
+.data_table div.no_thumbnail {
 	margin: 1em auto 1em auto;
 }
 
-.data_table div.no_preview
-{
+.data_table div.no_preview {
 	margin: 1em auto 1em auto;
 }
 
 /*****************************************************
  *  GALLERY TABLE STYLES                            *
  *****************************************************/
-	
-.gallery_table{
-  	width: 100%;
+.gallery_table {
+	width: 100%;
 	padding: 0;
 	margin: 0;
 	border-left: 1px solid #b5cae7;
@@ -126,24 +123,26 @@
 	border-spacing: 0px;
 }
 
-.gallery_table th{
+.gallery_table th {
 	padding-right: 0px;
-  	border: 1px  solid gray;
-  	background-color: #f4eaeb;
-  	text-align: center;
+	border: 1px solid gray;
+	background-color: #f4eaeb;
+	text-align: center;
 }
 
-.gallery_table tr.row_odd{
-  	background-color: #fafafa;
-  }
-.gallery_table tr.row_odd:hover, .gallery_table tr.row_even:hover{
-  	background-color: #f0f0f0;
-}
-.gallery_table tr.row_even{
-  	background-color: #fff;
+.gallery_table tr.row_odd {
+	background-color: #fafafa;
 }
 
-.gallery_table td{
+.gallery_table tr.row_odd:hover,.gallery_table tr.row_even:hover {
+	background-color: #f0f0f0;
+}
+
+.gallery_table tr.row_even {
+	background-color: #fff;
+}
+
+.gallery_table td {
 	border-right: 1px solid #b5cae7;
 	border-top: 1px solid #b5cae7;
 	padding: 6px 10px 6px 10px;
@@ -152,44 +151,46 @@
 	vertical-align: top;
 }
 
-.gallery_table tr.row_even td.col_odd{
-  	background-color: #fafafa;
-  }
-.gallery_table tr.row_even td.col_odd:hover, .gallery_table tr.row_even td.col_even:hover{
-  	background-color: #f0f0f0;
-}
-.gallery_table tr.row_even td.col_even{
-  	background-color: #fff;
+.gallery_table tr.row_even td.col_odd {
+	background-color: #fafafa;
 }
 
-.gallery_table tr.row_odd td.col_even{
-  	background-color: #fafafa;
-  }
-.gallery_table tr.row_odd td.col_even:hover, .gallery_table tr.row_odd td.col_odd:hover{
-  	background-color: #f0f0f0;
-}
-.gallery_table tr.row_odd td.col_odd{
-  	background-color: #fff;
+.gallery_table tr.row_even td.col_odd:hover,.gallery_table tr.row_even td.col_even:hover
+	{
+	background-color: #f0f0f0;
 }
 
-.gallery_table td img.thumbnail
-{
+.gallery_table tr.row_even td.col_even {
+	background-color: #fff;
+}
+
+.gallery_table tr.row_odd td.col_even {
+	background-color: #fafafa;
+}
+
+.gallery_table tr.row_odd td.col_even:hover,.gallery_table tr.row_odd td.col_odd:hover
+	{
+	background-color: #f0f0f0;
+}
+
+.gallery_table tr.row_odd td.col_odd {
+	background-color: #fff;
+}
+
+.gallery_table td img.thumbnail {
 	border: 1px solid #c0c0c0;
 	margin: 0.25em;
 }
 
-.gallery_table td h4
-{
+.gallery_table td h4 {
 	margin: 0px;
 }
 
-.gallery_table div.no_thumbnail
-{
+.gallery_table div.no_thumbnail {
 	margin: 1em auto 1em auto;
 }
 
-.gallery_table div.no_preview
-{
+.gallery_table div.no_preview {
 	margin: 1em auto 1em auto;
 }
 

@@ -23,7 +23,7 @@ class PackageManagerRemoverComponent extends PackageManager
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('PackageRemoval')));
         $trail->add_help('administration remove');
         
-        if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
+        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));

@@ -19,7 +19,7 @@ class GroupManagerExporterComponent extends GroupManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupCreateExport')));
         $trail->add_help('group export');
         
-        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::EXPORT_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EXPORT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $this->display_header($trail, false);
             Display :: error_message(Translation :: get("NotAllowed"));

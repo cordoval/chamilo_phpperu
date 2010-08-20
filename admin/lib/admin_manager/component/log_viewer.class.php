@@ -24,7 +24,7 @@ class AdminManagerLogViewerComponent extends AdminManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('LogsViewer')));
         $trail->add_help('administration');
         
-        if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
+        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));

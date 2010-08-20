@@ -18,7 +18,7 @@ class GroupManagerMoverComponent extends GroupManager
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
         $trail->add_help('group general');
         
-        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::MOVE_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_MOVE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $this->display_header();
             Display :: warning_message(Translation :: get('NotAllowed'));

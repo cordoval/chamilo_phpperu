@@ -19,7 +19,7 @@ class GroupManagerImporterComponent extends GroupManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupCreateCsv')));
         $trail->add_help('group importer');
         
-       if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::CREATE_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+       if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_CREATE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));

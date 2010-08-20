@@ -16,7 +16,12 @@ require_once 'XML/Unserializer.php';
 
 class RightsUtilities
 {
+    const CONSTANT_RIGHT = 'RIGHT';
+    const CONSTANT_TYPE = 'TYPE';
+    const CONSTANT_TREE = 'TREE';
+
     private static $is_allowed_cache;
+    private static $constants;
 
     static function create_location($name, $application, $type = 'root', $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $tree_type = 'root', $return_location = false)
     {
@@ -46,7 +51,7 @@ class RightsUtilities
     static function create_application_root_location($application)
     {
         $xml = self :: parse_locations_file($application);
-        
+
         if ($xml === false)
         {
             return true;
@@ -58,12 +63,12 @@ class RightsUtilities
             {
                 return false;
             }
-    
+
             if (isset($xml['children']) && isset($xml['children']['location']) && count($xml['children']['location']) > 0)
             {
                 self :: parse_tree($application, $xml, $root->get_id());
             }
-    
+
             return true;
         }
     }
@@ -98,7 +103,7 @@ class RightsUtilities
             {
                 $data = $unserializer->getUnserializedData();
             }
-            
+
             return $data;
         }
         else
@@ -156,7 +161,7 @@ class RightsUtilities
 
         $cache_id = md5(serialize(array($right, $location, $type, $application, $user_id, $tree_identifier, $tree_type)));
 
-        if (!isset(self :: $is_allowed_cache[$cache_id]))
+        if (! isset(self :: $is_allowed_cache[$cache_id]))
         {
             self :: $is_allowed_cache[$cache_id] = self :: get_right($right, $location, $type, $application, $user, $tree_identifier, $tree_type);
         }
@@ -488,7 +493,7 @@ class RightsUtilities
 
     static function invert_rights_template_right_location($right, $rights_template, $location)
     {
-        if (!empty($rights_template) && !empty($right) && !empty($location))
+        if (! empty($rights_template) && ! empty($right) && ! empty($location))
         {
             $rdm = RightsDataManager :: get_instance();
             $rights_template_right_location = $rdm->retrieve_rights_template_right_location($right, $rights_template, $location);
@@ -523,7 +528,7 @@ class RightsUtilities
 
     static function invert_user_right_location($right, $user, $location)
     {
-        if (!empty($user) && !empty($right) && !empty($location))
+        if (! empty($user) && ! empty($right) && ! empty($location))
         {
             $rdm = RightsDataManager :: get_instance();
             $user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
@@ -558,7 +563,7 @@ class RightsUtilities
 
     static function invert_group_right_location($right, $group, $location)
     {
-        if (!empty($group) && !empty($right) && !empty($location))
+        if (! empty($group) && ! empty($right) && ! empty($location))
         {
             $rdm = RightsDataManager :: get_instance();
             $group_right_location = $rdm->retrieve_group_right_location($right, $group, $location);
@@ -593,7 +598,7 @@ class RightsUtilities
 
     static function set_rights_template_right_location_value($right, $rights_template, $location, $value)
     {
-        if (!empty($rights_template) && !empty($right) && !empty($location) && isset($value))
+        if (! empty($rights_template) && ! empty($right) && ! empty($location) && isset($value))
         {
             $rdm = RightsDataManager :: get_instance();
             $rights_template_right_location = $rdm->retrieve_rights_template_right_location($right, $rights_template, $location);
@@ -621,7 +626,7 @@ class RightsUtilities
 
     static function set_user_right_location_value($right, $user, $location, $value)
     {
-        if (!empty($user) && !empty($right) && !empty($location) && isset($value))
+        if (! empty($user) && ! empty($right) && ! empty($location) && isset($value))
         {
             $rdm = RightsDataManager :: get_instance();
             $user_right_location = $rdm->retrieve_user_right_location($right, $user, $location);
@@ -663,7 +668,7 @@ class RightsUtilities
 
     static function set_group_right_location_value($right, $group, $location, $value)
     {
-        if (!empty($group) && !empty($right) && !empty($location) && isset($value))
+        if (! empty($group) && ! empty($right) && ! empty($location) && isset($value))
         {
             $rdm = RightsDataManager :: get_instance();
             $group_right_location = $rdm->retrieve_group_right_location($right, $group, $location);
@@ -837,34 +842,47 @@ class RightsUtilities
         return implode("\n", $html);
     }
 
-    static function get_available_rights($application)
+    static function get_available_constants($application, $type = self :: CONSTANT_RIGHT)
     {
-        $base_path = (WebApplication :: is_application($application) ? (Path :: get_application_path() . 'lib/' . $application . '/') : (Path :: get(SYS_PATH) . $application . '/lib/'));
-        $class = $application . '_rights.class.php';
-        $file = $base_path . $class;
-
-        if (! file_exists($file))
+        if (! isset(self :: $constants))
         {
-            $rights = array();
-        }
-        else
-        {
-            require_once ($file);
+            $base_path = (WebApplication :: is_application($application) ? (Path :: get_application_path() . 'lib/' . $application . '/') : (Path :: get(SYS_PATH) . $application . '/lib/'));
+            $class = $application . '_rights.class.php';
+            $class_name = Application :: application_to_class($application) . 'Rights';
 
-            // TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
-            $reflect = new ReflectionClass(Application :: application_to_class($application) . 'Rights');
-            $rights = $reflect->getConstants();
+            $file = $base_path . $class;
 
-            foreach ($rights as $key => $right)
+            if (! file_exists($file))
             {
-                if (substr(strtolower($key), 0, 8) == 'location')
+                self :: $constants[$application] = array();
+            }
+            else
+            {
+                require_once ($file);
+
+                $reflect = new ReflectionClass($class_name);
+                $constants = $reflect->getConstants();
+
+                foreach ($constants as $name => $value)
                 {
-                    unset($rights[$key]);
+                    $parts = explode('_', $name);
+
+                    if (! is_array(self :: $constants[$application][$parts[0]]))
+                    {
+                        self :: $constants[$application][$parts[0]] = array();
+                    }
+
+                    self :: $constants[$application][$parts[0]][$name] = $value;
                 }
             }
         }
 
-        return $rights;
+        return self :: $constants[$application][$type];
+    }
+
+    static function get_available_rights($application)
+    {
+        return self :: get_available_constants($application, self :: CONSTANT_RIGHT);
     }
 
     static function get_allowed_users($right, $identifier, $type, $application = 'admin')
@@ -929,4 +947,5 @@ class RightsUtilities
     	 */
     }
 }
+
 ?>

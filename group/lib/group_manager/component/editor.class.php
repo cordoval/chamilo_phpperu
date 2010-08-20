@@ -26,7 +26,7 @@ class GroupManagerEditorComponent extends GroupManager
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), $group->get_name()));
             $trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), Translation :: get('GroupUpdate')));
             
-            if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::EDIT_RIGHT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
+            if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EDIT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
                 $this->display_header($trail, false);
                 Display :: error_message(Translation :: get("NotAllowed"));

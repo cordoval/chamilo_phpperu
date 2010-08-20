@@ -56,7 +56,7 @@ class WeblcmsInstaller extends Installer
 
 	private function create_courses_subtree()
 	{
-		return RightsUtilities :: create_subtree_root_location(WeblcmsManager :: APPLICATION_NAME, 0, 'courses_tree');
+		return RightsUtilities :: create_subtree_root_location(WeblcmsManager :: APPLICATION_NAME, 0, WeblcmsRights :: TYPE_COURSE);
 	}
 
 	function create_default_categories_in_weblcms()
@@ -106,7 +106,7 @@ class WeblcmsInstaller extends Installer
 		$course->set_titular(2);
 		$course->set_category(1);
 		$course->set_visual('ALG001');
-		
+
 		$course->set_language('english');
 		$course->set_visibility(1);
 		$course->set_access(1);
@@ -121,13 +121,13 @@ class WeblcmsInstaller extends Installer
 		$course->set_course_code_visible(1);
 		$course->set_course_manager_name_visible(1);
 		$course->set_course_languages_visible(1);
-		
+
 		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
-		
+
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-		
+
 		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
@@ -144,7 +144,7 @@ class WeblcmsInstaller extends Installer
 		}
 
 		$succes &= $wdm->create_course_modules($course_modules, 1);*/
-		
+
 		//Common course 2
 		$course = new Course();
 		$course->set_course_type_id(1);
@@ -157,7 +157,7 @@ class WeblcmsInstaller extends Installer
 		$course->set_visibility(1);
 		$course->set_access(0);
 		$course->set_max_number_of_members(0);
-		 
+
 		$course->set_intro_text(1);
 		$course->set_student_view(1);
 		$course->set_layout(1);
@@ -167,13 +167,13 @@ class WeblcmsInstaller extends Installer
 		$course->set_course_code_visible(1);
 		$course->set_course_manager_name_visible(1);
 		$course->set_course_languages_visible(1);
-		
+
 		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-		
+
 		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
@@ -190,7 +190,7 @@ class WeblcmsInstaller extends Installer
 		}
 
 		$succes &= $wdm->create_course_modules($course_modules, 2);*/
-		
+
 		//Common Course 3
 		$course = new Course();
 		$course->set_course_type_id(1);
@@ -203,7 +203,7 @@ class WeblcmsInstaller extends Installer
 		$course->set_visibility(1);
 		$course->set_access(1);
 		$course->set_max_number_of_members(0);
-		 
+
 		$course->set_intro_text(1);
 		$course->set_student_view(1);
 		$course->set_layout(1);
@@ -213,13 +213,13 @@ class WeblcmsInstaller extends Installer
 		$course->set_course_code_visible(1);
 		$course->set_course_manager_name_visible(1);
 		$course->set_course_languages_visible(1);
-		
+
 		$course->set_direct_subscribe_available(1);
 		$succes = $course->create();
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-		
+
 		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
@@ -236,8 +236,8 @@ class WeblcmsInstaller extends Installer
 		}
 
 		$succes &= $wdm->create_course_modules($course_modules, 3);*/
-		
-		
+
+
 		//Common Course 4
 		$course = new Course();
 		$course->set_course_type_id(1);
@@ -266,7 +266,7 @@ class WeblcmsInstaller extends Installer
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-		
+
 		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
@@ -283,8 +283,8 @@ class WeblcmsInstaller extends Installer
 		}
 
 		$succes &= $wdm->create_course_modules($course_modules, 4);*/
-		
-		//Common course 5 
+
+		//Common course 5
 		$course = new Course();
 		$course->set_course_type_id(1);
 		$course->set_name('Vacant posts');
@@ -312,7 +312,7 @@ class WeblcmsInstaller extends Installer
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-		
+
 		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
@@ -357,7 +357,7 @@ class WeblcmsInstaller extends Installer
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-		
+
 		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
@@ -373,7 +373,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 		$succes &= $wdm->create_course_modules($course_modules, 6);*/
-		
+
 		//Curricula coursetype course 2
 		$course = new Course();
 		$course->set_course_type_id(2);
@@ -402,7 +402,7 @@ class WeblcmsInstaller extends Installer
 
 		/*$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-		
+
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
@@ -418,7 +418,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 		$succes &= $wdm->create_course_modules($course_modules, 7);*/
-		
+
 		//Curricula coursetype course 3
 		$course = new Course();
 		$course->set_course_type_id(2);
@@ -431,7 +431,7 @@ class WeblcmsInstaller extends Installer
 		$course->set_visibility(1);
 		$course->set_access(1);
 		$course->set_max_number_of_members(0);
-		
+
 		$course->set_intro_text(1);
 		$course->set_student_view(1);
 		$course->set_layout(1);
@@ -447,7 +447,7 @@ class WeblcmsInstaller extends Installer
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-		
+
 		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
@@ -463,7 +463,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 		$succes &= $wdm->create_course_modules($course_modules, 8);*/
-		
+
 		//No CourseType
 		$course = new Course();
 		$course->set_course_type_id(0);
@@ -492,7 +492,7 @@ class WeblcmsInstaller extends Installer
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-		
+
 		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
@@ -508,7 +508,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 		$succes &= $wdm->create_course_modules($course_modules, 9);*/
-		
+
 		//No CourseType
 		$course = new Course();
 		$course->set_course_type_id(0);
@@ -537,7 +537,7 @@ class WeblcmsInstaller extends Installer
 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
-		
+
 		/*$wdm = WeblcmsDataManager :: get_instance();
 		$course_tools = WeblcmsDataManager :: get_tools('basic');
 		$course_modules = array();
@@ -553,7 +553,7 @@ class WeblcmsInstaller extends Installer
 			$course_modules[] = $course_module;
 		}
 		$succes &= $wdm->create_course_modules($course_modules, 10);*/
-		
+
 		return $succes;
 	}
 
@@ -563,7 +563,7 @@ class WeblcmsInstaller extends Installer
 		$course_type->set_name('Common');
 		$course_type->set_description('Example coursetype for a common coursetype');
 		$succes = $course_type->create();
-		 
+
 		$course_type_settings = new CourseTypeSettings();
 		$course_type_settings->set_course_type_id(1);
 		$course_type_settings->set_language('english');
@@ -575,7 +575,7 @@ class WeblcmsInstaller extends Installer
 		$course_type_settings->set_max_number_of_members(0);
 		$course_type_settings->set_max_number_of_members_fixed(0);
 		$succes = $succes && $course_type_settings->create();
-		 
+
 		$course_type_layout = new CourseTypeLayout();
 		$course_type_layout->set_course_type_id(1);
 		$course_type_layout->set_intro_text(1);
@@ -599,14 +599,14 @@ class WeblcmsInstaller extends Installer
 		$course_type_layout->set_course_languages_visible(1);
 		$course_type_layout->set_course_languages_visible_fixed(0);
 		$succes = $succes && $course_type_layout->create();
-		
+
 		$course_type_rights = new CourseTypeRights();
 		$course_type_rights->set_course_type_id(1);
 		$course_type_rights->set_direct_subscribe_available(1);
 		$course_type_rights->set_unsubscribe_available(1);
 		$course_type_rights->set_creation_available(1);
 		$succes = $succes && $course_type_rights->create();
-		
+
 		$wdm = WeblcmsDataManager :: get_instance();
 		$tools = WeblcmsDataManager :: get_tools('basic');
 		foreach($tools as $tool)
@@ -616,14 +616,14 @@ class WeblcmsInstaller extends Installer
 			$course_type_tool->set_name($tool);
 			$course_type_tool->set_visible_default(1);
 			$succes &= $course_type_tool->create();
-				
+
 		}
-		
+
 		$course_type = new CourseType();
 		$course_type->set_name('Curricula');
 		$course_type->set_description('Example coursetype for a curriculum coursetype');
 		$succes = $course_type->create();
-		 
+
 		$course_type_settings = new CourseTypeSettings();
 		$course_type_settings->set_course_type_id(2);
 		$course_type_settings->set_language('english');
@@ -635,7 +635,7 @@ class WeblcmsInstaller extends Installer
 		$course_type_settings->set_max_number_of_members(0);
 		$course_type_settings->set_max_number_of_members_fixed(1);
 		$succes = $succes && $course_type_settings->create();
-		 
+
 		$course_type_layout = new CourseTypeLayout();
 		$course_type_layout->set_course_type_id(2);
 		$course_type_layout->set_intro_text(0);
@@ -659,14 +659,14 @@ class WeblcmsInstaller extends Installer
 		$course_type_layout->set_course_languages_visible(1);
 		$course_type_layout->set_course_languages_visible_fixed(1);
 		$succes = $succes && $course_type_layout->create();
-		 
+
 		$course_type_rights = new CourseTypeRights();
 		$course_type_rights->set_course_type_id(2);
 		$course_type_rights->set_direct_subscribe_available(1);
 		$course_type_rights->set_unsubscribe_available(1);
 		$course_type_rights->set_creation_available(1);
 		$succes = $succes && $course_type_rights->create();
-		
+
 		$wdm = WeblcmsDataManager :: get_instance();
 		$tools = WeblcmsDataManager :: get_tools('basic');
 		foreach($tools as $tool)
@@ -676,15 +676,15 @@ class WeblcmsInstaller extends Installer
 			$course_type_tool->set_name($tool);
 			$course_type_tool->set_visible_default(1);
 			$succes &= $course_type_tool->create();
-				
+
 		}
-		 
+
 		/*
 		 $course_type = new CourseType();
 		 $course_type->set_name('Gundanium Aloid');
 		 $course_type->set_description('A type made of the strongest material known in fiction.');
 		 $succes = $succes && $course_type->create();
-		  
+
 		 $course_type_settings = new CourseTypeSettings();
 		 $course_type_settings->set_course_type_id(2);
 		 $course_type_settings->set_language('english');
@@ -696,7 +696,7 @@ class WeblcmsInstaller extends Installer
 		 $course_type_settings->set_max_number_of_members(30);
 		 $course_type_settings->set_max_number_of_members_fixed(0);
 		 $succes = $succes && $course_type_settings->create();
-		  
+
 		 $course_type_layout = new CourseTypeLayout();
 		 $course_type_layout->set_course_type_id(2);
 		 $course_type_layout->set_intro_text(1);

@@ -27,7 +27,7 @@ class PackageManagerInstallerComponent extends PackageManager
         $trail->add(new Breadcrumb($this->get_url(array('section' => Request :: get('section'), 'package' => Request :: get('package'), 'type' => $type)), Translation :: get('PackageInstallation')));
         $trail->add_help('administration install');
         
-        if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT))
+        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
