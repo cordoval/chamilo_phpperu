@@ -907,6 +907,8 @@ class RightsUtilities
     static function get_allowed_locations($rights = array(), $application, $type, $user_id, $tree_identifier = null, $tree_type = null)
     {
     	/**
+    	 * First idea
+    	 * 
     	 * Retrieve the locations from the application and the given type, optionally treeidentifier and tree type, and add them to an array
     	 * For each of the locations, retrieve the parents and add them to the array (only if parent is unique)
     	 * Retrieve all the user groups
@@ -916,6 +918,14 @@ class RightsUtilities
     	 * the user, the rights, the groups, the templates and the given locations are in from the given type in the given tree
     	 * 
     	 *  return the identifiers of these locations
+    	 *  
+    	 * Second idea
+    	 * 
+    	 * Retrieve all user groups
+    	 * Retrieve all the user templates
+    	 * Retrieve all the locations where a user has a right in the user location relation, group location relation, template location relation  in a given tree_type / tree_identifier
+    	 * 
+    	 * Return the identifiers where the locations type are equal to the given type
     	 */
     }
 }
