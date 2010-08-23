@@ -18,7 +18,6 @@ class RightsUtilities
 {
     const CONSTANT_RIGHT = 'RIGHT';
     const CONSTANT_TYPE = 'TYPE';
-    const CONSTANT_TREE = 'TREE';
 
     private static $is_allowed_cache;
     private static $constants;
@@ -885,6 +884,11 @@ class RightsUtilities
         return self :: get_available_constants($application, self :: CONSTANT_RIGHT);
     }
 
+    static function get_available_types($application)
+    {
+        return self :: get_available_constants($application, self :: CONSTANT_TYPE);
+    }
+
     static function get_allowed_users($right, $identifier, $type, $application = 'admin')
     {
         $rdm = RightsDataManager :: get_instance();
@@ -921,28 +925,28 @@ class RightsUtilities
             return array();
         }
     }
-    
+
     static function get_allowed_locations($rights = array(), $application, $type, $user_id, $tree_identifier = null, $tree_type = null)
     {
     	/**
     	 * First idea
-    	 * 
+    	 *
     	 * Retrieve the locations from the application and the given type, optionally treeidentifier and tree type, and add them to an array
     	 * For each of the locations, retrieve the parents and add them to the array (only if parent is unique)
     	 * Retrieve all the user groups
     	 * Retrieve al the user templates
-    	 * 
-    	 * Retrieve all the locations joined with the user location relation table and group location relation table and template location relation table where 
+    	 *
+    	 * Retrieve all the locations joined with the user location relation table and group location relation table and template location relation table where
     	 * the user, the rights, the groups, the templates and the given locations are in from the given type in the given tree
-    	 * 
+    	 *
     	 *  return the identifiers of these locations
-    	 *  
+    	 *
     	 * Second idea
-    	 * 
+    	 *
     	 * Retrieve all user groups
     	 * Retrieve all the user templates
     	 * Retrieve all the locations where a user has a right in the user location relation, group location relation, template location relation  in a given tree_type / tree_identifier
-    	 * 
+    	 *
     	 * Return the identifiers where the locations type are equal to the given type
     	 */
     }
