@@ -83,9 +83,18 @@ class ReservationsManagerAdminReservationBrowserComponent extends ReservationsMa
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_reservation_url($this->get_item()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        if($this->is_allowed_to_edit)
+        {
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_reservation_url($this->get_item()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
 
         return $action_bar;
+    }
+    
+    function is_allowed_to_edit()
+    {
+    	$item = ReservationsDataManager :: get_instance()->retrieve_items(new EqualityCondition(Item :: PROPERTY_ID, $this->get_item()));
+    	return ($item->get_creator() == $this->get_user_id());
     }
 }
 ?>

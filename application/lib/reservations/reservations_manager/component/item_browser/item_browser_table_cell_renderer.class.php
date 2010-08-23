@@ -50,7 +50,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
         
     	if (get_class($this->browser) == 'ReservationsManagerAdminItemBrowserComponent')
         {
-            if ($this->browser->has_right('item', $item->get_id(), ReservationsRights :: DELETE_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
+            if ($this->browser->get_user_id() == $item->get_creator() || $this->browser->has_right('item', $item->get_id(), ReservationsRights :: DELETE_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
             {
                 $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('Delete'),
@@ -61,7 +61,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
 		        ));
             }
             
-            if ($this->browser->has_right('item', $item->get_id(), ReservationsRights :: EDIT_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
+            if ($this->browser->get_user_id() == $item->get_creator() || $this->browser->has_right('item', $item->get_id(), ReservationsRights :: EDIT_RIGHT) || $item->get_responsible() == $this->browser->get_user_id())
             {
                 $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('Edit'),
