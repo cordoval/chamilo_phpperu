@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../assessment_data_manager.class.php';
 require_once dirname(__FILE__) . '/component/assessment_publication_browser/assessment_publication_browser_table.class.php';
+require_once dirname(__FILE__) . '/../assessment_rights.class.php';
 
 /**
  * A assessment manager
@@ -35,6 +36,7 @@ class AssessmentManager extends WebApplication
     const ACTION_DOWNLOAD_DOCUMENTS = 'download_documents';
     const ACTION_PUBLISH_SURVEY = 'publish_survey';
     const ACTION_BUILD_ASSESSMENT = 'build';
+    const ACTION_EDIT_RIGHTS = 'edit_rights';
 
     /**
      * Constructor
@@ -98,6 +100,9 @@ class AssessmentManager extends WebApplication
                 break;
             case self :: ACTION_BUILD_ASSESSMENT :
             	$component = $this->create_component('Builder');
+            	break;
+            case self :: ACTION_EDIT_RIGHTS:
+            	$component = $this->create_component('RightsEditor');
             	break;
             default :
                 $this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
@@ -239,6 +244,12 @@ class AssessmentManager extends WebApplication
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_ASSESSMENT, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
 
+    function get_rights_editor_url($category = null, $publication_ids = null)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_ASSESSMENT_PUBLICATION => $publication_ids,
+    								'category' => $category));
+    }
+    
     function content_object_is_published($object_id)
     {
         return AssessmentDataManager :: get_instance()->content_object_is_published($object_id);
@@ -278,7 +289,7 @@ class AssessmentManager extends WebApplication
     {
         return AssessmentDataManager :: get_instance()->update_content_object_publication_id($publication_attr);
     }
-
+    
     function get_content_object_publication_locations($content_object)
     {
         $allowed_types = array(Assessment :: get_type_name(), Hotpotatoes :: get_type_name());

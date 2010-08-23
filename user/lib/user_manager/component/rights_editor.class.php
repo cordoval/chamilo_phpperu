@@ -43,7 +43,7 @@ class UserManagerRightsEditorComponent extends UserManager
         {
         	if (UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, 0))
         	{
-        		$locations = UserRights :: get_users_subtree_root_id();
+        		$locations = UserRights :: get_users_subtree_root();
         	}
         }
         
