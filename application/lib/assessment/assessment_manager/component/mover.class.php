@@ -102,8 +102,26 @@ class AssessmentManagerMoverComponent extends AssessmentManager
         $publications = AssessmentDataManager :: get_instance()->retrieve_assessment_publications($condition);
         while ($publication = $publications->next_result())
         {
-            $publication->set_category($category);
+            if($publication->get_category() == $category)
+            {
+            	continue;
+            }
+            
+        	$publication->set_category($category);
             $publication->update();
+            
+            if($category)
+        	{
+        		$new_parent_id = AssessmentRights :: get_location_id_by_identifier_from_assessments_subtree($category, AssessmentRights :: TYPE_CATEGORY);
+        	}
+        	else
+        	{
+        		$new_parent_id = AssessmentRights :: get_assessments_subtree_root_id();	
+        	}
+        	
+        	$location = AssessmentRights :: get_location_by_identifier_from_assessments_subtree($publication->get_id(), AssessmentRights :: TYPE_PUBLICATION);
+        	$location->move($new_parent_id);
+            
         }
         
         return $category;

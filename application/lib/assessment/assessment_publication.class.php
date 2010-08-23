@@ -296,6 +296,41 @@ class AssessmentPublication extends DataClass
         $udm = UserDataManager :: get_instance();
         return $udm->retrieve_user($this->get_publisher());
     }
+    
+    function create()
+    {
+    	$succes = parent :: create();
+    	if(!$succes)
+    	{
+    		return false;
+    	}
+    	
+    	$parent = $this->get_category();
+    	if($parent)
+    	{
+    		$parent_location = AssessmentRights :: get_location_id_by_identifier_from_assessments_subtree($this->get_category(), AssessmentRights :: TYPE_CATEGORY);
+    	}
+    	else
+    	{
+    		$parent_location = AssessmentRights :: get_assessments_subtree_root_id();
+    	}
+    	
+    	return AssessmentRights :: create_location_in_assessments_subtree($this->get_content_object(), $this->get_id(), $parent_location, AssessmentRights :: TYPE_PUBLICATION);
+    }
+    
+    function delete()
+    {
+    	$location = AssessmentRights :: get_location_by_identifier_from_assessments_subtree($this->get_id(), AssessmentRights :: TYPE_PUBLICATION);
+    	if($location)
+    	{
+    		if(!$location->remove())
+    		{
+    			return false;
+    		}
+    	}
+    	
+    	return parent :: delete();
+    }
 }
 
 ?>

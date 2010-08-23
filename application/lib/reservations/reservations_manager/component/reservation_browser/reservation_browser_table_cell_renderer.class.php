@@ -70,7 +70,9 @@ class ReservationBrowserTableCellRenderer extends DefaultReservationTableCellRen
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        if (get_class($this->browser) == 'ReservationsManagerAdminReservationBrowserComponent' && $this->browser->has_right('item', $reservation->get_item(), ReservationsRights :: EDIT_RIGHT))
+        if (get_class($this->browser) == 'ReservationsManagerAdminReservationBrowserComponent' && (
+        	$this->browser->is_allowed_to_edit() ||
+        	$this->browser->has_right('item', $reservation->get_item(), ReservationsRights :: EDIT_RIGHT)))
         {
             if ($reservation->get_subscriptions() == 0)
             {

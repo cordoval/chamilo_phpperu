@@ -5,6 +5,7 @@
  */
 
 require_once dirname(__FILE__) . '/../assessment_data_manager.class.php';
+require_once dirname(__FILE__) . '/../assessment_rights.class.php';
 
 /**
  * This installer can be used to create the storage structure for the
@@ -22,6 +23,20 @@ class AssessmentInstaller extends Installer
     function AssessmentInstaller($values)
     {
         parent :: __construct($values, AssessmentDataManager :: get_instance());
+    }
+    
+    function install_extra()
+    {
+    	if (!AssessmentRights :: create_assessments_subtree_root_location())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('AssessmentsSubtreeCreated'));
+        }
+        
+        return true;
     }
 
     function get_path()
