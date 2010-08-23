@@ -13,7 +13,7 @@ abstract class SurveyContext extends DataClass
     
     private $additionalProperties;
 
-    abstract static public function create_contexts_for_user($user_id, $key, $key_type = '' );
+//    abstract static public function create_contexts_for_user($user_id, $key, $key_type = '' );
     
 	
     abstract static public function get_allowed_keys();
@@ -23,7 +23,10 @@ abstract class SurveyContext extends DataClass
     public function SurveyContext($defaultProperties = array (), $additionalProperties = null)
     {
         parent :: __construct($defaultProperties);
-        $this->additionalProperties = $additionalProperties;
+        if(isset($additionalProperties)){
+        	$this->additionalProperties = $additionalProperties;
+        }
+        
     }
 
     public function create()
@@ -55,7 +58,21 @@ abstract class SurveyContext extends DataClass
         }
 	}
     
-    static function factory($type, $defaultProperties = array(), $additionalProperties = array())
+public function update(){
+	 	
+		$dm = SurveyContextDataManager :: get_instance();
+        
+        if (! $dm->update_survey_context($this))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+	}
+	
+    static function factory($type, $defaultProperties = array(), $additionalProperties = null)
     {
         $class = self :: type_to_class($type);
         require_once dirname(__FILE__) . '/context/' . $type . '/' . $type . '.class.php';
@@ -145,7 +162,7 @@ abstract class SurveyContext extends DataClass
     {
         if (isset($this->additionalProperties))
         {
-            return;
+        	return;
         }
         $dm = SurveyContextDataManager :: get_instance();
         $this->additionalProperties = $dm->retrieve_additional_survey_context_properties($this);

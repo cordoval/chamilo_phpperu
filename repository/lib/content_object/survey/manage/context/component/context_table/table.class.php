@@ -10,11 +10,12 @@ class SurveyContextTable extends ObjectTable
     const DEFAULT_NAME = 'survey_context_table';
 
     
-    function SurveyContextTable($component, $parameters, $condition)
+    function SurveyContextTable($component, $parameters, $condition, $context_registration)
     {
-        $model = new SurveyContextTableColumnModel();
-        $renderer = new SurveyContextTableCellRenderer($component);
-        $data_provider = new SurveyContextTableDataProvider($component, $condition);
+        $context_type = $context_registration->get_type();
+    	$model = new SurveyContextTableColumnModel($context_type);
+        $renderer = new SurveyContextTableCellRenderer($component, $context_registration->get_id());
+        $data_provider = new SurveyContextTableDataProvider($component, $condition, $context_type);
         parent :: __construct($data_provider, SurveyContextTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
              

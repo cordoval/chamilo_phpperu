@@ -5,8 +5,7 @@ require_once dirname(__FILE__) . '/registration_browser/browser_table.class.php'
 class SurveyContextManagerRegistrationBrowserComponent extends SurveyContextManager
 {
     private $ab;
-    private $context_registration;
-
+    
     /**
      * Runs this component and displays its output.
      */
