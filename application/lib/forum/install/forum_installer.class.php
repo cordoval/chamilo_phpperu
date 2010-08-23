@@ -5,6 +5,7 @@
  */
 
 require_once dirname(__FILE__) . '/../forum_data_manager.class.php';
+require_once dirname(__FILE__) . '/../forum_rights.class.php';
 
 /**
  * This installer can be used to create the storage structure for the
@@ -22,6 +23,20 @@ class ForumInstaller extends Installer
         parent :: __construct($values, ForumDataManager :: get_instance());
     }
 
+	function install_extra()
+    {
+    	if (!ForumRights :: create_forums_subtree_root_location())
+        {
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ForumsSubtreeCreated'));
+        }
+        
+        return true;
+    }
+    
     function get_path()
     {
         return dirname(__FILE__);

@@ -77,8 +77,15 @@ class ForumManagerBrowserComponent extends ForumManager
         
         while ($category = $categories->next_result())
         {
-            $table->setCellContents($row, 0, '<a href="javascript:void();">' . $category->get_name() . '</a>');
+            if($this->get_user()->is_platform_admin())
+            {
+        		$toolbar = new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url($category->get_id()), ToolbarItem :: DISPLAY_ICON);
+            	$rights = $toolbar->as_html();
+            }
+            
+            $table->setCellContents($row, 0, '<a href="javascript:void();">' . $category->get_name() . '</a> ' . $rights);
             $table->setCellAttributes($row, 0, array('colspan' => 2, 'class' => 'category'));
+            
             $table->setCellContents($row, 2, '');
             $table->setCellAttributes($row, 2, array('colspan' => 4, 'class' => 'category_right'));
             $row ++;
@@ -143,17 +150,14 @@ class ForumManagerBrowserComponent extends ForumManager
     function get_forum_actions($publication, $first, $last)
     {
     	$toolbar = new Toolbar();
-        if ($this->is_allowed(DELETE_RIGHT))
+        if ($this->get_user()->is_platform_admin() || $publication->get_publisher() == $this->get_user_id())
         {
         	$delete = new ToolbarItem(Translation :: get('Delete'), 
         					Theme :: get_common_image_path() . 'action_delete.png', 
         					$this->get_url(array(ForumManager :: PARAM_PUBLICATION_ID => $publication->get_id(), ForumManager :: PARAM_ACTION => ForumManager :: ACTION_DELETE)),
         					ToolbarItem :: DISPLAY_ICON, 
         					true );
-        }
-        
-        if ($this->is_allowed(EDIT_RIGHT))
-        {
+        					
             if ($publication->is_hidden())
             {
             	$toolbar->add_item(new ToolbarItem(Translation :: get('Show'), 
@@ -252,8 +256,11 @@ class ForumManagerBrowserComponent extends ForumManager
 
         //$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('general'));
         
-
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		if($this->get_user()->is_platform_admin())
+		{
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
         
         return $action_bar;
     }

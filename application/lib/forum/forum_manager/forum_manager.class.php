@@ -4,6 +4,7 @@
  * @package application.lib.forum.forum_manager
  */
 require_once dirname(__FILE__) . '/../forum_data_manager.class.php';
+require_once dirname(__FILE__) . '/../forum_rights.class.php';
 
 /**
  * A forum manager
@@ -27,6 +28,7 @@ class ForumManager extends WebApplication
     const ACTION_MOVE = 'move';
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
     const ACTION_EVALUATE = 'evaluate';
+    const ACTION_EDIT_RIGHTS = 'edit_rights';
     
     private $parameters;
     private $user;
@@ -80,6 +82,9 @@ class ForumManager extends WebApplication
                 break;
             case self :: ACTION_EVALUATE :
             	$component = $this->create_component('ForumEvaluation');
+            	break;
+            case self :: ACTION_EDIT_RIGHTS:
+            	$component = $this->create_component('RightsEditor');
             	break;
             default :
                 $this->set_action(self :: ACTION_BROWSE);
@@ -145,6 +150,11 @@ class ForumManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES));
     }
 
+	function get_rights_editor_url($category = null)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, 'category' => $category));
+    }
+    
     // Dummy Methods which are needed because we don't work with learning objects
     function content_object_is_published($object_id)
     {

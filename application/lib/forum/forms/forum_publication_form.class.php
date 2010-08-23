@@ -241,7 +241,11 @@ class ForumPublicationForm extends FormValidator
         $categories = $fdm->retrieve_forum_publication_categories($condition);
         while ($category = $categories->next_result())
         {
-            $this->categories[$category->get_id()] = str_repeat('__', $level) . ' ' . $category->get_name();
+            if(!ForumRights :: is_allowed_in_forums_subtree(ForumRights :: PUBLISH_RIGHT, $category->get_id()))
+            {
+				continue;            	
+            }
+        	$this->categories[$category->get_id()] = str_repeat('__', $level) . ' ' . $category->get_name();
             $this->get_forum_publication_categories($category->get_id(), $level + 1);
         }
         
