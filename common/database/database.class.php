@@ -208,13 +208,17 @@ class Database
      */
     function create_storage_unit($name, $properties, $indexes)
     {
-        $name = $this->get_table_name($name);
-        $this->connection->loadModule('Manager');
+        
+        $check_name = $this->prefix . $name;
+    	$name = $this->get_table_name($name);
+   
+    	$this->connection->loadModule('Manager');
         $manager = $this->connection->manager;
         // If table allready exists -> drop it
         // @todo This should change: no automatic table drop but warning to user
         $tables = $manager->listTables();
-        if (in_array($name, $tables))
+       
+        if (in_array($check_name, $tables))
         {
             $manager->dropTable($name);
         }
@@ -357,6 +361,7 @@ class Database
             $query = 'UPDATE ' . $this->escape_table_name($table_name) . ' AS ' . $table_name_alias . ' SET ';
 
             $updates = array();
+            
             foreach ($properties as $column => $property)
             {
                 $updates[] = $this->escape_column_name($column) . '=' . $property;
@@ -400,6 +405,9 @@ class Database
 
             $res = $this->query($query);
 
+            dump($res);
+            exit;
+            
             if (MDB2 :: isError($res))
             {
                 return false;
