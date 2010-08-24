@@ -435,19 +435,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             return false;
         }
         
-        if($publication->get_category_id())
-        {
-        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $publication->get_category_id(), $publication->get_course_id());
-        }
-        else
-        {
-        	$course_module_id = $this->retrieve_course_module_by_name($publication->get_course_id(), $publication->get_tool())->get_id();
-        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $publication->get_course_id());
-        }
-
-        $location = WeblcmsRights :: create_location_in_courses_subtree($publication->get_content_object()->get_title(), WeblcmsRights :: TYPE_PUBLICATION, $publication->get_id(), 
-    			    $parent, $publication->get_course_id());
-    			    
         return true;
     }
 
@@ -976,22 +963,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function create_course($course)
     {
-        $succes = $this->create($course);
-        
-        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), RightsUtilities :: TREE_TYPE_ROOT, $course->get_id(), 0, $course->get_id());
-        
-        if($course->get_category())
-        {
-        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_CATEGORY, $course->get_category());
-        }
-        else
-        {
-        	$parent = WeblcmsRights :: get_courses_subtree_root_id();
-        }
-        
-        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), WeblcmsRights :: TYPE_COURSE, $course->get_id(), $parent, 0);
-        
-        return $succes;
+        return $this->create($course);
     }
 
     function create_course_modules($course_modules, $course_code)
@@ -1022,7 +994,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             $module->set_visible(1);
             $module->set_section($section_id);
             $module->set_sort($index);
-            if (! $this->create_course_module($module))
+            if (! $module->create())
                 return false;
         }
         
@@ -1032,10 +1004,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function create_course_module($course_module)
     {
     	$result = $this->create($course_module);
-    	
-    	$location = WeblcmsRights :: create_location_in_courses_subtree($course_module->get_name(), WeblcmsRights :: TYPE_COURSE_MODULE, $course_module->get_id(), 
-    			    WeblcmsRights :: get_courses_subtree_root_id($course_module->get_course_code()), $course_module->get_course_code());
-    	
     	return $result;
     }
 
@@ -1118,15 +1086,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     function create_course_type_user_category($course_type_user_category)
     {
         return $this->create($course_type_user_category);
-    }
-
-    function create_course_all($course)
-    {
-        $succes = $this->create($course);
-        
-        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), 0, $course->get_id(), 0, $course->get_id());
-        
-        return $succes;
     }
 
     function is_subscribed($course, User $user)
@@ -2560,19 +2519,6 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $succes = $this->create($content_object_publication_category);
         
-        if($content_object_publication_category->get_parent())
-        {
-        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $content_object_publication_category->get_parent(), $content_object_publication_category->get_course());
-        }
-        else
-        {
-        	$course_module_id = $this->retrieve_course_module_by_name($content_object_publication_category->get_course(), $content_object_publication_category->get_tool())->get_id();
-        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $content_object_publication_category->get_course());
-        }
-
-        $location = WeblcmsRights :: create_location_in_courses_subtree($content_object_publication_category->get_name(), WeblcmsRights :: TYPE_COURSE_CATEGORY, $content_object_publication_category->get_id(), 
-    			    $parent, $content_object_publication_category->get_course());
-    			    
     	return $succes;
     }
 

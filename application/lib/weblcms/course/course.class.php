@@ -1067,12 +1067,27 @@ class Course extends DataClass
 			$parent_id = WeblcmsRights :: get_courses_subtree_root_id(0);
 		}
 
-        return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE, $this->get_id(), $parent_id, 0);
+        $succes = WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE, $this->get_id(), $parent_id, 0);
+        if(!$succes)
+        {
+        	return false;
+        }
+        
+        return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), RightsUtilities :: TYPE_ROOT, $this->get_id(), 0, $this->get_id());
     }
 
  	function delete()
     {
-        $dm = $this->get_data_manager();
+    	$location = WeblcmsRights :: get_location_by_identifier(WeblcmsRights :: TYPE_COURSE, $this->get_id());
+		if($location)
+		{
+			if(!$location->remove())
+			{
+				return false;
+			}
+		}
+    	
+    	$dm = $this->get_data_manager();
         return $dm->delete_course($this->get_id());
     }
 
