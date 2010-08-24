@@ -42,8 +42,9 @@ class Banner
 
         if (Authentication :: is_valid())
         {
-            $usermgr = new UserManager($_SESSION['_uid']);
-            $user = $usermgr->get_user();
+        	$user = UserDataManager :: get_instance()->retrieve_user($_SESSION['_uid']);
+//                    $usermgr = new UserManager($_SESSION['_uid']);
+//            $user = $usermgr->get_user();
         }
 
         if (! is_null($_SESSION['_as_admin']))

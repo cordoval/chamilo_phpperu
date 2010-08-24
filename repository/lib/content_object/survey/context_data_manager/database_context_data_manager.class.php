@@ -32,10 +32,10 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         
         $type_table = $this->escape_table_name($type);
         
-        $query = 'SELECT * FROM ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $this->get_alias(SurveyContext :: get_table_name());
+        $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name(SurveyContext :: get_table_name()) . ' AS ' . $this->get_alias(SurveyContext :: get_table_name());
         
         $query .= ' JOIN ' . $type_table . ' AS ' . $this->get_alias($type) . ' ON ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $this->get_alias(SurveyContext :: get_table_name())) . '=' . $this->escape_column_name(SurveyContext :: PROPERTY_ID, $this->get_alias($type));
-        
+       
         return $this->count_result_set($query, $type, $condition);
     }
 
