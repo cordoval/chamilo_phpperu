@@ -19,7 +19,7 @@ class SurveyContextManagerRegistrationBrowserComponent extends SurveyContextMana
         
         $output = $this->get_browser_html();
         
-        $this->display_header($trail);
+        $this->display_header();
         echo $this->ab->as_html() . '<br />';
         echo $output;
         $this->display_footer();

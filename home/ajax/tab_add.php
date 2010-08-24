@@ -58,8 +58,10 @@ if ($user_home_allowed && Authentication :: is_valid())
         $json_result['message'] = Translation :: get('TabBlockNotAdded');
     }
 
-    $usermgr = new UserManager($user_id);
-    $user = $usermgr->get_user();
+    	$user = UserDataManager :: get_instance()->retrieve_user($user_id);
+//    $usermgr = new UserManager($user_id);
+//    $user = $usermgr->get_user();
+    
 
     $application = $block->get_application();
     $application_class = Application :: application_to_class($application);
