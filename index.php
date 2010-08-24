@@ -12,8 +12,10 @@ try
 
     if (Session :: get_user_id())
     {
-        $usermgr = new UserManager($_SESSION['_uid']);
-        $user = $usermgr->get_user();
+	$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+//    $usermgr = new UserManager($user_id);
+//    $user = $usermgr->get_user();
+    
     }
     else
     {
