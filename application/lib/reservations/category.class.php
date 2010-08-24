@@ -105,13 +105,13 @@ class Category extends DataClass
         if ($this->get_parent() == 0)
             $parent_location = ReservationsRights :: get_reservations_subtree_root_id();
         else
-            $parent_location = ReservationsRights :: get_location_id_by_identifier_from_reservations_subtree('category', $this->get_parent());
+            $parent_location = ReservationsRights :: get_location_id_by_identifier_from_reservations_subtree(ReservationsRights :: TYPE_CATEGORY, $this->get_parent());
 
-        $succes &= ReservationsRights :: create_location_in_reservations_subtree($this->get_name(), 'category', $this->get_id(), $parent_location);
+        $succes &= ReservationsRights :: create_location_in_reservations_subtree($this->get_name(), ReservationsRights :: TYPE_CATEGORY, $this->get_id(), $parent_location);
 
         return $succes;
     }
-
+    
     function get_data_manager()
     {
         return ReservationsDataManager :: get_instance();
@@ -119,7 +119,16 @@ class Category extends DataClass
 
     function delete()
     {
-        $succes = parent :: delete();
+    	$location = ReservationsRights :: get_location_by_identifier_from_reservations_subtree(ReservationsRights :: TYPE_CATEGORY, $this->get_id());
+    	if($location)
+    	{
+    		if(!$location->remove())
+    		{
+    			return false;
+    		}
+    	}
+    	
+    	$succes = parent :: delete();
         $categories = $this->retrieve_sub_categories($this->get_id(), true);
         foreach ($categories as $category)
         {
