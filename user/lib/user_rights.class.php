@@ -22,7 +22,7 @@ class UserRights
     const TREE_TYPE_USER = 1;
     const TYPE_USER = 1;
     
-    const TYPE_COMPONENT = 'user_component';
+    const TYPE_COMPONENT = 1;
     
     function get_available_rights()
     {

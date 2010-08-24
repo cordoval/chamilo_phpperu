@@ -25,6 +25,8 @@ class LaikaRights
     const LOCATION_VIEWER = 8;
     const LOCATION_INFORMER = 9;
 
+    const TYPE_LAIKA_COMPONENT = 1;
+    
     function get_available_rights()
     {
         $reflect = new ReflectionClass('LaikaRights');

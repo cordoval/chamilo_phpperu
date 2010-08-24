@@ -26,7 +26,7 @@ class CourseCategory extends PlatformCategory
             return false;
         }
         
-    	if (!WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), 'course_category', $this->get_id(), WeblcmsRights :: get_courses_subtree_root_id()))
+    	if (!WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_CATEGORY, $this->get_id(), WeblcmsRights :: get_courses_subtree_root_id()))
         {
             return false;
         }

@@ -986,9 +986,18 @@ class Course extends DataClass
      * Creates the course object in persistent storage
      * @return boolean
      */
-    function create()
+    function create($automated_values = true)
     {
-        $wdm = WeblcmsDataManager :: get_instance();
+        if($automated_values)
+        {
+    		$now = time();
+        	$this->set_last_visit($now);
+        	$this->set_last_edit($now);
+        	$this->set_creation_date($now);
+        	$this->set_expiration_date($now);
+        }
+        
+    	$wdm = WeblcmsDataManager :: get_instance();
 
         if (! $wdm->create_course($this))
             return false;
@@ -1032,42 +1041,33 @@ class Course extends DataClass
         $dropbox = new ContentObjectPublicationCategory();
         $dropbox->create_dropbox($this->get_id());
 
-        $location = new Location();
-        $location->set_location($this->get_name());
-        $location->set_application(WeblcmsManager :: APPLICATION_NAME);
-        $location->set_type_from_object($this);
-        $location->set_identifier($this->get_id());
-
-        $parent = WeblcmsRights :: get_location_id_by_identifier('course_category', 1);
-        //echo 'parent : ' . $parent;
-
-
-        if ($parent)
+        if(!$this->create_location())
         {
-            $location->set_parent($parent);
-        }
-        else
-        {
-            $location->set_parent(0);
-        }
-
-        if (! $location->create())
-        {
-            return false;
+        	return false; 	
         }
         
     	if(!$this->create_root_course_group())
         {
         	return false;
         }
-
+        
         return true;
     }
 
     function create_all()
     {
-        $wdm = WeblcmsDataManager :: get_instance();
-        return $wdm->create_course_all($this);
+        return $this->create(false);
+    }
+    
+    function create_location()
+    {
+        $parent_id = WeblcmsRights :: get_location_id_by_identifier(WeblcmsRights :: TYPE_CATEGORY, $this->get_category());
+		if(!$parent_id)
+		{
+			$parent_id = WeblcmsRights :: get_courses_subtree_root_id(0);
+		}
+
+        return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE, $this->get_id(), $parent_id, 0);
     }
 
  	function delete()

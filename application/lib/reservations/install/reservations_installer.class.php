@@ -41,7 +41,7 @@ class ReservationsInstaller extends Installer
     
     private function create_reservations_subtree()
     {
-    	return RightsUtilities :: create_subtree_root_location(ReservationsManager :: APPLICATION_NAME, 0, 'reservations_tree');
+    	return RightsUtilities :: create_subtree_root_location(ReservationsManager :: APPLICATION_NAME, 0, ReservationsRights :: TREE_TYPE_RESERVATIONS);
     }
 }
 ?>

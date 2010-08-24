@@ -437,15 +437,15 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         
         if($publication->get_category_id())
         {
-        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('publication_category', $publication->get_category_id(), $publication->get_course_id());
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $publication->get_category_id(), $publication->get_course_id());
         }
         else
         {
         	$course_module_id = $this->retrieve_course_module_by_name($publication->get_course_id(), $publication->get_tool())->get_id();
-        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('course_module', $course_module_id, $publication->get_course_id());
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $publication->get_course_id());
         }
 
-        $location = WeblcmsRights :: create_location_in_courses_subtree($publication->get_content_object()->get_title(), 'publication', $publication->get_id(), 
+        $location = WeblcmsRights :: create_location_in_courses_subtree($publication->get_content_object()->get_title(), WeblcmsRights :: TYPE_PUBLICATION, $publication->get_id(), 
     			    $parent, $publication->get_course_id());
     			    
         return true;
@@ -976,26 +976,20 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
 
     function create_course($course)
     {
-        $now = time();
-        $course->set_last_visit($now);
-        $course->set_last_edit($now);
-        $course->set_creation_date($now);
-        $course->set_expiration_date($now);
-        
         $succes = $this->create($course);
         
-        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), 'root', $course->get_id(), 0, $course->get_id());
+        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), RightsUtilities :: TREE_TYPE_ROOT, $course->get_id(), 0, $course->get_id());
         
         if($course->get_category())
         {
-        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('course_category', $course->get_category());
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_CATEGORY, $course->get_category());
         }
         else
         {
         	$parent = WeblcmsRights :: get_courses_subtree_root_id();
         }
         
-        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), 'course', $course->get_id(), $parent, 0);
+        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), WeblcmsRights :: TYPE_COURSE, $course->get_id(), $parent, 0);
         
         return $succes;
     }
@@ -1039,7 +1033,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
     	$result = $this->create($course_module);
     	
-    	$location = WeblcmsRights :: create_location_in_courses_subtree($course_module->get_name(), 'course_module', $course_module->get_id(), 
+    	$location = WeblcmsRights :: create_location_in_courses_subtree($course_module->get_name(), WeblcmsRights :: TYPE_COURSE_MODULE, $course_module->get_id(), 
     			    WeblcmsRights :: get_courses_subtree_root_id($course_module->get_course_code()), $course_module->get_course_code());
     	
     	return $result;
@@ -1130,7 +1124,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
     {
         $succes = $this->create($course);
         
-        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), 'root', $course->get_id(), 0, $course->get_id());
+        $location = WeblcmsRights :: create_location_in_courses_subtree($course->get_name(), 0, $course->get_id(), 0, $course->get_id());
         
         return $succes;
     }
@@ -2568,15 +2562,15 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         
         if($content_object_publication_category->get_parent())
         {
-        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('publication_category', $content_object_publication_category->get_parent(), $content_object_publication_category->get_course());
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $content_object_publication_category->get_parent(), $content_object_publication_category->get_course());
         }
         else
         {
         	$course_module_id = $this->retrieve_course_module_by_name($content_object_publication_category->get_course(), $content_object_publication_category->get_tool())->get_id();
-        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree('course_module', $course_module_id, $content_object_publication_category->get_course());
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $content_object_publication_category->get_course());
         }
 
-        $location = WeblcmsRights :: create_location_in_courses_subtree($content_object_publication_category->get_name(), 'publication_category', $content_object_publication_category->get_id(), 
+        $location = WeblcmsRights :: create_location_in_courses_subtree($content_object_publication_category->get_name(), WeblcmsRights :: TYPE_COURSE_CATEGORY, $content_object_publication_category->get_id(), 
     			    $parent, $content_object_publication_category->get_course());
     			    
     	return $succes;
