@@ -106,7 +106,20 @@ class Event extends DataClass
     function create()
     {
         $trkdmg = TrackingDataManager :: get_instance();
-        return $trkdmg->create_event($this);
+        $succes = $trkdmg->create_event($this);
+        if(!$succes)
+        {
+        	return false;
+        }
+        
+        $parent = TrackingRights :: get_tracking_subtree_root_id();
+        if(!$parent)
+        {
+        	TrackingRights :: create_tracking_subtree_root_location();
+        	$parent = TrackingRights :: get_tracking_subtree_root_id();
+        }
+        
+        return TrackingRights :: create_location_in_tracking_subtree($this->get_name(), $this->get_id(), $parent);
     }
 
     static function get_table_name()

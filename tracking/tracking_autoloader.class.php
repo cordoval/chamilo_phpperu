@@ -30,7 +30,7 @@ class TrackingAutoloader
 	static function check_for_general_files($classname)
 	{
 		$list = array('archive_controller_item', 'event_rel_tracker', 'event', 'events', 'tracker_registration',
-					  'tracker_setting', 'tracking_data_manager', 'tracker', 'aggregate_tracker', 'simple_tracker', 'changes_tracker');
+					  'tracker_setting', 'tracking_data_manager', 'tracker', 'aggregate_tracker', 'simple_tracker', 'changes_tracker', 'tracking_rights');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
