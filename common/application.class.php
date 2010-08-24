@@ -173,7 +173,7 @@ abstract class Application
      * @param string $value The parameter value.
      */
     function set_parameter($name, $value)
-    {dump(get_class($this) . ' | ' . $name);
+    {
         $this->parameters[$name] = $value;
     }
 
