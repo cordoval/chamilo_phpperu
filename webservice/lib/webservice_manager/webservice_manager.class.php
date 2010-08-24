@@ -114,19 +114,16 @@ class WebserviceManager extends CoreApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => $webserviceCategory));
     }
 
-    public static function get_tool_bar_item($id)
+    public function get_tool_bar_item($id)
     {
-        $wdm = new WebserviceManager();
-        
         $toolbar_item = WebserviceDataManager :: get_instance()->retrieve_webservice_category($id);
         if (isset($toolbar_item))
         {
-            $url = $wdm->get_manage_roles_cat_url($toolbar_item);
+            $url = $this->get_manage_roles_cat_url($toolbar_item);
         }
         else
         {
-            $wsm = new WebserviceManager();
-            $url = $wsm->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => null));
+            $url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => null));
         }
         return new ToolbarItem(Translation :: get('ChangeRights'), Theme :: get_common_image_path() . 'action_rights.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false);
     }
