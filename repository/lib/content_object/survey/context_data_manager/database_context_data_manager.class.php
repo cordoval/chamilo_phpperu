@@ -98,10 +98,9 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
             $properties = Array();
             $alias = $this->get_alias(Utilities :: camelcase_to_underscores(get_class($context)));
             foreach ($context->get_additional_property_names() as $property_name) {
-            	$properties[$property_name] = $this->escape($context->get_additional_property($property_name));
+            	$properties[$property_name] = $this->quote($context->get_additional_property($property_name));
             }
-        	dump($properties);
-            $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
+        	$condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
             $this->update_objects(Utilities :: camelcase_to_underscores(get_class($context)), $properties, $condition);
         }
         

@@ -404,9 +404,6 @@ class Database
             }
 
             $res = $this->query($query);
-
-            dump($res);
-            exit;
             
             if (MDB2 :: isError($res))
             {
