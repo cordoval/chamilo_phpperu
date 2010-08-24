@@ -24,9 +24,9 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManager
         $trail->add(new Breadcrumb($this->get_url(array(TrackingManager :: PARAM_EVENT_ID => Request :: get('event_id'))), Translation :: get('ViewEvent')));
         $trail->add_help('tracking general');
         
-        $event_id = Request :: get('event_id');
+        $event_id = Request :: get(TrackingManager :: PARAM_EVENT_ID);
         
-        if (TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: VIEW_RIGHT, $event_id))
+        if (!TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: VIEW_RIGHT, $event_id))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
@@ -50,6 +50,6 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManager
         
         $this->display_footer();
     }
-
+    
 }
 ?>
