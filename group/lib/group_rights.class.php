@@ -27,6 +27,11 @@ class GroupRights extends RightsUtilities
         return parent :: get_available_rights(GroupManager :: APPLICATION_NAME);
     }
 
+    static function get_available_types()
+    {
+        return parent :: get_available_types(GroupManager :: APPLICATION_NAME);
+    }
+
     static function is_allowed($right, $location)
     {
         return RightsUtilities :: is_allowed($right, $location, self :: TYPE_GROUP, GroupManager :: APPLICATION_NAME);

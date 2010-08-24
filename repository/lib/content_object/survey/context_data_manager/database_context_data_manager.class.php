@@ -90,9 +90,22 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         $this->delete_objects(SurveyContext :: get_table_name(), $condition);
     }
 
-    function update_survey_context($survey_context)
+    function update_survey_context($context)
     {
-        ;
+   	
+    	if ($context->get_additional_properties())
+        {
+            $properties = Array();
+            $alias = $this->get_alias(Utilities :: camelcase_to_underscores(get_class($context)));
+            foreach ($context->get_additional_property_names() as $property_name) {
+            	$properties[$property_name] = $this->quote($context->get_additional_property($property_name));
+            }
+        	$condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
+            $this->update_objects(Utilities :: camelcase_to_underscores(get_class($context)), $properties, $condition);
+        }
+        
+//        $condition = new EqualityCondition(SurveyContext :: PROPERTY_ID, $context->get_id());
+//        $this->delete_objects(SurveyContext :: get_table_name(), $condition);
     }
 
     function create_survey_context_template($survey_context_template)
@@ -142,7 +155,7 @@ class DatabaseSurveyContextDataManager extends DatabaseRepositoryDataManager imp
         }
         
         $query = 'SELECT ' . implode(',', $array) . ' FROM ' . $this->escape_table_name($type) . ' WHERE ' . $this->escape_column_name(SurveyContext :: PROPERTY_ID) . '=' . $survey_context->get_id();
-        
+                
         $this->set_limit(1);
         $res = $this->query($query);
         $return = $res->fetchRow(MDB2_FETCHMODE_ASSOC);

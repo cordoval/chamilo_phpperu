@@ -12,7 +12,7 @@ class SurveyContextManager extends SubManager
     
     const PARAM_CONTEXT_REGISTRATION_ID = 'context_registration_id';
     const PARAM_CONTEXT_ID = 'context_id';
-     const PARAM_CONTEXT = 'context';
+    const PARAM_CONTEXT = 'context';
     
     const ACTION_CREATE_CONTEXT_REGISTRATION = 'create_context_registration';
     const ACTION_EDIT_CONTEXT_REGISTRATION = 'edit_context_registration';
@@ -20,9 +20,9 @@ class SurveyContextManager extends SubManager
     const ACTION_VIEW_CONTEXT_REGISTRATION = 'view_context_registration';
     const ACTION_BROWSE_CONTEXT_REGISTRATION = 'browse_context_registration';
     
-    const ACTION_CREATE_CONTEXT = 'create_context_registration';
-    const ACTION_EDIT_CONTEXT = 'edit_context_registration';
-    const ACTION_DELETE_CONTEXT = 'delete_context_registration';
+    const ACTION_CREATE_CONTEXT = 'create_context';
+    const ACTION_EDIT_CONTEXT = 'edit_context';
+    const ACTION_DELETE_CONTEXT = 'delete_context';
 
     function SurveyContextManager($repository_manager)
     {
@@ -42,9 +42,9 @@ class SurveyContextManager extends SubManager
 
     function run()
     {
-        $this->set_parameter(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE, Survey::get_type_name());
+        $this->set_parameter(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE, Survey :: get_type_name());
         $this->set_parameter(RepositoryManager :: PARAM_CONTENT_OBJECT_MANAGER_TYPE, self :: PARAM_CONTEXT);
-    	$action = $this->get_parameter(self :: PARAM_ACTION);
+        $action = $this->get_parameter(self :: PARAM_ACTION);
         
         switch ($action)
         {
@@ -63,6 +63,12 @@ class SurveyContextManager extends SubManager
                 break;
             case self :: ACTION_BROWSE_CONTEXT_REGISTRATION :
                 $component = $this->create_component('RegistrationBrowser');
+                break;
+            case self :: ACTION_CREATE_CONTEXT :
+                $component = $this->create_component('ContextCreator');
+                break;
+            case self :: ACTION_EDIT_CONTEXT :
+                $component = $this->create_component('ContextUpdater');
                 break;
             default :
                 $this->set_parameter(self :: PARAM_ACTION, self :: ACTION_BROWSE_CONTEXT_REGISTRATION);
@@ -90,6 +96,10 @@ class SurveyContextManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTEXT, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id()));
     }
 
+    function get_context_update_url($context_registration_id, $survey_context)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTEXT, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration_id, self :: PARAM_CONTEXT_ID => $survey_context->get_id()));
+    }
 }
 
 ?>

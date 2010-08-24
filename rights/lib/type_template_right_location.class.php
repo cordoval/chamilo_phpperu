@@ -9,7 +9,6 @@ class TypeTemplateRightLocation extends DataClass
     const PROPERTY_RIGHT_ID = 'right_id';
     const PROPERTY_TYPE_TEMPLATE_ID = 'type_template_id';
     const PROPERTY_APPLICATION = 'application';
-    const PROPERTY_TREE_TYPE = 'tree_type';
     const PROPERTY_TYPE = 'type';
     const PROPERTY_VALUE = 'value';
 
@@ -19,7 +18,7 @@ class TypeTemplateRightLocation extends DataClass
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_RIGHT_ID, self :: PROPERTY_TYPE_TEMPLATE_ID, self :: PROPERTY_APPLICATION, self :: PROPERTY_TREE_TYPE, self :: PROPERTY_TYPE, self :: PROPERTY_VALUE);
+        return array(self :: PROPERTY_RIGHT_ID, self :: PROPERTY_TYPE_TEMPLATE_ID, self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_VALUE);
     }
 
     /**
@@ -59,17 +58,17 @@ class TypeTemplateRightLocation extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_APPLICATION, $application);
     }
-    
-    function get_tree_type()
-    {
-        return $this->get_default_property(self :: PROPERTY_TREE_TYPE);
-    }
 
-    function set_tree_type($tree_type)
-    {
-        $this->set_default_property(self :: PROPERTY_TREE_TYPE, $tree_type);
-    }
-    
+//    function get_tree_type()
+//    {
+//        return $this->get_default_property(self :: PROPERTY_TREE_TYPE);
+//    }
+//
+//    function set_tree_type($tree_type)
+//    {
+//        $this->set_default_property(self :: PROPERTY_TREE_TYPE, $tree_type);
+//    }
+
     function get_type()
     {
         return $this->get_default_property(self :: PROPERTY_TYPE);

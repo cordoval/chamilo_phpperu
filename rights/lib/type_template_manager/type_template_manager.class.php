@@ -10,7 +10,7 @@ class TypeTemplateManager extends SubManager
     const PARAM_TYPE_TEMPLATE_ACTION = 'action';
     const PARAM_SOURCE = 'source';
     const PARAM_LOCATION = 'location';
-    
+
     const ACTION_BROWSE_TYPE_TEMPLATES = 'browse';
     const ACTION_EDIT_TYPE_TEMPLATE = 'edit';
     const ACTION_DELETE_TYPE_TEMPLATES = 'delete';
@@ -20,7 +20,7 @@ class TypeTemplateManager extends SubManager
     function TypeTemplateManager($rights_manager)
     {
         parent :: __construct($rights_manager);
-        
+
         $type_template_action = Request :: get(self :: PARAM_TYPE_TEMPLATE_ACTION);
         if ($type_template_action)
         {
@@ -31,7 +31,7 @@ class TypeTemplateManager extends SubManager
     function run()
     {
         $rights_template_action = $this->get_parameter(self :: PARAM_TYPE_TEMPLATE_ACTION);
-        
+
         switch ($rights_template_action)
         {
             case self :: ACTION_BROWSE_TYPE_TEMPLATES :
@@ -46,11 +46,14 @@ class TypeTemplateManager extends SubManager
             case self :: ACTION_CREATE_TYPE_TEMPLATE :
                 $component = $this->create_component('Creator');
                 break;
+            case self :: ACTION_CONFIGURE_TYPE_TEMPLATES :
+                $component = $this->create_component('RightsTemplater');
+                break;
             default :
                 $component = $this->create_component('Browser');
                 break;
         }
-        
+
         $component->run();
     }
 

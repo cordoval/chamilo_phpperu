@@ -202,14 +202,15 @@ class SurveyContextRegistrationForm extends FormValidator
         }
         else
         {
-            $result = false;
+            return false;
         }
         
-        $this->create_files($type, $properties);
-        
-        dump($properties);
-        
-        exit();
+        $result = $this->create_files($type, $properties);
+       
+        if($result){
+        	$result = $context_registration->create();
+        	
+        }
         
         return $result;
     }
@@ -239,22 +240,32 @@ class SurveyContextRegistrationForm extends FormValidator
     function create_files($type, $properties)
     {
         
+        $result = false;
         $filename = $type;
         $repository_directory = Path :: get_repository_path();
         
         $path = $repository_directory . self :: ROOT_DIR;
         $new_dir = $path . self :: CONTEXT . '/' . $type;
-        dump($new_dir);
         
-        Filesystem :: create_dir($new_dir);
+        $result = Filesystem :: create_dir($new_dir);
         
-        $content = $this->get_class_file($type, $properties);
-        Filesystem :: write_to_file($new_dir . '/' . $type . '.class.php', $content);
+        if ($result)
+        {
+            $content = $this->get_class_file($type, $properties);
+            $result = Filesystem :: write_to_file($new_dir . '/' . $type . '.class.php', $content);
+            
+            $content = $this->get_xml_file($type, $properties);
+            $result = Filesystem :: write_to_file($new_dir . '/' . $type . '.xml', $content);
+            
+            if ($result)
+            {
+                $manager = RepositoryDataManager :: get_instance();
+                $storage_unit_info = $this->parse_xml_file($new_dir . '/' . $type . '.xml');
+                $result = $manager->create_storage_unit($storage_unit_info['name'], $storage_unit_info['properties'], $storage_unit_info['indexes']);
+            }
         
-        $content = $this->get_xml_file($type, $properties);
-        Filesystem :: write_to_file($new_dir . '/' . $type . '.xml', $content);
-   	
-        	
+        }
+        return $result;
     }
 
     function get_class_file($type, $properties)
@@ -263,7 +274,7 @@ class SurveyContextRegistrationForm extends FormValidator
         $context_class = array();
         
         $context_class[] = '<?php';
-        $context_class[] = 'require_once (Path :: get_repository_path()' . '\.\'lib/content_object/survey/survey_context.class.php\');';
+        $context_class[] = 'require_once (Path :: get_repository_path().'.'\''.'/lib/content_object/survey/survey_context.class.php\');';
         
         $context_class[] = 'class ' . Utilities :: underscores_to_camelcase($type) . ' extends SurveyContext';
         $context_class[] = '{';
@@ -324,27 +335,97 @@ class SurveyContextRegistrationForm extends FormValidator
     
     }
 
-    function get_xml_file($type)
+    function get_xml_file($type, $properties)
     {
         $context_class = array();
         $context_class[] = '<?xml version="1.0" encoding="UTF-8"?>';
-        $context_class[] = '<object name="'.$type.'">';
+        $context_class[] = '<object name="' . $type . '">';
         $context_class[] = '	<properties>';
         $context_class[] = '		<property name="id" type="integer" unsigned="1" notnull="1" />';
         
-    	foreach ($properties as $property => $is_key)
+        foreach ($properties as $property => $is_key)
         {
-            $context_class[] = '		<property name="'.strtolower($property).'" type="text" />';
+            $context_class[] = '		<property name="' . strtolower($property) . '" type="text" length="50" fixed="true" notnull="1" />';
         }
-       
+        
         $context_class[] = '	</properties>';
         $context_class[] = '	<index name="id" type="primary">';
         $context_class[] = '		<indexproperty name="id" />';
         $context_class[] = '	</index>';
+        
+        foreach ($properties as $property => $is_key)
+        {
+            if ($is_key)
+            {
+                $context_class[] = '	<index name="' . strtolower($property) . '" type="unique">';
+                $context_class[] = '		<indexproperty name="' . strtolower($property) . '" />';
+                $context_class[] = '	</index>';
+            
+            }
+        }
+        
         $context_class[] = '</object>';
         $content = implode("\n", $context_class);
         return $content;
     }
 
+    /**
+     * Parses an XML file describing a storage unit.
+     * For defining the 'type' of the field, the same definition is used as the
+     * PEAR::MDB2 package. See http://pear.php.net/manual/en/package.database.
+     * mdb2.datatypes.php
+     * @param string $file The complete path to the XML-file from which the
+     * storage unit definition should be read.
+     * @return array An with values for the keys 'name','properties' and
+     * 'indexes'
+     */
+    public function parse_xml_file($file)
+    {
+        $name = '';
+        $properties = array();
+        $indexes = array();
+        
+        $doc = new DOMDocument();
+        $doc->load($file);
+        $object = $doc->getElementsByTagname('object')->item(0);
+        $name = $object->getAttribute('name');
+        $xml_properties = $doc->getElementsByTagname('property');
+        $attributes = array('type', 'length', 'unsigned', 'notnull', 'default', 'autoincrement', 'fixed');
+        foreach ($xml_properties as $index => $property)
+        {
+            $property_info = array();
+            foreach ($attributes as $index => $attribute)
+            {
+                if ($property->hasAttribute($attribute))
+                {
+                    $property_info[$attribute] = $property->getAttribute($attribute);
+                }
+            }
+            $properties[$property->getAttribute('name')] = $property_info;
+        }
+        $xml_indexes = $doc->getElementsByTagname('index');
+        foreach ($xml_indexes as $key => $index)
+        {
+            $index_info = array();
+            $index_info['type'] = $index->getAttribute('type');
+            $index_properties = $index->getElementsByTagname('indexproperty');
+            foreach ($index_properties as $subkey => $index_property)
+            {
+                $index_info['fields'][$index_property->getAttribute('name')] = array('length' => $index_property->getAttribute('length'));
+            }
+            $indexes[$index->getAttribute('name')] = $index_info;
+        }
+        $result = array();
+        $result['name'] = $name;
+        $result['properties'] = $properties;
+        $result['indexes'] = $indexes;
+        
+        return $result;
+    }
+    
+    public function get_context_registration(){
+    	return $this->context_registration;
+    } 
+    
 }
 ?>
