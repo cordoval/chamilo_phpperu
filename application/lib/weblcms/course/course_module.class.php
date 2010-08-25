@@ -146,7 +146,10 @@ class CourseModule extends DataClass
 		foreach($tools as $index => $tool)
 		{
 			if($course_type_tools)
+			{
 				$tool = $tool->get_name();
+			}
+			
 			$element_default = $tool . "elementdefault";
 			$course_module = new CourseModule();
 			$course_module->set_course_code($course_code);

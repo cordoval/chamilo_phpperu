@@ -136,7 +136,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
             if ($tool)
             {
                 $title = CourseLayout :: get_title($this->get_course());
-                $trail->add(new Breadcrumb($this->get_url(), $title));
+                $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_CATEGORY => null)), $title));
 
                 if ($tool != 'course_group')
                 {

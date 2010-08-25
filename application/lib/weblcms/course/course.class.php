@@ -1019,7 +1019,12 @@ class Course extends DataClass
 		
         if (! $this->initialize_course_sections())
             return false;
-			
+		
+    	if(!$this->create_location())
+        {
+        	return false; 	
+        }
+            
 		if(!$this->tools)
 		{
 			$course_type_id = $this->get_course_type_id();
@@ -1041,11 +1046,6 @@ class Course extends DataClass
         $dropbox = new ContentObjectPublicationCategory();
         $dropbox->create_dropbox($this->get_id());
 
-        if(!$this->create_location())
-        {
-        	return false; 	
-        }
-        
     	if(!$this->create_root_course_group())
         {
         	return false;
@@ -1073,7 +1073,7 @@ class Course extends DataClass
         	return false;
         }
         
-        return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), RightsUtilities :: TYPE_ROOT, $this->get_id(), 0, $this->get_id());
+        return RightsUtilities :: create_subtree_root_location(WeblcmsManager :: APPLICATION_NAME, $this->get_id(), WeblcmsRights :: TREE_TYPE_COURSE);
     }
 
  	function delete()

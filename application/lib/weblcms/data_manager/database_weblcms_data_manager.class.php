@@ -980,7 +980,7 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
             $section_id = $sections[CourseSection :: TYPE_TOOL][0]->get_id();
             $module->set_section($section_id);
-            if (! $this->create_course_module($module))
+            if (! $module->create())
                 return false;
         }
         

@@ -23,10 +23,21 @@ class WeblcmsRights
 	const TYPE_COURSE_CATEGORY = 4;
 	const TYPE_PUBLICATION = 5;
 
-    static function get_available_rights()
+	static function get_available_rights()
     {
-        $reflect = new ReflectionClass('WeblcmsRights');
-        return $reflect->getConstants();
+        $reflect = new ReflectionClass(__CLASS__);
+
+	    $rights = $reflect->getConstants();
+
+	    foreach($rights as $key => $right)
+		{
+			if(substr(strtolower($key), -5) != 'right')
+			{
+				unset($rights[$key]);
+			}
+		}
+
+	    return $rights;
     }
 
     static function is_allowed($right, $location, $type)

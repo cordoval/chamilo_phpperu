@@ -19,7 +19,7 @@ class ToolBrowserComponent extends ToolComponent
         $this->introduction_text = $this->get_parent()->get_introduction_text();
         $this->action_bar = $this->get_action_bar();
 
-        $tree_id = WeblcmsManager :: PARAM_CATEGORY;
+        $tree_id = Request :: get(WeblcmsManager :: PARAM_CATEGORY);
         $this->publication_category_tree = new ContentObjectPublicationCategoryTree($this, $tree_id);
 
         $publication_renderer = ContentObjectPublicationListRenderer :: factory($this->get_parent()->get_browser_type(), $this);
@@ -104,8 +104,14 @@ class ToolBrowserComponent extends ToolComponent
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
+        
+        if ($this->is_allowed(EDIT_RIGHT))
+        {
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
 
         if ($this->is_allowed(EDIT_RIGHT) && $this->get_parent() instanceof Categorizable)
         {

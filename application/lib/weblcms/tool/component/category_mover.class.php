@@ -39,7 +39,7 @@ class ToolCategoryMoverComponent extends ToolComponent
                     
 		        	if($publication->get_category_id())
 		        	{
-		        		$new_parent_id = WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $publication->get_category_id(), $publication->get_course_id());
+		        		$new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $publication->get_category_id(), $publication->get_course_id());
 		        	}
 		        	else
 		        	{

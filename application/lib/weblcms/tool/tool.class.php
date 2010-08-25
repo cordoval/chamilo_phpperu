@@ -42,6 +42,7 @@ abstract class Tool extends SubManager
     const ACTION_SHOW_PUBLICATION = 'show';
     const ACTION_HIDE_PUBLICATION = 'hide';
     const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
+    const ACTION_EDIT_RIGHTS = 'edit_rights';
 
     /**
      * The action of the tool
