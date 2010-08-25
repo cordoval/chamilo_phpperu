@@ -504,7 +504,7 @@ class SurveyManager extends WebApplication
     static function publish_content_object($content_object, $location, $attributes)
     {
 
-        if (! SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', 'sts_component'))
+		if (! SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             return Translation :: get('NoRightsForSurveyPublication');
         }

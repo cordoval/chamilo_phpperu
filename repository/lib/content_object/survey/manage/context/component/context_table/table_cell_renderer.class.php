@@ -9,15 +9,17 @@ class SurveyContextTableCellRenderer extends DefaultSurveyContextTableCellRender
 {
     
     private $component;
+    private $context_registration_id;
 
     /**
      * Constructor
      * @param RepositoryManagerComponent $component
      */
-    function SurveyContextTableCellRenderer($component)
+    function SurveyContextTableCellRenderer($component, $context_registration_id)
     {
         parent :: __construct();
         $this->component = $component;
+        $this->context_registration_id = $context_registration_id;
     }
 
     // Inherited
@@ -32,31 +34,35 @@ class SurveyContextTableCellRenderer extends DefaultSurveyContextTableCellRender
         switch ($column->get_name())
         {
             // Exceptions that need post-processing go here ...
-//            case SurveyContext :: PROPERTY_NAME :
-//                $title = parent :: render_cell($column, $context);
-//                $title_short = $title;
-//                if (strlen($title_short) > 53)
-//                {
-//                    $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
-//                }
-//                
-//                return '<a href="' . htmlentities($this->component->get_context_registration_viewing_url($context)) . '" title="' . $title . '">' . $title_short . '</a>';
-//            case SurveyContext :: PROPERTY_DESCRIPTION :
-//                $description = strip_tags(parent :: render_cell($column, $context));
-//                if (strlen($description) > 175)
-//                {
-//                    $description = mb_substr($description, 0, 170) . '&hellip;';
-//                }
-//                return Utilities :: truncate_string($description);
+        //            case SurveyContext :: PROPERTY_NAME :
+        //                $title = parent :: render_cell($column, $context);
+        //                $title_short = $title;
+        //                if (strlen($title_short) > 53)
+        //                {
+        //                    $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
+        //                }
+        //                
+        //                return '<a href="' . htmlentities($this->component->get_context_registration_viewing_url($context)) . '" title="' . $title . '">' . $title_short . '</a>';
+        //            case SurveyContext :: PROPERTY_DESCRIPTION :
+        //                $description = strip_tags(parent :: render_cell($column, $context));
+        //                if (strlen($description) > 175)
+        //                {
+        //                    $description = mb_substr($description, 0, 170) . '&hellip;';
+        //                }
+        //                return Utilities :: truncate_string($description);
+        
 
         }
         
         return parent :: render_cell($column, $context);
     }
-   
+
     private function get_modification_links($context)
     {
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
+        $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->component->get_context_update_url($this->context_registration_id, $context), ToolbarItem :: DISPLAY_ICON));
+        return $toolbar->as_html();
     }
 }
 ?>

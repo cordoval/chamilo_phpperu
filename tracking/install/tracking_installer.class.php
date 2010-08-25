@@ -16,7 +16,7 @@ class TrackingInstaller extends Installer
     {
         parent :: __construct($values, TrackingDataManager :: get_instance());
     }
-
+    
     function get_path()
     {
         return dirname(__FILE__);

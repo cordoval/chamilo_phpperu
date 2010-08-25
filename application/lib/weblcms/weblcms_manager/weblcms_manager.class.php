@@ -196,7 +196,7 @@ class WeblcmsManager extends WebApplication
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => null, self :: PARAM_COURSE => null)), Translation :: get('MyCourses')));
+		$trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_CATEGORY => null, self :: PARAM_ACTION => null, self :: PARAM_COURSE => null)), Translation :: get('MyCourses')));
 
         $action = $this->get_action();
 

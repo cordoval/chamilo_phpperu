@@ -26,6 +26,7 @@ class TrackingManager extends CoreApplication
     const ACTION_EMPTY_TRACKER = 'empty_tracker';
     const ACTION_EMPTY_EVENT_TRACKERS = 'empty_event_trackers';
     const ACTION_ARCHIVE = 'archive';
+    const ACTION_MANAGE_RIGHTS = 'manage_rights';
 
     private $tdm;
 
@@ -81,6 +82,9 @@ class TrackingManager extends CoreApplication
                 break;
             case self :: ACTION_ARCHIVE :
                 $component = $this->create_component('Archiver');
+                break;
+            case self :: ACTION_MANAGE_RIGHTS:
+            	$component = $this->create_component('RightsEditor');
                 break;
             default :
                 $component = $this->create_component('AdminEventBrowser');
@@ -230,6 +234,11 @@ class TrackingManager extends CoreApplication
     function retrieve_event_by_name($eventname)
     {
         return $this->tdm->retrieve_event_by_name($eventname);
+    }
+
+    function get_manage_rights_url($event_id)
+    {
+    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS, self :: PARAM_EVENT_ID => $event_id));
     }
 
 }

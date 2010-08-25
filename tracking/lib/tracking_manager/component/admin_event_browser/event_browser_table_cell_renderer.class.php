@@ -44,7 +44,10 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
 
         if ($property == Event :: PROPERTY_NAME && $event->get_active() == 1)
         {
-            return '<a href="' . $this->browser->get_event_viewer_url($event) . '">' . $event->get_default_property($property) . '</a>';
+            if(TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: VIEW_RIGHT, $event->get_id()))
+            {
+        		return '<a href="' . $this->browser->get_event_viewer_url($event) . '">' . $event->get_default_property($property) . '</a>';
+            }
         }
 
         return parent :: render_cell($column, $event);
@@ -60,19 +63,30 @@ class EventBrowserTableCellRenderer extends DefaultEventTableCellRenderer
     {
         $toolbar = new Toolbar();
 
-        $toolbar->add_item(new ToolbarItem(
-        	($event->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'),
-        	($event->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png',
-			$this->browser->get_change_active_url('event', $event->get_id()),
-			ToolbarItem :: DISPLAY_ICON
-		));
-
-		$toolbar->add_item(new ToolbarItem(
-        	Translation :: get('Empty_event'),
-        	Theme :: get_common_image_path().'action_recycle_bin.png',
-			$this->browser->get_empty_tracker_url('event', $event->get_id()),
-			ToolbarItem :: DISPLAY_ICON
-		));
+        if(TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: EDIT_RIGHT, $event->get_id()))
+        {
+        
+	        $toolbar->add_item(new ToolbarItem(
+	        	($event->get_active() == 1) ? Translation :: get('Deactivate') : Translation :: get('Activate'),
+	        	($event->get_active() == 1) ? Theme :: get_common_image_path() . 'action_visible.png' : Theme :: get_common_image_path() . 'action_invisible.png',
+				$this->browser->get_change_active_url('event', $event->get_id()),
+				ToolbarItem :: DISPLAY_ICON
+			));
+	
+			$toolbar->add_item(new ToolbarItem(
+	        	Translation :: get('Empty_event'),
+	        	Theme :: get_common_image_path().'action_recycle_bin.png',
+				$this->browser->get_empty_tracker_url('event', $event->get_id()),
+				ToolbarItem :: DISPLAY_ICON
+			));
+			
+			$toolbar->add_item(new ToolbarItem(
+	        	Translation :: get('ManageRights'),
+	        	Theme :: get_common_image_path().'action_rights.png',
+				$this->browser->get_manage_rights_url($event->get_id()),
+				ToolbarItem :: DISPLAY_ICON
+			));
+        }
 
         return $toolbar->as_html();
     }

@@ -66,7 +66,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
     {
         $datamanager = WeblcmsDataManager :: get_instance();
         $publication = $datamanager->retrieve_content_object_publication($pid);
-        if (! $publication->is_visible_for_target_users() && ! ($this->parent->is_allowed(DELETE_RIGHT) || $this->parent->is_allowed(EDIT_RIGHT)))
+        if (! $publication->is_visible_for_target_users() && ! ($this->parent->is_allowed(WeblcmsRights :: DELETE_RIGHT) || $this->parent->is_allowed(WeblcmsRights :: EDIT_RIGHT)))
         {
             return array();
         }
@@ -79,7 +79,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
         $tool_condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'assessment');
         $condition = $tool_condition;
         
-        if ($this->parent->is_allowed(EDIT_RIGHT))
+        if ($this->parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $user_id = null;
             $course_groups = null;

@@ -18,11 +18,14 @@ class RightsUtilities
 {
     const CONSTANT_RIGHT = 'RIGHT';
     const CONSTANT_TYPE = 'TYPE';
+    
+    const TREE_TYPE_ROOT = 0;
+    const TYPE_ROOT = 0;
 
     private static $is_allowed_cache;
     private static $constants;
 
-    static function create_location($name, $application, $type = 'root', $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $tree_type = 'root', $return_location = false)
+    static function create_location($name, $application, $type = self :: TYPE_ROOT, $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT, $return_location = false)
     {
         $location = new Location();
         $location->set_location($name);
@@ -57,7 +60,7 @@ class RightsUtilities
         }
         else
         {
-            $root = self :: create_location($xml['name'], $application, $xml['type'], $xml['identifier'], 0, 0, 0, 0, 'root', true);
+            $root = self :: create_location($xml['name'], $application, $xml['type'], $xml['identifier'], 0, 0, 0, 0, self :: TREE_TYPE_ROOT, true);
             if (! $root)
             {
                 return false;
@@ -74,7 +77,7 @@ class RightsUtilities
 
     static function create_subtree_root_location($application, $tree_identifier, $tree_type, $return_location = false)
     {
-        return self :: create_location($tree_type, $application, 'root', 0, 0, 0, 0, $tree_identifier, $tree_type, $return_location);
+        return self :: create_location($tree_type, $application, self :: TYPE_ROOT, 0, 0, 0, 0, $tree_identifier, $tree_type, $return_location);
     }
 
     static function parse_locations_file($application)
@@ -134,7 +137,7 @@ class RightsUtilities
             }
 
             $location->set_parent($parent);
-            $location->set_tree_type('root');
+            $location->set_tree_type(self :: TREE_TYPE_ROOT);
             $location->set_tree_identifier(0);
 
             if (! $location->create($previous != null ? $previous : 0))
@@ -151,7 +154,7 @@ class RightsUtilities
         }
     }
 
-    static function is_allowed($right, $location = 0, $type = 'root', $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = 'root')
+    static function is_allowed($right, $location = 0, $type = self :: TYPE_ROOT, $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT)
     {
         // Determine the user_id of the user we're checking a right for
         $udm = UserDataManager :: get_instance();
@@ -397,7 +400,7 @@ class RightsUtilities
         }
     }
 
-    static function get_root($application, $tree_type = 'root', $tree_identifier = 0)
+    static function get_root($application, $tree_type = self :: TREE_TYPE_ROOT, $tree_identifier = 0)
     {
         $rdm = RightsDataManager :: get_instance();
 
@@ -421,7 +424,7 @@ class RightsUtilities
         }
     }
 
-    static function get_root_id($application, $tree_type = 'root', $tree_identifier = 0)
+    static function get_root_id($application, $tree_type = self :: TREE_TYPE_ROOT, $tree_identifier = 0)
     {
         $root = self :: get_root($application, $tree_type, $tree_identifier);
         if ($root)
@@ -434,7 +437,7 @@ class RightsUtilities
         }
     }
 
-    static function get_location_by_identifier($application, $type, $identifier, $tree_identifier = '0', $tree_type = 'root')
+    static function get_location_by_identifier($application, $type, $identifier, $tree_identifier = '0', $tree_type = self :: TREE_TYPE_ROOT)
     {
         $rdm = RightsDataManager :: get_instance();
 
@@ -455,7 +458,7 @@ class RightsUtilities
         return $locations->next_result();
     }
 
-    static function get_location_id_by_identifier($application, $type, $identifier, $tree_identifier = '0', $tree_type = 'root')
+    static function get_location_id_by_identifier($application, $type, $identifier, $tree_identifier = '0', $tree_type = self :: TREE_TYPE_ROOT)
     {
         $location = self :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
         if (isset($location))

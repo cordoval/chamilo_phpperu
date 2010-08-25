@@ -382,7 +382,7 @@ class RepositoryManager extends CoreApplication
         if ($display_menu)
         {
             if (Request :: get('category'))
-                $breadcrumbtrail->merge($this->get_category_menu()->get_breadcrumbs(false));
+                $this->get_category_menu()->get_breadcrumbs(false);
         }
 
         $title = $breadcrumbtrail->get_last()->get_name();

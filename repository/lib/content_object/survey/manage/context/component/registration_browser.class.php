@@ -5,8 +5,7 @@ require_once dirname(__FILE__) . '/registration_browser/browser_table.class.php'
 class SurveyContextManagerRegistrationBrowserComponent extends SurveyContextManager
 {
     private $ab;
-    private $context_registration;
-
+    
     /**
      * Runs this component and displays its output.
      */
@@ -20,7 +19,7 @@ class SurveyContextManagerRegistrationBrowserComponent extends SurveyContextMana
         
         $output = $this->get_browser_html();
         
-        $this->display_header($trail);
+        $this->display_header();
         echo $this->ab->as_html() . '<br />';
         echo $output;
         $this->display_footer();

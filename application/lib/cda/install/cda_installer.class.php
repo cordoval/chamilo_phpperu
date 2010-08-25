@@ -43,7 +43,7 @@ class CdaInstaller extends Installer
     
     private function create_languages_subtree()
     {
-    	return RightsUtilities :: create_subtree_root_location(CdaManager :: APPLICATION_NAME, 0, 'languages_tree');
+    	return RightsUtilities :: create_subtree_root_location(CdaManager :: APPLICATION_NAME, 0, CdaRights :: TREE_TYPE_LANGUAGES);
     }
 }
 ?>

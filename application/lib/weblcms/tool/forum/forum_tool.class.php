@@ -57,6 +57,9 @@ class ForumTool extends Tool implements Categorizable
             case self :: ACTION_PUBLISH_INTRODUCTION:
             	$component = $this->create_component('IntroductionPublisher');
                 break;
+            case self :: ACTION_EDIT_RIGHTS:
+            	$component = $this->create_component('RightsEditor');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }

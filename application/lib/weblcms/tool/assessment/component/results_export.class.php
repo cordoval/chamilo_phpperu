@@ -14,7 +14,7 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
 
     function run()
     {
-        if (! $this->is_allowed(VIEW_RIGHT) || ! $this->is_allowed(EDIT_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT) || ! $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             Display :: not_allowed();
             return;
@@ -73,7 +73,7 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
             $action_bar->set_search_url($this->get_url());
         }
         
-        if ($this->is_allowed(ADD_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -81,7 +81,7 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Browse'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         //results
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_name = Translation :: get('ViewResultsSummary');
         }
@@ -92,7 +92,7 @@ class AssessmentToolResultsExportComponent extends AssessmentTool
         $action_bar->add_tool_action(new ToolbarItem($action_name, Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         //admin only functions
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ImportQti'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

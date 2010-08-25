@@ -146,7 +146,10 @@ class CourseModule extends DataClass
 		foreach($tools as $index => $tool)
 		{
 			if($course_type_tools)
+			{
 				$tool = $tool->get_name();
+			}
+			
 			$element_default = $tool . "elementdefault";
 			$course_module = new CourseModule();
 			$course_module->set_course_code($course_code);
@@ -157,6 +160,31 @@ class CourseModule extends DataClass
 			$tools_array[] = $course_module;
 		}
 		return $tools_array;
+	}
+	
+	function create()
+	{
+		$succes = parent :: create();
+		if(!$succes)
+		{
+			return false;
+		}
+		
+		return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_id(), 
+    			    WeblcmsRights :: get_courses_subtree_root_id($this->get_course_code()), $this->get_course_code());
+	}
+	
+	function delete()
+	{
+		$location = WeblcmsRights :: get_location_by_identifier(WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_id());
+		if($location)
+		{
+			if(!$location->remove())
+			{
+				return false;
+			}
+		}
+		return parent :: delete();
 	}
 }
 

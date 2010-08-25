@@ -10,6 +10,8 @@
 class TrackingManagerAdminEventBrowserComponent extends TrackingManager
 {
 
+	private $action_bar;
+	
     /**
      * Runs this component and displays its output.
      */
@@ -21,7 +23,7 @@ class TrackingManagerAdminEventBrowserComponent extends TrackingManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('EventsList')));
         $trail->add_help('tracking general');
         
-        if (! $this->get_user() || ! $this->get_user()->is_platform_admin())
+        if (!TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: VIEW_RIGHT, 0, 0))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
@@ -29,7 +31,11 @@ class TrackingManagerAdminEventBrowserComponent extends TrackingManager
             exit();
         }
         
+        $this->action_bar = $this->get_action_bar();
+        
         $this->display_header();
+        
+        echo $this->action_bar->as_html();
         
         $isactive = (PlatformSetting :: get('enable_tracking', 'tracking') == 1);
         
@@ -48,7 +54,7 @@ class TrackingManagerAdminEventBrowserComponent extends TrackingManager
 
     function get_user_html()
     {
-        $table = new EventBrowserTable($this, null, array(Application :: PARAM_APPLICATION => TrackingManager :: APPLICATION_NAME, Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS), null);
+        $table = new EventBrowserTable($this, null, array(Application :: PARAM_APPLICATION => TrackingManager :: APPLICATION_NAME, Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS), $this->get_condition());
         
         $html = array();
         $html[] = '<div>';
@@ -56,6 +62,26 @@ class TrackingManagerAdminEventBrowserComponent extends TrackingManager
         $html[] = '</div>';
         
         return implode($html, "\n");
+    }
+    
+    function get_condition()
+    {
+    	return $this->action_bar->get_conditions(array(new ConditionProperty(Event :: PROPERTY_NAME)));
+    }
+    
+	function get_action_bar()
+    {
+        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+        $action_bar->set_search_url($this->get_url());
+
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        if(TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: EDIT_RIGHT, 0))
+        {
+        	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_manage_rights_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));	
+        }
+        
+        return $action_bar;
     }
 
 }

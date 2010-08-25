@@ -13,7 +13,7 @@ class ForumToolViewerComponent extends ForumTool
 	
     function run()
     {
-        if (! $this->is_allowed(VIEW_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;

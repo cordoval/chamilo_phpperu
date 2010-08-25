@@ -387,7 +387,24 @@ class ContentObjectPublication extends DataClass
         
         $this->set_display_order_index($display_order);
         
-        return $dm->create_content_object_publication($this);
+        $succes = $dm->create_content_object_publication($this);
+        if(!$succes)
+        {
+        	return false;
+        }
+        
+        if($this->get_category_id())
+        {
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_category_id(), $this->get_course_id());
+        }
+        else
+        {
+        	$course_module_id = $dm->retrieve_course_module_by_name($this->get_course_id(), $this->get_tool())->get_id();
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $this->get_course_id());
+        }
+
+       	return WeblcmsRights :: create_location_in_courses_subtree($this->get_content_object()->get_title(), WeblcmsRights :: TYPE_PUBLICATION, $this->get_id(), 
+    			    $parent, $this->get_course_id());
     }
 
     /**
@@ -400,6 +417,20 @@ class ContentObjectPublication extends DataClass
     function move($places)
     {
         return WeblcmsDataManager :: get_instance()->move_content_object_publication($this, $places);
+    }
+    
+    function delete()
+    {
+    	$location = WeblcmsRights :: get_location_by_identifier(WeblcmsRights :: TYPE_PUBLICATION, $this->get_id());
+		if($location)
+		{
+			if(!$location->remove())
+			{
+				return false;
+			}
+		}
+		
+		return parent :: delete();
     }
 
     function retrieve_feedback()

@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/registration_browser/browser_table.class.php';
+require_once dirname(__FILE__) . '/context_table/table.class.php';
 
 class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManager
 {
@@ -13,10 +13,11 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
     function run()
     {
         $context_registration_id = Request :: get(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID);
-    	
+    	$this->set_parameter(SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID,$context_registration_id);        
         $this->context_registration = SurveyContextDataManager::get_instance()->retrieve_survey_context_registration($context_registration_id);
-    	
+    	        
         $trail = BreadcrumbTrail :: get_instance();
+        $trail->truncate();
         
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseContext')));
         $this->ab = $this->get_action_bar();
@@ -34,7 +35,7 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
         
-        $table = new SurveyContextTable($this, $parameters, $this->get_condition());
+        $table = new SurveyContextTable($this, $parameters, $this->get_condition(), $this->context_registration);
         
         $html = array();
         $html[] = $table->as_html();
@@ -66,8 +67,6 @@ class SurveyContextManagerRegistrationViewerComponent extends SurveyContextManag
         $action_bar->set_search_url($this->get_url());
               
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_add.png', $this->get_context_creation_url($this->context_registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ViewRoot' ), Theme::get_common_image_path () . 'action_home.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
-        //		$action_bar->add_common_action ( new ToolbarItem ( Translation::get ( 'ShowAll' ), Theme::get_common_image_path () . 'action_browser.png', $this->get_browse_categories_url (), ToolbarItem::DISPLAY_ICON_AND_LABEL ) );
         
 
         return $action_bar;

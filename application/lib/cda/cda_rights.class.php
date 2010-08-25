@@ -20,6 +20,9 @@ class CdaRights
     const LOCATION_TRANSLATOR_APPLICATIONS = '3';
     const LOCATION_VARIABLE_TRANSLATIONS = '4';
     const LOCATION_VARIABLES = '5';
+    
+    const TREE_TYPE_LANGUAGES = 1;
+    const TYPE_LANGUAGE = 1;
 
     function get_available_rights()
     {
@@ -70,22 +73,22 @@ class CdaRights
 
 	static function create_location_in_languages_subtree($name, $type, $identifier, $parent)
     {
-    	return RightsUtilities :: create_location($name, CdaManager :: APPLICATION_NAME, $type, $identifier, 0, $parent, 0, 0, 'languages_tree');
+    	return RightsUtilities :: create_location($name, CdaManager :: APPLICATION_NAME, $type, $identifier, 0, $parent, 0, 0, self :: TREE_TYPE_LANGUAGES);
     }
 
     static function get_languages_subtree_root()
     {
-    	return RightsUtilities :: get_root(CdaManager :: APPLICATION_NAME, 'languages_tree');
+    	return RightsUtilities :: get_root(CdaManager :: APPLICATION_NAME, self :: TREE_TYPE_LANGUAGES);
     }
 
 	static function get_languages_subtree_root_id()
     {
-    	return RightsUtilities :: get_root_id(CdaManager :: APPLICATION_NAME, 'languages_tree');
+    	return RightsUtilities :: get_root_id(CdaManager :: APPLICATION_NAME, self :: TREE_TYPE_LANGUAGES);
     }
 
     static function get_location_id_by_identifier_from_languages_subtree($type, $identifier)
     {
-    	return RightsUtilities :: get_location_id_by_identifier(CdaManager :: APPLICATION_NAME, $type, $identifier, 0, 'languages_tree');
+    	return RightsUtilities :: get_location_id_by_identifier(CdaManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_LANGUAGES);
     }
 
 	static function is_allowed_in_languages_subtree($right, $location, $type)
@@ -93,7 +96,7 @@ class CdaRights
     	static $is_allowed = array(); // Caching already retrieved results, for speed.
     	if (!isset($is_allowed[$right][$location][$type]))
     	{
-    		$is_allowed[$right][$location][$type] = RightsUtilities :: is_allowed($right, $location, $type, CdaManager :: APPLICATION_NAME, null, 0, 'languages_tree');
+    		$is_allowed[$right][$location][$type] = RightsUtilities :: is_allowed($right, $location, $type, CdaManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_LANGUAGES);
     	}
     	return $is_allowed[$right][$location][$type];
     }

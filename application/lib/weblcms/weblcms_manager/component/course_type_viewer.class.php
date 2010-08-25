@@ -26,13 +26,13 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
 			$this->course_type = $this->retrieve_course_type($id);
 			$course_type = $this->course_type;
 
-			if (!WeblcmsRights :: is_allowed(WeblcmsRights :: VIEW_RIGHT, WeblcmsRights :: LOCATION_VIEWER, 'course_type_component'))
+			/*if (!WeblcmsRights :: is_allowed(WeblcmsRights :: VIEW_RIGHT, WeblcmsRights :: LOCATION_VIEWER, 1))
 			{
 				$this->display_header();
 				$this->display_error_message(Translation :: get('NotAllowed'));
 				$this->display_footer();
 				exit;
-			}
+			}*/
 			
 			if ($this->get_user()->is_platform_admin())
 			{

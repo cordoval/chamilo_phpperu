@@ -16,6 +16,7 @@ class AdminRights extends RightsUtilities
     const LOCATION_CATEGORY_MANAGER = 3;
 
     const TYPE_ROOT = 0;
+    const TYPE_ADMIN_COMPONENT = 1;
 
     static function get_available_rights()
     {

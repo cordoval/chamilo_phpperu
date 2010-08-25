@@ -65,6 +65,9 @@ class BlogTool extends Tool implements Categorizable
             case self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT:
             	$component = $this->create_component('ComplexDisplay');
                 break;
+            case self :: ACTION_EDIT_RIGHTS:
+            	$component = $this->create_component('RightsEditor');
+                break;
             default :
                 $component = $this->create_component('Browser');
             	break;

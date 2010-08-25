@@ -7,7 +7,7 @@ class ToolDeleterComponent extends ToolComponent
 {
     function run()
     {
-        if ($this->is_allowed(DELETE_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: DELETE_RIGHT))
 		{
             if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
                 $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);

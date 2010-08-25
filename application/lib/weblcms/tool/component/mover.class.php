@@ -11,7 +11,7 @@ class ToolMoverComponent extends ToolComponent
 
     function run()
     {
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
                    	
         	$move = $this->get_parent()->get_move_direction();

@@ -13,11 +13,10 @@ class SurveyContextTableColumnModel extends DefaultSurveyContextTableColumnModel
     /**
      * Constructor
      */
-    function SurveyContextTableColumnModel()
+    function SurveyContextTableColumnModel($survey_context)
     {
-        parent :: __construct();
+        parent :: __construct($survey_context);
         $this->set_default_order_column(0);
-        $this->add_column(new StaticTableColumn(Translation :: get('Properties')));
         $this->add_column(self :: get_modification_column());
     }
     

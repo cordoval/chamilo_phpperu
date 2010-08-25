@@ -67,7 +67,7 @@ class ReservationsManagerPoolSearcherComponent extends ReservationsManager
 
         while ($item = $items->next_result())
         {
-            if ($item->get_blackout() == 1 || ! $this->has_right('item', $item->get_id(), ReservationsRights :: MAKE_RESERVATION_RIGHT) || ! $this->has_enough_credits_for($item, $start_stamp, $stop_stamp, $this->get_user_id()))
+            if ($item->get_blackout() == 1 || ! $this->has_right(ReservationsRights :: TYPE_ITEM, $item->get_id(), ReservationsRights :: MAKE_RESERVATION_RIGHT) || ! $this->has_enough_credits_for($item, $start_stamp, $stop_stamp, $this->get_user_id()))
                 continue;
 
             $condition = ReservationsDataManager :: get_reservations_condition($start_stamp, $stop_stamp, $item->get_id());

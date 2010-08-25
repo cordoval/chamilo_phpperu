@@ -13,7 +13,7 @@ class LinkToolPublisherComponent extends LinkToolComponent
 
     function run()
     {
-        if (! $this->is_allowed(ADD_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
             Display :: not_allowed();
             return;

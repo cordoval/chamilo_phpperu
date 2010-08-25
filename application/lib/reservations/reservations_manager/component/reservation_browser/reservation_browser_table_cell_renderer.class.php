@@ -72,7 +72,7 @@ class ReservationBrowserTableCellRenderer extends DefaultReservationTableCellRen
         
         if (get_class($this->browser) == 'ReservationsManagerAdminReservationBrowserComponent' && (
         	$this->browser->is_allowed_to_edit() ||
-        	$this->browser->has_right('item', $reservation->get_item(), ReservationsRights :: EDIT_RIGHT)))
+        	$this->browser->has_right(ReservationsRights :: TYPE_ITEM, $reservation->get_item(), ReservationsRights :: EDIT_RIGHT)))
         {
             if ($reservation->get_subscriptions() == 0)
             {

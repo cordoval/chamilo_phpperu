@@ -33,7 +33,7 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManager
         echo '<div style="float: left; overflow: auto; width: 18%;">' . $menu->render_as_tree() . '</div>';
         echo '<div style="float: right; width: 80%;">';
         
-        if ($poolform && $this->has_right('category', $this->get_category(), ReservationsRights :: VIEW_RIGHT))
+        if ($poolform && $this->has_right(ReservationsRights :: TYPE_CATEGORY, $this->get_category(), ReservationsRights :: VIEW_RIGHT))
         {
             echo $poolform->display();
         }
@@ -91,7 +91,7 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManager
     function get_poolform()
     {
         $category = $this->retrieve_categories(new EqualityCondition(Category :: PROPERTY_ID, $this->get_category()))->next_result();
-        if ($category && $category->use_as_pool() && $this->has_right('category', $category->get_id(), ReservationsRights :: MAKE_RESERVATION_RIGHT))
+        if ($category && $category->use_as_pool() && $this->has_right(ReservationsRights :: TYPE_CATEGORY, $category->get_id(), ReservationsRights :: MAKE_RESERVATION_RIGHT))
         {
             $form = new PoolForm($this->get_url(array(ReservationsManager :: PARAM_ACTION => ReservationsManager :: ACTION_SEARCH_POOL, ReservationsManager :: PARAM_CATEGORY_ID => $this->get_category())), $this->get_user());
             return $form;
