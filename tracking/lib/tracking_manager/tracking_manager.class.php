@@ -11,13 +11,13 @@
 class TrackingManager extends CoreApplication
 {
     const APPLICATION_NAME = 'tracking';
-    
+
     const PARAM_EVENT_ID = 'event_id';
     const PARAM_TRACKER_ID = 'track_id';
     const PARAM_REF_ID = 'ref_id';
     const PARAM_TYPE = 'type';
     const PARAM_EXTRA = 'extra';
-    
+
     const ACTION_BROWSE_EVENTS = 'browse_events';
     const ACTION_VIEW_EVENT = 'view_event';
     const ACTION_CHANGE_ACTIVE = 'changeactive';
@@ -26,7 +26,7 @@ class TrackingManager extends CoreApplication
     const ACTION_EMPTY_TRACKER = 'empty_tracker';
     const ACTION_EMPTY_EVENT_TRACKERS = 'empty_event_trackers';
     const ACTION_ARCHIVE = 'archive';
-    
+
     private $tdm;
 
     /**
@@ -86,7 +86,7 @@ class TrackingManager extends CoreApplication
                 $component = $this->create_component('AdminEventBrowser');
                 break;
         }
-        
+
         if ($component)
             $component->run();
     }
@@ -94,15 +94,15 @@ class TrackingManager extends CoreApplication
     /**
      * Method used by the administrator module to get the application links
      */
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)));
-        $links[] = new DynamicAction(Translation :: get('Archive'), Translation :: get('ArchiveDescription'), Theme :: get_image_path() . 'browse_archive.png', $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
-                
-        $info = parent :: get_application_platform_admin_links();
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_EVENTS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Archive'), Translation :: get('ArchiveDescription'), Theme :: get_image_path() . 'browse_archive.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_ARCHIVE), array(), false, Redirect :: TYPE_CORE));
+
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        
+
         return $info;
     }
 
@@ -129,7 +129,7 @@ class TrackingManager extends CoreApplication
         $parameters[self :: PARAM_EVENT_ID] = $event_id;
         if ($tracker_id)
             $parameters[self :: PARAM_TRACKER_ID] = $tracker_id;
-        
+
         return $this->get_url($parameters);
     }
 

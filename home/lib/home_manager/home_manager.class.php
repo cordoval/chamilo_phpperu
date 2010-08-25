@@ -11,12 +11,12 @@
 class HomeManager extends CoreApplication
 {
     const APPLICATION_NAME = 'home';
-    
+
     const PARAM_HOME_ID = 'id';
     const PARAM_HOME_TYPE = 'type';
     const PARAM_DIRECTION = 'direction';
     const PARAM_TAB_ID = 'tab';
-    
+
     const ACTION_VIEW_HOME = 'home';
     const ACTION_BUILD_HOME = 'build';
     const ACTION_MANAGE_HOME = 'manage';
@@ -25,12 +25,12 @@ class HomeManager extends CoreApplication
     const ACTION_MOVE_HOME = 'move';
     const ACTION_CREATE_HOME = 'create';
     const ACTION_CONFIGURE_HOME = 'configure';
-    
+
     const TYPE_BLOCK = 'block';
     const TYPE_COLUMN = 'column';
     const TYPE_ROW = 'row';
     const TYPE_TAB = 'tab';
-    
+
     private $parameters;
     private $user;
     private $breadcrumbs;
@@ -158,14 +158,14 @@ class HomeManager extends CoreApplication
         return HomeDataManager :: get_instance()->retrieve_home_block_config($condition, $offset, $count, $order_property);
     }
 
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_manage.png', $this->get_link(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)));
-        $links[] = new DynamicAction(Translation :: get('Build'), Translation :: get('BuildDescription'), Theme :: get_image_path() . 'browse_build.png', $this->get_link(array(Application :: PARAM_ACTION => HomeManager :: ACTION_BUILD_HOME)));
-        $info = parent :: get_application_platform_admin_links();
+        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_manage.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_MANAGE_HOME), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Build'), Translation :: get('BuildDescription'), Theme :: get_image_path() . 'browse_build.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_BUILD_HOME), array(), false, Redirect :: TYPE_CORE));
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        
+
         return $info;
     }
 

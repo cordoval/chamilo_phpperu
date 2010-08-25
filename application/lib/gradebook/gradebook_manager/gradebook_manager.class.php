@@ -40,7 +40,7 @@ class GradebookManager extends WebApplication
 	const PARAM_PUBLICATION_TYPE = 'publication_type';
 	const PARAM_PUBLICATION_ID = 'publication_id';
 	const PARAM_PUBLICATION_APP = 'publication_app';
-	
+
 	public function GradebookManager($user)
 	{
 	    parent :: __construct($user);
@@ -59,16 +59,16 @@ class GradebookManager extends WebApplication
 				break;
 			case self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS :
 				$component = $this->create_component('AdminEvaluationFormatsBrowser');
-				break;	
+				break;
 			case self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY :
 				$component = $this->create_component('AdminActiveChanger');
-				break;	
+				break;
 			case self :: ACTION_EDIT_EVALUATION_FORMAT :
 				$component = $this->create_component('AdminEditEvaluationFormat');
-				break;		
+				break;
 			case self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION :
 				$component = $this->create_component('ViewEvaluationsOnPublication');
-				break;		
+				break;
 			case self :: ACTION_BROWSE_GRADEBOOK :
 				$component = $this->create_component('GradebookBrowser');
 				break;
@@ -88,17 +88,17 @@ class GradebookManager extends WebApplication
 		}
 		$component->run();
 	}
-	
-  	public function get_application_platform_admin_links()
+
+  	public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('EvaluationFormatTypeList'), Translation :: get('EvaluationFormatTypeListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_admin_browse_evaluation_format_types_link());
+        $links[] = new DynamicAction(Translation :: get('EvaluationFormatTypeList'), Translation :: get('EvaluationFormatTypeListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS)));
 
-        $info = parent :: get_application_platform_admin_links();
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
         return $info;
     }
-    
+
 	function get_application_name()
 	{
 		return self :: APPLICATION_NAME;
@@ -111,10 +111,10 @@ class GradebookManager extends WebApplication
 	{
 		if (isset ($_POST['action']))
 		{
-			if(isset($_POST[EvaluationFormatsBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){ 
+			if(isset($_POST[EvaluationFormatsBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){
 				$selected_ids = $_POST[EvaluationFormatsBrowserTable  :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			}
-			if(isset($_POST[GradebookExternalPublicationBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){ 
+			if(isset($_POST[GradebookExternalPublicationBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX])){
 				$selected_ids = $_POST[GradebookExternalPublicationBrowserTable  :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			}
 			if (empty ($selected_ids))
@@ -137,14 +137,14 @@ class GradebookManager extends WebApplication
 					Request :: set_get(self :: PARAM_EVALUATION_FORMAT_ID, $selected_ids);
 					Request :: set_get(self :: PARAM_ACTIVE, 1);
 					break;
-				case self :: PARAM_DELETE_SELECTED_EXTERNAL_EVALUATION : 
+				case self :: PARAM_DELETE_SELECTED_EXTERNAL_EVALUATION :
 					$this->set_action(self :: ACTION_DELETE_EXTERNAL_EVALUATION);
 					Request :: set_get(self :: PARAM_PUBLICATION_ID, $selected_ids);
 					break;
 			}
 		}
 	}
-	
+
 // Data retrieval
 // **************
 // evaluation formats
@@ -152,129 +152,129 @@ class GradebookManager extends WebApplication
 	{
 		return GradebookDataManager :: get_instance()->count_evaluation_formats();
 	}
-	
+
 	function retrieve_evaluation_formats($condition = null, $offset = null, $count = null, $order_property = null)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_evaluation_formats($condition, $offset, $count, $order_property);
 	}
-    
+
 	function retrieve_evaluation_format($id)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_evaluation_format($id);
 	}
-	
+
 // applications
 	function retrieve_internal_item_applications()
 	{
 		return GradebookDataManager :: get_instance()->retrieve_internal_item_applications();
 	}
-	
+
 // content objects
 	function retrieve_content_objects_by_ids($condition, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return RepositoryDataManager :: get_instance()->retrieve_content_objects($condition, $offset, $count, $order_property);
 	}
-	
+
 	function count_content_objects_by_ids($condition)
 	{
 		return RepositoryDataManager :: get_instance()->count_content_objects($condition);
 	}
-	
+
 // internal items
 	function retrieve_internal_items_by_application($condition, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_internal_items_by_application($condition, $offset, $count, $order_property);
 	}
-	
+
 	function retrieve_internal_item($id)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_internal_item($id);
 	}
-	
+
 	function count_internal_items_by_application($condition)
 	{
 		return GradebookDataManager :: get_instance()->count_internal_items_by_application($condition);
 	}
-	
+
 	function retrieve_categories_by_application($application)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_categories_by_application($application);
 	}
-	
+
 // external items
 	function retrieve_external_items($condition, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_external_items($condition, $offset, $max_objects, $order_by);
 	}
-	
+
 	function retrieve_external_item($id)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_external_item($id);
 	}
-	
+
 	function count_external_items($condition)
 	{
 		return GradebookDataManager :: get_instance()->count_external_items($condition);
 	}
-	
+
 	function retrieve_all_evaluations_on_external_publication($condition)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_external_publication($condition);
 	}
-	
+
 // evaluations
 	function retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset = null, $max_objects = null, $order_by = null)
 	{
 		return GradebookDataManager :: get_instance()->retrieve_all_evaluations_on_internal_publication($application, $publication_id, $offset, $max_objects, $order_by);
 	}
-	
+
 // URL creation
 //***************
 	function get_admin_browse_evaluation_format_types_link()
 	{
 		return $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_EVALUATION_FORMATS));
 	}
-	
+
 	function get_evaluation_format_editing_url($evaluation_format)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_EVALUATION_FORMAT, self :: PARAM_EVALUATION_FORMAT => $evaluation_format->get_id()));
 	}
-	
+
 	function get_change_evaluation_format_activation_url($evaluation_format)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_FORMAT_ACTIVE_PROPERTY, self :: PARAM_EVALUATION_FORMAT => $evaluation_format->get_id()));
 	}
-	
+
 	function get_evaluation_format_deleting_url()
 	{
 		return $this->get_url();
 	}
-	
+
 	function get_internal_evaluations_on_publications_viewer_url($internal_item)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_APP => $internal_item->get_application(), self :: PARAM_PUBLICATION_ID => $internal_item->get_publication_id()));
 	}
-	
+
 	function get_external_evaluations_on_publications_viewer_url($external_item)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_EVALUATIONS_ON_PUBLICATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
 	}
-	
+
 	function get_edit_external_evaluation_url($external_item)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_EXTERNAL_EVALUATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
 	}
-	
+
 	function get_delete_external_evaluation_url($external_item)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_EXTERNAL_EVALUATION, self :: PARAM_PUBLICATION_ID => $external_item->get_id()));
 	}
-	
+
 	function get_publications_by_type_viewer_url($type, $the_application)
 	{
 		return $this->get_url(array(self :: PARAM_PUBLICATION_TYPE => $type, self :: PARAM_PUBLICATION_APP => $the_application));
 	}
-	
+
 	function get_create_external_url()
 	{
 		return $this->get_url(array ( self :: PARAM_ACTION => self :: ACTION_CREATE_EXTERNAL, GradebookTreeMenuDataProvider :: PARAM_ID => Request :: get(GradebookTreeMenuDataProvider :: PARAM_ID)));
@@ -284,7 +284,7 @@ class GradebookManager extends WebApplication
     {
 //        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication_id));
     }
-    
+
     function get_general_breadcrumbs()
     {
 		$trail = BreadcrumbTrail :: get_instance();

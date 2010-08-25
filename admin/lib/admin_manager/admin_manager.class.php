@@ -6,7 +6,6 @@
  * @author Dieter De Neef
  */
 
-
 /**
  * The admin allows the platform admin to configure certain aspects of his platform
  */
@@ -147,80 +146,48 @@ class AdminManager extends CoreApplication
         Display :: footer();
     }
 
-    function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
         $info = array();
-        $user = $this->get_user();
 
         // 1. Admin-core components
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Importer'), Translation :: get('ImporterDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_IMPORTER)));
-        $links[] = new DynamicAction(Translation :: get('ManagePackages'), Translation :: get('ManagePackagesDescription'), Theme :: get_image_path() . 'browse_build.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_PACKAGES)));
-        $links[] = new DynamicAction(Translation :: get('SystemAnnouncements'), Translation :: get('SystemAnnouncementsDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
-        $links[] = new DynamicAction(Translation :: get('ManageCategories'), Translation :: get('ManageCategoriesDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES)));
-        $links[] = new DynamicAction(Translation :: get('Diagnose'), Translation :: get('DiagnoseDescription'), Theme :: get_image_path() . 'browse_information.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
-        $links[] = new DynamicAction(Translation :: get('LogsViewer'), Translation :: get('LogsViewerDescription'), Theme :: get_image_path() . 'browse_information.png', $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_LOGS)));
+        $links[] = new DynamicAction(Translation :: get('Importer'), Translation :: get('ImporterDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_IMPORTER), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManagePackages'), Translation :: get('ManagePackagesDescription'), Theme :: get_image_path() . 'browse_build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_MANAGE_PACKAGES), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('SystemAnnouncements'), Translation :: get('SystemAnnouncementsDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManageCategories'), Translation :: get('ManageCategoriesDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Diagnose'), Translation :: get('DiagnoseDescription'), Theme :: get_image_path() . 'browse_information.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('LogsViewer'), Translation :: get('LogsViewerDescription'), Theme :: get_image_path() . 'browse_information.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_VIEW_LOGS), array(), false, Redirect :: TYPE_CORE));
 
-        $admin_info = parent :: get_application_platform_admin_links();
+        $admin_info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $admin_info['links'] = $links;
         $info[] = $admin_info;
 
-        // 2. Repository
-        $repository_manager = new RepositoryManager($user);
-        $info[] = $repository_manager->get_application_platform_admin_links();
+        $info[] = RepositoryManager :: get_application_platform_admin_links();
+        $info[] = UserManager :: get_application_platform_admin_links();
+        $info[] = RightsManager :: get_application_platform_admin_links();
+        $info[] = GroupManager :: get_application_platform_admin_links();
+        $info[] = WebserviceManager :: get_application_platform_admin_links();
+        $info[] = TrackingManager :: get_application_platform_admin_links();
+        $info[] = ReportingManager :: get_application_platform_admin_links();
+        $info[] = HomeManager :: get_application_platform_admin_links();
+        $info[] = MenuManager :: get_application_platform_admin_links();
+        $info[] = MigrationManager :: get_application_platform_admin_links();
+        $info[] = HelpManager :: get_application_platform_admin_links();
 
-        // 3. UserManager
-        $user_manager = new UserManager($user->get_id());
-        $info[] = $user_manager->get_application_platform_admin_links();
-
-        // 4. Roles'n'Rights
-        $rights_manager = new RightsManager($user->get_id());
-        $info[] = $rights_manager->get_application_platform_admin_links();
-
-        // 5. Groups
-        $group_manager = new GroupManager($user->get_id());
-        $info[] = $group_manager->get_application_platform_admin_links();
-
-        // 6. Webservices
-        $webservice_manager = new WebserviceManager($user->get_id());
-        $info[] = $webservice_manager->get_application_platform_admin_links();
-
-        // 7. Tracking
-        $tracking_manager = new TrackingManager($user);
-        $info[] = $tracking_manager->get_application_platform_admin_links();
-
-        // 8. Reporting
-        $reporting_manager = new ReportingManager($user);
-        $info[] = $reporting_manager->get_application_platform_admin_links();
-
-        // 9. Home
-        $home_manager = new HomeManager($user->get_id());
-        $info[] = $home_manager->get_application_platform_admin_links();
-
-        // 10. Menu
-        $menu_manager = new MenuManager($user->get_id());
-        $info[] = $menu_manager->get_application_platform_admin_links();
-
-        // 11. Migration
-        $migration_manager = new MigrationManager($user->get_id());
-        $info[] = $migration_manager->get_application_platform_admin_links();
-
-        $help_manager = new HelpManager($user->get_id());
-        $info[] = $help_manager->get_application_platform_admin_links();
-
-        // 12.The links for the plugin applications running on top of the essential Chamilo components
+        //The links for the plugin applications running on top of the essential Chamilo components
         $applications = WebApplication :: load_all();
         foreach ($applications as $index => $application_name)
         {
-            $application = Application :: factory($application_name);
-            $info[] = $application->get_application_platform_admin_links();
+            dump($application_name);
+            $info[] = call_user_func(array(WebApplication :: get_application_class_name($application_name), 'get_application_platform_admin_links'));
         }
 
         return $info;
     }
 
-	function get_application_platform_import_links()
-	{
+    function get_application_platform_import_links()
+    {
         $user = $this->get_user();
 
         // 1. Admin-core components
@@ -420,7 +387,7 @@ class AdminManager extends CoreApplication
         return $adm->delete_content_object_publications($object_id);
     }
 
-	public function delete_content_object_publication($publication_id)
+    public function delete_content_object_publication($publication_id)
     {
         $adm = AdminDataManager :: get_instance();
         return $adm->delete_content_object_publication($publication_id);
@@ -441,7 +408,7 @@ class AdminManager extends CoreApplication
         return self :: APPLICATION_NAME;
     }
 
-	/**
+    /**
      * Used to publish system announcements
      */
     function get_content_object_publication_locations($content_object)

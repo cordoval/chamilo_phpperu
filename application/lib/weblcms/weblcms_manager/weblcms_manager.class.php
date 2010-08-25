@@ -156,7 +156,7 @@ class WeblcmsManager extends WebApplication
 	private $search_form;
 
 	private $request;
-	
+
 	/**
 	 * The new publications for each tool are cached here
 	 * @var Array[tool] = new publications count
@@ -171,7 +171,7 @@ class WeblcmsManager extends WebApplication
 	function WeblcmsManager($user)
 	{
 		parent :: __construct($user);
-		
+
 		$this->set_parameter(self :: PARAM_ACTION, Request :: get(self :: PARAM_ACTION));
 		$this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
 		$this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
@@ -181,7 +181,7 @@ class WeblcmsManager extends WebApplication
 		$this->tools = array();
 		$this->course = new Course();
 		$this->load_course();
-		
+
 		$this->course_group = null;
 		$this->load_course_group();
 		$this->sections = array();
@@ -197,7 +197,7 @@ class WeblcmsManager extends WebApplication
 	{
 		$trail = BreadcrumbTrail :: get_instance();
 		$trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => null, self :: PARAM_COURSE => null)), Translation :: get('MyCourses')));
-		
+
 		$action = $this->get_action();
 
 		switch ($action)
@@ -615,7 +615,7 @@ class WeblcmsManager extends WebApplication
 			echo '<br />';
 			$this->display_error_message($msg);
 		}
-	
+
 		echo '<div class="clear">&nbsp;</div>';
 	}*/
 
@@ -1178,7 +1178,7 @@ class WeblcmsManager extends WebApplication
 		{
 			$course = $this->get_course();
 		}
-		
+
 		return WeblcmsDataManager :: tool_has_new_publications($tool, $this->get_user(), $course);
 	}
 
@@ -1646,21 +1646,21 @@ class WeblcmsManager extends WebApplication
 	 * @param User $user The current user.
 	 * @return Array $info Contains all possible actions.
 	 */
-	public function get_application_platform_admin_links()
+	public static function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = new DynamicAction(Translation :: get('CourseTypeList'), Translation :: get('CourseTypeListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)));
-		//$links[] = new DynamicAction(Translation :: get('CreateCourseType'), Translation :: get('CreateTypeDescription'), Theme :: get_image_path() . 'browse_add.png', $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));
-		$links[] = new DynamicAction(Translation :: get('CourseList'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
-		$links[] = new DynamicAction(Translation :: get('CreateCourse'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'browse_add.png', $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
-		$links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
-		$links[] = new DynamicAction(Translation :: get('RequestList'), Translation :: get('RequestDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER)));
-		$links[] = new DynamicAction(Translation :: get('CourseCategoryManagement'), Translation :: get('CourseCategoryManagementDescription'), Theme :: get_image_path() . 'browse_category.png', $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)));
-		$links[] = new DynamicAction(Translation :: get('UserImport'), Translation :: get('UserImportDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
+		$links[] = new DynamicAction(Translation :: get('CourseTypeList'), Translation :: get('CourseTypeListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)));
+		//$links[] = new DynamicAction(Translation :: get('CreateCourseType'), Translation :: get('CreateTypeDescription'), Theme :: get_image_path() . 'browse_add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_CREATOR)));
+		$links[] = new DynamicAction(Translation :: get('CourseList'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
+		$links[] = new DynamicAction(Translation :: get('CreateCourse'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'browse_add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
+		$links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
+		$links[] = new DynamicAction(Translation :: get('RequestList'), Translation :: get('RequestDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_REQUEST_BROWSER)));
+		$links[] = new DynamicAction(Translation :: get('CourseCategoryManagement'), Translation :: get('CourseCategoryManagementDescription'), Theme :: get_image_path() . 'browse_category.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)));
+		$links[] = new DynamicAction(Translation :: get('UserImport'), Translation :: get('UserImportDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
 
-		$info = parent :: get_application_platform_admin_links();
+		$info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
 		$info['links'] = $links;
-		$info['search'] = $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER));
+		$info['search'] = Redirect :: get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER));
 		return $info;
 	}
 

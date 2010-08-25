@@ -11,13 +11,13 @@
 class GroupManager extends CoreApplication
 {
     const APPLICATION_NAME = 'group';
-    
+
     const PARAM_GROUP_ID = 'group_id';
     const PARAM_GROUP_REL_USER_ID = 'group_rel_user_id';
     const PARAM_USER_ID = 'user_id';
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_COMPONENT_ACTION = 'action';
-    
+
     const ACTION_CREATE_GROUP = 'create';
     const ACTION_BROWSE_GROUPS = 'browse';
     const ACTION_EDIT_GROUP = 'edit';
@@ -33,7 +33,7 @@ class GroupManager extends CoreApplication
     const ACTION_UNSUBSCRIBE_USER_FROM_GROUP = 'unsubscribe';
     const ACTION_MANAGE_RIGHTS_TEMPLATES = 'manage_group_rights_templates';
     const ACTION_RIGHT_EDITS = 'edit_group_rights';
-    
+
     private $parameters;
     private $search_parameters;
     private $user_search_parameters;
@@ -132,7 +132,7 @@ class GroupManager extends CoreApplication
         {
             $breadcrumbtrail = BreadcrumbTrail :: get_instance();
         }
-        
+
         $categories = $this->breadcrumbs;
         if (count($categories) > 0)
         {
@@ -141,7 +141,7 @@ class GroupManager extends CoreApplication
                 $breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
             }
         }
-        
+
         $title = $breadcrumbtrail->get_last()->get_name();
         $title_short = $title;
         if (strlen($title_short) > 53)
@@ -154,7 +154,7 @@ class GroupManager extends CoreApplication
         {
             $this->display_search_form();
         }
-        
+
         echo '<div class="clear">&nbsp;</div>';
         if ($msg = Request :: get(Application :: PARAM_MESSAGE))
         {
@@ -243,17 +243,17 @@ class GroupManager extends CoreApplication
     function get_parameters($include_search = false, $include_user_search = false)
     {
         $parms = parent :: get_parameters();
-        
+
         if ($include_search && isset($this->search_parameters))
         {
             $parms = array_merge($this->search_parameters, $parms);
         }
-        
+
         if ($include_user_search && isset($this->user_search_parameters))
         {
             $parms = array_merge($this->user_search_parameters, $parms);
         }
-        
+
         return $parms;
     }
 
@@ -287,19 +287,19 @@ class GroupManager extends CoreApplication
         return $gdm->retrieve_group($id);
     }
 
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)));
-        $links[] = new DynamicAction(Translation :: get('Create'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'browse_add.png', $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP, GroupManager :: PARAM_GROUP_ID => 0)));
-        $links[] = new DynamicAction(Translation :: get('Export'), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'browse_export.png', $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_EXPORT)));
-        $links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT)));
-        $links[] = new DynamicAction(Translation :: get('ImportGroupUsers'), Translation :: get('ImportGroupUsersDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT_GROUP_USERS)));
-        
-        $info = parent :: get_application_platform_admin_links();
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Create'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'browse_add.png', Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP, GroupManager :: PARAM_GROUP_ID => 0), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Export'), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'browse_export.png', Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_EXPORT), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ImportGroupUsers'), Translation :: get('ImportGroupUsersDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT_GROUP_USERS), array(), false, Redirect :: TYPE_CORE));
+
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        $info['search'] = $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
-        
+        $info['search'] = Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(), false, Redirect :: TYPE_CORE);
+
         return $info;
     }
 

@@ -326,24 +326,24 @@ class UserManager extends CoreApplication
      * Gets the available links to display in the platform admin
      * @retun array of links and actions
      */
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_USERS), array(), false, Redirect :: TYPE_CORE));
 
         if(PlatformSetting :: get('allow_registration', 'user') == 2)
         {
-			$links[] = new DynamicAction(Translation :: get('ApproveList'), Translation :: get('ApproveListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)));
+			$links[] = new DynamicAction(Translation :: get('ApproveList'), Translation :: get('ApproveListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_USER_APPROVAL_BROWSER), array(), false, Redirect :: TYPE_CORE));
         }
 
-        $links[] = new DynamicAction(Translation :: get('Create'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'browse_add.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
-        $links[] = new DynamicAction(Translation :: get('Export'), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'browse_export.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
-        $links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
-        $links[] = new DynamicAction(Translation :: get('BuildUserFields'), Translation :: get('BuildUserFieldsDescription'), Theme :: get_image_path() . 'browse_build.png', $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BUILD_USER_FIELDS)));
+        $links[] = new DynamicAction(Translation :: get('Create'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'browse_add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_CREATE_USER), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Export'), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'browse_export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_EXPORT_USERS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_IMPORT_USERS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('BuildUserFields'), Translation :: get('BuildUserFieldsDescription'), Theme :: get_image_path() . 'browse_build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BUILD_USER_FIELDS), array(), false, Redirect :: TYPE_CORE));
 
-        $info = parent :: get_application_platform_admin_links();
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        $info['search'] = $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_USERS), array(), false, Redirect :: TYPE_CORE);
 
         return $info;
     }

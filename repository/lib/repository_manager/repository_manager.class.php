@@ -61,9 +61,9 @@ class RepositoryManager extends CoreApplication
     const PARAM_LINK_TYPE = 'link_type';
     const PARAM_LINK_ID = 'link_id';
     const PARAM_CONTENT_OBJECT_MANAGER_TYPE = 'manage';
-    
+
     const PARAM_TYPE = 'type';
-	const PARAM_IDENTIFIER = 'identifier';
+    const PARAM_IDENTIFIER = 'identifier';
 
     /**#@-*/
     /**#@+
@@ -665,10 +665,13 @@ class RepositoryManager extends CoreApplication
         }
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_CATEGORY_ID => $content_object->get_parent_id()));
     }
-    
+
     function get_external_repository_object_viewing_url(ExternalRepositorySync $external_repository_sync)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_sync->get_external_repository_id(), ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_repository_sync->get_external_repository_object_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_sync->get_external_repository_id(),
+                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY,
+                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_repository_sync->get_external_repository_object_id()));
     }
 
     /**
@@ -803,20 +806,20 @@ class RepositoryManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_IDENTIFIER => $content_object->get_id(), self :: PARAM_TYPE => RepositoryRights :: TYPE_USER_CONTENT_OBJECT));
     }
-    
-	/**
+
+    /**
      * Gets the url to edit the rights on a learning object type.
      * @param String $content_object_type The learning object.
      * @return string The requested URL.
      */
     function get_content_object_type_rights_editing_url($registration)
     {
-    	if($registration)
-    	{
-    		$id = $registration->get_id();
-    	}
-    	
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_IDENTIFIER => $id, self :: PARAM_TYPE => RepositoryRights :: TYPE_CONTENT_OBJECT));
+        if ($registration)
+        {
+            $id = $registration->get_id();
+        }
+
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_IDENTIFIER => $id, self :: PARAM_TYPE => RepositoryRights :: TYPE_CONTENT_OBJECT));
     }
 
     /**
@@ -1067,12 +1070,12 @@ class RepositoryManager extends CoreApplication
 
                         while ($external_repository_manager = $external_repository_managers->next_result())
                         {
-                            if(!RepositoryRights :: is_allowed_in_external_repositories_subtree(RepositoryRights :: USE_RIGHT, $external_repository_manager->get_id()))
+                            if (! RepositoryRights :: is_allowed_in_external_repositories_subtree(RepositoryRights :: USE_RIGHT, $external_repository_manager->get_id()))
                             {
-                            	continue;
+                                continue;
                             }
-                        	
-                        	$external_repository_type_subitem = array();
+
+                            $external_repository_type_subitem = array();
                             $external_repository_type_subitem['title'] = $external_repository_manager->get_title();
                             $external_repository_type_subitem['url'] = $this->get_url(array(
                                     Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
@@ -1088,17 +1091,17 @@ class RepositoryManager extends CoreApplication
                     {
                         $external_repository_manager = $external_repository_managers->next_result();
 
-                    	if(RepositoryRights :: is_allowed_in_external_repositories_subtree(RepositoryRights :: USE_RIGHT, $external_repository_manager->get_id()))
+                        if (RepositoryRights :: is_allowed_in_external_repositories_subtree(RepositoryRights :: USE_RIGHT, $external_repository_manager->get_id()))
                         {
-                        
-	                        $external_repository_sub_item = array();
-	                        $external_repository_sub_item['title'] = $external_repository_manager->get_title();
-	                        $external_repository_sub_item['url'] = $this->get_url(array(
-	                                Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
-	                                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()), array(
-	                                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: PARAM_RENDERER));
-	                        $external_repository_sub_item['class'] = $external_repository_manager->get_type();
-	                        $external_repository_sub_items[] = $external_repository_sub_item;
+
+                            $external_repository_sub_item = array();
+                            $external_repository_sub_item['title'] = $external_repository_manager->get_title();
+                            $external_repository_sub_item['url'] = $this->get_url(array(
+                                    Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
+                                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()), array(
+                                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: PARAM_RENDERER));
+                            $external_repository_sub_item['class'] = $external_repository_manager->get_type();
+                            $external_repository_sub_items[] = $external_repository_sub_item;
                         }
                     }
                 }
@@ -1239,17 +1242,18 @@ class RepositoryManager extends CoreApplication
         echo $this->get_search_form()->display();
     }
 
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
-        $info = parent :: get_application_platform_admin_links();
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
 
-        $links[] = new DynamicAction(Translation :: get('ImportTemplate'), Translation :: get('ImportTemplateDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
-        $links[] = new DynamicAction(Translation :: get('ManageExternalRepositoryManagerInstances'), Translation :: get('ManageExternalRepositoryManagerInstancesDescription'), Theme :: get_image_path() . 'browse_repository.png', $this->get_link(array(
-                Application :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES)));
-        $links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', $this->get_link(array(
-                Application :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS)));
+        $links[] = new DynamicAction(Translation :: get('ImportTemplate'), Translation :: get('ImportTemplateDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManageExternalRepositoryManagerInstances'), Translation :: get('ManageExternalRepositoryManagerInstancesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS), array(), false, Redirect :: TYPE_CORE));
 
-        $info['search'] = $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS));
+        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS), array(), false, Redirect :: TYPE_CORE);
         $info['links'] = $links;
         return $info;
     }
@@ -1395,7 +1399,7 @@ class RepositoryManager extends CoreApplication
     {
         return RepositoryDataManager :: get_instance()->retrieve_external_repositories($condition, $offset, $count, $order_property);
     }
-    
+
     function count_external_repositories($condition = null)
     {
         return RepositoryDataManager :: get_instance()->count_external_repositories($condition);

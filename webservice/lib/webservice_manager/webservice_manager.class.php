@@ -10,22 +10,22 @@
  */
 class WebserviceManager extends CoreApplication
 {
-    
+
     const APPLICATION_NAME = 'webservice';
-    
+
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_COMPONENT_ACTION = 'action';
     const PARAM_SOURCE = 'source';
-    
+
     const PARAM_LOCATION_ID = 'location';
     const PARAM_WEBSERVICE_ID = 'webservice';
     const PARAM_WEBSERVICE_CATEGORY_ID = 'webservice_category_id';
-    
+
     const ACTION_BROWSE_WEBSERVICES = 'browse_webservices';
     const ACTION_BROWSE_WEBSERVICE_CATEGORIES = 'browse_webservice_categories';
     const ACTION_MANAGE_ROLES = 'rights_editor';
-    
+
     private $parameters;
     private $search_parameters;
     private $user;
@@ -48,7 +48,7 @@ class WebserviceManager extends CoreApplication
     function run()
     {
         $action = $this->get_action();
-        
+
         $component = null;
         switch ($action)
         {
@@ -89,13 +89,13 @@ class WebserviceManager extends CoreApplication
         return WebserviceDataManager :: get_instance()->retrieve_webservice_by_name($name);
     }
 
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
-        $info = parent :: get_application_platform_admin_links();
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_WEBSERVICES), array(), false, Redirect :: TYPE_CORE));
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        
+
         return $info;
     }
 
@@ -110,14 +110,14 @@ class WebserviceManager extends CoreApplication
             $webserviceCategory = 0;
         else
             $webserviceCategory = $webserviceCategory->get_id();
-        
+
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => $webserviceCategory));
     }
 
     public static function get_tool_bar_item($id)
     {
         $wdm = new WebserviceManager();
-        
+
         $toolbar_item = WebserviceDataManager :: get_instance()->retrieve_webservice_category($id);
         if (isset($toolbar_item))
         {

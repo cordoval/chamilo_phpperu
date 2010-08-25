@@ -203,15 +203,15 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 		$component->run();
 	}
 
-  	public function get_application_platform_admin_links()
+  	public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('ManageLanguages'), Translation :: get('ManageLanguagesDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_admin_browse_cda_languages_link());
-        $links[] = new DynamicAction(Translation :: get('ManageLanguagePacks'), Translation :: get('ManageLanguagePacksDescription'), Theme :: get_image_path() . 'browse_add.png', $this->get_admin_browse_language_packs_link());
-        $links[] = new DynamicAction(Translation :: get('ManageTranslatorApplications'), Translation :: get('ManageTranslatorApplicationsDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_browse_translator_applications_link());
-        $links[] = new DynamicAction(Translation :: get('ImportLanguageFiles'), Translation :: get('ImportLanguageFilesDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_admin_import_variable_translations_url());
+        $links[] = new DynamicAction(Translation :: get('ManageLanguages'), Translation :: get('ManageLanguagesDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES)));
+        $links[] = new DynamicAction(Translation :: get('ManageLanguagePacks'), Translation :: get('ManageLanguagePacksDescription'), Theme :: get_image_path() . 'browse_add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)));
+        $links[] = new DynamicAction(Translation :: get('ManageTranslatorApplications'), Translation :: get('ManageTranslatorApplicationsDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_TRANSLATOR_APPLICATIONS)));
+        $links[] = new DynamicAction(Translation :: get('ImportLanguageFiles'), Translation :: get('ImportLanguageFilesDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_ADMIN_IMPORT_TRANSLATIONS)));
 
-        $info = parent :: get_application_platform_admin_links();
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
         return $info;
     }
@@ -646,7 +646,7 @@ require_once dirname(__FILE__).'/../cda_rights.class.php';
 	{
 		return CdaDataManager :: get_instance()->retrieve_historic_variable_translation($historic_variable_translation_id);
 	}
-	
+
 	function retrieve_first_untranslated_variable_translation($language_id, $language_pack_id = null, $status = null)
 	{
 		return CdaDataManager :: get_instance()->retrieve_first_untranslated_variable_translation($language_id, $language_pack_id, $status);

@@ -13,7 +13,7 @@
 class MigrationManager extends CoreApplication
 {
     const APPLICATION_NAME = 'migration';
-    
+
     /**#@+
      * Constant defining an action of the repository manager.
      */
@@ -56,16 +56,16 @@ class MigrationManager extends CoreApplication
         }
         $component->run();
     }
-    
- 	public function get_application_platform_admin_links()
+
+ 	public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Migrate'), Translation :: get('Migrate'), Theme :: get_image_path() . 'browse_sort.png', $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_MIGRATE)));
-        $links[] = new DynamicAction(Translation :: get('SettingsCleaner'), Translation :: get('SettingsCleaner'), Theme :: get_image_path() . 'browse_sort.png', $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_CLEAN_SETTINGS)));
-        
-        $info = parent :: get_application_platform_admin_links();
+        $links[] = new DynamicAction(Translation :: get('Migrate'), Translation :: get('Migrate'), Theme :: get_image_path() . 'browse_sort.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_MIGRATE), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('SettingsCleaner'), Translation :: get('SettingsCleaner'), Theme :: get_image_path() . 'browse_sort.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_CLEAN_SETTINGS), array(), false, Redirect :: TYPE_CORE));
+
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        
+
         return $info;
     }
 

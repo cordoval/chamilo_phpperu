@@ -15,7 +15,7 @@ class PortfolioManager extends WebApplication
 {
 
     const APPLICATION_NAME = 'portfolio';
-    
+
     const PARAM_PORTFOLIO_PUBLICATION = 'portfolio_publication';
     const PARAM_PORTFOLIO_ITEM = 'portfolio_item';
     const PARAM_PORTFOLIO_OWNER_ID = 'poid';
@@ -24,7 +24,7 @@ class PortfolioManager extends WebApplication
 
     const PROPERTY_PID = 'pid';
     const PROPERTY_CID = 'cid';
-    
+
     const ACTION_DELETE_PORTFOLIO_PUBLICATION = 'delete_portfolio_publication';
     const ACTION_DELETE_PORTFOLIO_ITEM = 'delete_portfolio_item';
     const ACTION_CREATE_PORTFOLIO_PUBLICATION = 'create_portfolio_publication';
@@ -99,7 +99,7 @@ class PortfolioManager extends WebApplication
                     $component = $this->create_component('Viewer');
                     $_GET[self::PARAM_PORTFOLIO_OWNER_ID] = $this->get_user_id();
                 }
-        
+
         }
         $component->run();
     }
@@ -113,18 +113,18 @@ class PortfolioManager extends WebApplication
      * Gets the available links to display in the platform admin
      * @retun array of links and actions
      */
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('SetPortfolioDefaults'), Translation :: get('SetPortfolioDefaultsDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_SET_PORTFOLIO_DEFAULTS)));
-        
-        $info = parent :: get_application_platform_admin_links();
+        $links[] = new DynamicAction(Translation :: get('SetPortfolioDefaults'), Translation :: get('SetPortfolioDefaultsDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_SET_PORTFOLIO_DEFAULTS)));
+
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
         return $info;
     }
 
 
-    
+
 
     function count_portfolio_publications($condition)
     {
@@ -242,7 +242,7 @@ class PortfolioManager extends WebApplication
     {
         return PortfolioDataManager :: get_instance()->delete_content_object_publications($object_id);
     }
-    
+
 	function delete_content_object_publication($publication_id)
     {
     	 return PortfolioDataManager :: get_instance()->delete_content_object_publication($publication_id);
@@ -256,14 +256,14 @@ class PortfolioManager extends WebApplication
     function get_content_object_publication_locations($content_object)
     {
         $allowed_types = array(Portfolio :: get_type_name());
-        
+
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
             $locations = array(__CLASS__);
             return $locations;
         }
-        
+
         return array();
     }
 
@@ -352,16 +352,16 @@ class PortfolioManager extends WebApplication
         {
             return false;
         }
-  
+
     }
 
 
 
 
-     
 
 
-   
+
+
 
     /**
      * get the portfolio content object a portfolio publication holds a reference to
@@ -413,7 +413,7 @@ class PortfolioManager extends WebApplication
                {
                 $content_object_id = false;
             }
-            
+
         }
         else
         {
@@ -448,18 +448,18 @@ class PortfolioManager extends WebApplication
     {
         $success = true;
         $info = self::get_portfolio_info($user_id);
-       
+
         $info->set_last_updated_date(time());
         $info->set_last_updated_item_id($content_object_id);
         $info->set_last_updated_item_type($type);
         $info->set_last_action($action);
         $success &= $info->update();
-        
+
 
         return $success;
     }
 
-     
+
     /**
      *create locations for the sub-items of a published portfolio
      * @param <reulst_set> $children_set: set of children of this portfolio
@@ -519,7 +519,7 @@ class PortfolioManager extends WebApplication
 
      static function set_portfolio_system_settings_page($settings_text, $language)
     {
-        
+
        $settings_file = @fopen(self::SYSTEM_SETTINGS_INFO_FILE_LOCATION.$language.'_'.self::SYSTEM_SETTINGS_INFO_FILE_NAME, "w");
        fwrite($settings_file, $settings_text);
        fclose($settings_file);
@@ -573,7 +573,7 @@ class PortfolioManager extends WebApplication
             $html[] = $trans->get('SystemsSettingsOverview');
             $html[] = "</H1>";
 
-            
+
             $html[] = "<li>";
             $html[] = $trans->get(view). " = ". $trans->get($view);
             $html[] = "</li>";
@@ -590,7 +590,7 @@ class PortfolioManager extends WebApplication
 
             self::set_portfolio_system_settings_page(implode("\n", $html_header).implode("\n", $html).implode("\n", $html_footer), $language->get_folder());
         }
-        
+
 
     }
 
@@ -638,6 +638,6 @@ class PortfolioManager extends WebApplication
 
 
 
-   
+
 }
 ?>

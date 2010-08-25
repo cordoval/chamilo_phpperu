@@ -174,6 +174,7 @@ abstract class Application
      */
     function set_parameter($name, $value)
     {
+        dump(get_class($this) . ' | ' . $name);
         $this->parameters[$name] = $value;
     }
 
@@ -407,13 +408,8 @@ abstract class Application
      * Returns a list of actions available to the admin.
      * @return Array $info Contains all possible actions.
      */
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: PARAM_APPLICATION)
     {
-        // Use this untill PHP 5.3 is available
-        // Then use get_class($this) :: APPLICATION_NAME
-        // and remove the get_application_name function();
-        $application = $this->get_application_name();
-
         $info = array();
         $info['application'] = array('name' => Translation :: get(self :: application_to_class($application)), 'class' => $application);
         $info['links'] = array();

@@ -11,9 +11,9 @@
  */
 class ReportingManager extends CoreApplication
 {
-    
+
     const APPLICATION_NAME = 'reporting';
-    
+
     const PARAM_APPLICATION = 'application';
     const PARAM_TEMPLATE_ID = 'template';
     const PARAM_TEMPLATE_NAME = 'template_name';
@@ -26,7 +26,7 @@ class ReportingManager extends CoreApplication
     const PARAM_USER_ID = 'user_id';
     const PARAM_COURSE_ID = 'course_id';
     const PARAM_REPORTING_PARENT = 'reporting_parent';
-    
+
     const ACTION_BROWSE_TEMPLATES = 'browse_templates';
     const ACTION_ADD_TEMPLATE = 'add_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
@@ -94,14 +94,14 @@ class ReportingManager extends CoreApplication
         return ReportingDataManager :: get_instance()->retrieve_reporting_template_registration($reporting_template_registration_id);
     }
 
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)));
-        
-        $info = parent :: get_application_platform_admin_links();
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
+
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        
+
         return $info;
     }
 
@@ -139,9 +139,9 @@ class ReportingManager extends CoreApplication
             $parameters[Application :: PARAM_ACTION] = ReportingManager :: ACTION_VIEW_TEMPLATE;
             $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = 0;
         }
-        
+
         $url = ReportingManager :: get_link() . '?' . http_build_query($parameters);
-        
+
         return $url;
     }
 
