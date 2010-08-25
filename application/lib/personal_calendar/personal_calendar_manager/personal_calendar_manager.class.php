@@ -15,9 +15,9 @@ require_once dirname(__FILE__) . '/../personal_calendar_event_parser.class.php';
 class PersonalCalendarManager extends WebApplication
 {
     const APPLICATION_NAME = 'personal_calendar';
-    
+
     const PARAM_PERSONAL_CALENDAR_ID = 'personal_calendar';
-    
+
     const ACTION_BROWSE_CALENDAR = 'browse';
     const ACTION_VIEW_PUBLICATION = 'view';
     const ACTION_CREATE_PUBLICATION = 'publish';
@@ -26,7 +26,7 @@ class PersonalCalendarManager extends WebApplication
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_EXPORT_ICAL = 'export_ical';
     const ACTION_IMPORT_ICAL = 'import_ical';
-    
+
     const ACTION_RENDER_BLOCK = 'block';
     const PARAM_TIME = 'time';
     const PARAM_VIEW = 'view';
@@ -46,7 +46,7 @@ class PersonalCalendarManager extends WebApplication
     public function run()
     {
         $action = $this->get_action();
-        
+
         switch ($action)
         {
             case self :: ACTION_BROWSE_CALENDAR :
@@ -104,13 +104,13 @@ class PersonalCalendarManager extends WebApplication
 
     public function get_user_events($from_date, $to_date)
     {
-        
+
         $dm = PersonalCalendarDatamanager :: get_instance();
         $condition = new EqualityCondition(PersonalCalendarPublication :: PROPERTY_PUBLISHER, $this->get_user_id());
         $publications = $dm->retrieve_personal_calendar_publications($condition);
-        
+
         //$query = Request :: post('query');
-        
+
 
         return $this->render_personal_calendar_events($publications, $from_date, $to_date);
     }
@@ -118,7 +118,7 @@ class PersonalCalendarManager extends WebApplication
     public function get_connector_events($from_date, $to_date)
     {
         $events = array();
-        
+
         $path = dirname(__FILE__) . '/../connector/';
         $files = Filesystem :: get_directory_content($path, Filesystem :: LIST_FILES, false);
         foreach ($files as $file)
@@ -126,18 +126,18 @@ class PersonalCalendarManager extends WebApplication
             $application = str_replace('_connector.class.php', '', $file);
             $application = str_replace(PersonalCalendarManager :: APPLICATION_NAME . '_', '', $application);
             $application = Utilities :: camelcase_to_underscores($application);
-            
+
             if (WebApplication :: is_active($application))
             {
                 $file_class = split('.class.php', $file);
                 require_once dirname(__FILE__) . '/../connector/' . $file;
                 $class = Utilities :: underscores_to_camelcase($file_class[0]);
-                
+
                 $connector = new $class();
                 $events = array_merge($events, $connector->get_events($this->get_user(), $from_date, $to_date));
             }
         }
-        
+
         return $events;
     }
 
@@ -146,7 +146,7 @@ class PersonalCalendarManager extends WebApplication
         $events = array();
         $user = $this->get_user();
         $user_groups = $user->get_groups(true);
-        
+
         $pcdm = PersonalCalendarDatamanager :: get_instance();
         $conditions = array();
         $conditions[] = new EqualityCondition('user_id', $this->get_user_id(), 'publication_user');
@@ -156,7 +156,7 @@ class PersonalCalendarManager extends WebApplication
         }
         $condition = new OrCondition($conditions);
         $publications = $pcdm->retrieve_shared_personal_calendar_publications($condition);
-        
+
         return $this->render_personal_calendar_events($publications, $from_date, $to_date, 'SharedEvents');
     }
 
@@ -164,7 +164,7 @@ class PersonalCalendarManager extends WebApplication
     {
         $events = array();
         $query = Request :: post('query');
-        
+
         while ($publication = $publications->next_result())
         {
         	$parser = PersonalCalendarEventParser::factory($this, $publication, $from_date, $to_date);
@@ -176,7 +176,7 @@ class PersonalCalendarManager extends WebApplication
     /**
      * @see Application::content_object_is_published()
      */
-    public function content_object_is_published($object_id)
+    static public function content_object_is_published($object_id)
     {
         $dm = PersonalCalendarDatamanager :: get_instance();
         return $dm->content_object_is_published($object_id);
@@ -185,7 +185,7 @@ class PersonalCalendarManager extends WebApplication
     /**
      * @see Application::any_content_object_is_published()
      */
-    public function any_content_object_is_published($object_ids)
+    static public function any_content_object_is_published($object_ids)
     {
         $dm = PersonalCalendarDatamanager :: get_instance();
         return $dm->any_content_object_is_published($object_ids);
@@ -194,7 +194,7 @@ class PersonalCalendarManager extends WebApplication
     /**
      * @see Application::get_content_object_publication_attributes()
      */
-    public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    static public function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
         $dm = PersonalCalendarDatamanager :: get_instance();
         return $dm->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
@@ -203,13 +203,13 @@ class PersonalCalendarManager extends WebApplication
     /**
      * @see Application::get_content_object_publication_attribute()
      */
-    public function get_content_object_publication_attribute($publication_id)
+    static public function get_content_object_publication_attribute($publication_id)
     {
         $dm = PersonalCalendarDatamanager :: get_instance();
         return $dm->get_content_object_publication_attribute($publication_id);
     }
 
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
+	static function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
         return PersonalCalendarDatamanager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
@@ -217,13 +217,13 @@ class PersonalCalendarManager extends WebApplication
     /**
      * @see Application::delete_content_object_publications()
      */
-    public function delete_content_object_publications($object_id)
+    static public function delete_content_object_publications($object_id)
     {
         $dm = PersonalCalendarDatamanager :: get_instance();
         return $dm->delete_content_object_publications($object_id);
     }
-    
-	function delete_content_object_publication($publication_id)
+
+	static function delete_content_object_publication($publication_id)
     {
     	$dm = PersonalCalendarDatamanager :: get_instance();
         return $dm->delete_content_object_publication($publication_id);
@@ -232,7 +232,7 @@ class PersonalCalendarManager extends WebApplication
     /**
      * @see Application::update_content_object_publication_id()
      */
-    public function update_content_object_publication_id($publication_attr)
+    static public function update_content_object_publication_id($publication_attr)
     {
         return PersonalCalendarDatamanager :: get_instance()->update_content_object_publication_id($publication_attr);
     }
@@ -240,28 +240,28 @@ class PersonalCalendarManager extends WebApplication
     /**
      * Inherited
      */
-    function get_content_object_publication_locations($content_object)
+    static function get_content_object_publication_locations($content_object)
     {
         $allowed_types = array(CalendarEvent :: get_type_name());
-        
+
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
             $locations = array(Translation :: get(Utilities :: underscores_to_camelcase(self :: APPLICATION_NAME)));
             return $locations;
         }
-        
+
         return array();
     }
 
-    function publish_content_object($content_object, $location)
+    static function publish_content_object($content_object, $location)
     {
         require_once dirname(__FILE__) . '/../personal_calendar_publication.class.php';
         $pub = new PersonalCalendarPublication();
         $pub->set_content_object_id($content_object->get_id());
         $pub->set_publisher($content_object->get_owner_id());
         $pub->create();
-        
+
         return Translation :: get('PublicationCreated');
     }
 
@@ -285,7 +285,7 @@ class PersonalCalendarManager extends WebApplication
         $pcdm = PersonalCalendarDataManager :: get_instance();
         return $pcdm->retrieve_personal_calendar_publication($publication_id);
     }
-    
+
 	function retrieve_task_publication($publication_id)
     {
         $pcdm = PersonalCalendarDataManager :: get_instance();
@@ -308,7 +308,7 @@ class PersonalCalendarManager extends WebApplication
         $parameters[self :: PARAM_ACTION] = self :: ACTION_VIEW_PUBLICATION;
         $parameters[self :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
         $parameters[Application :: PARAM_APPLICATION] = self :: APPLICATION_NAME;
-        
+
         return $this->get_link($parameters);
     }
 
@@ -317,7 +317,7 @@ class PersonalCalendarManager extends WebApplication
         $parameters = array();
         $parameters[self :: PARAM_PERSONAL_CALENDAR_ID] = $publication->get_id();
         $parameters[self :: PARAM_ACTION] = self :: ACTION_EXPORT_ICAL;
-        
+
         return $this->get_url($parameters);
     }
 
@@ -325,7 +325,7 @@ class PersonalCalendarManager extends WebApplication
     {
         $parameters = array();
         $parameters[self :: PARAM_ACTION] = self :: ACTION_IMPORT_ICAL;
-        
+
         return $this->get_url($parameters);
     }
 

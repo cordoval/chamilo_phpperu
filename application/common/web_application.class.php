@@ -14,7 +14,7 @@ abstract class WebApplication extends BasicApplication
      * @return boolean True if the object is currently published, false
      *                 otherwise.
      */
-    function content_object_is_published($object_id)
+    static function content_object_is_published($object_id)
     {
         return false;
     }
@@ -26,7 +26,7 @@ abstract class WebApplication extends BasicApplication
      * @return boolean True if at least one of the given objects is published in
      * this application, false otherwise
      */
-    function any_content_object_is_published($object_ids)
+    static function any_content_object_is_published($object_ids)
     {
         return false;
     }
@@ -38,7 +38,7 @@ abstract class WebApplication extends BasicApplication
      * @return array An array of ContentObjectPublicationAttributes objects;
      *               empty if the object has not been published anywhere.
      */
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
         return array();
     }
@@ -49,7 +49,7 @@ abstract class WebApplication extends BasicApplication
      * @param int $publication_id The ID of the learning object publication.
      * @return ContentObjectPublicationAttributes
      */
-    function get_content_object_publication_attribute($publication_id)
+    static function get_content_object_publication_attribute($publication_id)
     {
         return null;
     }
@@ -60,7 +60,7 @@ abstract class WebApplication extends BasicApplication
      * @param Condition $condition
      * @return int
      */
-    function count_publication_attributes($user = null, $object_id, $condition = null)
+    static function count_publication_attributes($user = null, $object_id, $condition = null)
     {
         return 0;
     }
@@ -69,34 +69,34 @@ abstract class WebApplication extends BasicApplication
      * Deletes all publications of a given learning object
      * @param int $object_id The id of the learning object
      */
-    function delete_content_object_publications($object_id)
+    static function delete_content_object_publications($object_id)
     {
         return true;
     }
 
-    function delete_content_object_publication($publication_id)
+    static function delete_content_object_publication($publication_id)
     {
     	return true;
     }
 
-    function get_content_object_publication_locations($content_object)
+    static function get_content_object_publication_locations($content_object)
     {
         return array();
     }
 
-    function publish_content_object($content_object, $location, $attributes)
+    static function publish_content_object($content_object, $location, $attributes)
     {
         return null;
     }
 
-    function add_publication_attributes_elements($form)
+    static function add_publication_attributes_elements($form)
     {
     }
 
     /**
      *
      */
-    function update_content_object_publication_id($publication_attr)
+    static function update_content_object_publication_id($publication_attr)
     {
         return true;
     }
@@ -154,7 +154,7 @@ abstract class WebApplication extends BasicApplication
                 require_once $path . '/' . $application->get_name() . '/' . $application->get_name() . '_manager/' . $application->get_name() . '_manager.class.php';
             }
             $active_applications[] = $application->get_name();
-            
+
         }
         return $active_applications;
     }
@@ -169,7 +169,7 @@ abstract class WebApplication extends BasicApplication
         $path = dirname(__FILE__) . '/../lib';
         $application_path = $path . '/' . $name;
         $application_manager_path = $path . '/' . $name . '/' . $name . '_manager' . '/' . $name . '_manager.class.php';
-                
+
         if (file_exists($application_path) && is_dir($application_path) && file_exists($application_manager_path))
         {
             return true;
@@ -237,7 +237,7 @@ abstract class WebApplication extends BasicApplication
     {
     	return null;
     }
-    
+
 	static function get_application_manager_path($application_name)
     {
     	return self :: get_application_path($application_name) . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';

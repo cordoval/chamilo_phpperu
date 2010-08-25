@@ -14,9 +14,9 @@ require_once dirname(__FILE__) . '/../distribute_data_manager.class.php';
 class DistributeManager extends WebApplication
 {
     const APPLICATION_NAME = 'distribute';
-    
+
     const PARAM_ANNOUNCEMENT_DISTRIBUTION = 'distribution';
-    
+
     const ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS = 'browse';
     const ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION = 'view';
     const ACTION_DISTRIBUTE_ANNOUNCEMENT = 'distribute';
@@ -52,7 +52,7 @@ class DistributeManager extends WebApplication
             default :
                 $this->set_action(self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS);
                 $component = $this->create_component('Browser');
-        
+
         }
         $component->run();
     }
@@ -63,7 +63,7 @@ class DistributeManager extends WebApplication
     }
 
     // Data Retrieving
-    
+
 
     function count_announcement_distributions($condition)
     {
@@ -81,7 +81,7 @@ class DistributeManager extends WebApplication
     }
 
     // Url Creation
-    
+
 
     function get_create_announcement_distribution_url()
     {
@@ -106,53 +106,6 @@ class DistributeManager extends WebApplication
     function get_announcement_distribution_viewing_url($announcement_distribution)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION, self :: PARAM_ANNOUNCEMENT_DISTRIBUTION => $announcement_distribution->get_id()));
-    }
-
-    // Dummy Methods which are needed because we don't work with learning objects
-    function content_object_is_published($object_id)
-    {
-    }
-
-    function any_content_object_is_published($object_ids)
-    {
-    }
-
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
-    {
-    }
-
-    function get_content_object_publication_attribute($object_id)
-    {
-    
-    }
-
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
-    {
-    }
-
-    function delete_content_object_publications($object_id)
-    {
-    
-    }
-    
- 	function delete_content_object_publication($publication_id)
-    {
-    
-    }
-
-    function update_content_object_publication_id($publication_attr)
-    {
-    
-    }
-
-    function get_content_object_publication_locations($content_object)
-    {
-    
-    }
-
-    function publish_content_object($content_object, $location)
-    {
-    
     }
 }
 ?>

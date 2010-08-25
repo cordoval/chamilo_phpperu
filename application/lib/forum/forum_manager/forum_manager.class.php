@@ -13,11 +13,11 @@ require_once dirname(__FILE__) . '/../forum_rights.class.php';
 class ForumManager extends WebApplication
 {
     const APPLICATION_NAME = 'forum';
-    
+
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_PUBLICATION_ID = 'publication_id';
     const PARAM_MOVE = 'move';
-    
+
     const ACTION_DELETE = 'delete_forum_publication';
     const ACTION_EDIT = 'edit_forum_publication';
     const ACTION_CREATE = 'create_forum_publication';
@@ -29,7 +29,7 @@ class ForumManager extends WebApplication
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
     const ACTION_EVALUATE = 'evaluate';
     const ACTION_EDIT_RIGHTS = 'edit_rights';
-    
+
     private $parameters;
     private $user;
     private $rights;
@@ -53,7 +53,7 @@ class ForumManager extends WebApplication
     {
         $action = $this->get_action();
         $component = null;
-        
+
         switch ($action)
         {
             case self :: ACTION_DELETE :
@@ -89,7 +89,7 @@ class ForumManager extends WebApplication
             default :
                 $this->set_action(self :: ACTION_BROWSE);
                 $component = $this->create_component('Browser');
-        
+
         }
         $component->run();
     }
@@ -100,7 +100,7 @@ class ForumManager extends WebApplication
     }
 
     // Data Retrieving
-    
+
 
     function count_forum_publications($condition)
     {
@@ -118,7 +118,7 @@ class ForumManager extends WebApplication
     }
 
     // Url Creation
-    
+
 
     function get_create_forum_publication_url()
     {
@@ -154,54 +154,20 @@ class ForumManager extends WebApplication
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, 'category' => $category));
     }
-    
-    // Dummy Methods which are needed because we don't work with learning objects
-    function content_object_is_published($object_id)
-    {
-    }
 
-    function any_content_object_is_published($object_ids)
-    {
-    }
-
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
     	return ForumDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
     }
 
-    function get_content_object_publication_attribute($object_id)
+    static function get_content_object_publication_attribute($object_id)
     {
     	return ForumDataManager :: get_instance()->get_content_object_publication_attribute($object_id);
     }
 
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
+	static function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
         return ForumDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
-    }
-
-    function delete_content_object_publications($object_id)
-    {
-    
-    }
-    
-	function delete_content_object_publication($publication_id)
-    {
-    
-    }
-
-    function update_content_object_publication_id($publication_attr)
-    {
-    
-    }
-
-    function get_content_object_publication_locations($content_object)
-    {
-    
-    }
-
-    function publish_content_object($content_object, $location)
-    {
-    
     }
 
     function get_user_id()

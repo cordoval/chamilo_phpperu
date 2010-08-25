@@ -12,15 +12,15 @@ require_once dirname(__FILE__) . '/../linker_data_manager.class.php';
 class LinkerManager extends WebApplication
 {
     const APPLICATION_NAME = 'linker';
-    
+
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_LINK_ID = 'profile';
-    
+
     const ACTION_DELETE_LINK = 'delete';
     const ACTION_EDIT_LINK = 'edit';
     const ACTION_CREATE_LINK = 'create';
     const ACTION_BROWSE_LINKS = 'browse';
-    
+
     private $parameters;
     private $user;
 
@@ -64,7 +64,7 @@ class LinkerManager extends WebApplication
     }
 
     // Data Retrieving
-    
+
 
     function count_links($condition)
     {
@@ -82,7 +82,7 @@ class LinkerManager extends WebApplication
     }
 
     // Url Creation
-    
+
 
     function get_create_link_url()
     {
@@ -97,54 +97,6 @@ class LinkerManager extends WebApplication
     function get_delete_link_url($link)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_LINK, self :: PARAM_LINK_ID => $link->get_id()));
-    }
-
-    // Dummy Methods which are needed because we don't work with learning objects
-    function content_object_is_published($object_id)
-    {
-    }
-
-    function any_content_object_is_published($object_ids)
-    {
-    }
-
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
-    {
-    }
-
-    function get_content_object_publication_attribute($object_id)
-    {
-    
-    }
-
-    function count_publication_attributes($type = null, $condition = null)
-    {
-    
-    }
-
-    function delete_content_object_publications($object_id)
-    {
-    
-    }
-    
-	function delete_content_object_publication($publication_id)
-    {
-    
-    }
-
-    function update_content_object_publication_id($publication_attr)
-    {
-    
-    }
-
-    function get_content_object_publication_locations($content_object)
-    {
-    
-    }
-
-    function publish_content_object($content_object, $location)
-    {
-    
     }
 
     /**

@@ -16,11 +16,11 @@ require_once dirname(__FILE__) . '/../assessment_rights.class.php';
 class AssessmentManager extends WebApplication
 {
     const APPLICATION_NAME = 'assessment';
-    
+
     const PARAM_ASSESSMENT_PUBLICATION = 'assessment_publication';
     const PARAM_INVITATION_ID = 'invitation_id';
     const PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATIONS = 'delete_selected_assessment_publications';
-    
+
     const ACTION_DELETE_ASSESSMENT_PUBLICATION = 'delete';
     const ACTION_EDIT_ASSESSMENT_PUBLICATION = 'edit';
     const ACTION_CREATE_ASSESSMENT_PUBLICATION = 'create';
@@ -107,7 +107,7 @@ class AssessmentManager extends WebApplication
             default :
                 $this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
                 $component = $this->create_component('Browser');
-        
+
         }
         $component->run();
     }
@@ -118,7 +118,7 @@ class AssessmentManager extends WebApplication
     }
 
     // Data Retrieving
-    
+
 
     function count_assessment_publications($condition)
     {
@@ -166,7 +166,7 @@ class AssessmentManager extends WebApplication
     }
 
     // Url Creation
-    
+
 
     function get_create_assessment_publication_url()
     {
@@ -238,7 +238,7 @@ class AssessmentManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_SURVEY, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
-    
+
     function get_build_assessment_url($assessment_publication)
     {
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_ASSESSMENT, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
@@ -249,62 +249,62 @@ class AssessmentManager extends WebApplication
     	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_ASSESSMENT_PUBLICATION => $publication_ids,
     								'category' => $category));
     }
-    
-    function content_object_is_published($object_id)
+
+    static function content_object_is_published($object_id)
     {
         return AssessmentDataManager :: get_instance()->content_object_is_published($object_id);
     }
 
-    function any_content_object_is_published($object_ids)
+    static function any_content_object_is_published($object_ids)
     {
         return AssessmentDataManager :: get_instance()->any_content_object_is_published($object_ids);
     }
 
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
         return AssessmentDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
     }
 
-    function get_content_object_publication_attribute($publication_id)
+    static function get_content_object_publication_attribute($publication_id)
     {
         return AssessmentDataManager :: get_instance()->get_content_object_publication_attribute($publication_id);
     }
 
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
+	static function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
         return AssessmentDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
 
-    function delete_content_object_publications($object_id)
+    static function delete_content_object_publications($object_id)
     {
         return AssessmentDataManager :: get_instance()->delete_content_object_publications($object_id);
     }
-    
-	function delete_content_object_publication($publication_id)
+
+	static function delete_content_object_publication($publication_id)
     {
     	 return AssessmentDataManager :: get_instance()->delete_content_object_publication($publication_id);
     }
 
-    function update_content_object_publication_id($publication_attr)
+    static function update_content_object_publication_id($publication_attr)
     {
         return AssessmentDataManager :: get_instance()->update_content_object_publication_id($publication_attr);
     }
-    
-    function get_content_object_publication_locations($content_object)
+
+    static function get_content_object_publication_locations($content_object)
     {
         $allowed_types = array(Assessment :: get_type_name(), Hotpotatoes :: get_type_name());
-        
+
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
             $locations = array(Translation :: get('Assessments'));
             return $locations;
         }
-        
+
         return array();
     }
 
-    function publish_content_object($content_object, $location)
+    static function publish_content_object($content_object, $location)
     {
         $publication = new AssessmentPublication();
         $publication->set_content_object($content_object->get_id());
@@ -313,7 +313,7 @@ class AssessmentManager extends WebApplication
         $publication->set_hidden(0);
         $publication->set_from_date(0);
         $publication->set_to_date(0);
-        
+
         $publication->create();
         return Translation :: get('PublicationCreated');
     }

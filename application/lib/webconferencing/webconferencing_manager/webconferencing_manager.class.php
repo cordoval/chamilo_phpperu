@@ -13,10 +13,10 @@ require_once dirname(__FILE__) . '/component/webconference_browser/webconference
 class WebconferencingManager extends WebApplication
 {
     const APPLICATION_NAME = 'webconferencing';
-    
+
     const PARAM_WEBCONFERENCE = 'webconference';
     const PARAM_DELETE_SELECTED_WEBCONFERENCES = 'delete_selected_webconferences';
-    
+
     const ACTION_DELETE_WEBCONFERENCE = 'delete_webconference';
     const ACTION_EDIT_WEBCONFERENCE = 'edit_webconference';
     const ACTION_CREATE_WEBCONFERENCE = 'create_webconference';
@@ -56,7 +56,7 @@ class WebconferencingManager extends WebApplication
             default :
                 $this->set_action(self :: ACTION_BROWSE_WEBCONFERENCES);
                 $component = $this->create_component('WebconferencesBrowser');
-        
+
         }
         $component->run();
     }
@@ -68,9 +68,9 @@ class WebconferencingManager extends WebApplication
             switch ($_POST['action'])
             {
                 case self :: PARAM_DELETE_SELECTED_WEBCONFERENCES :
-                    
+
                     $selected_ids = $_POST[WebconferenceBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-                    
+
                     if (empty($selected_ids))
                     {
                         $selected_ids = array();
@@ -79,12 +79,12 @@ class WebconferencingManager extends WebApplication
                     {
                         $selected_ids = array($selected_ids);
                     }
-                    
+
                     $this->set_action(self :: ACTION_DELETE_WEBCONFERENCE);
                     $_GET[self :: PARAM_WEBCONFERENCE] = $selected_ids;
                     break;
             }
-        
+
         }
     }
 
@@ -94,7 +94,7 @@ class WebconferencingManager extends WebApplication
     }
 
     // Data Retrieving
-    
+
 
     function count_webconferences($condition)
     {
@@ -127,7 +127,7 @@ class WebconferencingManager extends WebApplication
     }
 
     // Url Creation
-    
+
 
     function get_create_webconference_url()
     {
@@ -147,54 +147,6 @@ class WebconferencingManager extends WebApplication
     function get_browse_webconferences_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_WEBCONFERENCES));
-    }
-
-    // Dummy Methods which are needed because we don't work with learning objects
-    function content_object_is_published($object_id)
-    {
-    }
-
-    function any_content_object_is_published($object_ids)
-    {
-    }
-
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
-    {
-    }
-
-    function get_content_object_publication_attribute($object_id)
-    {
-    
-    }
-
-    function count_publication_attributes($type = null, $condition = null)
-    {
-    
-    }
-
-    function delete_content_object_publications($object_id)
-    {
-    
-    }
-    
-	function delete_content_object_publication($publication_id)
-    {
-    	 
-    }
-
-    function update_content_object_publication_id($publication_attr)
-    {
-    
-    }
-
-    function get_content_object_publication_locations($content_object)
-    {
-    
-    }
-
-    function publish_content_object($content_object, $location)
-    {
-    
     }
 }
 ?>

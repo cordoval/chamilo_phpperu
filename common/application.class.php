@@ -174,7 +174,7 @@ abstract class Application
      */
     function set_parameter($name, $value)
     {
-        dump(get_class($this) . ' | ' . $name);
+        //dump(get_class($this) . ' | ' . $name);
         $this->parameters[$name] = $value;
     }
 

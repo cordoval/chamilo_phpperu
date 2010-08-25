@@ -16,20 +16,20 @@ require_once dirname(__FILE__) . '/../profiler_block.class.php';
 class ProfilerManager extends WebApplication
 {
     const APPLICATION_NAME = 'profiler';
-    
+
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_MARK_SELECTED_READ = 'mark_selected_read';
     const PARAM_MARK_SELECTED_UNREAD = 'mark_selected_unread';
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_PROFILE_ID = 'profile';
-    
+
     const ACTION_DELETE_PUBLICATION = 'delete';
     const ACTION_EDIT_PUBLICATION = 'edit';
     const ACTION_VIEW_PUBLICATION = 'view';
     const ACTION_CREATE_PUBLICATION = 'create';
     const ACTION_BROWSE_PROFILES = 'browse';
     const ACTION_MANAGE_CATEGORIES = 'manage_categories';
-    
+
     private $parameters;
     private $search_parameters;
     private $user;
@@ -45,7 +45,7 @@ class ProfilerManager extends WebApplication
     {
         parent :: __construct($user);
         $this->parse_input_from_table();
-        
+
         if (Request :: get(ProfilerManager :: PARAM_FIRSTLETTER))
         {
             $this->firstletter = Request :: get(ProfilerManager :: PARAM_FIRSTLETTER);
@@ -153,7 +153,7 @@ class ProfilerManager extends WebApplication
 
 		return implode($html, "\n");
 	}*/
-    
+
     /**
      * Displays the search form
      */
@@ -186,7 +186,7 @@ class ProfilerManager extends WebApplication
         {
             return array_merge($this->search_parameters, parent :: get_parameters());
         }
-        
+
         return parent :: get_parameters();
     }
 
@@ -204,7 +204,7 @@ class ProfilerManager extends WebApplication
      * @param int $object_id
      * @return boolean Is the object is published
      */
-    function content_object_is_published($object_id)
+    static function content_object_is_published($object_id)
     {
         return ProfilerDataManager :: get_instance()->content_object_is_published($object_id);
     }
@@ -214,7 +214,7 @@ class ProfilerManager extends WebApplication
      * @param array $object_ids An array of object id's
      * @return boolean Was any learning object published
      */
-    function any_content_object_is_published($object_ids)
+    static function any_content_object_is_published($object_ids)
     {
         return ProfilerDataManager :: get_instance()->any_content_object_is_published($object_ids);
     }
@@ -228,7 +228,7 @@ class ProfilerManager extends WebApplication
      * @param int $order_property
      * @return array An array of Learing Object Publication Attributes
      */
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
         return ProfilerDataManager :: get_instance()->get_content_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property);
     }
@@ -238,7 +238,7 @@ class ProfilerManager extends WebApplication
      * @param int $object_id The object id
      * @return ContentObjectPublicationAttribute
      */
-    function get_content_object_publication_attribute($object_id)
+    static function get_content_object_publication_attribute($object_id)
     {
         return ProfilerDataManager :: get_instance()->get_content_object_publication_attribute($object_id);
     }
@@ -249,7 +249,7 @@ class ProfilerManager extends WebApplication
      * @param Condition $conditions
      * @return int
      */
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
+    static function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
         return ProfilerDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
@@ -260,14 +260,14 @@ class ProfilerManager extends WebApplication
      * @param Condition $conditions
      * @return boolean
      */
-    function delete_content_object_publications($object_id)
+    static function delete_content_object_publications($object_id)
     {
         return ProfilerDataManager :: get_instance()->delete_profile_publications($object_id);
     }
-    
-	function delete_content_object_publication($publication_id)
+
+    static function delete_content_object_publication($publication_id)
     {
-    	 return ProfilerDataManager :: get_instance()->delete_content_object_publication($publication_id);
+        return ProfilerDataManager :: get_instance()->delete_content_object_publication($publication_id);
     }
 
     /**
@@ -275,7 +275,7 @@ class ProfilerManager extends WebApplication
      * @param ContentObjectPublicationAttribure $publication_attr
      * @return boolean
      */
-    function update_content_object_publication_id($publication_attr)
+    static function update_content_object_publication_id($publication_attr)
     {
         return ProfilerDataManager :: get_instance()->update_profile_publication_id($publication_attr);
     }
@@ -329,21 +329,21 @@ class ProfilerManager extends WebApplication
     /**
      * Inherited
      */
-    function get_content_object_publication_locations($content_object)
+    static function get_content_object_publication_locations($content_object)
     {
         $allowed_types = array(Profile :: get_type_name());
-        
+
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
             $locations = array(__CLASS__);
             return $locations;
         }
-        
+
         return array();
     }
 
-    function publish_content_object($content_object, $location)
+    static function publish_content_object($content_object, $location)
     {
         $publication = new ProfilePublication();
         $publication->set_profile($content_object->get_id());

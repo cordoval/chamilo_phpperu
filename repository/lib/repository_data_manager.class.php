@@ -89,12 +89,12 @@ class RepositoryDataManager
 
         while ($content_object = $content_objects->next_result())
         {
-        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: VIEW_RIGHT, $content_object->get_id()))
-        	{
-        		continue;
-        	}
-        	
-        	$active_content_objects[] = $content_object->get_name();
+            if (! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: VIEW_RIGHT, $content_object->get_id()))
+            {
+                continue;
+            }
+
+            $active_content_objects[] = $content_object->get_name();
         }
 
         return $active_content_objects;
@@ -133,8 +133,8 @@ class RepositoryDataManager
         $result = false;
         foreach ($applications as $index => $application_name)
         {
-            $application = Application :: factory($application_name);
-            if ($application->content_object_is_published($id))
+            $result = call_user_func(array(WebApplication :: get_application_class_name($application_name), 'content_object_is_published'), $id);
+            if ($result)
             {
                 return true;
             }
@@ -155,16 +155,14 @@ class RepositoryDataManager
         $result = false;
         foreach ($applications as $index => $application_name)
         {
-
-            $application = Application :: factory($application_name);
-            if ($application->any_content_object_is_published($ids))
+            $result = call_user_func(array(WebApplication :: get_application_class_name($application_name), 'any_content_object_is_published'), $ids);
+            if ($result)
             {
                 return true;
             }
         }
 
-        $admin = new AdminManager();
-        if ($admin->any_content_object_is_published($ids))
+        if (AdminManager :: any_content_object_is_published($ids))
         {
             return true;
         }
@@ -184,16 +182,14 @@ class RepositoryDataManager
         $info = array();
         foreach ($applications as $application_name)
         {
-            $application = Application :: factory($application_name, $user);
-            $attributes = $application->get_content_object_publication_attributes($id, $type, $offset, $count, $order_property);
+            $attributes = call_user_func(array(WebApplication :: get_application_class_name($application_name), 'get_content_object_publication_attributes'), $id, $type, $offset, $count, $order_property);
             if (! is_null($attributes) && count($attributes) > 0)
             {
                 $info = array_merge($info, $attributes);
             }
         }
 
-        $admin = new AdminManager($user);
-        $attributes = $admin->get_content_object_publication_attributes($id, $type, $offset, $count, $order_property);
+        $attributes = AdminManager :: get_content_object_publication_attributes($id, $type, $offset, $count, $order_property);
         if (! is_null($attributes) && count($attributes) > 0)
         {
             $info = array_merge($info, $attributes);
@@ -210,8 +206,7 @@ class RepositoryDataManager
      */
     public static function get_content_object_publication_attribute($id, $application, $user)
     {
-        $application = Application :: factory($application, $user, true);
-        return $application->get_content_object_publication_attribute($id);
+        return call_user_func(array(WebApplication :: get_application_class_name($application), 'get_content_object_publication_attribute'), $id);
     }
 
     /**
@@ -366,12 +361,10 @@ class RepositoryDataManager
         $info = 0;
         foreach ($applications as $index => $application_name)
         {
-            $application = Application :: factory($application_name, $user);
-            $info += $application->count_publication_attributes($user, $object_id, $condition);
+            $info += call_user_func(array(WebApplication :: get_application_class_name($application_name), 'count_publication_attributes'), $user, $object_id, $condition);
         }
 
-        $admin = new AdminManager($user);
-        $info += $admin->count_publication_attributes($user, $object_id, $condition);
+        $info += AdminManager :: count_publication_attributes($user, $object_id, $condition);
 
         return $info;
     }
@@ -383,8 +376,7 @@ class RepositoryDataManager
      */
     public static function update_content_object_publication_id($publication_attr)
     {
-        $application = Application :: factory($publication_attr->get_application());
-        return $application->update_content_object_publication_id($publication_attr);
+        return call_user_func(array(WebApplication :: get_application_class_name($publication_attr->get_application()), 'update_content_object_publication_id'), $publication_attr);
     }
 
     /**
@@ -415,8 +407,7 @@ class RepositoryDataManager
         $applications = self :: get_registered_applications();
         foreach ($applications as $index => $application_name)
         {
-            $application = Application :: factory($application_name);
-            $application->delete_content_object_publications($object->get_id());
+            call_user_func(array(WebApplication :: get_application_class_name($application_name), 'delete_content_object_publications'), $object->get_id());
         }
 
         $admin = AdminDataManager :: get_instance()->delete_content_object_publications($object->get_id());
@@ -426,9 +417,7 @@ class RepositoryDataManager
 
     public static function delete_content_object_publication($application, $publication_id)
     {
-        //require_once (Path :: get(SYS_PATH) . 'application/lib/' . $application . '/' . $application . '_manager/' . $application . '_manager.class.php');
-        $application = Application :: factory($application, null, true);
-        return $application->delete_content_object_publication($publication_id);
+        return call_user_func(array(WebApplication :: get_application_class_name($application), 'delete_content_object_publication'), $publication_id);
     }
 
     /**
@@ -518,62 +507,62 @@ class RepositoryDataManager
 
         return $managers;
     }
-    
+
     static function get_document_id_by_hash($hash)
     {
-    	$condition = new EqualityCondition(Document :: PROPERTY_HASH, $hash);
-    	$document = self :: get_instance()->retrieve_content_objects($condition)->next_result();
-    	
-    	if($document)
-    	{
-    		return $document->get_id();
-    	}
-    	
-    	return false;
+        $condition = new EqualityCondition(Document :: PROPERTY_HASH, $hash);
+        $document = self :: get_instance()->retrieve_content_objects($condition)->next_result();
+
+        if ($document)
+        {
+            return $document->get_id();
+        }
+
+        return false;
     }
-    
+
     /**
- 	 *	retrieve category
- 	 *  if the category does not exist, create a new category
- 	 *  return the id
- 	 *  
+     * retrieve category
+     * if the category does not exist, create a new category
+     * return the id
+     *
      */
     static function get_repository_category_by_name_or_create_new($user_id, $title)
     {
-		$conditions = array();
-    	$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_NAME, $title);
+        $conditions = array();
+        $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_NAME, $title);
         $conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $user_id);
         $condition = new AndCondition($conditions);
-        
+
         $category = self :: get_instance()->retrieve_categories($condition)->next_result();
-        if(!$category)
+        if (! $category)
         {
-        	$category = new RepositoryCategory();
-        	$category->set_user_id($user_id);
-        	$category->set_name($title);
-        	$category->set_parent(0);
-            
-        	//Create category in database
-        	$category->create();
+            $category = new RepositoryCategory();
+            $category->set_user_id($user_id);
+            $category->set_name($title);
+            $category->set_parent(0);
+
+            //Create category in database
+            $category->create();
         }
- 
-        return $category->get_id();       
-        
+
+        return $category->get_id();
+
     }
-    
+
     static function retrieve_document_from_hash($user_id, $hash)
     {
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition(Document :: PROPERTY_HASH, $hash, 'document');
+        $conditions = array();
+        $conditions[] = new EqualityCondition(Document :: PROPERTY_HASH, $hash, 'document');
         $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $user_id);
         $condition = new AndCondition($conditions);
-        
+
         return self :: get_instance()->retrieve_content_object_by_condition($condition, 'document');
     }
-    
+
     static function get_document_by_filename($filename)
     {
-    	$condition = new EqualityCondition(Document :: PROPERTY_FILENAME, $filename, 'document');
+        $condition = new EqualityCondition(Document :: PROPERTY_FILENAME, $filename, 'document');
         return self :: get_instance()->retrieve_content_object_by_condition($condition, 'document');
     }
 }

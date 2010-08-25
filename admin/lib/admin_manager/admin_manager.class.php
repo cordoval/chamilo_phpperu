@@ -179,7 +179,6 @@ class AdminManager extends CoreApplication
         $applications = WebApplication :: load_all();
         foreach ($applications as $index => $application_name)
         {
-            dump($application_name);
             $info[] = call_user_func(array(WebApplication :: get_application_class_name($application_name), 'get_application_platform_admin_links'));
         }
 
@@ -356,7 +355,7 @@ class AdminManager extends CoreApplication
     /*
 	 * Inherited
 	 */
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
         return AdminDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
     }
@@ -364,30 +363,30 @@ class AdminManager extends CoreApplication
     /*
 	 * Inherited
 	 */
-    function get_content_object_publication_attribute($publication_id)
+    static function get_content_object_publication_attribute($publication_id)
     {
         return AdminDataManager :: get_instance()->get_content_object_publication_attribute($publication_id);
     }
 
-    public function any_content_object_is_published($object_ids)
+    public static function any_content_object_is_published($object_ids)
     {
         $adm = AdminDataManager :: get_instance();
         return $adm->any_content_object_is_published($object_ids);
     }
 
-    public function count_publication_attributes($type = null, $condition = null)
+    public static function count_publication_attributes($user, $type = null, $condition = null)
     {
         $adm = AdminDataManager :: get_instance();
         return $adm->count_publication_attributes($type, $condition);
     }
 
-    public function delete_content_object_publications($object_id)
+    public static function delete_content_object_publications($object_id)
     {
         $adm = AdminDataManager :: get_instance();
         return $adm->delete_content_object_publications($object_id);
     }
 
-    public function delete_content_object_publication($publication_id)
+    public static function delete_content_object_publication($publication_id)
     {
         $adm = AdminDataManager :: get_instance();
         return $adm->delete_content_object_publication($publication_id);
@@ -411,7 +410,7 @@ class AdminManager extends CoreApplication
     /**
      * Used to publish system announcements
      */
-    function get_content_object_publication_locations($content_object)
+    static function get_content_object_publication_locations($content_object)
     {
         $allowed_types = array(SystemAnnouncement :: get_type_name());
 
@@ -428,7 +427,7 @@ class AdminManager extends CoreApplication
     /**
      * Used to publish system announcements
      */
-    function publish_content_object($content_object, $location)
+    static function publish_content_object($content_object, $location)
     {
         require_once dirname(__FILE__) . '/../system_announcement_publication.class.php';
         $pub = new SystemAnnouncementPublication();
@@ -439,7 +438,7 @@ class AdminManager extends CoreApplication
         return Translation :: get('PublicationCreated');
     }
 
-    function add_publication_attributes_elements()
+    static function add_publication_attributes_elements()
     {
 
     }
