@@ -20,6 +20,7 @@ require_once dirname(__FILE__) . '/../course/course_module.class.php';
 require_once dirname(__FILE__) . '/../course/course_module_last_access.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group.class.php';
 require_once dirname(__FILE__) . '/../course_group/course_group_user_relation.class.php';
+require_once dirname(__FILE__) . '/../course_group/course_group_right_location.class.php';
 require_once dirname(__FILE__) . '/../course_type/course_type.class.php';
 require_once dirname(__FILE__) . '/../course/course_request.class.php';
 require_once dirname(__FILE__) . '/../../../../repository/lib/data_manager/database_repository_data_manager.class.php';
@@ -2846,6 +2847,41 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         {
         	return $record['publisher_id'];
         }
+    }
+    
+    // Additional Rights System
+    
+	function create_course_group_right_location($course_group_right_location)
+    {
+        return $this->create($course_group_right_location);
+    }
+    
+	function delete_course_group_right_location($course_group_right_location)
+    {
+        $condition = new EqualityCondition(CourseGroupRightLocation :: PROPERTY_ID, $course_group_right_location->get_id());
+        return $this->delete(CourseGroupRightLocation :: get_table_name(), $condition);
+    }
+    
+	function retrieve_course_group_right_location($right_id, $course_group_id, $location_id)
+    {
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseGroupRightLocation :: PROPERTY_RIGHT_ID, $right_id);
+        $conditions[] = new EqualityCondition(CourseGroupRightLocation :: PROPERTY_COURSE_GROUP_ID, $course_group_id);
+        $conditions[] = new EqualityCondition(CourseGroupRightLocation :: PROPERTY_LOCATION_ID, $location_id);
+        $condition = new AndCondition($conditions);
+
+        return $this->retrieve_object(CourseGroupRightLocation :: get_table_name(), $condition);
+    }
+
+    function retrieve_course_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null)
+    {
+        return $this->retrieve_objects(CourseGroupRightLocation :: get_table_name(), $condition, $offset, $max_objects, $order_by);
+    }
+    
+	function update_course_group_right_location($course_group_right_location)
+    {
+        $condition = new EqualityCondition(CourseGroupRightLocation :: PROPERTY_ID, $course_group_right_location->get_id());
+        return $this->update($course_group_right_location, $condition);
     }
 
 }

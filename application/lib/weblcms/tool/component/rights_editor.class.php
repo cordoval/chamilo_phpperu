@@ -10,6 +10,8 @@
  * @author Sven Vanpoucke
  */
 
+require_once dirname(__FILE__) . '/../../courses_rights_editor/courses_rights_editor_manager.class.php';
+
 class ToolRightsEditorComponent extends ToolComponent
 {
     /**
@@ -58,7 +60,7 @@ class ToolRightsEditorComponent extends ToolComponent
         	}
         }
 
-        $manager = new RightsEditorManager($this, $locations);
+        $manager = new CoursesRightsEditorManager($this, $locations);
 	    $manager->exclude_users(array($this->get_user_id()));
     	$manager->run();
     }
