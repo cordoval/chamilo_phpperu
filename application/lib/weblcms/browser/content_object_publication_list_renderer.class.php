@@ -411,11 +411,11 @@ abstract class ContentObjectPublicationListRenderer
         //        return $this->get_publication_actions($publication)->as_html();
         $html = array();
         //
-        //        if ($this->is_allowed(DELETE_RIGHT))
+        //        if ($this->is_allowed(WeblcmsRights :: DELETE_RIGHT))
         //        {
         //            $icons[] = $this->render_delete_action($publication);
         //        }
-        //        if ($this->is_allowed(EDIT_RIGHT))
+        //        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         //        {
         //            $icons[] = $this->render_edit_action($publication);
         //            $icons[] = $this->render_visibility_action($publication);
@@ -525,9 +525,9 @@ abstract class ContentObjectPublicationListRenderer
     /**
      * @see ContentObjectPublicationBrowser :: is_allowed()
      */
-    function is_allowed($right)
+    function is_allowed($right, $publication = null)
     {
-        return $this->tool_browser->is_allowed($right);
+        return $this->tool_browser->is_allowed($right, $publication);
     }
 
     /**
@@ -614,7 +614,7 @@ abstract class ContentObjectPublicationListRenderer
         	$toolbar->add_item(new ToolbarItem(Translation :: get('DisplayComplex'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_complex_display_url($publication->get_id()), ToolbarItem :: DISPLAY_ICON));
         }
 
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT, $publication->get_id()))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
 

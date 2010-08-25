@@ -9,7 +9,7 @@ class ToolComplexBuilderComponent extends ToolComponent
 	
     function run()
     {
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
             $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($pid);

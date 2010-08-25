@@ -13,7 +13,7 @@ class LearningPathToolDeleterComponent extends LearningPathTool
 
     function run()
     {
-        if ($this->is_allowed(DELETE_RIGHT) /*&& !WikiTool :: is_wiki_locked(Request :: get(Tool :: PARAM_PUBLICATION_ID))*/)
+        if ($this->is_allowed(WeblcmsRights :: DELETE_RIGHT) /*&& !WikiTool :: is_wiki_locked(Request :: get(Tool :: PARAM_PUBLICATION_ID))*/)
 		{
             if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
                 $publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);

@@ -127,7 +127,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 
             $group_id = Request :: get(WeblcmsManager :: PARAM_GROUP);
 
-            if ($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(DELETE_RIGHT) && !isset($group_id))
+            if ($user->get_id() != $this->browser->get_user()->get_id() && $this->browser->is_allowed(WeblcmsRights :: DELETE_RIGHT) && !isset($group_id))
             {
                 $parameters = array();
                 $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_UNSUBSCRIBE;
@@ -151,7 +151,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 		        ));
             }
 
-            if ($this->browser->is_allowed(EDIT_RIGHT))
+            if ($this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
                 $params = array();
                 $params[UserTool :: PARAM_USERS] = $user->get_id();

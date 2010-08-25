@@ -28,7 +28,7 @@ class ToolBrowserComponent extends ToolComponent
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_DELETE, Translation :: get('DeleteSelected')));
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_HIDE_PUBLICATION, Translation :: get('Hide'), false));
         $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_SHOW_PUBLICATION, Translation :: get('Show'), false));
-        if ($this->is_allowed(EDIT_RIGHT) && $this->get_parent() instanceof Categorizable)
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $this->get_parent() instanceof Categorizable)
         {
             $actions->add_form_action(new ObjectTableFormAction(Tool :: ACTION_MOVE_TO_CATEGORY, Translation :: get('MoveSelected'), false));
         }
@@ -100,12 +100,12 @@ class ToolBrowserComponent extends ToolComponent
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         $action_bar->set_search_url($this->get_url());
-        if ($this->is_allowed(ADD_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -113,14 +113,14 @@ class ToolBrowserComponent extends ToolComponent
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
 
-        if ($this->is_allowed(EDIT_RIGHT) && $this->get_parent() instanceof Categorizable)
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $this->get_parent() instanceof Categorizable)
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         if (! $this->introduction_text && $this->get_course()->get_intro_text())
         {
-            if ($this->is_allowed(EDIT_RIGHT))
+            if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
                 $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
@@ -146,7 +146,7 @@ class ToolBrowserComponent extends ToolComponent
 
     function get_publication_conditions()
     {
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $user_id = array();
             $course_group_ids = array();
@@ -214,7 +214,7 @@ class ToolBrowserComponent extends ToolComponent
             }
         }
 
-        if (! ($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+        if (! ($this->is_allowed(WeblcmsRights :: DELETE_RIGHT) || $this->is_allowed(WeblcmsRights :: EDIT_RIGHT)))
         {
             $time_conditions = array();
             $time_conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_HIDDEN, 0);

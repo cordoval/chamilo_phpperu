@@ -30,7 +30,7 @@ class ForumToolBrowserComponent extends ForumTool
         $this->introduction_text = $publications->next_result();
         
         $this->size = 0;
-        $this->allowed = $this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT);
+        $this->allowed = $this->is_allowed(WeblcmsRights :: DELETE_RIGHT) || $this->is_allowed(WeblcmsRights :: EDIT_RIGHT);
         $this->action_bar = $this->get_action_bar();
         
         $table = $this->get_table_html();
@@ -103,7 +103,7 @@ class ForumToolBrowserComponent extends ForumTool
         
         while ($category = $categories->next_result())
         {
-            if($this->is_allowed(EDIT_RIGHT))
+            if($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
             	$item = new ToolbarItem(
 	        		Translation :: get('ManageRights'),
@@ -135,7 +135,7 @@ class ForumToolBrowserComponent extends ForumTool
 
     function create_table_forums($table, &$row, $parent)
     {
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $user_id = array();
             $course_group_ids = array();
@@ -253,7 +253,7 @@ class ForumToolBrowserComponent extends ForumTool
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             if ($publication->is_hidden())
             {
@@ -367,18 +367,18 @@ class ForumToolBrowserComponent extends ForumTool
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        if ($this->is_allowed(ADD_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         
-    	if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(EDIT_RIGHT))
+    	if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

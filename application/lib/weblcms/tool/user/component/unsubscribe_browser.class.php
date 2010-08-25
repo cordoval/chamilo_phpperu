@@ -14,7 +14,7 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
 
     function run()
     {
-        if (! $this->is_allowed(VIEW_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
@@ -100,7 +100,7 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
 
         $action_bar->set_search_url($this->get_url($parameters));
 
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_image_path() . 'action_subscribe_user.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USER_BROWSER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_image_path() . 'action_subscribe_group.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUP_BROWSER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

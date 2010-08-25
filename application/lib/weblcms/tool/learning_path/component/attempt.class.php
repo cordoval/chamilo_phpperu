@@ -25,7 +25,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
     function run()
     {
         // Check for rights
-        if (! $this->is_allowed(VIEW_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;

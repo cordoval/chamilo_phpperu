@@ -64,7 +64,7 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
     {
         $datamanager = WeblcmsDataManager :: get_instance();
         $publication = $datamanager->retrieve_content_object_publication($pid);
-        if (! $publication->is_visible_for_target_users() && ! ($this->parent->is_allowed(DELETE_RIGHT) || $this->parent->is_allowed(EDIT_RIGHT)))
+        if (! $publication->is_visible_for_target_users() && ! ($this->parent->is_allowed(WeblcmsRights :: DELETE_RIGHT) || $this->parent->is_allowed(WeblcmsRights :: EDIT_RIGHT)))
         {
             return array();
         }
@@ -77,7 +77,7 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
         $tool_condition = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, 'assessment');
         $condition = $tool_condition;
         $lo_condition = $this->get_condition();
-        if ($this->parent->is_allowed(EDIT_RIGHT))
+        if ($this->parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $user_id = null;
             $course_group_ids = null;
@@ -144,7 +144,7 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
         while ($publication = $publications->next_result())
         {
             // If the results is hidden and the user is not allowed to DELETE or EDIT, don't show this results
-            if (! $publication->is_visible_for_target_users() && ! ($this->parent->is_allowed(DELETE_RIGHT) || $this->parent->is_allowed(EDIT_RIGHT)))
+            if (! $publication->is_visible_for_target_users() && ! ($this->parent->is_allowed(WeblcmsRights :: DELETE_RIGHT) || $this->parent->is_allowed(WeblcmsRights :: EDIT_RIGHT)))
             {
                 continue;
             }

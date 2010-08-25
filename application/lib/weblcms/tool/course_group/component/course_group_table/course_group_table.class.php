@@ -66,7 +66,7 @@ class CourseGroupTable
         $this->set_additional_parameters($this->determine_additional_parameters());
         
         $actions = array();
-        if($parent->is_allowed(EDIT_RIGHT))
+        if($parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
 	    	$actions[] = new ObjectTableFormAction(CourseGroupTool :: PARAM_DELETE_COURSE_GROUPS, Translation :: get('RemoveSelected'));
 	    	$this->set_form_actions(new ObjectTableFormActions(null,$actions));

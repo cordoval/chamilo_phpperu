@@ -108,7 +108,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 
         /*if(!$user->is_platform_admin() && (!$relation || ($relation->get_status() != 5 && $relation->get_status() != 1)))
 		 //TODO: Roles & Rights
-		 //if(!$this->is_allowed(VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
+		 //if(!$this->is_allowed(WeblcmsRights :: VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
 		 {
 			$this->display_header($trail, false, true);
 			Display :: not_allowed();
@@ -213,7 +213,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
      */
     private function load_rights()
     {
-        $this->rights[VIEW_RIGHT] = true;
+        $this->rights[WeblcmsRights :: VIEW_RIGHT] = true;
 
         $studentview = Session :: retrieve('studentview');
 
@@ -229,16 +229,16 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 
     private function set_rights_for_teacher()
     {
-        $this->rights[EDIT_RIGHT] = true;
-        $this->rights[ADD_RIGHT] = true;
-        $this->rights[DELETE_RIGHT] = true;
+        $this->rights[WeblcmsRights :: EDIT_RIGHT] = true;
+        $this->rights[WeblcmsRights :: ADD_RIGHT] = true;
+        $this->rights[WeblcmsRights :: DELETE_RIGHT] = true;
     }
 
     private function set_rights_for_student()
     {
-        $this->rights[EDIT_RIGHT] = false;
-        $this->rights[ADD_RIGHT] = false;
-        $this->rights[DELETE_RIGHT] = false;
+        $this->rights[WeblcmsRights :: EDIT_RIGHT] = false;
+        $this->rights[WeblcmsRights :: ADD_RIGHT] = false;
+        $this->rights[WeblcmsRights :: DELETE_RIGHT] = false;
     }
     
     function set_right($right, $value)

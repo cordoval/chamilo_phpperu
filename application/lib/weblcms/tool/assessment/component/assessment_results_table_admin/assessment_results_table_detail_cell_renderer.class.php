@@ -80,12 +80,12 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
            //$toolbar->add_item(new ToolbarItem(Translation :: get('ExportResultsNA'), Theme :: get_common_image_path() . 'action_export_na.png', null, ToolbarItem :: DISPLAY_ICON));
         }
         
-        if ($this->browser->is_allowed(DELETE_RIGHT))
+        if ($this->browser->is_allowed(WeblcmsRights :: DELETE_RIGHT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('DeleteResult'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), ToolbarItem :: DISPLAY_ICON, true));
         }
         
-        if ($this->browser->is_allowed(EDIT_RIGHT))
+        if ($this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
             {

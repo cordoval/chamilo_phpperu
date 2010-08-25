@@ -10,7 +10,7 @@ class ToolCategoryMoverComponent extends ToolComponent
 
     function run()
     {
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $form = $this->build_move_to_category_form();
             if (! $form)

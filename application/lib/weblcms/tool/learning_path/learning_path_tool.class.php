@@ -115,7 +115,7 @@ class LearningPathTool extends Tool implements Categorizable
 	
 	function get_content_object_publication_actions($publication)
     {
-        $allowed= $this->is_allowed(EDIT_RIGHT);
+        $allowed= $this->is_allowed(WeblcmsRights :: EDIT_RIGHT);
         
     	if(!$this->is_empty_learning_path($publication))
         {

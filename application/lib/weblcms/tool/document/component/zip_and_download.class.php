@@ -10,7 +10,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentTool
 
     function run()
     {
-        if (! $this->is_allowed(VIEW_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
@@ -36,7 +36,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentTool
         }
         $category_folder_mapping = $this->create_folder_structure($category_id);
         $datamanager = WeblcmsDataManager :: get_instance();
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $user_id = null;
             $course_groups = null;
