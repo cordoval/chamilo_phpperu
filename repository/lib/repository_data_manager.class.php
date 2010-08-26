@@ -77,7 +77,7 @@ class RepositoryDataManager
      * by default.
      * @return array The types.
      */
-    public static function get_registered_types($only_master_types = false)
+    public static function get_registered_types($only_master_types = false, $check_for_rights = true)
     {
         $adm = AdminDataManager :: get_instance();
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
@@ -89,7 +89,7 @@ class RepositoryDataManager
 
         while ($content_object = $content_objects->next_result())
         {
-            if (! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: VIEW_RIGHT, $content_object->get_id()))
+            if ($check_for_rights && ! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: VIEW_RIGHT, $content_object->get_id()))
             {
                 continue;
             }
