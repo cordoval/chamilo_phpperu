@@ -22,7 +22,7 @@ class RightsUtilities
     const TREE_TYPE_ROOT = 0;
     const TYPE_ROOT = 0;
 
-    private static $is_allowed_cache;
+    protected static $is_allowed_cache;
     private static $constants;
 
     static function create_location($name, $application, $type = self :: TYPE_ROOT, $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT, $return_location = false)
@@ -181,44 +181,24 @@ class RightsUtilities
      * @param string $tree_type
      * @return boolean
      */
-    private static function get_right($right, $location, $type, $application, $user, $tree_identifier, $tree_type)
+    static function get_right($right, $location, $type, $application, $user, $tree_identifier, $tree_type)
     {
         if ($user instanceof User && $user->is_platform_admin())
         {
             return true;
         }
 
-        $rdm = RightsDataManager :: get_instance();
-
-        $conditions = array();
-        $conditions[] = new EqualityCondition(Location :: PROPERTY_IDENTIFIER, $location);
-        $conditions[] = new EqualityCondition(Location :: PROPERTY_TYPE, $type);
-        $conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $application);
-        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_TYPE, $tree_type);
-        $conditions[] = new EqualityCondition(Location :: PROPERTY_TREE_IDENTIFIER, $tree_identifier);
-
-        $condition = new AndCondition($conditions);
-
-        $location_set = $rdm->retrieve_locations($condition, 0, 1);
-
-        if ($location_set->size() > 0)
+        $location = self :: get_location_by_identifier($application, $type, $location, $tree_identifier, $tree_type);
+        if(!$location)
         {
-            $location = $location_set->next_result();
-            $locked_parent = $location->get_locked_parent();
-
-            if (isset($locked_parent))
-            {
-                $location = $locked_parent;
-            }
-
-            $parents = $location->get_parents();
+        	return false;
         }
-        else
+  
+        $locked_parent = $location->get_locked_parent();
+        if(isset($locked_parent))
         {
-            return false;
+        	$location = $locked_parent;
         }
-
-        $parents = $parents->as_array();
 
         if (isset($user))
         {
@@ -233,35 +213,15 @@ class RightsUtilities
 
                     while ($group_template = $group_templates->next_result())
                     {
-                        foreach ($parents as $parent)
-                        {
-                            $group_template_right_location = $rdm->retrieve_rights_template_right_location($right, $group_template->get_id(), $parent->get_id());
-
-                            if ($group_template_right_location instanceof RightsTemplateRightLocation && $group_template_right_location->is_enabled())
-                            {
-                                return true;
-                            }
-
-                            if (! $parent->inherits())
-                            {
-                                break;
-                            }
-                        }
+                    	if(self :: is_allowed_for_rights_template($group_template->get_id(), $right, $location))
+                		{
+                			return true;
+               			}
                     }
 
-                    foreach ($parents as $parent)
+                    if(self :: is_allowed_for_group($group->get_id(), $right, $location))
                     {
-                        $group_right_location = $rdm->retrieve_group_right_location($right, $group->get_id(), $parent->get_id());
-
-                        if ($group_right_location instanceof GroupRightLocation && $group_right_location->is_enabled())
-                        {
-                            return true;
-                        }
-
-                        if (! $parent->inherits())
-                        {
-                            break;
-                        }
+                    	return true;
                     }
                 }
             }
@@ -271,36 +231,15 @@ class RightsUtilities
 
             while ($user_template = $user_templates->next_result())
             {
-                foreach ($parents as $parent)
+                if(self :: is_allowed_for_rights_template($user_template->get_id(), $right, $location))
                 {
-                    $user_template_right_location = $rdm->retrieve_rights_template_right_location($right, $user_template->get_id(), $parent->get_id());
-
-                    if ($user_template_right_location instanceof RightsTemplateRightLocation && $user_template_right_location->is_enabled())
-                    {
-                        return true;
-                    }
-
-                    if (! $parent->inherits())
-                    {
-                        break;
-                    }
+                	return true;
                 }
             }
 
-            // Check right for the individual user
-            foreach ($parents as $parent)
+            if(self :: is_allowed_for_user($user->get_id(), $right, $location))
             {
-                $user_right_location = $rdm->retrieve_user_right_location($right, $user->get_id(), $parent->get_id());
-
-                if ($user_right_location instanceof UserRightLocation && $user_right_location->is_enabled())
-                {
-                    return true;
-                }
-
-                if (! $parent->inherits())
-                {
-                    break;
-                }
+            	return true;
             }
         }
         else
@@ -311,7 +250,7 @@ class RightsUtilities
 
         return false;
     }
-
+    
     static function is_allowed_for_rights_template($rights_template, $right, $location)
     {
         $rdm = RightsDataManager :: get_instance();

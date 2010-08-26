@@ -421,8 +421,16 @@ abstract class Tool extends SubManager
      */
     function is_allowed($right, $publication_id = null)
     {
-    	// Using the old system for now
-    	return $this->get_parent()->is_allowed($right);
+    	$studentview = Session :: retrieve('studentview');
+    	if($studentview == 1)
+    	{
+    		return ($right == WeblcmsRights :: VIEW_RIGHT);
+    	}
+    	    	
+    	if($this->get_parent()->is_teacher())
+    	{
+    		return true;
+    	}
     	
     	if($publication_id)
     	{
@@ -442,7 +450,7 @@ abstract class Tool extends SubManager
     		}
     		
     		$module_id = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($this->get_course_id(), $this->get_tool_id());
-    		return WeblcmsRights :: is_allowed_in_courses_subtree($right, $module_id, WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_course_id());
+    		return WeblcmsRights :: is_allowed_in_courses_subtree($right, $module_id->get_id(), WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_course_id());
     	}
     }
 

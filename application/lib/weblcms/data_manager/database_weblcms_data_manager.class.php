@@ -2312,6 +2312,11 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
             return $udm->retrieve_users($condition, $offset, $count, $order_property);
         }
     }
+    
+    function retrieve_course_group_user_relations($condition = null, $offset = null, $count = null, $order_property = null)
+    {
+    	return $this->retrieve_objects(CourseGroupUserRelation :: get_table_name(), $condition, $offset, $count, $order_property);
+    }
 
     // Inherited
     function count_course_group_users($course_group, $conditions = null)

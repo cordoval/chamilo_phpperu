@@ -822,6 +822,8 @@ interface WeblcmsDataManagerInterface
     function retrieve_course_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null);
     
 	function update_course_group_right_location($course_group_right_location);
+	
+	function retrieve_course_group_user_relations($condition = null, $offset = null, $count = null, $order_property = null);
 
 }
 ?>

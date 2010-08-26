@@ -26,7 +26,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
      */
     function run()
     {
-        $this->load_rights();
+        //$this->load_rights();
 
         if ($this->is_teacher())
         {
@@ -39,12 +39,10 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
             if ($studentview == 1)
             {
                 Session :: register('studentview', 1);
-                $this->set_rights_for_student();
             }
             else
             {
                 Session :: unregister('studentview');
-                $this->set_rights_for_teacher();
             }
         }
 
@@ -201,49 +199,6 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
     {
         $course = $this->get_course();
         Translation :: set_language($course->get_language());
-    }
-
-    function is_allowed($right)
-    {
-        return $this->rights[$right];
-    }
-
-    /**
-     * Load the rights for the current user in this tool
-     */
-    private function load_rights()
-    {
-        $this->rights[WeblcmsRights :: VIEW_RIGHT] = true;
-
-        $studentview = Session :: retrieve('studentview');
-
-        if ($this->is_teacher() && $studentview != '1')
-        {
-            $this->set_rights_for_teacher();
-        }
-        else
-        {
-            $this->set_rights_for_student();
-        }
-    }
-
-    private function set_rights_for_teacher()
-    {
-        $this->rights[WeblcmsRights :: EDIT_RIGHT] = true;
-        $this->rights[WeblcmsRights :: ADD_RIGHT] = true;
-        $this->rights[WeblcmsRights :: DELETE_RIGHT] = true;
-    }
-
-    private function set_rights_for_student()
-    {
-        $this->rights[WeblcmsRights :: EDIT_RIGHT] = false;
-        $this->rights[WeblcmsRights :: ADD_RIGHT] = false;
-        $this->rights[WeblcmsRights :: DELETE_RIGHT] = false;
-    }
-    
-    function set_right($right, $value)
-    {
-    	$this->rights[$right] = $value;
     }
 
     private $is_teacher;
