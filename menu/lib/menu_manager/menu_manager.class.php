@@ -17,10 +17,6 @@ class MenuManager extends CoreApplication
     const PARAM_DIRECTION = 'direction';
     const PARAM_CATEGORY = 'category';
 
-    const ACTION_RENDER_BAR = 'render_bar';
-    const ACTION_RENDER_MINI_BAR = 'render_mini_bar';
-    const ACTION_RENDER_TREE = 'render_tree';
-    const ACTION_RENDER_SITEMAP = 'render_sitemap';
     const ACTION_SORT_MENU = 'sort';
 
     const ACTION_COMPONENT_BROWSE_CATEGORY = 'browse';
@@ -62,29 +58,6 @@ class MenuManager extends CoreApplication
                 $component = $this->create_component('Sorter');
         }
         $component->run();
-    }
-
-    function render_menu($type)
-    {
-        switch ($type)
-        {
-            case self :: ACTION_RENDER_BAR :
-                $component = $this->create_component('Bar');
-                break;
-            case self :: ACTION_RENDER_MINI_BAR :
-                $component = $this->create_component('MiniBar');
-                break;
-            case self :: ACTION_RENDER_TREE :
-                $component = $this->create_component('Tree');
-                break;
-            case self :: ACTION_RENDER_SITEMAP :
-                $component = $this->create_component('Sitemap');
-                break;
-            default :
-                $this->set_action(self :: ACTION_RENDER_BAR);
-                $component = $this->create_component('Bar');
-        }
-        return $component->run();
     }
 
     function count_navigation_items($condition = null)
