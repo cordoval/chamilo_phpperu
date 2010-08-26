@@ -8,8 +8,8 @@ require_once dirname(__FILE__) . '/location_group_browser/location_group_browser
 
 class RightsEditorManagerBrowserComponent extends RightsEditorManager
 {
-    private $action_bar;
-    private $type;
+    protected $action_bar;
+    protected $type;
     
     const PARAM_TYPE = 'rights_type';
     const TYPE_USER = 'user';
@@ -50,7 +50,14 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         
         $this->action_bar = $this->get_action_bar();
         
-        $html = array();
+        $this->display_header();
+        echo $this->get_display_html();
+        $this->display_footer();
+    }
+    
+    function get_display_html()
+    {
+    	$html = array();
         
         $html[] = $this->display_type_selector();
         $html[] = $this->action_bar->as_html() . '<br />';
@@ -68,9 +75,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $html[] = '<div class="clear"></div><br />';
         $html[] = RightsUtilities :: get_rights_legend();
         
-        $this->display_header();
-        echo implode("\n", $html);
-        $this->display_footer();
+        return implode("\n", $html);
     }
     
     function display_locations()
