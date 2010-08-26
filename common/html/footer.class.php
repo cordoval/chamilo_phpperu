@@ -46,8 +46,7 @@ class Footer
         //            $udm = UserDataManager :: get_instance();
         //            $user = $udm->retrieve_user(Session :: get_user_id());
         //
-        //            $menumanager = new MenuManager($user);
-        //            $output[] = $menumanager->render_menu(MenuManager :: ACTION_RENDER_SITEMAP);
+        //            $output[] = MenuRenderer :: as_html(MenuRenderer :: TYPE_SITE_MAP, $user);
         //            $output[] = '<div class="clear"></div>';
         //            $output[] = '</div>';
         //            $output[] = '<div class="clear"></div>';
