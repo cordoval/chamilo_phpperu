@@ -94,5 +94,165 @@ class WeblcmsRights
     {
     	 return RightsUtilities :: is_allowed($right, $location, $type, WeblcmsManager :: APPLICATION_NAME, null, $tree_identifier, WeblcmsRights :: TREE_TYPE_COURSE);
     }
+    
+    /**
+     * Functions used for course_group_right_location
+     */
+    
+	static function invert_course_group_right_location($right, $course_group, $location)
+    {
+        if (! empty($course_group) && ! empty($right) && ! empty($location))
+        {
+            $wdm = WeblcmsDataManager :: get_instance();
+            $course_group_right_location = $wdm->retrieve_course_group_right_location($right, $course_group, $location);
+
+            if ($course_group_right_location)
+            {
+                if ($course_group_right_location->is_enabled())
+                {
+                    return $course_group_right_location->delete();
+                }
+                else
+                {
+                    $course_group_right_location->invert();
+                    return $course_group_right_location->update();
+                }
+            }
+            else
+            {
+                $course_group_right_location = new CourseGroupRightLocation();
+                $course_group_right_location->set_location_id($location);
+                $course_group_right_location->set_right_id($right);
+                $course_group_right_location->set_course_group_id($course_group);
+                $course_group_right_location->set_value(1);
+                return $course_group_right_location->create();
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+	static function set_course_group_right_location_value($right, $course_group, $location, $value)
+    {
+        if (! empty($course_group) && ! empty($right) && ! empty($location) && isset($value))
+        {
+            $wdm = WeblcmsDataManager :: get_instance();
+            $course_group_right_location = $wdm->retrieve_course_group_right_location($right, $course_group, $location);
+
+            if ($course_group_right_location)
+            {
+                if ($value == true)
+                {
+                    $course_group_right_location->set_value($value);
+                    return $course_group_right_location->update();
+                }
+                else
+                {
+                    return $course_group_right_location->delete();
+                }
+            }
+            else
+            {
+                if ($value == true)
+                {
+                    $course_group_right_location = new CourseGroupRightLocation();
+                    $course_group_right_location->set_location_id($location);
+                    $course_group_right_location->set_right_id($right);
+                    $course_group_right_location->set_course_group_id($course_group);
+                    $course_group_right_location->set_value($value);
+                    return $course_group_right_location->create();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+	static function get_course_group_right_location($right_id, $course_group_id, $location_id)
+    {
+        $wdm = WeblcmsDataManager :: get_instance();
+        $object = $wdm->retrieve_course_group_right_location($right_id, $course_group_id, $location_id);
+
+        if ($object instanceof CourseGroupRightLocation)
+        {
+            return $object->get_value();
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
+	static function is_allowed_for_course_group($course_group, $right, $location)
+    {
+        $parents = $location->get_parents();
+
+        while ($parent = $parents->next_result())
+        {
+            $has_right = self :: get_course_group_right_location($right, $course_group, $parent->get_id());
+
+            if ($has_right)
+            {
+                return true;
+            }
+
+            if (! $parent->inherits())
+            {
+                return false;
+            }
+        }
+
+        return false;
+    }
+    
+	static function get_course_group_rights_icon($location_url, $rights_url, $locked_parent, $right, $object, $location)
+    {
+        $html[] = '<div id="r_' . $right . '_' . $object->get_id() . '_' . $location->get_id() . '" style="float: left; width: 24%; text-align: center;">';
+        if (isset($locked_parent))
+        {
+            $value = self :: get_course_group_right_location($right, $object->get_id(), $locked_parent->get_id());
+            $html[] = '<a href="' . $location_url . '">' . ($value == 1 ? '<img src="' . Theme :: get_common_image_path() . 'action_setting_true_locked.png" title="' . Translation :: get('LockedTrue') . '" />' : '<img src="' . Theme :: get_common_image_path() . 'action_setting_false_locked.png" title="' . Translation :: get('LockedFalse') . '" />') . '</a>';
+        }
+        else
+        {
+            $value = self :: get_course_group_right_location($right, $object->get_id(), $location->get_id());
+
+            if (! $value)
+            {
+                if ($location->inherits())
+                {
+                    $inherited_value = self :: is_allowed_for_course_group($object->get_id(), $right, $location);
+
+                    if ($inherited_value)
+                    {
+                        $html[] = '<a class="setRight" href="' . $rights_url . '">' . '<div class="rightInheritTrue"></div></a>';
+                    }
+                    else
+                    {
+                        $html[] = '<a class="setRight" href="' . $rights_url . '">' . '<div class="rightFalse"></div></a>';
+                    }
+                }
+                else
+                {
+                    $html[] = '<a class="setRight" href="' . $rights_url . '">' . '<div class="rightFalse"></div></a>';
+                }
+            }
+            else
+            {
+                $html[] = '<a class="setRight" href="' . $rights_url . '">' . '<div class="rightTrue"></div></a>';
+            }
+        }
+        $html[] = '</div>';
+
+        return implode("\n", $html);
+    }
 }
 ?>

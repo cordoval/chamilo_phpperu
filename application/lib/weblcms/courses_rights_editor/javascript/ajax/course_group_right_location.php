@@ -5,7 +5,8 @@
  */
 $this_section = 'rights';
 
-require_once dirname(__FILE__) . '/../../../../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../../../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../weblcms_rights.class.php';
 
 Utilities :: set_application($this_section);
 
@@ -15,7 +16,7 @@ if (! Authentication :: is_valid())
 }
 
 $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-// TODO: User real right_groups'n'rights here
+// TODO: User real right_course_groups'n'rights here
 if (! $user->is_platform_admin())
 {
     echo 0;
@@ -30,9 +31,9 @@ $rights = $_POST['rights'];
 $rights = explode('_', $rights);
 
 $right = $rights['1'];
-$right_group = $rights['2'];
+$right_course_group = $rights['2'];
 
-if (isset($right_group) && isset($right) && isset($locations) && count($locations) > 0)
+if (isset($right_course_group) && isset($right) && isset($locations) && count($locations) > 0)
 {
 	$success = true;
 
@@ -40,7 +41,7 @@ if (isset($right_group) && isset($right) && isset($locations) && count($location
 
     foreach($locations as $location_id)
     {
-    	$success &= RightsUtilities :: invert_group_right_location($right, $right_group, $location_id);
+    	$success &= WeblcmsRights :: invert_course_group_right_location($right, $right_course_group, $location_id);
     }
 
     if (! $success)
