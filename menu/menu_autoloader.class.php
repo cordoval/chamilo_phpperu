@@ -81,7 +81,8 @@ class MenuAutoloader
 	static function check_for_special_files($classname)
 	{
 		$list = array('menu_manager' => 'menu_manager/menu_manager.class.php',
-					  'menu_manager_component' => 'menu_manager/menu_manager_component.class.php');
+					  'menu_manager_component' => 'menu_manager/menu_manager_component.class.php',
+					  'menu_renderer' => 'menu_renderer/menu_renderer.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

@@ -1,33 +1,31 @@
 <?php
 /**
- * $Id: mini_bar.class.php 223 2009-11-13 14:39:28Z vanpouckesven $
- * @package menu.lib.menu_manager.component
+ * @author Hans De Bisschop
  */
-
-class MenuManagerMiniBarComponent extends MenuManager
+class MiniBarMenuRenderer extends MenuRenderer
 {
 
     /**
-     * Runs this component and displays its output.
+     * @return string
      */
-    function run()
+    function render()
     {
         $user = $this->get_user();
 
-        if(!$user)
+        if (! $user)
         {
-        	return;
+            return;
         }
-        
+
         $root_item_condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, 0);
-        $root_items = $this->retrieve_navigation_items($root_item_condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
+        $root_items = MenuDataManager :: get_instance()->retrieve_navigation_items($root_item_condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
 
         $this_section = Header :: get_section();
         $html = array();
 
         $html[] = '<div class="minidropnav">';
 
-        if (PlatformSetting::get('allow_portal_functionality') || $user->is_platform_admin())
+        if (PlatformSetting :: get('allow_portal_functionality') || $user->is_platform_admin())
         {
             $html[] = '<ul>';
             $html[] = '<li' . ($this_section == 'home' ? ' class="current"' : '') . '><a' . ($this_section == 'home' ? ' class="current"' : '') . ' href="index.php">' . Translation :: get('Home') . '</a></li>';
@@ -63,7 +61,7 @@ class MenuManagerMiniBarComponent extends MenuManager
             }
 
             $subitem_condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, $root_item->get_id());
-            $subitems = $this->retrieve_navigation_items($subitem_condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
+            $subitems = MenuDataManager :: get_instance()->retrieve_navigation_items($subitem_condition, null, null, new ObjectTableOrder(NavigationItem :: PROPERTY_SORT));
             $count = $subitems->size();
             if ($count > 0)
             {
@@ -79,7 +77,9 @@ class MenuManagerMiniBarComponent extends MenuManager
                         $application = $subitem->get_application();
 
                         if (WebApplication :: is_application($application) && ! WebApplication :: is_active($application))
+                        {
                             continue;
+                        }
 
                         if (isset($application))
                         {
@@ -128,7 +128,7 @@ class MenuManagerMiniBarComponent extends MenuManager
 
         if (isset($user))
         {
-            if (PlatformSetting::get('allow_portal_functionality') || $user->is_platform_admin())
+            if (PlatformSetting :: get('allow_portal_functionality') || $user->is_platform_admin())
             {
                 $html[] = '<ul class="admin">';
                 $html[] = '<li class="admin' . ($this_section == 'my_account' ? ' current' : '') . '"><a' . ($this_section == 'my_account' ? ' class="current"' : '') . ' href="core.php?application=user&amp;go=account">' . Translation :: get('MyAccount') . '</a></li>';
