@@ -309,10 +309,10 @@ class WeblcmsRights extends RightsUtilities
         {
             // Check right for the user's groups
             //$user_groups = $user->get_groups();
-			$course_group_user_relations = WeblcmsDataManager :: get_instance()->retrieve_course_group_user_relations(new EqualityCondition(CourseGroupUserRelation :: PROPERTY_USER, $user->get_id())); 
-            while ($course_group_user_relation = $course_group_user_relations->next_result())
+			$course_groups = WeblcmsDataManager :: get_user_course_groups($user, WeblcmsDataManager :: get_instance()->retrieve_course($tree_identifier));
+            foreach($course_groups as $course_group_id => $course_group)
             {
-                if(self :: is_allowed_for_course_group($course_group_user_relation->get_course_group(), $right, $location))
+                if(self :: is_allowed_for_course_group($course_group_id, $right, $location))
                 {
                     return true;
                 }

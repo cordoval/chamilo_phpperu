@@ -149,7 +149,7 @@ class WeblcmsDataManager implements DataManagerInterface
 
             $parents = $course_group->get_parents(false);
 
-            foreach ($parents as $parent)
+            while($parent = $parents->next_result())
             {
                 if (! array_key_exists($parent->get_id(), $course_groups_recursive))
                 {
