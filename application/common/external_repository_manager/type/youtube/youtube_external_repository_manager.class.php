@@ -14,8 +14,6 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     const FEED_TYPE_MYVIDEOS = 2;
     const FEED_STANDARD_TYPE = 3;
 
-    const DEFAULT_ACTION = self :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
-
     /**
      * @param Application $application
      */

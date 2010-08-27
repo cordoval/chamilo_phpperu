@@ -16,6 +16,8 @@ abstract class ExternalRepositoryManager extends SubManager
     const ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY = 'external_syncer';
     const ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY = 'internal_syncer';
 
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
+
     const PARAM_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PARAM_EXTERNAL_REPOSITORY = 'external_repository';
     const PARAM_QUERY = 'query';
