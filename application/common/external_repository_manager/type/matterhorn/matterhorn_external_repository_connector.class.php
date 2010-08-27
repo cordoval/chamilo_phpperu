@@ -16,7 +16,6 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     
     function MatterhornExternalRepositoryConnector($external_repository_instance)
     {
-     	dump('hier');
     	parent :: __construct($external_repository_instance);
      	
      	$this->login = ExternalRepositorySetting :: get('login', $this->get_external_repository_instance_id());
