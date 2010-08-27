@@ -11,28 +11,10 @@ class ExternalRepositoryLauncher extends LauncherApplication
     function run()
     {
         $type = $this->get_type();
-        $external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($type);
+        $this->external_repository = RepositoryDataManager :: get_instance()->retrieve_external_repository($type);
         $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY, $type);
         
-        $external_repository_manager = ExternalRepositoryManager :: factory($external_repository, $this);
-        
-        if (! $external_repository_manager->is_ready_to_be_used())
-        {
-            $external_repository_manager->run();
-        }
-        else
-        {
-            //$processor = HtmlEditorProcessor :: factory($plugin, $this, $repo_viewer->get_selected_objects());
-            
-
-            $this->display_header();
-            //$processor->run();
-            echo ('in else of run');
-            $this->display_footer();
-            
-        // Go to real processing depending on selected editor.
-        //          echo "<script type='text/javascript'>window.opener.CKEDITOR.tools.callFunction(" . $this->get_parameter('CKEditorFuncNum') . ", 'image.jpg', 'Message !');</script>";
-        }
+        ExternalRepositoryManager :: launch($this);
     }
 
     function get_type()
@@ -52,6 +34,11 @@ class ExternalRepositoryLauncher extends LauncherApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    function get_external_repository()
+    {
+        return $this->external_repository;
     }
 }
 ?>

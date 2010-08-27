@@ -15,8 +15,6 @@ class RepositoryManagerExternalRepositoryComponent extends RepositoryManager
 		if ($this->external_repository instanceof ExternalRepository && $this->external_repository->is_enabled())
 		{
 		    ExternalRepositoryManager :: launch($this);
-//		    $external_repository_manager = ExternalRepositoryManager :: factory($external_repository, $this);
-//		    $external_repository_manager->run();
 		}
 		else
 		{
