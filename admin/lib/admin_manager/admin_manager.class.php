@@ -19,21 +19,23 @@ class AdminManager extends CoreApplication
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_EDIT_SELECTED = 'edit_selected';
 
-    const ACTION_ADMIN_BROWSER = 'browse';
+    const ACTION_ADMIN_BROWSER = 'browser';
     const ACTION_LANGUAGES = 'languages';
-    const ACTION_CONFIGURE_PLATFORM = 'configure';
-    const ACTION_MANAGE_PACKAGES = 'package';
-    const ACTION_CREATE_SYSTEM_ANNOUNCEMENT = 'sysannouncer';
-    const ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS = 'sysbrowser';
-    const ACTION_EDIT_SYSTEM_ANNOUNCEMENT = 'syseditor';
-    const ACTION_DELETE_SYSTEM_ANNOUNCEMENT = 'sysdeleter';
-    const ACTION_VIEW_SYSTEM_ANNOUNCEMENT = 'sysviewer';
-    const ACTION_HIDE_SYSTEM_ANNOUNCEMENT = 'sysvisibility';
-    const ACTION_MANAGE_CATEGORIES = 'manage_categories';
+    const ACTION_CONFIGURE_PLATFORM = 'configurer';
+    const ACTION_MANAGE_PACKAGES = 'packager';
+    const ACTION_CREATE_SYSTEM_ANNOUNCEMENT = 'system_announcement_creator';
+    const ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS = 'system_announcement_browser';
+    const ACTION_EDIT_SYSTEM_ANNOUNCEMENT = 'system_announcement_editor';
+    const ACTION_DELETE_SYSTEM_ANNOUNCEMENT = 'system_announcement_deleter';
+    const ACTION_VIEW_SYSTEM_ANNOUNCEMENT = 'system_announcement_viewer';
+    const ACTION_HIDE_SYSTEM_ANNOUNCEMENT = 'system_announcement_hider';
+    const ACTION_MANAGE_CATEGORIES = 'category_manager';
     const ACTION_WHOIS_ONLINE = 'whois_online';
-    const ACTION_DIAGNOSE = 'diagnose';
-    const ACTION_VIEW_LOGS = 'view_logs';
+    const ACTION_DIAGNOSE = 'diagnoser';
+    const ACTION_VIEW_LOGS = 'log_viewer';
     const ACTION_IMPORTER = 'importer';
+
+    const DEFAULT_ACTION = self :: ACTION_ADMIN_BROWSER;
 
     /**
      * Constructor
@@ -42,60 +44,6 @@ class AdminManager extends CoreApplication
     function AdminManager($user = null)
     {
         parent :: __construct($user);
-    }
-
-    /**
-     * Run this admin manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_CONFIGURE_PLATFORM :
-                $component = $this->create_component('Configurer');
-                break;
-            case self :: ACTION_CREATE_SYSTEM_ANNOUNCEMENT :
-                $component = $this->create_component('SystemAnnouncementCreator');
-                break;
-            case self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS :
-                $component = $this->create_component('SystemAnnouncementBrowser');
-                break;
-            case self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT :
-                $component = $this->create_component('SystemAnnouncementEditor');
-                break;
-            case self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT :
-                $component = $this->create_component('SystemAnnouncementDeleter');
-                break;
-            case self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT :
-                $component = $this->create_component('SystemAnnouncementViewer');
-                break;
-            case self :: ACTION_HIDE_SYSTEM_ANNOUNCEMENT :
-                $component = $this->create_component('SystemAnnouncementHider');
-                break;
-            case self :: ACTION_MANAGE_CATEGORIES :
-                $component = $this->create_component('CategoryManager');
-                break;
-            case self :: ACTION_WHOIS_ONLINE :
-                $component = $this->create_component('WhoisOnline');
-                break;
-            case self :: ACTION_DIAGNOSE :
-                $component = $this->create_component('Diagnoser');
-                break;
-            case self :: ACTION_MANAGE_PACKAGES :
-                $component = $this->create_component('Packager');
-                break;
-            case self :: ACTION_VIEW_LOGS :
-                $component = $this->create_component('LogViewer');
-                break;
-            case self :: ACTION_IMPORTER :
-                $component = $this->create_component('Importer');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
     }
 
     /**
@@ -441,6 +389,21 @@ class AdminManager extends CoreApplication
     static function add_publication_attributes_elements()
     {
 
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

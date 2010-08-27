@@ -12,16 +12,18 @@ require_once dirname(__FILE__) . '/../gutenberg_publication.class.php';
 class GutenbergManager extends WebApplication
 {
     const APPLICATION_NAME = 'gutenberg';
-    
+
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_GUTENBERG_ID = 'publication';
     const PARAM_RENDERER = 'renderer';
-    
-    const ACTION_BROWSE_PUBLICATIONS = 'browse';
-    const ACTION_CREATE_PUBLICATION = 'publish';
-    const ACTION_VIEW_PUBLICATION = 'view';
-    const ACTION_EDIT_PUBLICATION = 'edit';
-    const ACTION_DELETE_PUBLICATION = 'delete';
+
+    const ACTION_BROWSE_PUBLICATIONS = 'browser';
+    const ACTION_CREATE_PUBLICATION = 'publisher';
+    const ACTION_VIEW_PUBLICATION = 'viewer';
+    const ACTION_EDIT_PUBLICATION = 'editor';
+    const ACTION_DELETE_PUBLICATION = 'deleter';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_PUBLICATIONS;
 
     /**
      * Constructor
@@ -30,37 +32,6 @@ class GutenbergManager extends WebApplication
     public function GutenbergManager($user)
     {
         parent :: __construct($user);
-    }
-
-    /**
-     * Runs the personal calendar application
-     */
-    public function run()
-    {
-        $action = $this->get_action();
-        
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_PUBLICATIONS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_CREATE_PUBLICATION :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_EDIT_PUBLICATION :
-                $component = $this->create_component('Editor');
-                break;
-            case self :: ACTION_DELETE_PUBLICATION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_VIEW_PUBLICATION :
-                $component = $this->create_component('Viewer');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_PUBLICATIONS);
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
     }
 
     /**
@@ -120,7 +91,7 @@ class GutenbergManager extends WebApplication
     {
         return self :: APPLICATION_NAME;
     }
-    
+
     function get_renderer()
     {
         $renderer = Request :: get(self :: PARAM_RENDERER);
@@ -139,6 +110,21 @@ class GutenbergManager extends WebApplication
     function get_available_renderers()
     {
         return array(GutenbergPublicationRenderer :: TYPE_TABLE, GutenbergPublicationRenderer :: TYPE_GALLERY, GutenbergPublicationRenderer :: TYPE_SLIDESHOW);
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

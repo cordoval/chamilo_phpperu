@@ -30,7 +30,7 @@ class PmPublicationBrowserTable extends ObjectTable
         
         $actions[] = new ObjectTableFormAction(PersonalMessengerManager :: PARAM_DELETE_SELECTED, Translation :: get('RemoveSelected'));
         
-        if ($folder == PersonalMessengerManager :: ACTION_FOLDER_INBOX)
+        if ($folder == PersonalMessengerManager :: FOLDER_INBOX)
         {
             $actions[] = new ObjectTableFormAction(PersonalMessengerManager :: PARAM_MARK_SELECTED_READ, Translation :: get('MarkSelectedRead'), false);
             $actions[] = new ObjectTableFormAction(PersonalMessengerManager :: PARAM_MARK_SELECTED_UNREAD, Translation :: get('MarkSelectedUnread'), false);

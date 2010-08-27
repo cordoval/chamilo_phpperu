@@ -23,12 +23,14 @@ class ProfilerManager extends WebApplication
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_PROFILE_ID = 'profile';
 
-    const ACTION_DELETE_PUBLICATION = 'delete';
-    const ACTION_EDIT_PUBLICATION = 'edit';
-    const ACTION_VIEW_PUBLICATION = 'view';
-    const ACTION_CREATE_PUBLICATION = 'create';
-    const ACTION_BROWSE_PROFILES = 'browse';
-    const ACTION_MANAGE_CATEGORIES = 'manage_categories';
+    const ACTION_DELETE_PUBLICATION = 'deleter';
+    const ACTION_EDIT_PUBLICATION = 'editor';
+    const ACTION_VIEW_PUBLICATION = 'viewer';
+    const ACTION_CREATE_PUBLICATION = 'creator';
+    const ACTION_BROWSE_PROFILES = 'browser';
+    const ACTION_MANAGE_CATEGORIES = 'category_manager';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_PROFILES;
 
     private $parameters;
     private $search_parameters;
@@ -50,45 +52,6 @@ class ProfilerManager extends WebApplication
         {
             $this->firstletter = Request :: get(ProfilerManager :: PARAM_FIRSTLETTER);
         }
-    }
-
-    /**
-     * Run this profiler manager
-     */
-    function run()
-    {
-        /*
-		 * Only setting breadcrumbs here. Some stuff still calls
-		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
-		 */
-        //$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_PROFILES :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_VIEW_PUBLICATION :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_DELETE_PUBLICATION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_EDIT_PUBLICATION :
-                $component = $this->create_component('Editor');
-                break;
-            case self :: ACTION_CREATE_PUBLICATION :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_MANAGE_CATEGORIES :
-                $component = $this->create_component('CategoryManager');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_PROFILES);
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
     }
 
     /**
@@ -486,6 +449,21 @@ class ProfilerManager extends WebApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

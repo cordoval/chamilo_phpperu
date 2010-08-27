@@ -13,17 +13,19 @@ require_once dirname(__FILE__) . '/../alexia_block.class.php';
 class AlexiaManager extends WebApplication
 {
     const APPLICATION_NAME = 'alexia';
-    
+
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_ALEXIA_ID = 'publication';
-    
-    const ACTION_BROWSE_PUBLICATIONS = 'browse';
-    const ACTION_CREATE_PUBLICATION = 'publish';
-    const ACTION_VIEW_PUBLICATION = 'view';
-    const ACTION_EDIT_PUBLICATION = 'edit';
-    const ACTION_DELETE_PUBLICATION = 'delete';
-    const ACTION_PUBLISH_INTRODUCTION = 'intro';
-    const ACTION_EDIT_INTRODUCTION = 'reintro';
+
+    const ACTION_BROWSE_PUBLICATIONS = 'browser';
+    const ACTION_CREATE_PUBLICATION = 'publisher';
+    const ACTION_VIEW_PUBLICATION = 'viewer';
+    const ACTION_EDIT_PUBLICATION = 'editor';
+    const ACTION_DELETE_PUBLICATION = 'deleter';
+    const ACTION_PUBLISH_INTRODUCTION = 'introducer';
+    const ACTION_EDIT_INTRODUCTION = 'reintroducer';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_PUBLICATIONS;
 
     /**
      * Constructor
@@ -32,45 +34,8 @@ class AlexiaManager extends WebApplication
     public function AlexiaManager($user)
     {
         parent :: __construct($user);
-        
-        $this->parse_input_from_table();
-    }
 
-    /**
-     * Runs the personal calendar application
-     */
-    public function run()
-    {
-        $action = $this->get_action();
-        
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_PUBLICATIONS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_CREATE_PUBLICATION :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_EDIT_PUBLICATION :
-                $component = $this->create_component('Editor');
-                break;
-            case self :: ACTION_DELETE_PUBLICATION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_VIEW_PUBLICATION :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_PUBLISH_INTRODUCTION :
-                $component = $this->create_component('Introducer');
-                break;
-            case self :: ACTION_EDIT_INTRODUCTION :
-                $component = $this->create_component('Reintroducer');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_PUBLICATIONS);
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
+        $this->parse_input_from_table();
     }
 
     /**
@@ -131,7 +96,7 @@ class AlexiaManager extends WebApplication
     private function parse_input_from_table()
     {
         $action = Request :: post('action');
-        
+
         if (isset($action))
         {
             $selected_ids = Request :: post(AlexiaPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
@@ -166,6 +131,21 @@ class AlexiaManager extends WebApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

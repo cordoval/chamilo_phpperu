@@ -16,12 +16,14 @@ class RightsManager extends CoreApplication
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_COMPONENT_ACTION = 'action';
 
-    const ACTION_MANAGE_TYPE_TEMPLATES = 'type_template';
-    const ACTION_MANAGE_RIGHTS_TEMPLATES = 'template';
+    const ACTION_MANAGE_TYPE_TEMPLATES = 'type_templater';
+    const ACTION_MANAGE_RIGHTS_TEMPLATES = 'templater';
     const ACTION_MANAGE_USER_RIGHTS = 'user';
     const ACTION_MANAGE_GROUP_RIGHTS = 'group';
-    const ACTION_MANAGE_LOCATIONS = 'location';
-    const ACTION_REQUEST_RIGHT = 'request_rights';
+    const ACTION_MANAGE_LOCATIONS = 'locater';
+    const ACTION_REQUEST_RIGHT = 'right_requester';
+
+    const DEFAULT_ACTION = self :: ACTION_MANAGE_RIGHTS_TEMPLATES;
 
     private $quota_url;
     private $publication_url;
@@ -37,45 +39,6 @@ class RightsManager extends CoreApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
-    }
-
-    /**
-     * Run this user manager
-     */
-    function run()
-    {
-        /*
-		 * Only setting breadcrumbs here. Some stuff still calls
-		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
-		 */
-        //$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_MANAGE_TYPE_TEMPLATES :
-                $component = $this->create_component('TypeTemplater');
-                break;
-            case self :: ACTION_MANAGE_RIGHTS_TEMPLATES :
-                $component = $this->create_component('Templater');
-                break;
-            case self :: ACTION_MANAGE_USER_RIGHTS :
-                $component = $this->create_component('User');
-                break;
-            case self :: ACTION_MANAGE_GROUP_RIGHTS :
-                $component = $this->create_component('Group');
-                break;
-            case self :: ACTION_MANAGE_LOCATIONS :
-                $component = $this->create_component('Locater');
-                break;
-            case self :: ACTION_REQUEST_RIGHT :
-                $component = $this->create_component('RightRequester');
-                break;
-            default :
-                $this->set_action(self :: ACTION_MANAGE_RIGHTS_TEMPLATES);
-                $component = $this->create_component('Templater');
-        }
-        $component->run();
     }
 
     function retrieve_rights_templates($condition = null, $offset = null, $count = null, $order_property = null)
@@ -141,13 +104,19 @@ class RightsManager extends CoreApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Locations'), Translation :: get('LocationsDescription'), Theme :: get_image_path() . 'browse_location.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_MANAGE_LOCATIONS), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('TypeTemplates'), Translation :: get('TypeTemplatesDescription'), Theme :: get_image_path() . 'browse_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_MANAGE_TYPE_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('RightsTemplates'), Translation :: get('RightsTemplatesDescription'), Theme :: get_image_path() . 'browse_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Locations'), Translation :: get('LocationsDescription'), Theme :: get_image_path() . 'browse_location.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_LOCATIONS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('TypeTemplates'), Translation :: get('TypeTemplatesDescription'), Theme :: get_image_path() . 'browse_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_TYPE_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('RightsTemplates'), Translation :: get('RightsTemplatesDescription'), Theme :: get_image_path() . 'browse_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
 
-        $links[] = new DynamicAction(Translation :: get('RightsTemplatePermissions'), Translation :: get('RightsTemplatePermissionsDescription'), Theme :: get_image_path() . 'browse_permission_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_LOCATION_RIGHTS_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('UserPermissions'), Translation :: get('UserPermissionsDescription'), Theme :: get_image_path() . 'browse_permission_user.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_LOCATION_USER_RIGHTS), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('GroupPermissions'), Translation :: get('GroupPermissionsDescription'), Theme :: get_image_path() . 'browse_permission_group.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('RightsTemplatePermissions'), Translation :: get('RightsTemplatePermissionsDescription'), Theme :: get_image_path() . 'browse_permission_template.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_CONFIGURE_LOCATION_RIGHTS_TEMPLATES), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('UserPermissions'), Translation :: get('UserPermissionsDescription'), Theme :: get_image_path() . 'browse_permission_user.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS, UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_LOCATION_USER_RIGHTS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('GroupPermissions'), Translation :: get('GroupPermissionsDescription'), Theme :: get_image_path() . 'browse_permission_group.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS, GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_LOCATION_GROUP_RIGHTS), array(), false, Redirect :: TYPE_CORE));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
@@ -178,6 +147,21 @@ class RightsManager extends CoreApplication
     function retrieve_user_right_location($right_id, $user_id, $location_id)
     {
         return RightsDataManager :: get_instance()->retrieve_user_right_location($right_id, $user_id, $location_id);
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

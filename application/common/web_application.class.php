@@ -242,5 +242,14 @@ abstract class WebApplication extends BasicApplication
     {
     	return self :: get_application_path($application_name) . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
     }
+
+
+
+
+
+    public static function get_component_path($application_name)
+    {
+        return self :: get_application_path($application_name) . $application_name . '_manager/component/';
+    }
 }
 ?>

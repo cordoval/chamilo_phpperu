@@ -17,12 +17,14 @@ class WikiManager extends WebApplication
     const PARAM_WIKI_PUBLICATION = 'wiki_publication';
     const PARAM_DELETE_SELECTED_WIKI_PUBLICATIONS = 'delete_selected_wiki_publications';
 
-    const ACTION_DELETE_WIKI_PUBLICATION = 'delete_wiki_publication';
-    const ACTION_EDIT_WIKI_PUBLICATION = 'edit_wiki_publication';
-    const ACTION_CREATE_WIKI_PUBLICATION = 'create_wiki_publication';
-    const ACTION_BROWSE_WIKI_PUBLICATIONS = 'browse_wiki_publications';
-    const ACTION_VIEW_WIKI = 'view';
-    const ACTION_EVALUATE_WIKI_PUBLICATION = 'evaluate_wiki_publication';
+    const ACTION_DELETE_WIKI_PUBLICATION = 'wiki_publication_deleter';
+    const ACTION_EDIT_WIKI_PUBLICATION = 'wiki_publication_updater';
+    const ACTION_CREATE_WIKI_PUBLICATION = 'wiki_publication_creator';
+    const ACTION_BROWSE_WIKI_PUBLICATIONS = 'wiki_publications_browser';
+    const ACTION_VIEW_WIKI = 'wiki_viewer';
+    const ACTION_EVALUATE_WIKI_PUBLICATION = 'wiki_evaluation';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_WIKI_PUBLICATIONS;
 
     /**
      * Constructor
@@ -32,40 +34,6 @@ class WikiManager extends WebApplication
     {
         parent :: __construct($user);
         $this->parse_input_from_table();
-    }
-
-    /**
-     * Run this wiki manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_EVALUATE_WIKI_PUBLICATION :
-                $component = $this->create_component('WikiEvaluation');
-                break;
-            case self :: ACTION_BROWSE_WIKI_PUBLICATIONS :
-                $component = $this->create_component('WikiPublicationsBrowser');
-                break;
-            case self :: ACTION_DELETE_WIKI_PUBLICATION :
-                $component = $this->create_component('WikiPublicationDeleter');
-                break;
-            case self :: ACTION_EDIT_WIKI_PUBLICATION :
-                $component = $this->create_component('WikiPublicationUpdater');
-                break;
-            case self :: ACTION_CREATE_WIKI_PUBLICATION :
-                $component = $this->create_component('WikiPublicationCreator');
-                break;
-            case self :: ACTION_VIEW_WIKI :
-                $component = $this->create_component('WikiViewer');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_WIKI_PUBLICATIONS);
-                $component = $this->create_component('WikiPublicationsBrowser');
-        }
-        $component->run();
     }
 
     private function parse_input_from_table()
@@ -218,6 +186,21 @@ class WikiManager extends WebApplication
 
         $publication->create();
         return Translation :: get('PublicationCreated');
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

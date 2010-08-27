@@ -18,13 +18,15 @@ class HomeManager extends CoreApplication
     const PARAM_TAB_ID = 'tab';
 
     const ACTION_VIEW_HOME = 'home';
-    const ACTION_BUILD_HOME = 'build';
-    const ACTION_MANAGE_HOME = 'manage';
-    const ACTION_EDIT_HOME = 'edit';
-    const ACTION_DELETE_HOME = 'delete';
-    const ACTION_MOVE_HOME = 'move';
-    const ACTION_CREATE_HOME = 'create';
-    const ACTION_CONFIGURE_HOME = 'configure';
+    const ACTION_BUILD_HOME = 'builder';
+    const ACTION_MANAGE_HOME = 'manager';
+    const ACTION_EDIT_HOME = 'editor';
+    const ACTION_DELETE_HOME = 'deleter';
+    const ACTION_MOVE_HOME = 'mover';
+    const ACTION_CREATE_HOME = 'creator';
+    const ACTION_CONFIGURE_HOME = 'configurer';
+
+    const DEFAULT_ACTION = self :: ACTION_MANAGE_HOME;
 
     const TYPE_BLOCK = 'block';
     const TYPE_COLUMN = 'column';
@@ -38,45 +40,6 @@ class HomeManager extends CoreApplication
     function HomeManager($user = null)
     {
         parent :: __construct($user);
-    }
-
-    /**
-     * Run this user manager
-     */
-    function run()
-    {
-        /*
-		 * Only setting breadcrumbs here. Some stuff still calls
-		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
-		 */
-        //$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BUILD_HOME :
-                $component = $this->create_component('Builder');
-                break;
-            case self :: ACTION_EDIT_HOME :
-                $component = $this->create_component('Editor');
-                break;
-            case self :: ACTION_MOVE_HOME :
-                $component = $this->create_component('Mover');
-                break;
-            case self :: ACTION_DELETE_HOME :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_CREATE_HOME :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_CONFIGURE_HOME :
-                $component = $this->create_component('Configurer');
-                break;
-            default :
-                $this->set_action(self :: ACTION_MANAGE_HOME);
-                $component = $this->create_component('Manager');
-        }
-        $component->run();
     }
 
     function render_menu($type)
@@ -161,8 +124,8 @@ class HomeManager extends CoreApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_manage.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_MANAGE_HOME), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Build'), Translation :: get('BuildDescription'), Theme :: get_image_path() . 'browse_build.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_BUILD_HOME), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_manage.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_MANAGE_HOME), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Build'), Translation :: get('BuildDescription'), Theme :: get_image_path() . 'browse_build.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_BUILD_HOME), array(), false, Redirect :: TYPE_CORE));
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
 
@@ -296,6 +259,21 @@ class HomeManager extends CoreApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

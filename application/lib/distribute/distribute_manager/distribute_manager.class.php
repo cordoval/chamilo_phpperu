@@ -17,9 +17,11 @@ class DistributeManager extends WebApplication
 
     const PARAM_ANNOUNCEMENT_DISTRIBUTION = 'distribution';
 
-    const ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS = 'browse';
-    const ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION = 'view';
-    const ACTION_DISTRIBUTE_ANNOUNCEMENT = 'distribute';
+    const ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS = 'browser';
+    const ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION = 'viewer';
+    const ACTION_DISTRIBUTE_ANNOUNCEMENT = 'distributer';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS;
 
     /**
      * Constructor
@@ -29,32 +31,6 @@ class DistributeManager extends WebApplication
     {
         parent :: __construct($user);
         //$this->parse_input_from_table();
-    }
-
-    /**
-     * Run this distribute manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_DISTRIBUTE_ANNOUNCEMENT :
-                $component = $this->create_component('Distributor');
-                break;
-            case self :: ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION :
-                $component = $this->create_component('Viewer');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS);
-                $component = $this->create_component('Browser');
-
-        }
-        $component->run();
     }
 
     function get_application_name()
@@ -106,6 +82,21 @@ class DistributeManager extends WebApplication
     function get_announcement_distribution_viewing_url($announcement_distribution)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION, self :: PARAM_ANNOUNCEMENT_DISTRIBUTION => $announcement_distribution->get_id()));
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

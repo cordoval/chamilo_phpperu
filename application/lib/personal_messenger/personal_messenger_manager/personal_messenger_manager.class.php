@@ -27,14 +27,17 @@ class PersonalMessengerManager extends WebApplication
     const PARAM_MARK_TYPE = 'type';
     const PARAM_USER_ID = 'user_id';
 
-    const ACTION_FOLDER_INBOX = 'inbox';
-    const ACTION_FOLDER_OUTBOX = 'outbox';
-    const ACTION_DELETE_PUBLICATION = 'delete';
-    const ACTION_VIEW_PUBLICATION = 'view';
-    const ACTION_VIEW_ATTACHMENTS = 'viewattachments';
-    const ACTION_MARK_PUBLICATION = 'mark';
-    const ACTION_CREATE_PUBLICATION = 'create';
-    const ACTION_BROWSE_MESSAGES = 'browse';
+    const FOLDER_INBOX = 'inbox';
+    const FOLDER_OUTBOX = 'outbox';
+
+    const ACTION_DELETE_PUBLICATION = 'deletee';
+    const ACTION_VIEW_PUBLICATION = 'viewer';
+    const ACTION_VIEW_ATTACHMENTS = 'attachment_viewer';
+    const ACTION_MARK_PUBLICATION = 'marker';
+    const ACTION_CREATE_PUBLICATION = 'publisher';
+    const ACTION_BROWSE_MESSAGES = 'browser';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_MESSAGES;
 
     const ACTION_RENDER_BLOCK = 'block';
 
@@ -55,47 +58,8 @@ class PersonalMessengerManager extends WebApplication
         }
         else
         {
-            $this->set_parameter(self :: PARAM_FOLDER, self :: ACTION_FOLDER_INBOX);
+            $this->set_parameter(self :: PARAM_FOLDER, self :: FOLDER_INBOX);
         }
-    }
-
-    /**
-     * Run this personal messenger manager
-     */
-    function run()
-    {
-        /*
-		 * Only setting breadcrumbs here. Some stuff still calls
-		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
-		 */
-        //$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_MESSAGES :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_VIEW_PUBLICATION :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_VIEW_ATTACHMENTS :
-                $component = $this->create_component('AttachmentViewer');
-                break;
-            case self :: ACTION_DELETE_PUBLICATION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_MARK_PUBLICATION :
-                $component = $this->create_component('Marker');
-                break;
-            case self :: ACTION_CREATE_PUBLICATION :
-                $component = $this->create_component('Publisher');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_MESSAGES);
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
     }
 
     function get_folder()
@@ -206,7 +170,7 @@ class PersonalMessengerManager extends WebApplication
      * @param Condition $conditions
      * @return int
      */
-	static function count_publication_attributes($user = null, $object_id = null, $condition = null)
+    static function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
         return PersonalMessengerDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
@@ -222,9 +186,9 @@ class PersonalMessengerManager extends WebApplication
         return PersonalMessengerDataManager :: get_instance()->delete_personal_message_publications($object_id);
     }
 
-	static function delete_content_object_publication($publication_id)
+    static function delete_content_object_publication($publication_id)
     {
-    	 return PersonalMessengerDataManager :: get_instance()->delete_content_object_publication($publication_id);
+        return PersonalMessengerDataManager :: get_instance()->delete_content_object_publication($publication_id);
     }
 
     /**
@@ -385,6 +349,21 @@ class PersonalMessengerManager extends WebApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

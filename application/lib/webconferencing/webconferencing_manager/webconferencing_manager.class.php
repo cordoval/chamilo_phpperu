@@ -17,10 +17,12 @@ class WebconferencingManager extends WebApplication
     const PARAM_WEBCONFERENCE = 'webconference';
     const PARAM_DELETE_SELECTED_WEBCONFERENCES = 'delete_selected_webconferences';
 
-    const ACTION_DELETE_WEBCONFERENCE = 'delete_webconference';
-    const ACTION_EDIT_WEBCONFERENCE = 'edit_webconference';
-    const ACTION_CREATE_WEBCONFERENCE = 'create_webconference';
-    const ACTION_BROWSE_WEBCONFERENCES = 'browse_webconferences';
+    const ACTION_DELETE_WEBCONFERENCE = 'webconference_deleter';
+    const ACTION_EDIT_WEBCONFERENCE = 'webconference_updater';
+    const ACTION_CREATE_WEBCONFERENCE = 'webconference_creator';
+    const ACTION_BROWSE_WEBCONFERENCES = 'webconferences_browser';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_WEBCONFERENCES;
 
     /**
      * Constructor
@@ -30,35 +32,6 @@ class WebconferencingManager extends WebApplication
     {
         parent :: __construct($user);
         $this->parse_input_from_table();
-    }
-
-    /**
-     * Run this webconferencing manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_WEBCONFERENCES :
-                $component = $this->create_component('WebconferencesBrowser');
-                break;
-            case self :: ACTION_DELETE_WEBCONFERENCE :
-                $component = $this->create_component('WebconferenceDeleter');
-                break;
-            case self :: ACTION_EDIT_WEBCONFERENCE :
-                $component = $this->create_component('WebconferenceUpdater');
-                break;
-            case self :: ACTION_CREATE_WEBCONFERENCE :
-                $component = $this->create_component('WebconferenceCreator');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_WEBCONFERENCES);
-                $component = $this->create_component('WebconferencesBrowser');
-
-        }
-        $component->run();
     }
 
     private function parse_input_from_table()
@@ -147,6 +120,21 @@ class WebconferencingManager extends WebApplication
     function get_browse_webconferences_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_WEBCONFERENCES));
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

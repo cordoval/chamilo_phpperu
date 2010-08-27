@@ -85,44 +85,46 @@ class WeblcmsManager extends WebApplication
     const PARAM_REFUSE_SELECTED_REQUESTS = 'refuse_selected_requests';
 
     const ACTION_SUBSCRIBE = 'subscribe';
-    const ACTION_CHANGE_COURSE_TYPE_FROM_COURSE = 'coursechangecoursetype';
-    const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
-    const ACTION_UNSUBSCRIBE_GROUP = 'unsubscribe_group';
-    const ACTION_SUBSCRIBE_GROUP_USERS = 'subscribe_group_users';
-    const ACTION_UNSUBSCRIBE = 'unsubscribe';
+    const ACTION_CHANGE_COURSE_TYPE_FROM_COURSE = 'course_change_course_type';
+    const ACTION_SUBSCRIBE_GROUP = 'group_subscribe';
+    const ACTION_UNSUBSCRIBE_GROUP = 'group_unsubscribe';
+    const ACTION_SUBSCRIBE_GROUP_USERS = 'group_users_subscribe';
     const ACTION_VIEW_WEBLCMS_HOME = 'home';
-    const ACTION_VIEW_COURSE = 'courseviewer';
-    const ACTION_CREATE_COURSE = 'coursecreator';
-    const ACTION_IMPORT_COURSES = 'courseimporter';
-    const ACTION_IMPORT_COURSE_USERS = 'courseuserimporter';
-    const ACTION_DELETE_COURSE = 'coursedeleter';
-    const ACTION_DELETE_COURSES_BY_COURSE_TYPE = 'coursetypecoursesdeleter';
-    const ACTION_MANAGER_SORT = 'sort';
+    const ACTION_VIEW_COURSE = 'course_viewer';
+    const ACTION_CREATE_COURSE = 'course_creator';
+    const ACTION_IMPORT_COURSES = 'course_importer';
+    const ACTION_IMPORT_COURSE_USERS = 'course_user_importer';
+    const ACTION_DELETE_COURSE = 'course_deleter';
+    const ACTION_DELETE_COURSES_BY_COURSE_TYPE = 'course_type_courses_deleter';
+    const ACTION_MANAGER_SORT = 'sorter';
     const ACTION_MANAGER_SUBSCRIBE = 'subscribe';
     const ACTION_MANAGER_UNSUBSCRIBE = 'unsubscribe';
-    const ACTION_COURSE_CATEGORY_MANAGER = 'catmanager';
-    const ACTION_ADMIN_COURSE_BROWSER = 'adminbrowser';
-    const ACTION_SELECT_COURSE_TYPE = 'selectcoursetype';
-    const ACTION_DELETE_COURSE_TYPE = 'coursetypedeleter';
-    const ACTION_VIEW_COURSE_TYPE = 'coursetypeviewer';
-    const ACTION_CHANGE_ACTIVATION = 'activitychanger';
-    const ACTION_CHANGE_ACTIVE = 'activechanger';
-    const ACTION_ADMIN_COURSE_TYPE_CREATOR = 'admincoursetypecreator';
-    const ACTION_ADMIN_COURSE_TYPE_BROWSER = 'admincoursetypebrowser';
-    const ACTION_COURSE_EDITOR_REQUEST = 'course_editor_request';
+    const ACTION_COURSE_CATEGORY_MANAGER = 'course_category_manager';
+    const ACTION_ADMIN_COURSE_BROWSER = 'admin_course_browser';
+    const ACTION_SELECT_COURSE_TYPE = 'course_type_selector';
+    const ACTION_DELETE_COURSE_TYPE = 'course_type_deleter';
+    const ACTION_VIEW_COURSE_TYPE = 'course_type_viewer';
+    const ACTION_CHANGE_ACTIVATION = 'active_changer';
+    const ACTION_CHANGE_ACTIVE = 'activity_changer';
+    const ACTION_ADMIN_COURSE_TYPE_CREATOR = 'admin_course_type_creator';
+    const ACTION_ADMIN_COURSE_TYPE_BROWSER = 'admin_course_type_browser';
+    const ACTION_COURSE_EDITOR_REQUEST = 'course_request_editor';
     const ACTION_COURSE_SUBSCRIBE_CREATE_REQUEST = 'course_subscribe_request_creator';
-    const ACTION_ADMIN_REQUEST_BROWSER = 'adminrequestbrowser';
+    const ACTION_ADMIN_REQUEST_BROWSER = 'admin_request_browser';
     const ACTION_COURSE_REQUEST_DELETER = 'course_request_deleter';
-    const ACTION_COURSE_ALLOWING_REQUEST = 'course_allowing_request';
-    const ACTION_COURSE_REFUSE_REQUEST = 'course_refuse_request';
-    const ACTION_VIEW_REQUEST = 'view_request';
+    const ACTION_COURSE_ALLOWING_REQUEST = 'course_request_allow';
+    const ACTION_COURSE_REFUSE_REQUEST = 'course_request_refuse';
+    const ACTION_VIEW_REQUEST = 'course_request_viewer';
     const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
-    const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
-    const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
-    const ACTION_REPORTING = 'reporting';
+    const ACTION_DELETE_INTRODUCTION = 'introduction_deleter';
+    const ACTION_EDIT_INTRODUCTION = 'introduction_editor';
+    const ACTION_REPORTING = 'Reporting';
+    const ACTION_COURSE_CODE = 'course_code_subscriber';
+    const ACTION_COURSE_CREATE_REQUEST_CREATOR = 'course_create_request_creator';
+
     const ACTION_RENDER_BLOCK = 'block';
-    const ACTION_COURSE_CODE = 'coursecode';
-    const ACTION_COURSE_CREATE_REQUEST_CREATOR = 'coursecreaterequestcreator';
+
+    const DEFAULT_ACTION = self :: ACTION_VIEW_WEBLCMS_HOME;
 
     /**
      * The tools that this course offers.
@@ -188,130 +190,6 @@ class WeblcmsManager extends WebApplication
         $this->load_sections();
         if (! is_null($this->get_user()))
             $this->subscribe_user_to_allowed_courses($this->get_user_id());
-    }
-
-    /*
-	 * Inherited.
-	 */
-    function run()
-    {
-        $trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_CATEGORY => null, self :: PARAM_ACTION => null, self :: PARAM_COURSE => null)), Translation :: get('MyCourses')));
-
-        $action = $this->get_action();
-
-        switch ($action)
-        {
-            case self :: ACTION_VIEW_COURSE :
-                $component = $this->create_component('CourseViewer', $this);
-                break;
-            case self :: ACTION_CREATE_COURSE :
-                $component = $this->create_component('CourseCreator', $this);
-                break;
-            case self :: ACTION_IMPORT_COURSES :
-                $component = $this->create_component('CourseImporter', $this);
-                break;
-            case self :: ACTION_IMPORT_COURSE_USERS :
-                $component = $this->create_component('CourseUserImporter', $this);
-                break;
-            case self :: ACTION_MANAGER_SUBSCRIBE :
-                $component = $this->create_component('Subscribe', $this);
-                break;
-            case self :: ACTION_MANAGER_UNSUBSCRIBE :
-                $component = $this->create_component('Unsubscribe', $this);
-                break;
-            case self :: ACTION_SUBSCRIBE_GROUP :
-                $component = $this->create_component('GroupSubscribe', $this);
-                break;
-            case self :: ACTION_CHANGE_COURSE_TYPE_FROM_COURSE :
-                $component = $this->create_component('CourseChangeCourseType', $this);
-                break;
-            case self :: ACTION_UNSUBSCRIBE_GROUP :
-                $component = $this->create_component('GroupUnsubscribe', $this);
-                break;
-            case self :: ACTION_SUBSCRIBE_GROUP_USERS :
-                $component = $this->create_component('GroupUsersSubscribe', $this);
-                break;
-            case self :: ACTION_MANAGER_SORT :
-                $component = $this->create_component('Sorter', $this);
-                break;
-            case self :: ACTION_COURSE_CATEGORY_MANAGER :
-                $component = $this->create_component('CourseCategoryManager', $this);
-                break;
-            case self :: ACTION_ADMIN_COURSE_BROWSER :
-                $component = $this->create_component('AdminCourseBrowser', $this);
-                break;
-            case self :: ACTION_DELETE_COURSE :
-                $component = $this->create_component('CourseDeleter', $this);
-                break;
-            case self :: ACTION_SELECT_COURSE_TYPE :
-                $component = $this->create_component('CourseTypeSelector', $this);
-                break;
-            case self :: ACTION_ADMIN_COURSE_TYPE_BROWSER :
-                $component = $this->create_component('AdminCourseTypeBrowser', $this);
-                break;
-            case self :: ACTION_ADMIN_COURSE_TYPE_CREATOR :
-                $component = $this->create_component('AdminCourseTypeCreator', $this);
-                break;
-            case self :: ACTION_DELETE_COURSE_TYPE :
-                $component = $this->create_component('CourseTypeDeleter', $this);
-                break;
-            case self :: ACTION_DELETE_COURSES_BY_COURSE_TYPE :
-                $component = $this->create_component('CourseTypeCoursesDeleter', $this);
-                break;
-            case self :: ACTION_VIEW_COURSE_TYPE :
-                $component = $this->create_component('CourseTypeViewer', $this);
-                break;
-            case self :: ACTION_PUBLISH_INTRODUCTION :
-                $component = $this->create_component('IntroductionPublisher', $this);
-                break;
-            case self :: ACTION_DELETE_INTRODUCTION :
-                $component = $this->create_component('IntroductionDeleter', $this);
-                break;
-            case self :: ACTION_EDIT_INTRODUCTION :
-                $component = $this->create_component('IntroductionEditor', $this);
-                break;
-            case self :: ACTION_REPORTING :
-                $component = $this->create_component('Reporting', $this);
-                break;
-            case self :: ACTION_CHANGE_ACTIVATION :
-                $component = $this->create_component('ActiveChanger', $this);
-                break;
-            case self :: ACTION_CHANGE_ACTIVE :
-                $component = $this->create_component('ActivityChanger', $this);
-                break;
-            case self :: ACTION_COURSE_CODE :
-                $component = $this->create_component('CourseCodeSubscriber', $this);
-                break;
-            case self :: ACTION_COURSE_EDITOR_REQUEST :
-                $component = $this->create_component('CourseRequestEditor', $this);
-                break;
-            case self :: ACTION_COURSE_SUBSCRIBE_CREATE_REQUEST :
-                $component = $this->create_component('CourseSubscribeRequestCreator', $this);
-                break;
-            case self :: ACTION_ADMIN_REQUEST_BROWSER :
-                $component = $this->create_component('AdminRequestBrowser', $this);
-                break;
-            case self :: ACTION_COURSE_REQUEST_DELETER :
-                $component = $this->create_component('CourseRequestDeleter', $this);
-                break;
-            case self :: ACTION_COURSE_ALLOWING_REQUEST :
-                $component = $this->create_component('CourseRequestAllow', $this);
-                break;
-            case self :: ACTION_COURSE_REFUSE_REQUEST :
-                $component = $this->create_component('CourseRequestRefuse', $this);
-                break;
-            case self :: ACTION_VIEW_REQUEST :
-                $component = $this->create_component('CourseRequestViewer', $this);
-                break;
-            case self :: ACTION_COURSE_CREATE_REQUEST_CREATOR :
-                $component = $this->create_component('CourseCreateRequestCreator', $this);
-                break;
-            default :
-                $this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
-                $component = $this->create_component('Home', $this);
-        }
-        $component->run();
     }
 
     /**
@@ -1665,7 +1543,7 @@ class WeblcmsManager extends WebApplication
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        $info['search'] = Redirect :: get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER));
+        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER));
         return $info;
     }
 
@@ -1745,6 +1623,21 @@ class WeblcmsManager extends WebApplication
         $html[] = $table->toHtml();
 
         return implode("\n", $html);
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 
 }
