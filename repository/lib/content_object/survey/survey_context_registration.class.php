@@ -10,7 +10,6 @@ class SurveyContextRegistration extends DataClass
     const PROPERTY_TYPE = 'type';
     const PROPERTY_NAME = 'name';
     const PROPERTY_DESCRIPTION = 'description';
-    
 
     static function get_default_property_names()
     {
@@ -57,5 +56,9 @@ class SurveyContextRegistration extends DataClass
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
+    function update()
+    {
+        $this->get_data_manager()->update_survey_context_registration($this);
+    }
 }
 ?>

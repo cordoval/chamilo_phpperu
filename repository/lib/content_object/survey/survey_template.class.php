@@ -2,28 +2,17 @@
 
 require_once (dirname(__FILE__) . '/context_data_manager/context_data_manager.class.php');
 
-abstract class SurveyContext extends DataClass
+abstract class SurveyTemplate extends DataClass
 {
     
     const CLASS_NAME = __CLASS__;
     
     const PROPERTY_TYPE = 'type';
-    const PROPERTY_NAME = 'name';
-    const PROPERTY_USERNAME_KEY = 'username';
+    const PROPERTY_USER_ID = 'username';
     
     private $additionalProperties;
 
-    //    abstract static public function create_contexts_for_user($user_id, $key, $key_type = '' );
-    
-
-    abstract static public function get_allowed_keys();
-
-    abstract static function get_additional_property_names();
-
-    //    abstract static public function get_display_name();
-    
-
-    public function SurveyContext($defaultProperties = array (), $additionalProperties = null)
+    public function SurveyTemplate($defaultProperties = array (), $additionalProperties = null)
     {
         parent :: __construct($defaultProperties);
         if (isset($additionalProperties))
@@ -32,12 +21,14 @@ abstract class SurveyContext extends DataClass
         }
     
     }
-
+	
+    abstract static function get_additional_property_names($with_context_type =  false);
+    
     public function create()
     {
         $dm = SurveyContextDataManager :: get_instance();
         
-        if (! $dm->create_survey_context($this))
+        if (! $dm->create_survey_template($this))
         {
             return false;
         }
@@ -53,7 +44,7 @@ abstract class SurveyContext extends DataClass
         
         $dm = SurveyContextDataManager :: get_instance();
         
-        if (! $dm->delete_survey_context($this))
+        if (! $dm->delete_survey_template($this))
         {
             return false;
         }
@@ -68,7 +59,7 @@ abstract class SurveyContext extends DataClass
         
         $dm = SurveyContextDataManager :: get_instance();
         
-        if (! $dm->update_survey_context($this))
+        if (! $dm->update_survey_template($this))
         {
             return false;
         }
@@ -81,7 +72,7 @@ abstract class SurveyContext extends DataClass
     static function factory($type, $defaultProperties = array(), $additionalProperties = null)
     {
         $class = self :: type_to_class($type);
-        require_once dirname(__FILE__) . '/context/' . $type . '/' . $type . '.class.php';
+        require_once dirname(__FILE__) . '/template/' . $type . '/' . $type . '.class.php';
         return new $class($defaultProperties, $additionalProperties);
     }
 
@@ -94,43 +85,28 @@ abstract class SurveyContext extends DataClass
     {
         return Utilities :: camelcase_to_underscores($class);
     }
+	
+	function get_user_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_USER_ID);
+    }
 
+   
+    function set_user_id($user_id)
+    {
+        $this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
+    }
+    
     function get_type()
     {
         return self :: class_to_type(get_class($this));
     }
-
-    function set_name($name)
-    {
-        $this->set_default_property(self :: PROPERTY_NAME, $name);
-    }
-
-    function get_name()
-    {
-        return $this->get_default_property(self :: PROPERTY_NAME);
-    }
-
+	
+    
+    
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_NAME));
-    }
-
-    private static function get_registered_context_types()
-    {
-        $path = dirname(__FILE__) . '/context/';
-        $folders = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
-        return $folders;
-    }
-
-    static function get_registered_contexts()
-    {
-        $types = SurveyContext :: get_registered_context_types();
-        $contexts = array();
-        foreach ($types as $type)
-        {
-            $contexts[] = SurveyContext :: factory($type);
-        }
-        return $contexts;
+        return parent :: get_default_property_names(array(self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID));
     }
 
     /**
@@ -171,13 +147,13 @@ abstract class SurveyContext extends DataClass
             return;
         }
         $dm = SurveyContextDataManager :: get_instance();
-        $this->additionalProperties = $dm->retrieve_additional_survey_context_properties($this);
+        $this->additionalProperties = $dm->retrieve_additional_survey_template_properties($this);
     }
 
-    public static function get_by_id($survey_context_id, $type)
+    public static function get_by_id($survey_template_id, $type)
     {
         $dm = SurveyContextDataManager :: get_instance();
-        return $dm->retrieve_survey_context_by_id($survey_context_id, $type);
+        return $dm->retrieve_survey_template_by_id($survey_template_id, $type);
     }
 
 }

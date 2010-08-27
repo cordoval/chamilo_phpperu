@@ -80,3 +80,8 @@ syntax: regexp
 \.chg\..*$
 \.rej$
 \.conflict\~$
+
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_context2$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_context3$

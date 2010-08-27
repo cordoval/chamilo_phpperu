@@ -8,9 +8,12 @@
 		<property name="description" type="text" />
 		<property name="context_type" type="text" length="255"
 			notnull="1" default="" />
+		<property name="type" type="text" length="255"
+			notnull="1" default="" />
 		<property name="context_type_name" type="text" length="255"
 			notnull="1" default="" />
-		<property name="fkeys" type="text" />
+		<property name="key" type="text" length="255"
+			notnull="1" default="" />
 		<property name="parent_id" type="integer" unsigned="1"
 			notnull="1" />
 		<property name="left_value" type="integer" unsigned="1"
