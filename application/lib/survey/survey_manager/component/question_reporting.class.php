@@ -12,7 +12,7 @@ class SurveyManagerQuestionReportingComponent extends SurveyManager
     {
         
         
-    	if (! SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'reporting', 'sts_component'))
+    	if (! SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'reporting', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));

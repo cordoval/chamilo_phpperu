@@ -175,7 +175,7 @@ class CalendarContentObjectPublicationListRenderer extends ContentObjectPublicat
         $html[] = '<div class="content_object" style="padding: 10px;">';
         $html[] = '<div class="description">';
 
-        /*if ($this->is_allowed(EDIT_RIGHT))
+        /*if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $form = new FormValidator('user_filter', 'post', $this->get_url());
             $renderer = $form->defaultRenderer();

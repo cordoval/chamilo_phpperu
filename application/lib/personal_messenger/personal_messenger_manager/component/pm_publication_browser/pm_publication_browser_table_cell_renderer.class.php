@@ -84,7 +84,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
         		true
         ));
         
-   		if ($this->browser->get_folder() == PersonalMessengerManager :: ACTION_FOLDER_INBOX)
+   		if ($this->browser->get_folder() == PersonalMessengerManager :: FOLDER_INBOX)
         {
             $reply_url = $this->browser->get_publication_reply_url($personal_message);
             

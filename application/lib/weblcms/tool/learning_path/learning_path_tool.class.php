@@ -84,6 +84,9 @@ class LearningPathTool extends Tool implements Categorizable
             case self :: ACTION_HIDE_PUBLICATION:
             	$component = $this->create_component('HidePublication');
                 break;
+            case self :: ACTION_EDIT_RIGHTS:
+            	$component = $this->create_component('RightsEditor');
+                break;
             default :
                 $component = $this->create_component('Browser');
                 break;
@@ -112,7 +115,7 @@ class LearningPathTool extends Tool implements Categorizable
 	
 	function get_content_object_publication_actions($publication)
     {
-        $allowed= $this->is_allowed(EDIT_RIGHT);
+        $allowed= $this->is_allowed(WeblcmsRights :: EDIT_RIGHT);
         
     	if(!$this->is_empty_learning_path($publication))
         {

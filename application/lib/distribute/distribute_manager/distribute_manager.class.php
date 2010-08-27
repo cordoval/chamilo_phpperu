@@ -14,12 +14,14 @@ require_once dirname(__FILE__) . '/../distribute_data_manager.class.php';
 class DistributeManager extends WebApplication
 {
     const APPLICATION_NAME = 'distribute';
-    
+
     const PARAM_ANNOUNCEMENT_DISTRIBUTION = 'distribution';
-    
-    const ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS = 'browse';
-    const ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION = 'view';
-    const ACTION_DISTRIBUTE_ANNOUNCEMENT = 'distribute';
+
+    const ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS = 'browser';
+    const ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION = 'viewer';
+    const ACTION_DISTRIBUTE_ANNOUNCEMENT = 'distributer';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS;
 
     /**
      * Constructor
@@ -31,39 +33,13 @@ class DistributeManager extends WebApplication
         //$this->parse_input_from_table();
     }
 
-    /**
-     * Run this distribute manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_DISTRIBUTE_ANNOUNCEMENT :
-                $component = $this->create_component('Distributor');
-                break;
-            case self :: ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION :
-                $component = $this->create_component('Viewer');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS);
-                $component = $this->create_component('Browser');
-        
-        }
-        $component->run();
-    }
-
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
     }
 
     // Data Retrieving
-    
+
 
     function count_announcement_distributions($condition)
     {
@@ -81,7 +57,7 @@ class DistributeManager extends WebApplication
     }
 
     // Url Creation
-    
+
 
     function get_create_announcement_distribution_url()
     {
@@ -108,51 +84,19 @@ class DistributeManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION, self :: PARAM_ANNOUNCEMENT_DISTRIBUTION => $announcement_distribution->get_id()));
     }
 
-    // Dummy Methods which are needed because we don't work with learning objects
-    function content_object_is_published($object_id)
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
     {
-    }
-
-    function any_content_object_is_published($object_ids)
-    {
-    }
-
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
-    {
-    }
-
-    function get_content_object_publication_attribute($object_id)
-    {
-    
-    }
-
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
-    {
-    }
-
-    function delete_content_object_publications($object_id)
-    {
-    
-    }
-    
- 	function delete_content_object_publication($publication_id)
-    {
-    
-    }
-
-    function update_content_object_publication_id($publication_attr)
-    {
-    
-    }
-
-    function get_content_object_publication_locations($content_object)
-    {
-    
-    }
-
-    function publish_content_object($content_object, $location)
-    {
-    
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

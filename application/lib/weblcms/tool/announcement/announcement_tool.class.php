@@ -55,6 +55,9 @@ class AnnouncementTool extends Tool
             case self :: ACTION_HIDE_PUBLICATION:
             	$component = $this->create_component('HidePublication');
                 break;
+            case self :: ACTION_EDIT_RIGHTS:
+            	$component = $this->create_component('RightsEditor');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }

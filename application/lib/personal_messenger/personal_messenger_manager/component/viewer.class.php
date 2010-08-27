@@ -66,7 +66,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
     function get_action_bar($personal_message)
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        if ($this->folder == PersonalMessengerManager :: ACTION_FOLDER_INBOX)
+        if ($this->folder == PersonalMessengerManager :: FOLDER_INBOX)
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Reply'), Theme :: get_common_image_path() . 'action_reply.png', $this->get_publication_reply_url($personal_message), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

@@ -10,7 +10,7 @@ class SurveyPublicationViewer extends SurveyPublisherComponent
 
     function run()
     {
-        if (! $this->parent->is_allowed(EDIT_RIGHT))
+        if (! $this->parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             Display :: display_not_allowed();
             return;

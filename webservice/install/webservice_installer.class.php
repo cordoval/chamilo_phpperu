@@ -39,7 +39,7 @@ class WebserviceInstaller extends Installer
     
     private function create_webservice_subtree()
     {
-    	return RightsUtilities :: create_subtree_root_location(WebserviceManager :: APPLICATION_NAME, 0, 'webservices_tree');
+    	return RightsUtilities :: create_subtree_root_location(WebserviceManager :: APPLICATION_NAME, 0, WebserviceRights :: TREE_TYPE_WEBSERVICES);
     }
     
     

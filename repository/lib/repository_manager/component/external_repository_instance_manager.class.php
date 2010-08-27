@@ -6,8 +6,7 @@ class RepositoryManagerExternalRepositoryInstanceManagerComponent extends Reposi
 
     function run()
     {
-        $external_repository_instance_manager = new ExternalRepositoryInstanceManager($this);
-        $external_repository_instance_manager->run();
+        ExternalRepositoryInstanceManager :: launch($this);
     }
 }
 ?>

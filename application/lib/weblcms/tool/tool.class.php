@@ -42,6 +42,7 @@ abstract class Tool extends SubManager
     const ACTION_SHOW_PUBLICATION = 'show';
     const ACTION_HIDE_PUBLICATION = 'hide';
     const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
+    const ACTION_EDIT_RIGHTS = 'edit_rights';
 
     /**
      * The action of the tool
@@ -310,7 +311,7 @@ abstract class Tool extends SubManager
             $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition(CourseSection :: PROPERTY_ID, $tool->section));
             $section = $sections->next_result();
             
-        	if(($tool->visible && $section->get_type() != CourseSection :: TYPE_ADMIN) || $this->is_allowed(EDIT_RIGHT))
+        	if(($tool->visible && $section->get_type() != CourseSection :: TYPE_ADMIN) || $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
             	$tools[] = $tool;
             }
@@ -346,7 +347,7 @@ abstract class Tool extends SubManager
         	$introduction_text = $this->get_introduction_text();
             if (! $introduction_text)
             {
-                if ($this->is_allowed(EDIT_RIGHT))
+                if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
                 {
                     $toolbar = new Toolbar();
                     $toolbar->add_item(new ToolbarItem(Translation :: get('PublishIntroductionText'), null, $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_LABEL));
@@ -418,9 +419,39 @@ abstract class Tool extends SubManager
      * @param int $right
      * @return boolean True if the current user has the right
      */
-    function is_allowed($right)
+    function is_allowed($right, $publication_id = null)
     {
-        return $this->get_parent()->is_allowed($right);
+    	$studentview = Session :: retrieve('studentview');
+    	if($studentview == 1)
+    	{
+    		return ($right == WeblcmsRights :: VIEW_RIGHT);
+    	}
+    	    	
+    	if($this->get_parent()->is_teacher())
+    	{
+    		return true;
+    	}
+    	
+    	if($publication_id)
+    	{
+    		return WeblcmsRights :: is_allowed_in_courses_subtree($right, $publication_id, WeblcmsRights :: TYPE_PUBLICATION, $this->get_course_id());
+    	}
+    	else
+    	{
+    		$category_id = Request :: get(WeblcmsManager :: PARAM_CATEGORY);
+    		if($category_id)
+    		{
+    			return WeblcmsRights :: is_allowed_in_courses_subtree($right, $category_id, WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_course_id());
+    		}
+    		
+    		if($this->get_tool_id() == 'home')
+    		{
+    			return WeblcmsRights :: is_allowed_in_courses_subtree($right, 0, RightsUtilities :: TYPE_ROOT, $this->get_course_id());
+    		}
+    		
+    		$module_id = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($this->get_course_id(), $this->get_tool_id());
+    		return WeblcmsRights :: is_allowed_in_courses_subtree($right, $module_id->get_id(), WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_course_id());
+    	}
     }
 
     /**
@@ -502,7 +533,7 @@ abstract class Tool extends SubManager
 
         if ($introduction_text)
         {
-            if ($this->is_allowed(EDIT_RIGHT))
+            if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
                 $toolbar = new Toolbar();
 

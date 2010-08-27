@@ -12,7 +12,7 @@ class CourseGroupToolDeleterComponent extends CourseGroupTool
 
     function run()
     {
-        if (! $this->is_allowed(DELETE_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: DELETE_RIGHT))
         {
             Display :: not_allowed();
             return;

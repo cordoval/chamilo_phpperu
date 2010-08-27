@@ -1,9 +1,6 @@
 <?php
 /**
- * $Id: run.php 205 2009-11-13 12:57:33Z vanpouckesven $
- * @package application
- *
- * This script will load the requested application and call its run() function.
+ * This script will load the requested application and launch it.
  */
 
 try
@@ -29,19 +26,14 @@ try
     // Load the current user
     $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
 
-    // Load & run the application
-    $application = WebApplication :: factory($application_name, $user);
-    $application->set_parameter('application', $application_name);
-
+    // Launch application
     try
     {
-        $application->run();
+        Application :: launch($application_name, $user);
     }
     catch (Exception $exception)
     {
-        Display :: header(BreadcrumbTrail :: get_instance());
-        Display :: error_message($exception->getMessage());
-        Display :: footer();
+        Display :: error_page($exception->getMessage());
     }
 }
 catch (Exception $exception)

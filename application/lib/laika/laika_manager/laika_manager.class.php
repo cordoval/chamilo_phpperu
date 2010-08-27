@@ -15,56 +15,21 @@ class LaikaManager extends WebApplication
     const PARAM_GROUP_ID = 'group';
 
     const ACTION_VIEW_HOME = 'home';
-    const ACTION_VIEW_RESULTS = 'view';
-    const ACTION_TAKE_TEST = 'take';
-    const ACTION_BROWSE_RESULTS = 'browse';
-    const ACTION_RENDER_GRAPH = 'graph';
-    const ACTION_MAIL_LAIKA = 'mail';
+    const ACTION_VIEW_RESULTS = 'viewer';
+    const ACTION_TAKE_TEST = 'taker';
+    const ACTION_BROWSE_RESULTS = 'browser';
+    const ACTION_RENDER_GRAPH = 'grapher';
+    const ACTION_MAIL_LAIKA = 'mailer';
     const ACTION_BROWSE_USERS = 'user';
-    const ACTION_VIEW_STATISTICS = 'statistics';
-    const ACTION_VIEW_INFORMATION = 'info';
+    const ACTION_VIEW_STATISTICS = 'analyzer';
+    const ACTION_VIEW_INFORMATION = 'informer';
+
+    const DEFAULT_ACTION = self :: ACTION_VIEW_HOME;
 
     public function LaikaManager($user)
     {
         parent :: __construct($user);
         $this->parse_input_from_table();
-    }
-
-    public function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_VIEW_RESULTS :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_TAKE_TEST :
-                $component = $this->create_component('Taker');
-                break;
-            case self :: ACTION_BROWSE_RESULTS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_RENDER_GRAPH :
-                $component = $this->create_component('Grapher');
-                break;
-            case self :: ACTION_MAIL_LAIKA :
-                $component = $this->create_component('Mailer');
-                break;
-            case self :: ACTION_BROWSE_USERS :
-                $component = $this->create_component('User');
-                break;
-            case self :: ACTION_VIEW_STATISTICS :
-                $component = $this->create_component('Analyzer');
-                break;
-            case self :: ACTION_VIEW_INFORMATION :
-                $component = $this->create_component('Informer');
-                break;
-            default :
-                $component = $this->create_component('Home');
-                break;
-        }
-        $component->run();
     }
 
     function publish_content_object($content_object, $location)
@@ -267,6 +232,21 @@ class LaikaManager extends WebApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

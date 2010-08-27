@@ -26,7 +26,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
      */
     function run()
     {
-        $this->load_rights();
+        //$this->load_rights();
 
         if ($this->is_teacher())
         {
@@ -39,12 +39,10 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
             if ($studentview == 1)
             {
                 Session :: register('studentview', 1);
-                $this->set_rights_for_student();
             }
             else
             {
                 Session :: unregister('studentview');
-                $this->set_rights_for_teacher();
             }
         }
 
@@ -108,7 +106,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
 
         /*if(!$user->is_platform_admin() && (!$relation || ($relation->get_status() != 5 && $relation->get_status() != 1)))
 		 //TODO: Roles & Rights
-		 //if(!$this->is_allowed(VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
+		 //if(!$this->is_allowed(WeblcmsRights :: VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
 		 {
 			$this->display_header($trail, false, true);
 			Display :: not_allowed();
@@ -136,7 +134,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
             if ($tool)
             {
                 $title = CourseLayout :: get_title($this->get_course());
-                $trail->add(new Breadcrumb($this->get_url(), $title));
+                $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_CATEGORY => null)), $title));
 
                 if ($tool != 'course_group')
                 {
@@ -201,49 +199,6 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
     {
         $course = $this->get_course();
         Translation :: set_language($course->get_language());
-    }
-
-    function is_allowed($right)
-    {
-        return $this->rights[$right];
-    }
-
-    /**
-     * Load the rights for the current user in this tool
-     */
-    private function load_rights()
-    {
-        $this->rights[VIEW_RIGHT] = true;
-
-        $studentview = Session :: retrieve('studentview');
-
-        if ($this->is_teacher() && $studentview != '1')
-        {
-            $this->set_rights_for_teacher();
-        }
-        else
-        {
-            $this->set_rights_for_student();
-        }
-    }
-
-    private function set_rights_for_teacher()
-    {
-        $this->rights[EDIT_RIGHT] = true;
-        $this->rights[ADD_RIGHT] = true;
-        $this->rights[DELETE_RIGHT] = true;
-    }
-
-    private function set_rights_for_student()
-    {
-        $this->rights[EDIT_RIGHT] = false;
-        $this->rights[ADD_RIGHT] = false;
-        $this->rights[DELETE_RIGHT] = false;
-    }
-    
-    function set_right($right, $value)
-    {
-    	$this->rights[$right] = $value;
     }
 
     private $is_teacher;

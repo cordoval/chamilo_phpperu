@@ -16,27 +16,29 @@ require_once dirname(__FILE__) . '/../assessment_rights.class.php';
 class AssessmentManager extends WebApplication
 {
     const APPLICATION_NAME = 'assessment';
-    
+
     const PARAM_ASSESSMENT_PUBLICATION = 'assessment_publication';
     const PARAM_INVITATION_ID = 'invitation_id';
     const PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATIONS = 'delete_selected_assessment_publications';
-    
-    const ACTION_DELETE_ASSESSMENT_PUBLICATION = 'delete';
-    const ACTION_EDIT_ASSESSMENT_PUBLICATION = 'edit';
-    const ACTION_CREATE_ASSESSMENT_PUBLICATION = 'create';
-    const ACTION_BROWSE_ASSESSMENT_PUBLICATIONS = 'browse';
-    const ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES = 'manage_categories';
-    const ACTION_VIEW_ASSESSMENT_PUBLICATION = 'view';
-    const ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS = 'view_results';
-    const ACTION_IMPORT_QTI = 'import_qti';
-    const ACTION_EXPORT_QTI = 'export_qti';
-    const ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY = 'change_visibility';
-    const ACTION_MOVE_ASSESSMENT_PUBLICATION = 'move';
-    const ACTION_EXPORT_RESULTS = 'export_results';
-    const ACTION_DOWNLOAD_DOCUMENTS = 'download_documents';
-    const ACTION_PUBLISH_SURVEY = 'publish_survey';
-    const ACTION_BUILD_ASSESSMENT = 'build';
-    const ACTION_EDIT_RIGHTS = 'edit_rights';
+
+    const ACTION_DELETE_ASSESSMENT_PUBLICATION = 'deleter';
+    const ACTION_EDIT_ASSESSMENT_PUBLICATION = 'editor';
+    const ACTION_CREATE_ASSESSMENT_PUBLICATION = 'creator';
+    const ACTION_BROWSE_ASSESSMENT_PUBLICATIONS = 'browser';
+    const ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES = 'category_manager';
+    const ACTION_VIEW_ASSESSMENT_PUBLICATION = 'viewer';
+    const ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS = 'results_viewer';
+    const ACTION_IMPORT_QTI = 'qti_importer';
+    const ACTION_EXPORT_QTI = 'qti_exporter';
+    const ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY = 'visibility_changer';
+    const ACTION_MOVE_ASSESSMENT_PUBLICATION = 'mover';
+    const ACTION_EXPORT_RESULTS = 'results_exporter';
+    const ACTION_DOWNLOAD_DOCUMENTS = 'document_downloader';
+    const ACTION_PUBLISH_SURVEY = 'survey_publisher';
+    const ACTION_BUILD_ASSESSMENT = 'builder';
+    const ACTION_EDIT_RIGHTS = 'rights_editor';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS;
 
     /**
      * Constructor
@@ -47,78 +49,13 @@ class AssessmentManager extends WebApplication
         parent :: __construct($user);
     }
 
-    /**
-     * Run this assessment manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_DELETE_ASSESSMENT_PUBLICATION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_EDIT_ASSESSMENT_PUBLICATION :
-                $component = $this->create_component('Updater');
-                break;
-            case self :: ACTION_CREATE_ASSESSMENT_PUBLICATION :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_MANAGE_ASSESSMENT_PUBLICATION_CATEGORIES :
-                $component = $this->create_component('CategoryManager');
-                break;
-            case self :: ACTION_VIEW_ASSESSMENT_PUBLICATION :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS :
-                $component = $this->create_component('ResultsViewer');
-                break;
-            case self :: ACTION_IMPORT_QTI :
-                $component = $this->create_component('QtiImporter');
-                break;
-            case self :: ACTION_EXPORT_QTI :
-                $component = $this->create_component('QtiExporter');
-                break;
-            case self :: ACTION_CHANGE_ASSESSMENT_PUBLICATION_VISIBILITY :
-                $component = $this->create_component('VisibilityChanger');
-                break;
-            case self :: ACTION_MOVE_ASSESSMENT_PUBLICATION :
-                $component = $this->create_component('Mover');
-                break;
-            case self :: ACTION_EXPORT_RESULTS :
-                $component = $this->create_component('ResultsExporter');
-                break;
-            case self :: ACTION_DOWNLOAD_DOCUMENTS :
-                $component = $this->create_component('DocumentDownloader');
-                break;
-            case self :: ACTION_PUBLISH_SURVEY :
-                $component = $this->create_component('SurveyPublisher');
-                break;
-            case self :: ACTION_BUILD_ASSESSMENT :
-            	$component = $this->create_component('Builder');
-            	break;
-            case self :: ACTION_EDIT_RIGHTS:
-            	$component = $this->create_component('RightsEditor');
-            	break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS);
-                $component = $this->create_component('Browser');
-        
-        }
-        $component->run();
-    }
-
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
     }
 
     // Data Retrieving
-    
+
 
     function count_assessment_publications($condition)
     {
@@ -166,7 +103,7 @@ class AssessmentManager extends WebApplication
     }
 
     // Url Creation
-    
+
 
     function get_create_assessment_publication_url()
     {
@@ -238,73 +175,72 @@ class AssessmentManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_SURVEY, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
-    
+
     function get_build_assessment_url($assessment_publication)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_ASSESSMENT, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_ASSESSMENT, self :: PARAM_ASSESSMENT_PUBLICATION => $assessment_publication->get_id()));
     }
 
     function get_rights_editor_url($category = null, $publication_ids = null)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_ASSESSMENT_PUBLICATION => $publication_ids,
-    								'category' => $category));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_ASSESSMENT_PUBLICATION => $publication_ids, 'category' => $category));
     }
-    
-    function content_object_is_published($object_id)
+
+    static function content_object_is_published($object_id)
     {
         return AssessmentDataManager :: get_instance()->content_object_is_published($object_id);
     }
 
-    function any_content_object_is_published($object_ids)
+    static function any_content_object_is_published($object_ids)
     {
         return AssessmentDataManager :: get_instance()->any_content_object_is_published($object_ids);
     }
 
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
         return AssessmentDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
     }
 
-    function get_content_object_publication_attribute($publication_id)
+    static function get_content_object_publication_attribute($publication_id)
     {
         return AssessmentDataManager :: get_instance()->get_content_object_publication_attribute($publication_id);
     }
 
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
+    static function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
         return AssessmentDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
 
-    function delete_content_object_publications($object_id)
+    static function delete_content_object_publications($object_id)
     {
         return AssessmentDataManager :: get_instance()->delete_content_object_publications($object_id);
     }
-    
-	function delete_content_object_publication($publication_id)
+
+    static function delete_content_object_publication($publication_id)
     {
-    	 return AssessmentDataManager :: get_instance()->delete_content_object_publication($publication_id);
+        return AssessmentDataManager :: get_instance()->delete_content_object_publication($publication_id);
     }
 
-    function update_content_object_publication_id($publication_attr)
+    static function update_content_object_publication_id($publication_attr)
     {
         return AssessmentDataManager :: get_instance()->update_content_object_publication_id($publication_attr);
     }
-    
-    function get_content_object_publication_locations($content_object)
+
+    static function get_content_object_publication_locations($content_object)
     {
         $allowed_types = array(Assessment :: get_type_name(), Hotpotatoes :: get_type_name());
-        
+
         $type = $content_object->get_type();
         if (in_array($type, $allowed_types))
         {
             $locations = array(Translation :: get('Assessments'));
             return $locations;
         }
-        
+
         return array();
     }
 
-    function publish_content_object($content_object, $location)
+    static function publish_content_object($content_object, $location)
     {
         $publication = new AssessmentPublication();
         $publication->set_content_object($content_object->get_id());
@@ -313,9 +249,24 @@ class AssessmentManager extends WebApplication
         $publication->set_hidden(0);
         $publication->set_from_date(0);
         $publication->set_to_date(0);
-        
+
         $publication->create();
         return Translation :: get('PublicationCreated');
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

@@ -52,19 +52,19 @@ class SurveyManagerBrowserComponent extends SurveyManager
 
         $action_bar->set_search_url($this->get_url());
 
-        if (SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', 'survey_component'))
+        if (SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'category_manager', 'survey_component'))
+        if (SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'category_manager', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_manage_survey_publication_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        if (SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'testcase_browser', 'survey_component'))
+        if (SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'testcase_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('TestSurveys'), Theme :: get_common_image_path() . 'action_category.png', $this->get_testcase_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

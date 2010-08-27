@@ -29,16 +29,16 @@ abstract class Application
         $this->search_parameters = array();
         $this->breadcrumbs = array();
 
-        $action = Request :: get(self :: PARAM_ACTION);
-        if ($action)
-        {
-            $this->set_action(Request :: get(self :: PARAM_ACTION));
-        }
-
-        if (Request :: get(self :: PARAM_APPLICATION) == $this->get_application_name())
-        {
-            $this->handle_table_action();
-        }
+    //        $action = Request :: get(self :: PARAM_ACTION);
+    //        if ($action)
+    //        {
+    //            $this->set_action(Request :: get(self :: PARAM_ACTION));
+    //        }
+    //
+    //        if (Request :: get(self :: PARAM_APPLICATION) == $this->get_application_name())
+    //        {
+    //            $this->handle_table_action();
+    //        }
     }
 
     function handle_table_action()
@@ -75,7 +75,8 @@ abstract class Application
         return Redirect :: get_url($parameters, $filter, $encode_entities);
     }
 
-    abstract static function get_application_class_name($application);
+    //abstract static function get_application_class_name($application);
+
 
     /**
      * Creates a new instance of the given application
@@ -174,6 +175,7 @@ abstract class Application
      */
     function set_parameter($name, $value)
     {
+        //dump(get_class($this) . ' | ' . $name);
         $this->parameters[$name] = $value;
     }
 
@@ -407,13 +409,8 @@ abstract class Application
      * Returns a list of actions available to the admin.
      * @return Array $info Contains all possible actions.
      */
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links($application = self :: PARAM_APPLICATION)
     {
-        // Use this untill PHP 5.3 is available
-        // Then use get_class($this) :: APPLICATION_NAME
-        // and remove the get_application_name function();
-        $application = $this->get_application_name();
-
         $info = array();
         $info['application'] = array('name' => Translation :: get(self :: application_to_class($application)), 'class' => $application);
         $info['links'] = array();
@@ -541,11 +538,13 @@ abstract class Application
     /**
      * Runs the application.
      */
-    abstract function run();
+    //abstract function run();
+
 
     abstract static function get_application_path($application_name);
 
-    abstract static function get_application_manager_path($application_name);
+    //abstract static function get_application_manager_path($application_name);
+
 
     function get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple)
     {
@@ -573,6 +572,155 @@ abstract class Application
         }
 
         return Translation :: get($message);
+    }
+
+    /**
+     * EXPERIMENTAL ENHANCEMENTS
+     * @author Hans De Bisschop
+     */
+
+    /**
+     * @param string $application
+     */
+    static function get_application_class_name($application)
+    {
+        if (BasicApplication :: is_application($application))
+        {
+            return BasicApplication :: get_application_class_name($application);
+        }
+        else
+        {
+            return LauncherApplication :: get_application_class_name($application);
+        }
+    }
+
+    /**
+     * @param string $application
+     * @return string|NULL
+     */
+    static function get_component_path($application)
+    {
+        if (BasicApplication :: is_application($application))
+        {
+            return BasicApplication :: get_component_path($application);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+     * @param string $application
+     * @return string
+     */
+    static function get_application_manager_path($application)
+    {
+        if (BasicApplication :: is_application($application))
+        {
+            return BasicApplication :: get_application_manager_path($application);
+        }
+        else
+        {
+            return LauncherApplication :: get_application_manager_path($application);
+        }
+    }
+
+    /**
+     * @return string|NULL
+     */
+    function process_table_action()
+    {
+        $table_name = Request :: post('table_name');
+        if (isset($table_name))
+        {
+            $class = Utilities :: underscores_to_camelcase($table_name);
+            if (class_exists($class))
+            {
+                call_user_func(array($class, 'handle_table_action'));
+
+                $table_action_name = Request :: post($table_name . '_action_name');
+                $table_action_value = Request :: post($table_name . '_action_value');
+                //                $this->set_parameter($table_action_name, $table_action_value);
+                Request :: set_get($table_action_name, $table_action_value);
+
+                if ($table_action_name == self :: PARAM_ACTION)
+                {
+                    return $table_action_value;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $application_name
+     * @param User $user
+     * @param string $type
+     * @return Application
+     */
+    static function component($application_name, $user, $type)
+    {
+        $manager_class = self :: get_application_class_name($application_name);
+        $application_component_path = self :: get_component_path($application_name);
+
+        $file = $application_component_path . Utilities :: camelcase_to_underscores($type) . '.class.php';
+
+        if (! file_exists($file) || ! is_file($file))
+        {
+            $message = array();
+            $message[] = Translation :: get('ComponentFailedToLoad') . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('File') . ':</b><br />';
+            $message[] = $file . '<br /><br />';
+            $message[] = '<b>' . Translation :: get('Stacktrace') . ':</b>';
+            $message[] = '<ul>';
+            $message[] = '<li>' . Translation :: get($manager_class) . '</li>';
+            $message[] = '<li>' . Translation :: get($type) . '</li>';
+            $message[] = '</ul>';
+
+            $trail = BreadcrumbTrail :: get_instance();
+            $trail->add(new Breadcrumb('#', Translation :: get($manager_class)));
+
+            Display :: header($trail);
+            Display :: error_message(implode("\n", $message));
+            Display :: footer();
+            exit();
+        }
+
+        $class = $manager_class . Utilities :: underscores_to_camelcase($type) . 'Component';
+        require_once $file;
+
+        return new $class($user);
+    }
+
+    /**
+     * @param string $application_name
+     * @param User $user
+     */
+    static function launch($application_name, $user)
+    {
+        require_once self :: get_application_manager_path($application_name);
+
+        $manager_class = self :: get_application_class_name($application_name);
+        $default_action = call_user_func(array($manager_class, 'get_default_action'));
+
+        $action = Request :: get(self :: PARAM_ACTION);
+        $action = ! isset($action) ? $default_action : $action;
+
+        $table_action = self :: process_table_action();
+        if ($table_action)
+        {
+            $action = $table_action;
+        }
+
+        $component = self :: component($application_name, $user, $action);
+        $component->set_parameter(self :: PARAM_APPLICATION, $application_name);
+        $component->set_action($action);
+
+        BreadcrumbTrail :: get_instance()->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(self :: application_to_class($application_name))));
+
+        $component->run();
     }
 }
 ?>

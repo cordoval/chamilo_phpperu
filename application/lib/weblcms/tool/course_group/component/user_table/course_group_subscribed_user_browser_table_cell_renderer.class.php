@@ -42,7 +42,7 @@ class CourseGroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTable
     private function get_modification_links($user)
     {
     	$toolbar = new Toolbar();
-        if($this->browser->is_allowed(EDIT_RIGHT))
+        if($this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $parameters = array();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_UNSUBSCRIBE;
@@ -54,7 +54,7 @@ class CourseGroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTable
         
         $course_group = $this->browser->get_course_group();
         
-    	if (!$this->browser->is_allowed(EDIT_RIGHT) && $course_group->is_self_unregistration_allowed() && $course_group->is_member($user) && $this->browser->get_user()->get_id() == $user->get_id())
+    	if (!$this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $course_group->is_self_unregistration_allowed() && $course_group->is_member($user) && $this->browser->get_user()->get_id() == $user->get_id())
         {
             $parameters = array();
             $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();

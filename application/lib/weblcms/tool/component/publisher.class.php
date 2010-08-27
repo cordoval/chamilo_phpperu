@@ -10,7 +10,7 @@ class ToolPublisherComponent extends ToolComponent
 
     function run()
     {
-        if (! $this->is_allowed(ADD_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
             Display :: not_allowed();
             return;

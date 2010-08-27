@@ -20,7 +20,7 @@ class LaikaManagerViewerComponent extends LaikaManager
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LaikaManager :: ACTION_VIEW_HOME)), Translation :: get('Laika')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewLaikaResult')));
         
-        if (! LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, LaikaRights :: LOCATION_VIEWER, 'laika_component'))
+        if (! LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, LaikaRights :: LOCATION_VIEWER, LaikaRights :: TYPE_LAIKA_COMPONENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -44,7 +44,7 @@ class LaikaManagerViewerComponent extends LaikaManager
         
         $html = array();
         
-        if (LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'mailer', 'laika_component'))
+        if (LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'mailer', LaikaRights :: TYPE_LAIKA_COMPONENT))
         {
             $html[] = $this->get_action_bar_html();
         }
@@ -85,7 +85,7 @@ class LaikaManagerViewerComponent extends LaikaManager
             $attempt_id = Request :: get('attempt');
             $user_id = Request :: get('user');
             
-            $is_admin = LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'browser', 'laika_component');
+            $is_admin = LaikaRights :: is_allowed(LaikaRights :: VIEW_RIGHT, 'browser', LaikaRights :: TYPE_LAIKA_COMPONENT);
             
             if (isset($attempt_id))
             {

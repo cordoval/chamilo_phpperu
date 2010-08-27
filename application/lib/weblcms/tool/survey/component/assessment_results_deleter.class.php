@@ -11,7 +11,7 @@ class AssessmentToolResultsDeleterComponent extends AssessmentToolComponent
 
     function run()
     {
-        if (! $this->is_allowed(DELETE_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: DELETE_RIGHT))
         {
             Display :: not_allowed();
             return;

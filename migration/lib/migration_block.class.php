@@ -44,7 +44,7 @@ abstract class MigrationBlock
 	 * Returns the message logger
 	 * @return MessageLogger
 	 */
-	private function get_message_logger()
+	function get_message_logger()
 	{
 		return $this->message_logger;
 	}
@@ -99,7 +99,7 @@ abstract class MigrationBlock
 	 * Factory method for migration block 
 	 * @param String $platform - the selected platform
 	 * @param String $block - the block name
-	 * @return MigrationProperties
+	 * @return MigrationBlock
 	 */	
 	function factory($platform, $block)
 	{
@@ -164,7 +164,7 @@ abstract class MigrationBlock
 		$this->get_timer()->start();
 		$logger = $this->get_file_logger();
 		
-		$this->log_message_and_file(Translation :: get('StartMigration') . "<br />\n", MessageLogger :: TYPE_CONFIRM);
+		$this->log_message_and_file(Translation :: get('StartMigrationForBlock', array('BLOCK' => $this->get_block_name())) . "<br />\n", MessageLogger :: TYPE_CONFIRM);
 	}
 	
 	/**

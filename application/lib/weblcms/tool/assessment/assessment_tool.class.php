@@ -105,6 +105,9 @@ class AssessmentTool extends Tool implements Categorizable
             case self :: ACTION_HIDE_PUBLICATION:
             	$component = $this->create_component('HidePublication');
                 break;
+            case self :: ACTION_EDIT_RIGHTS:
+            	$component = $this->create_component('RightsEditor');
+                break;
             default :
                 $component = $this->create_component('Browser');
         }
@@ -137,7 +140,7 @@ class AssessmentTool extends Tool implements Categorizable
 
         $extra_toolbar_items[] = new ToolbarItem(Translation :: get('ViewResults'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
         
-        if($this->is_allowed(EDIT_RIGHT))
+        if($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
         	$extra_toolbar_items[] = new ToolbarItem(Translation :: get('Export'), Theme :: get_common_image_path() . 'action_export.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_QTI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
         }

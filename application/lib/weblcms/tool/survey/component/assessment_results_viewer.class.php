@@ -52,7 +52,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
         echo '</div>';
         echo '<div style="width:80%; padding-left: 1%; float:right; ">';
 
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $table = new AssessmentResultsTableOverviewAdmin($this, $this->get_user());
         }
@@ -91,7 +91,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
         echo '</div>';
         $track = new WeblcmsAssessmentAttemptsTracker();
 
-        if (! $this->is_allowed(EDIT_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $usr = $this->get_user_id();
         }
@@ -195,14 +195,14 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 
     function can_change_answer_data()
     {
-        return $this->is_allowed(EDIT_RIGHT);
+        return $this->is_allowed(WeblcmsRights :: EDIT_RIGHT);
     }
 
     function display_header($breadcrumbs = array())
     {
         if (! Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
         {
-            if (! $this->is_allowed(VIEW_RIGHT))
+            if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
             {
                 Display :: not_allowed();
                 return false;
@@ -224,7 +224,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 
     function get_toolbar()
     {
-        if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT) && $this->is_allowed(EDIT_RIGHT))
+        if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT) && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 

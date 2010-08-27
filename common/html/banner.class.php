@@ -61,10 +61,7 @@ class Banner
         {
             $output[] = '<div class="menu_container">';
             $output[] = '<div class="applications">';
-
-            $menumanager = new MenuManager($user);
-            $output[] = $menumanager->render_menu('render_mini_bar');
-
+            $output[] = MenuRenderer :: as_html(MenuRenderer :: TYPE_MINI_BAR, $user);
             $output[] = '<div class="clear">&nbsp;</div>';
             $output[] = '</div>';
             $output[] = '<div class="clear">&nbsp;</div>';

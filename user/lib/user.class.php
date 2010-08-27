@@ -571,7 +571,7 @@ class User extends DataClass
 
         $version_quota = $this->get_version_quota() ? $this->get_version_quota() : 20;
 
-        $types = RepositoryDataManager :: get_registered_types();
+        $types = RepositoryDataManager :: get_registered_types(false, false);
 
         foreach ($types as $type)
         {

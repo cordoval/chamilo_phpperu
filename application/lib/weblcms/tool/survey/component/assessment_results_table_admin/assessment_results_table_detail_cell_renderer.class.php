@@ -102,7 +102,7 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
 	        ));
         }
         
-        if ($this->browser->is_allowed(DELETE_RIGHT))
+        if ($this->browser->is_allowed(WeblcmsRights :: DELETE_RIGHT))
         {
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('DeleteResult'),
@@ -113,7 +113,7 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultContentObjectTable
 	        ));
         }
         
-        if ($this->browser->is_allowed(EDIT_RIGHT))
+        if ($this->browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
             {
