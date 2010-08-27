@@ -189,6 +189,11 @@ abstract class SubManager
     abstract function get_application_component_path();
 
     /**
+     * EXPERIMENTAL ENHANCEMENTS
+     * @author Hans De Bisschop
+     */
+
+    /**
      * @return string|NULL
      */
     function process_table_action($action_parameter)
@@ -215,16 +220,20 @@ abstract class SubManager
         return null;
     }
 
+    /**
+     * @param string $sub_manager_class
+     * @return string
+     */
     static function get_component_path($sub_manager_class)
     {
         return call_user_func(array($sub_manager_class, 'get_application_component_path'));
     }
 
     /**
-     * Create a new application component
-     * @param string $type The type of the component to create.
-     * @param Application $manager The application in
-     * which the created component will be used
+     * @param string $sub_manager_class
+     * @param string $action
+     * @param Application $application
+     * @return SubManager
      */
     private static function component($sub_manager_class, $action, $application)
     {
@@ -260,8 +269,8 @@ abstract class SubManager
     }
 
     /**
-     * @param string $application_name
-     * @param User $user
+     * @param string $sub_manager_class
+     * @param Application $application
      */
     static function launch($sub_manager_class, $application)
     {

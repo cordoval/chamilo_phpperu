@@ -575,7 +575,7 @@ abstract class Application
     }
 
     /**
-     * EXPERIMENTAL CODE
+     * EXPERIMENTAL ENHANCEMENTS
      * @author Hans De Bisschop
      */
 
