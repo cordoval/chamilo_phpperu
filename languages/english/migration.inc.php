@@ -49,7 +49,7 @@ $lang['migration']['SettingsCleaned'] = 'Settings cleaned';
 $lang['migration']['SettingsNotCleaned'] = 'Settings not cleaned';
 $lang['migration']['SelectBlocks'] = 'Select blocks';
 
-$lang['migration']['StartMigration'] = 'Start migration';
+$lang['migration']['StartMigrationForBlock'] = 'Start migration for block {BLOCK}';
 $lang['migration']['StartMigrationForTable'] = 'Start migration for table <b>{TABLE}</b>';
 $lang['migration']['StartMigrationCourse'] = 'Start migration for course {COURSE}';
 $lang['migration']['FinishMigrationCourse'] = 'Migration finished for course {COURSE}';

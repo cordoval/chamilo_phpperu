@@ -12,9 +12,12 @@ class Dokeos185MigrationProperties extends MigrationProperties
 	function validate_settings($settings, $selected_blocks, $migrated_blocks)
 	{
 		$succes = $this->check_system_availability($settings);
-		$succes &= $this->validate_blocks($selected_blocks, $migrated_blocks);
+		if(!$succes)
+		{
+			return false;
+		}
 		
-		return $succes;
+		return $this->validate_blocks($selected_blocks, $migrated_blocks);
 	}
 	
 	/**

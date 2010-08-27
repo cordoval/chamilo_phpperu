@@ -1,0 +1,27 @@
+<?php
+$settings = array();
+$settings['platform'] = 'dokeos185';
+$settings['platform_path'] = '';
+$settings['move_files'] = 0;
+$settings['migrate_deleted_files'] = 0;
+$settings['blocks']['users'] = 1;
+$settings['blocks']['classes'] = 1;
+$settings['blocks']['personal_agendas'] = 0;
+$settings['blocks']['settings'] = 0;
+$settings['blocks']['courses'] = 0;
+$settings['blocks']['course_groups'] = 0;
+$settings['blocks']['course_announcements'] = 0;
+$settings['blocks']['course_assignments'] = 0;
+$settings['blocks']['course_calendar_events'] = 0;
+$settings['blocks']['course_documents'] = 0;
+$settings['blocks']['course_dropboxes'] = 0;
+$settings['blocks']['course_blogs'] = 0;
+$settings['blocks']['course_forums'] = 0;
+$settings['blocks']['course_links'] = 0;
+$settings['blocks']['course_metadata'] = 0;
+$settings['blocks']['course_quizzes'] = 0;
+$settings['blocks']['course_scorms'] = 0;
+$settings['blocks']['course_student_publications'] = 0;
+$settings['blocks']['course_surveys'] = 0;
+$settings['blocks']['course_learning_paths'] = 0;
+$settings['blocks']['trackers'] = 0;
