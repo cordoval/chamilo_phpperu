@@ -45,22 +45,7 @@ abstract class ExternalRepositoryManager extends SubManager
 
         $this->set_optional_parameters();
 
-        if (! $this->validate_settings())
-        {
-            if ($this->get_user()->is_platform_admin())
-            {
-                Request :: set_get(Application :: PARAM_ERROR_MESSAGE, Translation :: get('PleaseReviewSettings'));
-                $this->set_parameter(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY);
-            }
-            else
-            {
-                parent :: display_header();
-                $this->display_warning_message('TemporarilyUnavailable');
-                parent :: display_footer();
-                exit();
-            }
-        }
-        else
+        if ($this->validate_settings())
         {
             $this->initialize_external_repository($this);
         }
@@ -121,6 +106,24 @@ abstract class ExternalRepositoryManager extends SubManager
         require_once $file;
 
         $class = Utilities :: underscores_to_camelcase($type) . 'ExternalRepositoryManager';
+
+        $settings_validated = call_user_func(array($class, 'validate_settings'));
+
+        if (! $settings_validated)
+        {
+            if ($application->get_user()->is_platform_admin())
+            {
+                Request :: set_get(Application :: PARAM_ERROR_MESSAGE, Translation :: get('PleaseReviewSettings'));
+                Request :: set_get(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, self :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY);
+            }
+            else
+            {
+                parent :: display_header();
+                $application->display_warning_message('TemporarilyUnavailable');
+                parent :: display_footer();
+                exit();
+            }
+        }
 
         parent :: launch($class, $application);
     }

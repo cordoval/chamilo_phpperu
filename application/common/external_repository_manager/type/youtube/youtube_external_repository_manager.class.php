@@ -177,57 +177,6 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         return $actions;
     }
 
-    function run()
-    {
-        $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
-
-        switch ($parent)
-        {
-            case ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Viewer');
-                break;
-            case ExternalRepositoryManager :: ACTION_EXPORT_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Exporter');
-                break;
-            case ExternalRepositoryManager :: ACTION_IMPORT_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Importer');
-                break;
-            case ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Browser', $this);
-                break;
-            case ExternalRepositoryManager :: ACTION_DOWNLOAD_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Downloader');
-                break;
-            case ExternalRepositoryManager :: ACTION_UPLOAD_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Uploader');
-                break;
-            case ExternalRepositoryManager :: ACTION_SELECT_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Selecter');
-                break;
-            case ExternalRepositoryManager :: ACTION_EDIT_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Editor');
-                break;
-            case ExternalRepositoryManager :: ACTION_DELETE_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Deleter');
-                break;
-            case ExternalRepositoryManager :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Configurer');
-                break;
-            case ExternalRepositoryManager :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('ExternalSyncer');
-                break;
-            case ExternalRepositoryManager :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY :
-                $component = $this->create_component('InternalSyncer');
-                break;
-            default :
-                $component = $this->create_component('Browser', $this);
-                $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
-                break;
-        }
-
-        $component->run();
-    }
-
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#get_available_renderers()
      */
