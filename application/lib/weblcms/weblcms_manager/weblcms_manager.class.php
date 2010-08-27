@@ -118,7 +118,7 @@ class WeblcmsManager extends WebApplication
     const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
     const ACTION_DELETE_INTRODUCTION = 'introduction_deleter';
     const ACTION_EDIT_INTRODUCTION = 'introduction_editor';
-    const ACTION_REPORTING = 'Reporting';
+    const ACTION_REPORTING = 'reporting';
     const ACTION_COURSE_CODE = 'course_code_subscriber';
     const ACTION_COURSE_CREATE_REQUEST_CREATOR = 'course_create_request_creator';
 
