@@ -18,14 +18,16 @@ class PersonalCalendarManager extends WebApplication
 
     const PARAM_PERSONAL_CALENDAR_ID = 'personal_calendar';
 
-    const ACTION_BROWSE_CALENDAR = 'browse';
-    const ACTION_VIEW_PUBLICATION = 'view';
-    const ACTION_CREATE_PUBLICATION = 'publish';
-    const ACTION_DELETE_PUBLICATION = 'delete';
-    const ACTION_EDIT_PUBLICATION = 'edit';
-    const ACTION_VIEW_ATTACHMENT = 'view_attachment';
-    const ACTION_EXPORT_ICAL = 'export_ical';
-    const ACTION_IMPORT_ICAL = 'import_ical';
+    const ACTION_BROWSE_CALENDAR = 'browser';
+    const ACTION_VIEW_PUBLICATION = 'viewer';
+    const ACTION_CREATE_PUBLICATION = 'publisher';
+    const ACTION_DELETE_PUBLICATION = 'deleter';
+    const ACTION_EDIT_PUBLICATION = 'editor';
+    const ACTION_VIEW_ATTACHMENT = 'attachment_viewer';
+    const ACTION_EXPORT_ICAL = 'ical_exporter';
+    const ACTION_IMPORT_ICAL = 'ical_importer';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_CALENDAR;
 
     const ACTION_RENDER_BLOCK = 'block';
     const PARAM_TIME = 'time';
@@ -38,46 +40,6 @@ class PersonalCalendarManager extends WebApplication
     public function PersonalCalendarManager($user)
     {
         parent :: __construct($user);
-    }
-
-    /**
-     * Runs the personal calendar application
-     */
-    public function run()
-    {
-        $action = $this->get_action();
-
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_CALENDAR :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_VIEW_PUBLICATION :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_CREATE_PUBLICATION :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_DELETE_PUBLICATION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_EDIT_PUBLICATION :
-                $component = $this->create_component('Editor');
-                break;
-            case self :: ACTION_VIEW_ATTACHMENT :
-                $component = $this->create_component('AttachmentViewer');
-                break;
-            case self :: ACTION_EXPORT_ICAL :
-                $component = $this->create_component('IcalExporter');
-                break;
-            case self :: ACTION_IMPORT_ICAL :
-                $component = $this->create_component('IcalImporter');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_CALENDAR);
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
     }
 
     /**
@@ -167,7 +129,7 @@ class PersonalCalendarManager extends WebApplication
 
         while ($publication = $publications->next_result())
         {
-        	$parser = PersonalCalendarEventParser::factory($this, $publication, $from_date, $to_date);
+            $parser = PersonalCalendarEventParser :: factory($this, $publication, $from_date, $to_date);
             $events = array_merge($events, $parser->get_events());
         }
         return $events;
@@ -209,7 +171,7 @@ class PersonalCalendarManager extends WebApplication
         return $dm->get_content_object_publication_attribute($publication_id);
     }
 
-	static function count_publication_attributes($user = null, $object_id = null, $condition = null)
+    static function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
         return PersonalCalendarDatamanager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
@@ -223,9 +185,9 @@ class PersonalCalendarManager extends WebApplication
         return $dm->delete_content_object_publications($object_id);
     }
 
-	static function delete_content_object_publication($publication_id)
+    static function delete_content_object_publication($publication_id)
     {
-    	$dm = PersonalCalendarDatamanager :: get_instance();
+        $dm = PersonalCalendarDatamanager :: get_instance();
         return $dm->delete_content_object_publication($publication_id);
     }
 
@@ -286,7 +248,7 @@ class PersonalCalendarManager extends WebApplication
         return $pcdm->retrieve_personal_calendar_publication($publication_id);
     }
 
-	function retrieve_task_publication($publication_id)
+    function retrieve_task_publication($publication_id)
     {
         $pcdm = PersonalCalendarDataManager :: get_instance();
         return $pcdm->retrieve_personal_calendar_publication($publication_id);
@@ -332,6 +294,21 @@ class PersonalCalendarManager extends WebApplication
     function get_user_info($user_id)
     {
         return UserDataManager :: get_instance()->retrieve_user($user_id);
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

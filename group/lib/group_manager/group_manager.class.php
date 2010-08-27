@@ -18,21 +18,23 @@ class GroupManager extends CoreApplication
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_COMPONENT_ACTION = 'action';
 
-    const ACTION_CREATE_GROUP = 'create';
-    const ACTION_BROWSE_GROUPS = 'browse';
-    const ACTION_EDIT_GROUP = 'edit';
-    const ACTION_DELETE_GROUP = 'delete';
-    const ACTION_MOVE_GROUP = 'move';
-    const ACTION_TRUNCATE_GROUP = 'truncate';
-    const ACTION_VIEW_GROUP = 'view';
-    const ACTION_EXPORT = 'export';
-    const ACTION_IMPORT = 'import';
-    const ACTION_IMPORT_GROUP_USERS = 'import_group_users';
-    const ACTION_SUBSCRIBE_USER_TO_GROUP = 'subscribe';
-    const ACTION_SUBSCRIBE_USER_BROWSER = 'subscribe_browser';
-    const ACTION_UNSUBSCRIBE_USER_FROM_GROUP = 'unsubscribe';
-    const ACTION_MANAGE_RIGHTS_TEMPLATES = 'manage_group_rights_templates';
-    const ACTION_RIGHT_EDITS = 'edit_group_rights';
+    const ACTION_CREATE_GROUP = 'creator';
+    const ACTION_BROWSE_GROUPS = 'browser';
+    const ACTION_EDIT_GROUP = 'editor';
+    const ACTION_DELETE_GROUP = 'deleter';
+    const ACTION_MOVE_GROUP = 'mover';
+    const ACTION_TRUNCATE_GROUP = 'truncater';
+    const ACTION_VIEW_GROUP = 'viewer';
+    const ACTION_EXPORT = 'exporter';
+    const ACTION_IMPORT = 'importer';
+    const ACTION_IMPORT_GROUP_USERS = 'group_user_importer';
+    const ACTION_SUBSCRIBE_USER_TO_GROUP = 'subscriber';
+    const ACTION_SUBSCRIBE_USER_BROWSER = 'subscribe_user_browser';
+    const ACTION_UNSUBSCRIBE_USER_FROM_GROUP = 'unsubscriber';
+    const ACTION_MANAGE_RIGHTS_TEMPLATES = 'group_rights_template_manager';
+    const ACTION_RIGHT_EDITS = 'rights_editor';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_GROUPS;
 
     private $parameters;
     private $search_parameters;
@@ -290,15 +292,15 @@ class GroupManager extends CoreApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Create'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'browse_add.png', Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP, GroupManager :: PARAM_GROUP_ID => 0), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Export'), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'browse_export.png', Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_EXPORT), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('ImportGroupUsers'), Translation :: get('ImportGroupUsersDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT_GROUP_USERS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Create'), Translation :: get('CreateDescription'), Theme :: get_image_path() . 'browse_add.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP, GroupManager :: PARAM_GROUP_ID => 0), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Export'), Translation :: get('ExportDescription'), Theme :: get_image_path() . 'browse_export.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_EXPORT), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Import'), Translation :: get('ImportDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ImportGroupUsers'), Translation :: get('ImportGroupUsersDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT_GROUP_USERS), array(), false, Redirect :: TYPE_CORE));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        $info['search'] = Redirect :: get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(), false, Redirect :: TYPE_CORE);
+        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS), array(), false, Redirect :: TYPE_CORE);
 
         return $info;
     }
@@ -381,6 +383,21 @@ class GroupManager extends CoreApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

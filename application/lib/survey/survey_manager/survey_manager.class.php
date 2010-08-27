@@ -26,32 +26,34 @@ class SurveyManager extends WebApplication
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
     const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
 
-    const ACTION_DELETE_SURVEY_PUBLICATION = 'delete';
-    const ACTION_EDIT_SURVEY_PUBLICATION = 'edit';
-    const ACTION_CREATE_SURVEY_PUBLICATION = 'create';
-    const ACTION_BROWSE_SURVEY_PUBLICATIONS = 'browse';
-    const ACTION_BROWSE_SURVEY_PAGES = 'browse_pages';
-    const ACTION_BROWSE_SURVEY_PAGE_QUESTIONS = 'browse_page_questions';
-    const ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES = 'manage_categories';
-    const ACTION_VIEW_SURVEY_PUBLICATION = 'view';
-    const ACTION_VIEW_SURVEY_PUBLICATION_RESULTS = 'view_results';
+    const ACTION_DELETE_SURVEY_PUBLICATION = 'deleter';
+    const ACTION_EDIT_SURVEY_PUBLICATION = 'editor';
+    const ACTION_CREATE_SURVEY_PUBLICATION = 'creator';
+    const ACTION_BROWSE_SURVEY_PUBLICATIONS = 'browser';
+    const ACTION_BROWSE_SURVEY_PAGES = 'page_browser';
+    const ACTION_BROWSE_SURVEY_PAGE_QUESTIONS = 'question_browser';
+    const ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES = 'category_manager';
+    const ACTION_VIEW_SURVEY_PUBLICATION = 'viewer';
+    const ACTION_VIEW_SURVEY_PUBLICATION_RESULTS = 'results_viewer';
     const ACTION_REPORTING_FILTER = 'reporting_filter';
     const ACTION_REPORTING = 'reporting';
-    const ACTION_EXCEL_EXPORT = 'excel_export';
+    const ACTION_EXCEL_EXPORT = 'survey_spss_syntax_exporter';
     const ACTION_QUESTION_REPORTING = 'question_reporting';
 
-    const ACTION_IMPORT_SURVEY = 'import_survey';
-    const ACTION_EXPORT_SURVEY = 'export_survey';
-    const ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY = 'change_visibility';
-    const ACTION_MOVE_SURVEY_PUBLICATION = 'move';
-    const ACTION_EXPORT_RESULTS = 'export_results';
-    const ACTION_DOWNLOAD_DOCUMENTS = 'download_documents';
+    const ACTION_IMPORT_SURVEY = 'survey_importer';
+    const ACTION_EXPORT_SURVEY = 'survey_exporter';
+    const ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY = 'visibility_changer';
+    const ACTION_MOVE_SURVEY_PUBLICATION = 'mover';
+    const ACTION_EXPORT_RESULTS = 'results_exporter';
+    const ACTION_DOWNLOAD_DOCUMENTS = 'document_downloader';
 
-    const ACTION_MAIL_SURVEY_PARTICIPANTS = 'mail_survey_participants';
-    const ACTION_INVITE_EXTERNAL_USERS = 'invite';
+    const ACTION_MAIL_SURVEY_PARTICIPANTS = 'mailer';
+    const ACTION_INVITE_EXTERNAL_USERS = 'inviter';
 
-    const ACTION_BUILD_SURVEY = 'build';
-    const ACTION_TESTCASES = 'testcases';
+    const ACTION_BUILD_SURVEY = 'builder';
+    const ACTION_TESTCASES = 'testcase';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_SURVEY_PUBLICATIONS;
 
     /**
      * Constructor
@@ -62,131 +64,6 @@ class SurveyManager extends WebApplication
         parent :: __construct($user);
         //$this->parse_input_from_table();
     }
-
-    /**
-     * Run this survey manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_SURVEY_PUBLICATIONS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_BROWSE_SURVEY_PAGES :
-                $component = $this->create_component('PageBrowser');
-                break;
-            case self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS :
-                $component = $this->create_component('QuestionBrowser');
-                break;
-            case self :: ACTION_TESTCASES :
-                $component = $this->create_component('Testcase');
-                break;
-            case self :: ACTION_DELETE_SURVEY_PUBLICATION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_EDIT_SURVEY_PUBLICATION :
-                $component = $this->create_component('Updater');
-                break;
-            case self :: ACTION_CREATE_SURVEY_PUBLICATION :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_MANAGE_SURVEY_PUBLICATION_CATEGORIES :
-                $component = $this->create_component('CategoryManager');
-                break;
-            case self :: ACTION_VIEW_SURVEY_PUBLICATION :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS :
-                $component = $this->create_component('ResultsViewer');
-                break;
-            case self :: ACTION_REPORTING_FILTER :
-                $component = $this->create_component('ReportingFilter');
-                break;
-            case self :: ACTION_REPORTING :
-                $component = $this->create_component('Reporting');
-                break;
-            case self :: ACTION_QUESTION_REPORTING :
-                $component = $this->create_component('QuestionReporting');
-                break;
-            case self :: ACTION_IMPORT_SURVEY :
-                $component = $this->create_component('SurveyImporter');
-                break;
-            case self :: ACTION_EXPORT_SURVEY :
-                $component = $this->create_component('SurveyExporter');
-                break;
-            case self :: ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY :
-                $component = $this->create_component('VisibilityChanger');
-                break;
-            case self :: ACTION_MOVE_SURVEY_PUBLICATION :
-                $component = $this->create_component('Mover');
-                break;
-            case self :: ACTION_EXPORT_RESULTS :
-                $component = $this->create_component('ResultsExporter');
-                break;
-            case self :: ACTION_DOWNLOAD_DOCUMENTS :
-                $component = $this->create_component('DocumentDownloader');
-                break;
-            case self :: ACTION_MAIL_SURVEY_PARTICIPANTS :
-                $component = $this->create_component('Mailer');
-                break;
-            case self :: ACTION_BUILD_SURVEY :
-                $component = $this->create_component('Builder');
-                break;
-            case self :: ACTION_EXCEL_EXPORT :
-                $component = $this->create_component('SurveySpssSyntaxExporter');
-                break;
-            case self :: ACTION_INVITE_EXTERNAL_USERS :
-                $component = $this->create_component('Inviter');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_SURVEY_PUBLICATIONS);
-                $component = $this->create_component('Browser');
-
-        }
-        $component->run();
-    }
-
-    //	private function parse_input_from_table()
-    //	{
-    //		if (isset($_POST['action']))
-    //		{
-    //
-    //			if (isset($_POST[SurveyPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
-    //			{
-    //				$selected_ids = $_POST[SurveyPublicationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-    //			}
-    //
-    //			if (empty($selected_ids))
-    //			{
-    //				$selected_ids = array();
-    //			}
-    //			elseif (! is_array($selected_ids))
-    //			{
-    //				$selected_ids = array($selected_ids);
-    //			}
-    //
-    //			switch ($_POST['action'])
-    //			{
-    //				case self :: PARAM_REPORTING_SELECTED_SURVEY_PUBLICATIONS :
-    //					$this->set_action(self :: ACTION_REPORTING);
-    //					$_GET[self :: PARAM_SURVEY_PUBLICATION] = $selected_ids;
-    //					break;
-    //				case self :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS :
-    //					$this->set_action(self :: ACTION_DELETE_SURVEY_PUBLICATION);
-    //					$_GET[self :: PARAM_SURVEY_PUBLICATION] = $selected_ids;
-    //					break;
-    //				case self :: PARAM_MAIL_PARTICIPANTS :
-    //					$this->set_action(self :: ACTION_MAIL_SURVEY_PARTICIPANTS);
-    //					$_GET[self :: PARAM_SURVEY_PUBLICATION] = $selected_ids;
-    //					break;
-    //			}
-    //
-    //		}
-    //	}
-
 
     function get_application_name()
     {
@@ -504,7 +381,7 @@ class SurveyManager extends WebApplication
     static function publish_content_object($content_object, $location, $attributes)
     {
 
-		if (! SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (! SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             return Translation :: get('NoRightsForSurveyPublication');
         }
@@ -564,6 +441,21 @@ class SurveyManager extends WebApplication
 
         $publication->create();
         return Translation :: get('PublicationCreated');
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

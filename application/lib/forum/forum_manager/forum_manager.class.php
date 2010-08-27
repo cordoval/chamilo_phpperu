@@ -18,17 +18,19 @@ class ForumManager extends WebApplication
     const PARAM_PUBLICATION_ID = 'publication_id';
     const PARAM_MOVE = 'move';
 
-    const ACTION_DELETE = 'delete_forum_publication';
-    const ACTION_EDIT = 'edit_forum_publication';
-    const ACTION_CREATE = 'create_forum_publication';
-    const ACTION_VIEW = 'view_forum_publications';
-    const ACTION_PUBLISH = 'publish';
-    const ACTION_BROWSE = 'browse';
+    const ACTION_DELETE = 'deleter';
+    const ACTION_EDIT = 'editor';
+    const ACTION_CREATE = 'creator';
+    const ACTION_VIEW = 'viewer';
+    const ACTION_PUBLISH = 'publisher';
+    const ACTION_BROWSE = 'browser';
     const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
-    const ACTION_MOVE = 'move';
-    const ACTION_MANAGE_CATEGORIES = 'manage_categories';
-    const ACTION_EVALUATE = 'evaluate';
-    const ACTION_EDIT_RIGHTS = 'edit_rights';
+    const ACTION_MOVE = 'mover';
+    const ACTION_MANAGE_CATEGORIES = 'category_manager';
+    const ACTION_EVALUATE = 'forum_evaluation';
+    const ACTION_EDIT_RIGHTS = 'rights_editor';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
     private $parameters;
     private $user;
@@ -44,54 +46,6 @@ class ForumManager extends WebApplication
         $this->parameters = array();
         $this->load_rights();
         $this->set_action(Request :: get(self :: PARAM_ACTION));
-    }
-
-    /**
-     * Run this forum manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-
-        switch ($action)
-        {
-            case self :: ACTION_DELETE :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_CREATE :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_BROWSE :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_VIEW :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_EDIT :
-                $component = $this->create_component('Editor');
-                break;
-            case self :: ACTION_MOVE :
-                $component = $this->create_component('Mover');
-                break;
-            case self :: ACTION_TOGGLE_VISIBILITY :
-                $component = $this->create_component('ToggleVisibility');
-                break;
-            case self :: ACTION_MANAGE_CATEGORIES :
-                $component = $this->create_component('CategoryManager');
-                break;
-            case self :: ACTION_EVALUATE :
-            	$component = $this->create_component('ForumEvaluation');
-            	break;
-            case self :: ACTION_EDIT_RIGHTS:
-            	$component = $this->create_component('RightsEditor');
-            	break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE);
-                $component = $this->create_component('Browser');
-
-        }
-        $component->run();
     }
 
     function get_application_name()
@@ -150,22 +104,22 @@ class ForumManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES));
     }
 
-	function get_rights_editor_url($category = null)
+    function get_rights_editor_url($category = null)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, 'category' => $category));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, 'category' => $category));
     }
 
     static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
-    	return ForumDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
+        return ForumDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
     }
 
     static function get_content_object_publication_attribute($object_id)
     {
-    	return ForumDataManager :: get_instance()->get_content_object_publication_attribute($object_id);
+        return ForumDataManager :: get_instance()->get_content_object_publication_attribute($object_id);
     }
 
-	static function count_publication_attributes($user = null, $object_id = null, $condition = null)
+    static function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
         return ForumDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
@@ -205,6 +159,21 @@ class ForumManager extends WebApplication
         //			}
         //		}
         return;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

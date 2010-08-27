@@ -54,7 +54,7 @@ abstract class CoreApplication extends BasicApplication
         $applications[] = 'menu';
         $applications[] = 'webservice';
         $applications[] = 'reporting';
-        
+
         return $applications;
     }
 
@@ -101,10 +101,18 @@ abstract class CoreApplication extends BasicApplication
         $class = self :: get_application_class_name($application);
         return new $class($user);
     }
-    
+
     static function get_application_manager_path($application_name)
     {
     	return self :: get_application_path($application_name) . 'lib/' . $application_name . '_manager' . '/' . $application_name . '_manager.class.php';
+    }
+
+
+
+
+    static function get_component_path($application)
+    {
+        return self :: get_application_path($application) . 'lib/' . $application . '_manager/component/';
     }
 }
 

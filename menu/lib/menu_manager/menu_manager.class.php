@@ -17,7 +17,7 @@ class MenuManager extends CoreApplication
     const PARAM_DIRECTION = 'direction';
     const PARAM_CATEGORY = 'category';
 
-    const ACTION_SORT_MENU = 'sort';
+    const ACTION_SORT_MENU = 'sorter';
 
     const ACTION_COMPONENT_BROWSE_CATEGORY = 'browse';
     const ACTION_COMPONENT_ADD_CATEGORY = 'add';
@@ -27,6 +27,8 @@ class MenuManager extends CoreApplication
     const ACTION_COMPONENT_CAT_EDIT = 'edit_category';
     const ACTION_COMPONENT_CAT_ADD = 'add_category';
 
+    const DEFAULT_ACTION = self :: ACTION_SORT_MENU;
+
     private $parameters;
     private $user;
     private $breadcrumbs;
@@ -34,30 +36,6 @@ class MenuManager extends CoreApplication
     function MenuManager($user)
     {
         parent :: __construct($user);
-    }
-
-    /**
-     * Run this user manager
-     */
-    function run()
-    {
-        /*
-		 * Only setting breadcrumbs here. Some stuff still calls
-		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
-		 */
-        //$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_SORT_MENU :
-                $component = $this->create_component('Sorter');
-                break;
-            default :
-                $this->set_action(self :: ACTION_SORT_MENU);
-                $component = $this->create_component('Sorter');
-        }
-        $component->run();
     }
 
     function count_navigation_items($condition = null)
@@ -83,7 +61,7 @@ class MenuManager extends CoreApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_sort.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_SORT_MENU), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_sort.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_SORT_MENU), array(), false, Redirect :: TYPE_CORE));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
@@ -134,6 +112,21 @@ class MenuManager extends CoreApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

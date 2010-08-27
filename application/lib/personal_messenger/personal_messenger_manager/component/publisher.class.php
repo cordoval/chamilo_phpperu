@@ -21,7 +21,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
 
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('personal messenger general');
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: ACTION_FOLDER_INBOX)), Translation :: get('MyPersonalMessenger')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: FOLDER_INBOX)), Translation :: get('MyPersonalMessenger')));
 
         $repo_viewer = new RepoViewer($this, PersonalMessage :: get_type_name(), RepoViewer :: SELECT_SINGLE);
         $repo_viewer->set_parameter('reply', $reply);
@@ -38,8 +38,8 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
                 $defaults['title'] = (substr($title, 0, 3) == 'RE:') ? $title : 'RE: ' . $title;
                 $repo_viewer->set_creation_defaults($defaults);
 
-                $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: ACTION_FOLDER_INBOX)), Translation :: get(ucfirst(PersonalMessengerManager :: ACTION_FOLDER_INBOX))));
-                $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_VIEW_PUBLICATION, PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID => $reply, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: ACTION_FOLDER_INBOX)), $lo->get_title()));
+                $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: FOLDER_INBOX)), Translation :: get(ucfirst(PersonalMessengerManager :: FOLDER_INBOX))));
+                $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_VIEW_PUBLICATION, PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID => $reply, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: FOLDER_INBOX)), $lo->get_title()));
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Reply')));
             }
             else

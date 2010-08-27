@@ -39,7 +39,7 @@ class PersonalMessengerPublicationRSS extends PublicationRSS
 	{
 		$params[Application :: PARAM_ACTION] = PersonalMessengerManager :: ACTION_VIEW_PUBLICATION;
 		$params[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID] = $pub->get_id();
-		$params[PersonalMessengerManager :: PARAM_FOLDER] = PersonalMessengerManager :: ACTION_FOLDER_INBOX;
+		$params[PersonalMessengerManager :: PARAM_FOLDER] = PersonalMessengerManager :: FOLDER_INBOX;
 		return Path :: get(WEB_PATH).Redirect :: get_link(PersonalMessengerManager :: APPLICATION_NAME, $params);
 	}
 	

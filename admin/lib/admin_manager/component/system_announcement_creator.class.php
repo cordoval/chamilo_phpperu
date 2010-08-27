@@ -19,27 +19,17 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishSystemAnnouncement')));
         $trail->add_help('administration system announcements');
 
-        $publisher = $this->get_publisher_html();
-
-        $this->display_header();
-        echo $publisher;
-        echo '<div style="clear: both;"></div>';
-        $this->display_footer();
-    }
-
-    private function get_publisher_html()
-    {
         $repo_viewer = new RepoViewer($this, SystemAnnouncement :: get_type_name());
 
-        if (!$repo_viewer->is_ready_to_be_published())
+        if (! $repo_viewer->is_ready_to_be_published())
         {
             $repo_viewer->run();
         }
         else
         {
-            //$html[] = 'ContentObject: ';
             $publisher = new SystemAnnouncerMultipublisher($this);
             $publisher->get_publications_form($repo_viewer->get_selected_objects());
+            echo '<div style="clear: both;"></div>';
         }
     }
 }

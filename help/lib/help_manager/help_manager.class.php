@@ -14,40 +14,20 @@ class HelpManager extends CoreApplication
 
     const PARAM_HELP_ITEM = 'help_item';
 
-    const ACTION_UPDATE_HELP_ITEM = 'update';
-    const ACTION_BROWSE_HELP_ITEMS = 'browse';
+    const ACTION_UPDATE_HELP_ITEM = 'updater';
+    const ACTION_BROWSE_HELP_ITEMS = 'browser';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_HELP_ITEMS;
 
     function HelpManager($user = null)
     {
         parent :: __construct($user);
     }
 
-    /**
-     * Run this user manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_HELP_ITEMS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_UPDATE_HELP_ITEM :
-                $component = $this->create_component('Updater');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_HELP_ITEMS);
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
-    }
-
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_HELP_ITEMS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_HELP_ITEMS), array(), false, Redirect :: TYPE_CORE));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
@@ -115,6 +95,21 @@ class HelpManager extends CoreApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

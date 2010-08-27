@@ -25,15 +25,17 @@ class PortfolioManager extends WebApplication
     const PROPERTY_PID = 'pid';
     const PROPERTY_CID = 'cid';
 
-    const ACTION_DELETE_PORTFOLIO_PUBLICATION = 'delete_portfolio_publication';
-    const ACTION_DELETE_PORTFOLIO_ITEM = 'delete_portfolio_item';
-    const ACTION_CREATE_PORTFOLIO_PUBLICATION = 'create_portfolio_publication';
-    const ACTION_CREATE_PORTFOLIO_ITEM = 'create_portfolio_item';
-    const ACTION_CREATE_PORTFOLIO_INTRODUCTION = 'create_portfolio_introduction';
-    const ACTION_VIEW_PORTFOLIO = 'view_portfolio';
-    const ACTION_BROWSE = 'browse';
-    const ACTION_SET_PORTFOLIO_DEFAULTS = 'set_defaults';
-    const ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW = "rights_overview";
+    const ACTION_DELETE_PORTFOLIO_PUBLICATION = 'portfolio_publication_deleter';
+    const ACTION_DELETE_PORTFOLIO_ITEM = 'portfolio_item_deleter';
+    const ACTION_CREATE_PORTFOLIO_PUBLICATION = 'portfolio_publication_creator';
+    const ACTION_CREATE_PORTFOLIO_ITEM = 'portfolio_item_creator';
+    const ACTION_CREATE_PORTFOLIO_INTRODUCTION = 'portfolio_introduction_creator';
+    const ACTION_VIEW_PORTFOLIO = 'viewer';
+    const ACTION_BROWSE = 'browser';
+    const ACTION_SET_PORTFOLIO_DEFAULTS = 'admin_default_settings_creator';
+    const ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW = 'rights_overview';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
     const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
     const ACTION_PUBLISHER = 'publisher';
@@ -48,59 +50,6 @@ class PortfolioManager extends WebApplication
     function PortfolioManager($user = null)
     {
         parent :: __construct($user);
-    }
-
-    /**
-     * Run this portfolio manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_VIEW_PORTFOLIO :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_DELETE_PORTFOLIO_PUBLICATION :
-                $component = $this->create_component('PortfolioPublicationDeleter');
-                break;
-            case self :: ACTION_DELETE_PORTFOLIO_ITEM :
-                $component = $this->create_component('PortfolioItemDeleter');
-                break;
-            case self :: ACTION_CREATE_PORTFOLIO_PUBLICATION :
-                $component = $this->create_component('PortfolioPublicationCreator');
-                break;
-            case self :: ACTION_CREATE_PORTFOLIO_ITEM :
-                $component = $this->create_component('PortfolioItemCreator');
-                break;
-            case self :: ACTION_CREATE_PORTFOLIO_INTRODUCTION :
-                $component = $this->create_component('PortfolioIntroductionCreator');
-                break;
-            case self :: ACTION_BROWSE :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_SET_PORTFOLIO_DEFAULTS :
-                $component = $this->create_component('AdminDefaultSettingsCreator');
-                break;
-            case self :: ACTION_SHOW_PORTFOLIO_RIGHTS_OVERVIEW :
-                $component = $this->create_component('RightsOverview');
-                break;
-            default :
-                if (PlatformSetting :: get('first_page', 'portfolio') == 0)
-                {
-                    $this->set_action(self :: ACTION_BROWSE);
-                    $component = $this->create_component('Browser');
-                }
-                else
-                {
-                    $this->set_action(self :: ACTION_VIEW_PORTFOLIO);
-                    $component = $this->create_component('Viewer');
-                    $_GET[self :: PARAM_PORTFOLIO_OWNER_ID] = $this->get_user_id();
-                }
-
-        }
-        $component->run();
     }
 
     function get_application_name()
@@ -616,6 +565,29 @@ class PortfolioManager extends WebApplication
         $html[] = '</div>';
 
         return implode("\n", $html);
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        if (PlatformSetting :: get('first_page', self :: APPLICATION_NAME) == 0)
+        {
+            return self :: DEFAULT_ACTION;
+        }
+        else
+        {
+            Request :: set_get(self :: PARAM_PORTFOLIO_OWNER_ID, Session :: get_user_id());
+            return self :: ACTION_VIEW_PORTFOLIO;
+        }
     }
 
 }

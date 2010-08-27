@@ -18,15 +18,17 @@ class TrackingManager extends CoreApplication
     const PARAM_TYPE = 'type';
     const PARAM_EXTRA = 'extra';
 
-    const ACTION_BROWSE_EVENTS = 'browse_events';
-    const ACTION_VIEW_EVENT = 'view_event';
-    const ACTION_CHANGE_ACTIVE = 'changeactive';
-    const ACTION_ACTIVATE_EVENT = 'activate_event';
-    const ACTION_DEACTIVATE_EVENT = 'deactivate_event';
+    const ACTION_BROWSE_EVENTS = 'admin_event_browser';
+    const ACTION_VIEW_EVENT = 'admin_event_viewer';
+    const ACTION_CHANGE_ACTIVE = 'activity_changer';
+    const ACTION_ACTIVATE_EVENT = 'event_activator';
+    const ACTION_DEACTIVATE_EVENT = 'event_deactivator';
     const ACTION_EMPTY_TRACKER = 'empty_tracker';
-    const ACTION_EMPTY_EVENT_TRACKERS = 'empty_event_trackers';
-    const ACTION_ARCHIVE = 'archive';
-    const ACTION_MANAGE_RIGHTS = 'manage_rights';
+    const ACTION_EMPTY_EVENT_TRACKERS = 'empty_event_tracker';
+    const ACTION_ARCHIVE = 'archiver';
+    const ACTION_MANAGE_RIGHTS = 'rights_editor';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_EVENTS;
 
     private $tdm;
 
@@ -46,63 +48,13 @@ class TrackingManager extends CoreApplication
     }
 
     /**
-     * Run this tracking manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_EVENTS :
-                $component = $this->create_component('AdminEventBrowser');
-                break;
-            case self :: ACTION_VIEW_EVENT :
-                $component = $this->create_component('AdminEventViewer');
-                break;
-            case self :: ACTION_CHANGE_ACTIVE :
-                $component = $this->create_component('ActivityChanger');
-                break;
-            case self :: ACTION_ACTIVATE_EVENT :
-                $component = $this->create_component('ActivityChanger');
-                Request :: set_get(self :: PARAM_TYPE, 'event');
-                Request :: set_get(self :: PARAM_EXTRA, 'enable');
-                break;
-            case self :: ACTION_DEACTIVATE_EVENT :
-                $component = $this->create_component('ActivityChanger');
-                Request :: set_get(self :: PARAM_TYPE, 'event');
-                Request :: set_get(self :: PARAM_EXTRA, 'disable');
-                break;
-            case self :: ACTION_EMPTY_TRACKER :
-                $component = $this->create_component('EmptyTracker');
-                break;
-            case self :: ACTION_EMPTY_EVENT_TRACKERS :
-                $component = $this->create_component('EmptyTracker');
-                Request :: set_get(self :: PARAM_TYPE, 'event');
-                break;
-            case self :: ACTION_ARCHIVE :
-                $component = $this->create_component('Archiver');
-                break;
-            case self :: ACTION_MANAGE_RIGHTS:
-            	$component = $this->create_component('RightsEditor');
-                break;
-            default :
-                $component = $this->create_component('AdminEventBrowser');
-                break;
-        }
-
-        if ($component)
-            $component->run();
-    }
-
-    /**
      * Method used by the administrator module to get the application links
      */
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_EVENTS), array(), false, Redirect :: TYPE_CORE));
-        $links[] = new DynamicAction(Translation :: get('Archive'), Translation :: get('ArchiveDescription'), Theme :: get_image_path() . 'browse_archive.png', Redirect :: get_link(array(Application :: PARAM_ACTION => self :: ACTION_ARCHIVE), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_EVENTS), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Archive'), Translation :: get('ArchiveDescription'), Theme :: get_image_path() . 'browse_archive.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_ARCHIVE), array(), false, Redirect :: TYPE_CORE));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
@@ -238,8 +190,22 @@ class TrackingManager extends CoreApplication
 
     function get_manage_rights_url($event_id)
     {
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS, self :: PARAM_EVENT_ID => $event_id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_RIGHTS, self :: PARAM_EVENT_ID => $event_id));
     }
 
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
 }
 ?>
