@@ -6,7 +6,7 @@
 require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/feedback/feedback.class.php';
 
-class ComplexDisplayComplexFeedbackComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentComplexFeedbackComponent extends ComplexDisplayComponent
 {
     private $pub;
     private $content_object;

@@ -8,7 +8,7 @@
  */
 
 
-class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentCreatorComponent extends ComplexDisplayComponent
 {
 
     function run()

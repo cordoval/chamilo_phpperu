@@ -9,8 +9,7 @@ class BlogDisplayDeleterComponent extends BlogDisplay
 {
     function run()
     {
-        $browser = ComplexDisplayComponent :: factory(ComplexDisplayComponent :: DELETER_COMPONENT, $this);
-        $browser->run();
+        ComplexDisplayComponent :: launch($this);
     }
 }
 

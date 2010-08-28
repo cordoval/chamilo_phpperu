@@ -4,8 +4,7 @@ class GoogleDocsExternalRepositoryManagerViewerComponent extends GoogleDocsExter
 
     function run()
     {
-        $viewer = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: VIEWER_COMPONENT, $this);
-        $viewer->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 }
 ?>

@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
 /**
  */
-class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
+class ComplexBuilderComponentDeleterComponent extends ComplexBuilderComponent
 {
 
     /**

@@ -16,9 +16,8 @@ class SurveyManagerTestcaseComponent extends SurveyManager
             $this->display_footer();
             exit();
         }
-    	
-    	$testcase_manager = new TestcaseManager($this);
-        $testcase_manager->run();
+        
+        TestcaseManager :: launch($this);
     }
 }
 ?>

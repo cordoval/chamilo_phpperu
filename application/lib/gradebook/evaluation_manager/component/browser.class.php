@@ -6,15 +6,14 @@ class EvaluationManagerBrowserComponent extends EvaluationManager
     private $action_bar;
 
     function run()
-    {   
-    	$trail = $this->get_trail();
-    	$this->display_header($trail);
+    {
+        $this->display_header();
         $this->action_bar = $this->get_toolbar();
         
         echo $this->action_bar->as_html();
         echo $this->get_table();
         
-    	$this->display_footer();
+        $this->display_footer();
     }
 
     function get_table()

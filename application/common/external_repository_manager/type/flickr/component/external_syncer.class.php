@@ -4,8 +4,7 @@ class FlickrExternalRepositoryManagerExternalSyncerComponent extends FlickrExter
 
     function run()
     {
-        $syncer = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: EXTERNAL_SYNCER_COMPONENT, $this);
-        $syncer->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 
     function synchronize_external_repository_object(ExternalRepositoryObject $external_object)

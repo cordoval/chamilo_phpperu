@@ -1,5 +1,5 @@
 <?php
-class ExternalRepositoryImporterComponent extends ExternalRepositoryComponent
+class ExternalRepositoryComponentImporterComponent extends ExternalRepositoryComponent
 {
 
     function run()

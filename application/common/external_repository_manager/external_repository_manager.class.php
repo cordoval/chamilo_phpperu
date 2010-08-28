@@ -145,10 +145,10 @@ abstract class ExternalRepositoryManager extends SubManager
     /* (non-PHPdoc)
      * @see common/SubManager#get_application_component_path()
      */
-    function get_application_component_path()
-    {
-        return Path :: get_application_library_path() . 'external_repository_manager/component/';
-    }
+//    function get_application_component_path()
+//    {
+//        return Path :: get_application_library_path() . 'external_repository_manager/component/';
+//    }
 
     /**
      * @return string

@@ -8,8 +8,7 @@ class WikiDisplayContentObjectUpdaterComponent extends WikiDisplay
 
     function run()
     {
-        $browser = ComplexDisplayComponent :: factory(ComplexDisplayComponent :: CONTENT_OBJECT_UPDATER_COMPONENT, $this);
-        $browser->run();
+        ComplexDisplayComponent :: launch($this);
     }
 }
 ?>

@@ -24,13 +24,15 @@ abstract class ComplexBuilder extends SubManager
     const PARAM_DIRECTION = 'direction';
 
 
-    const ACTION_BROWSE = 'browse';
-    const ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM = 'delete_cloi';
-    const ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM = 'view_cloi';
-    const ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM = 'update_cloi';
-    const ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM = 'create_cloi';
-    const ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM = 'move_cloi';
-    const ACTION_CHANGE_PARENT = 'change_parent';
+    const ACTION_BROWSE = 'browser';
+    const ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM = 'deleter';
+    const ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM = 'viewer';
+    const ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM = 'updater';
+    const ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM = 'creator';
+    const ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM = 'mover';
+    const ACTION_CHANGE_PARENT = 'parent_changer';
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
     protected $menu;
 

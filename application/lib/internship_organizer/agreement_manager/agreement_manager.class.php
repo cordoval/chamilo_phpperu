@@ -20,29 +20,31 @@ class InternshipOrganizerAgreementManager extends SubManager
     const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
     const PARAM_PUBLICATION_ID = 'publication_id';
     
-    const ACTION_CREATE_AGREEMENT = 'create';
-    const ACTION_BROWSE_AGREEMENT = 'browse';
-    const ACTION_UPDATE_AGREEMENT = 'update';
-    const ACTION_DELETE_AGREEMENT = 'delete';
-    const ACTION_VIEW_AGREEMENT = 'view';
-    const ACTION_PUBLISH_AGREEMENT = 'publish';
-    const ACTION_VIEW_PUBLICATION = 'view_publication';
-    const ACTION_SUBSCRIBE_LOCATION_TO_AGREEMENT = 'subscribe';
-    const ACTION_UNSUBSCRIBE_LOCATION_FROM_AGREEMENT = 'unsubscribe';
+    const ACTION_CREATE_AGREEMENT = 'creator';
+    const ACTION_BROWSE_AGREEMENT = 'browser';
+    const ACTION_UPDATE_AGREEMENT = 'updater';
+    const ACTION_DELETE_AGREEMENT = 'deleter';
+    const ACTION_VIEW_AGREEMENT = 'viewer';
+    const ACTION_PUBLISH_AGREEMENT = 'publisher';
+    const ACTION_VIEW_PUBLICATION = 'publication_viewer';
+    const ACTION_SUBSCRIBE_LOCATION_TO_AGREEMENT = 'subscriber';
+    const ACTION_UNSUBSCRIBE_LOCATION_FROM_AGREEMENT = 'unsubscriber';
     
-    const ACTION_MOVE_AGREEMENT_REL_LOCATION = 'move';
-    const ACTION_APPROVE_AGREEMENT_REL_LOCATION = 'approve';
+    const ACTION_MOVE_AGREEMENT_REL_LOCATION = 'mover';
+    const ACTION_APPROVE_AGREEMENT_REL_LOCATION = 'approve_location';
     
-    const ACTION_CREATE_MOMENT = 'create_moment';
-    const ACTION_BROWSE_MOMENTS = 'browse_moments';
-    const ACTION_EDIT_MOMENT = 'edit_moment';
-    const ACTION_DELETE_MOMENT = 'delete_moment';
-    const ACTION_VIEW_MOMENT = 'view_moment';
-    const ACTION_PUBLISH_MOMENT = 'publish_moment';
+    const ACTION_CREATE_MOMENT = 'moment_creator';
+    const ACTION_BROWSE_MOMENTS = 'moment_browser';
+    const ACTION_EDIT_MOMENT = 'moment_updater';
+    const ACTION_DELETE_MOMENT = 'moment_deleter';
+    const ACTION_VIEW_MOMENT = 'moment_viewer';
+    const ACTION_PUBLISH_MOMENT = 'moment_publisher';
     const ACTION_REPORTING = 'reporting';
     
-    const ACTION_SUBSCRIBE_LOCATION = 'subscribe_location';
+    const ACTION_SUBSCRIBE_LOCATION = 'subscribe_location_browser';
     const ACTION_SUBSCRIBE_MENTOR = 'subscribe_mentor';
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_AGREEMENT;
 
     function InternshipOrganizerAgreementManager($internship_manager)
     {
@@ -54,80 +56,6 @@ class InternshipOrganizerAgreementManager extends SubManager
         }
         $this->parse_input_from_table();
     
-    }
-
-    function run()
-    {
-        $action = $this->get_parameter(self :: PARAM_ACTION);
-        
-        switch ($action)
-        {
-            case self :: ACTION_UPDATE_AGREEMENT :
-                $component = $this->create_component('Updater');
-                break;
-            case self :: ACTION_DELETE_AGREEMENT :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_CREATE_AGREEMENT :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_VIEW_AGREEMENT :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_BROWSE_AGREEMENT :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_REPORTING :
-                $component = $this->create_component('Reporting');
-                break;
-            case self :: ACTION_PUBLISH_AGREEMENT :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_VIEW_PUBLICATION :
-                $component = $this->create_component('PublicationViewer');
-                break;
-            case self :: ACTION_EDIT_MOMENT :
-                $component = $this->create_component('MomentUpdater');
-                break;
-            case self :: ACTION_DELETE_MOMENT :
-                $component = $this->create_component('MomentDeleter');
-                break;
-            case self :: ACTION_CREATE_MOMENT :
-                $component = $this->create_component('MomentCreator');
-                break;
-            case self :: ACTION_BROWSE_MOMENTS :
-                $component = $this->create_component('MomentBrowser');
-                break;
-            case self :: ACTION_VIEW_MOMENT :
-                $component = $this->create_component('MomentViewer');
-                break;
-            case self :: ACTION_PUBLISH_MOMENT :
-                $component = $this->create_component('MomentPublisher');
-                break;
-            case self :: ACTION_SUBSCRIBE_LOCATION :
-                $component = $this->create_component('SubscribeLocationBrowser');
-                break;
-            case self :: ACTION_UNSUBSCRIBE_LOCATION_FROM_AGREEMENT :
-                $component = $this->create_component('Unsubscriber');
-                break;
-            case self :: ACTION_SUBSCRIBE_LOCATION_TO_AGREEMENT :
-                $component = $this->create_component('Subscriber');
-                break;
-            case self :: ACTION_MOVE_AGREEMENT_REL_LOCATION :
-                $component = $this->create_component('Mover');
-                break;
-            case self :: ACTION_APPROVE_AGREEMENT_REL_LOCATION :
-                $component = $this->create_component('ApproveLocation');
-                break;
-            case self :: ACTION_SUBSCRIBE_MENTOR :
-                $component = $this->create_component('SubscribeMentor');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-                break;
-        }
-        
-        $component->run();
     }
 
     function get_application_component_path()
@@ -184,11 +112,12 @@ class InternshipOrganizerAgreementManager extends SubManager
         return InternshipOrganizerDataManager :: get_instance()->retrieve_moment($id);
     }
 
-//	function retrieve_user($id)
-//    {
-//        return UserDataManager :: get_instance()->retrieve_user($id);
-//    }
+    //	function retrieve_user($id)
+    //    {
+    //        return UserDataManager :: get_instance()->retrieve_user($id);
+    //    }
     
+
     //url creation
     function get_create_agreement_url()
     {
@@ -345,6 +274,44 @@ class InternshipOrganizerAgreementManager extends SubManager
     private function set_agreement_action($action)
     {
         $this->set_parameter(self :: PARAM_ACTION, $action);
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        parent :: launch(__CLASS__, $application);
     }
 }
 

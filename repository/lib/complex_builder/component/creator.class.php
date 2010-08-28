@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
 //require_once dirname(__FILE__) . '/../../complex_repo_viewer/complex_repo_viewer.class.php';
 
-class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
+class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent
 {
     private $rdm;
     private $root_content_object_id;

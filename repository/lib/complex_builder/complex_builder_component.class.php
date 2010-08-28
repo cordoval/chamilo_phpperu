@@ -31,7 +31,7 @@ abstract class ComplexBuilderComponent extends SubManager
 
     	require_once $file;
 
-    	$class = 'ComplexBuilder' . Utilities :: underscores_to_camelcase($type) . 'Component';
+    	$class = 'ComplexBuilderComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
     	return new $class($application);
 	}
 
@@ -89,13 +89,52 @@ abstract class ComplexBuilderComponent extends SubManager
     	return $this->get_complex_content_object_parent_changer_url($complex_content_object_item, $root_content_object_id);
     }
 
-    function get_application_component_path()
-    {
-    }
+	function get_application_component_path()
+	{
+		return Path :: get_repository_path() . 'lib/complex_builder/component/';
+	}
 
     function get_action_bar(ContentObject $content_object)
     {
         return $this->get_parent()->get_action_bar($content_object);
+    }
+    
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return ComplexBuilder :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return ComplexBuilder :: PARAM_BUILDER_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        parent :: launch(__CLASS__, $application);
     }
 }
 

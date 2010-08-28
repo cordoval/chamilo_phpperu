@@ -9,8 +9,7 @@ class GlossaryBuilderBrowserComponent extends GlossaryBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
-        $browser->run();
+        ComplexBuilderComponent :: launch($this);
     }
     
     function get_action_bar()

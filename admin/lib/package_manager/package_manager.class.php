@@ -16,21 +16,24 @@ class PackageManager extends SubManager
     const PARAM_PACKAGE = 'package';
     const PARAM_INSTALL_TYPE = 'type';
     const PARAM_SECTION = 'section';
-
-    const ACTION_BROWSE_PACKAGES = 'browse';
-    const ACTION_ACTIVATE_PACKAGE = 'activate';
-    const ACTION_DEACTIVATE_PACKAGE = 'deactivate';
+    
+    const ACTION_BROWSE_PACKAGES = 'browser';
+    const ACTION_ACTIVATE_PACKAGE = 'activator';
+    const ACTION_DEACTIVATE_PACKAGE = 'deactivator';
     const ACTION_REMOTE_PACKAGE = 'remote';
     const ACTION_LOCAL_PACKAGE = 'local';
+    const ACTION_SYNCHRONISE_REMOTE_PACKAGES = 'synchroniser';
+    const ACTION_INSTALL_PACKAGE = 'installer';
+    const ACTION_UPDATE_PACKAGE = 'updater';
+    const ACTION_REMOVE_PACKAGE = 'remover';
+    
+    const ACTION_VIEW_REGISTRATION = 'viewer';
+    
     const ACTION_ARCHIVE_PACKAGE = 'archive';
     const ACTION_UPDATE_PACKAGE_ARCHIVE= 'update_archive';
-    const ACTION_SYNCHRONISE_REMOTE_PACKAGES = 'synchronise';
-    const ACTION_INSTALL_PACKAGE = 'install';
-    const ACTION_UPDATE_PACKAGE = 'update';
-    const ACTION_REMOVE_PACKAGE = 'remove';
-
-    const ACTION_VIEW_REGISTRATION = 'view_registration';
-
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_PACKAGES;
+    
     const INSTALL_REMOTE = 'remote';
     const INSTALL_ARCHIVE = 'archive';
     const INSTALL_LOCAL = 'local';
@@ -38,58 +41,14 @@ class PackageManager extends SubManager
     function PackageManager($admin_manager)
     {
         parent :: __construct($admin_manager);
-
+        
         $package_action = Request :: get(self :: PARAM_PACKAGE_ACTION);
         if ($package_action)
         {
             $this->set_action($package_action);
         }
-
+        
         $this->parse_input_from_table();
-    }
-
-    function run()
-    {
-        $package_action = $this->get_action();
-
-        switch ($package_action)
-        {
-            case self :: ACTION_BROWSE_PACKAGES :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_ACTIVATE_PACKAGE :
-                $component = $this->create_component('Activator');
-                break;
-            case self :: ACTION_DEACTIVATE_PACKAGE :
-                $component = $this->create_component('Deactivator');
-                break;
-            case self :: ACTION_REMOTE_PACKAGE :
-                $component = $this->create_component('Remote');
-                break;
-            case self :: ACTION_SYNCHRONISE_REMOTE_PACKAGES :
-                $component = $this->create_component('Synchroniser');
-                break;
-            case self :: ACTION_INSTALL_PACKAGE :
-                $component = $this->create_component('Installer');
-                break;
-            case self :: ACTION_UPDATE_PACKAGE :
-                $component = $this->create_component('Updater');
-                break;
-            case self :: ACTION_LOCAL_PACKAGE :
-                $component = $this->create_component('Local');
-                break;
-            case self :: ACTION_REMOVE_PACKAGE :
-                $component = $this->create_component('Remover');
-                break;
-            case self :: ACTION_VIEW_REGISTRATION :
-                $component = $this->create_component('Viewer');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-                break;
-        }
-
-        $component->run();
     }
 
     function set_action($action)
@@ -107,7 +66,7 @@ class PackageManager extends SubManager
         if (isset($_POST['action']))
         {
             $selected_ids = Request :: post(RegistrationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-
+            
             if (empty($selected_ids))
             {
                 $selected_ids = array();
@@ -127,7 +86,7 @@ class PackageManager extends SubManager
                     Request :: set_get(self :: PARAM_REGISTRATION, $selected_ids);
                     break;
             }
-
+        
         }
     }
 
@@ -146,7 +105,6 @@ class PackageManager extends SubManager
         return $this->get_parent()->retrieve_registrations($condition, $order_by, $offset, $max_objects);
     }
 
-    
     function count_registrations($condition = null)
     {
         return $this->get_parent()->count_registrations($condition);
@@ -159,9 +117,9 @@ class PackageManager extends SubManager
 
     function get_registration_update_archive_url($registration)
     {
-    	return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_UPDATE_PACKAGE_ARCHIVE, self :: PARAM_REGISTRATION => $registration->get_id()));
+        return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_UPDATE_PACKAGE_ARCHIVE, self :: PARAM_REGISTRATION => $registration->get_id()));
     }
-    
+
     function get_registration_update_url($registration)
     {
         return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_UPDATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id(), self :: PARAM_INSTALL_TYPE => self :: INSTALL_REMOTE));
@@ -209,6 +167,44 @@ class PackageManager extends SubManager
     function retrieve_remote_packages($condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
         return $this->get_parent()->retrieve_remote_packages($condition, $order_by, $offset, $max_objects);
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_PACKAGE_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        parent :: launch(__CLASS__, $application);
     }
 }
 ?>

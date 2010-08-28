@@ -11,8 +11,7 @@ class IndicatorBuilderBrowserComponent extends IndicatorBuilder
 
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
-        $browser->run();
+        ComplexBuilderComponent :: launch($this);
         
         /*
         $trail = BreadcrumbTrail :: get_instance();

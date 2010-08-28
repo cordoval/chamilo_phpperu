@@ -17,8 +17,7 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
 
     function run()
     {
-    	//$creator = ComplexBuilderComponent :: factory(ComplexBuilderComponent::CREATOR_COMPONENT, $this);
-        //$creator->run();
+    	//ComplexBuilderComponent :: launch($this);
     //}
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository builder');

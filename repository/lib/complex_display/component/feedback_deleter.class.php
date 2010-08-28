@@ -4,7 +4,7 @@
  * @package repository.lib.complex_display.assessment.component
  */
 
-class ComplexDisplayFeedbackDeleterComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentFeedbackDeleterComponent extends ComplexDisplayComponent
 {
     private $cid;
     private $pid;

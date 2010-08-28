@@ -8,8 +8,7 @@ class InternshipOrganizerManagerRegionComponent extends InternshipOrganizerManag
      */
     function run()
     {
-        $region_manager = new InternshipOrganizerRegionManager($this);
-        $region_manager->run();
+        InternshipOrganizerRegionManager :: launch($this);
     }
 }
 ?>

@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
 
-class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
+class ComplexBuilderComponentBrowserComponent extends ComplexBuilderComponent
 {
 
     function run()

@@ -6,8 +6,7 @@ class IndicatorBuilderMoverComponent extends IndicatorBuilder
 
     function run()
     {
-        $mover = ComplexBuilderComponent :: factory(ComplexBuilderComponent::MOVER_COMPONENT, $this);
-        $mover->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 ?>

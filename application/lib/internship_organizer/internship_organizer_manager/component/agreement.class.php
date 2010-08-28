@@ -8,8 +8,7 @@ class InternshipOrganizerManagerAgreementComponent extends InternshipOrganizerMa
      */
     function run()
     {
-        $agreement_manager = new InternshipOrganizerAgreementManager($this);
-        $agreement_manager->run();
+        InternshipOrganizerAgreementManager :: launch($this);
     }
 }
 ?>

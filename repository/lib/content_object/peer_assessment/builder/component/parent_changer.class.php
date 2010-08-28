@@ -6,8 +6,7 @@ class PeerAssessmentBuilderParentChangerComponent extends PeerAssessmentBuilder
 
     function run()
     {
-        $parent_changer = ComplexBuilderComponent :: factory(ComplexBuilderComponent::PARENT_CHANGER_COMPONENT, $this);
-        $parent_changer->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 ?>

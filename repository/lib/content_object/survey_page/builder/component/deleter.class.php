@@ -8,8 +8,7 @@ class SurveyPageBuilderDeleterComponent extends SurveyPageBuilder
 {
     function run()
     {
-        $deleter = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: DELETER_COMPONENT, $this);
-        $deleter->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 

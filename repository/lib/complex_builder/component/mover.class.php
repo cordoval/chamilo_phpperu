@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
  */
-class ComplexBuilderMoverComponent extends ComplexBuilderComponent
+class ComplexBuilderComponentMoverComponent extends ComplexBuilderComponent
 {
 
     /**

@@ -12,7 +12,7 @@
 
 require_once PATH :: get_application_path() . '/lib/weblcms/weblcms_manager/weblcms_manager.class.php';
 
-class ComplexDisplayReportingTemplateViewerComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentReportingTemplateViewerComponent extends ComplexDisplayComponent
 {
     private $params;
     private $template_name;

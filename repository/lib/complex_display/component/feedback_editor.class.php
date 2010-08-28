@@ -5,7 +5,7 @@
  */
 require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
 
-class ComplexDisplayFeedbackEditComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentFeedbackEditComponent extends ComplexDisplayComponent
 {
 
     function run()

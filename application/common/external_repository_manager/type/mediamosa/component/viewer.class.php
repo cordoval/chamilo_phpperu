@@ -11,8 +11,7 @@ class MediamosaExternalRepositoryManagerViewerComponent extends MediamosaExterna
 {
     function run()
     {
-        $viewer = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: VIEWER_COMPONENT, $this);
-        $viewer->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 
 //    function run()

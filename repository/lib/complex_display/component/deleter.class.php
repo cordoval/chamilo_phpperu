@@ -7,7 +7,7 @@
  * @author Michael Kyndt
  */
 
-class ComplexDisplayDeleterComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentDeleterComponent extends ComplexDisplayComponent
 {
 
     function run()

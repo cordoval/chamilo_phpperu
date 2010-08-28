@@ -14,8 +14,7 @@ class PhrasesManagerLevelerComponent extends PhrasesManager
      */
     function run()
     {
-        $mastery_level_manager = new PhrasesMasteryLevelManager($this);
-        $mastery_level_manager->run();
+        PhrasesMasteryLevelManager :: launch($this);
     }
 }
 ?>

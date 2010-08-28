@@ -16,11 +16,13 @@ class InternshipOrganizerRegionManager extends SubManager
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_TRUNCATE_SELECTED = 'truncate';
     
-    const ACTION_CREATE_REGION = 'create';
-    const ACTION_BROWSE_REGIONS = 'browse';
-    const ACTION_EDIT_REGION = 'edit';
-    const ACTION_DELETE_REGION = 'delete';
-    const ACTION_VIEW_REGION = 'view';
+    const ACTION_CREATE_REGION = 'creator';
+    const ACTION_BROWSE_REGIONS = 'browser';
+    const ACTION_EDIT_REGION = 'editor';
+    const ACTION_DELETE_REGION = 'deleter';
+    const ACTION_VIEW_REGION = 'viewer';
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_REGIONS;
 
     function InternshipOrganizerRegionManager($internship_manager)
     {
@@ -31,36 +33,6 @@ class InternshipOrganizerRegionManager extends SubManager
             $this->set_parameter(self :: PARAM_ACTION, $action);
         }
         $this->parse_input_from_table();
-    }
-
-    function run()
-    {
-        $action = $this->get_parameter(self :: PARAM_ACTION);
-        
-        switch ($action)
-        {
-            
-            case self :: ACTION_CREATE_REGION :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_EDIT_REGION :
-                $component = $this->create_component('Editor');
-                break;
-            case self :: ACTION_DELETE_REGION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_VIEW_REGION :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_BROWSE_REGIONS :
-                $component = $this->create_component('Browser');
-                break;
-            default :
-                $this->set_region_action(self :: ACTION_BROWSE_REGIONS);
-                $component = $this->create_component('Browser');
-        }
-        
-        $component->run();
     }
 
     function get_application_component_path()
@@ -162,6 +134,44 @@ class InternshipOrganizerRegionManager extends SubManager
     private function set_region_action($action)
     {
         $this->set_parameter(self :: PARAM_ACTION, $action);
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        parent :: launch(__CLASS__, $application);
     }
 }
 

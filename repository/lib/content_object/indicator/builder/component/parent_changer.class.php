@@ -6,8 +6,7 @@ class IndicatorBuilderParentChangerComponent extends IndicatorBuilder
 
     function run()
     {
-        $parent_changer = ComplexBuilderComponent :: factory(ComplexBuilderComponent::PARENT_CHANGER_COMPONENT, $this);
-        $parent_changer->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 ?>

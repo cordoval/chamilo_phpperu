@@ -7,7 +7,7 @@
  * @author Michael Kyndt
  */
 
-class ComplexDisplayAttachmentViewerComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentAttachmentViewerComponent extends ComplexDisplayComponent
 {
     private $action_bar;
 

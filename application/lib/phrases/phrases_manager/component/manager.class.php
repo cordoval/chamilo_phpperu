@@ -14,8 +14,7 @@ class PhrasesManagerManagerComponent extends PhrasesManager
      */
     function run()
     {
-        $publication_manager = new PhrasesPublicationManager($this);
-        $publication_manager->run();
+        PhrasesPublicationManager :: launch($this);
     }
 }
 ?>

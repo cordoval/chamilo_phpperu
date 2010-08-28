@@ -9,8 +9,7 @@ class GlossaryDisplayCreatorComponent extends GlossaryDisplay
 {
     function run()
     {
-        $browser = ComplexDisplayComponent :: factory(ComplexDisplayComponent :: CREATOR_COMPONENT, $this);
-        $browser->run();
+        ComplexDisplayComponent :: launch($this);
     }
 }
 

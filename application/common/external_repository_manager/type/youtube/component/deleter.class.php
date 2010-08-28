@@ -4,8 +4,7 @@ class YoutubeExternalRepositoryManagerDeleterComponent extends YoutubeExternalRe
 
     function run()
     {
-        $deleter = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: DELETER_COMPONENT, $this);
-        $deleter->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 
     function delete_external_repository_object($id)

@@ -3,8 +3,7 @@ class SurveyBuilderCreatorComponent extends SurveyBuilder
 {
     function run()
     {
-        $creator = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: CREATOR_COMPONENT, $this);
-        $creator->run();
+        ComplexBuilderComponent :: launch($this);
     }
 	
 //    function run()

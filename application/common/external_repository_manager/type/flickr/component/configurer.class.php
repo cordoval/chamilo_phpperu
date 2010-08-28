@@ -4,8 +4,7 @@ class FlickrExternalRepositoryManagerConfigurerComponent extends FlickrExternalR
 
     function run()
     {
-        $configurer = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: CONFIGURER_COMPONENT, $this);
-        $configurer->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 }
 ?>
