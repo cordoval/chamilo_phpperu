@@ -10,7 +10,7 @@ abstract class SubManager
     function SubManager($parent)
     {
         $this->parent = $parent;
-
+        
         if (Request :: get(Application :: PARAM_APPLICATION) == $this->parent->get_application_name())
         {
             $this->parent->handle_table_action();
@@ -179,12 +179,12 @@ abstract class SubManager
         {
             $application = $this;
         }
-
+        
         return $this->get_parent()->create_component($type, $application);
     }
 
     //abstract function run();
-
+    
 
     abstract function get_application_component_path();
 
@@ -192,7 +192,7 @@ abstract class SubManager
      * EXPERIMENTAL ENHANCEMENTS
      * @author Hans De Bisschop
      */
-
+    
     /**
      * @return string|NULL
      */
@@ -205,18 +205,18 @@ abstract class SubManager
             if (class_exists($class))
             {
                 call_user_func(array($class, 'handle_table_action'));
-
+                
                 $table_action_name = Request :: post($table_name . '_action_name');
                 $table_action_value = Request :: post($table_name . '_action_value');
                 Request :: set_get($table_action_name, $table_action_value);
-
+                
                 if ($table_action_name == $action_parameter)
                 {
                     return $table_action_value;
                 }
             }
         }
-
+        
         return null;
     }
 
@@ -238,9 +238,9 @@ abstract class SubManager
     private static function component($sub_manager_class, $action, $application)
     {
         $application_component_path = self :: get_component_path($sub_manager_class);
-
+        
         $file = $application_component_path . Utilities :: camelcase_to_underscores($action) . '.class.php';
-
+        
         if (! file_exists($file) || ! is_file($file))
         {
             $message = array();
@@ -252,19 +252,19 @@ abstract class SubManager
             $message[] = '<li>' . Translation :: get($sub_manager_class) . '</li>';
             $message[] = '<li>' . Translation :: get($action) . '</li>';
             $message[] = '</ul>';
-
+            
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb('#', Translation :: get($sub_manager_class)));
-
+            
             Display :: header($trail);
             Display :: error_message(implode("\n", $message));
             Display :: footer();
             exit();
         }
-
+        
         $class = $sub_manager_class . Utilities :: underscores_to_camelcase($action) . 'Component';
         require_once $file;
-
+        
         return new $class($application);
     }
 
@@ -272,25 +272,28 @@ abstract class SubManager
      * @param string $sub_manager_class
      * @param Application $application
      */
-    static function launch($sub_manager_class, $application)
+    static function launch($sub_manager_class, $application, $add_breadcrumb = true)
     {
         $action_parameter = call_user_func(array($sub_manager_class, 'get_action_parameter'));
         $default_action = call_user_func(array($sub_manager_class, 'get_default_action'));
-
+        
         $action = Request :: get($action_parameter);
         $action = ! isset($action) ? $default_action : $action;
-
+        
         $table_action = self :: process_table_action($action_parameter);
         if ($table_action)
         {
             $action = $table_action;
         }
-
+        
         $component = self :: component($sub_manager_class, $action, $application);
         $component->set_parameter($action_parameter, $action);
-
-        BreadcrumbTrail :: get_instance()->add(new Breadcrumb($component->get_url(array($action_parameter => $action)), Translation :: get($sub_manager_class)));
-
+        
+        if ($add_breadcrumb)
+        {
+            BreadcrumbTrail :: get_instance()->add(new Breadcrumb($component->get_url(array($action_parameter => $action)), Translation :: get(get_class($component))));
+        }
+        
         $component->run();
     }
 }

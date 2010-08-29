@@ -158,7 +158,7 @@ abstract class ExternalRepositoryComponent extends SubManager
      */
     static function launch($application)
     {
-        parent :: launch(__CLASS__, $application);
+        parent :: launch(__CLASS__, $application, false);
     }
 }
 ?>
