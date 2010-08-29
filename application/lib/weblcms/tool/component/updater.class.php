@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../../content_object_publication_form.class.php';
 
-class ToolUpdaterComponent extends ToolComponent
+class ToolComponentUpdaterComponent extends ToolComponent
 {
     function run()
     {

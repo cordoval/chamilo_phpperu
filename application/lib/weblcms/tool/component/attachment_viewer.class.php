@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../tool.class.php';
 require_once dirname(__FILE__) . '/../tool_component.class.php';
 
-class ToolAttachmentViewerComponent extends ToolComponent
+class ToolComponentAttachmentViewerComponent extends ToolComponent
 {
     private $action_bar;
 

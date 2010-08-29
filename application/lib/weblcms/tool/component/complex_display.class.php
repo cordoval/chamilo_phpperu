@@ -3,7 +3,7 @@
  * $Id: complex_builder.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
  */
-class ToolComplexDisplayComponent extends ToolComponent
+class ToolComponentComplexDisplayComponent extends ToolComponent
 {
     private $publication;
 

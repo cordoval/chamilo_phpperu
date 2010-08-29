@@ -9,12 +9,12 @@
  *
  * @author jevdheyd
  */
-class WikiToolComplexBuilderComponent extends WikiTool {
+class WikiToolComplexBuilderComponent extends WikiTool
+{
 
     function run()
     {
-        $builder = ToolComponent :: factory(ToolComponent :: BUILD_COMPLEX_CONTENT_OBJECT_COMPONENT, $this);
-        $builder->run();
+        ToolComponent :: launch($this);
     }
 }
 ?>

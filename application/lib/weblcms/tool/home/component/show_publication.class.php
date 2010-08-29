@@ -1,5 +1,5 @@
 <?php
-class BlogToolHidePublicationComponent extends BlogTool
+class HomeToolShowPublicationComponent extends HomeTool
 {
 
     function run()
@@ -9,7 +9,7 @@ class BlogToolHidePublicationComponent extends BlogTool
 
     function get_hidden()
     {
-        return 1;
+        return 0;
     }
 }
 ?>

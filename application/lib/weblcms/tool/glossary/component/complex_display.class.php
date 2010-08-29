@@ -4,17 +4,16 @@
  * @package application.lib.weblcms.tool.glossary.component
  */
 
-
 /**
  * Represents the view component for the assessment tool.
  *
  */
 class GlossaryToolComplexDisplayComponent extends GlossaryTool
 {
-	function run()
+
+    function run()
     {
-        $viewer = ToolComponent :: factory(ToolComponent :: DISPLAY_COMPLEX_CONTENT_OBJECT_COMPONENT, $this);
-        $viewer->run();
+        ToolComponent :: launch($this);
     }
 }
 ?>

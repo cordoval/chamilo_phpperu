@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../../browser/list_renderer/content_object_publication_details_renderer.class.php';
 
-class ToolViewerComponent extends ToolComponent
+class ToolComponentViewerComponent extends ToolComponent
 {
     private $action_bar;
     private $html;

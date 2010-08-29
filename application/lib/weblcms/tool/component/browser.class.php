@@ -7,7 +7,7 @@
 require_once dirname(__file__) . '/../../browser/content_object_publication_list_renderer.class.php';
 require_once dirname(__FILE__) . '/../../browser/content_object_publication_category_tree.class.php';
 
-class ToolBrowserComponent extends ToolComponent
+class ToolComponentBrowserComponent extends ToolComponent
 {
     private $action_bar;
     private $introduction_text;

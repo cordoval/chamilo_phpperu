@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../../publisher/content_object_publisher.class.php';
 
-class ToolPublisherComponent extends ToolComponent
+class ToolComponentPublisherComponent extends ToolComponent
 {
 
     function run()

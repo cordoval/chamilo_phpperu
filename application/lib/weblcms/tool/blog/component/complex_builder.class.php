@@ -9,12 +9,12 @@
  *
  * @author jevdheyd
  */
-class BlogToolComplexBuilderComponent extends BlogTool {
+class BlogToolComplexBuilderComponent extends BlogTool
+{
 
     function run()
     {
-        $builder = ToolComponent :: factory(ToolComponent :: BUILD_COMPLEX_CONTENT_OBJECT_COMPONENT, $this);
-        $builder->run();
+        ToolComponent :: launch($this);
     }
 }
 ?>

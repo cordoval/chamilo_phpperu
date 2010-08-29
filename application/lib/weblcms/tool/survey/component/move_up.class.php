@@ -1,15 +1,15 @@
 <?php
 class SurveyToolMoveUpComponent extends SurveyTool
 {
+
     function run()
     {
-        $tool_component = ToolComponent :: factory(ToolComponent :: ACTION_MOVE, $this);
-        $tool_component->run();
+        ToolComponent :: launch($this);
     }
 
     function get_move_direction()
     {
-        return -1;
+        return - 1;
     }
 }
 ?>

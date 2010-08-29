@@ -3,7 +3,7 @@
  * $Id: delete.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.component
  */
-class ToolDeleterComponent extends ToolComponent
+class ToolComponentDeleterComponent extends ToolComponent
 {
     function run()
     {

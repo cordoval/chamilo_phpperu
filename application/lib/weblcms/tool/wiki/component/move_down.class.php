@@ -4,8 +4,7 @@ class WikiToolMoveDownComponent extends WikiTool
 
     function run()
     {
-        $mover = ToolComponent :: factory(ToolComponent :: ACTION_MOVE, $this);
-        $mover->run();
+        ToolComponent :: launch($this);
     }
 
     function get_move_direction()

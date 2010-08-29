@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../tool_component.class.php';
 
-class ToolCategoryMoverComponent extends ToolComponent
+class ToolComponentCategoryMoverComponent extends ToolComponent
 {
 
     function run()

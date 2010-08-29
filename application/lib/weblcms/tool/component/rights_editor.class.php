@@ -12,7 +12,7 @@
 
 require_once dirname(__FILE__) . '/../../courses_rights_editor/courses_rights_editor_manager.class.php';
 
-class ToolRightsEditorComponent extends ToolComponent
+class ToolComponentRightsEditorComponent extends ToolComponent
 {
     /**
      * Runs this component and displays its output.

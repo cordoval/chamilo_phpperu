@@ -1,5 +1,5 @@
 <?php
-class BlogToolHidePublicationComponent extends BlogTool
+class HomeToolHidePublicationComponent extends HomeTool
 {
 
     function run()

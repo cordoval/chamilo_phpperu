@@ -14,71 +14,26 @@ class CourseGroupTool extends Tool
     const PARAM_DELETE_COURSE_GROUPS = 'delete_course_groups';
     const PARAM_UNSUBSCRIBE_USERS = 'unsubscribe_users';
     
-    const ACTION_SUBSCRIBE = 'course_group_subscribe';
-    const ACTION_UNSUBSCRIBE = 'course_group_unsubscribe';
-    const ACTION_ADD_COURSE_GROUP = 'add_course_group';
-    const ACTION_EDIT_COURSE_GROUP = 'edit_course_group';
-    const ACTION_DELETE_COURSE_GROUP = 'delete_course_group';
-    const ACTION_USER_SELF_SUBSCRIBE = 'user_subscribe';
-    const ACTION_USER_SELF_UNSUBSCRIBE = 'user_unsubscribe';
-    const ACTION_VIEW_GROUPS = 'view';
+    const ACTION_SUBSCRIBE = 'subscribe_browser';
+    const ACTION_UNSUBSCRIBE = 'unsubscribe_browser';
+    const ACTION_ADD_COURSE_GROUP = 'creator';
+    const ACTION_EDIT_COURSE_GROUP = 'editor';
+    const ACTION_DELETE_COURSE_GROUP = 'deleter';
+    const ACTION_USER_SELF_SUBSCRIBE = 'self_subscriber';
+    const ACTION_USER_SELF_UNSUBSCRIBE = 'self_unsubscriber';
+    const ACTION_VIEW_GROUPS = 'browser';
     const ACTION_MANAGE_SUBSCRIPTIONS = 'manage_subscriptions';
     
     const PARAM_COURSE_GROUP = 'course_group';
 
     function CourseGroupTool($parent)
     {
-    	parent :: __construct($parent);
-    	$this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
-    	$this->parse_input_from_table();
+        parent :: __construct($parent);
+        $this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
+        $this->parse_input_from_table();
     }
-    
-    /**
-     * Inherited.
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        
-        switch ($action)
-        {
-            case self :: ACTION_VIEW_GROUPS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_SUBSCRIBE :
-                $component = $this->create_component('SubscribeBrowser');
-                break;
-            case self :: ACTION_UNSUBSCRIBE :
-                $component = $this->create_component('UnsubscribeBrowser');
-                break;
-            case self :: ACTION_ADD_COURSE_GROUP :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_EDIT_COURSE_GROUP :
-                $component = $this->create_component('Editor');
-                break;
-            case self :: ACTION_DELETE_COURSE_GROUP :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_USER_SELF_SUBSCRIBE :
-                $component = $this->create_component('SelfSubscriber');
-                break;
-            case self :: ACTION_USER_SELF_UNSUBSCRIBE :
-                $component = $this->create_component('SelfUnsubscriber');
-                break;
-            case self :: ACTION_MANAGE_SUBSCRIPTIONS :
-                $component = $this->create_component('ManageSubscriptions');
-                break;
-            case self :: ACTION_PUBLISH_INTRODUCTION:
-            	$component = $this->create_component('IntroductionPublisher');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
-    }
-    
-	private function parse_input_from_table()
+
+    private function parse_input_from_table()
     {
         if (isset($_POST['action']))
         {
@@ -86,7 +41,7 @@ class CourseGroupTool extends Tool
             
             if (empty($ids))
             {
-            	$ids = array();
+                $ids = array();
             }
             elseif (! is_array($ids))
             {
@@ -101,23 +56,53 @@ class CourseGroupTool extends Tool
                     Request :: set_get(self :: PARAM_COURSE_GROUP, $ids);
                     break;
                 case self :: PARAM_UNSUBSCRIBE_USERS :
-                	$this->set_action(self :: ACTION_UNSUBSCRIBE);
-                	Request :: set_get(WeblcmsManager :: PARAM_USERS, $ids);
+                    $this->set_action(self :: ACTION_UNSUBSCRIBE);
+                    Request :: set_get(WeblcmsManager :: PARAM_USERS, $ids);
                     break;
             }
         }
     }
-    
+
     function get_course_group()
     {
-    	$course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
+        $course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
         $wdm = WeblcmsDataManager :: get_instance();
         return $wdm->retrieve_course_group($course_group_id);
     }
-    
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
 }
 ?>

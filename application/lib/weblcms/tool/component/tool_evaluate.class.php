@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../../gradebook/evaluation_manager/evaluation_manager.class.php';
 
-class ToolToolEvaluateComponent extends ToolComponent implements EvaluationManagerInterface
+class ToolComponentToolEvaluateComponent extends ToolComponent implements EvaluationManagerInterface
 {
     private $publication_id;
     private $publisher_id;

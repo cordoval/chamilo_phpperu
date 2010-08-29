@@ -6,10 +6,10 @@
 
 class WikiToolComplexDisplayComponent extends WikiTool
 {
-	function run()
+
+    function run()
     {
-        $viewer = ToolComponent :: factory(ToolComponent :: DISPLAY_COMPLEX_CONTENT_OBJECT_COMPONENT, $this);
-        $viewer->run();
+        ToolComponent :: launch($this);
     }
 }
 ?>

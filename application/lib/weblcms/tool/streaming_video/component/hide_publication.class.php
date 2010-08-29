@@ -1,10 +1,10 @@
 <?php
 class StreamingVideoToolHidePublicationComponent extends StreamingVideoTool
 {
+
     function run()
     {
-        $tool_component = ToolComponent :: factory(ToolComponent :: ACTION_TOGGLE_VISIBILITY, $this);
-        $tool_component->run();
+        ToolComponent :: launch($this);
     }
 
     function get_hidden()

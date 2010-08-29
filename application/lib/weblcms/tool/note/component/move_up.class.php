@@ -4,13 +4,12 @@ class NoteToolMoveUpComponent extends NoteTool
 
     function run()
     {
-        $mover = ToolComponent :: factory(ToolComponent :: ACTION_MOVE, $this);
-        $mover->run();
+        ToolComponent :: launch($this);
     }
 
     function get_move_direction()
     {
-        return -1;
+        return - 1;
     }
 }
 ?>

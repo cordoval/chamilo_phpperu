@@ -33,54 +33,6 @@ class SurveyTool extends Tool
 	 */
     function run()
     {
-        //        $action = $this->get_action();
-        //        $component = parent :: run();
-        //        
-        //        if ($component)
-        //            return;
-        //        
-        //        switch ($action)
-        //        {
-        //            case self :: ACTION_PUBLISH :
-        //                $component = SurveyToolComponent :: factory('Publisher', $this);
-        //                break;
-        //            case self :: ACTION_VIEW :
-        //                $component = SurveyToolComponent :: factory('Viewer', $this);
-        //                break;
-        //            case self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT :
-        //                $component = SurveyToolComponent :: factory('Taker', $this);
-        //                break;
-        //            case self :: ACTION_MAIL_SURVEY_PARTICIPANTS :
-        //                $component = SurveyToolComponent :: factory('Mailer', $this);
-        //                break;    
-        ////            case self :: ACTION_VIEW_RESULTS :
-        ////                $component = AssessmentToolComponent :: factory('ResultsViewer', $this);
-        ////                break;
-        ////            case self :: ACTION_EXPORT_QTI :
-        ////                $component = AssessmentToolComponent :: factory('QtiExport', $this);
-        ////                //$component->set_redirect_params(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS));
-        ////                break;
-        ////            case self :: ACTION_IMPORT_QTI :
-        ////                $component = AssessmentToolComponent :: factory('QtiImport', $this);
-        ////                break;
-        ////            case self :: ACTION_SAVE_DOCUMENTS :
-        ////                $component = AssessmentToolComponent :: factory('DocumentSaver', $this);
-        ////                break;
-        ////            case self :: ACTION_EXPORT_RESULTS :
-        ////                $component = AssessmentToolComponent :: factory('ResultsExport', $this);
-        ////                break;
-        ////            case self :: ACTION_DELETE_RESULTS :
-        ////                $component = AssessmentToolComponent :: Factory('ResultsDeleter', $this);
-        ////                break;
-        ////            case self :: ACTION_DELETE_PUBLICATION :
-        ////                $component = AssessmentToolComponent :: Factory('Deleter', $this);
-        ////                break;
-        //            default :
-        //                $component = SurveyToolComponent :: factory('Viewer', $this);
-        //                break;
-        //        }
-        
-
         $action = $this->get_action();
         
         switch ($action)
@@ -94,7 +46,7 @@ class SurveyTool extends Tool
             case self :: ACTION_UPDATE :
                 $component = $this->create_component('Updater');
                 break;
-             case self :: ACTION_DELETE :
+            case self :: ACTION_DELETE :
                 $component = $this->create_component('Deleter');
                 break;
             case self :: ACTION_TOGGLE_VISIBILITY :
@@ -108,50 +60,28 @@ class SurveyTool extends Tool
                 break;
             case self :: ACTION_PUBLISH_INTRODUCTION :
                 $component = $this->create_component('IntroductionPublisher');
-                break;        
+                break;
             case self :: ACTION_BROWSE :
                 $component = $this->create_component('Browser');
                 break;
             case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
                 $component = $this->create_component('Builder');
-                break;    
+                break;
             case self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT :
                 $component = $this->create_component('Taker');
                 break;
             case self :: ACTION_MAIL_SURVEY_PARTICIPANTS :
                 $component = $this->create_component('Mailer');
                 break;
-            case self :: ACTION_SHOW_PUBLICATION:
-            	$component = $this->create_component('ShowPublication');
+            case self :: ACTION_SHOW_PUBLICATION :
+                $component = $this->create_component('ShowPublication');
                 break;
-            case self :: ACTION_HIDE_PUBLICATION:
-            	$component = $this->create_component('HidePublication');
+            case self :: ACTION_HIDE_PUBLICATION :
+                $component = $this->create_component('HidePublication');
                 break;
-            case self :: ACTION_EDIT_RIGHTS:
-            	$component = $this->create_component('RightsEditor');
+            case self :: ACTION_EDIT_RIGHTS :
+                $component = $this->create_component('RightsEditor');
                 break;
-            //            case self :: ACTION_VIEW_RESULTS :
-            //                $component = AssessmentToolComponent :: factory('ResultsViewer', $this);
-            //                break;
-            //            case self :: ACTION_EXPORT_QTI :
-            //                $component = AssessmentToolComponent :: factory('QtiExport', $this);
-            //                //$component->set_redirect_params(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS));
-            //                break;
-            //            case self :: ACTION_IMPORT_QTI :
-            //                $component = AssessmentToolComponent :: factory('QtiImport', $this);
-            //                break;
-            //            case self :: ACTION_SAVE_DOCUMENTS :
-            //                $component = AssessmentToolComponent :: factory('DocumentSaver', $this);
-            //                break;
-            //            case self :: ACTION_EXPORT_RESULTS :
-            //                $component = AssessmentToolComponent :: factory('ResultsExport', $this);
-            //                break;
-            //            case self :: ACTION_DELETE_RESULTS :
-            //                $component = AssessmentToolComponent :: Factory('ResultsDeleter', $this);
-            //                break;
-            //            case self :: ACTION_DELETE_PUBLICATION :
-            //                $component = AssessmentToolComponent :: Factory('Deleter', $this);
-            //                break;
             default :
                 $component = $this->create_component('Browser');
                 break;

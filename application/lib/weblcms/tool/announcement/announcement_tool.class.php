@@ -10,62 +10,8 @@
  */
 class AnnouncementTool extends Tool
 {
-    /**
-     * Inherited.
-     */
-    function run()
-    {
-        $action = $this->get_action();
 
-        switch ($action)
-        {
-            case self :: ACTION_VIEW :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_BROWSE :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_PUBLISH :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_UPDATE:
-            	$component = $this->create_component('Updater');
-                break;
-            case self :: ACTION_DELETE:
-            	$component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_TOGGLE_VISIBILITY:
-            	$component = $this->create_component('ToggleVisibility');
-                break;
-            case self :: ACTION_MOVE_UP:
-            	$component = $this->create_component('MoveUp');
-                break;
-            case self :: ACTION_MOVE_DOWN:
-            	$component = $this->create_component('MoveDown');
-                break;
-            case self :: ACTION_PUBLISH_INTRODUCTION:
-            	$component = $this->create_component('IntroductionPublisher');
-                break;
-            case self :: ACTION_VIEW_REPORTING_TEMPLATE:
-            	$component = $this->create_component('ReportingViewer');
-                break;
-            case self :: ACTION_SHOW_PUBLICATION:
-            	$component = $this->create_component('ShowPublication');
-                break;
-            case self :: ACTION_HIDE_PUBLICATION:
-            	$component = $this->create_component('HidePublication');
-                break;
-            case self :: ACTION_EDIT_RIGHTS:
-            	$component = $this->create_component('RightsEditor');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-        }
-
-        $component->run();
-    }
-
-	function get_available_browser_types()
+    function get_available_browser_types()
     {
         $browser_types = array();
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
@@ -79,9 +25,39 @@ class AnnouncementTool extends Tool
         return array(Announcement :: get_type_name());
     }
 
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
 }
 ?>

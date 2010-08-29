@@ -10,7 +10,7 @@
  * @author Soliber
  */
 
-class ToolReportingViewerComponent extends ToolComponent
+class ToolComponentReportingViewerComponent extends ToolComponent
 {
 
     /**

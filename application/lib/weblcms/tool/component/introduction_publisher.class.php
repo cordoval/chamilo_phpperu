@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../tool_component.class.php';
 require_once dirname(__FILE__) . '/../../content_object_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/../../publisher/content_object_publisher.class.php';
 
-class ToolIntroductionPublisherComponent extends ToolComponent
+class ToolComponentIntroductionPublisherComponent extends ToolComponent
 {
 
     function run()

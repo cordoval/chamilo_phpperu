@@ -24,37 +24,39 @@ abstract class Tool extends SubManager
     const PARAM_VISIBILITY = 'visible';
     const PARAM_OBJECT_ID = 'object_id';
     const PARAM_BROWSER_TYPE = 'browser';
-
-    const ACTION_BROWSE = 'browse';
-    const ACTION_VIEW = 'view';
-    const ACTION_PUBLISH = 'publish';
-    const ACTION_DELETE = 'delete';
-    const ACTION_UPDATE = 'update';
+    
+    const ACTION_BROWSE = 'browser';
+    const ACTION_VIEW = 'viewer';
+    const ACTION_PUBLISH = 'publisher';
+    const ACTION_DELETE = 'deleter';
+    const ACTION_UPDATE = 'updater';
     const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
     const ACTION_MOVE_DOWN = 'move_down';
     const ACTION_MOVE_UP = 'move_up';
-    const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
-    const ACTION_PUBLISH_INTRODUCTION = 'publish_introduction';
-    const ACTION_MANAGE_CATEGORIES = 'manage_categories';
-    const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
-    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'builder';
-    const ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT = 'display';
-    const ACTION_SHOW_PUBLICATION = 'show';
-    const ACTION_HIDE_PUBLICATION = 'hide';
-    const ACTION_EVALUATE_TOOL_PUBLICATION = 'evaluate_tool_publication';
-    const ACTION_EDIT_RIGHTS = 'edit_rights';
-
+    const ACTION_MOVE_TO_CATEGORY = 'category_mover';
+    const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
+    const ACTION_MANAGE_CATEGORIES = 'category_manager';
+    const ACTION_VIEW_REPORTING_TEMPLATE = 'reporting_viewer';
+    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'complex_builder';
+    const ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT = 'complex_display';
+    const ACTION_SHOW_PUBLICATION = 'show_publication';
+    const ACTION_HIDE_PUBLICATION = 'hide_publication';
+    const ACTION_EVALUATE_TOOL_PUBLICATION = 'tool_evaluate';
+    const ACTION_EDIT_RIGHTS = 'rights_editor';
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE;
+    
     /**
      * The action of the tool
      */
     private $action;
-
+    
     /**
      * The application that the tool is associated with.
      * @var WeblcmsManager
      */
     private $parent;
-
+    
     /**
      * The rights of the current user in this tool
      */
@@ -69,11 +71,11 @@ abstract class Tool extends SubManager
     {
         parent :: __construct($parent);
         $this->properties = $parent->get_tool_properties($this->get_tool_id());
-
+        
         $this->handle_table_action();
         
-       	$this->set_action(Request :: get(self :: PARAM_ACTION));
-       	$this->set_parameter(self :: PARAM_ACTION, $this->get_action());
+        $this->set_action(Request :: get(self :: PARAM_ACTION));
+        $this->set_parameter(self :: PARAM_ACTION, $this->get_action());
         
         $this->set_optional_parameters();
     }
@@ -88,7 +90,7 @@ abstract class Tool extends SubManager
         if (isset($_POST['action']) || isset($_POST['tool_action']))
         {
             $ids = $_POST['pubtbl_id'];
-
+            
             if (empty($ids))
             {
                 $ids = $_POST['publication_table_id'];
@@ -99,7 +101,7 @@ abstract class Tool extends SubManager
             {
                 $ids = array($ids);
             }
-
+            
             $action = ($_POST['tool_action']) ? $_POST['tool_action'] : $_POST['action'];
             switch ($action)
             {
@@ -107,23 +109,23 @@ abstract class Tool extends SubManager
                     $this->set_action(self :: ACTION_MOVE_SELECTED_TO_CATEGORY);
                     Request :: set_get(self :: PARAM_PUBLICATION_ID, $ids);
                     break;
-
+                
                 case self :: ACTION_DELETE :
                     $this->set_action(self :: ACTION_DELETE);
                     Request :: set_get(self :: PARAM_PUBLICATION_ID, $ids);
                     break;
-
+                
                 case self :: ACTION_DELETE_CLOI :
                     $this->set_action(self :: ACTION_DELETE_CLOI);
                     Request :: set_get(self :: PARAM_COMPLEX_ID, $_POST['page_table_id']);
                     Request :: set_get(self :: PARAM_PUBLICATION_ID, Request :: get(self :: PARAM_PUBLICATION_ID));
                     break;
-
+                
                 case self :: ACTION_HIDE :
                     $this->set_action(self :: ACTION_HIDE);
                     Request :: set_get(self :: PARAM_PUBLICATION_ID, $ids);
                     break;
-
+                
                 case self :: ACTION_SHOW :
                     $this->set_action(self :: ACTION_SHOW);
                     Request :: set_get(self :: PARAM_PUBLICATION_ID, $ids);
@@ -145,7 +147,7 @@ abstract class Tool extends SubManager
     function get_browser_type()
     {
         $browser_type = Request :: get(Tool :: PARAM_BROWSER_TYPE);
-
+        
         if ($browser_type && in_array($browser_type, $this->get_available_browser_types()))
         {
             return $browser_type;
@@ -164,109 +166,6 @@ abstract class Tool extends SubManager
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_TABLE;
         return $browser_types;
     }
-
-    //    /**
-    //     * Runs the tool, performing whatever actions are necessary.
-    //     */
-    //    function run()
-    //    {
-    //        $action = $this->get_action();
-    //        $component = null;
-    //
-    //        switch ($action)
-    //        {
-    //            case self :: ACTION_EVALUATE_TOOL_PUBLICATION :
-    //        		$component = ToolComponent :: factory('', 'ToolEvaluate', $this);
-    //        		break;
-    //            case self :: ACTION_EDIT :
-    //                $component = ToolComponent :: factory('', 'Edit', $this);
-    //                break;
-    //            case self :: ACTION_PUBLISH_INTRODUCTION :
-    //                $component = ToolComponent :: factory('', 'IntroductionPublisher', $this);
-    //                break;
-    //            case self :: ACTION_PUBLISH_FEEDBACK :
-    //                $component = ToolComponent :: factory('', 'FeedbackPublisher', $this);
-    //                break;
-    //            case self :: ACTION_FEEDBACK_CLOI :
-    //                $component = ToolComponent :: factory('', 'ComplexFeedback', $this);
-    //                break;
-    //            case self :: ACTION_MANAGE_CATEGORIES :
-    //                $component = ToolComponent :: factory('', 'CategoryManager', $this);
-    //                break;
-    //            case self :: ACTION_MOVE_UP :
-    //                Request :: set_get(self :: PARAM_MOVE, -1);
-    //                $component = ToolComponent :: factory('', 'Move', $this);
-    //                break;
-    //            case self :: ACTION_MOVE_DOWN :
-    //                Request :: set_get(self :: PARAM_MOVE, 1);
-    //                $component = ToolComponent :: factory('', 'Move', $this);
-    //                break;
-    //            case self :: ACTION_MOVE :
-    //                $component = ToolComponent :: factory('', 'Move', $this);
-    //                break;
-    //            case self :: ACTION_MOVE_TO_CATEGORY :
-    //                $component = ToolComponent :: factory('', 'MoveSelectedToCategory', $this);
-    //                break;
-    //            case self :: ACTION_MOVE_SELECTED_TO_CATEGORY :
-    //                $component = ToolComponent :: factory('', 'MoveSelectedToCategory', $this);
-    //                break;
-    //            case self :: ACTION_DELETE :
-    //                $component = ToolComponent :: factory('', 'Delete', $this);
-    //                break;
-    //            case self :: ACTION_DELETE_CLOI :
-    //                $component = ToolComponent :: factory('', 'ComplexDeleter', $this);
-    //                break;
-    //            case self :: ACTION_DELETE_FEEDBACK :
-    //                $component = ToolComponent :: factory('', 'FeedbackDeleter', $this);
-    //                break;
-    //            case self :: ACTION_EDIT_CLOI :
-    //                $component = ToolComponent :: factory('', 'ComplexEdit', $this);
-    //                break;
-    //            case self :: ACTION_EDIT_FEEDBACK :
-    //                $component = ToolComponent :: factory('', 'FeedbackEdit', $this);
-    //                break;
-    //            case self :: ACTION_CREATE_CLOI :
-    //                $component = ToolComponent :: factory('', 'ComplexCreator', $this);
-    //                break;
-    //            case self :: ACTION_TOGGLE_VISIBILITY :
-    //                $component = ToolComponent :: factory('', 'ToggleVisibility', $this);
-    //                break;
-    //            case self :: ACTION_SHOW :
-    //                Request :: set_get(PARAM_VISIBILITY, 0);
-    //                $component = ToolComponent :: factory('', 'ToggleVisibility', $this);
-    //                break;
-    //            case self :: ACTION_HIDE :
-    //                Request :: set_get(PARAM_VISIBILITY, 1);
-    //                $component = ToolComponent :: factory('', 'ToggleVisibility', $this);
-    //                break;
-    //            case self :: ACTION_VIEW_ATTACHMENT :
-    //                $component = ToolComponent :: factory('', 'AttachmentViewer', $this);
-    //                break;
-    //            case self :: ACTION_VIEW_REPORTING_TEMPLATE :
-    //                $component = ToolComponent :: factory('', 'AccessDetailsViewer', $this);
-    //                break;
-    //            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
-    //                $component = ToolComponent :: factory('', 'ComplexBuilder', $this);
-    //                break;
-    //        }
-    //        if ($component)
-    //        {
-    //            $component->run();
-    //        }
-    //
-    //        return $component;
-    //    }
-
-
-    //    /**
-    //     * Returns the application that this tool is associated with.
-    //     * @return Application The application.
-    //     */
-    //    function get_parent()
-    //    {
-    //        return $this->get_parent();
-    //    }
-
 
     /**
      * Returns the properties of this tool within the specified course.
@@ -287,42 +186,42 @@ abstract class Tool extends SubManager
 
     function display_header($visible_tools = null, $show_introduction_text = false)
     {
-    	if(!$visible_tools)
-    	{
-    		$visible_tools = $this->get_visible_tools();
-    	}
-    	
-    	parent :: display_header();
-    	$this->display_course_menus($visible_tools, $show_introduction_text);
+        if (! $visible_tools)
+        {
+            $visible_tools = $this->get_visible_tools();
+        }
+        
+        parent :: display_header();
+        $this->display_course_menus($visible_tools, $show_introduction_text);
     }
-    
+
     function display_footer()
     {
-    	echo '</div>';
-    	parent :: display_footer();
+        echo '</div>';
+        parent :: display_footer();
     }
-    
-	function get_visible_tools()
+
+    function get_visible_tools()
     {
-    	$tools = array();
-    	
-    	foreach ($this->get_parent()->get_registered_tools() as $tool)
+        $tools = array();
+        
+        foreach ($this->get_parent()->get_registered_tools() as $tool)
         {
             $sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition(CourseSection :: PROPERTY_ID, $tool->section));
             $section = $sections->next_result();
             
-        	if(($tool->visible && $section->get_type() != CourseSection :: TYPE_ADMIN) || $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
+            if (($tool->visible && $section->get_type() != CourseSection :: TYPE_ADMIN) || $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
-            	$tools[] = $tool;
+                $tools[] = $tool;
             }
         }
         
         return $tools;
     }
-    
+
     function display_course_menus($tools, $show_introduction_text = false)
     {
-    	$menu_style = $this->get_course()->get_menu();
+        $menu_style = $this->get_course()->get_menu();
         if ($menu_style != CourseLayout :: MENU_OFF && count($tools) > 0)
         {
             $renderer = ToolListRenderer :: factory(ToolListRenderer :: TYPE_MENU, $this, $tools);
@@ -333,18 +232,18 @@ abstract class Tool extends SubManager
         {
             echo '<div id="tool_browser">';
         }
-
+        
         $tool_shortcut = $this->get_course()->get_tool_shortcut();
         
-        if (($this->get_tool_id() == 'home' && $this->get_course()->get_intro_text() && !$this->get_introduction_text())  || ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0))
+        if (($this->get_tool_id() == 'home' && $this->get_course()->get_intro_text() && ! $this->get_introduction_text()) || ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0))
         {
-        	echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 2em;">';
-        	$shortcuts_visible = true;
+            echo '<div style="border-bottom: 1px dotted #D3D3D3; margin-bottom: 1em; padding-bottom: 2em;">';
+            $shortcuts_visible = true;
         }
         
         if ($show_introduction_text)
         {
-        	$introduction_text = $this->get_introduction_text();
+            $introduction_text = $this->get_introduction_text();
             if (! $introduction_text)
             {
                 if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
@@ -358,19 +257,19 @@ abstract class Tool extends SubManager
             }
         }
         
-        if($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0)
+        if ($tool_shortcut == CourseLayout :: TOOL_SHORTCUT_ON && count($tools) > 0)
         {
-        	$renderer = ToolListRenderer :: factory(ToolListRenderer :: TYPE_SHORTCUT, $this, $tools);
-        	echo '<div style="float:right;">';
+            $renderer = ToolListRenderer :: factory(ToolListRenderer :: TYPE_SHORTCUT, $this, $tools);
+            echo '<div style="float:right;">';
             $renderer->display();
             echo '</div>';
         }
         
         if ($shortcuts_visible)
         {
-        	echo '</div>';
+            echo '</div>';
         }
-
+        
         echo '<div class="clear"></div>';
     }
 
@@ -378,7 +277,6 @@ abstract class Tool extends SubManager
     {
         return $this->get_parent()->get_result($failures, $count, $fail_message_single, $fail_message_multiple, $succes_message_single, $succes_message_multiple);
     }
-
 
     function get_user_info($user_id)
     {
@@ -421,37 +319,37 @@ abstract class Tool extends SubManager
      */
     function is_allowed($right, $publication_id = null)
     {
-    	$studentview = Session :: retrieve('studentview');
-    	if($studentview == 1)
-    	{
-    		return ($right == WeblcmsRights :: VIEW_RIGHT);
-    	}
-    	    	
-    	if($this->get_parent()->is_teacher())
-    	{
-    		return true;
-    	}
-    	
-    	if($publication_id)
-    	{
-    		return WeblcmsRights :: is_allowed_in_courses_subtree($right, $publication_id, WeblcmsRights :: TYPE_PUBLICATION, $this->get_course_id());
-    	}
-    	else
-    	{
-    		$category_id = Request :: get(WeblcmsManager :: PARAM_CATEGORY);
-    		if($category_id)
-    		{
-    			return WeblcmsRights :: is_allowed_in_courses_subtree($right, $category_id, WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_course_id());
-    		}
-    		
-    		if($this->get_tool_id() == 'home')
-    		{
-    			return WeblcmsRights :: is_allowed_in_courses_subtree($right, 0, RightsUtilities :: TYPE_ROOT, $this->get_course_id());
-    		}
-    		
-    		$module_id = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($this->get_course_id(), $this->get_tool_id());
-    		return WeblcmsRights :: is_allowed_in_courses_subtree($right, $module_id->get_id(), WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_course_id());
-    	}
+        $studentview = Session :: retrieve('studentview');
+        if ($studentview == 1)
+        {
+            return ($right == WeblcmsRights :: VIEW_RIGHT);
+        }
+        
+        if ($this->get_parent()->is_teacher())
+        {
+            return true;
+        }
+        
+        if ($publication_id)
+        {
+            return WeblcmsRights :: is_allowed_in_courses_subtree($right, $publication_id, WeblcmsRights :: TYPE_PUBLICATION, $this->get_course_id());
+        }
+        else
+        {
+            $category_id = Request :: get(WeblcmsManager :: PARAM_CATEGORY);
+            if ($category_id)
+            {
+                return WeblcmsRights :: is_allowed_in_courses_subtree($right, $category_id, WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_course_id());
+            }
+            
+            if ($this->get_tool_id() == 'home')
+            {
+                return WeblcmsRights :: is_allowed_in_courses_subtree($right, 0, RightsUtilities :: TYPE_ROOT, $this->get_course_id());
+            }
+            
+            $module_id = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($this->get_course_id(), $this->get_tool_id());
+            return WeblcmsRights :: is_allowed_in_courses_subtree($right, $module_id->get_id(), WeblcmsRights :: TYPE_COURSE_MODULE, $this->get_course_id());
+        }
     }
 
     /**
@@ -486,7 +384,7 @@ abstract class Tool extends SubManager
     //    {
     //        return $this->get_parent()->get_path($path_type);
     //    }
-
+    
 
     /** Dummy functions so we can use the same component class for both tool and repositorytool **/
     function perform_requested_action()
@@ -497,7 +395,7 @@ abstract class Tool extends SubManager
     //	{
     //		return $this->get_parent()->get_categories($list);
     //	}
-
+    
 
     /**
      * @see Application :: get_category()
@@ -515,7 +413,7 @@ abstract class Tool extends SubManager
         //$form->addElement('submit', 'submit', Translation :: get('Ok'));
         $buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));
         $buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
+        
         $form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         $parameters = $this->get_parameters();
         $parameters['pcattree'] = Request :: get('pcattree');
@@ -530,17 +428,17 @@ abstract class Tool extends SubManager
     function display_introduction_text($introduction_text)
     {
         $html = array();
-
+        
         if ($introduction_text)
         {
             if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
                 $toolbar = new Toolbar();
-
+                
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON));
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())), ToolbarItem :: DISPLAY_ICON, true));
             }
-
+            
             $html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path() . 'content_object/introduction.png);">';
             $html[] = '<div class="title" style="border-bottom: 1px dotted #D3D3D3; width:100%;">';
             $html[] = $introduction_text->get_content_object()->get_title();
@@ -555,20 +453,20 @@ abstract class Tool extends SubManager
             $html[] = '</div>';
             $html[] = '<br />';
         }
-
+        
         return implode("\n", $html);
     }
-    
-	function get_introduction_text()
+
+    function get_introduction_text()
     {
         $conditions = array();
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $this->get_course_id());
         $conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_TOOL, $this->get_tool_id());
-
+        
         $subselect_condition = new EqualityCondition(ContentObject :: PROPERTY_TYPE, Introduction :: get_type_name());
         $conditions[] = new SubselectCondition(ContentObjectPublication :: PROPERTY_CONTENT_OBJECT_ID, ContentObject :: PROPERTY_ID, ContentObject :: get_table_name(), $subselect_condition, null, RepositoryDataManager :: get_instance());
         $condition = new AndCondition($conditions);
-
+        
         $publications = WeblcmsDataManager :: get_instance()->retrieve_content_object_publications($condition);
         return $publications->next_result();
     }
@@ -595,8 +493,8 @@ abstract class Tool extends SubManager
     {
         return $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid));
     }
-    
-	function get_complex_display_url($pid)
+
+    function get_complex_display_url($pid)
     {
         return $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid));
     }
@@ -605,14 +503,14 @@ abstract class Tool extends SubManager
     {
         $parent = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication_category($pcattree);
         $parents[] = $parent;
-
+        
         while ($parent && $parent->get_parent() != 0)
         {
             $parent = WebLcmsDataManager :: get_instance()->retrieve_content_object_publication_category($parent->get_parent());
             $parents[] = $parent;
         }
         $parents = array_reverse($parents);
-
+        
         return $parents;
     }
 
@@ -623,12 +521,31 @@ abstract class Tool extends SubManager
         {
             throw new Exception(Translation :: get('ToolDoesNotExist', array('toolname' => $tool_name)));
         }
-
+        
         require_once $file;
-
+        
         $class = self :: type_to_class($tool_name);
-
+        
         return new $class($parent);
+    }
+
+    /**
+     * @param string $type
+     * @param Application $application
+     */
+    static function launch($type, $application)
+    {
+        $file = dirname(__FILE__) . '/' . $type . '/' . $type . '_tool.class.php';
+        if (! file_exists($file))
+        {
+            throw new Exception(Translation :: get('ToolTypeDoesNotExist', array('type' => $type)));
+        }
+        
+        require_once $file;
+        
+        $class = self :: type_to_class($type);
+        
+        parent :: launch($class, $application);
     }
 
     function convert_content_object_publication_to_calendar_event($publication)
