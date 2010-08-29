@@ -15,9 +15,9 @@ require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts
 class AssessmentManagerResultsViewerComponent extends AssessmentManager
 {
     private $current_attempt_id;
-	private $trail;
-	private $object;
-	
+    private $trail;
+    private $object;
+
     /**
      * Runs this component and displays its output.
      */
@@ -58,7 +58,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
         
         if (! $pid)
         {
-            $html = $this->display_summary_results();
+            echo $this->display_summary_results();
         }
         else
         {
@@ -79,40 +79,31 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
                 $this->set_parameter('details', $details);
                 $this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $pid);
                 
-                $html = ComplexDisplay :: factory($this, $object->get_type());
-				$this->object = $object;
+                $this->object = $object;
+                ComplexDisplay :: launch($object->get_type(), $this);
             }
             else
             {
-                $html = $this->display_assessment_results($pid);
+                $this->display_header();
+                echo $this->display_assessment_results($pid);
+                $this->display_footer();
             }
         }
-        
-        if (is_object($html))
-        {
-            $html->run();
-        }
-        else 
-        {
-            $this->display_header();
-        	echo $html;
-        	$this->display_footer();
-        }
     }
-    
+
     function get_root_content_object()
     {
-    	return $this->object;
+        return $this->object;
     }
-    
+
     function display_header($trail)
     {
-    	if($trail)
-    	{
-    		$this->trail->merge($trail);
-    	}
-    	
-    	parent :: display_header($this->trail);
+        if ($trail)
+        {
+            $this->trail->merge($trail);
+        }
+        
+        parent :: display_header($this->trail);
     }
 
     function display_summary_results()
@@ -138,7 +129,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
         $parameters = array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid, 'url' => $url, 'results_export_url' => $results_export_url);
         $database = ReportingDataManager :: get_instance();
         $template_obj = $database->retrieve_reporting_template_object('assessment_attempts_template');
-        $template = new AssessmentAttemptsTemplate($this, $template_obj->get_id() , $parameters, null, $pid);
+        $template = new AssessmentAttemptsTemplate($this, $template_obj->get_id(), $parameters, null, $pid);
         //$template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();
     }

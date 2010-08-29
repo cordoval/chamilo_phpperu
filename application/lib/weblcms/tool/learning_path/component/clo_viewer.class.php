@@ -6,8 +6,8 @@
 
 class LearningPathToolCloViewerComponent extends LearningPathTool
 {
-	private $object;
-	
+    private $object;
+
     function run()
     {
         $publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
@@ -18,29 +18,27 @@ class LearningPathToolCloViewerComponent extends LearningPathTool
         $this->object = RepositoryDataManager :: get_instance()->retrieve_content_object($object_id);
         $this->set_parameter(LearningPathTool :: PARAM_OBJECT_ID, $object_id);
         
-        $display = ComplexDisplay :: factory($this, $this->object->get_type());
-        $display->run();
-    
+        ComplexDisplay :: launch($this->object->get_type(), $this);
     }
-    
-	function display_header()
+
+    function display_header()
     {
-    	return Display :: small_header();
+        return Display :: small_header();
     }
-    
+
     function display_footer()
     {
-    	return null;
+        return null;
     }
-    
-	function get_root_content_object()
+
+    function get_root_content_object()
     {
-    	return $this->object;
+        return $this->object;
     }
-    
-	function get_publication()
+
+    function get_publication()
     {
-    	return $this->publication;
+        return $this->publication;
     }
 
 }

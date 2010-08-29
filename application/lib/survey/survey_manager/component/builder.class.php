@@ -7,6 +7,7 @@ require_once dirname(__FILE__) . '/survey_publication_browser/survey_publication
 
 class SurveyManagerBuilderComponent extends SurveyManager
 {
+    private $content_object;
 
     function run()
     {
@@ -15,8 +16,9 @@ class SurveyManagerBuilderComponent extends SurveyManager
         $this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $publication_id);
         $this->content_object = $publication->get_publication_object();
         
-        $complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
-    	$complex_builder->run();
+        ComplexBuilder :: launch($this->content_object->get_type(), $this);
+        //$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
+        //$complex_builder->run();
     }
     
 	function get_root_content_object()

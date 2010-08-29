@@ -71,6 +71,25 @@ abstract class ComplexDisplay extends SubManager
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
         return new $class($parent);
     }
+    
+    /**
+     * @param string $type
+     * @param Application $application
+     */
+    static function launch($type, $application)
+    {
+        $file = dirname(__FILE__) . '/../content_object/' . $type . '/display/' . $type . '_display.class.php';
+        if (! file_exists($file))
+        {
+            throw new Exception(Translation :: get('ComplexDisplayTypeDoesNotExist', array('type' => $type)));
+        }
+        
+        require_once $file;
+        
+        $class = Utilities :: underscores_to_camelcase($type) . 'Display';
+        
+        parent :: launch($class, $application);
+    }
 
     function get_action()
     {

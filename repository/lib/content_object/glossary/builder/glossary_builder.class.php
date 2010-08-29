@@ -3,48 +3,44 @@
  * $Id: glossary_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.glossary
  */
-//require_once dirname(__FILE__) . '/glossary_builder_component.class.php';
 
 class GlossaryBuilder extends ComplexBuilder
 {
 
-    function run()
+    function get_application_component_path()
     {
-        $action = $this->get_action();
-
-        switch ($action)
-        {
-            case ComplexBuilder :: ACTION_BROWSE :
-            	$component = $this->create_component('Browser');
-                break;
-            case ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM :
-            	$component = $this->create_component('Creator');
-                break;
-            case ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
-            	$component = $this->create_component('Deleter');
-                break;
-            case ComplexBuilder :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM :
-            	$component = $this->create_component('Mover');
-                break;
-            case ComplexBuilder :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
-            	$component = $this->create_component('Updater');
-                break;
-            case ComplexBuilder :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM :
-            	$component = $this->create_component('Viewer');
-                break;
-            default:
-            	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
-                $component = $this->create_component('Browser');
-                break;
-        }
-
-        $component->run();
+        return dirname(__FILE__) . '/component/';
     }
 
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_BUILDER_ACTION;
+    }
 }
 
 ?>

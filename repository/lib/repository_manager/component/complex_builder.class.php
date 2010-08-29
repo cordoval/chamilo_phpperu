@@ -25,8 +25,9 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager
         
         if($this->content_object)
         {
-        	$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
-        	$complex_builder->run();
+            ComplexBuilder :: launch($this->content_object->get_type(), $this);
+        	//$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
+        	//$complex_builder->run();
         }
         else
         {

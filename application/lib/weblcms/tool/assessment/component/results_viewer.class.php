@@ -138,24 +138,10 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
         
         $this->set_parameter('uaid', $uaid);
         
-        $display = ComplexDisplay :: factory($this, $object->get_type());
         $this->object = $object;
-        
-        //$this->display_header();
-        $display->run();
-        //$this->display_footer();
+        ComplexDisplay :: launch($object->get_type(), $this);
     }
 
-    /*function display_header($trail)
-    {
-    	if($trail)
-    	{
-    		$this->trail->merge($trail);
-    	}
-
-    	return parent :: display_header();
-    }*/
-    
     function retrieve_assessment_results()
     {
         $condition = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->user_assessment->get_id());

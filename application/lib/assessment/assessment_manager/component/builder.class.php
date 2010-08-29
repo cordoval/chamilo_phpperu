@@ -10,32 +10,27 @@ require_once dirname(__FILE__) . '/assessment_publication_browser/assessment_pub
 
 class AssessmentManagerBuilderComponent extends AssessmentManager
 {
-	private $content_object;
-	
+    private $content_object;
+
     function run()
     {
-    	$publication_id = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
-    	$publication = AssessmentDataManager :: get_instance()->retrieve_assessment_publication($publication_id);
-    	$this->content_object = $publication->get_publication_object();
-    	$this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $publication_id);
-    	$new_trail = BreadcrumbTrail::get_instance();
-    	$new_trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-    	$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
-    	$complex_builder->run();
+        $publication_id = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
+        $publication = AssessmentDataManager :: get_instance()->retrieve_assessment_publication($publication_id);
+        
+        $this->content_object = $publication->get_publication_object();
+        $this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $publication_id);
+        
+        $new_trail = BreadcrumbTrail :: get_instance();
+        $new_trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
+        
+        ComplexBuilder :: launch($this->content_object->get_type(), $this);
+        //$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
+        //$complex_builder->run();
     }
-    
-//    function display_header($trail)
-//    {
-//    	$new_trail = BreadcrumbTrail::get_instance();
-//    	$new_trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-//    	
-//    	
-//    	parent :: display_header();
-//    }
-    
-	function get_root_content_object()
+
+    function get_root_content_object()
     {
-    	return $this->content_object;
+        return $this->content_object;
     }
 }
 ?>

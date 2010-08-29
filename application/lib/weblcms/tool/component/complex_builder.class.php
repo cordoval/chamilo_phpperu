@@ -16,8 +16,9 @@ class ToolComplexBuilderComponent extends ToolComponent
             $this->content_object = $publication->get_content_object();
             $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
             
-            $complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
-            $complex_builder->run();
+            ComplexBuilder :: launch($this->content_object->get_type(), $this);
+            //$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
+            //$complex_builder->run();
         }
     }
   

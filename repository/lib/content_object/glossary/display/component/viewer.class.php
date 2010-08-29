@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/glossary_viewer/glossary_viewer_table.class.p
  * Represents the view component for the assessment tool.
  *
  */
-class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplay
+class GlossaryDisplayViewerComponent extends GlossaryDisplay
 {
     private $action_bar;
     

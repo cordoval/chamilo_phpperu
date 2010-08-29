@@ -164,8 +164,7 @@ class SurveyToolTakerComponent extends SurveyToolComponent
 
     function get_survey_html()
     {
-        $display = ComplexDisplay :: factory($this, $this->survey->get_type());
-        $display->run();
+        ComplexDisplay :: launch($this->survey->get_type(), $this);
     }
 
     function get_template_id()
@@ -324,7 +323,7 @@ class SurveyToolTakerComponent extends SurveyToolComponent
     }
 
     function get_answer($question)
-    {       
+    {
         $dummy = new WeblcmsSurveyQuestionAnswerTracker();
         $conditions[] = new EqualityCondition(WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_SURVEY_PARTICIPANT_ID, $this->get_participant_id());
         $conditions[] = new EqualityCondition(WeblcmsSurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $question->get_id());

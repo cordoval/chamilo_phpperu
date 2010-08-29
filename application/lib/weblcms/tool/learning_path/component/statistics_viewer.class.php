@@ -18,6 +18,8 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool
     const ACTION_DELETE_LPI_ATTEMPTS = 'delete_lpi_attempts';
     const PARAM_ITEM_ID = 'item_id';
     const PARAM_DELETE_ID = 'delete_id';
+    
+    private $root_content_object;
 
     function run()
     {
@@ -46,7 +48,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool
                 $this->delete_lpi_attempt(Request :: get('delete_id'));
                 exit();
         }
-       
+        
         $dm = WeblcmsDataManager :: get_instance();
         $publication = $dm->retrieve_content_object_publication($pid);
         $root_object = $publication->get_content_object();
@@ -81,7 +83,6 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool
             
             if ($details)
             {
-                
                 $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('AssessmentResult')));
                 $this->set_parameter('tool_action', 'stats');
                 $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $pid);
@@ -92,8 +93,8 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool
                 
                 $object = $objects[$cid];
                 
-                $display = ComplexDisplay :: factory($this, $object->get_type());
-                $display->set_root_lo($object);
+                $this->root_content_object = $object;
+                ComplexDisplay :: launch($object->get_type(), $this);
             }
             else
             {
@@ -145,8 +146,8 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool
         else
         {
             $this->display_header();
-        	echo $display;
-        	$this->display_footer();
+            echo $display;
+            $this->display_footer();
         }
     }
 
@@ -286,6 +287,11 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathTool
         
         $lpi_tracker->set_score($total_score);
         $lpi_tracker->update();
+    }
+
+    function get_root_content_object()
+    {
+        return $this->root_content_object;
     }
 
 }

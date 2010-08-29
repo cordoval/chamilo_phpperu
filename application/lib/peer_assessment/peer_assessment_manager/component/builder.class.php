@@ -14,8 +14,9 @@ class PeerAssessmentManagerBuilderComponent extends PeerAssessmentManager
     	$this->set_parameter(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION, $publication_id);
     	$this->content_object = $publication->get_content_object();
     	
-    	$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
-    	$complex_builder->run();
+        ComplexBuilder :: launch($this->content_object->get_type(), $this);
+        //$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
+        //$complex_builder->run();
     }
     
     function display_header($trail)

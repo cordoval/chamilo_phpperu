@@ -25,8 +25,7 @@ class ForumManagerViewerComponent extends ForumManager
         $this->publication_id = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
         $this->set_parameter(ForumManager :: PARAM_PUBLICATION_ID, $this->publication_id);
         
-        $cd = ComplexDisplay :: factory($this, Forum :: get_type_name());
-        $cd->run();
+        ComplexDisplay :: launch(Forum :: get_type_name(), $this);
     }
 
     function display_header($trail)
