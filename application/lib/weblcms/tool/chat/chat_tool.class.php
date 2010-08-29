@@ -9,6 +9,8 @@
 class ChatTool extends Tool
 {
     const ACTION_VIEW_CHAT = 'viewer';
+    
+    const DEFAULT_ACTION = self :: ACTION_VIEW_CHAT;
 
     function get_application_component_path()
     {

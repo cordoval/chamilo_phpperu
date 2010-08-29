@@ -7,6 +7,8 @@ class HomeTool extends Tool
     const ACTION_MAKE_TOOL_VISIBLE = 'tool_visible';
     const ACTION_MAKE_TOOL_INVISIBLE = 'tool_invisible';
     const ACTION_DELETE_LINKS = 'links_deleter';
+    
+    const DEFAULT_ACTION = self :: ACTION_VIEW;
 
     function set_optional_parameters()
     {

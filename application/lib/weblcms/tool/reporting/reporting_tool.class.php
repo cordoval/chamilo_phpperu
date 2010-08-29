@@ -7,29 +7,43 @@
 
 class ReportingTool extends Tool
 {
-    const ACTION_VIEW_REPORT = 'view';
+    const ACTION_VIEW_REPORT = 'viewer';
+    
+    const DEFAULT_ACTION = self :: ACTION_VIEW_REPORT;
+
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
 
     /**
-     * Inherited.
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
      */
-    function run()
+    static function get_default_action()
     {
-        $action = $this->get_action();
-        
-        switch ($action)
-        {
-            case self :: ACTION_VIEW_REPORT :
-                $component = $this->create_component('Viewer');
-                break;
-            default :
-                $component = $this->create_component('Viewer');
-        }
-        $component->run();
+        return self :: DEFAULT_ACTION;
     }
-    
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
 }
 ?>
