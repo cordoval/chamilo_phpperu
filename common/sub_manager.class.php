@@ -232,10 +232,9 @@ abstract class SubManager
     /**
      * @param string $sub_manager_class
      * @param string $action
-     * @param Application $application
-     * @return SubManager
+     * @return string
      */
-    private static function component($sub_manager_class, $action, $application)
+    private static function load_class($sub_manager_class, $action)
     {
         $application_component_path = self :: get_component_path($sub_manager_class);
         
@@ -249,12 +248,11 @@ abstract class SubManager
             $message[] = $file . '<br /><br />';
             $message[] = '<b>' . Translation :: get('Stacktrace') . ':</b>';
             $message[] = '<ul>';
-            $message[] = '<li>' . Translation :: get($sub_manager_class) . '</li>';
-            $message[] = '<li>' . Translation :: get($action) . '</li>';
+            $message[] = '<li>' . $sub_manager_class . '</li>';
+            $message[] = '<li>' . $action . '</li>';
             $message[] = '</ul>';
             
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb('#', Translation :: get($sub_manager_class)));
+            BreadcrumbTrail :: get_instance()->add(new Breadcrumb('#', Translation :: get($sub_manager_class)));
             
             Display :: header($trail);
             Display :: error_message(implode("\n", $message));
@@ -262,19 +260,30 @@ abstract class SubManager
             exit();
         }
         
-        $class = $sub_manager_class . Utilities :: underscores_to_camelcase($action) . 'Component';
         require_once $file;
         
+        return $sub_manager_class . Utilities :: underscores_to_camelcase($action) . 'Component';
+    }
+
+    /**
+     * @param string $sub_manager_class
+     * @param string $action
+     * @param Application $application
+     * @return SubManager
+     */
+    private static function component($sub_manager_class, $action, $application)
+    {
+        $class = self :: load_class($sub_manager_class, $action);
         return new $class($application);
     }
 
     /**
      * @param string $sub_manager_class
-     * @param Application $application
+     * @param string $action_parameter
+     * @return string
      */
-    static function launch($sub_manager_class, $application, $add_breadcrumb = true)
+    static function get_component_action($sub_manager_class, $action_parameter)
     {
-        $action_parameter = call_user_func(array($sub_manager_class, 'get_action_parameter'));
         $default_action = call_user_func(array($sub_manager_class, 'get_default_action'));
         
         $action = Request :: get($action_parameter);
@@ -286,15 +295,35 @@ abstract class SubManager
             $action = $table_action;
         }
         
+        return $action;
+    }
+
+    /**
+     * @param string $sub_manager_class
+     * @param Application $application
+     */
+    static function construct($sub_manager_class, $application, $add_breadcrumb = true)
+    {
+        $action_parameter = call_user_func(array($sub_manager_class, 'get_action_parameter'));
+        $action = self :: get_component_action($sub_manager_class, $action_parameter);
+        
         $component = self :: component($sub_manager_class, $action, $application);
         $component->set_parameter($action_parameter, $action);
-        
         if ($add_breadcrumb)
         {
-            BreadcrumbTrail :: get_instance()->add(new Breadcrumb($component->get_url(array($action_parameter => $action)), Translation :: get(get_class($component))));
+            BreadcrumbTrail :: get_instance()->add(new Breadcrumb($component->get_url(), Translation :: get(get_class($component))));
         }
         
-        $component->run();
+        return $component;
+    }
+
+    /**
+     * @param string $sub_manager_class
+     * @param Application $application
+     */
+    static function launch($sub_manager_class, $application, $add_breadcrumb = true)
+    {
+        self :: construct($sub_manager_class, $application, $add_breadcrumb)->run();
     }
 }
 ?>

@@ -12,11 +12,9 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager
      */
     function run()
     {
-    	
-    	$id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
-    	
+        $id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
+        
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $id)), Translation :: get('ViewSystemAnnouncement')));
         $trail->add_help('administration system announcements');
         
         $user = $this->get_user();
@@ -26,7 +24,6 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager
             Display :: not_allowed();
             exit();
         }
-        
         
         if ($id)
         {
@@ -54,13 +51,11 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager
         
         if ($user->is_platform_admin())
         {
-        	
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', 
-					$this->get_system_announcement_publication_editing_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON));	
-
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', 
-					$this->get_system_announcement_publication_deleting_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON, true));	
-
+            
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_system_announcement_publication_editing_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON));
+            
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_system_announcement_publication_deleting_url($system_announcement_publication), ToolbarItem :: DISPLAY_ICON, true));
+        
         }
         
         return $toolbar->as_html();
