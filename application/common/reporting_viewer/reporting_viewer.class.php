@@ -133,24 +133,6 @@ class ReportingViewer extends SubManager
 		$this->set_parameter(ReportingManager::PARAM_TEMPLATE_ID, $template->get_id());
 	}
 
-	function create_component($type, $application)
-	{
-		$component = parent :: create_component($type, $application);
-
-		if(is_subclass_of($component, __CLASS__))
-		{
-			$component->set_template($this->get_template());
-			$component->set_breadcrumb_trail($this->get_breadcrumb_trail());
-
-			if($this->are_all_blocks_visible())
-			{
-				$component->show_all_blocks();
-			}
-		}
-
-		return $component;
-	}
-
     /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3
@@ -183,7 +165,7 @@ class ReportingViewer extends SubManager
 
     /**
      * @param Application $application
-     * @return RepoViewer
+     * @return ReporingViewer
      */
     static function construct($application)
     {
