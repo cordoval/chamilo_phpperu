@@ -22,11 +22,11 @@ class ComplexDisplayComponentReportingTemplateViewerComponent extends ComplexDis
      */
     function run()
     {
-    	$rtv = new ReportingViewer($this);
+    	$rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name($this->template_name, $this->get_parent()->get_application_name());
         $rtv->set_breadcrumb_trail($this->get_parent()->get_breadcrumbtrail());
         $rtv->show_all_blocks();
-        
+
         $rtv->run();
     }
 

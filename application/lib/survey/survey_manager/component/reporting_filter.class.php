@@ -10,7 +10,7 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
      */
     function run()
     {
-    	
+
     	if (! SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'reporter', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $this->display_header($trail);
@@ -18,24 +18,24 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
             $this->display_footer();
             exit();
         }
-        else 
-        {      	        	
+        else
+        {
         	$ids = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
-        	
+
 	        $testcase = false;
 	        $test_case = Request :: get(SurveyManager :: PARAM_TESTCASE);
 	        if ($test_case === 1)
 	        {
 	            $testcase = true;
 	        }
-	        
+
 	        if (! empty($ids))
 	        {
 	            if (! is_array($ids))
 	            {
 	                $ids = array($ids);
 	            }
-	            
+
 	            $trail = BreadcrumbTrail :: get_instance();
 		        if($testcase)
 		        {
@@ -47,21 +47,21 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
 		        }
 				$trail->add(new Breadcrumb($this->get_reporting_filter_survey_publication_url(), Translation :: get('ReportingFilter')));
 		        $trail->add_help('survey reporting filter');
-	            
+
 		        $wizard = new SurveyReportingFilterWizard($this->get_user(), $ids, $this->get_url($parameters));
-		        
+
 	            $this->display_header($trail, true);
 	            echo $wizard->toHtml();
 	            /*
 	             Just a little pretest
 	             if(Request :: get("filter") != null)
 	            {
-	            	
-	            	$reporting_viewer = new ReportingViewer($this);
+
+	            	$reporting_viewer = ReportingViewer :: construct($this);
 	            	echo $reporting_viewer->show_all_blocks();
 	            }*/
 	            $this->display_footer();
-	        
+
 	        }
 	        else
 	        {

@@ -73,33 +73,6 @@ class RepoViewer extends SubManager
         $this->set_parameter(RepoViewer :: PARAM_ACTION, (Request :: get(RepoViewer :: PARAM_ACTION) ? Request :: get(RepoViewer :: PARAM_ACTION) : self :: ACTION_CREATOR));
     }
 
-    function run()
-    {
-        $action = $this->get_parameter(self :: PARAM_ACTION);
-
-        switch ($action)
-        {
-            case self :: ACTION_CREATOR :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_BROWSER :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_PUBLISHER :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_VIEWER :
-                $component = $this->create_component('Viewer');
-                break;
-            default :
-                $component = $this->create_component('Creator');
-                $this->set_parameter(self :: PARAM_ACTION, self :: ACTION_CREATOR);
-                break;
-        }
-
-        $component->run();
-    }
-
     function create_component($type, $application)
     {
         $component = parent :: create_component($type, $application);

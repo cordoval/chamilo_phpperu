@@ -3,9 +3,12 @@
 class ReportingViewer extends SubManager
 {
 	const PARAM_REPORTING_VIEWER_ACTION = 'reporting_action';
-	const ACTION_VIEW_TEMPLATE = 'view';
-	const ACTION_EXPORT_TEMPLATE = 'export';
-	const ACTION_SAVE_TEMPLATE = 'save';
+
+	const ACTION_VIEW_TEMPLATE = 'viewer';
+	const ACTION_EXPORT_TEMPLATE = 'exporter';
+	const ACTION_SAVE_TEMPLATE = 'saver';
+
+	const DEFAULT_ACTION = self :: ACTION_VIEW_TEMPLATE;
 
 	private $template;
 	private $trail;
@@ -147,5 +150,52 @@ class ReportingViewer extends SubManager
 
 		return $component;
 	}
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_REPORTING_VIEWER_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     * @return RepoViewer
+     */
+    static function construct($application)
+    {
+        return parent :: construct(__CLASS__, $application);
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        self :: construct(__CLASS__, $application)->run();
+    }
 }
 ?>

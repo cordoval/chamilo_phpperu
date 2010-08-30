@@ -11,13 +11,13 @@ class WeblcmsManagerReportingComponent extends WeblcmsManager
      * Runs this component and displays its output.
      */
     function run()
-    {      
+    {
         $template = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
-        
+
         $params[ReportingManager::PARAM_TEMPLATE_ID] = $template;
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        
+
         if ($this->get_user()->is_platform_admin())
         {
             $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
@@ -27,26 +27,26 @@ class WeblcmsManagerReportingComponent extends WeblcmsManager
         {
         	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
         }
-        
+
         $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER, WeblcmsManager :: PARAM_COURSE => null)), Translation :: get('CourseList')));
-        
+
         if ($trail->get_last() != new Breadcrumb($this->get_reporting_url($params), Translation :: get('Reporting')))
         {
             $trail->add(new Breadcrumb($this->get_reporting_url($params), Translation :: get('Reporting')));
         }
 
-  		$rtv = new ReportingViewer($this);
+  		$rtv = ReportingViewer :: construct($this);
   		if (isset($template))
   		{
   			$rtv->add_template_by_id($template);
   		}
-  		else 
+  		else
   		{
         	$rtv->add_template_by_name('course_student_tracker_reporting_template', WeblcmsManager::APPLICATION_NAME);
   		}
         $rtv->set_breadcrumb_trail($trail);
         $rtv->show_all_blocks();
-        
+
         $rtv->run();
     }
 }
