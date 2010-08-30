@@ -8,7 +8,7 @@
 require_once dirname(__FILE__) . '/../personal_messenger_manager.class.php';
 require_once dirname(__FILE__) . '/../../publisher/personal_message_publisher.class.php';
 
-class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManager
+class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManager implements RepoViewerInterface
 {
 
     /**
@@ -23,11 +23,12 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
         $trail->add_help('personal messenger general');
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: FOLDER_INBOX)), Translation :: get('MyPersonalMessenger')));
 
-        $repo_viewer = new RepoViewer($this, PersonalMessage :: get_type_name(), RepoViewer :: SELECT_SINGLE);
+        $repo_viewer = RepoViewer :: construct($this);
+        $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
         $repo_viewer->set_parameter('reply', $reply);
         $repo_viewer->set_parameter(PersonalMessengerManager :: PARAM_USER_ID, $user);
 
-        if (!$repo_viewer->is_ready_to_be_published())
+        if (! $repo_viewer->is_ready_to_be_published())
         {
             if ($reply)
             {
@@ -39,7 +40,9 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
                 $repo_viewer->set_creation_defaults($defaults);
 
                 $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: FOLDER_INBOX)), Translation :: get(ucfirst(PersonalMessengerManager :: FOLDER_INBOX))));
-                $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_VIEW_PUBLICATION, PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID => $reply, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: FOLDER_INBOX)), $lo->get_title()));
+                $trail->add(new Breadcrumb($this->get_url(array(
+                        Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_VIEW_PUBLICATION, PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID => $reply,
+                        PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: FOLDER_INBOX)), $lo->get_title()));
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Reply')));
             }
             else
@@ -55,6 +58,11 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
             $publisher = new PersonalMessagePublisher($this);
             $publisher->get_publication_form($repo_viewer->get_selected_objects());
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(PersonalMessage :: get_type_name());
     }
 }
 ?>

@@ -31,6 +31,8 @@ class RepoViewer extends SubManager
     const ACTION_PUBLISHER = 'publisher';
     const ACTION_VIEWER = 'viewer';
 
+    const DEFAULT_ACTION = self :: ACTION_CREATOR;
+
     /**
      * The types of learning object that this repo_viewer is aware of and may
      * repoviewer.
@@ -59,19 +61,16 @@ class RepoViewer extends SubManager
      * Constructor.
      * @param array $types The learning object types that may be repoviewered.
      */
-    function RepoViewer($parent, $types, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array())
+    function RepoViewer($parent)
     {
         parent :: __construct($parent);
-        //        $this->handle_table_action();
-        $this->maximum_select = $maximum_select;
+        $this->maximum_select = self :: SELECT_MULTIPLE;
         $this->parent = $parent;
         $this->default_content_objects = array();
         $this->parameters = array();
-        $this->types = (is_array($types) ? $types : array($types));
         $this->set_repo_viewer_actions(array(self :: ACTION_CREATOR, self :: ACTION_BROWSER));
-        $this->excluded_objects = $excluded_objects;
+        $this->excluded_objects = array();
         $this->set_parameter(RepoViewer :: PARAM_ACTION, (Request :: get(RepoViewer :: PARAM_ACTION) ? Request :: get(RepoViewer :: PARAM_ACTION) : self :: ACTION_CREATOR));
-        //        $this->parse_input_from_table();
     }
 
     function run()
@@ -107,7 +106,6 @@ class RepoViewer extends SubManager
 
         if (is_subclass_of($component, __CLASS__))
         {
-            $component->set_types($this->get_types());
             $component->set_excluded_objects($this->get_excluded_objects());
             $component->set_maximum_select($this->get_maximum_select());
         }
@@ -234,21 +232,7 @@ class RepoViewer extends SubManager
      */
     function get_types()
     {
-        return $this->types;
-    }
-
-    /**
-     * Set the type(s) of content object this RepoViewer uses.
-     * @param $types
-     */
-    function set_types($types)
-    {
-        if (! is_array($types))
-        {
-            $types = array($types);
-        }
-
-        $this->types = $types;
+        return $this->get_parent()->get_allowed_content_object_types();
     }
 
     private $creation_defaults;
@@ -318,6 +302,53 @@ class RepoViewer extends SubManager
     function get_application_component_path()
     {
         return Path :: get_application_library_path() . 'repo_viewer/component/';
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     * @return RepoViewer
+     */
+    static function construct($application)
+    {
+        return parent :: construct(__CLASS__, $application);
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        self :: construct(__CLASS__, $application)->run();
     }
 }
 ?>

@@ -11,25 +11,27 @@ require_once Path :: get_repository_path() . '/lib/complex_builder/competence/co
 require_once Path :: get_repository_path() . '/lib/complex_builder/competence/competence_repoviewer/component/browser.class.php';
 require_once Path :: get_repository_path() . '/lib/complex_builder/complex_repo_viewer.class.php';
 
-class CompetenceBuilderCreatorComponent extends CompetenceBuilder
+class CompetenceBuilderCreatorComponent extends CompetenceBuilder implements RepoViewerInterface
 {
     private $repository_data_manager;
+    private $type;
 
     function run()
     {
-    	//ComplexBuilderComponent :: launch($this);
-    //}
+        //ComplexBuilderComponent :: launch($this);
+        //}
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository builder');
 
         $root_content_object = $this->get_root_content_object(); //Request :: get(ComplexBuilder :: PARAM_ROOT_CONTENT_OBJECT);
-        $complex_content_object_item_id = $this->get_complex_content_object_item_id();//Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
+        $complex_content_object_item_id = $this->get_complex_content_object_item_id(); //Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
+
 
         //$publish = Request :: get('publish');
-        $type = Request :: get(ComplexBuilder :: PARAM_TYPE);
+        $this->type = Request :: get(ComplexBuilder :: PARAM_TYPE);
         $this->repository_data_manager = RepositoryDataManager :: get_instance();
 
-    	$parent = $this->get_root_content_object()->get_id();
+        $parent = $this->get_root_content_object()->get_id();
 
         if ($complex_content_object_item_id)
         {
@@ -49,41 +51,41 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
 
-        if (! $type)
+        if (! $this->type)
         {
-            $type = $content_object->get_allowed_types();
+            $this->type = $content_object->get_allowed_types();
         }
 
-        if($type == Indicator :: get_type_name())
+        if ($this->type == Indicator :: get_type_name())
         {
-        	$publication = new CompetenceRepoViewer($this, $type);
+            $publication = new CompetenceRepoViewer($this, $this->type);
         }
         else
         {
-        	$publication = new RepoViewer($this, $type);
+            $publication = RepoViewer :: construct($this);
         }
 
-        if ($type)
+        if ($this->type)
         {
-            $publication->set_parameter(ComplexBuilder :: PARAM_TYPE, $type);
+            $publication->set_parameter(ComplexBuilder :: PARAM_TYPE, $this->type);
         }
 
         $publication->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
         $publication->set_excluded_objects($exclude);
         $publication->parse_input_from_table();
 
-        if (!$publication->is_ready_to_be_published())
+        if (! $publication->is_ready_to_be_published())
         {
-            $t = is_array($type) ? implode(',', $type) : $type;
+            $t = is_array($this->type) ? implode(',', $this->type) : $this->type;
             $p = $this->repository_data_manager->retrieve_content_object($parent);
-        	$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities:: underscores_to_camelcase($t)), Translation :: get(Utilities:: underscores_to_camelcase($p->get_type())), $p->get_title()) . '</h4><br />';
-        	$html[] = $publication->as_html();
+            $html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), Translation :: get(Utilities :: underscores_to_camelcase($t)), Translation :: get(Utilities :: underscores_to_camelcase($p->get_type())), $p->get_title()) . '</h4><br />';
+            $html[] = $publication->as_html();
         }
         else
         {
             $object = $publication->get_selected_objects();
 
-        	if (! is_array($object))
+            if (! is_array($object))
             {
                 $object = array($object);
             }
@@ -128,6 +130,11 @@ class CompetenceBuilderCreatorComponent extends CompetenceBuilder
         }
 
         return $items;
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array($this->type);
     }
 }
 

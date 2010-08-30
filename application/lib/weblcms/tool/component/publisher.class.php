@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../../publisher/content_object_publisher.class.php';
 
-class ToolComponentPublisherComponent extends ToolComponent
+class ToolComponentPublisherComponent extends ToolComponent implements RepoViewerInterface
 {
 
     function run()
@@ -19,9 +19,9 @@ class ToolComponentPublisherComponent extends ToolComponent
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
 
-        $repo_viewer = new RepoViewer($this, $this->get_parent()->get_allowed_types());
+        $repo_viewer = RepoViewer :: construct($this);
 
-        if (!$repo_viewer->is_ready_to_be_published())
+        if (! $repo_viewer->is_ready_to_be_published())
         {
             $repo_viewer->run();
         }

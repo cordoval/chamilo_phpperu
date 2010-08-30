@@ -42,6 +42,7 @@ class ApplicationCommonAutoloader
 					  'invitation_support' => 'invitation_manager/invitation_support.class.php',
 					  'invitation_parameters' => 'invitation_manager/invitation_parameters.class.php',
 					  'repo_viewer' => 'repo_viewer/repo_viewer.class.php',
+					  'repo_viewer_interface' => 'repo_viewer/repo_viewer_interface.class.php',
 					  'reporting_viewer' => 'reporting_viewer/reporting_viewer.class.php',
 				      'external_repository_manager' => 'external_repository_manager/external_repository_manager.class.php',
 				      'external_repository_object' => 'external_repository_manager/external_repository_object.class.php',

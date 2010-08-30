@@ -10,18 +10,17 @@
  * @author pieter
  */
 
-class FeedbackManagerCreatorComponent extends FeedbackManager
+class FeedbackManagerCreatorComponent extends FeedbackManager implements RepoViewerInterface
 {
 
     function run()
-    { 
+    {
         $application = $this->get_application();
         $publication_id = $this->get_publication_id();
         $complex_wrapper_id = $this->get_complex_wrapper_id();
         $action = $this->get_action();
-        $repo_viewer = new RepoViewer($this, Feedback :: get_type_name());
+        $repo_viewer = RepoViewer :: construct($this);
 
-        
         if (! $repo_viewer->is_ready_to_be_published())
         {
             $repo_viewer->run();
@@ -49,9 +48,14 @@ class FeedbackManagerCreatorComponent extends FeedbackManager
             }
 
             $message = 'FeedbackCreated';
-            $redirect = $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => $this->get_parameter(self::PARAM_OLD_ACTION), RepoViewer :: PARAM_ACTION => null));
+            $redirect = $this->redirect(Translation :: get($message), false, array(FeedbackManager :: PARAM_ACTION => $this->get_parameter(self :: PARAM_OLD_ACTION), RepoViewer :: PARAM_ACTION => null));
         }
 
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Feedback :: get_type_name());
     }
 }
 ?>

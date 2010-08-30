@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/../../rights/portfolio_rights.class.php';
  * Component to create a new portfolio_publication object
  * @author Sven Vanpoucke
  */
-class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
+class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager implements RepoViewerInterface
 {
 
     /**
@@ -18,10 +18,8 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
     function run()
     {
         $parent = Request :: get('parent');
-        //TODO: HIER WORDT BEPAALD WELKE REPOSITORY TYPES KUNNEN GEBRUIKT WORDEN IN PORTFOLIO. ZOU DAT GEEN ADMIN SETTING MOETEN ZIJN?
-        $types = array(Document :: get_type_name(), Link :: get_type_name(),  Youtube :: get_type_name(), RssFeed :: get_type_name(), Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(), CalendarEvent :: get_type_name(), Description :: get_type_name(),   Note :: get_type_name(), Profile :: get_type_name());
 
-        $repo_viewer = new RepoViewer($this, $types, RepoViewer :: SELECT_MULTIPLE, array(), false);
+        $repo_viewer = RepoViewer :: construct($this);
         $repo_viewer->set_parameter('parent', $parent);
         $pp = Request :: get(PortfolioManager :: PARAM_PARENT_PORTFOLIO);
         $repo_viewer->set_parameter(PortfolioManager :: PARAM_PARENT_PORTFOLIO, $pp);
@@ -112,8 +110,17 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager
                 }
             }
 
-            $this->redirect($success ? Translation :: get('PortfolioItemCreated') : Translation :: get('PortfolioItemNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(), PortfolioManager::PROPERTY_CID => $wrapper->get_id(), PortfolioManager::PROPERTY_PID => $pp));
+            $this->redirect($success ? Translation :: get('PortfolioItemCreated') : Translation :: get('PortfolioItemNotCreated'), ! $success, array(
+                    PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id(),
+                    PortfolioManager :: PROPERTY_CID => $wrapper->get_id(), PortfolioManager :: PROPERTY_PID => $pp));
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(
+                Document :: get_type_name(), Link :: get_type_name(), Youtube :: get_type_name(), RssFeed :: get_type_name(), Portfolio :: get_type_name(), Announcement :: get_type_name(), BlogItem :: get_type_name(),
+                CalendarEvent :: get_type_name(), Description :: get_type_name(), Note :: get_type_name(), Profile :: get_type_name());
     }
 }
 ?>

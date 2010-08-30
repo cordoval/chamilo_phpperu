@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../publisher/period_publisher.class.php';
 
-class InternshipOrganizerPeriodManagerPublisherComponent extends InternshipOrganizerPeriodManager
+class InternshipOrganizerPeriodManagerPublisherComponent extends InternshipOrganizerPeriodManager implements RepoViewerInterface
 {
 
     /**
@@ -16,7 +16,7 @@ class InternshipOrganizerPeriodManagerPublisherComponent extends InternshipOrgan
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
         $trail->add_help('internship organizer general');
 
-        $repo_viewer = new RepoViewer($this, array(Document :: get_type_name()));
+        $repo_viewer = RepoViewer :: construct($this);
 
         if (! $repo_viewer->is_ready_to_be_published())
         {
@@ -27,6 +27,11 @@ class InternshipOrganizerPeriodManagerPublisherComponent extends InternshipOrgan
             $publisher = new InternshipOrganizerPeriodPublisher($this);
             $publisher->get_publications_form($repo_viewer->get_selected_objects());
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Document :: get_type_name());
     }
 }
 ?>

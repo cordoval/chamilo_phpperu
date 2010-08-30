@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../forms/forum_publication_form.class.php'
  * Component to create a new forum_publication object
  * @author Sven Vanpoucke & Michael Kyndt
  */
-class ForumManagerCreatorComponent extends ForumManager
+class ForumManagerCreatorComponent extends ForumManager implements RepoViewerInterface
 {
 
     /**
@@ -24,9 +24,9 @@ class ForumManagerCreatorComponent extends ForumManager
         //$trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForumPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishForum')));
 
-        $repo_viewer = new RepoViewer($this, Forum :: get_type_name());
+        $repo_viewer = RepoViewer :: construct($this);
 
-        if (!$repo_viewer->is_ready_to_be_published())
+        if (! $repo_viewer->is_ready_to_be_published())
         {
             $repo_viewer->run();
         }
@@ -35,6 +35,11 @@ class ForumManagerCreatorComponent extends ForumManager
             $publisher = new ForumPublicationPublisher($this);
             $publisher->publish($repo_viewer->get_selected_objects());
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Forum :: get_type_name());
     }
 }
 ?>

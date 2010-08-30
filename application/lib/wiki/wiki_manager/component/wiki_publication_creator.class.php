@@ -11,7 +11,7 @@ require_once Path :: get_application_path() . '/lib/weblcms/content_object_repo_
  * Component to create a new wiki_publication object
  * @author Sven Vanpoucke & Stefan Billiet
  */
-class WikiManagerWikiPublicationCreatorComponent extends WikiManager
+class WikiManagerWikiPublicationCreatorComponent extends WikiManager implements RepoViewerInterface
 {
 
     /**
@@ -26,13 +26,13 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager
         /*
          *  We make use of the ContentObjectRepoViewer setting the type to wiki
          */
-        $repo_viewer = new RepoViewer($this, Wiki :: get_type_name());
+        $repo_viewer = RepoViewer :: construct($this);
 
         /*
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object
          */
 
-        if (!$repo_viewer->is_ready_to_be_published())
+        if (! $repo_viewer->is_ready_to_be_published())
         {
             $repo_viewer->run();
         }
@@ -42,19 +42,19 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager
             if ($form->validate())
             {
                 $values = $form->exportValues();
-            	$failures = 0;
+                $failures = 0;
 
-            	$objects = $repo_viewer->get_selected_objects();
+                $objects = $repo_viewer->get_selected_objects();
 
-            	if(!is_array($objects))
-            	{
-            		$objects = array($objects);
-            	}
-
-                foreach($objects as $object)
+                if (! is_array($objects))
                 {
-                	if(!$form->create_wiki_publication($object, $values))
-                		$failures++;
+                    $objects = array($objects);
+                }
+
+                foreach ($objects as $object)
+                {
+                    if (! $form->create_wiki_publication($object, $values))
+                        $failures ++;
                 }
                 $message = $this->get_result($failures, count($objects), 'WikiPublicationNotCreated', 'WikiPublicationsNotCreated', 'WikiPublicationCreated', 'WikiPublicationsCreated');
                 $this->redirect($message, $failures, array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
@@ -62,10 +62,15 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager
             else
             {
                 $this->display_header($trail, true);
-            	$form->display();
-            	$this->display_footer();
+                $form->display();
+                $this->display_footer();
             }
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Wiki :: get_type_name());
     }
 }
 ?>

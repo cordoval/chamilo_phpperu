@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../alexia_manager.class.php';
 require_once dirname(__FILE__) . '/../../forms/alexia_publication_form.class.php';
 
-class AlexiaManagerIntroducerComponent extends AlexiaManager
+class AlexiaManagerIntroducerComponent extends AlexiaManager implements RepoViewerInterface
 {
 
     function run()
@@ -16,10 +16,10 @@ class AlexiaManagerIntroducerComponent extends AlexiaManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishIntroductionText')));
         $trail->add_help('alexia general');
 
-        $repo_viewer = new RepoViewer($this, Introduction :: get_type_name());
+        $repo_viewer = RepoViewer :: construct($this);
         $repo_viewer->set_parameter(AlexiaManager :: PARAM_ACTION, AlexiaManager :: ACTION_PUBLISH_INTRODUCTION);
 
-        if (!$repo_viewer->is_ready_to_be_published())
+        if (! $repo_viewer->is_ready_to_be_published())
         {
             //$html = array();
             //$html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
@@ -48,6 +48,11 @@ class AlexiaManagerIntroducerComponent extends AlexiaManager
                 $this->display_footer();
             }
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Introduction :: get_type_name());
     }
 }
 ?>

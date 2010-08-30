@@ -6,7 +6,7 @@
 require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/feedback/feedback.class.php';
 
-class ComplexDisplayComponentComplexFeedbackComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentComplexFeedbackComponent extends ComplexDisplayComponent implements RepoViewerInterface
 {
     private $pub;
     private $content_object;
@@ -18,7 +18,8 @@ class ComplexDisplayComponentComplexFeedbackComponent extends ComplexDisplayComp
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('courses general');
 
-        $this->pub = new RepoViewer($this, Feedback :: get_type_name(), RepoViewer :: SELECT_SINGLE);
+        $this->pub = RepoViewer :: construct($this);
+        $this->pub->set_maximum_select(RepoViewer :: SELECT_SINGLE);
         $this->pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_FEEDBACK_CLOI);
         $this->pub->set_parameter(ComplexDisplay :: PARAM_ROOT_CONTENT_OBJECT, Request :: get(ComplexDisplay :: PARAM_ROOT_CONTENT_OBJECT));
         $this->pub->set_parameter('selected_cloi', Request :: get('selected_cloi'));
@@ -72,8 +73,15 @@ class ComplexDisplayComponentComplexFeedbackComponent extends ComplexDisplayComp
 
             $content_object_pub_feedback->create();
 
-            $this->redirect(Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('tool_action'), 'display_action' => 'discuss', 'selected_cloi' => $this->pub->get_parameter('selected_cloi'), ComplexDisplay :: PARAM_ROOT_CONTENT_OBJECT => $this->content_object));
+            $this->redirect(Translation :: get('FeedbackAdded'), '', array(
+                    Tool :: PARAM_ACTION => Request :: get('tool_action'), 'display_action' => 'discuss', 'selected_cloi' => $this->pub->get_parameter('selected_cloi'),
+                    ComplexDisplay :: PARAM_ROOT_CONTENT_OBJECT => $this->content_object));
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Feedback :: get_type_name());
     }
 }
 ?>

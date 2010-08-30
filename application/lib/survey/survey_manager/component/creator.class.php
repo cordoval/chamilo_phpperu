@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
 require_once dirname(__FILE__) . '/../../forms/survey_publication_form.class.php';
 
-class SurveyManagerCreatorComponent extends SurveyManager
+class SurveyManagerCreatorComponent extends SurveyManager implements RepoViewerInterface
 {
 
     /**
@@ -40,7 +40,7 @@ class SurveyManagerCreatorComponent extends SurveyManager
         }
 
         $object_ids = Request :: get(RepoViewer :: PARAM_ID);
-        $repo_viewer = new RepoViewer($this, array(Survey :: get_type_name()));
+        $repo_viewer = RepoViewer :: construct($this);
 
         $html = array();
 
@@ -129,6 +129,11 @@ class SurveyManagerCreatorComponent extends SurveyManager
                 $this->display_footer();
             }
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Survey :: get_type_name());
     }
 }
 ?>

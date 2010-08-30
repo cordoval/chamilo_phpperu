@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../forms/portfolio_publication_form.class.
  * Component to create a new portfolio_publication object
  * @author Sven Vanpoucke
  */
-class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioManager
+class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioManager implements RepoViewerInterface
 {
 
     /**
@@ -28,7 +28,7 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
         $trail->add_help('portfolio create');
 
-        $repo_viewer = new RepoViewer($this, Portfolio :: get_type_name(), RepoViewer :: SELECT_MULTIPLE);
+        $repo_viewer = RepoViewer :: construct($this);
         $html = array();
         if (! $repo_viewer->is_ready_to_be_published())
         {
@@ -50,7 +50,8 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
             if ($form->validate())
             {
                 $success = $form->create_portfolio_publications($object);
-                $this->redirect($success ? Translation :: get('PortfolioCreated') : Translation :: get('PortfolioNotCreated'), ! $success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
+                $this->redirect($success ? Translation :: get('PortfolioCreated') : Translation :: get('PortfolioNotCreated'), ! $success, array(
+                        PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->get_user_id()));
             }
             else
             {
@@ -78,6 +79,11 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
                 $this->display_footer();
             }
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Portfolio :: get_type_name());
     }
 }
 ?>

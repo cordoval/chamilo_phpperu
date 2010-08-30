@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../tool_component.class.php';
 require_once dirname(__FILE__) . '/../../content_object_repo_viewer.class.php';
 require_once dirname(__FILE__) . '/../../publisher/content_object_publisher.class.php';
 
-class ToolComponentIntroductionPublisherComponent extends ToolComponent
+class ToolComponentIntroductionPublisherComponent extends ToolComponent implements RepoViewerInterface
 {
 
     function run()
@@ -18,15 +18,16 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent
             Display :: not_allowed();
             return;
         }
-        
+
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), Translation :: get('PublishIntroductionText')));
         $trail->add_help('courses general');
-        
-        $repo_viewer = new RepoViewer($this, Introduction :: get_type_name(), RepoViewer :: SELECT_SINGLE);
+
+        $repo_viewer = RepoViewer :: construct($this);
+        $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
         $repo_viewer->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_INTRODUCTION);
-        
-        if (!$repo_viewer->is_ready_to_be_published())
+
+        if (! $repo_viewer->is_ready_to_be_published())
         {
             $repo_viewer->run();
         }
@@ -34,7 +35,7 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent
         {
             $dm = WeblcmsDataManager :: get_instance();
             $do = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool_id(), 0);
-            
+
             $pub = new ContentObjectPublication();
             $pub->set_content_object_id($repo_viewer->get_selected_objects());
             $pub->set_course_id($this->get_course_id());
@@ -51,14 +52,19 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent
             $pub->set_display_order_index($do);
             $pub->set_email_sent(false);
             $pub->set_show_on_homepage(0);
-            
+
             $pub->create();
-            
+
             $parameters = $this->get_parameters();
             $parameters['tool_action'] = null;
-            
+
             $this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Introduction :: get_type_name());
     }
 }
 ?>

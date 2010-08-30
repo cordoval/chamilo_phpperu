@@ -13,13 +13,13 @@
 require_once Path :: get_application_path() . 'lib/weblcms/content_object_repo_viewer.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/publisher/content_object_publisher.class.php';
 
-class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
+class WikiDisplayWikiPageCreatorComponent extends WikiDisplay implements RepoViewerInterface
 {
     private $publisher;
 
     function run()
     {
-        $this->repo_viewer = new RepoViewer($this, WikiPage :: get_type_name());
+        $this->repo_viewer = RepoViewer :: construct($this);
         $this->repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
 
         if (! $this->repo_viewer->is_ready_to_be_published())
@@ -30,14 +30,14 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
         {
             $objects = $this->repo_viewer->get_selected_objects();
 
-            if (!is_array($objects))
+            if (! is_array($objects))
             {
                 $objects = array($objects);
             }
 
-            foreach($objects as $object)
+            foreach ($objects as $object)
             {
-            	$complex_content_object_item = ComplexContentObjectItem :: factory(WikiPage :: get_type_name());
+                $complex_content_object_item = ComplexContentObjectItem :: factory(WikiPage :: get_type_name());
                 $complex_content_object_item->set_ref($object);
                 $complex_content_object_item->set_parent($this->get_root_content_object()->get_id());
                 $complex_content_object_item->set_user_id($this->get_user_id());
@@ -46,7 +46,8 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
                 $result = $complex_content_object_item->create();
             }
 
-            $this->redirect(Translation :: get('WikiItemCreated'), '', array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
+            $this->redirect(Translation :: get('WikiItemCreated'), '', array(
+                    WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item->get_id()));
         }
 
     }
@@ -57,7 +58,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
 
         $repo_viewer_action = Request :: get(RepoViewer :: PARAM_ACTION);
 
-        switch($repo_viewer_action)
+        switch ($repo_viewer_action)
         {
             case RepoViewer :: ACTION_BROWSER :
                 $title = 'BrowseAvailableWikiPages';
@@ -77,6 +78,11 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay
         $html[] = '<div class="wiki-pane-content-title">' . Translation :: get($title) . '</div>';
         $html[] = '<div class="wiki-pane-content-subtitle">' . Translation :: get('In') . ' ' . $this->get_root_content_object()->get_title() . '</div>';
         echo implode("\n", $html);
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(WikiPage :: get_type_name());
     }
 }
 ?>

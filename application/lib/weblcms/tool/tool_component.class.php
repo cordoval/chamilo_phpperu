@@ -22,7 +22,7 @@ abstract class ToolComponent extends SubManager
     const ACTION_DELETE = 'deleter';
     const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
     const ACTION_MOVE = 'mover';
-    
+
     const MOVE_TO_CATEGORY_COMPONENT = 'category_mover';
     const INTRODUCTION_PUBLISHER_COMPONENT = 'introduction_publisher';
     const MANAGE_CATEGORIES_COMPONENT = 'category_manager';
@@ -38,9 +38,9 @@ abstract class ToolComponent extends SubManager
         {
             throw new Exception(Translation :: get('ToolComponentTypeDoesNotExist', array('type' => $type)));
         }
-        
+
         require_once $file;
-        
+
         $class = 'ToolComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
         return new $class($tool_component);
     }
@@ -141,6 +141,11 @@ abstract class ToolComponent extends SubManager
     function display_header()
     {
         return $this->get_parent()->display_header();
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return $this->get_parent()->get_allowed_types();
     }
 
     /**
