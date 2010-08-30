@@ -1572,6 +1572,15 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
         return $this->retrieve_objects(ExternalRepositoryFedora :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
 
+    function retrieve_external_repository_user_quotum($user_id, $external_repository_id)
+    {
+        $condition2 = new EqualityCondition(ExternalRepositoryUserQuotum :: PROPERTY_USER_ID, $user_id);
+        $condition1 = new EqualityCondition(ExternalRepositoryUserQuotum :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
+
+        $condition = new AndCondition($condition1, $condition2);
+        return $this->retrieve_object(ExternalRepositoryUserQuotum :: get_table_name(), $condition);
+    }
+
     function retrieve_catalog($query, $table_name, $condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         /*
@@ -1876,6 +1885,23 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
     {
         $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ID, $external_repository->get_id());
         return $this->delete(ExternalRepository :: get_table_name(), $condition);
+    }
+
+    function create_external_repository_user_quotum(ExternalRepositoryUserQuotum $external_repository_user_quotum)
+    {
+        return $this->create($external_repository_user_quotum);
+    }
+
+    function update_external_repository_user_quotum(ExternalRepositoryUserQuotum $external_repository_user_quotum)
+    {
+        $condition = new EqualityCondition(ExternalRepositoryUserQuotum :: PROPERTY_ID, $external_repository_user_quotum->get_id());
+        return $this->update($external_repository_user_quotum, $condition);
+    }
+
+    function delete_external_repository_user_quotum(ExternalRepositoryUserQuotum $external_repository_user_quotum)
+    {
+        $condition = new EqualityCondition(ExternalRepositoryUserQuotum :: PROPERTY_ID, $external_repository_user_quotum->get_id());
+        return $this->delete(ExternalRepositoryUserQuotum :: get_table_name(), $condition);
     }
 }
 ?>

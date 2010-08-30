@@ -65,7 +65,8 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager
         	$locations[] = RepositoryRights :: get_location_by_identifier($type, $identifier, $tree_identifier, $tree);
         }
 
-        $manager = new RightsEditorManager($this, $locations);
+        $manager = RightsEditorManager :: factory($this->retrieve_content_object($identifier),$this, $locations);
+        //$manager = new RightsEditorManager($this, $locations);
         $manager->exclude_users(array($this->get_user_id()));
         $manager->run();
     }
@@ -83,7 +84,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager
         }
     }
 
-	function display_header($trail)
+    function display_header($trail)
     {
         parent :: display_header($trail, false);
 
