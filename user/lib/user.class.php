@@ -61,6 +61,8 @@ class User extends DataClass
     const NAME_FORMAT_FIRST = 0;
     const NAME_FORMAT_LAST = 1;
 
+    const ANONYMOUS_ID = "1";
+
     /**
      * Get the default properties of all users.
      * @return array The property names.
@@ -548,6 +550,14 @@ class User extends DataClass
     function is_platform_admin()
     {
         return ($this->get_platformadmin() == 1 ? true : false);
+    }
+
+    /*
+     *
+     */
+    function is_anonymous_user()
+    {
+        return ($this->get_id() == self :: ANONYMOUS_ID ? true : false);
     }
 
     /**

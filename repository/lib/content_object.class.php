@@ -709,7 +709,7 @@ class ContentObject extends DataClass
             $parent_id = RepositoryRights :: get_location_id_by_identifier_from_user_subtree(RepositoryRights :: TYPE_USER_CATEGORY, $this->get_parent_id(), $this->get_owner_id());
         }
         
-        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
+        if (! RepositoryRights :: create_location_in_user_tree($this->get_title(), RepositoryRights :: TYPE_USER_CONTENT_OBJECT, $this->get_id(), $parent_id, $this->get_owner_id()))
         {
             return false;
         }

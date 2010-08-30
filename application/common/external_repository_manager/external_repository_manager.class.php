@@ -23,6 +23,7 @@ abstract class ExternalRepositoryManager extends SubManager
     const PARAM_QUERY = 'query';
     const PARAM_RENDERER = 'renderer';
     const PARAM_FOLDER = 'folder';
+    const PARAM_USER_QUOTUM = 'default_user_quotum';
     
     const CLASS_NAME = __CLASS__;
     

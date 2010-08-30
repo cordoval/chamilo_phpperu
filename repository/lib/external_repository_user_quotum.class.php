@@ -7,9 +7,8 @@
 class ExternalRepositoryUserQuotum extends DataClass {
 
     const CLASS_NAME = 'ExternalRepositoryUserQuotum';
-    const PREFIX = 'mediamosa_';
     const PROPERTY_USER_ID = 'user_id';
-    const PROPERTY_SERVER_ID = 'server_id';
+    const PROPERTY_EXTERNAL_REPOSITORY_ID = 'external_repository_id';
     const PROPERTY_QUOTUM = 'quotum';
 
     /**
@@ -18,7 +17,7 @@ class ExternalRepositoryUserQuotum extends DataClass {
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_SERVER_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_QUOTUM));
+        return parent :: get_default_property_names(array(self :: PROPERTY_EXTERNAL_REPOSITORY_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_QUOTUM));
     }
 
     function set_user_id($user_id)
@@ -31,14 +30,14 @@ class ExternalRepositoryUserQuotum extends DataClass {
         return $this->get_default_property(self :: PROPERTY_USER_ID);
     }
 
-    function set_server_id($server_id)
+    function set_external_repository_id($external_repository_id)
     {
-        $this->set_default_property(self :: PROPERTY_SERVER_ID, $server_id);
+        $this->set_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_ID, $external_repository_id);
     }
 
-    function get_server_id()
+    function get_external_repository_id()
     {
-        return $this->get_default_property(self :: PROPERTY_SERVER_ID);
+        return $this->get_default_property(self :: PROPERTY_EXTERNAL_REPOSITORY_ID);
     }
 
     function set_quotum($quotum)
@@ -57,7 +56,7 @@ class ExternalRepositoryUserQuotum extends DataClass {
     }
 
     function get_data_manager(){
-        return MediamosaExternalRepositoryDataManager :: get_instance();
+        return RepositoryDataManager :: get_instance();
     }
 }
 ?>

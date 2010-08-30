@@ -204,7 +204,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
             $html[] = '<img src="' . $user->get_full_picture_url() . '" />';
             $html[] = '</div><br />';
         }
-        $menu = new PortfolioMenu($this->get_user(), 'run.php?go=view_portfolio&application=portfolio&'. PortfolioManager::PARAM_PORTFOLIO_OWNER_ID.'=' . $this->owner_user_id . '&pid=%s&cid=%s', $this->pid, $this->cid, $this->owner_user_id);
+        $menu = new PortfolioMenu($this->get_user(), 'run.php?go='.self::ACTION_VIEW_PORTFOLIO.'&application=portfolio&'. PortfolioManager::PARAM_PORTFOLIO_OWNER_ID.'=' . $this->owner_user_id . '&pid=%s&cid=%s', $this->pid, $this->cid, $this->owner_user_id);
         $html[] = $menu->render_as_tree();
         $html[] = '</div>';
 
