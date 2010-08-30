@@ -42,22 +42,22 @@ class WeblcmsRights extends RightsUtilities
 
     static function get_location_by_identifier($type, $identifier)
     {
-        return self :: get_location_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $identifier);
+        return parent :: get_location_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $identifier);
     }
 
     static function get_location_id_by_identifier($type, $identifier)
     {
-        return self :: get_location_id_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $identifier);
+        return parent :: get_location_id_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $identifier);
     }
 
     static function get_root_id()
     {
-        return self :: get_root_id(WeblcmsManager :: APPLICATION_NAME);
+        return parent :: get_root_id(WeblcmsManager :: APPLICATION_NAME);
     }
 
     static function get_root()
     {
-        return self :: get_root(WeblcmsManager :: APPLICATION_NAME);
+        return parent :: get_root(WeblcmsManager :: APPLICATION_NAME);
     }
 
 	static function create_location_in_courses_subtree($name, $type, $identifier, $parent, $tree_identifier = 0)
