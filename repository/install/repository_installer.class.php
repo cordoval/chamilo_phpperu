@@ -203,6 +203,24 @@ class RepositoryInstaller extends Installer
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Flickr');
         }
         
+    	// Adding the Matterhorn Manager
+        $matterhorn = new ExternalRepository();
+        $matterhorn->set_title('Matterhorn');
+        $matterhorn->set_type('matterhorn');
+        $matterhorn->set_description(Translation :: get('MatterhornTagline'));
+        $matterhorn->set_enabled(true);
+        $matterhorn->set_creation_date(time());
+        $matterhorn->set_modification_date(time());
+        if (! $matterhorn->create())
+        {
+            $this->add_message(self :: TYPE_ERROR, Translation :: get('ExternalRepositoryManagerNotAdded') . ': Matterhorn');
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Matterhorn');
+        }
+        
         return true;
     }
 }

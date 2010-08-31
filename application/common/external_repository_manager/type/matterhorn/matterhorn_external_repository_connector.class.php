@@ -19,14 +19,40 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     	parent :: __construct($external_repository_instance);
      	
      	$this->login = ExternalRepositorySetting :: get('login', $this->get_external_repository_instance_id());
-     	$this->password = ExternalRepositorySetting :: get('passeword', $this->get_external_repository_instance_id());
-     	//
+     	$this->password = ExternalRepositorySetting :: get('password', $this->get_external_repository_instance_id());
+     	//todo : verified login and password to connect opencast
+     	
+     	//$this->matterhorn = new ;
+//   		$session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
+//
+//        if (! $session_token)
+//        {
+//            $frob = Request :: get('frob');
+//
+//            if (! $frob)
+//            {
+//                $this->flickr->auth("delete", Redirect :: current_url());
+//            }
+//            else
+//            {
+//                $token = $this->flickr->auth_getToken($frob);
+//                if ($token['token'])
+//                {
+//                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
+//                    $user_setting = new ExternalRepositoryUserSetting();
+//                    $user_setting->set_setting_id($setting->get_id());
+//                    $user_setting->set_user_id(Session :: get_user_id());
+//                    $user_setting->set_value($token['token']);
+//                    $user_setting->create();
+//                }
+//            }
+//        }
+//        else
+//        {
+//            $this->matterhorn->setToken($session_token);
+//        }
 
-     	$session_token = ExternalRepositoryUserSetting::get('session_token', $this->get_external_repository_instance_id());
-    	if (! $session_token)
-    	{
-            exit(Translation :: get('Connection to Matterhorn server failed'));
-        }
+     	
     }
     
 
@@ -50,7 +76,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
      * @param int $user_id
      * @return simplexmlobject user
      */
-    function retrieve_mediamosa_user($chamilo_user_id)
+    function retrieve_matterhorn_user($chamilo_user_id)
     {
         if ($response = $this->request(self :: METHOD_GET, '/user/' . $chamilo_user_id))
         {
