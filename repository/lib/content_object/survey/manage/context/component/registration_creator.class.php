@@ -23,8 +23,6 @@ class SurveyContextManagerRegistrationCreatorComponent extends SurveyContextMana
             if ($success)
             {
                 $context_registration = $form->get_context_registration();
-                dump($context_registration);
-                exit;
                 $this->redirect(Translation :: get('SurveyContextRegistrationCreated'), (false), array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_VIEW_CONTEXT_REGISTRATION, SurveyContextManager :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id()));
             }
             else

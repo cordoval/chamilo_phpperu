@@ -19,7 +19,7 @@ class SurveyContentObjectInstaller extends ContentObjectInstaller
     	$survey_context_template->set_description('Default');
     	$survey_context_template->set_context_type('survey_default_context');
     	$survey_context_template->set_context_type_name('Default');
-    	$survey_context_template->set_key_type('NOCONTEXT');
+    	$survey_context_template->set_key('NOCONTEXT');
     	$survey_context_template->set_parent_id(0);
     	if ($survey_context_template->create())
     	{
@@ -32,19 +32,19 @@ class SurveyContentObjectInstaller extends ContentObjectInstaller
     		return false;
     	}
      
-    	$dir = dirname(__FILE__) . '/../context';
-        $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
-        
-        foreach ($files as $file)
-        {
-            if ((substr($file, - 3) == 'xml'))
-            {
-                if (! $this->create_storage_unit($file))
-                {
-                    return false;
-                }
-            }
-        }
+//    	$dir = dirname(__FILE__) . '/../context';
+//        $files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES);
+//        
+//        foreach ($files as $file)
+//        {
+//            if ((substr($file, - 3) == 'xml'))
+//            {
+//                if (! $this->create_storage_unit($file))
+//                {
+//                    return false;
+//                }
+//            }
+//        }
     }
 }
 ?>

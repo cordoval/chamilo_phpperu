@@ -12,7 +12,7 @@ class SurveyContextTemplate extends NestedTreeNode
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_CONTEXT_TYPE = 'context_type';
     const PROPERTY_CONTEXT_TYPE_NAME = 'context_type_name';
-    const PROPERTY_KEY = 'key';
+    const PROPERTY_KEY = 'key_name';
     const PROPERTY_TYPE = 'type';
 
     /**
