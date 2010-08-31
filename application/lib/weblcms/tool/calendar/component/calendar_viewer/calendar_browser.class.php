@@ -88,7 +88,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
         {
             return $this->publications;
         }
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $user_id = array();
             $course_group_ids = array();
@@ -208,7 +208,7 @@ class CalendarBrowser extends ContentObjectPublicationBrowser
             //style="margin-left: 0px; float: right; width: 70%;"
             $html[] = '<div class="normal_calendar">';
             
-            if($this->get_parent()->is_allowed(EDIT_RIGHT) && get_class(parent :: get_publication_list_renderer()) == 'CalendarListRenderer')
+            if($this->get_parent()->is_allowed(WeblcmsRights :: EDIT_RIGHT) && get_class(parent :: get_publication_list_renderer()) == 'CalendarListRenderer')
             {
             	$html[] = '<div style="float: right;">';
             	

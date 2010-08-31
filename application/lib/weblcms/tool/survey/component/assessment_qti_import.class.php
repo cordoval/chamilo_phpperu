@@ -8,7 +8,7 @@ class AssessmentToolQtiImportComponent extends AssessmentToolComponent
 
     function run()
     {
-        if (! $this->is_allowed(EDIT_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             Display :: not_allowed();
             return;

@@ -9,8 +9,7 @@ class WikiBuilderDeleterComponent extends WikiBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: DELETER_COMPONENT, $this);
-        $browser->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 

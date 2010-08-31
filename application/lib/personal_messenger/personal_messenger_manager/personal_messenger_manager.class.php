@@ -18,7 +18,7 @@ require_once dirname(__FILE__) . '/../personal_messenger_block.class.php';
 class PersonalMessengerManager extends WebApplication
 {
     const APPLICATION_NAME = 'personal_messenger';
-    
+
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_MARK_SELECTED_READ = 'mark_selected_read';
     const PARAM_MARK_SELECTED_UNREAD = 'mark_selected_unread';
@@ -26,16 +26,19 @@ class PersonalMessengerManager extends WebApplication
     const PARAM_PERSONAL_MESSAGE_ID = 'pm';
     const PARAM_MARK_TYPE = 'type';
     const PARAM_USER_ID = 'user_id';
-    
-    const ACTION_FOLDER_INBOX = 'inbox';
-    const ACTION_FOLDER_OUTBOX = 'outbox';
-    const ACTION_DELETE_PUBLICATION = 'delete';
-    const ACTION_VIEW_PUBLICATION = 'view';
-    const ACTION_VIEW_ATTACHMENTS = 'viewattachments';
-    const ACTION_MARK_PUBLICATION = 'mark';
-    const ACTION_CREATE_PUBLICATION = 'create';
-    const ACTION_BROWSE_MESSAGES = 'browse';
-    
+
+    const FOLDER_INBOX = 'inbox';
+    const FOLDER_OUTBOX = 'outbox';
+
+    const ACTION_DELETE_PUBLICATION = 'deletee';
+    const ACTION_VIEW_PUBLICATION = 'viewer';
+    const ACTION_VIEW_ATTACHMENTS = 'attachment_viewer';
+    const ACTION_MARK_PUBLICATION = 'marker';
+    const ACTION_CREATE_PUBLICATION = 'publisher';
+    const ACTION_BROWSE_MESSAGES = 'browser';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_MESSAGES;
+
     const ACTION_RENDER_BLOCK = 'block';
 
     /**
@@ -45,9 +48,9 @@ class PersonalMessengerManager extends WebApplication
     function PersonalMessengerManager($user = null)
     {
         parent :: __construct($user);
-        
+
         $this->parse_input_from_table();
-        
+
         $folder = Request :: get(self :: PARAM_FOLDER);
         if ($folder)
         {
@@ -55,47 +58,8 @@ class PersonalMessengerManager extends WebApplication
         }
         else
         {
-            $this->set_parameter(self :: PARAM_FOLDER, self :: ACTION_FOLDER_INBOX);
+            $this->set_parameter(self :: PARAM_FOLDER, self :: FOLDER_INBOX);
         }
-    }
-
-    /**
-     * Run this personal messenger manager
-     */
-    function run()
-    {
-        /*
-		 * Only setting breadcrumbs here. Some stuff still calls
-		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
-		 */
-        //$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_MESSAGES :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_VIEW_PUBLICATION :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_VIEW_ATTACHMENTS :
-                $component = $this->create_component('AttachmentViewer');
-                break;
-            case self :: ACTION_DELETE_PUBLICATION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_MARK_PUBLICATION :
-                $component = $this->create_component('Marker');
-                break;
-            case self :: ACTION_CREATE_PUBLICATION :
-                $component = $this->create_component('Publisher');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_MESSAGES);
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
     }
 
     function get_folder()
@@ -128,22 +92,22 @@ class PersonalMessengerManager extends WebApplication
         $create['url'] = $this->get_personal_message_creation_url();
         $create['class'] = 'create';
         $extra_items[] = $create;
-        
+
         $temp_replacement = '__FOLDER__';
         $url_format = $this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => $temp_replacement));
         $url_format = str_replace($temp_replacement, '%s', $url_format);
         $user_menu = new PersonalMessengerMenu($this->get_folder(), $url_format, $extra_items);
-        
+
         if ($this->get_action() == self :: ACTION_CREATE_PUBLICATION)
         {
             $user_menu->forceCurrentUrl($create['url'], true);
         }
-        
+
         $html = array();
         $html[] = '<div style="float: left; width: 15%;">';
         $html[] = $user_menu->render_as_tree();
         $html[] = '</div>';
-        
+
         return implode($html, "\n");
     }
 
@@ -161,7 +125,7 @@ class PersonalMessengerManager extends WebApplication
      * @param int $object_id
      * @return boolean Is the object is published
      */
-    function content_object_is_published($object_id)
+    static function content_object_is_published($object_id)
     {
         return PersonalMessengerDataManager :: get_instance()->content_object_is_published($object_id);
     }
@@ -171,7 +135,7 @@ class PersonalMessengerManager extends WebApplication
      * @param array $object_ids An array of object id's
      * @return boolean Was any learning object published
      */
-    function any_content_object_is_published($object_ids)
+    static function any_content_object_is_published($object_ids)
     {
         return PersonalMessengerDataManager :: get_instance()->any_content_object_is_published($object_ids);
     }
@@ -185,7 +149,7 @@ class PersonalMessengerManager extends WebApplication
      * @param int $order_property
      * @return array An array of Learing Object Publication Attributes
      */
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
         return PersonalMessengerDataManager :: get_instance()->get_content_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property);
     }
@@ -195,7 +159,7 @@ class PersonalMessengerManager extends WebApplication
      * @param int $object_id The object id
      * @return ContentObjectPublicationAttribute
      */
-    function get_content_object_publication_attribute($object_id)
+    static function get_content_object_publication_attribute($object_id)
     {
         return PersonalMessengerDataManager :: get_instance()->get_content_object_publication_attribute($object_id);
     }
@@ -206,7 +170,7 @@ class PersonalMessengerManager extends WebApplication
      * @param Condition $conditions
      * @return int
      */
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
+    static function count_publication_attributes($user = null, $object_id = null, $condition = null)
     {
         return PersonalMessengerDataManager :: get_instance()->count_publication_attributes($user, $object_id, $condition);
     }
@@ -217,14 +181,14 @@ class PersonalMessengerManager extends WebApplication
      * @param Condition $conditions
      * @return boolean
      */
-    function delete_content_object_publications($object_id)
+    static function delete_content_object_publications($object_id)
     {
         return PersonalMessengerDataManager :: get_instance()->delete_personal_message_publications($object_id);
     }
-    
-	function delete_content_object_publication($publication_id)
+
+    static function delete_content_object_publication($publication_id)
     {
-    	 return PersonalMessengerDataManager :: get_instance()->delete_content_object_publication($publication_id);
+        return PersonalMessengerDataManager :: get_instance()->delete_content_object_publication($publication_id);
     }
 
     /**
@@ -232,7 +196,7 @@ class PersonalMessengerManager extends WebApplication
      * @param ContentObjectPublicationAttribure $publication_attr
      * @return boolean
      */
-    function update_content_object_publication_id($publication_attr)
+    static function update_content_object_publication_id($publication_attr)
     {
         return PersonalMessengerDataManager :: get_instance()->update_personal_message_publication_id($publication_attr);
     }
@@ -286,14 +250,14 @@ class PersonalMessengerManager extends WebApplication
     /**
      * Inherited
      */
-    function get_content_object_publication_locations($content_object)
+    static function get_content_object_publication_locations($content_object)
     {
         return array();
     }
 
-    function publish_content_object($content_object, $location)
+    static function publish_content_object($content_object, $location)
     {
-    
+
     }
 
     /**
@@ -385,6 +349,21 @@ class PersonalMessengerManager extends WebApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

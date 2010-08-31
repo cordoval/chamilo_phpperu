@@ -33,8 +33,7 @@ class MediamosaExternalRepositoryManagerBrowserComponent extends MediaMosaExtern
 //            }
 //        }
 
-        $browser = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: BROWSER_COMPONENT, $this);
-        $browser->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 }
 ?>

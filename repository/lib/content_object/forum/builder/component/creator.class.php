@@ -4,9 +4,10 @@
  * @package repository.lib.complex_builder.forum.component
  */
 
-class ForumBuilderCreatorComponent extends ForumBuilder
+class ForumBuilderCreatorComponent extends ForumBuilder implements RepoViewerInterface
 {
     private $repository_data_manager;
+    private $type;
 
     function run()
     {
@@ -16,10 +17,9 @@ class ForumBuilderCreatorComponent extends ForumBuilder
         $trail->add_help('repository forum builder');
 
         $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-        $type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
+        $this->type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
 
-        $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id,
-        					ComplexBuilder :: PARAM_TYPE => $type);
+        $parameters = array(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, ComplexBuilder :: PARAM_TYPE => $type);
 
         $trail->add(new Breadcrumb($this->get_url($parameters), Translation :: get('Add' . Utilities :: underscores_to_camelcase($type))));
 
@@ -43,12 +43,12 @@ class ForumBuilderCreatorComponent extends ForumBuilder
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
 
-        if (! $type)
+        if (! $this->type)
         {
-            $type = $content_object->get_allowed_types();
+            $this->type = $content_object->get_allowed_types();
         }
 
-        $pub = new RepoViewer($this, $type);
+        $pub = RepoViewer :: construct($this);
         if ($rtype)
         {
             $pub->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
@@ -57,17 +57,17 @@ class ForumBuilderCreatorComponent extends ForumBuilder
         $pub->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
         $pub->set_excluded_objects($exclude);
 
-        if (!$pub->is_ready_to_be_published())
+        if (! $pub->is_ready_to_be_published())
         {
-        	$t = is_array($type) ? implode(',', $type) : $type;
+            $t = is_array($this->type) ? implode(',', $this->type) : $this->type;
             //$p = $this->repository_data_manager->retrieve_content_object($parent);
-        	//$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />';
-        	$pub->run();
+            //$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />';
+            $pub->run();
         }
         else
         {
             $object = $pub->get_selected_objects();
-        	if (! is_array($object))
+            if (! is_array($object))
             {
                 $object = array($object);
             }
@@ -93,10 +93,10 @@ class ForumBuilderCreatorComponent extends ForumBuilder
 
             }
 
-           $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));        
+            $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
 
-        /*$this->display_header($trail);
+    /*$this->display_header($trail);
         echo '<br />' . implode("\n", $html);
         $this->display_footer();*/
     }
@@ -115,6 +115,11 @@ class ForumBuilderCreatorComponent extends ForumBuilder
             }
         }
         return $items;
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array($this->type);
     }
 
 }

@@ -9,8 +9,7 @@ class GlossaryDisplayDeleterComponent extends GlossaryDisplay
 {
     function run()
     {
-        $browser = ComplexDisplayComponent :: factory(ComplexDisplayComponent :: DELETER_COMPONENT, $this);
-        $browser->run();
+        ComplexDisplayComponent :: launch($this);
     }
 }
 

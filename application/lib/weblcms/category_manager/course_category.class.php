@@ -26,7 +26,7 @@ class CourseCategory extends PlatformCategory
             return false;
         }
         
-    	if (!WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), 'course_category', $this->get_id(), WeblcmsRights :: get_courses_subtree_root_id()))
+    	if (!WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_CATEGORY, $this->get_id(), WeblcmsRights :: get_courses_subtree_root_id()))
         {
             return false;
         }
@@ -34,14 +34,47 @@ class CourseCategory extends PlatformCategory
         return true;
     }
 
-    function update()
+    function update($move = false)
     {
-        return WeblcmsDataManager :: get_instance()->update_category($this);
+        $succes = WeblcmsDataManager :: get_instance()->update_category($this);
+        if(!$succes)
+        {
+        	return false;
+        }
+        
+        if($move)
+        {
+        	if($this->get_parent())
+        	{
+        		$new_parent_id = WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_CATEGORY, $this->get_parent(), 0);
+        	}
+        	else
+        	{
+        		$new_parent_id = WeblcmsRights :: get_courses_subtree_root_id(0);	
+        	}
+        	
+        	$location =  WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_CATEGORY, $this->get_id(), 0);
+        	if($location)
+        	{
+        		return $location->move($new_parent_id);
+        	}
+        }
+        
+    	return true; 
     }
 
     function delete()
     {
-        return WeblcmsDataManager :: get_instance()->delete_category($this);
+    	$location = WeblcmsRights :: get_location_by_identifier(WeblcmsRights :: TYPE_CATEGORY, $this->get_id());
+		if($location)
+		{
+			if(!$location->remove())
+			{
+				return false;
+			}
+		}
+		
+    	return WeblcmsDataManager :: get_instance()->delete_category($this);
     }
 
     static function get_table_name()

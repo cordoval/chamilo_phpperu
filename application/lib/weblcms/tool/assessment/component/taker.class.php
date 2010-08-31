@@ -12,7 +12,7 @@ require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_ques
 class AssessmentToolTakerComponent extends AssessmentTool
 {
     private $datamanager;
-
+    
     private $pub;
     private $invitation;
     private $assessment;
@@ -25,7 +25,7 @@ class AssessmentToolTakerComponent extends AssessmentTool
     {
         // Retrieving assessment
         $this->datamanager = WeblcmsDataManager :: get_instance();
-
+        
         if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
         {
             $this->publication_id = Request :: get(Tool :: PARAM_PUBLICATION_ID);
@@ -33,7 +33,7 @@ class AssessmentToolTakerComponent extends AssessmentTool
             $this->assessment = $this->pub->get_content_object();
             $this->set_parameter(Tool :: PARAM_PUBLICATION_ID, $this->publication_id);
         }
-
+        
         //        if (Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
         //        {
         //            $this->iid = Request :: get(AssessmentTool :: PARAM_INVITATION_ID);
@@ -44,19 +44,19 @@ class AssessmentToolTakerComponent extends AssessmentTool
         //            $this->assessment = $this->pub->get_content_object();
         //            $this->set_parameter(AssessmentTool :: PARAM_INVITATION_ID, $this->iid);
         //        }
-
+        
 
         // Checking statistics
-
+        
 
         $track = new WeblcmsAssessmentAttemptsTracker();
         $conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->publication_id);
         $conditions[] = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
-
+        
         $count = count($trackers);
-
+        
         foreach ($trackers as $tracker)
         {
             if ($tracker->get_status() == 'not attempted')
@@ -66,7 +66,7 @@ class AssessmentToolTakerComponent extends AssessmentTool
                 break;
             }
         }
-
+        
         if ($this->assessment->get_maximum_attempts() != 0 && $count >= $this->assessment->get_maximum_attempts())
         {
             $this->display_header();
@@ -74,19 +74,19 @@ class AssessmentToolTakerComponent extends AssessmentTool
             $this->display_footer();
             return;
         }
-
+        
         if (! $this->active_tracker)
         {
             $this->active_tracker = $this->create_tracker();
         }
-
+        
         // Executing assessment
-
+        
 
         if ($this->assessment->get_assessment_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
         {
             $this->display_header();
-
+            
             $path = $this->assessment->add_javascript(Path :: get(WEB_PATH) . 'application/lib/weblcms/ajax/hotpotatoes_save_score.php', $this->get_go_back_url(), $this->active_tracker->get_id());
             //$path = $this->assessment->get_test_path();
             echo '<iframe src="' . $path . '" width="100%" height="600">
@@ -100,13 +100,10 @@ class AssessmentToolTakerComponent extends AssessmentTool
         {
             $this->trail = BreadcrumbTrail :: get_instance();
             $this->trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('TakeAssessment')));
-            $display = ComplexDisplay :: factory($this, $this->assessment->get_type());
-
-            //$this->display_header();
-            $display->run();
-            //$this->display_footer();
+            
+            ComplexDisplay :: launch($this->assessment->get_type(), $this);
         }
-
+    
     }
 
     function get_root_content_object()
@@ -134,14 +131,14 @@ class AssessmentToolTakerComponent extends AssessmentTool
         $parameters[WeblcmsQuestionAttemptsTracker :: PROPERTY_ANSWER] = $answer;
         $parameters[WeblcmsQuestionAttemptsTracker :: PROPERTY_SCORE] = $score;
         $parameters[WeblcmsQuestionAttemptsTracker :: PROPERTY_FEEDBACK] = '';
-
+        
         Event :: trigger('attempt_question', 'weblcms', $parameters);
     }
 
     function finish_assessment($total_score)
     {
         $tracker = $this->active_tracker;
-
+        
         $tracker->set_total_score($total_score);
         $tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
         $tracker->set_status('completed');

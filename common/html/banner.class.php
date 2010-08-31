@@ -42,8 +42,9 @@ class Banner
 
         if (Authentication :: is_valid())
         {
-            $usermgr = new UserManager($_SESSION['_uid']);
-            $user = $usermgr->get_user();
+        	$user = UserDataManager :: get_instance()->retrieve_user($_SESSION['_uid']);
+//                    $usermgr = new UserManager($_SESSION['_uid']);
+//            $user = $usermgr->get_user();
         }
 
         if (! is_null($_SESSION['_as_admin']))
@@ -60,10 +61,7 @@ class Banner
         {
             $output[] = '<div class="menu_container">';
             $output[] = '<div class="applications">';
-
-            $menumanager = new MenuManager($user);
-            $output[] = $menumanager->render_menu('render_mini_bar');
-
+            $output[] = MenuRenderer :: as_html(MenuRenderer :: TYPE_MINI_BAR, $user);
             $output[] = '<div class="clear">&nbsp;</div>';
             $output[] = '</div>';
             $output[] = '<div class="clear">&nbsp;</div>';

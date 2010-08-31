@@ -10,11 +10,13 @@ class LocationManager extends SubManager
     const PARAM_SOURCE = 'source';
     const PARAM_LOCATION = 'location';
     
-    const ACTION_BROWSE_LOCATIONS = 'browse';
-    const ACTION_LOCK_LOCATIONS = 'lock';
-    const ACTION_UNLOCK_LOCATIONS = 'unlock';
-    const ACTION_INHERIT_LOCATIONS = 'inherit';
-    const ACTION_DISINHERIT_LOCATIONS = 'disinherit';
+    const ACTION_BROWSE_LOCATIONS = 'browser';
+    const ACTION_LOCK_LOCATIONS = 'locker';
+    const ACTION_UNLOCK_LOCATIONS = 'unlocker';
+    const ACTION_INHERIT_LOCATIONS = 'inheriter';
+    const ACTION_DISINHERIT_LOCATIONS = 'disinheriter';
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_LOCATIONS;
 
     function LocationManager($rights_manager)
     {
@@ -25,35 +27,6 @@ class LocationManager extends SubManager
         {
             $this->set_parameter(self :: PARAM_LOCATION_ACTION, $location_action);
         }
-    }
-
-    function run()
-    {
-        $location_action = $this->get_parameter(self :: PARAM_LOCATION_ACTION);
-        
-        switch ($location_action)
-        {
-            case self :: ACTION_BROWSE_LOCATIONS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_LOCK_LOCATIONS :
-                $component = $this->create_component('Locker');
-                break;
-            case self :: ACTION_UNLOCK_LOCATIONS :
-                $component = $this->create_component('Unlocker');
-                break;
-            case self :: ACTION_INHERIT_LOCATIONS :
-                $component = $this->create_component('Inheriter');
-                break;
-            case self :: ACTION_DISINHERIT_LOCATIONS :
-                $component = $this->create_component('Disinheriter');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-                break;
-        }
-        
-        $component->run();
     }
 
     function get_application_component_path()
@@ -94,6 +67,44 @@ class LocationManager extends SubManager
     function get_location_unlocking_url($location)
     {
         return $this->get_url(array(LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_UNLOCK_LOCATIONS, LocationManager :: PARAM_LOCATION => $location->get_id()));
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_LOCATION_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        parent :: launch(__CLASS__, $application);
     }
 }
 ?>

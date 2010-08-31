@@ -1,10 +1,7 @@
 <?php
 /**
- * $Id: repository_manager.class.php 204 2009-11-13 12:51:30Z kariboe $
  * @package repository.lib.repository_manager
- */
-
-/**
+ *
  * A repository manager provides some functionalities to the end user to manage
  * his learning objects in the repository. For each functionality a component is
  * available.
@@ -61,75 +58,68 @@ class RepositoryManager extends CoreApplication
     const PARAM_LINK_TYPE = 'link_type';
     const PARAM_LINK_ID = 'link_id';
     const PARAM_CONTENT_OBJECT_MANAGER_TYPE = 'manage';
-    
-    const PARAM_TYPE = 'type';
-	const PARAM_IDENTIFIER = 'identifier';
 
-    /**#@-*/
-    /**#@+
+    const PARAM_TYPE = 'type';
+    const PARAM_IDENTIFIER = 'identifier';
+
+    /**
      * Constant defining an action of the repository manager.
      */
-    const ACTION_BROWSE_CONTENT_OBJECTS = 'browse';
-    const ACTION_BROWSE_SHARED_CONTENT_OBJECTS = 'browse_shared';
-    const ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS = 'recycler';
-    const ACTION_VIEW_CONTENT_OBJECTS = 'view';
-    const ACTION_CREATE_CONTENT_OBJECTS = 'create';
-    const ACTION_EDIT_CONTENT_OBJECTS = 'edit';
-    const ACTION_REVERT_CONTENT_OBJECTS = 'revert';
-    const ACTION_DELETE_CONTENT_OBJECTS = 'delete';
-    const ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS = 'deletepublications';
-    const ACTION_UNLINK_CONTENT_OBJECTS = 'unlink';
-    const ACTION_RESTORE_CONTENT_OBJECTS = 'restore';
-    const ACTION_MOVE_CONTENT_OBJECTS = 'move';
-    const ACTION_EDIT_CONTENT_OBJECT_METADATA = 'metadata_edit';
-    const ACTION_VIEW_CONTENT_OBJECT_METADATA = 'metadata_view';
-    const ACTION_EDIT_CONTENT_OBJECT_RIGHTS = 'rights';
-    const ACTION_VIEW_MY_PUBLICATIONS = 'publicationbrowser';
-    const ACTION_VIEW_QUOTA = 'quota';
-    const ACTION_COMPARE_CONTENT_OBJECTS = 'compare';
-    const ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION = 'publicationupdater';
-    const ACTION_CREATE_COMPLEX_CONTENT_OBJECTS = 'createcomplex';
-    const ACTION_UPDATE_COMPLEX_CONTENT_OBJECTS = 'updatecomplex';
-    const ACTION_DELETE_COMPLEX_CONTENT_OBJECTS = 'deletecomplex';
-    const ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS = 'browsecomplex';
-    const ACTION_MOVE_COMPLEX_CONTENT_OBJECTS = 'movecomplex';
-    const ACTION_SELECT_CONTENT_OBJECTS = 'selectobjects';
-    const ACTION_ADD_CONTENT_OBJECT = 'addobject';
-    const ACTION_EXPORT_CONTENT_OBJECTS = 'export';
-    const ACTION_IMPORT_CONTENT_OBJECTS = 'import';
-    const ACTION_PUBLISH_CONTENT_OBJECT = 'publish';
-    const ACTION_MANAGE_CATEGORIES = 'manage_categories';
+    const ACTION_BROWSE_CONTENT_OBJECTS = 'browser';
+    const ACTION_BROWSE_SHARED_CONTENT_OBJECTS = 'shared_content_objects_browser';
+    const ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS = 'recycle_bin_browser';
+    const ACTION_VIEW_CONTENT_OBJECTS = 'viewer';
+    const ACTION_CREATE_CONTENT_OBJECTS = 'creator';
+    const ACTION_EDIT_CONTENT_OBJECTS = 'editor';
+    const ACTION_REVERT_CONTENT_OBJECTS = 'reverter';
+    const ACTION_DELETE_CONTENT_OBJECTS = 'deleter';
+    const ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS = 'publication_deleter';
+    const ACTION_UNLINK_CONTENT_OBJECTS = 'unlinker';
+    const ACTION_RESTORE_CONTENT_OBJECTS = 'restorer';
+    const ACTION_MOVE_CONTENT_OBJECTS = 'mover';
+    const ACTION_EDIT_CONTENT_OBJECT_METADATA = 'metadata_editor';
+    const ACTION_VIEW_CONTENT_OBJECT_METADATA = 'metadata_viewer';
+    const ACTION_EDIT_CONTENT_OBJECT_RIGHTS = 'rights_editor';
+    const ACTION_VIEW_MY_PUBLICATIONS = 'publication_browser';
+    const ACTION_VIEW_QUOTA = 'quota_viewer';
+    const ACTION_COMPARE_CONTENT_OBJECTS = 'comparer';
+    const ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION = 'publication_updater';
+    const ACTION_EXPORT_CONTENT_OBJECTS = 'exporter';
+    const ACTION_IMPORT_CONTENT_OBJECTS = 'importer';
+    const ACTION_PUBLISH_CONTENT_OBJECT = 'publisher';
+    const ACTION_MANAGE_CATEGORIES = 'category_manager';
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
-    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'build_complex';
-    const ACTION_VIEW_REPO = 'repo_viewer';
+    const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'complex_builder';
+    const ACTION_VIEW_REPO = 'attachment_viewer';
     const ACTION_DOWNLOAD_DOCUMENT = 'document_downloader';
-    const ACTION_EXTERNAL_REPOSITORY_BROWSE = 'ext_rep_browse';
-    const ACTION_EXTERNAL_REPOSITORY_EXPORT = 'ext_rep_export';
-    const ACTION_EXTERNAL_REPOSITORY_IMPORT = 'ext_rep_import';
-    const ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS = 'ext_rep_list_objects';
-    const ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW = 'ext_rep_metadata_review';
-    const ACTION_EXTERNAL_REPOSITORY_CATALOG = 'ext_rep_catalog';
-    const ACTION_BROWSE_TEMPLATES = 'templates';
-    const ACTION_COPY_CONTENT_OBJECT = 'lo_copy';
-    const ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES = 'copy_co_to_templates';
-    const ACTION_COPY_CONTENT_OBJECT_FROM_TEMPLATES = 'copy_co_from_templates';
-    const ACTION_MANAGE_CONTENT_OBJECT = 'manage_content_object';
-    const ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS = 'manage_co_registrations';
-    const ACTION_RECYCLE_CONTENT_OBJECTS = 'recycle';
-    const ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY = 'delete_permanently';
+//    const ACTION_EXTERNAL_REPOSITORY_BROWSE = 'ext_rep_browse';
+//    const ACTION_EXTERNAL_REPOSITORY_EXPORT = 'ext_rep_export';
+//    const ACTION_EXTERNAL_REPOSITORY_IMPORT = 'ext_rep_import';
+//    const ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS = 'ext_rep_list_objects';
+//    const ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW = 'ext_rep_metadata_review';
+//    const ACTION_EXTERNAL_REPOSITORY_CATALOG = 'ext_rep_catalog';
+    const ACTION_BROWSE_TEMPLATES = 'template_browser';
+    const ACTION_COPY_CONTENT_OBJECT = 'content_object_copier';
+    const ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES = 'template_creator';
+    const ACTION_COPY_CONTENT_OBJECT_FROM_TEMPLATES = 'template_user';
+    const ACTION_MANAGE_CONTENT_OBJECT = 'content_object_manager';
+    const ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS = 'content_object_registration_browser';
+    const ACTION_RECYCLE_CONTENT_OBJECTS = 'recycler';
+    const ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY = 'permanent_deleter';
 
-    const ACTION_IMPORT_TEMPLATE = 'import_template';
-    const ACTION_DELETE_TEMPLATE = 'delete_template';
-    const ACTION_DELETE_LINK = 'delete_link';
-    const ACTION_VIEW_DOUBLES = 'view_doubles';
-    const ACTION_STREAMING_MEDIA_MANAGER = 'streaming';
+    const ACTION_IMPORT_TEMPLATE = 'template_importer';
+    const ACTION_DELETE_TEMPLATE = 'template_deleter';
+    const ACTION_DELETE_LINK = 'link_deleter';
+    const ACTION_VIEW_DOUBLES = 'doubles_viewer';
     const ACTION_EXTERNAL_REPOSITORY_MANAGER = 'external_repository';
-    const ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES = 'repository_instances';
+    const ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES = 'external_repository_instance_manager';
 
-    const ACTION_BROWSE_USER_VIEWS = 'browse_views';
-    const ACTION_CREATE_USER_VIEW = 'create_view';
-    const ACTION_DELETE_USER_VIEW = 'delete_view';
-    const ACTION_UPDATE_USER_VIEW = 'update_view';
+    const ACTION_BROWSE_USER_VIEWS = 'user_view_browser';
+    const ACTION_CREATE_USER_VIEW = 'user_view_creator';
+    const ACTION_DELETE_USER_VIEW = 'user_view_deleter';
+    const ACTION_UPDATE_USER_VIEW = 'user_view_updater';
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_CONTENT_OBJECTS;
 
     const PARAM_USER_VIEW = 'user_view';
     const PARAM_RENDERER = 'renderer';
@@ -158,215 +148,6 @@ class RepositoryManager extends CoreApplication
     }
 
     /**
-     * Run this repository manager
-     */
-    function run()
-    {
-
-        /*
-		 * Only setting breadcrumbs here. Some stuff still calls
-		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
-		 */
-        //$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
-        $action = $this->get_action();
-        $component = null;
-        BreadcrumbTrail :: get_instance()->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('Repository')));
-        switch ($action)
-        {
-            case self :: ACTION_CREATE_COMPLEX_CONTENT_OBJECTS :
-                $component = $this->create_component('ComplexCreator');
-                break;
-            case self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECTS :
-                $component = $this->create_component('ComplexUpdater');
-                break;
-            case self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECTS :
-                $component = $this->create_component('ComplexDeleter');
-                break;
-            case self :: ACTION_BROWSE_COMPLEX_CONTENT_OBJECTS :
-                $component = $this->create_component('ComplexBrowser');
-                break;
-            case self :: ACTION_SELECT_CONTENT_OBJECTS :
-                $component = $this->create_component('ContentObjectSelector');
-                break;
-            case self :: ACTION_ADD_CONTENT_OBJECT :
-                $component = $this->create_component('AddContentObjects');
-                break;
-            case self :: ACTION_VIEW_CONTENT_OBJECTS :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_COMPARE_CONTENT_OBJECTS :
-                $component = $this->create_component('Comparer');
-                break;
-            case self :: ACTION_CREATE_CONTENT_OBJECTS :
-                $this->force_menu_url($this->get_content_object_creation_url(), true);
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_EDIT_CONTENT_OBJECTS :
-                $component = $this->create_component('Editor');
-                break;
-            case self :: ACTION_REVERT_CONTENT_OBJECTS :
-                $component = $this->create_component('Reverter');
-                break;
-            case self :: ACTION_DELETE_CONTENT_OBJECTS :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_RECYCLE_CONTENT_OBJECTS :
-                $component = $this->create_component('Deleter');
-                Request :: set_get(self :: PARAM_DELETE_RECYCLED, 1);
-                break;
-            case self :: ACTION_DELETE_CONTENT_OBJECTS_PERMANENTLY :
-                $component = $this->create_component('Deleter');
-                Request :: set_get(self :: PARAM_DELETE_PERMANENTLY, 1);
-                break;
-            case self :: ACTION_DELETE_CONTENT_OBJECT_PUBLICATIONS :
-                $component = $this->create_component('PublicationDeleter');
-                break;
-            case self :: ACTION_RESTORE_CONTENT_OBJECTS :
-                $component = $this->create_component('Restorer');
-                break;
-            case self :: ACTION_MOVE_CONTENT_OBJECTS :
-                $component = $this->create_component('Mover');
-                break;
-            case self :: ACTION_EDIT_CONTENT_OBJECT_METADATA :
-                $component = $this->create_component('MetadataEditor');
-                break;
-            case self :: ACTION_VIEW_CONTENT_OBJECT_METADATA :
-                $component = $this->create_component('MetadataViewer');
-                break;
-            case self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS :
-                $component = $this->create_component('RightsEditor');
-                break;
-            case self :: ACTION_UPDATE_CONTENT_OBJECT_PUBLICATION :
-                $component = $this->create_component('PublicationUpdater');
-                break;
-            case self :: ACTION_DELETE_LINK :
-                $component = $this->create_component('LinkDeleter');
-                break;
-            case self :: ACTION_VIEW_QUOTA :
-                $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
-                $this->force_menu_url($this->get_quota_url(), true);
-                $component = $this->create_component('QuotaViewer');
-                break;
-            case self :: ACTION_VIEW_MY_PUBLICATIONS :
-                $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
-                $this->force_menu_url($this->get_publication_url(), true);
-                $component = $this->create_component('PublicationBrowser');
-                break;
-            case self :: ACTION_BROWSE_RECYCLED_CONTENT_OBJECTS :
-                $this->set_parameter(self :: PARAM_CATEGORY_ID, null);
-                $this->force_menu_url($this->get_recycle_bin_url(), true);
-                $component = $this->create_component('RecycleBinBrowser');
-                break;
-            case self :: ACTION_MOVE_COMPLEX_CONTENT_OBJECTS :
-                $component = $this->create_component('ComplexOrderMover');
-                break;
-            case self :: ACTION_EXPORT_CONTENT_OBJECTS :
-                $component = $this->create_component('Exporter');
-                break;
-            case self :: ACTION_IMPORT_CONTENT_OBJECTS :
-                $this->force_menu_url($this->import_url, true);
-                $component = $this->create_component('Importer');
-                break;
-            case self :: ACTION_PUBLISH_CONTENT_OBJECT :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_MANAGE_CATEGORIES :
-                $component = $this->create_component('CategoryManager');
-                break;
-            case self :: ACTION_DOWNLOAD_DOCUMENT :
-                $component = $this->create_component('DocumentDownloader');
-                break;
-            case self :: ACTION_BROWSE_USER_VIEWS :
-                $component = $this->create_component('UserViewBrowser');
-                break;
-            case self :: ACTION_CREATE_USER_VIEW :
-                $component = $this->create_component('UserViewCreator');
-                break;
-            case self :: ACTION_UPDATE_USER_VIEW :
-                $component = $this->create_component('UserViewUpdater');
-                break;
-            case self :: ACTION_DELETE_USER_VIEW :
-                $component = $this->create_component('UserViewDeleter');
-                break;
-            case self :: ACTION_VIEW_ATTACHMENT :
-                $component = $this->create_component('AttachmentViewer');
-                break;
-            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT :
-                $component = $this->create_component('ComplexBuilder');
-                break;
-            case self :: ACTION_VIEW_REPO :
-                $component = $this->create_component('RepoViewer');
-                break;
-            case self :: ACTION_BROWSE_SHARED_CONTENT_OBJECTS :
-                $component = $this->create_component('SharedContentObjectsBrowser');
-                break;
-            case self :: ACTION_EXTERNAL_REPOSITORY_BROWSE :
-                $component = $this->create_component('ExternalRepositoryBrowser');
-                break;
-            case self :: ACTION_EXTERNAL_REPOSITORY_EXPORT :
-                $component = $this->create_component('ExternalRepositoryExport');
-                break;
-            case self :: ACTION_EXTERNAL_REPOSITORY_IMPORT :
-                $component = $this->create_component('ExternalRepositoryImport');
-                break;
-            case self :: ACTION_EXTERNAL_REPOSITORY_LIST_OBJECTS :
-                $component = $this->create_component('ExternalRepositoryListObjects');
-                break;
-            case self :: ACTION_EXTERNAL_REPOSITORY_METADATA_REVIEW :
-                $component = $this->create_component('ExternalRepositoryMetadataReviewer');
-                break;
-            case self :: ACTION_EXTERNAL_REPOSITORY_CATALOG :
-                $component = $this->create_component('ExternalRepositoryCatalog');
-                break;
-            case self :: ACTION_BROWSE_TEMPLATES :
-                $component = $this->create_component('TemplateBrowser');
-                break;
-            case self :: ACTION_COPY_CONTENT_OBJECT :
-                $component = $this->create_component('ContentObjectCopier');
-                break;
-            case self :: ACTION_COPY_CONTENT_OBJECT_TO_TEMPLATES :
-                $component = $this->create_component('ContentObjectCopier');
-                Request :: set_get(self :: PARAM_TARGET_USER, 0);
-                break;
-            case self :: ACTION_COPY_CONTENT_OBJECT_FROM_TEMPLATES :
-                $component = $this->create_component('ContentObjectCopier');
-                Request :: set_get(self :: PARAM_TARGET_USER, $this->get_user_id());
-                break;
-            case self :: ACTION_IMPORT_TEMPLATE :
-                $component = $this->create_component('TemplateImporter');
-                break;
-            case self :: ACTION_DELETE_TEMPLATE :
-                $component = $this->create_component('TemplateDeleter');
-                break;
-            case self :: ACTION_UNLINK_CONTENT_OBJECTS :
-                $component = $this->create_component('Unlinker');
-                break;
-            case self :: ACTION_VIEW_DOUBLES :
-                $component = $this->create_component('DoublesViewer');
-                break;
-            case self :: ACTION_STREAMING_MEDIA_MANAGER :
-                $component = $this->create_component('Streaming');
-                break;
-            case self :: ACTION_EXTERNAL_REPOSITORY_MANAGER :
-                $component = $this->create_component('ExternalRepository');
-                break;
-            case self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES :
-                $component = $this->create_component('ExternalRepositoryInstanceManager');
-                break;
-            case self :: ACTION_MANAGE_CONTENT_OBJECT :
-                $component = $this->create_component('ContentObjectManager');
-                break;
-            case self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS :
-                $component = $this->create_component('ContentObjectRegistrationBrowser');
-                break;
-            default :
-                $this->set_action(self :: ACTION_BROWSE_CONTENT_OBJECTS);
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
-    }
-
-    /**
      * Displays the header.
      * @param array $breadcrumbs Breadcrumbs to show in the header.
      * @param boolean $display_search Should the header include a search form or
@@ -382,7 +163,7 @@ class RepositoryManager extends CoreApplication
         if ($display_menu)
         {
             if (Request :: get('category'))
-                $breadcrumbtrail->merge($this->get_category_menu()->get_breadcrumbs(false));
+                $this->get_category_menu()->get_breadcrumbs(false);
         }
 
         $title = $breadcrumbtrail->get_last()->get_name();
@@ -665,10 +446,13 @@ class RepositoryManager extends CoreApplication
         }
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CONTENT_OBJECTS, self :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id(), self :: PARAM_CATEGORY_ID => $content_object->get_parent_id()));
     }
-    
+
     function get_external_repository_object_viewing_url(ExternalRepositorySync $external_repository_sync)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_sync->get_external_repository_id(), ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_repository_sync->get_external_repository_object_id()));
+        return $this->get_url(array(
+                self :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER, ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_sync->get_external_repository_id(),
+                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY,
+                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $external_repository_sync->get_external_repository_object_id()));
     }
 
     /**
@@ -803,20 +587,20 @@ class RepositoryManager extends CoreApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_IDENTIFIER => $content_object->get_id(), self :: PARAM_TYPE => RepositoryRights :: TYPE_USER_CONTENT_OBJECT));
     }
-    
-	/**
+
+    /**
      * Gets the url to edit the rights on a learning object type.
      * @param String $content_object_type The learning object.
      * @return string The requested URL.
      */
     function get_content_object_type_rights_editing_url($registration)
     {
-    	if($registration)
-    	{
-    		$id = $registration->get_id();
-    	}
-    	
-    	return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_IDENTIFIER => $id, self :: PARAM_TYPE => RepositoryRights :: TYPE_CONTENT_OBJECT));
+        if ($registration)
+        {
+            $id = $registration->get_id();
+        }
+
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTENT_OBJECT_RIGHTS, self :: PARAM_IDENTIFIER => $id, self :: PARAM_TYPE => RepositoryRights :: TYPE_CONTENT_OBJECT));
     }
 
     /**
@@ -1067,12 +851,12 @@ class RepositoryManager extends CoreApplication
 
                         while ($external_repository_manager = $external_repository_managers->next_result())
                         {
-                            if(!RepositoryRights :: is_allowed_in_external_repositories_subtree(RepositoryRights :: USE_RIGHT, $external_repository_manager->get_id()))
+                            if (! RepositoryRights :: is_allowed_in_external_repositories_subtree(RepositoryRights :: USE_RIGHT, $external_repository_manager->get_id()))
                             {
-                            	continue;
+                                continue;
                             }
-                        	
-                        	$external_repository_type_subitem = array();
+
+                            $external_repository_type_subitem = array();
                             $external_repository_type_subitem['title'] = $external_repository_manager->get_title();
                             $external_repository_type_subitem['url'] = $this->get_url(array(
                                     Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
@@ -1088,17 +872,17 @@ class RepositoryManager extends CoreApplication
                     {
                         $external_repository_manager = $external_repository_managers->next_result();
 
-                    	if(RepositoryRights :: is_allowed_in_external_repositories_subtree(RepositoryRights :: USE_RIGHT, $external_repository_manager->get_id()))
+                        if (RepositoryRights :: is_allowed_in_external_repositories_subtree(RepositoryRights :: USE_RIGHT, $external_repository_manager->get_id()))
                         {
-                        
-	                        $external_repository_sub_item = array();
-	                        $external_repository_sub_item['title'] = $external_repository_manager->get_title();
-	                        $external_repository_sub_item['url'] = $this->get_url(array(
-	                                Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
-	                                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()), array(
-	                                ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: PARAM_RENDERER));
-	                        $external_repository_sub_item['class'] = $external_repository_manager->get_type();
-	                        $external_repository_sub_items[] = $external_repository_sub_item;
+
+                            $external_repository_sub_item = array();
+                            $external_repository_sub_item['title'] = $external_repository_manager->get_title();
+                            $external_repository_sub_item['url'] = $this->get_url(array(
+                                    Application :: PARAM_ACTION => self :: ACTION_EXTERNAL_REPOSITORY_MANAGER,
+                                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY => $external_repository_manager->get_id()), array(
+                                    ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: PARAM_RENDERER));
+                            $external_repository_sub_item['class'] = $external_repository_manager->get_type();
+                            $external_repository_sub_items[] = $external_repository_sub_item;
                         }
                     }
                 }
@@ -1239,17 +1023,18 @@ class RepositoryManager extends CoreApplication
         echo $this->get_search_form()->display();
     }
 
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
-        $info = parent :: get_application_platform_admin_links();
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
 
-        $links[] = new DynamicAction(Translation :: get('ImportTemplate'), Translation :: get('ImportTemplateDescription'), Theme :: get_image_path() . 'browse_import.png', $this->get_link(array(Application :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE)));
-        $links[] = new DynamicAction(Translation :: get('ManageExternalRepositoryManagerInstances'), Translation :: get('ManageExternalRepositoryManagerInstancesDescription'), Theme :: get_image_path() . 'browse_repository.png', $this->get_link(array(
-                Application :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES)));
-        $links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', $this->get_link(array(
-                Application :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS)));
+        $links[] = new DynamicAction(Translation :: get('ImportTemplate'), Translation :: get('ImportTemplateDescription'), Theme :: get_image_path() . 'browse_import.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_IMPORT_TEMPLATE), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManageExternalRepositoryManagerInstances'), Translation :: get('ManageExternalRepositoryManagerInstancesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('ManageContentObjectTypes'), Translation :: get('ManageContentObjectTypesDescription'), Theme :: get_image_path() . 'browse_repository.png', Redirect :: get_link(self :: APPLICATION_NAME, array(
+                self :: PARAM_ACTION => self :: ACTION_MANAGE_CONTENT_OBJECT_REGISTRATIONS), array(), false, Redirect :: TYPE_CORE));
 
-        $info['search'] = $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS));
+        $info['search'] = Redirect :: get_link(self :: APPLICATION_NAME, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CONTENT_OBJECTS), array(), false, Redirect :: TYPE_CORE);
         $info['links'] = $links;
         return $info;
     }
@@ -1395,7 +1180,7 @@ class RepositoryManager extends CoreApplication
     {
         return RepositoryDataManager :: get_instance()->retrieve_external_repositories($condition, $offset, $count, $order_property);
     }
-    
+
     function count_external_repositories($condition = null)
     {
         return RepositoryDataManager :: get_instance()->count_external_repositories($condition);
@@ -1593,6 +1378,21 @@ class RepositoryManager extends CoreApplication
     function get_external_repository_instance_manager_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_EXTERNAL_REPOSITORY_INSTANCES));
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

@@ -27,7 +27,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
         $course = $parent->get_course();
         $this->course = $course;
         $this->number_of_columns = ($course->get_layout() % 2 == 0) ? 3 : 2;
-        $this->is_course_admin = $this->get_parent()->is_allowed(EDIT_RIGHT);
+        $this->is_course_admin = $this->get_parent()->is_allowed(WeblcmsRights :: EDIT_RIGHT);
     }
 
     // Inherited
@@ -149,10 +149,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
             $row = $count / $this->number_of_columns;
             $col = $count % $this->number_of_columns;
             $cell_contents = array();
-            if ($parent->is_allowed(EDIT_RIGHT) || $publication->is_visible_for_target_users())
+            if ($parent->is_allowed(WeblcmsRights :: EDIT_RIGHT) || $publication->is_visible_for_target_users())
             {
                 // Show visibility-icon
-                if ($parent->is_allowed(EDIT_RIGHT))
+                if ($parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
                 {
                     $cell_contents[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => $lcms_action, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . $visible_image . '" style="vertical-align: middle;" alt=""/></a>';
                     $cell_contents[] = '<a href="' . $parent->get_url(array(Tool :: PARAM_ACTION => HomeTool :: ACTION_DELETE_LINKS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '"><img src="' . Theme :: get_common_image_path() . 'action_delete.png" style="vertical-align: middle;" alt=""/></a>';

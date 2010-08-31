@@ -5,42 +5,12 @@
  */
 class SurveyPageBuilder extends ComplexBuilder implements ComplexMenuSupport
 {
-
+    
     const ACTION_CREATE_SURVEY_PAGE = 'create';
     const ACTION_BUILD_ROUTING = 'routing';
+    
     const PARAM_QUESTION_ID = 'question';
     const PARAM_SURVEY_PAGE_ID = 'survey_page';
-
-    function run()
-    {
-        $action = $this->get_action();
-
-        switch ($action)
-        {
-            case ComplexBuilder :: ACTION_BROWSE :
-                $component = $this->create_component('Browser');
-                break;
-            case ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = $this->create_component('Creator');
-                break;
-           case ComplexBuilder :: ACTION_MOVE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = $this->create_component('Mover');
-                break;
-            case ComplexBuilder :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = $this->create_component('Deleter');
-                break;
-            case ComplexBuilder :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = $this->create_component('Viewer');
-                break;
-            case ComplexBuilder :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM :
-                $component = $this->create_component('Updater');
-                break;
-            default :
-            	$this->set_action(ComplexBuilder :: ACTION_BROWSE);
-            	$component = $this->create_component('Browser');
-        }
-        $component->run();
-    }
 
     function get_routing_url($selected_complex_content_object_item)
     {
@@ -48,10 +18,40 @@ class SurveyPageBuilder extends ComplexBuilder implements ComplexMenuSupport
         return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_BUILD_ROUTING, self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id, self :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID => $selected_complex_content_object_item));
     }
 
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_BUILDER_ACTION;
+    }
 }
 
 ?>

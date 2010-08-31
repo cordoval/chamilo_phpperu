@@ -16,7 +16,7 @@ class HtmlEditorRepoViewer extends RepoViewer
 {
 //    RepoViewer($parent, $types, $mail_option = false, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true, $redirect = true)
 
-    public static function factory($type, $parent, $types, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true)
+    public static function construct($type, $parent)
     {
         $file = dirname(__FILE__) . '/' . $type . '/html_editor_' . $type . '_repo_viewer.class.php';
         $class = 'HtmlEditor' . Utilities :: underscores_to_camelcase($type) . 'RepoViewer';
@@ -24,7 +24,7 @@ class HtmlEditorRepoViewer extends RepoViewer
         if (file_exists($file))
         {
             require_once ($file);
-            return new $class($parent, $types, $maximum_select, $excluded_objects, $parse_input);
+            return SubManager :: construct($class, $parent);
         }
     }
 }

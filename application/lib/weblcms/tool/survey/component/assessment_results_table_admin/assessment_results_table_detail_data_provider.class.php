@@ -55,7 +55,7 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
     {
         $condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $pub->get_id());
         
-        if (! $this->parent->is_allowed(EDIT_RIGHT))
+        if (! $this->parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $conditions = array();
             $conditions[] = $condition;

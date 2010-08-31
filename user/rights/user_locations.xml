@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<location name="user" type="root" identifier="0">
+<location name="user" type="0" identifier="0">
 	<children>
-		<location name="UserApprovalBrowser" type="user_component" identifier="1" />
-		<location name="UserApprover" type="user_component" identifier="2" />
-		<location name="UserFieldsBuilder" type="user_component" identifier="3" />
+		<location name="UserApprovalBrowser" type="1" identifier="1" />
+		<location name="UserApprover" type="1" identifier="2" />
+		<location name="UserFieldsBuilder" type="1" identifier="3" />
 	</children>
 </location>

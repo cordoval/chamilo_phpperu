@@ -1,5 +1,5 @@
 <?php
-class ExternalRepositoryExternalSyncerComponent extends ExternalRepositoryComponent
+class ExternalRepositoryComponentExternalSyncerComponent extends ExternalRepositoryComponent
 {
 
     function run()

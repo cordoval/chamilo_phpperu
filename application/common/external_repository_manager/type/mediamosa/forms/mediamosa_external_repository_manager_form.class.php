@@ -151,16 +151,16 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
                         $ticket_return['action'] = $ticket_response->items->item->action;
                         $ticket_return['uploadprogress_url'] = $ticket_response->items->item->uploadprogress_url;
 
-                        //create master slave acl settings
-                        $slaves = explode('|', ExternalRepositorySetting :: get('slave_app_ids', Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY)));
+//                        //create master slave acl settings
+//                        $slaves = explode('|', ExternalRepositorySetting :: get('slave_app_ids', Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY)));
+//
+//                        foreach($slaves as $slave)
+//                        {
+//                            $rights['aut_app'][] = $slave;
+//                        }
 
-                        foreach($slaves as $slave)
-                        {
-                            $rights['aut_app'][] = $slave;
-                        }
-
-                        $connector->set_mediamosa_asset_rights($asset_id, $rights, Session :: get_user_id(), false);
-                        $connector->set_mediamosa_mediafile_rights($mediafile_id, $rights, Session :: get_user_id());
+                        //$connector->set_mediamosa_asset_rights($asset_id, $rights, Session :: get_user_id(), false);
+                        //$connector->set_mediamosa_mediafile_rights($mediafile_id, $rights, Session :: get_user_id());
 
                         return $ticket_return;
                     }

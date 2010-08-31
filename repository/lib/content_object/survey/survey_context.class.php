@@ -9,24 +9,28 @@ abstract class SurveyContext extends DataClass
     
     const PROPERTY_TYPE = 'type';
     const PROPERTY_NAME = 'name';
-    const PROPERTY_USERNAME_KEY= 'username';
+    const PROPERTY_USERNAME_KEY = 'username';
     
     private $additionalProperties;
 
-//    abstract static public function create_contexts_for_user($user_id, $key, $key_type = '' );
+    //    abstract static public function create_contexts_for_user($user_id, $key, $key_type = '' );
     
-	
+
     abstract static public function get_allowed_keys();
-       
-//    abstract static public function get_display_name();
+
+    abstract static function get_additional_property_names();
+
+    //    abstract static public function get_display_name();
+    
 
     public function SurveyContext($defaultProperties = array (), $additionalProperties = null)
     {
         parent :: __construct($defaultProperties);
-        if(isset($additionalProperties)){
-        	$this->additionalProperties = $additionalProperties;
+        if (isset($additionalProperties))
+        {
+            $this->additionalProperties = $additionalProperties;
         }
-        
+    
     }
 
     public function create()
@@ -43,10 +47,11 @@ abstract class SurveyContext extends DataClass
         }
     
     }
-    
-	public function delete(){
-	 	
-		$dm = SurveyContextDataManager :: get_instance();
+
+    public function delete()
+    {
+        
+        $dm = SurveyContextDataManager :: get_instance();
         
         if (! $dm->delete_survey_context($this))
         {
@@ -56,11 +61,12 @@ abstract class SurveyContext extends DataClass
         {
             return true;
         }
-	}
-    
-public function update(){
-	 	
-		$dm = SurveyContextDataManager :: get_instance();
+    }
+
+    public function update()
+    {
+        
+        $dm = SurveyContextDataManager :: get_instance();
         
         if (! $dm->update_survey_context($this))
         {
@@ -70,8 +76,8 @@ public function update(){
         {
             return true;
         }
-	}
-	
+    }
+
     static function factory($type, $defaultProperties = array(), $additionalProperties = null)
     {
         $class = self :: type_to_class($type);
@@ -162,7 +168,7 @@ public function update(){
     {
         if (isset($this->additionalProperties))
         {
-        	return;
+            return;
         }
         $dm = SurveyContextDataManager :: get_instance();
         $this->additionalProperties = $dm->retrieve_additional_survey_context_properties($this);

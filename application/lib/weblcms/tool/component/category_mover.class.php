@@ -5,12 +5,12 @@
  */
 require_once dirname(__FILE__) . '/../tool_component.class.php';
 
-class ToolCategoryMoverComponent extends ToolComponent
+class ToolComponentCategoryMoverComponent extends ToolComponent
 {
 
     function run()
     {
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $form = $this->build_move_to_category_form();
             if (! $form)
@@ -36,6 +36,23 @@ class ToolCategoryMoverComponent extends ToolComponent
                     $publication = WeblcmsDataManager :: get_instance()->retrieve_content_object_publication($publication_id);
                     $publication->set_category_id($form->exportValue('category'));
                     $publication->update();
+                    
+		        	if($publication->get_category_id())
+		        	{
+		        		$new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $publication->get_category_id(), $publication->get_course_id());
+		        	}
+		        	else
+		        	{
+		        		$course_module_id = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($publication->get_course_id(), $publication->get_tool())->get_id();
+		        		$new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $publication->get_course_id());	
+		        	}
+		        	
+		        	$location =  WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_PUBLICATION, $publication->get_id(), $publication->get_course_id());
+		        	if($location)
+		        	{
+		        		$location->move($new_parent_id);
+		        	}
+
                 }
                 if (count($publication_ids) == 1)
                 {

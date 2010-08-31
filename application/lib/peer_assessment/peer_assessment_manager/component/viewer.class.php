@@ -19,23 +19,17 @@ class PeerAssessmentManagerViewerComponent extends PeerAssessmentManager
         $this->set_parameter(PeerAssessmentManager :: PARAM_ACTION, PeerAssessmentManager :: ACTION_VIEW_PEER_ASSESSMENT);
         $this->set_parameter(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION, Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION));
         
-        $this->cd = ComplexDisplay :: factory($this, PeerAssessment :: get_type_name());
-        
-        //$this->display_header($trail, false);
-        $this->cd->run();
-        //$this->display_footer();
+        ComplexDisplay :: launch(PeerAssessment :: get_type_name(), $this);
     }
-   
-    
-	function get_current_attempt_id()
+
+    function get_current_attempt_id()
     {
         return $this->get_component_id();
     }
-    
+
     function get_root_content_object()
     {
-    	$pub = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication(Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION));
-        
+        $pub = PeerAssessmentDataManager :: get_instance()->retrieve_peer_assessment_publication(Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION));
         return $pub->get_content_object();
     }
 

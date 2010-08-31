@@ -12,8 +12,7 @@ class CompetenceBuilderBrowserComponent extends CompetenceBuilder
     function run()
     {
         //$object = $this->get_root_content_object();
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
-        $browser->run();
+        ComplexBuilderComponent :: launch($this);
         
         /*
         $trail = BreadcrumbTrail :: get_instance();

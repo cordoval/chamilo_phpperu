@@ -4,9 +4,7 @@ class YoutubeExternalRepositoryManagerExporterComponent extends YoutubeExternalR
 
     function run()
     {
-        $exporter = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: EXPORTER_COMPONENT, $this);
-        
-        $exporter->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 
     function export_external_repository_object($object)

@@ -6,8 +6,7 @@ class MediamosaExternalRepositoryManagerConfigurerComponent extends MediamosaExt
     {
         //$slave_apps = ExternalRepositorySetting :: get('slave_app_ids', $this->get_external_repository_instance_id());
 
-        $configurer = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: CONFIGURER_COMPONENT, $this);
-        $configurer->run();
+        ExternalRepositoryComponent :: launch($this);
 
  //       $new_slave_apps = ExternalRepositorySetting :: get('slave_app_ids', $this->get_external_repository_instance_id());
        

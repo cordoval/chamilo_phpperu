@@ -21,17 +21,17 @@ class InternshipOrganizerPeriodManager extends SubManager
     const PARAM_USER_TYPE = 'user_type';
     const PARAM_AGREEMENT_ID = 'agreement_id';
     
-    const ACTION_CREATE_PERIOD = 'create';
-    const ACTION_BROWSE_PERIODS = 'browse';
-    const ACTION_EDIT_PERIOD = 'edit';
-    const ACTION_DELETE_PERIOD = 'delete';
-    const ACTION_VIEW_PERIOD = 'view';
-    const ACTION_PUBLISH_PERIOD = 'publish';
+    const ACTION_CREATE_PERIOD = 'creator';
+    const ACTION_BROWSE_PERIODS = 'browser';
+    const ACTION_EDIT_PERIOD = 'editor';
+    const ACTION_DELETE_PERIOD = 'deleter';
+    const ACTION_VIEW_PERIOD = 'viewer';
+    const ACTION_PUBLISH_PERIOD = 'publisher';
     
-    const ACTION_CREATE_AGREEMENT = 'create_agreement';
-    const ACTION_DELETE_AGREEMENT = 'delete_agreement';
-    const ACTION_UPDATE_AGREEMENT = 'update_agreement';
-    const ACTION_VIEW_AGREEMENT = 'view_agreement';
+    const ACTION_CREATE_AGREEMENT = 'agreement_creator';
+    const ACTION_DELETE_AGREEMENT = 'agreement_deleter';
+    const ACTION_UPDATE_AGREEMENT = 'agreement_updater';
+    const ACTION_VIEW_AGREEMENT = 'agreement_viewer';
     
     const ACTION_SUBSCRIBE_USER = 'subscribe_user';
     const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
@@ -44,6 +44,8 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER = 'unsubscribe_agreement_rel_user';
     
     const ACTION_REPORTING = 'reporting';
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_PERIODS;
 
     function InternshipOrganizerPeriodManager($internship_manager)
     {
@@ -54,78 +56,6 @@ class InternshipOrganizerPeriodManager extends SubManager
             $this->set_parameter(self :: PARAM_ACTION, $action);
         }
     
-    }
-
-    function run()
-    {
-        $action = $this->get_parameter(self :: PARAM_ACTION);
-        
-        switch ($action)
-        {
-            
-            case self :: ACTION_CREATE_PERIOD :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_EDIT_PERIOD :
-                $component = $this->create_component('Editor');
-                break;
-            case self :: ACTION_DELETE_PERIOD :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_VIEW_PERIOD :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_BROWSE_PERIODS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_REPORTING :
-                $component = $this->create_component('Reporting');
-                break;
-            case self :: ACTION_PUBLISH_PERIOD :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_SUBSCRIBE_USER :
-                $component = $this->create_component('SubscribeUser');
-                break;
-            case self :: ACTION_SUBSCRIBE_GROUP :
-                $component = $this->create_component('SubscribeGroup');
-                break;
-            case self :: ACTION_SUBSCRIBE_CATEGORY :
-                $component = $this->create_component('SubscribeCategory');
-                break;
-            case self :: ACTION_UNSUBSCRIBE_USER :
-                $component = $this->create_component('UnsubscribeUser');
-                break;
-            case self :: ACTION_UNSUBSCRIBE_GROUP :
-                $component = $this->create_component('UnsubscribeGroup');
-                break;
-            case self :: ACTION_UNSUBSCRIBE_CATEGORY :
-                $component = $this->create_component('UnsubscribeCategory');
-                break;
-            case self :: ACTION_CREATE_AGREEMENT :
-                $component = $this->create_component('AgreementCreator');
-                break;
-            case self :: ACTION_DELETE_AGREEMENT :
-                $component = $this->create_component('AgreementDeleter');
-                break;
-            case self :: ACTION_UPDATE_AGREEMENT :
-                $component = $this->create_component('AgreementUpdater');
-                break;
-            case self :: ACTION_VIEW_AGREEMENT :
-                $component = $this->create_component('AgreementViewer');
-                break;
-            case self :: ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER :
-                $component = $this->create_component('UnsubscribeAgreementRelUser');
-                break;
-            case self :: ACTION_SUBSCRIBE_AGREEMENT_REL_USER :
-                $component = $this->create_component('SubscribeAgreementRelUser');
-                break;
-            default :
-                $this->set_parameter(self :: PARAM_ACTION, self :: ACTION_BROWSE_PERIODS);
-                $component = $this->create_component('Browser');
-        }
-        
-        $component->run();
     }
 
     function get_application_component_path()
@@ -295,6 +225,42 @@ class InternshipOrganizerPeriodManager extends SubManager
     
     }
 
-}
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
 
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        parent :: launch(__CLASS__, $application);
+    }
+}
 ?>

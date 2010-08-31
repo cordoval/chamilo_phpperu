@@ -8,8 +8,7 @@ class SurveyBuilderUpdaterComponent extends SurveyBuilder
 {
     function run()
     {
-        $updater = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: UPDATER_COMPONENT, $this);
-        $updater->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 

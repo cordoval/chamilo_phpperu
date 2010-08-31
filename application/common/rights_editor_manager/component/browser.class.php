@@ -8,8 +8,8 @@ require_once dirname(__FILE__) . '/location_group_browser/location_group_browser
 
 class RightsEditorManagerBrowserComponent extends RightsEditorManager
 {
-    private $action_bar;
-    private $type;
+    protected $action_bar;
+    protected $type;
     
     const PARAM_TYPE = 'rights_type';
     const TYPE_USER = 'user';
@@ -51,13 +51,38 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $this->action_bar = $this->get_action_bar();
         
         $this->display_header();
+        echo $this->get_display_html();
+        $this->display_footer();
+    }
+    
+    function get_display_html()
+    {
+    	$html = array();
         
-        $this->display_type_selector();
-        
-        $html = array();
+        $html[] = $this->display_type_selector();
         $html[] = $this->action_bar->as_html() . '<br />';
+        $html[] = $this->display_locations();
         
-        $locations = array();
+        if ($this->type == self :: TYPE_USER)
+        {
+            $html[] = $this->display_location_user_browser();
+        }
+        else
+        {
+            $html[] = $this->display_location_group_browser();
+        }
+        
+        $html[] = '<div class="clear"></div><br />';
+        $html[] = RightsUtilities :: get_rights_legend();
+        
+        return implode("\n", $html);
+    }
+    
+    function display_locations()
+    {
+    	$html = array();
+    	
+    	$locations = array();
         
         foreach ($this->get_locations() as $location)
         {
@@ -70,49 +95,53 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $html[] = '  var locations = \'' . json_encode($locations) . '\';';
         $html[] = '</script>';
         
-        if ($this->type == self :: TYPE_USER)
+        return implode("\n", $html);
+    }
+    
+    function display_location_user_browser()
+    {
+    	$html = array();
+    	
+    	$table = new LocationUserBrowserTable($this, $this->get_parameters(), $this->get_user_conditions());
+        $html[] = $table->as_html();
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_user.js');
+        
+        return implode("\n", $html);
+    }
+    
+    function display_location_group_browser()
+    {
+    	$html = array();
+    	
+    	$renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $tabs = new DynamicTabsRenderer($renderer_name);
+            
+        $html[] = '<div style="float: left; width: 18%; overflow: auto;">';
+            
+        $group = Request :: get(RightsEditorManager :: PARAM_GROUP) ? Request :: get(RightsEditorManager :: PARAM_GROUP) : 1;
+            
+        $url = $this->get_parent()->get_url(array(self :: PARAM_TYPE => 'group')) . '&group_id=%s';
+        $group_menu = new GroupMenu($group, $url);
+        $html[] = $group_menu->render_as_tree();
+            
+        $html[] = '</div>';
+        $html[] = '<div style="float: right; width: 80%;">';
+            
+        $group_object = GroupDataManager :: get_instance()->retrieve_group($group);
+        if ($group_object->has_children())
         {
-            $table = new LocationUserBrowserTable($this, $this->get_parameters(), $this->get_user_conditions());
-            $html[] = $table->as_html();
-            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_user.js');
+            $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions());
+            $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
         }
-        else
-        {
-            $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
-            $tabs = new DynamicTabsRenderer($renderer_name);
             
-            $html[] = '<div style="float: left; width: 18%; overflow: auto;">';
+        $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions(false));
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
             
-            $group = Request :: get(RightsEditorManager :: PARAM_GROUP) ? Request :: get(RightsEditorManager :: PARAM_GROUP) : 1;
-            
-            $url = $this->get_parent()->get_url(array(self :: PARAM_TYPE => 'group')) . '&group_id=%s';
-            $group_menu = new GroupMenu($group, $url);
-            $html[] = $group_menu->render_as_tree();
-            
-            $html[] = '</div>';
-            $html[] = '<div style="float: right; width: 80%;">';
-            
-            $group_object = GroupDataManager :: get_instance()->retrieve_group($group);
-            if ($group_object->has_children())
-            {
-                $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions());
-                $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
-            }
-            
-            $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions(false));
-            $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAILS, Translation :: get('Rights'), Theme :: get_image_path('admin') . 'place_mini_rights.png', $table->as_html()));
-            
-            $html[] = $tabs->render();
-            $html[] = '</div>';
-            $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_group.js');
-        }
+        $html[] = $tabs->render();
+        $html[] = '</div>';
+        $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_group.js');
         
-        $html[] = '<div class="clear"></div><br />';
-        $html[] = RightsUtilities :: get_rights_legend();
-        
-        echo implode("\n", $html);
-        
-        $this->display_footer();
+        return implode("\n", $html);
     }
 
     function display_type_selector()
@@ -140,7 +169,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
             $html[] = '<div style="clear: both;"></div>';
         }
         
-        echo implode("\n", $html);
+        return implode("\n", $html);
     }
 
     function get_user_conditions()

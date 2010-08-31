@@ -4,8 +4,7 @@ class GoogleDocsExternalRepositoryManagerBrowserComponent extends GoogleDocsExte
 
     function run()
     {
-        $browser = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: BROWSER_COMPONENT, $this);
-        $browser->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 }
 ?>

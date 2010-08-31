@@ -16,8 +16,7 @@ class PortfolioBuilderMoverComponent extends PortfolioBuilder
      */
     function run()
     {
-        $component = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: MOVER_COMPONENT, $this);
-        $component->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 ?>

@@ -9,8 +9,7 @@ class WikiBuilderViewerComponent extends WikiBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: VIEWER_COMPONENT, $this);
-        $browser->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 

@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
 
-class ComplexBuilderParentChangerComponent extends ComplexBuilderComponent
+class ComplexBuilderComponentParentChangerComponent extends ComplexBuilderComponent
 {
     const PARAM_NEW_PARENT = 'new_parent';
 

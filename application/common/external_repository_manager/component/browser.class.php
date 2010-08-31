@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/external_repository_browser_gallery_table/external_repository_browser_gallery_table.class.php';
 require_once dirname(__FILE__) . '/external_repository_browser_table/external_repository_browser_table.class.php';
 
-class ExternalRepositoryBrowserComponent extends ExternalRepositoryComponent
+class ExternalRepositoryComponentBrowserComponent extends ExternalRepositoryComponent
 {
     private $action_bar;
     private $menu;

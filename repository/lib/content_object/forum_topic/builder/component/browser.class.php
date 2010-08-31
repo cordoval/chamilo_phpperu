@@ -10,8 +10,7 @@ class ForumTopicBuilderBrowserComponent extends ForumTopicBuilder
 
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
-        $browser->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 

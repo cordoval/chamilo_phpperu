@@ -274,7 +274,7 @@ class ContentObjectPublicationForm extends FormValidator
         if (count($this->categories) > 1)
         {
             //TODO: changes this to real roles and rights
-            if($this->tool->is_allowed(EDIT_RIGHT))
+            if($this->tool->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             {
         		// More than one category -> let user select one
             	$this->addElement('select', self :: PARAM_CATEGORY_ID, Translation :: get('Category'), $this->categories);

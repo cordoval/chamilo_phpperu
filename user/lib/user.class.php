@@ -61,6 +61,8 @@ class User extends DataClass
     const NAME_FORMAT_FIRST = 0;
     const NAME_FORMAT_LAST = 1;
 
+    const ANONYMOUS_ID = "1";
+
     /**
      * Get the default properties of all users.
      * @return array The property names.
@@ -550,6 +552,14 @@ class User extends DataClass
         return ($this->get_platformadmin() == 1 ? true : false);
     }
 
+    /*
+     *
+     */
+    function is_anonymous_user()
+    {
+        return ($this->get_id() == self :: ANONYMOUS_ID ? true : false);
+    }
+
     /**
      * Checks if this user is a teacher or not
      * @return boolean true if the user is a teacher, false otherwise
@@ -571,7 +581,7 @@ class User extends DataClass
 
         $version_quota = $this->get_version_quota() ? $this->get_version_quota() : 20;
 
-        $types = RepositoryDataManager :: get_registered_types();
+        $types = RepositoryDataManager :: get_registered_types(false, false);
 
         foreach ($types as $type)
         {

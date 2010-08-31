@@ -81,11 +81,11 @@ class ReservationsManagerAdminItemBrowserComponent extends ReservationsManager
 
         if ($this->get_category() == 0)
         {
-            $bool = $this->has_right('root', 0, ReservationsRights :: ADD_RIGHT);
+            $bool = $this->has_right(0, 0, ReservationsRights :: ADD_RIGHT);
         }
         else
         {
-            $bool = $this->has_right('category', $this->get_category(), ReservationsRights :: ADD_RIGHT);
+            $bool = $this->has_right(ReservationsRights :: TYPE_CATEGORY, $this->get_category(), ReservationsRights :: ADD_RIGHT);
         }
 
         if ($bool)
@@ -97,11 +97,11 @@ class ReservationsManagerAdminItemBrowserComponent extends ReservationsManager
 
         if ($this->get_category() == 0)
         {
-            $bool = $this->has_right('root', 0, ReservationsRights :: EDIT_RIGHT);
+            $bool = $this->has_right(0, 0, ReservationsRights :: EDIT_RIGHT);
         }
         else
         {
-            $bool = $this->has_right('category', $this->get_category(), ReservationsRights :: EDIT_RIGHT);
+            $bool = $this->has_right(ReservationsRights :: TYPE_CATEGORY, $this->get_category(), ReservationsRights :: EDIT_RIGHT);
         }
 
         if ($bool)

@@ -71,42 +71,53 @@ class SurveyMenu extends HTML_Menu
         $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_PARENT_ID, 0);
         $condition = new AndCondition($conditions);
         $trackers = $track->retrieve_tracker_items($condition);
-
+        
+//        dump($trackers);
+        
         if (! $include_root)
         {
+//            dump('include root');
+            exit();
             $menu = array();
-        	foreach($trackers as $tracker)
+            foreach ($trackers as $tracker)
             {
-            	$menu = array_merge($this->get_menu_items($tracker->get_id()), $menu);
+                $menu = array_merge($this->get_menu_items($tracker->get_id()), $menu);
             }
-			return $menu;
+            return $menu;
         }
         else
         {
             $menu = array();
             
-            foreach($trackers as $tracker)
+//            dump('not include root');
+            
+            foreach ($trackers as $tracker)
             {
-	            $menu_item = array();
-	            $menu_item['title'] = $tracker->get_context_name();
-	            $menu_item['url'] = $this->get_url($tracker);
-	            
-	            $sub_menu_items = $this->get_menu_items($tracker->get_id());
-	            if (count($sub_menu_items) > 0)
-	            {
-	                $menu_item['sub'] = $sub_menu_items;
-	            }
-	            if ($tracker->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
-	            {
-	                $menu_item['class'] = 'survey_finished';
-	            }
-	            else
-	            {
-	                $menu_item['class'] = 'survey';
-	            }
-	            
-	            $menu_item[OptionsMenuRenderer :: KEY_ID] = $tracker->get_id();
-	            $menu[$tracker->get_id()] = $menu_item;
+//                dump($tracker);
+                $menu_item = array();
+                $menu_item['title'] = $tracker->get_context_name();
+                $menu_item['url'] = $this->get_url($tracker);
+                
+                $sub_menu_items = $this->get_menu_items($tracker->get_id());
+//                
+//                dump($sub_menu_items);
+//                exit();
+                
+                if (count($sub_menu_items) > 0)
+                {
+                    $menu_item['sub'] = $sub_menu_items;
+                }
+                if ($tracker->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
+                {
+                    $menu_item['class'] = 'survey_finished';
+                }
+                else
+                {
+                    $menu_item['class'] = 'survey';
+                }
+                
+                $menu_item[OptionsMenuRenderer :: KEY_ID] = $tracker->get_id();
+                $menu[$tracker->get_id()] = $menu_item;
             }
             return $menu;
         }
@@ -127,21 +138,30 @@ class SurveyMenu extends HTML_Menu
         $show_complete_tree = $this->show_complete_tree;
         $hide_current_participant = $this->hide_current_participant;
         
-        $track = new SurveyParticipantTracker();
+        //        $track = new SurveyParticipantTracker();
         $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $current_participant->get_survey_publication_id());
         $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $current_participant->get_user_id());
         $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_PARENT_ID, $parent_id);
         $condition = new AndCondition($conditions);
-        $trackers = $track->retrieve_tracker_items($condition);
+        $trackers = Tracker :: get_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
+        $tracker_count = Tracker :: count_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
+//        dump($tracker_count);
         
-        //        $condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
-        //        $groups = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, new ObjectTableOrder(Group :: PROPERTY_NAME));
+//        while($tracker = $trackers->next_result()){
+//        	dump($tracker);
+//        }
+        
+        //        dump($trackers);
         
 
-        foreach ($trackers as $participant)
+        //        exit;
+       while ($participant = $trackers->next_result())
         {
-            $participant_id = $participant->get_id();
             
+        	$participant_id = $participant->get_id();
+            
+//        	dump($participant_id);
+        	
             if (! ($participant_id == $current_participant->get_id() && $hide_current_participant))
             {
                 
@@ -151,9 +171,11 @@ class SurveyMenu extends HTML_Menu
                 
                 if ($participant->has_children())
                 {
+//                    dump($participant->get_id());
+//                    exit;
                     $menu_item['sub'] = $this->get_menu_items($participant->get_id());
                 }
-
+                
                 if ($participant->get_status() == SurveyParticipantTracker :: STATUS_FINISHED)
                 {
                     $menu_item['class'] = 'survey_finished';

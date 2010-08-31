@@ -29,7 +29,24 @@ class ContentObjectPublicationCategory extends PlatformCategory
         $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), PlatformCategory :: PROPERTY_DISPLAY_ORDER, $condition);
         $this->set_display_order($sort + 1);
 
-        return $wdm->create_content_object_publication_category($this);
+        $succes = $wdm->create_content_object_publication_category($this);
+        if(!$succes)
+        {
+        	return false;
+        }
+        
+        if($this->get_parent())
+        {
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_parent(), $this->get_course());
+        }
+        else
+        {
+        	$course_module_id = $wdm->retrieve_course_module_by_name($this->get_course(), $this->get_tool())->get_id();
+        	$parent = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $this->get_course());
+        }
+
+        return WeblcmsRights :: create_location_in_courses_subtree($this->get_name(), WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_id(), 
+    			    $parent, $this->get_course());
     }
 
     function create_dropbox($course_code)
@@ -43,14 +60,48 @@ class ContentObjectPublicationCategory extends PlatformCategory
         $this->create();
     }
 
-    function update()
+    function update($move = false)
     {
-        return WeblcmsDataManager :: get_instance()->update_content_object_publication_category($this);
+        $succes = WeblcmsDataManager :: get_instance()->update_content_object_publication_category($this);
+        if(!$succes)
+        {
+        	return false;
+        }
+        
+        if($move)
+        {
+        	if($this->get_parent())
+        	{
+        		$new_parent_id = WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_parent(), $this->get_course());
+        	}
+        	else
+        	{
+        		$course_module_id = WeblcmsDataManager :: get_instance()->retrieve_course_module_by_name($this->get_course(), $this->get_tool())->get_id();
+        		$new_parent_id = WeblcmsRights :: get_location_id_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_MODULE, $course_module_id, $this->get_course());	
+        	}
+        	
+        	$location =  WeblcmsRights :: get_location_by_identifier_from_courses_subtree(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_id(), $this->get_course());
+        	if($location)
+        	{
+        		return $location->move($new_parent_id);
+        	}
+        }
+        
+    	return true; 
     }
 
     function delete()
     {
-        return WeblcmsDataManager :: get_instance()->delete_content_object_publication_category($this);
+    	$location = WeblcmsRights :: get_location_by_identifier(WeblcmsRights :: TYPE_COURSE_CATEGORY, $this->get_id());
+		if($location)
+		{
+			if(!$location->remove())
+			{
+				return false;
+			}
+		}
+		
+    	return WeblcmsDataManager :: get_instance()->delete_content_object_publication_category($this);
     }
 
     static function get_default_property_names()

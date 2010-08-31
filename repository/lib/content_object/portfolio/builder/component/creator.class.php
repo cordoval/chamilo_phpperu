@@ -15,8 +15,7 @@ class PortfolioBuilderCreatorComponent extends PortfolioBuilder
      */
     function run()
     {
-        $deleter = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: CREATOR_COMPONENT, $this);
-        $deleter->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 ?>

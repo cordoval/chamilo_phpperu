@@ -8,12 +8,12 @@
  */
 class LearningPathTool extends Tool implements Categorizable
 {
-    const ACTION_EXPORT_SCORM = 'exp_scorm';
-    const ACTION_IMPORT_SCORM = 'import';
-    const ACTION_VIEW_STATISTICS = 'stats';
-    const ACTION_VIEW_CLO = 'view_clo';
-    const ACTION_VIEW_ASSESSMENT_CLO = 'view_assessment_clo';
-    const ACTION_VIEW_DOCUMENT = 'view_document';
+    const ACTION_EXPORT_SCORM = 'scorm_exporter';
+    const ACTION_IMPORT_SCORM = 'scorm_importer';
+    const ACTION_VIEW_STATISTICS = 'statistics_viewer';
+    const ACTION_VIEW_CLO = 'clo_viewer';
+    const ACTION_VIEW_ASSESSMENT_CLO = 'assessment_clo_viewer';
+    const ACTION_VIEW_DOCUMENT = 'document_viewer';
     
     const PARAM_OBJECT_ID = 'object_id';
     const PARAM_LEARNING_PATH = 'lp';
@@ -21,77 +21,6 @@ class LearningPathTool extends Tool implements Categorizable
     const PARAM_LEARNING_PATH_ID = 'lpid';
     const PARAM_ATTEMPT_ID = 'attempt_id';
 
-    // Inherited.
-    function run()
-    {
-        $action = $this->get_action();
-        switch ($action)
-        {
-        	case self :: ACTION_PUBLISH :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_VIEW :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_BROWSE :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_EXPORT_SCORM :
-                $component = $this->create_component('ScormExporter');
-                break;
-            case self :: ACTION_VIEW_STATISTICS :
-                $component = $this->create_component('StatisticsViewer');
-                break;
-            case self :: ACTION_IMPORT_SCORM :
-                $component = $this->create_component('ScormImporter');
-                break;
-            case self :: ACTION_VIEW_CLO :
-                $component = $this->create_component('CloViewer');
-                break;
-            case self :: ACTION_VIEW_ASSESSMENT_CLO :
-                $component = $this->create_component('AssessmentCloViewer');
-                break;
-            case self :: ACTION_VIEW_DOCUMENT :
-                $component = $this->create_component('DocumentViewer');
-                break;
-            case self :: ACTION_UPDATE:
-            	$component = $this->create_component('Updater');
-                break;
-            case self :: ACTION_DELETE:
-            	$component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_TOGGLE_VISIBILITY:
-            	$component = $this->create_component('ToggleVisibility');
-                break;
-            case self :: ACTION_MOVE_DOWN:
-            	$component = $this->create_component('MoveDown');
-                break;
-            case self :: ACTION_MOVE_UP:
-            	$component = $this->create_component('MoveUp');
-                break;
-            case self :: ACTION_BUILD_COMPLEX_CONTENT_OBJECT:
-            	$component = $this->create_component('ComplexBuilder');
-                break;
-            case self :: ACTION_PUBLISH_INTRODUCTION:
-            	$component = $this->create_component('IntroductionPublisher');
-                break;
-            case self :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT:
-            	$component = $this->create_component('Attempt');
-                break;
-            case self :: ACTION_SHOW_PUBLICATION:
-            	$component = $this->create_component('ShowPublication');
-                break;
-            case self :: ACTION_HIDE_PUBLICATION:
-            	$component = $this->create_component('HidePublication');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-                break;
-        }
-        
-        $component->run();
-    }
-	
     function get_available_browser_types()
     {
         $browser_types = array();
@@ -99,63 +28,83 @@ class LearningPathTool extends Tool implements Categorizable
         $browser_types[] = ContentObjectPublicationListRenderer :: TYPE_LIST;
         return $browser_types;
     }
-    
+
     static function get_allowed_types()
     {
         return array(LearningPath :: get_type_name());
     }
-    
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
-	
-	function get_content_object_publication_actions($publication)
+
+    function get_application_component_path()
     {
-        $allowed= $this->is_allowed(EDIT_RIGHT);
+        return dirname(__FILE__) . '/component/';
+    }
+
+    function get_content_object_publication_actions($publication)
+    {
+        $allowed = $this->is_allowed(WeblcmsRights :: EDIT_RIGHT);
         
-    	if(!$this->is_empty_learning_path($publication))
+        if (! $this->is_empty_learning_path($publication))
         {
-	        if($allowed)
-	        {
-		        $items[] = new ToolbarItem(
-		        		Translation :: get('Statistics'),
-		        		Theme :: get_common_image_path() . 'action_statistics.png',
-		        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-		        		ToolbarItem :: DISPLAY_ICON
-	       	 	);
-	        }
+            if ($allowed)
+            {
+                $items[] = new ToolbarItem(Translation :: get('Statistics'), Theme :: get_common_image_path() . 'action_statistics.png', $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON);
+            }
         }
         else
         {
-	        if($allowed)
-	        {
-		        $items[] = new ToolbarItem(
-		        		Translation :: get('StatisticsNA'),
-		        		Theme :: get_common_image_path() . 'action_statistics_na.png',
-						null,
-		        		ToolbarItem :: DISPLAY_ICON
-		        );
-	        }
+            if ($allowed)
+            {
+                $items[] = new ToolbarItem(Translation :: get('StatisticsNA'), Theme :: get_common_image_path() . 'action_statistics_na.png', null, ToolbarItem :: DISPLAY_ICON);
+            }
         }
         
-       return $items;
+        return $items;
     }
     
     private static $checked_publications = array();
-    
+
     function is_empty_learning_path($publication)
     {
-    	if(!array_key_exists($publication->get_id(), self :: $checked_publications))
-    	{
-	    	$object = $publication->get_content_object_id();
-	        $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object);
-	        $count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
-	        
-        	self :: $checked_publications[$publication->get_id()] = $count == 0;
-    	}
-    	
-    	return self :: $checked_publications[$publication->get_id()];
+        if (! array_key_exists($publication->get_id(), self :: $checked_publications))
+        {
+            $object = $publication->get_content_object_id();
+            $condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $object);
+            $count = RepositoryDataManager :: get_instance()->count_complex_content_object_items($condition);
+            
+            self :: $checked_publications[$publication->get_id()] = $count == 0;
+        }
+        
+        return self :: $checked_publications[$publication->get_id()];
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
     }
 }
 ?>

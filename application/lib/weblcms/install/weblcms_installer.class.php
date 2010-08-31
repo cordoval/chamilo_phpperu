@@ -56,7 +56,7 @@ class WeblcmsInstaller extends Installer
 
 	private function create_courses_subtree()
 	{
-		return RightsUtilities :: create_subtree_root_location(WeblcmsManager :: APPLICATION_NAME, 0, WeblcmsRights :: TYPE_COURSE);
+		return RightsUtilities :: create_subtree_root_location(WeblcmsManager :: APPLICATION_NAME, 0, WeblcmsRights :: TREE_TYPE_COURSE);
 	}
 
 	function create_default_categories_in_weblcms()

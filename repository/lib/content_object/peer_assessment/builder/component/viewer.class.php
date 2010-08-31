@@ -6,8 +6,7 @@ class PeerAssessmentBuilderViewerComponent extends PeerAssessmentBuilder
 
     function run()
     {
-        $viewer = ComplexBuilderComponent :: factory(ComplexBuilderComponent::VIEWER_COMPONENT, $this);
-        $viewer->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 ?>

@@ -812,6 +812,18 @@ interface WeblcmsDataManagerInterface
     function retrieve_course_user_categories_from_course_type($course_type_id, $user_id);
     
     function get_user_with_most_publications_in_course($course_id);
+    
+	function create_course_group_right_location($course_group_right_location);
+    
+	function delete_course_group_right_location($course_group_right_location);
+    
+	function retrieve_course_group_right_location($right_id, $course_group_id, $location_id);
+
+    function retrieve_course_group_right_locations($condition = null, $offset = null, $max_objects = null, $order_by = null);
+    
+	function update_course_group_right_location($course_group_right_location);
+	
+	function retrieve_course_group_user_relations($condition = null, $offset = null, $count = null, $order_property = null);
 
 }
 ?>

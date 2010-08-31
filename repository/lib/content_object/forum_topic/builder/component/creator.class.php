@@ -9,8 +9,7 @@ class ForumTopicBuilderCreatorComponent extends ForumTopicBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: CREATOR_COMPONENT, $this);
-        $browser->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 

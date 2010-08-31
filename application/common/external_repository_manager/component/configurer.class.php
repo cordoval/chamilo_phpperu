@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../forms/external_repository_settings_form.class.php';
 
-class ExternalRepositoryConfigurerComponent extends ExternalRepositoryComponent
+class ExternalRepositoryComponentConfigurerComponent extends ExternalRepositoryComponent
 {
 
     function run()

@@ -9,8 +9,7 @@ class ForumBuilderUpdaterComponent extends ForumBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: UPDATER_COMPONENT, $this);
-        $browser->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 

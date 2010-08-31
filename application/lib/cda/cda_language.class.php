@@ -162,7 +162,7 @@ class CdaLanguage extends DataClass
 
 	    $parent = CdaRights :: get_languages_subtree_root_id();
 		
-		if(!CdaRights :: create_location_in_languages_subtree($this->get_english_name(), 'cda_language', $this->get_id(), $parent))
+		if(!CdaRights :: create_location_in_languages_subtree($this->get_english_name(), CdaRights :: TYPE_LANGUAGE, $this->get_id(), $parent))
 		{
 			return false;
 		}

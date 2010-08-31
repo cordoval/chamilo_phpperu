@@ -276,7 +276,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
             {
                 phpCAS :: setDebug($settings['log']);
             }
-            phpCAS :: client(SAML_VERSION_1_1, $settings['host'], (int) $settings['port'], '', true);
+            phpCAS :: client(SAML_VERSION_1_1, $settings['host'], (int) $settings['port'], $settings['uri'], true);
 
             // SSL validation for the CAS server
             $crt_path = $settings['certificate'];

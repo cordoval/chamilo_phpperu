@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/google_docs_external_repository_connector.cla
 class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
 {
     const REPOSITORY_TYPE = 'google_docs';
-
+    
     const PARAM_EXPORT_FORMAT = 'export_format';
     const PARAM_FOLDER = 'folder';
 
@@ -49,7 +49,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         $parameters = array();
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = self :: ACTION_VIEW_EXTERNAL_REPOSITORY;
         $parameters[self :: PARAM_EXTERNAL_REPOSITORY_ID] = $object->get_id();
-
+        
         return $this->get_url($parameters);
     }
 
@@ -59,82 +59,82 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
     function get_menu_items()
     {
         $menu_items = array();
-
+        
         $line = array();
         $line['title'] = '';
         $line['class'] = 'divider';
-
+        
         // Basic list of all documents
         $all_items = array();
         $all_items['title'] = Translation :: get('AllItems');
         $all_items['url'] = $this->get_url(array(self :: PARAM_FOLDER => null));
         $all_items['class'] = 'home';
-
+        
         // Special lists of documents
         $owned = array();
         $owned['title'] = Translation :: get('OwnedByMe');
         $owned['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_OWNED));
         $owned['class'] = 'user';
-
+        
         $viewed = array();
         $viewed['title'] = Translation :: get('OpenedByMe');
         $viewed['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_VIEWED));
         $viewed['class'] = 'userview';
-
+        
         $shared = array();
         $shared['title'] = Translation :: get('SharedWithMe');
         $shared['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_SHARED));
         $shared['class'] = 'external_repository';
-
+        
         $starred = array();
         $starred['title'] = Translation :: get('Starred');
         $starred['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_STARRED));
         $starred['class'] = 'template';
-
+        
         $hidden = array();
         $hidden['title'] = Translation :: get('Hidden');
         $hidden['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_HIDDEN));
         $hidden['class'] = 'hidden';
-
+        
         $trashed = array();
         $trashed['title'] = Translation :: get('Trash');
         $trashed['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_TRASH));
         $trashed['class'] = 'trash';
-
+        
         // Document types
         $types = array();
         $types['title'] = Translation :: get('DocumentTypes');
         $types['url'] = '#';
         $types['class'] = 'category';
         $types['sub'] = array();
-
+        
         $pdfs = array();
         $pdfs['title'] = Translation :: get('PDFs');
         $pdfs['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_FILES));
         $pdfs['class'] = 'google_docs_pdf';
         $types['sub'][] = $pdfs;
-
+        
         $documents = array();
         $documents['title'] = Translation :: get('Documents');
         $documents['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_DOCUMENTS));
         $documents['class'] = 'google_docs_document';
         $types['sub'][] = $documents;
-
+        
         $presentations = array();
         $presentations['title'] = Translation :: get('Presentations');
         $presentations['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_PRESENTATIONS));
         $presentations['class'] = 'google_docs_presentation';
         $types['sub'][] = $presentations;
-
+        
         $spreadsheets = array();
         $spreadsheets['title'] = Translation :: get('Spreadsheets');
         $spreadsheets['url'] = $this->get_url(array(self :: PARAM_FOLDER => GoogleDocsExternalRepositoryConnector :: DOCUMENTS_SPREADSHEETS));
         $spreadsheets['class'] = 'google_docs_spreadsheet';
         $types['sub'][] = $spreadsheets;
-
+        
         $menu_items[] = $all_items;
         $menu_items[] = $line;
-
+        
         $menu_items[] = $owned;
         $menu_items[] = $viewed;
         $menu_items[] = $shared;
@@ -142,12 +142,12 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         $menu_items[] = $hidden;
         $menu_items[] = $trashed;
         $menu_items[] = $types;
-
+        
         // User defined folders
         $menu_items[] = $line;
         $folders = $this->get_external_repository_connector()->retrieve_folders($this->get_url(array(self :: PARAM_FOLDER => '__PLACEHOLDER__')));
         $menu_items = array_merge($menu_items, $folders);
-
+        
         return $menu_items;
     }
 
@@ -170,7 +170,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
     function run()
     {
         $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
-
+        
         switch ($parent)
         {
             case ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY :
@@ -205,7 +205,7 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
                 $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
                 break;
         }
-
+        
         $component->run();
     }
 
@@ -232,13 +232,13 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
         {
             unset($actions[ExternalRepositoryManager :: ACTION_IMPORT_EXTERNAL_REPOSITORY]);
             $export_types = $object->get_export_types();
-
+            
             foreach ($export_types as $export_type)
             {
                 $actions[$export_type] = new ToolbarItem(Translation :: get('Import' . Utilities :: underscores_to_camelcase($export_type)), Theme :: get_common_image_path() . 'external_repository/google_docs/import/' . $export_type . '.png', $this->get_url(array(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => self :: ACTION_IMPORT_EXTERNAL_REPOSITORY, self :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id(), self :: PARAM_EXPORT_FORMAT => $export_type)), ToolbarItem :: DISPLAY_ICON);
             }
         }
-
+        
         return $actions;
     }
 
@@ -248,6 +248,36 @@ class GoogleDocsExternalRepositoryManager extends ExternalRepositoryManager
     function get_repository_type()
     {
         return self :: REPOSITORY_TYPE;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION;
     }
 }
 ?>

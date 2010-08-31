@@ -50,7 +50,7 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
     {
         $datamanager = WeblcmsDataManager :: get_instance();
         
-    	if ($this->is_allowed(EDIT_RIGHT))
+    	if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $user_id = array();
             $course_group_ids = array();
@@ -119,7 +119,7 @@ class DescriptionBrowser extends ContentObjectPublicationBrowser
         while ($publication = $publications->next_result())
         {
             // If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
-            if (! $publication->is_visible_for_target_users() && ! ($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+            if (! $publication->is_visible_for_target_users() && ! ($this->is_allowed(WeblcmsRights :: DELETE_RIGHT) || $this->is_allowed(WeblcmsRights :: EDIT_RIGHT)))
             {
                 continue;
             }

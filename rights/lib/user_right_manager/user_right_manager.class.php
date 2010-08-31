@@ -12,9 +12,11 @@ class UserRightManager extends SubManager
     const PARAM_SOURCE = 'source';
     const PARAM_LOCATION = 'location';
     
-    const ACTION_BROWSE_USER_RIGHTS = 'browse';
+    const ACTION_BROWSE_USER_RIGHTS = 'browser';
     const ACTION_BROWSE_LOCATION_USER_RIGHTS = 'user';
-    const ACTION_SET_USER_RIGHTS = 'set';
+    const ACTION_SET_USER_RIGHTS = 'setter';
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_USER_RIGHTS;
 
     function UserRightManager($rights_manager)
     {
@@ -25,29 +27,6 @@ class UserRightManager extends SubManager
         {
             $this->set_parameter(self :: PARAM_USER_RIGHT_ACTION, $rights_template_action);
         }
-    }
-
-    function run()
-    {
-        $rights_template_action = $this->get_parameter(self :: PARAM_USER_RIGHT_ACTION);
-        
-        switch ($rights_template_action)
-        {
-            case self :: ACTION_BROWSE_USER_RIGHTS :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_SET_USER_RIGHTS :
-                $component = $this->create_component('Setter');
-                break;
-            case self :: ACTION_BROWSE_LOCATION_USER_RIGHTS :
-                $component = $this->create_component('User');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-                break;
-        }
-        
-        $component->run();
     }
 
     function get_application_component_path()
@@ -83,6 +62,44 @@ class UserRightManager extends SubManager
     function count_users($conditions = null)
     {
         return UserDataManager :: get_instance()->count_users($conditions);
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_USER_RIGHT_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        parent :: launch(__CLASS__, $application);
     }
 }
 ?>

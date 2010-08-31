@@ -7,8 +7,7 @@
  * @author Sven Vanpoucke
  */
 
-
-class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentCreatorComponent extends ComplexDisplayComponent implements RepoViewerInterface
 {
 
     function run()
@@ -18,23 +17,23 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
             $complex_content_object_item_id = $this->get_complex_content_object_item_id();
             $complex_content_object_item = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($complex_content_object_item_id);
 
-            if (!$this->get_root_content_object())
+            if (! $this->get_root_content_object())
             {
                 $this->display_header();
-            	$this->display_error_message(Translation :: get('NoParentSelected'));
-            	$this->display_footer();
-                exit;
+                $this->display_error_message(Translation :: get('NoParentSelected'));
+                $this->display_footer();
+                exit();
             }
 
             $type = Request :: get('type');
 
-            $repo_viewer = new RepoViewer($this, $type, RepoViewer :: SELECT_SINGLE, array(), false);
+            $repo_viewer = RepoViewer :: construct($this);
+            $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
             $repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ComplexDisplay :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM);
             $repo_viewer->set_parameter('cid', $complex_content_object_item_id);
             $repo_viewer->set_parameter('type', $type);
 
-
-            if (!$repo_viewer->is_ready_to_be_published())
+            if (! $repo_viewer->is_ready_to_be_published())
             {
                 $repo_viewer->run();
             }
@@ -45,13 +44,13 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
                 $cloi->set_ref($repo_viewer->get_selected_objects());
                 $cloi->set_user_id($this->get_user_id());
 
-                if($complex_content_object_item_id)
+                if ($complex_content_object_item_id)
                 {
-                	$cloi->set_parent($complex_content_object_item->get_ref());
+                    $cloi->set_parent($complex_content_object_item->get_ref());
                 }
                 else
                 {
-                	$cloi->set_parent($this->get_root_content_object()->get_id());
+                    $cloi->set_parent($this->get_root_content_object()->get_id());
                 }
 
                 $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($cloi->get_ref()));
@@ -74,8 +73,8 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
                 }
                 else
                 {*/
-                    $cloi->create();
-                    $this->my_redirect($complex_content_object_item_id);
+                $cloi->create();
+                $this->my_redirect($complex_content_object_item_id);
                 //}
             }
 
@@ -91,6 +90,11 @@ class ComplexDisplayCreatorComponent extends ComplexDisplayComponent
         $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT;
 
         $this->redirect($message, '', $params);
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Request :: get('type'));
     }
 }
 ?>

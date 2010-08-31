@@ -6,12 +6,12 @@
 //require_once dirname(__PATH__).'../tool_component.class.php';
 
 
-class ToolMoverComponent extends ToolComponent
+class ToolComponentMoverComponent extends ToolComponent
 {
 
     function run()
     {
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
                    	
         	$move = $this->get_parent()->get_move_direction();

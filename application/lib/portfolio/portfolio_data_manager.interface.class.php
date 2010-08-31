@@ -50,11 +50,11 @@ interface PortfolioDataManagerInterface
 
 
 
-    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null);
-
-    function get_content_object_publication_attribute($publication_id);
-
-    function count_publication_attributes($user = null, $object_id = null, $condition = null);
+//    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null);
+//
+//    function get_content_object_publication_attribute($publication_id);
+//
+//    function count_publication_attributes($user = null, $object_id = null, $condition = null);
 
     function delete_content_object_publications($object_id);
 

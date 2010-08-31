@@ -4,8 +4,7 @@ class PicasaExternalRepositoryManagerViewerComponent extends PicasaExternalRepos
 
     function run()
     {
-        $viewer = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: VIEWER_COMPONENT, $this);
-        $viewer->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 }
 ?>

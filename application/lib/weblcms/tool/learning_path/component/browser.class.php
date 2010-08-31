@@ -5,22 +5,19 @@ require_once dirname(__FILE__) . '/learning_path_browser/learning_path_column_mo
 
 class LearningPathToolBrowserComponent extends LearningPathTool
 {
+
     function run()
     {
-        $tool_component = ToolComponent :: factory(ToolComponent :: ACTION_BROWSE, $this);
-        $tool_component->run();
+        ToolComponent :: launch($this);
     }
-    
+
     function get_tool_actions()
     {
-    	$actions[] = new ToolbarItem(
-        		Translation :: get('ImportScorm'),
-        		Theme :: get_common_image_path() . 'action_import.png',
-        		$this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_IMPORT_SCORM))
-        );
+        $actions[] = new ToolbarItem(Translation :: get('ImportScorm'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_IMPORT_SCORM)));
         
         return $actions;
     }
+
     function get_content_object_publication_table_cell_renderer($tool_browser)
     {
         return new LearningPathCellRenderer($tool_browser);

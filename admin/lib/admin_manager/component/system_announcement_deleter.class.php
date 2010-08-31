@@ -14,24 +14,24 @@ class AdminManagerSystemAnnouncementDeleterComponent extends AdminManager
     {
         $ids = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
         $failures = 0;
-        
+
         if (! empty($ids))
         {
             if (! is_array($ids))
             {
                 $ids = array($ids);
             }
-            
+
             foreach ($ids as $id)
             {
-                $publication = $this->get_parent()->retrieve_system_announcement_publication($id);
-                
+                $publication = $this->retrieve_system_announcement_publication($id);
+
                 if (! $publication->delete())
                 {
                     $failures ++;
                 }
             }
-            
+
             if ($failures)
             {
                 if (count($ids) == 1)
@@ -54,7 +54,7 @@ class AdminManagerSystemAnnouncementDeleterComponent extends AdminManager
                     $message = 'SelectedPublicationsDeleted';
                 }
             }
-            
+
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
         }
         else

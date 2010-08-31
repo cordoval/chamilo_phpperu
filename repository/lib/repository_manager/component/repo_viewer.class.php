@@ -7,7 +7,7 @@
 /**
  * Weblcms component allows the user to manage course categories
  */
-class RepositoryManagerRepoViewerComponent extends RepositoryManager
+class RepositoryManagerRepoViewerComponent extends RepositoryManager implements RepoViewerInterface
 {
 
     /**
@@ -15,8 +15,10 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManager
      */
     function run()
     {
-        $repo_viewer = new RepoViewer($this, Document :: get_type_name(), RepoViewer :: SELECT_SINGLE, array(), true);
-        if (!$repo_viewer->is_ready_to_be_published())
+        $repo_viewer = RepoViewer :: construct($this);
+        $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
+
+        if (! $repo_viewer->is_ready_to_be_published())
         {
             $repo_viewer->run();
         }
@@ -25,7 +27,12 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManager
             $html[] = '<script type="text/javascript">';
             $html[] = 'window.parent.object_selected(' . $repo_viewer->get_selected_objects() . ');';
             $html[] = '</script>';
-        } 
+        }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(Document :: get_type_name());
     }
 }
 ?>

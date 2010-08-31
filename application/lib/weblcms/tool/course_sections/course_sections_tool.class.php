@@ -9,62 +9,55 @@
  */
 class CourseSectionsTool extends Tool
 {
-    const ACTION_VIEW_COURSE_SECTIONS = 'view';
-    const ACTION_CREATE_COURSE_SECTION = 'create';
-    const ACTION_REMOVE_COURSE_SECTION = 'remove';
-    const ACTION_UPDATE_COURSE_SECTION = 'update';
-    const ACTION_MOVE_COURSE_SECTION = 'move_course_section';
-    const ACTION_CHANGE_COURSE_SECTION_VISIBILITY = 'change_visibility';
+    const ACTION_VIEW_COURSE_SECTIONS = 'viewer';
+    const ACTION_CREATE_COURSE_SECTION = 'creator';
+    const ACTION_REMOVE_COURSE_SECTION = 'deleter';
+    const ACTION_UPDATE_COURSE_SECTION = 'updater';
+    const ACTION_MOVE_COURSE_SECTION = 'mover';
+    const ACTION_CHANGE_COURSE_SECTION_VISIBILITY = 'visibility_changer';
     const ACTION_SELECT_TOOLS_COURSE_SECTION = 'tool_selector';
     const ACTION_CHANGE_SECTION = 'change_section';
-
+    
+    const DEFAULT_ACTION = self :: ACTION_VIEW_COURSE_SECTIONS;
+    
     const PARAM_COURSE_SECTION_ID = 'course_section_id';
     const PARAM_DIRECTION = 'direction';
     const PARAM_REMOVE_SELECTED = 'remove_selected';
 
-    /**
-     * Inherited.
-     */
-    function run()
+    function get_application_component_path()
     {
-        $action = $this->get_action();
-
-        switch ($action)
-        {
-            case self :: ACTION_VIEW_COURSE_SECTIONS :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_CREATE_COURSE_SECTION :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_REMOVE_COURSE_SECTION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_UPDATE_COURSE_SECTION :
-                $component = $this->create_component('Updater');
-                break;
-            case self :: ACTION_MOVE_COURSE_SECTION :
-                $component = $this->create_component('Mover');
-                break;
-            case self :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY :
-                $component = $this->create_component('VisibilityChanger');
-                break;
-            case self :: ACTION_SELECT_TOOLS_COURSE_SECTION :
-                $component = $this->create_component('ToolSelector');
-                break;
-            case self :: ACTION_CHANGE_SECTION :
-                $component = $this->create_component('ChangeSection');
-                break;
-            default :
-                $component = $this->create_component('Viewer');
-        }
-        $component->run();
+        return dirname(__FILE__) . '/component/';
     }
 
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
 
 }
 ?>

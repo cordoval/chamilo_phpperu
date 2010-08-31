@@ -16,8 +16,7 @@ class InternshipOrganizerManagerPeriodComponent extends InternshipOrganizerManag
      */
     function run()
     {
-        $period_manager = new InternshipOrganizerPeriodManager($this);
-        $period_manager->run();
+        InternshipOrganizerPeriodManager :: launch($this);
     }
 }
 ?>

@@ -4,24 +4,24 @@
  * @package repository.lib.complex_builder.portfolio.component
  */
 
-
-class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
+class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder implements RepoViewerInterface
 {
     private $rdm;
+    private $type;
 
     function run()
     {
-        $trail = BreadcrumbTrail::get_instance();
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('repository learnpath builder');
 
         $root_content_object = $this->get_root_content_object();
         $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
 
-        $type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
+        $this->type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
 
         $this->rdm = RepositoryDataManager :: get_instance();
 
-    	$parent = $root_content_object->get_id();
+        $parent = $root_content_object->get_id();
         if ($complex_content_object_item_id)
         {
             $parent_complex_content_object_item = $this->rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
@@ -40,12 +40,12 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
 
-        if (! $type)
+        if (! $this->type)
         {
-            $type = $content_object->get_allowed_types();
+            $this->type = $content_object->get_allowed_types();
         }
 
-        $pub = new RepoViewer($this, $type);
+        $pub = RepoViewer :: construct($this);
         if ($rtype)
         {
             $pub->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
@@ -55,18 +55,19 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
 
         $pub->set_excluded_objects($exclude);
 
-        if (!$pub->is_ready_to_be_published())
+        if (! $pub->is_ready_to_be_published())
         {
             //$type = is_array($type) ? implode(',', $type) : $type;
             //$parent = $this->rdm->retrieve_content_object($parent);
-        	//$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $type, $parent->get_type(), $parent->get_title()) . '</h4><br />';
-        	
-        	$pub->run();
+            //$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $type, $parent->get_type(), $parent->get_title()) . '</h4><br />';
+
+
+            $pub->run();
         }
         else
         {
             $objects = $pub->get_selected_objects();
-        	if (! is_array($objects))
+            if (! is_array($objects))
             {
                 $objects = array($objects);
             }
@@ -113,6 +114,11 @@ class PortfolioBuilderItemCreatorComponent extends PortfolioBuilder
         }
 
         return $items;
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array($this->type);
     }
 }
 

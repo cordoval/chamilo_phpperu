@@ -139,7 +139,7 @@ class WebserviceRegistration extends DataClass
 
         if ($this->get_parent())
         {
-            $parent_id = WebserviceRights :: get_location_id_by_identifier_from_webservices_subtree('webservice_category', $this->get_parent());
+            $parent_id = WebserviceRights :: get_location_id_by_identifier_from_webservices_subtree(WebserviceRights :: TYPE_WEBSERVICE_CATEGORY, $this->get_parent());
         }
         else
         {
@@ -147,7 +147,7 @@ class WebserviceRegistration extends DataClass
         }
 
 
-        if (!WebserviceRights :: create_location_in_webservice_subtree($this->get_name(), 'webservice', $this->get_id(), $parent_id))
+        if (!WebserviceRights :: create_location_in_webservice_subtree($this->get_name(), WebserviceRights :: TYPE_WEBSERVICE, $this->get_id(), $parent_id))
         {
             return false;
         }

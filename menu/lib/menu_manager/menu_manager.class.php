@@ -11,18 +11,14 @@
 class MenuManager extends CoreApplication
 {
     const APPLICATION_NAME = 'menu';
-    
+
     const PARAM_ERROR_MESSAGE = 'error_message';
     const PARAM_COMPONENT_ACTION = 'action';
     const PARAM_DIRECTION = 'direction';
     const PARAM_CATEGORY = 'category';
-    
-    const ACTION_RENDER_BAR = 'render_bar';
-    const ACTION_RENDER_MINI_BAR = 'render_mini_bar';
-    const ACTION_RENDER_TREE = 'render_tree';
-    const ACTION_RENDER_SITEMAP = 'render_sitemap';
-    const ACTION_SORT_MENU = 'sort';
-    
+
+    const ACTION_SORT_MENU = 'sorter';
+
     const ACTION_COMPONENT_BROWSE_CATEGORY = 'browse';
     const ACTION_COMPONENT_ADD_CATEGORY = 'add';
     const ACTION_COMPONENT_EDIT_CATEGORY = 'edit';
@@ -30,7 +26,9 @@ class MenuManager extends CoreApplication
     const ACTION_COMPONENT_MOVE_CATEGORY = 'move';
     const ACTION_COMPONENT_CAT_EDIT = 'edit_category';
     const ACTION_COMPONENT_CAT_ADD = 'add_category';
-    
+
+    const DEFAULT_ACTION = self :: ACTION_SORT_MENU;
+
     private $parameters;
     private $user;
     private $breadcrumbs;
@@ -38,53 +36,6 @@ class MenuManager extends CoreApplication
     function MenuManager($user)
     {
         parent :: __construct($user);
-    }
-
-    /**
-     * Run this user manager
-     */
-    function run()
-    {
-        /*
-		 * Only setting breadcrumbs here. Some stuff still calls
-		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
-		 */
-        //$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_SORT_MENU :
-                $component = $this->create_component('Sorter');
-                break;
-            default :
-                $this->set_action(self :: ACTION_SORT_MENU);
-                $component = $this->create_component('Sorter');
-        }
-        $component->run();
-    }
-
-    function render_menu($type)
-    {
-        switch ($type)
-        {
-            case self :: ACTION_RENDER_BAR :
-                $component = $this->create_component('Bar');
-                break;
-            case self :: ACTION_RENDER_MINI_BAR :
-                $component = $this->create_component('MiniBar');
-                break;
-            case self :: ACTION_RENDER_TREE :
-                $component = $this->create_component('Tree');
-                break;
-            case self :: ACTION_RENDER_SITEMAP :
-                $component = $this->create_component('Sitemap');
-                break;
-            default :
-                $this->set_action(self :: ACTION_RENDER_BAR);
-                $component = $this->create_component('Bar');
-        }
-        return $component->run();
     }
 
     function count_navigation_items($condition = null)
@@ -107,14 +58,14 @@ class MenuManager extends CoreApplication
         return MenuDataManager :: get_instance()->retrieve_navigation_item_at_sort($parent, $sort, $direction);
     }
 
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_sort.png', $this->get_link(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)));
-        
-        $info = parent :: get_application_platform_admin_links();
+        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_sort.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_SORT_MENU), array(), false, Redirect :: TYPE_CORE));
+
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        
+
         return $info;
     }
 
@@ -134,7 +85,7 @@ class MenuManager extends CoreApplication
         {
             return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_CAT_EDIT, self :: PARAM_CATEGORY => $navigation_item->get_id()));
         }
-        
+
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_EDIT_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id()));
     }
 
@@ -161,6 +112,21 @@ class MenuManager extends CoreApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

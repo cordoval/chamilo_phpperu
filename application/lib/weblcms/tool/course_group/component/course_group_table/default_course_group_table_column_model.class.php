@@ -41,7 +41,7 @@ class DefaultCourseGroupTableColumnModel extends CourseGroupTableColumnModel
         $columns[] = new CourseGroupTableColumn(CourseGroup :: PROPERTY_DESCRIPTION, true);
         $columns[] = self :: get_number_of_members_column();
         $columns[] = new CourseGroupTableColumn(CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS, true);
-        if ($this->course_group_tool->is_allowed(EDIT_RIGHT))
+        if ($this->course_group_tool->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $columns[] = new CourseGroupTableColumn(CourseGroup :: PROPERTY_SELF_UNREG, true);
             $columns[] = new CourseGroupTableColumn(CourseGroup :: PROPERTY_SELF_REG, true);

@@ -18,36 +18,7 @@ class SurveyToolPublisherComponent extends SurveyTool
      */
     function run()
     {
-        //        if (! $this->is_allowed(ADD_RIGHT))
-        //        {
-        //            Display :: not_allowed();
-        //            return;
-        //        }
-        //        
-        //        $trail = BreadcrumbTrail :: get_instance();
-        //        $trail->add(new Breadcrumb($this->get_url(array(SurveyTool :: PARAM_ACTION => SurveyTool :: ACTION_PUBLISH)), Translation :: get('PublishSurvey')));
-        //        $trail->add_help('courses assessment tool');
-        //        
-        //        $pub = new ContentObjectRepoViewer($this, array(Survey :: get_type_name()));
-        //        if (! $pub->is_ready_to_be_published())
-        //        {
-        //            $html[] = $pub->as_html();
-        //        }
-        //        else
-        //        {
-        //            $object_id = $pub->get_selected_objects();
-        //            
-        //            $publisher = new SurveyContentObjectPublisher($pub);
-        //            $html[] = $publisher->get_publications_form($object_id);
-        //        }
-        //        
-        //        $this->display_header();
-        //        echo implode("\n", $html);
-        //        $this->display_footer();
-        
-
-        $component = ToolComponent :: factory(ToolComponent :: ACTION_PUBLISH, $this);
-        $component->run();
+        ToolComponent :: launch($this);
     }
 }
 

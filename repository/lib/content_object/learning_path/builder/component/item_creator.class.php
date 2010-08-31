@@ -4,9 +4,10 @@
  * @package repository.lib.complex_builder.learning_path.component
  */
 
-class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
+class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder implements RepoViewerInterface
 {
     private $rdm;
+    private $type;
 
     function run()
     {
@@ -17,16 +18,16 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
 
         $root_content_object = $this->get_root_content_object();
         $complex_content_object_item_id = Request :: get(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
-        $type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
+        $this->type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
 
         $this->rdm = RepositoryDataManager :: get_instance();
 
-    	$parent = $root_content_object->get_id();
-		if ($complex_content_object_item_id)
-		{
-		    $parent_complex_content_object_item = $this->rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
-		    $parent = $parent_complex_content_object_item->get_ref();
-		}
+        $parent = $root_content_object->get_id();
+        if ($complex_content_object_item_id)
+        {
+            $parent_complex_content_object_item = $this->rdm->retrieve_complex_content_object_item($complex_content_object_item_id);
+            $parent = $parent_complex_content_object_item->get_ref();
+        }
 
         if ($this->get_complex_content_object_item())
         {
@@ -40,12 +41,12 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
 
-        if (! $type)
+        if (! $this->type)
         {
-            $type = $content_object->get_allowed_types();
+            $this->type = $content_object->get_allowed_types();
         }
 
-        $pub = new RepoViewer($this, $type);
+        $pub = RepoViewer :: construct($this);
         if ($rtype)
         {
             $pub->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
@@ -54,18 +55,18 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
         $pub->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
         $pub->set_excluded_objects($exclude);
 
-        if (!$pub->is_ready_to_be_published())
+        if (! $pub->is_ready_to_be_published())
         {
-            $t = is_array($type) ? implode(',', $type) : $type;
+            $t = is_array($this->type) ? implode(',', $this->type) : $this->type;
             $p = $this->rdm->retrieve_content_object($parent);
-        	//$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />';
-        	$pub->run();
+            //$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />';
+            $pub->run();
         }
         else
         {
             $object = $pub->get_selected_objects();
 
-        	if (! is_array($object))
+            if (! is_array($object))
             {
                 $object = array($object);
             }
@@ -112,6 +113,11 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder
         }
 
         return $items;
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array($this->type);
     }
 }
 

@@ -8,49 +8,29 @@ require_once dirname(__FILE__) . '/../search_portal_block.class.php';
 class SearchPortalManager extends WebApplication
 {
     const APPLICATION_NAME = 'search_portal';
-    
+
     const PARAM_USER = 'user';
-    
-	const ACTION_SEARCH = 'search';
-	const ACTION_EMAIL_USER = 'emailer';
-	
+
+    const ACTION_SEARCH = 'searcher';
+    const ACTION_EMAIL_USER = 'user_emailer';
+
+    const DEFAULT_ACTION = self :: ACTION_SEARCH;
+
     function SearchPortalManager($user = null)
     {
         parent :: __construct($user);
     }
 
-    /*
-	 * Inherited.
-	 */
-    function run()
+    function get_email_user_url($user_id)
     {
-        $action = $this->get_action();
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_SEARCH :
-                $component = $this->create_component('Searcher');
-                break;
-            case self :: ACTION_EMAIL_USER :
-            	$component = $this->create_component('UserEmailer');
-            	break;
-            default :
-                $this->set_action(self :: ACTION_SEARCH);
-                $component = $this->create_component('Searcher');
-        }
-        $component->run();
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EMAIL_USER, self :: PARAM_USER => $user_id));
     }
 
-	function get_email_user_url($user_id)
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EMAIL_USER, self :: PARAM_USER => $user_id));
-	}    
-    
-	function get_application_name() 
-	{
-		return self :: APPLICATION_NAME;
-	}
-	
+    function get_application_name()
+    {
+        return self :: APPLICATION_NAME;
+    }
+
     /**
      * Renders the search portal block and returns it.
      */
@@ -58,6 +38,21 @@ class SearchPortalManager extends WebApplication
     {
         $search_portal_block = SearchPortalBlock :: factory($this, $block);
         return $search_portal_block->run();
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 
 }

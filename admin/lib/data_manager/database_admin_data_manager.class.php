@@ -380,11 +380,11 @@ class DatabaseAdminDataManager extends Database implements AdminDataManagerInter
         return $this->count_objects('system_announcement_publication', $condition) >= 1;
     }
 
-    function count_publication_attributes($user = null, $object_id = null, $condition = null)
+    function count_publication_attributes($object_id = null, $condition = null)
     {
         if (! $object_id)
         {
-            $condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_PUBLISHER, $user->get_id());
+            return 0;
         }
         else
         {

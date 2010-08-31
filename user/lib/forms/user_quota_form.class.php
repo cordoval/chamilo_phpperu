@@ -1,8 +1,12 @@
 <?php
+
 /**
  * $Id: user_quota_form.class.php 211 2009-11-13 13:28:39Z vanpouckesven $
  * @package user.lib.forms
  */
+require_once Path :: get_repository_path() . '/lib/external_repository_user_quotum.class.php';
+require_once dirname(__FILE__) . "/../../../application/common/external_repository_manager/external_repository_connector.class.php";
+
 
 class UserQuotaForm extends FormValidator
 {
@@ -54,22 +58,19 @@ class UserQuotaForm extends FormValidator
         }
         $this->addElement('category');
 
-        if(PlatformSetting :: get('mediamosa_enabled', 'repository'))
+        $rdm = RepositoryDataManager :: get_instance();
+        
+        if(count($this->get_active_external_repositories()))
         {
-            require_once(Path :: get_application_path(). '/common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_manager.class.php');
-            
-            $mdm = MediamosaStreamingMediaDataManager :: get_instance();
-            if($mediamosa_servers = $mdm->retrieve_streaming_media_server_objects())
+            $this->addElement('category', Translation :: get('ExternalRepositories'));
+
+            foreach($this->active_external_repositories as $repository)
             {
-                $this->addElement('category', Translation :: get('MediamosaQuota'));
-                while($mediamosa_server = $mediamosa_servers->next_result())
-                {
-                    //$mediamosa_server = $mdm->retrieve_streaming_media_server_object($mediamosa_quotum->get_server_id());
-                    $this->addElement('text', 'mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_server->get_id(), $mediamosa_server->get_title());
-                }
-                $this->addElement('category');
+                $this->addElement('text', ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id(), $repository['data']->get_title());
             }
+            $this->addElement('category');
         }
+
 
         // Submit button
         //$this->addElement('submit', 'quota_settings', 'OK');
@@ -120,72 +121,63 @@ class UserQuotaForm extends FormValidator
         $user->set_disk_quota(intval($values[User :: PROPERTY_DISK_QUOTA]));
         $user->update();
 
-        if(PlatformSetting :: get('mediamosa_enabled', 'repository'))
+        $rdm = RepositoryDataManager :: get_instance();
+        
+
+        foreach($this->get_active_external_repositories() as $repository)
         {
-            require_once(Path :: get_application_path(). '/common/streaming_media_manager/type/mediamosa/mediamosa_streaming_media_manager.class.php');
-
-            /*
-             * if the value doesn't match the default_user_quotum for that server
-             * the existing override quotum is updated or a new one is created
-             */
-
-            $mdm = MediamosaStreamingMediaDataManager :: get_instance();
-            if($mediamosa_quota = $mdm->retrieve_streaming_media_user_quota($user->get_id()))
+            if($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()] != $repository['settings']->get_value())
             {
-                $temp_m_quota = array();
+                $connector = ExternalRepositoryConnector :: get_instance($repository['data']);
                 
-                while($mediamosa_quotum = $mediamosa_quota->next_result())
+                if($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['data']->get_id()))
                 {
-                    $temp_m_quota[$mediamosa_quotum->get_server_id()] = $mediamosa_quotum;
-                }
-            }
-            
-            if($mediamosa_servers = $mdm->retrieve_streaming_media_server_objects())
-            {
-                while($mediamosa_server = $mediamosa_servers->next_result())
-                {
-                    if($values['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_server->get_id()] != $mediamosa_server->get_default_user_quotum())
+                   $user_quotum->set_quotum($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
+
+                    if(!$user_quotum->update())
                     {
-                        if(isset($temp_m_quota[$mediamosa_server->get_id()]))
-                        {
-                            
-                            $mediamosa_quotum = $temp_m_quota[$mediamosa_server->get_id()];
-
-                            $mediamosa_quotum->set_quotum($values['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_quotum->get_server_id()]);
-
-                             if(!$mediamosa_quotum->update())
-                             {
-                                $failures++;
-                             }
-                        }
-                        else
-                        {
-                            $mediamosa_quotum = new StreamingMediaUserQuotum();
-                            $mediamosa_quotum->set_user_id($user->get_id());
-                            $mediamosa_quotum->set_server_id($mediamosa_server->get_id());
-                            $mediamosa_quotum->set_quotum($values['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_quotum->get_server_id()]);
-
-                            if(!$mediamosa_quotum->create())
-                            {
-                                $failures++;
-                            }
-                        }
+                        $failures ++;
                     }
                     else
                     {
-                        if(isset($temp_m_quota[$mediamosa_server->get_id()]))
-                        {
-                            $mediamosa_quotum = $temp_m_quota[$mediamosa_server->get_id()];
-                            $mediamosa_quotum->delete();
-                        }
+                        $connector->set_mediamosa_user_quotum($user->get_id(),$values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
                     }
+                }
+                else
+                {
+                    $user_quotum = new ExternalRepositoryUserQuotum();
+                    $user_quotum->set_user_id($user->get_id());
+                    $user_quotum->set_external_repository_id($repository['data']->get_id());
+                    $user_quotum->set_quotum($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
 
-                    $connector = new MediamosaStreamingMediaConnector($mediamosa_server->get_id());
-                    $connector->set_mediamosa_user_quotum($user->get_id(), $values['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_quotum->get_server_id()]);
+                    if(!$user_quotum->create())
+                    {
+                        $failures ++;
+                    }
+                    else
+                    {
+                        $connector->set_mediamosa_user_quotum($user->get_id(),$values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
+                    }
+                }
+            }
+            else
+            {
+                if($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['data']->get_id()))
+                {
+                    $user_quotum->set_quotum($values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
+
+                    if(!$user_quotum->delete())
+                    {
+                        $failures ++;
+                    }
+                    else
+                    {
+                        $connector->set_mediamosa_user_quotum($user->get_id(),$values[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['data']->get_id()]);
+                    }
                 }
             }
         }
-
+        
         if ($failures != 0)
         {
             return false;
@@ -195,7 +187,6 @@ class UserQuotaForm extends FormValidator
             Event :: trigger('quota', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
             return true;
         }
-
     }
 
     /**
@@ -216,39 +207,21 @@ class UserQuotaForm extends FormValidator
             $defaults[$type] = $this->user->get_version_type_quota($type);
         }
 
-        if(PlatformSetting :: get('mediamosa_enabled', 'repository'))
+        $rdm = RepositoryDataManager :: get_instance();
+
+        foreach($this->get_active_external_repositories() as $repository)
         {
-            $mdm = MediamosaStreamingMediaDataManager :: get_instance();
-
-            if($mediamosa_quota = $mdm->retrieve_streaming_media_user_quota($user->get_id()))
+            if($user_quotum = $rdm->retrieve_external_repository_user_quotum($user->get_id(), $repository['settings']->get_external_repository_id()))
+           
             {
-                $temp_m_quota = array();
-                
-                while($mediamosa_quotum = $mediamosa_quota->next_result())
-                {
-                    $temp_m_quota[$mediamosa_quotum->get_server_id()] = $mediamosa_quotum->get_quotum();
-                }
+                $defaults[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['settings']->get_external_repository_id()] = $user_quotum->get_quotum();
             }
-
-            $mdm = MediamosaStreamingMediaDataManager :: get_instance();
-
-            if($mediamosa_servers = $mdm->retrieve_streaming_media_server_objects())
+            else
             {
-                while($mediamosa_server = $mediamosa_servers->next_result())
-                {
-                    //if a specific user quotum is set it will override the default quota for that server
-                    if(isset($temp_m_quota[$mediamosa_server->get_id()]))
-                    {
-                        $defaults['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_server->get_id()] = $temp_m_quota[$mediamosa_server->get_id()];
-                    }
-                    else
-                    {
-                        $defaults['mediamosa_' . StreamingMediaUserQuotum :: PROPERTY_SERVER_ID . '_' . $mediamosa_server->get_id()] = $mediamosa_server->get_default_user_quotum();
-                    }
-                }
+                $defaults[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '_' . $repository['settings']->get_external_repository_id()] = $repository['settings']->get_value();
             }
         }
-
+        
         parent :: setDefaults($defaults);
     }
 
@@ -273,6 +246,36 @@ class UserQuotaForm extends FormValidator
         }
 
         return $filtered_object_types;
+    }
+
+    function get_active_external_repositories()
+    {
+        if(! $this->active_repositories_searched)
+        {
+            $rdm = RepositoryDataManager :: get_instance();
+
+            $condition2 = new EqualityCondition(ExternalRepositorySetting :: PROPERTY_VARIABLE, ExternalRepositoryManager :: PARAM_USER_QUOTUM);
+            $settings = $rdm->retrieve_external_repository_settings($condition2);
+            while($setting = $settings->next_result())
+            {
+                $tempSettings[$setting->get_external_repository_id()] = $setting;
+            }
+
+            $condition = new EqualityCondition(ExternalRepository :: PROPERTY_ENABLED, 1);
+            $active_external_repositories = $rdm->retrieve_external_repositories($condition);
+
+            while($active_external_repository = $active_external_repositories->next_result())
+            {
+                if($tempSettings[$active_external_repository->get_id()])
+                {
+                    $this->active_external_repositories[$active_external_repository->get_id()]['settings'] = $tempSettings[$active_external_repository->get_id()];
+                    $this->active_external_repositories[$active_external_repository->get_id()]['data'] = $active_external_repository;
+                }
+            }
+            
+            $this->active_repositories_searched = true;
+        }
+        return $this->active_external_repositories;
     }
 }
 ?>

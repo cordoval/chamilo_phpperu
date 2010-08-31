@@ -14,7 +14,6 @@ class AssessmentDisplayAssessmentViewerComponent extends AssessmentDisplay
      */
     function run()
     {
-        //$wizard = ComplexDisplay :: factory(ComplexDisplay:: ACTION_VIEW_COMPLEX_CONTENT_OBJECT, $this);
         $wizard = new AssessmentViewerWizard($this, $this->get_root_content_object());
         $wizard->run();
     }

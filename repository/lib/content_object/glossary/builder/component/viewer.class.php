@@ -9,8 +9,7 @@ class GlossaryBuilderViewerComponent extends GlossaryBuilder
 {
     function run()
     {
-        $browser = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: VIEWER_COMPONENT, $this);
-        $browser->run();
+        ComplexBuilderComponent :: launch($this);
     }
 
     function get_full_html()

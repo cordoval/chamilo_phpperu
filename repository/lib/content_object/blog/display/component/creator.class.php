@@ -9,8 +9,7 @@ class BlogDisplayCreatorComponent extends BlogDisplay
 {
     function run()
     {
-        $browser = ComplexDisplayComponent :: factory(ComplexDisplayComponent :: CREATOR_COMPONENT, $this);
-        $browser->run();
+        ComplexDisplayComponent :: launch($this);
     }
 }
 

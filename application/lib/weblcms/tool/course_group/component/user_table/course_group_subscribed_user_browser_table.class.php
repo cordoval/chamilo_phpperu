@@ -32,7 +32,7 @@ class CourseGroupSubscribedUserBrowserTable extends ObjectTable
         //$actions[WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN] = Translation :: get('SubscribeSelectedAsAdmin');
         }*/
         
-        if($browser->is_allowed(EDIT_RIGHT))
+        if($browser->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
         	$actions[] = new ObjectTableFormAction(CourseGroupTool :: PARAM_UNSUBSCRIBE_USERS, Translation :: get('UnsubscribeUsers'));
         }

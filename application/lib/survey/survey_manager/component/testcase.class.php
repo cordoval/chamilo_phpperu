@@ -9,16 +9,15 @@ class SurveyManagerTestcaseComponent extends SurveyManager
     function run()
     {
         
-    	if (! SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'testcase_browser', 'sts_component'))
+    	if (! SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'testcase_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-    	
-    	$testcase_manager = new TestcaseManager($this);
-        $testcase_manager->run();
+        
+        TestcaseManager :: launch($this);
     }
 }
 ?>

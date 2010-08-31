@@ -6,8 +6,7 @@ class IndicatorBuilderUpdaterComponent extends IndicatorBuilder
 
     function run()
     {
-        $updater = ComplexBuilderComponent :: factory(ComplexBuilderComponent::UPDATER_COMPONENT, $this);
-        $updater->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 ?>

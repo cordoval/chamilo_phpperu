@@ -4,8 +4,7 @@ class GoogleDocsExternalRepositoryManagerImporterComponent extends GoogleDocsExt
 
     function run()
     {
-        $importer = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: IMPORTER_COMPONENT, $this);
-        $importer->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 
     function import_external_repository_object($external_object)

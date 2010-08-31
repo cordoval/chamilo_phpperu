@@ -7,30 +7,8 @@ class SurveyToolBrowserComponent extends SurveyTool
 
     function run()
     {
-        $tool_component = ToolComponent :: factory(ToolComponent :: ACTION_BROWSE, $this);
-        $tool_component->run();
+        ToolComponent :: launch($this);
     }
-
-//    function get_tool_actions()
-//    {
-//        $tool_actions = array();
-//        if ($this->is_allowed(EDIT_RIGHT))
-//        {
-//            $tool_actions[] = new ToolbarItem(Translation :: get('ImportQti'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
-//        }
-//        
-//        if ($this->is_allowed(EDIT_RIGHT))
-//        {
-//            $action_name = Translation :: get('ViewResultsSummary');
-//        }
-//        else
-//        {
-//            $action_name = Translation :: get('ViewResults');
-//        }
-//        $tool_actions[] = new ToolbarItem($action_name, Theme :: get_common_image_path() . 'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
-//        
-//        return $tool_actions;
-//    }
 
     function convert_content_object_publication_to_calendar_event($publication, $from_time, $to_time)
     {

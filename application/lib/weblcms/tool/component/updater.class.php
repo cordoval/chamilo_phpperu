@@ -5,11 +5,11 @@
  */
 require_once dirname(__FILE__) . '/../../content_object_publication_form.class.php';
 
-class ToolUpdaterComponent extends ToolComponent
+class ToolComponentUpdaterComponent extends ToolComponent
 {
     function run()
     {
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
             

@@ -4,7 +4,7 @@
  * @package repository.lib.complex_display.assessment.component
  */
 
-class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentUpdaterComponent extends ComplexDisplayComponent
 {
 
     function run()

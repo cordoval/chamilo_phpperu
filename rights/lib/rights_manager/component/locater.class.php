@@ -1,10 +1,6 @@
 <?php
 /**
- * $Id: locater.class.php 214 2009-11-13 13:57:37Z vanpouckesven $
  * @package rights.lib.rights_manager.component
- */
-/**
- * Admin component
  */
 class RightsManagerLocaterComponent extends RightsManager
 {
@@ -20,17 +16,7 @@ class RightsManagerLocaterComponent extends RightsManager
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS)), Translation :: get('ManageLocations')));
         $trail->add_help('rights general');
         
-        //        if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
-        //        {
-        //            $this->display_header();
-        //            $this->display_error_message(Translation :: get('NotAllowed'));
-        //            $this->display_footer();
-        //            exit();
-        //        }
-        
-
-        $package_manager = new LocationManager($this);
-        $package_manager->run();
+        LocationManager :: launch($this);
     }
 }
 ?>

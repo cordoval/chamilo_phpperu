@@ -10,22 +10,23 @@
  */
 class WebserviceManager extends CoreApplication
 {
-    
+
     const APPLICATION_NAME = 'webservice';
-    
+
     const PARAM_REMOVE_SELECTED = 'delete';
     const PARAM_FIRSTLETTER = 'firstletter';
     const PARAM_COMPONENT_ACTION = 'action';
     const PARAM_SOURCE = 'source';
-    
+
     const PARAM_LOCATION_ID = 'location';
     const PARAM_WEBSERVICE_ID = 'webservice';
     const PARAM_WEBSERVICE_CATEGORY_ID = 'webservice_category_id';
-    
-    const ACTION_BROWSE_WEBSERVICES = 'browse_webservices';
-    const ACTION_BROWSE_WEBSERVICE_CATEGORIES = 'browse_webservice_categories';
+
+    const ACTION_BROWSE_WEBSERVICES = 'webservice_browser';
     const ACTION_MANAGE_ROLES = 'rights_editor';
-    
+
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_WEBSERVICES;
+
     private $parameters;
     private $search_parameters;
     private $user;
@@ -40,28 +41,6 @@ class WebserviceManager extends CoreApplication
     public function get_application_name()
     {
         return self :: APPLICATION_NAME;
-    }
-
-    /**
-     * Run this webservice manager
-     */
-    function run()
-    {
-        $action = $this->get_action();
-        
-        $component = null;
-        switch ($action)
-        {
-            case self :: ACTION_BROWSE_WEBSERVICES :
-                $component = $this->create_component('WebserviceBrowser');
-                break;
-            case self :: ACTION_MANAGE_ROLES :
-                $component = $this->create_component('RightsEditor');
-                break;
-            default :
-                $component = $this->create_component('WebserviceBrowser');
-        }
-        $component->run(); //wordt gestart
     }
 
     function retrieve_webservices($condition = null, $offset = null, $count = null, $order_property = null)
@@ -89,13 +68,13 @@ class WebserviceManager extends CoreApplication
         return WebserviceDataManager :: get_instance()->retrieve_webservice_by_name($name);
     }
 
-    public function get_application_platform_admin_links()
+    public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', $this->get_link(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
-        $info = parent :: get_application_platform_admin_links();
+        $links[] = new DynamicAction(Translation :: get('List'), Translation :: get('ListDescription'), Theme :: get_image_path() . 'browse_list.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_WEBSERVICES), array(), false, Redirect :: TYPE_CORE));
+        $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
-        
+
         return $info;
     }
 
@@ -110,25 +89,37 @@ class WebserviceManager extends CoreApplication
             $webserviceCategory = 0;
         else
             $webserviceCategory = $webserviceCategory->get_id();
-        
+
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => $webserviceCategory));
     }
 
-    public static function get_tool_bar_item($id)
+    public function get_tool_bar_item($id)
     {
-        $wdm = new WebserviceManager();
-        
         $toolbar_item = WebserviceDataManager :: get_instance()->retrieve_webservice_category($id);
         if (isset($toolbar_item))
         {
-            $url = $wdm->get_manage_roles_cat_url($toolbar_item);
+            $url = $this->get_manage_roles_cat_url($toolbar_item);
         }
         else
         {
-            $wsm = new WebserviceManager();
-            $url = $wsm->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => null));
+            $url = $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => null));
         }
         return new ToolbarItem(Translation :: get('ChangeRights'), Theme :: get_common_image_path() . 'action_rights.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false);
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 
 }

@@ -11,8 +11,7 @@ class PortfolioBuilderParentChangerComponent extends PortfolioBuilder
 
     function run()
     {
-        $component = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: PARENT_CHANGER_COMPONENT, $this);
-        $component->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 

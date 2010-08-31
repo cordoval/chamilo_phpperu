@@ -11,28 +11,42 @@ require_once dirname(__FILE__) . '/inc/maintenance_wizard.class.php';
  * remove publications from the course, create & restore backups,...
  */
 class MaintenanceTool extends Tool
-{
+{    
+    const DEFAULT_ACTION = self :: ACTION_VIEW;
 
-    function run()
+    function get_application_component_path()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('courses maintenance');
-        
-        if (! $this->get_course()->is_course_admin($this->get_parent()->get_user()))
-        {
-            $this->display_header();
-            Display :: error_message(Translation :: get("NotAllowed"));
-            $this->display_footer();
-            exit();
-        }
-        
-        $wizard = new MaintenanceWizard($this);
-        $wizard->run();
+        return dirname(__FILE__) . '/component/';
     }
-    
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
 }
 ?>

@@ -6,13 +6,13 @@
 require_once dirname(__FILE__) . '/../tool.class.php';
 require_once dirname(__FILE__) . '/../tool_component.class.php';
 
-class ToolAttachmentViewerComponent extends ToolComponent
+class ToolComponentAttachmentViewerComponent extends ToolComponent
 {
     private $action_bar;
 
     function run()
     {
-        if (! $this->is_allowed(VIEW_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;

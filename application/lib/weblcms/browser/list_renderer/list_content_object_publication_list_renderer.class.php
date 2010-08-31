@@ -25,7 +25,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/publications_list.js');
         
-        if ($this->get_actions() && $this->is_allowed(EDIT_RIGHT))
+        if ($this->get_actions() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $html[] = '<div style="clear: both;">';
             $html[] = '<form class="publication_list" name="publication_list" action="' . $this->get_url() . '" method="POST" >';
@@ -40,7 +40,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             $i ++;
         }
         
-        if ($this->get_actions() && count($publications) > 0 && $this->is_allowed(EDIT_RIGHT))
+        if ($this->get_actions() && count($publications) > 0 && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $table_name = Utilities :: camelcase_to_underscores(__CLASS__);
         	foreach ($_GET as $parameter => $value)
@@ -174,7 +174,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
         $html[] = $this->render_publication_information($publication);
         $html[] = '</div>';
         $html[] = '<div class="publication_actions">';
-        if ($this->get_actions() && $this->is_allowed(EDIT_RIGHT))
+        if ($this->get_actions() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT, $publication->get_id()))
         {
             $html[] = '<input style="display: inline; float: right;" class="pid" type="checkbox" name="' . WeblcmsManager :: PARAM_PUBLICATION . '[]" value="' . $publication->get_id() . '"/>';
         }

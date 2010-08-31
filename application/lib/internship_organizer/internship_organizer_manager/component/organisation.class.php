@@ -8,8 +8,7 @@ class InternshipOrganizerManagerOrganisationComponent extends InternshipOrganize
      */
     function run()
     {
-        $organisation_manager = new InternshipOrganizerOrganisationManager($this);
-        $organisation_manager->run();
+        InternshipOrganizerOrganisationManager :: launch($this);
     }
 }
 ?>

@@ -4,8 +4,7 @@ class YoutubeExternalRepositoryManagerInternalSyncerComponent extends YoutubeExt
 
     function run()
     {
-        $syncer = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: INTERNAL_SYNCER_COMPONENT, $this);
-        $syncer->run();
+        ExternalRepositoryComponent :: launch($this);
     }
 
     function synchronize_internal_repository_object(ExternalRepositoryObject $external_object)

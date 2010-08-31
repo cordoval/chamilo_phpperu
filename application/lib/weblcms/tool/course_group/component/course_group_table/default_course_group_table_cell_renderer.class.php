@@ -47,7 +47,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
                 case CourseGroup :: PROPERTY_ID :
                     return $course_group->get_id();
                 case CourseGroup :: PROPERTY_NAME :
-                    if ($this->course_group_tool->is_allowed(EDIT_RIGHT) || $course_group->is_member($this->course_group_tool->get_user()))
+                    if ($this->course_group_tool->is_allowed(WeblcmsRights :: EDIT_RIGHT) || $course_group->is_member($this->course_group_tool->get_user()))
                     {
                         $url = $this->course_group_tool->get_url(array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, WeblcmsManager :: PARAM_COURSE_GROUP => $course_group->get_id()));
                         return '<a href="' . $url . '">' . $course_group->get_name() . '</a>';
@@ -83,7 +83,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
         $details_url = $this->course_group_tool->get_url($parameters);
         // Default functionity achieved by clicking the course_group name, why add it as an icon ?
         //$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_image_path().'description.png');
-        if ($this->course_group_tool->is_allowed(EDIT_RIGHT))
+        if ($this->course_group_tool->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $parameters = array();
             $parameters[CourseGroupTool :: PARAM_COURSE_GROUP] = $course_group->get_id();
@@ -100,7 +100,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
         
         $user = $this->course_group_tool->get_user();
         
-        if (!$this->course_group_tool->is_allowed(EDIT_RIGHT))
+        if (!$this->course_group_tool->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
         	if($course_group->is_self_registration_allowed())
 	        {
@@ -124,7 +124,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
             $toolbar->add_item(new ToolbarItem(Translation :: get('$subscribe_url'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem::DISPLAY_ICON ));
         }
         
-        if (!$this->course_group_tool->is_allowed(EDIT_RIGHT) && $course_group->is_self_unregistration_allowed() && $course_group->is_member($user))
+        if (!$this->course_group_tool->is_allowed(WeblcmsRights :: EDIT_RIGHT) && $course_group->is_self_unregistration_allowed() && $course_group->is_member($user))
         {
             $parameters = array();
             $parameters[WeblcmsManager :: PARAM_COURSE_GROUP] = $course_group->get_id();

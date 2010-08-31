@@ -6,58 +6,30 @@
  */
 //require_once dirname(__FILE__) . '/component/registration_browser/registration_browser_table.class.php';
 
+
 class PhrasesPublicationManager extends SubManager
 {
     const PARAM_PUBLICATION_MANAGER_ACTION = 'action';
     const PARAM_PHRASES_PUBLICATION_ID = 'phrase_publication';
-
-    const ACTION_BROWSE = 'browse';
-    const ACTION_PUBLISH = 'publish';
-    const ACTION_UPDATE = 'update';
-    const ACTION_DELETE = 'delete';
-    const ACTION_VIEW = 'view';
-    const ACTION_BUILD = 'build';
+    
+    const ACTION_BROWSE = 'browser';
+    const ACTION_PUBLISH = 'publisher';
+    const ACTION_UPDATE = 'updater';
+    const ACTION_DELETE = 'deleter';
+    const ACTION_VIEW = 'viewer';
+    const ACTION_BUILD = 'builder';
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
     function PhrasesPublicationManager($phrases_manager)
     {
         parent :: __construct($phrases_manager);
-
+        
         $publication_action = Request :: get(self :: PARAM_PUBLICATION_MANAGER_ACTION);
         if ($publication_action)
         {
             $this->set_action($publication_action);
         }
-
-//        $this->parse_input_from_table();
-    }
-
-    function run()
-    {
-        $package_action = $this->get_action();
-
-        switch ($package_action)
-        {
-            case self :: ACTION_BROWSE :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_PUBLISH :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_DELETE :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_UPDATE :
-                $component = $this->create_component('Updater');
-                break;
-            case self :: ACTION_BUILD :
-                $component = $this->create_component('Builder');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-                break;
-        }
-
-        $component->run();
     }
 
     function set_action($action)
@@ -69,35 +41,6 @@ class PhrasesPublicationManager extends SubManager
     {
         return $this->get_parameter(self :: PARAM_PUBLICATION_MANAGER_ACTION);
     }
-
-//    function parse_input_from_table()
-//    {
-//        if (isset($_POST['action']))
-//        {
-//            $selected_ids = Request :: post(RegistrationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX);
-//
-//            if (empty($selected_ids))
-//            {
-//                $selected_ids = array();
-//            }
-//            elseif (! is_array($selected_ids))
-//            {
-//                $selected_ids = array($selected_ids);
-//            }
-//            switch ($_POST['action'])
-//            {
-//                case self :: PARAM_ACTIVATE_SELECTED :
-//                    $this->set_action(self :: ACTION_ACTIVATE_PACKAGE);
-//                    Request :: set_get(self :: PARAM_REGISTRATION, $selected_ids);
-//                    break;
-//                case self :: ACTION_DEACTIVATE_PACKAGE :
-//                    $this->set_action(self :: ACTION_DEACTIVATE_PACKAGE);
-//                    Request :: set_get(self :: PARAM_REGISTRATION, $selected_ids);
-//                    break;
-//            }
-//
-//        }
-//    }
 
     function get_application_component_path()
     {
@@ -132,6 +75,44 @@ class PhrasesPublicationManager extends SubManager
     function get_build_phrases_publication_url($phrases_publication)
     {
         return $this->get_parent()->get_url(array(self :: PARAM_PUBLICATION_MANAGER_ACTION => self :: ACTION_BUILD, self :: PARAM_PHRASES_PUBLICATION_ID => $phrases_publication->get_id()));
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_PUBLICATION_MANAGER_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        parent :: launch(__CLASS__, $application);
     }
 }
 ?>

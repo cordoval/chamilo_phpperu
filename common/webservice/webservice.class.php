@@ -155,7 +155,7 @@ abstract class Webservice
         $webservice = $wm->retrieve_webservice_by_name($webservicename);
         if (isset($webservice))
         {
-            if ($this->ru->is_allowed_in_webservices_subtree(WebserviceRights :: USE_RIGHT, $webservice->get_id(), 'webservice'))
+            if ($this->ru->is_allowed_in_webservices_subtree(WebserviceRights :: USE_RIGHT, $webservice->get_id(), WebserviceRights :: TYPE_WEBSERVICE))
             {
                 return true;
             }

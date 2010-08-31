@@ -18,25 +18,27 @@ class InternshipOrganizerOrganisationManager extends SubManager
     const PARAM_MENTOR_ID = 'mentor_id';
     const PARAM_DELETE_SELECTED_MENTORS = 'delete_mentors';
     
-    const ACTION_CREATE_ORGANISATION = 'create';
-    const ACTION_BROWSE_ORGANISATION = 'browse';
-    const ACTION_UPDATE_ORGANISATION = 'update';
-    const ACTION_DELETE_ORGANISATION = 'delete';
-    const ACTION_VIEW_ORGANISATION = 'view';
+    const ACTION_CREATE_ORGANISATION = 'creator';
+    const ACTION_BROWSE_ORGANISATION = 'browser';
+    const ACTION_UPDATE_ORGANISATION = 'updater';
+    const ACTION_DELETE_ORGANISATION = 'deleter';
+    const ACTION_VIEW_ORGANISATION = 'viewer';
     
-    const ACTION_CREATE_LOCATION = 'create_location';
-    //    const ACTION_BROWSE_LOCATIONS = 'browse_locations';
-    const ACTION_EDIT_LOCATION = 'edit_location';
-    const ACTION_DELETE_LOCATION = 'delete_location';
-    const ACTION_VIEW_LOCATION = 'view_location';
+    const ACTION_CREATE_LOCATION = 'location_creator';
+    //    const ACTION_BROWSE_LOCATIONS = 'location_browser';
+    const ACTION_EDIT_LOCATION = 'location_updater';
+    const ACTION_DELETE_LOCATION = 'location_deleter';
+    const ACTION_VIEW_LOCATION = 'location_viewer';
     
-    const ACTION_CREATE_MENTOR = 'create_mentor';
-    //    const ACTION_BROWSE_MENTOR = 'browse_mentor';
-    const ACTION_UPDATE_MENTOR = 'update_mentor';
-    const ACTION_DELETE_MENTOR = 'delete_mentor';
-    const ACTION_VIEW_MENTOR = 'view_mentor';
+    const ACTION_CREATE_MENTOR = 'mentor_creator';
+    //    const ACTION_BROWSE_MENTOR = 'mentor_browser';
+    const ACTION_UPDATE_MENTOR = 'mentor_updater';
+    const ACTION_DELETE_MENTOR = 'mentor_deleter';
+    const ACTION_VIEW_MENTOR = 'mentor_viewer';
     
     const ACTION_SUBSCRIBE_USERS = 'subscribe_users';
+    
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_ORGANISATION;
 
     function InternshipOrganizerOrganisationManager($internship_manager)
     {
@@ -48,69 +50,6 @@ class InternshipOrganizerOrganisationManager extends SubManager
         }
         $this->parse_input_from_table();
     
-    }
-
-    function run()
-    {
-        $action = $this->get_parameter(self :: PARAM_ACTION);
-        
-        switch ($action)
-        {
-            
-            case self :: ACTION_UPDATE_ORGANISATION :
-                $component = $this->create_component('Updater');
-                break;
-            case self :: ACTION_DELETE_ORGANISATION :
-                $component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_CREATE_ORGANISATION :
-                $component = $this->create_component('Creator');
-                break;
-            case self :: ACTION_VIEW_ORGANISATION :
-                $component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_BROWSE_ORGANISATION :
-                $component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_EDIT_LOCATION :
-                $component = $this->create_component('LocationUpdater');
-                break;
-            case self :: ACTION_DELETE_LOCATION :
-                $component = $this->create_component('LocationDeleter');
-                break;
-            case self :: ACTION_CREATE_LOCATION :
-                $component = $this->create_component('LocationCreator');
-                break;
-            case self :: ACTION_VIEW_LOCATION :
-                $component = $this->create_component('LocationViewer');
-                break;
-            //            case self :: ACTION_BROWSE_LOCATIONS :
-            //                $component = $this->create_component('LocationBrowser');
-            //                break;
-            case self :: ACTION_UPDATE_MENTOR :
-                $component = $this->create_component('MentorUpdater');
-                break;
-            case self :: ACTION_DELETE_MENTOR :
-                $component = $this->create_component('MentorDeleter');
-                break;
-            case self :: ACTION_CREATE_MENTOR :
-                $component = $this->create_component('MentorCreator');
-                break;
-            case self :: ACTION_VIEW_MENTOR :
-                $component = $this->create_component('MentorViewer');
-                break;
-            //            case self :: ACTION_BROWSE_MENTOR :
-            //                $component = $this->create_component('MentorBrowser');
-            //                break;
-            case self :: ACTION_SUBSCRIBE_USERS :
-                $component = $this->create_component('SubscribeUsers');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-                break;
-        }
-        
-        $component->run();
     }
 
     function get_application_component_path()
@@ -307,6 +246,43 @@ class InternshipOrganizerOrganisationManager extends SubManager
     {
         $this->set_parameter(self :: PARAM_ACTION, $action);
     }
-}
 
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        parent :: launch(__CLASS__, $application);
+    }
+}
 ?>

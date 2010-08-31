@@ -6,7 +6,8 @@
 require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
 //require_once dirname(__FILE__) . '/../../complex_repo_viewer/complex_repo_viewer.class.php';
 
-class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
+
+class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent implements RepoViewerInterface
 {
     private $rdm;
     private $root_content_object_id;
@@ -56,7 +57,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
             $this->type = $content_object->get_allowed_types();
         }
 
-        $complex_repository_viewer = new RepoViewer($this, $this->type);
+        $complex_repository_viewer = RepoViewer :: construct($this);
         if ($rtype)
         {
             $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
@@ -113,6 +114,11 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
         }
 
         return $items;
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array($this->type);
     }
 }
 

@@ -12,7 +12,7 @@
 
 require_once PATH :: get_application_path() . '/lib/weblcms/weblcms_manager/weblcms_manager.class.php';
 
-class ComplexDisplayReportingTemplateViewerComponent extends ComplexDisplayComponent
+class ComplexDisplayComponentReportingTemplateViewerComponent extends ComplexDisplayComponent
 {
     private $params;
     private $template_name;
@@ -22,11 +22,11 @@ class ComplexDisplayReportingTemplateViewerComponent extends ComplexDisplayCompo
      */
     function run()
     {
-    	$rtv = new ReportingViewer($this);
+    	$rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name($this->template_name, $this->get_parent()->get_application_name());
         $rtv->set_breadcrumb_trail($this->get_parent()->get_breadcrumbtrail());
         $rtv->show_all_blocks();
-        
+
         $rtv->run();
     }
 

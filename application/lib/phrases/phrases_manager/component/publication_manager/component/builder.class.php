@@ -24,8 +24,9 @@ class PhrasesPublicationManagerBuilderComponent extends PhrasesPublicationManage
         $new_trail = BreadcrumbTrail :: get_instance();
 //        $new_trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
 
-        $complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
-        $complex_builder->run();
+        ComplexBuilder :: launch($this->content_object->get_type(), $this);
+        //$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
+        //$complex_builder->run();
     }
 
     function get_root_content_object()

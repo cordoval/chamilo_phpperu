@@ -7,25 +7,27 @@
  */
 require_once dirname(__FILE__) . '/mediamosa_external_repository_object.class.php';
 require_once dirname(__FILE__) . '/mediamosa_external_repository_connector.class.php';
-require_once dirname(__FILE__) . '/mediamosa_external_repository_server_object.class.php';
-require_once dirname(__FILE__) . '/mediamosa_external_repository_user_quotum.class.php';
-require_once dirname(__FILE__) . '/forms/mediamosa_external_repository_manager_server_select_form.class.php';
-require_once dirname(__FILE__) . '/mediamosa_external_repository_data_manager.class.php';
 
 class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 {
     
     const REPOSITORY_TYPE = 'mediamosa';
     
-    const ACTION_MANAGE_SETTINGS = 'settings';
-    const ACTION_CLEAN_EXTERNAL_REPOSITORY = 'clean';
-    const ACTION_ADD_SETTING = 'add_setting';
-    const ACTION_UPDATE_SETTING = 'update_setting';
-    const ACTION_DELETE_SETTING = 'delete_setting';
+    //const ACTION_MANAGE_SETTINGS = 'settings';
+    //const ACTION_CLEAN_EXTERNAL_REPOSITORY = 'clean';
+    //const ACTION_ADD_SETTING = 'add_setting';
+    //const ACTION_UPDATE_SETTING = 'update_setting';
+    //const ACTION_DELETE_SETTING = 'delete_setting';
     
     const PARAM_MEDIAFILE = 'mediafile_id';
-    const PARAM_SERVER = 'server_id';
-    const PARAM_EXTERNAL_REPOSITORY_SETTING_ID = 'setting_id';
+    //const PARAM_SERVER = 'server_id';
+    //const PARAM_EXTERNAL_REPOSITORY_SETTING_ID = 'setting_id';
+    const PARAM_FEED_TYPE = 'feed';
+
+    const FEED_TYPE_GENERAL = 1;
+    const FEED_TYPE_MOST_INTERESTING = 2;
+    const FEED_TYPE_MOST_RECENT = 3;
+    const FEED_TYPE_MY_VIDEOS = 4;
     
     private static $server;
     private $server_selection_form;
@@ -39,8 +41,6 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     {
         return Path :: get_application_library_path() . 'external_repository_manager/type/mediamosa/component/';
     }
-
-    
 
     function retrieve_external_repository_server_object($id)
     {
@@ -63,7 +63,25 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function get_menu_items()
     {
-        return array();
+        $general = array();
+        
+        $general['title'] = Translation :: get('Browse');
+        $general['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $general['class'] = 'home';
+        $menu_items[] = $general;
+        
+        $most_recent =  array();
+        $most_recent['title'] = Translation :: get('MostRecent');
+        $most_recent['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MOST_RECENT), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $most_recent['class'] = 'recent';
+        $menu_items[] = $most_recent;
+
+        $my_videos = array();
+        $my_videos['title'] = Translation :: get('MyVideos');
+        $my_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_VIDEOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+        $menu_items[] = $my_videos;
+
+        return $menu_items;
     }
 
     function get_external_repository_object_viewing_url(ExternalRepositoryObject $object)
@@ -81,12 +99,12 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         $external_repository = $rdm->retrieve_external_repository(Request :: get(MediamosaExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb('#', $external_repository->get_title()));
-
-        $server = Request :: get(self :: PARAM_SERVER);
-        if ($server)
-        {
-            $this->set_parameter(self :: PARAM_SERVER, $server);
-        }
+        
+//        $server = Request :: get(self :: PARAM_SERVER);
+//        if ($server)
+//        {
+//            $this->set_parameter(self :: PARAM_SERVER, $server);
+//        }
         $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
         
         switch ($parent)
@@ -109,21 +127,21 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
             case parent :: ACTION_SELECT_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Selecter', $this);
                 break;
-            case self :: ACTION_CLEAN_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Cleaner', $this);
-                break;
-            case self :: ACTION_MANAGE_SETTINGS :
-                $component = $this->create_component('SettingsManager');
-                break;
-            case self :: ACTION_ADD_SETTING :
-                $component = $this->create_component('SettingCreator');
-                break;
-            case self :: ACTION_UPDATE_SETTING :
-                $component = $this->create_component('SettingUpdater');
-                break;
-            case self :: ACTION_DELETE_SETTING :
-                $component = $this->create_component('SettingDeleter');
-                break;
+//            case self :: ACTION_CLEAN_EXTERNAL_REPOSITORY :
+//                $component = $this->create_component('Cleaner', $this);
+//                break;
+//            case self :: ACTION_MANAGE_SETTINGS :
+//                $component = $this->create_component('SettingsManager');
+//                break;
+//            case self :: ACTION_ADD_SETTING :
+//                $component = $this->create_component('SettingCreator');
+//                break;
+//            case self :: ACTION_UPDATE_SETTING :
+//                $component = $this->create_component('SettingUpdater');
+//                break;
+//            case self :: ACTION_DELETE_SETTING :
+//                $component = $this->create_component('SettingDeleter');
+//                break;
             case self :: ACTION_IMPORT_EXTERNAL_REPOSITORY :
                 $component = $this->create_component('Importer');
                 break;
@@ -185,26 +203,6 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         return $streaming_video_clip->create();
     }
 
-    function create_standard_user_quota($server_id)
-    {
-        //        $udm = UserDataManager :: get_instance();
-        $mdm = MediamosaExternalRepositoryDataManager :: get_instance();
-        //
-        //        $users = $udm->retrieve_users();
-        $mediamosa_server_object = $mdm->retrieve_external_repository_server_object($server_id);
-        //        xdebug_break();
-        //        while($user = $users->next_result())
-        //        {
-        $mediamosa_user_quotum = new ExternalRepositoryUserQuotum();
-        //
-    //            $mediamosa_user_quotum->set_user_id($user->get_id());
-    //            $mediamosa_user_quotum->set_server_id($server_id);
-    //            $mediamosa_user_quotum->set_quotum($mediamosa_server_object->get_default_user_quotum());
-    //
-    //            $mdm->create_mediamosa_user_quotum($mediamosa_user_quotum);
-    //        }
-    }
-
     function get_available_renderers()
     {
         return array(ExternalRepositoryObjectRenderer :: TYPE_GALLERY, ExternalRepositoryObjectRenderer :: TYPE_SLIDESHOW, ExternalRepositoryObjectRenderer :: TYPE_TABLE);
@@ -254,6 +252,36 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         }
         
         return $actions;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION;
     }
 }
 ?>

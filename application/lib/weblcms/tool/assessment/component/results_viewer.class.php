@@ -52,7 +52,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
         echo '</div>';
         echo '<div style="width:80%; padding-left: 1%; float:right; ">';
         
-        if ($this->is_allowed(EDIT_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $table = new AssessmentResultsTableOverviewAdmin($this, $this->get_user());
         }
@@ -91,7 +91,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
         echo '</div>';
         $track = new WeblcmsAssessmentAttemptsTracker();
         
-        if (! $this->is_allowed(EDIT_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $usr = $this->get_user_id();
         }
@@ -138,24 +138,10 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
         
         $this->set_parameter('uaid', $uaid);
         
-        $display = ComplexDisplay :: factory($this, $object->get_type());
         $this->object = $object;
-        
-        //$this->display_header();
-        $display->run();
-        //$this->display_footer();
+        ComplexDisplay :: launch($object->get_type(), $this);
     }
 
-    /*function display_header($trail)
-    {
-    	if($trail)
-    	{
-    		$this->trail->merge($trail);
-    	}
-
-    	return parent :: display_header();
-    }*/
-    
     function retrieve_assessment_results()
     {
         $condition = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->user_assessment->get_id());
@@ -195,14 +181,14 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
 
     function can_change_answer_data()
     {
-        return $this->is_allowed(EDIT_RIGHT);
+        return $this->is_allowed(WeblcmsRights :: EDIT_RIGHT);
     }
 
     function display_header($breadcrumbs = array())
     {
         if (! Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
         {
-            if (! $this->is_allowed(VIEW_RIGHT))
+            if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
             {
                 Display :: not_allowed();
                 return false;
@@ -226,7 +212,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentTool
 
     function get_toolbar()
     {
-        if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT) && $this->is_allowed(EDIT_RIGHT))
+        if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT) && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
             

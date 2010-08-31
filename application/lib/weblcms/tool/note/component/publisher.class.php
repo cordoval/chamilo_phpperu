@@ -8,8 +8,7 @@ class NoteToolPublisherComponent extends NoteTool
 
     function run()
     {
-        $publisher = ToolComponent :: factory(ToolComponent :: ACTION_PUBLISH, $this);
-        $publisher->run();
+        ToolComponent :: launch($this);
     }
 }
 ?>

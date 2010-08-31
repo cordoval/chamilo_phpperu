@@ -4,9 +4,7 @@
  * @package repository.lib.complex_builder.learning_path.component
  */
 require_once dirname(__FILE__) . '/../learning_path_builder.class.php';
-//require_once dirname(__FILE__) . '/../learning_path_builder_component.class.php';
-/**
- */
+
 class LearningPathBuilderMoverComponent extends LearningPathBuilder
 {
 
@@ -15,8 +13,7 @@ class LearningPathBuilderMoverComponent extends LearningPathBuilder
      */
     function run()
     {
-        $component = ComplexBuilderComponent :: factory(ComplexBuilderComponent :: MOVER_COMPONENT, $this);
-        $component->run();
+        ComplexBuilderComponent :: launch($this);
     }
 }
 ?>

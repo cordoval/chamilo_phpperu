@@ -15,7 +15,7 @@ class LinkToolViewerComponent extends LinkToolComponent
 
     function run()
     {
-        if (! $this->is_allowed(VIEW_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
@@ -82,7 +82,7 @@ class LinkToolViewerComponent extends LinkToolComponent
         {
             $action_bar->set_search_url($this->get_url());
 
-            if ($this->is_allowed(ADD_RIGHT))
+            if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
             {
                 $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(LinkTool :: PARAM_ACTION => LinkTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
             }
@@ -90,10 +90,10 @@ class LinkToolViewerComponent extends LinkToolComponent
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID) && $this->is_allowed(EDIT_RIGHT))
+        if (! Request :: get(Tool :: PARAM_PUBLICATION_ID) && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(EDIT_RIGHT))
+        if (! $this->introduction_text && $this->get_course()->get_intro_text() && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

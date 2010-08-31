@@ -22,12 +22,14 @@ abstract class ToolComponent extends SubManager
     const ACTION_DELETE = 'deleter';
     const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
     const ACTION_MOVE = 'mover';
+
     const MOVE_TO_CATEGORY_COMPONENT = 'category_mover';
     const INTRODUCTION_PUBLISHER_COMPONENT = 'introduction_publisher';
     const MANAGE_CATEGORIES_COMPONENT = 'category_manager';
     const VIEW_REPORTING_COMPONENT = 'reporting_viewer';
     const BUILD_COMPLEX_CONTENT_OBJECT_COMPONENT = 'complex_builder';
     const DISPLAY_COMPLEX_CONTENT_OBJECT_COMPONENT = 'complex_display';
+    const RIGHTS_EDITOR_COMPONENT = 'rights_editor';
 
     static function factory($type, $tool_component)
     {
@@ -39,7 +41,7 @@ abstract class ToolComponent extends SubManager
 
         require_once $file;
 
-        $class = 'Tool' . Utilities :: underscores_to_camelcase($type) . 'Component';
+        $class = 'ToolComponent' . Utilities :: underscores_to_camelcase($type) . 'Component';
         return new $class($tool_component);
     }
 
@@ -100,14 +102,15 @@ abstract class ToolComponent extends SubManager
     {
         return $this->get_parent()->get_complex_builder_url($pid);
     }
-    
-	function get_complex_display_url($pid)
+
+    function get_complex_display_url($pid)
     {
         return $this->get_parent()->get_complex_display_url($pid);
     }
-    
+
     function get_application_component_path()
     {
+        return dirname(__FILE__) . '/component/';
     }
 
     function get_course()
@@ -134,9 +137,52 @@ abstract class ToolComponent extends SubManager
     {
         return $this->get_parent()->get_tool_id();
     }
-    
+
     function display_header()
     {
-    	return $this->get_parent()->display_header();
+        return $this->get_parent()->display_header();
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return $this->get_parent()->get_allowed_types();
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return Tool :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return Tool :: PARAM_ACTION;
+    }
+
+    /**
+     * @param Application $application
+     */
+    static function launch($application)
+    {
+        parent :: launch(__CLASS__, $application, false);
     }
 }

@@ -11,8 +11,7 @@ class NoteToolBrowserComponent extends NoteTool
 
     function run()
     {
-        $browser = ToolComponent :: factory(ToolComponent :: ACTION_BROWSE, $this);
-        $browser->run();
+        ToolComponent :: launch($this);
     }
 }
 ?>

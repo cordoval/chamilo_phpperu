@@ -9,59 +9,10 @@
  */
 class ForumTool extends Tool implements Categorizable
 {
-    const ACTION_BROWSE_FORUMS = 'browse';
-    const ACTION_VIEW_FORUM = 'view';
-    const ACTION_PUBLISH_FORUM = 'publish';
-    const ACTION_MANAGE_CATEGORIES = 'manage_categories';
-
-	const ACTION_EDIT_FORUM = 'edit';
-    /**
-     * Inherited.
-     */
-    function run()
-    {
-        $action = $this->get_action();
-
-        switch ($action)
-        {
-            case self :: ACTION_PUBLISH_FORUM :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_BROWSE_FORUMS :
-            	$component = $this->create_component('Browser');
-                break;
-            case self :: ACTION_VIEW_FORUM :
-            	$component = $this->create_component('Viewer');
-                break;
-            case self :: ACTION_MANAGE_CATEGORIES:
-            	$component = $this->create_component('CategoryManager');
-                break;
-            case self :: ACTION_UPDATE :
-            	$component = $this->create_component('Updater');
-                break;
-            case self :: ACTION_DELETE :
-            	$component = $this->create_component('Deleter');
-                break;
-            case self :: ACTION_TOGGLE_VISIBILITY:
-            	$component = $this->create_component('ToggleVisibility');
-                break;
-            case self :: ACTION_MOVE_DOWN:
-            	$component = $this->create_component('MoveDown');
-                break;
-            case self :: ACTION_MOVE_UP:
-            	$component = $this->create_component('MoveUp');
-                break;
-            case self :: ACTION_MOVE_TO_CATEGORY:
-            	$component = $this->create_component('CategoryMover');
-                break;
-            case self :: ACTION_PUBLISH_INTRODUCTION:
-            	$component = $this->create_component('IntroductionPublisher');
-                break;
-            default :
-                $component = $this->create_component('Browser');
-        }
-        $component->run();
-    }
+    const ACTION_BROWSE_FORUMS = 'browser';
+    const ACTION_VIEW_FORUM = 'viewer';
+    const ACTION_PUBLISH_FORUM = 'publisher';
+    const ACTION_MANAGE_CATEGORIES = 'category_manager';
 
     static function get_allowed_types()
     {
@@ -71,7 +22,7 @@ class ForumTool extends Tool implements Categorizable
     static function get_subforum_parents($subforum_id)
     {
         $rdm = RepositoryDataManager :: get_instance();
-
+        
         $parent = $rdm->retrieve_complex_content_object_item($subforum_id);
         while (! empty($parent))
         {
@@ -80,13 +31,43 @@ class ForumTool extends Tool implements Categorizable
             $parent = $parent[0];
         }
         $parents = array_reverse($parents);
-
+        
         return $parents;
     }
 
-	function get_application_component_path()
-	{
-		return dirname(__FILE__) . '/component/';
-	}
+    function get_application_component_path()
+    {
+        return dirname(__FILE__) . '/component/';
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_ACTION;
+    }
 }
 ?>

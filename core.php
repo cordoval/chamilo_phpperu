@@ -1,7 +1,6 @@
 <?php
 /**
- * $Id: core.php 166 2009-11-12 11:03:06Z vanpouckesven $
- * This script will load the requested core application and call its run() function.
+ * This script will load the requested core application and launch it.
  */
 
 try
@@ -44,15 +43,11 @@ try
     // Load & run the application
     try
     {
-        $application = CoreApplication :: factory($application_name, $user);
-        $application->set_parameter('application', $application_name);
-        $application->run();
+        Application :: launch($application_name, $user);
     }
     catch (Exception $exception)
     {
-        $application->display_header();
-        Display :: error_message($exception->getMessage());
-        $application->display_footer();
+        Display :: error_page($exception->getMessage());
     }
 }
 catch (Exception $exception)

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <location name="admin" type="0" identifier="0">
 	<children>
-		<location name="System Announcements" type="admin_manager_component"
+		<location name="System Announcements" type="1"
 			identifier="1" />
-		<location name="Settings" type="admin_manager_component"
+		<location name="Settings" type="1"
 			identifier="2" />
-		<location name="Category Manager" type="admin_manager_component"
+		<location name="Category Manager" type="1"
 			identifier="3" />
 	</children>
 </location>

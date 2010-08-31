@@ -166,20 +166,24 @@ class SurveyContextRegistrationForm extends FormValidator
         
         $name = $values[SurveyContextRegistration :: PROPERTY_NAME];
         
-        $condition = new EqualityCondition(SurveyContextRegistration :: PROPERTY_NAME, $name);
-        $context_registrations = SurveyContextDataManager :: get_instance()->retrieve_survey_context_registrations($condition);
-        $context_registration = $context_registrations->next_result();
+//        $condition = new EqualityCondition(SurveyContextRegistration :: PROPERTY_NAME, $name);
+//        $context_registrations = SurveyContextDataManager :: get_instance()->retrieve_survey_context_registrations($condition);
+//        $context_registration = $context_registrations->next_result();
         
         $result = true;
         
-        if (! $context_registration)
-        {
-            $type = 'survey_' . strtolower($name) . '_context';
+//        if (! $context_registration)
+//        {
+           
             
             $context_registration = $this->context_registration;
             $context_registration->set_name($name);
             $context_registration->set_description($values[SurveyContextRegistration :: PROPERTY_DESCRIPTION]);
+            $context_registration->create();
+            
+            $type = 'survey_context'.$context_registration->get_id();
             $context_registration->set_type($type);
+            $context_registration->update();
             
             $properties = array();
             
@@ -199,19 +203,20 @@ class SurveyContextRegistrationForm extends FormValidator
                 
                 }
             }
-        }
-        else
-        {
-            return false;
-        }
+//        }
+//        else
+//        {
+//            return false;
+//        }
         
         $result = $this->create_files($type, $properties);
        
-        if($result){
-        	$result = $context_registration->create();
-        	
-        }
+        if(!$result){
+        	$context_registration->delete();
+     	}
         
+     	$this->context_registration = $context_registration;
+     	     	
         return $result;
     }
 

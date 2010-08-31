@@ -7,6 +7,8 @@ class HtmlEditorFileLauncher extends LauncherApplication
     const PARAM_PLUGIN = 'plugin';
     const APPLICATION_NAME = 'html_editor_file';
 
+    private $content_object_types;
+
     function HtmlEditorFileLauncher($user)
     {
         parent :: __construct($user);
@@ -19,9 +21,11 @@ class HtmlEditorFileLauncher extends LauncherApplication
     {
         $plugin = $this->get_plugin();
         $this->set_parameter(self :: PARAM_PLUGIN, $plugin);
-        
-        $repo_viewer = HtmlEditorRepoViewer :: factory($plugin, $this, array(), RepoViewer :: SELECT_SINGLE);
-        
+
+        $repo_viewer = HtmlEditorRepoViewer :: construct($plugin, $this);
+        $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
+        $this->content_object_types = call_user_func(array(get_class($repo_viewer)));
+
         if (! $repo_viewer->is_ready_to_be_published())
         {
             $repo_viewer->run();
@@ -29,7 +33,7 @@ class HtmlEditorFileLauncher extends LauncherApplication
         else
         {
             $processor = HtmlEditorProcessor :: factory($plugin, $this, $repo_viewer->get_selected_objects());
-            
+
             $this->display_header();
             $processor->run();
             $this->display_footer();
@@ -44,6 +48,12 @@ class HtmlEditorFileLauncher extends LauncherApplication
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
+    }
+
+    function get_allowed_content_object_types()
+    {
+        $class = 'HtmlEditor' . Utilities :: underscores_to_camelcase($this->get_plugin()) . 'RepoViewer';
+        return call_user_func(array($class, 'get_allowed_content_object_types'));
     }
 }
 ?>

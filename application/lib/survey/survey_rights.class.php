@@ -11,6 +11,8 @@ class SurveyRights
     const PUBLISH_RIGHT = '5';
     const MOVE_RIGHT = '6';
     const MAIL_RIGHT = '7';
+    
+    const TYPE_SURVEY_COMPONENT = 1;
 
     function get_available_rights()
     {

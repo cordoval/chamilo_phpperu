@@ -264,6 +264,11 @@ class CourseGroup extends NestedTreeNode
 		return true;
 	}
 
+	function get_parents($include_self = true)
+	{
+		return parent :: get_parents($include_self, $this->get_nested_tree_node_condition());
+	}
+	
 	function get_nested_tree_node_condition()
 	{
 	    return new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $this->get_course_code());

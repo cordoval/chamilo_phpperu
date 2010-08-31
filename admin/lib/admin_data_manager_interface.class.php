@@ -110,7 +110,7 @@ interface AdminDataManagerInterface
 
     function any_content_object_is_published($object_ids);
 
-    function count_publication_attributes($user = null, $object_id = null, $condition = null);
+    function count_publication_attributes($object_id = null, $condition = null);
 
     function delete_content_object_publications($object_id);
 
@@ -133,7 +133,7 @@ interface AdminDataManagerInterface
     function count_validations($condition = null);
 
     // Dynamic Forms
-    
+
 
     function delete_dynamic_form($dynamic_form);
 

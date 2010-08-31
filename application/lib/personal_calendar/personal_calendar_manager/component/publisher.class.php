@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
 require_once dirname(__FILE__) . '/../../publisher/personal_calendar_publisher.class.php';
 
-class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager
+class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager implements RepoViewerInterface
 {
 
     /**
@@ -19,7 +19,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
         $trail->add_help('personal calender general');
 
-        $repo_viewer = new RepoViewer($this, array(CalendarEvent :: get_type_name(), Task :: get_type_name(), 'external_calendar'));
+        $repo_viewer = RepoViewer :: construct($this);
 
         if (! $repo_viewer->is_ready_to_be_published())
         {
@@ -30,6 +30,11 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager
             $publisher = new PersonalCalendarPublisher($this);
             $publisher->get_publications_form($repo_viewer->get_selected_objects());
         }
+    }
+
+    function get_allowed_content_object_types()
+    {
+        return array(CalendarEvent :: get_type_name(), Task :: get_type_name(), ExternalCalendar :: get_type_name());
     }
 }
 ?>

@@ -15,11 +15,13 @@ class PhrasesManager extends WebApplication
 
     const PARAM_PHRASE_ID = 'phrase';
 
-    const ACTION_VIEW_START = 'start';
-    const ACTION_MANAGE_PHRASES = 'manage';
-    const ACTION_MANAGE_MASTERY_LEVELS = 'mastery';
-    const ACTION_MANAGE_CATEGORIES = 'categories';
-    const ACTION_TAKE_ASSESSMENT = 'take';
+    const ACTION_VIEW_START = 'starter';
+    const ACTION_MANAGE_PHRASES = 'manager';
+    const ACTION_MANAGE_MASTERY_LEVELS = 'leveler';
+    const ACTION_MANAGE_CATEGORIES = 'category_manager';
+    const ACTION_TAKE_ASSESSMENT = 'taker';
+
+    const DEFAULT_ACTION = self :: ACTION_VIEW_START;
 
     /**
      * Constructor
@@ -28,37 +30,6 @@ class PhrasesManager extends WebApplication
     public function PhrasesManager($user)
     {
         parent :: __construct($user);
-    }
-
-    /**
-     * Runs the personal calendar application
-     */
-    public function run()
-    {
-        $action = $this->get_action();
-
-        switch ($action)
-        {
-            case self :: ACTION_MANAGE_PHRASES :
-                $component = $this->create_component('Manager');
-                break;
-            case self :: ACTION_MANAGE_MASTERY_LEVELS :
-                $component = $this->create_component('Leveler');
-                break;
-            case self :: ACTION_MANAGE_CATEGORIES :
-                $component = $this->create_component('CategoryManager');
-                break;
-            case self :: ACTION_TAKE_ASSESSMENT :
-                $component = $this->create_component('Taker');
-                break;
-            case self :: ACTION_VIEW_START :
-                $component = $this->create_component('Starter');
-                break;
-            default :
-                $this->set_action(self :: ACTION_VIEW_START);
-                $component = $this->create_component('Starter');
-        }
-        $component->run();
     }
 
     /**
@@ -135,6 +106,21 @@ class PhrasesManager extends WebApplication
     {
         $pcdm = PhrasesDataManager :: get_instance();
         return $pcdm->count_phrases_mastery_levels($condition);
+    }
+
+    /**
+     * Helper function for the Application class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS APPLICATION'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
+     */
+    function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
     }
 }
 ?>

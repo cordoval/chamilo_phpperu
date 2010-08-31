@@ -12,11 +12,12 @@ class ComplexBuilderLauncher extends LauncherApplication
     {
         $content_object = $this->get_root_content_object();
         $this->set_parameter(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $content_object->get_id());
-
+        
         if ($content_object)
         {
-            $complex_builder = ComplexBuilder :: factory($this, $content_object->get_type());
-            $complex_builder->run();
+            ComplexBuilder :: launch($content_object->get_type(), $this);
+            //$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
+            //$complex_builder->run();
         }
         else
         {

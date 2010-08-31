@@ -174,57 +174,6 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         return $actions;
     }
 
-    function run()
-    {
-        $parent = $this->get_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
-
-        switch ($parent)
-        {
-            case ExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Viewer');
-                break;
-            case ExternalRepositoryManager :: ACTION_EXPORT_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Exporter');
-                break;
-            case ExternalRepositoryManager :: ACTION_IMPORT_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Importer');
-                break;
-            case ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Browser', $this);
-                break;
-            case ExternalRepositoryManager :: ACTION_DOWNLOAD_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Downloader');
-                break;
-            case ExternalRepositoryManager :: ACTION_UPLOAD_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Uploader');
-                break;
-            case ExternalRepositoryManager :: ACTION_SELECT_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Selecter');
-                break;
-            case ExternalRepositoryManager :: ACTION_EDIT_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Editor');
-                break;
-            case ExternalRepositoryManager :: ACTION_DELETE_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Deleter');
-                break;
-            case ExternalRepositoryManager :: ACTION_CONFIGURE_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('Configurer');
-                break;
-            case ExternalRepositoryManager :: ACTION_SYNCHRONIZE_EXTERNAL_REPOSITORY :
-                $component = $this->create_component('ExternalSyncer');
-                break;
-            case ExternalRepositoryManager :: ACTION_SYNCHRONIZE_INTERNAL_REPOSITORY :
-                $component = $this->create_component('InternalSyncer');
-                break;
-            default :
-                $component = $this->create_component('Browser', $this);
-                $this->set_parameter(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION, ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY);
-                break;
-        }
-
-        $component->run();
-    }
-
     /* (non-PHPdoc)
      * @see application/common/external_repository_manager/ExternalRepositoryManager#get_available_renderers()
      */
@@ -254,6 +203,36 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
     function get_repository_type()
     {
         return self :: REPOSITORY_TYPE;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION;
     }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-class ExternalRepositoryDeleterComponent extends ExternalRepositoryComponent
+class ExternalRepositoryComponentDeleterComponent extends ExternalRepositoryComponent
 {
 
     function run()

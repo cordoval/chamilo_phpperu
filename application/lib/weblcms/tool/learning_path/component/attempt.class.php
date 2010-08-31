@@ -22,10 +22,12 @@ class LearningPathToolAttemptComponent extends LearningPathTool
     private $navigation;
     private $empty_learning_path;
 
+    private $root_content_object;
+
     function run()
     {
         // Check for rights
-        if (! $this->is_allowed(VIEW_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
@@ -90,9 +92,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
 
             if ($cid)
             {
-                $trail->add(new Breadcrumb($this->get_url(array(
-                        Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid,
-                        'attempt_id' => Request :: get('attempt_id'))), Translation :: get('ItemDetails')));
+                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT, Tool :: PARAM_PUBLICATION_ID => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'attempt_id' => Request :: get('attempt_id'))), Translation :: get('ItemDetails')));
             }
 
             if ($details)
@@ -108,12 +108,12 @@ class LearningPathToolAttemptComponent extends LearningPathTool
 
                 $object = $objects[$cid];
 
-                $display = ComplexDisplay :: factory($this, $object->get_type());
-                $display->set_root_lo($object);
+                $this->root_content_object = $object;
+                ComplexDisplay :: launch($object->get_type(), $this);
             }
             else
             {
-                $rtv = new ReportingViewer($this);
+                $rtv = ReportingViewer :: construct($this);
                 $rtv->set_breadcrumb_trail($trail);
                 $rtv->show_all_blocks();
                 if ($cid)
@@ -132,46 +132,35 @@ class LearningPathToolAttemptComponent extends LearningPathTool
         {
             if ($cloi && get_class($cloi) == "ComplexLearningPathItem")
             {
-                $allowed = true;
 
                 if ($root_object->get_version() != 'SCORM2004')
                 {
                     $translator = new PrerequisitesTranslator($lpi_attempt_data, $objects, $root_object->get_version());
                     if (! $translator->can_execute_item($cloi))
                     {
+                        $this->display_header();
                         $display = '<div class="error-message">' . Translation :: get('NotYetAllowedToView') . '</div>';
-                        $allowed = false;
+                        $this->display_footer();
+                        exit();
                     }
                 }
 
-                if ($allowed)
+                $lpi_tracker = $this->menu->get_current_tracker();
+                if (! $lpi_tracker)
                 {
-                    $lpi_tracker = $this->menu->get_current_tracker();
-                    if (! $lpi_tracker)
-                    {
-                        $lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
-                        $lpi_attempt_data[$cloi->get_id()]['active_tracker'] = $lpi_tracker;
-                    }
-                    else
-                    {
-                        $lpi_tracker->set_start_time(time());
-                        $lpi_tracker->update();
-                    }
-
-                    $this->trackers['lpi_tracker'] = $lpi_tracker;
-
-                    $display = LearningPathContentObjectDisplay :: factory($this, $object->get_type())->display_content_object($object, $lpi_attempt_data[$cloi->get_id()], $this->menu->get_continue_url(), $this->menu->get_previous_url(), $this->menu->get_jump_urls());
-                }
-                $this->display_header();
-
-                if (get_class($display) == 'AssessmentDisplay')
-                {
-                    $display->run();
+                    $lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
+                    $lpi_attempt_data[$cloi->get_id()]['active_tracker'] = $lpi_tracker;
                 }
                 else
                 {
-                    echo $display;
+                    $lpi_tracker->set_start_time(time());
+                    $lpi_tracker->update();
                 }
+
+                $this->trackers['lpi_tracker'] = $lpi_tracker;
+
+                $this->display_header();
+                echo LearningPathContentObjectDisplay :: factory($this, $object->get_type())->display_content_object($object, $lpi_attempt_data[$cloi->get_id()], $this->menu->get_continue_url(), $this->menu->get_previous_url(), $this->menu->get_jump_urls());
                 $this->display_footer();
             }
             else
@@ -179,30 +168,8 @@ class LearningPathToolAttemptComponent extends LearningPathTool
                 $this->display_header();
                 $this->display_error_message(Translation :: get('EmptyLearningPath'));
                 $this->display_footer();
-                exit();
             }
         }
-
-    //        $this->display_header();
-    //        //echo '<br />';
-    //        echo '<div style="width: 17%; overflow: auto; float: left;">';
-    //        echo $this->menu->render_as_tree() . '<br /><br />';
-    //        echo $this->get_progress_bar($this->menu->get_progress());
-    //        echo $navigation . '<br /><br />';
-    //        echo '</div>';
-    //        echo '<div style="width: 82%; float: right; padding-left: 10px; min-height: 500px;">';
-    //
-    //        if (get_class($display) == 'AssessmentDisplay')
-    //        {
-    //            $display->run();
-    //        }
-    //        else
-    //        {
-    //            echo $display;
-    //        }
-    //        echo '</div>';
-    //        echo '<div class="clear">&nbsp;</div>';
-    //        $this->display_footer();
     }
 
     function display_header()
@@ -511,6 +478,11 @@ class LearningPathToolAttemptComponent extends LearningPathTool
     function can_change_answer_data()
     {
         return false;
+    }
+
+    function get_root_content_object()
+    {
+        return $this->root_content_object;
     }
 }
 ?>

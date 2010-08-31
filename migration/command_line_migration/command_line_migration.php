@@ -1,100 +1,131 @@
 <?php
 /**
  * @package migration
+ * @author Sven Vanpoucke
  */
-/**
- * Start commandline migration
- */
-ini_set('include_path', realpath(dirname(__FILE__) . '/../plugin/pear'));
-ini_set("memory_limit", "3500M"); // Geen php-beperkingen voor geheugengebruik
-ini_set("max_execution_time", "72000"); // Twee uur moet voldoende zijn...
 
+require_once dirname(__FILE__) . '/../../common/global.inc.php';
+ini_set("memory_limit", "-1");
+set_time_limit(0);
 
-require_once dirname(__FILE__) . '/../common/global.inc.php';
-require_once 'HTML/QuickForm/Controller.php';
-require_once 'HTML/QuickForm/Rule.php';
-require_once 'HTML/QuickForm/Action/Display.php';
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/user_migration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/system_settings_migration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/personal_agendas_migration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/classes_migration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/courses_migration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/meta_data_migration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/groups_migration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/announcements_migration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/calendar_eventd_smigration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/documents_migration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/course/links_migration_wizard_page.class.php');
-require_once (dirname(__FILE__) . '/lib/logger.class.php');
+Utilities :: set_application('migration');
 
-Translation :: set_application("migration");
+//Temporary because i can't test command line with pear on mac os x
+echo '<pre>';
 
-print("\nHello, in order to proceed you have to make sure you have a file called settings.inc.php" . " in which all the settings are described\n\n");
-
-do
+$setting = PlatformSetting :: get('in_migration', MigrationManager :: APPLICATION_NAME);
+if($setting != 1)
 {
-    print("Type yes to continue\n");
-    $choice = fgets(STDIN);
+	$validate_settings = array();
+	$selected_blocks = array();
+	$migrated_blocks = array();
+	
+	$settings_file = dirname(__FILE__) . '/command_line_migration_settings.php';
+	if(!file_exists($settings_file))
+	{
+		die(Translation :: get('NoCommandLineMigrationSettingsFileFound'));
+	}
+	
+	$settings = array();
+	require_once $settings_file;
+	
+	$adm = AdminDataManager :: get_instance();
+	
+	$setting_names = array('platform', 'platform_path', 'move_files', 'migrate_deleted_files');
+	foreach($setting_names as $setting_name)
+	{
+		$value = $settings[$setting_name];
+		if(is_null($value))
+	    {
+	    	$value = 0;
+	    }
+	    
+		$setting = $adm->retrieve_setting_from_variable_name($setting_name, MigrationManager :: APPLICATION_NAME);
+	   	$setting->set_value($value);
+	   	$setting->update();
+	   	
+	   	$validate_settings[$setting_name] = $value;
+	}
+	    	
+	$setting = $adm->retrieve_setting_from_variable_name('in_migration', MigrationManager :: APPLICATION_NAME);
+	$setting->set_value(1);
+	$setting->update();
+	
+	if(!file_exists(dirname(__FILE__) . '/../lib/platform/' . $validate_settings['platform'] . '/'))
+	{
+		die(Translation :: get('CouldNotFindPlatform'));
+	}
+	
+	$properties = MigrationProperties :: factory($validate_settings['platform']);
+    $blocks = $properties->get_migration_blocks();
+    
+	foreach($blocks as $block)
+	{ 
+	    if($settings['blocks'][$block] == 1)
+	    {
+			$migration_block_registration = new MigrationBlockRegistration();
+	   		$migration_block_registration->set_name($block);
+	    	$migration_block_registration->create();
+	    	$selected_blocks[] = $block;
+	    }
+	}
+	
+	PlatformSetting :: get_instance()->load_platform_settings();
 }
-while (strcmp($choice, "yes") != 1);
-
-$logger = new Logger('migration.txt', false);
-$logger->close_file();
-
-$wizardpage = new UsersMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-$wizardpage = new SystemSettingsMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-$wizardpage = new ClassesMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-$wizardpage = new CoursesMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-$wizardpage = new PersonalAgendasMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-$wizardpage = new MetadataMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-$wizardpage = new GroupsMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-$wizardpage = new AnnouncementsMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-$wizardpage = new CalendarEventsMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-$wizardpage = new DocumentsMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-$wizardpage = new LinksMigrationWizardPage(null, null, true);
-migrate($wizardpage);
-unset($wizardpage);
-
-echo ("\n");
-echo ("Total time passed: " . Logger :: get_total_time_passed() . "s\n\n");
-
-function migrate($migration)
+else
 {
-    echo ("\n");
-    echo (newlines($migration->get_title()) . "\n");
-    if ($migration->perform())
+	$validate_settings = array();
+	$selected_blocks = array();
+	$migrated_blocks = array(); 
+	
+	$setting_names = array('platform', 'platform_path', 'move_files', 'migrate_deleted_files');
+	foreach($setting_names as $setting_name)
+	{
+		$validate_settings[$setting_name] = PlatformSetting :: get($setting_name, MigrationManager :: APPLICATION_NAME);
+	}
+	
+	if(!file_exists(dirname(__FILE__) . '/../lib/platform/' . $validate_settings['platform'] . '/'))
+	{
+		die(Translation :: get('CouldNotFindPlatform'));
+	}
+	
+    $properties = MigrationProperties :: factory($validate_settings['platform']);
+	$blocks = $properties->get_migration_blocks();
+	
+	$migration_block_registrations = MigrationDataManager :: get_instance()->retrieve_migration_block_registrations(null, null, null, new ObjectTableOrder(MigrationBlockRegistration :: PROPERTY_ID));
+    while($migration_block_registration = $migration_block_registrations->next_result())
     {
-        $info = newlines($migration->get_info());
-        $pos = strpos($info, Translation :: get('Dont_forget')) - 2;
-        echo (substr($info, 0, $pos));
+        $block = $migration_block_registration->get_name();
+        
+    	if($migration_block_registration->get_is_migrated())
+    	{
+      		$migrated_blocks[] = $block;
+	    }
+	    else
+	    {
+        	$selected_blocks[] = $block;
+        }
     }
-    echo ("\n");
 }
 
-function newlines($message)
+$validated = $properties->validate_settings($validate_settings, $selected_blocks, $migrated_blocks);
+if($validated)
 {
-    $temp = str_replace("<br />", "\n", $message);
-    $temp1 = str_replace("<br>", "\n", $temp);
-    return str_replace("<br / >", "\n", $temp1);
+	echo Translation :: get('SettingsValid') . "\n";
 }
+else
+{
+	echo Translation :: get('SettingsNotValid') . "\n";
+	echo $properties->get_message_logger()->render_for_cli();
+	exit;	
+}
+
+foreach($selected_blocks as $block)
+{
+	$migration_block = MigrationBlock :: factory($validate_settings['platform'], $block);
+	$migration_block->migrate();
+	
+	echo $migration_block->get_message_logger()->render_for_cli() . "\n\n";
+}
+
 ?>

@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/export_content_object_table/export_content_object_table.class.php';
 
-class ExternalRepositoryExporterComponent extends ExternalRepositoryComponent
+class ExternalRepositoryComponentExporterComponent extends ExternalRepositoryComponent
 {
 
     function run()

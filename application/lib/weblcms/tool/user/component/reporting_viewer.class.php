@@ -11,10 +11,10 @@ class UserToolReportingViewerComponent extends UserTool
     function run()
     {
         $template = Utilities::camelcase_to_underscores('CourseStudentTrackerDetailReportingTemplate');
-        $rtv = new ReportingViewer($this);
+        $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name($template, WeblcmsManager::APPLICATION_NAME);
 		$rtv->show_all_blocks();
-        $rtv->run();        
+        $rtv->run();
     }
 
 }

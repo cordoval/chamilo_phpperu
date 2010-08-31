@@ -19,7 +19,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
 
     function run()
     {
-        if (! $this->is_allowed(VIEW_RIGHT))
+        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
@@ -92,12 +92,12 @@ class CourseGroupToolBrowserComponent extends CourseGroupTool
         
         $param_add_course_group[Tool :: PARAM_ACTION] = CourseGroupTool :: ACTION_ADD_COURSE_GROUP;
         $param_add_course_group[WeblcmsManager :: PARAM_COURSE_GROUP] = $this->get_group_id();
-        if ($this->is_allowed(ADD_RIGHT))
+        if ($this->is_allowed(WeblcmsRights :: ADD_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path() . 'action_create.png', $this->get_url($param_add_course_group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
-        if (! $this->introduction_text && $this->is_allowed(EDIT_RIGHT))
+        if (! $this->introduction_text && $this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path() . 'action_introduce.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }

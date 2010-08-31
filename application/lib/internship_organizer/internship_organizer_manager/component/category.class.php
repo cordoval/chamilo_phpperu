@@ -8,8 +8,7 @@ class InternshipOrganizerManagerCategoryComponent extends InternshipOrganizerMan
      */
     function run()
     {
-        $category_manager = new InternshipOrganizerCategoryManager($this);
-        $category_manager->run();
+        InternshipOrganizerCategoryManager :: launch($this);
     }
 }
 ?>

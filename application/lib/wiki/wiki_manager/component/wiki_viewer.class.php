@@ -25,18 +25,17 @@ class WikiManagerWikiViewerComponent extends WikiManager
         
         $this->publication = WikiDataManager :: get_instance()->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         
-        $complex_display = ComplexDisplay :: factory($this, Wiki :: get_type_name());
-        $complex_display->run();
+        ComplexDisplay :: launch(Wiki :: get_type_name(), $this);
     }
-    
+
     function get_root_content_object()
     {
         return $this->publication->get_content_object();
     }
-    
-	function get_publication()
+
+    function get_publication()
     {
-    	return $this->publication;
+        return $this->publication;
     }
 
 }

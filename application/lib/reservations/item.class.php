@@ -142,12 +142,25 @@ class Item extends DataClass
         }
         else
         {
-            $parent_location = ReservationsRights :: get_location_id_by_identifier_from_reservations_subtree('category', $this->get_category());
+            $parent_location = ReservationsRights :: get_location_id_by_identifier_from_reservations_subtree(ReservationsRights :: TYPE_CATEGORY, $this->get_category());
         }
 
-        $succes &= ReservationsRights :: create_location_in_reservations_subtree($this->get_name(), 'item', $this->get_id(), $parent_location);
+        $succes &= ReservationsRights :: create_location_in_reservations_subtree($this->get_name(), ReservationsRights :: TYPE_ITEM, $this->get_id(), $parent_location);
 
         return $succes;
+    }
+    
+	function delete()
+    {
+    	$location = ReservationsRights :: get_location_by_identifier_from_reservations_subtree(ReservationsRights :: TYPE_ITEM, $this->get_id());
+    	if($location)
+    	{
+    		if(!$location->remove())
+    		{
+    			return false;
+    		}
+    	}
+    	return parent :: delete();
     }
 
     static function get_table_name()
