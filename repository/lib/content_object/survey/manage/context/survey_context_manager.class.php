@@ -1,4 +1,7 @@
 <?php
+
+require_once Path :: get_repository_path() . 'lib/content_object/survey/context_data_manager/context_data_manager.class.php';
+
 /**
  * @package repository.lib.content_object.survey.manage.context
  *
@@ -63,6 +66,16 @@ class SurveyContextManager extends SubManager
     function get_context_registration_creation_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CONTEXT_REGISTRATION));
+    }
+
+    function get_context_registration_update_url($context_registration)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CONTEXT_REGISTRATION, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id()));
+    }
+
+    function get_context_registration_delete_url($context_registration)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CONTEXT_REGISTRATION, self :: PARAM_CONTEXT_REGISTRATION_ID => $context_registration->get_id()));
     }
 
     function get_context_creation_url($context_registration)

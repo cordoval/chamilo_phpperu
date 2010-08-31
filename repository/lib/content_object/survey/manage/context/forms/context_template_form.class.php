@@ -93,6 +93,9 @@ class SurveyContextTemplateForm extends FormValidator
             $context = SurveyContext :: factory($context_type);
             $name = $registration->get_name();
             $keys = $context->get_allowed_keys();
+            if(count($keys) == 0){
+            	$keys[] = 'id';
+            }
             foreach ($keys as $key)
             {
                 $values[$context_type . '|' . $key] = $name . '  (key: ' . $key . ')';

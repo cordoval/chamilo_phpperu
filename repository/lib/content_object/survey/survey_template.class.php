@@ -8,7 +8,7 @@ abstract class SurveyTemplate extends DataClass
     const CLASS_NAME = __CLASS__;
     
     const PROPERTY_TYPE = 'type';
-    const PROPERTY_USER_ID = 'username';
+    const PROPERTY_USER_ID = 'user_id';
     
     private $additionalProperties;
 

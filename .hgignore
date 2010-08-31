@@ -85,3 +85,9 @@ syntax: regexp
 ^repository/lib/content_object/survey/context/survey_context2$
 syntax: regexp
 ^repository/lib/content_object/survey/context/survey_context3$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_context1$
+syntax: regexp
+^repository/lib/content_object/survey/context/survey_context4$
+syntax: regexp
+^repository/lib/content_object/survey/template/survey_template2$
