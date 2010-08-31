@@ -1,29 +1,15 @@
 <?php
 
 /**
- * Description of StreamingVideoClipForm class
+ * Description of MediamosaForm class
  *
  * @author jevdheyd
  */
 
 require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_object.class.php';
 
-class StreamingVideoClipForm extends ContentObjectForm
+class MediamosaForm extends ContentObjectForm
 {
-
-    function streaming_video_clip_form_elements()
-    {
-        //$link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=' . 'mediamosa';
-        
-        //$this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-//        $this->addElement('hidden', MediamosaExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID);
-//        $this->addElement('hidden', MediamosaExternalRepositoryObject :: PROPERTY_ID);
-        //$this->addElement('hidden', StreamingVideoClip :: PROPERTY_PUBLISHER);
-        //$this->addElement('hidden', StreamingVideoClip :: PROPERTY_CREATOR);
-        //$this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
-        //$this->addElement('category');
-        
-    }
 
     function build_creation_form()
     {
@@ -58,7 +44,7 @@ class StreamingVideoClipForm extends ContentObjectForm
     {
         if(parent :: create_content_object())
         {
-            $streaming_video_clip = $this->get_content_object();
+            $mediamosa = $this->get_content_object();
 
             $external_respository_sync = new ExternalRepositorySync();
             $external_respository_sync->set_external_repository_id($this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID));
@@ -66,9 +52,9 @@ class StreamingVideoClipForm extends ContentObjectForm
             
             $object = $external_respository_sync->get_external_repository_object();
             
-            ExternalRepositorySync :: quicksave($streaming_video_clip, $object, $this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID));
+            ExternalRepositorySync :: quicksave($mediamosa, $object, $this->exportValue(ExternalRepositoryObject :: PROPERTY_EXTERNAL_REPOSITORY_ID));
 
-            return $streaming_video_clip;
+            return $mediamosa;
          }
     }
 }

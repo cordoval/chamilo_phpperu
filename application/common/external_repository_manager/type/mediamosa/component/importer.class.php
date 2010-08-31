@@ -17,7 +17,7 @@ class MediamosaExternalRepositoryManagerImporterComponent extends MediamosaExter
         if ($object->is_importable())
         {
            
-            $streaming_video_clip = ContentObject :: factory(StreamingVideoClip :: get_type_name());
+            $streaming_video_clip = ContentObject :: factory(Mediamosa :: get_type_name());
             $streaming_video_clip->set_title($object->get_title());
             $streaming_video_clip->set_description($object->get_description());
             $streaming_video_clip->set_owner_id($this->get_user_id());
