@@ -47,7 +47,13 @@ class PortfolioManagerBrowserComponent extends PortfolioManager
     }
 
     function get_table()
-    {
+    {$parameters = $this->get_parameters(true);
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+        $parameters[Application :: PARAM_APPLICATION] = 'curriculum';
+        $parameters[Application :: PARAM_ACTION] =  CurriculumManager::ACTION_BROWSE_CURRICULUM_STUDY_YEARS;
+
+
+
         $table = new UserBrowserTable($this, array(Application :: PARAM_APPLICATION => 'portfolio', Application :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE), $this->get_condition());
         return $table->as_html();
     }
