@@ -91,7 +91,6 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
             {
                 foreach($mediafiles as $mediafile)
                 {
-                    //TODO:jens -> get_link
                     $object = $this->get_content_object();
                     $url = $this->get_content_object_url($object);
                     $html[] = '<tr><td><a href="' .$url. '&' .self :: PARAM_MEDIAFILE. '=' .$mediafile->get_id(). '">' . $mediafile->get_title() . '</a></td></tr>';

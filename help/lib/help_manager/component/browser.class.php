@@ -6,6 +6,9 @@
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
+
+require_once dirname(__FILE__) . '/../../help_rights.class.php';
+
 class HelpManagerBrowserComponent extends HelpManager
 {
     private $ab;
@@ -76,7 +79,7 @@ class HelpManagerBrowserComponent extends HelpManager
 
         $action_bar->set_search_url($this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
+        
         return $action_bar;
     }
 }

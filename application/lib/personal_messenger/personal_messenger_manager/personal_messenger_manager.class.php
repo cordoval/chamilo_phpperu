@@ -36,6 +36,7 @@ class PersonalMessengerManager extends WebApplication
     const ACTION_MARK_PUBLICATION = 'marker';
     const ACTION_CREATE_PUBLICATION = 'publisher';
     const ACTION_BROWSE_MESSAGES = 'browser';
+    const ACTION_RIGHT_EDITS = 'rights_editor';
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_MESSAGES;
 
