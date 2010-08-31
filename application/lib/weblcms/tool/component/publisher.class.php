@@ -19,15 +19,16 @@ class ToolComponentPublisherComponent extends ToolComponent implements RepoViewe
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
 
-        $repo_viewer = RepoViewer :: construct($this);
+        
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
         {
-            $object = $repo_viewer->get_selected_objects();
+            $object = RepoViewer::get_selected_objects();
             $publisher = new ContentObjectPublisher($this);
             $publisher->get_publications_form($object);
         }

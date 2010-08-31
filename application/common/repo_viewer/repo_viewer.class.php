@@ -261,15 +261,16 @@ class RepoViewer extends SubManager
         return isset($object);
     }
 
-    function get_selected_objects()
+    static function get_selected_objects()
     {
         return Request :: get(self :: PARAM_ID);
     }
 
-    function is_ready_to_be_published()
+    static function is_ready_to_be_published()
     {
-        $action = $this->get_parameter(RepoViewer :: PARAM_ACTION);
-        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER);
+        //$action = $this->get_parameter(RepoViewer :: PARAM_ACTION);
+        $action = Request :: get(RepoViewer :: PARAM_ACTION);
+        return (self :: any_object_selected() && $action == RepoViewer::ACTION_PUBLISHER);
     }
 
     function get_application_component_path()

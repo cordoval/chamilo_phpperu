@@ -11,13 +11,12 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplay implements 
     {
         if ($this->get_parent()->is_allowed(ADD_RIGHT))
         {
-            $repo_viewer = RepoViewer :: construct($this);
-            $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
-            $repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_SUBFORUM);
-            $repo_viewer->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
-
-            if (! $repo_viewer->is_ready_to_be_published())
+            if (!RepoViewer::is_ready_to_be_published())
             {
+                $repo_viewer = RepoViewer :: construct($this);
+                $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
+                $repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_SUBFORUM);
+                $repo_viewer->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
                 $repo_viewer->run();
             }
             else
@@ -33,7 +32,7 @@ class ForumDisplayForumSubforumCreatorComponent extends ForumDisplay implements 
                     $cloi->set_parent($this->get_root_content_object_id());
                 }
 
-                $cloi->set_ref($repo_viewer->get_selected_objects());
+                $cloi->set_ref(RepoViewer::get_selected_objects());
                 $cloi->set_user_id($this->get_user_id());
                 $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($cloi->get_parent()));
 

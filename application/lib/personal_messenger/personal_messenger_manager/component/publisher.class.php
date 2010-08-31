@@ -23,13 +23,15 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
         $trail->add_help('personal messenger general');
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: FOLDER_INBOX)), Translation :: get('MyPersonalMessenger')));
 
-        $repo_viewer = RepoViewer :: construct($this);
-        $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
-        $repo_viewer->set_parameter('reply', $reply);
-        $repo_viewer->set_parameter(PersonalMessengerManager :: PARAM_USER_ID, $user);
+        
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
+            $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
+            $repo_viewer->set_parameter('reply', $reply);
+            $repo_viewer->set_parameter(PersonalMessengerManager :: PARAM_USER_ID, $user);
+
             if ($reply)
             {
                 $publication = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publication($reply);
@@ -56,7 +58,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Send')));
 
             $publisher = new PersonalMessagePublisher($this);
-            $publisher->get_publication_form($repo_viewer->get_selected_objects());
+            $publisher->get_publication_form(RepoViewer::get_selected_objects());
         }
     }
 

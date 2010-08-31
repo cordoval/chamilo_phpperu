@@ -15,17 +15,18 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManager implements 
      */
     function run()
     {
-        $repo_viewer = RepoViewer :: construct($this);
-        $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
+        
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
+            $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
             $repo_viewer->run();
         }
         else
         {
             $html[] = '<script type="text/javascript">';
-            $html[] = 'window.parent.object_selected(' . $repo_viewer->get_selected_objects() . ');';
+            $html[] = 'window.parent.object_selected(' . RepoViewer::get_selected_objects() . ');';
             $html[] = '</script>';
         }
     }

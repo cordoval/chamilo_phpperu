@@ -23,16 +23,17 @@ class AssessmentManagerCreatorComponent extends AssessmentManager implements Rep
         $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateAssessmentPublication')));
 
-        $repo_viewer = RepoViewer :: construct($this);
+        
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer :: is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
         {
             $publisher = new AssessmentPublisher($this);
-            $publisher->get_publications_form($repo_viewer->get_selected_objects());
+            $publisher->get_publications_form(RepoViewer :: get_selected_objects());
         }
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id: creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package application.lib.forum.forum_manager.component
@@ -24,16 +25,17 @@ class ForumManagerCreatorComponent extends ForumManager implements RepoViewerInt
         //$trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForumPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishForum')));
 
-        $repo_viewer = RepoViewer :: construct($this);
 
-        if (! $repo_viewer->is_ready_to_be_published())
+
+        if (!RepoViewer :: is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
         {
             $publisher = new ForumPublicationPublisher($this);
-            $publisher->publish($repo_viewer->get_selected_objects());
+            $publisher->publish(RepoViewer :: get_selected_objects());
         }
     }
 
@@ -41,5 +43,7 @@ class ForumManagerCreatorComponent extends ForumManager implements RepoViewerInt
     {
         return array(Forum :: get_type_name());
     }
+
 }
+
 ?>

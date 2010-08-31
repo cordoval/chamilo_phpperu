@@ -15,16 +15,15 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager implem
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('administration system announcements');
 
-        $repo_viewer = RepoViewer :: construct($this);
-
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (! RepoViewer :: is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
         {
             $publisher = new SystemAnnouncerMultipublisher($this);
-            $publisher->get_publications_form($repo_viewer->get_selected_objects());
+            $publisher->get_publications_form(RepoViewer :: get_selected_objects());
             echo '<div style="clear: both;"></div>';
         }
     }
