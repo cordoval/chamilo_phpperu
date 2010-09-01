@@ -26,6 +26,7 @@ class PersonalCalendarManager extends WebApplication
     const ACTION_VIEW_ATTACHMENT = 'attachment_viewer';
     const ACTION_EXPORT_ICAL = 'ical_exporter';
     const ACTION_IMPORT_ICAL = 'ical_importer';
+    const ACTION_RIGHT_EDITS = 'rights_editor';
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_CALENDAR;
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id: browser.class.php 201 2009-11-13 12:34:51Z chellee $
  * @package application.personal_calendar.personal_calendar_manager.component
@@ -10,6 +11,7 @@ require_once dirname(__FILE__) . '/../../renderer/personal_calendar_month_render
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_week_renderer.class.php';
 require_once dirname(__FILE__) . '/../../renderer/personal_calendar_day_renderer.class.php';
 require_once dirname(__FILE__) . '/../../forms/personal_calendar_jump_form.class.php';
+require_once dirname(__FILE__) . '/../../personal_calendar_rights.class.php';
 
 class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManager
 {  
@@ -123,9 +125,21 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManager
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION))));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ImportIcal'), Theme :: get_common_image_path() . 'action_import.png', $this->get_ical_import_url()));
- 
+        if(PersonalCalendarRights :: is_allowed_in_personal_calendar_subtree(PersonalCalendarRights :: RIGHT_PUBLISH, PersonalCalendarRights :: get_personal_calendar_subtree_root()))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION))));
+        }
+        
+        if(PersonalCalendarRights :: is_allowed_in_personal_calendar_subtree(PersonalCalendarRights :: RIGHT_SHARE, PersonalCalendarRights :: get_personal_calendar_subtree_root()))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ImportIcal'), Theme :: get_common_image_path() . 'action_import.png', $this->get_ical_import_url()));
+        }
+
+        if($this->get_user()->is_platform_admin())
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('EditRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_RIGHT_EDITS))));
+        }
+
         if ($this->get_parameter(PersonalCalendarManager::PARAM_VIEW) == 'list')
         {
             $action_bar->set_search_url($this->get_url());

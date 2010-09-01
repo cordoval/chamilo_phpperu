@@ -1,8 +1,11 @@
 <?php
+
 /**
  * $Id: help_item.class.php 226 2009-11-13 14:44:03Z chellee $
  * @package help.lib
  */
+
+require_once dirname(__FILE__) . '/help_rights.class.php';
 
 class HelpItem extends DataClass
 {
@@ -80,5 +83,20 @@ class HelpItem extends DataClass
         return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
+    function create()
+    {
+        $hdm = $this->get_data_manager();
+
+        if(!$hdm->create_help_item($this))
+        {
+            return false;
+        }
+
+        if(!HelpRights :: create_location_in_help_subtree($this->get_name(), $this->get_id(), HelpRights :: get_help_subtree_root_id()))
+        {
+            
+        }
+        return true;
+    }
 }
 ?>

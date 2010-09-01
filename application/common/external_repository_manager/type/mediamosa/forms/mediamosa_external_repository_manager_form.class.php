@@ -16,7 +16,6 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
 
     const VIDEO_TITLE = 'title';
     const VIDEO_CATEGORY = 'category';
-    //TODO: jens ->implement?? const VIDEO_TAGS = 'tags';
     const VIDEO_DESCRIPTION = 'description';
 
     function MediamosaExternalRepositoryManagerForm($form_type, $action, $application)
@@ -125,20 +124,13 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
        if($asset_id = $connector->create_mediamosa_asset())
        {
            if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id))
-            //if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id, $this->exportValue(MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE)))
            {
-                //on succes add rights ??
-                //TODO:jens-> ACL rights
-                //$connector->add_mediamosa_mediafile_rights($mediafile_id, $rights);
-
                 //on success -> add metadata
                 $metadata['title'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_TITLE);
                 $metadata['description'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_DESCRIPTION);
-                //TODO : extract creation date from file metadata
                 $metadata['date'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_DATE_PUBLISHED);
                 $metadata['creator'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_CREATOR);
                 $metadata['publisher'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_PUBLISHER);
-                //TODO:legal notice should be included??
 
                 if($connector->add_mediamosa_metadata($asset_id, $metadata))
                 {
@@ -150,17 +142,6 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
                         $ticket_return['asset_id'] = $asset_id;
                         $ticket_return['action'] = $ticket_response->items->item->action;
                         $ticket_return['uploadprogress_url'] = $ticket_response->items->item->uploadprogress_url;
-
-//                        //create master slave acl settings
-//                        $slaves = explode('|', ExternalRepositorySetting :: get('slave_app_ids', Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY)));
-//
-//                        foreach($slaves as $slave)
-//                        {
-//                            $rights['aut_app'][] = $slave;
-//                        }
-
-                        //$connector->set_mediamosa_asset_rights($asset_id, $rights, Session :: get_user_id(), false);
-                        //$connector->set_mediamosa_mediafile_rights($mediafile_id, $rights, Session :: get_user_id());
 
                         return $ticket_return;
                     }

@@ -2,7 +2,7 @@
 /*
  * @author jevdheyd
  */
-class StreamingVideoClip extends ContentObject implements Versionable
+class Mediamosa extends ContentObject implements Versionable
 {
     const CLASS_NAME = __CLASS__;
 

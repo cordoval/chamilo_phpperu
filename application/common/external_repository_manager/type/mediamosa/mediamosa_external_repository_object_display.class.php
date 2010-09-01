@@ -37,11 +37,6 @@ class MediamosaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
         {
             foreach ($mediafiles as $mediafile)
             {
-                //TODO:jens -> get_link
-//                $url = $this->parent->get_url(array(
-//                        ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION => MediamosaExternalRepositoryManager :: ACTION_VIEW_EXTERNAL_REPOSITORY,
-//                        ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID => $object->get_id(), MediamosaExternalRepositoryManager :: PARAM_MEDIAFILE => $mediafile->get_id()));
-
                 $download = null;
                 if ($mediafile->get_is_downloadable())
                 {
