@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_object.class.php';
 
 /**
- * 
+ *
  * @author magali.gillard
  *
  */
@@ -14,16 +14,16 @@ class MatterhornExternalRepositoryObject extends StreamingMediaExternalRepositor
     const PROPERTY_CONTRIBUTORS = 'contributors';
     const PROPERTY_SUBJECTS = 'subjects';
     const PROPERTY_LANGUAGE = 'language';
-    const PROPERTY_LICENSE = 'license';    
+    const PROPERTY_LICENSE = 'license';
     const PROPERTY_TRACKS = 'tracks';
     const PROPERTY_STREAMING = 'streaming';
     const PROPERTY_ATTACHMENTS = 'attachments';
-    
+
     function get_attachments()
     {
     	return $this->get_default_property(self :: PROPERTY_ATTACHMENTS);
     }
-    
+
     function set_attachments($attachments)
     {
     	return $this->set_default_property(self :: PROPERTY_ATTACHMENTS, $attachments);
@@ -38,7 +38,7 @@ class MatterhornExternalRepositoryObject extends StreamingMediaExternalRepositor
     {
         return $this->set_default_property(self :: PROPERTY_SERIES, $series);
     }
-    
+
 	function get_contributors()
     {
         return $this->get_default_property(self :: PROPERTY_CONTRIBUTORS);
@@ -48,7 +48,7 @@ class MatterhornExternalRepositoryObject extends StreamingMediaExternalRepositor
     {
         return $this->set_default_property(self :: PROPERTY_CONTRIBUTORS, $contributors);
     }
-    
+
     function get_subjects()
     {
         return $this->get_default_property(self :: PROPERTY_SUBJECTS);
@@ -63,7 +63,7 @@ class MatterhornExternalRepositoryObject extends StreamingMediaExternalRepositor
    {
    		return $this->get_default_property(self :: PROPERTY_LANGUAGE);
    }
-  
+
     function set_language($language)
     {
     	return $this->set_default_property(self :: PROPERTY_LANGUAGE, $language);
@@ -78,7 +78,7 @@ class MatterhornExternalRepositoryObject extends StreamingMediaExternalRepositor
     {
         return $this->get_default_property(self :: PROPERTY_STREAMING);
     }
-    
+
 	function set_tracks($tracks)
     {
         $this->set_default_property(self :: PROPERTY_TRACKS, $tracks);
@@ -88,17 +88,17 @@ class MatterhornExternalRepositoryObject extends StreamingMediaExternalRepositor
     {
         return $this->get_default_property(self :: PROPERTY_TRACKS);
     }
-    
+
     function set_license($license)
     {
     	$this->set_default_property(self :: PROPERTY_LICENSE, $license);
     }
-    
+
     function get_license()
     {
-    	return $this->get_default_property(self :: PROPERTY_LICENSE);	
+    	return $this->get_default_property(self :: PROPERTY_LICENSE);
     }
-    
+
     static function get_default_property_names()
     {
         return parent :: get_default_property_names(array(self :: PROPERTY_SUBJECTS, self :: PROPERTY_LANGUAGE, self :: PROPERTY_CONTRIBUTORS, self :: PROPERTY_CONTRIBUTORS, self :: PROPERTY_TRACKS, self :: PROPERTY_LICENCE, self :: PROPERTY_STREAMING));
@@ -108,21 +108,21 @@ class MatterhornExternalRepositoryObject extends StreamingMediaExternalRepositor
     {
         return self :: OBJECT_TYPE;
 	}
-	
+
 	public function add_track($track)
 	{
 		$tracks = $this->get_tracks();
 		$tracks[] = $track;
 		$this->set_tracks($tracks);
 	}
-	
+
 	public function add_attachment($attachment)
 	{
 		$attachments = $this->get_attachments();
 		$attachments[$attachment->get_type()] = $attachment;
 		$this->set_attachments($attachments);
 	}
-	
+
 	public function get_search_preview()
 	{
 		$attachments = $this->get_attachments();
