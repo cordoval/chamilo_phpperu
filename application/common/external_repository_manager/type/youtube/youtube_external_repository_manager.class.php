@@ -133,7 +133,6 @@ class YoutubeExternalRepositoryManager extends ExternalRepositoryManager
         $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'most_responded'), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $standard_feed_item['class'] = 'feed';
         $standard_feed_items[] = $standard_feed_item;
-
         $standard_feed_item = array();
         $standard_feed_item['title'] = Translation :: get('MostRecent');
         $standard_feed_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'most_recent'), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
