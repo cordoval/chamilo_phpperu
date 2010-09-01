@@ -536,5 +536,11 @@ class Utilities
 
 		return $memory_limit;
 	}
+	
+	static function mimetype_to_image($mimetype)
+	{
+		$mimetype = str_replace('/', '_', $mimetype);
+		return Theme :: get_common_image('mimetype/' . $mimetype);
+	}
 }
 ?>

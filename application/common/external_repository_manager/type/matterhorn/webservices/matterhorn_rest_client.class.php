@@ -25,7 +25,7 @@ class MatterhornRestClient extends RestClient{
     {
         parent::__construct();
 
-        $this->mediamosa_url = $matterhorn_url;
+        $this->matterhorn_url = $matterhorn_url;
 
         //check if connector cookie is set
 //        $cookie = new Cookie();

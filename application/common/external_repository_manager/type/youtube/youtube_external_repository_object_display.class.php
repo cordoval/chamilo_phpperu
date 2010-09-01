@@ -12,6 +12,7 @@ class YoutubeExternalRepositoryObjectDisplay extends StreamingMediaExternalRepos
     function get_display_properties()
     {
         $properties = parent :: get_display_properties();
+        $properties[Translation :: get('Status')] = $this->get_object()->get_status_text();
         $properties[Translation :: get('Category')] = Translation :: get($this->get_object()->get_category());
         $properties[Translation :: get('Tags')] = $this->get_object()->get_tags_string();
         return $properties;
