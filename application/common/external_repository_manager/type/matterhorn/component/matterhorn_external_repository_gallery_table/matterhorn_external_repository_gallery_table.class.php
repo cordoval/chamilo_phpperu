@@ -3,9 +3,9 @@ require_once dirname(__file__) . '/matterhorn_external_repository_gallery_table_
 require_once dirname(__file__) . '/matterhorn_external_repository_gallery_table_data_provider.class.php';
 require_once dirname(__file__) . '/matterhorn_external_repository_gallery_table_property_model.class.php';
 
-class Matterhorn extends GalleryObjectTable
+class MatterhornExternalRepositoryGalleryTable extends GalleryObjectTable
 {
-    const DEFAULT_NAME = 'youtube_external_repository_gallery_table';
+    const DEFAULT_NAME = 'matterhorn_external_repository_gallery_table';
 
     function MatterhornExternalRepositoryGalleryTable($browser, $parameters, $condition)
     {

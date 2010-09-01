@@ -2,7 +2,13 @@
 <application name="matterhorn">
 	<settings>
 		<category name="credentials">
-			<setting name="login" field="text" default="">
+			
+			<setting name="url" field="text" default="http://nightly.opencastproject.org">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<!--<setting name="login" field="text" default="">
 				<validations>
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>
@@ -12,7 +18,7 @@
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>
 			</setting>
-			<setting name="session_token" field="text" default="" user_setting="1"/>
+			<setting name="session_token" field="text" default="" user_setting="1"/>-->
 		</category>
 	</settings>
 </application>

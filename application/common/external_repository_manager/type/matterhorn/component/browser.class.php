@@ -4,8 +4,7 @@ class MatterhornExternalRepositoryManagerBrowserComponent extends MatterhornExte
 
     function run()
     {
-        $browser = ExternalRepositoryComponent :: factory(ExternalRepositoryComponent :: BROWSER_COMPONENT, $this);
-        $browser->run();
+   		ExternalRepositoryComponent :: launch($this);
     }
 }
 ?>

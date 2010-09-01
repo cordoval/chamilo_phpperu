@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/matterhorn_external_repository_object.class.php';
+require_once dirname (__FILE__) . '/webservices/matterhorn_rest_client.class.php';
 
 /**
  * 
@@ -14,87 +15,20 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     private $login;
     private $password;
     
+    const METHOD_POST = MatterhornRestClient :: METHOD_POST;
+    const METHOD_GET = MatterhornRestClient :: METHOD_GET;
+    
     function MatterhornExternalRepositoryConnector($external_repository_instance)
     {
     	parent :: __construct($external_repository_instance);
      	
-     	$this->login = ExternalRepositorySetting :: get('login', $this->get_external_repository_instance_id());
-     	$this->password = ExternalRepositorySetting :: get('password', $this->get_external_repository_instance_id());
-     	//todo : verified login and password to connect opencast
-     	
-     	//$this->matterhorn = new ;
-//   		$session_token = ExternalRepositoryUserSetting :: get('session_token', $this->get_external_repository_instance_id());
-//
-//        if (! $session_token)
-//        {
-//            $frob = Request :: get('frob');
-//
-//            if (! $frob)
-//            {
-//                $this->flickr->auth("delete", Redirect :: current_url());
-//            }
-//            else
-//            {
-//                $token = $this->flickr->auth_getToken($frob);
-//                if ($token['token'])
-//                {
-//                    $setting = RepositoryDataManager :: get_instance()->retrieve_external_repository_setting_from_variable_name('session_token', $this->get_external_repository_instance_id());
-//                    $user_setting = new ExternalRepositoryUserSetting();
-//                    $user_setting->set_setting_id($setting->get_id());
-//                    $user_setting->set_user_id(Session :: get_user_id());
-//                    $user_setting->set_value($token['token']);
-//                    $user_setting->create();
-//                }
-//            }
-//        }
-//        else
-//        {
-//            $this->matterhorn->setToken($session_token);
-//        }
-
-     	
-    }
-    
-
-	function retrieve_chamilo_user($user_id)
-    {
-        $udm = UserDataManager :: get_instance();
-        
-        if (! $this->chamilo_user || ($user_id != $this->chamilo_user->get_id()))
-        {
-            $this->chamilo_user = $udm->retrieve_user($user_id);
-        }
-        return $this->chamilo_user;
-    }
-    
-    function create_matterhorn_user($chamilo_user_id)
-    {
+//     	$this->login = ExternalRepositorySetting :: get('login', $this->get_external_repository_instance_id());
+//     	$this->password = ExternalRepositorySetting :: get('password', $this->get_external_repository_instance_id());
     	
-    }
-    
-	/*
-     * @param int $user_id
-     * @return simplexmlobject user
-     */
-    function retrieve_matterhorn_user($chamilo_user_id)
-    {
-        if ($response = $this->request(self :: METHOD_GET, '/user/' . $chamilo_user_id))
-        {
-            if ($response->check_result())
-            {
-                return $response->get_response_content_xml()->items->item;
-            }
-        }
-        
-        return false;
-    }
-    
-    function login()
-    {
     	$url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
-        $this->matterhorn = new MatterhornRestClient($url);
+    	$this->matterhorn = new MatterhornRestClient($url);    	
     }
-    
+
     function retrieve_media_file_content()
     {
     	
@@ -102,7 +36,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-
+    	dump ($this->request(self :: METHOD_GET, '/search/rest/episode.xml'));  	  	
     }
 
     function retrieve_external_repository_object($id)
@@ -110,7 +44,13 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
         
     }
  
-
+    function request($method, $url, $data) {
+        if ($this->matterhorn) {
+            return $this->matterhorn->request($method, $url, $data);
+        }
+        return false;
+    }
+    
     function count_external_repository_objects($condition)
     {
        

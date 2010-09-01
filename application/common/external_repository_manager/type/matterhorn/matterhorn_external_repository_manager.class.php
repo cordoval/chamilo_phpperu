@@ -44,13 +44,13 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
      */
     function validate_settings()
     {
-        $login = ExternalRepositorySetting:: get('login');
-        $password = ExternalRepositorySetting:: get('password');
-
-        if (! $login || ! $password)
-		{
-            return false;
-        }
+//        $login = ExternalRepositorySetting:: get('login');
+//        $password = ExternalRepositorySetting:: get('password');
+//
+//        if (! $login || ! $password)
+//		{
+//            return false;
+//        }
         return true;
     }
 
@@ -81,61 +81,61 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
     function get_menu_items()
     {
         $menu_items = array();
-        $browser = array();
-        $browser['title'] = Translation :: get('Browse');
-        $browser['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $browser['class'] = 'home';
-        $menu_items[] = $browser;
-
-        $featured = array();
-        $featured['title'] = Translation :: get('Featured');
-        $featured['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_FEATURED), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $featured['class'] = 'featured';
-        $menu_items[] = $featured;
-        
-        $new_videos = array();
-        $new_videos['title'] = Translation :: get('NewVideos');
-        $new_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_NEW_VIDEOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $new_videos['class'] = 'new_video';
-        $menu_items[] = $new_videos;
-
-        $categories = array();
-        $categories['title'] = Translation :: get('Categories');
-        $categories['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_CATEGORIES), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $categories['class'] = 'category';
-        
-        $categorie_items = array();
-		//sub categories
-        $categorie_item = array();
-        $categorie_item['title'] = Translation :: get('AboutOpencast');
-        $categorie_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'about_opencast'), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $categorie_item['class'] = 'feed';
-        $categorie_items[] = $categorie_item;
-        
-        $categorie_item = array();
-        $categorie_item['title'] = Translation :: get('OpencastMatterhorn');
-        $categorie_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'opencast_matterhorn'), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $categorie_item['class'] = 'feed';
-        $categorie_items[] = $categorie_item;
-        
-        $categorie_item = array();
-        $categorie_item['title'] = Translation :: get('SystemShowcases');
-        $categorie_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'system_showcases'), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $categorie_item['class'] = 'feed';
-        $categorie_items[] = $categorie_item;
-        
-        $categorie_item = array();
-        $categorie_item['title'] = Translation :: get('Webcasting');
-        $categorie_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'webcasting'), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $categorie_item['class'] = 'feed';
-        $categorie_items[] = $categorie_item;
-        $categories['sub'] = $categorie_items;
-
-        $popular = array();
-        $popular['title'] = Translation :: get('Popular');
-        $popular['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_POPULAR), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
-        $popular['class'] = 'popular';
-        $menu_items[] = $popular;
+//        $browser = array();
+//        $browser['title'] = Translation :: get('Browse');
+//        $browser['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_GENERAL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $browser['class'] = 'home';
+//        $menu_items[] = $browser;
+//
+//        $featured = array();
+//        $featured['title'] = Translation :: get('Featured');
+//        $featured['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_FEATURED), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $featured['class'] = 'featured';
+//        $menu_items[] = $featured;
+//        
+//        $new_videos = array();
+//        $new_videos['title'] = Translation :: get('NewVideos');
+//        $new_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_NEW_VIDEOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $new_videos['class'] = 'new_video';
+//        $menu_items[] = $new_videos;
+//
+//        $categories = array();
+//        $categories['title'] = Translation :: get('Categories');
+//        $categories['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_CATEGORIES), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $categories['class'] = 'category';
+//        
+//        $categorie_items = array();
+//		//sub categories
+//        $categorie_item = array();
+//        $categorie_item['title'] = Translation :: get('AboutOpencast');
+//        $categorie_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'about_opencast'), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $categorie_item['class'] = 'feed';
+//        $categorie_items[] = $categorie_item;
+//        
+//        $categorie_item = array();
+//        $categorie_item['title'] = Translation :: get('OpencastMatterhorn');
+//        $categorie_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'opencast_matterhorn'), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $categorie_item['class'] = 'feed';
+//        $categorie_items[] = $categorie_item;
+//        
+//        $categorie_item = array();
+//        $categorie_item['title'] = Translation :: get('SystemShowcases');
+//        $categorie_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'system_showcases'), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $categorie_item['class'] = 'feed';
+//        $categorie_items[] = $categorie_item;
+//        
+//        $categorie_item = array();
+//        $categorie_item['title'] = Translation :: get('Webcasting');
+//        $categorie_item['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_STANDARD_TYPE, self :: PARAM_FEED_IDENTIFIER => 'webcasting'), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $categorie_item['class'] = 'feed';
+//        $categorie_items[] = $categorie_item;
+//        $categories['sub'] = $categorie_items;
+//
+//        $popular = array();
+//        $popular['title'] = Translation :: get('Popular');
+//        $popular['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_POPULAR), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+//        $popular['class'] = 'popular';
+//        $menu_items[] = $popular;
         
         return $menu_items;
     }
@@ -245,6 +245,36 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
     function get_repository_type()
     {
         return self :: REPOSITORY_TYPE;
+    }
+    
+   /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: DEFAULT_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: DEFAULT_ACTION in the context of this class
+     * - YourSubManager :: DEFAULT_ACTION in all other application classes
+     */
+    static function get_default_action()
+    {
+        return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     * Helper function for the SubManager class,
+     * pending access to class constants via variables in PHP 5.3
+     * e.g. $name = $class :: PARAM_ACTION
+     *
+     * DO NOT USE IN THIS SUBMANAGER'S CONTEXT
+     * Instead use:
+     * - self :: PARAM_ACTION in the context of this class
+     * - YourSubManager :: PARAM_ACTION in all other application classes
+     */
+    static function get_action_parameter()
+    {
+        return self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION;
     }
 }
 ?>
