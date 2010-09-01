@@ -191,7 +191,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function import_external_repository_object($object)
     {
-        $streaming_video_clip = new StreamingVideoClip();
+        $streaming_video_clip = new Mediamosa();
         
         $streaming_video_clip->set_title($object->get_title());
         $streaming_video_clip->set_description($object->get_description());

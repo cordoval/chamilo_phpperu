@@ -2,7 +2,7 @@
 
 require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_connector.class.php';
 
-class StreamingVideoClipRightsEditorManager extends RightsEditorManager
+class MediamosaRightsEditorManager extends RightsEditorManager
 {
     function run()
     {
@@ -28,7 +28,7 @@ class StreamingVideoClipRightsEditorManager extends RightsEditorManager
 
     function get_application_component_path()
     {
-        return Path :: get_repository_path() . 'lib/content_object/streaming_video_clip/rights/component/';
+        return Path :: get_repository_path() . 'lib/content_object/mediamosa/rights/component/';
     }
 
     function update_mediamosa_rights()

@@ -96,7 +96,6 @@ class MediamosaRestClient extends RestClient{
      * checks if cookie exists and returns
      * @return string or false
      */
-    //TODO:jens -> check if cookie exists
     function get_connector_cookie()
     {
         if(!is_null($this->connector_cookie))

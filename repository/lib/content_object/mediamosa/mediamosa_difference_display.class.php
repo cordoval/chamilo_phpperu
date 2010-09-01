@@ -5,11 +5,11 @@
  */
 
 /**
- * Description of streaming_video_clip_difference_displayclass
+ * Description of mediamosa_difference_displayclass
  *
  * @author jevdheyd
  */
-class StreamingVideoClipDifferenceDisplayClass extends ContentObjectDifferenceDisplay
+class MediamosaDifferenceDisplayClass extends ContentObjectDifferenceDisplay
 {
     //put your code here
 }

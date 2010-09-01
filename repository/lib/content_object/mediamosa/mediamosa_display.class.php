@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of streaming_video_clip_displayclass
+ * Description of MediamosaDisplay class
  *
  * @author jevdheyd
  */
@@ -9,7 +9,7 @@
 require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_connector.class.php';
 //require_once Path :: get_application_path() . 'common/external_repository_manager/type/mediamosa/mediamosa_external_repository_object.class.php';
 
-class StreamingVideoClipDisplay extends ContentObjectDisplay
+class MediamosaDisplay extends ContentObjectDisplay
 {
     private $mediamosa_object;
     private $mediamosa_external_repository_connector;
@@ -91,7 +91,6 @@ class StreamingVideoClipDisplay extends ContentObjectDisplay
             {
                 foreach($mediafiles as $mediafile)
                 {
-                    //TODO:jens -> get_link
                     $object = $this->get_content_object();
                     $url = $this->get_content_object_url($object);
                     $html[] = '<tr><td><a href="' .$url. '&' .self :: PARAM_MEDIAFILE. '=' .$mediafile->get_id(). '">' . $mediafile->get_title() . '</a></td></tr>';

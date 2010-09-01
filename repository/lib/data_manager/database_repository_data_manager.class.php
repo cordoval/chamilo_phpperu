@@ -142,6 +142,7 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
 
     function retrieve_type_content_objects($type, $condition = null, $order_by = array (), $offset = 0, $max_objects = -1)
     {
+        
         $content_object_alias = $this->get_alias(ContentObject :: get_table_name());
         $content_object_version_alias = $this->get_alias('content_object_version');
         

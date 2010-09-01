@@ -2,7 +2,7 @@
 
 require_once Path :: get_application_path() . 'common/rights_editor_manager/component/browser.class.php';
 
-class StreamingVideoClipRightsEditorManagerBrowserComponent extends StreamingVideoClipRightsEditorManager
+class MediamosaRightsEditorManagerBrowserComponent extends MediamosaRightsEditorManager
 {
   
     function run()
