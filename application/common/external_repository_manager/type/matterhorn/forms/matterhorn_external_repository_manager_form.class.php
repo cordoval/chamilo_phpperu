@@ -1,6 +1,7 @@
 <?php
 /**
- * $Id: matterhorn_external_repository_manager_form.class.php 224 2009-11-13 14:40:30Z kariboe $
+ * 
+ * $Id: matterhorn_external_repository_manager_form.class.php 
  * @package
  */
 
@@ -9,8 +10,9 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
 
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
-    const RESULT_SUCCESS = 'GroupUpdated';
-    const RESULT_ERROR = 'GroupUpdateFailed';
+    
+//    const RESULT_SUCCESS = 'GroupUpdated';
+//    const RESULT_ERROR = 'GroupUpdateFailed';
 
     const VIDEO_TITLE = 'title';
     const VIDEO_CATEGORY = 'category';
@@ -18,13 +20,13 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
     const VIDEO_DESCRIPTION = 'description';
 
     private $application;
-    private $video_entry;
+//    private $video_entry;
     private $form_type;
     private $external_repository_object;
 
     function MatterhornExternalRepositoryManagerForm($form_type, $action, $application)
     {
-        parent :: __construct('youtube_upload', 'post', $action);
+        parent :: __construct('matterhorn_upload', 'post', $action);
 
         $this->application = $application;
 
@@ -42,14 +44,23 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
         $this->setDefaults();
     }
 
-    public function set_external_repository_object(YoutubeExternalRepositoryObject $external_repository_object)
+    public function set_external_repository_object($object)
     {
-        $this->external_repository_object = $external_repository_object;
+        $this->external_repository_object = $object;
+    
         $this->addElement('hidden', ExternalRepositoryObject :: PROPERTY_ID);
-        $defaults[YoutubeExternalRepositoryObject :: PROPERTY_TITLE] = $external_repository_object->get_title();
-        $defaults[YoutubeExternalRepositoryObject :: PROPERTY_DESCRIPTION] = $external_repository_object->get_description();
-        $defaults[YoutubeExternalRepositoryObject :: PROPERTY_CATEGORY] = $external_repository_object->get_category();
-        $defaults[YoutubeExternalRepositoryObject :: PROPERTY_TAGS] = $this->get_tags();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_TITLE] = $object->get_title();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_DESCRIPTION] = $object->get_description();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_DURATION] = $object->get_duration();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_CONTRIBUTORS] = $object->get_contributors();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_SERIES] = $object->get_series();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_OWNER_ID] = $object->get_owner_id();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_CREATED] = $object->get_created();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_SUBJECTS] = $object->get_subjects();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_LICENSE] = $object->get_license();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_TYPE] = $object->get_type();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_MODIFIED] = $object->get_modified();
+
         parent :: setDefaults($defaults);
     }
 
