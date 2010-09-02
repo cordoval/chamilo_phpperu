@@ -64,7 +64,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
         foreach ($questions as $question_id => $question)
         {
             
-            $title = Utilities :: truncate_string(trim(strip_tags($question->get_title())), 20, true, '');
+            $title = Utilities :: truncate_string(trim(strip_tags($question->get_title())), 15, true, '');
             //            $title = $title . ' (id:' . $question_id . ')';
             //            $worksheet = $excel->createSheet($worksheet_index)->setTitle($title);
             $worksheet = $excel->createSheet($worksheet_index)->setTitle($title);

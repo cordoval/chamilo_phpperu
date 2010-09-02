@@ -1159,6 +1159,8 @@ class DatabaseRepositoryDataManager extends Database implements RepositoryDataMa
                 $query .= $translator->render_query($condition);
             }
             
+//            dump($query);
+            
             $this->set_limit(1);
             $res = $this->query($query);
             $rec2 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);

@@ -12,7 +12,7 @@ class SurveyContextManagerManagerChooserComponent extends SurveyContextManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_MANAGER_CHOOSER)), Translation :: get('SurveyContextManager')));
+//        $trail->add(new Breadcrumb($this->get_url(array(SurveyContextManager :: PARAM_ACTION => SurveyContextManager :: ACTION_MANAGER_CHOOSER)), Translation :: get('SurveyContextManager')));
                
         $links = $this->get_context_manager_links();
         

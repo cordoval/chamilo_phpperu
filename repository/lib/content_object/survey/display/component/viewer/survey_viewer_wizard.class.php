@@ -29,7 +29,7 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         $this->parent = $parent;
         $this->survey = $survey;
         $this->template_id = $template_id;
-                
+		       
         $this->add_pages();
         
         $this->addAction('next', new SurveyViewerWizardNext($this));
@@ -49,7 +49,8 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
     	while ($template_rel_page = $template_rel_pages->next_result()) {
         	$allowed_pages[] = $template_rel_page->get_page_id();
         }
-      	
+      	   
+        
     	$complex_survey_page_items = $this->survey->get_pages(true);
         $page_nr = 0;
         $question_nr = 0;

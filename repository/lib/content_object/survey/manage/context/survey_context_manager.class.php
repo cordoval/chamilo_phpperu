@@ -22,7 +22,7 @@ class SurveyContextManager extends SubManager
     const ACTION_MANAGER_CHOOSER = 'manager_chooser';
     
     const ACTION_CREATE_CONTEXT_REGISTRATION = 'registration_creator';
-    const ACTION_EDIT_CONTEXT_REGISTRATION = 'registration_editor';
+    const ACTION_EDIT_CONTEXT_REGISTRATION = 'registration_updater';
     const ACTION_DELETE_CONTEXT_REGISTRATION = 'registration_deleter';
     const ACTION_VIEW_CONTEXT_REGISTRATION = 'registration_viewer';
     const ACTION_BROWSE_CONTEXT_REGISTRATION = 'registration_browser';

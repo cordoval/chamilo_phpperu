@@ -12,21 +12,28 @@ class SurveyBuilderPageSubscriberComponent extends SurveyBuilder
 	function run() 
 	{
 		
-		$template_id = Request::get ( SurveyBuilder::PARAM_TEMPLATE_ID );
+		$ids = Request::get ( SurveyBuilder::PARAM_TEMPLATE_REL_PAGE_ID );
 		$pages = Request::get ( SurveyBuilder::PARAM_SURVEY_PAGE_ID );
 		$survey_id = $this->get_root_content_object_id();
 			
 		$failures = 0;
 		
-		if (! empty ( $pages )) 
+		if (! empty ( $ids )) 
 		{
-			if (! is_array ( $pages )) 
+			if (! is_array ( $ids )) 
 			{
-				$pages = array ($pages );
+				$ids = array ($ids );
 			}
-					
-			foreach ( $pages as $page_id ) 
+
+			
+			
+			foreach ( $ids as $id ) 
 			{
+				
+				$template_rel_page_id = explode('|', $id);
+				$template_id = $template_rel_page_id[0];
+				$page_id = $template_rel_page_id[1];
+				
 				$conditions = array();
 				$conditions[] = new EqualityCondition(SurveyContextTemplateRelPage::PROPERTY_PAGE_ID, $page_id, SurveyContextTemplateRelPage :: get_table_name());
 				$conditions[] = new EqualityCondition(SurveyContextTemplateRelPage::PROPERTY_SURVEY_ID, $survey_id, SurveyContextTemplateRelPage :: get_table_name());

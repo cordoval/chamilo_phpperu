@@ -39,19 +39,23 @@ class SurveyContextTemplateMenu extends HTML_Menu {
 	 * root.
 	 */
 	function SurveyContextTemplateMenu($current_template, $root_co, $url_format = '?go=build_complex&application=repository&builder_action=browse_context&root_lo=%s&template_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_template = false) {
+		
+//		dump($current_template);
+//		dump($root_co);
+		
 		$this->root_co = $root_co;
 		$this->include_root = $include_root;
 		$this->show_complete_tree = $show_complete_tree;
 		$this->hide_current_template = $hide_current_template;
 		
-//		if ($current_template == '0' || is_null ( $current_template )) {
-//			$survey = RepositoryDataManager::get_instance ()->retrieve_content_object ( $this->root_co );
-//			$template_id = $survey->get_context_template_id ();
-//			$this->current_template = SurveyContextDataManager::get_instance ()->retrieve_survey_context_template ( $template_id );
-//		} else {
+		if ($current_template == '0' || is_null ( $current_template )) {
+			$survey = RepositoryDataManager::get_instance ()->retrieve_content_object ( $this->root_co );
+			$template_id = $survey->get_context_template_id ();
+			$this->current_template = SurveyContextDataManager::get_instance ()->retrieve_survey_context_template ( $template_id );
+		} else {
 
 			$this->current_template = SurveyContextDataManager::get_instance ()->retrieve_survey_context_template ( $current_template );
-//		}
+		}
 		
 		$this->urlFmt = $url_format;
 		$menu = $this->get_menu ();

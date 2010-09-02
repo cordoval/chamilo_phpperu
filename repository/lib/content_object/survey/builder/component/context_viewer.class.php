@@ -25,8 +25,8 @@ class SurveyBuilderContextViewerComponent extends SurveyBuilder
             
             $template = $this->template;
             
-            $trail->add(new Breadcrumb($this->get_configure_context_url(), Translation :: get('BrowseContexts')));
-            $trail->add(new Breadcrumb($this->get_url(array(SurveyBuilder :: PARAM_TEMPLATE_ID => $id)), $template->get_name()));
+//            $trail->add(new Breadcrumb($this->get_configure_context_url(), Translation :: get('BrowseContexts')));
+//            $trail->add(new Breadcrumb($this->get_url(array(SurveyBuilder :: PARAM_TEMPLATE_ID => $id)), $template->get_name()));
             
             $this->display_header($trail);
             $this->ab = $this->get_action_bar();

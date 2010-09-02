@@ -14,7 +14,7 @@ class SurveyContextManagerRegistrationBrowserComponent extends SurveyContextMana
         
         $trail = BreadcrumbTrail :: get_instance();
         
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseContextRegistration')));
+//        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseContextRegistration')));
         $this->ab = $this->get_action_bar();
         
         $output = $this->get_browser_html();

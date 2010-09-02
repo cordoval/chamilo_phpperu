@@ -119,7 +119,7 @@ class SurveyPublication extends DataClass
         {
             
             $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = 0;
-            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 2448;
+            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = 'NOCONTEXT';
             $tracker = Event :: trigger('survey_participation', 'survey', $args);
         }

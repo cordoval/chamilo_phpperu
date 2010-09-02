@@ -14,7 +14,9 @@ class DefaultSurveyTemplateTableCellRenderer extends ObjectTableCellRenderer
     function render_cell($column, $context_template)
     {
         
-    	$property_name = str_replace(' ','_' ,$column->get_name());
+//    	$property_name = str_replace(' ','_' ,$column->get_name());
+    	
+    	$property_name = $column->get_name();
     	
     	if($property_name == SurveyTemplate::PROPERTY_USER_ID){
     		return $context_template->get_default_property($property_name);

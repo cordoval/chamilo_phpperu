@@ -34,7 +34,7 @@ class DefaultSurveyTemplateTableColumnModel extends ObjectTableColumnModel
 		
         foreach ($property_names as $property_name)
         {
-            $property_name = str_replace('_', ' ', $property_name);
+//            $property_name = str_replace('_', ' ', $property_name);
         	$columns[] = new ObjectTableColumn($property_name, true, null, false);
         }
         return $columns;

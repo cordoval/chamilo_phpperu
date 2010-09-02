@@ -158,7 +158,7 @@ class SurveyManagerViewerComponent extends SurveyManager
 
     function get_template_id()
     {
-        return $this->active_tracker->get_context_template_id();
+     	 return $this->active_tracker->get_context_template_id();
     }
 
     function get_participant_id()

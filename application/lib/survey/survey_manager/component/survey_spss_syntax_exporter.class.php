@@ -117,7 +117,10 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
     {
         
         //test
-        $nominal_question_ids = array(- 1, - 2, - 3, 264, 263, 262);
+        //studentenq
+//        $nominal_question_ids = array(- 1, - 2, - 3, 264, 263, 262);
+        //personenq 
+    	$nominal_question_ids = array(- 1, - 2, - 3, 264, 263, 262);
         
         $this->variable_encodings = array();
         
@@ -125,11 +128,10 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         
         $variable_name = 'Var';
         $var_index = 1;
-        
-        $variable_encoding = array();
+
         $variable_encoding[self :: VARIABLE_NAME] = $variable_name . $var_index;
         $this->variable_list[self :: CASE_USER_ID] = $variable_name . $var_index;
-        
+        $variable_encoding = array();
         $variable_encoding[self :: VARIABLE_QUESTION_ID] = - 1;
         $variable_encoding[self :: VARIABLE_LABEL] = self :: CASE_USER_ID;
         $variable_encoding[self :: VARIABLE_LEVEL_OF_MEASUREMENT] = self :: SCALE_NOMINAL;
@@ -446,6 +448,9 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         {
             $data[$var] = self :: MISSING_VALUE;
         }
+//        
+//        dump($data);
+//        exit;
         
         return $data;
     }
@@ -496,7 +501,10 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         //        exit;
         
 
-        $cases = $this->get_cases($this->get_publication_ids());
+//        $cases = $this->get_cases($this->get_publication_ids());
+        $cases = $this->get_cases();
+//        dump($cases);
+//        exit;
         
         foreach ($cases as $case)
         {
@@ -542,6 +550,7 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
             }
             $content[] = '';
             //            dump($content);
+//            exit;
             $content = implode("\n", $content);
             //            dump($content);
             Filesystem :: write_to_file($path, $content, true);
@@ -737,13 +746,14 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
             $pages = $survey->get_pages();
             foreach ($pages as $page)
             {
-                $conditions = array();
-                $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $survey->get_id());
-                $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_PAGE_ID, $page->get_id());
-                $condition = new AndCondition($conditions);
-                $survey_rel_page = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition)->next_result();
-                $template_id = $survey_rel_page->get_template_id();
-                
+            	//test: old data without surveypage context relations
+//                $conditions = array();
+//                $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_SURVEY_ID, $survey->get_id());
+//                $conditions[] = new EqualityCondition(SurveyContextTemplateRelPage :: PROPERTY_PAGE_ID, $page->get_id());
+//                $condition = new AndCondition($conditions);
+//                $survey_rel_page = SurveyContextDataManager :: get_instance()->retrieve_template_rel_pages($condition)->next_result();
+//                $template_id = $survey_rel_page->get_template_id();
+                $template_id = 1;
                 if ($page->count_questions() != 0)
                 {
                     $questions = $page->get_questions();
@@ -811,18 +821,18 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
     private function get_context_name_values($template_id)
     {
         
-        $dm = SurveyContextDataManager :: get_instance();
-        $template = $dm->retrieve_survey_context_template($template_id);
+//        $dm = SurveyContextDataManager :: get_instance();
+//        $template = $dm->retrieve_survey_context_template($template_id);
         $context_name_values = array();
-        //    	dump($template->get_context_type());
-        $contexts = $dm->retrieve_survey_contexts($template->get_context_type());
-        while ($context = $contexts->next_result())
-        {
-            $context_value = array();
-            $context_value[self :: CONTEXT_NAME_VALUE] = $context->get_name();
-            $context_value[self :: CONTEXT_NAME_ID] = $context->get_id();
-            $context_name_values[] = $context_value;
-        }
+//        //    	dump($template->get_context_type());
+//        $contexts = $dm->retrieve_survey_contexts($template->get_context_type());
+//        while ($context = $contexts->next_result())
+//        {
+//            $context_value = array();
+//            $context_value[self :: CONTEXT_NAME_VALUE] = $context->get_name();
+//            $context_value[self :: CONTEXT_NAME_ID] = $context->get_id();
+//            $context_name_values[] = $context_value;
+//        }
         
         return $context_name_values;
     }
@@ -839,9 +849,16 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
             $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($id);
             $survey = $survey_publication->get_publication_object();
             $this->surveys[] = $survey;
-            $context_templates[$survey->get_context_template_id()] = $survey->get_context_template();
+//            $context_templates[$survey->get_context_template_id()] = $survey->get_context_template();
         
         }
+        
+        //test: see what happens with default template
+        $context_template = new SurveyContextTemplate();
+        $context_template->set_name('test');
+        $context_template->set_id(1);
+        $context_templates[1] = $context_template;
+//        dump($context_template);
         
         $context_variables = array();
         
@@ -857,26 +874,28 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
             $context_type[self :: CONTEXT_TYPE_NAME_ID] = $template->get_id();
             
             //            $context_types[$template->get_id()] = $context_type;
-            $level = $template->count_parents();
+//            $level = $template->count_parents();
+            $level = 1;
             $this->template_levels[$template->get_id()] = $level;
             $context_variables[$level][self :: CONTEXT_TYPE_NAME_VALUES][$template->get_id()] = $context_type;
             
-            $children = $template->get_children(false);
-            
-            while ($child = $children->next_result())
-            {
-                
-                $context_type = array();
-                $context_type[self :: CONTEXT_TYPE_NAME_VALUE] = $child->get_name();
-                $context_type[self :: CONTEXT_TYPE_NAME_ID] = $child->get_id();
-                
-                //                $context_types[$child->get_id()] = $context_type;
-                $level = $child->count_parents();
-                $this->template_levels[$child->get_id()] = $level;
-                $context_variables[$level][self :: CONTEXT_TYPE_NAME_VALUES][$child->get_id()] = $context_type;
-                
-                $parent_child_context_ids[$template->get_id()] = $child->get_id();
-            }
+            //just for testing blanked out
+//            $children = $template->get_children(false);
+//            
+//            while ($child = $children->next_result())
+//            {
+//                
+//                $context_type = array();
+//                $context_type[self :: CONTEXT_TYPE_NAME_VALUE] = $child->get_name();
+//                $context_type[self :: CONTEXT_TYPE_NAME_ID] = $child->get_id();
+//                
+//                //                $context_types[$child->get_id()] = $context_type;
+//                $level = $child->count_parents();
+//                $this->template_levels[$child->get_id()] = $level;
+//                $context_variables[$level][self :: CONTEXT_TYPE_NAME_VALUES][$child->get_id()] = $context_type;
+//                
+//                $parent_child_context_ids[$template->get_id()] = $child->get_id();
+//            }
         
         }
         
@@ -915,6 +934,8 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
         $case_id = 1;
         
         $level_count = count(array_unique($this->template_levels));
+//       dump($this->template_levels);
+//        dump($level_count);
         
         $participants_ids = array();
         
@@ -925,24 +946,26 @@ class SurveyManagerSurveySpssSyntaxExporterComponent extends SurveyManager
             
             $participants = array();
             $participant = array();
-            $template_id = $tracker->get_context_template_id();
+//            $template_id = $tracker->get_context_template_id();
+            $template_id = 1;
             $participant[self :: CASE_TEMPLATE_LEVEL] = $this->template_levels[$template_id];
             $participant[self :: CASE_TEMPLATE_ID] = $template_id;
             $participant[self :: CASE_CONTEXT_ID] = $tracker->get_context_id();
             $participants[$tracker->get_id()] = $participant;
-            $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_ID, $tracker->get_parent_id());
+            //test with one level
+//            $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_ID, $tracker->get_parent_id());
             $participants_ids[] = $tracker->get_id();
-            $parent_tracker = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition)->next_result();
-            if (isset($parent_tracker))
-            {
-                $participant = array();
-                $template_id = $parent_tracker->get_context_template_id();
-                $participant[self :: CASE_TEMPLATE_LEVEL] = $this->template_levels[$template_id];
-                $participant[self :: CASE_TEMPLATE_ID] = $template_id;
-                $participant[self :: CASE_CONTEXT_ID] = $parent_tracker->get_context_id();
-                $participants[$parent_tracker->get_id()] = $participant;
-                $participants_ids[] = $parent_tracker->get_id();
-            }
+//            $parent_tracker = Tracker :: get_data('survey_participant_tracker', SurveyManager :: APPLICATION_NAME, $condition)->next_result();
+//            if (isset($parent_tracker))
+//            {
+//                $participant = array();
+//                $template_id = $parent_tracker->get_context_template_id();
+//                $participant[self :: CASE_TEMPLATE_LEVEL] = $this->template_levels[$template_id];
+//                $participant[self :: CASE_TEMPLATE_ID] = $template_id;
+//                $participant[self :: CASE_CONTEXT_ID] = $parent_tracker->get_context_id();
+//                $participants[$parent_tracker->get_id()] = $participant;
+//                $participants_ids[] = $parent_tracker->get_id();
+//            }
             
             if (count($participants) == $level_count)
             {
