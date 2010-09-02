@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/matterhorn_external_repository_object_attachm
 require_once dirname(__FILE__) . '/webservices/matterhorn_rest_client.class.php';
 
 /**
- *
+ * 
  * @author magali.gillard
  *
  * Test login for Matterhorn : admin
@@ -18,7 +18,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     private $matterhorn;
     private $login;
     private $password;
-
+    
     const METHOD_POST = MatterhornRestClient :: METHOD_POST;
     const METHOD_GET = MatterhornRestClient :: METHOD_GET;
 
@@ -26,30 +26,27 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         parent :: __construct($external_repository_instance);
 
-        //     	$this->login = ExternalRepositorySetting :: get('login', $this->get_external_repository_instance_id());
-        //     	$this->password = ExternalRepositorySetting :: get('password', $this->get_external_repository_instance_id());
-
-
         $url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
         $this->matterhorn = new MatterhornRestClient($url);
     }
 
     function retrieve_media_file_content()
     {
-
+    
     }
 
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-        $response = $this->request(self :: METHOD_GET, '/search/rest/episode');
+    	$response = $this->request(self :: METHOD_GET, '/search/rest/episode', array('limit' => $count, 'offset' => $offset));
         $objects = array();
         $xml = $this->get_xml($response->get_response_content());
 
         if ($xml)
         {
-            foreach ($xml['result'] as $media_package)
+            
+        	foreach ($xml['result'] as $media_package)
             {
-                $objects[] = $this->get_media_package($media_package);
+            	$objects[] = $this->get_media_package($media_package);
             }
         }
         return new ArrayResultSet($objects);
@@ -59,7 +56,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $response = $this->request(self :: METHOD_GET, '/search/rest/episode', array('id' => $id));
         $xml = $this->get_xml($response->get_response_content());
-
+        
         if ($xml)
         {
             if ($xml['result'])
@@ -77,31 +74,31 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         if ($this->matterhorn)
         {
-            return $this->matterhorn->request($method, $url, $data);
+        	return $this->matterhorn->request($method, $url, $data);
         }
         return false;
     }
 
     function count_external_repository_objects($condition)
     {
-        $response = $this->request(self :: METHOD_GET, '/search/rest/episode', array('limit' => 1));
+    	$response = $this->request(self :: METHOD_GET, '/search/rest/episode', array('limit' => 1));
         $xml = $response->get_response_content();
 
         $doc = new DOMDocument();
         $doc->loadXML($xml);
+               
         $object = $doc->getElementsByTagname('search-results')->item(0);
-
         return $object->getAttribute('total');
     }
 
     function delete_external_repository_object($id)
     {
-
+    
     }
 
     function export_external_repository_object($object)
     {
-
+        
         return true;
     }
 
@@ -109,8 +106,8 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $rights = array();
         $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
-        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = ($video_entry->getEditLink() !== null ? true : false);
-        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = ($video_entry->getEditLink() !== null ? true : false);
+        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = false;
+        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
         return $rights;
     }
@@ -160,12 +157,12 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
         $matterhorn_external_repository_object->set_series($this->get_series($media_package['series']));
         $matterhorn_external_repository_object->set_owner_id($result['dcCreator']);
         $matterhorn_external_repository_object->set_created(strtotime($result['dcCreated']));
-
+        
         $matterhorn_external_repository_object->set_subjects($result['dcSubject']);
         $matterhorn_external_repository_object->set_license($result['dcLicense']);
         $matterhorn_external_repository_object->set_type(Utilities :: camelcase_to_underscores($result['mediaType']));
         $matterhorn_external_repository_object->set_modified(strtotime($result['modified']));
-
+        
         foreach ($media_package['media']['track'] as $media_track)
         {
             $track = new MatterhornExternalRepositoryObjectTrack();
@@ -177,7 +174,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
             $track->set_url($media_track['url']);
             $track->set_checksum($media_track['checksum']);
             $track->set_duration($media_track['duration']);
-
+            
             if ($media_track['audio'])
             {
                 $audio = new MatterhornExternalRepositoryObjectTrackAudio();
@@ -190,7 +187,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
                 $audio->set_bitrate($media_track['audio']['bitrate']);
                 $track->set_audio($audio);
             }
-
+            
             if ($media_track['video'])
             {
                 $video = new MatterhornExternalRepositoryObjectTrackVideo();
@@ -204,7 +201,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
             }
             $matterhorn_external_repository_object->add_track($track);
         }
-
+        
         foreach ($media_package['attachments']['attachment'] as $attachment)
         {
             $attach = new MatterhornExternalRepositoryObjectAttachment();
@@ -214,10 +211,11 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
             $attach->set_mimetype($attachment['mimetype']);
             $attach->set_tags($attachment['tags']['tag']);
             $attach->set_url($attachment['url']);
-
+            
             $matterhorn_external_repository_object->add_attachment($attach);
         }
-
+        
+        $matterhorn_external_repository_object->set_rights($this->determine_rights($media_package));
         return $matterhorn_external_repository_object;
     }
 
@@ -231,7 +229,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('result', 'track', 'attachment'));
-
+            
             // userialize the document
             return $unserializer->unserialize($xml);
         }

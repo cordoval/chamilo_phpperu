@@ -29,7 +29,7 @@ class MatterhornExternalRepositoryManagerUploaderComponent extends MatterhornExt
 //                }
 //                
 //                $next_url = $upload_token['url'] . '?nexturl=' . urlencode($platform_url);
-//                $form = new YoutubeExternalRepositoryManagerUploadForm($next_url, $upload_token['token']);
+//                $form = new MatterhornExternalRepositoryManagerUploadForm($next_url, $upload_token['token']);
 //                $this->display_header($trail, false);
 //                $form->display();
 //                $this->display_footer();

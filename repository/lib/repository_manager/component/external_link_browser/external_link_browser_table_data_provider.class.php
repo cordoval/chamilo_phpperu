@@ -30,7 +30,8 @@ class ExternalLinkBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_objects($offset, $count, $order_property = null)
     {
-        return $this->get_browser()->get_object()->get_synchronization_data();
+        
+    	return new ArrayResultSet(array($this->get_browser()->get_object()->get_synchronization_data()));
     }
 
     /**
@@ -39,7 +40,7 @@ class ExternalLinkBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        return $this->get_browser()->get_object()->get_synchronization_data()->size();
+        return /*$this->get_browser()->get_object()->get_synchronization_data()->size();*/1;
     }
 }
 ?>

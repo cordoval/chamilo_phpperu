@@ -2,7 +2,9 @@
 <object name="matterhorn">
 	<properties>
 		<property name="id" type="integer" unsigned="1" notnull="1" />
-		<property name="url" type="text" length="255" fixed="1"
+		<property name="matterhorn_id" type="text" length="255" fixed="1"
+			notnull="1" />
+		<property name="thumbnail" type="text" length="255" fixed="1"
 			notnull="1" />
 		<!-- <property name="height" type="integer" unsigned="1" notnull="1" />
 		<property name="width" type="integer" unsigned="1" notnull="1" /> -->
