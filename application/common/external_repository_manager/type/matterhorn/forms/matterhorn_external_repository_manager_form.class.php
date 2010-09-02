@@ -48,7 +48,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
     {
         $this->external_repository_object = $object;
     
-        $this->addElement('hidden', ExternalRepositoryObject :: PROPERTY_ID);
+        $this->addElement('hidden', MatterhornExternalRepositoryObject :: PROPERTY_ID);
         $defaults[MatterhornExternalRepositoryObject :: PROPERTY_TITLE] = $object->get_title();
         $defaults[MatterhornExternalRepositoryObject :: PROPERTY_DESCRIPTION] = $object->get_description();
         $defaults[MatterhornExternalRepositoryObject :: PROPERTY_DURATION] = $object->get_duration();
@@ -60,6 +60,8 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
         $defaults[MatterhornExternalRepositoryObject :: PROPERTY_LICENSE] = $object->get_license();
         $defaults[MatterhornExternalRepositoryObject :: PROPERTY_TYPE] = $object->get_type();
         $defaults[MatterhornExternalRepositoryObject :: PROPERTY_MODIFIED] = $object->get_modified();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_TRACKS] = $object->get_tracks();
+        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_ATTACHMENTS] = $object->get_attachments();
 
         parent :: setDefaults($defaults);
     }
@@ -73,21 +75,21 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
 
     function build_basic_form()
     {
-        $this->addElement('text', YoutubeExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
-        $this->addRule(YoutubeExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+        $this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
+        $this->addRule(MatterhornExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-        $this->addElement('select', YoutubeExternalRepositoryObject :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->get_youtube_categories());
-
-        $this->addElement('textarea', YoutubeExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('Tags'), array("rows" => "2", "cols" => "80"));
-        $this->addRule(YoutubeExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
-
-        $this->addElement('textarea', YoutubeExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "80"));
-    }
-
-    function get_youtube_categories()
-    {
-        $connector = YoutubeExternalRepositoryConnector :: get_instance($this->application->get_external_repository());
-        return $connector->retrieve_categories();
+//        $this->addElement('select', MatterhornExternalRepositoryObject :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->get_youtube_categories());
+//
+//        $this->addElement('textarea', YoutubeExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('Tags'), array("rows" => "2", "cols" => "80"));
+//        $this->addRule(YoutubeExternalRepositoryObject :: PROPERTY_TAGS, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_CONTRIBUTORS, Translation :: get('Contributors'), array("size" => "50"));
+		$this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_SERIES, Translation :: get('Series'), array("size" => "50"));
+        $this->addElement('textarea', MatterhornExternalRepositoryObject :: PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "80"));
+        $this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_OWNER_ID, Translation :: get('Creator'), array("size" => "50"));
+        $this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_TYPE, Translation :: get('Type'), array("size" => "50"));
+        $this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_LICENSE, Translation :: get('License'), array("size" => "50"));
+        $this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_SUBJECTS, Translation :: get('Subjects'), array("size" => "50"));
+        
     }
 
     function build_editing_form()
@@ -112,27 +114,27 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
-    function update_video_entry()
-    {
-        $youtube = $this->application->get_external_repository_connector();
-        $values = $this->exportValues();
-
-        return $youtube->update_youtube_video($values);
+//    function update_video_entry()
+//    {
+//        $youtube = $this->application->get_external_repository_connector();
+//        $values = $this->exportValues();
+//
+//        return $youtube->update_youtube_video($values);
 
     /*if ($value)
         {
             Event :: trigger('update', 'video_entry', array('video_entry_id' => $this->video_entry->getId()));
         }
-        return $value;*/
-    }
+        return $value;
+    }*/
 
-    function get_upload_token()
-    {
-        $values = $this->exportValues();
-
-        $connector = $this->application->get_external_repository_connector();
-        return $connector->get_upload_token($values);
-    }
+//    function get_upload_token()
+//    {
+//        $values = $this->exportValues();
+//
+//        $connector = $this->application->get_external_repository_connector();
+//        return $connector->get_upload_token($values);
+//    }
 
     /**
      * Sets default values.
@@ -147,9 +149,9 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
         parent :: setDefaults($defaults);
     }
 
-    function get_entry_video()
-    {
-        return $this->entry_video;
-    }
+//    function get_entry_video()
+//    {
+//        return $this->entry_video;
+//    }
 }
 ?>
