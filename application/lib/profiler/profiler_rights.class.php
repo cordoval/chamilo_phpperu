@@ -32,12 +32,12 @@ class ProfilerRights
     const TYPE_CATEGORY = 1;
     const TYPE_PUBLICATION = 2;
 
-    function get_available_rights()
+    static function get_available_rights()
     {
-        return array('Publish' => self :: PUBLISH_RIGHT, 'Edit Profile' => self :: EDIT_RIGHT, 'Delete Profile' => self::DELETE_RIGHT, 'Edit Rights' => self::EDIT_RIGHTS_RIGHT);
+        return array('Publish' => self :: PUBLISH_RIGHT, 'Edit' => self :: EDIT_RIGHT, 'Delete' => self::DELETE_RIGHT, 'Edit Rights' => self::EDIT_RIGHTS_RIGHT);
     }
 
-    function is_allowed($right, $location, $type)
+    static function is_allowed($right, $location, $type)
     {
         return RightsUtilities :: is_allowed($right, $location, $type, ProfilerManager :: APPLICATION_NAME);
     }
@@ -76,7 +76,6 @@ class ProfilerRights
     {
         return RightsUtilities :: create_location('profiler_tree', ProfilerManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_PROFILER);
     }
-
 }
 
 ?>

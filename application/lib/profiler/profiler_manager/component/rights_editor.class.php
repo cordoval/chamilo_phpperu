@@ -19,9 +19,9 @@ class ProfilerManagerRightsEditorComponent extends ProfilerManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('BrowseProfiles')));
-
         $category = Request :: get('category');
+
+        $trail->add(new Breadcrumb($this->get_rights_editor_url($category)));
 
         $this->set_parameter('category', $category);
 
