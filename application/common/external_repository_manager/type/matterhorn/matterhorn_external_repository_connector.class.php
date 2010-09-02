@@ -25,10 +25,6 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     function MatterhornExternalRepositoryConnector($external_repository_instance)
     {
         parent :: __construct($external_repository_instance);
-        
-        //     	$this->login = ExternalRepositorySetting :: get('login', $this->get_external_repository_instance_id());
-        //     	$this->password = ExternalRepositorySetting :: get('password', $this->get_external_repository_instance_id());
-        
 
         $url = ExternalRepositorySetting :: get('url', $this->get_external_repository_instance_id());
         $this->matterhorn = new MatterhornRestClient($url);
@@ -41,15 +37,15 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-        $response = $this->request(self :: METHOD_GET, '/search/rest/episode');
+    	$response = $this->request(self :: METHOD_GET, '/search/rest/episode');
         $objects = array();
         $xml = $this->get_xml($response->get_response_content());
-        
+
         if ($xml)
         {
             foreach ($xml['result'] as $media_package)
             {
-                $objects[] = $this->get_media_package($media_package['mediapackage']);
+                $objects[] = $this->get_media_package($media_package);
             }
         }
         return new ArrayResultSet($objects);
@@ -77,20 +73,20 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         if ($this->matterhorn)
         {
-            return $this->matterhorn->request($method, $url, $data);
+        	return $this->matterhorn->request($method, $url, $data);
         }
         return false;
     }
 
     function count_external_repository_objects($condition)
     {
-        $response = $this->request(self :: METHOD_GET, '/search/rest/episode', array('limit' => 1));
+    	$response = $this->request(self :: METHOD_GET, '/search/rest/episode', array('limit' => 1));
         $xml = $response->get_response_content();
-        
+
         $doc = new DOMDocument();
         $doc->loadXML($xml);
+               
         $object = $doc->getElementsByTagname('search-results')->item(0);
-        
         return $object->getAttribute('total');
     }
 
