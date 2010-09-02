@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id: profile_publication_browser_table_cell_renderer.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler.profiler_manager.component.profile_publication_browser
@@ -6,11 +7,13 @@
 require_once dirname(__FILE__) . '/profile_publication_browser_table_column_model.class.php';
 require_once dirname(__FILE__) . '/../../../profile_publication_table/default_profile_publication_table_cell_renderer.class.php';
 require_once dirname(__FILE__) . '/../../profiler_manager.class.php';
+
 /**
  * Cell renderer for the learning object browser table
  */
 class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicationTableCellRenderer
 {
+
     /**
      * The repository browser component
      */
@@ -33,7 +36,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
         {
             return $this->get_modification_links($profile);
         }
-        
+
         // Add special features here
         switch ($column->get_name())
         {
@@ -63,29 +66,33 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
     private function get_modification_links($profile)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
-        
-    	if ($this->browser->get_user()->is_platform_admin() || $profile->get_publisher() == $this->browser->get_user()->get_id())
+
+        if (ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::EDIT_RIGHT, $profile->get_id(), ProfilerRights::TYPE_PUBLICATION))
         {
             $edit_url = $this->browser->get_publication_editing_url($profile);
-            $delete_url = $this->browser->get_publication_deleting_url($profile);
-            
             $toolbar->add_item(new ToolbarItem(
-        			Translation :: get('Edit'),
-        			Theme :: get_common_image_path() . 'action_edit.png',
-        			$edit_url,
-        			ToolbarItem :: DISPLAY_ICON
-	        ));
-	        
-	        $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('Delete'),
-	        		Theme :: get_common_image_path() . 'action_delete.png',
-	        		$delete_url,
-	        		ToolbarItem :: DISPLAY_ICON,
-	        		true
-	        ));
+                            Translation :: get('Edit'),
+                            Theme :: get_common_image_path() . 'action_edit.png',
+                            $edit_url,
+                            ToolbarItem :: DISPLAY_ICON
+            ));
         }
         
+        if (ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::DELETE_RIGHT, $profile->get_id(), ProfilerRights::TYPE_PUBLICATION))
+        {
+            $delete_url = $this->browser->get_publication_deleting_url($profile);
+            $toolbar->add_item(new ToolbarItem(
+                            Translation :: get('Delete'),
+                            Theme :: get_common_image_path() . 'action_delete.png',
+                            $delete_url,
+                            ToolbarItem :: DISPLAY_ICON,
+                            true
+            ));
+        }
+
         return $toolbar->as_html();
     }
+
 }
+
 ?>

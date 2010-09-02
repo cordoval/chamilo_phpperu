@@ -29,6 +29,7 @@ class ProfilerManager extends WebApplication
     const ACTION_CREATE_PUBLICATION = 'creator';
     const ACTION_BROWSE_PROFILES = 'browser';
     const ACTION_MANAGE_CATEGORIES = 'category_manager';
+    const ACTION_EDIT_RIGHTS = 'rights_editor';
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_PROFILES;
 
@@ -464,6 +465,17 @@ class ProfilerManager extends WebApplication
     function get_default_action()
     {
         return self :: DEFAULT_ACTION;
+    }
+
+    /**
+     *
+     * @param integer $category
+     * @param mixed $publication_ids
+     * @return <type>
+     */
+    function get_rights_editor_url($category, $publication_ids = null)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_PROFILE_ID => $publication_ids, 'category' => $category));
     }
 }
 ?>

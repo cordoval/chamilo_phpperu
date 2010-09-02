@@ -15,12 +15,30 @@ class ProfilerManagerCreatorComponent extends ProfilerManager implements RepoVie
      */
     function run()
     {
+        
+
         $trail = BreadcrumbTrail :: get_instance();
         //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
         //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishProfile')));
         $trail->add_help('profiler general');
 
         //$repo_viewer = RepoViewer :: construct($this);
+
+        if (!Request :: get('category'))
+        {
+            $publish_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::PUBLISH_RIGHT, 0, 0);
+        }
+        else
+        {
+            $publish_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::PUBLISH_RIGHT, $this->get_category(), ProfilerRights::TYPE_CATEGORY);
+        }
+        if(!$publish_right)
+        {
+            $this->display_header($trail);
+            Display :: warning_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
 
         if (!RepoViewer::is_ready_to_be_published())
         {
