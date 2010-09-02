@@ -48,7 +48,7 @@ class RepositoryBrowserGalleryTableCellRenderer extends DefaultContentObjectGall
     {
         $display = ContentObjectDisplay :: factory($content_object);
         
-        $html[] = '<h4>' . Utilities :: truncate_string($content_object->get_title(), 25) . '</h4>';
+        $html[] = '<h4>' . Utilities :: truncate_string($content_object->get_title(), 25, false) . '</h4>';
         $html[] = '<a href="' . htmlentities($this->browser->get_content_object_viewing_url($content_object)) . '">' . $display->get_preview(true) . '</a>';
         
         return implode("\n", $html);

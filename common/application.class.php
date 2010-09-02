@@ -37,7 +37,7 @@ abstract class Application
     //
     //        if (Request :: get(self :: PARAM_APPLICATION) == $this->get_application_name())
     //        {
-    //            $this->handle_table_action();
+        //        $this->handle_table_action();
     //        }
     }
 

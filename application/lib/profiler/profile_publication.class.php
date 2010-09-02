@@ -1,20 +1,23 @@
 <?php
+
 /**
  * $Id: profile_publication.class.php 212 2009-11-13 13:38:35Z chellee $
  * @package application.profiler
  */
 require_once Path :: get_application_path() . 'lib/profiler/profiler_data_manager.class.php';
+require_once dirname(__FILE__) . '/profiler_rights.class.php';
+
 
 /**
- *	This class represents a ProfilePublication.
+ * 	This class represents a ProfilePublication.
  *
- *	ProfilePublication objects have a number of default properties:
- *	- id: the numeric ID of the ProfilePublication;
- *	- profile: the numeric object ID of the ProfilePublication (from the repository);
- *	- publisher: the publisher of the ProfilePublication;
- *	- published: the date when the ProfilePublication was "posted";
- *	@author Hans de Bisschop
- *	@author Dieter De Neef
+ * 	ProfilePublication objects have a number of default properties:
+ * 	- id: the numeric ID of the ProfilePublication;
+ * 	- profile: the numeric object ID of the ProfilePublication (from the repository);
+ * 	- publisher: the publisher of the ProfilePublication;
+ * 	- published: the date when the ProfilePublication was "posted";
+ * 	@author Hans de Bisschop
+ * 	@author Dieter De Neef
  */
 class ProfilePublication extends DataClass
 {
@@ -118,7 +121,6 @@ class ProfilePublication extends DataClass
         $udm = UserDataManager :: get_instance();
         return $udm->retrieve_user($this->get_publisher());
     }
-
     /**
      * Instructs the data manager to create the personal message publication, making it
      * persistent. Also assigns a unique ID to the publication and sets
@@ -130,12 +132,51 @@ class ProfilePublication extends DataClass
         $now = time();
         $this->set_published($now);
         $pmdm = ProfilerDataManager :: get_instance();
-        return $pmdm->create_profile_publication($this);
+        if (!$pmdm->create_profile_publication($this))
+        {
+            return false;
+        }
+        else
+        {
+            $parent = $this->get_category();
+
+            if ($parent)
+            {
+                $parent_location = ProfilerRights :: get_location_id_by_identifier_from_profiler_subtree($parent, ProfilerRights :: TYPE_CATEGORY);
+            }
+            else
+            {
+                $parent_location = ProfilerRights :: get_profiler_subtree_root_id();
+            }
+
+            return ProfilerRights :: create_location_in_profiler_subtree("profile publication: " . $this->get_profile(), $this->get_profile(), $parent_location, ProfilerRights :: TYPE_PUBLICATION);
+        }
+    }
+
+    /**
+     * Deletes the rights location first, then deletes the publication
+     *
+     * @return bool
+     */
+    function delete()
+    {
+    	$location = ProfilerRights :: get_location_by_identifier_from_profiler_subtree($this->get_id(), AssessmentRights :: TYPE_PUBLICATION);
+    	if($location)
+    	{
+    		if(!$location->remove())
+    		{
+    			return false;
+    		}
+    	}
+
+    	return parent :: delete();
     }
 
     static function get_table_name()
     {
         return self :: TABLE_NAME;
     }
+
 }
+
 ?>

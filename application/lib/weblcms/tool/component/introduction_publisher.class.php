@@ -23,12 +23,13 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), Translation :: get('PublishIntroductionText')));
         $trail->add_help('courses general');
 
-        $repo_viewer = RepoViewer :: construct($this);
-        $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
-        $repo_viewer->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_INTRODUCTION);
+        
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
+            $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
+            $repo_viewer->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_INTRODUCTION);
             $repo_viewer->run();
         }
         else
@@ -37,7 +38,7 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
             $do = $dm->get_next_content_object_publication_display_order_index($this->get_course_id(), $this->get_tool_id(), 0);
 
             $pub = new ContentObjectPublication();
-            $pub->set_content_object_id($repo_viewer->get_selected_objects());
+            $pub->set_content_object_id(RepoViewer::get_selected_objects());
             $pub->set_course_id($this->get_course_id());
             $pub->set_tool($this->get_tool_id());
             $pub->set_category_id(0);

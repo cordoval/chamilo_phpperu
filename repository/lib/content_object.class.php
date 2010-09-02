@@ -1193,7 +1193,7 @@ class ContentObject extends DataClass
             $sync_conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id(), ContentObject :: get_table_name());
             $sync_condition = new AndCondition($sync_conditions);
             
-            $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_syncs($sync_condition);
+            $this->synchronization_data = RepositoryDataManager :: get_instance()->retrieve_external_repository_syncs($sync_condition)->next_result();
         }
         
         return $this->synchronization_data;
@@ -1201,7 +1201,9 @@ class ContentObject extends DataClass
 
     function is_external()
     {
-        return $this->get_synchronization_data()->size() > 0;
+        $is_external = $this->get_synchronization_data();
+        
+    	return isset($is_external);
     }
 }
 ?>

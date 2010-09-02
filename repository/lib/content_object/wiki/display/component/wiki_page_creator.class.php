@@ -19,16 +19,17 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplay implements RepoVie
 
     function run()
     {
-        $this->repo_viewer = RepoViewer :: construct($this);
-        $this->repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
+        
 
-        if (! $this->repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $this->repo_viewer = RepoViewer :: construct($this);
+            $this->repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
             $this->repo_viewer->run();
         }
         else
         {
-            $objects = $this->repo_viewer->get_selected_objects();
+            $objects = RepoViewer::get_selected_objects();
 
             if (! is_array($objects))
             {

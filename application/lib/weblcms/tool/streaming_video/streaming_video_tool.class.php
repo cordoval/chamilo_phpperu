@@ -13,7 +13,7 @@ class StreamingVideoTool extends Tool
 
     static function get_allowed_types()
     {
-        return array(Youtube :: get_type_name(), StreamingVideoClip :: get_type_name(), Dailymotion :: get_type_name(), Vimeo :: get_type_name());
+        return array(Youtube :: get_type_name(), Mediamosa :: get_type_name(), Dailymotion :: get_type_name(), Vimeo :: get_type_name());
     }
 
     function get_application_component_path()

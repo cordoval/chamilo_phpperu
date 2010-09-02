@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="matterhorn">
+	<settings>
+		<category name="credentials">
+			
+			<setting name="url" field="text" default="http://nightly.opencastproject.org">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<!--<setting name="login" field="text" default="">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<setting name="password" field="text" default="">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+			<setting name="session_token" field="text" default="" user_setting="1"/>-->
+		</category>
+	</settings>
+</application>

@@ -26,14 +26,15 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager implements 
         /*
          *  We make use of the ContentObjectRepoViewer setting the type to wiki
          */
-        $repo_viewer = RepoViewer :: construct($this);
+        
 
         /*
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object
          */
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
@@ -44,7 +45,7 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager implements 
                 $values = $form->exportValues();
                 $failures = 0;
 
-                $objects = $repo_viewer->get_selected_objects();
+                $objects = RepoViewer::get_selected_objects();
 
                 if (! is_array($objects))
                 {

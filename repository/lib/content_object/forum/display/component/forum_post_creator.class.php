@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id: forum_post_creator.class.php 205 2009-11-13 12:57:33Z vanpouckesven $
  * @package repository.lib.complex_display.forum.component
@@ -18,28 +19,30 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplay implements Repo
             $reply_lo = $rdm->retrieve_content_object($selected_complex_content_object_item->get_ref(), ForumPost :: get_type_name());
         }
 
-        $repo_viewer = RepoViewer :: construct($this);
-        $repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_FORUM_POST);
-        $repo_viewer->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
 
-        $repo_viewer->parse_input_from_table();
 
-        if ($reply_lo)
+        if (!RepoViewer::is_ready_to_be_published())
         {
-            if (substr($reply_lo->get_title(), 0, 3) == 'RE:')
-            {
-                $reply = $reply_lo->get_title();
-            }
-            else
-            {
-                $reply = 'RE: ' . $reply_lo->get_title();
-            }
+            $repo_viewer = RepoViewer :: construct($this);
+            $repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_FORUM_POST);
+            $repo_viewer->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
 
-            $repo_viewer->set_creation_defaults(array(ContentObject :: PROPERTY_TITLE => $reply));
-        }
+            //$repo_viewer->parse_input_from_table();
 
-        if (! $repo_viewer->is_ready_to_be_published())
-        {
+            if ($reply_lo)
+            {
+                if (substr($reply_lo->get_title(), 0, 3) == 'RE:')
+                {
+                    $reply = $reply_lo->get_title();
+                }
+                else
+                {
+                    $reply = 'RE: ' . $reply_lo->get_title();
+                }
+
+                $repo_viewer->set_creation_defaults(array(ContentObject :: PROPERTY_TITLE => $reply));
+            }
+            
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM)), $this->get_root_content_object()->get_title()));
             $topic = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_complex_content_object_item()->get_ref());
@@ -50,9 +53,9 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplay implements Repo
         }
         else
         {
-            $object_ids = $repo_viewer->get_selected_objects();
+            $object_ids = RepoViewer::get_selected_objects();
 
-            if (! is_array($object_ids))
+            if (!is_array($object_ids))
             {
                 $object_ids = array($object_ids);
             }
@@ -95,4 +98,5 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplay implements Repo
     }
 
 }
+
 ?>

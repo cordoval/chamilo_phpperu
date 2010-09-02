@@ -17,19 +17,20 @@ class AssessmentBuilderAssessmentMergerComponent extends AssessmentBuilder imple
         $trail->add_help('repository assessment builder');
         $assessment = $this->get_root_content_object();
 
-        $repo_viewer = RepoViewer :: construct($this);
-        $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
-        $repo_viewer->set_parameter(RepoViewer :: PARAM_ID, Request :: get(RepoViewer :: PARAM_ID));
+        
 
-        $repo_viewer->get_parent()->parse_input_from_table();
-
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer :: is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
+            $repo_viewer->set_maximum_select(RepoViewer :: SELECT_SINGLE);
+            $repo_viewer->set_parameter(RepoViewer :: PARAM_ID, Request :: get(RepoViewer :: PARAM_ID));
+
+            $repo_viewer->get_parent()->parse_input_from_table();
             $repo_viewer->run();
         }
         else
         {
-            $selected_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($repo_viewer->get_selected_objects(), Assessment :: get_type_name());
+            $selected_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object(RepoViewer :: get_selected_objects(), Assessment :: get_type_name());
             $display = ContentObjectDisplay :: factory($selected_assessment);
             $bar = $this->get_action_bar($selected_assessment);
 

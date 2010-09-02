@@ -9,12 +9,5 @@ abstract class StreamingMediaExternalRepositoryObjectDisplay extends ExternalRep
         $object = $this->get_object();
         return '<h3>' . $object->get_title() . ' (' . $object->get_duration() . ')</h3>';
     }
-
-    function get_display_properties()
-    {
-        $properties = parent :: get_display_properties();
-        $properties[Translation :: get('Status')] = $this->get_object()->get_status_text();
-        return $properties;
-    }
 }
 ?>

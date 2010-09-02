@@ -18,15 +18,18 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager imp
     function run()
     {
         $parent = Request :: get('parent');
-
-        $repo_viewer = RepoViewer :: construct($this);
-        $repo_viewer->set_parameter('parent', $parent);
         $pp = Request :: get(PortfolioManager :: PARAM_PARENT_PORTFOLIO);
-        $repo_viewer->set_parameter(PortfolioManager :: PARAM_PARENT_PORTFOLIO, $pp);
-        $repo_viewer->get_parent()->parse_input_from_table();
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        
+
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
+            $repo_viewer->set_parameter('parent', $parent);
+
+            $repo_viewer->set_parameter(PortfolioManager :: PARAM_PARENT_PORTFOLIO, $pp);
+            $repo_viewer->get_parent()->parse_input_from_table();
+
             $trail = BreadcrumbTrail :: get_instance();
             $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE)), Translation :: get('BrowsePortfolios')));
 
@@ -41,7 +44,7 @@ class PortfolioManagerPortfolioItemCreatorComponent extends PortfolioManager imp
         }
         else
         {
-            $objects = $repo_viewer->get_selected_objects();
+            $objects = RepoViewer::get_selected_objects();
             if (! is_array($objects))
             {
                 $objects = array($objects);

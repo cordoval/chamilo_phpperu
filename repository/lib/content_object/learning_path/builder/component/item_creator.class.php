@@ -1,11 +1,12 @@
 <?php
+
 /**
  * $Id: item_creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.learning_path.component
  */
-
 class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder implements RepoViewerInterface
 {
+
     private $rdm;
     private $type;
 
@@ -41,22 +42,23 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder implem
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
 
-        if (! $this->type)
+        if (!$this->type)
         {
             $this->type = $content_object->get_allowed_types();
         }
 
-        $pub = RepoViewer :: construct($this);
-        if ($rtype)
-        {
-            $pub->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
-        }
 
-        $pub->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
-        $pub->set_excluded_objects($exclude);
 
-        if (! $pub->is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $pub = RepoViewer :: construct($this);
+            if ($rtype)
+            {
+                $pub->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
+            }
+
+            $pub->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
+            $pub->set_excluded_objects($exclude);
             $t = is_array($this->type) ? implode(',', $this->type) : $this->type;
             $p = $this->rdm->retrieve_content_object($parent);
             //$html[] = '<h4>' . sprintf(Translation :: get('AddOrCreateNewTo'), $t, $p->get_type(), $p->get_title()) . '</h4><br />';
@@ -64,9 +66,9 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder implem
         }
         else
         {
-            $object = $pub->get_selected_objects();
+            $object = RepoViewer::get_selected_objects();
 
-            if (! is_array($object))
+            if (!is_array($object))
             {
                 $object = array($object);
             }
@@ -95,7 +97,6 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder implem
 
             $this->redirect(Translation :: get('ObjectAdded'), false, array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $complex_content_object_item_id));
         }
-
     }
 
     private function retrieve_used_items($parent)
@@ -119,6 +120,7 @@ class LearningPathBuilderItemCreatorComponent extends LearningPathBuilder implem
     {
         return array($this->type);
     }
+
 }
 
 ?>

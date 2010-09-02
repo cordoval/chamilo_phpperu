@@ -19,15 +19,16 @@ class FeedbackManagerCreatorComponent extends FeedbackManager implements RepoVie
         $publication_id = $this->get_publication_id();
         $complex_wrapper_id = $this->get_complex_wrapper_id();
         $action = $this->get_action();
-        $repo_viewer = RepoViewer :: construct($this);
+        
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer :: is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
         {
-            $objects = $repo_viewer->get_selected_objects();
+            $objects = RepoViewer :: get_selected_objects();
 
             if (! is_array($objects))
             {

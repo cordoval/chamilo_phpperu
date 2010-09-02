@@ -53,7 +53,11 @@ class SystemAnnouncerMultipublisher
             $html[] = '</div>';
         }
 
-        $form = new SystemAnnouncementPublicationForm(SystemAnnouncementPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url(array_merge($this->parent->get_parameters(), array(RepoViewer :: PARAM_ID => $ids))));
+        $parameters = $this->parent->get_parameters();
+        $parameters[RepoViewer :: PARAM_ID] = $ids;
+        $parameters[RepoViewer :: PARAM_ACTION] = RepoViewer :: ACTION_PUBLISHER;
+
+        $form = new SystemAnnouncementPublicationForm(SystemAnnouncementPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url($parameters));
         if ($form->validate())
         {
             $publication = $form->create_content_object_publications();

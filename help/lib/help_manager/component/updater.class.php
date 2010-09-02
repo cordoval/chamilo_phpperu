@@ -4,6 +4,8 @@
  * @package help.lib.help_manager.component
  */
 
+require_once dirname(__FILE__) . '/../../help_rights.class.php';
+
 class HelpManagerUpdaterComponent extends HelpManager
 {
 
@@ -24,7 +26,7 @@ class HelpManagerUpdaterComponent extends HelpManager
             $help_item = $this->retrieve_help_item($id);
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HelpItemUpdate')));
             
-            if (! $this->get_user()->is_platform_admin())
+            if (! HelpRights :: is_allowed_in_help_subtree(HelpRights :: EDIT_RIGHT, HelpRights :: get_location_by_identifier_from_help_subtree(Request :: Get(HelpManager :: PARAM_HELP_ITEM))))
             {
                 $this->display_header();
                 Display :: error_message(Translation :: get("NotAllowed"));

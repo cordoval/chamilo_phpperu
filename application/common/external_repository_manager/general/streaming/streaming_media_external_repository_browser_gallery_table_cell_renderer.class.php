@@ -33,5 +33,10 @@ class StreamingMediaExternalRepositoryBrowserGalleryTableCellRenderer extends De
         $toolbar->add_items($this->browser->get_external_repository_object_actions($object));
         return $toolbar->as_html();
     }
+    
+    function get_browser()
+    {
+    	return $this->browser;
+    }
 }
 ?>

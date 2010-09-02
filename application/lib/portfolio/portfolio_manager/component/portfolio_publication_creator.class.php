@@ -28,15 +28,16 @@ class PortfolioManagerPortfolioPublicationCreatorComponent extends PortfolioMana
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreatePortfolio')));
         $trail->add_help('portfolio create');
 
-        $repo_viewer = RepoViewer :: construct($this);
+        
         $html = array();
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
         {
-            $object = $repo_viewer->get_selected_objects();
+            $object = RepoViewer::get_selected_objects();
 
             if (! is_array($object))
             {

@@ -5,6 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
 require_once dirname(__FILE__) . '/../../publisher/personal_calendar_publisher.class.php';
+require_once dirname(__FILE__) . '/../../personal_calendar_rights.class.php';
 
 class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager implements RepoViewerInterface
 {
@@ -19,16 +20,25 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager 
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
         $trail->add_help('personal calender general');
 
-        $repo_viewer = RepoViewer :: construct($this);
-
-        if (! $repo_viewer->is_ready_to_be_published())
+        if(! PersonalCalendarRights :: is_allowed_in_personal_calendar_subtree(PersonalCalendarRights :: RIGHT_PUBLISH, PersonalCalendarRights :: get_personal_calendar_subtree_root()))
         {
+            $this->display_header();
+            Display :: error_message(Translation :: get("NotAllowed"));
+            $this->display_footer();
+            exit();
+        }
+        
+        
+
+        if (!RepoViewer::is_ready_to_be_published())
+        {
+            $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
         {
             $publisher = new PersonalCalendarPublisher($this);
-            $publisher->get_publications_form($repo_viewer->get_selected_objects());
+            $publisher->get_publications_form(RepoViewer::get_selected_objects());
         }
     }
 

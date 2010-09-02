@@ -31,10 +31,11 @@ class LinkToolPublisherComponent extends LinkToolComponent implements RepoViewer
             }
         }
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publish')));
-        $pub = new ContentObjectRepoViewer($this);
-
-        if (! $pub->is_ready_to_be_published())
+        
+        
+        if (!ContentObjectRepoViewer::is_ready_to_be_published())
         {
+            $pub = new ContentObjectRepoViewer($this);
             $html[] = $pub->as_html();
         }
         else

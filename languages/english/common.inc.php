@@ -816,4 +816,18 @@ $lang['common']['Documents'] = 'Documents';
 $lang['common']['Presentations'] = 'Presentations';
 $lang['common']['Spreadsheets'] = 'Spreadsheets';
 $lang['common']['Created'] = 'Created';
+
+$lang['common']['ModifiedOn'] = 'Modified on';
+$lang['common']['Series'] = 'Series';
+$lang['common']['Contributor'] = 'Contributor';
+$lang['common']['Track'] = 'Track';
+$lang['common']['Video'] = 'Video';
+$lang['common']['Audio'] = 'Audio';
+$lang['common']['kbps'] = 'kbps';
+$lang['common']['fps'] = 'fps';
+$lang['common']['bit'] = 'bit';
+$lang['common']['Stereo'] = 'Stereo';
+$lang['common']['Mono'] = 'Mono';
+$lang['common']['Surround'] = 'Surround';
+$lang['common']['hz'] = 'hz';
 ?>

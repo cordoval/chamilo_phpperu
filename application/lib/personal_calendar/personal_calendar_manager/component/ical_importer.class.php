@@ -4,6 +4,7 @@
  * @package application.personal_calendar.personal_calendar_manager.component
  */
 require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
+require_once dirname(__FILE__) . '/../../personal_calendar_rights.class.php';
 
 class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManager
 {
@@ -13,6 +14,15 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
      */
     function run()
     {
+        
+        if(! PersonalCalendarRights :: is_allowed_in_personal_calendar_subtree(PersonalCalendarRights :: RIGHT_SHARE, PersonalCalendarRights :: get_personal_calendar_subtree_root()))
+        {
+            $this->display_header();
+            Display :: error_message(Translation :: get("NotAllowed"));
+            $this->display_footer();
+            exit();
+        }
+
         $form = $this->build_importing_form();
         if ($form->validate())
         {

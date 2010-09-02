@@ -58,7 +58,7 @@ if ($user_home_allowed && Authentication :: is_valid())
         $block->set_column($new_column->get_id());
         $block->set_title(Translation :: get('DummyBlock'));
         $block->set_application('repository');
-        $block->set_component('dummy');
+        $block->set_component('linker');
         $block->set_visibility('1');
         $block->set_user($user_id);
         if (! $block->create())

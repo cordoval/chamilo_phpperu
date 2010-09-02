@@ -11,17 +11,18 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplay implements Rep
 
     function run()
     {
-        $repo_viewer = RepoViewer :: construct($this);
-        $repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_TOPIC);
-        $repo_viewer->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
+        
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
+            $repo_viewer->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay :: ACTION_CREATE_TOPIC);
+            $repo_viewer->set_parameter(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $this->get_complex_content_object_item_id());
             $repo_viewer->run();
         }
         else
         {
-            $object_id = $repo_viewer->get_selected_objects();
+            $object_id = RepoViewer::get_selected_objects();
 
             if (! is_array($object_id))
             {

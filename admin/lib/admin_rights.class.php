@@ -11,7 +11,7 @@ class AdminRights extends RightsUtilities
     const RIGHT_EDIT = 3;
     const RIGHT_DELETE = 4;
 
-    const LOCATION_SYSTEM_ANNOUNECEMENTS = 1;
+    const LOCATION_SYSTEM_ANNOUNCEMENTS = 1;
     const LOCATION_SETTINGS = 2;
     const LOCATION_CATEGORY_MANAGER = 3;
 

@@ -37,7 +37,7 @@ class ProfilerMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function ProfilerMenu($current_category, $url_format = '?application=profiler&go=browse&category=%s')
+    function ProfilerMenu($current_category, $url_format = '?application=profiler&go=browser&category=%s')
     {
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();

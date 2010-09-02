@@ -817,7 +817,6 @@ class RightsUtilities
                 }
             }
         }
-
         return self :: $constants[$application][$type];
     }
 

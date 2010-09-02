@@ -16,11 +16,12 @@ class AlexiaManagerIntroducerComponent extends AlexiaManager implements RepoView
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishIntroductionText')));
         $trail->add_help('alexia general');
 
-        $repo_viewer = RepoViewer :: construct($this);
-        $repo_viewer->set_parameter(AlexiaManager :: PARAM_ACTION, AlexiaManager :: ACTION_PUBLISH_INTRODUCTION);
+        
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
+            $repo_viewer->set_parameter(AlexiaManager :: PARAM_ACTION, AlexiaManager :: ACTION_PUBLISH_INTRODUCTION);
             //$html = array();
             //$html[] = '<p><a href="' . $this->get_url() . '"><img src="' . Theme :: get_common_image_path() . 'action_browser.png" alt="' . Translation :: get('BrowserTitle') . '" style="vertical-align:middle;"/> ' . Translation :: get('BrowserTitle') . '</a></p>';
             $repo_viewer->run();
@@ -28,7 +29,7 @@ class AlexiaManagerIntroducerComponent extends AlexiaManager implements RepoView
         else
         {
             $publication = new AlexiaPublication();
-            $publication->set_content_object($repo_viewer->get_selected_objects());
+            $publication->set_content_object(RepoViewer::get_selected_objects());
             $publication->set_target_users(array());
             $publication->set_target_groups(array());
             $publication->set_from_date(0);

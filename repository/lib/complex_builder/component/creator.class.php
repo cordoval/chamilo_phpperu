@@ -1,14 +1,17 @@
 <?php
+
 /**
  * $Id: creator.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.component
  */
 require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
+
 //require_once dirname(__FILE__) . '/../../complex_repo_viewer/complex_repo_viewer.class.php';
 
 
 class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent implements RepoViewerInterface
 {
+
     private $rdm;
     private $root_content_object_id;
     private $type;
@@ -52,30 +55,31 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
         $exclude = $this->retrieve_used_items($this->get_root_content_object()->get_id());
         $exclude[] = $this->get_root_content_object()->get_id();
 
-        if (! $this->type)
+        if (!$this->type)
         {
             $this->type = $content_object->get_allowed_types();
         }
 
-        $complex_repository_viewer = RepoViewer :: construct($this);
-        if ($rtype)
-        {
-            $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
-        }
 
-        $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
-        $complex_repository_viewer->set_excluded_objects($exclude);
 
-        if (! $complex_repository_viewer->is_ready_to_be_published())
+        if (RepoViewer::is_ready_to_be_published())
         {
+            $complex_repository_viewer = RepoViewer :: construct($this);
+            if ($rtype)
+            {
+                $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
+            }
+
+            $complex_repository_viewer->set_parameter(ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID, $complex_content_object_item_id);
+            $complex_repository_viewer->set_excluded_objects($exclude);
             $trail->add(new Breadcrumb($this->get_url(array('builder_action' => 'create_complex_content_object_item', 'type' => Request :: get('type'))), Translation :: get('Create') . ' ' . Translation :: get(Utilities :: underscores_to_camelcase(Request :: get('type')))));
             $complex_repository_viewer->run();
         }
         else
         {
-            $objects = $complex_repository_viewer->get_selected_objects();
+            $objects = RepoViewer::get_selected_objects();
 
-            if (! is_array($objects))
+            if (!is_array($objects))
             {
                 $objects = array($objects);
             }
@@ -120,6 +124,7 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
     {
         return array($this->type);
     }
+
 }
 
 ?>

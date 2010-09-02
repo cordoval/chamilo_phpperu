@@ -17,11 +17,12 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager implem
         $trail->add(new Breadcrumb($this->get_url(array(PeerAssessmentManager :: PARAM_ACTION => PeerAssessmentManager :: ACTION_BROWSE_PEER_ASSESSMENT_PUBLICATIONS)), Translation :: get('PeerAssessment')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishPeerAssessment')));
 
-        $repo_viewer = RepoViewer :: construct($this);
+        
         $form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $pub->get_selected_objects())), $this->get_user());
 
-        if (! $repo_viewer->is_ready_to_be_published())
+        if (!RepoViewer :: is_ready_to_be_published())
         {
+            $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
@@ -30,7 +31,7 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager implem
 
             if ($form->validate())
             {
-                $content_object_id = $repo_viewer->get_selected_objects();
+                $content_object_id = RepoViewer :: get_selected_objects();
                 $published = $publisher->publish_content_object($content_object_id);
 
                 if (! $published)
@@ -61,7 +62,7 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager implem
             else
             {
                 $this->display_header($trail, true);
-                echo $publisher->get_content_object_title($repo_viewer->get_selected_objects());
+                echo $publisher->get_content_object_title(RepoViewer :: get_selected_objects());
                 $form->display();
                 $this->display_footer();
             }
