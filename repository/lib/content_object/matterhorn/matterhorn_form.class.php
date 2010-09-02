@@ -7,13 +7,13 @@ class MatterhornForm extends ContentObjectForm
 
     protected function build_creation_form()
     {
-        $link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1'/* . Youtube :: get_type_name()*/;
+        $link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1' . Matterhorn :: get_type_name();
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        //$this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
-        $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
-        //$this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
-        //$this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
+        $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
+        $this->add_textfield(Matterhorn :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
+        $this->add_textfield(Matterhorn :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
+        $this->add_textfield(Matterhorn :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
         $this->addElement('category');
 
         $html = array();
@@ -29,13 +29,13 @@ class MatterhornForm extends ContentObjectForm
 
     protected function build_editing_form()
     {
-        $link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1'/* . Youtube :: get_type_name()*/;
+        $link = PATH :: get_launcher_application_path(true) . 'index.php?' . Application :: PARAM_APPLICATION . '=' . ExternalRepositoryLauncher :: APPLICATION_NAME . '&' . ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY . '=1' . Matterhorn :: get_type_name();
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        //$this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
-        $this->add_textfield(Youtube :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
-        //$this->add_textfield(Youtube :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
-        //$this->add_textfield(Youtube :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
+        $this->addElement('static', null, null, '<a class="button normal_button upload_button" onclick="javascript:openPopup(\'' . $link . '\');"> ' . Translation :: get('BrowseStreamingVideo') . '</a>');
+        $this->add_textfield(Matterhorn :: PROPERTY_URL, Translation :: get('URL'), true, array('size' => '100'));
+        $this->add_textfield(Matterhorn :: PROPERTY_WIDTH, Translation :: get('Width'), true, array('size' => '5'));
+        $this->add_textfield(Matterhorn :: PROPERTY_HEIGHT, Translation :: get('Height'), true, array('size' => '5'));
         $this->addElement('category');
     }
 
@@ -44,15 +44,15 @@ class MatterhornForm extends ContentObjectForm
         $lo = $this->get_content_object();
         if (isset($lo))
         {
-            $defaults[Youtube :: PROPERTY_URL] = $lo->get_url();
-            //$defaults[Youtube :: PROPERTY_HEIGHT] = $lo->get_height();
-            //$defaults[Youtube :: PROPERTY_WIDTH] = $lo->get_width();
+            $defaults[Matterhorn :: PROPERTY_URL] = $lo->get_url();
+            $defaults[Matterhorn :: PROPERTY_HEIGHT] = $lo->get_height();
+            $defaults[Matterhorn :: PROPERTY_WIDTH] = $lo->get_width();
         }
         else
         {
-            $defaults[Youtube :: PROPERTY_URL] = 'http://video.opencast.org/video/';
-            //$defaults[Youtube :: PROPERTY_HEIGHT] = '344';
-            //$defaults[Youtube :: PROPERTY_WIDTH] = '425';
+            $defaults[Matterhorn :: PROPERTY_URL] = 'http://video.opencast.org/video/';
+            $defaults[Matterhorn :: PROPERTY_HEIGHT] = '344';
+            $defaults[Matterhorn :: PROPERTY_WIDTH] = '425';
         }
         parent :: setDefaults($defaults);
     }
@@ -62,18 +62,18 @@ class MatterhornForm extends ContentObjectForm
         $defaults[ContentObject :: PROPERTY_TITLE] = $valuearray[0];
         $defaults[ContentObject :: PROPERTY_PARENT_ID] = $valuearray[1];
         $defaults[ContentObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-        $defaults[Youtube :: PROPERTY_URL] = $valuearray[3];
-//        $defaults[Youtube :: PROPERTY_HEIGHT] = $valuearray[4];
-//        $defaults[Youtube :: PROPERTY_WIDTH] = $valuearray[5];
+        $defaults[Matterhorn :: PROPERTY_URL] = $valuearray[3];
+        $defaults[Matterhorn :: PROPERTY_HEIGHT] = $valuearray[4];
+        $defaults[Matterhorn :: PROPERTY_WIDTH] = $valuearray[5];
         parent :: set_values($defaults);
     }
 
     function create_content_object()
     {
-        $object = new Youtube();
-        $object->set_url($this->exportValue(Youtube :: PROPERTY_URL));
-//        $object->set_height($this->exportValue(Youtube :: PROPERTY_HEIGHT));
-//        $object->set_width($this->exportValue(Youtube :: PROPERTY_WIDTH));
+        $object = new Matterhorn();
+        $object->set_url($this->exportValue(Matterhorn :: PROPERTY_URL));
+        $object->set_height($this->exportValue(Matterhorn :: PROPERTY_HEIGHT));
+        $object->set_width($this->exportValue(Matterhorn :: PROPERTY_WIDTH));
         $this->set_content_object($object);
         return parent :: create_content_object();
     }
@@ -81,9 +81,9 @@ class MatterhornForm extends ContentObjectForm
     function update_content_object()
     {
         $object = $this->get_content_object();
-        $object->set_url($this->exportValue(Youtube :: PROPERTY_URL));
-//        $object->set_height($this->exportValue(Youtube :: PROPERTY_HEIGHT));
-//        $object->set_width($this->exportValue(Youtube :: PROPERTY_WIDTH));
+        $object->set_url($this->exportValue(Matterhorn :: PROPERTY_URL));
+        $object->set_height($this->exportValue(Matterhorn :: PROPERTY_HEIGHT));
+        $object->set_width($this->exportValue(Matterhorn :: PROPERTY_WIDTH));
         return parent :: update_content_object();
     }
 

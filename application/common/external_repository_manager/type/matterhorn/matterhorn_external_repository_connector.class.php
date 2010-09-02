@@ -37,15 +37,16 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-    	$response = $this->request(self :: METHOD_GET, '/search/rest/episode');
+    	$response = $this->request(self :: METHOD_GET, '/search/rest/episode', array('limit' => $count, 'offset' => $offset));
         $objects = array();
         $xml = $this->get_xml($response->get_response_content());
 
         if ($xml)
         {
-            foreach ($xml['result'] as $media_package)
+            
+        	foreach ($xml['result'] as $media_package)
             {
-                $objects[] = $this->get_media_package($media_package);
+            	$objects[] = $this->get_media_package($media_package);
             }
         }
         return new ArrayResultSet($objects);
@@ -105,8 +106,8 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $rights = array();
         $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
-        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = ($video_entry->getEditLink() !== null ? true : false);
-        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = ($video_entry->getEditLink() !== null ? true : false);
+        $rights[ExternalRepositoryObject :: RIGHT_EDIT] = false;
+        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
         return $rights;
     }
@@ -214,6 +215,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
             $matterhorn_external_repository_object->add_attachment($attach);
         }
         
+        $matterhorn_external_repository_object->set_rights($this->determine_rights($media_package));
         return $matterhorn_external_repository_object;
     }
 

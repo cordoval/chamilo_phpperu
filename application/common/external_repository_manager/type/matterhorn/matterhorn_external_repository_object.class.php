@@ -119,14 +119,23 @@ class MatterhornExternalRepositoryObject extends StreamingMediaExternalRepositor
 	public function add_attachment($attachment)
 	{
 		$attachments = $this->get_attachments();
-		$attachments[$attachment->get_type()] = $attachment;
+		$attach = explode('/', $attachment->get_type());
+		
+		$attachments[$attach[1]] = $attachment;
 		$this->set_attachments($attachments);
 	}
 
 	public function get_search_preview()
 	{
 		$attachments = $this->get_attachments();
-		return $attachments['presenter/search+preview'];
+		
+		return $attachments['search+preview'];
+	}
+	
+	public function is_usable()
+	{
+		return ExternalRepositoryObject::is_usable();
+		
 	}
 }
 ?>
