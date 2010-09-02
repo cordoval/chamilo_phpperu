@@ -93,3 +93,5 @@ syntax: regexp
 ^repository/lib/content_object/survey/template/survey_template2$
 syntax: regexp
 ^application/lib/survey/survey_manager/component/survey_excel_percentage_exporter\.class\.php$
+syntax: regexp
+^repository/lib/content_object/survey/template/survey_template60$
