@@ -364,3 +364,12 @@ td p {
 .take_assessment tr.row_odd,.take_assessment tr.row_odd:hover {
 	background-color: #ffffff;
 }
+
+table.no_border {
+	width : 100%;
+}
+
+table.no_border td {
+	border: 0px solid #EEF5FA;
+	padding: 0px 5px 0px 5px;
+}

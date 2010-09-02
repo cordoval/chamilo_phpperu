@@ -4,6 +4,7 @@
  * @package application.personal_calendar.personal_calendar_manager.component
  */
 require_once dirname(__FILE__) . '/../personal_calendar_manager.class.php';
+require_once dirname(__FILE__) . '/../../personal_calendar_rights.class.php';
 
 class PersonalCalendarManagerIcalExporterComponent extends PersonalCalendarManager
 {
@@ -19,6 +20,14 @@ class PersonalCalendarManagerIcalExporterComponent extends PersonalCalendarManag
         {
             $calendar_event_publication = $this->retrieve_personal_calendar_publication($id);
             $content_object = $calendar_event_publication->get_publication_object();
+
+            if(! PersonalCalendarRights :: is_allowed_in_personal_calendar_subtree(PersonalCalendarRights :: RIGHT_SHARE, PersonalCalendarRights :: get_personal_calendar_subtree_root()))
+            {
+                $this->display_header();
+                Display :: error_message(Translation :: get("NotAllowed"));
+                $this->display_footer();
+                exit();
+            }
             
             $exporter = ContentObjectExport :: factory('ical', $content_object);
             $path = $exporter->export_content_object();

@@ -669,7 +669,7 @@ class RestClient
         $request_properties['pass']   = $this->basic_password;
         
         $request = new HTTP_Request($this->url, $request_properties);
-        
+               
         if(isset($this->data_to_send))
         {
             if(is_string($this->data_to_send))

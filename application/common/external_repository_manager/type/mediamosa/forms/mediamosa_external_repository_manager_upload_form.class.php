@@ -41,15 +41,12 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator {
         }
         else
         {
-            //TODO:jens->throw error :: no profiles found
+            $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION] = ExternalRepositoryManager :: ACTION_BROWSE_EXTERNAL_REPOSITORY;
+            $this->application->redirect(Translation::get('NoTranscodeProfiles'), 1, $params);
         }
 
-        //redirect uri
         $this->addElement('hidden', 'redirect_uri', $this->redirect_uri);
 
-        //retranscode???
-        //filename??
-        //create still =true
         $this->addElement('hidden', 'create_still', 'TRUE');
     	$this->addElement('file', 'file', sprintf(Translation :: get('FileName'), '2Gb'));
 

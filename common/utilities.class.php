@@ -8,9 +8,9 @@
  * This class provides some common methods that are used throughout the
  * platform.
  *
- *  @author Tim De Pauw
- *  @author Hans De Bisschop
- *  @author Dieter De Neef
+ * @author Tim De Pauw
+ * @author Hans De Bisschop
+ * @author Dieter De Neef
  */
 class Utilities
 {
@@ -52,14 +52,14 @@ class Utilities
      * repository.
      * @param string $query The query as given by the end user.
      * @param mixed $properties The learning object properties which should be
-     *                          taken into account for the condition. For
-     *                          example, array('title','type') will yield a
-     *                          Condition which can be used to search for
-     *                          learning objects on the properties 'title' or
-     *                          'type'. By default the properties are 'title'
-     *                          and 'description'. If the condition should
-     *                          apply to a single property, you can pass a
-     *                          string instead of an array.
+     * taken into account for the condition. For
+     * example, array('title','type') will yield a
+     * Condition which can be used to search for
+     * learning objects on the properties 'title' or
+     * 'type'. By default the properties are 'title'
+     * and 'description'. If the condition should
+     * apply to a single property, you can pass a
+     * string instead of an array.
      * @return Condition The condition.
      */
     static function query_to_condition($query, $properties = array (ContentObject :: PROPERTY_TITLE, ContentObject :: PROPERTY_DESCRIPTION))
@@ -394,7 +394,7 @@ class Utilities
 
     static function format_seconds_to_minutes($seconds)
     {
-        $minutes = floor($seconds/ 60);
+        $minutes = floor($seconds / 60);
         $seconds = $seconds % 60;
 
         if ($minutes < 10)
@@ -418,7 +418,7 @@ class Utilities
      * @param int $length     The limit of the resulting length in characters.
      * @param boolean $strip  Indicates if the tags within the string have to be stripped.
      * @param string $char    A UTF-8 encoded character put at the end of the result string indicating truncation,
-     *                        by default it is the horizontal ellipsis (\u2026)
+     * by default it is the horizontal ellipsis (\u2026)
      * @return string         The result string, html-entities (if any) are converted to normal UTF-8 characters.
      */
     static function truncate_string($string, $length = 200, $strip = true, $char = "\xE2\x80\xA6")
@@ -439,7 +439,7 @@ class Utilities
 
     static function extract_xml_file($file, $extra_options = array())
     {
-    	require_once 'XML/Unserializer.php';
+        require_once 'XML/Unserializer.php';
         if (file_exists($file))
         {
             $unserializer = new XML_Unserializer();
@@ -477,64 +477,70 @@ class Utilities
 
     static function display_true_false_icon($value)
     {
-    	if($value)
-    	{
-    		$icon =  'action_setting_true.png';
-    	}
-    	else
-    	{
-    		$icon = 'action_setting_false.png';
-    	}
-    	return '<img src="' . Theme :: get_common_image_path() . $icon . '">';
+        if ($value)
+        {
+            $icon = 'action_setting_true.png';
+        }
+        else
+        {
+            $icon = 'action_setting_false.png';
+        }
+        return '<img src="' . Theme :: get_common_image_path() . $icon . '">';
     }
 
     static function htmlentities($string)
     {
-    	return htmlentities($string, ENT_COMPAT, 'UTF-8');
+        return htmlentities($string, ENT_COMPAT, 'UTF-8');
     }
 
-	static function get_usable_memory()
-	{
-		$val = trim(@ini_get('memory_limit'));
+    static function get_usable_memory()
+    {
+        $val = trim(@ini_get('memory_limit'));
 
-		if (preg_match('/(\\d+)([mkg]?)/i', $val, $regs))
-		{
-			$memory_limit = (int) $regs[1];
-			switch ($regs[2])
-			{
+        if (preg_match('/(\\d+)([mkg]?)/i', $val, $regs))
+        {
+            $memory_limit = (int) $regs[1];
+            switch ($regs[2])
+            {
 
-				case 'k':
-				case 'K':
-					$memory_limit *= 1024;
-				break;
+                case 'k' :
+                case 'K' :
+                    $memory_limit *= 1024;
+                    break;
 
-				case 'm':
-				case 'M':
-					$memory_limit *= 1048576;
-				break;
+                case 'm' :
+                case 'M' :
+                    $memory_limit *= 1048576;
+                    break;
 
-				case 'g':
-				case 'G':
-					$memory_limit *= 1073741824;
-				break;
-			}
+                case 'g' :
+                case 'G' :
+                    $memory_limit *= 1073741824;
+                    break;
+            }
 
-			// how much memory PHP requires at the start of export (it is really a little less)
-			if ($memory_limit > 6100000)
-			{
-				$memory_limit -= 6100000;
-			}
+            // how much memory PHP requires at the start of export (it is really a little less)
+            if ($memory_limit > 6100000)
+            {
+                $memory_limit -= 6100000;
+            }
 
-			// allow us to consume half of the total memory available
-			$memory_limit /= 2;
-		}
-		else
-		{
-			// set the buffer to 1M if we have no clue how much memory PHP will give us :P
-			$memory_limit = 1048576;
-		}
+            // allow us to consume half of the total memory available
+            $memory_limit /= 2;
+        }
+        else
+        {
+            // set the buffer to 1M if we have no clue how much memory PHP will give us :P
+            $memory_limit = 1048576;
+        }
 
-		return $memory_limit;
-	}
+        return $memory_limit;
+    }
+
+    static function mimetype_to_image($mimetype)
+    {
+        $mimetype_image = str_replace('/', '_', $mimetype);
+        return Theme :: get_common_image('mimetype/' . $mimetype_image, 'png', $mimetype, '', ToolbarItem :: DISPLAY_ICON);
+    }
 }
 ?>

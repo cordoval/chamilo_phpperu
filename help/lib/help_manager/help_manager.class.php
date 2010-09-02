@@ -15,6 +15,7 @@ class HelpManager extends CoreApplication
     const PARAM_HELP_ITEM = 'help_item';
 
     const ACTION_UPDATE_HELP_ITEM = 'updater';
+    const ACTION_RIGHT_EDITS = 'rights_editor';
     const ACTION_BROWSE_HELP_ITEMS = 'browser';
 
     const DEFAULT_ACTION = self :: ACTION_BROWSE_HELP_ITEMS;

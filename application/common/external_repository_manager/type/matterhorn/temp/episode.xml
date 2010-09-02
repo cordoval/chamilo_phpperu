@@ -1,0 +1,1422 @@
+<ns2:search-results xmlns:ns2="http://search.opencastproject.org/"
+	xmlns:ns3="http://mediapackage.opencastproject.org" searchTime="426"
+	total="7" limit="7" offset="0">
+	<query>*:*</query>
+	<result id="d45bdfe3-a673-4004-9259-203deaa2b58f">
+		<mediapackage start="2010-09-01T06:36:34"
+			id="d45bdfe3-a673-4004-9259-203deaa2b58f" duration="406066">
+			<title>Duck Dodgers in the 24 1/2th Century</title>
+			<series>20f93d95-6fd8-4eeb-9590-a50cc4872147</series>
+			<creators>
+				<creator>Warner Brothers</creator>
+			</creators>
+			<contributors>
+				<contributor>Warner Brothers</contributor>
+			</contributors>
+			<subjects>
+				<subject>Cartoon</subject>
+			</subjects>
+			<license>© Warner Brothers</license>
+			<language>English</language>
+			<media>
+				<track ref="track:track-4" type="presenter/delivery" id="track-8">
+					<mimetype>video/x-flv</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/d45bdfe3-a673-4004-9259-203deaa2b58f/track-4/Duck_Dodgers.flv
+					</url>
+					<checksum type="md5">abe5a321f5a26b0204487a3a0402ac36</checksum>
+					<duration>406066</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>1</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>1500000.0</bitrate>
+						<framerate>15.0</framerate>
+						<resolution>720x576</resolution>
+					</video>
+				</track>
+				<track ref="track:track-5" type="presenter/delivery" id="track-9">
+					<mimetype>audio/x-adpcm</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/d45bdfe3-a673-4004-9259-203deaa2b58f/track-5/Duck_Dodgers.flv
+					</url>
+					<checksum type="md5">b0e989b3dcf82bccc63a7417bb56a6fa</checksum>
+					<duration>406023</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>1</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>195312.0</bitrate>
+						<framerate>25.0</framerate>
+						<resolution>720x576</resolution>
+					</video>
+				</track>
+				<track ref="track:track-6" type="presenter/delivery" id="track-10">
+					<mimetype>audio/m4a</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/d45bdfe3-a673-4004-9259-203deaa2b58f/track-6/Duck_Dodgers.m4a
+					</url>
+					<checksum type="md5">29edaa9ef628b13088ae821c86d809f9</checksum>
+					<duration>406000</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="AAC" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>192000.0</bitrate>
+					</audio>
+				</track>
+				<track ref="track:track-7" type="presenter/delivery" id="track-11">
+					<mimetype>video/avi</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/d45bdfe3-a673-4004-9259-203deaa2b58f/track-7/Duck_Dodgers.avi
+					</url>
+					<checksum type="md5">55a5c2c0533955984920e44cdbd5e894</checksum>
+					<duration>406000</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="MPEG Audio" />
+						<bitdepth>16</bitdepth>
+						<channels>1</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>64000.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="MPEG-4 Visual" />
+						<bitrate>204578.0</bitrate>
+						<framerate>25.0</framerate>
+						<resolution>320x240</resolution>
+						<scantype type="Progressive" />
+					</video>
+				</track>
+			</media>
+			<metadata>
+				<catalog ref="catalog:ee2c4c8a-ee6a-4ed4-9fc9-b0f9a01e2dce"
+					type="dublincore/episode" id="catalog-3">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/d45bdfe3-a673-4004-9259-203deaa2b58f/ee2c4c8a-ee6a-4ed4-9fc9-b0f9a01e2dce/dublincore.xml
+					</url>
+				</catalog>
+				<catalog ref="catalog:bd203a61-980d-4fc4-a4b3-28ebff6e9b0c"
+					type="dublincore/series" id="catalog-4">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/d45bdfe3-a673-4004-9259-203deaa2b58f/bd203a61-980d-4fc4-a4b3-28ebff6e9b0c/dublincore.xml
+					</url>
+				</catalog>
+			</metadata>
+			<attachments>
+				<attachment ref="attachment:attachment-1" type="presenter/player+preview"
+					id="attachment-4">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/d45bdfe3-a673-4004-9259-203deaa2b58f/attachment-1/Duck_Dodgers.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-2" type="presenter/search+preview"
+					id="attachment-5">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/d45bdfe3-a673-4004-9259-203deaa2b58f/attachment-2/Duck_Dodgers.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-3" type="presenter/feed+preview"
+					id="attachment-6">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/d45bdfe3-a673-4004-9259-203deaa2b58f/attachment-3/Duck_Dodgers.jpg
+					</url>
+				</attachment>
+			</attachments>
+		</mediapackage>
+		<dcExtent>406000</dcExtent>
+		<dcTitle>Duck Dodgers in the 24 1/2th Century</dcTitle>
+		<dcSubject>Cartoon</dcSubject>
+		<dcCreator>Warner Brothers</dcCreator>
+		<dcPublisher></dcPublisher>
+		<dcContributor>Warner Brothers</dcContributor>
+		<dcAbstract></dcAbstract>
+		<dcDescription>Duck Dodgers in the 24½th (twenty-fourth and a half)
+			Century is a Merrie Melodies cartoon created in 1952 and released on
+			July 25, 1953, starring Daffy Duck as space hero Duck Dodgers, Porky
+			Pig as his assistant, and Marvin the Martian as his opponent. Marvin
+			the Martian had been introduced as an unnamed villain in Haredevil
+			Hare (1948) playing opposite Bugs Bunny (and was given the title
+			'Commander, Flying Saucer X-2' in 1951's The Hasty Hare), but this
+			cartoon was the first of many appearances of Duck Dodgers. The title
+			is a pun on the comic book character Buck Rogers.</dcDescription>
+		<dcCreated>2010-09-01T08:36:34+02:00</dcCreated>
+		<dcLanguage>English</dcLanguage>
+		<dcRightsHolder></dcRightsHolder>
+		<dcSpatial></dcSpatial>
+		<dcTemporal></dcTemporal>
+		<dcIsPartOf>20f93d95-6fd8-4eeb-9590-a50cc4872147</dcIsPartOf>
+		<dcReplaces></dcReplaces>
+		<dcType></dcType>
+		<dcAccessRights></dcAccessRights>
+		<dcLicense>© Warner Brothers</dcLicense>
+		<mediaType>AudioVisual</mediaType>
+		<keywords>
+			<keywords></keywords>
+		</keywords>
+		<cover></cover>
+		<modified>2010-09-01T11:35:41+02:00</modified>
+		<score>1.0</score>
+	</result>
+	<result id="262a341d-e46b-4a96-8d3b-ba9af696e681">
+		<mediapackage start="2010-09-01T06:34:55"
+			id="262a341d-e46b-4a96-8d3b-ba9af696e681" duration="602934">
+			<title>The Mad Scientist</title>
+			<series>b0effb2a-ca6e-4b0d-8850-9770d6e87d3f</series>
+			<creators>
+				<creator>Paramount</creator>
+			</creators>
+			<contributors>
+				<contributor>Warner Brothers</contributor>
+			</contributors>
+			<subjects>
+				<subject>Cartoon</subject>
+			</subjects>
+			<license>Public Domain</license>
+			<language>English</language>
+			<media>
+				<track ref="track:track-4" type="presenter/delivery" id="track-8">
+					<mimetype>video/x-flv</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/262a341d-e46b-4a96-8d3b-ba9af696e681/track-4/Superman.flv
+					</url>
+					<checksum type="md5">7c8a288241bbf5c526c6badbc395e52c</checksum>
+					<duration>602934</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>1500000.0</bitrate>
+						<framerate>15.0</framerate>
+						<resolution>720x576</resolution>
+					</video>
+				</track>
+				<track ref="track:track-5" type="presenter/delivery" id="track-9">
+					<mimetype>audio/x-adpcm</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/262a341d-e46b-4a96-8d3b-ba9af696e681/track-5/Superman.flv
+					</url>
+					<checksum type="md5">3e655eadc2703c6bcbbb5768fa267883</checksum>
+					<duration>602929</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>195312.0</bitrate>
+						<framerate>25.0</framerate>
+						<resolution>720x576</resolution>
+					</video>
+				</track>
+				<track ref="track:track-6" type="presenter/delivery" id="track-10">
+					<mimetype>audio/m4a</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/262a341d-e46b-4a96-8d3b-ba9af696e681/track-6/Superman.m4a
+					</url>
+					<checksum type="md5">3479a636d5715a3398db3a2082ef67b6</checksum>
+					<duration>602929</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="AAC" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>192000.0</bitrate>
+					</audio>
+				</track>
+				<track ref="track:track-7" type="presenter/delivery" id="track-11">
+					<mimetype>video/avi</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/262a341d-e46b-4a96-8d3b-ba9af696e681/track-7/Superman.avi
+					</url>
+					<checksum type="md5">1690f479c640c9380a6a7a51bdc71bcd</checksum>
+					<duration>602932</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="MPEG Audio" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>64000.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="MPEG-4 Visual" />
+						<bitrate>202876.0</bitrate>
+						<framerate>25.0</framerate>
+						<resolution>320x240</resolution>
+						<scantype type="Progressive" />
+					</video>
+				</track>
+			</media>
+			<metadata>
+				<catalog ref="catalog:b44ccbca-c07b-4b41-a23a-6622c0a79894"
+					type="dublincore/episode" id="catalog-3">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/262a341d-e46b-4a96-8d3b-ba9af696e681/b44ccbca-c07b-4b41-a23a-6622c0a79894/dublincore.xml
+					</url>
+				</catalog>
+				<catalog ref="catalog:5df7f7cf-b10c-4d63-835a-93a7f681c6cb"
+					type="dublincore/series" id="catalog-4">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/262a341d-e46b-4a96-8d3b-ba9af696e681/5df7f7cf-b10c-4d63-835a-93a7f681c6cb/dublincore.xml
+					</url>
+				</catalog>
+			</metadata>
+			<attachments>
+				<attachment ref="attachment:attachment-1" type="presenter/player+preview"
+					id="attachment-4">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/262a341d-e46b-4a96-8d3b-ba9af696e681/attachment-1/Superman.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-2" type="presenter/search+preview"
+					id="attachment-5">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/262a341d-e46b-4a96-8d3b-ba9af696e681/attachment-2/Superman.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-3" type="presenter/feed+preview"
+					id="attachment-6">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/262a341d-e46b-4a96-8d3b-ba9af696e681/attachment-3/Superman.jpg
+					</url>
+				</attachment>
+			</attachments>
+		</mediapackage>
+		<dcExtent>602920</dcExtent>
+		<dcTitle>The Mad Scientist</dcTitle>
+		<dcSubject>Cartoon</dcSubject>
+		<dcCreator>Paramount</dcCreator>
+		<dcPublisher></dcPublisher>
+		<dcContributor>Warner Brothers</dcContributor>
+		<dcAbstract></dcAbstract>
+		<dcDescription>Superman is the first in the series of seventeen
+			animated Technicolor short films based upon the DC Comics character
+			Superman. Also known as The Mad Scientist, Superman was produced by
+			Fleischer Studios and released to theaters by Paramount Pictures on
+			September 26, 1941. Superman ranked number 33 in a list of the fifty
+			greatest cartoons of all time sourced from a 1994 poll of 1000
+			animation professionals, [1] and was nominated for the 1942 Academy
+			Award for Best Animated Short Subject.[2]</dcDescription>
+		<dcCreated>2010-09-01T08:34:55+02:00</dcCreated>
+		<dcLanguage>English</dcLanguage>
+		<dcRightsHolder></dcRightsHolder>
+		<dcSpatial></dcSpatial>
+		<dcTemporal></dcTemporal>
+		<dcIsPartOf>b0effb2a-ca6e-4b0d-8850-9770d6e87d3f</dcIsPartOf>
+		<dcReplaces></dcReplaces>
+		<dcType></dcType>
+		<dcAccessRights></dcAccessRights>
+		<dcLicense>Public Domain</dcLicense>
+		<mediaType>AudioVisual</mediaType>
+		<keywords>
+			<keywords></keywords>
+		</keywords>
+		<cover></cover>
+		<modified>2010-09-01T11:35:41+02:00</modified>
+		<score>1.0</score>
+	</result>
+	<result id="552b14e1-fcdf-415c-891b-7689eb5750df">
+		<mediapackage start="2010-09-01T06:37:57"
+			id="552b14e1-fcdf-415c-891b-7689eb5750df" duration="430266">
+			<title>Northwest Hounded Police</title>
+			<series>5fc3af4e-c352-4fc1-8a3d-8f68a24894df</series>
+			<creators>
+				<creator>MGM</creator>
+			</creators>
+			<contributors>
+				<contributor>Warner Brothers</contributor>
+			</contributors>
+			<subjects>
+				<subject>Cartoon</subject>
+			</subjects>
+			<license>© Warner Brothers</license>
+			<language>English</language>
+			<media>
+				<track ref="track:track-4" type="presenter/delivery" id="track-8">
+					<mimetype>video/x-flv</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/552b14e1-fcdf-415c-891b-7689eb5750df/track-4/Northwest_Hounded_Police.flv
+					</url>
+					<checksum type="md5">b56ce23c5fe3c5b54796b2fa033e082f</checksum>
+					<duration>430266</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>1500000.0</bitrate>
+						<framerate>15.0</framerate>
+						<resolution>720x576</resolution>
+					</video>
+				</track>
+				<track ref="track:track-5" type="presenter/delivery" id="track-9">
+					<mimetype>audio/x-adpcm</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/552b14e1-fcdf-415c-891b-7689eb5750df/track-5/Northwest_Hounded_Police.flv
+					</url>
+					<checksum type="md5">39a9d1ba86118f7dd2b8dbdfc4b0dc47</checksum>
+					<duration>430240</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>195312.0</bitrate>
+						<framerate>25.0</framerate>
+						<resolution>720x576</resolution>
+					</video>
+				</track>
+				<track ref="track:track-6" type="presenter/delivery" id="track-10">
+					<mimetype>audio/m4a</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/552b14e1-fcdf-415c-891b-7689eb5750df/track-6/Northwest_Hounded_Police.m4a
+					</url>
+					<checksum type="md5">fc69d0f25d3f21de5d0ea88364cc83cb</checksum>
+					<duration>430033</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="AAC" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>192000.0</bitrate>
+					</audio>
+				</track>
+				<track ref="track:track-7" type="presenter/delivery" id="track-11">
+					<mimetype>video/avi</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/552b14e1-fcdf-415c-891b-7689eb5750df/track-7/Northwest_Hounded_Police.avi
+					</url>
+					<checksum type="md5">2e5a72b1ca0444479bc15ddc2158f16c</checksum>
+					<duration>430240</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="MPEG Audio" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>64000.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="MPEG-4 Visual" />
+						<bitrate>203619.0</bitrate>
+						<framerate>25.0</framerate>
+						<resolution>320x240</resolution>
+						<scantype type="Progressive" />
+					</video>
+				</track>
+			</media>
+			<metadata>
+				<catalog ref="catalog:b2244916-b8fe-4d50-b506-0916bd79bf5d"
+					type="dublincore/episode" id="catalog-3">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/552b14e1-fcdf-415c-891b-7689eb5750df/b2244916-b8fe-4d50-b506-0916bd79bf5d/dublincore.xml
+					</url>
+				</catalog>
+				<catalog ref="catalog:523b5e0e-9cfa-4e15-b7cb-834b46da4864"
+					type="dublincore/series" id="catalog-4">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/552b14e1-fcdf-415c-891b-7689eb5750df/523b5e0e-9cfa-4e15-b7cb-834b46da4864/dublincore.xml
+					</url>
+				</catalog>
+			</metadata>
+			<attachments>
+				<attachment ref="attachment:attachment-1" type="presenter/player+preview"
+					id="attachment-4">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/552b14e1-fcdf-415c-891b-7689eb5750df/attachment-1/Northwest_Hounded_Police.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-2" type="presenter/search+preview"
+					id="attachment-5">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/552b14e1-fcdf-415c-891b-7689eb5750df/attachment-2/Northwest_Hounded_Police.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-3" type="presenter/feed+preview"
+					id="attachment-6">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/552b14e1-fcdf-415c-891b-7689eb5750df/attachment-3/Northwest_Hounded_Police.jpg
+					</url>
+				</attachment>
+			</attachments>
+		</mediapackage>
+		<dcExtent>430040</dcExtent>
+		<dcTitle>Northwest Hounded Police</dcTitle>
+		<dcSubject>Cartoon</dcSubject>
+		<dcCreator>MGM</dcCreator>
+		<dcPublisher></dcPublisher>
+		<dcContributor>Warner Brothers</dcContributor>
+		<dcAbstract></dcAbstract>
+		<dcDescription>Northwest Hounded Police is a cartoon starring a
+			prototypical Droopy and Tex Avery's wolf. This cartoon (a remake of
+			Droopy's first cartoon Dumb-Hounded and adopting elements from the
+			Bugs Bunny cartoon Tortoise Beats Hare) revoles the wolf (an escaped
+			convict) on the run from Droopy, who is trailing the wolf in order to
+			capture him. The title is a play on words on North West Mounted
+			Police, a 1940 film.</dcDescription>
+		<dcCreated>2010-09-01T08:37:57+02:00</dcCreated>
+		<dcLanguage>English</dcLanguage>
+		<dcRightsHolder></dcRightsHolder>
+		<dcSpatial></dcSpatial>
+		<dcTemporal></dcTemporal>
+		<dcIsPartOf>5fc3af4e-c352-4fc1-8a3d-8f68a24894df</dcIsPartOf>
+		<dcReplaces></dcReplaces>
+		<dcType></dcType>
+		<dcAccessRights></dcAccessRights>
+		<dcLicense>© Warner Brothers</dcLicense>
+		<mediaType>AudioVisual</mediaType>
+		<keywords>
+			<keywords></keywords>
+		</keywords>
+		<cover></cover>
+		<modified>2010-09-01T11:35:41+02:00</modified>
+		<score>1.0</score>
+	</result>
+	<result id="f5bf2c74-3ffd-436d-90ca-a3ca3e8db133">
+		<mediapackage start="2010-09-01T06:33:00"
+			id="f5bf2c74-3ffd-436d-90ca-a3ca3e8db133" duration="443334">
+			<title>The Two Mouseketeers</title>
+			<series>aafb8ad3-8c28-43c1-9f61-99b440f82a77</series>
+			<creators>
+				<creator>MGM</creator>
+			</creators>
+			<contributors>
+				<contributor>Warner Brothers</contributor>
+			</contributors>
+			<subjects>
+				<subject>Cartoon</subject>
+			</subjects>
+			<license>© Warner Brothers</license>
+			<language>English</language>
+			<media>
+				<track ref="track:track-4" type="presenter/delivery" id="track-8">
+					<mimetype>video/x-flv</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/f5bf2c74-3ffd-436d-90ca-a3ca3e8db133/track-4/The_Two_Mouseketeers.flv
+					</url>
+					<checksum type="md5">3425df04ae04442f2f14f892cf53c1db</checksum>
+					<duration>443334</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>1500000.0</bitrate>
+						<framerate>15.0</framerate>
+						<resolution>720x480</resolution>
+					</video>
+				</track>
+				<track ref="track:track-5" type="presenter/delivery" id="track-9">
+					<mimetype>audio/x-adpcm</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/f5bf2c74-3ffd-436d-90ca-a3ca3e8db133/track-5/The_Two_Mouseketeers.flv
+					</url>
+					<checksum type="md5">7ee591be47002cde9eebae1c41d41972</checksum>
+					<duration>443268</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>195312.0</bitrate>
+						<framerate>59.94</framerate>
+						<resolution>720x480</resolution>
+					</video>
+				</track>
+				<track ref="track:track-6" type="presenter/delivery" id="track-10">
+					<mimetype>audio/m4a</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/f5bf2c74-3ffd-436d-90ca-a3ca3e8db133/track-6/The_Two_Mouseketeers.m4a
+					</url>
+					<checksum type="md5">a1abc4ff9cccf4fa335c9a1b20639601</checksum>
+					<duration>443268</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="AAC" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>192000.0</bitrate>
+					</audio>
+				</track>
+				<track ref="track:track-7" type="presenter/delivery" id="track-11">
+					<mimetype>video/avi</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/f5bf2c74-3ffd-436d-90ca-a3ca3e8db133/track-7/The_Two_Mouseketeers.avi
+					</url>
+					<checksum type="md5">f83a6c93ce189fbacd051dd559f0b20d</checksum>
+					<duration>443280</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="MPEG Audio" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>64000.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="MPEG-4 Visual" />
+						<bitrate>203026.0</bitrate>
+						<framerate>25.0</framerate>
+						<resolution>320x240</resolution>
+						<scantype type="Progressive" />
+					</video>
+				</track>
+			</media>
+			<metadata>
+				<catalog ref="catalog:2c14a29e-0aa8-4bc9-9ce9-e30d07b543fc"
+					type="dublincore/episode" id="catalog-3">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/f5bf2c74-3ffd-436d-90ca-a3ca3e8db133/2c14a29e-0aa8-4bc9-9ce9-e30d07b543fc/dublincore.xml
+					</url>
+				</catalog>
+				<catalog ref="catalog:2885d93b-83e1-413d-b993-c82282a3dc4f"
+					type="dublincore/series" id="catalog-4">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/f5bf2c74-3ffd-436d-90ca-a3ca3e8db133/2885d93b-83e1-413d-b993-c82282a3dc4f/dublincore.xml
+					</url>
+				</catalog>
+			</metadata>
+			<attachments>
+				<attachment ref="attachment:attachment-1" type="presenter/player+preview"
+					id="attachment-4">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/f5bf2c74-3ffd-436d-90ca-a3ca3e8db133/attachment-1/The_Two_Mouseketeers.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-2" type="presenter/search+preview"
+					id="attachment-5">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/f5bf2c74-3ffd-436d-90ca-a3ca3e8db133/attachment-2/The_Two_Mouseketeers.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-3" type="presenter/feed+preview"
+					id="attachment-6">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/f5bf2c74-3ffd-436d-90ca-a3ca3e8db133/attachment-3/The_Two_Mouseketeers.jpg
+					</url>
+				</attachment>
+			</attachments>
+		</mediapackage>
+		<dcExtent>443259</dcExtent>
+		<dcTitle>The Two Mouseketeers</dcTitle>
+		<dcSubject>Cartoon</dcSubject>
+		<dcCreator>MGM</dcCreator>
+		<dcPublisher></dcPublisher>
+		<dcContributor>Warner Brothers</dcContributor>
+		<dcAbstract></dcAbstract>
+		<dcDescription>The Two Mouseketeers is a 1952 American one-reel
+			animated cartoon and is the 65th Tom and Jerry short, produced in
+			Technicolor and released to theatres on March 15, 1952 by
+			Metro-Goldwyn Mayer. It was produced by Fred Quimby and directed by
+			William Hanna and Joseph Barbera, with musical supervision by Scott
+			Bradley. The cartoon was animated by Ed Barge, Kenneth Muse and Irven
+			Spence. The character of Nibbles was voiced by Francoise Brun-Cottan,
+			then six years old. The Two Mouseketeers won the 1951 Academy Award
+			for Best Short Subject: Cartoons. Such was the cartoon's success,
+			that Hanna and Barbera created a total of four adventures in the
+			Mouseketeers series, the second of the tetralogy, 1954's Touché,
+			Pussy Cat! also getting an Oscar nomination (though unlike The Two
+			Mouseketeers, it did not win the award).</dcDescription>
+		<dcCreated>2010-09-01T08:33:00+02:00</dcCreated>
+		<dcLanguage>English</dcLanguage>
+		<dcRightsHolder></dcRightsHolder>
+		<dcSpatial></dcSpatial>
+		<dcTemporal></dcTemporal>
+		<dcIsPartOf>aafb8ad3-8c28-43c1-9f61-99b440f82a77</dcIsPartOf>
+		<dcReplaces></dcReplaces>
+		<dcType></dcType>
+		<dcAccessRights></dcAccessRights>
+		<dcLicense>© Warner Brothers</dcLicense>
+		<mediaType>AudioVisual</mediaType>
+		<keywords>
+			<keywords></keywords>
+		</keywords>
+		<cover></cover>
+		<modified>2010-09-01T11:27:44+02:00</modified>
+		<score>1.0</score>
+	</result>
+	<result id="7b56005d-7a12-4c63-addf-2c44c66229d1">
+		<mediapackage start="2010-09-01T06:30:59"
+			id="7b56005d-7a12-4c63-addf-2c44c66229d1" duration="404066">
+			<title>Touché Pussy Cat</title>
+			<creators>
+				<creator>MGM</creator>
+			</creators>
+			<contributors>
+				<contributor>Warner Brothers</contributor>
+			</contributors>
+			<subjects>
+				<subject>Cartoon</subject>
+			</subjects>
+			<license>© Warner Brothers</license>
+			<language>English</language>
+			<media>
+				<track ref="track:track-4" type="presenter/delivery" id="track-8">
+					<mimetype>video/x-flv</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/7b56005d-7a12-4c63-addf-2c44c66229d1/track-4/Touche_Pussy_Cat.flv
+					</url>
+					<checksum type="md5">7ecb736f2e32a24dac172e3802af4d2a</checksum>
+					<duration>404066</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>1500000.0</bitrate>
+						<framerate>15.0</framerate>
+						<resolution>720x480</resolution>
+					</video>
+				</track>
+				<track ref="track:track-5" type="presenter/delivery" id="track-9">
+					<mimetype>audio/x-adpcm</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/7b56005d-7a12-4c63-addf-2c44c66229d1/track-5/Touche_Pussy_Cat.flv
+					</url>
+					<checksum type="md5">c56cc859c28b06003f6399f8e518d882</checksum>
+					<duration>403981</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>195312.0</bitrate>
+						<framerate>59.94</framerate>
+						<resolution>720x480</resolution>
+					</video>
+				</track>
+				<track ref="track:track-6" type="presenter/delivery" id="track-10">
+					<mimetype>audio/m4a</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/7b56005d-7a12-4c63-addf-2c44c66229d1/track-6/Touche_Pussy_Cat.m4a
+					</url>
+					<checksum type="md5">e3ae819c1ed6c47cd2ab71025779cdd3</checksum>
+					<duration>404003</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="AAC" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>192000.0</bitrate>
+					</audio>
+				</track>
+				<track ref="track:track-7" type="presenter/delivery" id="track-11">
+					<mimetype>video/avi</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/7b56005d-7a12-4c63-addf-2c44c66229d1/track-7/Touche_Pussy_Cat.avi
+					</url>
+					<checksum type="md5">b3f36e59851863e788c97b59299d7a16</checksum>
+					<duration>404010</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="MPEG Audio" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>64000.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="MPEG-4 Visual" />
+						<bitrate>204099.0</bitrate>
+						<framerate>25.0</framerate>
+						<resolution>320x240</resolution>
+						<scantype type="Progressive" />
+					</video>
+				</track>
+			</media>
+			<metadata>
+				<catalog ref="catalog:dc6955bb-09bd-40c2-af05-add1e8afe0aa"
+					type="dublincore/episode" id="catalog-2">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/7b56005d-7a12-4c63-addf-2c44c66229d1/dc6955bb-09bd-40c2-af05-add1e8afe0aa/dublincore.xml
+					</url>
+				</catalog>
+			</metadata>
+			<attachments>
+				<attachment ref="attachment:attachment-1" type="presenter/player+preview"
+					id="attachment-4">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/7b56005d-7a12-4c63-addf-2c44c66229d1/attachment-1/Touche_Pussy_Cat.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-2" type="presenter/search+preview"
+					id="attachment-5">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/7b56005d-7a12-4c63-addf-2c44c66229d1/attachment-2/Touche_Pussy_Cat.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-3" type="presenter/feed+preview"
+					id="attachment-6">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/7b56005d-7a12-4c63-addf-2c44c66229d1/attachment-3/Touche_Pussy_Cat.jpg
+					</url>
+				</attachment>
+			</attachments>
+		</mediapackage>
+		<dcExtent>404003</dcExtent>
+		<dcTitle>Touché Pussy Cat</dcTitle>
+		<dcSubject>Cartoon</dcSubject>
+		<dcCreator>MGM</dcCreator>
+		<dcPublisher></dcPublisher>
+		<dcContributor>Warner Brothers</dcContributor>
+		<dcAbstract></dcAbstract>
+		<dcDescription>Touché, Pussy Cat! is the 89th one-reel animated Tom
+			and Jerry short, created in 1954 directed by William Hanna and Joseph
+			Barbera and produced by Fred Quimby with music by Scott Bradley. It
+			was nominated for an Academy Award in 1954, the series' final Oscar
+			nomination, while Johann Mouse won the last award for the series a
+			year before.</dcDescription>
+		<dcCreated>2010-09-01T08:30:59+02:00</dcCreated>
+		<dcLanguage>English</dcLanguage>
+		<dcRightsHolder></dcRightsHolder>
+		<dcSpatial></dcSpatial>
+		<dcTemporal></dcTemporal>
+		<dcIsPartOf></dcIsPartOf>
+		<dcReplaces></dcReplaces>
+		<dcType></dcType>
+		<dcAccessRights></dcAccessRights>
+		<dcLicense>© Warner Brothers</dcLicense>
+		<mediaType>AudioVisual</mediaType>
+		<keywords>
+			<keywords></keywords>
+		</keywords>
+		<cover></cover>
+		<modified>2010-09-01T11:14:12+02:00</modified>
+		<score>1.0</score>
+	</result>
+	<result id="eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866">
+		<mediapackage start="2010-08-31T15:15:15"
+			id="eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866" duration="596473">
+			<title>Big Buck Bunny</title>
+			<series>36178bc2-4df7-4cf2-a2e7-38fa19682fd9</series>
+			<creators>
+				<creator>Bugs Bunny</creator>
+			</creators>
+			<contributors>
+				<contributor>RITS</contributor>
+			</contributors>
+			<subjects>
+				<subject>Animated Short</subject>
+			</subjects>
+			<license>Creative Commons</license>
+			<language>English</language>
+			<media>
+				<track ref="track:track-4" type="presenter/delivery" id="track-8">
+					<mimetype>video/x-flv</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866/track-4/big_buck_bunny_1080p_stereo.flv
+					</url>
+					<checksum type="md5">44c3a016fed84357317cb15fab7a579e</checksum>
+					<duration>596473</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>500000.0</bitrate>
+						<framerate>15.0</framerate>
+						<resolution>1920x1080</resolution>
+					</video>
+				</track>
+				<track ref="track:track-5" type="presenter/delivery" id="track-9">
+					<mimetype>audio/x-adpcm</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866/track-5/big_buck_bunny_1080p_stereo.flv
+					</url>
+					<checksum type="md5">4e85eacd564a7cde2ecee5dfa7196f8f</checksum>
+					<duration>596473</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>195312.0</bitrate>
+						<framerate>24.0</framerate>
+						<resolution>1920x1080</resolution>
+					</video>
+				</track>
+				<track ref="track:track-6" type="presenter/delivery" id="track-10">
+					<mimetype>audio/m4a</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866/track-6/big_buck_bunny_1080p_stereo.m4a
+					</url>
+					<checksum type="md5">109cb043ab2905acd7125eb1ad73eb06</checksum>
+					<duration>596474</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="AAC" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>192000.0</bitrate>
+					</audio>
+				</track>
+				<track ref="track:track-7" type="presenter/delivery" id="track-11">
+					<mimetype>video/avi</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866/track-7/big_buck_bunny_1080p_stereo.avi
+					</url>
+					<checksum type="md5">5ad9fe0594990be1a56203b100451928</checksum>
+					<duration>596480</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="MPEG Audio" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>64000.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="MPEG-4 Visual" />
+						<bitrate>201429.0</bitrate>
+						<framerate>25.0</framerate>
+						<resolution>320x240</resolution>
+						<scantype type="Progressive" />
+					</video>
+				</track>
+			</media>
+			<metadata>
+				<catalog ref="catalog:3f6fe2e5-c4f9-4cca-85cb-094186f4e194"
+					type="dublincore/episode" id="catalog-3">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866/3f6fe2e5-c4f9-4cca-85cb-094186f4e194/dublincore.xml
+					</url>
+				</catalog>
+				<catalog ref="catalog:73854460-d627-4e30-bc8e-f1b839f370e1"
+					type="dublincore/series" id="catalog-4">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866/73854460-d627-4e30-bc8e-f1b839f370e1/dublincore.xml
+					</url>
+				</catalog>
+			</metadata>
+			<attachments>
+				<attachment ref="attachment:attachment-1" type="presenter/player+preview"
+					id="attachment-4">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866/attachment-1/big_buck_bunny_1080p_stereo.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-2" type="presenter/search+preview"
+					id="attachment-5">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866/attachment-2/big_buck_bunny_1080p_stereo.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-3" type="presenter/feed+preview"
+					id="attachment-6">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/eb7fae4c-2dc9-4ded-ae3b-fd56ae9a6866/attachment-3/big_buck_bunny_1080p_stereo.jpg
+					</url>
+				</attachment>
+			</attachments>
+		</mediapackage>
+		<dcExtent>596458</dcExtent>
+		<dcTitle>Big Buck Bunny</dcTitle>
+		<dcSubject>Animated Short</dcSubject>
+		<dcCreator>Bugs Bunny</dcCreator>
+		<dcPublisher></dcPublisher>
+		<dcContributor>RITS</dcContributor>
+		<dcAbstract></dcAbstract>
+		<dcDescription>Big Buck Bunny (code-named Peach) is a short computer
+			animated film by the Blender Institute, part of the Blender
+			Foundation.[4][5] Like the foundation's previous film Elephants
+			Dream, the film was made using Blender, a free software application
+			for animation made by the same foundation.</dcDescription>
+		<dcCreated>2010-08-31T17:15:15+02:00</dcCreated>
+		<dcLanguage>English</dcLanguage>
+		<dcRightsHolder></dcRightsHolder>
+		<dcSpatial></dcSpatial>
+		<dcTemporal></dcTemporal>
+		<dcIsPartOf>36178bc2-4df7-4cf2-a2e7-38fa19682fd9</dcIsPartOf>
+		<dcReplaces></dcReplaces>
+		<dcType></dcType>
+		<dcAccessRights></dcAccessRights>
+		<dcLicense>Creative Commons</dcLicense>
+		<mediaType>AudioVisual</mediaType>
+		<keywords>
+			<keywords></keywords>
+		</keywords>
+		<cover></cover>
+		<modified>2010-08-31T20:21:17+02:00</modified>
+		<score>1.0</score>
+	</result>
+	<result id="2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe">
+		<mediapackage start="2010-08-31T14:51:47"
+			id="2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe" duration="89199">
+			<title>Star Wars Lego</title>
+			<series>2ce8d8d6-a2b9-4b8a-992a-00670e432d4f</series>
+			<creators>
+				<creator>Denmark</creator>
+			</creators>
+			<contributors>
+				<contributor>IWT</contributor>
+			</contributors>
+			<subjects>
+				<subject>Construction</subject>
+			</subjects>
+			<language>English</language>
+			<media>
+				<track ref="track:track-4" type="presenter/delivery" id="track-8">
+					<mimetype>video/x-flv</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe/track-4/scifi_512kb.flv
+					</url>
+					<checksum type="md5">474f987efac4f4e4c5c4a07c8f3214f9</checksum>
+					<duration>89199</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>500000.0</bitrate>
+						<framerate>15.0</framerate>
+						<resolution>320x240</resolution>
+					</video>
+				</track>
+				<track ref="track:track-5" type="presenter/delivery" id="track-9">
+					<mimetype>audio/x-adpcm</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe/track-5/scifi_512kb.flv
+					</url>
+					<checksum type="md5">36ae9debb0b434740e1f05bf4c6cfd53</checksum>
+					<duration>89155</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="ADPCM" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>22050</samplingrate>
+						<bitrate>93750.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="H.263" />
+						<bitrate>195312.0</bitrate>
+						<framerate>29.97</framerate>
+						<resolution>320x240</resolution>
+					</video>
+				</track>
+				<track ref="track:track-6" type="presenter/delivery" id="track-10">
+					<mimetype>audio/m4a</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe/track-6/scifi_512kb.m4a
+					</url>
+					<checksum type="md5">bac189b12d5957d55b7273655f796728</checksum>
+					<duration>86796</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="AAC" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>192000.0</bitrate>
+					</audio>
+				</track>
+				<track ref="track:track-7" type="presenter/delivery" id="track-11">
+					<mimetype>video/avi</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe/track-7/scifi_512kb.avi
+					</url>
+					<checksum type="md5">b54390fa2cfbff0f011f2b409abb3e51</checksum>
+					<duration>89160</duration>
+					<audio id="audio-1">
+						<device />
+						<encoder type="MPEG Audio" />
+						<bitdepth>16</bitdepth>
+						<channels>2</channels>
+						<samplingrate>44100</samplingrate>
+						<bitrate>64000.0</bitrate>
+					</audio>
+					<video id="video-1">
+						<device />
+						<encoder type="MPEG-4 Visual" />
+						<bitrate>216834.0</bitrate>
+						<framerate>25.0</framerate>
+						<resolution>320x240</resolution>
+						<scantype type="Progressive" />
+					</video>
+				</track>
+			</media>
+			<metadata>
+				<catalog ref="catalog:531683e4-08c7-49b2-8bc4-48ce43a77f91"
+					type="dublincore/episode" id="catalog-3">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe/531683e4-08c7-49b2-8bc4-48ce43a77f91/dublincore.xml
+					</url>
+				</catalog>
+				<catalog ref="catalog:ceeb920c-067e-4af5-8543-3ccdb6b28f31"
+					type="dublincore/series" id="catalog-4">
+					<mimetype>text/xml</mimetype>
+					<tags>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe/ceeb920c-067e-4af5-8543-3ccdb6b28f31/dublincore.xml
+					</url>
+				</catalog>
+			</metadata>
+			<attachments>
+				<attachment ref="attachment:attachment-1" type="presenter/player+preview"
+					id="attachment-4">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe/attachment-1/scifi_512kb.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-2" type="presenter/search+preview"
+					id="attachment-5">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>engage</tag>
+						<tag>publish</tag>
+					</tags>
+					<url>http://192.170.200.245/static/2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe/attachment-2/scifi_512kb.jpg
+					</url>
+				</attachment>
+				<attachment ref="attachment:attachment-3" type="presenter/feed+preview"
+					id="attachment-6">
+					<mimetype>image/jpeg</mimetype>
+					<tags>
+						<tag>atom</tag>
+						<tag>publish</tag>
+						<tag>rss</tag>
+					</tags>
+					<url>http://192.170.200.245/static/2ee6f914-6baa-4c8e-88d2-b7a051a9b3fe/attachment-3/scifi_512kb.jpg
+					</url>
+				</attachment>
+			</attachments>
+		</mediapackage>
+		<dcExtent>89155</dcExtent>
+		<dcTitle>Star Wars Lego</dcTitle>
+		<dcSubject>Construction</dcSubject>
+		<dcCreator>Denmark</dcCreator>
+		<dcPublisher></dcPublisher>
+		<dcContributor>IWT</dcContributor>
+		<dcAbstract></dcAbstract>
+		<dcDescription>The Star Wars saga in Lego</dcDescription>
+		<dcCreated>2010-08-31T16:51:47+02:00</dcCreated>
+		<dcLanguage>English</dcLanguage>
+		<dcRightsHolder></dcRightsHolder>
+		<dcSpatial></dcSpatial>
+		<dcTemporal></dcTemporal>
+		<dcIsPartOf>2ce8d8d6-a2b9-4b8a-992a-00670e432d4f</dcIsPartOf>
+		<dcReplaces></dcReplaces>
+		<dcType></dcType>
+		<dcAccessRights></dcAccessRights>
+		<dcLicense></dcLicense>
+		<mediaType>AudioVisual</mediaType>
+		<keywords>
+			<keywords></keywords>
+		</keywords>
+		<cover></cover>
+		<modified>2010-08-31T18:52:50+02:00</modified>
+		<score>1.0</score>
+	</result>
+</ns2:search-results>
