@@ -18,9 +18,6 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     private $matterhorn;
     private $login;
     private $password;
-    
-    const METHOD_POST = MatterhornRestClient :: METHOD_POST;
-    const METHOD_GET = MatterhornRestClient :: METHOD_GET;
 
     function MatterhornExternalRepositoryConnector($external_repository_instance)
     {
@@ -37,7 +34,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function retrieve_external_repository_objects($condition, $order_property, $offset, $count)
     {
-    	$response = $this->request(self :: METHOD_GET, '/search/rest/episode', array('limit' => $count, 'offset' => $offset));
+    	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('limit' => $count, 'offset' => $offset));
         $objects = array();
         $xml = $this->get_xml($response->get_response_content());
 
@@ -54,14 +51,14 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function retrieve_external_repository_object($id)
     {
-        $response = $this->request(self :: METHOD_GET, '/search/rest/episode', array('id' => $id));
+        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => $id));
         $xml = $this->get_xml($response->get_response_content());
         
         if ($xml)
         {
             if ($xml['result'])
             {
-                return $this->get_media_package($xml['result'][0]);
+            	return $this->get_media_package($xml['result'][0]);
             }
             else
             {
@@ -81,7 +78,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function count_external_repository_objects($condition)
     {
-    	$response = $this->request(self :: METHOD_GET, '/search/rest/episode', array('limit' => 1));
+    	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('limit' => 1));
         $xml = $response->get_response_content();
 
         $doc = new DOMDocument();
@@ -93,7 +90,26 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function delete_external_repository_object($id)
     {
-    
+    	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => $id));
+        
+        $doc = new DOMDocument();
+        $doc->loadXML($response->get_response_content());
+        
+        $object = $doc->getElementsByTagname('mediapackage')->item(0);
+        
+        $search_response = $this->request(MatterhornRestClient :: METHOD_POST, '/distribution/rest/retract/download', array('mediapackage' => $doc->saveXML($object)));
+        dump($search_response);
+    	
+    	if ($search_response->get_response_http_code() == 200)
+    	{
+	    	$search_response = $this->request(MatterhornRestClient :: METHOD_DELETE, '/search/rest/' . $id);
+	    	if ($search_response->get_response_http_code() == 200)
+	    	{
+	    		return true;
+	    	}
+    	}
+
+    	return false;
     }
 
     function export_external_repository_object($object)
@@ -107,7 +123,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
         $rights = array();
         $rights[ExternalRepositoryObject :: RIGHT_USE] = true;
         $rights[ExternalRepositoryObject :: RIGHT_EDIT] = false;
-        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
+        $rights[ExternalRepositoryObject :: RIGHT_DELETE] = true;
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
         return $rights;
     }
@@ -123,7 +139,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     public function get_series($id)
     {
-        $response = $this->request(self :: METHOD_GET, '/series/rest/series/' . $id);
+        $response = $this->request(MatterhornRestClient :: METHOD_GET, '/series/rest/series/' . $id);
         $xml = $this->get_xml($response->get_response_content());
         if ($xml)
         {
