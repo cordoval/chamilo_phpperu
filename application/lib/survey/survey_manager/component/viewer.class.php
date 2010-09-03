@@ -71,19 +71,19 @@ class SurveyManagerViewerComponent extends SurveyManager
             }
         }
         
-        $this->trail = BreadcrumbTrail :: get_instance();
-        if ($this->pub->is_test())
-        {
-            $this->trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-            $this->trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TESTCASES, TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PARTICIPANTS, TestcaseManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('BrowseTestCaseSurveyParticipants')));
-        
-        }
-        else
-        {
-            $this->trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-        
-        }
-        $this->trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('TakeSurvey')));
+//        $this->trail = BreadcrumbTrail :: get_instance();
+//        if ($this->pub->is_test())
+//        {
+//            $this->trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
+//            $this->trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TESTCASES, TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PARTICIPANTS, TestcaseManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('BrowseTestCaseSurveyParticipants')));
+//        
+//        }
+//        else
+//        {
+//            $this->trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+//        
+//        }
+//        $this->trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('TakeSurvey')));
         
         if ($this->pub && ! $this->pub->is_visible_for_target_user($this->get_user()))
         {
@@ -95,15 +95,15 @@ class SurveyManagerViewerComponent extends SurveyManager
         
         $this->survey->set_context_instance($context);
         
-        ComplexDisplay :: launch($this->survey->get_type(), $this);
+        ComplexDisplay :: launch($this->survey->get_type(), $this, false);
     }
 
     function display_header($trail)
     {
-        if ($trail)
-        {
-            $this->trail->merge($trail);
-        }
+//        if ($trail)
+//        {
+//            $this->trail->merge($trail);
+//        }
         
         parent :: display_header($this->trail);
         

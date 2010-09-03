@@ -76,7 +76,7 @@ abstract class ComplexDisplay extends SubManager
      * @param string $type
      * @param Application $application
      */
-    static function launch($type, $application)
+    static function launch($type, $application, $add_breadcrumb = true)
     {
         $file = dirname(__FILE__) . '/../content_object/' . $type . '/display/' . $type . '_display.class.php';
         if (! file_exists($file))
@@ -88,7 +88,7 @@ abstract class ComplexDisplay extends SubManager
         
         $class = Utilities :: underscores_to_camelcase($type) . 'Display';
         
-        parent :: launch($class, $application);
+        parent :: launch($class, $application, $add_breadcrumb);
     }
 
     function get_action()

@@ -17,6 +17,8 @@ class TestcaseManager extends SubManager
     const ACTION_BROWSE_SURVEY_EXCLUDED_USERS = 'user_browser';
     const ACTION_CHANGE_TEST_TO_PRODUCTION = 'changer';
 
+    const DEFAULT_ACTION = self :: ACTION_BROWSE_SURVEY_PUBLICATIONS;
+    
     function TestcaseManager($survey_manager)
     {
         parent :: __construct($survey_manager);

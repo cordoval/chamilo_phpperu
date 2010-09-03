@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
-require_once dirname(__FILE__) . '/../../survey_publication_category_menu.class.php';
+//require_once dirname(__FILE__) . '/../../survey_publication_category_menu.class.php';
 require_once dirname(__FILE__) . '/survey_publication_browser/survey_publication_browser_table.class.php';
 
 class SurveyManagerBrowserComponent extends SurveyManager
@@ -11,21 +11,21 @@ class SurveyManagerBrowserComponent extends SurveyManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+//        $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
 
         $this->action_bar = $this->get_action_bar();
-        $menu = $this->get_menu();
+//        $menu = $this->get_menu();
         
         $this->display_header($trail);
 
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
-        echo '<div style="float: left; width: 17%; overflow: auto;">';
-        echo $menu->render_as_tree();
-        echo '</div>';
-        echo '<div style="width: 80%; float: right;">';
+//        echo '<div style="float: left; width: 17%; overflow: auto;">';
+//        echo $menu->render_as_tree();
+//        echo '</div>';
+//        echo '<div style="width: 80%; float: right;">';
         echo '<div >'.Translation :: get('TakeSurveyExplanation').'<br/>';
-        echo '</div>';
+//        echo '</div>';
         echo $this->get_table();
         echo '</div>';
         echo '</div>';
@@ -59,10 +59,10 @@ class SurveyManagerBrowserComponent extends SurveyManager
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if (SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'category_manager', SurveyRights :: TYPE_SURVEY_COMPONENT))
-        {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_manage_survey_publication_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        }
+//        if (SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'category_manager', SurveyRights :: TYPE_SURVEY_COMPONENT))
+//        {
+//            $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_manage_survey_publication_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//        }
 
         if (SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'testcase_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
@@ -78,8 +78,8 @@ class SurveyManagerBrowserComponent extends SurveyManager
 
     function get_condition()
     {
-        $current_category = Request :: get(SurveyPublicationCategoryMenu :: PARAM_CATEGORY);
-        $current_category = $current_category ? $current_category : 0;
+//        $current_category = Request :: get(SurveyPublicationCategoryMenu :: PARAM_CATEGORY);
+//        $current_category = $current_category ? $current_category : 0;
 
         $query = $this->action_bar->get_query();
 
@@ -92,7 +92,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
 
         $conditions = array();
         $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_TEST, false, $publication_alias);
-        $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_CATEGORY, $current_category, $publication_alias);
+//        $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_CATEGORY, $current_category, $publication_alias);
 
         if (isset($query) && $query != '')
         {
