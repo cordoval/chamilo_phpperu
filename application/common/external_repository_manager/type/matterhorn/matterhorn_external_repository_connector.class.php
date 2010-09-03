@@ -54,6 +54,8 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
         $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => $id));
         $xml = $this->get_xml($response->get_response_content());
         
+        
+        dump($xml);
         if ($xml)
         {
             if ($xml['result'])
@@ -90,28 +92,40 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
 
     function delete_external_repository_object($id)
     {
-    	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => $id));
-        
-        $doc = new DOMDocument();
-        $doc->loadXML($response->get_response_content());
-        
-        $object = $doc->getElementsByTagname('mediapackage')->item(0);
-        
-        $search_response = $this->request(MatterhornRestClient :: METHOD_POST, '/distribution/rest/retract/download', array('mediapackage' => $doc->saveXML($object)));
-        dump($search_response);
-    	
-    	if ($search_response->get_response_http_code() == 200)
-    	{
+//    	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => $id));
+//        
+//        $doc = new DOMDocument();
+//        $doc->loadXML($response->get_response_content());
+//        
+//        $object = $doc->getElementsByTagname('mediapackage')->item(0);
+//        
+//        $search_response = $this->request(MatterhornRestClient :: METHOD_POST, '/distribution/rest/retract/download', array('mediapackage' => $doc->saveXML($object)));
+//        dump($search_response);
+//    	
+//    	if ($search_response->get_response_http_code() == 200)
+//    	{
 	    	$search_response = $this->request(MatterhornRestClient :: METHOD_DELETE, '/search/rest/' . $id);
 	    	if ($search_response->get_response_http_code() == 200)
 	    	{
 	    		return true;
 	    	}
-    	}
+//    	}
 
     	return false;
     }
 
+    function create_external_repository_object($values, $track_path)
+    {
+    	$parameters = array('flavor' => 'presenter/source');
+    	$parameters['title'] = $values[MatterhornExternalRepositoryObject::PROPERTY_TITLE];
+    	$parameters['type'] = 'AudioVisual';
+    	$parameters['BODY'] = file_get_contents($track_path);
+    	$response = $this->request(MatterhornRestClient :: METHOD_POST, '/ingest/rest/addMediaPackage', $parameters);
+dump($response);
+exit();
+        $xml = $this->get_xml($response->get_response_content());
+    }
+    
     function export_external_repository_object($object)
     {
         
@@ -126,6 +140,39 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
         $rights[ExternalRepositoryObject :: RIGHT_DELETE] = true;
         $rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
         return $rights;
+    }
+    
+    function update_matterhorn_video($values)
+    {
+    	
+    	
+    	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => MatterhornExternalRepositoryObject::PROPERTY_ID));
+
+        $xml = $this->get_xml($response->get_response_content());
+        $catalogs = $xml['result'][0]['mediapackage']['metadata']['catalog'];
+        if(isset ($catalogs))
+        {
+        	foreach($catalogs as $catalog)
+        	{
+        		if ($catalog['type'] == 'dublincore/episode')
+        		{
+        			$url = $catalog['url'];
+        			
+        		}
+        	}
+        	if (isset($url))
+        	{
+        		$doc = new DOMDocument();
+        		$doc->load($url);
+        		$object = $doc->getElementsByTagname('catalog')->item(0);
+        	}
+        }
+
+        
+        $object = $doc->getElementsByTagname('catalog')->item(0);
+        $object->getAttribute('total');
+        
+        
     }
 
     /**
