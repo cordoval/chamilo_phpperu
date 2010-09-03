@@ -18,6 +18,7 @@ class MatterhornRestClient extends RestClient{
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
     const METHOD_PUT = 'PUT';
+    const METHOD_DELETE = 'DELETE';
 
     //const PARAM_CONNECTOR_COOKIE = 'mediamosa_connector_cookie';
     
@@ -157,7 +158,7 @@ class MatterhornRestClient extends RestClient{
         $this->set_data_to_send('');
 
         //different method need different handling of data
-        if(($method == self :: METHOD_POST) || ($method == self :: METHOD_PUT))
+        if(($method == self :: METHOD_POST) || ($method == self :: METHOD_PUT) || ($method == self :: METHOD_DELETE)) 
         {
             if(is_array($data)) $this->set_data_to_send($data);
         }
