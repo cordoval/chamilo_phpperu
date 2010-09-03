@@ -15,8 +15,6 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
 //    const RESULT_ERROR = 'GroupUpdateFailed';
 
     const VIDEO_TITLE = 'title';
-    const VIDEO_CATEGORY = 'category';
-    const VIDEO_TAGS = 'tags';
     const VIDEO_DESCRIPTION = 'description';
 
     private $application;
@@ -66,13 +64,6 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
         parent :: setDefaults($defaults);
     }
 
-    public function get_tags()
-    {
-        $external_repository_object = $this->external_repository_object;
-        $tags = $external_repository_object->get_tags();
-        return implode(",", $tags);
-    }
-
     function build_basic_form()
     {
         $this->addElement('text', MatterhornExternalRepositoryObject :: PROPERTY_TITLE, Translation :: get('Title'), array("size" => "50"));
@@ -96,7 +87,7 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
     {
         $this->build_basic_form();
 
-        $this->addElement('hidden', YoutubeExternalRepositoryObject :: PROPERTY_ID);
+        $this->addElement('hidden', MatterhornExternalRepositoryObject :: PROPERTY_ID);
 
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Edit'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -107,26 +98,33 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
     function build_creation_form()
     {
         $this->build_basic_form();
-
+		$this->addElement('file', 'track', Translation :: get('File'));
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
-//    function update_video_entry()
-//    {
-//        $youtube = $this->application->get_external_repository_connector();
-//        $values = $this->exportValues();
-//
-//        return $youtube->update_youtube_video($values);
+    function update_video_entry()
+    {
+        $matterhorn = $this->application->get_external_repository_connector();
+        $values = $this->exportValues();
 
-    /*if ($value)
+        return $matterhorn->update_matterhorn_video($values);
+
+    }
+    
+	function upload_video()
+    {
+        if (StringUtilities :: has_value(($_FILES['track']['name'])))
         {
-            Event :: trigger('update', 'video_entry', array('video_entry_id' => $this->video_entry->getId()));
+            return $this->application->get_external_repository_connector()->create_external_repository_object($this->exportValues(), $_FILES['track']['tmp_name']);
         }
-        return $value;
-    }*/
+        else
+        {
+            return false;
+        }
+    }
 
 //    function get_upload_token()
 //    {
@@ -140,14 +138,13 @@ class MatterhornExternalRepositoryManagerForm extends FormValidator
      * Sets default values.
      * @param array $defaults Default values for this form's parameters.
      */
-    function setDefaults($defaults = array ())
-    {
-        //        $defaults[self :: VIDEO_TITLE] = $this->video_entry->getVideoTitle();
-        //        $defaults[self :: VIDEO_CATEGORY] = $this->video_entry->getVideoCategory();
-        //        $defaults[self :: VIDEO_TAGS] = $this->video_entry->getVideoTags();
-        //        $defaults[self :: VIDEO_DESCRIPTION] = $this->video_entry->getVideoDescription();
-        parent :: setDefaults($defaults);
-    }
+//    function setDefaults($defaults = array ())
+//    {
+////        $defaults[MatterhornExternalRepositoryObject::PROPERTY_ID] = $this->video_entry->get_id();
+////    	$defaults[MatterhornExternalRepositoryObject :: PROPERTY_TITLE] = $this->video_entry->get_title();
+////        $defaults[MatterhornExternalRepositoryObject :: PROPERTY_DESCRIPTION] = $this->video_entry->get_description();
+//        parent :: setDefaults($defaults);
+//    }
 
 //    function get_entry_video()
 //    {

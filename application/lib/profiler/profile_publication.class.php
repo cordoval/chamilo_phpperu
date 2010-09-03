@@ -149,7 +149,7 @@ class ProfilePublication extends DataClass
                 $parent_location = ProfilerRights :: get_profiler_subtree_root_id();
             }
 
-            return ProfilerRights :: create_location_in_profiler_subtree("profile publication: " . $this->get_profile(), $this->get_profile(), $parent_location, ProfilerRights :: TYPE_PUBLICATION);
+            return ProfilerRights :: create_location_in_profiler_subtree("profile publication: " . $this->get_id(), $this->get_id(), $parent_location, ProfilerRights :: TYPE_PUBLICATION);
         }
     }
 

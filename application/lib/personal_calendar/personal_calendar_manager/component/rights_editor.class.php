@@ -1,11 +1,11 @@
 <?php
-require_once dirname(__FILE__) ."/../../personal_messenger_rights.class.php";
+require_once dirname(__FILE__) ."/../../personal_calendar_rights.class.php";
 /**
  * $Id: deleter.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
  */
 
-class PersonalMessengerManagerRightsEditorComponent extends PersonalMessengerManager
+class PersonalCalendarManagerRightsEditorComponent extends PersonalCalendarManager
 {
 
     /**
@@ -14,7 +14,7 @@ class PersonalMessengerManagerRightsEditorComponent extends PersonalMessengerMan
     function run()
     {
         $locations = array();
-        $locations[] = PersonalMessengerRights :: get_personal_messenger_subtree_root();
+        $locations[] = PersonalCalendarRights :: get_personal_calendar_subtree_root();
 
         if($this->get_user()->is_platform_admin())
         {
@@ -34,7 +34,7 @@ class PersonalMessengerManagerRightsEditorComponent extends PersonalMessengerMan
     
     function get_available_rights()
     {
-        $array = PersonalMessengerRights :: get_available_rights();
+        $array = PersonalCalendarRights :: get_available_rights();
         return $array;
     }
 }

@@ -53,27 +53,27 @@ class ProfilerManagerBrowserComponent extends ProfilerManager
         //the root has a different type then a specific category!
         if (!$this->get_category())
         {
-            $publish_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::PUBLISH_RIGHT, 0, 0);
-            $edit_rights_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::EDIT_RIGHTS_RIGHT, 0, 0);
+            $RIGHT_PUBLISH = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_PUBLISH, 0, 0);
+            $RIGHT_EDIT_RIGHTS = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT_RIGHTS, 0, 0);
         }
         else
         {
-            $publish_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::PUBLISH_RIGHT, $this->get_category(), ProfilerRights::TYPE_CATEGORY);
-            $edit_rights_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::EDIT_RIGHTS_RIGHT, $this->get_category(), ProfilerRights::TYPE_CATEGORY);
+            $RIGHT_PUBLISH = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_PUBLISH, $this->get_category(), ProfilerRights::TYPE_CATEGORY);
+            $RIGHT_EDIT_RIGHTS = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT_RIGHTS, $this->get_category(), ProfilerRights::TYPE_CATEGORY);
         }
 
-        if ($publish_right)
+        if ($RIGHT_PUBLISH)
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_profile_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array('category' => $this->get_category())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-        if ($edit_rights_right)
+        if ($RIGHT_EDIT_RIGHTS)
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_rights_editor_url($this->get_category()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        if ($publish_right)
+        if ($RIGHT_PUBLISH)
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path() . 'action_category.png', $this->get_profiler_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
