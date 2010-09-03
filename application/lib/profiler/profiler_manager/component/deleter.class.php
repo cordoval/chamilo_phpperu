@@ -25,7 +25,7 @@ class ProfilerManagerDeleterComponent extends ProfilerManager
             
             foreach ($ids as $id)
             {
-                if (ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::DELETE_RIGHT, $id, ProfilerRights::TYPE_PUBLICATION))
+                if (ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_DELETE, $id, ProfilerRights::TYPE_PUBLICATION))
                 {
                     $this->display_header();
                     Display :: warning_message(Translation :: get('NotAllowed'));

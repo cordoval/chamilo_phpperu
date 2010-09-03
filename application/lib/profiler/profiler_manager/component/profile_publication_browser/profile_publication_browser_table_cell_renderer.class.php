@@ -67,7 +67,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
-        if (ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::EDIT_RIGHT, $profile->get_id(), ProfilerRights::TYPE_PUBLICATION))
+        if (ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT, $profile->get_id(), ProfilerRights::TYPE_PUBLICATION))
         {
             $edit_url = $this->browser->get_publication_editing_url($profile);
             $toolbar->add_item(new ToolbarItem(
@@ -78,7 +78,7 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
             ));
         }
         
-        if (ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::DELETE_RIGHT, $profile->get_id(), ProfilerRights::TYPE_PUBLICATION))
+        if (ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_DELETE, $profile->get_id(), ProfilerRights::TYPE_PUBLICATION))
         {
             $delete_url = $this->browser->get_publication_deleting_url($profile);
             $toolbar->add_item(new ToolbarItem(
@@ -87,6 +87,16 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
                             $delete_url,
                             ToolbarItem :: DISPLAY_ICON,
                             true
+            ));
+        }
+        if (ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT_RIGHTS, $profile->get_id(), ProfilerRights::TYPE_PUBLICATION))
+        {
+            $edit_url = $this->browser->get_rights_editor_url($profile->get_default_property("category_name"),$profile->get_id());
+            $toolbar->add_item(new ToolbarItem(
+                            Translation :: get('EditRights'),
+                            Theme :: get_common_image_path() . 'action_rights.png',
+                            $edit_url,
+                            ToolbarItem :: DISPLAY_ICON
             ));
         }
 

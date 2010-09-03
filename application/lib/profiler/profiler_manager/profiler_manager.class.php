@@ -473,7 +473,7 @@ class ProfilerManager extends WebApplication
      * @param mixed $publication_ids
      * @return <type>
      */
-    function get_rights_editor_url($category, $publication_ids = null)
+    function get_rights_editor_url($category = 0, $publication_ids = null)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_RIGHTS, self :: PARAM_PROFILE_ID => $publication_ids, 'category' => $category));
     }
