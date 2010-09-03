@@ -20,32 +20,38 @@ class ProfilerManagerRightsEditorComponent extends ProfilerManager
     {
         $trail = BreadcrumbTrail :: get_instance();
         $category = Request :: get('category');
+        $publication_id = Request :: get(ProfilerManager::PARAM_PROFILE_ID);
 
         $trail->add(new Breadcrumb($this->get_rights_editor_url($category)));
 
         $this->set_parameter('category', $category);
-
-        if ($category == 0)
+        if (!$publication_id) // the location type is category
         {
-            $location[] = ProfilerRights::get_profiler_subtree_root();
-            $edit_rights_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::EDIT_RIGHTS_RIGHT, 0, 0);
-
+            if ($category == 0)
+            {
+                $location[] = ProfilerRights::get_profiler_subtree_root();
+                $edit_rights_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT_RIGHTS, 0, 0);
+            }
+            else
+            {
+                $location[] = ProfilerRights::get_location_by_identifier_from_profiler_subtree($category, ProfilerRights::TYPE_CATEGORY);
+                $edit_rights_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT_RIGHTS, $category, ProfilerRights::TYPE_CATEGORY);
+            }
         }
-        else
+        else //location type is publication
         {
-            $location[] = ProfilerRights::get_location_by_identifier_from_profiler_subtree($category, ProfilerRights::TYPE_CATEGORY);
-            $edit_rights_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::EDIT_RIGHTS_RIGHT, $this->get_category(), ProfilerRights::TYPE_CATEGORY);
-
+            $location[] = ProfilerRights::get_location_by_identifier_from_profiler_subtree($publication_id, ProfilerRights::TYPE_PUBLICATION);
+            $edit_rights_right = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_EDIT_RIGHTS, $publication_id, ProfilerRights::TYPE_PUBLICATION);;
         }
 
-        if(!$edit_rights_right)
+        if (!$edit_rights_right)
         {
             $this->display_header($trail);
             Display :: warning_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-        
+
         $manager = new RightsEditorManager($this, $location);
         $manager->exclude_users(array($this->get_user_id()));
         $manager->run();

@@ -16,10 +16,10 @@ class ProfilerRights
     /*
      * The available rights
      */
-    const PUBLISH_RIGHT = 1;
-    const EDIT_RIGHT = 2;
-    const DELETE_RIGHT = 3;
-    const EDIT_RIGHTS_RIGHT = 4;
+    const RIGHT_PUBLISH = 1;
+    const RIGHT_EDIT = 2;
+    const RIGHT_DELETE = 3;
+    const RIGHT_EDIT_RIGHTS = 4;
 
     /*
      * The tree that contains the dynamic locations
@@ -34,7 +34,7 @@ class ProfilerRights
 
     static function get_available_rights()
     {
-        return array('Publish' => self :: PUBLISH_RIGHT, 'Edit' => self :: EDIT_RIGHT, 'Delete' => self::DELETE_RIGHT, 'Edit Rights' => self::EDIT_RIGHTS_RIGHT);
+        return array('Publish' => self :: RIGHT_PUBLISH, 'Edit' => self :: RIGHT_EDIT, 'Delete' => self::RIGHT_DELETE, 'Edit Rights' => self::RIGHT_EDIT_RIGHTS);
     }
 
     static function is_allowed($right, $location, $type)
