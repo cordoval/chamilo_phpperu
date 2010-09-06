@@ -32,7 +32,7 @@ class LaikaManager extends WebApplication
         $this->parse_input_from_table();
     }
 
-    function publish_content_object($content_object, $location)
+    static function publish_content_object($content_object, $location)
     {
         return Translation :: get('PublicationCreated');
     }
