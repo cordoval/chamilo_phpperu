@@ -17,24 +17,25 @@ class SurveyManagerUpdaterComponent extends SurveyManager
     {
         
         $testcase = Request :: get(SurveyManager :: PARAM_TESTCASE);
-        if ($testcase ===1)
+        if ($testcase === 1)
         {
             $this->testcase = true;
         }
         
         $trail = BreadcrumbTrail :: get_instance();
         
-        if ($this->testcase)
-        {
-            $trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-        }
-        else
-        {
-            $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-        }
+        //        if ($this->testcase)
+        //        {
+        //            $trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
+        //        }
+        //        else
+        //        {
+        //            $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+        //        }
+        //        
+        //        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateSurveyPublication')));
         
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateSurveyPublication')));
-        
+
         $publication = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         
         if (isset($publication))
@@ -94,14 +95,16 @@ class SurveyManagerUpdaterComponent extends SurveyManager
                 }
                 else
                 {
-                    $this->display_header($trail);
+                    //                    $this->display_header($trail);
+                    $this->display_header();
                     $publication_form->display();
                     $this->display_footer();
                 }
             }
             else
             {
-                $this->display_header($trail);
+                //                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }

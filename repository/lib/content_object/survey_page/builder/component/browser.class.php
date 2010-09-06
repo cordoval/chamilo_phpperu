@@ -10,6 +10,7 @@ class SurveyPageBuilderBrowserComponent extends SurveyPageBuilder {
 	function run()
 	{
 		
+		
 		$browser = ComplexBuilderComponent ::factory(ComplexBuilderComponent::BROWSER_COMPONENT, $this);
 		
 		$browser->run();

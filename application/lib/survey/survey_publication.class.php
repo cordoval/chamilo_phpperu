@@ -16,7 +16,7 @@ class SurveyPublication extends DataClass
     const PROPERTY_HIDDEN = 'hidden';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
-    const PROPERTY_CATEGORY = 'category_id';
+//    const PROPERTY_CATEGORY = 'category_id';
     const PROPERTY_TEST = 'test';
     
     private $target_groups;
@@ -113,19 +113,21 @@ class SurveyPublication extends DataClass
         $args = array();
         $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
         $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
-        $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $context_template->get_id();
+       
         
-        if ($context_template->get_id() == 1)
+        if (!$context_template)
         {
             
-            $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = 0;
+			$args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = 0;
+        	$args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = 0;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = 'NOCONTEXT';
             $tracker = Event :: trigger('survey_participation', 'survey', $args);
         }
         else
         {
-            $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $user_id, SurveyTemplate :: get_table_name());
+             
+        	$condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $user_id, SurveyTemplate :: get_table_name());
             $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
            
             while ($template = $templates->next_result())
@@ -135,9 +137,11 @@ class SurveyPublication extends DataClass
 //                dump($property_names);
                 foreach ($property_names as $property_name => $context_type)
                 {
-                    $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_id;
+		
+                	$args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_id;
                     $context_id = $template->get_additional_property($property_name);
 //                    dump($context_id);
+                    $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $template->get_id();
                     $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $context_id;
                     $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = 'NOCONTEXTNAME';
                     $tracker = Event :: trigger('survey_participation', 'survey', $args);
@@ -193,7 +197,7 @@ class SurveyPublication extends DataClass
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_CATEGORY, self :: PROPERTY_TEST));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_TEST));
     }
 
     function get_data_manager()
@@ -319,23 +323,23 @@ class SurveyPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
     }
 
-    /**
-     * Returns the category of this SurveyPublication.
-     * @return the category.
-     */
-    function get_category()
-    {
-        return $this->get_default_property(self :: PROPERTY_CATEGORY);
-    }
-
-    /**
-     * Sets the category of this SurveyPublication.
-     * @param category
-     */
-    function set_category($category)
-    {
-        $this->set_default_property(self :: PROPERTY_CATEGORY, $category);
-    }
+//    /**
+//     * Returns the category of this SurveyPublication.
+//     * @return the category.
+//     */
+//    function get_category()
+//    {
+//        return $this->get_default_property(self :: PROPERTY_CATEGORY);
+//    }
+//
+//    /**
+//     * Sets the category of this SurveyPublication.
+//     * @param category
+//     */
+//    function set_category($category)
+//    {
+//        $this->set_default_property(self :: PROPERTY_CATEGORY, $category);
+//    }
 
     function set_target_groups($target_groups)
     {

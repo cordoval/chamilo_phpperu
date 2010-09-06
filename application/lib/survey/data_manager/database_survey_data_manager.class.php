@@ -118,44 +118,44 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         return $this->count_result_set($query, SurveyPublication :: get_table_name(), $condition);
     }
 
-    function create_survey_publication_category($survey_category)
-    {
-        return $this->create($survey_category);
-    }
-
-    function update_survey_publication_category($survey_category)
-    {
-        $condition = new EqualityCondition(SurveyPublicationCategory :: PROPERTY_ID, $survey_category->get_id());
-        return $this->update($survey_category, $condition);
-    }
-
-    function delete_survey_publication_category($survey_category)
-    {
-        $condition = new EqualityCondition(SurveyPublicationCategory :: PROPERTY_ID, $survey_category->get_id());
-        return $this->delete($survey_category->get_table_name(), $condition);
-    }
-
-    function count_survey_publication_categories($condition = null)
-    {
-        return $this->count_objects(SurveyPublicationCategory :: get_table_name(), $condition);
-    }
-
-    function retrieve_survey_publication_category($id)
-    {
-        $condition = new EqualityCondition(SurveyPublicationCategory :: PROPERTY_ID, $id);
-        return $this->retrieve_object(SurveyPublicationCategory :: get_table_name(), $condition);
-    }
-
-    function retrieve_survey_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
-    {
-        return $this->retrieve_objects(SurveyPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
-    }
-
-    function select_next_survey_publication_category_display_order($parent)
-    {
-        $condition = new EqualityCondition(SurveyPublicationCategory :: PROPERTY_PARENT, $parent);
-        return $this->retrieve_next_sort_value(SurveyPublicationCategory :: get_table_name(), SurveyPublicationCategory :: PROPERTY_DISPLAY_ORDER, $condition);
-    }
+//    function create_survey_publication_category($survey_category)
+//    {
+//        return $this->create($survey_category);
+//    }
+//
+//    function update_survey_publication_category($survey_category)
+//    {
+//        $condition = new EqualityCondition(SurveyPublicationCategory :: PROPERTY_ID, $survey_category->get_id());
+//        return $this->update($survey_category, $condition);
+//    }
+//
+//    function delete_survey_publication_category($survey_category)
+//    {
+//        $condition = new EqualityCondition(SurveyPublicationCategory :: PROPERTY_ID, $survey_category->get_id());
+//        return $this->delete($survey_category->get_table_name(), $condition);
+//    }
+//
+//    function count_survey_publication_categories($condition = null)
+//    {
+//        return $this->count_objects(SurveyPublicationCategory :: get_table_name(), $condition);
+//    }
+//
+//    function retrieve_survey_publication_category($id)
+//    {
+//        $condition = new EqualityCondition(SurveyPublicationCategory :: PROPERTY_ID, $id);
+//        return $this->retrieve_object(SurveyPublicationCategory :: get_table_name(), $condition);
+//    }
+//
+//    function retrieve_survey_publication_categories($condition = null, $offset = null, $count = null, $order_property = null)
+//    {
+//        return $this->retrieve_objects(SurveyPublicationCategory :: get_table_name(), $condition, $offset, $count, $order_property);
+//    }
+//
+//    function select_next_survey_publication_category_display_order($parent)
+//    {
+//        $condition = new EqualityCondition(SurveyPublicationCategory :: PROPERTY_PARENT, $parent);
+//        return $this->retrieve_next_sort_value(SurveyPublicationCategory :: get_table_name(), SurveyPublicationCategory :: PROPERTY_DISPLAY_ORDER, $condition);
+//    }
 
     function retrieve_survey_publication($id)
     {

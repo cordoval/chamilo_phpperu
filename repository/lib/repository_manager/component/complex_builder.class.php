@@ -23,6 +23,16 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager
         $this->set_parameter(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $content_object_id);
         $this->content_object = $this->retrieve_content_object($content_object_id);
         
+        $type = Request :: get(RepositoryManager :: PARAM_TYPE);
+     	$this->set_parameter(RepositoryManager :: PARAM_TYPE, $type);
+        
+        if($type)
+        {
+            ComplexBuilder :: launch($type, $this);
+        	//$complex_builder = ComplexBuilder :: factory($this, $this->content_object->get_type());
+        	//$complex_builder->run();
+        }
+        
         if($this->content_object)
         {
             ComplexBuilder :: launch($this->content_object->get_type(), $this);

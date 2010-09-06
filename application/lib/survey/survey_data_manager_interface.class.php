@@ -18,19 +18,19 @@ interface SurveyDataManagerInterface
 
     function retrieve_survey_publications($condition = null, $offset = null, $count = null, $order_property = null);
 
-    function create_survey_publication_category($survey_category);
-
-    function update_survey_publication_category($survey_category);
-
-    function delete_survey_publication_category($survey_category);
-
-    function count_survey_publication_categories($conditions = null);
-
-    function retrieve_survey_publication_category($id);
-
-    function retrieve_survey_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
-
-    function select_next_survey_publication_category_display_order($parent);
+//    function create_survey_publication_category($survey_category);
+//
+//    function update_survey_publication_category($survey_category);
+//
+//    function delete_survey_publication_category($survey_category);
+//
+//    function count_survey_publication_categories($conditions = null);
+//
+//    function retrieve_survey_publication_category($id);
+//
+//    function retrieve_survey_publication_categories($condition = null, $offset = null, $count = null, $order_property = null);
+//
+//    function select_next_survey_publication_category_display_order($parent);
 
     function create_survey_publication_mail($survey_publication_mail);
 

@@ -3,10 +3,10 @@
  * $Id: survey_page_builder.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package
  */
-class SurveyPageBuilder extends ComplexBuilder implements ComplexMenuSupport
+class SurveyPageBuilder extends ComplexBuilder //implements ComplexMenuSupport
 {
     
-    const ACTION_CREATE_SURVEY_PAGE = 'create';
+    const ACTION_CREATE_SURVEY_PAGE = 'creator';
     const ACTION_BUILD_ROUTING = 'routing';
     
     const PARAM_QUESTION_ID = 'question';
