@@ -99,11 +99,11 @@ class Database
         // Do something with the arguments
         if ($args[1] == 'query' || $args[1] == 'prepare')
         {
-            echo '<pre>';
-		 	echo($args[2]);
-		 	echo self :: $query_counter;
-		 	echo '</pre>';
-		 	self :: $query_counter++;
+//            echo '<pre>';
+//		 	echo($args[2]);
+//		 	echo self :: $query_counter;
+//		 	echo '</pre>';
+//		 	self :: $query_counter++;
         }
     }
 
