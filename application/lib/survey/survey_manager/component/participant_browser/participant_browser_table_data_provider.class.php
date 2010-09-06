@@ -1,6 +1,6 @@
 <?php
 
-class TestcaseSurveyPublicationBrowserTableDataProvider extends ObjectTableDataProvider
+class SurveyParticipantBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
     /**
@@ -8,7 +8,7 @@ class TestcaseSurveyPublicationBrowserTableDataProvider extends ObjectTableDataP
      * @param ApplicationComponent $browser
      * @param Condition $condition
      */
-    function TestcaseSurveyPublicationBrowserTableDataProvider($browser, $condition)
+    function SurveyParticipantBrowserTableDataProvider($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }
@@ -23,8 +23,8 @@ class TestcaseSurveyPublicationBrowserTableDataProvider extends ObjectTableDataP
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        
-        return $this->get_browser()->get_parent()->retrieve_survey_publications($this->get_condition(), $offset, $count, $order_property);
+        $dm = SurveyDataManager::get_instance();
+        return $dm->retrieve_survey_participant_trackers($this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -33,7 +33,8 @@ class TestcaseSurveyPublicationBrowserTableDataProvider extends ObjectTableDataP
      */
     function get_object_count()
     {
-        return $this->get_browser()->get_parent()->count_survey_publications($this->get_condition());
+        $dm = SurveyDataManager::get_instance();
+    	return $dm->count_survey_participant_trackers($this->get_condition());
     }
 }
 ?>

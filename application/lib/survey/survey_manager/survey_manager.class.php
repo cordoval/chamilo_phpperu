@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../survey_data_manager.class.php';
 
 require_once Path :: get_application_path() . 'lib/survey/survey_rights.class.php';
-require_once Path :: get_application_path() . 'lib/survey/testcase_manager/testcase_manager.class.php';
+//require_once Path :: get_application_path() . 'lib/survey/testcase_manager/testcase_manager.class.php';
 
 require_once dirname(__FILE__) . '/component/survey_publication_browser/survey_publication_browser_table.class.php';
 
@@ -20,13 +20,14 @@ class SurveyManager extends WebApplication
     const PARAM_MAIL_PARTICIPANTS = 'mail_participant';
     const PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS = 'delete_selected_survey_publications';
     
-    const PARAM_TESTCASE = 'testcase';
+//    const PARAM_TESTCASE = 'testcase';
     
     const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
     const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
     
     const ACTION_DELETE_SURVEY_PUBLICATION = 'deleter';
+    const ACTION_EDIT_SURVEY_PUBLICATION_RIGHTS = 'rights_editor';
     const ACTION_EDIT_SURVEY_PUBLICATION = 'updater';
     const ACTION_CREATE_SURVEY_PUBLICATION = 'creator';
     const ACTION_BROWSE_SURVEY_PUBLICATIONS = 'browser';
@@ -40,6 +41,10 @@ class SurveyManager extends WebApplication
     const ACTION_EXCEL_EXPORT = 'survey_spss_syntax_exporter';
     const ACTION_QUESTION_REPORTING = 'question_reporting';
     
+    const ACTION_BROWSE_SURVEY_PARTICIPANTS = 'participant_browser';
+    const ACTION_BROWSE_SURVEY_EXCLUDED_USERS = 'user_browser';
+//    const ACTION_CHANGE_TEST_TO_PRODUCTION = 'changer';
+    
     const ACTION_IMPORT_SURVEY = 'survey_importer';
     const ACTION_EXPORT_SURVEY = 'survey_exporter';
     const ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY = 'visibility_changer';
@@ -51,7 +56,7 @@ class SurveyManager extends WebApplication
     const ACTION_INVITE_EXTERNAL_USERS = 'inviter';
     
     const ACTION_BUILD_SURVEY = 'builder';
-    const ACTION_TESTCASES = 'testcase';
+//    const ACTION_TESTCASES = 'testcase';
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_SURVEY_PUBLICATIONS;
 
@@ -287,6 +292,31 @@ class SurveyManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXCEL_EXPORT, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
     }
 
+    function get_browse_survey_participants_url($survey_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PARTICIPANTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+    }
+
+    function get_browse_survey_excluded_users_url($survey_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_EXCLUDED_USERS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+    }
+
+    function get_change_test_to_production_url($survey_publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_TEST_TO_PRODUCTION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+    }
+
+    function get_survey_participant_publication_viewer_url($survey_participant_tracker)
+    {
+        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION, SurveyManager :: PARAM_SURVEY_PUBLICATION => $survey_participant_tracker->get_survey_publication_id(), SurveyManager :: PARAM_SURVEY_PARTICIPANT => $survey_participant_tracker->get_id()));
+    }
+	
+    function get_rights_editor_url($survey_publication){
+    	        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_SURVEY_PUBLICATION_RIGHTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+    	
+    }
+    
     //publications
     
 
@@ -334,7 +364,7 @@ class SurveyManager extends WebApplication
     {
         $form->addElement('category', Translation :: get('PublicationDetails'));
         $form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . SurveyPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
-        $form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . SurveyPublication :: PROPERTY_TEST, Translation :: get('TestCase'));
+        $form->add_select(  self :: APPLICATION_NAME . '_opt_' . SurveyPublication :: PROPERTY_TYPE, Translation :: get('SurveyType'), SurveyPublication :: get_types());
         $form->add_forever_or_timewindow('PublicationPeriod', self :: APPLICATION_NAME . '_opt_');
         
         $attributes = array();
@@ -368,7 +398,7 @@ class SurveyManager extends WebApplication
             $locations = array();
             //            while ($category = $categories->next_result())
             //            {
-//            $locations[$category->get_id()] = $category->get_name() . ' - category';
+            //            $locations[$category->get_id()] = $category->get_name() . ' - category';
             //            }
             //            $locations[0] = Translation :: get('RootSurveyCategory');
             
@@ -383,7 +413,7 @@ class SurveyManager extends WebApplication
     static function publish_content_object($content_object, $location, $attributes)
     {
         
-        if (! SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: ADD_RIGHT, SurveyRights ::  LOCATION_BROWSER, SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             return Translation :: get('NoRightsForSurveyPublication');
         }
@@ -415,14 +445,15 @@ class SurveyManager extends WebApplication
             $publication->set_to_date(Utilities :: time_from_datepicker($attributes['to_date']));
         }
         
-        if ($attributes[SurveyPublication :: PROPERTY_TEST] == 1)
-        {
-            $publication->set_test(1);
-        }
-        else
-        {
-            $publication->set_test(0);
-        }
+//        if ($attributes[SurveyPublication :: PROPERTY_TYPE] == 1)
+//        {
+         
+        $publication->set_type($attributes[SurveyPublication :: PROPERTY_TYPE]);
+//        }
+//        else
+//        {
+//            $publication->set_test(0);
+//        }
         
         if ($attributes[self :: PARAM_TARGET_OPTION] != 0)
         {

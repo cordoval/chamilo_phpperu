@@ -8,7 +8,7 @@ class SurveyManagerUpdaterComponent extends SurveyManager
 {
     
     const PARAM_VALIDATED = 'validated';
-    private $testcase = false;
+//    private $testcase = false;
 
     /**
      * Runs this component and displays its output.
@@ -16,11 +16,11 @@ class SurveyManagerUpdaterComponent extends SurveyManager
     function run()
     {
         
-        $testcase = Request :: get(SurveyManager :: PARAM_TESTCASE);
-        if ($testcase === 1)
-        {
-            $this->testcase = true;
-        }
+//        $testcase = Request :: get(SurveyManager :: PARAM_TESTCASE);
+//        if ($testcase === 1)
+//        {
+//            $this->testcase = true;
+//        }
         
         $trail = BreadcrumbTrail :: get_instance();
         

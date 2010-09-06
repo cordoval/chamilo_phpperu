@@ -1,9 +1,9 @@
 <?php
 
-class DefaultTestCaseManagerUserTableCellRenderer extends ObjectTableCellRenderer
+class DefaultSurveyUserTableCellRenderer extends ObjectTableCellRenderer
 {
 	
-	function DefaultTestCaseManagerUserTableCellRenderer()
+	function DefaultSurveyUserTableCellRenderer()
 	{
 	}
 	

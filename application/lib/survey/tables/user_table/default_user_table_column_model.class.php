@@ -1,11 +1,11 @@
 <?php
 
-class DefaultTestCaseManagerUserTableColumnModel extends ObjectTableColumnModel
+class DefaultSurveyUserTableColumnModel extends ObjectTableColumnModel
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultTestCaseManagerUserTableColumnModel()
+	function DefaultSurveyUserTableColumnModel()
 	{
 		parent :: __construct(self :: get_default_columns(), 0);
 	}

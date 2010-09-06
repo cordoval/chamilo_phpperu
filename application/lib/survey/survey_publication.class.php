@@ -16,9 +16,18 @@ class SurveyPublication extends DataClass
     const PROPERTY_HIDDEN = 'hidden';
     const PROPERTY_PUBLISHER = 'publisher_id';
     const PROPERTY_PUBLISHED = 'published';
-//    const PROPERTY_CATEGORY = 'category_id';
-    const PROPERTY_TEST = 'test';
+    const PROPERTY_TYPE = 'type';
+    //    const PROPERTY_CATEGORY = 'category_id';
+    //    const PROPERTY_TEST = 'test';
     
+	const TYPE_TEST_CASE = 1;
+	const TYPE_NAME_TEST_CASE = 'testcase';
+	const TYPE_OFFICIAL = 2;
+	const TYPE_NAME_OFFICIAL = 'official';
+	const TYPE_VOLUNTEER = 3;	
+    const TYPE_NAME_VOLUNTEER = 'volunteer';
+	
+	
     private $target_groups;
     private $target_users;
 
@@ -29,16 +38,19 @@ class SurveyPublication extends DataClass
     
     public function create()
     {
-                $succes = parent :: create();
-                if ($succes)
-                {
-        foreach ($this->get_target_user_ids() as $user_id)
+        $succes = parent :: create();
+        if ($succes)
         {
-            $this->create_participant_trackers($user_id);
-        }
+            foreach ($this->get_target_user_ids() as $user_id)
+            {
+                $this->create_participant_trackers($user_id);
+            }
         
-                }
-        return $succes;
+        }
+       	
+        $parent_location = SurveyRights :: get_surveys_subtree_root_id();
+    	return SurveyRights :: create_location_in_surveys_subtree($this->get_content_object(), $this->get_id(), $parent_location, SurveyRights :: TYPE_PUBLICATION);
+    
     }
 
     public function update()
@@ -85,7 +97,17 @@ class SurveyPublication extends DataClass
 
     public function delete()
     {
-        $succes = parent :: delete();
+        
+     	$location = SurveyRights :: get_location_by_identifier_from_surveys_subtree($this->get_id(), SurveyRights :: TYPE_PUBLICATION);
+    	if($location)
+    	{
+    		if(!$location->remove())
+    		{
+    			return false;
+    		}
+    	}
+    	
+    	$succes = parent :: delete();
         if ($succes)
         {
             $dummy = new SurveyParticipantTracker();
@@ -98,7 +120,7 @@ class SurveyPublication extends DataClass
             }
         
         }
-        
+              
         return $succes;
     }
 
@@ -113,91 +135,91 @@ class SurveyPublication extends DataClass
         $args = array();
         $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
         $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
-       
         
-        if (!$context_template)
+        if (! $context_template)
         {
             
-			$args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = 0;
-        	$args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = 0;
+            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = 0;
+            $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = 0;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = 'NOCONTEXT';
             $tracker = Event :: trigger('survey_participation', 'survey', $args);
         }
         else
         {
-             
-        	$condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $user_id, SurveyTemplate :: get_table_name());
+            
+            $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $user_id, SurveyTemplate :: get_table_name());
             $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
-           
+            
             while ($template = $templates->next_result())
             {
                 $parent_id = 0;
-            	$property_names = $template->get_additional_property_names(true);
-//                dump($property_names);
+                $property_names = $template->get_additional_property_names(true);
+                //                dump($property_names);
                 foreach ($property_names as $property_name => $context_type)
                 {
-		
-                	$args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_id;
+                    
+                    $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_id;
                     $context_id = $template->get_additional_property($property_name);
-//                    dump($context_id);
+                    //                    dump($context_id);
                     $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $template->get_id();
                     $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $context_id;
                     $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = 'NOCONTEXTNAME';
                     $tracker = Event :: trigger('survey_participation', 'survey', $args);
-//                    dump($tracker);
+                    //                    dump($tracker);
                     $parent_id = $tracker[0]->get_id();
-//                    dump($parent_id);
+                    //                    dump($parent_id);
                 }
-//                exit;
+                //                exit;
             }
-            
+        
         }
         
-//        dump($context_template->get_type());
-//        
-//        dump($context_template);
-//        exit();
-//        
-//        $this->create_contexts($user_id, $template, $user_name);
+    //        dump($context_template->get_type());
+    //        
+    //        dump($context_template);
+    //        exit();
+    //        
+    //        $this->create_contexts($user_id, $template, $user_name);
     }
 
-//    private function create_contexts($user_id, $template, $key, $parent_participant_id = 0)
-//    {
-//        $context_type = $template->get_context_type();
-//        $key_type = $template->get_key();
-//        
-//        $context = SurveyContext :: factory($context_type);
-//        
-//        $contexts = $context->create_contexts_for_user($user_id, $key, $key_type);
-//        
-//        $args = array();
-//        $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
-//        $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
-//        $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_participant_id;
-//        $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $template->get_id();
-//        
-//        foreach ($contexts as $cont)
-//        {
-//            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
-//            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $cont->get_name();
-//            $tracker = Event :: trigger('survey_participation', 'survey', $args);
-//            
-//            if ($template->has_children())
-//            {
-//                $temps = $template->get_children(false);
-//                while ($temp = $temps->next_result())
-//                {
-//                    $key = $cont->get_additional_property($temp->get_key());
-//                    $this->create_contexts($user_id, $temp, $key, $tracker[0]->get_id());
-//                }
-//            }
-//        }
-//    }
+    //    private function create_contexts($user_id, $template, $key, $parent_participant_id = 0)
+    //    {
+    //        $context_type = $template->get_context_type();
+    //        $key_type = $template->get_key();
+    //        
+    //        $context = SurveyContext :: factory($context_type);
+    //        
+    //        $contexts = $context->create_contexts_for_user($user_id, $key, $key_type);
+    //        
+    //        $args = array();
+    //        $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
+    //        $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
+    //        $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_participant_id;
+    //        $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $template->get_id();
+    //        
+    //        foreach ($contexts as $cont)
+    //        {
+    //            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $cont->get_id();
+    //            $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $cont->get_name();
+    //            $tracker = Event :: trigger('survey_participation', 'survey', $args);
+    //            
+    //            if ($template->has_children())
+    //            {
+    //                $temps = $template->get_children(false);
+    //                while ($temp = $temps->next_result())
+    //                {
+    //                    $key = $cont->get_additional_property($temp->get_key());
+    //                    $this->create_contexts($user_id, $temp, $key, $tracker[0]->get_id());
+    //                }
+    //            }
+    //        }
+    //    }
+    
 
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_TEST));
+        return parent :: get_default_property_names(array(self :: PROPERTY_CONTENT_OBJECT, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_TYPE));
     }
 
     function get_data_manager()
@@ -268,11 +290,20 @@ class SurveyPublication extends DataClass
         return $this->get_default_property(self :: PROPERTY_HIDDEN);
     }
 
-    function get_test()
+    function get_type()
     {
-        return $this->get_default_property(self :: PROPERTY_TEST);
+        return $this->get_default_property(self :: PROPERTY_TYPE);
     }
 
+    function set_type($type)
+    {
+        $this->set_default_property(self :: PROPERTY_TYPE, $type);
+    }
+	
+    static public function get_types(){
+    	return array(self :: TYPE_TEST_CASE => self :: TYPE_NAME_TEST_CASE, self :: TYPE_OFFICIAL => self ::TYPE_NAME_OFFICIAL, self :: TYPE_VOLUNTEER => self :: TYPE_NAME_VOLUNTEER);
+    }
+    
     /**
      * Sets the hidden of this SurveyPublication.
      * @param hidden
@@ -280,11 +311,6 @@ class SurveyPublication extends DataClass
     function set_hidden($hidden)
     {
         $this->set_default_property(self :: PROPERTY_HIDDEN, $hidden);
-    }
-
-    function set_test($test)
-    {
-        $this->set_default_property(self :: PROPERTY_TEST, $test);
     }
 
     /**
@@ -323,23 +349,24 @@ class SurveyPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
     }
 
-//    /**
-//     * Returns the category of this SurveyPublication.
-//     * @return the category.
-//     */
-//    function get_category()
-//    {
-//        return $this->get_default_property(self :: PROPERTY_CATEGORY);
-//    }
-//
-//    /**
-//     * Sets the category of this SurveyPublication.
-//     * @param category
-//     */
-//    function set_category($category)
-//    {
-//        $this->set_default_property(self :: PROPERTY_CATEGORY, $category);
-//    }
+    //    /**
+    //     * Returns the category of this SurveyPublication.
+    //     * @return the category.
+    //     */
+    //    function get_category()
+    //    {
+    //        return $this->get_default_property(self :: PROPERTY_CATEGORY);
+    //    }
+    //
+    //    /**
+    //     * Sets the category of this SurveyPublication.
+    //     * @param category
+    //     */
+    //    function set_category($category)
+    //    {
+    //        $this->set_default_property(self :: PROPERTY_CATEGORY, $category);
+    //    }
+    
 
     function set_target_groups($target_groups)
     {
