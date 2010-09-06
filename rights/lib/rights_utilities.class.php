@@ -24,6 +24,8 @@ class RightsUtilities
 
     protected static $is_allowed_cache;
     private static $constants;
+    
+    protected static $user_cache;
 
     static function create_location($name, $application, $type = self :: TYPE_ROOT, $identifier = 0, $inherit = 0, $parent = 0, $locked = 0, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT, $return_location = false)
     {
@@ -159,7 +161,16 @@ class RightsUtilities
         // Determine the user_id of the user we're checking a right for
         $udm = UserDataManager :: get_instance();
         $user_id = $user_id ? $user_id : Session :: get_user_id();
-        $user = $udm->retrieve_user($user_id);
+        
+        if(!self :: $user_cache[$user_id])
+        {
+        	$user = $udm->retrieve_user($user_id);
+        	self :: $user_cache[$user_id] = $user;
+        }
+        else
+        {
+        	$user = self :: $user_cache[$user_id];
+        }
 
         $cache_id = md5(serialize(array($right, $location, $type, $application, $user_id, $tree_identifier, $tree_type)));
 
