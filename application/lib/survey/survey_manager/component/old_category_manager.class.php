@@ -13,7 +13,7 @@ class SurveyManagerCategoryManagerComponent extends SurveyManager
     function run()
     {
         
-    	if (! SurveyRights :: is_allowed(SurveyRights :: VIEW_RIGHT, 'category_manager', SurveyRights :: TYPE_SURVEY_COMPONENT))
+    	if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: VIEW_RIGHT, 'category_manager', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));

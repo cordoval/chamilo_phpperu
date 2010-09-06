@@ -12,37 +12,55 @@ class SurveyRights
     const MOVE_RIGHT = '6';
     const MAIL_RIGHT = '7';
     
+    const LOCATION_BROWSER = 1;
+    const LOCATION_REPORTING = 2;
+    
+    const TREE_TYPE_SURVEY = 1;
+    
     const TYPE_SURVEY_COMPONENT = 1;
+    const TYPE_PUBLICATION = 2;
+    
 
-    function get_available_rights()
+    static function get_available_rights_for_publications()
     {
-        $reflect = new ReflectionClass('SurveyRights');
-        return $reflect->getConstants();
+        return array('View' => self :: VIEW_RIGHT);
+    }
+   
+
+    static function create_location_in_surveys_subtree($name, $identifier, $parent, $type)
+    {
+        return RightsUtilities :: create_location($name, SurveyManager :: APPLICATION_NAME, $type, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_SURVEY);
     }
 
-    function is_allowed($right, $location, $type)
+    static function get_surveys_subtree_root()
     {
-        return RightsUtilities :: is_allowed($right, $location, $type, SurveyManager :: APPLICATION_NAME );
+        return RightsUtilities :: get_root(SurveyManager :: APPLICATION_NAME, self :: TREE_TYPE_SURVEY, 0);
     }
 
-    function get_location_by_identifier($type, $identifier, $tree_identifier = '0', $tree_type = 'root')
+    static function get_surveys_subtree_root_id()
     {
-        return RightsUtilities :: get_location_by_identifier(SurveyManager :: APPLICATION_NAME, $type, $identifier, $tree_identifier, $tree_type);
+        return RightsUtilities :: get_root_id(SurveyManager :: APPLICATION_NAME, self :: TREE_TYPE_SURVEY, 0);
     }
 
-    function get_location_id_by_identifier($type, $identifier, $tree_identifier = '0', $tree_type = 'root')
+    static function get_location_id_by_identifier_from_surveys_subtree($identifier, $type)
     {
-        return RightsUtilities :: get_location_id_by_identifier(SurveyManager :: APPLICATION_NAME, $type, $identifier, $tree_identifier, $tree_type);
+        return RightsUtilities :: get_location_id_by_identifier(SurveyManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_SURVEY);
     }
 
-    function get_root_id()
+    static function get_location_by_identifier_from_surveys_subtree($identifier, $type)
     {
-        return RightsUtilities :: get_root_id(SurveyManager :: APPLICATION_NAME);
+        return RightsUtilities :: get_location_by_identifier(SurveyManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_SURVEY);
     }
 
-    function get_root()
+    static function is_allowed_in_surveys_subtree($right, $location, $type)
     {
-        return RightsUtilities :: get_root(SurveyManager :: APPLICATION_NAME);
+        return RightsUtilities :: is_allowed($right, $location, $type, SurveyManager :: APPLICATION_NAME, null, 0, self :: TREE_TYPE_SURVEY);
     }
+
+    static function create_surveys_subtree_root_location()
+    {
+        return RightsUtilities :: create_location('surveys_tree', SurveyManager :: APPLICATION_NAME, 0, 0, 0, 0, 0, 0, self :: TREE_TYPE_SURVEY);
+    }
+    	
 }
 ?>

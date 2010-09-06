@@ -10,7 +10,6 @@ class SurveyPageBuilderCreatorComponent extends SurveyPageBuilder
 	{
 		
 		$creator = ComplexBuilderComponent ::factory(ComplexBuilderComponent::CREATOR_COMPONENT, $this);
-		
 		$creator->run();
 	}
 	

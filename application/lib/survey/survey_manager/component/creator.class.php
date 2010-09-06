@@ -13,7 +13,7 @@ class SurveyManagerCreatorComponent extends SurveyManager implements RepoViewerI
     function run()
     {
 
-        if (! SurveyRights :: is_allowed(SurveyRights :: ADD_RIGHT, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: ADD_RIGHT, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -27,19 +27,22 @@ class SurveyManagerCreatorComponent extends SurveyManager implements RepoViewerI
             $testcase = true;
         }
 
-        $trail = BreadcrumbTrail :: get_instance();
-        if ($testcase)
-        {
-            $trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateTestCaseSurveyPublication')));
-        }
-        else
-        {
-            $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateSurveyPublication')));
-        }
+//        $trail = BreadcrumbTrail :: get_instance();
+//        if ($testcase)
+//        {
+//            $trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
+//            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateTestCaseSurveyPublication')));
+//        }
+//        else
+//        {
+//            $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+//            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateSurveyPublication')));
+//        }
 
         $object_ids = Request :: get(RepoViewer :: PARAM_ID);
+//        dump($object_ids);
+//        exit;
+        
         $repo_viewer = RepoViewer :: construct($this);
 
         $html = array();
