@@ -156,7 +156,8 @@ class RightsUtilities
         }
     }
 
-    static function is_allowed($right, $location = 0, $type = self :: TYPE_ROOT, $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT)
+    //eduard changed second param $location  for $identifier
+    static function is_allowed($right, $identifier = 0, $type = self :: TYPE_ROOT, $application = 'admin', $user_id = null, $tree_identifier = 0, $tree_type = self :: TREE_TYPE_ROOT)
     {
         // Determine the user_id of the user we're checking a right for
         $udm = UserDataManager :: get_instance();
@@ -172,11 +173,11 @@ class RightsUtilities
             $user = self :: $user_cache[$user_id];
         }
         
-        $cache_id = md5(serialize(array($right, $location, $type, $application, $user_id, $tree_identifier, $tree_type)));
+        $cache_id = md5(serialize(array($right, $identifier, $type, $application, $user_id, $tree_identifier, $tree_type)));
         
         if (! isset(self :: $is_allowed_cache[$cache_id]))
         {
-            self :: $is_allowed_cache[$cache_id] = self :: get_right($right, $location, $type, $application, $user, $tree_identifier, $tree_type);
+            self :: $is_allowed_cache[$cache_id] = self :: get_right($right, $identifier, $type, $application, $user, $tree_identifier, $tree_type);
         }
         
         return self :: $is_allowed_cache[$cache_id];
@@ -185,6 +186,7 @@ class RightsUtilities
     /**
      * @param int $right
      * @param int $location
+     eduard: changed second param $location for $identifier
      * @param string $type
      * @param string $application
      * @param User $user
@@ -192,17 +194,18 @@ class RightsUtilities
      * @param string $tree_type
      * @return boolean
      */
-    static function get_right($right, $location, $type, $application, $user, $tree_identifier, $tree_type)
+    static function get_right($right, $identifier, $type, $application, $user, $tree_identifier, $tree_type)
     {
-        if ($user instanceof User && $user->is_platform_admin())
+          	
+    	if ($user instanceof User && $user->is_platform_admin())
         {
-            return true;
+           	return true;
         }
         
-        $location = self :: get_location_by_identifier($application, $type, $location, $tree_identifier, $tree_type);
+        $location = self :: get_location_by_identifier($application, $type, $identifier, $tree_identifier, $tree_type);
         if (! $location)
         {
-            return false;
+            	return false;
         }
         
         $locked_parent = $location->get_locked_parent();
@@ -226,13 +229,13 @@ class RightsUtilities
                     {
                         if (self :: is_allowed_for_rights_template($group_template->get_id(), $right, $location))
                         {
-                            return true;
+                        	return true;
                         }
                     }
                     
                     if (self :: is_allowed_for_group($group->get_id(), $right, $location))
                     {
-                        return true;
+                    	return true;
                     }
                 }
             }
@@ -244,13 +247,13 @@ class RightsUtilities
             {
                 if (self :: is_allowed_for_rights_template($user_template->get_id(), $right, $location))
                 {
-                    return true;
+                	return true;
                 }
             }
             
             if (self :: is_allowed_for_user($user->get_id(), $right, $location))
             {
-                return true;
+            	return true;
             }
         }
         else
