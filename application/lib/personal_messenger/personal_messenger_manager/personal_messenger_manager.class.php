@@ -152,7 +152,7 @@ class PersonalMessengerManager extends WebApplication
      */
     static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
     {
-        return PersonalMessengerDataManager :: get_instance()->get_content_object_publication_attributes($this->get_user(), $object_id, $type, $offset, $count, $order_property);
+        return PersonalMessengerDataManager :: get_instance()->get_content_object_publication_attributes(Session :: get_user_id(), $object_id, $type, $offset, $count, $order_property);
     }
 
     /**
