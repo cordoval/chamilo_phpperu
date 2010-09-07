@@ -22,7 +22,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_CATEGORY_ID = 'category';
     const PARAM_CONTENT_OBJECT_ID = 'object';
     const PARAM_DESTINATION_CONTENT_OBJECT_ID = 'destination';
-    const PARAM_CONTENT_OBJECT_TYPE = 'type';
+    const PARAM_CONTENT_OBJECT_TYPE = 'content_object_type';
     const PARAM_DELETE_PERMANENTLY = 'delete_permanently';
     const PARAM_DELETE_VERSION = 'delete_version';
     const PARAM_DELETE_RECYCLED = 'delete_recycle';
