@@ -430,7 +430,12 @@ class ContentObjectPublication extends DataClass
 			}
 		}
 		
-		return parent :: delete();
+		if(!parent :: delete())
+		{
+			return false;
+		}
+		
+		return AdminDataManager :: get_instance()->delete_feedback_from_publication(WeblcmsManager :: APPLICATION_NAME, $this->get_id());
     }
 
     function retrieve_feedback()
