@@ -254,7 +254,7 @@ class Block
                         $component = str_replace($application . '_', '', $component);
                         $value = $application . '.' . $component;
                         $display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . Utilities :: underscores_to_camelcase($component);
-                        $application_components[$value] = $display;
+                        $application_components[$component] = $display;
                     }
                 }
                 closedir($handle);
@@ -278,7 +278,7 @@ class Block
                         $component = str_replace($core_application . '_', '', $component);
                         $value = $core_application . '.' . $component;
                         $display = Translation :: get(Application :: application_to_class($core_application)) . '&nbsp;>&nbsp;' . Utilities :: underscores_to_camelcase($component);
-                        $application_components[$value] = $display;
+                        $application_components[$component] = $display;
                     }
                 }
                 closedir($handle);
