@@ -12,6 +12,8 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
     private $action_bar;
     private $forums;
     private $topics;
+    private $is_locked;
+    private $forum;
 
     function run()
     {
@@ -24,6 +26,10 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             $rdm = RepositoryDataManager :: get_instance();
             $forum = $rdm->retrieve_content_object($this->get_complex_content_object_item()->get_ref());
         }
+        
+        $this->is_locked = $forum->is_locked();
+        
+        $this->forum = $forum;
         $this->retrieve_children($forum);
         
         $this->action_bar = $this->get_action_bar();
@@ -55,7 +61,10 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
         
         //$this->display_header($trail);
         $this->display_header();
-        echo $this->action_bar->as_html();
+        if(!$this->is_locked)
+        {
+        	echo $this->action_bar->as_html();
+        }
         echo $topics_table->toHtml();
         
         if (count($this->forums) > 0)
@@ -159,7 +168,15 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
         $table->setHeaderContents(1, 5, Translation :: get('LastPost'));
         $table->setCellAttributes(1, 5, array('width' => 140));
         $table->setHeaderContents(1, 6, '');
-        $table->setCellAttributes(1, 6, array('width' => 60));
+        
+        if($this->is_locked)
+        {
+        	$table->setCellAttributes(1, 6, array('width' => 60));
+        }
+        else
+        {
+        	$table->setCellAttributes(1, 6, array('width' => 85));
+        }
     }
 
     function create_topics_table_footer($table, $row)
@@ -189,20 +206,27 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             $count = $rdm->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexContentObjectItem :: get_table_name()));
             $last_post = $rdm->retrieve_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id(), ComplexContentObjectItem :: get_table_name()), array(new ObjectTableOrder(ComplexContentObjectItem :: PROPERTY_ADD_DATE, SORT_DESC)), 0, 1)->next_result();
             
-            $src = 'forum/topic_read.png';
+            $src = Theme :: get_image_path() . 'forum/topic_read.png';
             $hover = 'NoNewPosts';
             switch ($topic->get_type())
             {
                 case 1 :
-                    $src = 'forum/sticky_read.gif';
+                    $src = Theme :: get_image_path() . 'forum/sticky_read.gif';
                     $hover = 'Sticky';
                     break;
                 case 2 :
-                    $src = 'forum/important_read.gif';
+                    $src = Theme :: get_image_path() . 'forum/important_read.gif';
                     $hover = 'Important';
                     break;
             }
-            $table->setCellContents($row, 0, '<img title="' . Translation :: get($hover) . '" src="' . Theme :: get_image_path() . $src . '"/>');
+            
+          	if($this->is_locked || $topic->get_ref()->get_locked())
+          	{
+          		$src = Theme :: get_common_image_path() . 'action_lock.png';
+          		$hover = 'Locked';
+          	}
+            
+            $table->setCellContents($row, 0, '<img title="' . Translation :: get($hover) . '" src="' . $src . '"/>');
             $table->setCellAttributes($row, 0, array('width' => 25, 'class' => 'row1', 'style' => 'height: 30px;'));
             $table->setCellContents($row, 1, $title);
             $table->setCellAttributes($row, 1, array('class' => 'row1'));
@@ -306,6 +330,28 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
         			));
 	            }
         	}
+        	
+        	if(!$this->is_locked)
+        	{
+        		if($topic->get_ref()->get_locked())
+        		{
+        			$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CHANGE_LOCK;
+        			$tool_bar->add_item(new ToolbarItem(Translation :: get('Unlock'), 
+        				Theme :: get_common_image_path() . 'action_unlock.png', 
+        				$this->get_url($parameters),
+        				ToolbarItem :: DISPLAY_ICON
+        			));
+        		}
+        		else
+        		{
+        			$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CHANGE_LOCK;
+        			$tool_bar->add_item(new ToolbarItem(Translation :: get('Lock'), 
+        				Theme :: get_common_image_path() . 'action_lock.png', 
+        				$this->get_url($parameters),
+        				ToolbarItem :: DISPLAY_ICON
+        			));
+        		}
+        	}
         }
         
         return $tool_bar->as_html();
@@ -337,7 +383,15 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
         $table->setHeaderContents(1, 4, Translation :: get('LastPost'));
         $table->setCellAttributes(1, 4, array('width' => 140));
         $table->setHeaderContents(1, 5, '');
-        $table->setCellAttributes(1, 5, array('width' => 40));
+        
+     	if($this->is_locked)
+        {
+        	$table->setCellAttributes(1, 5, array('width' => 40));
+        }
+        else
+        {
+        	$table->setCellAttributes(1, 5, array('width' => 65));
+        }
     }
 
     function create_forums_table_footer($table, $row)
@@ -361,8 +415,14 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             $udm = UserDataManager :: get_instance();
             $title = '<a href="' . $this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $forum->get_id())) . '">' . $forum->get_ref()->get_title() . '</a><br />' . strip_tags($forum->get_ref()->get_description());
             
-            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
-            $table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
+            $src = Theme :: get_image_path() . 'forum/forum_read.png';
+            if($this->is_locked || $forum->get_ref()->get_locked())
+            {
+            	$src = Theme :: get_common_image_path() . 'action_lock.png';
+            }
+            
+            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . $src . '" />');
+            $table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px; text-align: center;'));
             $table->setCellContents($row, 1, $title);
             $table->setCellAttributes($row, 1, array('class' => 'row1'));
             $table->setCellContents($row, 2, $forum->get_ref()->get_total_topics());
@@ -402,6 +462,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             	$this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id(),
             						 ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_CREATE_SUBFORUM)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
+        
         return $action_bar;
     }
 
@@ -422,6 +483,8 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             	ToolbarItem :: DISPLAY_ICON,
             	true
             );
+                        
+            $tool_bar->add_item($delete);
         }
         
         if ($this->get_parent()->is_allowed(EDIT_RIGHT))
@@ -466,7 +529,27 @@ class ForumDisplayForumViewerComponent extends ForumDisplay
             	ToolbarItem :: DISPLAY_ICON
             ));
             
-            $tool_bar->add_item($delete);
+        	if(!$this->is_locked)
+        	{
+        		if($forum->get_ref()->get_locked())
+        		{
+        			$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CHANGE_LOCK;
+        			$tool_bar->add_item(new ToolbarItem(Translation :: get('Unlock'), 
+        				Theme :: get_common_image_path() . 'action_unlock.png', 
+        				$this->get_url($parameters),
+        				ToolbarItem :: DISPLAY_ICON
+        			));
+        		}
+        		else
+        		{
+        			$parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CHANGE_LOCK;
+        			$tool_bar->add_item(new ToolbarItem(Translation :: get('Lock'), 
+        				Theme :: get_common_image_path() . 'action_lock.png', 
+        				$this->get_url($parameters),
+        				ToolbarItem :: DISPLAY_ICON
+        			));
+        		}
+        	}
         
         }
         return $tool_bar->as_html();

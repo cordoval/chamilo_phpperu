@@ -49,14 +49,15 @@ class ForumForm extends ContentObjectForm
         parent :: set_values($defaults);
     }
     
-/*function setDefaults($defaults = array())
+	function setDefaults($defaults = array())
 	{
 		$object = $this->get_content_object();
-		if($object != null){
+		if($object != null)
+		{
 			$defaults[Forum :: PROPERTY_LOCKED] = $object->get_locked();
 		}
 		parent :: setDefaults($defaults);
-	}*/
+	}
 
 }
 ?>

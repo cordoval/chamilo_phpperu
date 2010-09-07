@@ -224,5 +224,35 @@ class Forum extends ContentObject implements ComplexContentObjectSupport
 
     	return array($message, ($failures > 0));
     }
+    
+	function is_locked()
+    {
+    	if($this->get_locked())
+    	{
+    		return true;
+    	}
+    	
+    	$rdm = RepositoryDataManager :: get_instance();
+    	
+    	$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
+        $parents = $rdm->retrieve_complex_content_object_items($condition);
+
+        while ($parent = $parents->next_result())
+        {
+            $content_object = $rdm->retrieve_content_object($parent->get_parent());
+            if($content_object->is_locked())
+            {
+            	return true;
+            }
+        }
+    	
+    	return false;
+    }
+    
+    function invert_locked()
+    {
+    	$this->set_locked(!$this->get_locked());
+    	return $this->update();
+    }
 }
 ?>
