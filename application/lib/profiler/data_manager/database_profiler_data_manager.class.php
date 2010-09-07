@@ -120,7 +120,7 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
     }
 
     //Inherited
-    function get_content_object_publication_attributes($user, $object_id, $type = null, $offset = null, $count = null, $order_properties = null)
+    function get_content_object_publication_attributes($user_id, $object_id, $type = null, $offset = null, $count = null, $order_properties = null)
     {
         if (isset($type))
         {
@@ -136,7 +136,7 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
                 		 ' ON ' . $this->escape_column_name(ProfilePublication :: PROPERTY_PROFILE, $pub_alias) . '=' .
                 		 $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
 
-                $condition = new EqualityCondition(ProfilePublication :: PROPERTY_PUBLISHER, Session :: get_user_id());
+                $condition = new EqualityCondition(ProfilePublication :: PROPERTY_PUBLISHER, $user_id);
                 $translator = new ConditionTranslator($this);
                 $query .= $translator->render_query($condition);
 
