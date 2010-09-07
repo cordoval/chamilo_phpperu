@@ -88,7 +88,7 @@ class ItemBrowserTableCellRenderer extends DefaultItemTableCellRenderer
             $url = $this->browser->get_browse_reservations_url($item->get_id());
         }
         
-        if ($this->browser->has_right(ReservationsRights :: TYPE_ITEM, $item->get_id(), ReservationsRights :: VIEW_RIGHT))
+        if ($this->browser->get_user_id() == $item->get_creator() || $this->browser->has_right(ReservationsRights :: TYPE_ITEM, $item->get_id(), ReservationsRights :: VIEW_RIGHT))
         {
             $toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('BrowseReservations'),
