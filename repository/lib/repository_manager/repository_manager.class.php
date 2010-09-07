@@ -403,9 +403,9 @@ class RepositoryManager extends CoreApplication
     /**
      * @see RepositoryDataManager::get_content_object_publication_attributes()
      */
-    function get_registered_types($only_master_types = false)
+    function get_registered_types()
     {
-        return RepositoryDataManager :: get_registered_types($only_master_types);
+        return RepositoryDataManager :: get_registered_types();
     }
 
     /**
@@ -610,9 +610,9 @@ class RepositoryManager extends CoreApplication
      * objects (which can exist on their own). Returns all learning object types
      * by default.
      */
-    function get_content_object_types($only_master_types = false)
+    function get_content_object_types($check_view_right = true)
     {
-        return RepositoryDataManager :: get_registered_types($only_master_types);
+        return RepositoryDataManager :: get_registered_types($check_view_right);
     }
 
     /**

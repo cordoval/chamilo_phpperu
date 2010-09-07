@@ -240,7 +240,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
     
     function get_allowed_content_object_types()
     {
-    	$types = $this->get_content_object_types(true);
+    	$types = $this->get_content_object_types(true, false);
     	foreach($types as $index => $type)
     	{
     		$registration = AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT);
