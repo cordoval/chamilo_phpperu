@@ -33,5 +33,26 @@ class BlockRepositoryConnector
 
         return $options;
     }
+    function get_link_objects()
+    {
+        $options = array();
+        $rdm = RepositoryDataManager :: get_instance();
+        $condition = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
+        $objects = $rdm->retrieve_type_content_objects(Link :: get_type_name(), $condition);
+
+        if ($objects->size() == 0)
+        {
+            $options[0] = Translation :: get('CreateLinkFirst');
+        }
+        else
+        {
+            while ($object = $objects->next_result())
+            {
+                $options[$object->get_id()] = $object->get_title();
+            }
+        }
+
+        return $options;
+    }
 }
 ?>
