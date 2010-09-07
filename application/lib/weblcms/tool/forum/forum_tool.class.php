@@ -13,6 +13,7 @@ class ForumTool extends Tool implements Categorizable
     const ACTION_VIEW_FORUM = 'viewer';
     const ACTION_PUBLISH_FORUM = 'publisher';
     const ACTION_MANAGE_CATEGORIES = 'category_manager';
+    const ACTION_CHANGE_LOCK = 'change_lock';
 
     static function get_allowed_types()
     {

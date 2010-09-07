@@ -215,8 +215,14 @@ class ForumToolBrowserComponent extends ForumTool
             
             $last_post = RepositoryDataManager :: get_instance()->retrieve_complex_content_object_item($publication->get_content_object()->get_last_post());
             
-            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
-            $table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
+        	$src = Theme :: get_image_path() . 'forum/forum_read.png';
+            if($forum->get_locked())
+            {
+            	$src = Theme :: get_common_image_path() . 'action_lock.png';
+            }
+            
+            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . $src . '" />');
+            $table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px; text-align: center;'));
             $table->setCellContents($row, 1, $title);
             $table->setCellAttributes($row, 1, array('width' => '0%', 'class' => 'row1'));
             $table->setCellContents($row, 2, $forum->get_total_topics());
@@ -335,13 +341,35 @@ class ForumToolBrowserComponent extends ForumTool
 	        		true
 	        ));
 	        
-	        $toolbar->add_item(new ToolbarItem(
+	        /*$toolbar->add_item(new ToolbarItem(
 	        		Translation :: get('ManageRights'),
 	        		Theme :: get_common_image_path() . 'action_rights.png',
 	        		$this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS)),
 	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+	        ));*/
         
+        	$forum = $publication->get_content_object();
+        	
+        	if($forum->get_locked())
+        	{
+        		$parameters[ForumTool :: PARAM_ACTION] = ForumTool :: ACTION_CHANGE_LOCK;
+        		$parameters[ForumTool :: PARAM_PUBLICATION_ID] = $publication->get_id();
+        		$toolbar->add_item(new ToolbarItem(Translation :: get('Unlock'), 
+        			Theme :: get_common_image_path() . 'action_unlock.png', 
+        			$this->get_url($parameters),
+        			ToolbarItem :: DISPLAY_ICON
+        		));
+        	}
+        	else
+        	{
+        		$parameters[ForumTool :: PARAM_ACTION] = ForumTool :: ACTION_CHANGE_LOCK;
+        		$parameters[ForumTool :: PARAM_PUBLICATION_ID] = $publication->get_id();
+        		$toolbar->add_item(new ToolbarItem(Translation :: get('Lock'), 
+        			Theme :: get_common_image_path() . 'action_lock.png', 
+        			$this->get_url($parameters),
+        			ToolbarItem :: DISPLAY_ICON
+        		));
+        	}
         }
     
         if(WebApplication :: is_active('gradebook'))

@@ -231,7 +231,7 @@ class Forum extends ContentObject implements ComplexContentObjectSupport
     	{
     		return true;
     	}
-    	
+
     	$rdm = RepositoryDataManager :: get_instance();
     	
     	$condition = new EqualityCondition(ComplexContentObjectItem :: PROPERTY_REF, $this->get_id());
