@@ -32,6 +32,7 @@ class OverviewInstallWizardPage extends InstallWizardPage
         $this->addElement('static', 'database_name', Translation :: get('DatabaseName'));
         $this->addElement('static', 'database_username', Translation :: get('DBLogin'));
         $this->addElement('static', 'database_password', Translation :: get('DBPassword'));
+        $this->addElement('Static', 'database_exists', Translation :: get('DatabaseExists'));
         $this->addElement('category');
         
         $this->addElement('category', Translation :: get('Applications'));
@@ -83,6 +84,7 @@ class OverviewInstallWizardPage extends InstallWizardPage
         $defaults['database_name']		= $this->controller->exportValue('page_database', 'database_name');
         $defaults['database_username']	= $this->controller->exportValue('page_database', 'database_username');
         $defaults['database_password']	= $this->controller->exportValue('page_database', 'database_password');
+        $defaults['database_exists'] 	= $this->controller->exportValue('page_database', 'database_exists') ? Translation :: get('Yes') : Translation :: get('No');
         
         // Application selections
     	$applications = Filesystem :: get_directory_content(Path :: get_application_path() . 'lib/', Filesystem :: LIST_DIRECTORIES, false);

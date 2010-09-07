@@ -80,7 +80,7 @@ class InternshipOrganizerManager extends WebApplication
         return self :: APPLICATION_NAME;
     }
 
-    function add_publication_attributes_elements($form)
+    static function add_publication_attributes_elements($form)
     {
         //        $form->addElement('category', Translation :: get('PublicationDetails'));
         //        $form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . SurveyPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
