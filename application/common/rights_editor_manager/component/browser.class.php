@@ -102,7 +102,10 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
     {
     	$html = array();
     	
-    	$table = new LocationUserBrowserTable($this, $this->get_parameters(), $this->get_user_conditions());
+    	$parameters = $this->get_parameters();
+        $parameters[self :: PARAM_TYPE] = 'user';
+        $parameters['query'] = $this->action_bar->get_query();
+        $table = new LocationUserBrowserTable($this, $parameters, $this->get_user_conditions());
         $html[] = $table->as_html();
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_user.js');
         
@@ -130,7 +133,10 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $group_object = GroupDataManager :: get_instance()->retrieve_group($group);
         if ($group_object->has_children())
         {
-            $table = new LocationGroupBrowserTable($this, $this->get_parameters(), $this->get_group_conditions());
+            $parameters = $this->get_parameters();
+            $parameters[self :: PARAM_TYPE] = 'group';
+            $parameters['query'] = $this->action_bar->get_query(); 
+            $table = new LocationGroupBrowserTable($this, $parameters, $this->get_group_conditions());
             $tabs->add_tab(new DynamicContentTab(self :: TAB_SUBGROUPS, Translation :: get('Subgroups'), Theme :: get_image_path('admin') . 'place_mini_group.png', $table->as_html()));
         }
             
