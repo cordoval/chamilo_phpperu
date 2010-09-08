@@ -225,7 +225,7 @@ class CompetencesPeerAssessmentViewerWizardPage extends PeerAssessmentViewerWiza
     	// Prints of a table row with properties foreach indicator
         foreach($indicators as $indicator)
         {
-			unset($group);
+			$group = array();
 			$group[] = $this->createElement('static', null, null, '<img src="'. Theme :: get_common_image_path() . 'content_object/indicator.png' .'" alt=""/>');
 			$group[] = $this->createElement('static', null, null, $indicator->get_title());
                 		
