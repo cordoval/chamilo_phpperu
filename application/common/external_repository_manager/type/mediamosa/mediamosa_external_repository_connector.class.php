@@ -39,6 +39,11 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         }
     }
 
+    function get_connector_cookie()
+    {
+        return $this->mediamosa->get_connector_cookie();
+    }
+
     function get_user_id_prefix() {
         if(!$this->user_id_prefix) {
             $this->user_id_prefix = ExternalRepositorySetting :: get('app_id', $this->get_external_repository_instance_id()) . '_';
@@ -248,7 +253,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             case MediamosaExternalRepositoryManager :: FEED_TYPE_MOST_RECENT:
                 
                 $this->cql['sortby']['name'] = 'date';
-                $this->cql['sortby']['order']='ascending';
+                $this->cql['sortby']['order']='descending';
                 $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, 9);
                 break;
             case MediamosaExternalRepositoryManager :: FEED_TYPE_MY_VIDEOS:
@@ -367,7 +372,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                     
                     $string .= $set['name'] . '== "' . $set['value'] . '"';
                     $i++;
-                    $la=count($this->cql);
+                    $la = count($this->cql);
                     if($i < count($this->cql[$delimiter])) $string .= ' ' . $delimiter . ' ';
 
                 }
@@ -378,14 +383,15 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                         $sort = $this->cql['sortby']['name'];
                         $order = $this->cql['sortby']['order'];
                         unset($this->cql['sortby']);
+                        break;
                     }
                 }
             }
             
         }
-        if($sortby && $sort)
+        if($sort && $order)
         {
-            $string .= $sort.'/'.$order;
+            $string .= 'sortby ' . $sort.'/'.$order;
         }
         else
         {
@@ -1140,6 +1146,24 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 
     static function translate_search_query($query) {
         return $query;
+    }
+
+    function mediamosa_put_upload($filename, $url, $params)
+    {
+        if($filename &&  $url)
+        {
+            $url .= '&filename=' . $filename;
+            
+            if($response = $this->request(self :: METHOD_PUT, $url, $params))
+            {
+                if($response->check_result())
+                {
+                    return true;
+                }
+            }
+            
+        }
+        return false;
     }
 
 }
