@@ -78,11 +78,11 @@ class AlexiaLinks extends AlexiaBlock
         
         $access = array();
         $access[] = new EqualityCondition(AlexiaPublication :: PROPERTY_PUBLISHER, $user_id = $user->get_id());
-        $access[] = new InCondition(AlexiaPublicationUser :: PROPERTY_USER, $user_id, $datamanager->get_alias(AlexiaPublicationUser :: get_table_name()));
-        $access[] = new InCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, $groups, $datamanager->get_alias(AlexiaPublicationGroup :: get_table_name()));
+        $access[] = new InCondition(AlexiaPublicationUser :: PROPERTY_USER, $user_id, AlexiaPublicationUser :: get_table_name());
+        $access[] = new InCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, $groups, AlexiaPublicationGroup :: get_table_name());
         if (! empty($user_id) || ! empty($groups))
         {
-            $access[] = new AndCondition(array(new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, $datamanager->get_alias(AlexiaPublicationUser :: get_table_name())), new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, $datamanager->get_alias(AlexiaPublicationGroup :: get_table_name()))));
+            $access[] = new AndCondition(array(new EqualityCondition(AlexiaPublicationUser :: PROPERTY_USER, null, AlexiaPublicationUser :: get_table_name()), new EqualityCondition(AlexiaPublicationGroup :: PROPERTY_GROUP_ID, null, AlexiaPublicationGroup :: get_table_name())));
         }
         $conditions[] = new OrCondition($access);
         
