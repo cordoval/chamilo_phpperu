@@ -48,7 +48,7 @@ class AdminPortalHome extends AdminBlock
 
     function is_editable()
     {
-        return false;
+        return true;
     }
 
     function is_hidable()
