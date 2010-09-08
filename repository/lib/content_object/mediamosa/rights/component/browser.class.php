@@ -4,7 +4,6 @@ require_once Path :: get_application_path() . 'common/rights_editor_manager/comp
 
 class MediamosaRightsEditorManagerBrowserComponent extends MediamosaRightsEditorManager
 {
-  
     function run()
     {
        //$component = new RightsEditorManagerBrowserComponent($this->get_parent(), $this->get_locations());
@@ -12,7 +11,5 @@ class MediamosaRightsEditorManagerBrowserComponent extends MediamosaRightsEditor
        $component->run();
        $this->update_mediamosa_rights();
     }
-    
-    
 }
 ?>

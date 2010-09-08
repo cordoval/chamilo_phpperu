@@ -4,6 +4,8 @@ require_once Path :: get_application_path() . 'common/external_repository_manage
 
 class MediamosaRightsEditorManager extends RightsEditorManager
 {
+    private $sync;
+
     function run()
     {
         $parent = $this->get_parameter(self :: PARAM_RIGHTS_EDITOR_ACTION);
@@ -30,7 +32,7 @@ class MediamosaRightsEditorManager extends RightsEditorManager
     {
         return Path :: get_repository_path() . 'lib/content_object/mediamosa/rights/component/';
     }
-
+    
     function update_mediamosa_rights()
     {
         $redm =  RepositoryDataManager :: get_instance();

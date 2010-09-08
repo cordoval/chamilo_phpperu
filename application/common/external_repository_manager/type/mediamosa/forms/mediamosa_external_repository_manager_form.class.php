@@ -139,9 +139,9 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
                     {
                         $ticket_return = array();
 
-                        $ticket_return['asset_id'] = $asset_id;
-                        $ticket_return['action'] = $ticket_response->items->item->action;
-                        $ticket_return['uploadprogress_url'] = $ticket_response->items->item->uploadprogress_url;
+                        $ticket_return['asset_id'] = (string) $asset_id;
+                        $ticket_return['action'] = (string) $ticket_response->items->item->action;
+                        $ticket_return['uploadprogress_url'] = (string) $ticket_response->items->item->uploadprogress_url;
 
                         return $ticket_return;
                     }
