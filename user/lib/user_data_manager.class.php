@@ -7,6 +7,9 @@
  *
  * This is a skeleton for a data manager for the User application.
  */
+
+require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
+
 class UserDataManager
 {
     /**
@@ -104,16 +107,12 @@ class UserDataManager
      */
     function user_deletion_allowed($user)
     {
-        // TODO: Check if the user can be deleted (fe: can an admin delete another admin etc)
-
-
         //A check to not delete a user when he's an active teacher
-        //        {
-        //            $courses = WebLcmsDataManager :: get_instance()->retrieve_courses(new EqualityCondition(Course :: PROPERTY_TITULAR,$user->get_id()))->size();
-        //            if($courses>0)
-        //            return false;
-        //        }
-
+        $courses = WeblcmsDataManager :: get_instance()->count_courses(new EqualityCondition(Course :: PROPERTY_TITULAR,$user->get_id()));
+        if($courses > 0)
+        {
+        	return false;
+        }
 
         return true;
     }
