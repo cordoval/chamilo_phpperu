@@ -14,15 +14,15 @@ class SurveyManagerResultsExporterComponent extends SurveyManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
-        $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS)), Translation :: get('ViewResults')));
+        //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
+        //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS)), Translation :: get('ViewResults')));
         $trail->add_help('courses survey tool');
         
         if (Request :: get('tid'))
         {
             $id = Request :: get('tid');
             $url = $this->get_results_exporter_url($id);
-            $trail->add(new Breadcrumb($url, Translation :: get('ExportResults')));
+            //$trail->add(new Breadcrumb($url, Translation :: get('ExportResults')));
             $type = 'user_survey';
             $export_form = new SurveyResultsExportForm($url);
         }

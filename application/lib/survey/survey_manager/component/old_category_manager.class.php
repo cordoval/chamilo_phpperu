@@ -22,8 +22,8 @@ class SurveyManagerCategoryManagerComponent extends SurveyManager
         }
     	
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-        $trail->add(new Breadcrumb($this->get_manage_survey_publication_categories_url(), Translation :: get('ManageCategories')));
+        //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+        //$trail->add(new Breadcrumb($this->get_manage_survey_publication_categories_url(), Translation :: get('ManageCategories')));
         $category_manager = new SurveyPublicationCategoryManager($this, $trail);
         $category_manager->run();
     }

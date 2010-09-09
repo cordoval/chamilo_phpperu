@@ -9,7 +9,7 @@ class TestcaseManagerBrowserComponent extends TestcaseManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
+        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
         
         $this->action_bar = $this->get_action_bar();
         $this->display_header($trail);

@@ -6,7 +6,7 @@ class SurveyPublication extends DataClass
 {
     const CLASS_NAME = __CLASS__;
     const TABLE_NAME = 'publication';
-    const PARTICIPANT_ROOTCONTEXT = 'ROOT';
+//    const PARTICIPANT_ROOTCONTEXT = 'ROOT';
     /**
      * SurveyPublication properties
      */
@@ -28,8 +28,8 @@ class SurveyPublication extends DataClass
     const TYPE_VOLUNTEER = 3;
     const TYPE_NAME_VOLUNTEER = 'volunteer';
     
-    private $target_groups;
-    private $target_users;
+//    private $target_groups;
+//    private $target_users;
 
     /**
      * Get the default properties
@@ -436,15 +436,15 @@ class SurveyPublication extends DataClass
     //    }
     
 
-    function set_target_groups($target_groups)
-    {
-        $this->target_groups = $target_groups;
-    }
-
-    function set_target_users($target_users)
-    {
-        $this->target_users = $target_users;
-    }
+//    function set_target_groups($target_groups)
+//    {
+//        $this->target_groups = $target_groups;
+//    }
+//
+//    function set_target_users($target_users)
+//    {
+//        $this->target_users = $target_users;
+//    }
 
     function toggle_visibility()
     {
@@ -460,79 +460,79 @@ class SurveyPublication extends DataClass
         return $this->get_default_property(self :: PROPERTY_HIDDEN);
     }
 
-    function is_test()
-    {
-        return $this->get_default_property(self :: PROPERTY_TEST);
-    }
+//    function is_test()
+//    {
+//        return $this->get_default_property(self :: PROPERTY_TEST);
+//    }
 
-    function get_target_groups()
-    {
-        if (! $this->target_groups)
-        {
-            $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $this->get_id());
-            $groups = $this->get_data_manager()->retrieve_survey_publication_groups($condition);
-            
-            while ($group = $groups->next_result())
-            {
-                $this->target_groups[] = $group->get_group_id();
-            }
-        }
-        
-        return $this->target_groups;
-    }
-
-    function get_target_users()
-    {
-        if (! isset($this->target_users))
-        {
-            $this->target_users = array();
-            $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $this->get_id());
-            $users = $this->get_data_manager()->retrieve_survey_publication_users($condition);
-            
-            while ($user = $users->next_result())
-            {
-                $this->target_users[] = $user->get_user();
-            }
-        }
-        return $this->target_users;
-    }
-
-    function get_target_user_ids()
-    {
-        $user_ids = array();
-        $groups = $this->get_target_groups();
-        
-        if (isset($groups) && (count($groups) != 0))
-        {
-            $gdm = GroupDataManager :: get_instance();
-            foreach ($groups as $group_id)
-            {
-                $group = $gdm->retrieve_group($group_id);
-                $user_ids = array_merge($user_ids, $group->get_users(true, true));
-            }
-        }
-        $user_ids = array_merge($user_ids, $this->get_target_users());
-        
-        return $user_ids;
-    }
-
-    function get_user_count()
-    {
-        
-        $user_count = 0;
-        $groups = $this->get_target_groups();
-        if (isset($groups) && (count($groups) != 0))
-        {
-            $gdm = GroupDataManager :: get_instance();
-            foreach ($groups as $group_id)
-            {
-                $group = $gdm->retrieve_group($group_id);
-                $user_count += $group->count_users(true, true);
-            }
-        }
-        $user_count += count($this->get_target_users());
-        return $user_count;
-    }
+//    function get_target_groups()
+//    {
+//        if (! $this->target_groups)
+//        {
+//            $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $this->get_id());
+//            $groups = $this->get_data_manager()->retrieve_survey_publication_groups($condition);
+//            
+//            while ($group = $groups->next_result())
+//            {
+//                $this->target_groups[] = $group->get_group_id();
+//            }
+//        }
+//        
+//        return $this->target_groups;
+//    }
+//
+//    function get_target_users()
+//    {
+//        if (! isset($this->target_users))
+//        {
+//            $this->target_users = array();
+//            $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $this->get_id());
+//            $users = $this->get_data_manager()->retrieve_survey_publication_users($condition);
+//            
+//            while ($user = $users->next_result())
+//            {
+//                $this->target_users[] = $user->get_user();
+//            }
+//        }
+//        return $this->target_users;
+//    }
+//
+//    function get_target_user_ids()
+//    {
+//        $user_ids = array();
+//        $groups = $this->get_target_groups();
+//        
+//        if (isset($groups) && (count($groups) != 0))
+//        {
+//            $gdm = GroupDataManager :: get_instance();
+//            foreach ($groups as $group_id)
+//            {
+//                $group = $gdm->retrieve_group($group_id);
+//                $user_ids = array_merge($user_ids, $group->get_users(true, true));
+//            }
+//        }
+//        $user_ids = array_merge($user_ids, $this->get_target_users());
+//        
+//        return $user_ids;
+//    }
+//
+//    function get_user_count()
+//    {
+//        
+//        $user_count = 0;
+//        $groups = $this->get_target_groups();
+//        if (isset($groups) && (count($groups) != 0))
+//        {
+//            $gdm = GroupDataManager :: get_instance();
+//            foreach ($groups as $group_id)
+//            {
+//                $group = $gdm->retrieve_group($group_id);
+//                $user_count += $group->count_users(true, true);
+//            }
+//        }
+//        $user_count += count($this->get_target_users());
+//        return $user_count;
+//    }
 
     function is_visible_for_target_user($user, $exclude_publisher = false)
     {
@@ -629,58 +629,58 @@ class SurveyPublication extends DataClass
         return $rdm->retrieve_content_object($this->get_content_object());
     }
 
-    function get_publication_publisher()
-    {
-        $udm = UserDataManager :: get_instance();
-        return $udm->retrieve_user($this->get_publisher());
-    }
+//    function get_publication_publisher()
+//    {
+//        $udm = UserDataManager :: get_instance();
+//        return $udm->retrieve_user($this->get_publisher());
+//    }
 
-    function count_unique_participants()
-    {
-        $dummy = new SurveyParticipantTracker();
-        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
-        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
-        $user_ids = array();
-        while ($tracker = $trackers->next_result())
-        {
-            $user_ids[] = $tracker->get_user_id();
-        }
-        $user_ids = array_unique($user_ids);
-        return count($user_ids);
-    
-    }
-
-    function count_excluded_participants()
-    {
-        $dummy = new SurveyParticipantTracker();
-        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
-        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
-        $user_ids = array();
-        while ($tracker = $trackers->next_result())
-        {
-            $user_ids[] = $tracker->get_user_id();
-        }
-        $user_ids = array_unique($user_ids);
-        $user_ids = array_diff($this->get_target_user_ids(), $user_ids);
-        return count($user_ids);
-    
-    }
-
-    function get_excluded_participants()
-    {
-        $dummy = new SurveyParticipantTracker();
-        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
-        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
-        $user_ids = array();
-        while ($tracker = $trackers->next_result())
-        {
-            $user_ids[] = $tracker->get_user_id();
-        }
-        $user_ids = array_unique($user_ids);
-        $user_ids = array_diff($this->get_target_user_ids(), $user_ids);
-        return $user_ids;
-    
-    }
+//    function count_unique_participants()
+//    {
+//        $dummy = new SurveyParticipantTracker();
+//        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
+//        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
+//        $user_ids = array();
+//        while ($tracker = $trackers->next_result())
+//        {
+//            $user_ids[] = $tracker->get_user_id();
+//        }
+//        $user_ids = array_unique($user_ids);
+//        return count($user_ids);
+//    
+//    }
+//
+//    function count_excluded_participants()
+//    {
+//        $dummy = new SurveyParticipantTracker();
+//        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
+//        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
+//        $user_ids = array();
+//        while ($tracker = $trackers->next_result())
+//        {
+//            $user_ids[] = $tracker->get_user_id();
+//        }
+//        $user_ids = array_unique($user_ids);
+//        $user_ids = array_diff($this->get_target_user_ids(), $user_ids);
+//        return count($user_ids);
+//    
+//    }
+//
+//    function get_excluded_participants()
+//    {
+//        $dummy = new SurveyParticipantTracker();
+//        $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
+//        $trackers = $dummy->retrieve_tracker_items_result_set($condition);
+//        $user_ids = array();
+//        while ($tracker = $trackers->next_result())
+//        {
+//            $user_ids[] = $tracker->get_user_id();
+//        }
+//        $user_ids = array_unique($user_ids);
+//        $user_ids = array_diff($this->get_target_user_ids(), $user_ids);
+//        return $user_ids;
+//    
+//    }
 
 }
 

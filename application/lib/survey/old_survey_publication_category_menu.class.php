@@ -140,7 +140,7 @@ class SurveyPublicationCategoryMenu extends HTML_Menu
                 continue;
             }
             
-            $trail->add(new Breadcrumb($crumb['url'], substr($crumb['title'], 0, strpos($crumb['title'], '(') - 1)));
+            //$trail->add(new Breadcrumb($crumb['url'], substr($crumb['title'], 0, strpos($crumb['title'], '(') - 1)));
         }
         return $trail;
     }

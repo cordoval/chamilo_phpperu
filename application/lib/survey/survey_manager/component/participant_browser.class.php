@@ -22,8 +22,8 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
             $this->pid = Request :: post(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         }
         //        $trail = BreadcrumbTrail :: get_instance();
-        //        $trail->add(new Breadcrumb($this->get_browse_survey_publication_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-        //        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestCaseSurveyParticipants')));
+        //        //$trail->add(new Breadcrumb($this->get_browse_survey_publication_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
+        //        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestCaseSurveyParticipants')));
         
 
         $this->action_bar = $this->get_action_bar();
