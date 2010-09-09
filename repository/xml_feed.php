@@ -33,12 +33,14 @@ if (Authentication :: is_valid())
         $conditions[] = new NotCondition(new OrCondition($c));
     }
 
+    $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
     $condition = new AndCondition($conditions);
 
     $dm = RepositoryDataManager :: get_instance();
     $order_property[] = new ObjectTableOrder(ContentObject :: PROPERTY_TITLE);
     $objects = $dm->retrieve_content_objects($condition, $order_property);
-
+	$objects_by_cat = array();
+    
     while ($lo = $objects->next_result())
     {
         /*$cat = $dm->retrieve_categories(new EqualityCondition('id', $lo->get_parent_id()))->next_result();
