@@ -22,7 +22,7 @@ class RepoViewer extends SubManager
     const PARAM_ID = 'repo_object';
     const PARAM_EDIT_ID = 'obj';
     const PARAM_QUERY = 'query';
-    const PARAM_CONTENT_OBJECT_TYPE = 'type';
+    const PARAM_CONTENT_OBJECT_TYPE = 'content_object_type';
 
     const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
 

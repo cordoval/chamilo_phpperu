@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../assessment_display.class.php';
 require_once dirname(__FILE__) . '/result_viewer/question_result_display.class.php';
 
-class AssessmentDisplayResultViewerComponent extends AssessmentDisplay
+class AssessmentDisplayResultsViewerComponent extends AssessmentDisplay
 {
 
     /**

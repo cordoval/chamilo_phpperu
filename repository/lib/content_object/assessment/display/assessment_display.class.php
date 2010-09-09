@@ -11,7 +11,7 @@
 class AssessmentDisplay extends ComplexDisplay
 {
     const ACTION_VIEW_ASSESSMENT = 'assessment_viewer';
-    const ACTION_VIEW_ASSESSMENT_RESULT = 'result_viewer';
+    const ACTION_VIEW_ASSESSMENT_RESULT = 'results_viewer';
     
     const DEFAULT_ACTION = self :: ACTION_VIEW_ASSESSMENT;
 

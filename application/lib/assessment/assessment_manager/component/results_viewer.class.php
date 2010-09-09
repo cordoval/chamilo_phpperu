@@ -74,7 +74,7 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
                 $pub = AssessmentDataManager :: get_instance()->retrieve_assessment_publication($pid);
                 $object = $pub->get_publication_object();
                 
-                $_GET['display_action'] = 'view_result';
+                $_GET['display_action'] = AssessmentManager::ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS;
                 
                 $this->set_parameter('details', $details);
                 $this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $pid);
