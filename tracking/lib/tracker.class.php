@@ -166,7 +166,24 @@ abstract class Tracker extends DataClass
 
         return self :: get_data_manager()->count_tracker_items($table_name, $condition);
     }
+	
+     /**
+     * @param string $type
+     * @param string $application
+     * @param Condition $condition
+     * @return boolean 
+     */
+    static function remove_data($type, $application, $condition = null)
+    {
+        self :: load_tracker($type, $application);
 
+        $class_name = Utilities :: underscores_to_camelcase($type);
+        $table_name = call_user_func(array($class_name, 'get_table_name'));
+
+        return self :: get_data_manager()->remove_tracker_items($table_name, $condition);
+    }
+    
+    
     /**
      * @param string $type
      * @param string $application

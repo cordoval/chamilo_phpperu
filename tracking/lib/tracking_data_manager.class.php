@@ -25,7 +25,7 @@ class TrackingDataManager
      * Uses a singleton pattern and a factory pattern to return the data
      * manager. The configuration determines which data manager class is to
      * be instantiated.
-     * @return TrackingDataManager The data manager.
+     * @return TrackingDataManagerInterface The data manager.
      */
     static function get_instance()
     {
