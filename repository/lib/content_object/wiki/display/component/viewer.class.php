@@ -16,7 +16,7 @@ require_once dirname(__FILE__) . '/../wiki_parser.class.php';
 require_once Path :: get_repository_path() . 'lib/content_object/wiki/display/wiki_display.class.php';
 require_once Path :: get_plugin_path() . 'wiki/mediawiki_parser.class.php';
 
-class WikiDisplayWikiViewerComponent extends WikiDisplay
+class WikiDisplayViewerComponent extends WikiDisplay
 {
     private $action_bar;
 

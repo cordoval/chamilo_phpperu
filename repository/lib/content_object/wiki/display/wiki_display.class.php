@@ -5,6 +5,7 @@
  */
 
 require_once dirname(__FILE__) . '/wiki_actionbar.class.php';
+require_once dirname(__FILE__) . '/wiki_parser.class.php';
 /**
  * This tool allows a user to publish wikis in his or her course.
  */
@@ -14,7 +15,7 @@ class WikiDisplay extends ComplexDisplay
     const PARAM_WIKI_PAGE_ID = 'wiki_page_id';
     
     const ACTION_BROWSE_WIKI = 'wiki_browser';
-    const ACTION_VIEW_WIKI = 'wiki_viewer';
+    const ACTION_VIEW_WIKI = 'viewer';
     const ACTION_VIEW_WIKI_PAGE = 'wiki_item_viewer';
     const ACTION_CREATE_PAGE = 'wiki_page_creator';
     const ACTION_SET_AS_HOMEPAGE = 'wiki_homepage_setter';
