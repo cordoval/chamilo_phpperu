@@ -12,15 +12,15 @@ class InternshipOrganizerCategoryManagerEditorComponent extends InternshipOrgani
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('category general');
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        $trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        //$trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
         
         $id = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
         if ($id)
         {
             $category = $this->retrieve_category($id);
-            $trail->add(new Breadcrumb($this->get_category_viewing_url($category), $category->get_name()));
-            $trail->add(new Breadcrumb($this->get_category_editing_url($category), Translation :: get('UpdateInternshipOrganizerCategory') . ' ' . $category->get_name()));
+            //$trail->add(new Breadcrumb($this->get_category_viewing_url($category), $category->get_name()));
+            //$trail->add(new Breadcrumb($this->get_category_editing_url($category), Translation :: get('UpdateInternshipOrganizerCategory') . ' ' . $category->get_name()));
             
             $form = new InternshipOrganizerCategoryForm(InternshipOrganizerCategoryForm :: TYPE_EDIT, $category, $this->get_category_editing_url($category), $this->get_user());
             

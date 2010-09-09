@@ -13,15 +13,15 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        $trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        //$trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
         
         $category_id = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
         $this->category = $this->retrieve_category($category_id);
         
-        $trail->add(new Breadcrumb($this->get_category_viewing_url($this->category), $this->category->get_name()));
+        //$trail->add(new Breadcrumb($this->get_category_viewing_url($this->category), $this->category->get_name()));
         
-        $trail->add(new Breadcrumb($this->get_category_subscribe_location_browser_url($this->category), Translation :: get('AddInternshipOrganizerLocation')));
+        //$trail->add(new Breadcrumb($this->get_category_subscribe_location_browser_url($this->category), Translation :: get('AddInternshipOrganizerLocation')));
         
         $trail->add_help('category subscribe locations');
         

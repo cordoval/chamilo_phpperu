@@ -29,9 +29,9 @@ class InternshipOrganizerCategoryManagerViewerComponent extends InternshipOrgani
                 Display :: not_allowed();
             }
             
-            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-            $trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
-            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $id)), $category->get_name()));
+            //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+            //$trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
+            //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $id)), $category->get_name()));
             $trail->add_help('category general');
             
             $this->display_header($trail);

@@ -25,7 +25,7 @@ class SurveyManagerQuestionReportingComponent extends SurveyManager
         $this->set_parameter(SurveyManager :: PARAM_SURVEY_QUESTION, $question_id);
 
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+        //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
         $trail->add_help('survey reporting');
 
         $rtv = ReportingViewer :: construct($this);

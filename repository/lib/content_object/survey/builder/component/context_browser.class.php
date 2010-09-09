@@ -25,18 +25,22 @@ class SurveyBuilderContextBrowserComponent extends SurveyBuilder
         {
             $this->template = $current_template;
         }
+      
+        //        $trail = BreadcrumbTrail :: get_instance();
+        //        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseContext')));
         
-        $trail = BreadcrumbTrail :: get_instance();
-        
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseContext')));
+
         $this->ab = $this->get_action_bar();
         
-        $menu = $this->get_menu_html();
         $output = $this->get_browser_html();
         
         $this->display_header($trail);
         echo $this->ab->as_html() . '<br />';
-        echo $menu;
+       
+            $menu = $this->get_menu_html();
+            echo $menu;
+      
+        
         echo $output;
         $this->display_footer();
     }
@@ -44,7 +48,7 @@ class SurveyBuilderContextBrowserComponent extends SurveyBuilder
     function get_browser_html()
     {
         $parameters = $this->get_parameters();
-        $parameters[SurveyBuilder::PARAM_TEMPLATE_ID] = $this->template;
+        $parameters[SurveyBuilder :: PARAM_TEMPLATE_ID] = $this->template;
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
         
         $table = new SurveyContextTemplateBrowserTable($this, $parameters, $this->get_condition());

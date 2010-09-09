@@ -5,8 +5,8 @@
  */
 require_once dirname(__FILE__) . '/../survey_publication.class.php';
 require_once dirname(__FILE__) . '/../category_manager/survey_publication_category.class.php';
-require_once dirname(__FILE__) . '/../survey_publication_group.class.php';
-require_once dirname(__FILE__) . '/../survey_publication_user.class.php';
+//require_once dirname(__FILE__) . '/../survey_publication_group.class.php';
+//require_once dirname(__FILE__) . '/../survey_publication_user.class.php';
 require_once dirname(__FILE__) . '/../survey_data_manager_interface.class.php';
 
 /**
@@ -54,27 +54,27 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         $condition = new EqualityCondition(SurveyPublication :: PROPERTY_ID, $survey_publication->get_id());
         $succes = $this->update($survey_publication, $condition);
 
-        // Delete target users and groups
-        $condition = new EqualityCondition('survey_publication_id', $survey_publication->get_id());
-        $this->delete_objects(SurveyPublicationUser :: get_table_name(), $condition);
-        $this->delete_objects(SurveyPublicationGroup :: get_table_name(), $condition);
-
-        // Add updated target users and groups
-        foreach ($survey_publication->get_target_groups() as $group)
-        {
-            $survey_publication_group = new SurveyPublicationGroup();
-            $survey_publication_group->set_survey_publication($survey_publication->get_id());
-            $survey_publication_group->set_group_id($group);
-            $succes &= $survey_publication_group->create();
-        }
-
-        foreach ($survey_publication->get_target_users() as $user)
-        {
-            $survey_publication_user = new SurveyPublicationUser();
-            $survey_publication_user->set_survey_publication($survey_publication->get_id());
-            $survey_publication_user->set_user($user);
-            $succes &= $survey_publication_user->create();
-        }
+//        // Delete target users and groups
+//        $condition = new EqualityCondition('survey_publication_id', $survey_publication->get_id());
+//        $this->delete_objects(SurveyPublicationUser :: get_table_name(), $condition);
+//        $this->delete_objects(SurveyPublicationGroup :: get_table_name(), $condition);
+//
+//        // Add updated target users and groups
+//        foreach ($survey_publication->get_target_groups() as $group)
+//        {
+//            $survey_publication_group = new SurveyPublicationGroup();
+//            $survey_publication_group->set_survey_publication($survey_publication->get_id());
+//            $survey_publication_group->set_group_id($group);
+//            $succes &= $survey_publication_group->create();
+//        }
+//
+//        foreach ($survey_publication->get_target_users() as $user)
+//        {
+//            $survey_publication_user = new SurveyPublicationUser();
+//            $survey_publication_user->set_survey_publication($survey_publication->get_id());
+//            $survey_publication_user->set_user($user);
+//            $succes &= $survey_publication_user->create();
+//        }
 
         return $succes;
     }
@@ -82,12 +82,12 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
     function delete_survey_publication($survey_publication)
     {
 
-        $user_condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $survey_publication->get_id());
-        $group_condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $survey_publication->get_id());
+//        $user_condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $survey_publication->get_id());
+//        $group_condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $survey_publication->get_id());
         $publication_condition = new EqualityCondition(SurveyPublication :: PROPERTY_ID, $survey_publication->get_id());
 
-        $this->delete_objects(SurveyPublicationUser :: get_table_name(), $user_condition);
-        $this->delete_objects(SurveyPublicationGroup :: get_table_name(), $group_condition);
+//        $this->delete_objects(SurveyPublicationUser :: get_table_name(), $user_condition);
+//        $this->delete_objects(SurveyPublicationGroup :: get_table_name(), $group_condition);
         return $this->delete($survey_publication->get_table_name(), $publication_condition);
     }
 
@@ -106,14 +106,14 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
     {
     	$rdm = RepositoryDataManager :: get_instance();
         $publication_alias = $this->get_alias(SurveyPublication :: get_table_name());
-        $publication_user_alias = $this->get_alias(SurveyPublicationUser :: get_table_name());
-        $publication_group_alias = $this->get_alias(SurveyPublicationGroup :: get_table_name());
+//        $publication_user_alias = $this->get_alias(SurveyPublicationUser :: get_table_name());
+//        $publication_group_alias = $this->get_alias(SurveyPublicationGroup :: get_table_name());
         $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
 
         $query = 'SELECT COUNT(DISTINCT ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . ') FROM ' . $this->escape_table_name(SurveyPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(SurveyPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $publication_user_alias);
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(SurveyPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $publication_group_alias);
+//        $query .= ' LEFT JOIN ' . $this->escape_table_name(SurveyPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $publication_user_alias);
+//        $query .= ' LEFT JOIN ' . $this->escape_table_name(SurveyPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $publication_group_alias);
 
         return $this->count_result_set($query, SurveyPublication :: get_table_name(), $condition);
     }
@@ -167,50 +167,50 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
     {
         $rdm = RepositoryDataManager :: get_instance();
         $publication_alias = $this->get_alias(SurveyPublication :: get_table_name());
-        $publication_user_alias = $this->get_alias(SurveyPublicationUser :: get_table_name());
-        $publication_group_alias = $this->get_alias(SurveyPublicationGroup :: get_table_name());
+//        $publication_user_alias = $this->get_alias(SurveyPublicationUser :: get_table_name());
+//        $publication_group_alias = $this->get_alias(SurveyPublicationGroup :: get_table_name());
         $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
 
         $query = 'SELECT  DISTINCT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(SurveyPublication :: get_table_name()) . ' AS ' . $publication_alias;
         $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_CONTENT_OBJECT, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(SurveyPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $publication_user_alias);
-        $query .= ' LEFT JOIN ' . $this->escape_table_name(SurveyPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $publication_group_alias);
+//        $query .= ' LEFT JOIN ' . $this->escape_table_name(SurveyPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(SurveyPublicationUser :: PROPERTY_SURVEY_PUBLICATION, $publication_user_alias);
+//        $query .= ' LEFT JOIN ' . $this->escape_table_name(SurveyPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(SurveyPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(SurveyPublicationGroup :: PROPERTY_SURVEY_PUBLICATION, $publication_group_alias);
 
         return $this->retrieve_object_set($query, SurveyPublication :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublication :: CLASS_NAME);
     }
 
-    function retrieve_survey_participant_trackers($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-        //$database = TrackingDataManager::get_instance();
-        $dummy = new SurveyParticipantTracker();
-        //$table_name = $dummy->get_table_name();
-        //$result = $database->retrieve_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
-        //$condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $result);
-        return $dummy->retrieve_tracker_items_result_set($condition, $offset, $max_objects, $order_by);
+//    function retrieve_survey_participant_trackers($condition = null, $offset = null, $max_objects = null, $order_by = null)
+//    {
+//        //$database = TrackingDataManager::get_instance();
+//        $dummy = new SurveyParticipantTracker();
+//        //$table_name = $dummy->get_table_name();
+//        //$result = $database->retrieve_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
+//        //$condition = new InCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $result);
+//        return $dummy->retrieve_tracker_items_result_set($condition, $offset, $max_objects, $order_by);
+//
+//    }
 
-    }
-
-    function create_survey_publication_group($survey_publication_group)
-    {
-        return $this->create($survey_publication_group);
-    }
-
-    function update_survey_publication_group($survey_publication_group)
-    {
-        $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_ID, $survey_publication_group->get_id());
-        return $this->update($survey_publication_group, $condition);
-    }
-
-    function delete_survey_publication_group($survey_publication_group)
-    {
-        $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_ID, $survey_publication_group->get_id());
-        return $this->delete($survey_publication_group->get_table_name(), $condition);
-    }
-
-    function count_survey_publication_groups($condition = null)
-    {
-        return $this->count_objects(SurveyPublicationGroup :: get_table_name(), $condition);
-    }
+//    function create_survey_publication_group($survey_publication_group)
+//    {
+//        return $this->create($survey_publication_group);
+//    }
+//
+//    function update_survey_publication_group($survey_publication_group)
+//    {
+//        $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_ID, $survey_publication_group->get_id());
+//        return $this->update($survey_publication_group, $condition);
+//    }
+//
+//    function delete_survey_publication_group($survey_publication_group)
+//    {
+//        $condition = new EqualityCondition(SurveyPublicationGroup :: PROPERTY_ID, $survey_publication_group->get_id());
+//        return $this->delete($survey_publication_group->get_table_name(), $condition);
+//    }
+//
+//    function count_survey_publication_groups($condition = null)
+//    {
+//        return $this->count_objects(SurveyPublicationGroup :: get_table_name(), $condition);
+//    }
 
 //    function retrieve_survey_publication_group($id)
 //    {
@@ -218,32 +218,32 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
 //        return $this->retrieve_object(SurveyPublicationGroup :: get_table_name(), $condition, array(), SurveyPublicationGroup :: CLASS_NAME);
 //    }
 
-    function retrieve_survey_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-        return $this->retrieve_objects(SurveyPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationGroup :: CLASS_NAME);
-    }
-
-    function create_survey_publication_user($survey_publication_user)
-    {
-        return $this->create($survey_publication_user);
-    }
-
-    function update_survey_publication_user($survey_publication_user)
-    {
-        $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_ID, $survey_publication_user->get_id());
-        return $this->update($survey_publication_user, $condition);
-    }
-
-    function delete_survey_publication_user($survey_publication_user)
-    {
-        $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_ID, $survey_publication_user->get_id());
-        return $this->delete($survey_publication_user->get_table_name(), $condition);
-    }
-
-    function count_survey_publication_users($condition = null)
-    {
-        return $this->count_objects(SurveyPublicationUser :: get_table_name(), $condition);
-    }
+//    function retrieve_survey_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null)
+//    {
+//        return $this->retrieve_objects(SurveyPublicationGroup :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationGroup :: CLASS_NAME);
+//    }
+//
+//    function create_survey_publication_user($survey_publication_user)
+//    {
+//        return $this->create($survey_publication_user);
+//    }
+//
+//    function update_survey_publication_user($survey_publication_user)
+//    {
+//        $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_ID, $survey_publication_user->get_id());
+//        return $this->update($survey_publication_user, $condition);
+//    }
+//
+//    function delete_survey_publication_user($survey_publication_user)
+//    {
+//        $condition = new EqualityCondition(SurveyPublicationUser :: PROPERTY_ID, $survey_publication_user->get_id());
+//        return $this->delete($survey_publication_user->get_table_name(), $condition);
+//    }
+//
+//    function count_survey_publication_users($condition = null)
+//    {
+//        return $this->count_objects(SurveyPublicationUser :: get_table_name(), $condition);
+//    }
 
 //    function retrieve_survey_publication_user($id)
 //    {
@@ -251,10 +251,10 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
 //        return $this->retrieve_object(SurveyPublicationUser :: get_table_name(), $condition, array(), SurveyPublicationUser :: CLASS_NAME);
 //    }
 
-    function retrieve_survey_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
-    {
-        return $this->retrieve_objects(SurveyPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationUser :: CLASS_NAME);
-    }
+//    function retrieve_survey_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
+//    {
+//        return $this->retrieve_objects(SurveyPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, SurveyPublicationUser :: CLASS_NAME);
+//    }
 
     function create_survey_publication_mail($survey_publication_mail)
     {

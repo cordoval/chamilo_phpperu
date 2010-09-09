@@ -26,14 +26,14 @@ class SurveyManagerUpdaterComponent extends SurveyManager
         
         //        if ($this->testcase)
         //        {
-        //            $trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
+        //            //$trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
         //        }
         //        else
         //        {
-        //            $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+        //            //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
         //        }
         //        
-        //        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateSurveyPublication')));
+        //        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateSurveyPublication')));
         
 
         $publication = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);

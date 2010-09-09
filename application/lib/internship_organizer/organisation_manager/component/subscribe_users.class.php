@@ -13,14 +13,14 @@ class InternshipOrganizerOrganisationManagerSubscribeUsersComponent extends Inte
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        $trail->add(new Breadcrumb($this->get_browse_organisations_url(), Translation :: get('BrowseInternshipOrganizerOrganisations')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        //$trail->add(new Breadcrumb($this->get_browse_organisations_url(), Translation :: get('BrowseInternshipOrganizerOrganisations')));
         
         $organisation_id = Request :: get(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID);
         $this->organisation = $this->retrieve_organisation($organisation_id);
         
-        $trail->add(new Breadcrumb($this->get_view_organisation_url($this->organisation), $this->organisation->get_name()));
-        $trail->add(new Breadcrumb($this->get_organisation_subscribe_users_url($this->organisation), Translation :: get('AddInternshipOrganizerUsers')));
+        //$trail->add(new Breadcrumb($this->get_view_organisation_url($this->organisation), $this->organisation->get_name()));
+        //$trail->add(new Breadcrumb($this->get_organisation_subscribe_users_url($this->organisation), Translation :: get('AddInternshipOrganizerUsers')));
         $trail->add_help('organisation subscribe users');
         
         $form = new InternshipOrganizerOrganisationSubscribeUsersForm($this->organisation, $this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => Request :: get(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID))), $this->get_user());

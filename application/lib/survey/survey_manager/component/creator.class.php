@@ -30,13 +30,13 @@ class SurveyManagerCreatorComponent extends SurveyManager implements RepoViewerI
 //        $trail = BreadcrumbTrail :: get_instance();
 //        if ($testcase)
 //        {
-//            $trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-//            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateTestCaseSurveyPublication')));
+//            //$trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
+//            //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateTestCaseSurveyPublication')));
 //        }
 //        else
 //        {
-//            $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-//            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateSurveyPublication')));
+//            //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+//            //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateSurveyPublication')));
 //        }
 
         $object_ids = Request :: get(RepoViewer :: PARAM_ID);

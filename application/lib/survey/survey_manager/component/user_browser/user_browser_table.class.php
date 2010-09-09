@@ -6,17 +6,20 @@ require_once dirname(__FILE__).'/user_browser_table_cell_renderer.class.php';
 
 class SurveyUserBrowserTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'user_browser_table';
+	const TYPE_INVITEES = 1;
+	const TYPE_NO_PARTICIPANTS = 2;
+	
+	const DEFAULT_NAME = 'survey_user_browser_table';
 
 	/**
 	 * Constructor
 	 */
-	function SurveyUserBrowserTable($browser, $parameters, $condition)
+	function SurveyUserBrowserTable($browser, $parameters, $condition, $publication_id, $type)
 	{
 		
 	
 		$model = new SurveyUserBrowserTableColumnModel($browser);
-		$renderer = new SurveyUserBrowserTableCellRenderer($browser);
+		$renderer = new SurveyUserBrowserTableCellRenderer($browser, $publication_id, $type);
 		$data_provider = new SurveyUserBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider,SurveyUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$actions = array();

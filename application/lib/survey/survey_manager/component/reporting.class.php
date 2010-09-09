@@ -9,7 +9,7 @@ class SurveyManagerReportingComponent extends SurveyManager
     function run()
     {
 
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: VIEW_RIGHT, 'reporting', SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_VIEW, SurveyRights :: LOCATION_REPORTING, SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -25,20 +25,20 @@ class SurveyManagerReportingComponent extends SurveyManager
         $publication = $this->retrieve_survey_publication($publication_id);
         $this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $publication_id);
 
-        if ($publication->is_test())
-        {
-            $trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-        }
-
-        else
-        {
-            $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-        }
+//        if ($publication->is_test())
+//        {
+//            //$trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
+//        }
+//
+//        else
+//        {
+//            //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+//        }
 
         //        $strail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('TakeSurvey')));
 
 
-        $trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_TEMPLATE_NAME => $classname, ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params)), Translation :: get('Report')));
+//        //$trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_TEMPLATE_NAME => $classname, ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params)), Translation :: get('Report')));
         $trail->add_help('survey reporting');
 
         $rtv = ReportingViewer :: construct($this);

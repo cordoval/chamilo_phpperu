@@ -18,13 +18,13 @@
 	<event name="delete_publication_category">
 		<tracker name="survey_publication_changes" />
 	</event>
-	<event name="survey_participation">
+	<event name="create_survey_participant">
 		<tracker name="survey_participant" />
 	</event>
-	<event name="survey_participation_mail">
+	<event name="register_survey_participation_mail">
 		<tracker name="survey_participant_mail" />
 	</event>
-	<event name="attempt_question">
+	<event name="save_question_answer">
 		<tracker name="survey_question_answer" />
 	</event>
 </application>

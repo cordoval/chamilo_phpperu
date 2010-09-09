@@ -16,8 +16,8 @@ class InternshipOrganizerCategoryManagerMoverComponent extends InternshipOrganiz
         
         $category = $this->retrieve_categories(new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_ID, Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID)))->next_result();
 
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        $trail->add(new Breadcrumb($this->get_category_viewing_url($category), $category->get_name()));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        //$trail->add(new Breadcrumb($this->get_category_viewing_url($category), $category->get_name()));
         
         $form = new InternshipOrganizerCategoryMoveForm($category, $this->get_url(array(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID))), $this->get_user());
         
@@ -29,7 +29,7 @@ class InternshipOrganizerCategoryManagerMoverComponent extends InternshipOrganiz
         }
         else
         {
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('InternshipOrganizerCategoryMove')));
+            //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('InternshipOrganizerCategoryMove')));
             $this->display_header($trail);
             echo Translation :: get('Category') . ': ' . $category->get_name();
             $form->display();
