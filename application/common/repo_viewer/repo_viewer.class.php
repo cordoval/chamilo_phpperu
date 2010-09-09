@@ -269,7 +269,13 @@ class RepoViewer extends SubManager
     static function is_ready_to_be_published()
     {
         //$action = $this->get_parameter(RepoViewer :: PARAM_ACTION);
+        ContentObjectTable::handle_table_action();
+        $table_name = Request :: post('table_name');
         $action = Request :: get(RepoViewer :: PARAM_ACTION);
+        $table_action = Request :: post($table_name . '_action_value');
+        if($table_action)
+            $action = $table_action;
+
         return (self :: any_object_selected() && $action == RepoViewer::ACTION_PUBLISHER);
     }
 
