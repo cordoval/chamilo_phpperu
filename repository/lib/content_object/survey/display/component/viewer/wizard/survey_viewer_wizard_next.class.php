@@ -98,9 +98,9 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
                         
                         if (count($answers) > 0)
                         {
-                            //$question = $rdm->retrieve_content_object($question_ccoi->get_ref());
+//                            $question = $rdm->retrieve_content_object($question_ccoi->get_ref());
                             $count_questions ++;
-//                            $this->parent->get_parent()->save_answer($question_ccoi->get_id(), serialize($answers));
+                          $this->parent->save_answer($question_ccoi->get_id(), serialize($answers));
                         }
                     
                     }

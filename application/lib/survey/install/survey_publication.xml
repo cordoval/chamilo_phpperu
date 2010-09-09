@@ -9,9 +9,8 @@
 		<property name="hidden" type="boolean" />
 		<property name="publisher_id" type="integer" notnull="1" />
 		<property name="published" type="integer" notnull="1" />
-		<property name="category_id" type="integer" notnull="1"
-			default="0" />
-		<property name="test" type="boolean" />
+		<property name="type" type="integer" notnull="1"  />
+
 	</properties>
 	<index name="content_object_id">
 		<indexproperty name="content_object_id" />
@@ -19,7 +18,7 @@
 	<index name="publisher_id">
 		<indexproperty name="publisher_id" />
 	</index>
-	<index name="category_id">
-		<indexproperty name="category_id" />
+	<index name="type_id">
+		<indexproperty name="type_id" />
 	</index>
 </object>

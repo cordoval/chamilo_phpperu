@@ -15,14 +15,14 @@ class InternshipOrganizerPeriodManagerSubscribeUserComponent extends InternshipO
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        $trail->add(new Breadcrumb($this->get_browse_periods_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
+//        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+//        //$trail->add(new Breadcrumb($this->get_browse_periods_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
         
         $period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
         $this->period = $this->retrieve_period($period_id);
         
-        $trail->add(new Breadcrumb($this->get_period_viewing_url($this->period), $this->period->get_name()));
-        $trail->add(new Breadcrumb($this->get_period_subscribe_user_url($this->period), Translation :: get('AddInternshipOrganizerUsers')));
+//        //$trail->add(new Breadcrumb($this->get_period_viewing_url($this->period), $this->period->get_name()));
+//        //$trail->add(new Breadcrumb($this->get_period_subscribe_user_url($this->period), Translation :: get('AddInternshipOrganizerUsers')));
         $trail->add_help('period subscribe users');
         
         $form = new InternshipOrganizerPeriodSubscribeUserForm($this->period, $this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID))), $this->get_user());

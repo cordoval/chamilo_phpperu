@@ -14,7 +14,7 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         
         $id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
         $parent_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID);
@@ -43,14 +43,14 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
                 Display :: not_allowed();
             }
             
-            $trail->add(new Breadcrumb($this->get_browse_regions_url(), Translation :: get('BrowseInternshipOrganizerRegions')));
+            //$trail->add(new Breadcrumb($this->get_browse_regions_url(), Translation :: get('BrowseInternshipOrganizerRegions')));
             
             if ($parent_id && $parent_parent_id)
             {
-                $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $parent_id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_parent_id)), $parent_region->get_city_name()));
+                //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $parent_id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_parent_id)), $parent_region->get_city_name()));
             }
             
-            $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_id)), $region->get_city_name()));
+            //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_id)), $region->get_city_name()));
             $trail->add_help('region general');
             
             $this->display_header($trail);

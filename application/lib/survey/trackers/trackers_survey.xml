@@ -18,7 +18,7 @@
 	<event name="delete_publication_category">
 		<tracker name="survey_publication_changes" />
 	</event>
-	<event name="create_survey_participation">
+	<event name="create_survey_participant">
 		<tracker name="survey_participant" />
 	</event>
 	<event name="register_survey_participation_mail">

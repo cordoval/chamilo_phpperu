@@ -153,7 +153,7 @@ class SurveyPublication extends DataClass
             $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = 0;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = 'NOCONTEXT';
-            $tracker = Event :: trigger('survey_participation', 'survey', $args);
+            $tracker = Event :: trigger(SurveyParticipantTracker :: CREATE_PARTICIPANT_EVENT, SurveyManager::APPLICATION_NAME, $args);
             $succes = true;
             //            dump($tracker);
         }
@@ -220,7 +220,7 @@ class SurveyPublication extends DataClass
                         $context = SurveyContextDataManager::get_instance()->retrieve_survey_context_by_id($context_id);
                         
                         $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $context->get_name();
-                        $tracker = Event :: trigger('survey_participation', 'survey', $args);
+                        $tracker = Event :: trigger(SurveyParticipantTracker :: CREATE_PARTICIPANT_EVENT, SurveyManager::APPLICATION_NAME, $args);
                         //                    dump($tracker);
                         //                    $parent_id = $tracker[0]->get_id();
                         $tracker_matrix[$level][$context_id] = $tracker[0]->get_id();

@@ -12,9 +12,9 @@ class InternshipOrganizerOrganisationManagerUpdaterComponent extends InternshipO
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_MENTOR)), Translation :: get('BrowseInternshipOrganizerMentors')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateInternshipOrganizerMentor')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_MENTOR)), Translation :: get('BrowseInternshipOrganizerMentors')));
+        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateInternshipOrganizerMentor')));
         
         $mentor = $this->retrieve_mentor(Request :: get(InternshipOrganizerMentorManager :: PARAM_MENTOR_ID));
         $form = new InternshipOrganizerMentorForm(InternshipOrganizerMentorForm :: TYPE_EDIT, $mentor, $this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_MENTOR_ID => $mentor->get_id())), $this->get_user());
