@@ -272,8 +272,8 @@ class SurveyViewerWizard extends HTML_QuickForm_Controller
         $conditions[] = new EqualityCondition(SurveyQuestionAnswerTracker :: PROPERTY_QUESTION_CID, $complex_question_id);
         $condition = new AndCondition($conditions);
         $tracker_count = $trackers = tracker :: count_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition);
-        
-        if ($tracker_count === 1)
+               
+        if ($tracker_count == 1)
         {
             $tracker = tracker :: get_data(SurveyQuestionAnswerTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition, 0, 1)->next_result();
             $tracker->set_answer($answer);
