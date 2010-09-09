@@ -129,17 +129,33 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         			$this->browser->get_user_delete_url($user),
         			ToolbarItem :: DISPLAY_ICON,
         			true
-        			));
-        		
-                }
+        		));
+            }
+            else
+            {
+            	$toolbar->add_item(new ToolBarItem(Translation :: get('DeleteNA'),
+        			Theme :: get_common_image_path() . 'action_delete_na.png',
+        			null,
+        			ToolbarItem :: DISPLAY_ICON
+        		));
+            }
         	
             if(UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user->get_id()))
             {
 				$toolbar->add_item(new ToolBarItem(Translation :: get('LoginAsUser'),
 	        		Theme :: get_common_image_path() . 'action_login.png',
 	        		$this->browser->get_change_user_url($user),
-	        		ToolbarItem :: DISPLAY_ICON));
+	        		ToolbarItem :: DISPLAY_ICON)
+	        	);
             }
+        }
+        else
+        {
+        	$toolbar->add_item(new ToolBarItem(Translation :: get('DeleteNA'),
+        		Theme :: get_common_image_path() . 'action_delete_na.png',
+        		null,
+        		ToolbarItem :: DISPLAY_ICON
+        	));
         }
         
 		return $toolbar->as_html();

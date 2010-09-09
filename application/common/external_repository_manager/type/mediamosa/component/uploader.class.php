@@ -59,12 +59,11 @@ class MediamosaExternalRepositoryManagerUploaderComponent extends MediamosaExter
                    $params[ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY_ID] = $ticket_response['asset_id'];
                    $params['message'] = Translation :: get('UploadSuccess') . '. ' . Translation :: get('TranscodeNeeded');
 
-                   $redirect_url = 'http://' . $_SERVER['SERVER_NAME'] . $this->get_url($params, true);
-
                    //generate uploadform
-                   $uploadform = new MediamosaExternalRepositoryManagerUploadForm($ticket_response['action'], $redirect_url, $ticket_response['uploadprogress_url'], $this);
+                   $uploadform = new MediamosaExternalRepositoryManagerUploadForm($ticket_response, $params, $this);
 
                    $this->display_header($trail, false);
+
                    $uploadform->display();
                    $this->display_footer();
                }

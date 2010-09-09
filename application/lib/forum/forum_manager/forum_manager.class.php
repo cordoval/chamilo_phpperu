@@ -29,7 +29,8 @@ class ForumManager extends WebApplication
     const ACTION_MANAGE_CATEGORIES = 'category_manager';
     const ACTION_EVALUATE = 'forum_evaluation';
     const ACTION_EDIT_RIGHTS = 'rights_editor';
-
+	const ACTION_CHANGE_LOCK = 'change_lock';
+    
     const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
     private $parameters;

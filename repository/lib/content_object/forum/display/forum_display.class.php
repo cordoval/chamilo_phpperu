@@ -28,64 +28,7 @@ class ForumDisplay extends ComplexDisplay
     
     const ACTION_MAKE_IMPORTANT = 'important';
     const ACTION_MAKE_STICKY = 'sticky';
-
-    function run()
-    {
-        $action = $this->get_action();
-        
-        switch ($action)
-        {
-            case self :: ACTION_PUBLISH_FORUM :
-                $component = $this->create_component('Publisher');
-                break;
-            case self :: ACTION_VIEW_FORUM :
-                $component = $this->create_component('ForumViewer');
-                break;
-            case self :: ACTION_VIEW_TOPIC :
-                $component = $this->create_component('TopicViewer');
-                break;
-            case self :: ACTION_CREATE_FORUM_POST :
-                $component = $this->create_component('ForumPostCreator');
-                break;
-            case self :: ACTION_EDIT_FORUM_POST :
-                $component = $this->create_component('ForumPostEditor');
-                break;
-            case self :: ACTION_DELETE_FORUM_POST :
-                $component = $this->create_component('ForumPostDeleter');
-                break;
-            case self :: ACTION_QUOTE_FORUM_POST :
-                $component = $this->create_component('ForumPostQuoter');
-                break;
-            case self :: ACTION_CREATE_TOPIC :
-                $component = $this->create_component('ForumTopicCreator');
-                break;
-            case self :: ACTION_DELETE_TOPIC :
-                $component = $this->create_component('ForumTopicDeleter');
-                break;
-            case self :: ACTION_CREATE_SUBFORUM :
-                $component = $this->create_component('ForumSubforumCreator');
-                break;
-            case self :: ACTION_EDIT_SUBFORUM :
-                $component = $this->create_component('ForumSubforumEditor');
-                break;
-            case self :: ACTION_DELETE_SUBFORUM :
-                $component = $this->create_component('ForumSubforumDeleter');
-                break;
-            case self :: ACTION_MAKE_IMPORTANT :
-                $component = $this->create_component('Important');
-                break;
-            case self :: ACTION_MAKE_STICKY :
-                $component = $this->create_component('Sticky');
-                break;
-            default :
-                $this->set_action(self :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT);
-                if ($this->get_complex_content_object_item() instanceof ComplexForumTopic)
-                    $component = $this->create_component('TopicViewer');
-                else
-                    $component = $this->create_component('ForumViewer');
-        }
-        $component->run();
-    }
+    const ACTION_CHANGE_LOCK = 'change_lock';
 
     function get_application_component_path()
     {

@@ -72,11 +72,6 @@ class ReservationsCalendarListRenderer extends ReservationsCalendarRenderer
     
     private function get_start_time()
     {
-    	if(date('Y-m-d', $this->get_time()) == date('Y-m-d', time()))
-    	{
-    		return time();
-    	}
-    	
     	return strtotime(date('Y-m-d 00:00:00', $this->get_time()));
     }
     

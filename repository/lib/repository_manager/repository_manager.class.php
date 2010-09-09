@@ -22,7 +22,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_CATEGORY_ID = 'category';
     const PARAM_CONTENT_OBJECT_ID = 'object';
     const PARAM_DESTINATION_CONTENT_OBJECT_ID = 'destination';
-    const PARAM_CONTENT_OBJECT_TYPE = 'type';
+    const PARAM_CONTENT_OBJECT_TYPE = 'content_object_type';
     const PARAM_DELETE_PERMANENTLY = 'delete_permanently';
     const PARAM_DELETE_VERSION = 'delete_version';
     const PARAM_DELETE_RECYCLED = 'delete_recycle';
@@ -403,9 +403,9 @@ class RepositoryManager extends CoreApplication
     /**
      * @see RepositoryDataManager::get_content_object_publication_attributes()
      */
-    function get_registered_types($only_master_types = false)
+    function get_registered_types()
     {
-        return RepositoryDataManager :: get_registered_types($only_master_types);
+        return RepositoryDataManager :: get_registered_types();
     }
 
     /**
@@ -610,9 +610,9 @@ class RepositoryManager extends CoreApplication
      * objects (which can exist on their own). Returns all learning object types
      * by default.
      */
-    function get_content_object_types($only_master_types = false)
+    function get_content_object_types($check_view_right = true)
     {
-        return RepositoryDataManager :: get_registered_types($only_master_types);
+        return RepositoryDataManager :: get_registered_types($check_view_right);
     }
 
     /**

@@ -251,7 +251,7 @@ class Block
                     if (! is_dir($file) && stripos($file, '.class.php') !== false)
                     {
                         $component = str_replace('.class.php', '', $file);
-                        $component = str_replace($application . '_', '', $component);
+                        $component = str_replace($application . '_', '', $component); 
                         $value = $application . '.' . $component;
                         $display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . Utilities :: underscores_to_camelcase($component);
                         $application_components[$value] = $display;
@@ -284,9 +284,9 @@ class Block
                 closedir($handle);
             }
         }
-        
+
         asort($application_components);
-        
+
         return $application_components;
     }
 

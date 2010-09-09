@@ -138,6 +138,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
             $conditions[] = $cond;
         }
 
+        $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
         $condition = new AndCondition($conditions);
         //dump($condition);
         return $condition;

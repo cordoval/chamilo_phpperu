@@ -77,7 +77,7 @@ class HomeManagerEditorComponent extends HomeManager
                 if ($form->validate())
                 {
                     $success = $form->update_object();
-                    $this->redirect(Translation :: get($success ? 'HomeUpdated' : 'HomeNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+                    $this->redirect(Translation :: get($success ? 'HomeUpdated' : 'HomeNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => HomeManager :: ACTION_VIEW_HOME));
                 }
                 else
                 {

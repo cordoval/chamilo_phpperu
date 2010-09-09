@@ -14,16 +14,7 @@ class ForumTopicForm extends ContentObjectForm
         
         $object->set_locked($this->exportValue(ForumTopic :: PROPERTY_LOCKED));
         $this->set_content_object($object);
-        
-        /*		$values-> $this->exportValues();
-		$object->set_locked($values[ForumTopic :: PROPERTY_LOCKED]);
-		$this->set_content_object($object);
-		if ($values['locked']){
-			$object->set_locked("1");
-		}
-		else{
-			$object->set_locked("0");
-		}*/
+
         return parent :: create_content_object();
     }
 
@@ -60,13 +51,13 @@ class ForumTopicForm extends ContentObjectForm
         parent :: set_values($defaults);
     }
     
-/*function setDefaults($defaults = array())
+	function setDefaults($defaults = array())
 	{
 		$object = $this->get_content_object();
 		if($object != null){
 			$defaults[ForumTopic :: PROPERTY_LOCKED] = $object->get_locked();
 		}
 		parent :: setDefaults($defaults);
-	}*/
+	}
 }
 ?>

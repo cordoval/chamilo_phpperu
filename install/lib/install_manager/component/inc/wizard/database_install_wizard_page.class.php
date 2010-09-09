@@ -35,6 +35,7 @@ class DatabaseInstallWizardPage extends InstallWizardPage
         $this->addElement('select', 'database_driver', Translation :: get('DBDriver'), $this->get_database_drivers());
         $this->addElement('text', 'database_host', Translation :: get('DBHost'), array('size' => '40'));
         $this->addElement('text', 'database_name', Translation :: get('DatabaseName'), array('size' => '40'));
+        $this->addElement('checkbox', 'database_exists', Translation :: get('DatabaseExists'));
         $this->addElement('category');
 
         $this->addElement('category', Translation :: get('Credentials'));

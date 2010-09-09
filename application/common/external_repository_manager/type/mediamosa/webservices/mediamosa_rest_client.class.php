@@ -156,9 +156,10 @@ class MediamosaRestClient extends RestClient{
         $this->set_data_to_send('');
 
         //different method need different handling of data
-        if(($method == self :: METHOD_POST) || ($method == self :: METHOD_PUT))
+        if(($method == self :: METHOD_POST))
         {
             if(is_array($data)) $this->set_data_to_send($data);
+            $url = $this->mediamosa_url . $url;
         }
         elseif($method == self :: METHOD_GET)
         {
@@ -185,10 +186,16 @@ class MediamosaRestClient extends RestClient{
 
                 $get_string = implode('&', $tmp);
                 $url .= '?' . $get_string;
+               
             }
+            $url = $this->mediamosa_url . $url;
+            
+        }elseif($method == self :: METHOD_PUT)
+        {
+            if(is_array($data)) $this->set_data_to_send($data);
         }
         
-        $this->set_url($this->mediamosa_url.$url);
+        $this->set_url($url);
         
         //add connector cookie to headers if set
         if($this->get_connector_cookie())

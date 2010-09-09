@@ -72,12 +72,10 @@ class RepositoryDataManager
 
     /**
      * Returns the learning object types registered with the data manager.
-     * @param boolean $only_master_types Only return the master type learning
-     * objects (which can exist on their own). Returns all learning object types
-     * by default.
+     * @param boolean $check_for_view_right: checks if the user has view right on the content object
      * @return array The types.
      */
-    public static function get_registered_types($only_master_types = false, $check_for_rights = true)
+    public static function get_registered_types($check_for_view_right = true)
     {
         $adm = AdminDataManager :: get_instance();
         $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_CONTENT_OBJECT);
@@ -89,7 +87,7 @@ class RepositoryDataManager
 
         while ($content_object = $content_objects->next_result())
         {
-            if ($check_for_rights && ! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: VIEW_RIGHT, $content_object->get_id()))
+            if ($check_for_view_right && ! RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: VIEW_RIGHT, $content_object->get_id()))
             {
                 continue;
             }
@@ -432,7 +430,7 @@ class RepositoryDataManager
     {
         $path = Path :: get_repository_path() . 'lib/content_object/';
 
-        foreach (self :: get_registered_types(true) as $content_object_type)
+        foreach (self :: get_registered_types() as $content_object_type)
         {
             $content_object_path = $path . $content_object_type . '/' . $content_object_type . '.class.php';
             require_once $content_object_path;
@@ -493,7 +491,7 @@ class RepositoryDataManager
     public static function get_content_object_managers()
     {
         self :: load_types();
-        $active_objects = self :: get_registered_types(true);
+        $active_objects = self :: get_registered_types();
         $managers = array();
 
         foreach ($active_objects as $active_object)

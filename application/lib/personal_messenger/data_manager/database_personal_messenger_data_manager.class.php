@@ -235,11 +235,11 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
         return $this->delete(PersonalMessagePublication :: get_table_name(), $condition);
     }
 
-	function count_publication_attributes($user = null, $object_id = null, $condition = null)
+	function count_publication_attributes($user_id = null, $object_id = null, $condition = null)
     {
         if(!$object_id)
         {
-    		$condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $user->get_id());
+    		$condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $user_id);
         }
         else
         {

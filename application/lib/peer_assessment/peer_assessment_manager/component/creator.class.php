@@ -18,7 +18,7 @@ class PeerAssessmentManagerCreatorComponent extends PeerAssessmentManager implem
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishPeerAssessment')));
 
         
-        $form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER, RepoViewer :: PARAM_ID => $pub->get_selected_objects())), $this->get_user());
+        $form = new PeerAssessmentPublicationForm(PeerAssessmentPublicationForm :: TYPE_CREATE, null, $this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_PUBLISHER)), $this->get_user());
 
         if (!RepoViewer :: is_ready_to_be_published())
         {

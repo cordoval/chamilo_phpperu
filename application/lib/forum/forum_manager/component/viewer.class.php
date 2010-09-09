@@ -4,6 +4,7 @@
  * @package application.lib.forum.forum_manager.component
  */
 require_once dirname(__FILE__) . '/../forum_manager.class.php';
+require_once dirname(__FILE__) . '/../../trackers/forum_topic_view_tracker.class.php';
 
 /**
  * Component to view a new forum_publication object
@@ -44,17 +45,15 @@ class ForumManagerViewerComponent extends ForumManager
     function topic_viewed($complex_topic_id)
     {
         $parameters = array();
-        $parameters[WeblcmsForumTopicViewsTracker :: PROPERTY_USER_ID] = $this->get_user_id();
-        $parameters[WeblcmsForumTopicViewsTracker :: PROPERTY_PUBLICATION_ID] = $this->publication_id;
-        $parameters[WeblcmsForumTopicViewsTracker :: PROPERTY_FORUM_TOPIC_ID] = $complex_topic_id;
+        $parameters[ForumTopicViewTracker :: PROPERTY_USER_ID] = $this->get_user_id();
+        $parameters[ForumTopicViewTracker :: PROPERTY_PUBLICATION_ID] = $this->publication_id;
+        $parameters[ForumTopicViewTracker :: PROPERTY_FORUM_TOPIC_ID] = $complex_topic_id;
         
         Event :: trigger('view_forum_topic', ForumManager :: APPLICATION_NAME, $parameters);
     }
 
     function count_topic_views($complex_topic_id)
     {
-        require_once dirname(__FILE__) . '/../../trackers/forum_topic_view_tracker.class.php';
-        
         $conditions[] = new EqualityCondition(ForumTopicViewTracker :: PROPERTY_PUBLICATION_ID, $this->publication_id);
         $conditions[] = new EqualityCondition(ForumTopicViewTracker :: PROPERTY_FORUM_TOPIC_ID, $complex_topic_id);
         $condition = new AndCondition($conditions);

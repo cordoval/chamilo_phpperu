@@ -121,8 +121,15 @@ class ForumManagerBrowserComponent extends ForumManager
             {
                 $title = '<span style="color: grey;">' . $title . '</span>';
             }
-            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
-            $table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
+            
+            $src = Theme :: get_image_path() . 'forum/forum_read.png';
+            if($forum->is_locked())
+            {
+            	$src = Theme :: get_common_image_path() . 'action_lock.png';
+            }
+            
+            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . $src . '" />');
+            $table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px; text-align: center;'));
             $table->setCellContents($row, 1, $title);
             $table->setCellAttributes($row, 1, array('width' => '0%', 'class' => 'row1'));
             $table->setCellContents($row, 2, $forum->get_total_topics());
@@ -223,6 +230,28 @@ class ForumManagerBrowserComponent extends ForumManager
         					));
             
             $toolbar->add_item($delete);
+            
+            $forum = RepositoryDataManager :: get_instance()->retrieve_content_object($publication->get_forum_id(), Forum :: get_type_name());
+        	if($forum->get_locked())
+        	{
+        		$parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_CHANGE_LOCK;
+        		$parameters[ForumManager :: PARAM_PUBLICATION_ID] = $publication->get_id();
+        		$toolbar->add_item(new ToolbarItem(Translation :: get('Unlock'), 
+        			Theme :: get_common_image_path() . 'action_unlock.png', 
+        			$this->get_url($parameters),
+        			ToolbarItem :: DISPLAY_ICON
+        		));
+        	}
+        	else
+        	{
+        		$parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_CHANGE_LOCK;
+        		$parameters[ForumManager :: PARAM_PUBLICATION_ID] = $publication->get_id();
+        		$toolbar->add_item(new ToolbarItem(Translation :: get('Lock'), 
+        			Theme :: get_common_image_path() . 'action_lock.png', 
+        			$this->get_url($parameters),
+        			ToolbarItem :: DISPLAY_ICON
+        		));
+        	}
             
 	        if(WebApplication :: is_active('gradebook'))
 	        {

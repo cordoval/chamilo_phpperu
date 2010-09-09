@@ -10,6 +10,8 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
 {
     private $action_bar;
     private $posts;
+    private $topic;
+    private $is_locked;
 
     function run()
     {    	
@@ -37,14 +39,25 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         
         $trail->add(new Breadcrumb($this->get_url(array(ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $topic->get_id())), $this->posts[0]->get_ref()->get_title()));
         
-        $this->action_bar = $this->get_action_bar();
+        $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object($topic->get_ref(), ForumTopic :: get_type_name());
+        $this->topic = $content_object;
+        $this->is_locked = $content_object->is_locked();
+
+        if(!$this->is_locked)
+        {
+        	$this->action_bar = $this->get_action_bar();
+        }
         $table = $this->get_posts_table();
         
         $this->display_header();
         
         echo '<a name="top"></a>';
         
-        echo $this->action_bar->as_html();
+    	if($this->action_bar)
+        {
+        	echo $this->action_bar->as_html();
+        }
+        
         echo '<div class="clear"></div><br />';
         echo $table->toHtml();
         echo '<br />';
@@ -202,29 +215,31 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         
         $toolbar = new Toolbar();
     	
-
         
         $parameters = array();
         $parameters[ComplexDisplay :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $this->get_complex_content_object_item_id();
         $parameters[ComplexDisplay :: PARAM_SELECTED_COMPLEX_CONTENT_OBJECT_ITEM_ID] = $complex_content_object_item->get_id();
-        
-        $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_QUOTE_FORUM_POST;
-        
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Quote'), 
-        		Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif', 
-				$this->get_url($parameters), 
-				ToolbarItem :: DISPLAY_ICON
-		));
-		
-        $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CREATE_FORUM_POST;
 
-        $toolbar->add_item(new ToolbarItem(
-        		Translation :: get('Reply'), 
-        		Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif', 
-				$this->get_url($parameters), 
-				ToolbarItem :: DISPLAY_ICON
-		));
+        if(!$this->is_locked)
+        {
+	        $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_QUOTE_FORUM_POST;
+	        
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Quote'), 
+	        		Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif', 
+					$this->get_url($parameters), 
+					ToolbarItem :: DISPLAY_ICON
+			));
+			
+	        $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CREATE_FORUM_POST;
+	
+	        $toolbar->add_item(new ToolbarItem(
+	        		Translation :: get('Reply'), 
+	        		Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif', 
+					$this->get_url($parameters), 
+					ToolbarItem :: DISPLAY_ICON
+			));
+        }
 		
         if ($this->get_parent()->is_allowed(EDIT_RIGHT) || $complex_content_object_item->get_user_id() == $this->get_user_id())
         {
@@ -262,8 +277,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplay
         $parameters[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay :: ACTION_CREATE_FORUM_POST;
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ReplyOnTopic'), Theme :: get_common_image_path() . 'action_reply.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
-        return $action_bar;
+       	return $action_bar;
     }
 
 }

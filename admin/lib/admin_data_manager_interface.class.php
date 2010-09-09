@@ -200,6 +200,8 @@ interface AdminDataManagerInterface
      * @return Invitation
      */
     function retrieve_invitation_by_code($code);
+    
+    function delete_feedback_from_publication($application, $publication_id);
 
 }
 ?>
