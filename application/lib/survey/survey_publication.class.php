@@ -20,14 +20,14 @@ class SurveyPublication extends DataClass
     //    const PROPERTY_CATEGORY = 'category_id';
     //    const PROPERTY_TEST = 'test';
     
-	const TYPE_TEST_CASE = 1;
-	const TYPE_NAME_TEST_CASE = 'testcase';
-	const TYPE_OFFICIAL = 2;
-	const TYPE_NAME_OFFICIAL = 'official';
-	const TYPE_VOLUNTEER = 3;	
+
+    const TYPE_TEST_CASE = 1;
+    const TYPE_NAME_TEST_CASE = 'testcase';
+    const TYPE_OFFICIAL = 2;
+    const TYPE_NAME_OFFICIAL = 'official';
+    const TYPE_VOLUNTEER = 3;
     const TYPE_NAME_VOLUNTEER = 'volunteer';
-	
-	
+    
     private $target_groups;
     private $target_users;
 
@@ -39,17 +39,18 @@ class SurveyPublication extends DataClass
     public function create()
     {
         $succes = parent :: create();
-        if ($succes)
-        {
-            foreach ($this->get_target_user_ids() as $user_id)
-            {
-                $this->create_participant_trackers($user_id);
-            }
+        //        if ($succes)
+        //        {
+        //            foreach ($this->get_target_user_ids() as $user_id)
+        //            {
+        //                $this->create_participant_trackers($user_id);
+        //            }
+        //        
+        //        }
         
-        }
-       	
+
         $parent_location = SurveyRights :: get_surveys_subtree_root_id();
-    	return SurveyRights :: create_location_in_surveys_subtree($this->get_content_object(), $this->get_id(), $parent_location, SurveyRights :: TYPE_PUBLICATION);
+        return SurveyRights :: create_location_in_surveys_subtree($this->get_content_object(), $this->get_id(), $parent_location, SurveyRights :: TYPE_PUBLICATION);
     
     }
 
@@ -57,81 +58,90 @@ class SurveyPublication extends DataClass
     {
         
         $succes = parent :: update();
-        if ($succes)
-        {
-            
-            $dummy = new SurveyParticipantTracker();
-            $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
-            $trackers = $dummy->retrieve_tracker_items($condition);
-            
-            $user_ids = $this->get_target_user_ids();
-            $tracker_user_ids = array();
-            
-            foreach ($trackers as $tracker)
-            {
-                $user_id = $tracker->get_user_id();
-                $key = array_search($user_id, $user_ids);
-                
-                if ($key == false)
-                {
-                    
-                    $tracker->delete();
-                }
-                else
-                {
-                    
-                    $tracker_user_ids[] = $user_id;
-                }
-            }
-            
-            $new_tracker_user_ids = array_diff($user_ids, $tracker_user_ids);
-            foreach ($new_tracker_user_ids as $user_id)
-            {
-                $this->create_participant_trackers($user_id);
-            }
+        //        if ($succes)
+        //        {
+        //            
+        //            $dummy = new SurveyParticipantTracker();
+        //            $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
+        //            $trackers = $dummy->retrieve_tracker_items($condition);
+        //            
+        //            $user_ids = $this->get_target_user_ids();
+        //            $tracker_user_ids = array();
+        //            
+        //            foreach ($trackers as $tracker)
+        //            {
+        //                $user_id = $tracker->get_user_id();
+        //                $key = array_search($user_id, $user_ids);
+        //                
+        //                if ($key == false)
+        //                {
+        //                    
+        //                    $tracker->delete();
+        //                }
+        //                else
+        //                {
+        //                    
+        //                    $tracker_user_ids[] = $user_id;
+        //                }
+        //            }
+        //            
+        //            $new_tracker_user_ids = array_diff($user_ids, $tracker_user_ids);
+        //            foreach ($new_tracker_user_ids as $user_id)
+        //            {
+        //                $this->create_participant_trackers($user_id);
+        //            }
+        //        
+        //        }
         
-        }
-        
+
         return $succes;
     }
 
     public function delete()
     {
         
-     	$location = SurveyRights :: get_location_by_identifier_from_surveys_subtree($this->get_id(), SurveyRights :: TYPE_PUBLICATION);
-    	if($location)
-    	{
-    		if(!$location->remove())
-    		{
-    			return false;
-    		}
-    	}
-    	
-    	$succes = parent :: delete();
-        if ($succes)
+        $location = SurveyRights :: get_location_by_identifier_from_surveys_subtree($this->get_id(), SurveyRights :: TYPE_PUBLICATION);
+        if ($location)
         {
-            $dummy = new SurveyParticipantTracker();
-            $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
-            $trackers = $dummy->retrieve_tracker_items($condition);
-            
-            foreach ($trackers as $tracker)
+            if (! $location->remove())
             {
-                $tracker->delete();
+                return false;
             }
-        
         }
-              
+        
+        $succes = parent :: delete();
+        //        if ($succes)
+        //        {
+        //            $dummy = new SurveyParticipantTracker();
+        //            $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->get_id());
+        //            $trackers = $dummy->retrieve_tracker_items($condition);
+        //            
+        //            foreach ($trackers as $tracker)
+        //            {
+        //                $tracker->delete();
+        //            }
+        //        
+        //        }
+        
+
         return $succes;
     }
 
-    private function create_participant_trackers($user_id)
+    public function create_participant_trackers($user_id)
     {
-        $dm = UserDataManager :: get_instance();
-        $user_name = $dm->retrieve_user($user_id)->get_email();
-        $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_content_object());
         
+        $succes = false;
+//        $dm = UserDataManager :: get_instance();
+//        $user_name = $dm->retrieve_user($user_id)->get_email();
+        $survey = $this->get_publication_object();
+        //        $survey = RepositoryDataManager :: get_instance()->retrieve_content_object($this->get_content_object());
+        
+
         $context_template = $survey->get_context_template();
         
+        //        dump($context_template);
+        
+
         $args = array();
         $args[SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID] = $this->get_id();
         $args[SurveyParticipantTracker :: PROPERTY_USER_ID] = $user_id;
@@ -144,30 +154,82 @@ class SurveyPublication extends DataClass
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = 0;
             $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = 'NOCONTEXT';
             $tracker = Event :: trigger('survey_participation', 'survey', $args);
+            $succes = true;
+            //            dump($tracker);
         }
         else
         {
+            
+            $tracker_matrix = array();
+            $level_matrix[] = $context_template->get_id();
+            $context_template_children = $context_template->get_children(true);
+            while ($child_template = $context_template_children->next_result())
+            {
+                $level_matrix[] = $child_template->get_id();
+            }
+            
+//            dump($level_matrix);
+            
+            $tracker_matrix = array();
             
             $condition = new EqualityCondition(SurveyTemplate :: PROPERTY_USER_ID, $user_id, SurveyTemplate :: get_table_name());
             $templates = SurveyContextDataManager :: get_instance()->retrieve_survey_templates($context_template->get_type(), $condition);
             
             while ($template = $templates->next_result())
             {
-                $parent_id = 0;
+                //                $parent_id = 0;
                 $property_names = $template->get_additional_property_names(true);
                 //                dump($property_names);
+                $level = 0;
+                $parent_level_context_id = 0;
+                
                 foreach ($property_names as $property_name => $context_type)
                 {
+                    
+//                    dump($level);
+//                    dump($property_name);
+//                    dump($context_type);
+                    
+                    $context_template_id = $level_matrix[$level];
+                    
+                    if ($tracker_matrix[$level - 1][$parent_level_context_id])
+                    {
+                        $parent_id = $tracker_matrix[$level - 1][$parent_level_context_id];
+                    }
+                    else
+                    {
+                        $parent_id = 0;
+                    }
                     
                     $args[SurveyParticipantTracker :: PROPERTY_PARENT_ID] = $parent_id;
                     $context_id = $template->get_additional_property($property_name);
                     //                    dump($context_id);
-                    $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $template->get_id();
-                    $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $context_id;
-                    $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = 'NOCONTEXTNAME';
-                    $tracker = Event :: trigger('survey_participation', 'survey', $args);
-                    //                    dump($tracker);
-                    $parent_id = $tracker[0]->get_id();
+                    $parent_level_context_id = $context_id;
+                    
+                    if ($tracker_matrix[$level][$context_id])
+                    {
+                        $level ++;
+                        continue;
+                    }
+                    else
+                    {
+                        
+                        
+                        $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_TEMPLATE_ID] = $context_template_id;
+                        $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_ID] = $context_id;
+                        $context = SurveyContextDataManager::get_instance()->retrieve_survey_context_by_id($context_id);
+                        
+                        $args[SurveyParticipantTracker :: PROPERTY_CONTEXT_NAME] = $context->get_name();
+                        $tracker = Event :: trigger('survey_participation', 'survey', $args);
+                        //                    dump($tracker);
+                        //                    $parent_id = $tracker[0]->get_id();
+                        $tracker_matrix[$level][$context_id] = $tracker[0]->get_id();
+//                        dump($args);
+                        $succes = true;
+                    }
+                    
+                    $level ++;
+//                    dump($level);
                     //                    dump($parent_id);
                 }
                 //                exit;
@@ -175,7 +237,12 @@ class SurveyPublication extends DataClass
         
         }
         
-    //        dump($context_template->get_type());
+//        dump($tracker_matrix);
+//        
+//        exit();
+        
+        return $succes;
+        //        dump($context_template->get_type());
     //        
     //        dump($context_template);
     //        exit();
@@ -299,11 +366,12 @@ class SurveyPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_TYPE, $type);
     }
-	
-    static public function get_types(){
-    	return array(self :: TYPE_TEST_CASE => self :: TYPE_NAME_TEST_CASE, self :: TYPE_OFFICIAL => self ::TYPE_NAME_OFFICIAL, self :: TYPE_VOLUNTEER => self :: TYPE_NAME_VOLUNTEER);
+
+    static public function get_types()
+    {
+        return array(self :: TYPE_TEST_CASE => self :: TYPE_NAME_TEST_CASE, self :: TYPE_OFFICIAL => self :: TYPE_NAME_OFFICIAL, self :: TYPE_VOLUNTEER => self :: TYPE_NAME_VOLUNTEER);
     }
-    
+
     /**
      * Sets the hidden of this SurveyPublication.
      * @param hidden

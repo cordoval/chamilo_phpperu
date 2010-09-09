@@ -9,14 +9,16 @@ require_once dirname(__FILE__) . '/viewer/survey_viewer_wizard.class.php';
 class SurveyDisplaySurveyViewerComponent extends SurveyDisplay
 {
 
-    
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $wizard = new SurveyViewerWizard($this, $this->get_root_content_object(), $this->get_parent()->get_template_id());
+        $wizard = new SurveyViewerWizard($this);
         return $wizard->run();
     }
+
+    
+
 }
 ?>

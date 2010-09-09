@@ -15,7 +15,10 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
     function perform($page, $actionName)
     {
         
-        // save the form values and validation status to the session
+
+//    	dump($page);
+    	
+    	// save the form values and validation status to the session
         $page->isFormBuilt() or $page->buildForm();
         $pageName = $page->getAttribute('id');
         $data = & $page->controller->container();
@@ -29,14 +32,20 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
         // Modal form and page is invalid: don't go further
         if ($page->controller->isModal() && ! $data['valid'][$pageName])
         {
-            return $page->handle('display');
+//            dump('modal of data niet valid');
+        	return $page->handle('display');
         }
         // More pages?
         if (null !== ($nextName = $page->controller->getNextName($pageName)))
         {
             
-            $survey_values = $page->exportValues();
-                     
+//            dump('next page: '.$nextName);
+        	
+        	$survey_values = $page->exportValues();
+
+//            dump('values:');
+//        	dump($survey_values);
+            
             $values = array();
             
             foreach ($survey_values as $key => $value)
@@ -70,6 +79,9 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
             $keys = array_keys($values);
             $count_questions = 0;
             
+           
+//            dump('keys: '.count($keys));
+            
             if (count($keys) > 0)
             {
                 $rdm = RepositoryDataManager :: get_instance();
@@ -88,7 +100,7 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
                         {
                             //$question = $rdm->retrieve_content_object($question_ccoi->get_ref());
                             $count_questions ++;
-                            $this->parent->get_parent()->save_answer($question_ccoi->get_id(), serialize($answers));
+//                            $this->parent->get_parent()->save_answer($question_ccoi->get_id(), serialize($answers));
                         }
                     
                     }
@@ -101,6 +113,9 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
 //            $this->parent->get_parent()->finish_survey($percent);
             
             $next = & $page->controller->getPage($nextName);
+            
+//            dump($next);
+            
             return $next->handle('jump');
             // Consider this a 'finish' button, if there is no explicit one
         }

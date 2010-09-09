@@ -8,6 +8,8 @@ class SurveyParticipantMailTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
 
+    const REGISTER_PARTICIPATION_MAIL_EVENT = 'register_survey_participation_mail';
+    
     // Can be used for subscribsion of users / classes
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_SURVEY_PUBLICATION_ID = 'survey_publication_id';

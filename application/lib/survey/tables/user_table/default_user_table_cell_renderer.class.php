@@ -2,9 +2,12 @@
 
 class DefaultSurveyUserTableCellRenderer extends ObjectTableCellRenderer
 {
+
+	private $publication_id;
 	
-	function DefaultSurveyUserTableCellRenderer()
+	function DefaultSurveyUserTableCellRenderer($publication_id)
 	{
+		$this->publication_id = $publication_id;
 	}
 	
 	function render_cell($column, $user)
@@ -25,7 +28,7 @@ class DefaultSurveyUserTableCellRenderer extends ObjectTableCellRenderer
 	}
 	
 	function render_id_cell($user){
-		return $user->get_id();
+		return $publication_id.'|'.$user->get_id();
 	}
 	
 }
