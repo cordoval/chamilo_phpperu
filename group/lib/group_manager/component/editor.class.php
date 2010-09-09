@@ -5,7 +5,7 @@ require_once dirname(__FILE__) ."/../../group_rights.class.php";
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerEditorComponent extends GroupManager
+class GroupManagerEditorComponent extends GroupManager implements AdministrationComponent
 {
 
     /**
@@ -13,22 +13,14 @@ class GroupManagerEditorComponent extends GroupManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('group general');
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
-        
-        $id = Request :: get(GroupManager :: PARAM_GROUP_ID);
+        $id = $this->get_parameter(GroupManager :: PARAM_GROUP_ID);
         if ($id)
         {
             $group = $this->retrieve_group($id);
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), $group->get_name()));
-            $trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), Translation :: get('GroupUpdate')));
             
             if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EDIT, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
-        {
-                $this->display_header($trail, false);
+        	{
+                $this->display_header();
                 Display :: error_message(Translation :: get("NotAllowed"));
                 $this->display_footer();
                 exit();
@@ -44,7 +36,7 @@ class GroupManagerEditorComponent extends GroupManager
             }
             else
             {
-                $this->display_header($trail, false);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
@@ -53,6 +45,18 @@ class GroupManagerEditorComponent extends GroupManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoGroupSelected')));
         }
+    }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), Translation :: get('GroupManagerViewerComponent')));
+    	$breadcrumbtrail->add_help('group general');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(GroupManager :: PARAM_GROUP_ID);
     }
 }
 ?>

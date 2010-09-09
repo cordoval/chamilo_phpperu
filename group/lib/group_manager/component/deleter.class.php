@@ -5,7 +5,7 @@ require_once dirname(__FILE__) ."/../../group_rights.class.php";
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerDeleterComponent extends GroupManager
+class GroupManagerDeleterComponent extends GroupManager implements AdministrationComponent
 {
 
     /**
@@ -83,6 +83,18 @@ class GroupManagerDeleterComponent extends GroupManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoGroupsSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), Translation :: get('GroupManagerViewerComponent')));
+    	$breadcrumbtrail->add_help('group general');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(GroupManager :: PARAM_GROUP_ID);
     }
 }
 ?>

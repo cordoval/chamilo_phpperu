@@ -5,7 +5,7 @@ require_once dirname(__FILE__) ."/../../group_rights.class.php";
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerMoverComponent extends GroupManager
+class GroupManagerMoverComponent extends GroupManager implements AdministrationComponent
 {
 
     /**
@@ -13,11 +13,6 @@ class GroupManagerMoverComponent extends GroupManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
-        $trail->add_help('group general');
-        
         if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_MOVE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $this->display_header();
@@ -27,8 +22,6 @@ class GroupManagerMoverComponent extends GroupManager
         }
         $group = $this->retrieve_groups(new EqualityCondition(Group :: PROPERTY_ID, Request :: get(GroupManager :: PARAM_GROUP_ID)))->next_result();
         
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), $group->get_name()));
-
         //TODO: only show groups you can actually move to (where you have create rights)
         $form = new GroupMoveForm($group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), $this->get_user());
         
@@ -41,12 +34,23 @@ class GroupManagerMoverComponent extends GroupManager
         }
         else
         {
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
             $this->display_header();
             echo Translation :: get('Group') . ': ' . $group->get_name();
             $form->display();
             $this->display_footer();
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), Translation :: get('GroupManagerViewerComponent')));
+    	$breadcrumbtrail->add_help('group general');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(GroupManager :: PARAM_GROUP_ID);
     }
 }
 ?>

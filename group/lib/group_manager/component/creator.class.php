@@ -5,7 +5,7 @@ require_once dirname(__FILE__) ."/../../group_rights.class.php";
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerCreatorComponent extends GroupManager
+class GroupManagerCreatorComponent extends GroupManager implements AdministrationComponent
 {
 
     /**
@@ -13,15 +13,9 @@ class GroupManagerCreatorComponent extends GroupManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateGroup')));
-        $trail->add_help('group general');
-
         if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_CREATE, Request::get(GroupManager::PARAM_GROUP_ID)))
         {
-            $this->display_header($trail, false);
+            $this->display_header();
             Display :: warning_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -45,10 +39,17 @@ class GroupManagerCreatorComponent extends GroupManager
         }
         else
         {
-            $this->display_header($trail, false);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }
     }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('group general');
+    }
+    
 }
 ?>

@@ -736,10 +736,29 @@ abstract class Application
         $component = self :: component($application_name, $user, $action);
         
         $component->set_parameter(self :: PARAM_APPLICATION, $application_name);
-        BreadcrumbTrail :: get_instance()->add(new Breadcrumb($component->get_url(), Translation :: get(self :: application_to_class($application_name))));
+        
+        $trail = BreadcrumbTrail :: get_instance();
+        
+        if($component instanceof AdministrationComponent)
+        {
+        	$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+        	$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application_name), array(), false, Redirect :: TYPE_CORE), Translation :: get(self :: application_to_class($application_name))));
+        }
+        else
+        {
+        	$trail->add(new Breadcrumb($component->get_url(), Translation :: get(self :: application_to_class($application_name))));
+        }
+        
+        $component->add_additional_breadcrumbs($trail);
+        
+        $parameters = $component->get_additional_parameters();
+        foreach($parameters as $parameter)
+        {
+       		$component->set_parameter($parameter, Request :: get($parameter));
+        }
         
         $component->set_action($action);
-        BreadcrumbTrail :: get_instance()->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(get_class($component))));
+        $trail->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(get_class($component))));
         
         return $component;
     }
@@ -751,6 +770,16 @@ abstract class Application
     static function launch($application_name, $user)
     {
         self :: construct($application_name, $user)->run();
+    }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	
+    }
+
+	function get_additional_parameters()
+    {
+    	
     }
 }
 ?>

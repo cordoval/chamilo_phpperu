@@ -5,7 +5,7 @@ require_once dirname(__FILE__) ."/../../group_rights.class.php";
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerRightsEditorComponent extends GroupManager
+class GroupManagerRightsEditorComponent extends GroupManager implements AdministrationComponent
 {
 
     /**
@@ -13,8 +13,7 @@ class GroupManagerRightsEditorComponent extends GroupManager
      */
     function run()
     {
-        $group_ids = Request :: get(GroupManager::PARAM_GROUP_ID);
-        $this->set_parameter(GroupManager::PARAM_GROUP_ID, $group_ids);
+        $group_ids = $this->get_parameter(GroupManager :: PARAM_GROUP_ID);
 
         if (! is_array($group_ids))
         {
@@ -42,6 +41,18 @@ class GroupManagerRightsEditorComponent extends GroupManager
 //        unset($array['RIGHT_DELETE']);
 
         return $array;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), Translation :: get('GroupManagerViewerComponent')));
+    	$breadcrumbtrail->add_help('group general');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(GroupManager :: PARAM_GROUP_ID);
     }
 }
 ?>
