@@ -28,6 +28,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
     const FEED_TYPE_MOST_INTERESTING = 2;
     const FEED_TYPE_MOST_RECENT = 3;
     const FEED_TYPE_MY_VIDEOS = 4;
+    const FEED_TYPE_ALL = 5;
     
     private static $server;
     private $server_selection_form;
@@ -80,6 +81,14 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         $my_videos['title'] = Translation :: get('MyVideos');
         $my_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_MY_VIDEOS), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
         $menu_items[] = $my_videos;
+
+        if($this->get_user()->is_platform_admin())
+        {
+            $all_videos = array();
+            $all_videos['title'] = Translation :: get('All');
+            $all_videos['url'] = $this->get_url(array(self :: PARAM_FEED_TYPE => self :: FEED_TYPE_ALL), array(ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY));
+            $menu_items[] = $all_videos;
+        }
 
         return $menu_items;
     }
@@ -167,6 +176,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
         $links[] = array('name' => Translation :: get('SetMediamosaDefaults'), 'action' => 'category', 'url' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_SET_MEDIAMOSA_DEFAULTS)));
         
         $info = parent :: get_application_platform_admin_links();
+
         $info['links'] = $links;
         return $info;
     }

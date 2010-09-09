@@ -18,7 +18,12 @@
 			</setting>
 		</category>
 		<category name="credentials">
-			<setting name="login" field="text">
+			<setting name="app_id" field="text">
+				<validations>
+					<validation rule="required" message="ThisFieldIsRequired" />
+				</validations>
+			</setting>
+                        <setting name="login" field="text">
 				<validations>
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>

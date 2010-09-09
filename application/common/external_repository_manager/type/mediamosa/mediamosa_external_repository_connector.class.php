@@ -24,6 +24,8 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
     private $cql = array();
     private $simulate = false;
     private $cql_error;
+    private $app_id;
+    private $user_groups;
 
     const METHOD_POST = MediamosaRestClient :: METHOD_POST;
     const METHOD_GET = MediamosaRestClient :: METHOD_GET;
@@ -44,13 +46,13 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         return $this->mediamosa->get_connector_cookie();
     }
 
-    function get_user_id_prefix() {
-        if(!$this->user_id_prefix) {
-            $this->user_id_prefix = ExternalRepositorySetting :: get('app_id', $this->get_external_repository_instance_id()) . '_';
-            //$this->user_id_prefix = '';
-        }
-        return $this->user_id_prefix;
-    }
+//    function get_user_id_prefix() {
+//        if(!$this->user_id_prefix) {
+//            $this->user_id_prefix = $this->get_app_id() . '_';
+//            //$this->user_id_prefix = '';
+//        }
+//        return $this->user_id_prefix;
+//    }
 
 //    function get_mediamosa_user_id($user_id)
 //    {
@@ -224,32 +226,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         
         switch($feed_type)
         {
-            case MediamosaExternalRepositoryManager :: FEED_TYPE_GENERAL:
-
-                 if($this->retrieve_chamilo_user(Session :: get_user_id()) or $this->simulate)
-                 {
-                     $owner['name'] = 'owner_id';
-                     $owner['value'] = Session :: get_user_id();
-                     $this->cql['OR'][] = $owner;
-
-                     $aut_user['name'] = 'aut_user';
-                     $aut_user['value'] = Session :: get_user_id();
-                     $this->cql['OR'][] = $aut_user;
-
-                     $gdm = GroupDataManager :: get_instance();
-                     $user_groups = $gdm->retrieve_user_groups(Session :: get_user_id());
-
-                     while($group = $user_groups->next_result())
-                     {
-                         $aut_group['name'] = 'aut_group';
-                         $aut_group['value'] = $group->get_id();
-                     }
-                     if($aut_group) $this->cql['OR'][] = $aut_group;
-                 }
-
-                 
-                $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
-                break;
+            
             case MediamosaExternalRepositoryManager :: FEED_TYPE_MOST_RECENT:
                 
                 $this->cql['sortby']['name'] = 'date';
@@ -263,9 +240,30 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                         );
                 $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count, $cql);
                 break;
+            case MediamosaExternalRepositoryManager :: FEED_TYPE_ALL:
+                 if($this->retrieve_chamilo_user(Session :: get_user_id())->is_platform_admin())
+                 {
+                    $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
+                 }
+            break;
+            case MediamosaExternalRepositoryManager :: FEED_TYPE_GENERAL:
             default:
+                 $owner['name'] = 'owner_id';
+                 $owner['value'] = '^' . Session :: get_user_id() . '^';
+                 $this->cql['OR'][] = $owner;
+
+                 $aut_user['name'] = 'aut_user';
+                 $aut_user['value'] = '^' . Session :: get_user_id() . '^';
+                 $this->cql['OR'][] = $aut_user;
+
+                 $this->get_user_groups(true);
+
+                 $aut_app['name'] = 'aut_app';
+                 $aut_app['value'] = '^' . $this->get_app_id() . '^';
+                 $this->cql['OR'][] = $aut_app;
+
                 $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
-                break;
+             break;
         }
 
         if($response)
@@ -326,7 +324,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 
         if($offset) $params['offset'] = $offset;
         $params['user_id'] = $chamilo_user->get_id();
-        $params['app_id'] = ExternalRepositorySetting :: get('app_id', $this->get_external_repository_instance_id());
+        $params['app_id'] = $this->get_app_id();
         $params['hide_empty_assets'] = 'TRUE';
         if ($chamilo_user->is_platform_admin()) $params['is_app_admin'] = 'TRUE';
 
@@ -387,11 +385,14 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                     }
                 }
             }
-            
         }
+
+        //if(!empty($string)) $string .= 'AND';
+        //$string .= 'app_id == "^' . $this->get_app_id() . '^"';
+
         if($sort && $order)
         {
-            $string .= 'sortby ' . $sort.'/'.$order;
+            $string .= ' sortby ' . $sort.'/'.$order;
         }
         else
         {
@@ -401,6 +402,44 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         $this->cql = array();
 
         return $string;
+    }
+
+    function get_app_id()
+    {
+        if(!$this->app_id)
+        {
+            $this->app_id = ExternalRepositorySetting :: get('app_id', $this->get_external_repository_instance_id());
+        }
+        return $this->app_id;
+    }
+
+    function get_user_groups($cql = false)
+    {
+        if(!$this->user_groups)
+        {
+            $gdm = GroupDataManager :: get_instance();
+            $groups = $gdm->retrieve_user_groups(Session :: get_user_id());
+
+            if ($groups->size()) {
+
+                while ($g = $groups->next_result()) {
+
+                    $this->user_groups[$g->get_group_id()] = true;
+                }
+            }
+        }
+
+        if($cql == true)
+        {
+            foreach($this->user_groups as $nextGroup => $val)
+            {
+                $aut_group['name'] = 'aut_group';
+                $aut_group['value'] = '^' . $nextGroup . '^';
+                $this->cql['OR'][] = $aut_group;
+            }
+        }
+
+        return $this->user_groups;
     }
 
     function count_external_repository_objects($condition) {
@@ -537,7 +576,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             //if no group or user rights are set --> use right
             $rights = $this->retrieve_mediamosa_asset_rights($asset->get_id(), $asset->get_owner_id());
 
-            if(!count($rights['aut_user']) && !count($rights['aut_group'])) $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
+            //if(!count($rights['aut_user']) && !count($rights['aut_group'])) $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
 
             //check users
             if (count($rights['aut_user'])) {
@@ -549,20 +588,28 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             }
 
             //check groups
-            if (count($rights['aut_group'])) {
-                $gdm = GroupDataManager :: get_instance();
-                $groups = $gdm->retrieve_user_groups(Session :: get_user_id());
-
-                if ($groups->size()) {
-                    while ($g = $groups->next_result()) {
-                        $test_groups[$g->get_group_id()] = true;
-                    }
-
+            if (count($rights['aut_group']))
+            {
+                $groups =$this->get_user_groups();
+                
+                if (count($groups)) {
                     foreach ($rights['aut_group'] as $n => $aut_group) {
-                        if (isset($test_groups[$aut_group])) {
+                        if (isset($groups[$aut_group])) {
                             $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
                         }
                     }
+                }
+            }
+
+            //check aut_apps
+            if(count($rights['aut_app']))
+            {
+                
+                $this_app = $this->get_app_id() . '^';
+
+                foreach($rights['aut_app'] as $n => $aut_app)
+                {
+                    if($aut_app == $this_app) $asset_rights[ExternalRepositoryObject :: RIGHT_USE] = true;
                 }
             }
         }
@@ -576,7 +623,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $asset_rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
         }
 
-        //        if ($asset->get_is_downloadable())
+        //        if ($asset->get_is_downloadable() && $asset_rights[ExternalRepositoryObject :: RIGHT_USE] == true)
         //        {
         $asset_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
         //        }
@@ -588,6 +635,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         return $asset_rights;
     }
 
+    
     function update_asset_master_slave_settings(MediamosaExternalRepositoryObject $asset) {
 
         //update master/slave settings if necessary
