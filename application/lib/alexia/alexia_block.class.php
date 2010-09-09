@@ -1,32 +1,32 @@
 <?php
 /**
- * $Id: alexia_block.class.php 192 2009-11-13 11:51:02Z chellee $
- * @package application.lib.alexia
+ * $Id: photo_gallery_block.class.php
+ * @package application.lib.photo_gallery
  */
 require_once Path :: get_library_path() . 'block.class.php';
 
-class AlexiaBlock extends Block
+class PhotoGalleryBlock extends Block
 {
 
     /**
      * Constructor.
      */
-    function AlexiaBlock($parent, $block_info)
+    function PhotoGalleryBlock($parent, $block_info)
     {
         parent :: __construct($parent, $block_info);
     }
 
-    static function factory($alexia, $block)
+    static function factory($photo_gallery, $block)
     {
         $type = $block->get_component();
-        $filename = dirname(__FILE__) . '/block/alexia_' . $type . '.class.php';
+        $filename = dirname(__FILE__) . '/block/photo_gallery_' . $type . '.class.php';
         if (! file_exists($filename) || ! is_file($filename))
         {
             die('Failed to load "' . $type . '" block');
         }
-        $class = 'Alexia' . Utilities :: underscores_to_camelcase($type);
+        $class = 'PhotoGallery' . Utilities :: underscores_to_camelcase($type);
         require_once $filename;
-        return new $class($alexia, $block);
+        return new $class($photo_gallery, $block);
     }
 }
 ?>

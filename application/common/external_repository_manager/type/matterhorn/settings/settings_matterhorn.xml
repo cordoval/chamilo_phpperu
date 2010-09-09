@@ -3,7 +3,7 @@
 	<settings>
 		<category name="credentials">
 			
-			<setting name="url" field="text" default="http://nightly.opencastproject.org">
+			<setting name="url" field="text" default="http://eva.ehb.be">
 				<validations>
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>

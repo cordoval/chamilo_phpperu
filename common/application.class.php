@@ -699,7 +699,7 @@ abstract class Application
      */
     static function component($application_name, $user, $type)
     {
-        $class = self :: load_class($application_name, $type);
+    	$class = self :: load_class($application_name, $type);
         return new $class($user);
     }
 
@@ -729,12 +729,11 @@ abstract class Application
      * @param User $user
      */
     static function construct($application_name, $user)
-    {
-        require_once self :: get_application_manager_path($application_name);
+    { 
+    	require_once self :: get_application_manager_path($application_name);
+
         $action = self :: get_component_action($application_name);
-        
-        $component = self :: component($application_name, $user, $action);
-        
+        $component = self :: component($application_name, $user, $action);   
         $component->set_parameter(self :: PARAM_APPLICATION, $application_name);
         BreadcrumbTrail :: get_instance()->add(new Breadcrumb($component->get_url(), Translation :: get(self :: application_to_class($application_name))));
         
