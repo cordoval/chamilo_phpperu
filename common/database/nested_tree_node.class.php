@@ -519,7 +519,7 @@ abstract class NestedTreeNode extends DataClass
         	if ($previous_id)
             {
 //            	$node = call_user_func(array($dm, $func), $previous_id);
-               	dump('hi pr');
+//               	dump('hi pr');
             	$node = $dm->nested_tree_retrieve_node($this, $previous_id);
             	$parent_id = $node->get_parent_id();
             }
@@ -623,5 +623,7 @@ abstract class NestedTreeNode extends DataClass
         return true;
     }
 
-    //abstract function get_nested_tree_node_condition();
+    function get_nested_tree_node_condition(){
+    	return null;
+    }
 }
