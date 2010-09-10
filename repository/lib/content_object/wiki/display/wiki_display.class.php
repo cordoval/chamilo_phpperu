@@ -248,7 +248,7 @@ class WikiDisplay extends ComplexDisplay
                 $html[] = '<li><a' . (in_array($this->get_action(), array(self :: ACTION_VIEW_WIKI, self :: ACTION_VIEW_WIKI_PAGE)) && ! Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID) ? ' class="current"' : '') . ' href="' . $read_url . '">' . Translation :: get('WikiRead') . '</a></li>';
                 $html[] = '<li><a' . ($this->get_action() == self :: ACTION_UPDATE_COMPLEX_CONTENT_OBJECT_ITEM ? ' class="current"' : '') . ' href="' . $edit_url . '">' . Translation :: get('WikiEdit') . '</a></li>';
                 $html[] = '<li><a' . (($this->get_action() == self :: ACTION_HISTORY) || ($this->get_action() == self :: ACTION_VIEW_WIKI_PAGE && Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID)) ? ' class="current"' : '') . ' href="' . $history_url . '">' . Translation :: get('WikiHistory') . '</a></li>';
-                $html[] = '<li><a' . ($this->get_action() == self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM ? ' class="current"' : '') . ' href="' . $delete_url . '">' . Translation :: get('WikiDelete') . '</a></li>';
+                $html[] = '<li><a' . ($this->get_action() == self :: ACTION_DELETE_COMPLEX_CONTENT_OBJECT_ITEM ? ' class="current"' : '') . ' href="' . $delete_url . '" onClick="return confirm(\'' . Translation :: get('DeleteQuestion') . '\')">' . Translation :: get('WikiDelete') . '</a></li>';
             }
             else
             {
