@@ -18,10 +18,6 @@ class UserManagerResetPasswordComponent extends UserManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('LostPassword')));
-        $trail->add_help('user general');
-
         //$user_id = $this->get_user_id();
         $user_id = Session :: get_user_id();
         
@@ -164,5 +160,11 @@ class UserManagerResetPasswordComponent extends UserManager
         global $security_key;
         return Hashing :: hash($security_key . $user->get_email());
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('user_password_resetter');
+    }
+    
 }
 ?>

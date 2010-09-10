@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerDeleterComponent extends UserManager
+class UserManagerDeleterComponent extends UserManager implements AdministrationComponent
 {
 
     /**
@@ -52,6 +52,17 @@ class UserManagerDeleterComponent extends UserManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_deleter');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(UserManager :: PARAM_USER_USER_ID);
     }
 }
 ?>

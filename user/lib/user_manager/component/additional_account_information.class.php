@@ -54,5 +54,10 @@ class UserManagerAdditionalAccountInformationComponent extends UserManager
 	{
 		return Translation :: get('AdditionalUserInformation');
 	}
+	
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('user_account_additional_information');
+    }
 }
 ?>

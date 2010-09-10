@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/user_approver.class.php';
 
-class UserManagerUserApprovalBrowserComponent extends UserManager
+class UserManagerUserApprovalBrowserComponent extends UserManager implements AdministrationComponent
 {
     private $ab;
 
@@ -15,13 +15,7 @@ class UserManagerUserApprovalBrowserComponent extends UserManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserApproveBrowser')));
-        $trail->add_help('user general');
-
-        if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER_BROWSER, UserRights :: TYPE_COMPONENT));
+        if (!UserRights :: is_allowed(UserRights :: VIEW_RIGHT, UserRights :: LOCATION_APPROVER_BROWSER, UserRights :: TYPE_COMPONENT))
         {
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
@@ -75,6 +69,11 @@ class UserManagerUserApprovalBrowserComponent extends UserManager
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('user_approval_browser');
     }
 }
 ?>

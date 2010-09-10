@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/active_changer.class.php';
 
-class UserManagerActivatorComponent extends UserManagerActiveChangerComponent
+class UserManagerActivatorComponent extends UserManagerActiveChangerComponent implements AdministrationComponent
 {
 
     /**

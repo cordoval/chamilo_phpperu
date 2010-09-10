@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerUpdaterComponent extends UserManager
+class UserManagerUpdaterComponent extends UserManager implements AdministrationComponent
 {
 
     /**
@@ -12,13 +12,6 @@ class UserManagerUpdaterComponent extends UserManager
      */
     function run()
     {
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-        $trail->add_help('user general');
-        
         $id = Request :: get(UserManager :: PARAM_USER_USER_ID);
         if ($id)
         {
@@ -31,8 +24,6 @@ class UserManagerUpdaterComponent extends UserManager
 		    }
 	    
         	$user = $this->retrieve_user($id);
-            
-            $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_DETAIL, UserManager :: PARAM_USER_USER_ID => $id)), Translation :: get('DetailsOf') . ': ' . $user->get_fullname()));
             
             if (! $this->get_user()->is_platform_admin())
             {
@@ -51,8 +42,6 @@ class UserManagerUpdaterComponent extends UserManager
             }
             else
             {
-                $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)), Translation :: get('Update')));
-                
                 $this->display_header();
                 $form->display();
                 $this->display_footer();
@@ -62,6 +51,17 @@ class UserManagerUpdaterComponent extends UserManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_updater');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(UserManager :: PARAM_USER_USER_ID);
     }
 }
 ?>

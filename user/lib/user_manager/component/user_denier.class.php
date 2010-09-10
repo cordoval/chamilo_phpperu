@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/user_approver.class.php';
 
-class UserManagerUserDenierComponent extends UserManagerUserApproverComponent
+class UserManagerUserDenierComponent extends UserManagerUserApproverComponent implements AdministrationComponent
 {
 
     /**

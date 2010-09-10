@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerCreatorComponent extends UserManager
+class UserManagerCreatorComponent extends UserManager implements AdministrationComponent
 {
 
     /**
@@ -13,12 +13,6 @@ class UserManagerCreatorComponent extends UserManager
     function run()
     {
         $user_id = $this->get_user_id();
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreate')));
-        $trail->add_help('user general');
         
         if (!UserRights :: is_allowed_in_users_subtree(UserRights :: ADD_RIGHT, 0))
         {
@@ -59,5 +53,12 @@ class UserManagerCreatorComponent extends UserManager
             $this->display_footer();
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_creator');
+    }
+    
 }
 ?>

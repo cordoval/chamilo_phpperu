@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerUserRightsTemplateManagerComponent extends UserManager
+class UserManagerUserRightsTemplateManagerComponent extends UserManager implements AdministrationComponent
 {
 
     /**
@@ -12,12 +12,6 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-        $trail->add_help('user general');
-        
         $user_id = Request :: get(UserManager :: PARAM_USER_USER_ID);
         
     	if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, $user_id))
@@ -38,9 +32,6 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager
         
         $user = $this->retrieve_user($user_id);
         
-        $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)), $user->get_fullname()));
-        $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)), Translation :: get('ModifyUserRightsTemplates')));
-        
         $form = new UserRightsTemplateManagerForm($user, $this->get_user(), $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)));
         
         if ($form->validate())
@@ -57,6 +48,17 @@ class UserManagerUserRightsTemplateManagerComponent extends UserManager
             $form->display();
             $this->display_footer();
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_role_manager');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(UserManager :: PARAM_USER_USER_ID);
     }
 }
 ?>

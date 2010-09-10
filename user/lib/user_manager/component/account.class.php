@@ -14,10 +14,6 @@ class UserManagerAccountComponent extends UserManager
     {
         Header :: set_section('my_account');
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAccount')));
-        $trail->add_help('user general');
-        
         $user = $this->get_user();
         
         $form = new AccountForm(AccountForm :: TYPE_EDIT, $user, $this->get_url());
@@ -70,6 +66,11 @@ class UserManagerAccountComponent extends UserManager
             
             $this->display_footer();
         }
+    }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('user_account');
     }
 }
 ?>

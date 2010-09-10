@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerAdminUserBrowserComponent extends UserManager
+class UserManagerAdminUserBrowserComponent extends UserManager implements AdministrationComponent
 {
     private $firstletter;
     private $menu_breadcrumbs;
@@ -16,11 +16,6 @@ class UserManagerAdminUserBrowserComponent extends UserManager
     function run()
     {
         $this->firstletter = Request :: get(UserManager :: PARAM_FIRSTLETTER);
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserList')));
-        $trail->add_help('user general');
 
         if (!UserRights :: is_allowed_in_users_subtree(UserRights :: VIEW_RIGHT, 0))
         {
@@ -136,6 +131,11 @@ class UserManagerAdminUserBrowserComponent extends UserManager
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('user_browser');
     }
 }
 ?>
