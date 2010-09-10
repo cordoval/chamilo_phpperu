@@ -5,7 +5,7 @@ require_once dirname(__FILE__) ."/../../group_rights.class.php";
  * @package group.lib.group_manager.component
  */
 
-class GroupManagerImporterComponent extends GroupManager
+class GroupManagerImporterComponent extends GroupManager implements AdministrationComponent
 {
 
     /**
@@ -13,12 +13,6 @@ class GroupManagerImporterComponent extends GroupManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupCreateCsv')));
-        $trail->add_help('group importer');
-        
        if (!GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_CREATE, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
             $this->display_header();
@@ -78,6 +72,11 @@ class GroupManagerImporterComponent extends GroupManager
         $html[] = '</blockquote>';
         
         echo implode($html, "\n");
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('group general');
     }
 }
 ?>

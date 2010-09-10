@@ -16,14 +16,14 @@ class InternshipOrganizerAgreementManagerSubscribeMentorComponent extends Intern
     {
         $trail = BreadcrumbTrail :: get_instance();
         
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        $trail->add(new Breadcrumb($this->get_browse_agreements_url(), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        //$trail->add(new Breadcrumb($this->get_browse_agreements_url(), Translation :: get('BrowseInternshipOrganizerAgreements')));
         
         $agreement_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID);
         $this->agreement = $this->retrieve_agreement($agreement_id);
         
-        $trail->add(new Breadcrumb($this->get_view_agreement_url($this->agreement), $this->agreement->get_name()));
-        $trail->add(new Breadcrumb($this->get_agreement_subscribe_mentor_url($this->agreement), Translation :: get('AddInternshipOrganizerMentors')));
+        //$trail->add(new Breadcrumb($this->get_view_agreement_url($this->agreement), $this->agreement->get_name()));
+        //$trail->add(new Breadcrumb($this->get_agreement_subscribe_mentor_url($this->agreement), Translation :: get('AddInternshipOrganizerMentors')));
         $trail->add_help('agreement subscribe mentor');
         
         $form = new InternshipOrganizerAgreementSubscribeMentorForm($this->agreement, $this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID))), $this->get_user());

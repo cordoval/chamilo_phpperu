@@ -22,7 +22,7 @@ class RepoViewer extends SubManager
     const PARAM_ID = 'repo_object';
     const PARAM_EDIT_ID = 'obj';
     const PARAM_QUERY = 'query';
-    const PARAM_CONTENT_OBJECT_TYPE = 'type';
+    const PARAM_CONTENT_OBJECT_TYPE = 'content_object_type';
 
     const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
 
@@ -268,8 +268,18 @@ class RepoViewer extends SubManager
 
     static function is_ready_to_be_published()
     {
-        //$action = $this->get_parameter(RepoViewer :: PARAM_ACTION);
         $action = Request :: get(RepoViewer :: PARAM_ACTION);
+        $table_name = Request :: post('table_name');
+        if($table_name)
+        {
+        	ContentObjectTable::handle_table_action();
+	        $table_action = Request :: post($table_name . '_action_value');
+	        if($table_action)
+	        {
+	            $action = $table_action;
+	        }
+        }
+
         return (self :: any_object_selected() && $action == RepoViewer::ACTION_PUBLISHER);
     }
 

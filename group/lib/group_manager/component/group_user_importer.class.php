@@ -5,19 +5,13 @@
  * @package group.lib.group_manager.component
  */
  
-class GroupManagerGroupUserImporterComponent extends GroupManager
+class GroupManagerGroupUserImporterComponent extends GroupManager implements AdministrationComponent
 {
 	/**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupUserCreateCsv')));
-        $trail->add_help('group user importer');
-        
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -60,6 +54,11 @@ class GroupManagerGroupUserImporterComponent extends GroupManager
         $html[] = '</blockquote>';
         
         echo implode($html, "\n");
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('group general');
     }
 }
 ?>

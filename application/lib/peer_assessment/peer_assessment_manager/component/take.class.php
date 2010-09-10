@@ -15,7 +15,7 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
 
     function run()
     {
-        $pid = Request :: get('peer_assessment_publication');
+        $pid = Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION);
         if (! $pid || (is_array($pid) && count($pid) == 0))
         {
             $this->not_allowed();
@@ -27,17 +27,17 @@ class PeerAssessmentManagerTakeComponent extends PeerAssessmentManager
         {
             $pid = $pids[0];
         }
-        
+
         $publication = $this->retrieve_peer_assessment_publication($pid);
         
         if (! $publication->is_visible_for_target_user($this->get_user()))
         {
-            $this->not_allowed($trail, false);
+            $this->not_allowed(null, false);
         }
         
         $this->datamanager = PeerAssessmentDataManager :: get_instance();
         
-        $this->pid = Request :: get(PeerAssessmentManager :: PARAM_PEER_ASSESSMENT_PUBLICATION);
+        $this->pid = $pid;
         $this->pub = $this->datamanager->retrieve_peer_assessment_publication($this->pid);
         $peer_assessment_id = $publication->get_content_object()->get_object_number();
         $this->peer_assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($peer_assessment_id);

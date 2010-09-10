@@ -10,6 +10,7 @@ class ExternalCalendar extends ContentObject implements Versionable
 {
     const PROPERTY_URL = 'url';
     const CACHE_TIME = 3600;
+    const CLASS_NAME = __CLASS__;
 
     const REPEAT_TYPE_NONE = 'NONE';
     const REPEAT_TYPE_DAY = 'DAILY';

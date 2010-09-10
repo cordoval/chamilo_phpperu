@@ -9,7 +9,9 @@ require_once Path :: get_repository_path() . 'lib/content_object/survey/context_
 class SurveyParticipantTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-
+	
+    const CREATE_PARTICIPANT_EVENT = 'create_survey_participant';
+    
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_SURVEY_PUBLICATION_ID = 'survey_publication_id';
     const PROPERTY_DATE = 'date';

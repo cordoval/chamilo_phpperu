@@ -10,7 +10,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  * categories of courses.
  * @author Bart Mollet
  */
-class oldSurveyMenu extends HTML_Menu
+class SurveyMenu extends HTML_Menu
 {
     const TREE_NAME = __CLASS__;
     

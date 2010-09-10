@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . "/../../group_rights.class.php";
 
 require_once dirname(__FILE__) . '/../../group_tree_menu_data_provider.class.php';
 
-class GroupManagerBrowserComponent extends GroupManager
+class GroupManagerBrowserComponent extends GroupManager implements AdministrationComponent
 {
     const TAB_SUBGROUPS = 0;
     const TAB_USERS = 1;
@@ -34,13 +34,6 @@ class GroupManagerBrowserComponent extends GroupManager
      */
     function run()
     {
-
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupList')));
-        $trail->add_help('group general');
-
         $this->edit_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_EDIT, $this->get_group());
         $this->view_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_VIEW, $this->get_group());
         $this->create_right = GroupRights :: is_allowed_in_groups_subtree(GroupRights :: RIGHT_CREATE, $this->get_group());
@@ -96,7 +89,7 @@ class GroupManagerBrowserComponent extends GroupManager
         //        if ($user_count > 0)
         //        {
         $parameters = $this->get_parameters();
-        $parameters[GroupManager :: PARAM_GROUP_ID] = $id;
+        $parameters[GroupManager :: PARAM_GROUP_ID] = $this->get_group();
 
         $table = new GroupRelUserBrowserTable($this, $parameters, $this->get_users_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('Users'), Theme :: get_image_path('admin') . 'place_mini_user.png', $table->as_html()));
@@ -275,6 +268,11 @@ class GroupManagerBrowserComponent extends GroupManager
         $html[] = $toolbar->as_html();
 
         return implode("\n", $html);
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('group general');
     }
 }
 ?>

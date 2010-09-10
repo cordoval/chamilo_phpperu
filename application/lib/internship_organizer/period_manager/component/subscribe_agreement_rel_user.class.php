@@ -16,8 +16,8 @@ class InternshipOrganizerPeriodManagerSubscribeAgreementRelUserComponent extends
     {
         $trail = BreadcrumbTrail :: get_instance();
         
-//        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-//        $trail->add(new Breadcrumb($this->get_browse_periods_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
+//        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+//        //$trail->add(new Breadcrumb($this->get_browse_periods_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
         
         $agreement_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID);
              
@@ -27,7 +27,7 @@ class InternshipOrganizerPeriodManagerSubscribeAgreementRelUserComponent extends
         
         $user_type = InternshipOrganizerUserType::COACH;
         
-//        $trail->add(new Breadcrumb($this->get_period_subscribe_category_url($this->period), Translation :: get('AddInternshipOrganizerCategories')));
+//        //$trail->add(new Breadcrumb($this->get_period_subscribe_category_url($this->period), Translation :: get('AddInternshipOrganizerCategories')));
 //        $trail->add_help('period subscribe category');
         
         $form = new InternshipOrganizerAgreementSubscribeUserForm($this->agreement, $this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID))), $this->get_user());

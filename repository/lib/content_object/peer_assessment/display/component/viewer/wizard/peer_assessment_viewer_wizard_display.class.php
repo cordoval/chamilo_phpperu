@@ -53,7 +53,9 @@ class PeerAssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
      */
     function _renderForm($current_page)
     {   	
-		parent :: _renderForm($current_page);	
+		$this->parent->display_header();
+    	parent :: _renderForm($current_page);
+    	$this->parent->display_footer();	
     }
 }
 ?>

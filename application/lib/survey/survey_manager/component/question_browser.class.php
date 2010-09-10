@@ -28,11 +28,11 @@ class SurveyManagerQuestionBrowserComponent extends SurveyManager
         $this->page_ids = $ids;
         
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+        //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
 //        if(count($ids) == 1){
 //        	//has to be publication !
 //        	$survey_page = $this->retrieve_survey_page($ids[0]);
-//        	$trail->add(new Breadcrumb($this->get_browse_survey_pages_url($survey_page), Translation :: get('BrowseSurveyPages')));
+//        	//$trail->add(new Breadcrumb($this->get_browse_survey_pages_url($survey_page), Translation :: get('BrowseSurveyPages')));
 //        }
 //        
         
