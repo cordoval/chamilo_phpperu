@@ -17,7 +17,7 @@ class InternshipOrganizerAgreementManagerCreatorComponent extends InternshipOrga
         //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateInternshipOrganizerAgreement')));
         
         $agreement = new InternshipOrganizerAgreement();
-        $form = new InternshipOrganizerAgreementForm(InternshipOrganizerAgreementForm :: TYPE_CREATE, $agreement, $this->get_url(), $this->get_user());
+        $form = new InternshipOrganizerAgreementForm(InternshipOrganizerAgreementForm :: TYPE_CREATE, $agreement, $this->get_url());
         
         if ($form->validate())
         {

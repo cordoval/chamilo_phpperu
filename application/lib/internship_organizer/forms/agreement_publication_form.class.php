@@ -60,11 +60,11 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
         $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_agreement_feed.php';
         
         $locale = array();
-        $locale['Display'] = Translation :: get('ChoosePeriods');
+        $locale['Display'] = Translation :: get('ChooseAgreements');
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Periods'), $url, $locale, array());
+        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Agreements'), $url, $locale, array());
         $elem->setDefaults($defaults);
         $elem->setDefaultCollapsed(false);
     

@@ -29,21 +29,21 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
     {
         $succes = $this->create($survey_publication);
 
-        foreach ($survey_publication->get_target_groups() as $group)
-        {
-            $survey_publication_group = new SurveyPublicationGroup();
-            $survey_publication_group->set_survey_publication($survey_publication->get_id());
-            $survey_publication_group->set_group_id($group);
-            $succes &= $survey_publication_group->create();
-        }
-
-        foreach ($survey_publication->get_target_users() as $user)
-        {
-            $survey_publication_user = new SurveyPublicationUser();
-            $survey_publication_user->set_survey_publication($survey_publication->get_id());
-            $survey_publication_user->set_user($user);
-            $succes &= $survey_publication_user->create();
-        }
+//        foreach ($survey_publication->get_target_groups() as $group)
+//        {
+//            $survey_publication_group = new SurveyPublicationGroup();
+//            $survey_publication_group->set_survey_publication($survey_publication->get_id());
+//            $survey_publication_group->set_group_id($group);
+//            $succes &= $survey_publication_group->create();
+//        }
+//
+//        foreach ($survey_publication->get_target_users() as $user)
+//        {
+//            $survey_publication_user = new SurveyPublicationUser();
+//            $survey_publication_user->set_survey_publication($survey_publication->get_id());
+//            $survey_publication_user->set_user($user);
+//            $succes &= $survey_publication_user->create();
+//        }
 
         return $succes;
     }
@@ -91,16 +91,16 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
         return $this->delete($survey_publication->get_table_name(), $publication_condition);
     }
 
-    function count_survey_participant_trackers($condition = null)
-    {
-        //$database = TrackingDataManager::get_instance();
-        $dummy = new SurveyParticipantTracker();
-        //$table_name = $dummy->get_table_name();
-        return $dummy->count_tracker_items($condition);
-        //return $database->count_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
-
-
-    }
+//    function count_survey_participant_trackers($condition = null)
+//    {
+//        //$database = TrackingDataManager::get_instance();
+//        $dummy = new SurveyParticipantTracker();
+//        //$table_name = $dummy->get_table_name();
+//        return $dummy->count_tracker_items($condition);
+//        //return $database->count_distinct($table_name, SurveyParticipantTracker ::PROPERTY_USER_ID,$condition);
+//
+//
+//    }
 
     function count_survey_publications($condition = null)
     {
