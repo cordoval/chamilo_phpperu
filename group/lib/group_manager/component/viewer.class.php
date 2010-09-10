@@ -5,7 +5,7 @@ require_once dirname(__FILE__) ."/../../group_rights.class.php";
  * $Id: viewer.class.php 224 2009-11-13 14:40:30Z kariboe $
  * @package group.lib.group_manager.component
  */
-class GroupManagerViewerComponent extends GroupManager
+class GroupManagerViewerComponent extends GroupManager implements AdministrationComponent
 {
 
     private $group;
@@ -17,8 +17,6 @@ class GroupManagerViewerComponent extends GroupManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-
         $id = Request :: get(GroupManager :: PARAM_GROUP_ID);
         if ($id)
         {
@@ -32,12 +30,6 @@ class GroupManagerViewerComponent extends GroupManager
             {
                 Display :: not_allowed();
             }
-
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => GroupManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Group')));
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
-            $trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), $group->get_name()));
-            $trail->add_help('group general');
 
             $this->display_header();
             $this->ab = $this->get_action_bar();
@@ -138,7 +130,7 @@ class GroupManagerViewerComponent extends GroupManager
         }
         if (GroupRights::is_allowed_in_groups_subtree(GroupRights::RIGHT_EDIT_RIGHTS, GroupRights::get_location_by_identifier_from_groups_subtree(Request::get(GroupManager::PARAM_GROUP_ID))))
         {
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRightsTemplates'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_group_edit_rights_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_group_edit_rights_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         $condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
         $users = $this->retrieve_group_rel_users($condition);
@@ -160,6 +152,17 @@ class GroupManagerViewerComponent extends GroupManager
         }
 
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('group general');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(GroupManager :: PARAM_GROUP_ID);
     }
 
 }

@@ -10,7 +10,6 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/organisa
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/rel_user_browser/rel_user_browser_table.class.php';
 
-
 class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOrganizerOrganisationManager
 {
     
@@ -28,10 +27,11 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
         $this->organisation = $this->retrieve_organisation($organisation_id);
         
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id)), $this->organisation->get_name()));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id)), $this->organisation->get_name()));
         
+
         $this->action_bar = $this->get_action_bar();
         
         $this->display_header($trail);
@@ -120,7 +120,15 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
         $query = $this->action_bar->get_query();
         $conditions = array();
         $location_ids = $this->organisation->get_location_ids();
-        $conditions[] = new InCondition(InternshipOrganizerMentorRelLocation :: PROPERTY_LOCATION_ID, $location_ids);
+        if (count($location_ids) > 0)
+        {
+            $conditions[] = new InCondition(InternshipOrganizerMentorRelLocation :: PROPERTY_LOCATION_ID, $location_ids);
+        }
+        else
+        {
+            $conditions[] = new EqualityCondition(InternshipOrganizerMentorRelLocation :: PROPERTY_LOCATION_ID, 0);
+        
+        }
         
         if (isset($query) && $query != '')
         {
@@ -137,7 +145,7 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
     function get_user_condition()
     {
         
-       $condition = new EqualityCondition(InternshipOrganizerOrganisationRelUser :: PROPERTY_ORGANISATION_ID, $this->organisation->get_id());
+        $condition = new EqualityCondition(InternshipOrganizerOrganisationRelUser :: PROPERTY_ORGANISATION_ID, $this->organisation->get_id());
         
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')

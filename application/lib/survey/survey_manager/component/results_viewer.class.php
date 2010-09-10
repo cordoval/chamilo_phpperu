@@ -32,8 +32,8 @@ class SurveyManagerResultsViewerComponent extends SurveyManager
     function run()
     {
         $this->trail = $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
+        //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
+        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
         
         $pid = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         //$delete = Request :: get('delete');
@@ -72,13 +72,13 @@ class SurveyManagerResultsViewerComponent extends SurveyManager
         }
         else
         {
-            $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid)), Translation :: get('ViewSurveyResults')));
+            //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid)), Translation :: get('ViewSurveyResults')));
             
             $question_id = Request :: get(SurveyManager :: PARAM_SURVEY_QUESTION);
             
             if ($question_id)
             {
-                $trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid, SurveyManager :: PARAM_SURVEY_QUESTION => $question_id)), Translation :: get('ViewSurveyDetails')));
+                //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid, SurveyManager :: PARAM_SURVEY_QUESTION => $question_id)), Translation :: get('ViewSurveyDetails')));
                 
                 $this->question_id = $question_id;
                 $html = $this->display_question_results($pid);

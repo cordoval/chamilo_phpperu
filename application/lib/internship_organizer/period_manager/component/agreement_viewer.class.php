@@ -30,10 +30,10 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
         $this->period = InternshipOrganizerDataManager :: get_instance()->retrieve_period($this->agreement->get_period_id());
         
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id())), Translation :: get('BrowseInternshipOrganizerPeriods')));
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_AGREEMENT)), $this->period->get_name()));
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager:: PARAM_AGREEMENT_ID => $agreement_id)), Translation :: get('ViewInternshipOrganizerAgreement')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id())), Translation :: get('BrowseInternshipOrganizerPeriods')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_AGREEMENT)), $this->period->get_name()));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager:: PARAM_AGREEMENT_ID => $agreement_id)), Translation :: get('ViewInternshipOrganizerAgreement')));
         
         $this->action_bar = $this->get_action_bar();
         

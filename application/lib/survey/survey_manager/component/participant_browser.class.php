@@ -7,7 +7,8 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
 {
     
     const TAB_PARTICIPANTS = 1;
-    const TAB_NOT_PARTICIPANTS = 2;
+    const TAB_INVITEES = 2;
+    const TAB_NOT_PARTICIPANTS = 3;
     
     private $action_bar;
     private $pid;
@@ -21,8 +22,8 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
             $this->pid = Request :: post(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         }
         //        $trail = BreadcrumbTrail :: get_instance();
-        //        $trail->add(new Breadcrumb($this->get_browse_survey_publication_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-        //        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestCaseSurveyParticipants')));
+        //        //$trail->add(new Breadcrumb($this->get_browse_survey_publication_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
+        //        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTestCaseSurveyParticipants')));
         
 
         $this->action_bar = $this->get_action_bar();
@@ -61,8 +62,11 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         $table = new SurveyParticipantBrowserTable($this, $parameters, $this->get_participant_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_PARTICIPANTS, Translation :: get('participants'), Theme :: get_image_path('survey') . 'survey-16.png', $table->as_html()));
         
-        $table = new SurveyUserBrowserTable($this, $parameters, $this->get_user_condition());
-        $tabs->add_tab(new DynamicContentTab(self :: TAB_NOT_PARTICIPANTS, Translation :: get('not_participants'), Theme :: get_image_path('survey') . 'survey-16.png', $table->as_html()));
+        $table = new SurveyUserBrowserTable($this, $parameters, $this->get_invitee_condition(), $this->pid, SurveyUserBrowserTable :: TYPE_INVITEES);
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_INVITEES, Translation :: get('invitees'), Theme :: get_image_path('survey') . 'survey-16.png', $table->as_html()));
+        
+        $table = new SurveyUserBrowserTable($this, $parameters, $this->get_no_participant_condition(), $this->pid, SurveyUserBrowserTable :: TYPE_NO_PARTICIPANTS);
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_NOT_PARTICIPANTS, Translation :: get('no_participants'), Theme :: get_image_path('survey') . 'survey-16.png', $table->as_html()));
         
         $html[] = $tabs->render();
         
@@ -119,18 +123,19 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         return new AndCondition($conditions);
     }
 
-    function get_user_condition()
+    function get_invitee_condition()
     {
         
         $survey_pub_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
         
-        $survey = SurveyDataManager :: get_instance()->retrieve_survey_publication($survey_pub_id);
-        $excluded_users = $survey->get_excluded_participants();
+        $invited_users = array();
+        $invited_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_VIEW, $survey_pub_id, SurveyRights :: TYPE_PUBLICATION);
+        
         $condition = null;
-        if (count($excluded_users) > 0)
+        if (count($invited_users) > 0)
         {
             
-            $condition = new InCondition(User :: PROPERTY_ID, $excluded_users);
+            $condition = new InCondition(User :: PROPERTY_ID, $invited_users);
         
         }
         else
@@ -155,6 +160,79 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         }
         
         return $condition;
+    }
+
+    function get_no_participant_condition()
+    {
+        
+        $survey_pub_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        
+        $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($survey_pub_id);
+        
+        $survey = $survey_publication->get_publication_object();
+        
+        $context_template = $survey->get_context_template();
+        
+        if ($context_template)
+        {
+                     
+            $invited_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_VIEW, $survey_pub_id, SurveyRights :: TYPE_PUBLICATION);
+            $cdm = SurveyContextDataManager :: get_instance();
+            
+            if (count($invited_users) > 0)
+            {
+                $condition = new InCondition(SurveyTemplate :: PROPERTY_USER_ID, $invited_users, SurveyTemplate :: get_table_name());
+            
+            }
+            else
+            {
+                return $condition = new EqualityCondition(User :: PROPERTY_ID, 0);
+            }
+            
+            $templates = $cdm->retrieve_survey_templates($context_template->get_type(), $condition);
+            $template_users = array();
+            while ($template = $templates->next_result())
+            {
+                $template_users[] = $template->get_user_id();
+            }
+            
+            $no_participant_users = array_diff($invited_users, $template_users);
+            
+            $condition = null;
+            if (count($no_participant_users) > 0)
+            {
+                
+                $condition = new InCondition(User :: PROPERTY_ID, $no_participant_users);
+            
+            }
+            else
+            {
+                $condition = new EqualityCondition(User :: PROPERTY_ID, 0);
+            }
+            
+            $query = $this->action_bar->get_query();
+            
+            if (isset($query) && $query != '')
+            {
+                $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
+                $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
+                $or_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
+                $or_condition = new OrCondition($or_conditions);
+            }
+            
+            if ($or_condition)
+            {
+                $conditions = array($condition, $or_condition);
+                $condition = new AndCondition($conditions);
+            }
+            
+            return $condition;
+        }
+        else
+        {
+            return $condition = new EqualityCondition(User :: PROPERTY_ID, 0);
+        }
+    
     }
 }
 ?>

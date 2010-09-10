@@ -95,7 +95,7 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
                     {
                         //$question = $rdm->retrieve_content_object($question_ccoi->get_ref());
                         $count_questions ++;
-                        $this->parent->get_parent()->save_answer($question_ccoi->get_id(), serialize($answers));
+                        $this->parent->save_answer($question_ccoi->get_id(), serialize($answers));
                     }
                 
                 }
@@ -114,8 +114,8 @@ class SurveyViewerWizardProcess extends HTML_QuickForm_Action
 //        $percent = $count_questions / $total_questions * 100;
         
 	//before we make questions required, sending the answers makes the survey finished;
-        $percent = 100;
-        $this->parent->get_parent()->finish_survey($percent);
+//        $percent = 100;
+//        $this->parent->get_parent()->finish_survey($percent);
         
 //        dump($percent);
 //        exit;

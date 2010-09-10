@@ -62,7 +62,7 @@ class ComplexBuilderComponentCreatorComponent extends ComplexBuilderComponent im
 
 
 
-        if (RepoViewer::is_ready_to_be_published())
+        if (!RepoViewer::is_ready_to_be_published())
         {
             $complex_repository_viewer = RepoViewer :: construct($this);
             if ($rtype)

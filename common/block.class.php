@@ -251,10 +251,10 @@ class Block
                     if (! is_dir($file) && stripos($file, '.class.php') !== false)
                     {
                         $component = str_replace('.class.php', '', $file);
-                        $component = str_replace($application . '_', '', $component);
+                        $component = str_replace($application . '_', '', $component); 
                         $value = $application . '.' . $component;
                         $display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . Utilities :: underscores_to_camelcase($component);
-                        $application_components[$component] = $display;
+                        $application_components[$value] = $display;
                     }
                 }
                 closedir($handle);
@@ -278,15 +278,15 @@ class Block
                         $component = str_replace($core_application . '_', '', $component);
                         $value = $core_application . '.' . $component;
                         $display = Translation :: get(Application :: application_to_class($core_application)) . '&nbsp;>&nbsp;' . Utilities :: underscores_to_camelcase($component);
-                        $application_components[$component] = $display;
+                        $application_components[$value] = $display;
                     }
                 }
                 closedir($handle);
             }
         }
-        
+
         asort($application_components);
-        
+
         return $application_components;
     }
 

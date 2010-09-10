@@ -11,6 +11,7 @@ if (Authentication :: is_valid())
 
     $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_TITLE, $title);
     $conditions[] = new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
+    $conditions[] = new InCondition(ContentObject :: PROPERTY_TYPE, RepositoryDataManager :: get_registered_types());
     $condition = new AndCondition($conditions);
 
     $count = RepositoryDataManager :: get_instance()->count_content_objects($condition);

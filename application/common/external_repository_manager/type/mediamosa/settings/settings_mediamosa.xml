@@ -10,6 +10,12 @@
 			<setting name="version" field="select">
 				<options type="dynamic" source="get_versions" />
 			</setting>
+                        <setting name="upload_method" field="select" default="POST" >
+				<options type="static">
+                                    <option name="POST" value="POST"/>
+                                    <option name="PUT" value="PUT"/>
+                                </options>
+			</setting>
 		</category>
 		<category name="credentials">
 			<setting name="login" field="text">

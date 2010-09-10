@@ -7,7 +7,9 @@
 class SurveyQuestionAnswerTracker extends SimpleTracker
 {
     const CLASS_NAME = __CLASS__;
-
+	
+    const SAVE_QUESTION_ANSWER_EVENT = 'save_question_answer';
+    
     const PROPERTY_SURVEY_PARTICIPANT_ID = 'survey_participant_id';
     const PROPERTY_CONTEXT_ID = 'context_id';
     const PROPERTY_QUESTION_CID = 'question_cid';

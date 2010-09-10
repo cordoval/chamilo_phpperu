@@ -43,8 +43,15 @@ class WeblcmsUsersTrackingReportingBlock extends WeblcmsCourseReportingBlock
 	        $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('TimeOnCourse'), self :: get_total_time($trackerdata));
 	        $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('LearningPathProgress'), 0);
 	        $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('ExcerciseProgress'), 0);
-	        $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('TotalPublications'), $rdm->count_content_objects(new EqualityCondition(ContentObject :: PROPERTY_OWNER_ID, $user_id)));
-	        $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('UserDetail'), '<a href="' . $url . '">' . Translation :: get('Detail') . '</a>');
+
+                $publication_conditions = array();
+                $publication_conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_PUBLISHER_ID, $user_id);
+                $publication_conditions[] = new EqualityCondition(ContentObjectPublication :: PROPERTY_COURSE_ID, $course_id);
+                $publication_condition = new AndCondition($publication_conditions);
+
+                $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('TotalPublications'), $wdm->count_content_object_publications($publication_condition));
+
+                $reporting_data->add_data_category_row($user->get_fullname(), Translation :: get('UserDetail'), '<a href="' . $url . '">' . Translation :: get('Detail') . '</a>');
          } 
         return $reporting_data;
     }	

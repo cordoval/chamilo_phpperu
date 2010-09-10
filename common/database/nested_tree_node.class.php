@@ -519,7 +519,7 @@ abstract class NestedTreeNode extends DataClass
         	if ($previous_id)
             {
 //            	$node = call_user_func(array($dm, $func), $previous_id);
-               	dump('hi pr');
+//               	dump('hi pr');
             	$node = $dm->nested_tree_retrieve_node($this, $previous_id);
             	$parent_id = $node->get_parent_id();
             }
@@ -543,7 +543,7 @@ abstract class NestedTreeNode extends DataClass
 
 
 
-            if (!$dm->nested_tree_add_nested_values($this, $previous_visited, 1))
+            if (!$dm->nested_tree_add_nested_values($this, $previous_visited, 1, $this->get_nested_tree_node_condition()))
 //            $func = 'add_' . $this->get_object_name() . '_nested_values';
 //
 //	        if(!method_exists($dm, $func))
@@ -604,7 +604,7 @@ abstract class NestedTreeNode extends DataClass
         		return false;
         }
 
-	    if (!$dm->nested_tree_delete_nested_values($this))
+	    if (!$dm->nested_tree_delete_nested_values($this, $this->get_nested_tree_node_condition()))
 //        $func = 'delete_' . $this->get_object_name() . '_nested_values';
 //
 //    	if(!method_exists($dm, $func))
@@ -623,5 +623,7 @@ abstract class NestedTreeNode extends DataClass
         return true;
     }
 
-    //abstract function get_nested_tree_node_condition();
+    function get_nested_tree_node_condition(){
+    	return null;
+    }
 }

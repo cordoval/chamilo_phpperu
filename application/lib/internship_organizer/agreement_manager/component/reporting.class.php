@@ -18,8 +18,8 @@ class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOr
 
 
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        $trail->add(new Breadcrumb($this->get_browse_agreements_url(), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
+        //$trail->add(new Breadcrumb($this->get_browse_agreements_url(), Translation :: get('BrowseInternshipOrganizerAgreements')));
         $trail->add_help('agreement general');
 
         $rtv = ReportingViewer :: construct($this);

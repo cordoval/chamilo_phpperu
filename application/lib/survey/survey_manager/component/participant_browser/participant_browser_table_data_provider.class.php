@@ -23,8 +23,7 @@ class SurveyParticipantBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null)
     {
         $order_property = $this->get_order_property($order_property);
-        $dm = SurveyDataManager::get_instance();
-        return $dm->retrieve_survey_participant_trackers($this->get_condition(), $offset, $count, $order_property);
+        return Tracker :: get_data( SurveyParticipantTracker:: get_table_name(), SurveyManager::APPLICATION_NAME, $this->get_condition(), $offset, $count, $order_property);
     }
 
     /**
@@ -33,8 +32,7 @@ class SurveyParticipantBrowserTableDataProvider extends ObjectTableDataProvider
      */
     function get_object_count()
     {
-        $dm = SurveyDataManager::get_instance();
-    	return $dm->count_survey_participant_trackers($this->get_condition());
+        return Tracker :: count_data( SurveyParticipantTracker:: get_table_name(), SurveyManager::APPLICATION_NAME,$this->get_condition());
     }
 }
 ?>

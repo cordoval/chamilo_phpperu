@@ -19,13 +19,23 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage {
 	
 	function buildForm() {
 		
+//		dump('build form with questions');
+		
 		$this->_formBuilt = true;
 		
+//		dump($this->get_parent ());
+//		$this->page_number = 2;
+//		dump('pagenr: '.$this->page_number);
+		
 		$this->questions = $this->get_parent ()->get_questions ( $this->page_number );
+		
+//		dump($this->questions);
 		
 		$question_count = count ( $this->questions );
 		
 		$survey_page = $this->get_parent ()->get_page ( $this->page_number );
+		
+//		dump($survey_page);
 		
 		// Add buttons
 		if ($this->page_number > 1) {
@@ -47,7 +57,8 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage {
 
 		if ($question_count != 0) {
 			foreach ( $this->questions as $nr => $question ) {
-				$answer = $this->get_parent()->get_parent()->get_parent()->get_answer($question);
+				
+//				$answer = $this->get_parent()->get_parent()->get_parent()->get_answer($question);
 
 				
 				$visibility = $this->get_parent ()->get_question_visibility ( $question->get_id () );
@@ -66,6 +77,7 @@ class QuestionsSurveyViewerWizardPage extends SurveyViewerWizardPage {
 		$renderer->setElementTemplate ( '<div style="float: right;">{element}</div><br /><br />', 'buttons' );
 		$renderer->setGroupElementTemplate ( '{element}', 'buttons' );
 		$this->setDefaultAction ( 'next' );
+//		dump($this);
 	
 	}
 	

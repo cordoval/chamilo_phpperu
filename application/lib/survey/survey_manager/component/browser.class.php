@@ -11,7 +11,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        //        $trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+        //        //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
         
 
         $this->action_bar = $this->get_action_bar();
@@ -81,7 +81,7 @@ class SurveyManagerBrowserComponent extends SurveyManager
         
         $action_bar->set_search_url($this->get_url());
         
-        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: ADD_RIGHT, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_ADD, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_create_survey_publication_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -147,17 +147,17 @@ class SurveyManagerBrowserComponent extends SurveyManager
         else
         {
             
-            $publication_group_alias = SurveyPublicationGroup :: get_table_name();
-            $publication_user_alias = SurveyPublicationUser :: get_table_name();
-            
-            $user_id = $user->get_id();
-            $groups = $user->get_groups(true);
-            
-            $access = array();
-            $access[] = new InCondition(SurveyPublicationUser :: PROPERTY_USER, $user_id, $publication_user_alias);
-            $access[] = new InCondition(SurveyPublicationGroup :: PROPERTY_GROUP_ID, $groups, $publication_group_alias);
-            $access[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $user->get_id(), $publication_alias);
-            $conditions[] = new OrCondition($access);
+//            $publication_group_alias = SurveyPublicationGroup :: get_table_name();
+//            $publication_user_alias = SurveyPublicationUser :: get_table_name();
+//            
+//            $user_id = $user->get_id();
+//            $groups = $user->get_groups(true);
+//            
+//            $access = array();
+//            $access[] = new InCondition(SurveyPublicationUser :: PROPERTY_USER, $user_id, $publication_user_alias);
+//            $access[] = new InCondition(SurveyPublicationGroup :: PROPERTY_GROUP_ID, $groups, $publication_group_alias);
+//            $access[] = new EqualityCondition(SurveyPublication :: PROPERTY_PUBLISHER, $user->get_id(), $publication_alias);
+//            $conditions[] = new OrCondition($access);
             
             $conditions[] = new EqualityCondition(SurveyPublication :: PROPERTY_HIDDEN, false, $publication_alias);
             

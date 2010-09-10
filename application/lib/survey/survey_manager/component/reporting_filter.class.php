@@ -38,16 +38,16 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
 		        $trail = BreadcrumbTrail :: get_instance();
 		        if($testcase)
 		        {
-		        	$trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
+		        	//$trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
 		        }
 		        else
 		        {
-		        	$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
+		        	//$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
 		        }
-				$trail->add(new Breadcrumb($this->get_reporting_filter_survey_publication_url(), Translation :: get('ReportingFilter')));
+				//$trail->add(new Breadcrumb($this->get_reporting_filter_survey_publication_url(), Translation :: get('ReportingFilter')));
 		        $trail->add_help('survey reporting filter'); 
 		        
-		        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
+		        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
         
 		        if ($this->wizard->validate())
 		        {

@@ -84,7 +84,7 @@ class ReportingManagerBrowserComponent extends ReportingManager
             }
             //$html[] = '<a id="'.$application_links['application']['class'].'" class="dock-item" href="'. $this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
             //$html[] = '<a class="dock-item" href="#tabs-'.$index.'" />';
-            $html[] = '<a id="' . $application_links['application']['class'] . '" class="dock-item" href="core.php?application=reporting&go=browse_templates&app=' . $application_links['application']['class'] . '" />'; //. '#application-'.$application_links['application']['class']
+            $html[] = '<a id="' . $application_links['application']['class'] . '" class="dock-item" href="core.php?application=reporting&go=browser&app=' . $application_links['application']['class'] . '" />'; //. '#application-'.$application_links['application']['class']
             $html[] = '<img src="' . Theme :: get_image_path('admin') . 'place_' . $application_links['application']['class'] . '.png" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
             $html[] = '<span>' . $application_links['application']['name'] . '</span>';
             $html[] = '</a>';

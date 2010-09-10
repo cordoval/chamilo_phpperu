@@ -14,8 +14,8 @@ class SurveyViewerWizardNext extends HTML_QuickForm_Action
 
     function perform($page, $actionName)
     {
-        
-        // save the form values and validation status to the session
+      
+    	// save the form values and validation status to the session
         $page->isFormBuilt() or $page->buildForm();
         $pageName = $page->getAttribute('id');
         $data = & $page->controller->container();

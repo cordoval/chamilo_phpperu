@@ -169,5 +169,15 @@ class PeerAssessmentViewerWizard extends HTML_QuickForm_Controller
     {
     	return $this->total;
     }
+    
+    function display_header()
+    {
+    	return $this->parent->display_header();
+    }
+    
+	function display_footer()
+    {
+    	return $this->parent->display_footer();
+    }
 }
 ?>
