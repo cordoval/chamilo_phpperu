@@ -101,10 +101,17 @@ class PortfolioPublicationForm extends FormValidator
         $radioOptions[$i++] = PortfolioRights::RADIO_OPTION_ANONYMOUS;
         $radioOptions[$i++] = PortfolioRights::RADIO_OPTION_ALLUSERS;
         $radioOptions[$i++] = PortfolioRights::RADIO_OPTION_ME;
+
+        $radioOptionsLimited = array();
+        $i = 0;
+
+
+        $radioOptionsLimited[$i++] = PortfolioRights::RADIO_OPTION_ALLUSERS;
+        $radioOptionsLimited[$i++] = PortfolioRights::RADIO_OPTION_ME;
         
         
 
-        $this->add_inherit_set_option($this->rights_array, $inherit_default, $radioOptions, $attributes1, $defaultSelected);
+        $this->add_inherit_set_option($this->rights_array, $inherit_default, $radioOptions, $radioOptionsLimited, $attributes1, $defaultSelected);
 
 
         $this->addElement('html', PortfolioManager::display_system_settings_link());
@@ -265,11 +272,13 @@ class PortfolioPublicationForm extends FormValidator
         $attributes['options'] = array();
 
         $radio_options = array();
-        $i = 0;
+        $radio_options[0] = PortfolioRights::RADIO_OPTION_ANONYMOUS;
+        $radio_options[1] = PortfolioRights::RADIO_OPTION_ALLUSERS;
+        $radio_options[2] = PortfolioRights::RADIO_OPTION_ME;
 
-        $radio_options[$i++] = PortfolioRights::RADIO_OPTION_ANONYMOUS;
-        $radio_options[$i++] = PortfolioRights::RADIO_OPTION_ALLUSERS;
-        $radio_options[$i++] = PortfolioRights::RADIO_OPTION_ME;
+        $radio_options_limited = array();
+        $radio_options_limited[0] = PortfolioRights::RADIO_OPTION_ALLUSERS;
+        $radio_options_limited[1] = PortfolioRights::RADIO_OPTION_ME;
 
         $rights_array = array();
 
@@ -355,7 +364,17 @@ class PortfolioPublicationForm extends FormValidator
         foreach ($rights_array as $right)
         {
             $attributes['defaults'] = $group_defaults[$right];
-            $this->add_receivers_variable($right, Translation :: get($right), $attributes, $radio_options, PortfolioRights::RADIO_OPTION_ALLUSERS);
+
+             if($right != self::RIGHT_GIVE_FEEDBACK && $right != self::RIGHT_EDIT)
+            {
+                $this->add_receivers_variable($right, Translation :: get($right), $attributes, $radio_options, PortfolioRights::RADIO_OPTION_ALLUSERS);
+            }
+            else
+            {
+               $this->add_receivers_variable($right, Translation :: get($right), $attributes, $radio_options_limited, PortfolioRights::RADIO_OPTION_ALLUSERS);
+            }
+
+                
         }
 
 
@@ -480,7 +499,7 @@ class PortfolioPublicationForm extends FormValidator
 
 
 
-    function add_inherit_set_option($rightsarray, $inherit_default, $radio_options, $attributes, $defaultSelected)
+    function add_inherit_set_option($rightsarray, $inherit_default, $radio_options, $radio_options_limited, $attributes, $defaultSelected)
     {
         $idSet = PortfolioRights::RADIO_OPTION_SET_SPECIFIC;
         $choices[] = $this->createElement('radio', self::INHERIT_OR_SET.'_option', '', Translation::get($this->inherit_default), $this->inherit_default, array('onclick'=>'javascript:options_hide()', 'id'=>$this->inherit_default));
@@ -498,9 +517,17 @@ class PortfolioPublicationForm extends FormValidator
                 $defaults = array();
             }
             $attributes['defaults'] = $defaults;
-            $this->add_receivers_variable($right, Translation :: get($right), $attributes, $radio_options, $defaultSelected);
-        }
 
+            if($right != self::RIGHT_GIVE_FEEDBACK && $right != self::RIGHT_EDIT)
+            {
+                $this->add_receivers_variable($right, Translation :: get($right), $attributes, $radio_options, $defaultSelected);
+            }
+            else
+            {
+               $this->add_receivers_variable($right, Translation :: get($right), $attributes, $radio_options_limited, $defaultSelected);
+            }
+        }
+            
         $this->addElement('html', '</div>');
 
         $this->addElement('html', "<script type = \"text/javascript\">
