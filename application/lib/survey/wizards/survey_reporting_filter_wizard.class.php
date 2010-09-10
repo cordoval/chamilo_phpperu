@@ -40,7 +40,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
     	$multi_select->setAttribute("style","width:auto; min-width:200px;");
     	$multi_select->setAttribute("class","normal button");
     	$buttons = array();
-        $buttons[] = $this->createElement('style_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Filter'), array('class' => 'positive'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
@@ -64,8 +64,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
       	$this->addElement($element_finder);
       	
         $buttons = array();
-        $buttons[] = $this->createElement('style_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
-        $buttons[] = $this->createElement('style_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Filter'), array('class' => 'positive'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
         
     }
@@ -89,8 +88,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
     	$this->addElement($element_finder);
     	
     	$buttons = array();
-        $buttons[] = $this->createElement('style_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
-        $buttons[] = $this->createElement('style_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'normal next'));
+        $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Filter'), array('class' => 'positive'));
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
   
@@ -115,7 +113,6 @@ class SurveyReportingFilterWizard extends WizardPageValidator
     	$this->addElement($element_finder);
     	
         $buttons = array();
-        $buttons[] = $this->createElement('style_button', $this->getButtonName('back'), Translation :: get('Previous'), array('class' => 'normal previous'));
         $buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Filter'), array('class' => 'positive'));
         
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);

@@ -19,6 +19,6 @@
 		<indexproperty name="publisher_id" />
 	</index>
 	<index name="type_id">
-		<indexproperty name="type_id" />
+		<indexproperty name="type" />
 	</index>
 </object>
