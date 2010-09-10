@@ -7,7 +7,7 @@
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
-class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager
+class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager implements AdministrationComponent
 {
     private $action_bar;
 
@@ -16,21 +16,10 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager
      */
     function run()
     {
-
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WebserviceManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Webservice')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Webservices')));
-        $trail->add_help('webservice general');
-
         $category = WebserviceDataManager :: get_instance()->retrieve_webservice_category($this->get_webservice_category());
-        if ($category)
-        {
-            $trail->add(new Breadcrumb($this->get_url(), $category->get_name()));
-        }
         if (! $this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -113,6 +102,11 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManager
         $action_bar->add_common_action($this->get_tool_bar_item($this->get_webservice_category()));
 
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('webservice_rights_editor');
     }
 }
 ?>
