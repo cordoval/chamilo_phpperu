@@ -23,7 +23,7 @@
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>
 			</setting>
-                        <setting name="login" field="text">
+                        <setting name="loginname" field="text">
 				<validations>
 					<validation rule="required" message="ThisFieldIsRequired" />
 				</validations>

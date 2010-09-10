@@ -7,8 +7,7 @@
  *
  * @author jevdheyd
  */
-require_once dirname(__FILE__) . '/mediamosa_external_repository_server_object.class.php';
-require_once dirname(__FILE__) . '/mediamosa_external_repository_data_manager.class.php';
+
 require_once dirname(__FILE__) . '/webservices/mediamosa_rest_client.class.php';
 require_once dirname(__FILE__) . '/mediamosa_mediafile_object.class.php';
 require_once dirname(__FILE__) . '/mediamosa_external_repository_object.class.php';
@@ -236,7 +235,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             case MediamosaExternalRepositoryManager :: FEED_TYPE_MY_VIDEOS:
                 $this->cql ['AND'][] = array(
                         'name' => 'owner_id',
-                        'value' => Session :: get_user_id()
+                        'value' => '^' . Session :: get_user_id() . '^'
                         );
                 $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count, $cql);
                 break;
@@ -400,7 +399,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         }
 
         $this->cql = array();
-
+        echo $string;
         return $string;
     }
 
@@ -842,8 +841,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         if ($asset_id) {
             $data['user_id'] = Session :: get_user_id();
             $data['asset_id'] = $asset_id;
-            if ($is_downloadable)
-                $data['is_downloadable'] = true;
+            if ($is_downloadable) $data['is_downloadable'] = 'TRUE';
 
             if ($response = $this->request(self :: METHOD_POST, '/mediafile/create', $data)) {
                 if ($response->check_result()) {

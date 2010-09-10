@@ -64,8 +64,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
         $this->addElement('textarea', MediaMosaExternalRepositoryObject::PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "110"));
         $this->addElement('text', MediamosaExternalRepositoryObject :: PROPERTY_CREATOR, Translation :: get('Creator'), array("size" => "50"));
 
-        //doesn't yet seem to be settable
-        //$this->addElement('checkbox', MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE, Translation :: get('Is downloadable'));
+        $this->addElement('checkbox', MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE, Translation :: get('Is downloadable'));
 
         $this->addElement('hidden', MediamosaExternalRepositoryObject :: PROPERTY_PUBLISHER);
         $this->addelement('hidden', MediamosaExternalRepositoryObject :: PROPERTY_DATE_PUBLISHED);
@@ -123,7 +122,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
        //create asset
        if($asset_id = $connector->create_mediamosa_asset())
        {
-           if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id))
+           if($mediafile_id = $connector->create_mediamosa_mediafile($asset_id, $this->exportValue(MediamosaMediafileObject :: PROPERTY_IS_DOWNLOADABLE)))
            {
                 //on success -> add metadata
                 $metadata['title'] = $this->exportValue(MediamosaExternalRepositoryObject::PROPERTY_TITLE);
