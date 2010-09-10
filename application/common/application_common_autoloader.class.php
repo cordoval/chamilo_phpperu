@@ -26,7 +26,7 @@ class ApplicationCommonAutoloader
 	{
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 
-		if(strpos($lower_case, '_calendar') !== false)
+		if(strpos($lower_case, '_calendar') !== false && strpos($lower_case, 'external_calendar') === false)
 		{
 			require_once dirname(__FILE__) . '/calendar/' . $lower_case . '.class.php';
 		}
