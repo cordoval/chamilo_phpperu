@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../../trackers/weblcms_lpi_attempt_objecti
 require_once dirname(__FILE__) . '/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/prerequisites_translator.class.php';
 
-class LearningPathToolAttemptComponent extends LearningPathTool
+class LearningPathToolComplexDisplayComponent extends LearningPathTool
 {
     private $pid;
     private $trackers;
@@ -205,7 +205,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
      */
     private function get_menu($root_object_id, $selected_object_id, $pid, $lp_tracker)
     {
-        $this->menu = new LearningPathTree($root_object_id, $selected_object_id, Path :: get(WEB_PATH) . 'run.php?go=courseviewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=display&publication=' . $pid . '&' . LearningPathTool :: PARAM_LP_STEP . '=%s', $lp_tracker);
+        $this->menu = new LearningPathTree($root_object_id, $selected_object_id, Path :: get(WEB_PATH) . 'run.php?go=course_viewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=complex_display&publication=' . $pid . '&' . LearningPathTool :: PARAM_LP_STEP . '=%s', $lp_tracker);
 
         return $this->menu;
     }
