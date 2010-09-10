@@ -157,7 +157,7 @@ class ForumManagerBrowserComponent extends ForumManager
     function get_forum_actions($publication, $first, $last)
     {
     	$toolbar = new Toolbar();
-        if ($this->get_user()->is_platform_admin() || $publication->get_publisher() == $this->get_user_id())
+        if ($this->get_user()->is_platform_admin() || $publication->get_author() == $this->get_user_id())
         {
         	$delete = new ToolbarItem(Translation :: get('Delete'), 
         					Theme :: get_common_image_path() . 'action_delete.png', 
