@@ -10,18 +10,29 @@ class InternshipOrganizerRegionManagerEditorComponent extends InternshipOrganize
      */
     function run()
     {
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('region general');
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_browse_regions_url(), Translation :: get('BrowseInternshipOrganizerRegions')));
         
         $id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
         if ($id)
         {
-            $region = $this->retrieve_region($id);
+            
+        	$this->set_parameter(InternshipOrganizerRegionManager :: PARAM_REGION_ID, $id);
+        	
+        	$region = $this->retrieve_region($id);
             //$trail->add(new Breadcrumb($this->get_region_viewing_url($region), $region->get_city_name()));
             //$trail->add(new Breadcrumb($this->get_region_editing_url($region), Translation :: get('UpdateInternshipOrganizerRegion') . ' ' . $region->get_city_name()));
             
+
             $form = new InternshipOrganizerRegionForm(InternshipOrganizerRegionForm :: TYPE_EDIT, $region, $this->get_region_editing_url($region), $this->get_user());
             
             if ($form->validate())

@@ -36,10 +36,10 @@ class InternshipOrganizerRegionForm extends FormValidator
         $this->addElement('text', InternshipOrganizerRegion :: PROPERTY_CITY_NAME, Translation :: get('Name'), array("size" => "50"));
         $this->addRule(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->addElement('select', InternshipOrganizerRegion :: PROPERTY_PARENT_ID, Translation :: get('Region'), $this->get_regions());
+        $this->addElement('select', InternshipOrganizerRegion :: PROPERTY_PARENT_ID, Translation :: get('ParentRegion'), $this->get_regions());
         $this->addRule(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $this->addElement('text', InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, Translation :: get('Zip_Code'), array("size" => "15"));
+        $this->addElement('text', InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, Translation :: get('ZipCode'), array("size" => "15"));
         $this->addRule(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE);
         
         $this->add_html_editor(InternshipOrganizerRegion :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);

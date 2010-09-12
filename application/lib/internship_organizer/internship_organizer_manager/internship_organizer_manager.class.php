@@ -10,6 +10,7 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/category
 require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/agreement_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/region_manager/region_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/period_manager.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_rights.class.php';
 
 class InternshipOrganizerManager extends WebApplication
 {

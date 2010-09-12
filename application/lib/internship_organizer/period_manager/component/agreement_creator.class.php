@@ -10,17 +10,11 @@ class InternshipOrganizerPeriodManagerAgreementCreatorComponent extends Internsh
      */
     function run()
     {
+     	
+    	$ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
         
-        $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
-        if (isset($ids))
-        {
-            $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
-        }
-        else
-        {
-            $ids = unserialize(Request :: post(InternshipOrganizerPeriodManager :: PARAM_USER_ID));
-        }
-        
+    	$this->set_parameter(InternshipOrganizerPeriodManager :: PARAM_USER_ID, $ids);
+ 
         if (! empty($ids))
         {
             if (! is_array($ids))

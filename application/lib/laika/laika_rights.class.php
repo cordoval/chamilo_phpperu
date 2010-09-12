@@ -10,10 +10,10 @@ require_once Path :: get_application_path() . 'lib/laika/laika_manager/laika_man
 
 class LaikaRights
 {
-    const VIEW_RIGHT = '1';
-    const ADD_RIGHT = '2';
-    const EDIT_RIGHT = '3';
-    const DELETE_RIGHT = '4';
+    const RIGHT_VIEW = '1';
+    const RIGHT_ADD = '2';
+    const RIGHT_EDIT = '3';
+    const RIGHT_DELETET = '4';
 
     const LOCATION_ANALYZER = 1;
     const LOCATION_BROWSER = 2;

@@ -12,18 +12,20 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
      */
     function run()
     {
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_browse_categories_url(), Translation :: get('BrowseInternshipOrganizerCategories')));
+        $trail->add_help('category subscribe locations');
         
         $category_id = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
         $this->category = $this->retrieve_category($category_id);
-        
-        //$trail->add(new Breadcrumb($this->get_category_viewing_url($this->category), $this->category->get_name()));
-        
-        //$trail->add(new Breadcrumb($this->get_category_subscribe_location_browser_url($this->category), Translation :: get('AddInternshipOrganizerLocation')));
-        
-        $trail->add_help('category subscribe locations');
         
         $this->ab = $this->get_action_bar();
         $output = $this->get_location_subscribe_html();
@@ -42,7 +44,7 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         $parameters[InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID] = $this->category->get_id();
         
         $table = new SubscribeLocationBrowserTable($this, $parameters, $this->get_subscribe_condition());
-
+        
         $html = array();
         $html[] = $table->as_html();
         

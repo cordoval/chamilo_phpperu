@@ -13,12 +13,20 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
         
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
+        $trail = BreadcrumbTrail :: get_instance();
+
         $id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
         $parent_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID);
-
+        
         if ($id)
         {
             $this->region = $this->retrieve_region($id);
@@ -38,17 +46,18 @@ class InternshipOrganizerRegionManagerViewerComponent extends InternshipOrganize
             
             $parent_parent_id = $this->parent_parent_id;
             
-            if (! $this->get_user()->is_platform_admin())
-            {
-                Display :: not_allowed();
-            }
-            
-            //$trail->add(new Breadcrumb($this->get_browse_regions_url(), Translation :: get('BrowseInternshipOrganizerRegions')));
-            
-            if ($parent_id && $parent_parent_id)
-            {
-                //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $parent_id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_parent_id)), $parent_region->get_city_name()));
-            }
+//            if (! $this->get_user()->is_platform_admin())
+//            {
+//                Display :: not_allowed();
+//            }
+//            
+//            //$trail->add(new Breadcrumb($this->get_browse_regions_url(), Translation :: get('BrowseInternshipOrganizerRegions')));
+//            
+//
+//            if ($parent_id && $parent_parent_id)
+//            {
+//                //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $parent_id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_parent_id)), $parent_region->get_city_name()));
+//            }
             
             //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $id, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $parent_id)), $region->get_city_name()));
             $trail->add_help('region general');

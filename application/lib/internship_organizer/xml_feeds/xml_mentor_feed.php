@@ -8,6 +8,7 @@ require_once Path :: get_library_path() . 'condition/not_condition.class.php';
 require_once Path :: get_library_path() . 'condition/and_condition.class.php';
 require_once Path :: get_library_path() . 'condition/or_condition.class.php';
 require_once Path :: get_application_path() . '/lib/internship_organizer/mentor.class.php';
+require_once Path :: get_application_path() . '/lib/internship_organizer/mentor_rel_location.class.php';
 require_once Path :: get_application_path() . '/lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
 
 Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
@@ -16,8 +17,8 @@ if (Authentication :: is_valid())
 {
     $conditions = array();
     
-    $organisation_id =  $_GET[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID];
-    $conditions[] = new EqualityCondition(InternshipOrganizerMentor::PROPERTY_ORGANISATION_ID, $organisation_id);
+    $location_id =  $_GET[InternshipOrganizerOrganisationManager :: PARAM_LOCATION_ID];
+    $conditions[] = new EqualityCondition(InternshipOrganizerMentorRelLocation ::PROPERTY_LOCATION_ID, $location_id);
     
     
     $query_condition = Utilities :: query_to_condition($_GET['query'], array(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME, InternshipOrganizerMentor :: PROPERTY_LASTNAME, InternshipOrganizerMentor :: PROPERTY_TITLE, InternshipOrganizerMentor :: PROPERTY_EMAIL));
@@ -44,9 +45,9 @@ if (Authentication :: is_valid())
     {
         $condition = null;
     }
-    
+      
     $dm = InternshipOrganizerDataManager :: get_instance();
-    $objects = $dm->retrieve_mentors($condition);
+    $objects = $dm->retrieve_mentor_rel_locations($condition);
     
     while ($mentor = $objects->next_result())
     {
@@ -70,9 +71,9 @@ function dump_tree($mentors)
         
         foreach ($mentors as $mentor)
         {
-            $id = 'mentor_' . $mentor->get_id();
-            $name = strip_tags($mentor->get_firstname().' '.$mentor->get_lastname());
-            $description = strip_tags($mentor->get_title().' '.$mentor->get_email());
+            $id = 'mentor_' . $mentor->get_mentor_id();
+            $name = strip_tags($mentor->get_optional_property(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME ).' '.$mentor->get_optional_property(InternshipOrganizerMentor :: PROPERTY_LASTNAME ));
+            $description = strip_tags($mentor->get_optional_property(InternshipOrganizerMentor :: PROPERTY_TITLE ).' '.$mentor->get_optional_property(InternshipOrganizerMentor :: PROPERTY_EMAIL ));
             $description = preg_replace("/[\n\r]/", "", $description);
             
             echo '<leaf id="' . $id . '" classes="' . '' . '" title="' . htmlspecialchars($name) . '" description="' . htmlspecialchars(isset($description) && ! empty($description) ? $description : $name) . '"/>' . "\n";
