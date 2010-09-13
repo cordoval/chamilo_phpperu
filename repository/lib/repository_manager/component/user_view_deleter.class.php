@@ -67,5 +67,17 @@ class RepositoryManagerUserViewDeleterComponent extends RepositoryManager
             $this->display_error_page(htmlentities(Translation :: get('NoUserViewSelected')));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS)), Translation :: get('RepositoryManagerUserViewBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_user_view_deleter');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(RepositoryManager :: PARAM_USER_VIEW);
+    }
 }
 ?>

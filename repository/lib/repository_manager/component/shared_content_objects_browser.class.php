@@ -24,8 +24,6 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
 		if(is_null($this->view)) $this->view = self :: VIEW_OTHERS_OBJECTS;
     	
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SharedObjects')));
-        $trail->add_help('repository general');
 
         $this->action_bar = $this->get_action_bar();
         $this->form = new RepositoryFilterForm($this, $this->get_url());
@@ -273,6 +271,17 @@ class RepositoryManagerSharedContentObjectsBrowserComponent extends RepositoryMa
         	return $condition;
         else
         	return new EqualityCondition(ContentObject :: PROPERTY_ID, -1, ContentObject :: get_table_name());
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_shared_content_object_browser');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_VIEW_OBJECTS);
     }
 
 }

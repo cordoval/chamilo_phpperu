@@ -8,7 +8,7 @@
  * Repository manager component to edit the rights for the learning objects in
  * the repository.
  */
-class RepositoryManagerRightsEditorComponent extends RepositoryManager
+class RepositoryManagerRightsEditorComponent extends RepositoryManager implements DelegateComponent
 {
 	private $tree;
 
@@ -19,9 +19,6 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager
     {
         $type = Request :: get(self :: PARAM_TYPE);
         $identifiers = Request :: get(self :: PARAM_IDENTIFIER);
-
-        $this->set_parameter(self :: PARAM_TYPE, $type);
-        $this->set_parameter(self :: PARAM_IDENTIFIER, $identifiers);
 
         $locations = array();
 
@@ -120,6 +117,17 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManager
 
 	        echo implode("\n", $html);
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_rights_editor');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_IDENTIFIER, self :: PARAM_TYPE);
     }
 
 }

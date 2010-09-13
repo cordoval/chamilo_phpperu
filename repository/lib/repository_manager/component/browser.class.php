@@ -18,7 +18,6 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('repository general');
 
         $this->form = new RepositoryFilterForm($this, $this->get_url(array('category' => $this->get_parent_id())));
         $output = $this->get_content_objects_html();
@@ -147,6 +146,11 @@ class RepositoryManagerBrowserComponent extends RepositoryManager
     private function get_parent_id()
     {
         return Request :: get(RepositoryManager :: PARAM_CATEGORY_ID) ? Request :: get(RepositoryManager :: PARAM_CATEGORY_ID) : 0;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('repository_browser');
     }
 
 }

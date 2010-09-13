@@ -320,7 +320,7 @@ abstract class SubManager
        		$component->set_parameter($parameter, Request :: get($parameter));
         }
         
-        if ($add_breadcrumb)
+        if ($add_breadcrumb && !$component instanceof DelegateComponent)
         {
             $trail->add(new Breadcrumb($component->get_url(), Translation :: get(get_class($component))));
         }

@@ -16,9 +16,6 @@ class RepositoryManagerContentObjectRegistrationBrowserComponent extends Reposit
     {
         $this->action_bar = $this->get_action_bar();
 
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseContentObjectRegistrations')));
-
         $output = $this->get_table_html();
         $this->display_header();
         echo $this->action_bar->as_html();
@@ -59,6 +56,11 @@ class RepositoryManagerContentObjectRegistrationBrowserComponent extends Reposit
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_content_object_type_rights_editing_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('repository_registrations_browser');
     }
 
 }

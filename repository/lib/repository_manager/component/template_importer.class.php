@@ -7,7 +7,7 @@
  * Repository manager component which provides functionality to delete a
  * learning object from the users repository.
  */
-class RepositoryManagerTemplateImporterComponent extends RepositoryManager
+class RepositoryManagerTemplateImporterComponent extends RepositoryManager implements AdministrationComponent
 {
 
     /**
@@ -15,12 +15,6 @@ class RepositoryManagerTemplateImporterComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_IMPORTER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Importer')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ContentObjectTemplateImport')));
-        $trail->add_help('repository importer');
-        
         $extra_params = array();
         
         $user = new User();
@@ -45,10 +39,15 @@ class RepositoryManagerTemplateImporterComponent extends RepositoryManager
         }
         else
         {
-            $this->display_header($trail, false, false);
+            $this->display_header(null, false, false);
             $import_form->display();
             $this->display_footer();
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('template_importer');
     }
 }
 ?>

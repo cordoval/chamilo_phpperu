@@ -5,7 +5,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingManagerEditComponent extends ReportingManager
+class ReportingManagerEditComponent extends ReportingManager implements AdministrationComponent
 {
 
     /**
@@ -13,19 +13,11 @@ class ReportingManagerEditComponent extends ReportingManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => ReportingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Reporting')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
-        
         $id = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
         
         if ($id)
         {
             $reporting_template_registration = $this->retrieve_reporting_template_registration($id);
-            
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_VIEW_TEMPLATE, ReportingManager :: PARAM_TEMPLATE_ID => $id)), Translation :: get($reporting_template_registration->get_title())));
-            $trail->add_help('reporting general');
             
             if (! $this->get_user()->is_platform_admin())
             {
@@ -44,7 +36,6 @@ class ReportingManagerEditComponent extends ReportingManager
             }
             else
             {
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit')));
                 $this->display_header();
                 $form->display();
                 $this->display_footer();
@@ -54,6 +45,17 @@ class ReportingManagerEditComponent extends ReportingManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoReportingTemplateRegistrationSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('ReportingManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('reporting_edit');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(ReportingManager :: PARAM_TEMPLATE_ID);
     }
 }
 ?>

@@ -17,5 +17,10 @@ class RepositoryManagerPublisherComponent extends RepositoryManager
         $wizard = new PublisherWizard($this);
         $wizard->run();
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('repository_publisher');
+    }
 }
 ?>

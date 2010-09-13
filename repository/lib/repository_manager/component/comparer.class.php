@@ -14,7 +14,7 @@ class RepositoryManagerComparerComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
+        //$trail = BreadcrumbTrail :: get_instance();
 
         $object_ids = Request :: post(RepositoryVersionBrowserTable :: DEFAULT_NAME . RepositoryVersionBrowserTable :: CHECKBOX_NAME_SUFFIX);
 
@@ -35,13 +35,13 @@ class RepositoryManagerComparerComponent extends RepositoryManager
 
             if ($object->get_state() == ContentObject :: STATE_RECYCLED)
             {
-                $trail->add(new Breadcrumb($this->get_recycle_bin_url(), Translation :: get('RecycleBin')));
+                //$trail->add(new Breadcrumb($this->get_recycle_bin_url(), Translation :: get('RecycleBin')));
                 $this->force_menu_url($this->get_recycle_bin_url());
             }
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object_id)), $object->get_title()));
-            $trail->add(new Breadcrumb(null, Translation :: get('DifferenceBetweenTwoVersions')));
-            $trail->add_help('repository comparer');
-            $this->display_header($trail, false, true);
+            //$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $object_id)), $object->get_title()));
+            //$trail->add(new Breadcrumb(null, Translation :: get('DifferenceBetweenTwoVersions')));
+            //$trail->add_help('repository comparer');
+            $this->display_header(null, false, true);
 
             $diff = $object->get_difference($version_id);
 
@@ -59,6 +59,12 @@ class RepositoryManagerComparerComponent extends RepositoryManager
         {
             $this->display_warning_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_comparer');
     }
 }
 ?>

@@ -16,15 +16,9 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('repository metadata');
-        
         if ($this->check_content_object_from_params())
         {
             $content_object = $this->get_content_object_from_params();
-            
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), $content_object->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EDIT_CONTENT_OBJECT_METADATA, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $content_object->get_id())), Translation :: get('Metadata')));
             
             $metadata_type = $this->get_metadata_type();
             
@@ -44,7 +38,7 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
                  */
             }
             
-            $this->display_header($trail, false, true);
+            $this->display_header(null, false, true);
             
             if (isset($form))
             {
@@ -104,6 +98,21 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerMetadata
 //        }
         
         echo $action_bar->as_html();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS,
+    														   RepositoryManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID))), Translation :: get('RepositoryManagerViewerComponent')));
+		$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECT_METADATA,
+    														   RepositoryManager :: PARAM_CONTENT_OBJECT_ID => Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID))), Translation :: get('RepositoryManagerMetadataViewerComponent')));
+    	$breadcrumbtrail->add_help('repository_metadata_editor');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
     }
 
 }

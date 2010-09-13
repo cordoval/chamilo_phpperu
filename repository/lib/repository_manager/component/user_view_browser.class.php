@@ -16,10 +16,6 @@ class RepositoryManagerUserViewBrowserComponent extends RepositoryManager
     function run()
     {
 
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserViewList')));
-        $trail->add_help('repository userviews');
-
         /*if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail, false, true);
@@ -32,7 +28,7 @@ class RepositoryManagerUserViewBrowserComponent extends RepositoryManager
 
         $output = $this->get_user_html();
 
-        $this->display_header($trail, false, true);
+        $this->display_header(null, false, true);
         echo '<br />' . $this->ab->as_html() . '<br />';
         echo $output;
         $this->display_footer();
@@ -84,6 +80,12 @@ class RepositoryManagerUserViewBrowserComponent extends RepositoryManager
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_user_view_browser');
     }
 }
 ?>

@@ -20,7 +20,7 @@ class MediamosaExternalRepositoryManagerEditorComponent extends MediamosaExterna
 
         $object = $this->retrieve_external_repository_object($id);
         $form->set_external_repository_object($object);
-
+        $form->build_editing_form();
         if($form->validate())
         {
             $success = $form->update_video_entry();

@@ -21,9 +21,6 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('repository general');
-
         $type_options = array();
         $type_options[''] = '-- ' . Translation :: get('SelectObject') . ' --';
         $extra_params = array();
@@ -90,13 +87,13 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
             {
                 if (! Request :: get('publish'))
                 {
-                    $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
-                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)), Translation :: get(ContentObject :: type_to_class($type) . 'CreationFormTitle')));
-                    $this->display_header($trail, false, true);
+//                    $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+//                    $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE => $type)), Translation :: get(ContentObject :: type_to_class($type) . 'CreationFormTitle')));
+                    $this->display_header(null, false, true);
                 }
                 else
                 {
-                    $this->display_header($trail, false, true);
+                    $this->display_header(null, false, true);
                 }
 
                 $content_object_form->display();
@@ -107,23 +104,23 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
         {
             if (! Request :: get('publish'))
             {
-                if ($extra)
-                {
-                    $trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddContentObject')));
-                }
-                else
-                {
-                    $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
-                }
+//                if ($extra)
+//                {
+//                    //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddContentObject')));
+//                }
+//                else
+//                {
+//                    //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+//                }
             }
 
             if (Request :: get('publish'))
             {
-                $this->display_header($trail, false, true);
+                $this->display_header(null, false, true);
             }
             else
             {
-                $this->display_header($trail, false, true);
+                $this->display_header(null, false, true);
             }
 
             //echo $extra;
@@ -251,6 +248,12 @@ class RepositoryManagerCreatorComponent extends RepositoryManager
     	}
     	
     	return $types;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_creator');
     }
 }
 ?>
