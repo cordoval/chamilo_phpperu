@@ -10,15 +10,15 @@
  * This class implements some functions to allow user browser tables to
  * retrieve information about the users to display.
  */
-class UserBrowserTableDataProvider extends ObjectTableDataProvider
+class PortfolioBrowserTableDataProvider extends ObjectTableDataProvider
 {
 
     /**
      * Constructor
-     * @param UserManagerComponent $browser
+     * @param PortfolioManagerComponent $browser
      * @param Condition $condition
      */
-    function UserBrowserTableDataProvider($browser, $condition)
+    function PortfolioBrowserTableDataProvider($browser, $condition)
     {
         parent :: __construct($browser, $condition);
     }

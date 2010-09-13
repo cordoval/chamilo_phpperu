@@ -12,11 +12,20 @@ class InternshipOrganizerCategoryManagerSubscriberComponent extends InternshipOr
      */
     function run()
     {
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $user = $this->get_user();
         $failures = 0;
-
-        $selected_ids =Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_REL_LOCATION_ID);
-       
+        
+        $selected_ids = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_REL_LOCATION_ID);
+        
         if (! empty($selected_ids))
         {
             if (! is_array($selected_ids))
@@ -27,11 +36,11 @@ class InternshipOrganizerCategoryManagerSubscriberComponent extends InternshipOr
             foreach ($selected_ids as $selected_id)
             {
                 
-            	$ids = explode('|', $selected_id);
-                $location_id= $ids[1];
+                $ids = explode('|', $selected_id);
+                $location_id = $ids[1];
                 $category_id = $ids[0];
-            	
-            	$existing_categoryrellocation = $this->retrieve_category_rel_location($location_id, $category_id);
+                
+                $existing_categoryrellocation = $this->retrieve_category_rel_location($location_id, $category_id);
                 
                 if (! $existing_categoryrellocation)
                 {

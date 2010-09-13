@@ -201,8 +201,8 @@ class SurveyPublicationForm extends FormValidator
         $pub->set_to_date($to);
         $pub->set_hidden($hidden);
         $pub->set_type($type);
-        $pub->set_target_users($user_ids);
-        $pub->set_target_groups($group_ids);
+        //$pub->set_target_users($user_ids);
+        //$pub->set_target_groups($group_ids);
         
         if ($pub->create())
         {
@@ -258,8 +258,8 @@ class SurveyPublicationForm extends FormValidator
             $pub->set_to_date($to);
             $pub->set_hidden($hidden);
             $pub->set_type($type);
-            $pub->set_target_users($user_ids);
-            $pub->set_target_groups($group_ids);
+            //$pub->set_target_users($user_ids);
+            //$pub->set_target_groups($group_ids);
             
             if (! $pub->create())
             {
@@ -307,8 +307,8 @@ class SurveyPublicationForm extends FormValidator
         $pub->set_hidden($hidden);
         $pub->set_type($type);
         
-        $pub->set_target_users($user_ids);
-        $pub->set_target_groups($group_ids);
+        //$pub->set_target_users($user_ids);
+        //$pub->set_target_groups($group_ids);
         return $pub->update();
     
     }

@@ -15,9 +15,6 @@ class UserManagerUserSettingsComponent extends UserManager
     {
         Header :: set_section('my_account');
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAccount')));
-        
         $application = Request :: get(self :: PARAM_APPLICATION);
         
         if (! $application)
@@ -138,5 +135,11 @@ class UserManagerUserSettingsComponent extends UserManager
         
         return (AdminDataManager :: get_instance()->count_settings($condition) > 0);
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('user_settings');
+    }
+    
 }
 ?>

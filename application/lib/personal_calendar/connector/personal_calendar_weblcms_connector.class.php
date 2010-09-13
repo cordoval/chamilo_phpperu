@@ -35,7 +35,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
                     $event = new PersonalCalendarEvent();
                     $event->set_start_date($repeat->get_start_date());
                     $event->set_end_date($repeat->get_end_date());
-                    $event->set_url('run.php?application=weblcms&amp;go=courseviewer&amp;course=' . $publication->get_course_id() . '&amp;tool=' . $publication->get_tool() . '&amp;pid=' . $publication->get_id());
+                    $event->set_url('run.php?application=weblcms&amp;go=course_viewer&amp;tool_action=viewer&amp;browser=calendar&amp;course=' . $publication->get_course_id() . '&amp;tool=' . $publication->get_tool() . '&amp;publication=' . $publication->get_id());
                     $event->set_title($repeat->get_title());
                     $event->set_content($repeat->get_description());
                     $event->set_source('weblcms');
@@ -48,7 +48,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
                 $event = new PersonalCalendarEvent();
                 $event->set_start_date($object->get_start_date());
                 $event->set_end_date($object->get_end_date());
-                $event->set_url('run.php?application=weblcms&amp;go=courseviewer&amp;course=' . $publication->get_course_id() . '&amp;tool=' . $publication->get_tool() . '&amp;pid=' . $publication->get_id());
+                $event->set_url('run.php?application=weblcms&amp;go=course_viewer&amp;tool_action=viewer&amp;browser=calendar&amp;course=' . $publication->get_course_id() . '&amp;tool=' . $publication->get_tool() . '&amp;publication=' . $publication->get_id());
                 $event->set_title($object->get_title());
                 $event->set_content($object->get_description());
                 $event->set_source('weblcms');

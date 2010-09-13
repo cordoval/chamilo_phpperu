@@ -8,7 +8,7 @@
  * Repository manager component to edit the rights for the learning objects in
  * the repository.
  */
-class TrackingManagerRightsEditorComponent extends TrackingManager
+class TrackingManagerRightsEditorComponent extends TrackingManager implements AdministrationComponent
 {
 
     /**
@@ -16,13 +16,7 @@ class TrackingManagerRightsEditorComponent extends TrackingManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => TrackingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Tracking')));
-        $trail->add(new Breadcrumb($this->get_url(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)), Translation :: get('EventsList')));
-        
     	$events = Request :: get(TrackingManager :: PARAM_EVENT_ID);
-        $this->set_parameter(TrackingManager :: PARAM_EVENT_ID, $events);
 
         if ($events && ! is_array($events))
         {
@@ -55,6 +49,17 @@ class TrackingManagerRightsEditorComponent extends TrackingManager
     function get_available_rights()
     {
     	return TrackingRights :: get_available_rights();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browser_url(), Translation :: get('TrackingManagerAdminEventBrowserComponent')));
+    	$breadcrumbtrail->add_help('tracking_event_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(TrackingManager :: PARAM_EVENT_ID);
     }
 
 }

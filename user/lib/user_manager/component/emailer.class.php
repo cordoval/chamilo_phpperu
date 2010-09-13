@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerEmailerComponent extends UserManager
+class UserManagerEmailerComponent extends UserManager implements AdministrationComponent
 {
 
     /**
@@ -43,20 +43,15 @@ class UserManagerEmailerComponent extends UserManager
         }
     }
 
-    function display_header($trail)
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-    	$ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
-
-    	$this->set_parameter(UserManager :: PARAM_USER_USER_ID, null);
-
-    	$trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
-        $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-        $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $ids)), Translation :: get('Emailer')));
-        $trail->add_help('user general');
-
-        return parent :: display_header();
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_emailer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(UserManager :: PARAM_USER_USER_ID);
     }
 }
 ?>

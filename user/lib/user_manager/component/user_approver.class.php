@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerUserApproverComponent extends UserManager
+class UserManagerUserApproverComponent extends UserManager implements AdministrationComponent
 {
     const PARAM_CHOICE = 'choice';
     const CHOICE_APPROVE = 1;
@@ -87,6 +87,17 @@ class UserManagerUserApproverComponent extends UserManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)), Translation :: get('UserManagerUserApprovalBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_approver');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(UserManager :: PARAM_USER_USER_ID, UserManager :: PARAM_CHOICE);
     }
 }
 ?>

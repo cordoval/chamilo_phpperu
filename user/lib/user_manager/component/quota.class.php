@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerQuotaComponent extends UserManager
+class UserManagerQuotaComponent extends UserManager implements AdministrationComponent
 {
 
     /**
@@ -13,12 +13,6 @@ class UserManagerQuotaComponent extends UserManager
     function run()
     {
         $user_id = $this->get_user_id();
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-        $trail->add_help('user general');
         
         $id = Request :: get(UserManager :: PARAM_USER_USER_ID);
         
@@ -33,9 +27,6 @@ class UserManagerQuotaComponent extends UserManager
 	        }
             
         	$user = $this->retrieve_user($id);
-            $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_DETAIL, UserManager :: PARAM_USER_USER_ID => $id)), Translation :: get('DetailsOf') . ': ' . $user->get_fullname()));
-            //$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)), $user->get_fullname()));
-            
 
             if (! $this->get_user()->is_platform_admin())
             {
@@ -53,7 +44,6 @@ class UserManagerQuotaComponent extends UserManager
             }
             else
             {
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserQuota')));
                 $this->display_header();
                 $form->display();
                 $this->display_footer();
@@ -63,6 +53,17 @@ class UserManagerQuotaComponent extends UserManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_quota');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(UserManager :: PARAM_USER_USER_ID);
     }
 }
 ?>

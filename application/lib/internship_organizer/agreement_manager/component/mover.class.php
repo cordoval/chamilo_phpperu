@@ -1,36 +1,48 @@
 <?php
-/**
- * $Id: subscriber.class.php 224 2009-11-13 14:40:30Z kariboe $
- * @package category.lib.category_manager.component
- */
+require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
 
-class InternshipOrganizerAgreementManagerMoverComponent extends InternshipOrganizerAgreementManager {
-	
-	/**
-	 * Runs this component and displays its output.
-	 */
-	function run() {
-		$agreement_id = Request::get ( InternshipOrganizerAgreementManager::PARAM_AGREEMENT_ID );
-		$location_id = Request::get ( InternshipOrganizerAgreementManager::PARAM_LOCATION_ID );
-		$move_direction = Request::get ( InternshipOrganizerAgreementManager::PARAM_MOVE_AGREEMENT_REL_LOCATION_DIRECTION );
-				
-		$datamanager = InternshipOrganizerDataManager::get_instance ();
-		$agreement_rel_location = $datamanager->retrieve_agreement_rel_location($location_id, $agreement_id);
-		if ($agreement_rel_location->move ( $move_direction )) {
-			
-			if($move_direction < 0){
-							$message = htmlentities ( Translation::get ( 'InternshipOrganizerAgreementRelLocationPreferenceUp' ) );
-				
-			}else{
-							$message = htmlentities ( Translation::get ( 'InternshipOrganizerAgreementRelLocationPreferenceDown' ) );
-				
-			}
-			
-		}
-		
-		$this->redirect ($message , false, array (InternshipOrganizerAgreementManager::PARAM_ACTION => InternshipOrganizerAgreementManager::ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager::PARAM_AGREEMENT_ID => $agreement_id ) );
-		exit ();
-	
-	}
+class InternshipOrganizerAgreementManagerMoverComponent extends InternshipOrganizerAgreementManager
+{
+
+    /**
+     * Runs this component and displays its output.
+     */
+    function run()
+    {
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
+        $agreement_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID);
+        $location_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_LOCATION_ID);
+        $move_direction = Request :: get(InternshipOrganizerAgreementManager :: PARAM_MOVE_AGREEMENT_REL_LOCATION_DIRECTION);
+        
+        $datamanager = InternshipOrganizerDataManager :: get_instance();
+        $agreement_rel_location = $datamanager->retrieve_agreement_rel_location($location_id, $agreement_id);
+        if ($agreement_rel_location->move($move_direction))
+        {
+            
+            if ($move_direction < 0)
+            {
+                $message = htmlentities(Translation :: get('InternshipOrganizerAgreementRelLocationPreferenceUp'));
+            
+            }
+            else
+            {
+                $message = htmlentities(Translation :: get('InternshipOrganizerAgreementRelLocationPreferenceDown'));
+            
+            }
+        
+        }
+        
+        $this->redirect($message, false, array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_LOCATIONS));
+        exit();
+    
+    }
 }
 ?>

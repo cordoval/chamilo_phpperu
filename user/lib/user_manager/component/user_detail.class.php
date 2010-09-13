@@ -5,19 +5,13 @@
  */
 require_once 'HTML/Table.php';
 
-class UserManagerUserDetailComponent extends UserManager
+class UserManagerUserDetailComponent extends UserManager implements AdministrationComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
-		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-		$trail->add_help('user general');
-		
 		$id = Request :: get(UserManager :: PARAM_USER_USER_ID);
 		if ($id)
 		{
@@ -30,8 +24,6 @@ class UserManagerUserDetailComponent extends UserManager
 		    }
 	    
 			$user = $this->retrieve_user($id);
-			$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)), Translation :: get('DetailsOf') . ': ' . $user->get_fullname()));
-
 			$action_bar = $this->get_action_bar($user);
 			
 			$this->display_header();
@@ -210,5 +202,16 @@ class UserManagerUserDetailComponent extends UserManager
 	{
 		return Translation :: get('AdditionalUserInformation');
 	}
+	
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_detail');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(UserManager :: PARAM_USER_USER_ID);
+    }
 }
 ?>

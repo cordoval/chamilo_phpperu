@@ -70,5 +70,23 @@ class LocationManagerInheriterComponent extends LocationManager
             $this->display_error_page(htmlentities(Translation :: get('NoLocationSelected')));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$ids = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
+    	$location_id = $ids[0];
+    	
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS,
+    															  LocationManager :: PARAM_LOCATION_ACTION => LocationManager :: ACTION_BROWSE_LOCATIONS,
+    															  LocationManager :: PARAM_SOURCE => Request :: get(LocationManager :: PARAM_SOURCE), 
+            													  LocationManager :: PARAM_LOCATION => $location_id)), 
+    										 Translation :: get('LocationManagerBrowserComponent')));									
+    	$breadcrumbtrail->add_help('rights_locations_inheriter');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(LocationManager :: PARAM_LOCATION, LocationManager :: PARAM_SOURCE);
+    }
 }
 ?>

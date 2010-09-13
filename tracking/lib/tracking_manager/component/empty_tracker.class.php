@@ -7,7 +7,7 @@
 /**
  * Component to empty a tracker
  */
-class TrackingManagerEmptyTrackerComponent extends TrackingManager
+class TrackingManagerEmptyTrackerComponent extends TrackingManager implements AdministrationComponent
 {
 
     /**
@@ -15,9 +15,6 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('tracking general');
-
         $tracker_ids = Request :: get(TrackingManager :: PARAM_TRACKER_ID);
         $event_ids = Request :: get(TrackingManager :: PARAM_EVENT_ID);
         $type = Request :: get(TrackingManager :: PARAM_TYPE);
@@ -150,6 +147,15 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManager
             $this->redirect(Translation :: get($success ? 'TrackerEmpty' : 'TrackerNotEmpty'), ($success ? false : true), array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('tracking_empty_tracker');
+    }
 
+	function get_additional_parameters()
+    {
+    	return array(TrackingManager :: PARAM_EVENT_ID, TrackingManager :: PARAM_TRACKER_ID, TrackingManager :: PARAM_TYPE);
+    }
 }
 ?>

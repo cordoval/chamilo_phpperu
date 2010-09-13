@@ -32,10 +32,9 @@ class InternshipOrganizerAgreementSubscribeMentorForm extends FormValidator
         $locations = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement_rel_locations($condition);
         $location = $locations->next_result();
         $location_id = $location->get_location_id();
-        $location = InternshipOrganizerDataManager :: get_instance()->retrieve_location($location_id);
-        $organisation_id = $location->get_organisation_id();
-               
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_mentor_feed.php?organisation_id=' . $organisation_id;
+            
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_mentor_feed.php?location_id=' . $location_id;
+        
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseMentors');
         $locale['Searching'] = Translation :: get('Searching');

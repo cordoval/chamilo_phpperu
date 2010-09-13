@@ -12,23 +12,17 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
      */
     function run()
     {
-        $user = $this->get_user();
         
-        if (! $user->is_platform_admin())
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $trail = BreadcrumbTrail :: get_instance();
-            //$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-            //$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerCategoryManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('InternshipOrganizerCategory')));
-            //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES)), Translation :: get('BrowseInternshipOrganizerCategories')));
-            //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UnsubscribeFromInternshipOrganizerCategory')));
-            $trail->add_help('category unsubscribe users');
-            
             $this->display_header($trail);
-            Display :: error_message(Translation :: get('NotAllowed'));
+            $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
         
+        $user = $this->get_user();
+    
         $ids = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_REL_LOCATION_ID);
         $failures = 0;
         
@@ -41,7 +35,7 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
             
             foreach ($ids as $id)
             {
-
+                
                 $categoryrellocation_ids = explode('|', $id);
                 $categoryrellocation = $this->retrieve_category_rel_location($categoryrellocation_ids[1], $categoryrellocation_ids[0]);
                 
@@ -51,12 +45,12 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
                 if ($categoryrellocation_ids[0] == $categoryrellocation->get_category_id())
                 {
                     if (! $categoryrellocation->delete())
-                    {	
+                    {
                         $failures ++;
                     }
                     else
                     {
-//                        Event :: trigger('unsubscribe', 'category', array('target_category_id' => $categoryrellocation->get_category_id(), 'target_location_id' => $categoryrellocation->get_location_id(), 'action_location_id' => $location->get_location_id()));
+                        //                        Event :: trigger('unsubscribe', 'category', array('target_category_id' => $categoryrellocation->get_category_id(), 'target_location_id' => $categoryrellocation->get_location_id(), 'action_location_id' => $location->get_location_id()));
                     }
                 }
                 else
@@ -68,7 +62,7 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
             if ($failures)
             {
                 if (count($ids) == 1)
-                {	
+                {
                     $message = 'SelectedInternshipOrganizerCategoryRelLocationNotDeleted';
                 }
                 else
@@ -88,7 +82,7 @@ class InternshipOrganizerCategoryManagerUnsubscriberComponent extends Internship
                 }
             }
             
-//            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $categoryreluser_ids[0]));
+            //            $this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $categoryreluser_ids[0]));
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $categoryrellocation_ids[0]));
         }
         else

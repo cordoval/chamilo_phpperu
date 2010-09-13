@@ -1,7 +1,18 @@
 <?php
 $lang['internship_organizer']['World'] = 'World';
 $lang['internship_organizer']['ViewRoot'] = 'Home';
-$lang['DeleteConfirm'] = 'Are you sure you want to delete these items?';
+$lang['internship_organizer']['DeleteConfirm'] = 'Are you sure you want to delete these items?';
+$lang['internship_organizer']['NewLocation'] = 'New Location';
+
+//applicationchooser components
+$lang['internship_organizer']['InternshipOrganizerManagerApplicationChooserComponent'] = 'Manager';
+
+//agreement components
+$lang['internship_organizer']['InternshipOrganizerManagerAgreementComponent'] = 'Agreement';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerBrowserComponent'] = 'Agreement Browser';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerViewerComponent'] = 'Agreement Viewer';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerCreatorComponent'] = 'Create Agreement';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerEditorComponent'] = 'Edit Agreement';
 
 $lang['internship_organizer']['CreateInternshipOrganizerAgreement'] = 'Create Agreement';
 $lang['internship_organizer']['InternshipOrganizerAgreementCreated'] = 'Agreement Created';
@@ -34,6 +45,17 @@ $lang['internship_organizer']['SelectedInternshipOrganizerMomentsNotDeleted'] = 
 $lang['internship_organizer']['SelectedInternshipOrganizerMomentDeleted'] = 'Selected Moment Deleted';
 $lang['internship_organizer']['SelectedInternshipOrganizerMomentsDeleted'] = 'Selected Moments Deleted';
 $lang['internship_organizer']['NoInternshipOrganizerMomentsSelected'] = 'No Moments Selected';
+
+
+//category components
+$lang['internship_organizer']['InternshipOrganizerManagerCategoryComponent'] = 'Category';
+$lang['internship_organizer']['InternshipOrganizerCategoryManagerBrowserComponent'] = 'Category Browser';
+$lang['internship_organizer']['InternshipOrganizerCategoryManagerViewerComponent'] = 'Category Viewer';
+$lang['internship_organizer']['InternshipOrganizerCategoryManagerCreatorComponent'] = 'Create Category';
+$lang['internship_organizer']['InternshipOrganizerCategoryManagerEditorComponent'] = 'Edit Category';
+$lang['internship_organizer']['InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent'] = 'Subscribe Location';
+$lang['internship_organizer']['InternshipOrganizerCategoryManagerMoverComponent'] = 'Move Category';
+
 
 $lang['internship_organizer']['CreateInternshipOrganizerCategory'] = 'Create Category';
 $lang['internship_organizer']['InternshipOrganizerCategoryCreated'] = 'Category Created';
@@ -118,6 +140,14 @@ $lang['internship_organizer']['AddInternshipOrganizerUsers'] = 'Add Users';
 $lang['internship_organizer']['AddInternshipOrganizerGroups'] = 'Add Groups';
 
 
+//period components
+$lang['internship_organizer']['InternshipOrganizerManagerPeriodComponent'] = 'Period';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerBrowserComponent'] = 'Period Browser';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerViewerComponent'] = 'Period Viewer';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerCreatorComponent'] = 'Create Period';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerEditorComponent'] = 'Edit Period';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeUserComponent'] = 'Subscribe User';
+
 $lang['internship_organizer']['CreateInternshipOrganizerPeriod'] = 'Create Period';
 $lang['internship_organizer']['InternshipOrganizerPeriodCreated'] = 'Period Created';
 $lang['internship_organizer']['InternshipOrganizerPeriodNotCreated'] = 'Could Not Create Period';
@@ -135,11 +165,23 @@ $lang['internship_organizer']['NoInternshipOrganizerPeriodsSelected'] = 'No Peri
 $lang['internship_organizer']['AddCategories'] = 'Add categories';
 $lang['internship_organizer']['AddInternshipOrganizerCategories'] = 'Add categories';
 
+$lang['internship_organizer']['InternshipOrganizerPeriodRelGroupsCreated'] = 'Selected Groups Added To Period';
+$lang['internship_organizer']['InternshipOrganizerPeriodRelGroupsNotCreated'] = 'Selected Groups Not Added To Period';
+$lang['internship_organizer']['InternshipOrganizerPeriodRelUsersCreated'] = 'Selected Users Added To Period';
+$lang['internship_organizer']['InternshipOrganizerPeriodRelUsersNotCreated'] = 'Selected Users Not Added To Period';
+
 $lang['internship_organizer']['NoUsers'] = 'No Users';
 $lang['internship_organizer']['NoSubperiods'] = 'No Subperiods';
 $lang['internship_organizer']['Periods'] = 'Periodes';
 $lang['internship_organizer']['ParentPeriod'] = 'Parent';
 
+
+//region components
+$lang['internship_organizer']['InternshipOrganizerManagerRegionComponent'] = 'Region';
+$lang['internship_organizer']['InternshipOrganizerRegionManagerBrowserComponent'] = 'Region Browser';
+$lang['internship_organizer']['InternshipOrganizerRegionManagerViewerComponent'] = 'Region Viewer';
+$lang['internship_organizer']['InternshipOrganizerRegionManagerCreatorComponent'] = 'Create Region';
+$lang['internship_organizer']['InternshipOrganizerRegionManagerEditorComponent'] = 'Edit Region';
 
 $lang['internship_organizer']['CreateInternshipOrganizerRegion'] = 'Create Region';
 $lang['internship_organizer']['InternshipOrganizerRegionCreated'] = 'Region Created';
@@ -168,6 +210,7 @@ $lang['internship_organizer']['Begin'] = 'Begin';
 $lang['internship_organizer']['End'] = 'End';
 $lang['internship_organizer']['Period'] = 'Period';
 $lang['internship_organizer']['InternshipOrganizerPeriodName'] = 'Period';
+$lang['internship_organizer']['ParentRegion'] = 'Parent Region';
 $lang['internship_organizer']['Region'] = 'Region';
 $lang['internship_organizer']['Regions'] = 'Regions';
 $lang['internship_organizer']['Subregions'] = 'Subregions';

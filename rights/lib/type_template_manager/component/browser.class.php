@@ -16,14 +16,6 @@ class TypeTemplateManagerBrowserComponent extends TypeTemplateManager
      */
     function run()
     {
-
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_TYPE_TEMPLATES)), Translation :: get('TypeTemplates')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseRightsTemplates')));
-        $trail->add_help('rights general');
-
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -81,6 +73,11 @@ class TypeTemplateManagerBrowserComponent extends TypeTemplateManager
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageTypeTemplateRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ACTION => TypeTemplateManager :: ACTION_CONFIGURE_TYPE_TEMPLATES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('rights_type_template_browser');
     }
 }
 ?>

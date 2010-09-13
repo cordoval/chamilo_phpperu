@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerImporterComponent extends UserManager
+class UserManagerImporterComponent extends UserManager implements AdministrationComponent
 {
 
     /**
@@ -12,13 +12,6 @@ class UserManagerImporterComponent extends UserManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_IMPORTER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Importer')));
-        //$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ImportUsers')));
-        $trail->add_help('user general');
-        
         if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, 0))
         {
             $this->display_header();
@@ -138,6 +131,11 @@ class UserManagerImporterComponent extends UserManager
         $html[] = '</blockquote>';
         
         echo implode($html, "\n");
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('user_importer');
     }
 }
 ?>

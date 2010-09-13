@@ -22,11 +22,6 @@ class GroupRightManagerBrowserComponent extends GroupRightManager
         $location = Request :: get(GroupRightManager :: PARAM_LOCATION);
         $group = Request :: get(GroupRightManager :: PARAM_GROUP);
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS)), Translation :: get('GroupRights')));
-        
         if (! isset($group))
         {
             $this->display_header();
@@ -38,8 +33,6 @@ class GroupRightManagerBrowserComponent extends GroupRightManager
         {
             $gdm = GroupDataManager :: get_instance();
             $this->group = $gdm->retrieve_group($group);
-            $trail->add(new Breadcrumb($this->get_url(array(GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS)), $this->group->get_name()));
-            $trail->add_help('rights general');
         }
         
         if (! isset($this->application))
@@ -154,6 +147,16 @@ class GroupRightManagerBrowserComponent extends GroupRightManager
         $action_bar->set_search_url($this->get_url(array(GroupRightManager :: PARAM_SOURCE => $this->application, GroupRightManager :: PARAM_GROUP => $this->group->get_id(), GroupRightManager :: PARAM_LOCATION => $this->location->get_id())));
         
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('rights_groups_browser');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(GroupRightManager :: PARAM_SOURCE, GroupRightManager :: PARAM_LOCATION, GroupRightManager :: PARAM_GROUP);
     }
 }
 ?>

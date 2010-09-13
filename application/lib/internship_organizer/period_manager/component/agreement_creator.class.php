@@ -10,17 +10,11 @@ class InternshipOrganizerPeriodManagerAgreementCreatorComponent extends Internsh
      */
     function run()
     {
+     	
+    	$ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
         
-        $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
-        if (isset($ids))
-        {
-            $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
-        }
-        else
-        {
-            $ids = unserialize(Request :: post(InternshipOrganizerPeriodManager :: PARAM_USER_ID));
-        }
-            
+    	$this->set_parameter(InternshipOrganizerPeriodManager :: PARAM_USER_ID, $ids);
+ 
         if (! empty($ids))
         {
             if (! is_array($ids))
@@ -33,12 +27,10 @@ class InternshipOrganizerPeriodManagerAgreementCreatorComponent extends Internsh
             $id = explode('|', $ids[0]);
             $period_id = $id[0];
             
-            $period = $this->retrieve_period($period_id);
+            $dm = InternshipOrganizerDataManager :: get_instance();
+            $period = $dm->retrieve_period($period_id);
             
             $trail = BreadcrumbTrail :: get_instance();
-            //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-            //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_id)), Translation :: get('BrowseInternshipOrganizerPeriods')));
-            //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateInternshipOrganizerAgreement')));
             $trail->add_help('period general');
             
             $agreement = new InternshipOrganizerAgreement();
@@ -46,12 +38,12 @@ class InternshipOrganizerPeriodManagerAgreementCreatorComponent extends Internsh
             $agreement->set_begin($period->get_begin());
             $agreement->set_end($period->get_end());
             
-            $form = new InternshipOrganizerAgreementForm(InternshipOrganizerAgreementForm :: TYPE_CREATE, $agreement, $this->get_url(), $ids);
+            $form = new InternshipOrganizerAgreementForm(InternshipOrganizerAgreementForm :: TYPE_SINGLE_PERIOD_CREATE, $agreement, $this->get_url(), $ids);
             
             if ($form->validate())
             {
-                $success = $form->create_agreement();
-                $this->redirect($success ? Translation :: get('InternshipOrganizerAgreementCreated') : Translation :: get('InternshipOrganizerAgreementNotCreated'), ! $success, array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_STUDENT));
+                $success = $form->create_single_period_agreement();
+                $this->redirect($success ? Translation :: get('InternshipOrganizerAgreementCreated') : Translation :: get('InternshipOrganizerAgreementNotCreated'), ! $success, array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_AGREEMENT));
             }
             else
             {

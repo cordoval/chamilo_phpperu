@@ -12,17 +12,12 @@ class UserManagerRegisterComponent extends UserManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-
         if ($this->get_platform_setting('allow_registration', 'admin') == false)
         {
             Display :: not_allowed();
         }
 
         $user = $this->get_user();
-
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserRegister')));
-        $trail->add_help('user general');
 
         if (isset($user))
         {
@@ -70,6 +65,11 @@ class UserManagerRegisterComponent extends UserManager
             $form->display();
             $this->display_footer();
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('user_register');
     }
 }
 ?>

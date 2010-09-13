@@ -8,7 +8,7 @@
  * Repository manager component to edit the rights for the learning objects in
  * the repository.
  */
-class UserManagerRightsEditorComponent extends UserManager
+class UserManagerRightsEditorComponent extends UserManager implements AdministrationComponent
 {
 
     /**
@@ -16,15 +16,9 @@ class UserManagerRightsEditorComponent extends UserManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users') ));
-        $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-        
     	$user_ids = Request :: get(UserManager :: PARAM_USER_USER_ID);
-        $this->set_parameter(UserManager :: PARAM_USER_USER_ID, $user_ids);
 
-        if (! is_array($user_ids))
+    	if (! is_array($user_ids))
         {
             $user_ids = array($user_ids);
         }
@@ -55,6 +49,17 @@ class UserManagerRightsEditorComponent extends UserManager
     function get_available_rights()
     {
     	return UserRights :: get_available_rights();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_rights_editor');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(UserManager :: PARAM_USER_USER_ID);
     }
 
 }

@@ -12,7 +12,7 @@ require_once dirname(__FILE__) . '/../../../trackers/weblcms_lpi_attempt_objecti
 require_once dirname(__FILE__) . '/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/prerequisites_translator.class.php';
 
-class LearningPathToolAttemptComponent extends LearningPathTool
+class LearningPathToolComplexDisplayComponent extends LearningPathTool
 {
     private $pid;
     private $trackers;
@@ -205,7 +205,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
      */
     private function get_menu($root_object_id, $selected_object_id, $pid, $lp_tracker)
     {
-        $this->menu = new LearningPathTree($root_object_id, $selected_object_id, Path :: get(WEB_PATH) . 'run.php?go=courseviewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=display&publication=' . $pid . '&' . LearningPathTool :: PARAM_LP_STEP . '=%s', $lp_tracker);
+        $this->menu = new LearningPathTree($root_object_id, $selected_object_id, Path :: get(WEB_PATH) . 'run.php?go=course_viewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=complex_display&publication=' . $pid . '&' . LearningPathTool :: PARAM_LP_STEP . '=%s', $lp_tracker);
 
         return $this->menu;
     }
@@ -389,6 +389,7 @@ class LearningPathToolAttemptComponent extends LearningPathTool
             $parameters[WeblcmsLpAttemptTracker :: PROPERTY_USER_ID] = $this->get_user_id();
             $parameters[WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID] = $this->get_course_id();
             $parameters[WeblcmsLpAttemptTracker :: PROPERTY_LP_ID] = $lp->get_id();
+            $parameters[WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS] = 0;
 
             $return = Event :: trigger('attempt_learning_path', WeblcmsManager :: APPLICATION_NAME, $parameters);
             $lp_tracker = $return[0];
@@ -450,6 +451,10 @@ class LearningPathToolAttemptComponent extends LearningPathTool
         $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID] = $lp_tracker->get_id();
         $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_LP_ITEM_ID] = $current_cloi->get_id();
         $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_START_TIME] = time();
+        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_TOTAL_TIME] = 0;
+        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_SCORE] = 0;
+        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_MIN_SCORE] = 0;
+        $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_MAX_SCORE] = 0;
         $parameters[WeblcmsLpiAttemptTracker :: PROPERTY_STATUS] = 'not attempted';
 
         $return = Event :: trigger('attempt_learning_path_item', WeblcmsManager :: APPLICATION_NAME, $parameters);

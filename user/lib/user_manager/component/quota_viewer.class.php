@@ -15,7 +15,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-class UserManagerQuotaViewerComponent extends UserManager
+class UserManagerQuotaViewerComponent extends UserManager implements AdministrationComponent
 {
     private $selected_user;
 
@@ -24,9 +24,6 @@ class UserManagerQuotaViewerComponent extends UserManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('user quota');
-
         $selected_user_id = Request :: get(UserManager :: PARAM_USER_USER_ID);
         if (! $selected_user_id)
             $this->selected_user = $this->get_user();
@@ -41,13 +38,7 @@ class UserManagerQuotaViewerComponent extends UserManager
             exit();
         }
             
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users')));
-        $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-        $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_DETAIL, UserManager :: PARAM_USER_USER_ID => $selected_user_id)), Translation :: get('DetailsOf') . ': ' . $this->selected_user->get_fullname()));
-        $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $selected_user_id)), Translation :: get('Quota')));
-
-        $this->display_header($trail, false, true);
+        $this->display_header();
 
         $this->display_action_bar();
 
@@ -202,6 +193,17 @@ class UserManagerQuotaViewerComponent extends UserManager
 
         }
         return $quota_data;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserManagerAdminUserBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_quota_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(UserManager :: PARAM_USER_USER_ID);
     }
 }
 ?>

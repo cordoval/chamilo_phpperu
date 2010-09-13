@@ -186,7 +186,7 @@ class PortfolioManagerViewerComponent extends PortfolioManager
 
         
 
-        if ($this->owner_user_id == $this->current_user_id)
+        if ($this->owner_user_id == $this->current_user_id || $this->get_user()->is_platform_admin())
         {
 
             $this->action_bar = $this->get_action_bar();

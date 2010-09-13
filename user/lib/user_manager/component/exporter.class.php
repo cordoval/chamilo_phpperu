@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerExporterComponent extends UserManager
+class UserManagerExporterComponent extends UserManager implements AdministrationComponent
 {
 
     /**
@@ -12,12 +12,6 @@ class UserManagerExporterComponent extends UserManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => UserManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Users')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreateExport')));
-        $trail->add_help('user general');
-        
         if (!UserRights :: is_allowed_in_users_subtree(UserRights :: EDIT_RIGHT, 0))
         {
             $this->display_header();
@@ -133,5 +127,11 @@ class UserManagerExporterComponent extends UserManager
         $export->set_filename($filename);
         $export->send_to_browser();
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('user_exporter');
+    }
+    
 }
 ?>

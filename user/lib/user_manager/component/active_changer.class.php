@@ -4,7 +4,7 @@
  * @package user.lib.user_manager.component
  */
 
-class UserManagerActiveChangerComponent extends UserManager
+class UserManagerActiveChangerComponent extends UserManager implements AdministrationComponent
 {
 
     /**
@@ -57,6 +57,17 @@ class UserManagerActiveChangerComponent extends UserManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_USER_APPROVAL_BROWSER)), Translation :: get('UserManagerUserApprovalBrowserComponent')));
+    	$breadcrumbtrail->add_help('user_active_changer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(UserManager :: PARAM_USER_USER_ID, UserManager :: PARAM_ACTIVE);
     }
 }
 ?>

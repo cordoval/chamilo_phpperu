@@ -13,19 +13,19 @@ class SurveyManagerCreatorComponent extends SurveyManager implements RepoViewerI
     function run()
     {
 
-        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: ADD_RIGHT, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
+        if (! SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_ADD, 'publication_browser', SurveyRights :: TYPE_SURVEY_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
 
-        $test = Request :: get(SurveyManager :: PARAM_TESTCASE);
-        if ($test === 1)
-        {
-            $testcase = true;
-        }
+//        $test = Request :: get(SurveyManager :: PARAM_TESTCASE);
+//        if ($test === 1)
+//        {
+//            $testcase = true;
+//        }
 
 //        $trail = BreadcrumbTrail :: get_instance();
 //        if ($testcase)
@@ -39,21 +39,19 @@ class SurveyManagerCreatorComponent extends SurveyManager implements RepoViewerI
 //            //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateSurveyPublication')));
 //        }
 
-        $object_ids = Request :: get(RepoViewer :: PARAM_ID);
 //        dump($object_ids);
 //        exit;
         
-        $repo_viewer = RepoViewer :: construct($this);
-
         $html = array();
 
-        if (! isset($object_ids))
+        if (!RepoViewer :: is_ready_to_be_published())
         {
-            $repo_viewer->run();
+            $repo_viewer = RepoViewer :: construct($this);
+        	$repo_viewer->run();
         }
         else
         {
-
+			$object_ids = RepoViewer :: get_selected_objects();
             if (! is_array($object_ids))
             {
                 $object_ids = array($object_ids);
@@ -81,7 +79,8 @@ class SurveyManagerCreatorComponent extends SurveyManager implements RepoViewerI
 
             $parameters = $this->get_parameters();
             $parameters[RepoViewer :: PARAM_ID] = $object_ids;
-
+			$parameters[RepoViewer :: PARAM_ACTION] = RepoViewer :: ACTION_PUBLISHER;
+			
             $form = new SurveyPublicationForm(SurveyPublicationForm :: TYPE_MULTI, $object_ids, $this->get_user(), $this->get_url($parameters));
             if ($form->validate())
             {

@@ -44,7 +44,7 @@ class WebserviceRights
     
     static function create_location_in_webservice_subtree($name, $type, $identifier, $parent)
     {
-    	return RightsUtilities :: create_location($name, WebserviceManager :: APPLICATION_NAME, $type, $identifier, 0, $parent, 0, 0, self :: TREE_TYPE_WEBSERVICES);
+    	return RightsUtilities :: create_location($name, WebserviceManager :: APPLICATION_NAME, $type, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_WEBSERVICES);
     }
     
 	static function get_webservices_subtree_root()
@@ -60,6 +60,11 @@ class WebserviceRights
 	static function get_location_id_by_identifier_from_webservices_subtree($type, $identifier)
     {
     	return RightsUtilities :: get_location_id_by_identifier(WebserviceManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_WEBSERVICES);
+    }
+    
+	static function get_location_by_identifier_from_webservices_subtree($type, $identifier)
+    {
+    	return RightsUtilities :: get_location_by_identifier(WebserviceManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_WEBSERVICES);
     }
     
     static function is_allowed_in_webservices_subtree($right, $location, $type)
