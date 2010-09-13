@@ -7,7 +7,7 @@
 /**
  * Component for viewing tracker events
  */
-class TrackingManagerAdminEventBrowserComponent extends TrackingManager
+class TrackingManagerAdminEventBrowserComponent extends TrackingManager implements AdministrationComponent
 {
 
 	private $action_bar;
@@ -17,12 +17,6 @@ class TrackingManagerAdminEventBrowserComponent extends TrackingManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => TrackingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Tracking')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('EventsList')));
-        $trail->add_help('tracking general');
-        
         if (!TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: VIEW_RIGHT, 0, 0))
         {
             $this->display_header();
@@ -82,6 +76,11 @@ class TrackingManagerAdminEventBrowserComponent extends TrackingManager
         }
         
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('tracking_event_browser');
     }
 
 }

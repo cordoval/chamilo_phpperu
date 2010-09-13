@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/admin_event_viewer/admin_event_viewer_action_
 /**
  * Component for viewing tracker events
  */
-class TrackingManagerAdminEventViewerComponent extends TrackingManager
+class TrackingManagerAdminEventViewerComponent extends TrackingManager implements AdministrationComponent
 {
 
     /**
@@ -17,13 +17,6 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => TrackingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Tracking')));
-        $trail->add(new Breadcrumb($this->get_browser_url(), Translation :: get('EventsList')));
-        $trail->add(new Breadcrumb($this->get_url(array(TrackingManager :: PARAM_EVENT_ID => Request :: get('event_id'))), Translation :: get('ViewEvent')));
-        $trail->add_help('tracking general');
-        
         $event_id = Request :: get(TrackingManager :: PARAM_EVENT_ID);
         
         if (!TrackingRights :: is_allowed_in_tracking_subtree(TrackingRights :: VIEW_RIGHT, $event_id))
@@ -49,6 +42,17 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManager
         echo $trackertable->toHTML();
         
         $this->display_footer();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browser_url(), Translation :: get('TrackingManagerAdminEventBrowserComponent')));
+    	$breadcrumbtrail->add_help('tracking_event_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(TrackingManager :: PARAM_EVENT_ID);
     }
     
 }
