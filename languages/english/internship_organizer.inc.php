@@ -4,6 +4,21 @@ $lang['internship_organizer']['ViewRoot'] = 'Home';
 $lang['internship_organizer']['DeleteConfirm'] = 'Are you sure you want to delete these items?';
 $lang['internship_organizer']['NewLocation'] = 'New Location';
 
+//rights
+$lang['internship_organizer']['Username'] = 'Username';
+$lang['internship_organizer']['ViewAgreement'] = 'View Agreement';
+$lang['internship_organizer']['AddAgreement'] = 'Add Agreement';
+$lang['internship_organizer']['EditAgreement'] = 'Edit Agreement';
+$lang['internship_organizer']['DeleteAgreement'] = 'Delete Agreement';
+$lang['internship_organizer']['SubscribeCategory'] = 'Subscribe Category';
+$lang['internship_organizer']['UnsubscribeCategory'] = 'Unsubscribe Category';
+$lang['internship_organizer']['SubscribeUser'] = 'Subscribe User';
+$lang['internship_organizer']['UnsubscribeUser'] = 'Unsubscribe User';
+$lang['internship_organizer']['SubscribeGroup'] = 'Subscribe Group';
+$lang['internship_organizer']['UnsubscribeGroup'] = 'Unsubscribe Group';
+$lang['internship_organizer']['SubscribeAgreementUser'] = 'Subscribe Agreement User';
+$lang['internship_organizer']['UnsubscribeAgreementUser'] = 'Unsubscribe Agreement User';
+
 //applicationchooser components
 $lang['internship_organizer']['InternshipOrganizerManagerApplicationChooserComponent'] = 'Manager';
 
@@ -147,6 +162,10 @@ $lang['internship_organizer']['InternshipOrganizerPeriodManagerViewerComponent']
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerCreatorComponent'] = 'Create Period';
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerEditorComponent'] = 'Edit Period';
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeUserComponent'] = 'Subscribe User';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerRightsEditorComponent'] = 'Rights';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerAgreementViewerComponent'] = 'Agreement Viewer';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeAgreementRelUserComponent'] = 'Subscribe User to agreement';
+
 
 $lang['internship_organizer']['CreateInternshipOrganizerPeriod'] = 'Create Period';
 $lang['internship_organizer']['InternshipOrganizerPeriodCreated'] = 'Period Created';
@@ -164,6 +183,8 @@ $lang['internship_organizer']['SelectedInternshipOrganizerPeriodsDeleted'] = 'Se
 $lang['internship_organizer']['NoInternshipOrganizerPeriodsSelected'] = 'No Periods Selected';
 $lang['internship_organizer']['AddCategories'] = 'Add categories';
 $lang['internship_organizer']['AddInternshipOrganizerCategories'] = 'Add categories';
+$lang['internship_organizer']['AddCoördinaters'] = 'Add coördinaters';
+$lang['internship_organizer']['AddCoaches'] = 'Add coaches';
 
 $lang['internship_organizer']['InternshipOrganizerPeriodRelGroupsCreated'] = 'Selected Groups Added To Period';
 $lang['internship_organizer']['InternshipOrganizerPeriodRelGroupsNotCreated'] = 'Selected Groups Not Added To Period';

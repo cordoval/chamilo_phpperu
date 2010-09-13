@@ -23,4 +23,5 @@ $lang['personal_calendar']['Years'] = 'Years';
 $lang['personal_calendar']['Task'] = 'Task';
 $lang['personal_calendar']['CalendarEvent'] = 'Calendar event';
 $lang['personal_calendar'][''] = '';
+$lang['personal_calendar']['InternshipOrganizerMoment'] = 'Internship Moment';
 ?>

@@ -4,7 +4,6 @@ require_once dirname(__FILE__) . '/../user_type.class.php';
 require_once dirname(__FILE__) . '/../publication_type.class.php';
 require_once dirname(__FILE__) . '/../publication_place.class.php';
 
-
 class InternshipOrganizerPeriodPublicationForm extends FormValidator
 {
     const TYPE_SINGLE = 1;
@@ -22,7 +21,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
     function InternshipOrganizerPeriodPublicationForm($form_type, $content_object, $user, $action)
     {
         parent :: __construct('period_publication_settings', 'post', $action);
-      
+        
         $this->content_object = $content_object;
         $this->user = $user;
         $this->form_type = $form_type;
@@ -58,6 +57,11 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
     function build_form()
     {
         
+        $this->addElement('text', InternshipOrganizerPublication :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
+        $this->addRule(InternshipOrganizerPublication :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        $this->add_html_editor(InternshipOrganizerPublication :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+        
         $this->addElement('select', InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('InternshipOrganizerTypeOfPublication'), $this->get_type_of_documents());
         $this->addRule(InternshipOrganizerLocation :: PROPERTY_REGION_ID, Translation :: get('ThisFieldIsRequired'), 'required');
         
@@ -88,7 +92,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
     function create_content_object_publications()
     {
         $values = $this->exportValues();
-             
+        
         $user_types = array();
         if ($values[self :: PARAM_COORDINATORS])
         {
@@ -102,7 +106,6 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
         {
             $user_types[] = InternshipOrganizerUserType :: STUDENT;
         }
-     
         
         $period_ids = $values[self :: PARAM_TARGET]['period'];
         $ids = unserialize($values['ids']);
@@ -115,7 +118,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
                 foreach ($period_ids as $period_id)
                 {
                     $period = InternshipOrganizerDataManager :: get_instance()->retrieve_period($period_id);
-                                      
+                    
                     $target_users = array();
                     $type_index = $conditions = array();
                     $conditions[] = new EqualityCondition(InternshipOrganizerPeriodRelUser :: PROPERTY_PERIOD_ID, $period_id);
@@ -128,7 +131,7 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
                     {
                         $target_users[] = $period_rel_user->get_user_id();
                     }
-
+                    
                     $target_groups = array();
                     $period_rel_groups = InternshipOrganizerDataManager :: get_instance()->retrieve_period_rel_groups($condition);
                     
@@ -140,6 +143,8 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
                     foreach ($ids as $id)
                     {
                         $pub = new InternshipOrganizerPublication();
+                        $pub->set_name($values[InternshipOrganizerPublication :: PROPERTY_NAME]);
+                        $pub->set_description($values[InternshipOrganizerPublication :: PROPERTY_DESCRIPTION]);
                         $pub->set_content_object($id);
                         $pub->set_publisher_id($this->user->get_id());
                         $pub->set_published(time());

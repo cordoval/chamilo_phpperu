@@ -19,7 +19,7 @@ class InternshipOrganizerPublication extends DataClass
     const PROPERTY_PUBLICATION_PLACE = 'publication_place';
     const PROPERTY_PLACE_ID = 'place_id';
     
-    private $target_groups;
+//    private $target_groups;
     private $target_users;
 
     /**
@@ -217,10 +217,10 @@ class InternshipOrganizerPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
     }
 
-    function set_target_groups($target_groups)
-    {
-        $this->target_groups = $target_groups;
-    }
+//    function set_target_groups($target_groups)
+//    {
+//        $this->target_groups = $target_groups;
+//    }
 
     function set_target_users($target_users)
     {

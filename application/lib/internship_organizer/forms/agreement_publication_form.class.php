@@ -54,6 +54,11 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
     function build_form()
     {
         
+        $this->addElement('text', InternshipOrganizerPublication :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
+        $this->addRule(InternshipOrganizerPublication :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        $this->add_html_editor(InternshipOrganizerPublication :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+        
         $this->addElement('select', InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('InternshipOrganizerTypeOfPublication'), $this->get_type_of_documents());
         $this->addRule(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
         
@@ -91,16 +96,18 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
             
             foreach ($agreement_rel_user_ids as $agreement_rel_user_id)
             {
-                $ru_ids = explode( '|', $agreement_rel_user_id);
-            	
-            	$agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($ru_ids[0]);
+                $ru_ids = explode('|', $agreement_rel_user_id);
+                
+                $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($ru_ids[0]);
                 
                 $target_users = array();
-				$target_users[] = $ru_ids[1];
+                $target_users[] = $ru_ids[1];
                 
                 foreach ($ids as $id)
                 {
                     $pub = new InternshipOrganizerPublication();
+                    $pub->set_name($values[InternshipOrganizerPublication :: PROPERTY_NAME]);
+                    $pub->set_description($values[InternshipOrganizerPublication :: PROPERTY_DESCRIPTION]);
                     $pub->set_content_object($id);
                     $pub->set_publisher_id($this->user->get_id());
                     $pub->set_published(time());
