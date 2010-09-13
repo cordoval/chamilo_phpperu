@@ -8,7 +8,7 @@
  * Repository manager component to edit the rights for the learning objects in
  * the repository.
  */
-class WebserviceManagerRightsEditorComponent extends WebserviceManager implements AdministrationComponent
+class WebserviceManagerRightsEditorComponent extends WebserviceManager implements AdministrationComponent, DelegateComponent
 {
 	function run()
 	{

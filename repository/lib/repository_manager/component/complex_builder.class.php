@@ -9,7 +9,7 @@
  * @author vanpouckesven
  *
  */
-class RepositoryManagerComplexBuilderComponent extends RepositoryManager
+class RepositoryManagerComplexBuilderComponent extends RepositoryManager implements DelegateComponent
 {
 
 	private $content_object;

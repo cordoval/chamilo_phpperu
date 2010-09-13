@@ -5,7 +5,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingManagerExportComponent extends ReportingManager
+class ReportingManagerExportComponent extends ReportingManager implements AdministrationComponent, DelegateComponent
 {
 
     function run()
@@ -43,5 +43,16 @@ class ReportingManagerExportComponent extends ReportingManager
                 $rte->export_template($ti, $export, $params);
             }*/
     } //run
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('ReportingManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('reporting_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(ReportingManager :: PARAM_TEMPLATE_ID, ReportingManager :: PARAM_REPORTING_BLOCK_ID, ReportingManager :: PARAM_EXPORT_TYPE);
+    }
 }
 ?>

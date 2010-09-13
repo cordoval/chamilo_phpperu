@@ -8,7 +8,7 @@
  * Repository manager component to edit the rights for the learning objects in
  * the repository.
  */
-class RepositoryManagerRightsEditorComponent extends RepositoryManager
+class RepositoryManagerRightsEditorComponent extends RepositoryManager implements DelegateComponent
 {
 	private $tree;
 

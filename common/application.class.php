@@ -758,7 +758,11 @@ abstract class Application
         }
         
         $component->set_action($action);
-        $trail->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(get_class($component))));
+        
+        if(!$component instanceof DelegateComponent)
+        {
+        	$trail->add(new Breadcrumb($component->get_url(array(self :: PARAM_ACTION => $action)), Translation :: get(get_class($component))));
+        }
         
         return $component;
     }

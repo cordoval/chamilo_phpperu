@@ -7,7 +7,7 @@
 /**
  *
  */
-class ReportingManagerDeleteComponent extends ReportingManager
+class ReportingManagerDeleteComponent extends ReportingManager implements AdministrationComponent
 {
     private $action_bar;
 
@@ -16,11 +16,6 @@ class ReportingManagerDeleteComponent extends ReportingManager
      */
     function run()
     {
-
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Translation :: get('Reporting')))));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteTemplate')));
-        $trail->add_help('reporting general');
 
         if (! $this->get_user()->is_platform_admin())
         {
@@ -78,6 +73,17 @@ class ReportingManagerDeleteComponent extends ReportingManager
 
 
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('ReportingManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('reporting_deleter');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(ReportingManager :: PARAM_TEMPLATE_ID);
     }
 }
 ?>

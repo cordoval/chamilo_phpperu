@@ -5,7 +5,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingManagerViewComponent extends ReportingManager
+class ReportingManagerViewComponent extends ReportingManager implements AdministrationComponent, DelegateComponent
 {
 
     //private $template;
@@ -16,16 +16,22 @@ class ReportingManagerViewComponent extends ReportingManager
     {
         $template = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
 
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => ReportingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Reporting')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
-
         $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_id($template);
-        $rtv->set_breadcrumb_trail($trail);
+        $rtv->set_breadcrumb_trail();
 
         $rtv->run();
     } //run
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('ReportingManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('reporting_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(ReportingManager :: PARAM_TEMPLATE_ID);
+    }
 }
 ?>
