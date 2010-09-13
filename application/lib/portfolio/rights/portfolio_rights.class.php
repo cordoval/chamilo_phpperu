@@ -748,7 +748,7 @@ class PortfolioRights {
                 $udm = UserDataManager::get_instance();
                 $user = $udm->retrieve_user($user_id);
             }
-            if(($owner_id == $user_id) || (is_object($user) && $user->is_platform_admin)  )
+            if(($owner_id == $user_id) || (is_object($user) && $user->is_platform_admin())  )
             {
                 //result1: YES --> user has all rights automatically
                 $view = true;

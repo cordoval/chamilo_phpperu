@@ -18,7 +18,6 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManager
         $this->form = new RepositoryFilterForm($this, $this->get_url());
 
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseTemplates')));
 
         $output = $this->get_table_html();
 
@@ -84,6 +83,12 @@ class RepositoryManagerTemplateBrowserComponent extends RepositoryManager
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_template_browser');
     }
 
 }

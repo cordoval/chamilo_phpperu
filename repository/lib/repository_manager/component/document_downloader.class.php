@@ -53,5 +53,15 @@ class RepositoryManagerDocumentDownloaderComponent extends RepositoryManager
 //        header('Content-Disposition: filename="' . $lo->get_filename() . '"');
         readfile($lo->get_full_path());
     }
+	    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('repository_document_downloader');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
+    }
 }
 ?>

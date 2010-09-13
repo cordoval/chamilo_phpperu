@@ -487,13 +487,17 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 
             $mediamosa_transcoding_profiles = $this->retrieve_mediamosa_transcoding_profiles();
 
+            $mediafile_count = 0;
+            $not_downloadable = 0;
             //add mediafiles
-            foreach ($asset->mediafiles->mediafile as $mediafile) {
+            foreach ($asset->mediafiles->mediafile as $mediafile)
+            {
                 //if there is still an original mediafile
                 //see if it can be removed
                 if ((string) $mediafile->is_original_file == 'TRUE' && ExternalRepositorySetting :: get('remove_originals', $this->get_external_repository_instance_id())) {
                     $this->remove_mediamosa_original_mediafile($asset);
                 }
+                
 
                 //duration is retrieved from one of the mediafiles
                 if (! $mediamosa_asset->get_duration()) {
@@ -501,38 +505,52 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                     $mediamosa_asset->set_duration($duration);
                 }
 
-                if ((string) $mediafile->transcode_profile_id) {
-                    $mediamosa_mediafile = new MediamosaMediafileObject();
-                    $mediamosa_mediafile->set_id((string) $mediafile->mediafile_id);
+                
+                $mediamosa_mediafile = new MediamosaMediafileObject();
+                $mediamosa_mediafile->set_id((string) $mediafile->mediafile_id);
 
-                    /*if(isset($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_TITLE]))
-                    {
-                        $mediamosa_mediafile->set_title($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_TITLE]);
-                    }
-                    else
-                    {*/
-                    $title = (string) $mediafile->metadata->container_type . ' (' . (string) $mediafile->metadata->width . ' x ' . (string) $mediafile->metadata->height . ' px)';
-                    $mediamosa_mediafile->set_title($title);
-
-                    //}
-                    if ($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_IS_DEFAULT] == 'TRUE') {
-                        $mediamosa_mediafile->set_is_default();
-                    }
-
-                    if ($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_IS_DOWNLOADABLE] == 'TRUE') {
-                        $mediamosa_mediafile->set_is_downloadable();
-                    }
-
-                    $mediamosa_asset->add_mediafile($mediamosa_mediafile);
-
-                    if ($mediamosa_mediafile->get_is_default()) {
-                        $mediamosa_asset->set_default_mediafile((string) $mediafile->mediafile_id);
-                    }
-
-                    //if there is a playable mediafile - set status available
-                    $mediamosa_asset->set_status(MediamosaExternalRepositoryObject :: STATUS_AVAILABLE);
+                /*if(isset($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_TITLE]))
+                {
+                    $mediamosa_mediafile->set_title($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_TITLE]);
                 }
+                else
+                {*/
+                $title = (string) $mediafile->metadata->container_type . ' (' . (string) $mediafile->metadata->width . ' x ' . (string) $mediafile->metadata->height . ' px)';
+                $mediamosa_mediafile->set_title($title);
+
+                //}
+
+
+                if ($mediamosa_transcoding_profiles[(string) $mediafile->transcode_profile_id][MediamosaMediafileObject :: PROPERTY_IS_DEFAULT] == 'TRUE') {
+                    $mediamosa_mediafile->set_is_default();
+                }
+                $original_mediafile = $mediamosa_asset->get_original_mediafile();
+
+                if ($mediafile->is_downloadable == 'TRUE') {
+                    $mediamosa_mediafile->set_is_downloadable();
+                }
+                else
+                {
+                    $not_downloadable ++;
+                }
+
+                if ($mediamosa_mediafile->get_is_default()) {
+                    $mediamosa_asset->set_default_mediafile((string) $mediafile->mediafile_id);
+                }
+
+                //if there is a playable mediafile - set status available
+                $mediamosa_asset->set_status(MediamosaExternalRepositoryObject :: STATUS_AVAILABLE);
+
+                if ((string) $mediafile->transcode_profile_id)
+                {
+                    $mediamosa_asset->add_mediafile($mediamosa_mediafile);
+                }
+                if ((string) $mediafile->is_original_file == 'TRUE') $mediamosa_asset->set_original_mediafile($mediamosa_mediafile);
+                
+                $mediafile_count ++;
             }
+            
+            //if($mediafile_count != $not_downloadable) $this->update_mediafile_downloadableness($mediamosa_asset);
 
             $mediamosa_asset->set_rights($this->determine_rights($mediamosa_asset));
 
@@ -540,7 +558,28 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         }
         return false;
     }
-
+    
+    function update_mediafile_downloadableness(MediamosaExtrenalRepositoryObject $mediamosa_asset)
+    {
+        if($original_mediafile = $mediamosa_asset->get_original_mediafile())
+        {
+            if($original_mediafile->get_is_downloadable())
+            {
+                foreach($mediamosa_asset->get_mediafiles() as $mediafile)
+                {
+                    if($mediafile->get_id() != $original_mediafile)
+                    {
+                        if($this->update_mediamosa_mediafile($mediafile->get_id(), $data = array('is_downloadable' => 'TRUE')))
+                        {
+                            $mediafile->set_is_downloadable();
+                            $mediamosa_asset->add_mediafile($mediafile);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     /*
      * determines chamilo rights for a mediamosa asset depending on mediamosa acl rights
      * 
@@ -603,7 +642,6 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             //check aut_apps
             if(count($rights['aut_app']))
             {
-                
                 $this_app = $this->get_app_id() . '^';
 
                 foreach($rights['aut_app'] as $n => $aut_app)
@@ -621,15 +659,19 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
             $asset_rights[ExternalRepositoryObject :: RIGHT_EDIT] = false;
             $asset_rights[ExternalRepositoryObject :: RIGHT_DELETE] = false;
         }
-
-        //        if ($asset->get_is_downloadable() && $asset_rights[ExternalRepositoryObject :: RIGHT_USE] == true)
-        //        {
-        $asset_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
-        //        }
-        //        else
-        //        {
-        //            $asset_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
-        //        }
+        
+        if($original = $asset->get_original_mediafile())
+        {
+            if ($original->get_is_downloadable() && $asset_rights[ExternalRepositoryObject :: RIGHT_USE] == true)
+            {
+                $asset_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = true;
+            }
+        }
+       
+        else
+        {
+            $asset_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD] = false;
+        }
 
         return $asset_rights;
     }
@@ -849,6 +891,21 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                 }
             }
 
+        }
+        return false;
+    }
+
+    function update_mediamosa_mediafile($mediafile_id, $data = array())
+    {
+        if ($mediafile_id) {
+            
+            $data['user_id'] = Session :: get_user_id();
+
+            if ($response = $this->request(self :: METHOD_POST, '/mediafile/' . $mediafile_id, $data)) {
+                if ($response->check_result()) {
+                    return (string) $response->get_response_content_xml()->items->item->mediafile_id;
+                }
+            }
         }
         return false;
     }

@@ -18,9 +18,6 @@ class WeblcmsManagerCourseSubscribeRequestCreatorComponent extends WeblcmsManage
         $failures = 0;
                 
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION, WeblcmsManager :: PARAM_COURSE)),Translation :: get('MyCourses')));
-        $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_SUBSCRIBE), array(WeblcmsManager :: PARAM_COURSE)),Translation :: get('CourseSubscribe')));
-        $trail->add_help('course request');
         /*
         if (! $this->get_user()->is_platform_admin())
         {
@@ -43,11 +40,27 @@ class WeblcmsManagerCourseSubscribeRequestCreatorComponent extends WeblcmsManage
         }
         else
         {
-			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('RequestForm')));
             $this->display_header();
             $form->display();
             $this->display_footer();
         }   
      }
+
+     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
+
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION, WeblcmsManager :: PARAM_COURSE)),Translation :: get('MyCourses')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_SUBSCRIBE), array(WeblcmsManager :: PARAM_COURSE)),Translation :: get('CourseSubscribe')));
+        $breadcrumbtrail->add_help('course request');
+
+
+        $breadcrumbtrail->add_help('update request');
+    }
+
+    function get_additional_parameters()
+    {
+        return array();
+    }
 }
 ?>

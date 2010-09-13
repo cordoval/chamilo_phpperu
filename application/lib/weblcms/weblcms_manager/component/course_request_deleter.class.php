@@ -88,5 +88,7 @@ class WeblcmsManagerCourseRequestDeleterComponent extends WeblcmsManager
             $this->display_error_page(htmlentities(Translation :: get('NoRequestsSelected')));
         }
     }
+
+    
 }
 ?>

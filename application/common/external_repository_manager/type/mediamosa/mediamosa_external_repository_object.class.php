@@ -24,6 +24,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
     const PROPERTY_STATUS = 'status';
     const PROPERTY_DURATION = 'duration';
     const PROPERTY_PROTECTED = 'protected';
+    const PROPERTY_ORIGINAL_MEDIAFILE = 'original_mediafile';
 
     const STATUS_UNAVAILABLE = 'unavailable';
     const STATUS_AVAILABLE = 'available';
@@ -101,7 +102,7 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
         return isset($this->mediafiles[$mediafile_id]) ? $this->mediafiles[$mediafile_id] : false;
     }
 
-    function set_default_mediafile($default_mediafile)
+    function set_default_mediafile(MediamosaMediafileObject $default_mediafile)
     {
         $this->set_default_property(self :: PROPERTY_DEFAULT_MEDIAFILE, $default_mediafile);
     }
@@ -119,6 +120,16 @@ class MediamosaExternalRepositoryObject extends ExternalRepositoryObject
             return false;
         }
         return $this->get_default_property(self :: PROPERTY_DEFAULT_MEDIAFILE);
+    }
+
+    function set_original_mediafile($original_mediafile_id)
+    {
+        $this->set_default_property(self :: PROPERTY_ORIGINAL_MEDIAFILE, $original_mediafile_id);
+    }
+
+    function get_original_mediafile()
+    {
+        return $this->get_default_property(self :: PROPERTY_ORIGINAL_MEDIAFILE);
     }
 
     function set_is_downloadable($is_downloadable)

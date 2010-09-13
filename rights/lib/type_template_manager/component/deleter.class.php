@@ -62,5 +62,18 @@ class TypeTemplateManagerDeleterComponent extends TypeTemplateManager
             $this->display_error_page(htmlentities(Translation :: get('NoTypeTemplateSelected')));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_TYPE_TEMPLATES,
+    															  TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ACTION => TypeTemplateManager :: ACTION_BROWSE_TYPE_TEMPLATES)), 
+    										 Translation :: get('TypeTemplateManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('rights_type_templates_deleter');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ID);
+    }
 }
 ?>

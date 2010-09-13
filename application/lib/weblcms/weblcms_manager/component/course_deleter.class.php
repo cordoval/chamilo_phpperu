@@ -23,8 +23,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
         if (! $this->get_user()->is_platform_admin())
         {
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteCourse')));
-            $trail->add_help('courses delete');
+            
             
             $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
@@ -79,5 +78,18 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManager
             $this->display_error_page(htmlentities(Translation :: get('NoCourseSelected')));
         }
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
+
+        $breadcrumbtrail->add_help('courses delete');
+    }
+
+    function get_additional_parameters()
+    {
+        return array();
+    }
+
 }
 ?>

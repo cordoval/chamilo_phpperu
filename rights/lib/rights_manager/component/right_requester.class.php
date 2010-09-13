@@ -4,7 +4,7 @@
  * @package rights.lib.rights_manager.component
  */
 
-class RightsManagerRightRequesterComponent extends RightsManager
+class RightsManagerRightRequesterComponent extends RightsManager implements AdministrationComponent
 {
     const USER_CURRENT_RIGHTS_TEMPLATES = 'USER_CURRENT_RIGHTS_TEMPLATES';
     const USER_CURRENT_GROUPS = 'USER_CURRENT_GROUPS';
@@ -21,9 +21,6 @@ class RightsManagerRightRequesterComponent extends RightsManager
         
         if (isset($user))
         {
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_REQUEST_RIGHT)), Translation :: get('RightRequest')));
-            
             $parameters = array();
             
             $parameters['form_action'] = $this->get_url(array(self :: PARAM_IS_NEW_USER => '1'));
@@ -124,6 +121,16 @@ class RightsManagerRightRequesterComponent extends RightsManager
         {
             Display :: not_allowed();
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('rights_requester');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(self :: PARAM_IS_NEW_USER);
     }
 }
 ?>

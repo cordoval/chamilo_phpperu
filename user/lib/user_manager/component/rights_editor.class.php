@@ -8,7 +8,7 @@
  * Repository manager component to edit the rights for the learning objects in
  * the repository.
  */
-class UserManagerRightsEditorComponent extends UserManager implements AdministrationComponent
+class UserManagerRightsEditorComponent extends UserManager implements AdministrationComponent, DelegateComponent
 {
 
     /**

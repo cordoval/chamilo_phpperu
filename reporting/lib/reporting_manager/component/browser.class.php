@@ -5,7 +5,7 @@
  * @author Michael Kyndt
  */
 
-class ReportingManagerBrowserComponent extends ReportingManager
+class ReportingManagerBrowserComponent extends ReportingManager implements AdministrationComponent
 {
     private $action_bar;
     private $application;
@@ -19,13 +19,6 @@ class ReportingManagerBrowserComponent extends ReportingManager
 
         if (! $application)
             $application = $this->application = 'admin';
-
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => ReportingManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Reporting')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
-        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application)), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Template')));
-        $trail->add_help('reporting general');
 
         if (! $this->get_user()->is_platform_admin())
         {
@@ -171,6 +164,16 @@ class ReportingManagerBrowserComponent extends ReportingManager
 
 
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('reporting_browser');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(ReportingManager :: PARAM_TEMPLATE_ID);
     }
 }
 ?>

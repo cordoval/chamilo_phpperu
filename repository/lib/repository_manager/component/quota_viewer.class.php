@@ -23,11 +23,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Quota')));
-        $trail->add_help('repository quota');
-
-        $this->display_header($trail, false, true);
+        $this->display_header(null, false, true);
         $quotamanager = new QuotaManager($this->get_user());
         echo '<h3>' . htmlentities(Translation :: get('DiskSpace')) . '</h3>';
         echo self :: get_bar($quotamanager->get_used_disk_space_percent(), Filesystem :: format_file_size($quotamanager->get_used_disk_space()) . ' / ' . Filesystem :: format_file_size($quotamanager->get_max_disk_space()));
@@ -163,6 +159,12 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManager
 
         }
         return $quota_data;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_quota_viewer');
     }
 }
 ?>

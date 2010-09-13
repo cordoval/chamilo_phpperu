@@ -35,5 +35,24 @@ class GroupRightManagerSetterComponent extends GroupRightManager
             $this->display_error_page(htmlentities(Translation :: get('NoLocationSelected')));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$ids = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
+    	$location_id = $ids[0];
+    	
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_GROUP_RIGHTS,
+    															  GroupRightManager :: PARAM_GROUP_RIGHT_ACTION => GroupRightManager :: ACTION_BROWSE_GROUP_RIGHTS,
+    															  GroupRightManager :: PARAM_SOURCE => Request :: get(GroupRightManager :: PARAM_SOURCE), 
+            													  GroupRightManager :: PARAM_LOCATION => $location_id,
+            													  GroupRightManager :: PARAM_GROUP => Request :: get(GroupRightManager :: PARAM_GROUP))), 
+    										 Translation :: get('RightsTemplateManagerConfigurerComponent')));									
+    	$breadcrumbtrail->add_help('rights_templates_setter');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(GroupRightManager :: PARAM_LOCATION, GroupRightManager :: PARAM_GROUP, 'right_id', GroupRightManager :: PARAM_SOURCE);
+    }
 }
 ?>

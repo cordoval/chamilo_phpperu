@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id: course_type_selector.class.php 218 2010-03-26 14:21:26Z Yannick & Tristan $
  * @package application.lib.weblcms.weblcms_manager.component
@@ -18,27 +19,18 @@ class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManager
      */
     function run()
     {
-    	
-    	if(!WeblcmsDataManager :: get_instance()->count_course_types())
-    		$this->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE));
-    	
+
+        if (!WeblcmsDataManager :: get_instance()->count_course_types())
+            $this->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE));
+
         if ($this->get_user()->is_platform_admin())
         {
             Header :: set_section('admin');
         }
-        
+
         $trail = BreadcrumbTrail :: get_instance();
-        if ($this->get_user()->is_platform_admin())
-        {
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
-        }
-        else
-        	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Select')));
-        $trail->add_help('course type select');
-        
-        if (! $this->get_user()->is_teacher() && ! $this->get_user()->is_platform_admin())
+
+        if (!$this->get_user()->is_teacher() && !$this->get_user()->is_platform_admin())
         {
             $this->display_header();
             echo '<div class="clear"></div><br />';
@@ -49,11 +41,10 @@ class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManager
 
         $course_type_id = $this->get_course_type()->get_id();
         $form = new CourseTypeSelectForm($this->get_url());
-        
-        if ($form->validate() || $form->get_size()==1)
+
+        if ($form->validate() || $form->get_size() == 1)
         {
             $this->simple_redirect(array('go' => WeblcmsManager :: ACTION_CREATE_COURSE, 'course_type' => $form->get_selected_id()));
-            
         }
         else
         {
@@ -63,5 +54,29 @@ class WeblcmsManagerCourseTypeSelectorComponent extends WeblcmsManager
             $this->display_footer();
         }
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
+
+        if ($this->get_user()->is_platform_admin())
+        {
+            $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+            $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)), Translation :: get('CourseTypeList')));
+        }
+        else
+        {
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
+        }
+        $breadcrumbtrail->add_help('course type select');
+    }
+
+    function get_additional_parameters()
+    {
+        return array();
+    }
+
 }
+
 ?>

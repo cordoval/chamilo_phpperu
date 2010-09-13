@@ -16,9 +16,6 @@ class RepositoryManagerContentObjectManagerComponent extends RepositoryManager
         $object_type = Request :: get(self :: PARAM_CONTENT_OBJECT_TYPE);
         $manage_type = Request :: get(self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE);
         
-        $this->set_parameter(self :: PARAM_CONTENT_OBJECT_TYPE, $object_type);
-        $this->set_parameter(self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE, $manage_type);
-        
         if (isset($object_type) && isset($manage_type))
         {
             require_once Path :: get_repository_path() . 'lib/content_object/' . $object_type . '/manage/' . $manage_type . '/' . $object_type . '_' . $manage_type . '_manager.class.php';
@@ -33,6 +30,17 @@ class RepositoryManagerContentObjectManagerComponent extends RepositoryManager
             Display :: warning_message(Translation :: get('NoSuchContentObjectManagerExists'));
             Display :: footer();
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_content_object_manager');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_CONTENT_OBJECT_TYPE, self :: PARAM_CONTENT_OBJECT_MANAGER_TYPE);
     }
 }
 ?>

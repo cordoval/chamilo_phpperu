@@ -2,7 +2,7 @@
 /**
  * @package rights.lib.rights_manager.component
  */
-class RightsManagerTemplaterComponent extends RightsManager
+class RightsManagerTemplaterComponent extends RightsManager implements AdministrationComponent, DelegateComponent
 {
 
     /**

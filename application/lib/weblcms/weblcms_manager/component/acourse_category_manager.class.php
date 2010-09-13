@@ -68,8 +68,7 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
     function display_page_header($title)
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), $title));
-        $trail->add_help('courses category manager');
+        
         $this->display_header();
     }
 
@@ -206,6 +205,19 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManager
         }
         
         return $condition;
+    }
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
+
+        $trail->add(new Breadcrumb($this->get_url(), $title));
+        $trail->add_help('courses category manager');
+
+    }
+
+    function get_additional_parameters()
+    {
+    	return array();
     }
 }
 ?>

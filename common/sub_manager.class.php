@@ -254,7 +254,7 @@ abstract class SubManager
 
             BreadcrumbTrail :: get_instance()->add(new Breadcrumb('#', Translation :: get($sub_manager_class)));
 
-            Display :: header($trail);
+            Display :: header();
             Display :: error_message(implode("\n", $message));
             Display :: footer();
             exit();
@@ -309,12 +309,34 @@ abstract class SubManager
 
         $component = self :: component($sub_manager_class, $action, $application);
         $component->set_parameter($action_parameter, $action);
-        if ($add_breadcrumb)
+        
+        $trail = BreadcrumbTrail :: get_instance();
+        
+    	$component->add_additional_breadcrumbs($trail);
+        
+        $parameters = $component->get_additional_parameters();
+        foreach($parameters as $parameter)
         {
-            BreadcrumbTrail :: get_instance()->add(new Breadcrumb($component->get_url(), Translation :: get(get_class($component))));
+       		$component->set_parameter($parameter, Request :: get($parameter));
+        }
+        
+        if ($add_breadcrumb && !$component instanceof DelegateComponent)
+        {
+            $trail->add(new Breadcrumb($component->get_url(), Translation :: get(get_class($component))));
         }
 
         return $component;
+    }
+    
+    // Dummy functions for breadcrumbtrail
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	
+    }
+
+	function get_additional_parameters()
+    {
+    	
     }
 
     /**

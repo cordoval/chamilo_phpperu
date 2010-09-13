@@ -18,11 +18,6 @@ class TypeTemplateManagerRightsTemplaterComponent extends TypeTemplateManager
         $this->application = Request :: get(TypeTemplateManager :: PARAM_SOURCE);
         $rights_template = Request :: get(TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ID);
 
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('UserRights')));
-
         if (! isset($this->application))
         {
             $this->application = 'admin';
@@ -131,5 +126,18 @@ class TypeTemplateManagerRightsTemplaterComponent extends TypeTemplateManager
 //
 //        return $action_bar;
 //    }
+
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_TYPE_TEMPLATES,
+    															  TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ACTION => TypeTemplateManager :: ACTION_BROWSE_TYPE_TEMPLATES)), 
+    										 Translation :: get('TypeTemplateManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('rights_type_templates_rights_editor');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(TypeTemplateManager :: PARAM_TYPE_TEMPLATE_ID, TypeTemplateManager :: PARAM_SOURCE);
+    }
 }
 ?>

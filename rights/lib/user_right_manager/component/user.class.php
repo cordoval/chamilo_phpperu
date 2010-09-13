@@ -21,11 +21,6 @@ class UserRightManagerUserComponent extends UserRightManager
         $location = Request :: get(UserRightManager :: PARAM_LOCATION);
         $user = Request :: get(UserRightManager :: PARAM_USER);
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS)), Translation :: get('UserRights')));
-        
         if (! isset($this->application))
         {
             $this->application = 'admin';
@@ -47,11 +42,11 @@ class UserRightManagerUserComponent extends UserRightManager
             $this->location = $this->root;
         }
         
-        $parents = array_reverse($this->location->get_parents()->as_array());
+        /*$parents = array_reverse($this->location->get_parents()->as_array());
         foreach ($parents as $parent)
         {
             $trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
-        }
+        }*/
         
         $manager = new RightsEditorManager($this, array($this->location));
         $manager->set_modus(RightsEditorManager :: MODUS_USERS);
@@ -99,6 +94,16 @@ class UserRightManagerUserComponent extends UserRightManager
     function get_available_rights()
     {
         return RightsUtilities :: get_available_rights($this->get_source());
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('rights_users_user');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(UserRightManager :: PARAM_SOURCE, UserRightManager :: PARAM_LOCATION, UserRightManager :: PARAM_USER);
     }
 }
 ?>

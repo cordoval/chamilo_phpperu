@@ -24,8 +24,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('courses general');
-        
+
         $this->message = Request :: get('message');
         Request :: set_get('message', null);
         
@@ -177,6 +176,16 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager
     function get_course_user_category_actions(CourseUserCategory $course_user_category, CourseType $course_type, $offset, $count)
     {
     	return '<a href="#" class="closeEl"><img class="visible" src="' . Theme :: get_common_image_path() . 'action_visible.png"/><img class="invisible" style="display: none;" src="' . Theme :: get_common_image_path() . 'action_invisible.png" /></a>';
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add_help('courses general');
+    }
+
+    function get_additional_parameters()
+    {
+    	return array();
     }
 }
 ?>

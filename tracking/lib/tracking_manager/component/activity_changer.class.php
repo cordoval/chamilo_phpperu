@@ -8,7 +8,7 @@
 /**
  * Component for change of activity
  */
-class TrackingManagerActivityChangerComponent extends TrackingManager
+class TrackingManagerActivityChangerComponent extends TrackingManager implements AdministrationComponent
 {
 
     /**
@@ -16,9 +16,6 @@ class TrackingManagerActivityChangerComponent extends TrackingManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('tracking general');
-        
         $tracker_ids = Request :: get(TrackingManager :: PARAM_TRACKER_ID);
         $type = Request :: get(TrackingManager :: PARAM_TYPE);
         $event_ids = Request :: get(TrackingManager :: PARAM_EVENT_ID);
@@ -134,6 +131,16 @@ class TrackingManagerActivityChangerComponent extends TrackingManager
         $success = $setting->update();
         
         $this->redirect(Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('tracking_activity_changer');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(TrackingManager :: PARAM_EVENT_ID, TrackingManager :: PARAM_TRACKER_ID, TrackingManager :: PARAM_TYPE);
     }
 
 }

@@ -10,6 +10,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
     private $application;
     private $form_type;
     private $external_repository_object;
+    private $mediafiles = array();
 
     const TYPE_CREATE = 1;
     const TYPE_EDIT = 2;
@@ -27,7 +28,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
 
         if ($this->form_type == self :: TYPE_EDIT)
         {
-            $this->build_editing_form();
+            //$this->build_editing_form();
         }
         elseif ($this->form_type == self :: TYPE_CREATE)
         {
@@ -49,6 +50,13 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
         $defaults[MediamosaExternalRepositoryObject :: PROPERTY_PUBLISHER] = $object->get_publisher();
         $defaults[MediamosaExternalRepositoryObject :: PROPERTY_DATE_PUBLISHED] = $object->get_date();
         $defaults[MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE] = $object->get_is_downloadable();
+
+        $this->mediafiles = $object->get_mediafiles();
+
+        foreach($this->mediafiles as $mediafile)
+        {
+            $defaults[$mediafile->get_id(). '_' . MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE] = $mediafile->get_is_downloadable();
+        }
        
         $this->setDefaults($defaults);
     }
@@ -64,7 +72,7 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
         $this->addElement('textarea', MediaMosaExternalRepositoryObject::PROPERTY_DESCRIPTION, Translation :: get('Description'), array("rows" => "7", "cols" => "110"));
         $this->addElement('text', MediamosaExternalRepositoryObject :: PROPERTY_CREATOR, Translation :: get('Creator'), array("size" => "50"));
 
-        $this->addElement('checkbox', MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE, Translation :: get('Is downloadable'));
+        
 
         $this->addElement('hidden', MediamosaExternalRepositoryObject :: PROPERTY_PUBLISHER);
         $this->addelement('hidden', MediamosaExternalRepositoryObject :: PROPERTY_DATE_PUBLISHED);
@@ -85,7 +93,9 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
         $this->setDefaults($defaults);
 
         $this->build_basic_form();
-        
+
+        //$this->addElement('checkbox', MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE, Translation :: get('Is downloadable'));
+
         $buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
@@ -95,6 +105,11 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
     function build_editing_form()
     {
         $this->build_basic_form();
+
+        foreach($this->mediafiles as $mediafile)
+        {
+            $this->addElement('checkbox' , $mediafile->get_id(). '_' . MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE , $mediafile->get_title() . Translation :: get('Is downloadable'));
+        }
 
         $buttons[] = $this->createElement('style_submit_button', 'edit', Translation :: get('Create'), array('class' => 'positive update'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -161,7 +176,16 @@ class MediamosaExternalRepositoryManagerForm extends FormValidator{
         $connector = $this->application->get_external_repository_connector();
         $data = $this->exportValues();
 
-        if($connector->add_mediamosa_metadata($this->external_repository_object->get_id(), $data))
+        foreach($this->mediafiles as $mediafile)
+        {
+            $props = array();
+            $props['is_downloadable'] = ($data[$mediafile->get_id(). '_' . MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE]) ? 'TRUE' : 'FALSE';
+            unset($data[$mediafile->get_id(). '_' . MediamosaExternalRepositoryObject :: PROPERTY_IS_DOWNLOADABLE]);
+
+            $connector->update_mediamosa_mediafile($mediafile->get_id(),$props);
+        }
+        
+        if(! $connector->add_mediamosa_metadata($this->external_repository_object->get_id(), $data))
         {
             return true;
         }

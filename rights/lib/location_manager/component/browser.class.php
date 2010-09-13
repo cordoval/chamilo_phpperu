@@ -20,11 +20,6 @@ class LocationManagerBrowserComponent extends LocationManager
         $this->application = Request :: get(LocationManager :: PARAM_SOURCE);
         $location = Request :: get(LocationManager :: PARAM_LOCATION);
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_LOCATIONS)), Translation :: get('Locations')));
-        
         if (! isset($this->application))
         {
             $this->application = 'admin';
@@ -48,11 +43,11 @@ class LocationManagerBrowserComponent extends LocationManager
             $this->location = $root;
         }
         
-        $parents = array_reverse($this->location->get_parents()->as_array());
+        /*$parents = array_reverse($this->location->get_parents()->as_array());
         foreach ($parents as $parent)
         {
             $trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
-        }
+        }*/
         
         $this->action_bar = $this->get_action_bar();
         
@@ -129,6 +124,16 @@ class LocationManagerBrowserComponent extends LocationManager
         $action_bar->set_search_url($this->get_url(array(LocationManager :: PARAM_SOURCE => $this->application, LocationManager :: PARAM_LOCATION => $this->location->get_id())));
         
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('rights_locations_browser');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(LocationManager :: PARAM_SOURCE, LocationManager :: PARAM_LOCATION);
     }
 }
 ?>
