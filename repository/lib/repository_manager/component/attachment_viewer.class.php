@@ -9,20 +9,11 @@ class RepositoryManagerAttachmentViewerComponent extends RepositoryManager
 
     function run()
     {
-        /*if(!$this->is_allowed(VIEW_RIGHT))
-		{
-			Display :: not_allowed();
-			return;
-		}*/
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('repository general');
-        
         $object_id = Request :: get('object');
         
         if ($object_id)
         {
-            $trail->add(new Breadcrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment')));
-            $this->display_header($trail, false, false);
+            $this->display_header(null, false, false);
             
             echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
             
@@ -36,11 +27,16 @@ class RepositoryManagerAttachmentViewerComponent extends RepositoryManager
         }
         else
         {
-            $this->display_header($trail, false, true);
+            $this->display_header(null, false, true);
             $this->display_error_message('NoObjectSelected');
             $this->display_footer();
         }
     
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('repository_attachment_viewer');
     }
 }
 ?>

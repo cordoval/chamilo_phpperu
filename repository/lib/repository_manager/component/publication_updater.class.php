@@ -33,5 +33,17 @@ class RepositoryManagerPublicationUpdaterComponent extends RepositoryManager
             $this->display_warning_page(htmlentities(Translation :: get('NoPublicationSelected')));
         }
     }
+    
+function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS)), Translation :: get('RepositoryManagerPublicationBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_publication_updater');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(RepositoryManager :: PARAM_PUBLICATION_APPLICATION, RepositoryManager :: PARAM_PUBLICATION_ID);
+    }
 }
 ?>

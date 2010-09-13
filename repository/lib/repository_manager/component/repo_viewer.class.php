@@ -35,5 +35,10 @@ class RepositoryManagerRepoViewerComponent extends RepositoryManager implements 
     {
         return array(Document :: get_type_name());
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('repository_repo_viewer');
+    }
 }
 ?>

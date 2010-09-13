@@ -14,9 +14,6 @@ class RepositoryManagerEditorComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('repository general');
-        
         $id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
         if ($id)
         {
@@ -48,9 +45,7 @@ class RepositoryManagerEditorComponent extends RepositoryManager
             }
             else
             {
-                $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id)), $object->get_title()));
-                $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $id)), Translation :: get('Edit')));
-                $this->display_header($trail, false, true);
+                $this->display_header(null, false, true);
                 $form->display();
                 $this->display_footer();
             }
@@ -59,6 +54,17 @@ class RepositoryManagerEditorComponent extends RepositoryManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_editor');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
     }
 }
 ?>

@@ -20,7 +20,6 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager
     function run()
     {
         $content_object_id = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
-        $this->set_parameter(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, $content_object_id);
         $this->content_object = $this->retrieve_content_object($content_object_id);
         
 //        $type = Request :: get(RepositoryManager :: PARAM_TYPE);
@@ -53,6 +52,17 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManager
     function redirect_away_from_complex_builder($message, $error_message)
     {
     	$this->redirect($message, $error_message, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS));
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_complex_builder');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
     }
 }
 ?>

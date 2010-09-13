@@ -57,6 +57,17 @@ class RepositoryManagerContentObjectCopierComponent extends RepositoryManager
         $this->redirect($message, ($failed > 0), array(RepositoryManager :: PARAM_ACTION => null));
     
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_content_object_copier');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID, RepositoryManager :: PARAM_TARGET_USER);
+    }
 
 }
 ?>
