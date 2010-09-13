@@ -19,7 +19,11 @@ class InternshipOrganizerCategoryRelPeriodBrowserTable extends ObjectTable
         $data_provider = new InternshipOrganizerCategoryRelPeriodBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, InternshipOrganizerCategoryRelPeriodBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
-        $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_UNSUBSCRIBE_CATEGORY, Translation :: get('Unsubscribe')));
+        
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: UNSUBSCRIBE_CATEGORY_RIGHT, $browser->get_period()->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_UNSUBSCRIBE_CATEGORY, Translation :: get('Unsubscribe')));
+        }
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     

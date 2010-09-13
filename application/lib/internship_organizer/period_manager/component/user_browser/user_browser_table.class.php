@@ -19,10 +19,14 @@ class InternshipOrganizerPeriodUserBrowserTable extends ObjectTable
         $data_provider = new InternshipOrganizerPeriodUserBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, InternshipOrganizerPeriodUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
-        if($user_type == InternshipOrganizerUserType::STUDENT){
-        	$actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_CREATE_AGREEMENT, Translation :: get('CreateInternshipOrganizerAgreement')));
+        if ($user_type == InternshipOrganizerUserType :: STUDENT)
+        {
+            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_AGREEMENT_RIGHT, $browser->get_period()->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+            {
+                $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_CREATE_AGREEMENT, Translation :: get('CreateInternshipOrganizerAgreement')));
+            }
         }
-      
+        
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     

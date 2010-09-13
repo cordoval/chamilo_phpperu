@@ -18,8 +18,12 @@ class InternshipOrganizerPeriodRelAgreementBrowserTable extends ObjectTable
         $renderer = new InternshipOrganizerPeriodRelAgreementBrowserTableCellRenderer($browser);
         $data_provider = new InternshipOrganizerPeriodRelAgreementBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
-       	$actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
-        $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_DELETE_AGREEMENT, Translation :: get('Delete')));
+        $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
+        
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: DELETE_AGREEMENT_RIGHT, $browser->get_period()->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_DELETE_AGREEMENT, Translation :: get('Delete')));
+        }
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);
     

@@ -34,19 +34,24 @@ class InternshipOrganizerPeriodRelAgreementBrowserTableCellRenderer extends Defa
      * @return string A HTML representation of the action links
      */
     private function get_modification_links($agreement)
-    {        
-       	$toolbar= new Toolbar();
+    {
+        $toolbar = new Toolbar();
         
         $user = $this->browser->get_user();
         $user_id = $user->get_id();
-             
-        if(  $user->is_platform_admin() ||$agreement->is_user_type($user_id, array(InternshipOrganizerUserType::COORDINATOR, InternshipOrganizerUserType ::COACH))){
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON ));	
-           $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON, true ));   
-       }
         
-      	$toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON ));  
-
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: EDIT_AGREEMENT_RIGHT, $agreement->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON));
+        }   
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: DELETE_AGREEMENT_RIGHT, $agreement->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {   
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON, true));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: VIEW_AGREEMENT_RIGHT, $agreement->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON));
+        }
         return $toolbar->as_html();
     }
 }
