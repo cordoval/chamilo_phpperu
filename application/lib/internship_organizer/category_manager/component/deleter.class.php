@@ -8,7 +8,16 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
      */
     function run()
     {
-        $user = $this->get_user();
+        
+    if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+   
+    	$user = $this->get_user();
         
         $ids = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
         $failures = 0;

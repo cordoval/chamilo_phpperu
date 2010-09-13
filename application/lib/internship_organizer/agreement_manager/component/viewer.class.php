@@ -25,14 +25,19 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
     function run()
     {
         
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $agreement_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
-        $this->agreement = $this->retrieve_agreement($agreement_id);        
+        $this->agreement = $this->retrieve_agreement($agreement_id);
         
         $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id)), $this->agreement->get_name()));
-        
+
         $this->action_bar = $this->get_action_bar();
         
         $this->display_header($trail);
@@ -42,10 +47,10 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         
         echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_location.png);">';
         echo '<div class="title">' . Translation :: get('Details') . '</div>';
-        echo '<b>' . Translation :: get('Description') . '</b>: ' . $this->agreement->get_description(). '<br /> ';        
+        echo '<b>' . Translation :: get('Description') . '</b>: ' . $this->agreement->get_description() . '<br /> ';
         
-		$student = $this->get_student();
-		
+        $student = $this->get_student();
+        
         echo '<div class="title">' . Translation :: get('Student') . '</div>';
         echo '<b>' . Translation :: get('Firstname') . '</b>: ' . $student->get_firstname();
         echo '<br /><b>' . Translation :: get('Lastname') . '</b>: ' . $student->get_lastname();
@@ -150,8 +155,8 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
             {
                 //all actions that you can do on a approved agreement
                 $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_moment_publish_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-            	$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerMoment'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_moment_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-                
+                $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerMoment'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_moment_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            
             }
             else
             {
@@ -284,17 +289,17 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         return new AndCondition($conditions);
     }
 
-	function get_student()
-    {       	
+    function get_student()
+    {
         $student_id = $this->agreement->get_user_ids(InternshipOrganizerUserType :: STUDENT);
         
-       	$dm = UserDataManager::get_instance();
-			
-       	$student = $dm->retrieve_user($student_id[0]);
-		return $student;
-
-    }
+        $dm = UserDataManager :: get_instance();
+        
+        $student = $dm->retrieve_user($student_id[0]);
+        return $student;
     
+    }
+
     function get_publications_condition()
     {
         $conditions = array();

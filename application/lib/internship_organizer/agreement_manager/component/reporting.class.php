@@ -9,17 +9,22 @@ class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOr
     function run()
     {
 
-        $agreement_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID);
+    if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REPORTING, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+    	
+    	$agreement_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID);
         $agreement= InternshipOrganizerDataManager::get_instance()->retrieve_agreement($agreement_id);
         $this->set_parameter(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID, $agreement_id);
 
         $user_id = $this->get_user_id();
         $this->set_parameter(UserManager :: PARAM_USER_USER_ID, $user_id);
 
-
         $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_browse_agreements_url(), Translation :: get('BrowseInternshipOrganizerAgreements')));
         $trail->add_help('agreement general');
 
         $rtv = ReportingViewer :: construct($this);

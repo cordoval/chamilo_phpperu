@@ -24,6 +24,7 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_CREATE_PERIOD = 'creator';
     const ACTION_BROWSE_PERIODS = 'browser';
     const ACTION_EDIT_PERIOD = 'editor';
+    const ACTION_EDIT_PERIOD_RIGHTS = 'rights_editor';
     const ACTION_DELETE_PERIOD = 'deleter';
     const ACTION_VIEW_PERIOD = 'viewer';
     const ACTION_PUBLISH_PERIOD = 'publisher';
@@ -222,6 +223,12 @@ class InternshipOrganizerPeriodManager extends SubManager
     function get_subscribe_agreement_rel_user_url($agreement, $user_type)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_AGREEMENT_REL_USER, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+    
+    }
+
+    function get_rights_editor_url($period)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PERIOD_RIGHTS, self :: PARAM_PERIOD_ID => $period->get_id()));
     
     }
 

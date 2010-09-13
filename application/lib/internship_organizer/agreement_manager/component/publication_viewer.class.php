@@ -19,12 +19,10 @@ class InternshipOrganizerAgreementManagerPublicationViewerComponent extends Inte
         $publication_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID];
         $this->publication = InternshipOrganizerDataManager :: get_instance()->retrieve_publication($publication_id);
         $place_id = $this->publication->get_place_id();
-        
-        $place = $this->publication->get_place();
-        
+       
         $trail = BreadcrumbTrail :: get_instance();
         // for agreements the places can be Agreement and Moment
-        switch ($place)
+        switch ($place_id)
         {
             case InternshipOrganizerPublicationPlace :: AGREEMENT :
                 $place_object = $this->retrieve_agreement($place_id);
