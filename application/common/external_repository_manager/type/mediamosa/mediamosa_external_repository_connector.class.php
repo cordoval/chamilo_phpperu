@@ -399,7 +399,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         }
 
         $this->cql = array();
-
+        echo $string;
         return $string;
     }
 
@@ -550,7 +550,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
                 $mediafile_count ++;
             }
             
-            if($mediafile_count != $not_downloadable) $this->update_mediafile_downloadableness($mediamosa_asset);
+            //if($mediafile_count != $not_downloadable) $this->update_mediafile_downloadableness($mediamosa_asset);
 
             $mediamosa_asset->set_rights($this->determine_rights($mediamosa_asset));
 
