@@ -135,7 +135,6 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
             if ($tool)
             {
                 $title = CourseLayout :: get_title($this->get_course());
-                $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_CATEGORY => null)), $title));
                 
                 if ($tool != 'course_group')
                 {
@@ -146,7 +145,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
                 
                 if ($tool != 'home')
                 {
-                    $trail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($tool) . 'Title')));
+                    //$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities :: underscores_to_camelcase($tool) . 'Title')));
                 }
                 
                 $wdm = WeblcmsDataManager :: get_instance();
@@ -200,6 +199,20 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
         }
         
         return $this->is_teacher;
+    }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
+
+        $title = CourseLayout :: get_title($this->get_course());
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_CATEGORY => null)), $title));
+
+    }
+
+    function get_additional_parameters()
+    {
+    	return array();
     }
 }
 ?>

@@ -24,17 +24,7 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManager
         }
 
         $trail = BreadcrumbTrail :: get_instance();
-        if ($this->get_user()->is_platform_admin())
-        {
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
-            $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)), Translation :: get('CourseTypeList')));
-        }
-        else
-        	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('CourseTypes')));
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateCourseType')));
-        $trail->add_help('coursetypes create');
-
+        
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -52,12 +42,10 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManager
 
         if(is_null($course_type_id))
         {
-        	$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_CREATE, $coursetype, $this->get_url($parameter), $this);
         }	        
         else
         {
-        	$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Update')));
 	        $form = new CourseTypeForm(CourseTypeForm :: TYPE_EDIT, $coursetype, $this->get_url($parameter), $this);
         }
 	        
@@ -75,6 +63,29 @@ class WeblcmsManagerAdminCourseTypeCreatorComponent extends WeblcmsManager
             $form->display();
             $this->display_footer();
         }
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
+
+        if ($this->get_user()->is_platform_admin())
+        {
+            $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+            $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_TYPE_BROWSER)), Translation :: get('CourseTypeList')));
+
+        }
+        else
+        {
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
+        }
+        $breadcrumbtrail->add_help('coursetypes create');
+    }
+
+    function get_additional_parameters()
+    {
+    	return array();
     }
 }
 ?>

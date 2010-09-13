@@ -369,6 +369,10 @@ class WeblcmsManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE_TYPE, self :: PARAM_COURSE_TYPE => $course_type->get_id()));
     }
 
+    function get_home_url()
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_WEBLCMS_HOME));
+    }
     /**
      * Sets the course_group
      * @param CourseGroup $course_group
