@@ -62,5 +62,18 @@ class RightsTemplateManagerDeleterComponent extends RightsTemplateManager
             $this->display_error_page(htmlentities(Translation :: get('NoRightsTemplateSelected')));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES,
+    															  RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES)), 
+    										 Translation :: get('RightsTemplateManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('rights_templates_deleter');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID);
+    }
 }
 ?>

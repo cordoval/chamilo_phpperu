@@ -22,11 +22,6 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManager
         $location = Request :: get(RightsTemplateManager :: PARAM_LOCATION);
         $rights_template = Request :: get(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID);
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES)), Translation :: get('RightsTemplates')));
-        
         if (! isset($rights_template))
         {
             $this->display_header();
@@ -37,8 +32,6 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManager
         else
         {
             $this->rights_template = $this->retrieve_rights_template($rights_template);
-            $trail->add(new Breadcrumb($this->get_url(array(RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES)), $this->rights_template->get_name()));
-            $trail->add_help('rights general');
         }
         
         if (! isset($this->application))
@@ -153,6 +146,19 @@ class RightsTemplateManagerConfigurerComponent extends RightsTemplateManager
         $action_bar->set_search_url($this->get_url(array(RightsTemplateManager :: PARAM_SOURCE => $this->application, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID => $this->rights_template->get_id(), RightsTemplateManager :: PARAM_LOCATION => $this->location->get_id())));
         
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_RIGHTS_TEMPLATES,
+    															  RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ACTION => RightsTemplateManager :: ACTION_BROWSE_RIGHTS_TEMPLATES)), 
+    										 Translation :: get('RightsTemplateManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('rights_templates_configurer');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(RightsTemplateManager :: PARAM_SOURCE, RightsTemplateManager :: PARAM_LOCATION, RightsTemplateManager :: PARAM_RIGHTS_TEMPLATE_ID);
     }
 }
 ?>

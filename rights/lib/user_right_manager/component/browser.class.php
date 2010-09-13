@@ -22,11 +22,6 @@ class UserRightManagerBrowserComponent extends UserRightManager
         $location = Request :: get(UserRightManager :: PARAM_LOCATION);
         $user = Request :: get(UserRightManager :: PARAM_USER);
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => RightsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Rights')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_MANAGE_USER_RIGHTS)), Translation :: get('UserRights')));
-        
         if (! isset($user))
         {
             $this->display_header();
@@ -38,8 +33,6 @@ class UserRightManagerBrowserComponent extends UserRightManager
         {
             $udm = UserDataManager :: get_instance();
             $this->user = $udm->retrieve_user($user);
-            $trail->add(new Breadcrumb($this->get_url(array(UserRightManager :: PARAM_USER_RIGHT_ACTION => UserRightManager :: ACTION_BROWSE_USER_RIGHTS)), $this->user->get_fullname()));
-            $trail->add_help('rights general');
         }
         
         if (! isset($this->application))
@@ -63,11 +56,11 @@ class UserRightManagerBrowserComponent extends UserRightManager
             $this->location = $root;
         }
         
-        $parents = array_reverse($this->location->get_parents()->as_array());
+        /*$parents = array_reverse($this->location->get_parents()->as_array());
         foreach ($parents as $parent)
         {
             $trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
-        }
+        }*/
         
         $this->action_bar = $this->get_action_bar();
         
@@ -144,6 +137,16 @@ class UserRightManagerBrowserComponent extends UserRightManager
         $action_bar->set_search_url($this->get_url(array(UserRightManager :: PARAM_SOURCE => $this->application, UserRightManager :: PARAM_USER => $this->user->get_id(), UserRightManager :: PARAM_LOCATION => $this->location->get_id())));
         
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('rights_users_browser');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(UserRightManager :: PARAM_SOURCE, UserRightManager :: PARAM_LOCATION, UserRightManager :: PARAM_USER);
     }
 }
 ?>
