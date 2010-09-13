@@ -34,7 +34,14 @@ class InternshipOrganizerRights
     const SUBSCRIBE_AGREEMENT_USER_NAME = 'subscribe_agreement_user';
     const UNSUBSCRIBE_AGREEMENT_USER_RIGHT = '17';
     const UNSUBSCRIBE_AGREEMENT_USER_NAME = 'unsubscribe_agreement_user';
-    
+    const ADD_LOCATION_RIGHT = '18';
+    const ADD_LOCATION_NAME = 'add_location';
+    const APPROVE_LOCATION_RIGHT = '19';
+    const APPROVE_LOCATION_NAME = 'approve_location';
+    const ADD_MENTOR_RIGHT = '20';
+    const ADD_MENTOR_NAME = 'add_mentor';
+    const ADD_MOMENT_RIGHT = '21';
+    const ADD_MOMENT_NAME = 'add_moment';
     
     const LOCATION_AGREEMENT = 1;
     const LOCATION_CATEGORY = 2;
@@ -48,6 +55,7 @@ class InternshipOrganizerRights
     const TYPE_INTERNSHIP_ORGANIZER_COMPONENT = 1;
     const TYPE_PUBLICATION = 2;
     const TYPE_PERIOD = 3;
+    const TYPE_AGREEMENT = 4;
 
     static function get_available_rights_for_publications()
     {
@@ -56,10 +64,12 @@ class InternshipOrganizerRights
 
     static function get_available_rights_for_periods()
     {
-        return array(self :: VIEW_AGREEMENT_NAME => self :: VIEW_AGREEMENT_RIGHT, self :: ADD_AGREEMENT_NAME => self :: ADD_AGREEMENT_RIGHT, self :: DELETE_AGREEMENT_NAME => self :: DELETE_AGREEMENT_RIGHT, self :: EDIT_AGREEMENT_NAME => self :: EDIT_AGREEMENT_RIGHT,
-        self :: SUBSCRIBE_AGREEMENT_USER_NAME => self :: SUBSCRIBE_AGREEMENT_USER_RIGHT, self :: UNSUBSCRIBE_AGREEMENT_USER_NAME => self :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT,
-        self :: SUBSCRIBE_CATEGORY_NAME => self :: SUBSCRIBE_CATEGORY_RIGHT, self :: UNSUBSCRIBE_CATEGORY_NAME => self :: UNSUBSCRIBE_CATEGORY_RIGHT, self :: SUBSCRIBE_GROUP_NAME => self :: SUBSCRIBE_GROUP_RIGHT, self :: UNSUBSCRIBE_GROUP_NAME =>self :: UNSUBSCRIBE_GROUP_RIGHT,
-        self :: SUBSCRIBE_USER_NAME => self :: SUBSCRIBE_USER_RIGHT, self :: UNSUBSCRIBE_USER_NAME => self :: UNSUBSCRIBE_USER_RIGHT);
+        return array(self :: VIEW_AGREEMENT_NAME => self :: VIEW_AGREEMENT_RIGHT, self :: ADD_AGREEMENT_NAME => self :: ADD_AGREEMENT_RIGHT, self :: DELETE_AGREEMENT_NAME => self :: DELETE_AGREEMENT_RIGHT, self :: EDIT_AGREEMENT_NAME => self :: EDIT_AGREEMENT_RIGHT, self :: SUBSCRIBE_AGREEMENT_USER_NAME => self :: SUBSCRIBE_AGREEMENT_USER_RIGHT, self :: UNSUBSCRIBE_AGREEMENT_USER_NAME => self :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT, self :: SUBSCRIBE_CATEGORY_NAME => self :: SUBSCRIBE_CATEGORY_RIGHT, self :: UNSUBSCRIBE_CATEGORY_NAME => self :: UNSUBSCRIBE_CATEGORY_RIGHT, self :: SUBSCRIBE_GROUP_NAME => self :: SUBSCRIBE_GROUP_RIGHT, self :: UNSUBSCRIBE_GROUP_NAME => self :: UNSUBSCRIBE_GROUP_RIGHT, self :: SUBSCRIBE_USER_NAME => self :: SUBSCRIBE_USER_RIGHT, self :: UNSUBSCRIBE_USER_NAME => self :: UNSUBSCRIBE_USER_RIGHT);
+    }
+
+    static function get_available_rights_for_agreements()
+    {
+        return array(self :: VIEW_AGREEMENT_NAME => self :: VIEW_AGREEMENT_RIGHT, self :: DELETE_AGREEMENT_NAME => self :: DELETE_AGREEMENT_RIGHT, self :: EDIT_AGREEMENT_NAME => self :: EDIT_AGREEMENT_RIGHT, self :: ADD_LOCATION_NAME => self :: ADD_LOCATION_RIGHT, self :: APPROVE_LOCATION_NAME => self :: APPROVE_LOCATION_RIGHT ,self :: ADD_MENTOR_NAME => self :: ADD_MENTOR_RIGHT, self :: ADD_MOMENT_NAME => self :: ADD_MOMENT_RIGHT);
     }
 
     static function create_location_in_internship_organizers_subtree($name, $identifier, $parent, $type, $return_location = false)

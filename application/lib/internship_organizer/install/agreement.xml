@@ -12,6 +12,7 @@
 		<property name="begin" type="integer" notnull="1" />
 		<property name="end" type="integer" notnull="1" />
 		<property name="status" type="integer" unsigned="1" notnull="1" />
+		<property name="owner" type="integer" unsigned="1" notnull="1" />
 	</properties>
 
 </object>

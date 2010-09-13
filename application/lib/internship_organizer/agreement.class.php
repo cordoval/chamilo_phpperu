@@ -14,10 +14,37 @@ class InternshipOrganizerAgreement extends DataClass
     const PROPERTY_END = 'end';
     const PROPERTY_PERIOD_ID = 'period_id';
     const PROPERTY_STATUS = 'status';
+    const PROPERTY_OWNER = 'owner';
     
     const STATUS_ADD_LOCATION = 1;
     const STATUS_TO_APPROVE = 2;
     const STATUS_APPROVED = 3;
+
+    public function create()
+    {
+        $succes = parent :: create();
+        if ($succes)
+        {
+            $parent_location = InternshipOrganizerRights :: get_internship_organizers_subtree_root_id();
+            $location = InternshipOrganizerRights :: create_location_in_internship_organizers_subtree($this->get_name(), $this->get_id(), $parent_location, InternshipOrganizerRights :: TYPE_AGREEMENT, true);
+        
+        }
+        return $succes;
+    }
+
+    public function delete()
+    {
+        $location = InternshipOrganizerRights :: get_location_by_identifier_from_internship_organizers_subtree($this->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT);
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+        $succes = parent :: delete();
+        return $succes;
+    }
 
     /**
      * Get the default properties
@@ -157,6 +184,24 @@ class InternshipOrganizerAgreement extends DataClass
     function set_status($status)
     {
         $this->set_default_property(self :: PROPERTY_STATUS, $status);
+    }
+
+    /**
+     * Returns the owner of this InternshipAgreement.
+     * @return owner.
+     */
+    function get_owner()
+    {
+        return $this->get_default_property(self :: PROPERTY_OWNER);
+    }
+
+    /**
+     * Sets the owner of this InternshipAgreement.
+     * @param owner
+     */
+    function set_owner($owner)
+    {
+        $this->set_default_property(self :: PROPERTY_OWNER, $owner);
     }
 
     static function get_status_name($index)
