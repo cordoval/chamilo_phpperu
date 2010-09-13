@@ -34,8 +34,9 @@ class UserMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function UserMenu($firstletter, $url_format = '?application=portfolio&go=browse&firstletter=%s')
-    { 
+    function UserMenu($firstletter, $url_format = '')
+    {
+        $url_format = '?application=portfolio&go='. PortfolioManager::ACTION_BROWSE .'&firstletter=%s';
         $this->urlFmt = $url_format;
         $menu = $this->get_menu();
         parent :: __construct($menu);
