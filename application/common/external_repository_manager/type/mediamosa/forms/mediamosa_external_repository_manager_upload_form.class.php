@@ -43,6 +43,7 @@ class MediamosaExternalRepositoryManagerUploadForm extends FormValidator {
         }
 
         //$this->addElement('hidden', 'upload_ticket', $this->upload_ticket['upload_ticket']);
+        $this->addElement('hidden', 'XDEBUG_SESSION_START', 'netbeans-xdebug');
         $this->addElement('hidden', 'redirect_uri', 'http://' . $_SERVER['SERVER_NAME'] . $this->application->get_url($this->params, true));
         $this->addElement('hidden', 'create_still', 'TRUE');
         $this->addElement('file', 'file', sprintf(Translation :: get('FileName'), '2Gb'));

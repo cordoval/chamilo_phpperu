@@ -33,17 +33,29 @@ class MediamosaExternalRepositoryObjectDisplay extends ExternalRepositoryObjectD
         $html = array();
         $i = 1;
 
+        $external_repository_instance = RepositoryDataManager :: get_instance()->retrieve_external_repository(Request :: get(ExternalRepositoryManager :: PARAM_EXTERNAL_REPOSITORY));
+        $connector = MediamosaExternalRepositoryConnector :: get_instance($external_repository_instance);
+
         if (is_array($mediafiles))
         {
             foreach ($mediafiles as $mediafile)
             {
                 $download = null;
-                if ($mediafile->get_is_downloadable())
+                
+                $object_rights = $object->get_rights();
+                
+                if($object_rights[ExternalRepositoryObject :: RIGHT_DOWNLOAD])
                 {
-                    $download = 'download';
+                    if ($mediafile->get_is_downloadable())
+                    {
+                       if($downloadLink = $connector->mediamosa_play_proxy_request($object->get_id(), $mediafile->get_id(),'download'))
+                       {
+                           $download = ' <a href="' . $downloadLink . '">' . Theme :: get_common_image('action_download') . '</a>';
+                       }
+                    }
                 }
-
-                $properties[Translation :: get('Version') . $i] = $mediafile->get_title();
+                
+                $properties[Translation :: get('Version') . $i] = $mediafile->get_title() . $download;
 
                 $i ++;
             }
