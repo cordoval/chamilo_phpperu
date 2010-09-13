@@ -33,14 +33,13 @@ class RepositoryManagerViewerComponent extends RepositoryManager
             
             $display = ContentObjectDisplay :: factory($object);
             $trail = BreadcrumbTrail :: get_instance();
-            $trail->add_help('repository general');
             
             if ($object->get_state() == ContentObject :: STATE_RECYCLED)
             {
                 $trail->add(new Breadcrumb($this->get_recycle_bin_url(), Translation :: get('RecycleBin')));
                 $this->force_menu_url($this->get_recycle_bin_url());
             }
-            $trail->add(new Breadcrumb($this->get_url(), $object->get_title() . ($object->is_latest_version() ? '' : ' (' . Translation :: get('OldVersion') . ')')));
+            //$trail->add(new Breadcrumb($this->get_url(), $object->get_title() . ($object->is_latest_version() ? '' : ' (' . Translation :: get('OldVersion') . ')')));
             
             $version_data = array();
             $versions = $object->get_content_object_versions();
@@ -284,6 +283,17 @@ class RepositoryManagerViewerComponent extends RepositoryManager
     function get_object()
     {
         return $this->object;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
     }
 }
 ?>

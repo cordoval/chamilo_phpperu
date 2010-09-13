@@ -15,9 +15,6 @@ class RepositoryManagerMoverComponent extends RepositoryManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('repository general');
-        
         $ids = Request :: get(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
         if (! empty($ids))
         {
@@ -104,13 +101,13 @@ class RepositoryManagerMoverComponent extends RepositoryManager
                 //$renderer->setElementTemplate('{label} {element} ');
                 //$form->accept($renderer);
                 
-                if (count($ids) == 1)
+                /*if (count($ids) == 1)
                     $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_CONTENT_OBJECTS, RepositoryManager :: PARAM_CONTENT_OBJECT_ID => $ids[0])), $this->retrieve_content_object($ids[0])->get_title()));
                 else
                     $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS), Translation :: get('Objects'))));
                 
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move'))); 
-                $this->display_header($trail, false, true); 
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));*/ 
+                $this->display_header(null, false, true); 
                 echo $form->toHTML();
                 $this->display_footer();
             }
@@ -156,6 +153,17 @@ class RepositoryManagerMoverComponent extends RepositoryManager
             $this->get_categories_for_select($cat->get_id(), $current_parent);
             $this->level --;
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_CONTENT_OBJECTS)), Translation :: get('RepositoryManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('repository_mover');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(RepositoryManager :: PARAM_CONTENT_OBJECT_ID);
     }
 }
 ?>
