@@ -25,25 +25,8 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
         $this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
         
         $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_APPLICATION => 'weblcms')), Translation :: get('MyCourses')));
-        if ($this->get_user()->is_platform_admin())
-        {
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-            $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
-        }
-        else
-        {
-        	$trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
-        }
-        	
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseList')));
-        $trail->add_help('courses general');
         
-        if ($this->category)
-        {
-            $category = WeblcmsDataManager :: get_instance()->retrieve_course_category($this->category);
-            $trail->add(new Breadcrumb($this->get_url(), $category->get_name()));
-        }
+        
         
         /*if (! $this->get_user()->is_platform_admin())
         {
@@ -158,6 +141,34 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManager
             }
         }        
         return $condition;
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
+
+        if ($this->get_user()->is_platform_admin())
+        {
+            $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+            $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
+        }
+        else
+        {
+            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
+        }
+
+        if ($this->category)
+        {
+            $category = WeblcmsDataManager :: get_instance()->retrieve_course_category($this->category);
+            $trail->add(new Breadcrumb($this->get_url(), $category->get_name()));
+        }
+
+        $breadcrumbtrail->add_help('courses general');
+    }
+
+    function get_additional_parameters()
+    {
+    	return array();
     }
 }
 ?>
