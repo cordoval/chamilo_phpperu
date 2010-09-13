@@ -11,9 +11,9 @@ class InternshipOrganizerPeriodManagerUnsubscribeAgreementRelUserComponent exten
     function run()
     {
         $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
-              
+        
         $failures = 0;
-               
+        
         if (! empty($ids))
         {
             if (! is_array($ids))
@@ -26,16 +26,24 @@ class InternshipOrganizerPeriodManagerUnsubscribeAgreementRelUserComponent exten
                 
                 $agreement_rel_user_ids = explode('|', $id);
                 
-                $agreement_rel_user = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement_rel_user($agreement_rel_user_ids[0], $agreement_rel_user_ids[1], $agreement_rel_user_ids[2]);
-                             
-                if (! $agreement_rel_user->delete())
+                $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreement_rel_user_ids[0]);
+                $period_id = $agreement->get_period_id();
+                $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
+                
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
                 {
-                    $failures ++;
-                }
-                else
-                {
-                                   	
-                	//                    Event :: trigger('delete', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $user->get_id()));
+                    
+                    $agreement_rel_user = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement_rel_user($agreement_rel_user_ids[0], $agreement_rel_user_ids[1], $agreement_rel_user_ids[2]);
+                    
+                    if (! $agreement_rel_user->delete())
+                    {
+                        $failures ++;
+                    }
+                    else
+                    {
+                        
+                    //                    Event :: trigger('delete', 'period', array('target_period_id' => $period->get_id(), 'action_user_id' => $user->get_id()));
+                    }
                 }
             }
             
@@ -62,18 +70,19 @@ class InternshipOrganizerPeriodManagerUnsubscribeAgreementRelUserComponent exten
                 }
             }
             
-            switch ($agreement_rel_user_ids[2]) {
-            	case InternshipOrganizerUserType:: COORDINATOR  :
-            	$tab = InternshipOrganizerPeriodManagerAgreementViewerComponent :: TAB_COORDINATOR;
-            	break;
-            	case InternshipOrganizerUserType:: COACH  :
-            	$tab = InternshipOrganizerPeriodManagerAgreementViewerComponent :: TAB_COACH;
-            	break;
-            	
+            switch ($agreement_rel_user_ids[2])
+            {
+                case InternshipOrganizerUserType :: COORDINATOR :
+                    $tab = InternshipOrganizerPeriodManagerAgreementViewerComponent :: TAB_COORDINATOR;
+                    break;
+                case InternshipOrganizerUserType :: COACH :
+                    $tab = InternshipOrganizerPeriodManagerAgreementViewerComponent :: TAB_COACH;
+                    break;
+            
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_AGREEMENT,InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID => $agreement_rel_user_ids[0], DynamicTabsRenderer::PARAM_SELECTED_TAB => $tab ));
-                    }
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID => $agreement_rel_user_ids[0], DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
+        }
         else
         {
             $this->display_error_page(htmlentities(Translation :: get('NoInternshipOrganizerAgreementRelUserSelected')));

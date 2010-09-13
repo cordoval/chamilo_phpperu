@@ -20,6 +20,33 @@ class InternshipOrganizerPeriod extends NestedTreeNode
     const PROPERTY_DESCRIPTION = 'description';
     const PROPERTY_BEGIN = 'begin';
     const PROPERTY_END = 'end';
+    const PROPERTY_OWNER = 'owner';
+
+    public function create()
+    {
+        $succes = parent :: create();
+        if ($succes)
+        {
+            $parent_location = InternshipOrganizerRights :: get_internship_organizers_subtree_root_id();
+            $location = InternshipOrganizerRights :: create_location_in_internship_organizers_subtree($this->get_name(), $this->get_id(), $parent_location, InternshipOrganizerRights :: TYPE_PERIOD, true);
+         
+        }
+        return $succes;
+    }
+
+    public function delete()
+    {
+        $location = InternshipOrganizerRights :: get_location_by_identifier_from_internship_organizers_subtree($this->get_id(), InternshipOrganizerRights :: TYPE_PERIOD);
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+        $succes = parent :: delete();
+        return $succes;
+    }
 
     /**
      * Get the default properties
@@ -27,7 +54,7 @@ class InternshipOrganizerPeriod extends NestedTreeNode
      */
     static function get_default_property_names()
     {
-        return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_BEGIN, self :: PROPERTY_END));
+        return parent :: get_default_property_names(array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_BEGIN, self :: PROPERTY_END, self :: PROPERTY_OWNER));
     }
 
     /**
@@ -120,6 +147,24 @@ class InternshipOrganizerPeriod extends NestedTreeNode
         $this->set_default_property(self :: PROPERTY_END, $end);
     }
 
+/**
+     * Returns the owner of this Period.
+     * @return owner.
+     */
+    function get_owner()
+    {
+        return $this->get_default_property(self :: PROPERTY_OWNER);
+    }
+
+    /**
+     * Sets the owner of this Period.
+     * @param owner
+     */
+    function set_owner($owner)
+    {
+        $this->set_default_property(self :: PROPERTY_OWNER, $owner);
+    }
+    
     static function get_table_name()
     {
         //        	 return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

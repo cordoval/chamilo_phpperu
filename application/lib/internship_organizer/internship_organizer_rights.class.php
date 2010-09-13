@@ -10,15 +10,31 @@ class InternshipOrganizerRights
     const RIGHT_DELETE = '4';
     const RIGHT_PUBLISH = '5';
     
+    const VIEW_AGREEMENT_RIGHT = '15';
+    const VIEW_AGREEMENT_NAME = 'view_agreement';
     const ADD_AGREEMENT_RIGHT = '6';
+    const ADD_AGREEMENT_NAME = 'add_agreement';
     const DELETE_AGREEMENT_RIGHT = '7';
+    const DELETE_AGREEMENT_NAME = 'delete_agreement';
     const EDIT_AGREEMENT_RIGHT = '8';
+    const EDIT_AGREEMENT_NAME = 'edit_agreement';
     const SUBSCRIBE_CATEGORY_RIGHT = '9';
+    const SUBSCRIBE_CATEGORY_NAME = 'subscribe_category';
     const UNSUBSCRIBE_CATEGORY_RIGHT = '10';
+    const UNSUBSCRIBE_CATEGORY_NAME = 'unsubscribe_category';
     const SUBSCRIBE_GROUP_RIGHT = '11';
+    const SUBSCRIBE_GROUP_NAME = 'subscribe_group';
     const UNSUBSCRIBE_GROUP_RIGHT = '12';
+    const UNSUBSCRIBE_GROUP_NAME = 'unsubscribe_group';
     const SUBSCRIBE_USER_RIGHT = '13';
+    const SUBSCRIBE_USER_NAME = 'subscribe_user';
     const UNSUBSCRIBE_USER_RIGHT = '14';
+    const UNSUBSCRIBE_USER_NAME = 'unsubscribe_user';
+    const SUBSCRIBE_AGREEMENT_USER_RIGHT = '16';
+    const SUBSCRIBE_AGREEMENT_USER_NAME = 'subscribe_agreement_user';
+    const UNSUBSCRIBE_AGREEMENT_USER_RIGHT = '17';
+    const UNSUBSCRIBE_AGREEMENT_USER_NAME = 'unsubscribe_agreement_user';
+    
     
     const LOCATION_AGREEMENT = 1;
     const LOCATION_CATEGORY = 2;
@@ -27,7 +43,7 @@ class InternshipOrganizerRights
     const LOCATION_REGION = 5;
     const LOCATION_REPORTING = 6;
     
-    const TREE_TYPE_INTERNSHIP_ORGANIZER = 1;
+    const TREE_TYPE_INTERNSHIP_ORGANIZER = 0;
     
     const TYPE_INTERNSHIP_ORGANIZER_COMPONENT = 1;
     const TYPE_PUBLICATION = 2;
@@ -40,12 +56,15 @@ class InternshipOrganizerRights
 
     static function get_available_rights_for_periods()
     {
-        return array('Add Agreement' => self :: ADD_AGREEMENT_RIGHT, 'Delete Agreement' => self :: DELETE_AGREEMENT_RIGHT, 'Edit Agreement'=> self :: EDIT_AGREEMENT_RIGHT);
+        return array(self :: VIEW_AGREEMENT_NAME => self :: VIEW_AGREEMENT_RIGHT, self :: ADD_AGREEMENT_NAME => self :: ADD_AGREEMENT_RIGHT, self :: DELETE_AGREEMENT_NAME => self :: DELETE_AGREEMENT_RIGHT, self :: EDIT_AGREEMENT_NAME => self :: EDIT_AGREEMENT_RIGHT,
+        self :: SUBSCRIBE_AGREEMENT_USER_NAME => self :: SUBSCRIBE_AGREEMENT_USER_RIGHT, self :: UNSUBSCRIBE_AGREEMENT_USER_NAME => self :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT,
+        self :: SUBSCRIBE_CATEGORY_NAME => self :: SUBSCRIBE_CATEGORY_RIGHT, self :: UNSUBSCRIBE_CATEGORY_NAME => self :: UNSUBSCRIBE_CATEGORY_RIGHT, self :: SUBSCRIBE_GROUP_NAME => self :: SUBSCRIBE_GROUP_RIGHT, self :: UNSUBSCRIBE_GROUP_NAME =>self :: UNSUBSCRIBE_GROUP_RIGHT,
+        self :: SUBSCRIBE_USER_NAME => self :: SUBSCRIBE_USER_RIGHT, self :: UNSUBSCRIBE_USER_NAME => self :: UNSUBSCRIBE_USER_RIGHT);
     }
 
-    static function create_location_in_internship_organizers_subtree($name, $identifier, $parent, $type)
+    static function create_location_in_internship_organizers_subtree($name, $identifier, $parent, $type, $return_location = false)
     {
-        return RightsUtilities :: create_location($name, InternshipOrganizerManager :: APPLICATION_NAME, $type, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_INTERNSHIP_ORGANIZER);
+        return RightsUtilities :: create_location($name, InternshipOrganizerManager :: APPLICATION_NAME, $type, $identifier, 1, $parent, 0, 0, self :: TREE_TYPE_INTERNSHIP_ORGANIZER, $return_location);
     }
 
     static function get_internship_organizers_subtree_root()

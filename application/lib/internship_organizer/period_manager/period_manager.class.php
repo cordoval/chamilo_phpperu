@@ -222,7 +222,7 @@ class InternshipOrganizerPeriodManager extends SubManager
 
     function get_subscribe_agreement_rel_user_url($agreement, $user_type)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_AGREEMENT_REL_USER, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_AGREEMENT_REL_USER, self :: PARAM_AGREEMENT_ID => $agreement->get_id(), self :: PARAM_USER_TYPE => $user_type));
     
     }
 

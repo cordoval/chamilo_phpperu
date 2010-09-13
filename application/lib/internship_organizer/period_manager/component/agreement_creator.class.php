@@ -10,11 +10,11 @@ class InternshipOrganizerPeriodManagerAgreementCreatorComponent extends Internsh
      */
     function run()
     {
-     	
-    	$ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
         
-    	$this->set_parameter(InternshipOrganizerPeriodManager :: PARAM_USER_ID, $ids);
- 
+        $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
+        
+        $this->set_parameter(InternshipOrganizerPeriodManager :: PARAM_USER_ID, $ids);
+        
         if (! empty($ids))
         {
             if (! is_array($ids))
@@ -22,10 +22,18 @@ class InternshipOrganizerPeriodManagerAgreementCreatorComponent extends Internsh
                 $ids = array($ids);
             }
             
-            $period_id;
-            
             $id = explode('|', $ids[0]);
             $period_id = $id[0];
+                       
+            $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
+            
+            if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_AGREEMENT_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
+            {
+                $this->display_header($trail);
+                $this->display_error_message(Translation :: get('NotAllowed'));
+                $this->display_footer();
+                exit();
+            }
             
             $dm = InternshipOrganizerDataManager :: get_instance();
             $period = $dm->retrieve_period($period_id);

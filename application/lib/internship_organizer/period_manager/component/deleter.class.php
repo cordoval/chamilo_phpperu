@@ -2,7 +2,6 @@
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/browser.class.php';
 
-
 class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganizerPeriodManager
 {
 
@@ -11,12 +10,21 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
      */
     function run()
     {
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $user = $this->get_user();
         
         $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
         
         $failures = 0;
-              
+        
         if (! empty($ids))
         {
             if (! is_array($ids))
@@ -44,12 +52,12 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
                 //if there are still agreements attached, it isn't aloud to be deleted
                 $condition = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_PERIOD_ID, $period_id);
                 
-                if (InternshipOrganizerDataManager::get_instance()->count_agreements($condition) > 0)
+                if (InternshipOrganizerDataManager :: get_instance()->count_agreements($condition) > 0)
                 {
                     $status = false;
                     $message = 'PeriodNotDeleted-HasAgreements';
                 }
-                               
+                
                 if ($status)
                 {
                     if (! $period->delete())
@@ -87,7 +95,7 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
             
             }
             
-            $this->redirect(Translation :: get($message), !$status, array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $parent_id , DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
+            $this->redirect(Translation :: get($message), ! $status, array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $parent_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
         }
         else
         {
