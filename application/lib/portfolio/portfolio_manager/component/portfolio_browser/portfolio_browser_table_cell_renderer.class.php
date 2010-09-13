@@ -1,26 +1,23 @@
 <?php
-/**
- * $Id: user_browser_table_cell_renderer.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component.user_browser
- */
-require_once dirname(__FILE__) . '/user_browser_table_column_model.class.php';
-require_once Path :: get_user_path() . 'lib/user_table/default_user_table_cell_renderer.class.php';
+//require_once   dirname(__FILE__) .  '/../../../../../../repository/lib/content_object/portfolio/portfolio.class.php';
+require_once   dirname(__FILE__) .  '/portfolio_browser_table_column_model.class.php';
+require_once   dirname(__FILE__) . '/../../../tables/portfolio_table/default_portfolio_table_cell_renderer.class.php';
 
 /**
- * Cell renderer for the user object browser table
+ * Cell renderer for the portfolio object browser table
  */
-class UserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
+class PortfolioBrowserTableCellRenderer extends DefaultPortfolioTableCellRenderer
 {
     /**
-     * The user browser component
+     * The portfolio browser component
      */
-    private $browser;
+    public $browser;
 
     /**
      * Constructor
      * @param RepositoryManagerBrowserComponent $browser
      */
-    function UserBrowserTableCellRenderer($browser)
+    function PortfolioBrowserTableCellRenderer($browser)
     {
         parent :: __construct();
         $this->browser = $browser;
@@ -29,7 +26,7 @@ class UserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
     // Inherited
     function render_cell($column, $user)
     {
-        if ($column === UserBrowserTableColumnModel :: get_modification_column())
+        if ($column === PortfolioBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($user);
         }
@@ -59,7 +56,7 @@ class UserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
         		$this->browser->get_view_portfolio_url($user->get_id()),
         		ToolbarItem :: DISPLAY_ICON
         ));
-        
+
         return $toolbar->as_html();
     }
 }

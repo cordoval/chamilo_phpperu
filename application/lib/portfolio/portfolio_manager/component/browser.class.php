@@ -1,10 +1,11 @@
 <?php
+
 /**
  * $Id: browser.class.php 240 2009-11-16 14:34:39Z vanpouckesven $
  * @package application.portfolio.portfolio_manager.component
  */
 require_once dirname(__FILE__) . '/../portfolio_manager.class.php';
-require_once dirname(__FILE__) . '/user_browser/user_browser_table.class.php';
+require_once dirname(__FILE__) . '/portfolio_browser/portfolio_browser_table.class.php';
 require_once dirname(__FILE__) . '/../../user_menu.class.php';
 require_once dirname(__FILE__) . '/../../portfolio_publication.class.php';
 
@@ -54,7 +55,7 @@ class PortfolioManagerBrowserComponent extends PortfolioManager
         $parameters[Application :: PARAM_ACTION] =  PortfolioManager :: ACTION_BROWSE;
 
 
-        $table = new UserBrowserTable($this, array(Application :: PARAM_APPLICATION => 'portfolio', Application :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE), $this->get_condition());
+        $table = new PortfolioBrowserTable($this, array(Application :: PARAM_APPLICATION => 'portfolio', Application :: PARAM_ACTION => PortfolioManager :: ACTION_BROWSE), $this->get_condition());
         return $table->as_html();
     }
 

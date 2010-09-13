@@ -1,13 +1,8 @@
 <?php
-/**
- * $Id: user_browser_table_column_model.class.php 206 2009-11-13 13:08:01Z chellee $
- * @package application.portfolio.portfolio_manager.component.user_browser
- */
-require_once Path :: get_user_path() . 'lib/user_table/default_user_table_column_model.class.php';
-/**
- * Table column model for the user browser table
- */
-class UserBrowserTableColumnModel extends DefaultUserTableColumnModel
+require_once   dirname(__FILE__) . '/../../../tables/portfolio_table/default_portfolio_table_column_model.class.php';
+
+
+class PortfolioBrowserTableColumnModel extends DefaultPortfolioTableColumnModel
 {
     /**
      * The tables modification column
@@ -17,7 +12,7 @@ class UserBrowserTableColumnModel extends DefaultUserTableColumnModel
     /**
      * Constructor
      */
-    function UserBrowserTableColumnModel()
+    function PortfolioBrowserTableColumnModel()
     {
         parent :: __construct();
         $this->set_default_order_column(1);

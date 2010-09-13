@@ -151,9 +151,9 @@ class PortfolioManager extends WebApplication
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PORTFOLIO_ITEM, self :: PARAM_PORTFOLIO_ITEM => $portfolio_item_cid));
     }
 
-    function get_view_portfolio_url($user)
+    function get_view_portfolio_url($user_id)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PORTFOLIO, self :: PARAM_PORTFOLIO_OWNER_ID => $user));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PORTFOLIO, self :: PARAM_PORTFOLIO_OWNER_ID => $user_id));
     }
 
     function get_browse_url()
@@ -577,7 +577,7 @@ class PortfolioManager extends WebApplication
      * - self :: DEFAULT_ACTION in the context of this class
      * - YourApplicationManager :: DEFAULT_ACTION in all other application classes
      */
-    function get_default_action()
+    static function get_default_action()
     {
         if (PlatformSetting :: get('first_page', self :: APPLICATION_NAME) == 0)
         {
@@ -585,7 +585,12 @@ class PortfolioManager extends WebApplication
         }
         else
         {
-            Request :: set_get(self :: PARAM_PORTFOLIO_OWNER_ID, Session :: get_user_id());
+            if(!Request::get(self :: PARAM_PORTFOLIO_OWNER_ID))
+            {
+                Request :: set_get(self :: PARAM_PORTFOLIO_OWNER_ID, Session :: get_user_id());
+            }
+
+            
             return self :: ACTION_VIEW_PORTFOLIO;
         }
     }
