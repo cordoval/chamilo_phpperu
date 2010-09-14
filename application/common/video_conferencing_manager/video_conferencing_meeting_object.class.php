@@ -162,7 +162,28 @@ abstract class VideoConferencingMeetingObject
         $this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
     }
 
-	/**
+	
+    
+//    /**
+//     * @param array $rights
+//     */
+//    public function set_rights($rights)
+//    {
+//        $this->set_default_property(self :: PROPERTY_RIGHTS, $rights);
+//    }
+//
+//    /**
+//     * @param int $right
+//     * @param boolean $value
+//     */
+//    public function set_right($right, $value)
+//    {
+//        $rights = $this->get_rights();
+//        $rights[$right] = $value;
+//        $this->set_rights($rights);
+//    }
+
+    /**
      * @param string $start_time
      */
     public function set_start_time($start_time)
@@ -202,25 +223,6 @@ abstract class VideoConferencingMeetingObject
         $this->set_default_property(self :: PROPERTY_PARTICIPANTS, $participants);
     }    
     
-//    /**
-//     * @param array $rights
-//     */
-//    public function set_rights($rights)
-//    {
-//        $this->set_default_property(self :: PROPERTY_RIGHTS, $rights);
-//    }
-//
-//    /**
-//     * @param int $right
-//     * @param boolean $value
-//     */
-//    public function set_right($right, $value)
-//    {
-//        $rights = $this->get_rights();
-//        $rights[$right] = $value;
-//        $this->set_rights($rights);
-//    }
-
     /**
      * @return string
      */

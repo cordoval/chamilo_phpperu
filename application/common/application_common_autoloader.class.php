@@ -57,7 +57,16 @@ class ApplicationCommonAutoloader
 					  'web_application' => 'web_application.class.php',
 					  'web_application_component' => 'web_application_component.class.php',
 					  'test_category_manager' => 'category_manager/test_category_manager.class.php',
-					  'email_manager' => 'email_manager/email_manager.class.php');
+					  'email_manager' => 'email_manager/email_manager.class.php',
+					  'video_conferencing_manager' => 'video_conferencing_manager/video_conferencing_manager.class.php',
+				      'video_conferencing_meeting_object' => 'video_conferencing_manager/video_conferencing_meeting_object.class.php',
+		              'video_conferencing_participants_object' => 'video_conferencing_manager/video_conferencing_participants_object.class.php',
+				      'video_conferencing_connector' => 'video_conferencing_manager/video_conferencing_connector.class.php',
+					  'video_conferencing_menu' => 'video_conferencing_manager/video_conferencing_menu.class.php',
+					  'video_conferencing_meeting_object_renderer' => 'video_conferencing_manager/video_conferencing_meeting_object_renderer.class.php',
+					  'video_conferencing_participants_object_renderer' => 'video_conferencing_manager/video_conferencing_participants_object_renderer.class.php',
+					  'video_conferencing_meeting_object_display' => 'video_conferencing_manager/video_conferencing_meeting_object_renderer.class.php',
+					  'video_conferencing_participants_object_display' => 'video_conferencing_manager/video_conferencing_participants_object_renderer.class.php');
 
 		$lower_case = Utilities :: camelcase_to_underscores($classname);
 

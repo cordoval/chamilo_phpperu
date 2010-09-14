@@ -221,6 +221,24 @@ class RepositoryInstaller extends Installer
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Matterhorn');
         }
         
+    	// Adding the DropIo Manager
+        $drop_io = new ExternalRepository();
+        $drop_io->set_title('DropIo');
+        $drop_io->set_type('drop_io');
+        $drop_io->set_description(Translation :: get('DropIoTagline'));
+        $drop_io->set_enabled(true);
+        $drop_io->set_creation_date(time());
+        $drop_io->set_modification_date(time());
+        if (! $drop_io->create())
+        {
+            $this->add_message(self :: TYPE_ERROR, Translation :: get('ExternalRepositoryManagerNotAdded') . ': DropIo');
+            return false;
+        }
+        else
+        {
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': DropIo');
+        }
+        
         return true;
     }
 }

@@ -1,33 +1,17 @@
 <?php
-require_once dirname(__FILE__) . '/matterhorn_external_repository_connector.class.php';
+require_once dirname(__FILE__) . '/drop_io_external_repository_connector.class.php';
 require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_browser_gallery_table_cell_renderer.class.php';
 
-
-/**
- * 
- * @author magali.gillard
- *
- */
-
-class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
+class DropIoExternalRepositoryManager extends ExternalRepositoryManager
 {
-    const REPOSITORY_TYPE = 'matterhorn';
-    
-    const PARAM_FEED_TYPE = 'feed';
-    const PARAM_FEED_IDENTIFIER = 'identifier';
-    
-    const FEED_TYPE_GENERAL = 1;
-    const FEED_TYPE_MY_VIDEO = 2;
-
-    const PARAM_MEDIAFILE = 'mediafile_id';
+    const REPOSITORY_TYPE = 'drop_io';
 
     /**
      * @param Application $application
      */
-    function MatterhornExternalRepositoryManager($external_repository, $application)
+    function DropIoExternalRepositoryManager($external_repository, $application)
     {
         parent :: __construct($external_repository, $application);
-       // $this->set_parameter(self :: PARAM_FEED_TYPE, Request :: get(self :: PARAM_FEED_TYPE));
     }
 
     /* (non-PHPdoc)
@@ -35,7 +19,7 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
      */
     function get_application_component_path()
     {
-        return Path :: get_application_library_path() . 'external_repository_manager/type/matterhorn/component/';
+        return Path :: get_application_library_path() . 'external_repository_manager/type/drop_io/component/';
     }
 
     /* (non-PHPdoc)
@@ -43,13 +27,12 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
      */
     function validate_settings()
     {
-//        $login = ExternalRepositorySetting:: get('login');
-//        $password = ExternalRepositorySetting:: get('password');
-//
-//        if (! $login || ! $password)
-//		{
-//            return false;
-//        }
+        $api_key = ExternalRepositorySetting :: get('api_key');
+
+        if (! $api_key)
+        {
+            return false;
+        }
         return true;
     }
 
@@ -58,7 +41,7 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
      */
     function support_sorting_direction()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -80,7 +63,6 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
     function get_menu_items()
     {
         $menu_items = array();
-        
         return $menu_items;
     }
 
@@ -89,6 +71,9 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
      */
     function is_ready_to_be_used()
     {
+        //        $action = $this->get_parameter(self :: PARAM_EXTERNAL_REPOSITORY_MANAGER_ACTION);
+        //
+        //        return self :: any_object_selected() && ($action == self :: ACTION_PUBLISHER);
         return false;
     }
 
@@ -139,8 +124,8 @@ class MatterhornExternalRepositoryManager extends ExternalRepositoryManager
     {
         return self :: REPOSITORY_TYPE;
     }
-    
-   /**
+
+    /**
      * Helper function for the SubManager class,
      * pending access to class constants via variables in PHP 5.3
      * e.g. $name = $class :: DEFAULT_ACTION
