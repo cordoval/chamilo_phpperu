@@ -198,7 +198,7 @@ abstract class SubManager
      */
     function process_table_action($action_parameter)
     {
-        $table_name = Request :: post('table_name');
+    	$table_name = Request :: post('table_name');
         if (isset($table_name))
         {
             $class = Utilities :: underscores_to_camelcase($table_name);
@@ -288,7 +288,6 @@ abstract class SubManager
 
         $action = Request :: get($action_parameter);
         $action = ! isset($action) ? $default_action : $action;
-
         $table_action = self :: process_table_action($action_parameter);
         if ($table_action)
         {

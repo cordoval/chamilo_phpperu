@@ -1,4 +1,4 @@
-<?php
+:: E<?php
 require_once dirname(__FILE__) . '/../../general/streaming/streaming_media_external_repository_object.class.php';
 
 /**

@@ -53,9 +53,7 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     {
         $response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => $id));
         $xml = $this->get_xml($response->get_response_content());
-        
-        
-        dump($xml);
+
         if ($xml)
         {
             if ($xml['result'])
@@ -121,14 +119,11 @@ class MatterhornExternalRepositoryConnector extends ExternalRepositoryConnector
     	$parameters['type'] = 'AudioVisual';
     	$parameters['BODY'] = file_get_contents($track_path);
     	$response = $this->request(MatterhornRestClient :: METHOD_POST, '/ingest/rest/addMediaPackage', $parameters);
-dump($response);
-exit();
         $xml = $this->get_xml($response->get_response_content());
     }
     
     function export_external_repository_object($object)
     {
-        
         return true;
     }
 
@@ -144,8 +139,6 @@ exit();
     
     function update_matterhorn_video($values)
     {
-    	
-    	
     	$response = $this->request(MatterhornRestClient :: METHOD_GET, '/search/rest/episode', array('id' => MatterhornExternalRepositoryObject::PROPERTY_ID));
 
         $xml = $this->get_xml($response->get_response_content());
@@ -168,11 +161,8 @@ exit();
         	}
         }
 
-        
         $object = $doc->getElementsByTagname('catalog')->item(0);
         $object->getAttribute('total');
-        
-        
     }
 
     /**

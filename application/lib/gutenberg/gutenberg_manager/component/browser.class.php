@@ -15,7 +15,7 @@ class GutenbergManagerBrowserComponent extends GutenbergManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
+    	$trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Gutenberg')));
         $trail->add_help('gutenberg general');
         
