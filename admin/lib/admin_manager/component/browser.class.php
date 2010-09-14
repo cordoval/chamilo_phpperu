@@ -8,26 +8,38 @@
  */
 class AdminManagerBrowserComponent extends AdminManager
 {
-
+	const PARAM_TAB = 'tab';
+	
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('administration');
-        
-        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+    	if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
+        } 
+        
+        $breadcrumbtrail = BreadcrumbTrail :: get_instance();
+        $breadcrumbtrail->truncate(true);
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Administration')));
+        
+        $tab = Request :: get(self :: PARAM_TAB);
+        if(!$tab)
+        {
+        	$tab = 'admin';
         }
+        $tab_name = Translation :: get(Utilities :: underscores_to_camelcase($tab));
+        
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab)), $tab_name));
         
         $links = $this->get_application_platform_admin_links();
         
         $this->display_header();
+        echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/admin_browser.js');
         echo $this->get_application_platform_admin_tabs($links);
         $this->display_footer();
     }
@@ -38,7 +50,7 @@ class AdminManagerBrowserComponent extends AdminManager
      */
     function get_application_platform_admin_tabs($links)
     {
-        $tabs = new DynamicTabsRenderer('admin');
+    	$tabs = new DynamicTabsRenderer('admin');
         
         $index = 0;
         foreach ($links as $application_links)
@@ -46,6 +58,7 @@ class AdminManagerBrowserComponent extends AdminManager
             if (count($application_links['links']))
             {
                 $index ++;
+                $html = array();
                 $actions_tab = new DynamicActionsTab($application_links['application']['class'], Translation :: get($application_links['application']['name']), Theme :: get_image_path('admin') . 'place_mini_' . $application_links['application']['class'] . '.png', implode("\n", $html));
                 
                 if (isset($application_links['search']))
@@ -73,6 +86,11 @@ class AdminManagerBrowserComponent extends AdminManager
         }
         
         return $tabs->render();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_browser');
     }
 }
 ?>

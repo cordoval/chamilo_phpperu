@@ -9,7 +9,7 @@
  *
  * @author Sven Vanpoucke
  */
-class MigrationManagerSettingsCleanerComponent extends MigrationManager
+class MigrationManagerSettingsCleanerComponent extends MigrationManager implements AdministrationComponent
 {
 	const CLEANING_METHOD = 'cleaning_method';
 	const CLEAN_MIGRATION_BLOCKS = 1;
@@ -26,12 +26,6 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
      */
     function run()
     {
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => MigrationManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Migration') ));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CleanMigrationSettings')));
-		$trail->add_help('user general');
-		
 		$form = $this->create_settings_cleaner_form();
 		
 		if($form->validate())
@@ -145,6 +139,11 @@ class MigrationManagerSettingsCleanerComponent extends MigrationManager
     	$succes &= $mdm->truncate_file_recoveries();
     	$succes &= $mdm->truncate_id_references();
     	return $succes;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('migration_settings_cleaner');
     }
 }
 ?>

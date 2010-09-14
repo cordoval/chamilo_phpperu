@@ -22,9 +22,9 @@ class NavigationItemBrowserTable extends ObjectTable
         $renderer = new NavigationItemBrowserTableCellRenderer($browser);
         $data_provider = new NavigationItemBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, NavigationItemBrowserTable :: DEFAULT_NAME, $model, $renderer);
-        $actions = array();
+        $actions = new ObjectTableFormActions();
         
-        $actions[] = new ObjectTableFormAction(MenuManager :: ACTION_SORT_MENU, Translation :: get('RemoveSelected'));
+        $actions->add_form_action(new ObjectTableFormAction(MenuManager :: ACTION_DELETE, Translation :: get('RemoveSelected')));
         
         $user = $browser->get_user();
         $this->set_form_actions($actions);
@@ -34,8 +34,7 @@ class NavigationItemBrowserTable extends ObjectTable
 	static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
-        Request :: set_get(MenuManager :: PARAM_COMPONENT_ACTION, MenuManager :: ACTION_COMPONENT_DELETE_CATEGORY);
-        Request :: set_get(MenuManager :: PARAM_CATEGORY, $ids);
+        Request :: set_get(MenuManager :: PARAM_ITEM, $ids);
     }
 }
 ?>

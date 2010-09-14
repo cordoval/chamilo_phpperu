@@ -5,7 +5,7 @@ require_once dirname(__FILE__) ."/../../help_rights.class.php";
  * @package group.lib.group_manager.component
  */
 
-class HelpManagerRightsEditorComponent extends HelpManager
+class HelpManagerRightsEditorComponent extends HelpManager implements AdministrationComponent, DelegateComponent
 {
 
     /**
@@ -14,7 +14,6 @@ class HelpManagerRightsEditorComponent extends HelpManager
     function run()
     {
         $help_ids = Request :: get(HelpManager::PARAM_HELP_ITEM);
-        $this->set_parameter(HelpManager::PARAM_HELP_ITEM, $help_ids);
 
         if (! is_array($help_ids))
         {
@@ -48,6 +47,17 @@ class HelpManagerRightsEditorComponent extends HelpManager
     {
         $array = HelpRights :: get_available_rights();
         return $array;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)), Translation :: get('HelpManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('help_updater');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(HelpManager :: PARAM_HELP_ITEM);
     }
 }
 ?>

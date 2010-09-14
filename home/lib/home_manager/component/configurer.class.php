@@ -6,7 +6,7 @@
 /**
  * Repository manager component to edit an existing learning object.
  */
-class HomeManagerConfigurerComponent extends HomeManager
+class HomeManagerConfigurerComponent extends HomeManager implements AdministrationComponent
 {
 
     /**
@@ -14,16 +14,7 @@ class HomeManagerConfigurerComponent extends HomeManager
      */
     function run()
     {
-        Header :: set_section('admin');
-        
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
-        $trail = BreadcrumbTrail :: get_instance();
-        
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => HomeManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Home')));
-        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
-        $trail->add_help('home general');
         
         if (! $this->get_user()->is_platform_admin())
         {
@@ -38,7 +29,6 @@ class HomeManagerConfigurerComponent extends HomeManager
             $url = $this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_CONFIGURE_HOME, HomeManager :: PARAM_HOME_ID => $id));
             
             $object = $this->retrieve_home_block($id);
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Configure') . '&nbsp;' . $object->get_title()));
             
             if ($object->is_configurable())
             {
@@ -69,6 +59,16 @@ class HomeManagerConfigurerComponent extends HomeManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoHomeBlockSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('home_configurer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(HomeManager :: PARAM_HOME_ID);
     }
 }
 ?>

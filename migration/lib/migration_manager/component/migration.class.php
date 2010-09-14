@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/migration_wizard/migration_wizard.class.php';
  *
  * @author Sven Vanpoucke
  */
-class MigrationManagerMigrationComponent extends MigrationManager
+class MigrationManagerMigrationComponent extends MigrationManager implements AdministrationComponent
 {
 
     /**
@@ -21,12 +21,6 @@ class MigrationManagerMigrationComponent extends MigrationManager
     {
         ini_set("memory_limit", "3500M"); 
 		ini_set("max_execution_time", "72000"); 
-		
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => MigrationManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Migration') ));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Migrate')));
-		$trail->add_help('user general');
 		
 		$setting = PlatformSetting :: get('in_migration', MigrationManager :: APPLICATION_NAME);
 		if($setting == 1)
@@ -50,6 +44,11 @@ class MigrationManagerMigrationComponent extends MigrationManager
 				$this->display_footer();
 			}
 		}	
+    }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('migration_migrate');
     }
 }
 ?>

@@ -9,7 +9,7 @@
  *
  * @author Pieterjan Broekaert
  */
-class AdminManagerRightsEditorComponent extends AdminManager
+class AdminManagerRightsEditorComponent extends AdminManager implements AdministrationComponent, DelegateComponent
 {
     function run()
     {
@@ -23,6 +23,17 @@ class AdminManagerRightsEditorComponent extends AdminManager
     function get_available_rights()
     {
         return AdminRights :: get_available_rights();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('AdminManagerSystemAnnouncementBrowserComponent')));
+    	$breadcrumbtrail->add_help('admin_rights_editor');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
     }
     
 }

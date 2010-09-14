@@ -6,7 +6,7 @@
 
 require_once dirname(__FILE__) . '/../../help_rights.class.php';
 
-class HelpManagerUpdaterComponent extends HelpManager
+class HelpManagerUpdaterComponent extends HelpManager implements AdministrationComponent
 {
 
     /**
@@ -14,19 +14,12 @@ class HelpManagerUpdaterComponent extends HelpManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => HelpManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Help')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)), Translation :: get('HelpItemList')));
-        $trail->add_help('help general');
-        
         $id = Request :: Get(HelpManager :: PARAM_HELP_ITEM);
         if ($id)
         {
             $help_item = $this->retrieve_help_item($id);
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HelpItemUpdate')));
             
-            if (! HelpRights :: is_allowed_in_help_subtree(HelpRights :: EDIT_RIGHT, HelpRights :: get_location_by_identifier_from_help_subtree(Request :: Get(HelpManager :: PARAM_HELP_ITEM))))
+            if (! HelpRights :: is_allowed_in_help_subtree(HelpRights :: EDIT_RIGHT, Request :: Get(HelpManager :: PARAM_HELP_ITEM)))
             {
                 $this->display_header();
                 Display :: error_message(Translation :: get("NotAllowed"));
@@ -54,6 +47,17 @@ class HelpManagerUpdaterComponent extends HelpManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoHelpItemSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)), Translation :: get('HelpManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('help_updater');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(HelpManager :: PARAM_HELP_ITEM);
     }
 }
 ?>

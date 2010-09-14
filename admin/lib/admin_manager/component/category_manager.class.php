@@ -7,7 +7,7 @@
 /**
  * Weblcms component allows the user to manage course categories
  */
-class AdminManagerCategoryManagerComponent extends AdminManager
+class AdminManagerCategoryManagerComponent extends AdminManager implements AdministrationComponent, DelegateComponent
 {
 
     /**
@@ -15,8 +15,13 @@ class AdminManagerCategoryManagerComponent extends AdminManager
      */
     function run()
     {
-        $category_manager = new AdminCategoryManager($this, $trail);
+        $category_manager = new AdminCategoryManager($this);
         $category_manager->run();
+    }
+    
+ 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_category_manager');
     }
 }
 ?>

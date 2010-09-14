@@ -4,7 +4,7 @@
  * @package home.lib.home_manager.component
  */
 
-class HomeManagerBuilderComponent extends HomeManager
+class HomeManagerBuilderComponent extends HomeManager implements AdministrationComponent
 {
     private $build_user_id;
 
@@ -13,16 +13,6 @@ class HomeManagerBuilderComponent extends HomeManager
      */
     function run()
     {
-        Header :: set_section('admin');
-        $trail = BreadcrumbTrail :: get_instance();
-        
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => HomeManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Home')));
-        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
-        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeBuilder')));
-        $trail->add_help('home_build');
-  
         $user = $this->get_user();
         $user_home_allowed = $this->get_platform_setting('allow_user_home');
         
@@ -34,7 +24,7 @@ class HomeManagerBuilderComponent extends HomeManager
         {
             if (! $user->is_platform_admin())
             {
-                $this->display_header($trail, false);
+                $this->display_header(null, false);
                 Display :: error_message(Translation :: get('NotAllowed'));
                 $this->display_footer();
                 exit();
@@ -43,13 +33,18 @@ class HomeManagerBuilderComponent extends HomeManager
             $this->build_user_id = '0';
         }
         
-        $bw = new BuildWizard($this, $trail);
+        $bw = new BuildWizard($this);
         $bw->run();
     }
 
     function get_build_user_id()
     {
         return $this->build_user_id;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('home_builder');
     }
 }
 ?>

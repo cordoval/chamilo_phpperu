@@ -4,7 +4,7 @@
  * @package home.lib.home_manager.component
  */
 
-class HomeManagerManagerComponent extends HomeManager
+class HomeManagerManagerComponent extends HomeManager implements AdministrationComponent
 {
     private $user_id;
     private $action_bar;
@@ -15,13 +15,6 @@ class HomeManagerManagerComponent extends HomeManager
     function run()
     {
         Header :: set_section('admin');
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => HomeManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Home')));
-        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeManager')));
-        $trail->add_help('home general');
         
         $this->action_bar = $this->get_action_bar();
         
@@ -380,6 +373,11 @@ class HomeManagerManagerComponent extends HomeManager
     	));
         
         return $toolbar->as_html();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('home_manager');
     }
 }
 ?>

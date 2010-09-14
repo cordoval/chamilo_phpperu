@@ -309,27 +309,28 @@ class PortfolioRights {
 
     static function delete_location_by_id($location_id)
     {
-        $success=true;
-        $success &= self::delete_rights_on_location($location_id);
-        if($success)
-        {
-            $rdm = PortfolioDataManager::get_instance();
-            $condition = new EqualityCondition(PortfolioLocation::PROPERTY_ID, $location_id);
-            $success &= $rdm->delete(PortfolioLocation :: get_table_name(), $condition);
+        $success = true;
 
-            if($success)
+
+            //1. delete locations for children
+            $children_set = self::retrieve_locations_children($location_id);
+            while($child = $children_set->next_result())
             {
-                //delete locations for children
-                $children_set = self::retrieve_locations_children($location_id);
-                $types = array(PortfolioRights::TYPE_PORTFOLIO_ITEM, PortfolioRights::TYPE_PORTFOLIO_ITEM);
-                while ($child = $children_set->next_result())
-                {
-                    $success &= self::delete_location_by_id($child->get_id());
-                }
+                $success &= self::delete_location_by_id($child->get_id());
             }
-        }
+            //2. delete location
+            $location = self::retrieve_location($location_id);
+            if($location)
+            {
+                $success &= $location->remove();
+            }
+            else
+            {
+                $success &= false;
+            }
 
-        return $success;
+            return $success;
+            
 
     }
 
@@ -1336,8 +1337,8 @@ class PortfolioRights {
             $condition = new AndCondition($conditions);
 
             $properties = array();
-            $properties[PortfolioLocation :: PROPERTY_LEFT_VALUE] = $this->escape_column_name(PortfolioLocation :: PROPERTY_LEFT_VALUE) . ' - ' . $pdm->quote($delta);
-            $properties[PortfolioLocation :: PROPERTY_RIGHT_VALUE] = $this->escape_column_name(PortfolioLocation :: PROPERTY_RIGHT_VALUE) . ' - ' . $pdm->quote($delta);
+            $properties[PortfolioLocation :: PROPERTY_LEFT_VALUE] = $pdm->escape_column_name(PortfolioLocation :: PROPERTY_LEFT_VALUE) . ' - ' . $pdm->quote($delta);
+            $properties[PortfolioLocation :: PROPERTY_RIGHT_VALUE] = $pdm->escape_column_name(PortfolioLocation :: PROPERTY_RIGHT_VALUE) . ' - ' . $pdm->quote($delta);
             $res = $pdm->update_objects(PortfolioLocation :: get_table_name(), $properties, $condition);
 
             if (!$res)

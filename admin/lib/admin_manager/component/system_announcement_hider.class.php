@@ -4,7 +4,7 @@
  * @package admin.lib.admin_manager.component
  */
 
-class AdminManagerSystemAnnouncementHiderComponent extends AdminManager
+class AdminManagerSystemAnnouncementHiderComponent extends AdminManager implements AdministrationComponent
 {
 
     /**
@@ -62,6 +62,17 @@ class AdminManagerSystemAnnouncementHiderComponent extends AdminManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('AdminManagerSystemAnnouncementBrowserComponent')));
+    	$breadcrumbtrail->add_help('admin_system_announcements_hider');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
     }
 }
 ?>

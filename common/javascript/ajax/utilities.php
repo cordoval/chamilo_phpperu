@@ -26,6 +26,7 @@ switch ($type)
         $application = $_POST['application'];
         $string = $_POST['string'];
         Translation :: set_application($application);
+        $string = Utilities :: underscores_to_camelcase($string);
         $output['translation'] = Translation :: get($string);
         break;
     

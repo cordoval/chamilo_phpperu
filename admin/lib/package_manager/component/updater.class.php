@@ -12,17 +12,6 @@ class PackageManagerUpdaterComponent extends PackageManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-        //$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
-        //$trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManager')));
-
-        //$type = Request :: get('type');
-        //$action = (($type == 'local') ? PackageManager :: ACTION_LOCAL_PACKAGE : PackageManager :: ACTION_REMOTE_PACKAGE);
-        //$trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => $action)), Translation :: get('Install')));
-        //$trail->add(new Breadcrumb($this->get_url(array('section' => Request :: get('section'), 'package' => Request :: get('package'), 'type' => $type)), Translation :: get('PackageUpdate')));
-        //$trail->add_help('administration update');
-
         if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
@@ -37,6 +26,17 @@ class PackageManagerUpdaterComponent extends PackageManager
         $this->display_header();
         echo $updater->retrieve_result();
         $this->display_footer();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('admin_package_manager_updater');
+    }
+    
+ 	function get_additional_parameters()
+    {
+    	return array(PackageManager :: PARAM_REGISTRATION);
     }
 }
 ?>

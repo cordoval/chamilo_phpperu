@@ -4,7 +4,7 @@
  * @package admin.lib.admin_manager.component
  */
 
-class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager implements RepoViewerInterface
+class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager implements RepoViewerInterface, AdministrationComponent
 {
 
     /**
@@ -12,9 +12,6 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager implem
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('administration system announcements');
-
         if (! RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
@@ -31,6 +28,12 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManager implem
     function get_allowed_content_object_types()
     {
         return array(SystemAnnouncement :: get_type_name());
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('AdminManagerSystemAnnouncementBrowserComponent')));
+    	$breadcrumbtrail->add_help('admin_system_announcement_creator');
     }
 }
 ?>
