@@ -37,7 +37,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         $this->agreement = $this->retrieve_agreement($agreement_id);
         
         $trail = BreadcrumbTrail :: get_instance();
-
+        
         $this->action_bar = $this->get_action_bar();
         
         $this->display_header($trail);
@@ -154,23 +154,34 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
             if ($mentor_count > 0)
             {
                 //all actions that you can do on a approved agreement
-                $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_moment_publish_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                
+            	if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: PUBLISH_RIGHT, $this->agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
+                {
+            	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_moment_publish_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                }
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_MOMENT_RIGHT, $this->agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
+                {
                 $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerMoment'), Theme :: get_common_image_path() . 'action_add.png', $this->get_create_moment_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-            
+                }
             }
             else
             {
-                //first mentors have to be added before moments can be created
-                $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddInternshipOrganizerMentor'), Theme :: get_common_image_path() . 'action_add.png', $this->get_agreement_subscribe_mentor_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-            
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_MENTOR_RIGHT, $this->agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
+                {
+                    //first mentors have to be added before moments can be created
+                    $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddInternshipOrganizerMentor'), Theme :: get_common_image_path() . 'action_add.png', $this->get_agreement_subscribe_mentor_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+                }
             }
         
         }
         else
         {
-            //add locations
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeInternshipOrganizerAgreementLocation'), Theme :: get_common_image_path() . 'action_add.png', $this->get_subscribe_location_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+            
+            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_LOCATION_RIGHT, $this->agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
+            {
+                //add locations
+                $action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeInternshipOrganizerAgreementLocation'), Theme :: get_common_image_path() . 'action_add.png', $this->get_subscribe_location_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            }
         }
         
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id())));

@@ -29,7 +29,12 @@ class InternshipOrganizerPeriod extends NestedTreeNode
         {
             $parent_location = InternshipOrganizerRights :: get_internship_organizers_subtree_root_id();
             $location = InternshipOrganizerRights :: create_location_in_internship_organizers_subtree($this->get_name(), $this->get_id(), $parent_location, InternshipOrganizerRights :: TYPE_PERIOD, true);
-         
+            
+            $rights = InternshipOrganizerRights :: get_available_rights_for_periods();
+            foreach ($rights as $right)
+            {
+                RightsUtilities :: set_user_right_location_value($right, $this->get_owner(), $location->get_id(), 1);
+            }
         }
         return $succes;
     }
@@ -147,7 +152,7 @@ class InternshipOrganizerPeriod extends NestedTreeNode
         $this->set_default_property(self :: PROPERTY_END, $end);
     }
 
-/**
+    /**
      * Returns the owner of this Period.
      * @return owner.
      */
@@ -164,7 +169,7 @@ class InternshipOrganizerPeriod extends NestedTreeNode
     {
         $this->set_default_property(self :: PROPERTY_OWNER, $owner);
     }
-    
+
     static function get_table_name()
     {
         //        	 return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);

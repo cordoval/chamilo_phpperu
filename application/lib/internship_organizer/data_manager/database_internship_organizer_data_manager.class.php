@@ -733,17 +733,34 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         $conditions = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_id);
         
-        if ($count_locations = $this->count_agreement_rel_locations($conditions))
-        {
-            continue;
+//        if ($count_locations = $this->count_agreement_rel_locations($conditions))
+//        {
+//            continue;
+//        }
+//        else
+//        {
+//            $query = 'UPDATE ' . $this->escape_table_name(InternshipOrganizerAgreement :: get_table_name()) . ' SET ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_STATUS) . '= 1' . ' WHERE ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_ID) . '=' . $this->quote($agreement_id);
+//            
+//            $res = $this->query($query);
+//            $res->free();
+//        }
+        
+        //if mentors from location are allready related to agreement they have to be deleted
+        $condition = new EqualityCondition(InternshipOrganizerMentorRelLocation:: PROPERTY_LOCATION_ID,$location_id);
+        $mentor_rel_locations  = $this->retrieve_mentor_rel_locations($condition);
+        $mentor_ids = array();
+        while ($mentor_rel_location= $mentor_rel_locations->next_result()) {
+        	$mentor_ids = $mentor_rel_location->get_mentor_id();
         }
-        else
-        {
-            $query = 'UPDATE ' . $this->escape_table_name(InternshipOrganizerAgreement :: get_table_name()) . ' SET ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_STATUS) . '= 1' . ' WHERE ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_ID) . '=' . $this->quote($agreement_id);
-            
-            $res = $this->query($query);
-            $res->free();
-        }
+               
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelMentor :: PROPERTY_AGREEMENT_ID, $agreement_id);
+        $conditions[] = new InCondition(InternshipOrganizerAgreementRelMentor::PROPERTY_MENTOR_ID, $mentor_ids);
+        $condition = new AndCondition($conditions);
+        
+               
+        $this->delete(InternshipOrganizerAgreementRelMentor :: get_table_name(), $condition);
+        
         
         return true;
     

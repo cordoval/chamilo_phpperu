@@ -14,6 +14,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     const PARAM_DELETE_SELECTED_AGREEMENTS = 'delete_agreements';
     const PARAM_MOVE_AGREEMENT_REL_LOCATION_DIRECTION = 'move_direction';
     const PARAM_APPROVE_AGREEMENT_REL_LOCATION_TYPE = 'approve_type';
+    const SUB_MANAGER_NAME = 'agreement';
     
     const PARAM_MOMENT_ID = 'moment_id';
     const PARAM_DELETE_SELECTED_MOMENTS = 'delete_moments';
@@ -23,6 +24,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     const ACTION_CREATE_AGREEMENT = 'creator';
     const ACTION_BROWSE_AGREEMENT = 'browser';
     const ACTION_UPDATE_AGREEMENT = 'updater';
+    const ACTION_EDIT_AGREEMENT_RIGHTS = 'rights_editor';
     const ACTION_DELETE_AGREEMENT = 'deleter';
     const ACTION_VIEW_AGREEMENT = 'viewer';
     const ACTION_PUBLISH_AGREEMENT = 'publisher';
@@ -232,6 +234,12 @@ class InternshipOrganizerAgreementManager extends SubManager
     function get_agreement_reporting_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING));
+    }
+
+    function get_rights_editor_url($agreement)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_AGREEMENT_RIGHTS, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+    
     }
 
     private function parse_input_from_table()

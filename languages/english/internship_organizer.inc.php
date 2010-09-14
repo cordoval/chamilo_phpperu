@@ -18,6 +18,10 @@ $lang['internship_organizer']['SubscribeGroup'] = 'Subscribe Group';
 $lang['internship_organizer']['UnsubscribeGroup'] = 'Unsubscribe Group';
 $lang['internship_organizer']['SubscribeAgreementUser'] = 'Subscribe Agreement User';
 $lang['internship_organizer']['UnsubscribeAgreementUser'] = 'Unsubscribe Agreement User';
+$lang['internship_organizer']['AddLocation'] = 'Add Location';
+$lang['internship_organizer']['ApproveLocation'] = 'Approve Location';
+$lang['internship_organizer']['AddMentor'] = 'Add Mentor';
+$lang['internship_organizer']['AddMoment'] = 'Add Moment';
 
 //applicationchooser components
 $lang['internship_organizer']['InternshipOrganizerManagerApplicationChooserComponent'] = 'Manager';
@@ -28,6 +32,8 @@ $lang['internship_organizer']['InternshipOrganizerAgreementManagerBrowserCompone
 $lang['internship_organizer']['InternshipOrganizerAgreementManagerViewerComponent'] = 'Agreement Viewer';
 $lang['internship_organizer']['InternshipOrganizerAgreementManagerCreatorComponent'] = 'Create Agreement';
 $lang['internship_organizer']['InternshipOrganizerAgreementManagerEditorComponent'] = 'Edit Agreement';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerSubscribeLocationBrowserComponent'] = 'Subscribe Location';
+
 
 $lang['internship_organizer']['CreateInternshipOrganizerAgreement'] = 'Create Agreement';
 $lang['internship_organizer']['InternshipOrganizerAgreementCreated'] = 'Agreement Created';
@@ -165,7 +171,7 @@ $lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeUserComp
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerRightsEditorComponent'] = 'Rights';
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerAgreementViewerComponent'] = 'Agreement Viewer';
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeAgreementRelUserComponent'] = 'Subscribe User to agreement';
-
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerAgreementCreatorComponent'] = 'Create Agreement';
 
 $lang['internship_organizer']['CreateInternshipOrganizerPeriod'] = 'Create Period';
 $lang['internship_organizer']['InternshipOrganizerPeriodCreated'] = 'Period Created';

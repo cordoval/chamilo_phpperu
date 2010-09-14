@@ -3,7 +3,6 @@
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/agreement_subscribe_mentor_form.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
 
-
 class InternshipOrganizerAgreementManagerSubscribeMentorComponent extends InternshipOrganizerAgreementManager
 {
     private $agreement;
@@ -18,8 +17,17 @@ class InternshipOrganizerAgreementManagerSubscribeMentorComponent extends Intern
         $trail->add_help('agreement subscribe mentor');
         
         $agreement_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID);
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_MENTOR_RIGHT, $agreement_id, InternshipOrganizerRights :: TYPE_AGREEMENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $this->agreement = $this->retrieve_agreement($agreement_id);
-       
+        
         $form = new InternshipOrganizerAgreementSubscribeMentorForm($this->agreement, $this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID))), $this->get_user());
         
         if ($form->validate())
@@ -27,11 +35,11 @@ class InternshipOrganizerAgreementManagerSubscribeMentorComponent extends Intern
             $success = $form->create_agreement_rel_mentor();
             if ($success)
             {
-                $this->redirect(Translation :: get('InternshipOrganizerAgreementRelMentorCreated'), (false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id(), DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MENTOR));
+                $this->redirect(Translation :: get('InternshipOrganizerAgreementRelMentorCreated'), (false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MENTOR));
             }
             else
             {
-                $this->redirect(Translation :: get('InternshipOrganizerAgreementRelMentorCreated'), (false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id(), DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MENTOR));
+                $this->redirect(Translation :: get('InternshipOrganizerAgreementRelMentorCreated'), (false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MENTOR));
             }
         }
         else

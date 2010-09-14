@@ -61,7 +61,8 @@ class InternshipOrganizerAgreementForm extends FormValidator
         
         $this->add_datepicker(InternshipOrganizerAgreement :: PROPERTY_END, Translation :: get('End'), false);
         $this->addRule(InternshipOrganizerAgreement :: PROPERTY_END, Translation :: get('ThisFieldIsRequired'), 'required');
-    
+        
+        $this->build_rights_settings();
     }
 
     function build_editing_form()
@@ -123,6 +124,107 @@ class InternshipOrganizerAgreementForm extends FormValidator
         $this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
+    function build_rights_settings()
+    {
+        
+        $user_type_names = InternshipOrganizerUserType :: get_agreement_user_type_names();
+        $rights = InternshipOrganizerRights :: get_available_rights_for_agreements();
+        
+        $default_right = $this->get_default_right_setings();
+        
+        $table_header = array();
+        $table_header[] = '<table class="data_table take_assessment">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th class="caption" style="width: 30%;"></th>';
+        
+        foreach ($rights as $right_name => $right)
+        {
+            $name = Translation :: get(Utilities :: underscores_to_camelcase($right_name));
+            $table_header[] = '<th class="center">' . strip_tags($name) . '</th>';
+        }
+        
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+        $this->addElement('html', implode("\n", $table_header));
+        
+        foreach ($user_type_names as $i => $user_type_name)
+        {
+            
+            if ($i != InternshipOrganizerUserType :: MENTOR)
+            {
+                
+                $group = array();
+                
+                $group[] = $this->createElement('static', null, null, '<div style="text-align: left;">' . $user_type_name . '</div>');
+                
+                foreach ($rights as $right_name => $right)
+                {
+                    $checkbox_name = $right;
+                    if ($default_right[$i][$right] == 1)
+                    {
+                        $checked = array('checked' => 'checked');
+                    }
+                    else
+                    {
+                        $checked = array();
+                    }
+                    
+                    $checkbox = $this->createElement('checkbox', $checkbox_name, '', '', $checked);
+                    $group[] = $checkbox;
+                }
+                
+                $this->addGroup($group, $i, null, '', true);
+                
+                $this->defaultRenderer()->setElementTemplate('<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', $i);
+                $this->defaultRenderer()->setGroupElementTemplate('<td style="text-align: center;">{element}</td>', $i);
+            }
+        }
+        $table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $this->addElement('html', implode("\n", $table_footer));
+    
+    }
+
+    private function get_default_right_setings()
+    {
+        $default_settings = array();
+        
+        $rights = InternshipOrganizerRights :: get_available_rights_for_agreements();
+        
+        $user_type_names = InternshipOrganizerUserType :: get_agreement_user_type_names();
+        
+        foreach ($user_type_names as $i => $user_type_name)
+        {
+            foreach ($rights as $right_name => $right)
+            {
+                if ($i = InternshipOrganizerUserType :: COORDINATOR)
+                {
+                    //all rights are set by default
+                    $default_settings[$i][$right] = 1;
+                }
+                if ($i = InternshipOrganizerUserType :: COACH)
+                {
+                    if (in_array($right, array(InternshipOrganizerRights :: VIEW_AGREEMENT_RIGHT, InternshipOrganizerRights :: ADD_LOCATION_RIGHT, InternshipOrganizerRights :: APPROVE_LOCATION_RIGHT, InternshipOrganizerRights :: ADD_MENTOR_RIGHT, InternshipOrganizerRights :: ADD_MOMENT_RIGHT, InternshipOrganizerRights :: PUBLISH_RIGHT)))
+                    {
+                        $default_settings[$i][$right] = 1;
+                    }
+                
+                }
+                if ($i = InternshipOrganizerUserType :: STUDENT)
+                {
+                    if (in_array($right, array(InternshipOrganizerRights :: VIEW_AGREEMENT_RIGHT, InternshipOrganizerRights :: ADD_LOCATION_RIGHT, InternshipOrganizerRights :: ADD_MOMENT_RIGHT,InternshipOrganizerRights :: PUBLISH_RIGHT )))
+                    {
+                        $default_settings[$i][$right] = 1;
+                    }
+                }
+            }
+        }
+        
+        return $default_settings;
+    }
+
     function update_agreement()
     {
         $agreement = $this->agreement;
@@ -149,54 +251,88 @@ class InternshipOrganizerAgreementForm extends FormValidator
         
         foreach ($period_ids as $period_id)
         {
-            $agreement->set_period_id($period_id);
-            $agreement->set_name($values[InternshipOrganizerAgreement :: PROPERTY_NAME]);
-            $agreement->set_description($values[InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION]);
-            $agreement->set_begin(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerAgreement :: PROPERTY_BEGIN]));
-            $agreement->set_end(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerAgreement :: PROPERTY_END]));
-            $agreement->set_status(InternshipOrganizerAgreement :: STATUS_ADD_LOCATION);
             
-            $period = $dm->retrieve_period($period_id);
-            
-            $students_ids = $period->get_user_ids(InternshipOrganizerUserType :: STUDENT);
-            
-            foreach ($students_ids as $student_id)
+            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_USER_RIGHT, $period_id, InternshipOrganizerRights :: TYPE_PERIOD))
             {
+                $agreement->set_period_id($period_id);
+                $agreement->set_name($values[InternshipOrganizerAgreement :: PROPERTY_NAME]);
+                $agreement->set_description($values[InternshipOrganizerAgreement :: PROPERTY_DESCRIPTION]);
+                $agreement->set_begin(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerAgreement :: PROPERTY_BEGIN]));
+                $agreement->set_end(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerAgreement :: PROPERTY_END]));
+                $agreement->set_status(InternshipOrganizerAgreement :: STATUS_ADD_LOCATION);
                 
-                $succes = $agreement->create();
+                $period = $dm->retrieve_period($period_id);
                 
-                if ($succes)
+                $students_ids = $period->get_user_ids(InternshipOrganizerUserType :: STUDENT);
+                
+                foreach ($students_ids as $student_id)
                 {
-                    $agreement_id = $agreement->get_id();
-                    $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
-                    $agreement_rel_user->set_agreement_id($agreement_id);
-                    $agreement_rel_user->set_user_id($student_id);
-                    $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: STUDENT);
-                    $agreement_rel_user->create();
                     
-                    if ($values[self :: PARAM_COORDINATORS] == 1)
+                    $succes = $agreement->create();
+                    
+                    $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT);
+                    
+                    foreach ($values[InternshipOrganizerUserType :: STUDENT] as $right => $value)
                     {
-                        $coordinators = $period->get_user_ids(InternshipOrganizerUserType :: COORDINATOR);
-                        foreach ($coordinators as $coordinator_id)
+                        if ($value == 1)
                         {
-                            $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
-                            $agreement_rel_user->set_agreement_id($agreement_id);
-                            $agreement_rel_user->set_user_id($coordinator_id);
-                            $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COORDINATOR);
-                            $agreement_rel_user->create();
+                            RightsUtilities :: set_user_right_location_value($right, $student_id, $location_id, 1);
+                        
                         }
                     }
                     
-                    if ($values[self :: PARAM_COACHES] == 1)
+                    if ($succes)
                     {
-                        $coaches = $period->get_user_ids(InternshipOrganizerUserType :: COACH);
-                        foreach ($coaches as $coach_id)
+                        $agreement_id = $agreement->get_id();
+                        $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
+                        $agreement_rel_user->set_agreement_id($agreement_id);
+                        $agreement_rel_user->set_user_id($student_id);
+                        $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: STUDENT);
+                        $agreement_rel_user->create();
+                        
+                        if ($values[self :: PARAM_COORDINATORS] == 1)
                         {
-                            $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
-                            $agreement_rel_user->set_agreement_id($agreement_id);
-                            $agreement_rel_user->set_user_id($coach_id);
-                            $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COACH);
-                            $agreement_rel_user->create();
+                            $coordinators = $period->get_user_ids(InternshipOrganizerUserType :: COORDINATOR);
+                            foreach ($coordinators as $coordinator_id)
+                            {
+                                $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
+                                $agreement_rel_user->set_agreement_id($agreement_id);
+                                $agreement_rel_user->set_user_id($coordinator_id);
+                                $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COORDINATOR);
+                                $agreement_rel_user->create();
+                                
+                                foreach ($values[InternshipOrganizerUserType :: COORDINATOR] as $right => $value)
+                                {
+                                    if ($value == 1)
+                                    {
+                                        RightsUtilities :: set_user_right_location_value($right, $coordinator_id, $location_id, 1);
+                                    
+                                    }
+                                }
+                            
+                            }
+                        }
+                        
+                        if ($values[self :: PARAM_COACHES] == 1)
+                        {
+                            $coaches = $period->get_user_ids(InternshipOrganizerUserType :: COACH);
+                            foreach ($coaches as $coach_id)
+                            {
+                                $agreement_rel_user = new InternshipOrganizerAgreementRelUser();
+                                $agreement_rel_user->set_agreement_id($agreement_id);
+                                $agreement_rel_user->set_user_id($coach_id);
+                                $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COACH);
+                                $agreement_rel_user->create();
+                                
+                                foreach ($values[InternshipOrganizerUserType :: COACH] as $right => $value)
+                                {
+                                    if ($value == 1)
+                                    {
+                                        RightsUtilities :: set_user_right_location_value($right, $coach_id, $location_id, 1);
+                                    
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -224,18 +360,31 @@ class InternshipOrganizerAgreementForm extends FormValidator
         $agreement->set_begin(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerAgreement :: PROPERTY_BEGIN]));
         $agreement->set_end(Utilities :: time_from_datepicker_without_timepicker($values[InternshipOrganizerAgreement :: PROPERTY_END]));
         $agreement->set_status(InternshipOrganizerAgreement :: STATUS_ADD_LOCATION);
-
+        
         $student_ids = array();
-        foreach ($ids as $id) {
-        	
-        	$period_user_ids = explode('|', $id);
-        	$student_ids[] = $period_user_ids[1];
+        foreach ($ids as $id)
+        {
+            
+            $period_user_ids = explode('|', $id);
+            $student_ids[] = $period_user_ids[1];
         }
-              
+        
         foreach ($student_ids as $student_id)
         {
             
             $succes = $agreement->create();
+            
+            $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT);
+                      
+            foreach ($values[InternshipOrganizerUserType :: STUDENT] as $right => $value)
+            {
+                
+                if ($value == 1)
+                {
+                   RightsUtilities :: set_user_right_location_value($right, $student_id, $location_id, 1);
+                
+                }
+            }
             
             if ($succes)
             {
@@ -256,6 +405,16 @@ class InternshipOrganizerAgreementForm extends FormValidator
                         $agreement_rel_user->set_user_id($coordinator_id);
                         $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COORDINATOR);
                         $agreement_rel_user->create();
+                        
+                        foreach ($values[InternshipOrganizerUserType :: COORDINATOR] as $right => $value)
+                        {
+                            if ($value == 1)
+                            {
+                                RightsUtilities :: set_user_right_location_value($right, $coordinator_id, $location_id, 1);
+                            
+                            }
+                        }
+                    
                     }
                 }
                 
@@ -269,6 +428,15 @@ class InternshipOrganizerAgreementForm extends FormValidator
                         $agreement_rel_user->set_user_id($coach_id);
                         $agreement_rel_user->set_user_type(InternshipOrganizerUserType :: COACH);
                         $agreement_rel_user->create();
+                        
+                        foreach ($values[InternshipOrganizerUserType :: COACH] as $right => $value)
+                        {
+                            if ($value == 1)
+                            {
+                                RightsUtilities :: set_user_right_location_value($right, $coach_id, $location_id, 1);
+                            
+                            }
+                        }
                     }
                 }
             }
