@@ -4,7 +4,7 @@
  * @package admin.lib.admin_manager.component
  */
 
-class AdminManagerSystemAnnouncementViewerComponent extends AdminManager
+class AdminManagerSystemAnnouncementViewerComponent extends AdminManager implements AdministrationComponent
 {
 
     /**
@@ -13,9 +13,6 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager
     function run()
     {
         $id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('administration system announcements');
         
         $user = $this->get_user();
         
@@ -59,6 +56,17 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManager
         }
         
         return $toolbar->as_html();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('AdminManagerSystemAnnouncementBrowserComponent')));
+    	$breadcrumbtrail->add_help('admin_system_announcements_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
     }
 }
 ?>

@@ -3,7 +3,7 @@
  * @package admin.lib.admin_manager.component
  * @author Hans De Bisschop
  */
-class AdminManagerPackagerComponent extends AdminManager
+class AdminManagerPackagerComponent extends AdminManager implements AdministrationComponent, DelegateComponent
 {
 
     /**
@@ -20,6 +20,11 @@ class AdminManagerPackagerComponent extends AdminManager
         }
         
         PackageManager :: launch($this);
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_package_manager');
     }
 }
 ?>
