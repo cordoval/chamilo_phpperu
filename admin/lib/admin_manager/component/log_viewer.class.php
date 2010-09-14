@@ -10,7 +10,7 @@ require_once 'HTML/Table.php';
 /**
  * Admin component
  */
-class AdminManagerLogViewerComponent extends AdminManager
+class AdminManagerLogViewerComponent extends AdminManager implements AdministrationComponent
 {
 
     /**
@@ -18,9 +18,6 @@ class AdminManagerLogViewerComponent extends AdminManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('administration');
-        
         if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
@@ -167,6 +164,11 @@ class AdminManagerLogViewerComponent extends AdminManager
         }
         
         fclose($fh);
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_log_viewer');
     }
 }
 ?>

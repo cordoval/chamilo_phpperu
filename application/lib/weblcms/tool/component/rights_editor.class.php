@@ -69,5 +69,9 @@ class ToolComponentRightsEditorComponent extends ToolComponent
     {
     	return $this->get_parent()->get_available_rights();
     }
+    function get_additional_parameters()
+    {
+        array(WeblcmsManager :: PARAM_PUBLICATION);
+    }
 }
 ?>

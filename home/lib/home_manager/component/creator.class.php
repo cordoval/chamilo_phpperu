@@ -6,7 +6,7 @@
 /**
  * Repository manager component to edit an existing learning object.
  */
-class HomeManagerCreatorComponent extends HomeManager
+class HomeManagerCreatorComponent extends HomeManager implements AdministrationComponent
 {
 
     /**
@@ -14,18 +14,8 @@ class HomeManagerCreatorComponent extends HomeManager
      */
     function run()
     {
-        Header :: set_section('admin');
-        
         $type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => HomeManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Home')));
-        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeCreator')));
-        $trail->add_help('home general');
-        
+
         $user = $this->get_user();
         $user_home_allowed = $this->get_platform_setting('allow_user_home');
         
@@ -96,6 +86,17 @@ class HomeManagerCreatorComponent extends HomeManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManagerManagerComponent')));
+    	$breadcrumbtrail->add_help('home_creator');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(HomeManager :: PARAM_HOME_TYPE);
     }
 }
 ?>

@@ -14,19 +14,6 @@ class PackageManagerInstallerComponent extends PackageManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
-        $trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManager')));
-        
-        $type = Request :: get('type');
-        
-        $action = (($type == 'local') ? PackageManager :: ACTION_LOCAL_PACKAGE : PackageManager :: ACTION_REMOTE_PACKAGE);
-        
-        $trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => $action)), Translation :: get('Install')));
-        $trail->add(new Breadcrumb($this->get_url(array('section' => Request :: get('section'), 'package' => Request :: get('package'), 'type' => $type)), Translation :: get('PackageInstallation')));
-        $trail->add_help('administration install');
-        
         if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
@@ -41,6 +28,34 @@ class PackageManagerInstallerComponent extends PackageManager
         $this->display_header();
         echo $installer->retrieve_result();
         $this->display_footer();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManagerBrowserComponent')));
+    	
+        $type = Request :: get(PackageManager :: PARAM_INSTALL_TYPE);
+        
+        if($type == 'local')
+        {
+        	$action = PackageManager :: ACTION_LOCAL_PACKAGE;
+        	$message = 'PackageManagerLocalComponent';
+        }
+        else
+        {
+        	$action = PackageManager :: ACTION_REMOTE_PACKAGE;
+        	$message = 'PackageManagerRemoteComponent';
+        }
+        
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => $action, PackageManager :: PARAM_SECTION => Request :: get(PackageManager :: PARAM_SECTION), 
+        		PackageManager :: PARAM_PACKAGE => Request :: get(PackageManager :: PARAM_PACKAGE), PackageManager :: PARAM_INSTALL_TYPE => $type)), Translation :: get($message)));
+    	
+    	$breadcrumbtrail->add_help('admin_package_manager_installer');
+    }
+    
+ 	function get_additional_parameters()
+    {
+    	return array(PackageManager :: PARAM_INSTALL_TYPE, PackageManager :: PARAM_PACKAGE, PackageManager :: PARAM_SECTION);
     }
 }
 ?>

@@ -9,7 +9,7 @@
 
 require_once dirname(__FILE__) . '/../../help_rights.class.php';
 
-class HelpManagerBrowserComponent extends HelpManager
+class HelpManagerBrowserComponent extends HelpManager implements AdministrationComponent
 {
     private $ab;
 
@@ -18,13 +18,6 @@ class HelpManagerBrowserComponent extends HelpManager
      */
     function run()
     {
-
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => HelpManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Help')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HelpItemList')));
-        $trail->add_help('help general');
-
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header();
@@ -81,6 +74,11 @@ class HelpManagerBrowserComponent extends HelpManager
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('help_browser');
     }
 }
 ?>

@@ -12,26 +12,18 @@ class MenuManager extends CoreApplication
 {
     const APPLICATION_NAME = 'menu';
 
-    const PARAM_ERROR_MESSAGE = 'error_message';
-    const PARAM_COMPONENT_ACTION = 'action';
     const PARAM_DIRECTION = 'direction';
-    const PARAM_CATEGORY = 'category';
+    const PARAM_ITEM = 'item';
 
-    const ACTION_SORT_MENU = 'sorter';
+    const ACTION_BROWSE = 'browser';
+    const ACTION_ADD = 'item_creator';
+    const ACTION_EDIT = 'item_editor';
+    const ACTION_DELETE = 'deleter';
+    const ACTION_MOVE = 'mover';
+    const ACTION_EDIT_CATEGORY = 'category_editor';
+    const ACTION_ADD_CATEGORY = 'category_creator';
 
-    const ACTION_COMPONENT_BROWSE_CATEGORY = 'browse';
-    const ACTION_COMPONENT_ADD_CATEGORY = 'add';
-    const ACTION_COMPONENT_EDIT_CATEGORY = 'edit';
-    const ACTION_COMPONENT_DELETE_CATEGORY = 'delete';
-    const ACTION_COMPONENT_MOVE_CATEGORY = 'move';
-    const ACTION_COMPONENT_CAT_EDIT = 'edit_category';
-    const ACTION_COMPONENT_CAT_ADD = 'add_category';
-
-    const DEFAULT_ACTION = self :: ACTION_SORT_MENU;
-
-    private $parameters;
-    private $user;
-    private $breadcrumbs;
+    const DEFAULT_ACTION = self :: ACTION_BROWSE;
 
     function MenuManager($user)
     {
@@ -61,7 +53,7 @@ class MenuManager extends CoreApplication
     public static function get_application_platform_admin_links()
     {
         $links = array();
-        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_sort.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_SORT_MENU), array(), false, Redirect :: TYPE_CORE));
+        $links[] = new DynamicAction(Translation :: get('Manage'), Translation :: get('ManageDescription'), Theme :: get_image_path() . 'browse_sort.png', Redirect :: get_link(self :: APPLICATION_NAME, array(Application :: PARAM_ACTION => self :: ACTION_BROWSE), array(), false, Redirect :: TYPE_CORE));
 
         $info = parent :: get_application_platform_admin_links(self :: APPLICATION_NAME);
         $info['links'] = $links;
@@ -71,32 +63,32 @@ class MenuManager extends CoreApplication
 
     function get_navigation_item_creation_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_ADD_CATEGORY));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADD));
     }
 
     function get_category_navigation_item_creation_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_CAT_ADD));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_ADD_CATEGORY));
     }
 
     function get_navigation_item_editing_url($navigation_item)
     {
         if ($navigation_item->get_is_category())
         {
-            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_CAT_EDIT, self :: PARAM_CATEGORY => $navigation_item->get_id()));
+            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_CATEGORY, self :: PARAM_ITEM => $navigation_item->get_id()));
         }
 
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_EDIT_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT, self :: PARAM_ITEM => $navigation_item->get_id()));
     }
 
     function get_navigation_item_deleting_url($navigation_item)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_DELETE_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_ITEM => $navigation_item->get_id()));
     }
 
     function get_navigation_item_moving_url($navigation_item, $direction)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_MOVE_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id(), self :: PARAM_DIRECTION => $direction));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE, self :: PARAM_ITEM => $navigation_item->get_id(), self :: PARAM_DIRECTION => $direction));
     }
 
     /**
@@ -127,6 +119,46 @@ class MenuManager extends CoreApplication
     function get_default_action()
     {
         return self :: DEFAULT_ACTION;
+    }
+    
+    function get_menu()
+    {
+        if (! isset($this->menu))
+        {
+            $temp_replacement = '__ITEM__';
+            $url_format = $this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_BROWSE, MenuManager :: PARAM_ITEM => $temp_replacement));
+            $url_format = str_replace($temp_replacement, '%s', $url_format);
+            $this->menu = new NavigationItemMenu(Request :: get(self :: PARAM_ITEM), $url_format);
+        }
+        return $this->menu;
+    }
+
+    function get_menu_home_url()
+    {
+        return $this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_BROWSE));
+    }
+    
+    function check_allowed()
+    {
+    	if (! $this->get_user()->is_platform_admin())
+        {
+            $this->display_header();
+            Display :: error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+    }
+    
+    function display_form($form)
+    {
+    	$this->display_header();
+        echo '<div style="float: left; width: 12%; overflow:auto;">';
+        echo $this->get_menu()->render_as_tree();
+        echo '</div>';
+        echo '<div style="float: right; width: 85%;">';
+        $form->display();
+        echo '</div>';
+        $this->display_footer();
     }
 }
 ?>

@@ -20,8 +20,7 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
         }
 
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), Translation :: get('PublishIntroductionText')));
-        $trail->add_help('courses general');
+        
 
         
 
@@ -66,6 +65,11 @@ class ToolComponentIntroductionPublisherComponent extends ToolComponent implemen
     function get_allowed_content_object_types()
     {
         return array(Introduction :: get_type_name());
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add_help('weblcms_tool_introduction_publisher');
     }
 }
 ?>
