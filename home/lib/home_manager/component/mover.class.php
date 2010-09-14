@@ -19,13 +19,6 @@ class HomeManagerMoverComponent extends HomeManager
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
         $type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
         $direction = Request :: get(HomeManager :: PARAM_DIRECTION);
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => HomeManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Home')));
-        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeMover')));
-        $trail->add_help('home general');
         
         if (! $this->get_user()->is_platform_admin())
         {
@@ -88,6 +81,17 @@ class HomeManagerMoverComponent extends HomeManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManagerManagerComponent')));
+    	$breadcrumbtrail->add_help('home_mover');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(HomeManager :: PARAM_HOME_TYPE, HomeManager :: PARAM_HOME_ID, HomeManager :: PARAM_DIRECTION);
     }
 }
 ?>

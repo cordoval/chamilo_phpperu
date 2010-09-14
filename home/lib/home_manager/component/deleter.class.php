@@ -6,7 +6,7 @@
 /**
  * Repository manager component to edit an existing learning object.
  */
-class HomeManagerDeleterComponent extends HomeManager
+class HomeManagerDeleterComponent extends HomeManager implements AdministrationComponent
 {
 
     /**
@@ -18,11 +18,6 @@ class HomeManagerDeleterComponent extends HomeManager
         
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
         $type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
-        $trail = BreadcrumbTrail :: get_instance();
-        
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeDeleter')));
-        $trail->add_help('home general');
         
         if (! $this->get_user()->is_platform_admin())
         {
@@ -65,6 +60,17 @@ class HomeManagerDeleterComponent extends HomeManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManagerManagerComponent')));
+    	$breadcrumbtrail->add_help('home_deleter');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(HomeManager :: PARAM_HOME_TYPE, HomeManager :: PARAM_HOME_ID);
     }
 }
 ?>
