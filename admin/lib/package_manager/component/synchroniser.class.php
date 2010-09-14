@@ -13,12 +13,6 @@ class PackageManagerSynchroniserComponent extends PackageManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => AdminManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Admin')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Install')));
-        $trail->add_help('administration install');
-        
         if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
@@ -124,6 +118,20 @@ class PackageManagerSynchroniserComponent extends PackageManager
         	return false;
         }        
         return true;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManagerBrowserComponent')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_REMOTE_PACKAGE, PackageManager :: PARAM_SECTION => Request :: get(PackageManager :: PARAM_SECTION), 
+        		PackageManager :: PARAM_PACKAGE => Request :: get(PackageManager :: PARAM_PACKAGE), PackageManager :: PARAM_INSTALL_TYPE => 'remote')), Translation :: get('PackageManagerRemoteComponent')));
+    	
+    	$breadcrumbtrail->add_help('admin_package_manager_synchroniser');
+    }
+    
+ 	function get_additional_parameters()
+    {
+    	return array(PackageManager :: PARAM_INSTALL_TYPE, PackageManager :: PARAM_PACKAGE, PackageManager :: PARAM_SECTION);
     }
 }
 ?>

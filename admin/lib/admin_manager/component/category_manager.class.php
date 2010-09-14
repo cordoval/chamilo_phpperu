@@ -18,5 +18,10 @@ class AdminManagerCategoryManagerComponent extends AdminManager implements Admin
         $category_manager = new AdminCategoryManager($this);
         $category_manager->run();
     }
+    
+ 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_category_manager');
+    }
 }
 ?>

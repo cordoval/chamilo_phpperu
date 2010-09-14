@@ -7,7 +7,7 @@
 /**
  * Weblcms component displays diagnostics about the system
  */
-class AdminManagerDiagnoserComponent extends AdminManager
+class AdminManagerDiagnoserComponent extends AdminManager implements AdministrationComponent
 {
 
     /**
@@ -15,9 +15,6 @@ class AdminManagerDiagnoserComponent extends AdminManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('administration diagnoser');
-        
         if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
@@ -32,6 +29,11 @@ class AdminManagerDiagnoserComponent extends AdminManager
         echo $diag->to_html();
         
         $this->display_footer();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_diagnoser');
     }
 
 }

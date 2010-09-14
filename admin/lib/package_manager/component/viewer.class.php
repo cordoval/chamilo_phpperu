@@ -11,11 +11,6 @@ class PackageManagerViewerComponent extends PackageManager
     	$id = Request :: get(PackageManager :: PARAM_REGISTRATION);
        	$registration = $this->get_parent()->retrieve_registration($id);
        	
-    	$trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManager')));
-    	$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Utilities::camelcase_to_underscores($registration->get_name()))));
-       	
        	$registration_display = new RegistrationDisplay($registration);
        	$this->display_header();
        	$this->action_bar = $this->get_action_bar($registration);
@@ -57,6 +52,17 @@ class PackageManagerViewerComponent extends PackageManager
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('Deinstall'), Theme :: get_common_image_path() . 'action_deinstall.png', $this->get_registration_removal_url($registration), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
 
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('admin_package_manager_viewer');
+    }
+    
+ 	function get_additional_parameters()
+    {
+    	return array(PackageManager :: PARAM_REGISTRATION);
     }
 }
 ?>

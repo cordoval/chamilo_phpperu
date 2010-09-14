@@ -7,7 +7,7 @@
 /**
  * Admin component
  */
-class AdminManagerConfigurerComponent extends AdminManager
+class AdminManagerConfigurerComponent extends AdminManager implements AdministrationComponent
 {
     private $application;
 
@@ -24,7 +24,6 @@ class AdminManagerConfigurerComponent extends AdminManager
 
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_WEB_APPLICATION => $application)), Translation :: get(Utilities :: underscores_to_camelcase($application))));
-        $trail->add_help('administration');
 
         if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW, AdminRights :: LOCATION_SETTINGS, AdminRights :: TYPE_ADMIN_COMPONENT))
         {
@@ -54,6 +53,11 @@ class AdminManagerConfigurerComponent extends AdminManager
             echo '</script>';
             $this->display_footer();
         }
+    }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_configurer');
     }
 }
 ?>

@@ -13,9 +13,6 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('common whoisonline');
-        
         $world = PlatformSetting :: get('whoisonlineaccess');
         
         if ($world == "1" || ($this->get_user_id() && $world == "2"))
@@ -24,7 +21,6 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
             if (isset($user_id))
             {
                 $output = $this->get_user_html($user_id);
-                $trail->add(new Breadcrumb($this->get_url(array('uid' => $user_id)), Translation :: get('UserDetail')));
             }
             else
             {
@@ -95,6 +91,11 @@ class AdminManagerWhoisOnlineComponent extends AdminManager
         $html[] = '</div>';
         
         return implode("\n", $html);
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_whois_online');
     }
 
 }

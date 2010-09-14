@@ -8,19 +8,16 @@
 /**
  * Admin component to manage system announcements
  */
-class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager
+class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager implements AdministrationComponent
 {
 
     private $action_bar;
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('administration system announcements');
-
         if (!AdminRights::is_allowed(AdminRights::RIGHT_VIEW, AdminRights::LOCATION_SYSTEM_ANNOUNCEMENTS))
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: warning_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -106,6 +103,11 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManager
         }
 
         return $condition;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_system_announcement_browser');
     }
 
 }

@@ -17,9 +17,6 @@ class PackageManagerBrowserComponent extends PackageManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('administration install');
-        
         if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
@@ -68,6 +65,11 @@ class PackageManagerBrowserComponent extends PackageManager
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('InstallLocal'), Theme :: get_image_path() . 'action_install_local.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_LOCAL_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_package_manager_browser');
     }
 }
 ?>

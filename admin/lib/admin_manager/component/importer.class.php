@@ -7,7 +7,7 @@
 /**
  * Weblcms component displays diagnostics about the system
  */
-class AdminManagerImporterComponent extends AdminManager
+class AdminManagerImporterComponent extends AdminManager implements AdministrationComponent
 {
 
     /**
@@ -15,9 +15,6 @@ class AdminManagerImporterComponent extends AdminManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('administration importer');
-        
         if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
@@ -61,6 +58,11 @@ class AdminManagerImporterComponent extends AdminManager
     	$html[] ='</div>';
     	
     	return implode("\n", $html);
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_importer');
     }
 
 }

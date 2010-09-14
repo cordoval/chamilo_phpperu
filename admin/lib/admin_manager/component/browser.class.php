@@ -6,7 +6,7 @@
 /**
  * Admin component
  */
-class AdminManagerBrowserComponent extends AdminManager
+class AdminManagerBrowserComponent extends AdminManager implements AdministrationComponent, DelegateComponent
 {
 
     /**
@@ -14,9 +14,6 @@ class AdminManagerBrowserComponent extends AdminManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('administration');
-        
         if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
@@ -46,6 +43,7 @@ class AdminManagerBrowserComponent extends AdminManager
             if (count($application_links['links']))
             {
                 $index ++;
+                $html = array();
                 $actions_tab = new DynamicActionsTab($application_links['application']['class'], Translation :: get($application_links['application']['name']), Theme :: get_image_path('admin') . 'place_mini_' . $application_links['application']['class'] . '.png', implode("\n", $html));
                 
                 if (isset($application_links['search']))
@@ -73,6 +71,11 @@ class AdminManagerBrowserComponent extends AdminManager
         }
         
         return $tabs->render();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('admin_browser');
     }
 }
 ?>
