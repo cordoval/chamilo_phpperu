@@ -99,7 +99,7 @@ class AssessmentToolTakerComponent extends AssessmentTool
         else
         {
             $this->trail = BreadcrumbTrail :: get_instance();
-            $this->trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('TakeAssessment')));
+            //$this->trail->add(new Breadcrumb($this->get_url(array()), Translation :: get('TakeAssessment')));
             
             ComplexDisplay :: launch($this->assessment->get_type(), $this);
         }
@@ -153,6 +153,16 @@ class AssessmentToolTakerComponent extends AssessmentTool
     function get_go_back_url()
     {
         return $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW));
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('AssessmentToolBrowserComponent')));
+    }
+
+    function get_additional_parameters()
+    {
+        array(Tool :: PARAM_PUBLICATION_ID);
     }
 }
 ?>

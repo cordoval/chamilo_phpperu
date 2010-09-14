@@ -46,7 +46,7 @@ class ChatToolViewerComponent extends ChatTool
         $chat = new phpFreeChat($params);
         
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('courses chat tool');
+        
         
         $this->display_header();
         if (! function_exists('filemtime'))
@@ -54,6 +54,16 @@ class ChatToolViewerComponent extends ChatTool
         
         $chat->printChat();
         $this->display_footer();
+    }
+
+    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('BlogToolBrowserComponent')));
+        $trail->add_help('weblcms_tool_chat_viewer');
+    }
+    function get_additional_parameters()
+    {
+        return array(Tool :: PARAM_PUBLICATION_ID);
     }
 
 }

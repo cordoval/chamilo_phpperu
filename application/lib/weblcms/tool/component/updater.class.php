@@ -21,23 +21,22 @@ class ToolComponentUpdaterComponent extends ToolComponent
             
             $trail = BreadcrumbTrail :: get_instance();
             
-            if (Request :: get('pcattree') > 0)
-            {
-                foreach (Tool :: get_pcattree_parents(Request :: get('pcattree')) as $breadcrumb)
-                {
-                    $trail->add(new Breadcrumb($this->get_url(), $breadcrumb->get_name()));
-                }
-            }
-            if (Request :: get('tool') == 'wiki')
-            {
-                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $content_object->get_title()));
-            }
-            else
-            {
-                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $content_object->get_title()));
-            }
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'edit', Tool :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('Edit')));
-            $trail->add_help('courses general');
+//            if (Request :: get('pcattree') > 0)
+//            {
+//                foreach (Tool :: get_pcattree_parents(Request :: get('pcattree')) as $breadcrumb)
+//                {
+//                    $trail->add(new Breadcrumb($this->get_url(), $breadcrumb->get_name()));
+//                }
+//            }
+//            if (Request :: get('tool') == 'wiki')
+//            {
+//                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $content_object->get_title()));
+//            }
+//            else
+//            {
+//                $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $content_object->get_title()));
+//            }
+            
             
             if ($form->validate() || Request :: get('validated'))
             {
@@ -101,6 +100,11 @@ class ToolComponentUpdaterComponent extends ToolComponent
                 $this->display_footer();
             }
         }
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add_help('courses general');
     }
 }
 ?>

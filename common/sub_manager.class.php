@@ -334,7 +334,7 @@ abstract class SubManager
     	
     }
 
-	function get_additional_parameters()
+    function get_additional_parameters()
     {
     	
     }

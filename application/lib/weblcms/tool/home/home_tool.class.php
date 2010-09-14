@@ -1,5 +1,5 @@
 <?php
-class HomeTool extends Tool
+class HomeTool extends Tool implements DelegateComponent
 {
     const PARAM_TOOL = 'target_tool';
     
