@@ -7,7 +7,7 @@
 /**
  * Admin component
  */
-class AdminManagerConfigurerComponent extends AdminManager implements AdministrationComponent
+class AdminManagerConfigurerComponent extends AdminManager
 {
     private $application;
 
@@ -16,15 +16,8 @@ class AdminManagerConfigurerComponent extends AdminManager implements Administra
      */
     function run()
     {
-        $application = $this->application = Request :: get(AdminManager :: PARAM_WEB_APPLICATION);
-        if (! isset($application))
-        {
-            $application = $this->application = 'admin';
-        }
-
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_WEB_APPLICATION => $application)), Translation :: get(Utilities :: underscores_to_camelcase($application))));
-
+        $application = $this->get_application();
+        
         if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW, AdminRights :: LOCATION_SETTINGS, AdminRights :: TYPE_ADMIN_COMPONENT))
         {
             $this->display_header();
@@ -57,7 +50,30 @@ class AdminManagerConfigurerComponent extends AdminManager implements Administra
     
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
+        $application = $this->get_application();
+        
+    	$breadcrumbtrail->truncate(true);
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => null)), Translation :: get('Administration')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => $application)), Translation :: get(Utilities :: underscores_to_camelcase($application))));
+        //$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('AdminManagerConfigurerComponent')));
+        
     	$breadcrumbtrail->add_help('admin_configurer');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(AdminManager :: PARAM_WEB_APPLICATION);
+    }
+    
+    function get_application()
+    {
+    	$application = $this->application = Request :: get(AdminManager :: PARAM_WEB_APPLICATION);
+        if (! isset($application))
+        {
+            $application = $this->application = 'admin';
+        }
+    	
+        return $application;
     }
 }
 ?>

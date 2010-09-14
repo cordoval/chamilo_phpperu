@@ -6,21 +6,35 @@
 /**
  * Admin component
  */
-class AdminManagerBrowserComponent extends AdminManager implements AdministrationComponent, DelegateComponent
+class AdminManagerBrowserComponent extends AdminManager
 {
-
+	const PARAM_TAB = 'tab';
+	
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
+    	if (! AdminRights :: is_allowed(AdminRights :: RIGHT_VIEW))
         {
             $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
+        } 
+        
+        $breadcrumbtrail = BreadcrumbTrail :: get_instance();
+        $breadcrumbtrail->truncate(true);
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Administration')));
+        
+        $tab = Request :: get(self :: PARAM_TAB);
+        if(!$tab)
+        {
+        	$tab = 'admin';
         }
+        $tab_name = Translation :: get(Utilities :: underscores_to_camelcase($tab));
+        
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab)), $tab_name));
         
         $links = $this->get_application_platform_admin_links();
         
@@ -35,7 +49,7 @@ class AdminManagerBrowserComponent extends AdminManager implements Administratio
      */
     function get_application_platform_admin_tabs($links)
     {
-        $tabs = new DynamicTabsRenderer('admin');
+    	$tabs = new DynamicTabsRenderer('admin');
         
         $index = 0;
         foreach ($links as $application_links)
