@@ -39,6 +39,7 @@ class AdminManagerBrowserComponent extends AdminManager
         $links = $this->get_application_platform_admin_links();
         
         $this->display_header();
+        echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/admin_browser.js');
         echo $this->get_application_platform_admin_tabs($links);
         $this->display_footer();
     }
