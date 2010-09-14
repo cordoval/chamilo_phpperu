@@ -75,10 +75,10 @@ class PortfolioPublication extends DataClass
 
     function get_location()
     {
-        if(!isset($this->location))
-        {
+//        if(!isset($this->location))
+//        {
             $this->location = PortfolioRights::get_portfolio_location($this->get_id(), PortfolioRights::TYPE_PORTFOLIO_FOLDER, $this->get_publisher());
-        }
+//        }
         return $this->location;
     }
 

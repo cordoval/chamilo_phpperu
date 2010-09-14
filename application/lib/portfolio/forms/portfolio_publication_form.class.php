@@ -429,8 +429,8 @@ class PortfolioPublicationForm extends FormValidator
 
         if($type == PortfolioRights::TYPE_PORTFOLIO_FOLDER)
         {
-                $location = $this->portfolio_publication->get_location();
-            }
+                $location = $portfolio_publication->get_location();
+        }
         else
         {
             $cid = Request::get('cid');
