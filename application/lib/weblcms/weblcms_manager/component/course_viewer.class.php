@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
 /**
  * Weblcms component which provides the course page
  */
-class WeblcmsManagerCourseViewerComponent extends WeblcmsManager
+class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements DelegateComponent
 {
     private $rights;
     
