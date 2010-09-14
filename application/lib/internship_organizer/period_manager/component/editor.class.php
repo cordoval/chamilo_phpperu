@@ -10,18 +10,23 @@ class InternshipOrganizerPeriodManagerEditorComponent extends InternshipOrganize
      */
     function run()
     {
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('period general');
-//        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-//        //$trail->add(new Breadcrumb($this->get_browse_periods_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
-        
+      
         $id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
         if ($id)
         {
             $period = $this->retrieve_period($id);
-            //$trail->add(new Breadcrumb($this->get_period_viewing_url($period), $period->get_name()));
-            //$trail->add(new Breadcrumb($this->get_period_editing_url($period), Translation :: get('UpdateInternshipOrganizerPeriod') . ' ' . $period->get_name()));
-            
+           
             $form = new InternshipOrganizerPeriodForm(InternshipOrganizerPeriodForm :: TYPE_EDIT, $period, $this->get_period_editing_url($period), $this->get_user());
             
             if ($form->validate())

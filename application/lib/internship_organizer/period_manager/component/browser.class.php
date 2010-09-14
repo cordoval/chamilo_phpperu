@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . '/../period_manager.class.php';
 //require_once dirname(__FILE__) . '/rel_group_browser/rel_group_browser_table.class.php';
 //require_once dirname(__FILE__) . '/rel_category_browser/rel_category_browser_table.class.php';
 
+
 class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganizerPeriodManager
 {
     
@@ -23,13 +24,19 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
      */
     function run()
     {
+             
+    	if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
         
-    	$period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+        $period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
         $period = $this->retrieve_period($period_id);
-    	
+        
         $trail = BreadcrumbTrail :: get_instance();
-//        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-//        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_id)), Translation :: get('BrowseInternshipOrganizerPeriods')));
         $trail->add_help('period general');
         
         $this->action_bar = $this->get_action_bar();
@@ -191,8 +198,8 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         if (isset($query) && $query != '')
         {
             
-        	$group_alias = GroupDataManager :: get_instance()->get_alias(Group :: get_table_name());
-        	$search_conditions = array();
+            $group_alias = GroupDataManager :: get_instance()->get_alias(Group :: get_table_name());
+            $search_conditions = array();
             $search_conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*' . $query . '*', $group_alias, true);
             $search_conditions[] = new PatternMatchCondition(Group :: PROPERTY_DESCRIPTION, '*' . $query . '*', $group_alias, true);
             $conditions = new OrCondition($search_conditions);
@@ -228,17 +235,39 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewRoot'), Theme :: get_common_image_path() . 'action_home.png', $this->get_browse_periods_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_browse_periods_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_period_publish_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerPeriod'), Theme :: get_common_image_path() . 'action_create.png', $this->get_period_create_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_period_editing_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewPeriod'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_period_viewing_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddInternshipOrganizerUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_user_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddInternshipOrganizerGroups'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_group_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddCategories'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_category_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Reporting'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_period_reporting_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_period_publish_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerPeriod'), Theme :: get_common_image_path() . 'action_create.png', $this->get_period_create_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_period_editing_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewPeriod'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_period_viewing_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_USER_RIGHT, $this->period->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddInternshipOrganizerUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_user_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_GROUP_RIGHT, $this->period->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddInternshipOrganizerGroups'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_group_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_CATEGORY_RIGHT, $this->period->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddCategories'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_category_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REPORTING, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+                {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Reporting'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_period_reporting_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
         return $action_bar;
     }
 

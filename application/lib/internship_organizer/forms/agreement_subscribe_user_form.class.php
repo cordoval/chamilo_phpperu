@@ -22,16 +22,16 @@ class InternshipOrganizerAgreementSubscribeUserForm extends FormValidator
     function build_form()
     {
         $agreement = $this->agreement;
-            
                     
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_rel_user_feed.php?period_id=' . $this->agreement->get_period_id();
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_rel_user_feed.php?period_id=' . $this->agreement->get_period_id().'&user_type='.$this->user_type;
+               
         $locale = array();
-        $locale['Display'] = Translation :: get('ChooseUsers');
+        $locale['Display'] = Translation :: get('ChooseCoaches');
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
         
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('InternshipOrganizerUsers'), $url, $locale, array(), array('load_elements' => true));
+        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, InternshipOrganizerUserType :: get_user_type_name($this->user_type), $url, $locale, array(), array('load_elements' => true));
         $defaults = array();
         $elem->setDefaults($defaults);
         $elem->setDefaultCollapsed(false);
@@ -48,13 +48,13 @@ class InternshipOrganizerAgreementSubscribeUserForm extends FormValidator
         
         $values = $this->exportValues();
         $user_ids = $values[self :: PARAM_TARGET]['user'];
-        
+       
         $succes = false;
         
         foreach ($user_ids as $user_id)
         {
             $conditions = array();
-            $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $mentor_id);
+            $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $user_id);
             $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_AGREEMENT_ID, $agreement_id);
             $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, $this->user_type);
             $condition = new AndCondition($conditions);

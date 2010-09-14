@@ -19,18 +19,18 @@ class InternshipOrganizerPeriodAgreementUserBrowserTableCellRenderer extends Def
     // Inherited
     function render_cell($column, $user)
     {
-           
+        
         if ($column === InternshipOrganizerPeriodAgreementUserBrowserTableColumnModel :: get_modification_column())
         {
             return $this->get_modification_links($user);
         }
         return parent :: render_cell($column, $user);
     }
-    
+
     function render_id_cell($user)
     {
         $agreement = $this->browser->get_agreement();
-        return $agreement->get_id() . '|' . $user->get_id().'|'.$this->user_type;
+        return $agreement->get_id() . '|' . $user->get_id() . '|' . $this->user_type;
     }
 
     private function get_modification_links($user)
@@ -38,8 +38,10 @@ class InternshipOrganizerPeriodAgreementUserBrowserTableCellRenderer extends Def
         $toolbar = new Toolbar();
         if ($this->user_type != InternshipOrganizerUserType :: STUDENT)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_unsubscribe_agreement_rel_user_url($this->browser->get_agreement(), $user, $this->user_type), ToolbarItem :: DISPLAY_ICON, true));
-        
+            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT, $this->browser->get_agreement()->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+            {
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_unsubscribe_agreement_rel_user_url($this->browser->get_agreement(), $user, $this->user_type), ToolbarItem :: DISPLAY_ICON, true));
+            }
         }
         return $toolbar->as_html();
     

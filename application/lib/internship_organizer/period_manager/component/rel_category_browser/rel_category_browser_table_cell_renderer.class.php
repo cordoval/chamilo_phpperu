@@ -28,7 +28,11 @@ class InternshipOrganizerCategoryRelPeriodBrowserTableCellRenderer extends Defau
     private function get_modification_links($category_rel_period)
     {
         $toolbar = new Toolbar();
-        $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_period_unsubscribe_category_url($category_rel_period), ToolbarItem :: DISPLAY_ICON, true));
+        
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: UNSUBSCRIBE_CATEGORY_RIGHT, $category_rel_period->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_period_unsubscribe_category_url($category_rel_period), ToolbarItem :: DISPLAY_ICON, true));
+        }
         return $toolbar->as_html();
     }
 }

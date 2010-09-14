@@ -7,7 +7,7 @@ require_once Path :: get_library_path() . 'condition/equality_condition.class.ph
 require_once Path :: get_library_path() . 'condition/not_condition.class.php';
 require_once Path :: get_library_path() . 'condition/and_condition.class.php';
 require_once Path :: get_library_path() . 'condition/or_condition.class.php';
-require_once Path :: get_application_path() . '/lib/internship_organizer/mentor.class.php';
+require_once Path :: get_application_path() . '/lib/internship_organizer/period_rel_user.class.php';
 require_once Path :: get_application_path() . '/lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
 
 Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
@@ -82,15 +82,16 @@ function dump_tree($period_rel_users)
 {
     if (contains_results($period_rel_users))
     {
-        echo '<node id="0" classes="category unlinked" title="', Translation :: get('InternshipOrganizerMentors'), '">', "\n";
+        echo '<node id="0" classes="category unlinked" title="', Translation :: get('Users'), '">', "\n";
         
         foreach ($period_rel_users as $period_rel_user)
         {
-            $id = 'user_' . $period_rel_user->get_user_id() . '|' . $period_rel_user->get_user_type();
+            $id = 'user_' . $period_rel_user->get_user_id();
+//            $id = 'user_' . $period_rel_user->get_user_id() . '|' . $period_rel_user->get_user_type();
             $user_type = InternshipOrganizerUserType :: get_user_type_name($period_rel_user->get_user_type());
             $user = UserDataManager :: get_instance()->retrieve_user($period_rel_user->get_user_id());
             $name = strip_tags($user->get_firstname() . ' ' . $user->get_lastname() . ' - ' . $user_type);
-
+            
             echo '<leaf id="', $id, '" classes="', '', '" title="', htmlspecialchars($name), '" description="', htmlspecialchars(isset($description) && ! empty($description) ? $description : $name), '"/>', "\n";
         }
         

@@ -477,7 +477,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function retrieve_moment_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-        $moment_alias = $this->get_alias(InternshipOrganizerMoment :: get_table_name());
+      	$moment_alias = $this->get_alias(InternshipOrganizerMoment :: get_table_name());
         $agreement_rel_user_alias = $this->get_alias(InternshipOrganizerAgreementRelUser :: get_table_name());
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         
@@ -487,7 +487,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerAgreementRelUser :: get_table_name()) . ' AS ' . $agreement_rel_user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAgreementRelUser :: PROPERTY_AGREEMENT_ID, $agreement_rel_user_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerMoment :: PROPERTY_AGREEMENT_ID, $moment_alias);
         
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $agreement_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
-        
+               
         return $this->retrieve_object_set($query, InternshipOrganizerMoment :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMoment :: CLASS_NAME);
     }
 
@@ -1300,13 +1300,13 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     {
         $succes = $this->create($publication);
         
-        foreach ($publication->get_target_groups() as $group)
-        {
-            $publication_group = new InternshipOrganizerPublicationGroup();
-            $publication_group->set_publication_id($publication->get_id());
-            $publication_group->set_group_id($group);
-            $succes &= $publication_group->create();
-        }
+//        foreach ($publication->get_target_groups() as $group)
+//        {
+//            $publication_group = new InternshipOrganizerPublicationGroup();
+//            $publication_group->set_publication_id($publication->get_id());
+//            $publication_group->set_group_id($group);
+//            $succes &= $publication_group->create();
+//        }
         
         foreach ($publication->get_target_users() as $user)
         {

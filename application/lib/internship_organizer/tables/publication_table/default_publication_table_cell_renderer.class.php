@@ -31,7 +31,11 @@ class DefaultInternshipOrganizerPublicationTableCellRenderer extends ObjectTable
         
         switch ($column->get_name())
         {
-            case ContentObject :: PROPERTY_TITLE :
+            
+        	case InternshipOrganizerPublication :: PROPERTY_NAME :
+                
+                return $publication->get_name();
+        	case ContentObject :: PROPERTY_TITLE :
                 
                 return $content_object->get_title();
             case ContentObject :: PROPERTY_DESCRIPTION :

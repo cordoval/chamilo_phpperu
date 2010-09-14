@@ -95,6 +95,8 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
         $conditions = array();
         $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: MOMENT);
         $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $this->moment->get_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_USER_ID, $this->get_user_id(),InternshipOrganizerPublicationUser :: get_table_name() );
+        
         return new AndCondition($conditions);
     }
 

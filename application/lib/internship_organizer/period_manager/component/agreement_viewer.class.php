@@ -27,14 +27,21 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
         
         $agreement_id = $_GET[InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID];
         $this->agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreement_id);
-        $this->period = InternshipOrganizerDataManager :: get_instance()->retrieve_period($this->agreement->get_period_id());
+        $period_id = $this->agreement->get_period_id();
+        
+        $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: VIEW_AGREEMENT_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
+        $this->period = InternshipOrganizerDataManager :: get_instance()->retrieve_period($period_id);
         
         $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id())), Translation :: get('BrowseInternshipOrganizerPeriods')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_AGREEMENT)), $this->period->get_name()));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerPeriodManager:: PARAM_AGREEMENT_ID => $agreement_id)), Translation :: get('ViewInternshipOrganizerAgreement')));
-        
         $this->action_bar = $this->get_action_bar();
         
         $this->display_header($trail);
@@ -91,9 +98,15 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
     function get_action_bar()
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_subscribe_agreement_rel_user_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id())));
+        
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_AGREEMENT_USER_RIGHT, $this->period->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddCoördinaters'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_subscribe_agreement_rel_user_url($this->agreement, InternshipOrganizerUserType :: COORDINATOR), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddCoaches'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_subscribe_agreement_rel_user_url($this->agreement, InternshipOrganizerUserType :: COACH), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+        }
+        
         return $action_bar;
     }
 
@@ -129,7 +142,7 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
         $html = array();
         $html[] = '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_location.png);">';
         $html[] = '<div class="title">' . Translation :: get('Details') . '</div>';
-         $html[] = '<b>' . Translation :: get('Name') . '</b>: ' . $this->agreement->get_name() . '<br /> ';
+        $html[] = '<b>' . Translation :: get('Name') . '</b>: ' . $this->agreement->get_name() . '<br /> ';
         $html[] = '<b>' . Translation :: get('Description') . '</b>: ' . $this->agreement->get_description() . '<br /> ';
         
         $student = $this->get_student();

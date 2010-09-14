@@ -5,7 +5,7 @@
  * @author Sven Vanpoucke
  * @author Sven Vanhoecke
  */
-class InternshipOrganizerMoment extends DataClass
+class InternshipOrganizerMoment extends DataClass implements AttachmentSupport
 {
     const CLASS_NAME = __CLASS__;
     
@@ -151,6 +151,15 @@ class InternshipOrganizerMoment extends DataClass
         return 'moment';
         //		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+    
+    public function get_attached_content_objects(){
+    	
+    	$conditions = array();
+    	
+    	
+    	$this->get_data_manager()->retrieve_publications();
+    }
+    
 }
 
 ?>

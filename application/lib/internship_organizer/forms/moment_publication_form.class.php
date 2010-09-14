@@ -57,17 +57,22 @@ class InternshipOrganizerMomentPublicationForm extends FormValidator
     function build_form()
     {
         
+        $this->addElement('text', InternshipOrganizerPublication :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
+        $this->addRule(InternshipOrganizerPublication :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+        
+        $this->add_html_editor(InternshipOrganizerPublication :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
+        
         $this->addElement('select', InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('InternshipOrganizerTypeOfPublication'), $this->get_type_of_documents());
         $this->addRule(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_moment_feed.php?agreement_id='.$this->agreement_id;
-            
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_moment_feed.php?agreement_id=' . $this->agreement_id;
+        
         $locale = array();
-        $locale['Display'] = Translation :: get('ChoosePeriods');
+        $locale['Display'] = Translation :: get('ChooseMoments');
         $locale['Searching'] = Translation :: get('Searching');
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Periods'), $url, $locale, array());
+        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Moments'), $url, $locale, array());
         $elem->setDefaults($defaults);
         $elem->setDefaultCollapsed(false);
     
@@ -84,7 +89,7 @@ class InternshipOrganizerMomentPublicationForm extends FormValidator
     function create_content_object_publications()
     {
         $values = $this->exportValues();
-        
+      
         $moment_rel_user_ids = $values[self :: PARAM_TARGET]['moment'];
         $ids = unserialize($values['ids']);
         $succes = false;
@@ -92,18 +97,27 @@ class InternshipOrganizerMomentPublicationForm extends FormValidator
         if (count($moment_rel_user_ids))
         {
             
+            $target_users = array();
+            $target_moments = array();
+            
             foreach ($moment_rel_user_ids as $moment_rel_user_id)
             {
-                $mu_ids = explode( '|', $moment_rel_user_id);
-            	
-            	$moment = InternshipOrganizerDataManager :: get_instance()->retrieve_moment($mu_ids[0]);
-                
-                $target_users = array();
-				$target_users[] = $mu_ids[1];
-                
-                foreach ($ids as $id)
+                $mu_ids = explode('|', $moment_rel_user_id);
+                $target_moments[] = $mu_ids[0];
+                $target_users[$mu_ids[0]][] = $mu_ids[1];
+            
+            }
+            
+            $target_moments = array_unique($target_moments);
+                      
+            foreach ($ids as $id)
+            {
+                foreach ($target_moments as $moment_id)
                 {
-                    $pub = new InternshipOrganizerPublication();
+                    $moment = InternshipOrganizerDataManager :: get_instance()->retrieve_moment($moment_id);
+                	$pub = new InternshipOrganizerPublication();
+                    $pub->set_name($values[InternshipOrganizerPublication :: PROPERTY_NAME]);
+                    $pub->set_description($values[InternshipOrganizerPublication :: PROPERTY_DESCRIPTION]);
                     $pub->set_content_object($id);
                     $pub->set_publisher_id($this->user->get_id());
                     $pub->set_published(time());
@@ -112,7 +126,8 @@ class InternshipOrganizerMomentPublicationForm extends FormValidator
                     $pub->set_publication_place(InternshipOrganizerPublicationPlace :: MOMENT);
                     $pub->set_place_id($moment->get_id());
                     $pub->set_publication_type($values[InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE]);
-                    $pub->set_target_users($target_users);
+                    $target_users[$moment_id][] = $this->user->get_id();
+                    $pub->set_target_users(array_unique($target_users[$moment_id]));
                     
                     if (! $pub->create())
                     {

@@ -23,12 +23,18 @@ class InternshipOrganizerPeriodManagerAgreementDeleterComponent extends Internsh
             foreach ($ids as $id)
             {
                 
-            	$agreement = InternshipOrganizerDataManager::get_instance()->retrieve_agreement($id);
+                $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($id);
                 $period_id = $agreement->get_period_id();
                 
-                if (! $agreement->delete())
+                $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
+                
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: DELETE_AGREEMENT_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
                 {
-                    $failures ++;
+                    
+                    if (! $agreement->delete())
+                    {
+                        $failures ++;
+                    }
                 }
             }
             
@@ -55,7 +61,7 @@ class InternshipOrganizerPeriodManagerAgreementDeleterComponent extends Internsh
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD,InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_AGREEMENT ));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_AGREEMENT));
         }
         else
         {

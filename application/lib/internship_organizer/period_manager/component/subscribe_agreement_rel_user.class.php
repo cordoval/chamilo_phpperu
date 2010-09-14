@@ -1,8 +1,7 @@
 <?php
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/agreement_subscribe_user_form.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/browser.class.php';
-
+require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/agreement_viewer.class.php';
 
 class InternshipOrganizerPeriodManagerSubscribeAgreementRelUserComponent extends InternshipOrganizerPeriodManager
 {
@@ -14,46 +13,51 @@ class InternshipOrganizerPeriodManagerSubscribeAgreementRelUserComponent extends
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        
-//        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-//        //$trail->add(new Breadcrumb($this->get_browse_periods_url(), Translation :: get('BrowseInternshipOrganizerPeriods')));
         
         $agreement_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID);
-             
-        $this->agreement = InternshipOrganizerDataManager::get_instance()->retrieve_agreement($agreement_id);
+        $this->set_parameter(InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID, $agreement_id);
+        $this->agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreement_id);
+        $period_id = $this->agreement->get_period_id();
         
-//        $user_type = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_TYPE);
+        $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
         
-        $user_type = InternshipOrganizerUserType::COACH;
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_USER_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
         
-//        //$trail->add(new Breadcrumb($this->get_period_subscribe_category_url($this->period), Translation :: get('AddInternshipOrganizerCategories')));
-//        $trail->add_help('period subscribe category');
+        $trail = BreadcrumbTrail :: get_instance();
         
-        $form = new InternshipOrganizerAgreementSubscribeUserForm($this->agreement, $this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID))), $this->get_user());
+        $user_type = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_TYPE);
+        $this->set_parameter(InternshipOrganizerPeriodManager :: PARAM_USER_TYPE, $user_type);
+        
+        $form = new InternshipOrganizerAgreementSubscribeUserForm($this->agreement, $this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID))), $user_type);
         
         if ($form->validate())
         {
             
-        	switch ($user_type) {
-            	case InternshipOrganizerUserType:: COORDINATOR  :
-            	$tab = InternshipOrganizerPeriodManagerAgreementViewerComponent :: TAB_COORDINATOR;
-            	break;
-            	case InternshipOrganizerUserType:: COACH  :
-            	$tab = InternshipOrganizerPeriodManagerAgreementViewerComponent :: TAB_COACH;
-            	break;
-            	
+            switch ($user_type)
+            {
+                case InternshipOrganizerUserType :: COORDINATOR :
+                    $tab = InternshipOrganizerPeriodManagerAgreementViewerComponent :: TAB_COORDINATOR;
+                    break;
+                case InternshipOrganizerUserType :: COACH :
+                    $tab = InternshipOrganizerPeriodManagerAgreementViewerComponent :: TAB_COACH;
+                    break;
+            
             }
-        	
-        	
-        	$success = $form->create_categroy_rel_period();
+            
+            $success = $form->create_agreement_rel_user();
             if ($success)
             {
-                $this->redirect(Translation :: get('InternshipOrganizerAgreementRelUserCreated'), (false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id(), DynamicTabsRenderer::PARAM_SELECTED_TAB => $tab));
+                $this->redirect(Translation :: get('InternshipOrganizerAgreementRelUserCreated'), (false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
             }
             else
             {
-                $this->redirect(Translation :: get('InternshipOrganizerAgreementRelUserNotCreated'), (true), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id(), DynamicTabsRenderer::PARAM_SELECTED_TAB => $tab));
+                $this->redirect(Translation :: get('InternshipOrganizerAgreementRelUserNotCreated'), (true), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID => $this->agreement->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
             }
         }
         else

@@ -20,7 +20,7 @@ class InternshipOrganizerPeriodUserBrowserTableCellRenderer extends DefaultInter
     function render_cell($column, $user)
     {
         
-    	switch ($column->get_name())
+        switch ($column->get_name())
         {
             case Translation :: get('InternshipOrganizerAgreements') :
                 return $this->count_agreements($user);
@@ -32,16 +32,17 @@ class InternshipOrganizerPeriodUserBrowserTableCellRenderer extends DefaultInter
         }
         return parent :: render_cell($column, $user);
     }
-	
-    function count_agreements($user){
-    	$dm = InternshipOrganizerDataManager::get_instance();
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser::PROPERTY_USER_ID , $user->get_id());
-    	$conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser::PROPERTY_USER_TYPE , $this->user_type);
-    	$condition = new AndCondition($conditions);    	
-    	return $dm->count_agreement_rel_users($condition);
+
+    function count_agreements($user)
+    {
+        $dm = InternshipOrganizerDataManager :: get_instance();
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $user->get_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, $this->user_type);
+        $condition = new AndCondition($conditions);
+        return $dm->count_agreement_rel_users($condition);
     }
-    
+
     function render_id_cell($user)
     {
         $period = $this->browser->get_period();
@@ -53,8 +54,10 @@ class InternshipOrganizerPeriodUserBrowserTableCellRenderer extends DefaultInter
         $toolbar = new Toolbar();
         if ($this->user_type == InternshipOrganizerUserType :: STUDENT)
         {
-            $toolbar->add_item(new ToolbarItem(Translation :: get('CreateInternshipOrganizerAgreement'), Theme :: get_common_image_path() . 'action_add.png', $this->browser->get_period_create_agreement_url($this->browser->get_period(), $user), ToolbarItem :: DISPLAY_ICON, true));
-        
+            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_AGREEMENT_RIGHT, $this->browser->get_period()->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+            {
+                $toolbar->add_item(new ToolbarItem(Translation :: get('CreateInternshipOrganizerAgreement'), Theme :: get_common_image_path() . 'action_add.png', $this->browser->get_period_create_agreement_url($this->browser->get_period(), $user), ToolbarItem :: DISPLAY_ICON, true));
+            }
         }
         return $toolbar->as_html();
     
