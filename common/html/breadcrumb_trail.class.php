@@ -80,9 +80,13 @@ class BreadcrumbTrail
         return $breadcrumbtrail[$last_key];
     }
 
-    function truncate()
+    function truncate($keep_main_index = false)
     {
         $this->breadcrumbtrail = array();
+    	if ($keep_main_index)
+        {
+            $this->add(new Breadcrumb($this->get_path(WEB_PATH) . 'index.php', $this->get_setting('site_name', 'admin')));
+        }
     }
 
     function render()
