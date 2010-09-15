@@ -1,6 +1,6 @@
 <?php
 
-class BlogToolCategoryManagerComponent extends BlogTool
+class BlogToolCategoryManagerComponent extends BlogTool implements DelegateComponent
 {
 
     function run()

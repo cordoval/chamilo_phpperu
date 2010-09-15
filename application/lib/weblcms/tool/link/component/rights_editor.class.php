@@ -1,6 +1,6 @@
 <?php
 
-class LinkToolRightsEditorComponent extends LinkTool
+class LinkToolRightsEditorComponent extends LinkTool implements DelegateComponent
 {
 
     function run()
@@ -12,5 +12,17 @@ class LinkToolRightsEditorComponent extends LinkTool
     {
         return WeblcmsRights :: get_available_rights();
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('LinkToolBrowserComponent')));
+    }
+
+    function get_additional_parameters()
+    {
+        array(Tool :: PARAM_PUBLICATION_ID);
+    }
+
 }
+
 ?>

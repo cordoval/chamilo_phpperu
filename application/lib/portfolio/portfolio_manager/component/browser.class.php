@@ -22,7 +22,7 @@ class PortfolioManagerBrowserComponent extends PortfolioManager
     {
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowsePortfolio')));
-        $trail->add_help('portfolio create');
+        $trail->add_help('portfolio browser');
 
         $html = array();
 

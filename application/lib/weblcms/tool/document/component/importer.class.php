@@ -6,7 +6,6 @@ class DocumentToolImporterComponent extends DocumentTool{
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Import')));
         
         $import_form = new ContentObjectImportForm('import', 'post', $this->get_url(), $this->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID), $this->get_user());
 
@@ -39,6 +38,11 @@ class DocumentToolImporterComponent extends DocumentTool{
             $import_form->display();
             $this->display_footer();
         }
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('DocumentToolBrowserComponent')));
     }
 }
 ?>

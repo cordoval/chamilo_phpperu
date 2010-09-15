@@ -16,8 +16,7 @@ class WikiDisplayWikiPubFeedbackCreatorComponent extends WikiDisplay implements 
 
     function run()
     {
-        $trail = $this->get_breadcrumbtrail();
-        $trail->add_help('courses general');
+        
 
         
 
@@ -76,6 +75,12 @@ class WikiDisplayWikiPubFeedbackCreatorComponent extends WikiDisplay implements 
     function get_allowed_content_object_types()
     {
         return array(Feedback :: get_type_name());
+    }
+    
+    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail = $this->get_breadcrumbtrail();
+        $breadcrumbtrail->add_help('courses general');
     }
 }
 ?>

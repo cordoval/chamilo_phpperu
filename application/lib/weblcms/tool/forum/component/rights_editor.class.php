@@ -1,6 +1,6 @@
 <?php
 
-class ForumToolRightsEditorComponent extends ForumTool
+class ForumToolRightsEditorComponent extends ForumTool implements DelegateComponent
 {
 
     function run()
@@ -11,6 +11,16 @@ class ForumToolRightsEditorComponent extends ForumTool
     function get_available_rights()
     {
         return WeblcmsRights :: get_available_rights();
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('ForumToolBrowserComponent')));
+    }
+
+    function get_additional_parameters()
+    {
+        array(Tool :: PARAM_PUBLICATION_ID);
     }
 }
 ?>

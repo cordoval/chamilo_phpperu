@@ -11,5 +11,6 @@ class HomeToolIntroductionPublisherComponent extends HomeTool
     {
         ToolComponent :: launch($this);
     }
+
 }
 ?>

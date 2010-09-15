@@ -150,19 +150,19 @@ class PortfolioManagerViewerComponent extends PortfolioManager
         $trail->add(new Breadcrumb($this->get_url(array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_PORTFOLIO_OWNER_ID => $this->current_user_id)), Translation :: get('ViewPortfolio') . ' ' . $user->get_fullname()));
 
 
-        if($current_action == 'view')
+        if($current_action == self::ACTION_VIEW)
         {
             $trail->add_help('portfolio viewer');
         }
-        else if($current_action == 'feedback')
+        else if($current_action == self::ACTION_FEEDBACK)
         {
             $trail->add_help('portfolio feedback');
         }
-        if($current_action == properties)
+        if($current_action == self::ACTION_PERMISSIONS)
         {
             $trail->add_help('portfolio permissions');
         }
-         if($current_action == edit)
+         if($current_action == self::ACTION_EDIT)
         {
             $trail->add_help('portfolio edit');
         }

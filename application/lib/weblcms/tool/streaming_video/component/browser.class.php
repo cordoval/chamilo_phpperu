@@ -1,4 +1,4 @@
-<?php
+q<?php
 class StreamingVideoToolBrowserComponent extends StreamingVideoTool
 {
     const PARAM_FILTER = 'filter';

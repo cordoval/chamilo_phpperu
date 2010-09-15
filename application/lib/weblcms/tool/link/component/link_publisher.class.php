@@ -20,7 +20,7 @@ class LinkToolPublisherComponent extends LinkToolComponent implements RepoViewer
         }
 
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('courses link tool');
+        
 
         if (Request :: get('pcattree') != null)
         {
@@ -30,7 +30,6 @@ class LinkToolPublisherComponent extends LinkToolComponent implements RepoViewer
                     $trail->add(new Breadcrumb($this->get_url(), $breadcrumb->get_name()));
             }
         }
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publish')));
         
         
         if (!ContentObjectRepoViewer::is_ready_to_be_published())
@@ -52,6 +51,17 @@ class LinkToolPublisherComponent extends LinkToolComponent implements RepoViewer
     public function get_allowed_content_object_types()
     {
         return array(Link :: get_type_name());
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('LinkToolBrowserComponent')));
+        $trail->add_help('weblcms_link_publisher');
+    }
+
+    function get_additional_parameters()
+    {
+        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
     }
 }
 ?>

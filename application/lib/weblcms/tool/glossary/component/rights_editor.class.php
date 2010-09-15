@@ -1,6 +1,6 @@
 <?php
 
-class GlossaryToolRightsEditorComponent extends GlossaryTool
+class GlossaryToolRightsEditorComponent extends GlossaryTool implements DelegateComponent
 {
 
     function run()
@@ -12,5 +12,17 @@ class GlossaryToolRightsEditorComponent extends GlossaryTool
     {
         return WeblcmsRights :: get_available_rights();
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('GlossaryToolBrowserComponent')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+    }
+
 }
+
 ?>

@@ -32,10 +32,17 @@ class ToolComponentPublisherComponent extends ToolComponent implements RepoViewe
         }
     }
 
-    function get_additional_parameters()
-    {
-        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
-    }
+//    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+//    {
+//        $tool = preg_replace('/Tool.*/',"",get_class($this->get_parent()));
+//
+//        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get($tool.'ToolBrowserComponent')));
+//    }
+//
+//    function get_additional_parameters()
+//    {
+//        return array(RepoViewer::PARAM_ID, RepoViewer::PARAM_ACTION);
+//    }
 }
 
 ?>

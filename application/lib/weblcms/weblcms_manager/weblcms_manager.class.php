@@ -173,9 +173,9 @@ class WeblcmsManager extends WebApplication
     {
         parent :: __construct($user);
 
-        $this->set_parameter(self :: PARAM_ACTION, Request :: get(self :: PARAM_ACTION));
-        $this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
-        $this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
+//        $this->set_parameter(self :: PARAM_ACTION, Request :: get(self :: PARAM_ACTION));
+//        $this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
+//        $this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
         //$this->parse_input_from_table();
 
 
@@ -564,7 +564,7 @@ class WeblcmsManager extends WebApplication
     public function load_course($id = null)
     {
         if ($id == null)
-            $id = $this->get_parameter(self :: PARAM_COURSE);
+            $id = Request :: get(self :: PARAM_COURSE);
         $wdm = WeblcmsDataManager :: get_instance();
         if (! is_null($id) && ! is_array($id) && $id != '')
         {

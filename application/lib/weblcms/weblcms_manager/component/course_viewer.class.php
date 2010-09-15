@@ -203,16 +203,14 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManager implements Dele
     
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
-
         $title = CourseLayout :: get_title($this->get_course());
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_CATEGORY => null)), $title));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_CATEGORY => null , WeblcmsManager :: PARAM_ACTION => Request :: get(WeblcmsManager :: PARAM_ACTION), WeblcmsManager :: PARAM_COURSE => Request :: get(WeblcmsManager :: PARAM_COURSE))), $title));
 
     }
 
     function get_additional_parameters()
     {
-    	return array();
+    	return array(self :: PARAM_COURSE);
     }
 }
 ?>

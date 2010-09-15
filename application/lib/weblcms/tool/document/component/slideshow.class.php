@@ -24,7 +24,6 @@ class DocumentToolSlideshowComponent extends DocumentTool
         $this->action_bar = $this->get_action_bar();
         
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('courses document tool');
         
         $html = $browser->as_html();
         
@@ -50,6 +49,11 @@ class DocumentToolSlideshowComponent extends DocumentTool
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('SlideshowSettings'), Theme :: get_common_image_path() . 'action_config.png', $this->get_url(array('tool_action' => DocumentTool :: ACTION_SLIDESHOW_SETTINGS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('DocumentToolBrowserComponent')));
     }
 }
 ?>
