@@ -10,12 +10,15 @@ $(function ()
 		var translation = getTranslation(href, 'admin');
 		
 		var link = $('a', $('li:last', $('#breadcrumbtrail')));
+		var title = $('h3', $('#main'));
 		var url = link.attr('href');
 		
 		link.text(translation);
 		url = url.substr(0, url.indexOf('tab='));
 		url = url + 'tab=' + href;
 		link.attr('href', url);
+		title.text(translation);
+		title.attr('title', translation);
 	}
 	
 	$(document).ready(function ()
