@@ -12,7 +12,7 @@ class InternshipOrganizerAgreementManagerUnsubscriberComponent extends Internshi
      */
     function run()
     {
-      $user = $this->get_user();
+        $user = $this->get_user();
         
         $ids = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_REL_LOCATION_ID);
         $failures = 0;
@@ -28,20 +28,25 @@ class InternshipOrganizerAgreementManagerUnsubscriberComponent extends Internshi
             {
                 $agreementrellocation_ids = explode('|', $id);
                 $agreementrellocation = $this->retrieve_agreement_rel_location($agreementrellocation_ids[1], $agreementrellocation_ids[0]);
-
+                
                 if (! isset($agreementrellocation))
                     continue;
                 
                 if ($agreementrellocation_ids[0] == $agreementrellocation->get_agreement_id())
                 {
-                    if (! $agreementrellocation->delete())
+                    
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_LOCATION_RIGHT, $agreementrellocation->get_agreement_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
                     {
-                        $failures ++;
+                        if (! $agreementrellocation->delete())
+                        {
+                            $failures ++;
+                        }
+                        else
+                        {
+                            //                        Event :: trigger('unsubscribe_location', 'agreement', array('target_agreement_id' => $agreementrellocation->get_agreement_id(), 'target_agreement_id' => $agreementrellocation->get_location_id(), 'action_location_id' => $user->get_id()));
+                        }
                     }
-                    else
-                    {
-//                        Event :: trigger('unsubscribe_location', 'agreement', array('target_agreement_id' => $agreementrellocation->get_agreement_id(), 'target_agreement_id' => $agreementrellocation->get_location_id(), 'action_location_id' => $user->get_id()));
-                    }
+                
                 }
                 else
                 {
@@ -71,7 +76,6 @@ class InternshipOrganizerAgreementManagerUnsubscriberComponent extends Internshi
                     $message = 'SelectedInternshipOrganizerAgreementRelLocationsDeleted';
                 }
             }
-          
             
             $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreementrellocation_ids[0]));
         }

@@ -24,6 +24,7 @@ abstract class Tool extends SubManager
     const PARAM_VISIBILITY = 'visible';
     const PARAM_OBJECT_ID = 'object_id';
     const PARAM_BROWSER_TYPE = 'browser';
+    const PARAM_TEMPLATE_NAME = 'template_name';
     
     const ACTION_BROWSE = 'browser';
     const ACTION_VIEW = 'viewer';

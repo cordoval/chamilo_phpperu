@@ -12,7 +12,11 @@ class InternshipOrganizerAgreementManagerUpdaterComponent extends InternshipOrga
     function run()
     {
         
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        $trail = BreadcrumbTrail :: get_instance();
+        
+        $agreement = $this->retrieve_agreement(Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID));
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: EDIT_AGREEMENT_RIGHT, $agreement, InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -20,9 +24,6 @@ class InternshipOrganizerAgreementManagerUpdaterComponent extends InternshipOrga
             exit();
         }
         
-        $trail = BreadcrumbTrail :: get_instance();
-     
-        $agreement = $this->retrieve_agreement(Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID));
         $form = new InternshipOrganizerAgreementForm(InternshipOrganizerAgreementForm :: TYPE_EDIT, $agreement, $this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement->get_id())), $this->get_user());
         
         if ($form->validate())

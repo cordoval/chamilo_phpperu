@@ -31,7 +31,14 @@ class InternshipOrganizerPeriodManagerRightsEditorComponent extends InternshipOr
         }
         
         $manager = new RightsEditorManager($this, $locations);
-        $manager->exclude_users(array($this->get_user_id()));
+        $user_ids = $period->get_user_ids(InternshipOrganizerUserType::get_user_types());
+        if(count($user_ids) > 0){
+        	$manager->limit_users($user_ids);
+        }else{
+        	$manager->limit_users(array(0));
+        }
+        
+        $manager->set_modus(RightsEditorManager :: MODUS_USERS);
         $manager->run();
     }
 

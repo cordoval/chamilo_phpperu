@@ -34,19 +34,25 @@ class InternshipOrganizerAgreementBrowserTableCellRenderer extends DefaultIntern
      * @return string A HTML representation of the action links
      */
     private function get_modification_links($agreement)
-    {        
-       	$toolbar= new Toolbar();
+    {
+        $toolbar = new Toolbar();
         
         $user = $this->browser->get_user();
         $user_id = $user->get_id();
-             
-        if(  $user->is_platform_admin() ||$agreement->is_user_type($user_id, array(InternshipOrganizerUserType::COORDINATOR, InternshipOrganizerUserType ::COACH))){
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON ));	
-           $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON, true ));   
-       }
         
-      	$toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON ));  
-
+        if ($user->is_platform_admin() || $agreement->is_user_type($user_id, array(InternshipOrganizerUserType :: COORDINATOR, InternshipOrganizerUserType :: COACH)))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON, true));
+        }
+        
+        $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON));
+        
+        if ($this->browser->get_user()->is_platform_admin() || $agreement->get_owner() == $this->browser->get_user_id())
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_rights_editor_url($agreement), ToolbarItem :: DISPLAY_ICON));
+        }
+        
         return $toolbar->as_html();
     }
 }

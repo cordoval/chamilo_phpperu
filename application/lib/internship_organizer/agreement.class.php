@@ -27,7 +27,12 @@ class InternshipOrganizerAgreement extends DataClass
         {
             $parent_location = InternshipOrganizerRights :: get_internship_organizers_subtree_root_id();
             $location = InternshipOrganizerRights :: create_location_in_internship_organizers_subtree($this->get_name(), $this->get_id(), $parent_location, InternshipOrganizerRights :: TYPE_AGREEMENT, true);
-        
+            
+            $rights = InternshipOrganizerRights :: get_available_rights_for_agreements();
+            foreach ($rights as $right)
+            {
+                RightsUtilities :: set_user_right_location_value($right, $this->get_owner(), $location->get_id(), 1);
+            }
         }
         return $succes;
     }

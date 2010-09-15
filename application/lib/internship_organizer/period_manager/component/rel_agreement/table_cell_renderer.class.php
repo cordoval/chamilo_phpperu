@@ -43,15 +43,21 @@ class InternshipOrganizerPeriodRelAgreementBrowserTableCellRenderer extends Defa
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: EDIT_AGREEMENT_RIGHT, $agreement->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON));
-        }   
+        }
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: DELETE_AGREEMENT_RIGHT, $agreement->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
-        {   
+        {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON, true));
         }
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: VIEW_AGREEMENT_RIGHT, $agreement->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON));
         }
+        
+        if ($this->browser->get_user()->is_platform_admin() || $agreement->get_owner() == $this->browser->get_user_id())
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_agreement_rights_editor_url($agreement), ToolbarItem :: DISPLAY_ICON));
+        }
+        
         return $toolbar->as_html();
     }
 }

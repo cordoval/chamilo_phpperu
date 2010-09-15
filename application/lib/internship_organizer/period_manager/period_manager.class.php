@@ -229,7 +229,11 @@ class InternshipOrganizerPeriodManager extends SubManager
     function get_rights_editor_url($period)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PERIOD_RIGHTS, self :: PARAM_PERIOD_ID => $period->get_id()));
-    
+    }
+
+    function get_agreement_rights_editor_url($agreement)
+    {
+        return $this->get_url(array(Application :: PARAM_ACTION => InternshipOrganizerAgreementManager :: SUB_MANAGER_NAME ,InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_EDIT_AGREEMENT_RIGHTS, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement->get_id()));
     }
 
     /**

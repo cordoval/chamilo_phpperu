@@ -10,7 +10,9 @@ class InternshipOrganizerAgreementManagerMoverComponent extends InternshipOrgani
     function run()
     {
         
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        $agreement_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID);
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_LOCATION_RIGHT, $agreement_id, InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -18,7 +20,6 @@ class InternshipOrganizerAgreementManagerMoverComponent extends InternshipOrgani
             exit();
         }
         
-        $agreement_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID);
         $location_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_LOCATION_ID);
         $move_direction = Request :: get(InternshipOrganizerAgreementManager :: PARAM_MOVE_AGREEMENT_REL_LOCATION_DIRECTION);
         

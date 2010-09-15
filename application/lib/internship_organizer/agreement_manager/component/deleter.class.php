@@ -11,14 +11,6 @@ class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrga
     function run()
     {
         
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
-        {
-            $this->display_header($trail);
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
-        }
-        
         $ids = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
         $failures = 0;
         
@@ -31,12 +23,17 @@ class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrga
             
             foreach ($ids as $id)
             {
-                $agreement = $this->retrieve_agreement($id);
                 
-                if (! $agreement->delete())
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: DELETE_AGREEMENT_RIGHT, $id, InternshipOrganizerRights :: TYPE_AGREEMENT))
                 {
-                    $failures ++;
+                    $agreement = $this->retrieve_agreement($id);
+                    
+                    if (! $agreement->delete())
+                    {
+                        $failures ++;
+                    }
                 }
+            
             }
             
             if ($failures)

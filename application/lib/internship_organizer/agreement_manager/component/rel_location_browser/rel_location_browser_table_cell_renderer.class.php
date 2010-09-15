@@ -60,31 +60,34 @@ class InternshipOrganizerAgreementRelLocationBrowserTableCellRenderer extends De
         
         $count = InternshipOrganizerDataManager :: get_instance()->count_agreement_rel_locations($condition);
         
-        if ($count >= 1)
+        if ($count > 1)
         {
-            
-            $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_agreement_rel_location_unsubscribing_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON, true));
-            
-            if ($agreementrellocation->get_preference_order() > 1)
+            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_LOCATION_RIGHT, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->browser->get_agreement_rel_location_move_up_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON));
-            }
-            else
-            {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
-            }
-            
-            if ($agreementrellocation->get_preference_order() < $count)
-            {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->browser->get_agreement_rel_location_move_down_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON));
-            }
-            else
-            {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                if ($agreementrellocation->get_location_type() != InternshipOrganizerAgreementRelLocation :: APPROVED)
+                {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_agreement_rel_location_unsubscribing_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON, true));
+                }
+                if ($agreementrellocation->get_preference_order() > 1)
+                {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->browser->get_agreement_rel_location_move_up_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON));
+                }
+                else
+                {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUpNA'), Theme :: get_common_image_path() . 'action_up_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                }
+                
+                if ($agreementrellocation->get_preference_order() < $count)
+                {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->browser->get_agreement_rel_location_move_down_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON));
+                }
+                else
+                {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDownNA'), Theme :: get_common_image_path() . 'action_down_na.png', null, ToolbarItem :: DISPLAY_ICON));
+                }
             }
         }
-        
-        if ($user->is_platform_admin() || $agreement->is_user_type($user_id, array(InternshipOrganizerUserType :: COORDINATOR, InternshipOrganizerUserType :: COACH)))
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: APPROVE_LOCATION_RIGHT, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             
             if ($agreementrellocation->get_location_type() == InternshipOrganizerAgreementRelLocation :: APPROVED)

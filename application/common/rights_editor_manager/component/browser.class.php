@@ -46,7 +46,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         }
         
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS, self :: PARAM_TYPE => Request :: get(self :: PARAM_TYPE))), Translation :: get('BrowseRights')));
+        //$trail->add(new Breadcrumb($this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS, self :: PARAM_TYPE => Request :: get(self :: PARAM_TYPE))), Translation :: get('BrowseRights')));
         
         $this->action_bar = $this->get_action_bar();
         
@@ -279,6 +279,10 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         }
         
         return $action_bar;
+    }
+    function  get_additional_parameters()
+    {
+        return array();
     }
 
 }

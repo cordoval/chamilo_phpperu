@@ -45,6 +45,7 @@ class InternshipOrganizerPeriodManagerAgreementCreatorComponent extends Internsh
             $agreement->set_period_id($period_id);
             $agreement->set_begin($period->get_begin());
             $agreement->set_end($period->get_end());
+            $agreement->set_owner($this->get_user_id());
             
             $form = new InternshipOrganizerAgreementForm(InternshipOrganizerAgreementForm :: TYPE_SINGLE_PERIOD_CREATE, $agreement, $this->get_url(), $ids);
             
