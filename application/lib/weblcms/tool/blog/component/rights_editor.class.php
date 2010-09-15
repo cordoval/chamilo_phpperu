@@ -1,6 +1,6 @@
 <?php
 
-class BlogToolRightsEditorComponent extends BlogTool
+class BlogToolRightsEditorComponent extends BlogTool implements DelegateComponent
 {
 
     function run()

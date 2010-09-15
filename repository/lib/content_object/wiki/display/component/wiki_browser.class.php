@@ -23,7 +23,7 @@ class WikiDisplayWikiBrowserComponent extends WikiDisplay
     function run()
     {
         $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), null);
-        $this->get_breadcrumbtrail();
+        
         
         if ($this->get_root_content_object() != null)
         {
@@ -46,6 +46,11 @@ class WikiDisplayWikiBrowserComponent extends WikiDisplay
             return new OrCondition($conditions);
         }
         return null;
+    }
+
+    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail = $this->get_breadcrumbtrail();
     }
 }
 ?>

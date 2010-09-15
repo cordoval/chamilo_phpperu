@@ -1,6 +1,6 @@
 <?php
 
-class CalendarToolRightsEditorComponent extends CalendarTool
+class CalendarToolRightsEditorComponent extends CalendarTool implements DelegateComponent
 {
 
     function run()

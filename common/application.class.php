@@ -747,6 +747,7 @@ abstract class Application
         else
         {
         	$trail->add(new Breadcrumb($component->get_url(), Translation :: get(self :: application_to_class($application_name))));
+                //$trail->add(new Breadcrumb(Redirect :: get_link($application_name)));
         }
         
         $component->add_additional_breadcrumbs($trail);

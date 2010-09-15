@@ -44,7 +44,7 @@ class ForumToolPublisherComponent extends ForumToolComponent implements RepoView
     {
         return array(Forum :: get_type_name());
     }
-
+    
 }
 
 ?>
