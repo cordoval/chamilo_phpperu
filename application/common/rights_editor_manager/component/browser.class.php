@@ -23,7 +23,13 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
      */
     function run()
     {
-        $this->type = Request :: get(self :: PARAM_TYPE);
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add_help('rights_editor_browser');
+        $this->set_parameter(self :: PARAM_TYPE, Request :: get(self :: PARAM_TYPE));
+        $this->set_parameter(RightsEditorManager :: PARAM_GROUP, Request :: get(RightsEditorManager :: PARAM_GROUP));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('RightsEditorManagerBrowserComponent')));
+        
+    	$this->type = Request :: get(self :: PARAM_TYPE);
         $modus = $this->get_modus();
         if (! $this->type)
         {

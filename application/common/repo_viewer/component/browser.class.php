@@ -50,7 +50,7 @@ class RepoViewerBrowserComponent extends RepoViewer
 	 */
     function run()
     {
-        $this->renderer = clone $this->form->defaultRenderer();
+    	$this->renderer = clone $this->form->defaultRenderer();
         $this->renderer->setElementTemplate('<span>{element}</span> ');
         $this->form->accept($this->renderer);
 
@@ -232,5 +232,15 @@ class RepoViewerBrowserComponent extends RepoViewer
     {
         return (Request :: get(self :: SHARED_BROWSER) == 1);
     }
+    
+   function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+   {
+   		$breadcrumbtrail->add_help('repo_viewer_browser');
+   }
+   
+   function get_additional_parameters()
+   {
+   	
+   }
 }
 ?>

@@ -17,7 +17,7 @@ class RepoViewerViewerComponent extends RepoViewer
     {
         if (Request :: get(RepoViewer :: PARAM_ID))
         {
-            $content_object = RepositoryDataManager :: get_instance()->retrieve_content_object(Request :: get(RepoViewer :: PARAM_ID));
+        	$content_object = RepositoryDataManager :: get_instance()->retrieve_content_object(Request :: get(RepoViewer :: PARAM_ID));
             $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
 
 	        $toolbar->add_item(new ToolbarItem(
@@ -38,6 +38,17 @@ class RepoViewerViewerComponent extends RepoViewer
             echo '<div class="clear"></div>';
             $this->display_footer();
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+   		$breadcrumbtrail->add_help('repo_viewer_viewer');
+   		$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(RepoViewer :: PARAM_ACTION => RepoViewer :: ACTION_BROWSER)), Translation :: get('RepoViewerBrowserComponent')));
+    }
+   
+    function get_additional_parameters()
+    {
+    	return array(RepoViewer :: PARAM_ID);
     }
 }
 ?>

@@ -15,7 +15,7 @@ class RepoViewerCreatorComponent extends RepoViewer
 	 */
     function run($params = array())
     {
-        $content_object_id = Request :: get(RepoViewer :: PARAM_EDIT_ID);
+    	$content_object_id = Request :: get(RepoViewer :: PARAM_EDIT_ID);
         if ($content_object_id)
         {
             //if (Request :: get(RepoViewer :: PARAM_EDIT))
@@ -185,6 +185,16 @@ class RepoViewerCreatorComponent extends RepoViewer
             echo $form->toHtml();
             $this->display_footer();
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+   		$breadcrumbtrail->add_help('repo_viewer_viewer');
+    }
+   
+    function get_additional_parameters()
+    {
+    	return array(RepoViewer :: PARAM_EDIT_ID, RepoViewer :: PARAM_CONTENT_OBJECT_TYPE);
     }
 }
 ?>

@@ -33,7 +33,11 @@ class RightsEditorManagerInheritChangerComponent extends RightsEditorManager
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoLocationSelected')));
+            $trail = BreadcrumbTrail :: get_instance();
+	        $trail->add_help('rights_editor_group_rights_setter');
+	        $trail->add(new Breadcrumb($this->get_url(array(RightsEditorManager :: PARAM_RIGHTS_EDITOR_ACTION => RightsEditorManager :: ACTION_BROWSE_RIGHTS)), Translation :: get('RightsEditorManagerBrowserComponent')));
+	        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('RightsEditorManagerUserRightsSetterComponent')));
+        	$this->display_error_page(htmlentities(Translation :: get('NoLocationSelected')));
         }
     }
 }
