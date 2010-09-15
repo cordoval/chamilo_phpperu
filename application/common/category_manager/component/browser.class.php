@@ -17,7 +17,12 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
      */
     function run()
     {
-        $this->ab = $this->get_action_bar(); //new ActionBarRenderer($this->get_left_toolbar_data(), array(), );
+        $this->set_parameter(CategoryManager :: PARAM_CATEGORY_ID, Request :: get(CategoryManager :: PARAM_CATEGORY_ID));
+    	$trail = BreadcrumbTrail :: get_instance();
+        $trail->add_help('category_manager_browser');
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CategoryManagerBrowserComponent')));
+        
+    	$this->ab = $this->get_action_bar(); //new ActionBarRenderer($this->get_left_toolbar_data(), array(), );
         $menu = new CategoryMenu(Request :: get(CategoryManager :: PARAM_CATEGORY_ID), $this->get_parent());
 
         echo $this->display_header();

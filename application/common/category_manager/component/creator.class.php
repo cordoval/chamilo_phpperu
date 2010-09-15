@@ -15,15 +15,17 @@ class CategoryManagerCreatorComponent extends CategoryManagerComponent
      */
     function run()
     {
-        $trail = $this->get_breadcrumb_trail();
+        $this->set_parameter(CategoryManager :: PARAM_CATEGORY_ID, Request :: get(CategoryManager :: PARAM_CATEGORY_ID));
+    	$trail = BreadcrumbTrail :: get_instance();
+        $trail->add_help('category_manager_creator');
+        $trail->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES)), Translation :: get('CategoryManagerBrowserComponent')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CategoryManagerCreatorComponent')));
         
         if (Request :: get(CategoryManager :: PARAM_CATEGORY_ID))
         {
             require_once dirname(__FILE__) . '/../category_menu.class.php';
             $menu = new CategoryMenu(Request :: get(CategoryManager :: PARAM_CATEGORY_ID), $this->get_parent());
-            $trail->merge($menu->get_breadcrumbs());
         }
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddCategory')));
         
         $category_id = Request :: get(CategoryManager :: PARAM_CATEGORY_ID);
         $user = $this->get_user();
@@ -36,11 +38,7 @@ class CategoryManagerCreatorComponent extends CategoryManagerComponent
         if ($form->validate())
         {
             $success = $form->create_category();
-            //if(get_class($this->get_parent()) == 'RepositoryCategoryManager')
-            //$this->repository_redirect(RepositoryManager :: ACTION_MANAGE_CATEGORIES, Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), 0, ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $category->get_id()));
-            //else
-            //$this->redirect(Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $category->get_id()));
-            $this->redirect(Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => 0));
+            $this->redirect(Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => Request :: get(CategoryManager :: PARAM_CATEGORY_ID)));
         }
         else
         {

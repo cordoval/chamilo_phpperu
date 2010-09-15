@@ -65,8 +65,14 @@ class CategoryManagerDeleterComponent extends CategoryManagerComponent
         }
         else
         {
-            $this->display_header($this->get_breadcrumb_trail());
-            $this->display_error_message(Translation :: get("NoObjectSelected"));
+	    	$trail = BreadcrumbTrail :: get_instance();
+	        $trail->add_help('category_manager_deleter');
+	        $trail->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES)), Translation :: get('CategoryManagerBrowserComponent')));
+	        $this->set_parameter(CategoryManager :: PARAM_CATEGORY_ID, Request :: get(CategoryManager :: PARAM_CATEGORY_ID));
+	        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CategoryManagerDeleterComponent')));
+        
+        	$this->display_header();
+            echo Translation :: get("NoObjectSelected");
             $this->display_footer();
         }
     }

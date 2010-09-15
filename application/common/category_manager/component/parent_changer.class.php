@@ -17,11 +17,16 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
         $user = $this->get_user();
         
         $ids = Request :: get(CategoryManager :: PARAM_CATEGORY_ID);
-        $this->get_breadcrumb_trail()->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $ids)), Translation :: get('MoveCategories')));
+        
+    	$trail = BreadcrumbTrail :: get_instance();
+        $trail->add_help('category_manager_parent_changer');
+        $trail->add(new Breadcrumb($this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES)), Translation :: get('CategoryManagerBrowserComponent')));
+        $this->set_parameter(CategoryManager :: PARAM_CATEGORY_ID, Request :: get(CategoryManager :: PARAM_CATEGORY_ID));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CategoryManagerParentChangerComponent')));
         
         if (! $user)
         {
-            $this->display_header($this->get_breadcrumb_trail());
+            $this->display_header();
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit();
@@ -67,7 +72,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
             }
             else
             {
-                $this->display_header($this->get_breadcrumb_trail());
+                $this->display_header();
                 
                 echo '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'action_category.png);">';
                 echo '<div class="title">' . Translation :: get('SelectedCategories');
