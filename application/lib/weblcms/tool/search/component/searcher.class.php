@@ -22,7 +22,7 @@ class SearchToolSearcherComponent extends SearchTool
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('courses search tool');
+        
 
         $this->action_bar = $this->get_action_bar();
         $this->display_header();
@@ -193,6 +193,11 @@ class SearchToolSearcherComponent extends SearchTool
         }
         
         return $query;
+    }
+
+    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add_help('weblcms_search_searcher');
     }
 }
 ?>

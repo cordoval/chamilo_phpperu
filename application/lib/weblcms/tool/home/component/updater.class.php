@@ -7,5 +7,10 @@ class HomeToolUpdaterComponent extends HomeTool
     {
         ToolComponent :: launch($this);
     }
+
+    function get_additional_parameters()
+    {
+        return array(Tool :: PARAM_PUBLICATION_ID);
+    }
 }
 ?>
