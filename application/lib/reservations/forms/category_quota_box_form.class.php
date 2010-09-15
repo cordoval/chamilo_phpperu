@@ -216,59 +216,36 @@ class CategoryQuotaBoxForm extends FormValidator
         $rdm = ReservationsDataManager :: get_instance();
         $succes = true;
         $selected_users = $values['users']['user'];
+        $selected_groups = $values['users']['group'];
 
         $rdm->empty_quota_box_rel_category($quota_box_rel_category->get_id());
 
         foreach ($selected_users as $user)
         {
-            $split = explode('_', $user);
-            $type = $split[0];
-            $ref = $split[1];
+            $qbrcru = new QuotaBoxRelCategoryRelUser();
+            $qbrcru->set_quota_box_rel_category_id($quota_box_rel_category->get_id());
+            $qbrcru->set_user_id($user);
+            $qbrcru->create();
+        }
+       
+        foreach($selected_groups as $group)
+        {
+            $conditions = array();
+            $conditions[] = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_GROUP_ID, $group);
+            $conditions[] = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_QUOTA_BOX_REL_CATEGORY_ID, $quota_box_rel_category->get_id());
+            $condition = new AndCondition($conditions);
 
-            if ($type == 'user')
-            {
-                $qbrcru = new QuotaBoxRelCategoryRelUser();
-                $qbrcru->set_quota_box_rel_category_id($quota_box_rel_category->get_id());
-                $qbrcru->set_user_id($ref);
-                $qbrcru->create();
-            }
-            else
-            {
-                $conditions = array();
-                $conditions[] = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_GROUP_ID, $ref);
-                $conditions[] = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_QUOTA_BOX_REL_CATEGORY_ID, $quota_box_rel_category->get_id());
-                $condition = new AndCondition($conditions);
+            $count = $rdm->count_quota_box_rel_category_rel_groups($condition);
+            if ($count > 0)
+                continue;
 
-                $count = $rdm->count_quota_box_rel_category_rel_groups($condition);
-                if ($count > 0)
-                    continue;
+            $qbrcrg = new QuotaBoxRelCategoryRelGroup();
+            $qbrcrg->set_quota_box_rel_category_id($quota_box_rel_category->get_id());
+            $qbrcrg->set_group_id($group);
+            $qbrcrg->create();
 
-                $qbrcrg = new QuotaBoxRelCategoryRelGroup();
-                $qbrcrg->set_quota_box_rel_category_id($quota_box_rel_category->get_id());
-                $qbrcrg->set_group_id($ref);
-                $qbrcrg->create();
+            $group = GroupDataManager :: get_instance()->retrieve_group($group);
 
-                $group = GroupDataManager :: get_instance()->retrieve_group($ref);
-
-                //$subgroups = Group :: get_subgroups_from_group($ref, true);
-                $subgroups = $group->get_subgroups();
-                foreach ($subgroups as $subgroup)
-                {
-                    $conditions = array();
-                    $conditions[] = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_GROUP_ID, $subgroup->get_id());
-                    $conditions[] = new EqualityCondition(QuotaBoxRelCategoryRelGroup :: PROPERTY_QUOTA_BOX_REL_CATEGORY_ID, $quota_box_rel_category->get_id());
-                    $condition = new AndCondition($conditions);
-
-                    $count = $rdm->count_quota_box_rel_category_rel_groups($condition);
-                    if ($count > 0)
-                        continue;
-
-                    $qbrcrg = new QuotaBoxRelCategoryRelGroup();
-                    $qbrcrg->set_quota_box_rel_category_id($quota_box_rel_category->get_id());
-                    $qbrcrg->set_group_id($subgroup->get_id());
-                    $qbrcrg->create();
-                }
-            }
         }
 
         return $succes;

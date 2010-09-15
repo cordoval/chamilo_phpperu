@@ -22,7 +22,7 @@ class ReservationsManagerAdminCategoryBrowserComponent extends ReservationsManag
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
 
         $this->ab = $this->get_action_bar();
-        $menu = new ReservationsMenu($_GET[ReservationsManager :: PARAM_CATEGORY_ID], '?application=reservations&go=admin_browse_categories&category_id=%s');
+        $menu = new ReservationsMenu($_GET[ReservationsManager :: PARAM_CATEGORY_ID], '?application=reservations&go=admin_category_browser&category_id=%s');
 
         $this->display_header($trail);
         echo $this->ab->as_html() . '<br />';

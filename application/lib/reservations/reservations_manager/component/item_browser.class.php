@@ -24,7 +24,7 @@ class ReservationsManagerItemBrowserComponent extends ReservationsManager
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewItems')));
 
         $this->ab = $this->get_action_bar();
-        $menu = new ReservationsMenu($_GET[ReservationsManager :: PARAM_CATEGORY_ID], '?application=reservations&go=browse_items&category_id=%s');
+        $menu = new ReservationsMenu($_GET[ReservationsManager :: PARAM_CATEGORY_ID], '?application=reservations&go=item_browser&category_id=%s');
         $poolform = $this->get_poolform();
 
         $this->display_header($trail);
