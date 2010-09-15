@@ -1,6 +1,6 @@
 <?php
 
-class AssessmentToolCategoryManagerComponent extends AssessmentTool
+class AssessmentToolCategoryManagerComponent extends AssessmentTool implements DelegateComponent
 {
 
     function run()

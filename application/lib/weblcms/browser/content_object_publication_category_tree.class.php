@@ -59,7 +59,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
      */
     function get_current_category_id()
     {
-        return intval(Request :: get($this->tree_id));
+        return intval(Request :: get(WeblcmsManager :: PARAM_CATEGORY));
     }
 
     private function get_menu_items($extra_items)
@@ -187,7 +187,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
      */
     private function get_category_url($category_id)
     {
-        $this->url_params[$this->tree_id] = $category_id;
+        $this->url_params[WeblcmsManager :: PARAM_CATEGORY] = $category_id;
         return $this->browser->get_url($this->url_params);
     }
 

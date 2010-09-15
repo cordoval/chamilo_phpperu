@@ -1,6 +1,6 @@
 <?php
 
-class DocumentToolCategoryManagerComponent extends DocumentTool
+class DocumentToolCategoryManagerComponent extends DocumentTool implements DelegateComponent
 {
 
     function run()

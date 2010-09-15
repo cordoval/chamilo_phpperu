@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../../category_manager/content_object_publication_category_manager.class.php';
 
-class ForumToolCategoryManagerComponent extends ForumTool
+class ForumToolCategoryManagerComponent extends ForumTool implements DelegateComponent
 {
 
     function run()

@@ -1,6 +1,6 @@
 <?php
 
-class LinkToolCategoryManagerComponent extends LinkTool
+class LinkToolCategoryManagerComponent extends LinkTool implements DelegateComponent
 {
 
     function run()
