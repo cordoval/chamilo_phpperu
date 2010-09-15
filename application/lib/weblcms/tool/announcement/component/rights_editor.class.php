@@ -1,6 +1,6 @@
 <?php
 
-class AnnouncementToolRightsEditorComponent extends AnnouncementTool
+class AnnouncementToolRightsEditorComponent extends AnnouncementTool implements DelegateComponent
 {
 
     function run()

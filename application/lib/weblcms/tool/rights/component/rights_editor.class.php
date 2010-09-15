@@ -1,6 +1,6 @@
 <?php
 
-class RightsToolRightsEditorComponent extends RightsTool
+class RightsToolRightsEditorComponent extends RightsTool implements DelegateComponent
 {
 
     function run()

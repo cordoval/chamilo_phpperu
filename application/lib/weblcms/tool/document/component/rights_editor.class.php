@@ -1,6 +1,6 @@
 <?php
 
-class DocumentToolRightsEditorComponent extends DocumentTool
+class DocumentToolRightsEditorComponent extends DocumentTool implements DelegateComponent
 {
 
     function run()

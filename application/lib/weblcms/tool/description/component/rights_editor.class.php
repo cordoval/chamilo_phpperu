@@ -1,6 +1,6 @@
 <?php
 
-class DescriptionToolRightsEditorComponent extends DescriptionTool
+class DescriptionToolRightsEditorComponent extends DescriptionTool implements DelegateComponent
 {
 
     function run()

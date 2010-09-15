@@ -1,6 +1,6 @@
 <?php
 
-class LinkToolRightsEditorComponent extends LinkTool
+class LinkToolRightsEditorComponent extends LinkTool implements DelegateComponent
 {
 
     function run()

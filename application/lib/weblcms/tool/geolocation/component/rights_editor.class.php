@@ -1,6 +1,6 @@
 <?php
 
-class GeolocationToolRightsEditorComponent extends GeolocationTool
+class GeolocationToolRightsEditorComponent extends GeolocationTool implements DelegateComponent
 {
 
     function run()

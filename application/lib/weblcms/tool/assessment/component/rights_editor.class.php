@@ -1,6 +1,6 @@
 <?php
 
-class AssessmentToolRightsEditorComponent extends AssessmentTool
+class AssessmentToolRightsEditorComponent extends AssessmentTool implements DelegateComponent
 {
 
     function run()

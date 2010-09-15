@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../../wiki.class.php';
 
-class WikiDisplayUpdaterComponent extends WikiDisplay
+class WikiDisplayUpdaterComponent extends WikiDisplay implements DelegateComponent
 {
     function run()
     {

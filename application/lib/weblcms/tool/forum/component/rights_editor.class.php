@@ -1,6 +1,6 @@
 <?php
 
-class ForumToolRightsEditorComponent extends ForumTool
+class ForumToolRightsEditorComponent extends ForumTool implements DelegateComponent
 {
 
     function run()

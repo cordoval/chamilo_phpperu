@@ -1,6 +1,6 @@
 <?php
 
-class GlossaryToolRightsEditorComponent extends GlossaryTool
+class GlossaryToolRightsEditorComponent extends GlossaryTool implements DelegateComponent
 {
 
     function run()

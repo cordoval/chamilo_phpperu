@@ -9,7 +9,7 @@
  *
  * @author jevdheyd
  */
-class WikiToolComplexBuilderComponent extends WikiTool
+class WikiToolComplexBuilderComponent extends WikiTool implements DelegateComponent
 {
 
     function run()

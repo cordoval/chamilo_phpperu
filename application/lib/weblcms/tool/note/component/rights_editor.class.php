@@ -1,6 +1,6 @@
 <?php
 
-class NoteToolRightsEditorComponent extends NoteTool
+class NoteToolRightsEditorComponent extends NoteTool implements DelegateComponent
 {
 
     function run()

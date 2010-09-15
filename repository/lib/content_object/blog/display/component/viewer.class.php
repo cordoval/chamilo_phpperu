@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/viewer/blog_layout.class.php';
  * Represents the view component for the assessment tool.
  *
  */
-class BlogDisplayViewerComponent extends BlogDisplay
+class BlogDisplayViewerComponent extends BlogDisplay implements DelegateComponent
 {
     private $action_bar;
 
@@ -21,7 +21,7 @@ class BlogDisplayViewerComponent extends BlogDisplay
         $blog = $this->get_root_content_object();
         
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), $blog->get_title()));
+        
         
         $blog_layout = BlogLayout :: factory($this, $blog);
         
@@ -41,6 +41,11 @@ class BlogDisplayViewerComponent extends BlogDisplay
         }
         
         return $action_bar;
+    }
+
+    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(), $this->get_root_content_object()->get_title()));
     }
     
 }

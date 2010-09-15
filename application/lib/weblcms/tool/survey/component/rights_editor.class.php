@@ -1,6 +1,6 @@
 <?php
 
-class SurveyToolRightsEditorComponent extends SurveyTool
+class SurveyToolRightsEditorComponent extends SurveyTool implements DelegateComponent
 {
 
     function run()

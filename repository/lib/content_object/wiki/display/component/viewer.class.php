@@ -23,7 +23,7 @@ class WikiDisplayViewerComponent extends WikiDisplay
     function run()
     {
         $this->action_bar = $this->get_toolbar($this, $this->get_root_content_object()->get_id(), $this->get_root_content_object(), null);
-        $this->get_breadcrumbtrail();
+        
 
         if ($this->get_root_content_object() != null)
         {
@@ -57,6 +57,11 @@ class WikiDisplayViewerComponent extends WikiDisplay
                 $this->redirect(Translation :: get('PleaseConfigureWikiHomepage'), false, array(Complexdisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_BROWSE_WIKI));
             }
         }
+    }
+
+    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail = $this->get_breadcrumbtrail();
     }
 }
 ?>

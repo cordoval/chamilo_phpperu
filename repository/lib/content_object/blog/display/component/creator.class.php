@@ -11,6 +11,11 @@ class BlogDisplayCreatorComponent extends BlogDisplay
     {
         ComplexDisplayComponent :: launch($this);
     }
+
+    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_COMPLEX_CONTENT_OBJECT)), $this->get_root_content_object()->get_title()));
+    }
 }
 
 ?>

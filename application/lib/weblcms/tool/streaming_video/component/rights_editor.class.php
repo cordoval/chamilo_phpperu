@@ -1,6 +1,6 @@
 <?php
 
-class StreamingVideoToolRightsEditorComponent extends StreamingVideoTool
+class StreamingVideoToolRightsEditorComponent extends StreamingVideoTool implements DelegateComponent
 {
 
     function run()

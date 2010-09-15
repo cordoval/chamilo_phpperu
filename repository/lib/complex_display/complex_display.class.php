@@ -49,6 +49,8 @@ abstract class ComplexDisplay extends SubManager
         
         $action = Request :: get(self :: PARAM_DISPLAY_ACTION);
         $this->set_action($action);
+
+        $this->set_parameter(self :: PARAM_TYPE, Request :: get(self :: PARAM_TYPE));
         
         $complex_content_object_item_id = Request :: get(self :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID);
         if ($complex_content_object_item_id)

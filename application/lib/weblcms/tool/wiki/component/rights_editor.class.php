@@ -1,6 +1,6 @@
 <?php
 
-class WikiToolRightsEditorComponent extends WikiTool
+class WikiToolRightsEditorComponent extends WikiTool implements DelegateComponent
 {
 
     function run()
