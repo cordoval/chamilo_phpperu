@@ -76,7 +76,7 @@ class DocumentDisplay extends ContentObjectDisplay
         }
         else
         {
-            return parent :: get_thumbnail($width, $height);
+            return parent :: get_preview($is_thumbnail);
         }
     }
 }
