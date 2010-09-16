@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../cda_manager.class.php';
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerCdaLanguageDeleterComponent extends CdaManager
+class CdaManagerCdaLanguageDeleterComponent extends CdaManager implements AdministrationComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -73,5 +73,16 @@ class CdaManagerCdaLanguageDeleterComponent extends CdaManager
 			$this->display_error_page(htmlentities(Translation :: get('NoCdaLanguagesSelected')));
 		}
 	}
+	
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('cda_admin_languages_deleter');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_CDA_LANGUAGES)), Translation :: get('CdaManagerAdminCdaLanguagesBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_CDA_LANGUAGE);
+    }
 }
 ?>

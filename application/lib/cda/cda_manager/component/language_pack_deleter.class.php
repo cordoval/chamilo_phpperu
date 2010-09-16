@@ -73,5 +73,16 @@ class CdaManagerLanguagePackDeleterComponent extends CdaManager
 			$this->display_error_page(htmlentities(Translation :: get('NoLanguagePacksSelected')));
 		}
 	}
+	
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('cda_admin_language_pack_deleter');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('CdaManagerAdminLanguagePacksBrowserComponent')));
+    }
+	
+ 	function get_additional_parameters()
+    {
+    	return array(self :: PARAM_LANGUAGE_PACK);
+    }
 }
 ?>
