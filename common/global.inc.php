@@ -286,9 +286,11 @@ if (Request :: get('logout'))
 
 if (Request :: get('adminuser'))
 {
-    $_SESSION['_uid'] = $_SESSION['_as_admin'];
-    $_SESSION['_as_admin'] = null;
-    unset($_SESSION['as_admin']);
+    $checkurl = Session :: retrieve('checkChamiloURL');
+    $admin_user = Session :: retrieve('_as_admin');
+    Session :: clear();
+    Session :: register('_uid', $admin_user);
+    Session :: register('checkChamiloURL', $checkurl);
 }
 
 $user = Session :: get_user_id();
