@@ -10,7 +10,7 @@
  *
  * @author Soliber
  */
-class ToolComponentReportingViewerComponent extends ToolComponent
+class ToolComponentReportingViewerComponent extends ToolComponent 
 {
 
     /**
@@ -29,7 +29,7 @@ class ToolComponentReportingViewerComponent extends ToolComponent
 
 
 
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'), 'template_name' => Request :: get('template_name'))), Translation :: get('Reporting')));
+        
 
         $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name($classname, WeblcmsManager :: APPLICATION_NAME);

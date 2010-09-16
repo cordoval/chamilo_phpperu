@@ -1,6 +1,6 @@
 <?php
 
-class DocumentToolReportingViewerComponent extends DocumentTool
+class DocumentToolReportingViewerComponent extends DocumentTool implements DelegateComponent
 {
 
     function run()

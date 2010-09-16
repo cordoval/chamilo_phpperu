@@ -1,6 +1,6 @@
 <?php
 
-class AnnouncementToolReportingViewerComponent extends AnnouncementTool
+class AnnouncementToolReportingViewerComponent extends AnnouncementTool implements DelegateComponent
 {
 
     function run()
