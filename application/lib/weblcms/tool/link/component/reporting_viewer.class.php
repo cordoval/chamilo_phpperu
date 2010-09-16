@@ -1,6 +1,6 @@
 <?php
 
-class LinkToolReportingViewerComponent extends LinkTool
+class LinkToolReportingViewerComponent extends LinkTool implements DelegateComponent
 {
 
     function run()
