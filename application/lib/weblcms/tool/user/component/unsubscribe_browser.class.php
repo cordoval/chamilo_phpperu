@@ -46,6 +46,8 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
         echo $this->display_users();
 
         $this->display_footer();
+
+        
     }
 
     function display_users()
