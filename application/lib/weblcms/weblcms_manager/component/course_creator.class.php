@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../course/course_form.class.php';
 /**
  * Weblcms component allows the use to create a course
  */
-class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager
+class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager implements DelegateComponent
 {
 
     /**
@@ -98,31 +98,26 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add_help('courses create');
-        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
+        $breadcrumbtrail->add_help('weblcms_course_creator');
 
         if ($this->get_user()->is_platform_admin())
         {
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
             $breadcrumbtrail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => WeblcmsManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Courses')));
         }
+        
+        $course = $this->get_course();
+        $id = $course->get_id();
+
+        if(!$id)
+        {
+        	$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+        }
         else
         {
-        	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
+        	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER), array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_TOOL)), Translation :: get('CourseList')));
+        	$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Update')));
         }
-        
-//        $course = $this->get_course();
-//        $id = $course->get_id();
-//
-//        if(!$id)
-//        {
-//        	$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
-//        }
-//        else
-//        {
-//        	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER), array(WeblcmsManager :: PARAM_COURSE, WeblcmsManager :: PARAM_TOOL)), Translation :: get('CourseList')));
-//        	$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Update')));
-//        }
     }
 
     function get_additional_parameters()

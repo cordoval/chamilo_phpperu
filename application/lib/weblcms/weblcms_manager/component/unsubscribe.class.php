@@ -150,12 +150,11 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
 
         if (!empty($this->category))
             $trail->add(new Breadcrumb($this->breadcrumbs[0]['url'], $this->breadcrumbs[0]['title']));
         
-        $breadcrumbtrail->add_help('courses subscribe');
+        $breadcrumbtrail->add_help('weblcms_unsubscribe');
     }
 
     function get_additional_parameters()

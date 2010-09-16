@@ -137,7 +137,6 @@ class WeblcmsManagerCourseTypeViewerComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
 
         if ($this->get_user()->is_platform_admin())
             {

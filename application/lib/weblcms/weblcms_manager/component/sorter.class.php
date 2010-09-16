@@ -321,14 +321,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
-
-        //$breadcrumbtrail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT, WeblcmsManager :: PARAM_COMPONENT_ACTION, WeblcmsManager :: PARAM_COURSE)), Translation :: get('SortMyCourses')));
-        $breadcrumbtrail->add_help('courses general');
-        if (! empty($title))
-        {
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array('category' => Request :: get('category'))), $title));
-        }
+        $breadcrumbtrail->add_help('weblcms_sorter');
     }
 
     function get_additional_parameters()

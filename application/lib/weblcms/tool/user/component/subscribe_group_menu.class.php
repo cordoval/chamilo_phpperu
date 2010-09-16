@@ -44,14 +44,14 @@ class SubscribeGroupMenu extends HTML_Menu
      * @param array $extra_items An array of extra tree items, added to the
      *                           root.
      */
-    function SubscribeGroupMenu($course, $current_category, $url_format = '?application=group&go=browse&group_id=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
+    function SubscribeGroupMenu($course, $cur_category, $url_format = '?application=group&go=browse&group=%s', $include_root = true, $show_complete_tree = false, $hide_current_category = false)
     {
     	$this->course = $course;
         $this->include_root = $include_root;
         $this->show_complete_tree = $show_complete_tree;
         $this->hide_current_category = $hide_current_category;
         
-        if ($current_category == '0' || is_null($current_category))
+        if ($current_category == '0' || is_null($cur_category))
         {
             $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
             $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();
@@ -59,7 +59,7 @@ class SubscribeGroupMenu extends HTML_Menu
         }
         else
         {
-            $this->current_category = GroupDataManager :: get_instance()->retrieve_group($current_category);
+            $this->current_category = GroupDataManager :: get_instance()->retrieve_group($cur_category);
         }
         
         $this->urlFmt = $url_format;
@@ -86,8 +86,8 @@ class SubscribeGroupMenu extends HTML_Menu
             
             $menu_item = array();
             $menu_item['title'] = $group->get_name();
-            //$menu_item['url'] = $this->get_url($group->get_id());
-            $menu_item['url'] = $this->get_home_url();
+            $menu_item['url'] = $this->get_url($group->get_id());
+            //$menu_item['url'] = $this->get_home_url($group->get_id());
             
             $sub_menu_items = $this->get_menu_items($group->get_id());
             if (count($sub_menu_items) > 0)
@@ -167,7 +167,7 @@ class SubscribeGroupMenu extends HTML_Menu
     private function get_home_url($category)
     {
         // TODO: Put another class in charge of the htmlentities() invocation
-        return htmlentities(str_replace('&group_id=%s', '', $this->urlFmt));
+        return htmlentities(str_replace('&'.WeblcmsManager::PARAM_GROUP.'=%s', '', $this->urlFmt));
     }
 
     /**

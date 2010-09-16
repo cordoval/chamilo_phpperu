@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id: user_subscribe_browser.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.user.component
@@ -7,11 +8,12 @@ require_once dirname(__FILE__) . '/../user_tool.class.php';
 
 class UserToolSubscribeBrowserComponent extends UserTool
 {
+
     private $action_bar;
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
+        if (!$this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
@@ -19,8 +21,7 @@ class UserToolSubscribeBrowserComponent extends UserTool
 
         $this->action_bar = $this->get_action_bar();
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USER_BROWSER)), Translation :: get('SubscribeUsers')));
-        $trail->add_help('courses user');
+
 
         $this->display_header();
 
@@ -76,7 +77,7 @@ class UserToolSubscribeBrowserComponent extends UserTool
         {
             $condition = new AndCondition($condition, $this->get_condition());
         }
-        
+
         return $condition;
     }
 
@@ -91,5 +92,14 @@ class UserToolSubscribeBrowserComponent extends UserTool
             return new OrCondition($conditions);
         }
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool::ACTION_UNSUBSCRIBE_USER_BROWSER)), Translation :: get('UserToolUnsubscribeBrowserComponent')));
+
+        $breadcrumbtrail->add_help('weblcms_user_subscribe_browser');
+    }
+
 }
+
 ?>

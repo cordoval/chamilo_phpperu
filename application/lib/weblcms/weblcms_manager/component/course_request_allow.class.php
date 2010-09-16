@@ -132,7 +132,6 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
 
         if ($this->get_user()->is_platform_admin())
         {
@@ -146,7 +145,7 @@ class WeblcmsManagerCourseRequestAllowComponent extends WeblcmsManager
         }
 
 
-        $breadcrumbtrail->add_help('allow request');
+        $breadcrumbtrail->add_help('weblcms_course_request_allow');
     }
 
     function get_additional_parameters()

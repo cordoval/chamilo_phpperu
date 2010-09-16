@@ -92,8 +92,7 @@ class WeblcmsManagerCourseTypeDeleterComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
-        $breadcrumbtrail->add_help('course_type delete');
+        $breadcrumbtrail->add_help('weblcms_course_type_deleter');
     }
 
     function get_additional_parameters()
