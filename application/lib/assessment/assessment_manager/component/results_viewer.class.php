@@ -15,7 +15,6 @@ require_once dirname(__FILE__) . '/../../trackers/assessment_assessment_attempts
 class AssessmentManagerResultsViewerComponent extends AssessmentManager
 {
     private $current_attempt_id;
-    private $trail;
     private $object;
 
     /**
@@ -24,8 +23,6 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
     function run()
     {
         $this->trail = $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
         
         $pid = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
         $delete = Request :: get('delete');
@@ -182,6 +179,17 @@ class AssessmentManagerResultsViewerComponent extends AssessmentManager
     function can_change_answer_data()
     {
         return true;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_results_viewer');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_ASSESSMENT_PUBLICATION);
     }
 }
 ?>

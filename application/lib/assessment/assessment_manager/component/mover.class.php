@@ -18,7 +18,7 @@ class AssessmentManagerMoverComponent extends AssessmentManager
      */
     function run()
     {
-        $pid = Request :: get('assessment_publication');
+        $pid = Request :: get(self :: PARAM_ASSESSMENT_PUBLICATION);
         if (! $pid || (is_array($pid) && count($pid) == 0))
         {
             $this->not_allowed();
@@ -35,7 +35,7 @@ class AssessmentManagerMoverComponent extends AssessmentManager
         
         if (! $publication->is_visible_for_target_user($this->get_user()))
         {
-            $this->not_allowed($trail, false);
+            $this->not_allowed(null, false);
         }
         
         $parent = $publication->get_category();
@@ -48,15 +48,21 @@ class AssessmentManagerMoverComponent extends AssessmentManager
         }
         else
         {
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-            $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_MOVE_ASSESSMENT_PUBLICATION, AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $pid)), Translation :: get('MoveAssessmentPublications')));
-            
-            $this->display_header($trail, true);
-            
+            $this->display_header(null, true);
             echo $form->toHtml();
             $this->display_footer();
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_mover');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_ASSESSMENT_PUBLICATION);
     }
 
     function build_move_form($exclude_category, $pids)

@@ -19,10 +19,6 @@ class AssessmentManagerUpdaterComponent extends AssessmentManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateAssessmentPublication')));
-        
         $publication = Request :: get(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION);
         
         if (isset($publication))
@@ -31,7 +27,7 @@ class AssessmentManagerUpdaterComponent extends AssessmentManager
             
             if (! $assessment_publication->is_visible_for_target_user($this->get_user()))
             {
-                $this->not_allowed($trail, false);
+                $this->not_allowed(null, false);
             }
             
             $content_object = $assessment_publication->get_publication_object();
@@ -63,14 +59,14 @@ class AssessmentManagerUpdaterComponent extends AssessmentManager
                 }
                 else
                 {
-                    $this->display_header($trail);
+                    $this->display_header();
                     $publication_form->display();
                     $this->display_footer();
                 }
             }
             else
             {
-                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
@@ -79,6 +75,17 @@ class AssessmentManagerUpdaterComponent extends AssessmentManager
         {
             $this->redirect(Translation :: get('NoPublicationSelected'), true, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_updater');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_ASSESSMENT_PUBLICATION);
     }
 }
 ?>

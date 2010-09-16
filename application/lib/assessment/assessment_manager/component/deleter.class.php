@@ -80,5 +80,16 @@ class AssessmentManagerDeleterComponent extends AssessmentManager
             $this->display_error_page(htmlentities(Translation :: get('NoAssessmentPublicationsSelected')));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_deleter');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_ASSESSMENT_PUBLICATION);
+    }
 }
 ?>

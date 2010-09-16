@@ -20,6 +20,7 @@ class AssessmentManager extends WebApplication
     const PARAM_ASSESSMENT_PUBLICATION = 'assessment_publication';
     const PARAM_INVITATION_ID = 'invitation_id';
     const PARAM_DELETE_SELECTED_ASSESSMENT_PUBLICATIONS = 'delete_selected_assessment_publications';
+    const PARAM_CATEGORY = 'category';
 
     const ACTION_DELETE_ASSESSMENT_PUBLICATION = 'deleter';
     const ACTION_EDIT_ASSESSMENT_PUBLICATION = 'editor';

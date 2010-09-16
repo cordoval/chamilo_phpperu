@@ -26,16 +26,17 @@ class AssessmentManagerQtiImporterComponent extends AssessmentManager
         }
         else
         {
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-            $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_IMPORT_QTI)), Translation :: get('ImportQTI')));
-            
-            $this->display_header($trail, true);
-            
+            $this->display_header(null, true);
             echo $form->toHtml();
             $this->display_footer();
         }
     
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_qti_importer');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
     }
 
     function build_importing_form()

@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/../../category_manager/assessment_publication
  * @author Sven Vanpoucke
  * @author 
  */
-class AssessmentManagerCategoryManagerComponent extends AssessmentManager
+class AssessmentManagerCategoryManagerComponent extends AssessmentManager implements DelegateComponent
 {
 
     /**
@@ -20,10 +20,14 @@ class AssessmentManagerCategoryManagerComponent extends AssessmentManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
         $category_manager = new AssessmentPublicationCategoryManager($this, $trail);
         $category_manager->run();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_category_manager');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
     }
 }
 ?>

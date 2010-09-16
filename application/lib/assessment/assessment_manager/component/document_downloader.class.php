@@ -35,6 +35,17 @@ class AssessmentManagerDocumentDownloaderComponent extends AssessmentManager
         }
     }
 
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_builder');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_ASSESSMENT_PUBLICATION, 'tid');
+    }
+    
     function save_assessment_docs($assessment_id)
     {
         //$publication = AssessmentDataManager :: get_instance()->retrieve_content_object_publication($assessment_id);

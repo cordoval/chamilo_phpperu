@@ -20,14 +20,11 @@ class AssessmentManagerBrowserComponent extends AssessmentManager
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseAssessmentPublications')));
-
         $this->action_bar = $this->get_action_bar();
         $menu = $this->get_menu();
-        $menu->get_breadcrumbs();
+        //$menu->get_breadcrumbs();
         //$trail->merge($menu->get_breadcrumbs());
-        $this->display_header($trail);
+        $this->display_header();
 
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
@@ -49,7 +46,7 @@ class AssessmentManagerBrowserComponent extends AssessmentManager
 
     function get_menu()
     {
-        $current_category = Request :: get('category');
+        $current_category = Request :: get(self :: PARAM_CATEGORY);
         $current_category = $current_category ? $current_category : 0;
         $menu = new AssessmentPublicationCategoryMenu($current_category);
         return $menu;
@@ -61,7 +58,7 @@ class AssessmentManagerBrowserComponent extends AssessmentManager
 
         $action_bar->set_search_url($this->get_url());
         
-        $current_category = Request :: get('category');
+        $current_category = Request :: get(self :: PARAM_CATEGORY);
         $current_category = $current_category ? $current_category : 0;
         
         if(AssessmentRights :: is_allowed_in_assessments_subtree(AssessmentRights :: PUBLISH_RIGHT, $current_category, AssessmentRights :: TYPE_CATEGORY))
@@ -84,7 +81,7 @@ class AssessmentManagerBrowserComponent extends AssessmentManager
 
     function get_condition()
     {
-        $current_category = Request :: get('category');
+        $current_category = Request :: get(self :: PARAM_CATEGORY);
         $current_category = $current_category ? $current_category : 0;
 
         $query = $this->action_bar->get_query();
@@ -142,6 +139,16 @@ class AssessmentManagerBrowserComponent extends AssessmentManager
         $conditions[] = new EqualityCondition(AssessmentPublication :: PROPERTY_CATEGORY, $current_category);
 
         return new AndCondition($conditions);
+    }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_browser');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_CATEGORY);
     }
 }
 ?>

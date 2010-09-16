@@ -18,7 +18,7 @@ class AssessmentManagerVisibilityChangerComponent extends AssessmentManager
      */
     function run()
     {
-        $pid = Request :: get('assessment_publication');
+        $pid = Request :: get(self :: PARAM_ASSESSMENT_PUBLICATION);
         
         if ($pid)
         {
@@ -40,6 +40,17 @@ class AssessmentManagerVisibilityChangerComponent extends AssessmentManager
         {
             $this->redirect(Translation :: get('NoPublicationSelected'), true, array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_visibility_changer');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_ASSESSMENT_PUBLICATION);
     }
 }
 ?>

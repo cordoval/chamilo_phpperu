@@ -19,12 +19,6 @@ class AssessmentManagerCreatorComponent extends AssessmentManager implements Rep
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateAssessmentPublication')));
-
-        
-
         if (!RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
@@ -41,5 +35,12 @@ class AssessmentManagerCreatorComponent extends AssessmentManager implements Rep
     {
         return array(Assessment :: get_type_name(), Hotpotatoes :: get_type_name());
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_creator');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
+    }
+
 }
 ?>

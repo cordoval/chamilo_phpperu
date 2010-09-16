@@ -12,16 +12,10 @@ class AssessmentManagerResultsExporterComponent extends AssessmentManager
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_VIEW_ASSESSMENT_PUBLICATION_RESULTS)), Translation :: get('ViewResults')));
-        $trail->add_help('courses assessment tool');
-        
         if (Request :: get('tid'))
         {
             $id = Request :: get('tid');
             $url = $this->get_results_exporter_url($id);
-            $trail->add(new Breadcrumb($url, Translation :: get('ExportResults')));
             $type = 'user_assessment';
             $export_form = new AssessmentResultsExportForm($url);
         }
@@ -33,7 +27,7 @@ class AssessmentManagerResultsExporterComponent extends AssessmentManager
         }
         else
         {
-            $this->display_header($trail, true);
+            $this->display_header(null, true);
             echo $export_form->toHtml();
             $this->display_footer();
         }
@@ -48,6 +42,17 @@ class AssessmentManagerResultsExporterComponent extends AssessmentManager
         $exporter = Export :: factory($filetype, $data);
         $exporter->set_filename('export_' . $type . $id);
         $exporter->send_to_browser();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_results_exporter');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array('tid');
     }
 
 }

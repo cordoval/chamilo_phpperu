@@ -27,7 +27,6 @@ class AssessmentManagerViewerComponent extends AssessmentManager
             $this->pub = $this->datamanager->retrieve_assessment_publication($this->pid);
             $assessment_id = $this->pub->get_content_object();
             $this->assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment_id);
-            $this->set_parameter(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION, $this->pid);
         }
         
         if (Request :: get(AssessmentManager :: PARAM_INVITATION_ID))
@@ -39,16 +38,11 @@ class AssessmentManagerViewerComponent extends AssessmentManager
             $this->pub = $this->datamanager->retrieve_assessment_publication($this->pid);
             $assessment_id = $this->pub->get_content_object();
             $this->assessment = RepositoryDataManager :: get_instance()->retrieve_content_object($assessment_id);
-            $this->set_parameter(AssessmentManager :: PARAM_INVITATION_ID, Request :: get(AssessmentManager :: PARAM_INVITATION_ID));
         }
-        
-        $this->trail = $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('BrowseAssessmentPublications')));
-        $trail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ASSESSMENT_PUBLICATION => $this->pid)), Translation :: get('TakeAssessment')));
         
         if ($this->pub && ! $this->pub->is_visible_for_target_user($this->get_user()))
         {
-            $this->not_allowed($trail, false);
+            $this->not_allowed(null, false);
         }
         
         // Checking statistics
@@ -85,7 +79,7 @@ class AssessmentManagerViewerComponent extends AssessmentManager
         // Executing assessment
         if ($this->assessment->get_assessment_type() == Hotpotatoes :: TYPE_HOTPOTATOES)
         {
-            $this->display_header($trail);
+            $this->display_header();
             
             $path = $this->assessment->add_javascript(Path :: get(WEB_PATH) . 'application/lib/assessment/ajax/hotpotatoes_save_score.php', $this->get_browse_assessment_publications_url(), $this->active_tracker->get_id());
             echo '<iframe src="' . $path . '" width="100%" height="600">
@@ -102,6 +96,17 @@ class AssessmentManagerViewerComponent extends AssessmentManager
     
     }
 
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('assessment_viewer');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(AssessmentManager :: PARAM_ACTION => AssessmentManager :: ACTION_BROWSE_ASSESSMENT_PUBLICATIONS)), Translation :: get('AssessmentManagerBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_ASSESSMENT_PUBLICATION, self :: PARAM_INVITATION_ID);
+    }
+    
     function get_root_content_object()
     {
         return $this->assessment;
