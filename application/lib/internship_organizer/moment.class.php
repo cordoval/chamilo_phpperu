@@ -23,6 +23,7 @@ class InternshipOrganizerMoment extends DataClass implements AttachmentSupport
     public function create()
     {
         $succes = parent :: create();
+       
         if ($succes)
         {
             $parent_location = InternshipOrganizerRights :: get_internship_organizers_subtree_root_id();
