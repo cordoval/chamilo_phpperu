@@ -164,7 +164,7 @@ class Translation
         }
         else
         {
-        	$packages = array('application_common', 'repository');
+        	$packages = array('application_common', 'repository', 'components');
 
         	foreach($packages as $package)
         	{
