@@ -18,6 +18,38 @@ class InternshipOrganizerMoment extends DataClass implements AttachmentSupport
     const PROPERTY_BEGIN = 'begin';
     const PROPERTY_END = 'end';
     const PROPERTY_AGREEMENT_ID = 'agreement_id';
+    const PROPERTY_OWNER = 'owner';
+
+    public function create()
+    {
+        $succes = parent :: create();
+        if ($succes)
+        {
+            $parent_location = InternshipOrganizerRights :: get_internship_organizers_subtree_root_id();
+            $location = InternshipOrganizerRights :: create_location_in_internship_organizers_subtree($this->get_name(), $this->get_id(), $parent_location, InternshipOrganizerRights :: TYPE_MOMENT, true);
+            
+            $rights = InternshipOrganizerRights :: get_available_rights_for_moments();
+            foreach ($rights as $right)
+            {
+                RightsUtilities :: set_user_right_location_value($right, $this->get_owner(), $location->get_id(), 1);
+            }
+        }
+        return $succes;
+    }
+
+    public function delete()
+    {
+        $location = InternshipOrganizerRights :: get_location_by_identifier_from_internship_organizers_subtree($this->get_id(), InternshipOrganizerRights :: TYPE_MOMENT);
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+        $succes = parent :: delete();
+        return $succes;
+    }
 
     /**
      * Get the default properties
@@ -25,7 +57,7 @@ class InternshipOrganizerMoment extends DataClass implements AttachmentSupport
      */
     static function get_default_property_names()
     {
-        return array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_BEGIN, self :: PROPERTY_END, self :: PROPERTY_AGREEMENT_ID);
+        return array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_BEGIN, self :: PROPERTY_END, self :: PROPERTY_AGREEMENT_ID, self :: PROPERTY_OWNER);
     }
 
     function get_data_manager()
@@ -141,6 +173,24 @@ class InternshipOrganizerMoment extends DataClass implements AttachmentSupport
         $this->set_default_property(self :: PROPERTY_AGREEMENT_ID, $agreement_id);
     }
 
+    /**
+     * Returns the owner of this InternshipMoment.
+     * @return the owner.
+     */
+    function get_owner()
+    {
+        return $this->get_default_property(self :: PROPERTY_OWNER);
+    }
+
+    /**
+     * Sets the owner of this InternshipMoment.
+     * @param owner
+     */
+    function set_owner($owner)
+    {
+        $this->set_default_property(self :: PROPERTY_OWNER, $owner);
+    }
+
     function get_agreement()
     {
         return $this->get_data_manager()->retrieve_agreement($this->get_agreement_id());
@@ -151,15 +201,22 @@ class InternshipOrganizerMoment extends DataClass implements AttachmentSupport
         return 'moment';
         //		return Utilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-    
-    public function get_attached_content_objects(){
-    	
-    	$conditions = array();
-    	
-    	
-    	$this->get_data_manager()->retrieve_publications();
+
+    public function get_attached_content_objects()
+    {
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerPublication::PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace::MOMENT);
+        $conditions[] = new EqualityCondition(InternshipOrganizerPublication::PROPERTY_PLACE_ID, $this->get_id());
+        $condition = new AndCondition($conditions);
+        $publications =  $this->get_data_manager()->retrieve_publications($condition);
+        $attachements = array();
+        while($publication = $publications->next_result()){
+        	$attachements[] = $publication->get_content_object();
+        }
+        return $attachements;
     }
-    
+
 }
 
 ?>

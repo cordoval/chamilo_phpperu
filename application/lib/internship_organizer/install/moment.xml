@@ -9,5 +9,6 @@
 		<property name="end" type="integer" notnull="1" />
 		<property name="agreement_id" type="integer" unsigned="1"
 			notnull="1" />
+		<property name="owner" type="integer" unsigned="1" notnull="1" />
 	</properties>
 </object>

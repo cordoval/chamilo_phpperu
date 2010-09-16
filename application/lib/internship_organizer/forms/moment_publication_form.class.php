@@ -9,7 +9,7 @@ class InternshipOrganizerMomentPublicationForm extends FormValidator
     const TYPE_SINGLE = 1;
     const TYPE_MULTI = 2;
     
-    const PARAM_TARGET = 'moment_rel_users';
+    const PARAM_TARGET = 'moments';
     
     private $publication;
     private $content_object;
@@ -89,53 +89,43 @@ class InternshipOrganizerMomentPublicationForm extends FormValidator
     function create_content_object_publications()
     {
         $values = $this->exportValues();
-      
-        $moment_rel_user_ids = $values[self :: PARAM_TARGET]['moment'];
+        
+        $moment_ids = $values[self :: PARAM_TARGET]['moment'];
+        
         $ids = unserialize($values['ids']);
         $succes = false;
         
-        if (count($moment_rel_user_ids))
+        if (count($moment_ids))
         {
             
-            $target_users = array();
-            $target_moments = array();
-            
-            foreach ($moment_rel_user_ids as $moment_rel_user_id)
-            {
-                $mu_ids = explode('|', $moment_rel_user_id);
-                $target_moments[] = $mu_ids[0];
-                $target_users[$mu_ids[0]][] = $mu_ids[1];
-            
-            }
-            
-            $target_moments = array_unique($target_moments);
-                      
             foreach ($ids as $id)
             {
-                foreach ($target_moments as $moment_id)
+                foreach ($moment_ids as $moment_id)
                 {
-                    $moment = InternshipOrganizerDataManager :: get_instance()->retrieve_moment($moment_id);
-                	$pub = new InternshipOrganizerPublication();
-                    $pub->set_name($values[InternshipOrganizerPublication :: PROPERTY_NAME]);
-                    $pub->set_description($values[InternshipOrganizerPublication :: PROPERTY_DESCRIPTION]);
-                    $pub->set_content_object($id);
-                    $pub->set_publisher_id($this->user->get_id());
-                    $pub->set_published(time());
-                    $pub->set_from_date($moment->get_begin());
-                    $pub->set_to_date($moment->get_end());
-                    $pub->set_publication_place(InternshipOrganizerPublicationPlace :: MOMENT);
-                    $pub->set_place_id($moment->get_id());
-                    $pub->set_publication_type($values[InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE]);
-                    $target_users[$moment_id][] = $this->user->get_id();
-                    $pub->set_target_users(array_unique($target_users[$moment_id]));
                     
-                    if (! $pub->create())
+                    if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, $moment_id, InternshipOrganizerRights :: TYPE_MOMENT))
                     {
-                        $succes = false;
-                    }
-                    else
-                    {
-                        $succes = true;
+                        $moment = InternshipOrganizerDataManager :: get_instance()->retrieve_moment($moment_id);
+                        $pub = new InternshipOrganizerPublication();
+                        $pub->set_name($values[InternshipOrganizerPublication :: PROPERTY_NAME]);
+                        $pub->set_description($values[InternshipOrganizerPublication :: PROPERTY_DESCRIPTION]);
+                        $pub->set_content_object($id);
+                        $pub->set_publisher_id($this->user->get_id());
+                        $pub->set_published(time());
+                        $pub->set_from_date($moment->get_begin());
+                        $pub->set_to_date($moment->get_end());
+                        $pub->set_publication_place(InternshipOrganizerPublicationPlace :: MOMENT);
+                        $pub->set_place_id($moment_id);
+                        $pub->set_publication_type($values[InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE]);
+                        
+                        if (! $pub->create())
+                        {
+                            $succes = false;
+                        }
+                        else
+                        {
+                            $succes = true;
+                        }
                     }
                 }
             }

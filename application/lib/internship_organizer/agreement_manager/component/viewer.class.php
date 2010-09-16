@@ -157,7 +157,7 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
                 
             	if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: PUBLISH_RIGHT, $this->agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
                 {
-            	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_moment_publish_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            	$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishInMoments'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_moment_publish_url($this->agreement), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
                 }
                 if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_MOMENT_RIGHT, $this->agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
                 {

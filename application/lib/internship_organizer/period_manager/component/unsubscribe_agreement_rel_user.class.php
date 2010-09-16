@@ -28,9 +28,8 @@ class InternshipOrganizerPeriodManagerUnsubscribeAgreementRelUserComponent exten
                 
                 $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreement_rel_user_ids[0]);
                 $period_id = $agreement->get_period_id();
-                $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
                 
-                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT, $period_id, InternshipOrganizerRights :: TYPE_PERIOD))
                 {
                     
                     $agreement_rel_user = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement_rel_user($agreement_rel_user_ids[0], $agreement_rel_user_ids[1], $agreement_rel_user_ids[2]);

@@ -1,11 +1,11 @@
 <?php
 
-require_once dirname(__FILE__) . '/../agreement_manager.class.php';
+require_once dirname(__FILE__) . '/../period_manager.class.php';
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/publisher/publication_table/publication_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
 
-class InternshipOrganizerAgreementManagerPublicationViewerComponent extends InternshipOrganizerAgreementManager
+class InternshipOrganizerPeriodManagerPublicationViewerComponent extends InternshipOrganizerPeriodManager
 {
 
     function run()
@@ -32,12 +32,15 @@ class InternshipOrganizerAgreementManagerPublicationViewerComponent extends Inte
             case InternshipOrganizerPublicationPlace :: MOMENT :
                 $place_object = $this->retrieve_moment($place_id);
                 break;
+            case InternshipOrganizerPublicationPlace :: PERIOD :
+                $place_object = $this->retrieve_period($place_id);
+                break;
             default :
                 //error: publication always needs a place_id and corrosponding place;
                 break;
         }
         
-        $content_object = $this->publication->get_content_object();
+        $content_object = $publication->get_content_object();
         
         $trail = BreadcrumbTrail :: get_instance();
         $this->display_header($trail);

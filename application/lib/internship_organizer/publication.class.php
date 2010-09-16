@@ -18,9 +18,41 @@ class InternshipOrganizerPublication extends DataClass
     const PROPERTY_PUBLICATION_TYPE = 'publication_type';
     const PROPERTY_PUBLICATION_PLACE = 'publication_place';
     const PROPERTY_PLACE_ID = 'place_id';
+
+    //    private $target_groups;
+    //    private $target_users;
     
-//    private $target_groups;
-    private $target_users;
+
+    public function create()
+    {
+        $succes = parent :: create();
+        if ($succes)
+        {
+            $parent_location = InternshipOrganizerRights :: get_internship_organizers_subtree_root_id();
+            $location = InternshipOrganizerRights :: create_location_in_internship_organizers_subtree($this->get_name(), $this->get_id(), $parent_location, InternshipOrganizerRights :: TYPE_PUBLICATION, true);
+            
+            $rights = InternshipOrganizerRights :: get_available_rights_for_publications();
+            foreach ($rights as $right)
+            {
+                RightsUtilities :: set_user_right_location_value($right, $this->get_publisher_id(), $location->get_id(), 1);
+            }
+        }
+        return $succes;
+    }
+
+    public function delete()
+    {
+        $location = InternshipOrganizerRights :: get_location_by_identifier_from_internship_organizers_subtree($this->get_id(), InternshipOrganizerRights :: TYPE_PUBLICATION);
+        if ($location)
+        {
+            if (! $location->remove())
+            {
+                return false;
+            }
+        }
+        $succes = parent :: delete();
+        return $succes;
+    }
 
     /**
      * Get the default properties
@@ -217,140 +249,141 @@ class InternshipOrganizerPublication extends DataClass
         $this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
     }
 
-//    function set_target_groups($target_groups)
+    //    function set_target_groups($target_groups)
+    //    {
+    //        $this->target_groups = $target_groups;
+    //    }
+    
+
+//    function set_target_users($target_users)
 //    {
-//        $this->target_groups = $target_groups;
+//        $this->target_users = $target_users;
 //    }
-
-    function set_target_users($target_users)
-    {
-        $this->target_users = $target_users;
-    }
-
-    function get_target_groups()
-    {
-        if (! $this->target_groups)
-        {
-            $condition = new EqualityCondition(InternshipOrganizerPublicationGroup :: PROPERTY_PUBLICATION_ID, $this->get_id());
-            $groups = $this->get_data_manager()->retrieve_publication_groups($condition);
-            
-            while ($group = $groups->next_result())
-            {
-                $this->target_groups[] = $group->get_group_id();
-            }
-        }
-        
-        return $this->target_groups;
-    }
-
-    function get_target_users()
-    {
-        if (! isset($this->target_users))
-        {
-            $this->target_users = array();
-            $condition = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_PUBLICATION_ID, $this->get_id());
-            $users = $this->get_data_manager()->retrieve_publication_users($condition);
-            
-            while ($user = $users->next_result())
-            {
-                $this->target_users[] = $user->get_user();
-            }
-        }
-        return $this->target_users;
-    }
-
-    function get_target_user_ids()
-    {
-        $user_ids = array();
-        $groups = $this->get_target_groups();
-        
-        if (isset($groups) && (count($groups) != 0))
-        {
-            $gdm = GroupDataManager :: get_instance();
-            foreach ($groups as $group_id)
-            {
-                
-                $group = $gdm->retrieve_group($group_id);
-                $user_ids = array_merge($user_ids, $group->get_users(true, true));
-            }
-        }
-        $user_ids = array_merge($user_ids, $this->get_target_users());
-        
-        return $user_ids;
-    }
-
-    function get_user_count()
-    {
-        
-        $user_count = 0;
-        $groups = $this->get_target_groups();
-        if (isset($groups) && (count($groups) != 0))
-        {
-            $gdm = GroupDataManager :: get_instance();
-            foreach ($groups as $group_id)
-            {
-                $group = $gdm->retrieve_group($group_id);
-                $user_count += $group->count_users(true, true);
-            }
-        }
-        $user_count += count($this->get_target_users());
-        return $user_count;
-    }
-
-    function is_visible_for_target_user($user, $exclude_publisher = false)
-    {
-        if ($user->is_platform_admin())
-        {
-            return true;
-        }
-        
-        if (! $exclude_publisher && $user->get_id() == $this->get_publisher())
-        {
-            return true;
-        }
-        
-        if ($this->get_target_groups() || $this->get_target_users())
-        {
-            $allowed = false;
-            
-            if (in_array($user->get_id(), $this->get_target_users()))
-            {
-                
-                $allowed = true;
-            }
-            
-            if (! $allowed)
-            {
-                $user_groups = $user->get_groups();
-                
-                if (isset($user_groups))
-                {
-                    while ($user_group = $user_groups->next_result())
-                    {
-                        if (in_array($user_group->get_id(), $this->get_target_groups()))
-                        {
-                            $allowed = true;
-                            break;
-                        }
-                    }
-                }
-            
-            }
-            
-            if (! $allowed)
-            {
-                return false;
-            }
-        }
-        
-        if (! $this->is_publication_period())
-        {
-            
-            return false;
-        }
-        
-        return true;
-    }
+//
+//    function get_target_groups()
+//    {
+//        if (! $this->target_groups)
+//        {
+//            $condition = new EqualityCondition(InternshipOrganizerPublicationGroup :: PROPERTY_PUBLICATION_ID, $this->get_id());
+//            $groups = $this->get_data_manager()->retrieve_publication_groups($condition);
+//            
+//            while ($group = $groups->next_result())
+//            {
+//                $this->target_groups[] = $group->get_group_id();
+//            }
+//        }
+//        
+//        return $this->target_groups;
+//    }
+//
+//    function get_target_users()
+//    {
+//        if (! isset($this->target_users))
+//        {
+//            $this->target_users = array();
+//            $condition = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_PUBLICATION_ID, $this->get_id());
+//            $users = $this->get_data_manager()->retrieve_publication_users($condition);
+//            
+//            while ($user = $users->next_result())
+//            {
+//                $this->target_users[] = $user->get_user();
+//            }
+//        }
+//        return $this->target_users;
+//    }
+//
+//    function get_target_user_ids()
+//    {
+//        $user_ids = array();
+//        $groups = $this->get_target_groups();
+//        
+//        if (isset($groups) && (count($groups) != 0))
+//        {
+//            $gdm = GroupDataManager :: get_instance();
+//            foreach ($groups as $group_id)
+//            {
+//                
+//                $group = $gdm->retrieve_group($group_id);
+//                $user_ids = array_merge($user_ids, $group->get_users(true, true));
+//            }
+//        }
+//        $user_ids = array_merge($user_ids, $this->get_target_users());
+//        
+//        return $user_ids;
+//    }
+//
+//    function get_user_count()
+//    {
+//        
+//        $user_count = 0;
+//        $groups = $this->get_target_groups();
+//        if (isset($groups) && (count($groups) != 0))
+//        {
+//            $gdm = GroupDataManager :: get_instance();
+//            foreach ($groups as $group_id)
+//            {
+//                $group = $gdm->retrieve_group($group_id);
+//                $user_count += $group->count_users(true, true);
+//            }
+//        }
+//        $user_count += count($this->get_target_users());
+//        return $user_count;
+//    }
+//
+//    function is_visible_for_target_user($user, $exclude_publisher = false)
+//    {
+//        if ($user->is_platform_admin())
+//        {
+//            return true;
+//        }
+//        
+//        if (! $exclude_publisher && $user->get_id() == $this->get_publisher())
+//        {
+//            return true;
+//        }
+//        
+//        if ($this->get_target_groups() || $this->get_target_users())
+//        {
+//            $allowed = false;
+//            
+//            if (in_array($user->get_id(), $this->get_target_users()))
+//            {
+//                
+//                $allowed = true;
+//            }
+//            
+//            if (! $allowed)
+//            {
+//                $user_groups = $user->get_groups();
+//                
+//                if (isset($user_groups))
+//                {
+//                    while ($user_group = $user_groups->next_result())
+//                    {
+//                        if (in_array($user_group->get_id(), $this->get_target_groups()))
+//                        {
+//                            $allowed = true;
+//                            break;
+//                        }
+//                    }
+//                }
+//            
+//            }
+//            
+//            if (! $allowed)
+//            {
+//                return false;
+//            }
+//        }
+//        
+//        if (! $this->is_publication_period())
+//        {
+//            
+//            return false;
+//        }
+//        
+//        return true;
+//    }
 
     function is_publication_period()
     {

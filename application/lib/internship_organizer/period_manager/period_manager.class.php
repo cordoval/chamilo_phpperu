@@ -20,6 +20,7 @@ class InternshipOrganizerPeriodManager extends SubManager
     const PARAM_USER_ID = 'user_id';
     const PARAM_USER_TYPE = 'user_type';
     const PARAM_AGREEMENT_ID = 'agreement_id';
+    const PARAM_PUBLICATION_ID = 'publication_id';
     
     const ACTION_CREATE_PERIOD = 'creator';
     const ACTION_BROWSE_PERIODS = 'browser';
@@ -33,6 +34,9 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_DELETE_AGREEMENT = 'agreement_deleter';
     const ACTION_UPDATE_AGREEMENT = 'agreement_updater';
     const ACTION_VIEW_AGREEMENT = 'agreement_viewer';
+    
+    const ACTION_VIEW_PUBLICATION = 'publication_viewer';
+    const ACTION_EDIT_PUBLICATION_RIGHTS = 'publication_rights_editor';
     
     const ACTION_SUBSCRIBE_USER = 'subscribe_user';
     const ACTION_SUBSCRIBE_GROUP = 'subscribe_group';
@@ -214,9 +218,9 @@ class InternshipOrganizerPeriodManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
     }
 
-    function get_unsubscribe_agreement_rel_user_url($agreement, $user)
+    function get_unsubscribe_agreement_rel_user_url($agreement, $user, $user_type)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER, self :: PARAM_USER_ID => $agreement->get_id() . '|' . $user->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER, self :: PARAM_USER_ID => $agreement->get_id() . '|' . $user->get_id() . '|' . $user_type));
     
     }
 
@@ -233,7 +237,17 @@ class InternshipOrganizerPeriodManager extends SubManager
 
     function get_agreement_rights_editor_url($agreement)
     {
-        return $this->get_url(array(Application :: PARAM_ACTION => InternshipOrganizerAgreementManager :: SUB_MANAGER_NAME ,InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_EDIT_AGREEMENT_RIGHTS, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+        return $this->get_url(array(Application :: PARAM_ACTION => InternshipOrganizerAgreementManager :: SUB_MANAGER_NAME, InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_EDIT_AGREEMENT_RIGHTS, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+    }
+
+    function get_view_publication_url($publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+    }
+
+    function get_publication_rights_editor_url($publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION_RIGHTS, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
 
     /**

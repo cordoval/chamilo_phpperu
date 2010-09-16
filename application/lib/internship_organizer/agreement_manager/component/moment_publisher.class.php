@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../publisher/moment_publisher.class.php';
 
 class InternshipOrganizerAgreementManagerMomentPublisherComponent extends InternshipOrganizerAgreementManager implements RepoViewerInterface
 {
-
+    
     private $agreement;
 
     /**
@@ -12,22 +12,24 @@ class InternshipOrganizerAgreementManagerMomentPublisherComponent extends Intern
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
+        
         $agreement_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: PUBLISH_RIGHT, $agreement_id, InternshipOrganizerRights :: TYPE_AGREEMENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
+        
         $this->agreement = $this->retrieve_agreement($agreement_id);
         $this->set_parameter(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID, $agreement_id);
-
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id)), $this->agreement->get_name()));
-
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
-        $trail->add_help('internship organizer general');
-
         
-
-        if (!RepoViewer::is_ready_to_be_published())
+        $trail = BreadcrumbTrail :: get_instance();
+        $trail->add_help('internship organizer general');
+        
+        if (! RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
@@ -35,7 +37,7 @@ class InternshipOrganizerAgreementManagerMomentPublisherComponent extends Intern
         else
         {
             $publisher = new InternshipOrganizerMomentPublisher($this);
-            $publisher->get_publications_form(RepoViewer::get_selected_objects());
+            $publisher->get_publications_form(RepoViewer :: get_selected_objects());
         }
     }
 

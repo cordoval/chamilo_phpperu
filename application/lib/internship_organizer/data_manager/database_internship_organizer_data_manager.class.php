@@ -477,7 +477,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function retrieve_moment_rel_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
-      	$moment_alias = $this->get_alias(InternshipOrganizerMoment :: get_table_name());
+        $moment_alias = $this->get_alias(InternshipOrganizerMoment :: get_table_name());
         $agreement_rel_user_alias = $this->get_alias(InternshipOrganizerAgreementRelUser :: get_table_name());
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         
@@ -487,7 +487,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerAgreementRelUser :: get_table_name()) . ' AS ' . $agreement_rel_user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAgreementRelUser :: PROPERTY_AGREEMENT_ID, $agreement_rel_user_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerMoment :: PROPERTY_AGREEMENT_ID, $moment_alias);
         
         $query .= ' JOIN ' . UserDataManager :: get_instance()->escape_table_name(User :: get_table_name()) . ' AS ' . $user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $agreement_rel_user_alias) . ' = ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias);
-               
+        
         return $this->retrieve_object_set($query, InternshipOrganizerMoment :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerMoment :: CLASS_NAME);
     }
 
@@ -733,34 +733,34 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         
         $conditions = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreement_id);
         
-//        if ($count_locations = $this->count_agreement_rel_locations($conditions))
-//        {
-//            continue;
-//        }
-//        else
-//        {
-//            $query = 'UPDATE ' . $this->escape_table_name(InternshipOrganizerAgreement :: get_table_name()) . ' SET ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_STATUS) . '= 1' . ' WHERE ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_ID) . '=' . $this->quote($agreement_id);
-//            
-//            $res = $this->query($query);
-//            $res->free();
-//        }
+        //        if ($count_locations = $this->count_agreement_rel_locations($conditions))
+        //        {
+        //            continue;
+        //        }
+        //        else
+        //        {
+        //            $query = 'UPDATE ' . $this->escape_table_name(InternshipOrganizerAgreement :: get_table_name()) . ' SET ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_STATUS) . '= 1' . ' WHERE ' . $this->escape_column_name(InternshipOrganizerAgreement :: PROPERTY_ID) . '=' . $this->quote($agreement_id);
+        //            
+        //            $res = $this->query($query);
+        //            $res->free();
+        //        }
         
+
         //if mentors from location are allready related to agreement they have to be deleted
-        $condition = new EqualityCondition(InternshipOrganizerMentorRelLocation:: PROPERTY_LOCATION_ID,$location_id);
-        $mentor_rel_locations  = $this->retrieve_mentor_rel_locations($condition);
+        $condition = new EqualityCondition(InternshipOrganizerMentorRelLocation :: PROPERTY_LOCATION_ID, $location_id);
+        $mentor_rel_locations = $this->retrieve_mentor_rel_locations($condition);
         $mentor_ids = array();
-        while ($mentor_rel_location= $mentor_rel_locations->next_result()) {
-        	$mentor_ids = $mentor_rel_location->get_mentor_id();
+        while ($mentor_rel_location = $mentor_rel_locations->next_result())
+        {
+            $mentor_ids = $mentor_rel_location->get_mentor_id();
         }
-               
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelMentor :: PROPERTY_AGREEMENT_ID, $agreement_id);
-        $conditions[] = new InCondition(InternshipOrganizerAgreementRelMentor::PROPERTY_MENTOR_ID, $mentor_ids);
+        $conditions[] = new InCondition(InternshipOrganizerAgreementRelMentor :: PROPERTY_MENTOR_ID, $mentor_ids);
         $condition = new AndCondition($conditions);
         
-               
         $this->delete(InternshipOrganizerAgreementRelMentor :: get_table_name(), $condition);
-        
         
         return true;
     
@@ -1317,22 +1317,24 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     {
         $succes = $this->create($publication);
         
-//        foreach ($publication->get_target_groups() as $group)
-//        {
-//            $publication_group = new InternshipOrganizerPublicationGroup();
-//            $publication_group->set_publication_id($publication->get_id());
-//            $publication_group->set_group_id($group);
-//            $succes &= $publication_group->create();
-//        }
+        //        foreach ($publication->get_target_groups() as $group)
+        //        {
+        //            $publication_group = new InternshipOrganizerPublicationGroup();
+        //            $publication_group->set_publication_id($publication->get_id());
+        //            $publication_group->set_group_id($group);
+        //            $succes &= $publication_group->create();
+        //        }
         
-        foreach ($publication->get_target_users() as $user)
-        {
-            $publication_user = new InternshipOrganizerPublicationUser();
-            $publication_user->set_publication_id($publication->get_id());
-            $publication_user->set_user_id($user);
-            $succes &= $publication_user->create();
-        }
+
+        //        foreach ($publication->get_target_users() as $user)
+        //        {
+        //            $publication_user = new InternshipOrganizerPublicationUser();
+        //            $publication_user->set_publication_id($publication->get_id());
+        //            $publication_user->set_user_id($user);
+        //            $succes &= $publication_user->create();
+        //        }
         
+
         return $succes;
     }
 
@@ -1394,7 +1396,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
         
         $query = 'SELECT  DISTINCT ' . $publication_alias . '.* FROM ' . $this->escape_table_name(InternshipOrganizerPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_ID, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_PUBLISHER_ID, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name(InternshipOrganizerPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(InternshipOrganizerPublicationUser :: PROPERTY_PUBLICATION_ID, $publication_user_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name(InternshipOrganizerPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(InternshipOrganizerPublicationGroup :: PROPERTY_PUBLICATION_ID, $publication_group_alias);
         
@@ -1410,7 +1412,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $object_alias = $rdm->get_alias(ContentObject :: get_table_name());
         
         $query = 'SELECT COUNT(DISTINCT ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_ID, $publication_alias) . ') FROM ' . $this->escape_table_name(InternshipOrganizerPublication :: get_table_name()) . ' AS ' . $publication_alias;
-        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_ID, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
+        $query .= ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $object_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_PUBLISHER_ID, $publication_alias) . ' = ' . $rdm->escape_column_name(ContentObject :: PROPERTY_ID, $object_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name(InternshipOrganizerPublicationUser :: get_table_name()) . ' AS ' . $publication_user_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(InternshipOrganizerPublicationUser :: PROPERTY_PUBLICATION_ID, $publication_user_alias);
         $query .= ' LEFT JOIN ' . $this->escape_table_name(InternshipOrganizerPublicationGroup :: get_table_name()) . ' AS ' . $publication_group_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_ID, $publication_alias) . '  = ' . $this->escape_column_name(InternshipOrganizerPublicationGroup :: PROPERTY_PUBLICATION_ID, $publication_group_alias);
         
@@ -1469,6 +1471,156 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
     function retrieve_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null)
     {
         return $this->retrieve_objects(InternshipOrganizerPublicationUser :: get_table_name(), $condition, $offset, $max_objects, $order_by, InternshipOrganizerPublicationUser :: CLASS_NAME);
+    }
+
+    //publications: interaction with repository
+    
+    function content_object_is_published($object_id)
+    {
+        return $this->any_content_object_is_published(array($object_id));
+    }
+
+    function any_content_object_is_published($object_ids)
+    {
+        $condition = new InCondition(InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_ids);
+        return $this->count_objects(InternshipOrganizerPublication :: get_table_name(), $condition) >= 1;
+    }
+
+    function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_properties = null)
+    {
+        if (isset($type))
+        {
+            if ($type == 'user')
+            {
+                $rdm = RepositoryDataManager :: get_instance();
+                $co_alias = $rdm->get_alias(ContentObject :: get_table_name());
+                $pub_alias = $this->get_alias(InternshipOrganizerPublication :: get_table_name());
+                
+                $query = 'SELECT ' . $pub_alias . '.*, ' . $co_alias . '.' . $this->escape_column_name(ContentObject :: PROPERTY_TITLE) . ' FROM ' . $this->escape_table_name(InternshipOrganizerPublication :: get_table_name()) . ' AS ' . $pub_alias . ' JOIN ' . $rdm->escape_table_name(ContentObject :: get_table_name()) . ' AS ' . $co_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_ID, $pub_alias) . '=' . $this->escape_column_name(ContentObject :: PROPERTY_ID, $co_alias);
+                
+                $condition = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLISHER_ID, Session :: get_user_id());
+                $translator = new ConditionTranslator($this);
+                $query .= $translator->render_query($condition);
+                
+                $order = array();
+                foreach ($order_properties as $order_property)
+                {
+                    if ($order_property->get_property() == 'application')
+                    {
+                    
+                    }
+                    elseif ($order_property->get_property() == 'location')
+                    {
+                    
+                    }
+                    elseif ($order_property->get_property() == 'title')
+                    {
+                        $order[] = $this->escape_column_name('title') . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                    }
+                    else
+                    {
+                        $order[] = $this->escape_column_name($order_property->get_property()) . ' ' . ($order_property->get_direction() == SORT_DESC ? 'DESC' : 'ASC');
+                    }
+                }
+                
+                if (count($order) > 0)
+                    $query .= ' ORDER BY ' . implode(', ', $order);
+            
+            }
+        }
+        else
+        {
+            $query = 'SELECT * FROM ' . $this->escape_table_name(InternshipOrganizerPublication :: get_table_name());
+            $condition = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
+            $translator = new ConditionTranslator($this);
+            $query .= $translator->render_query($condition);
+        
+        }
+        
+        $this->set_limit($offset, $count);
+        $res = $this->query($query);
+        $publication_attr = array();
+        while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+        {
+            $info = new ContentObjectPublicationAttributes();
+            $info->set_id($record[InternshipOrganizerPublication :: PROPERTY_ID]);
+            $info->set_publisher_user_id($record[InternshipOrganizerPublication :: PROPERTY_PUBLISHER_ID]);
+            $info->set_publication_date($record[InternshipOrganizerPublication :: PROPERTY_PUBLISHED]);
+            $info->set_application(InternshipOrganizerManager :: APPLICATION_NAME);
+            //TODO: i8n location string
+            $info->set_location(Translation :: get('InternshipOrganizer'));
+            $info->set_url('run.php?application=internship_organizer');
+            $info->set_publication_object_id($record[InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_ID]);
+            
+            $publication_attr[] = $info;
+        }
+        return $publication_attr;
+    }
+
+    function get_content_object_publication_attribute($publication_id)
+    {
+        $query = 'SELECT * FROM ' . $this->escape_table_name(InternshipOrganizerPublication :: get_table_name()) . ' WHERE ' . $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_ID) . '=' . $this->quote($publication_id);
+        $this->set_limit(0, 1);
+        $res = $this->query($query);
+        
+        $publication_attr = array();
+        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+        
+        $publication_attr = new ContentObjectPublicationAttributes();
+        $publication_attr->set_id($record[InternshipOrganizerPublication :: PROPERTY_ID]);
+        $publication_attr->set_publisher_user_id($record[InternshipOrganizerPublication :: PROPERTY_PUBLISHER_ID]);
+        $publication_attr->set_publication_date($record[InternshipOrganizerPublication :: PROPERTY_PUBLISHED]);
+        $publication_attr->set_application(InternshipOrganizerManager :: APPLICATION_NAME);
+        //TODO: i8n location string
+        $publication_attr->set_location(Translation :: get('InternshipOrganizer'));
+        $publication_attr->set_url('run.php?application=internship_organizer');
+        $publication_attr->set_publication_object_id($record[InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_ID]);
+        
+        return $publication_attr;
+    }
+
+    function count_publication_attributes($type = null, $condition = null)
+    {
+        $condition = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLISHER_ID, Session :: get_user_id());
+        return $this->count_objects(InternshipOrganizerPublication :: get_table_name(), $condition);
+    }
+
+    function delete_content_object_publications($object_id)
+    {
+        $condition = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_ID, $object_id);
+        $publications = $this->retrieve_publications($condition);
+       
+        $succes = true;
+        
+        while ($publication = $publications->next_result())
+        {
+            
+        	$succes &= $publication->delete();
+        }
+        
+        return $succes;
+    }
+
+    function delete_content_object_publication($publication_id)
+    {
+        $condition = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_ID, $publication_id);
+        return $this->delete(InternshipOrganizerPublication :: get_table_name(), $condition);
+    }
+
+    function update_content_object_publication_id($publication_attr)
+    {
+        $where = $this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_ID) . '=' . $publication_attr->get_id();
+        $props = array();
+        $props[$this->escape_column_name(InternshipOrganizerPublication :: PROPERTY_CONTENT_OBJECT_ID)] = $publication_attr->get_publication_object_id();
+        $this->get_connection()->loadModule('Extended');
+        if ($this->get_connection()->extended->autoExecute($this->get_table_name(InternshipOrganizerPublication :: get_table_name()), $props, MDB2_AUTOQUERY_UPDATE, $where))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }
