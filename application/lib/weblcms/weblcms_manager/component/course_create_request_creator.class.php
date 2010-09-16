@@ -43,11 +43,10 @@ class WeblcmsManagerCourseCreateRequestCreatorComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
 
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
         $breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
-        $breadcrumbtrail->add_help('course create request');
+        $breadcrumbtrail->add_help('weblcms_course_create_request');
     }
 
     function get_additional_parameters()

@@ -11,16 +11,12 @@ require_once dirname(__FILE__).'/cda_language_browser/cda_language_browser_table
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerAdminCdaLanguagesBrowserComponent extends CdaManager
+class CdaManagerAdminCdaLanguagesBrowserComponent extends CdaManager implements AdministrationComponent
 {
 	private $actionbar;
 
 	function run()
 	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => CdaManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Cda') ));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AdminBrowseLanguages')));
 		$this->actionbar = $this->get_action_bar();
 
 		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_LANGUAGES, 'manager');
@@ -32,7 +28,7 @@ class CdaManagerAdminCdaLanguagesBrowserComponent extends CdaManager
 		    Display :: not_allowed();
 		}
 
-		$this->display_header($trail);
+		$this->display_header();
 
 		echo $this->actionbar->as_html();
 		echo $this->get_table();
@@ -67,6 +63,11 @@ class CdaManagerAdminCdaLanguagesBrowserComponent extends CdaManager
     	$properties[] = new ConditionProperty(CdaLanguage :: PROPERTY_ORIGINAL_NAME);
 
     	return $this->actionbar->get_conditions($properties);
+    }
+    
+    function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('cda_admin_languages_browser');
     }
 
 }

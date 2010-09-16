@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../forms/variable_form.class.php';
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerVariableCreatorComponent extends CdaManager
+class CdaManagerVariableCreatorComponent extends CdaManager implements AdministrationComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -18,13 +18,6 @@ class CdaManagerVariableCreatorComponent extends CdaManager
 	function run()
 	{
 		$language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
-
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => CdaManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Cda') ));
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_VARIABLES, CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), Translation :: get('BrowseVariables')));
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), Translation :: get('CreateVariable')));
 
 	   	$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
 
@@ -46,10 +39,22 @@ class CdaManagerVariableCreatorComponent extends CdaManager
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header();
 			$form->display();
 			$this->display_footer();
 		}
 	}
+	
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
+		$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_VARIABLES, CdaManager :: PARAM_LANGUAGE_PACK => Request :: get(CdaManager :: PARAM_LANGUAGE_PACK))), Translation :: get('BrowseVariables')));
+    	$breadcrumbtrail->add_help('cda_variable_creator');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(CdaManager :: PARAM_LANGUAGE_PACK);
+    }
 }
 ?>

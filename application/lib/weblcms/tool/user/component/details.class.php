@@ -1,4 +1,5 @@
 <?php
+
 /**
  * $Id: user_details.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.user.component
@@ -11,22 +12,22 @@ class UserToolDetailsComponent extends UserTool
 
     function run()
     {
-        if (! $this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
+        if (!$this->is_allowed(WeblcmsRights :: VIEW_RIGHT))
         {
             Display :: not_allowed();
             return;
         }
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('courses user');
         
+
         if (Request :: get('users') != null)
         {
             $user = UserDataManager :: get_instance()->retrieve_user(Request :: get('users'));
-            $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), $user->get_firstname() . ' ' . $user->get_lastname()));
+            //$trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), $user->get_firstname() . ' ' . $user->get_lastname()));
         }
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), Translation :: get('Details')));
+        //$trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), Translation :: get('Details')));
         $this->display_header();
-        
+
         $udm = UserDataManager :: get_instance();
         if (Request :: get(WeblcmsManager :: PARAM_USERS))
         {
@@ -43,9 +44,21 @@ class UserToolDetailsComponent extends UserTool
                 echo $details->toHtml();
             }
         }
-        
+
         $this->display_footer();
     }
 
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USER_BROWSER)), Translation :: get('UserToolUnsubscribeUserBrowserComponent')));
+        $breadcrumbtrail->add_help('weblcms_user_details');
+    }
+
+    function  get_additional_parameters()
+    {
+        return array(UserTool::PARAM_USERS);
+    }
+
 }
+
 ?>

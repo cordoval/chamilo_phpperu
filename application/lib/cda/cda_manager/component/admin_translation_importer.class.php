@@ -10,24 +10,19 @@ require_once dirname(__FILE__) . '/translation_importer/translation_importer.cla
  * @author Sven Vanpoucke
  * @author
  */
-class CdaManagerAdminTranslationImporterComponent extends CdaManager
+class CdaManagerAdminTranslationImporterComponent extends CdaManager implements AdministrationComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => CdaManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Cda') ));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ImportTranslations')));
-
 		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_VARIABLE_TRANSLATIONS, 'manager');
 		$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_VARIABLE_TRANSLATIONS, 'manager');
 
 		if (!$can_edit && !$can_add)
 		{
-		    Display :: not_allowed($trail);
+		    Display :: not_allowed();
 		}
 
 		$form = new TranslationImportForm($this, $this->get_url());
@@ -47,10 +42,15 @@ class CdaManagerAdminTranslationImporterComponent extends CdaManager
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header();
 			$form->display();
 			$this->display_footer();
 		}
 	}
+	
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('cda_admin_translation_importer');
+    }
 }
 ?>

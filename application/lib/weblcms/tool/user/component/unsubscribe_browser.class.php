@@ -33,7 +33,7 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
 
         $this->action_bar = $this->get_action_bar();
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('courses user');
+        
 
         $this->display_header();
 
@@ -46,6 +46,8 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
         echo $this->display_users();
 
         $this->display_footer();
+
+        
     }
 
     function display_users()
@@ -174,6 +176,11 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
             $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
             return new OrCondition($conditions);
         }
+    }
+
+    function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add_help('weblcms_user_unsubscribe_browser');
     }
 }
 ?>

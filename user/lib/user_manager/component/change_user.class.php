@@ -22,10 +22,12 @@ class UserManagerChangeUserComponent extends UserManager implements Administrati
 		        $this->display_footer();
 		        exit();
 		    }
-		    
-        	$success = true;
-            $_SESSION['_uid'] = $id;
-            $_SESSION['_as_admin'] = $this->get_user_id();
+
+		    $checkurl = Session :: retrieve('checkChamiloURL');
+		    Session :: clear();
+            Session :: register('_uid', $id);
+            Session :: register('_as_admin', $this->get_user_id());
+            Session :: register('checkChamiloURL', $checkurl);
             header('Location: index.php');
         
         }

@@ -233,9 +233,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
-
-        $breadcrumbtrail->add_help('courses subscribe');
+        $breadcrumbtrail->add_help('weblcms_subscribe');
     }
 
     function get_additional_parameters()

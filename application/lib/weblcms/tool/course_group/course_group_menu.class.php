@@ -46,7 +46,7 @@ class CourseGroupMenu extends HTML_Menu
      *                           Passed to sprintf(). Defaults to the string
      *                           "?category=%s".
      */
-    function CourseGroupMenu($course, $current_group, $url_format = '?application=weblcms&go=courseviewer&tool=course_group&course=%s&course_group=%s')
+    function CourseGroupMenu($course, $current_group, $url_format = '?application=weblcms&go=course_viewer&tool=course_group&course=%s&course_group=%s')
     {
         if ($current_group == '0' || is_null($current_group))
         {

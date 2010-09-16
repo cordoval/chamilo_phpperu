@@ -180,7 +180,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManager implements DelegateComp
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add_help('courses general');
+        $breadcrumbtrail->add_help('weblcms_course_home');
     }
 
     function get_additional_parameters()

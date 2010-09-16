@@ -67,9 +67,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
         $html[] = $table->as_html();
         $html[] = '</div>';
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id)), $course_group->get_name()));
-        $trail->add_help('courses group');
-
+       
         $this->display_header();
         echo implode($html, "\n");
         $this->display_footer();
@@ -143,6 +141,18 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupTool
     function get_course_group()
     {
     	return $this->course_group;
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('CourseGroupToolBrowserComponent')));
+
+        $breadcrumbtrail->add_help('weblcms_course_group_unsubscribe_browser');
+    }
+
+    function  get_additional_parameters()
+    {
+        return array(CourseGroupTool :: PARAM_COURSE_GROUP);
     }
 
 }

@@ -23,10 +23,8 @@ class UserToolGroupSubscribeBrowserComponent extends UserTool
 
         $this->action_bar = $this->get_action_bar();
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SubscribeGroups')));
-        $trail->add_help('courses user');
 
-        $this->add_group_menu_breadcrumbs($trail);
+        //$this->add_group_menu_breadcrumbs($trail);
         $this->display_header();
 
         echo $this->action_bar->as_html();
@@ -50,13 +48,13 @@ class UserToolGroupSubscribeBrowserComponent extends UserTool
 
     function get_group_menu()
     {
-        $groupmenu = new SubscribeGroupMenu($this->get_course(), Request :: get('group_id'), '?application=weblcms&go=courseviewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=subscribe_groups&group_id=%s');
+        $groupmenu = new SubscribeGroupMenu($this->get_course(), Request :: get(WeblcmsManager::PARAM_GROUP), '?application=weblcms&go=course_viewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=group_subscribe_browser&'. WeblcmsManager::PARAM_GROUP .'=%s');
         return '<div style="overflow: auto; width: 20%; float: left;">' . $groupmenu->render_as_tree() . '<br /></div>';
     }
 
     private function add_group_menu_breadcrumbs(&$breadcrumb_trail)
     {
-        $groupmenu = new SubscribeGroupMenu($this->get_course(), Request :: get('group_id'), '?application=weblcms&go=courseviewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=subscribe_groups&group_id=%s');
+        $groupmenu = new SubscribeGroupMenu($this->get_course(), Request :: get(WeblcmsManager::PARAM_GROUP), '?application=weblcms&go=course_viewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=group_subscribe_browser&'. WeblcmsManager::PARAM_GROUP .'=%s');
         foreach ($groupmenu->get_breadcrumbs() as $breadcrumb)
         {
             $breadcrumb_trail->add(new Breadcrumb($breadcrumb['url'], $breadcrumb['title']));
@@ -114,6 +112,13 @@ class UserToolGroupSubscribeBrowserComponent extends UserTool
         }
 
         return new AndCondition($conditions);
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool::ACTION_UNSUBSCRIBE_USER_BROWSER)), Translation :: get('UserToolUnsubscribeBrowserComponent')));
+
+        $breadcrumbtrail->add_help('weblcms_group_subscribe_browser');
     }
 }
 ?>

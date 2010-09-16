@@ -17,10 +17,6 @@ class CdaManagerLanguagePackCreatorComponent extends CdaManager
 	 */
 	function run()
 	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateLanguagePack')));
-
 	   	$can_add = CdaRights :: is_allowed(CdaRights :: ADD_RIGHT, CdaRights :: LOCATION_LANGUAGE_PACKS, 'manager');
 
    		if (!$can_add)
@@ -39,10 +35,16 @@ class CdaManagerLanguagePackCreatorComponent extends CdaManager
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header();
 			$form->display();
 			$this->display_footer();
 		}
 	}
+	
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('cda_admin_language_pack_creator');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('CdaManagerAdminLanguagePacksBrowserComponent')));
+    }
 }
 ?>

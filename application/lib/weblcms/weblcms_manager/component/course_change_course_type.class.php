@@ -109,7 +109,6 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
 
     function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_home_url(), Translation :: get('WeblcmsManagerHomeComponent')));
 
         if ($this->get_user()->is_platform_admin())
         {
@@ -119,12 +118,11 @@ class WeblcmsManagerCourseChangeCourseTypeComponent extends WeblcmsManager
         }
         else
         {
-            $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courses')));
             $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => null)), Translation :: get('Courselist')));
         }
 
 
-        $breadcrumbtrail->add_help('change_course_coursetype');
+        $breadcrumbtrail->add_help('weblcms_change_course_type');
     }
 
     function get_additional_parameters()

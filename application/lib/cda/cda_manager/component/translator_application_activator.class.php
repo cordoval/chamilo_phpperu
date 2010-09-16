@@ -103,5 +103,17 @@ class CdaManagerTranslatorApplicationActivatorComponent extends CdaManager
     	$mail = Mail :: factory($subject, $content, $to, array(Mail :: NAME => 'info@chamilo.org', Mail :: EMAIL => 'info@chamilo.org'));
     	$mail->send();
     }
+    
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_translator_applications_link(), Translation :: get('CdaManagerTranslatorApplicationBrowserComponent')));
+    	$breadcrumbtrail->add_help('cda_languages_application_activator');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(CdaManager :: PARAM_TRANSLATOR_APPLICATION);
+    }
 }
 ?>
