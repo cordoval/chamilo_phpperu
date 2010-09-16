@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/variable_browser/variable_browser_table.class.p
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerAdminVariablesBrowserComponent extends CdaManager
+class CdaManagerAdminVariablesBrowserComponent extends CdaManager implements AdministrationComponent
 {
 	private $actionbar;
 
@@ -19,11 +19,6 @@ class CdaManagerAdminVariablesBrowserComponent extends CdaManager
 	{
 		$language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
 
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER, DynamicTabsRenderer :: PARAM_SELECTED_TAB => CdaManager :: APPLICATION_NAME), array(), false, Redirect :: TYPE_CORE), Translation :: get('Cda') ));
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('BrowseLanguagePacks')));
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), Translation :: get('BrowseVariables')));
 		$this->actionbar = $this->get_action_bar();
 
 		$can_edit = CdaRights :: is_allowed(CdaRights :: EDIT_RIGHT, CdaRights :: LOCATION_VARIABLES, 'manager');
@@ -32,10 +27,10 @@ class CdaManagerAdminVariablesBrowserComponent extends CdaManager
 
 		if (!$can_edit && !$can_delete && !$can_add)
 		{
-		    Display :: not_allowed($trail);
+		    Display :: not_allowed();
 		}
 
-		$this->display_header($trail);
+		$this->display_header();
 
 		echo $this->actionbar->as_html();
 		echo $this->get_table();
@@ -76,6 +71,17 @@ class CdaManagerAdminVariablesBrowserComponent extends CdaManager
     		$conditions[] = $condition;
 
     	return new AndCondition($conditions);
+    }
+    
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('cda_admin_variables_browser');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('CdaManagerAdminLanguagePacksBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(CdaManager :: PARAM_LANGUAGE_PACK);
     }
 }
 ?>

@@ -20,10 +20,6 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
 	{
 		$this->user_languages = $this->get_user_languages();
 		
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
-		$trail->add(new Breadcrumb('#', Translation :: get('ManageTranslatorApplications')));
-		
 		$this->action_bar = $this->get_action_bar();
 		
 		if (count($this->user_languages) == 0)
@@ -31,7 +27,7 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
 			Display :: not_allowed();
 		}
 
-		$this->display_header($trail);
+		$this->display_header();
 		echo '<a name="top"></a>';
         echo $this->action_bar->as_html() . '';
         echo '<div id="action_bar_browser">';
@@ -121,6 +117,12 @@ class CdaManagerTranslatorApplicationBrowserComponent extends CdaManager
 		}
 		
 		return $available_languages;
+    }
+    
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
+    	$breadcrumbtrail->add_help('cda_languages_application_browser');
     }
 }
 ?>

@@ -17,10 +17,6 @@ class CdaManagerTranslatorApplicationCreatorComponent extends CdaManager
 	 */
 	function run()
 	{
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
-		$trail->add(new Breadcrumb('#', Translation :: get('ApplyTranslator')));
-
 		$form = new TranslatorApplicationForm($this->get_url());
 
 		if($form->validate())
@@ -31,10 +27,16 @@ class CdaManagerTranslatorApplicationCreatorComponent extends CdaManager
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header();
 			$form->display();
 			$this->display_footer();
 		}
 	}
+	
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
+    	$breadcrumbtrail->add_help('cda_languages_application_creator');
+    }
 }
 ?>
