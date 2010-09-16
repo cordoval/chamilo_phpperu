@@ -2,7 +2,7 @@
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
 
-class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrganizerAgreementManager
+class InternshipOrganizerAgreementManagerPublicationDeleterComponent extends InternshipOrganizerAgreementManager
 {
 
     /**
@@ -11,7 +11,7 @@ class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrga
     function run()
     {
         
-        $ids = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
+        $ids = $_GET[InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -24,11 +24,11 @@ class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrga
             foreach ($ids as $id)
             {
                 
-                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $id, InternshipOrganizerRights :: TYPE_AGREEMENT))
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE , $id, InternshipOrganizerRights :: TYPE_PUBLICATION))
                 {
-                    $agreement = $this->retrieve_agreement($id);
+                    $publication = InternshipOrganizerDataManager::get_instance()->retrieve_publication($id);
                     
-                    if (! $agreement->delete())
+                    if (! $publication->delete())
                     {
                         $failures ++;
                     }
@@ -40,22 +40,22 @@ class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrga
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedInternshipOrganizerAgreementNotDeleted';
+                    $message = 'SelectedInternshipOrganizerPublicationNotDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedInternshipOrganizerAgreementsNotDeleted';
+                    $message = 'SelectedInternshipOrganizerPublicationsNotDeleted';
                 }
             }
             else
             {
                 if (count($ids) == 1)
                 {
-                    $message = 'SelectedInternshipOrganizerAgreementDeleted';
+                    $message = 'SelectedInternshipOrganizerPublicationDeleted';
                 }
                 else
                 {
-                    $message = 'SelectedInternshipOrganizerAgreementsDeleted';
+                    $message = 'SelectedInternshipOrganizerPublicationsDeleted';
                 }
             }
             
@@ -63,7 +63,7 @@ class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrga
         }
         else
         {
-            $this->display_error_page(htmlentities(Translation :: get('NoInternshipOrganizerAgreementsSelected')));
+            $this->display_error_page(htmlentities(Translation :: get('NoInternshipOrganizerPublicationsSelected')));
         }
     }
 }

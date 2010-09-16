@@ -13,18 +13,13 @@ class InternshipOrganizerRights
     const RIGHT_DELETE = '4';
     const DELETE_RIGHT_NAME = 'delete';
     const RIGHT_PUBLISH = '5';
-    const PUBLISH_RIGHT_NAME = 'publish';
-    
-    const PUBLISH_RIGHT = '22';
-    //    const PUBLISH_RIGHT_NAME = 'publish';
-    const VIEW_AGREEMENT_RIGHT = '15';
-    const VIEW_AGREEMENT_NAME = 'view_agreement';
+    const RIGHT_PUBLISH_NAME = 'publish';
+
     const ADD_AGREEMENT_RIGHT = '6';
     const ADD_AGREEMENT_NAME = 'add_agreement';
-    const DELETE_AGREEMENT_RIGHT = '7';
-    const DELETE_AGREEMENT_NAME = 'delete_agreement';
-    const EDIT_AGREEMENT_RIGHT = '8';
-    const EDIT_AGREEMENT_NAME = 'edit_agreement';
+
+//    const EDIT_AGREEMENT_RIGHT = '8';
+//    const EDIT_AGREEMENT_NAME = 'edit_agreement';
     const SUBSCRIBE_CATEGORY_RIGHT = '9';
     const SUBSCRIBE_CATEGORY_NAME = 'subscribe_category';
     const UNSUBSCRIBE_CATEGORY_RIGHT = '10';
@@ -73,22 +68,22 @@ class InternshipOrganizerRights
 
     static function get_available_rights_for_publications()
     {
-        return array(self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE);
+        return array(self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE);
     }
 
     static function get_available_rights_for_periods()
     {
-        return array(self :: PUBLISH_RIGHT_NAME => self :: PUBLISH_RIGHT, self :: VIEW_AGREEMENT_NAME => self :: VIEW_AGREEMENT_RIGHT, self :: ADD_AGREEMENT_NAME => self :: ADD_AGREEMENT_RIGHT, self :: DELETE_AGREEMENT_NAME => self :: DELETE_AGREEMENT_RIGHT, self :: EDIT_AGREEMENT_NAME => self :: EDIT_AGREEMENT_RIGHT, self :: SUBSCRIBE_AGREEMENT_USER_NAME => self :: SUBSCRIBE_AGREEMENT_USER_RIGHT, self :: UNSUBSCRIBE_AGREEMENT_USER_NAME => self :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT, self :: SUBSCRIBE_CATEGORY_NAME => self :: SUBSCRIBE_CATEGORY_RIGHT, self :: UNSUBSCRIBE_CATEGORY_NAME => self :: UNSUBSCRIBE_CATEGORY_RIGHT, self :: SUBSCRIBE_GROUP_NAME => self :: SUBSCRIBE_GROUP_RIGHT, self :: UNSUBSCRIBE_GROUP_NAME => self :: UNSUBSCRIBE_GROUP_RIGHT, self :: SUBSCRIBE_USER_NAME => self :: SUBSCRIBE_USER_RIGHT, self :: UNSUBSCRIBE_USER_NAME => self :: UNSUBSCRIBE_USER_RIGHT);
+        return array(self :: RIGHT_PUBLISH_NAME => self :: RIGHT_PUBLISH, self :: ADD_AGREEMENT_NAME => self :: ADD_AGREEMENT_RIGHT, self :: DELETE_AGREEMENT_NAME => self :: DELETE_AGREEMENT_RIGHT, self :: EDIT_AGREEMENT_NAME => self :: EDIT_AGREEMENT_RIGHT, self :: SUBSCRIBE_AGREEMENT_USER_NAME => self :: SUBSCRIBE_AGREEMENT_USER_RIGHT, self :: UNSUBSCRIBE_AGREEMENT_USER_NAME => self :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT, self :: SUBSCRIBE_CATEGORY_NAME => self :: SUBSCRIBE_CATEGORY_RIGHT, self :: UNSUBSCRIBE_CATEGORY_NAME => self :: UNSUBSCRIBE_CATEGORY_RIGHT, self :: SUBSCRIBE_GROUP_NAME => self :: SUBSCRIBE_GROUP_RIGHT, self :: UNSUBSCRIBE_GROUP_NAME => self :: UNSUBSCRIBE_GROUP_RIGHT, self :: SUBSCRIBE_USER_NAME => self :: SUBSCRIBE_USER_RIGHT, self :: UNSUBSCRIBE_USER_NAME => self :: UNSUBSCRIBE_USER_RIGHT);
     }
 
     static function get_available_rights_for_agreements()
     {
-        return array(self :: PUBLISH_RIGHT_NAME => self :: PUBLISH_RIGHT, self :: VIEW_AGREEMENT_NAME => self :: VIEW_AGREEMENT_RIGHT, self :: DELETE_AGREEMENT_NAME => self :: DELETE_AGREEMENT_RIGHT, self :: EDIT_AGREEMENT_NAME => self :: EDIT_AGREEMENT_RIGHT, self :: ADD_LOCATION_NAME => self :: ADD_LOCATION_RIGHT, self :: APPROVE_LOCATION_NAME => self :: APPROVE_LOCATION_RIGHT, self :: ADD_MENTOR_NAME => self :: ADD_MENTOR_RIGHT, self :: ADD_MOMENT_NAME => self :: ADD_MOMENT_RIGHT);
+        return array(self :: RIGHT_PUBLISH_NAME => self :: RIGHT_PUBLISH, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: ADD_LOCATION_NAME => self :: ADD_LOCATION_RIGHT, self :: APPROVE_LOCATION_NAME => self :: APPROVE_LOCATION_RIGHT, self :: ADD_MENTOR_NAME => self :: ADD_MENTOR_RIGHT, self :: ADD_MOMENT_NAME => self :: ADD_MOMENT_RIGHT);
     }
 
     static function get_available_rights_for_moments()
     {
-        return array(self :: PUBLISH_RIGHT_NAME => self :: RIGHT_PUBLISH, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE);
+        return array(self :: RIGHT_PUBLISH_NAME => self :: RIGHT_PUBLISH, self :: VIEW_RIGHT_NAME => self :: RIGHT_VIEW, self :: EDIT_RIGHT_NAME => self :: RIGHT_EDIT, self :: DELETE_RIGHT_NAME => self :: RIGHT_DELETE);
     }
 
     static function create_location_in_internship_organizers_subtree($name, $identifier, $parent, $type, $return_location = false)

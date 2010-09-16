@@ -1,14 +1,21 @@
 <?php
 
 require_once dirname(__FILE__) . '/../forms/agreement_publication_form.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
 
 class InternshipOrganizerAgreementPublisher
 {
+    
+    const SINGLE_AGREEMENT_TYPE = 'single';
+    const MULTIPLE_AGREEMENT_TYPE = 'multiple';
+    
     private $parent;
+    private $type;
 
-    function InternshipOrganizerAgreementPublisher($parent)
+    function InternshipOrganizerAgreementPublisher($parent, $type)
     {
         $this->parent = $parent;
+        $this->type = $type;
     }
 
     function get_publications_form($ids)
@@ -47,7 +54,7 @@ class InternshipOrganizerAgreementPublisher
         $parameters[RepoViewer :: PARAM_ID] = $ids;
         $parameters[RepoViewer :: PARAM_ACTION] = RepoViewer :: ACTION_PUBLISHER;
         
-        $form = new InternshipOrganizerAgreementPublicationForm(InternshipOrganizerAgreementPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url($parameters));
+        $form = new InternshipOrganizerAgreementPublicationForm(InternshipOrganizerAgreementPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url($parameters), $this->type);
         if ($form->validate())
         {
             $publication = $form->create_content_object_publications();
@@ -60,7 +67,17 @@ class InternshipOrganizerAgreementPublisher
             {
                 $message = Translation :: get('ObjectPublished');
             }
-            $this->parent->redirect($message, (! $publication ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT));
+            
+            if ($this->type == self :: SINGLE_AGREEMENT_TYPE)
+            {
+                $agreement_id = $this->parent->get_parameter(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID);
+                $this->parent->redirect($message, (! $publication ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_PUBLICATIONS));
+            }
+            
+            if ($this->type == self :: MULTIPLE_AGREEMENT_TYPE)
+            {
+                $this->parent->redirect($message, (! $publication ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT));
+            }
         
         }
         else

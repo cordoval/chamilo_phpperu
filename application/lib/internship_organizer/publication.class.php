@@ -176,7 +176,7 @@ class InternshipOrganizerPublication extends DataClass
     {
         $this->set_default_property(self :: PROPERTY_PUBLISHER_ID, $publisher_id);
     }
-
+    
     /**
      * Returns the publication_type of this InternshipOrganizerPublication.
      * @return the publication_type.
@@ -422,7 +422,7 @@ class InternshipOrganizerPublication extends DataClass
     function get_publication_publisher()
     {
         $udm = UserDataManager :: get_instance();
-        return $udm->retrieve_user($this->get_publisher());
+        return $udm->retrieve_user($this->get_publisher_id());
     }
 
 }

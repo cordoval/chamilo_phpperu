@@ -11,17 +11,20 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
     
     const PARAM_TARGET = 'agreements';
     
+    private $form_type;
+    private $type;
     private $publication;
     private $content_object;
     private $user;
 
-    function InternshipOrganizerAgreementPublicationForm($form_type, $content_object, $user, $action)
+    function InternshipOrganizerAgreementPublicationForm($form_type, $content_object, $user, $action, $type)
     {
         parent :: __construct('agreement_publication_settings', 'post', $action);
         
         $this->content_object = $content_object;
         $this->user = $user;
         $this->form_type = $form_type;
+        $this->type = $type;
         
         switch ($this->form_type)
         {
@@ -62,16 +65,19 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
         $this->addElement('select', InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('InternshipOrganizerTypeOfPublication'), $this->get_type_of_documents());
         $this->addRule(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_agreement_feed.php?user_id='.$this->user->get_id();
-		        
-        $locale = array();
-        $locale['Display'] = Translation :: get('ChooseAgreements');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Agreements'), $url, $locale, array());
-        $elem->setDefaults($defaults);
-        $elem->setDefaultCollapsed(false);
+        if ($this->type == InternshipOrganizerAgreementPublisher :: MULTIPLE_AGREEMENT_TYPE)
+        {
+            $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_agreement_feed.php?user_id=' . $this->user->get_id();
+            
+            $locale = array();
+            $locale['Display'] = Translation :: get('ChooseAgreements');
+            $locale['Searching'] = Translation :: get('Searching');
+            $locale['NoResults'] = Translation :: get('NoResults');
+            $locale['Error'] = Translation :: get('Error');
+            $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Agreements'), $url, $locale, array());
+            $elem->setDefaults($defaults);
+            $elem->setDefaultCollapsed(false);
+        }
     
     }
 
@@ -86,9 +92,16 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
     function create_content_object_publications()
     {
         $values = $this->exportValues();
-               
-        $agreement_ids = $values[self :: PARAM_TARGET]['agreement'];
-		
+        
+        if ($this->type == InternshipOrganizerAgreementPublisher :: MULTIPLE_AGREEMENT_TYPE)
+        {
+            $agreement_ids = $values[self :: PARAM_TARGET]['agreement'];
+        }
+        else
+        {
+            $agreement_ids = array($_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID]);
+        }
+        
         $ids = unserialize($values['ids']);
         $succes = false;
         
@@ -113,7 +126,6 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
                     $pub->set_publication_place(InternshipOrganizerPublicationPlace :: AGREEMENT);
                     $pub->set_place_id($agreement->get_id());
                     $pub->set_publication_type($values[InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE]);
-                    
                     
                     if (! $pub->create())
                     {

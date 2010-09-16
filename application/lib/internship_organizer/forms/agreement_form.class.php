@@ -206,7 +206,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
                 }
                 if ($i = InternshipOrganizerUserType :: COACH)
                 {
-                    if (in_array($right, array(InternshipOrganizerRights :: VIEW_AGREEMENT_RIGHT, InternshipOrganizerRights :: ADD_LOCATION_RIGHT, InternshipOrganizerRights :: APPROVE_LOCATION_RIGHT, InternshipOrganizerRights :: ADD_MENTOR_RIGHT, InternshipOrganizerRights :: ADD_MOMENT_RIGHT, InternshipOrganizerRights :: PUBLISH_RIGHT)))
+                    if (in_array($right, array(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: ADD_LOCATION_RIGHT, InternshipOrganizerRights :: APPROVE_LOCATION_RIGHT, InternshipOrganizerRights :: ADD_MENTOR_RIGHT, InternshipOrganizerRights :: ADD_MOMENT_RIGHT, InternshipOrganizerRights :: RIGHT_PUBLISH)))
                     {
                         $default_settings[$i][$right] = 1;
                     }
@@ -214,7 +214,7 @@ class InternshipOrganizerAgreementForm extends FormValidator
                 }
                 if ($i = InternshipOrganizerUserType :: STUDENT)
                 {
-                    if (in_array($right, array(InternshipOrganizerRights :: VIEW_AGREEMENT_RIGHT, InternshipOrganizerRights :: ADD_LOCATION_RIGHT, InternshipOrganizerRights :: ADD_MOMENT_RIGHT, InternshipOrganizerRights :: PUBLISH_RIGHT)))
+                    if (in_array($right, array(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: ADD_LOCATION_RIGHT, InternshipOrganizerRights :: ADD_MOMENT_RIGHT, InternshipOrganizerRights :: RIGHT_PUBLISH)))
                     {
                         $default_settings[$i][$right] = 1;
                     }

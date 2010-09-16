@@ -120,7 +120,7 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
         
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishInAgreements'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_agreement_publish_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishInAgreements'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_agreements_publish_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))

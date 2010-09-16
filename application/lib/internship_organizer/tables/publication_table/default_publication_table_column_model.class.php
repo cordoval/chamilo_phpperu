@@ -33,8 +33,8 @@ class DefaultInternshipOrganizerPublicationTableColumnModel extends ObjectTableC
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_TITLE, true, $content_object_alias);
         $columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_DESCRIPTION, true, $content_object_alias);
        	$columns[] = new ObjectTableColumn(InternshipOrganizerPublication :: PROPERTY_NAME, true);
-        $columns[] = new ObjectTableColumn(InternshipOrganizerPublication :: PROPERTY_FROM_DATE);
-       	$columns[] = new ObjectTableColumn(InternshipOrganizerPublication :: PROPERTY_TO_DATE);
+        $columns[] = new ObjectTableColumn(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, true);
+       	$columns[] = new ObjectTableColumn(InternshipOrganizerPublication :: PROPERTY_PUBLISHER_ID, true);
       
         return $columns;
     }

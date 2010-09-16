@@ -26,6 +26,10 @@ $lang['internship_organizer']['AddMoment'] = 'Add Moment';
 //applicationchooser components
 $lang['internship_organizer']['InternshipOrganizerManagerApplicationChooserComponent'] = 'Manager';
 
+//rights component
+$lang['internship_organizer']['RightsEditorManagerBrowserComponent'] = 'Editor';
+
+
 //repoviewecomponent
 $lang['internship_organizer']['RepoViewerBrowserComponent'] = 'Repository Viewer';
 $lang['internship_organizer']['RepoViewerCreatorComponent'] = 'Repository Creator';
@@ -193,6 +197,7 @@ $lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeAgreemen
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerAgreementCreatorComponent'] = 'Create Agreement';
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerPublicationViewerComponent'] = 'View Publication';
 $lang['internship_organizer']['InternshipOrganizerPeriodManagerPublicationRightsEditorComponent'] = 'Edit Publication Rights';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerPublisherComponent'] = 'Publisher';
 
 
 $lang['internship_organizer']['CreateInternshipOrganizerPeriod'] = 'Create Period';
@@ -330,7 +335,7 @@ $lang['internship_organizer']['InternshipOrganizerPublications'] = 'Publications
 $lang['internship_organizer']['PublishInMoments'] = 'Publish in Moments';
 $lang['internship_organizer']['PublishInPeriods'] = 'Publish in Periods';
 $lang['internship_organizer']['PublishInAgreements'] = 'Publish in Agreements';
-
+$lang['internship_organizer']['PublicationType'] = 'Type';
 
 $lang['internship_organizer']['InternshipOrganizerUsers'] = 'Users';
 $lang['internship_organizer']['AddInternshipOrganizerMentor'] = 'add mentor';

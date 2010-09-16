@@ -28,6 +28,7 @@ class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganiz
         $parent_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
         
         $period->set_parent_id($parent_id);
+        $period->set_owner($this->get_user_id());
         $form = new InternshipOrganizerPeriodForm(InternshipOrganizerPeriodForm :: TYPE_CREATE, $period, $this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID))), $this->get_user());
         
         if ($form->validate())

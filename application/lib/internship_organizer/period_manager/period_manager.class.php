@@ -36,6 +36,7 @@ class InternshipOrganizerPeriodManager extends SubManager
     const ACTION_VIEW_AGREEMENT = 'agreement_viewer';
     
     const ACTION_VIEW_PUBLICATION = 'publication_viewer';
+    const ACTION_DELETE_PUBLICATION = 'publication_deleter';
     const ACTION_EDIT_PUBLICATION_RIGHTS = 'publication_rights_editor';
     
     const ACTION_SUBSCRIBE_USER = 'subscribe_user';
@@ -159,7 +160,12 @@ class InternshipOrganizerPeriodManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
-    function get_period_publish_url()
+    function get_period_publish_url($period)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
+    }
+
+    function get_periods_publish_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_PERIOD));
     }
@@ -243,6 +249,11 @@ class InternshipOrganizerPeriodManager extends SubManager
     function get_view_publication_url($publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+    }
+
+    function get_delete_publication_url($publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
 
     function get_publication_rights_editor_url($publication)

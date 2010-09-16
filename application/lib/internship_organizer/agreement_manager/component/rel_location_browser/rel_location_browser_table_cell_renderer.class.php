@@ -94,7 +94,13 @@ class InternshipOrganizerAgreementRelLocationBrowserTableCellRenderer extends De
             
             if ($agreementrellocation->get_location_type() == InternshipOrganizerAgreementRelLocation :: APPROVED)
             {
-                $toolbar->add_item(new ToolbarItem(Translation :: get('ResetApprovedToApprove'), Theme :: get_common_image_path() . 'action_unlink.png', $this->browser->get_agreement_rel_location_approve_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON));
+                
+                $condition = new EqualityCondition(InternshipOrganizerMoment :: PROPERTY_AGREEMENT_ID, $agreement->get_id());
+                $moment_count = InternshipOrganizerDataManager :: get_instance()->count_moments($condition);
+                if (! $moment_count > 0)
+                {
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('ResetApprovedToApprove'), Theme :: get_common_image_path() . 'action_unlink.png', $this->browser->get_agreement_rel_location_approve_url($agreementrellocation), ToolbarItem :: DISPLAY_ICON));
+                }
             
             }
             else

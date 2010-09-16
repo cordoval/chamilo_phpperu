@@ -86,6 +86,11 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
         
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID => $this->moment->get_id())));
         
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, $this->moment->get_id(), InternshipOrganizerRights :: TYPE_MOMENT))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_moment_publish_url($this->moment), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
         return $action_bar;
     }
 
@@ -94,11 +99,28 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
         $conditions = array();
         $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: MOMENT);
         $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $this->moment->get_id());
-        //        $conditions[] = new EqualityCondition(InternshipOrganizerPublicationUser :: PROPERTY_USER_ID, $this->get_user_id(),InternshipOrganizerPublicationUser :: get_table_name() );
         
-
+        $query = $this->action_bar->get_query();
+        
+        if (isset($query) && $query != '')
+        {
+            
+            $publication_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerPublication :: get_table_name());
+            $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
+            $object_alias = RepositoryDataManager :: get_instance()->get_alias(ContentObject :: get_table_name());
+            
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', $user_alias, true);
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', $user_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerPublication :: PROPERTY_NAME, '*' . $query . '*', $publication_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerPublication :: PROPERTY_DESCRIPTION, '*' . $query . '*', $publication_alias, true);
+            $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*', $object_alias, true);
+            $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*', $object_alias, true);
+            $conditions[] = new OrCondition($search_conditions);
+        }
+        
         return new AndCondition($conditions);
     }
-
+	   
 }
 ?>

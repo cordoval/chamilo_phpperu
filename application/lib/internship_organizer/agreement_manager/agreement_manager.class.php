@@ -17,7 +17,6 @@ class InternshipOrganizerAgreementManager extends SubManager
     const SUB_MANAGER_NAME = 'agreement';
     
     const PARAM_MOMENT_ID = 'moment_id';
-    const PARAM_DELETE_SELECTED_MOMENTS = 'delete_moments';
     const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
     const PARAM_PUBLICATION_ID = 'publication_id';
     
@@ -29,6 +28,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     const ACTION_VIEW_AGREEMENT = 'viewer';
     const ACTION_PUBLISH_AGREEMENT = 'publisher';
     const ACTION_VIEW_PUBLICATION = 'publication_viewer';
+    const ACTION_DELETE_PUBLICATION = 'publication_deleter';
     const ACTION_SUBSCRIBE_LOCATION_TO_AGREEMENT = 'subscriber';
     const ACTION_UNSUBSCRIBE_LOCATION_FROM_AGREEMENT = 'unsubscriber';
     
@@ -44,7 +44,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     const ACTION_PUBLISH_MOMENT = 'moment_publisher';
     const ACTION_REPORTING = 'reporting';
     
-     const ACTION_EDIT_PUBLICATION_RIGHTS = 'publication_rights_editor';
+    const ACTION_EDIT_PUBLICATION_RIGHTS = 'publication_rights_editor';
     
     const ACTION_SUBSCRIBE_LOCATION = 'subscribe_location_browser';
     const ACTION_SUBSCRIBE_MENTOR = 'subscribe_mentor';
@@ -54,13 +54,12 @@ class InternshipOrganizerAgreementManager extends SubManager
     function InternshipOrganizerAgreementManager($internship_manager)
     {
         parent :: __construct($internship_manager);
-        $action = Request :: get(self :: PARAM_ACTION);
-        if ($action)
-        {
-            $this->set_parameter(self :: PARAM_ACTION, $action);
-        }
-        $this->parse_input_from_table();
-    
+        //        $action = Request :: get(self :: PARAM_ACTION);
+    //        if ($action)
+    //        {
+    //            $this->set_parameter(self :: PARAM_ACTION, $action);
+    //        }
+    //        $this->parse_input_from_table();
     }
 
     function get_application_component_path()
@@ -219,19 +218,34 @@ class InternshipOrganizerAgreementManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_MENTOR, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
     }
 
-    function get_agreement_publish_url()
+    function get_agreement_publish_url($agreement)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+    }
+
+    function get_agreements_publish_url()
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_AGREEMENT));
     }
 
-    function get_moment_publish_url($agreement)
+    function get_moments_publish_url($agreement)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_MOMENT, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
+    }
+
+    function get_moment_publish_url($moment)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_PUBLISH_MOMENT, self :: PARAM_MOMENT_ID => $moment->get_id()));
     }
 
     function get_view_publication_url($publication)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
+    }
+
+    function get_delete_publication_url($publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
 
     function get_agreement_reporting_url()
@@ -254,42 +268,43 @@ class InternshipOrganizerAgreementManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION_RIGHTS, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
 
-    private function parse_input_from_table()
-    {
-        
-        if (isset($_POST['action']))
-        {
-            if (isset($_POST[InternshipOrganizerAgreementBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
-            {
-                $selected_ids = $_POST[InternshipOrganizerAgreementBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            }
-            
-            if (isset($_POST[InternshipOrganizerMomentBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
-            {
-                $selected_ids = $_POST[InternshipOrganizerMomentBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            }
-            
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_DELETE_SELECTED_MOMENTS :
-                    $this->set_agreement_action(self :: ACTION_DELETE_MOMENT);
-                    $_GET[self :: PARAM_MOMENT_ID] = $selected_ids;
-                    break;
-                case self :: PARAM_DELETE_SELECTED_AGREEMENTS :
-                    $this->set_agreement_action(self :: ACTION_DELETE_AGREEMENT);
-                    $_GET[self :: PARAM_AGREEMENT_ID] = $selected_ids;
-                    break;
-            }
-        }
-    }
+    //    private function parse_input_from_table()
+    //    {
+    //        
+    //        if (isset($_POST['action']))
+    //        {
+    //            if (isset($_POST[InternshipOrganizerAgreementBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
+    //            {
+    //                $selected_ids = $_POST[InternshipOrganizerAgreementBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+    //            }
+    //            
+    //            if (isset($_POST[InternshipOrganizerMomentBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
+    //            {
+    //                $selected_ids = $_POST[InternshipOrganizerMomentBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+    //            }
+    //            
+    //            if (empty($selected_ids))
+    //            {
+    //                $selected_ids = array();
+    //            }
+    //            elseif (! is_array($selected_ids))
+    //            {
+    //                $selected_ids = array($selected_ids);
+    //            }
+    //            switch ($_POST['action'])
+    //            {
+    //                case self :: PARAM_DELETE_SELECTED_MOMENTS :
+    //                    $this->set_agreement_action(self :: ACTION_DELETE_MOMENT);
+    //                    $_GET[self :: PARAM_MOMENT_ID] = $selected_ids;
+    //                    break;
+    //                case self :: PARAM_DELETE_SELECTED_AGREEMENTS :
+    //                    $this->set_agreement_action(self :: ACTION_DELETE_AGREEMENT);
+    //                    $_GET[self :: PARAM_AGREEMENT_ID] = $selected_ids;
+    //                    break;
+    //            }
+    //        }
+    //    }
+    
 
     private function set_agreement_action($action)
     {

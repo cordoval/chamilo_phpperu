@@ -15,7 +15,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
     const TAB_DETAIL = 'det';
     
     private $period;
-    private $ab;
+    private $action_bar;
 
     /**
      * Runs this component and displays its output.
@@ -45,8 +45,8 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
             $trail->add_help('period general');
             
             $this->display_header($trail);
-            $this->ab = $this->get_action_bar();
-            echo $this->ab->as_html();
+            $this->action_bar = $this->get_action_bar();
+            echo $this->action_bar->as_html();
             
             echo $this->get_tables();
             
@@ -66,13 +66,18 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period->get_id())));
         
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, $period->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        {
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path() . 'action_publish.png', $this->get_period_publish_url($period), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_period_viewing_url($period), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_period_editing_url($period), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-
+        
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_period_delete_url($period), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
@@ -104,7 +109,7 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         
         $parameters = $this->get_parameters();
         $parameters[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID] = $this->period->get_id();
-        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->ab->get_query();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
         
         // Coordinator table tab
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_COORDINATOR;
@@ -160,12 +165,32 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         $conditions = array();
         $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_PLACE, InternshipOrganizerPublicationPlace :: PERIOD);
         $conditions[] = new EqualityCondition(InternshipOrganizerPublication :: PROPERTY_PLACE_ID, $this->period->get_id());
+        
+        $query = $this->action_bar->get_query();
+        
+        if (isset($query) && $query != '')
+        {
+            
+            $publication_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerPublication :: get_table_name());
+            $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
+            $object_alias = RepositoryDataManager :: get_instance()->get_alias(ContentObject :: get_table_name());
+            
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', $user_alias, true);
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', $user_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerPublication :: PROPERTY_NAME, '*' . $query . '*', $publication_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerPublication :: PROPERTY_DESCRIPTION, '*' . $query . '*', $publication_alias, true);
+            $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_TITLE, '*' . $query . '*', $object_alias, true);
+            $search_conditions[] = new PatternMatchCondition(ContentObject :: PROPERTY_DESCRIPTION, '*' . $query . '*', $object_alias, true);
+            $conditions[] = new OrCondition($search_conditions);
+        }
+        
         return new AndCondition($conditions);
     }
 
     function get_users_condition($user_type)
     {
-        $query = $this->ab->get_query();
+        $query = $this->action_bar->get_query();
         $conditions = array();
         
         $user_ids = $this->period->get_user_ids($user_type);

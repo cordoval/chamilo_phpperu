@@ -1,6 +1,8 @@
 <?php
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
+
 
 class InternshipOrganizerAgreementManagerMomentDeleterComponent extends InternshipOrganizerAgreementManager
 {
@@ -58,7 +60,7 @@ class InternshipOrganizerAgreementManagerMomentDeleterComponent extends Internsh
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS));
         }
         else
         {

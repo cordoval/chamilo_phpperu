@@ -14,17 +14,20 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
     const PARAM_COACHES = 'coaches';
     const PARAM_STUDENTS = 'students';
     
+    private $form_type;
+    private $type;
     private $publication;
     private $content_object;
     private $user;
 
-    function InternshipOrganizerPeriodPublicationForm($form_type, $content_object, $user, $action)
+    function InternshipOrganizerPeriodPublicationForm($form_type, $content_object, $user, $action, $type)
     {
         parent :: __construct('period_publication_settings', 'post', $action);
         
         $this->content_object = $content_object;
         $this->user = $user;
         $this->form_type = $form_type;
+        $this->type = $type;
         
         switch ($this->form_type)
         {
@@ -68,17 +71,19 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
         $this->addElement('checkbox', self :: PARAM_COORDINATORS, Translation :: get('InternshipOrganizerCoordinators'));
         $this->addElement('checkbox', self :: PARAM_COACHES, Translation :: get('InternshipOrganizerCoaches'));
         $this->addElement('checkbox', self :: PARAM_STUDENTS, Translation :: get('InternshipOrganizerStudents'));
-        
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_feed.php';
-        $locale = array();
-        $locale['Display'] = Translation :: get('ChoosePeriods');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Periods'), $url, $locale, array());
-        $elem->setDefaults($defaults);
-        $elem->setDefaultCollapsed(false);
-    
+              
+        if ($this->type == InternshipOrganizerPeriodPublisher :: MULTIPLE_PERIOD_TYPE)
+        {
+            $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_period_feed.php';
+            $locale = array();
+            $locale['Display'] = Translation :: get('ChoosePeriods');
+            $locale['Searching'] = Translation :: get('Searching');
+            $locale['NoResults'] = Translation :: get('NoResults');
+            $locale['Error'] = Translation :: get('Error');
+            $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Periods'), $url, $locale, array());
+            $elem->setDefaults($defaults);
+            $elem->setDefaultCollapsed(false);
+        }
     }
 
     function add_footer()
@@ -107,7 +112,15 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
             $user_types[] = InternshipOrganizerUserType :: STUDENT;
         }
         
-        $period_ids = $values[self :: PARAM_TARGET]['period'];
+        if ($this->type == InternshipOrganizerPeriodPublisher :: MULTIPLE_PERIOD_TYPE)
+        {
+            $period_ids = $values[self :: PARAM_TARGET]['period'];
+        }
+        else
+        {
+            $period_ids = array($_GET[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID]);
+        }
+        
         $ids = unserialize($values['ids']);
         $succes = false;
         if (count($period_ids))
@@ -140,8 +153,9 @@ class InternshipOrganizerPeriodPublicationForm extends FormValidator
                     else
                     {
                         $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($pub->get_id(), InternshipOrganizerRights :: TYPE_PUBLICATION);
-                        foreach ($user_ids as $user_id) {
-                        	 RightsUtilities :: set_user_right_location_value(InternshipOrganizerRights :: RIGHT_VIEW, $user_id, $location_id, 1);
+                        foreach ($user_ids as $user_id)
+                        {
+                            RightsUtilities :: set_user_right_location_value(InternshipOrganizerRights :: RIGHT_VIEW, $user_id, $location_id, 1);
                         }
                         $succes = true;
                     }

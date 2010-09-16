@@ -34,6 +34,7 @@ class InternshipOrganizerAgreementManagerMomentRightsEditorComponent extends Int
         
         $manager = new RightsEditorManager($this, $locations);
         $user_ids = $agreement->get_user_ids(InternshipOrganizerUserType::get_user_types());
+                
         if(count($user_ids) > 0){
         	 $manager->limit_users($user_ids);
         }else{

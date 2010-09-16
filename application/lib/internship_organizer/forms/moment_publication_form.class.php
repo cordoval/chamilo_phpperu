@@ -11,20 +11,21 @@ class InternshipOrganizerMomentPublicationForm extends FormValidator
     
     const PARAM_TARGET = 'moments';
     
+    private $form_type;
+    private $type;
     private $publication;
     private $content_object;
     private $agreement_id;
     private $user;
 
-    function InternshipOrganizerMomentPublicationForm($form_type, $content_object, $user, $action)
+    function InternshipOrganizerMomentPublicationForm($form_type, $content_object, $user, $action, $type)
     {
         parent :: __construct('agreement_publication_settings', 'post', $action);
         
         $this->content_object = $content_object;
         $this->user = $user;
         $this->form_type = $form_type;
-        
-        $this->agreement_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
+        $this->type = $type;
         
         switch ($this->form_type)
         {
@@ -65,17 +66,21 @@ class InternshipOrganizerMomentPublicationForm extends FormValidator
         $this->addElement('select', InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('InternshipOrganizerTypeOfPublication'), $this->get_type_of_documents());
         $this->addRule(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_moment_feed.php?agreement_id=' . $this->agreement_id;
-        
-        $locale = array();
-        $locale['Display'] = Translation :: get('ChooseMoments');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
-        $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Moments'), $url, $locale, array());
-        $elem->setDefaults($defaults);
-        $elem->setDefaultCollapsed(false);
-    
+        if ($this->type == InternshipOrganizerMomentPublisher :: MULTIPLE_MOMENT_TYPE)
+        {
+            $this->agreement_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
+            
+            $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_moment_feed.php?agreement_id=' . $this->agreement_id;
+            
+            $locale = array();
+            $locale['Display'] = Translation :: get('ChooseMoments');
+            $locale['Searching'] = Translation :: get('Searching');
+            $locale['NoResults'] = Translation :: get('NoResults');
+            $locale['Error'] = Translation :: get('Error');
+            $elem = $this->addElement('element_finder', self :: PARAM_TARGET, Translation :: get('Moments'), $url, $locale, array());
+            $elem->setDefaults($defaults);
+            $elem->setDefaultCollapsed(false);
+        }
     }
 
     function add_footer()
@@ -90,7 +95,14 @@ class InternshipOrganizerMomentPublicationForm extends FormValidator
     {
         $values = $this->exportValues();
         
-        $moment_ids = $values[self :: PARAM_TARGET]['moment'];
+        if ($this->type == InternshipOrganizerMomentPublisher :: MULTIPLE_MOMENT_TYPE)
+        {
+            $moment_ids = $values[self :: PARAM_TARGET]['moment'];
+        }
+        else
+        {
+            $moment_ids = array($_GET[InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID]);
+        }
         
         $ids = unserialize($values['ids']);
         $succes = false;

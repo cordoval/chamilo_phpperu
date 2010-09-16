@@ -2,15 +2,22 @@
 
 require_once dirname(__FILE__) . '/../forms/moment_publication_form.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/moment_viewer.class.php';
 
 
 class InternshipOrganizerMomentPublisher
 {
+    
+    const SINGLE_MOMENT_TYPE = 'single';
+    const MULTIPLE_MOMENT_TYPE = 'multiple';
+    
     private $parent;
+    private $type;
 
-    function InternshipOrganizerMomentPublisher($parent)
+    function InternshipOrganizerMomentPublisher($parent, $type)
     {
         $this->parent = $parent;
+        $this->type = $type;
     }
 
     function get_publications_form($ids)
@@ -44,15 +51,12 @@ class InternshipOrganizerMomentPublisher
             $html[] = '</div>';
             $html[] = '</div>';
         }
-        
-        $agreement_id = $this->parent->get_agreement()->get_id();
-        
+          
         $parameters = $this->parent->get_parameters();
         $parameters[RepoViewer :: PARAM_ID] = $ids;
         $parameters[RepoViewer :: PARAM_ACTION] = RepoViewer :: ACTION_PUBLISHER;
-        $parameters[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID] = $agreement_id;
-        
-        $form = new InternshipOrganizerMomentPublicationForm(InternshipOrganizerMomentPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url($parameters));
+       
+        $form = new InternshipOrganizerMomentPublicationForm(InternshipOrganizerMomentPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(), $this->parent->get_url($parameters), $this->type);
         if ($form->validate())
         {
             $publication = $form->create_content_object_publications();
@@ -66,7 +70,17 @@ class InternshipOrganizerMomentPublisher
                 $message = Translation :: get('ObjectPublished');
             }
             
-            $this->parent->redirect($message, (! $publication ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent:: TAB_MOMENTS));
+            if ($this->type == self :: SINGLE_MOMENT_TYPE)
+            {
+                $moment_id = $this->parent->get_parameter(InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID);
+            	$this->parent->redirect($message, (! $publication ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_MOMENT, InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID => $moment_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerMomentViewerComponent :: TAB_PUBLICATIONS));
+            }
+            
+            if ($this->type == self :: MULTIPLE_MOMENT_TYPE)
+            {
+                $agreement_id = $this->parent->get_parameter(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID);
+            	$this->parent->redirect($message, (! $publication ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS));
+            }
         
         }
         else

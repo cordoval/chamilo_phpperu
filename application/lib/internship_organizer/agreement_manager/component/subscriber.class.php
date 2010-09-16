@@ -1,8 +1,6 @@
 <?php
-/**
- * $Id: subscriber.class.php 224 2009-11-13 14:40:30Z kariboe $
- * @package category.lib.category_manager.component
- */
+
+require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
 
 class InternshipOrganizerAgreementManagerSubscriberComponent extends InternshipOrganizerAgreementManager
 {
@@ -78,7 +76,7 @@ class InternshipOrganizerAgreementManagerSubscriberComponent extends InternshipO
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => 'loc_tab'));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_LOCATIONS));
             exit();
         }
         else

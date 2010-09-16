@@ -229,26 +229,6 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_publication($publication_id);
 
     function retrieve_publications($condition = null, $offset = null, $count = null, $order_property = null);
-
-    function create_internship_organizer_publication_group($publication_group);
-
-    function update_internship_organizer_publication_group($publication_group);
-
-    function delete_internship_organizer_publication_group($publication_group);
-
-    function count_publication_groups($condition = null);
-
-    function retrieve_publication_groups($condition = null, $offset = null, $max_objects = null, $order_by = null);
-
-    function create_internship_organizer_publication_user($publication_user);
-
-    function update_internship_organizer_publication_user($publication_user);
-
-    function delete_internship_organizer_publication_user($publication_user);
-
-    function count_publication_users($condition = null);
-
-    function retrieve_publication_users($condition = null, $offset = null, $max_objects = null, $order_by = null);
-
+  
 }
 ?>

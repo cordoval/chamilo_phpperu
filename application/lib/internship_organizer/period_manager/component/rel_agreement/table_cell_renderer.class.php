@@ -40,15 +40,15 @@ class InternshipOrganizerPeriodRelAgreementBrowserTableCellRenderer extends Defa
         $user = $this->browser->get_user();
         $user_id = $user->get_id();
         
-        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: EDIT_AGREEMENT_RIGHT, $agreement->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->browser->get_update_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON));
         }
-        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: DELETE_AGREEMENT_RIGHT, $agreement->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_delete_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON, true));
         }
-        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: VIEW_AGREEMENT_RIGHT, $agreement->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_agreement_url($agreement), ToolbarItem :: DISPLAY_ICON));
         }

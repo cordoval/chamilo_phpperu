@@ -20,7 +20,7 @@ class InternshipOrganizerPeriodRelAgreementBrowserTable extends ObjectTable
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
         $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
         
-        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: DELETE_AGREEMENT_RIGHT, $browser->get_period()->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: ADD_AGREEMENT_RIGHT, $browser->get_period()->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
         {
             $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_DELETE_AGREEMENT, Translation :: get('Delete')));
         }

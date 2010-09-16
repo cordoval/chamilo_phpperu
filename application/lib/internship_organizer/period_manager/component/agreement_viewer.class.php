@@ -29,7 +29,7 @@ class InternshipOrganizerPeriodManagerAgreementViewerComponent extends Internshi
         $this->agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreement_id);
         $period_id = $this->agreement->get_period_id();
        
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: VIEW_AGREEMENT_RIGHT, $period_id, InternshipOrganizerRights :: TYPE_PERIOD))
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $agreement_id, InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));

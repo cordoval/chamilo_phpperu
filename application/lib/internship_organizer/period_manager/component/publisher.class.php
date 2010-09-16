@@ -11,14 +11,33 @@ class InternshipOrganizerPeriodManagerPublisherComponent extends InternshipOrgan
     function run()
     {
         
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        $period_id = $_GET[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID];
+               
+        if ($period_id)
         {
-            $this->display_header($trail);
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
+            if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, $period_id, InternshipOrganizerRights :: TYPE_PERIOD))
+            {
+                $this->display_header($trail);
+                $this->display_error_message(Translation :: get('NotAllowed'));
+                $this->display_footer();
+                exit();
+            }
+            $type = InternshipOrganizerPeriodPublisher :: SINGLE_PERIOD_TYPE;
+            $this->set_parameter(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID, $period_id);
         }
-        
+        else
+        {
+            
+            if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+            {
+                $this->display_header($trail);
+                $this->display_error_message(Translation :: get('NotAllowed'));
+                $this->display_footer();
+                exit();
+            }
+            
+            $type = InternshipOrganizerPeriodPublisher :: MULTIPLE_PERIOD_TYPE;
+        }
         $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('internship organizer general');
         
@@ -29,7 +48,7 @@ class InternshipOrganizerPeriodManagerPublisherComponent extends InternshipOrgan
         }
         else
         {
-            $publisher = new InternshipOrganizerPeriodPublisher($this);
+            $publisher = new InternshipOrganizerPeriodPublisher($this, $type);
             $publisher->get_publications_form(RepoViewer :: get_selected_objects());
         }
     }

@@ -32,10 +32,10 @@ class DefaultInternshipOrganizerPublicationTableCellRenderer extends ObjectTable
         switch ($column->get_name())
         {
             
-        	case InternshipOrganizerPublication :: PROPERTY_NAME :
+            case InternshipOrganizerPublication :: PROPERTY_NAME :
                 
                 return $publication->get_name();
-        	case ContentObject :: PROPERTY_TITLE :
+            case ContentObject :: PROPERTY_TITLE :
                 
                 return $content_object->get_title();
             case ContentObject :: PROPERTY_DESCRIPTION :
@@ -44,6 +44,12 @@ class DefaultInternshipOrganizerPublicationTableCellRenderer extends ObjectTable
                 return $this->get_date($publication->get_from_date());
             case InternshipOrganizerPublication :: PROPERTY_TO_DATE :
                 return $this->get_date($publication->get_to_date());
+            case InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE :
+                $publication_type = $publication->get_publication_type();
+                return InternshipOrganizerPublicationType :: get_publication_type_name($publication_type);
+            case InternshipOrganizerPublication :: PROPERTY_PUBLISHER_ID :
+                $user = $publication->get_publication_publisher();
+                return $user->get_fullname();
             default :
                 return '&nbsp;';
         }

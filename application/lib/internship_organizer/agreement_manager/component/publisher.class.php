@@ -11,26 +11,44 @@ class InternshipOrganizerAgreementManagerPublisherComponent extends InternshipOr
     function run()
     {
         
-    if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        $agreement_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
+        
+        if ($agreement_id)
         {
-            $this->display_header($trail);
-            $this->display_error_message(Translation :: get('NotAllowed'));
-            $this->display_footer();
-            exit();
+            if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, $agreement_id, InternshipOrganizerRights :: TYPE_AGREEMENT))
+            {
+                $this->display_header($trail);
+                $this->display_error_message(Translation :: get('NotAllowed'));
+                $this->display_footer();
+                exit();
+            }
+            $type = InternshipOrganizerAgreementPublisher :: SINGLE_AGREEMENT_TYPE;
+            $this->set_parameter(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID, $agreement_id);
         }
-    	
-    	$trail = BreadcrumbTrail :: get_instance();
+        else
+        {
+            if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+            {
+                $this->display_header($trail);
+                $this->display_error_message(Translation :: get('NotAllowed'));
+                $this->display_footer();
+                exit();
+            }
+            $type = InternshipOrganizerAgreementPublisher :: MULTIPLE_AGREEMENT_TYPE;
+        }
+        
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('internship organizer general');
-
-        if (!RepoViewer::is_ready_to_be_published())
+        
+        if (! RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
             $repo_viewer->run();
         }
         else
         {
-            $publisher = new InternshipOrganizerAgreementPublisher($this);
-            $publisher->get_publications_form(RepoViewer::get_selected_objects());
+            $publisher = new InternshipOrganizerAgreementPublisher($this, $type);
+            $publisher->get_publications_form(RepoViewer :: get_selected_objects());
         }
     }
 

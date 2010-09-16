@@ -25,10 +25,8 @@ class InternshipOrganizerPeriodManagerAgreementDeleterComponent extends Internsh
                 
                 $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($id);
                 $period_id = $agreement->get_period_id();
-                
-                $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
-                
-                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: DELETE_AGREEMENT_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
+             
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $id, InternshipOrganizerRights :: TYPE_AGREEMENT))
                 {
                     
                     if (! $agreement->delete())
