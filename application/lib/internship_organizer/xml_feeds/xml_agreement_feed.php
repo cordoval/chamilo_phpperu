@@ -14,11 +14,30 @@ Translation :: set_application(InternshipOrganizerManager :: APPLICATION_NAME);
 
 if (Authentication :: is_valid())
 {
-    $conditions = array();
     
     $user_id = $_GET['user_id'];
     $agreement_rel_user_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerAgreementRelUser :: get_table_name());
-    $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $user_id, $agreement_rel_user_alias, true);
+    $condition = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_ID, $user_id, $agreement_rel_user_alias, true);
+    $agreements = InternshipOrganizerDataManager :: get_instance()->retrieve_agreements($condition);
+    $agreement_ids = array();
+    while ($agreement = $agreements->next_result())
+    {
+        $agreement_ids[] = $agreement->get_id();
+    }
+    
+    $conditions = array();
+    
+    if (count($agreement_ids))
+    {
+        $conditions[] = new InCondition(InternshipOrganizerAgreement :: PROPERTY_ID, $agreement_ids);
+    }
+    else
+    {
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreement :: PROPERTY_ID, 0);
+    }
+    
+    $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelUser :: PROPERTY_USER_TYPE, InternshipOrganizerUserType::STUDENT , $agreement_rel_user_alias, true);
+    
     //    $query_condition = Utilities :: query_to_condition($_GET['query'], array(User :: PROPERTY_FIRSTNAME, User :: PROPERTY_LASTNAME, User :: PROPERTY_USERNAME));
     if (isset($_GET['query']))
     {

@@ -426,7 +426,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
 
     function create_internship_organizer_moment($moment)
     {
-        return $this->create($moment);
+       return $this->create($moment);
     }
 
     function update_internship_organizer_moment($moment)
