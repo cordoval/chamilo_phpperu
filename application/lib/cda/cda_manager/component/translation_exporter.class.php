@@ -30,5 +30,11 @@ class CdaManagerTranslationExporterComponent extends CdaManager
 		parent :: display_header($trail);
 	}
 	
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
+    	$breadcrumbtrail->add_help('cda_languages_importer');
+    }
+	
 }
 ?>

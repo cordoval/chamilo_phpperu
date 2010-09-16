@@ -71,5 +71,17 @@ class CdaManagerTranslatorApplicationDeactivatorComponent extends CdaManager
 			$this->display_error_page(htmlentities(Translation :: get('NoTranslatorApplicationsSelected')));
 		}
 	}
+	
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_translator_applications_link(), Translation :: get('CdaManagerTranslatorApplicationBrowserComponent')));
+    	$breadcrumbtrail->add_help('cda_languages_application_deactivator');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(CdaManager :: PARAM_TRANSLATOR_APPLICATION);
+    }
 }
 ?>
