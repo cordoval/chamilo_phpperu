@@ -32,7 +32,6 @@ class InternshipOrganizerManager extends WebApplication
     function InternshipOrganizerManager($user = null)
     {
         parent :: __construct($user);
-        $this->parse_input_from_table();
     }
 
     function get_organisation_application_url()
@@ -71,42 +70,78 @@ class InternshipOrganizerManager extends WebApplication
 
     }
 
-    private function parse_input_from_table()
-    {
-        //not used jet
-    }
-
     function get_application_name()
     {
         return self :: APPLICATION_NAME;
     }
 
+//publications: interaction with the repository
+    
+
+    static function content_object_is_published($object_id)
+    {
+        return InternshipOrganizerDataManager :: get_instance()->content_object_is_published($object_id);
+    }
+
+    static function any_content_object_is_published($object_ids)
+    {
+        return InternshipOrganizerDataManager :: get_instance()->any_content_object_is_published($object_ids);
+    }
+
+    static function get_content_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null)
+    {
+        return InternshipOrganizerDataManager :: get_instance()->get_content_object_publication_attributes($object_id, $type, $offset, $count, $order_property);
+    }
+
+    static function get_content_object_publication_attribute($publication_id)
+    {
+        return InternshipOrganizerDataManager :: get_instance()->get_content_object_publication_attribute($publication_id);
+    }
+
+    static function count_publication_attributes($type = null, $condition = null)
+    {
+        return InternshipOrganizerDataManager :: get_instance()->count_publication_attributes($type, $condition);
+    }
+
+    static function delete_content_object_publications($object_id)
+    {
+        return InternshipOrganizerDataManager :: get_instance()->delete_content_object_publications($object_id);
+    }
+
+    static function delete_content_object_publication($publication_id)
+    {
+        return InternshipOrganizerDataManager :: get_instance()->delete_content_object_publication($publication_id);
+    }
+
+    static function update_content_object_publication_id($publication_attr)
+    {
+        return InternshipOrganizerDataManager :: get_instance()->update_content_object_publication_id($publication_attr);
+    }
+
     static function add_publication_attributes_elements($form)
     {
-        //        $form->addElement('category', Translation :: get('PublicationDetails'));
-        //        $form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . SurveyPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
-        //        $form->addElement('checkbox', self :: APPLICATION_NAME . '_opt_' . SurveyPublication :: PROPERTY_TEST, Translation :: get('TestCase'));
-        //        $form->add_forever_or_timewindow('PublicationPeriod', self :: APPLICATION_NAME . '_opt_');
+        
+    }
 
+    static function get_content_object_publication_locations($content_object)
+    {
+        $allowed_types = array();
+        
+        $type = $content_object->get_type();
+        if (in_array($type, $allowed_types))
+        {
+           
+            $locations = array();
+          
+            return $locations;
+        }
+        
+        return array();
+    }
 
-        $attributes = array();
-        $attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
-        $locale = array();
-        $locale['Display'] = Translation :: get('ShareWith');
-        $locale['Searching'] = Translation :: get('Searching');
-        $locale['NoResults'] = Translation :: get('NoResults');
-        $locale['Error'] = Translation :: get('Error');
-        $attributes['locale'] = $locale;
-        $attributes['defaults'] = array();
-        $attributes['options'] = array('load_elements' => false);
-
-        $form->add_receivers(self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
-
-        $form->addElement('category');
-        $form->addElement('html', '<br />');
-        $defaults[self :: APPLICATION_NAME . '_opt_forever'] = 1;
-        $defaults[self :: APPLICATION_NAME . '_opt_' . self :: PARAM_TARGET_OPTION] = 0;
-        $form->setDefaults($defaults);
+    static function publish_content_object($content_object, $location, $attributes)
+    {
+     
     }
 
     /**

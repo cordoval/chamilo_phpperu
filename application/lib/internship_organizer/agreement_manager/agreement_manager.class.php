@@ -38,10 +38,13 @@ class InternshipOrganizerAgreementManager extends SubManager
     const ACTION_CREATE_MOMENT = 'moment_creator';
     const ACTION_BROWSE_MOMENTS = 'moment_browser';
     const ACTION_EDIT_MOMENT = 'moment_updater';
+    const ACTION_EDIT_MOMENT_RIGHTS = 'moment_rights_editor';
     const ACTION_DELETE_MOMENT = 'moment_deleter';
     const ACTION_VIEW_MOMENT = 'moment_viewer';
     const ACTION_PUBLISH_MOMENT = 'moment_publisher';
     const ACTION_REPORTING = 'reporting';
+    
+     const ACTION_EDIT_PUBLICATION_RIGHTS = 'publication_rights_editor';
     
     const ACTION_SUBSCRIBE_LOCATION = 'subscribe_location_browser';
     const ACTION_SUBSCRIBE_MENTOR = 'subscribe_mentor';
@@ -239,7 +242,16 @@ class InternshipOrganizerAgreementManager extends SubManager
     function get_rights_editor_url($agreement)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_AGREEMENT_RIGHTS, self :: PARAM_AGREEMENT_ID => $agreement->get_id()));
-    
+    }
+
+    function get_moment_rights_editor_url($moment)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_MOMENT_RIGHTS, self :: PARAM_MOMENT_ID => $moment->get_id()));
+    }
+
+    function get_publication_rights_editor_url($publication)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION_RIGHTS, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
 
     private function parse_input_from_table()

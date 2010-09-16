@@ -9,7 +9,7 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
     const TYPE_SINGLE = 1;
     const TYPE_MULTI = 2;
     
-    const PARAM_TARGET = 'agreement_rel_users';
+    const PARAM_TARGET = 'agreements';
     
     private $publication;
     private $content_object;
@@ -62,8 +62,8 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
         $this->addElement('select', InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('InternshipOrganizerTypeOfPublication'), $this->get_type_of_documents());
         $this->addRule(InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE, Translation :: get('ThisFieldIsRequired'), 'required');
         
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_agreement_feed.php';
-        
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_agreement_feed.php?user_id='.$this->user->get_id();
+		        
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseAgreements');
         $locale['Searching'] = Translation :: get('Searching');
@@ -86,22 +86,19 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
     function create_content_object_publications()
     {
         $values = $this->exportValues();
-        
-        $agreement_rel_user_ids = $values[self :: PARAM_TARGET]['agreement'];
+               
+        $agreement_ids = $values[self :: PARAM_TARGET]['agreement'];
+		
         $ids = unserialize($values['ids']);
         $succes = false;
         
-        if (count($agreement_rel_user_ids))
+        if (count($agreement_ids))
         {
             
-            foreach ($agreement_rel_user_ids as $agreement_rel_user_id)
+            foreach ($agreement_ids as $agreement_id)
             {
-                $ru_ids = explode('|', $agreement_rel_user_id);
                 
-                $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($ru_ids[0]);
-                
-                $target_users = array();
-                $target_users[] = $ru_ids[1];
+                $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreement_id);
                 
                 foreach ($ids as $id)
                 {
@@ -116,7 +113,7 @@ class InternshipOrganizerAgreementPublicationForm extends FormValidator
                     $pub->set_publication_place(InternshipOrganizerPublicationPlace :: AGREEMENT);
                     $pub->set_place_id($agreement->get_id());
                     $pub->set_publication_type($values[InternshipOrganizerPublication :: PROPERTY_PUBLICATION_TYPE]);
-                    $pub->set_target_users($target_users);
+                    
                     
                     if (! $pub->create())
                     {

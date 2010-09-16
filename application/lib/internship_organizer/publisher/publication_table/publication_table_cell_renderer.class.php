@@ -38,9 +38,9 @@ class InternshipOrganizerPublicationTableCellRenderer extends DefaultInternshipO
                 $user = $this->browser->get_user();
                 
                 $title = $content_object->get_title();
-                if ($publication->is_visible_for_target_user($user, true))
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $publication->get_id(), InternshipOrganizerRights :: TYPE_PUBLICATION))
                 {
-                    $url = '<a href="' . htmlentities($this->browser->get_url()) . '" title="' . $title . '">' . $title . '</a>';
+                    $url = '<a href="' . htmlentities($this->browser->get_view_publication_url($publication)) . '" title="' . $title . '">' . $title . '</a>';
                 
                 }
                 else
@@ -68,12 +68,14 @@ class InternshipOrganizerPublicationTableCellRenderer extends DefaultInternshipO
         
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        $toolbar->add_item(new ToolbarItem(
-        	        		Translation :: get('View'),
-        	        		Theme :: get_common_image_path() . 'action_edit.png',
-        	        		$this->browser->get_view_publication_url($publication),
-        	        		ToolbarItem :: DISPLAY_ICON
-        	        ));
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $publication->get_id(), InternshipOrganizerRights :: TYPE_PUBLICATION))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('View'), Theme :: get_common_image_path() . 'action_browser.png', $this->browser->get_view_publication_url($publication), ToolbarItem :: DISPLAY_ICON));
+        }
+        if ($this->browser->get_user()->is_platform_admin() || $publication->get_publisher_id() == $this->browser->get_user_id())
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->browser->get_publication_rights_editor_url($publication), ToolbarItem :: DISPLAY_ICON));
+        }
         
         //        if ($publication->is_visible_for_target_user($user, true))
         //        {

@@ -22,12 +22,17 @@ class InternshipOrganizerAgreementManagerMomentDeleterComponent extends Internsh
             
             foreach ($ids as $id)
             {
-                $moment = $this->retrieve_moment($id);
-                $agreement_id = $moment->get_agreement_id();
-                if (! $moment->delete())
+                
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $id, InternshipOrganizerRights :: TYPE_MOMENT))
                 {
-                    $failures ++;
+                    $moment = $this->retrieve_moment($id);
+                    $agreement_id = $moment->get_agreement_id();
+                    if (! $moment->delete())
+                    {
+                        $failures ++;
+                    }
                 }
+            
             }
             
             if ($failures)

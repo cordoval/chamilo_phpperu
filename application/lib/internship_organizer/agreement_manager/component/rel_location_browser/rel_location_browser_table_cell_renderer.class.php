@@ -55,8 +55,10 @@ class InternshipOrganizerAgreementRelLocationBrowserTableCellRenderer extends De
         
         $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement($agreementrellocation->get_agreement_id());
         
-        $condition = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreementrellocation->get_agreement_id());
-        $condition = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_TYPE, InternshipOrganizerAgreementRelLocation :: TO_APPROVE);
+        $conditions = array();
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_AGREEMENT_ID, $agreementrellocation->get_agreement_id());
+        $conditions[] = new EqualityCondition(InternshipOrganizerAgreementRelLocation :: PROPERTY_LOCATION_TYPE, InternshipOrganizerAgreementRelLocation :: TO_APPROVE);
+        $condition = new AndCondition($conditions);
         
         $count = InternshipOrganizerDataManager :: get_instance()->count_agreement_rel_locations($condition);
         

@@ -12,13 +12,19 @@ class InternshipOrganizerAgreementManagerMomentUpdaterComponent extends Internsh
     function run()
     {
         
-        $moment = $this->retrieve_moment(Request :: get(InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID));
+        $moment_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID);
+        
+    	if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $moment_id, InternshipOrganizerRights :: TYPE_MOMENT))
+        {
+            $this->display_header($trail);
+            $this->display_error_message(Translation :: get('NotAllowed'));
+            $this->display_footer();
+            exit();
+        }
         
         $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
-        //$trail->add(new Breadcrumb($this->get_view_agreement_url($moment->get_agreement()), Translation :: get('ViewInternshipOrganizerAgreement')));
-        //$trail->add(new Breadcrumb($this->get_update_moment_url($moment), Translation :: get('UpdateInternshipOrganizerMoment')));
+     	
+        $moment = $this->retrieve_moment($moment_id);
         
         $form = new InternshipOrganizerMomentForm(InternshipOrganizerMomentForm :: TYPE_EDIT, $moment, $this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID => $moment->get_id())), $this->get_user());
         
