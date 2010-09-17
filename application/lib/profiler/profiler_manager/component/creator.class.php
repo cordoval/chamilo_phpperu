@@ -15,15 +15,6 @@ class ProfilerManagerCreatorComponent extends ProfilerManager implements RepoVie
      */
     function run()
     {
-        
-
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishProfile')));
-        $trail->add_help('profiler general');
-
-        //$repo_viewer = RepoViewer :: construct($this);
-
         if (!Request :: get('category'))
         {
             $RIGHT_PUBLISH = ProfilerRights::is_allowed_in_profiler_subtree(ProfilerRights::RIGHT_PUBLISH, 0, 0);
@@ -34,7 +25,7 @@ class ProfilerManagerCreatorComponent extends ProfilerManager implements RepoVie
         }
         if(!$RIGHT_PUBLISH)
         {
-            $this->display_header($trail);
+            $this->display_header();
             Display :: warning_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -56,7 +47,17 @@ class ProfilerManagerCreatorComponent extends ProfilerManager implements RepoVie
     {
         return array(Profile :: get_type_name());
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('profiler_creator');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('ProfilerManagerBrowserComponent')));
+    }
 
+ 	function get_additional_parameters()
+    {
+    	return array('category');
+    }
 }
 
 ?>

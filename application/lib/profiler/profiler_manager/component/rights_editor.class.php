@@ -61,6 +61,18 @@ class ProfilerManagerRightsEditorComponent extends ProfilerManager
     {
         return ProfilerRights :: get_available_rights();
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('profiler_rights_editor');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('ProfilerManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_VIEW_PUBLICATION, ProfilerManager :: PARAM_PROFILE_ID => Request :: get(self :: PARAM_PROFILE_ID))), Translation :: get('ProfilerManagerViewerComponent')));
+    }
+
+ 	function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PROFILE_ID);
+    }
 
 }
 

@@ -37,5 +37,12 @@ class PersonalCalendarManagerRightsEditorComponent extends PersonalCalendarManag
         $array = PersonalCalendarRights :: get_available_rights();
         return $array;
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendarManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('personal_calendar_viewer');
+    }
+    
 }
 ?>

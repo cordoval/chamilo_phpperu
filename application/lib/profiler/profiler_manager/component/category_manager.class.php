@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/../../category_manager/profiler_category_mana
 /**
  * Profiler component allows the user to manage course categories
  */
-class ProfilerManagerCategoryManagerComponent extends ProfilerManager
+class ProfilerManagerCategoryManagerComponent extends ProfilerManager implements DelegateComponent
 {
 
     /**
@@ -17,12 +17,15 @@ class ProfilerManagerCategoryManagerComponent extends ProfilerManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
-        
-        $category_manager = new ProfilerCategoryManager($this, $trail);
+        $category_manager = new ProfilerCategoryManager($this);
         $category_manager->run();
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('profiler_category_manager');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('ProfilerManagerBrowserComponent')));
+    }
+    
 }
 ?>
