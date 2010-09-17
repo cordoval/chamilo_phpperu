@@ -27,6 +27,7 @@ class RepositoryManager extends CoreApplication
     const PARAM_DELETE_VERSION = 'delete_version';
     const PARAM_DELETE_RECYCLED = 'delete_recycle';
     const PARAM_EXPORT_SELECTED = 'export_selected';
+    const PARAM_EXPORT_CP_SELECTED = 'export_cp_selected';
     const PARAM_EMPTY_RECYCLE_BIN = 'empty';
     const PARAM_RECYCLE_SELECTED = 'recycle_selected';
     const PARAM_MOVE_SELECTED = 'move_selected';
@@ -88,6 +89,7 @@ class RepositoryManager extends CoreApplication
     const ACTION_IMPORT_CONTENT_OBJECTS = 'importer';
     const ACTION_PUBLISH_CONTENT_OBJECT = 'publisher';
     const ACTION_MANAGE_CATEGORIES = 'category_manager';
+    const ACTION_EXPORT_CP_CONTENT_OBJECTS = 'export_cp';
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_BUILD_COMPLEX_CONTENT_OBJECT = 'complex_builder';
     const ACTION_VIEW_REPO = 'attachment_viewer';
@@ -148,6 +150,13 @@ class RepositoryManager extends CoreApplication
     }
 
     /**
+            case self :: ACTION_EXPORT_CP_CONTENT_OBJECTS :
+                $component = $this->create_component('ExporterCp');
+                break;
+                    Request :: set_get(self :: PARAM_CONTENT_OBJECT_ID, $selected_ids);
+                    break;
+                case self :: PARAM_EXPORT_CP_SELECTED :
+                    $this->set_action(self :: ACTION_EXPORT_CP_CONTENT_OBJECTS);
      * Displays the header.
      * @param array $breadcrumbs Breadcrumbs to show in the header.
      * @param boolean $display_search Should the header include a search form or

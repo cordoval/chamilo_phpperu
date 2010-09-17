@@ -292,7 +292,8 @@ class RepositorySearchForm extends FormValidator
         }
         else
         {
-            $types = $_POST[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE];
+        	$key = RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE;
+            $types = isset($_POST[$key]) ? $_POST[$key] : null;
         }
         return (is_array($types) && count($types) ? $types : null);
     }
@@ -306,4 +307,19 @@ class RepositorySearchForm extends FormValidator
         return (count($this->get_search_conditions()) > 0);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>

@@ -25,6 +25,7 @@ class RepositoryBrowserTable extends ObjectTable
         parent :: __construct($data_provider, RepositoryBrowserTable :: DEFAULT_NAME, $model, $renderer);
 
         $action = new ObjectTableFormActions();
+            $actions[] = new ObjectTableFormAction(RepositoryManager :: PARAM_EXPORT_CP_SELECTED, Translation :: get('ExportCpSelected'), false);
 
 //        if (get_class($browser) == 'RepositoryManagerBrowserComponent')
 //        {

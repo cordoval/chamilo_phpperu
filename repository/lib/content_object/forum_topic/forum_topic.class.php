@@ -25,7 +25,9 @@ class ForumTopic extends ContentObject implements Versionable, AttachmentSupport
     {
         $succes = parent :: create();
         $children = RepositoryDataManager :: get_instance()->count_complex_content_object_items(new EqualityCondition(ComplexContentObjectItem :: PROPERTY_PARENT, $this->get_id()));
-
+        
+        //@todo: $children should always be null. should be better to remove this part and
+        //@todo: eventually move it to the user interface. Creates issue with re-import.
         if ($children == 0)
         {
             $content_object = ContentObject :: factory(ForumPost :: get_type_name());

@@ -10,8 +10,8 @@ require_once dirname(__FILE__) . '/main.php';
  */
 class QtiExport extends ContentObjectExport{
 	
-    static function factory_qti($content_object, $manifest, $directory){
-    	if($result = SerializerExport::factory($content_object, $manifest, $directory)){
+    static function factory_qti($content_object, $directory, $manifest, $toc){
+    	if($result = SerializerExport::factory($content_object, $directory, $manifest, $toc)){
     		return $result;
     	}else{
     		return null;
@@ -20,11 +20,20 @@ class QtiExport extends ContentObjectExport{
     
     private $manifest = null;
     private $directory = '';
+    private $toc = null;
     
-    function __construct($content_object, $manifest=null, $directory=''){
+    function __construct($content_object, $directory='', $manifest=null, $toc=null){
         parent :: __construct($content_object);
-        $manifest = empty($manifest) ? new ImsCpmanifestWriter() : $manifest;
-        $this->manifest = $manifest;
+        if(empty($manifest)){
+	        $manifest = new ImscpManifestWriter();
+	        $manifest = $manifest->add_manifest();
+	        $this->manifest = $manifest;
+	        $this->toc = $manifest->add_organizations()->add_organization();
+        }else{
+	        $this->manifest = $manifest;
+	        $this->toc = $toc;
+        }
+        
         if(empty($directory)){
 	    	$directory = Path :: get(SYS_TEMP_PATH) .Session::get_user_id(). '/export_qti/';
 	        if (! is_dir($directory)){
@@ -38,11 +47,18 @@ class QtiExport extends ContentObjectExport{
 		return $this->manifest;    	
     }
 	
+    public function get_toc(){
+    	return $this->toc;
+    }
+    
     public function export_content_object(){
     	$items = $this->get_content_object();
     	$items = is_array($items) ? $items : array($items);
     	foreach($items as $item){ 
-        	if($exporter = self::factory_qti($item, $this->get_manifest(), $this->get_temp_directory())){
+    		$directory = $this->get_temp_directory();
+    		$manifest = $this->get_manifest();
+    		$toc = $this->toc;
+        	if($exporter = self::factory_qti($item, $directory, $manifest, $toc)){
         		$result = $exporter->export_content_object();
         	}else{
         		
@@ -50,7 +66,7 @@ class QtiExport extends ContentObjectExport{
     	}
     	
    		$xml = $this->get_manifest()->saveXML();
-   		$file_name = ImsCpmanifestWriter::MANIFEST_NAME;
+   		$file_name = ImscpManifestWriter::MANIFEST_NAME;
    		$this->create_qti_file($file_name, $xml);
     	 
     	$temp_dir = $this->get_temp_directory();
@@ -66,39 +82,16 @@ class QtiExport extends ContentObjectExport{
     }
     
     protected function create_qti_file($file_name, $xml){
-        $doc = new DOMDocument();
-        $doc->loadXML($xml);
         $file_path = $this->get_temp_directory() . $file_name;
-        $doc->save($file_path);
+    	Filesystem::write_to_file($file_path, $xml);
         return $file_path;
     }
-	
-    protected function add_manifest_resource($object){
-    	$manifest_resources =  $this->get_manifest()->get_resources();
-		$type = 'imsqti_item_xmlv2p1';
-		$href = SerializerBase::file_name($object);
-		$id = str_replace('.xml', '', $href);
-		$result = $manifest_resources->add_resource($type, $href, $id);
-		$this->add_object_metadata($result, $object);
-		$result->add_file($href);
-		return $result;
-    }
-
-	protected function add_object_metadata(ImsXmlWriter $item, $object){
-		$result = $item->add_metadata('lom', '1.0');
-		$lom = new LomWriter($result, 'lom');
-		$general = $lom->add_general();
-		$general->add_title($object->get_title());
-		$identifiers = Chamilo::retrieve_identifiers($object);
-		foreach($identifiers as $catalog => $id){
-			$general->add_identifier($catalog, $id);
-		}
-		$lifecycle = $lom->add_lifecycle();
-		$lifecycle->add_status();
-		return $result;
-	}
-    
-    
-    
-    
+	   
 }
+
+
+
+
+
+
+?>

@@ -35,12 +35,17 @@ class MaintenanceWizardDisplay extends HTML_QuickForm_Action_Display
         $this->parent->display_header();
         if (isset($_SESSION['maintenance_message']))
         {
-            Display :: normal_message($_SESSION['maintenance_message']);
+            Display::normal_message($_SESSION['maintenance_message']);
             unset($_SESSION['maintenance_message']);
+        }
+        if (isset($_SESSION['maintenance_warning_message']))
+        {
+            Display::warning_message($_SESSION['maintenance_warning_message']);
+            unset($_SESSION['maintenance_warning_message']);
         }
         if (isset($_SESSION['maintenance_error_message']))
         {
-            Display :: error_message($_SESSION['maintenance_error_message']);
+            Display::error_message($_SESSION['maintenance_error_message']);
             unset($_SESSION['maintenance_error_message']);
         }
         parent :: _renderForm($current_page);

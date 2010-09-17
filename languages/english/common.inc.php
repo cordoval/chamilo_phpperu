@@ -446,6 +446,7 @@ $lang['common']['Date'] = 'Date';
 $lang['common']['Action'] = 'Action';
 $lang['common']['Assessment'] = 'Assessment';
 $lang['common']['QtiImported'] = 'Qti imported';
+$lang['common']['QtiNotImported'] = 'Qti not imported';
 $lang['common']['Start'] = 'Start';
 $lang['common']['MoveCategory'] = 'Move category';
 $lang['common']['Accept'] = 'Accept';
@@ -830,4 +831,6 @@ $lang['common']['Stereo'] = 'Stereo';
 $lang['common']['Mono'] = 'Mono';
 $lang['common']['Surround'] = 'Surround';
 $lang['common']['hz'] = 'hz';
+
+$lang['common']['UnableToAttachObject'] = 'Unable to attach object';
 ?>

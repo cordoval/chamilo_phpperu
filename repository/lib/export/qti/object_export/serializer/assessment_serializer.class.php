@@ -2,15 +2,15 @@
 
 /**
  * 
- * University of Geneva 
+ * @copyright (c) 2010 University of Geneva 
  * @author laurent.opprecht@unige.ch
  *
  */
 class AssessmentSerializer extends SerializerBase{
 	
-	static function factory($object, $target_root, $manifest, $directory){
+	static function factory($object, $target_root, $directory, $manifest, $toc){
 		if($object instanceof Assessment){
-			return new self($target_root, $manifest, $directory);
+			return new self($target_root, $directory, $manifest, $toc);
 		}else{
 			return null;
 		}
@@ -64,7 +64,7 @@ class AssessmentSerializer extends SerializerBase{
     }
     
     protected function create_exporter($object){
-    	$result = QtiExport::factory_qti($object, $this->get_manifest(), $this->get_temp_directory());
+    	$result = QtiExport::factory_qti($object, $this->get_temp_directory(), $this->get_manifest(), $this->get_toc());
     	return $result;
     }
 	
@@ -77,3 +77,4 @@ class AssessmentSerializer extends SerializerBase{
 
 
 
+?>

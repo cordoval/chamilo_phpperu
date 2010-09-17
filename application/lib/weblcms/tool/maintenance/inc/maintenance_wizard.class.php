@@ -8,6 +8,8 @@ require_once 'HTML/QuickForm/Rule.php';
 require_once 'HTML/QuickForm/Action/Display.php';
 require_once dirname(__FILE__) . '/wizard/publication_selection_maintenance_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/action_selection_maintenance_wizard_page.class.php';
+require_once dirname(__FILE__) . '/wizard/cp_export_selection_maintenance_wizard_page.class.php';
+require_once dirname(__FILE__) . '/wizard/cp_import_selection_maintenance_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/course_selection_maintenance_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/confirmation_maintenance_wizard_page.class.php';
 require_once dirname(__FILE__) . '/wizard/maintenance_wizard_process.class.php';
@@ -36,9 +38,9 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
         $this->addAction('process', new MaintenanceWizardProcess($this->parent));
         $this->addAction('display', new MaintenanceWizardDisplay($this->parent));
         $values = $this->exportValues();
-        $action = null;
-        $action = isset($values['action']) ? $values['action'] : null;
-        $action = is_null($action) ? $_POST['action'] : $action;
+        $action = NULL;
+        $action = isset($values['action']) ? $values['action'] : NULL;
+        $action = is_null($action) && isset($_POST['action']) ? $_POST['action'] : $action;
         switch ($action)
         {
             case ActionSelectionMaintenanceWizardPage :: ACTION_EMPTY :
@@ -56,6 +58,14 @@ class MaintenanceWizard extends HTML_QuickForm_Controller
                 break;
             case ActionSelectionMaintenanceWizardPage :: ACTION_DELETE :
                 $this->addPage(new ConfirmationMaintenanceWizardPage('confirmation', $this->parent, Translation :: get('DeleteConfirmationQuestion')));
+                break;
+            case ActionSelectionMaintenanceWizardPage :: ACTION_EXPORT_CP :
+                $this->addPage(new CpExportSelectionMaintenanceWizardPage('publication_selection', $this->parent));
+                $this->addPage(new ConfirmationMaintenanceWizardPage('confirmation', $this->parent, Translation :: get('ExportCpConfirmationQuestion')));
+                break;
+            case ActionSelectionMaintenanceWizardPage :: ACTION_IMPORT_CP :
+                $this->addPage(new CpImportSelectionMaintenanceWizardPage('import', $this->parent));
+                //$this->addPage(new ConfirmationMaintenanceWizardPage('confirmation', $this->parent, Translation::get('ImportCpConfirmationQuestion')));
                 break;
         }
     }

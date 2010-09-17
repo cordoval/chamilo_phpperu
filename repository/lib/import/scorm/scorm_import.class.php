@@ -164,12 +164,14 @@ class ScormImport extends ContentObjectImport
             $learning_path->set_path($path);
 
         $lp_sequencing = $item['imsss:sequencing'][0];
+        $lp_sequencing = $lp_sequencing ? $lp_sequencing : array();
 
         //$lp_sequencing = array_filter($lp_sequencing, array($this, "remove_null_values"));
 
-
         $global_sequencing = array();
-        foreach ($sequencing_collections['imsss:sequencing'] as $sequencing)
+        $sequencing_items = $sequencing_collections['imsss:sequencing'];
+        $sequencing_items = $sequencing_items ? $sequencing_items : array(); 
+        foreach ($sequencing_items as $sequencing)
         {
             if ($sequencing['ID'] == $lp_sequencing['IDRef'])
             {

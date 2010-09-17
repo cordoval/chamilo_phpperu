@@ -13,7 +13,6 @@ class ExternalRepositoryImportForm extends FormValidator
         
     }
     
-    
     public function display()
     {
         //DebugUtilities::show($this->repository_object_infos);
@@ -212,4 +211,5 @@ class ExternalRepositoryImportForm extends FormValidator
     }
 
 }
+
 ?>

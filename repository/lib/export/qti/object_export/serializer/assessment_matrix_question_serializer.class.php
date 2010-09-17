@@ -5,15 +5,15 @@ require_once Path::get_repository_path(). 'lib/content_object/assessment_matrix_
 /**
  * Serializer for matrix questions.
  * 
- * University of Geneva 
+ * @copyright (c) 2010 University of Geneva 
  * @author laurent.opprecht@unige.ch
  *
  */
 class AssessmentMatrixQuestionSerializer extends QuestionSerializer{
 	
-	static function factory($question, $target_root, $manifest){
+	static function factory($question, $target_root, $directory, $manifest, $toc){
 		if($question instanceof AssessmentMatrixQuestion){
-			return new self($target_root, $manifest);
+			return new self($target_root, $directory, $manifest, $toc);
 		}else{
 			return null;
 		}
@@ -100,3 +100,4 @@ class AssessmentMatrixQuestionSerializer extends QuestionSerializer{
 
 
 
+?>

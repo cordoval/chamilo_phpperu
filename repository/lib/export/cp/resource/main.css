@@ -1,0 +1,19 @@
+@CHARSET "ISO-8859-1";
+
+.title {
+	font-family: arial, verdana, helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: 400;
+	border-bottom-color: #2E6E9E;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	display: block;
+}
+
+.description,.comment {
+	display: block;
+	font-family: arial, verdana, helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: 400;
+	font-size: 11.7667px;
+}

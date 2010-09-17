@@ -3,7 +3,7 @@
 /**
  * Utility class used to generate IMS QTI 2.0 XML schemas.
  * 
- * University of Geneva 
+ * @copyright (c) 2010 University of Geneva 
  * @author laurent.opprecht@unige.ch
  *
  */

@@ -3,15 +3,15 @@
 /**
  * Serializer for match questions. 
  * 
- * University of Geneva 
+ * @copyright (c) 2010 University of Geneva 
  * @author laurent.opprecht@unige.ch
  *
  */
 class MatchQuestionSerializer extends QuestionSerializer{
 	
-	static function factory($question, $target_root, $manifest){
+	static function factory($question, $target_root, $directory, $manifest, $toc){
 		if($question instanceof MatchQuestion){
-			return new self($target_root, $manifest, $manifest);
+			return new self($target_root, $manifest, $directory, $manifest, $toc);
 		}else{
 			return null;
 		}
@@ -110,3 +110,4 @@ class MatchQuestionSerializer extends QuestionSerializer{
 
 
 
+?>
