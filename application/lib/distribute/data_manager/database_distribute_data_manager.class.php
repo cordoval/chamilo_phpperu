@@ -172,7 +172,7 @@ class DatabaseDistributeDataManager extends Database implements DistributeDataMa
             $info->set_application('alexia');
             //TODO: i8n location string
             $info->set_location(Translation :: get('Alexia'));
-            $info->set_url('run.php?application=alexia&go=browse');
+            $info->set_url('run.php?application=alexia&go=browser');
             $info->set_publication_object_id($record[AnnouncementDistribution :: PROPERTY_ANNOUNCEMENT]);
 
             $publication_attr[] = $info;

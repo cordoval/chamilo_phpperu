@@ -501,7 +501,7 @@ class DatabaseSurveyDataManager extends Database implements SurveyDataManagerInt
             $info->set_application(SurveyManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('Survey'));
-            $info->set_url('run.php?application=survey&go=browse_surveys');
+            $info->set_url('run.php?application=survey&go='.SurveyManager::ACTION_VIEW_SURVEY_PUBLICATION);
             $info->set_publication_object_id($record[SurveyPublication :: PROPERTY_CONTENT_OBJECT]);
 
             $publication_attr[] = $info;

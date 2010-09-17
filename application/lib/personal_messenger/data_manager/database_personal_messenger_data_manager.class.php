@@ -182,7 +182,7 @@ class DatabasePersonalMessengerDataManager extends Database implements PersonalM
 
             if ($publication->get_user() == $user->get_id())
             {
-                $info->set_url('run.php?application=personal_messenger&amp;go=view&pm=' . $publication->get_id());
+                $info->set_url('run.php?application=personal_messenger&amp;go='.PersonalMessengerManager::ACTION_VIEW_PUBLICATION.'&pm=' . $publication->get_id());
             }
             $info->set_publication_object_id($publication->get_personal_message());
 

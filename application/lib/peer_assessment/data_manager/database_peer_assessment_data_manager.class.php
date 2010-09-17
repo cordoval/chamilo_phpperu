@@ -260,7 +260,7 @@ class DatabasePeerAssessmentDataManager extends Database implements PeerAssessme
             $info->set_application(PeerAssessmentManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('PeerAssessment'));
-            $info->set_url('run.php?application=peer_assessment&go=browse');
+            $info->set_url('run.php?application=peer_assessment&go=browser');
             $info->set_publication_object_id($record[PeerAssessmentPublication :: PROPERTY_CONTENT_OBJECT]);
 
             $publication_attr[] = $info;

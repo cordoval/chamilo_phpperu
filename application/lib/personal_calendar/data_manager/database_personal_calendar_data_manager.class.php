@@ -102,7 +102,7 @@ class DatabasePersonalCalendarDatamanager extends Database implements PersonalCa
             //TODO: i8n location string
             $info->set_location(Utilities :: underscores_to_camelcase_with_spaces(PersonalCalendarManager :: APPLICATION_NAME));
             //TODO: set correct URL
-            $info->set_url('run.php?application=personal_calendar&amp;go=view&personal_calendar=' . $info->get_id());
+            $info->set_url('run.php?application=personal_calendar&amp;go='.PersonalCalendarManager :: ACTION_VIEW_PUBLICATION.'&personal_calendar=' . $info->get_id());
             $info->set_publication_object_id($record[PersonalCalendarPublication :: PROPERTY_CONTENT_OBJECT_ID]);
             $publication_attr[] = $info;
         }
