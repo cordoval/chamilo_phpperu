@@ -32,12 +32,6 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManager
 			$language = $this->retrieve_cda_language($language_id);
 			$language_pack = $this->retrieve_language_pack($variable->get_language_pack_id());
 			
-			$trail = BreadcrumbTrail :: get_instance();
-			$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
-			$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), $language->get_original_name()));
-			$trail->add(new Breadcrumb($this->get_browse_variable_translations_url($language_id, $variable->get_language_pack_id()), $language_pack->get_branch_name() . ' - ' . $language_pack->get_name()));
-			$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_VARIABLE_TRANSLATION => $variable_translation_id)), Translation :: get('UpdateVariableTranslation')));
-			
 			$form = new VariableTranslationForm($variable_translation, $variable, 
 					$this->get_url(array(CdaManager :: PARAM_VARIABLE_TRANSLATION => $variable_translation->get_id())), $this->get_user());
 	
@@ -122,7 +116,7 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManager
 			}
 			else
 			{
-				$this->display_header($trail);
+				$this->display_header();
 
 				echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/variable_translation_form.js');
 				$form->display();
@@ -135,5 +129,19 @@ class CdaManagerVariableTranslationUpdaterComponent extends CdaManager
 			Display :: not_allowed();
 		}
 	}
+	
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS, CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(self :: PARAM_CDA_LANGUAGE))), Translation :: get('CdaManagerLanguagePacksBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_VARIABLE_TRANSLATIONS, CdaManager :: PARAM_LANGUAGE_PACK => Request :: get(self :: PARAM_LANGUAGE_PACK), CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(self :: PARAM_CDA_LANGUAGE))), Translation :: get('CdaManagerVariableTranslationsBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_VIEW_VARIABLE_TRANSLATION, CdaManager :: PARAM_VARIABLE_TRANSLATION => Request :: get(self :: PARAM_VARIABLE_TRANSLATION))), Translation :: get('CdaManagerVariableTranslationViewerComponent')));
+    	$breadcrumbtrail->add_help('cda_variable_translations_updater');
+    }
+    
+	function get_additional_parameters()
+    {
+    	return array(CdaManager :: PARAM_VARIABLE_TRANSLATION, self :: PARAM_CDA_LANGUAGE, self :: PARAM_VARIABLE_TRANSLATION);
+    }
 }
 ?>

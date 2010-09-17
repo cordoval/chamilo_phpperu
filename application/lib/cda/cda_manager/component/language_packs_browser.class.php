@@ -107,6 +107,7 @@ class CdaManagerLanguagePacksBrowserComponent extends CdaManager
     
 	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
     {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
     	$breadcrumbtrail->add_help('cda_language_packs_browser');
     }
 }
