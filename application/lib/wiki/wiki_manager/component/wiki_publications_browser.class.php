@@ -53,5 +53,10 @@ class WikiManagerWikiPublicationsBrowserComponent extends WikiManager
         //		}
         return $action_bar;
     }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('wiki_publications_browser');
+    }
 }
 ?>
