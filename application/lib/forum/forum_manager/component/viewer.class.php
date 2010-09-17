@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../../trackers/forum_topic_view_tracker.class
  * Component to view a new forum_publication object
  * @author Michael Kyndt
  */
-class ForumManagerViewerComponent extends ForumManager
+class ForumManagerViewerComponent extends ForumManager implements DelegateComponent
 {
     private $trail;
     private $publication_id;
@@ -20,11 +20,7 @@ class ForumManagerViewerComponent extends ForumManager
      */
     function run()
     {
-        $this->trail = $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb(parent :: get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
-        
         $this->publication_id = Request :: get(ForumManager :: PARAM_PUBLICATION_ID);
-        $this->set_parameter(ForumManager :: PARAM_PUBLICATION_ID, $this->publication_id);
         
         ComplexDisplay :: launch(Forum :: get_type_name(), $this);
     }
@@ -60,6 +56,17 @@ class ForumManagerViewerComponent extends ForumManager
         
         $dummy = new ForumTopicViewTracker();
         return $dummy->count_tracker_items($condition);
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('forum_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PUBLICATION_ID);
     }
 
 }

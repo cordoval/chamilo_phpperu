@@ -16,11 +16,7 @@ class ForumManagerRightsEditorComponent extends ForumManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
-        
-        $category = Request :: get('category');
-        $this->set_parameter('category', $category);
+        $category = Request :: get(self :: PARAM_CATEGORY);
 
         if ($this->get_user()->is_platform_admin())
         {
@@ -42,6 +38,17 @@ class ForumManagerRightsEditorComponent extends ForumManager
     function get_available_rights()
     {
     	return ForumRights :: get_available_rights_for_categories();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('forum_rights_editor');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_CATEGORY);
     }
 
 }

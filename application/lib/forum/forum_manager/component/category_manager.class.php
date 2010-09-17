@@ -6,7 +6,7 @@
 require_once dirname(__FILE__) . '/../forum_manager.class.php';
 require_once dirname(__FILE__) . '/../../category_manager/forum_publication_category_manager.class.php';
 
-class ForumManagerCategoryManagerComponent extends ForumManager
+class ForumManagerCategoryManagerComponent extends ForumManager implements DelegateComponent
 {
     private $action_bar;
 
@@ -18,13 +18,15 @@ class ForumManagerCategoryManagerComponent extends ForumManager
             return;
         }
 
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
-
-        $category_manager = new ForumPublicationCategoryManager($this, $trail);
+        $category_manager = new ForumPublicationCategoryManager($this);
         $category_manager->run();
     
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('forum_category_manager');
     }
 }
 ?>

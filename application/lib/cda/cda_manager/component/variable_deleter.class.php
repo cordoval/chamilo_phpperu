@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../cda_manager.class.php';
  * @author Sven Vanpoucke
  * @author Hans De Bisschop
  */
-class CdaManagerVariableDeleterComponent extends CdaManager
+class CdaManagerVariableDeleterComponent extends CdaManager implements AdministrationComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -78,5 +78,17 @@ class CdaManagerVariableDeleterComponent extends CdaManager
 			$this->display_error_page(htmlentities(Translation :: get('NoVariablesSelected')));
 		}
 	}
+	
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_LANGUAGE_PACKS)), Translation :: get('CdaManagerAdminLanguagePacksBrowserComponent')));
+		$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_ADMIN_BROWSE_VARIABLES, CdaManager :: PARAM_LANGUAGE_PACK => Request :: get(CdaManager :: PARAM_LANGUAGE_PACK))), Translation :: get('CdaManagerAdminVariablesBrowserComponent')));
+    	$breadcrumbtrail->add_help('cda_variable_deleter');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(CdaManager :: PARAM_VARIABLE);
+    }
 }
 ?>
