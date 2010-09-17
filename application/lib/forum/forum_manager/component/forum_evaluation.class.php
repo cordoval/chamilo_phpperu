@@ -15,11 +15,6 @@ class ForumManagerForumEvaluationComponent extends ForumManager implements Evalu
             $this->publication_id = $forum_publication->get_id();
             $this->publisher_id = $forum_publication->get_author();
             
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_browse_forum_publications_url(), Translation :: get('BrowseForum')));
-            $trail->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE, ForumManager :: PARAM_PUBLICATION_ID => $publication_id)), Translation :: get('BrowseEvaluations')));
-            $this->set_parameter(ForumManager :: PARAM_PUBLICATION_ID, $this->publication_id);
-            
             EvaluationManager :: launch($this);
         }
         else
@@ -36,6 +31,17 @@ class ForumManagerForumEvaluationComponent extends ForumManager implements Evalu
     function get_publisher_id()
     {
         return $this->publisher_id;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('forum_evaluation');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PUBLICATION_ID);
     }
 }
 ?>

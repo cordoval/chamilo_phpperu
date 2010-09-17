@@ -17,6 +17,7 @@ class ForumManager extends WebApplication
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_PUBLICATION_ID = 'publication_id';
     const PARAM_MOVE = 'move';
+    const PARAM_CATEGORY = 'category';
 
     const ACTION_DELETE = 'deleter';
     const ACTION_EDIT = 'editor';

@@ -28,10 +28,7 @@ class ForumManagerBrowserComponent extends ForumManager
         
         $table = $this->get_table_html();
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseForum')));
-        
-        $this->display_header($trail);
+        $this->display_header();
         
         echo $this->action_bar->as_html();
         echo $table->toHtml();
@@ -138,7 +135,8 @@ class ForumManagerBrowserComponent extends ForumManager
             $table->setCellAttributes($row, 3, array('class' => 'row2', 'align' => 'center'));
             if ($last_post)
             {
-                //$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '#post_' . $last_post->get_id();
+                $link = '';
+            	//$link = $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_VIEW_TOPIC,'pid' => $this->pid, 'cid' => $topic->get_id())) . '#post_' . $last_post->get_id();
                 $table->setCellContents($row, 4, DatetimeUtilities :: format_locale_date(null,$last_post->get_add_date()) . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') . '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
             }
             else
@@ -292,6 +290,11 @@ class ForumManagerBrowserComponent extends ForumManager
 		}
         
         return $action_bar;
+    }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('forum_browser');
     }
 }
 ?>

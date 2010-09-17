@@ -19,12 +19,6 @@ class ForumManagerEditorComponent extends ForumManager
             
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_PUBLICATION_ID => $pid)));
             
-            $trail = BreadcrumbTrail :: get_instance();
-            
-            $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
-            $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_EDIT, ForumManager :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('Edit')));
-            $trail->add_help('forum general');
-            
             if ($form->validate())
             {
                 $succes = $form->update_content_object();
@@ -43,11 +37,22 @@ class ForumManagerEditorComponent extends ForumManager
             }
             else
             {
-                $this->display_header($trail, true);
+                $this->display_header(null, true);
                 $form->display();
                 $this->display_footer();
             }
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('forum_editor');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PUBLICATION_ID);
     }
 }
 ?>

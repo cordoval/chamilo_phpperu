@@ -72,5 +72,16 @@ class ForumManagerDeleterComponent extends ForumManager
             $this->display_error_page(htmlentities(Translation :: get('NoForumPublicationsSelected')));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('forum_deleter');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PUBLICATION_ID);
+    }
 }
 ?>
