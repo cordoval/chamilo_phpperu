@@ -63,5 +63,16 @@ class SearchPortalManagerUserEmailerComponent extends SearchPortalManager
 
         return parent :: display_header($trail);
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('search_portal_emailer');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SEARCH)), Translation :: get('SearchPortalManagerSearcherComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_USER);
+    }
 }
 ?>

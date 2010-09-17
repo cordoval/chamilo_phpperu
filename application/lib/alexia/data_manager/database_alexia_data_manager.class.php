@@ -251,7 +251,7 @@ class DatabaseAlexiaDataManager extends Database implements AlexiaDataManagerInt
             $info->set_application('alexia');
             //TODO: i8n location string
             $info->set_location(Translation :: get('Alexia'));
-            $info->set_url('run.php?application=alexia&go=browse');
+            $info->set_url('run.php?application=alexia&go=browser');
             $info->set_publication_object_id($record[AlexiaPublication :: PROPERTY_CONTENT_OBJECT]);
 
             $publication_attr[] = $info;

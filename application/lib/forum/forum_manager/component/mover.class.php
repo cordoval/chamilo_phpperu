@@ -32,5 +32,16 @@ class ForumManagerMoverComponent extends ForumManager
             $this->redirect($message, false, array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('forum_mover');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_MOVE);
+    }
 }
 ?>

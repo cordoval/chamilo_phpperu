@@ -149,7 +149,7 @@ class ListContentObjectPublicationListRenderer extends ContentObjectPublicationL
             //case 2: $level = 'level_3'; break;
         //case 3: $level = 'level_4'; break;
         }
-        
+            
     	if($publication->get_content_object() instanceof ComplexContentObjectSupport)
         {
             $title_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DISPLAY_COMPLEX_CONTENT_OBJECT));

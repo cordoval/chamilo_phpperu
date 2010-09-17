@@ -143,7 +143,7 @@ class DatabaseGutenbergDataManager extends Database implements GutenbergDataMana
             $info->set_application('gutenberg');
             //TODO: i8n location string
             $info->set_location(Translation :: get('Gutenberg'));
-            $info->set_url('run.php?application=gutenberg&go=browse');
+            $info->set_url('run.php?application=gutenberg&go=browser');
             $info->set_publication_object_id($record[GutenbergPublication :: PROPERTY_CONTENT_OBJECT]);
             
             $publication_attr[] = $info;

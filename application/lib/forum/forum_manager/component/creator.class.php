@@ -20,13 +20,6 @@ class ForumManagerCreatorComponent extends ForumManager implements RepoViewerInt
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
-        //$trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForumPublications')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishForum')));
-
-
-
         if (!RepoViewer :: is_ready_to_be_published())
         {
             $repo_viewer = RepoViewer :: construct($this);
@@ -43,7 +36,17 @@ class ForumManagerCreatorComponent extends ForumManager implements RepoViewerInt
     {
         return array(Forum :: get_type_name());
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('ForumManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('forum_publisher');
+    }
 
+    function get_additional_parameters()
+    {
+    	return array(RepoViewer :: PARAM_ACTION, RepoViewer :: PARAM_ID);
+    }
 }
 
 ?>

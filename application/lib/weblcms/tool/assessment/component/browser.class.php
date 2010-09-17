@@ -13,6 +13,7 @@ class AssessmentToolBrowserComponent extends AssessmentTool
     function get_tool_actions()
     {
         $tool_actions = array();
+
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
             $tool_actions[] = new ToolbarItem(Translation :: get('ImportQti'), Theme :: get_common_image_path() . 'action_import.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL);

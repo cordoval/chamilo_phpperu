@@ -16,9 +16,6 @@ class ProfilerManagerEditorComponent extends ProfilerManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
-        
         $user = $this->get_user();
         
         $id = Request :: get(ProfilerManager :: PARAM_PROFILE_ID);
@@ -34,10 +31,6 @@ class ProfilerManagerEditorComponent extends ProfilerManager
         	}
             
             $content_object = $profile_publication->get_publication_object();
-            
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_VIEW_PUBLICATION, ProfilerManager :: PARAM_PROFILE_ID => $id)), $content_object->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(array(ProfilerManager :: PARAM_PROFILE_ID => $id)), Translation :: get('Edit')));
-            $trail->add_help('profiler general');
             
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_EDIT_PUBLICATION, ProfilerManager :: PARAM_PROFILE_ID => $profile_publication->get_id())));
             if ($form->validate())
@@ -64,7 +57,7 @@ class ProfilerManagerEditorComponent extends ProfilerManager
                     }
                     else
                     {
-                        $this->display_header($trail);
+                        $this->display_header();
                         echo ContentObjectDisplay :: factory($profile_publication->get_publication_object())->get_full_html();
                         $publication_form->display();
                         $this->display_footer();
@@ -78,7 +71,7 @@ class ProfilerManagerEditorComponent extends ProfilerManager
             }
             else
             {
-                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
@@ -87,6 +80,18 @@ class ProfilerManagerEditorComponent extends ProfilerManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoCalendarEventPublicationSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('profiler_editor');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('ProfilerManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_VIEW_PUBLICATION, ProfilerManager :: PARAM_PROFILE_ID => Request :: get(self :: PARAM_PROFILE_ID))), Translation :: get('ProfilerManagerViewerComponent')));
+    }
+
+ 	function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PROFILE_ID);
     }
 }
 ?>

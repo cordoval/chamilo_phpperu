@@ -1,8 +1,10 @@
 <?php
+
 /**
  * $Id: content_object_publication_list_renderer.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.browser
  */
+
 /**
  * This is a generic renderer for a set of learning object publications.
  * @package application.weblcms.tool
@@ -31,7 +33,7 @@ abstract class ContentObjectPublicationListRenderer
      * renderer with.
      * @param array $parameters The parameters to pass to the renderer.
      */
-    function ContentObjectPublicationListRenderer($tool_browser, $parameters = array ())
+    function ContentObjectPublicationListRenderer($tool_browser, $parameters = array())
     {
         $this->parameters = $parameters;
         $this->tool_browser = $tool_browser;
@@ -182,7 +184,7 @@ abstract class ContentObjectPublicationListRenderer
         $html[] = htmlentities(Translation :: get('PublishedOn')) . ' ' . $this->render_publication_date($publication);
         $html[] = htmlentities(Translation :: get('By')) . ' ' . $this->render_repo_viewer($publication);
         $html[] = htmlentities(Translation :: get('For')) . ' ' . $this->render_publication_targets($publication);
-        if (! $publication->is_forever())
+        if (!$publication->is_forever())
         {
             $html[] = '(' . $this->render_publication_period($publication) . ')';
         }
@@ -198,7 +200,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_up_action($publication, $first = false)
     {
-        if (! $first)
+        if (!$first)
         {
             $up_img = 'action_up.png';
             $up_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
@@ -220,7 +222,7 @@ abstract class ContentObjectPublicationListRenderer
      */
     function render_down_action($publication, $last = false)
     {
-        if (! $last)
+        if (!$last)
         {
             $down_img = 'action_down.png';
             $down_url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
@@ -323,7 +325,7 @@ abstract class ContentObjectPublicationListRenderer
             $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_COURSE, $this->tool_browser->get_parent()->get_course_id());
             $conditions[] = new EqualityCondition(ContentObjectPublicationCategory :: PROPERTY_TOOL, $this->tool_browser->get_parent()->get_tool_id());
             $count = WeblcmsDataManager :: get_instance()->count_content_object_publication_categories(new AndCondition($conditions));
-            $count ++;
+            $count++;
             if ($count > 1)
             {
                 $url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
@@ -346,34 +348,34 @@ abstract class ContentObjectPublicationListRenderer
      * @param ContentObjectPublication $publication The publication.
      * @return string The rendered HTML.
      */
-    /*function render_attachments($publication)
-    {
-        $object = $publication->get_content_object();
-        if ($object instanceof AttachmentSupport)
-        {
-            $attachments = $object->get_attached_content_objects();
-            if(count($attachments)>0)
-            {
-                $html[] = '<h4>Attachments</h4>';
-                Utilities :: order_content_objects_by_title($attachments);
-                foreach ($attachments as $attachment)
-                {
-                    $disp = ContentObjectDisplay :: factory($attachment);
-                    $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path().'content_object/'.$attachment->get_icon_name().$icon_suffix.'.png);">';
-                    $html[] = '<div class="title">';
-                    $html[] = $attachment->get_title();
-                    $html[] = '</div>';
-                    $html[] = '<div class="description">';
-                    $html[] = $attachment->get_description();
-                    $html[] = '</div></div>';
-                    //$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
-                }
-                //$html[] = '</ul>';
-                return implode("\n",$html);
-            }
-        }
-        return '';
-    }*/
+    /* function render_attachments($publication)
+      {
+      $object = $publication->get_content_object();
+      if ($object instanceof AttachmentSupport)
+      {
+      $attachments = $object->get_attached_content_objects();
+      if(count($attachments)>0)
+      {
+      $html[] = '<h4>Attachments</h4>';
+      Utilities :: order_content_objects_by_title($attachments);
+      foreach ($attachments as $attachment)
+      {
+      $disp = ContentObjectDisplay :: factory($attachment);
+      $html[] = '<div class="content_object" style="background-image: url(' . Theme :: get_common_image_path().'content_object/'.$attachment->get_icon_name().$icon_suffix.'.png);">';
+      $html[] = '<div class="title">';
+      $html[] = $attachment->get_title();
+      $html[] = '</div>';
+      $html[] = '<div class="description">';
+      $html[] = $attachment->get_description();
+      $html[] = '</div></div>';
+      //$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(ContentObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+      }
+      //$html[] = '</ul>';
+      return implode("\n",$html);
+      }
+      }
+      return '';
+      } */
 
     function render_attachments($publication)
     {
@@ -507,7 +509,7 @@ abstract class ContentObjectPublicationListRenderer
     /**
      * @see ContentObjectPublicationBrowser :: get_url()
      */
-    function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+    function get_url($parameters = array(), $filter = array(), $encode_entities = false)
     {
         return $this->tool_browser->get_url($parameters, $filter, $encode_entities);
     }
@@ -517,7 +519,7 @@ abstract class ContentObjectPublicationListRenderer
         return $this->tool_browser->get_complex_builder_url($publication_id);
     }
 
-	function get_complex_display_url($publication_id)
+    function get_complex_display_url($publication_id)
     {
         return $this->tool_browser->get_complex_display_url($publication_id);
     }
@@ -551,7 +553,7 @@ abstract class ContentObjectPublicationListRenderer
     static function factory($type, $tool_browser)
     {
         $file = dirname(__FILE__) . '/list_renderer/' . $type . '_content_object_publication_list_renderer.class.php';
-        if (! file_exists($file))
+        if (!file_exists($file))
         {
             throw new Exception(Translation :: get('ContentObjectPublicationListRendererTypeDoesNotExist', array('type' => $type)));
         }
@@ -605,13 +607,18 @@ abstract class ContentObjectPublicationListRenderer
     function get_publication_actions($publication, $show_move = true)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        if ($publication->get_tool() == 'assessment')
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_next.png', $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+        }
+
 
         $details_url = $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_VIEW));
         $toolbar->add_item(new ToolbarItem(Translation :: get('Details'), Theme :: get_common_image_path() . 'action_details.png', $details_url, ToolbarItem :: DISPLAY_ICON));
 
-     	if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
+        if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
         {
-        	$toolbar->add_item(new ToolbarItem(Translation :: get('DisplayComplex'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_complex_display_url($publication->get_id()), ToolbarItem :: DISPLAY_ICON));
+            $toolbar->add_item(new ToolbarItem(Translation :: get('DisplayComplex'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_complex_display_url($publication->get_id()), ToolbarItem :: DISPLAY_ICON));
         }
 
         if ($this->is_allowed(WeblcmsRights :: EDIT_RIGHT, $publication->get_id()))
@@ -619,7 +626,7 @@ abstract class ContentObjectPublicationListRenderer
             $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_UPDATE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
 
             $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON, true));
-            
+
             $toolbar->add_item(new ToolbarItem(Translation :: get('ManageRights'), Theme :: get_common_image_path() . 'action_rights.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_RIGHTS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
 
             if ($publication->get_content_object() instanceof ComplexContentObjectSupport)
@@ -665,11 +672,10 @@ abstract class ContentObjectPublicationListRenderer
 
             $toolbar->add_item(new ToolbarItem(Translation :: get('Visible'), Theme :: get_common_image_path() . $visibility_image, $visibility_url, ToolbarItem :: DISPLAY_ICON));
 
-            if ($this->get_tool_browser() instanceof Categorizable)
+            if ($this->get_tool_browser()->get_parent() instanceof Categorizable)
             {
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path() . 'action_move.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
             }
-
         }
 
         if (WebApplication :: is_active('gradebook'))
@@ -693,5 +699,7 @@ abstract class ContentObjectPublicationListRenderer
 
         return $toolbar;
     }
+
 }
+
 ?>

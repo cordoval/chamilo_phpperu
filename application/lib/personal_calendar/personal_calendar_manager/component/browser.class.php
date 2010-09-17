@@ -34,11 +34,8 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManager
         	$time = Request :: get(PersonalCalendarManager::PARAM_TIME) ? intval(Request :: get(PersonalCalendarManager::PARAM_TIME)) : time();
         }
         $this->set_parameter(PersonalCalendarManager::PARAM_TIME, $time);
-    	$trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PersonalCalendar')));
-        $trail->add_help('personal calender general');
         
-        $this->display_header($trail);
+        $this->display_header();
         echo '<a name="top"></a>';
         echo $this->get_action_bar_html() . '';
         echo '<div id="action_bar_browser">';
@@ -151,6 +148,16 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManager
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'day'))));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => $this->get_parameter(PersonalCalendarManager::PARAM_VIEW), 'time' => time()))));
         return $action_bar->as_html();
+    }
+    
+ 	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('personal_calendar_browser');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_VIEW, self :: PARAM_TIME);
     }
 }
 ?>
