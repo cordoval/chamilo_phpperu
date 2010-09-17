@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../agreement.class.php';
 require_once dirname(__FILE__) . '/../agreement_rel_user.class.php';
+require_once dirname(__FILE__) . '/../user_type.class.php';
 
 /**
  * This class describes the form for a Place object.

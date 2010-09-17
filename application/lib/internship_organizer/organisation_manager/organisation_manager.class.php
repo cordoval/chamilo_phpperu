@@ -9,47 +9,37 @@ class InternshipOrganizerOrganisationManager extends SubManager
     
     const PARAM_ACTION = 'action';
     const PARAM_ORGANISATION_ID = 'organisation_id';
-    const PARAM_DELETE_SELECTED_ORGANISATIONS = 'delete_organisations';
+    const PARAM_ORGANISATION_REL_USER_ID = 'organisation_rel_user_id';
     
     const PARAM_LOCATION_ID = 'location_id';
     const PARAM_REGION_ID = 'region_id';
-    const PARAM_DELETE_SELECTED_LOCATIONS = 'delete_locations';
     
     const PARAM_MENTOR_ID = 'mentor_id';
-    const PARAM_DELETE_SELECTED_MENTORS = 'delete_mentors';
     
     const ACTION_CREATE_ORGANISATION = 'creator';
     const ACTION_BROWSE_ORGANISATION = 'browser';
-    const ACTION_UPDATE_ORGANISATION = 'updater';
+    const ACTION_EDIT_ORGANISATION = 'editor';
     const ACTION_DELETE_ORGANISATION = 'deleter';
     const ACTION_VIEW_ORGANISATION = 'viewer';
     
     const ACTION_CREATE_LOCATION = 'location_creator';
-    //    const ACTION_BROWSE_LOCATIONS = 'location_browser';
-    const ACTION_EDIT_LOCATION = 'location_updater';
+    const ACTION_EDIT_LOCATION = 'location_editor';
     const ACTION_DELETE_LOCATION = 'location_deleter';
     const ACTION_VIEW_LOCATION = 'location_viewer';
     
     const ACTION_CREATE_MENTOR = 'mentor_creator';
-    //    const ACTION_BROWSE_MENTOR = 'mentor_browser';
-    const ACTION_UPDATE_MENTOR = 'mentor_updater';
+    const ACTION_EDIT_MENTOR = 'mentor_editor';
     const ACTION_DELETE_MENTOR = 'mentor_deleter';
     const ACTION_VIEW_MENTOR = 'mentor_viewer';
     
     const ACTION_SUBSCRIBE_USERS = 'subscribe_users';
+    const ACTION_UNSUBSCRIBE_USERS = 'unsubscribe_users';
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_ORGANISATION;
 
     function InternshipOrganizerOrganisationManager($internship_manager)
     {
         parent :: __construct($internship_manager);
-        $action = Request :: get(self :: PARAM_ACTION);
-        if ($action)
-        {
-            $this->set_parameter(self :: PARAM_ACTION, $action);
-        }
-        $this->parse_input_from_table();
-    
     }
 
     function get_application_component_path()
@@ -122,7 +112,7 @@ class InternshipOrganizerOrganisationManager extends SubManager
 
     function get_update_organisation_url($organisation)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_ORGANISATION, self :: PARAM_ORGANISATION_ID => $organisation->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_ORGANISATION, self :: PARAM_ORGANISATION_ID => $organisation->get_id()));
     }
 
     function get_delete_organisation_url($organisation)
@@ -160,12 +150,6 @@ class InternshipOrganizerOrganisationManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_LOCATION, self :: PARAM_LOCATION_ID => $location->get_id()));
     }
 
-    //    function get_browse_locations_url()
-    //    {
-    //        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LOCATIONS));
-    //    }
-    
-
     function get_create_mentor_url($organisation)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_MENTOR, self :: PARAM_ORGANISATION_ID => $organisation->get_id()));
@@ -173,19 +157,13 @@ class InternshipOrganizerOrganisationManager extends SubManager
 
     function get_update_mentor_url($mentor)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_MENTOR, self :: PARAM_MENTOR_ID => $mentor->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_MENTOR, self :: PARAM_MENTOR_ID => $mentor->get_id()));
     }
 
     function get_delete_mentor_url($mentor)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_MENTOR, self :: PARAM_MENTOR_ID => $mentor->get_id()));
     }
-
-    //    function get_browse_mentors_url()
-    //    {
-    //        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_MENTOR));
-    //    }
-    
 
     function get_view_mentor_url($mentor)
     {
@@ -197,49 +175,9 @@ class InternshipOrganizerOrganisationManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USERS, self :: PARAM_ORGANISATION_ID => $organisation->get_id()));
     }
 
-    private function parse_input_from_table()
+    function get_unsubscribe_user_url($organisation_rel_user)
     {
-        if (isset($_POST['action']))
-        {
-            if (isset($_POST[InternshipOrganizerOrganisationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
-            {
-                $selected_ids = $_POST[InternshipOrganizerOrganisationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            }
-            
-            if (isset($_POST[InternshipOrganizerLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
-            {
-                $selected_ids = $_POST[InternshipOrganizerLocationBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            }
-            
-            if (isset($_POST[InternshipOrganizerMentorBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
-            {
-                $selected_ids = $_POST[InternshipOrganizerMentorBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-            }
-            
-            if (empty($selected_ids))
-            {
-                $selected_ids = array();
-            }
-            elseif (! is_array($selected_ids))
-            {
-                $selected_ids = array($selected_ids);
-            }
-            switch ($_POST['action'])
-            {
-                case self :: PARAM_DELETE_SELECTED_LOCATIONS :
-                    $this->set_organisation_action(self :: ACTION_DELETE_LOCATION);
-                    $_GET[self :: PARAM_LOCATION_ID] = $selected_ids;
-                    break;
-                case self :: PARAM_DELETE_SELECTED_ORGANISATIONS :
-                    $this->set_organisation_action(self :: ACTION_DELETE_ORGANISATION);
-                    $_GET[self :: PARAM_ORGANISATION_ID] = $selected_ids;
-                    break;
-                case self :: PARAM_DELETE_SELECTED_MENTORS :
-                    $this->set_organisation_action(self :: ACTION_DELETE_MENTOR);
-                    $_GET[self :: PARAM_MENTOR_ID] = $selected_ids;
-                    break;
-            }
-        }
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USERS, self :: PARAM_ORGANISATION_REL_USER_ID => $organisation_rel_user->get_organisation_id().'|'.$organisation_rel_user->get_user_id()));
     }
 
     private function set_organisation_action($action)

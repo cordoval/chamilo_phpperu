@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/rel_location_browser_table_cell_renderer.clas
 
 class InternshipOrganizerAgreementRelLocationBrowserTable extends ObjectTable
 {
-    const DEFAULT_NAME = 'agreement_rel_location_browser_table';
+    const DEFAULT_NAME = 'internship_organizer_agreement_rel_location_browser_table';
 
     /**
      * Constructor
@@ -19,36 +19,23 @@ class InternshipOrganizerAgreementRelLocationBrowserTable extends ObjectTable
         $data_provider = new InternshipOrganizerAgreementRelLocationBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, InternshipOrganizerAgreementRelLocationBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = array();
         
-        $this->set_form_actions($actions);
-        //        $this->set_default_row_count(20);
+//        $actions = new ObjectTableFormActions(InternshipOrganizerAgreementManager :: PARAM_ACTION);
+//        
+//        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+//        {
+//            $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerOrganisationManager :: ACTION_DELETE_LOCATION, Translation :: get('Delete')));
+//        }
+//        $this->set_form_actions($actions);
+        $this->set_default_row_count(20);
+    
     }
 
-/**
- * A typical ObjectTable would get the database-id of the object as a
- * unique identifier. InternshipOrganizerAgreementRelLocation has no such field since it's
- * a relation, so we need to overwrite this function here.
- */
-//    function get_objects($offset, $count, $order_column)
-//    {
-//        $agreementrellocations = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_order_column($order_column - ($this->has_form_actions() ? 1 : 0)));
-//        $table_data = array();
-//        $column_count = $this->get_column_model()->get_column_count();
-//        while ($agreementreluser = $agreementrelusers->next_result())
-//        {
-//            $row = array();
-//            if ($this->has_form_actions())
-//            {
-//                $row[] = $agreementreluser->get_agreement_id() . '|' . $agreementreluser->get_location_id();
-//            }
-//            for($i = 0; $i < $column_count; $i ++)
-//            {
-//                $row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $agreementreluser);
-//            }
-//            $table_data[] = $row;
-//        }
-//        return $table_data;
-//    }
+    static function handle_table_action()
+    {
+//        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+//        Request :: set_get(InternshipOrganizerOrganisationManager :: PARAM_LOCATION_ID, $ids);
+    }
+
 }
 ?>

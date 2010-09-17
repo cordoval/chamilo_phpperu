@@ -19,7 +19,7 @@ class InternshipOrganizerOrganisationRelUserBrowserTableCellRenderer extends Def
     {
         if ($column === InternshipOrganizerOrganisationRelUserBrowserTableColumnModel :: get_modification_column())
         {
-            //return $this->get_modification_links( $rel_user);
+            return $this->get_modification_links( $rel_user);
         }
         
         return parent :: render_cell($column, $rel_user);
@@ -27,9 +27,15 @@ class InternshipOrganizerOrganisationRelUserBrowserTableCellRenderer extends Def
 
     private function get_modification_links($rel_user)
     {
-        $toolbar_data = array();
+        $toolbar = new Toolbar();
         
-        return Utilities :: build_toolbar($toolbar_data);
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_unsubscribe_user_url($rel_user), ToolbarItem :: DISPLAY_ICON, true));
+        }
+        
+        return $toolbar->as_html();
     }
+
 }
 ?>

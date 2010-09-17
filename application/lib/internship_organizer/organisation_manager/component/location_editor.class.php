@@ -3,7 +3,7 @@
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/location_form.class.php';
 
-class InternshipOrganizerOrganisationManagerLocationUpdaterComponent extends InternshipOrganizerOrganisationManager
+class InternshipOrganizerOrganisationManagerLocationEditorComponent extends InternshipOrganizerOrganisationManager
 {
 
     /**

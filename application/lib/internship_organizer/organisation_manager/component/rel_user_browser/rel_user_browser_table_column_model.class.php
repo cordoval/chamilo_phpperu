@@ -15,14 +15,14 @@ class InternshipOrganizerOrganisationRelUserBrowserTableColumnModel extends Defa
     function InternshipOrganizerOrganisationRelUserBrowserTableColumnModel($browser)
     {
         parent :: __construct();
-        //		$this->add_column(self :: get_modification_column());
+        $this->add_column(self :: get_modification_column());
     }
 
     static function get_modification_column()
     {
         if (! isset(self :: $modification_column))
         {
-            self :: $modification_column = new ObjectTableColumn('');
+            self :: $modification_column = new StaticTableColumn('');
         }
         return self :: $modification_column;
     }

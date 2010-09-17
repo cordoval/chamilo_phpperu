@@ -570,7 +570,7 @@ class Database
 
         $orders = array();
 
-        //dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
+//        dump('<strong>Statement</strong><br />' . $query . '<br /><br /><br />');
         //dump($order_by);
 
         if (is_null($order_by))

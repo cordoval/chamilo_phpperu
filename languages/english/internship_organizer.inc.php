@@ -401,6 +401,16 @@ $lang['internship_organizer']['InternshipOrganizerAgreementCoachReportingBlock']
 $lang['internship_organizer']['InternshipOrganizerAgreementAddLocationReportingBlock'] = 'Add location';
 $lang['internship_organizer']['InternshipOrganizerAgreementToApproveReportingBlock'] = 'To Approve';
 
+//17-9-10
+$lang['internship_organizer']['InternshipOrganizerManagerOrganisationComponent'] = 'Organisation';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerViewerComponent'] = 'View';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerBrowserComponent'] = 'Browser';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerMentorCreatorComponent'] = 'Create Mentor';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerSubscribeUsersComponent'] = 'Subscribe Users';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerLocationCreatorComponent'] = 'Create Location';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerCreatorComponent'] = 'Create Organisation';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerLocationEditorComponent'] = 'Location Editor';
+
 
 
 ?>
