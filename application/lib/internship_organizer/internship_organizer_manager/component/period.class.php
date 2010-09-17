@@ -8,7 +8,7 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/period_m
 require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/agreement_user/agreement_user_table.class.php';
 
 
-class InternshipOrganizerManagerPeriodComponent extends InternshipOrganizerManager
+class InternshipOrganizerManagerPeriodComponent extends InternshipOrganizerManager implements DelegateComponent
 {
 
     /**

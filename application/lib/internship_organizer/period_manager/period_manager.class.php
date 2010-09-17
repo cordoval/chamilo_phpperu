@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../period_menu.class.php';
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/period.class.php';
 
-class InternshipOrganizerPeriodManager extends SubManager
+class InternshipOrganizerPeriodManager extends SubManager 
 {
     
     const PARAM_ACTION = 'action';
@@ -56,11 +56,11 @@ class InternshipOrganizerPeriodManager extends SubManager
     function InternshipOrganizerPeriodManager($internship_manager)
     {
         parent :: __construct($internship_manager);
-        $action = Request :: get(self :: PARAM_ACTION);
-        if ($action)
-        {
-            $this->set_parameter(self :: PARAM_ACTION, $action);
-        }
+//        $action = Request :: get(self :: PARAM_ACTION);
+//        if ($action)
+//        {
+//            $this->set_parameter(self :: PARAM_ACTION, $action);
+//        }
     
     }
 

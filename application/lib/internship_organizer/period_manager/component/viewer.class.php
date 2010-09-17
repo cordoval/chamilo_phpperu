@@ -229,5 +229,9 @@ class InternshipOrganizerPeriodManagerViewerComponent extends InternshipOrganize
         return $this->period;
     }
 
+function get_additional_parameters()
+    {
+        return array(self  :: PARAM_PERIOD_ID);
+    }
 }
 ?>
