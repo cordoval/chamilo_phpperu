@@ -2,15 +2,15 @@
 
 /**
  * 
- * University of Geneva 
+ * @copyright (c) 2010 University of Geneva 
  * @author laurent.opprecht@unige.ch
  *
  */
 class AssessmentRatingQuestionSerializer extends QuestionSerializer{
 
-	public static function factory($question, $target_root, $manifest){
+	public static function factory($question, $target_root, $directory, $manifest, $toc){
 		if($question instanceof AssessmentRatingQuestion){
-			return new self($target_root, $manifest);
+			return new self($target_root, $directory, $manifest, $toc);
 		}else{
 			return null;
 		}
@@ -43,3 +43,4 @@ class AssessmentRatingQuestionSerializer extends QuestionSerializer{
 
 
 
+?>

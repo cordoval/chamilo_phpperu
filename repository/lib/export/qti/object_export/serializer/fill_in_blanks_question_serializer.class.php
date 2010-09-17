@@ -5,7 +5,7 @@
 /**
  * Serializer for fill in the blanks questions. 
  * 
- * University of Geneva 
+ * @copyright (c) 2010 University of Geneva 
  * @author laurent.opprecht@unige.ch
  *
  */
@@ -13,9 +13,9 @@ class FillInBlanksQuestionSerializer extends QuestionSerializer{
 	
 	const CLASS_DESCRIPTION = 'description';
 	
-	static function factory($question, $target_root, $manifest){
+	static function factory($question, $target_root, $directory, $manifest, $toc){
 		if($question instanceof FillInBlanksQuestion){
-			return new self($target_root, $manifest);
+			return new self($target_root, $directory, $manifest, $toc);
 		}else{
 			return null;
 		}
@@ -155,3 +155,4 @@ class FillInBlanksQuestionSerializer extends QuestionSerializer{
 
 
 
+?>

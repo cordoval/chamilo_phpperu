@@ -3,7 +3,7 @@
 /**
  * Base class for question serializers. 
  * 
- * University of Geneva 
+ * @copyright (c) 2010 University of Geneva 
  * @author laurent.opprecht@unige.ch
  *
  */
@@ -243,3 +243,4 @@ class QuestionSerializer extends SerializerBase{
 
 
 
+?>

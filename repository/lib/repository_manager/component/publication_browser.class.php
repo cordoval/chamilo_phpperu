@@ -37,7 +37,6 @@ class RepositoryManagerPublicationBrowserComponent extends RepositoryManager
         {
             $parameters[RepositoryManager :: PARAM_CONTENT_OBJECT_TYPE] = $types;
         }
-        
         $table = new PublicationBrowserTable($this, $parameters, $condition);
         return $table->as_html();
     }

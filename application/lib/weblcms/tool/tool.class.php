@@ -222,6 +222,7 @@ abstract class Tool extends SubManager
 
     function display_course_menus($tools, $show_introduction_text = false)
     {
+    	$shortcuts_visible = false;
         $menu_style = $this->get_course()->get_menu();
         if ($menu_style != CourseLayout :: MENU_OFF && count($tools) > 0)
         {

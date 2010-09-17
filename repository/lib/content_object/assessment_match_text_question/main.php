@@ -18,7 +18,7 @@ if(!function_exists('debug')){
 
 /**
  * Helper class used for debuging
- * University of Geneva 
+ * @copyright (c) 2010 University of Geneva 
  * @author nicolas.rod@unige.ch
  *
  */

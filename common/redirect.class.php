@@ -103,6 +103,7 @@ class Redirect
     static function get_url($parameters = array (), $filter = array(), $encode_entities = false)
     {
         $url = $_SERVER['PHP_SELF'];
+        $filter = is_array($filter) ? $filter : array($filter);
         
         if (count($filter) > 0)
         {

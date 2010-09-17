@@ -2,15 +2,15 @@
 
 /**
  * 
- * University of Geneva 
+ * @copyright (c) 2010 University of Geneva 
  * @author laurent.opprecht@unige.ch
  *
  */
 class SurveyRatingQuestionSerializer extends QuestionSerializer{
 
-	public static function factory($question, $target_root, $manifest){
+	public static function factory($question, $target_root, $directory, $manifest, $toc){
 		if($question instanceof SurveyRatingQuestion){
-			return new self($target_root, $manifest);
+			return new self($target_root, $directory, $manifest, $toc);
 		}else{
 			return null;
 		}
@@ -45,3 +45,4 @@ class SurveyRatingQuestionSerializer extends QuestionSerializer{
 
 
 
+?>

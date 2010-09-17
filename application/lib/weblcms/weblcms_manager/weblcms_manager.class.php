@@ -553,7 +553,7 @@ class WeblcmsManager extends WebApplication
             $sections = $wdm->retrieve_course_sections($condition);
             while ($section = $sections->next_result())
             {
-                $this->sections[$section->type][] = $section;
+                $this->sections[isset($section->type) ? $section->type : ''][] = $section;
             }
         }
     }

@@ -4,15 +4,15 @@ require_once Path::get_repository_path(). 'lib/content_object/assessment_matchin
 /**
  * Serializer for matching questions.
  * 
- * University of Geneva 
+ * @copyright (c) 2010 University of Geneva 
  * @author laurent.opprecht@unige.ch
  *
  */
 class SurveyMatchingQuestionSerializer extends QuestionSerializer{
 	
-	static function factory($question, $target_root, $manifest){
+	static function factory($question, $target_root, $directory, $manifest, $toc){
 		if($question instanceof SurveyMatchingQuestion){
-			return new self($target_root, $manifest);
+			return new self($target_root, $directory, $manifest, $toc);
 		}else{
 			return null;
 		}
@@ -68,3 +68,4 @@ class SurveyMatchingQuestionSerializer extends QuestionSerializer{
 
 
 
+?>
