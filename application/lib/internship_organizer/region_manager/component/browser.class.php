@@ -4,7 +4,11 @@ require_once dirname(__FILE__) . '/browser/browser_table.class.php';
 
 class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganizerRegionManager
 {
-    private $ab;
+    
+    const TAB_SUB_REGIONS = 'sr';
+    const TAB_DETAIL = 'dt';
+    
+    private $action_bar;
     private $region;
     private $parent_region;
     private $root_region;
@@ -15,24 +19,24 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
     function run()
     {
         
-    	if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-    	
-    	$trail = BreadcrumbTrail :: get_instance();
+        
+        $trail = BreadcrumbTrail :: get_instance();
         $trail->add_help('region general');
         
-        $this->ab = $this->get_action_bar();
+        $this->action_bar = $this->get_action_bar();
         
         $menu = $this->get_menu_html();
         $output = $this->get_browser_html();
         
         $this->display_header($trail);
-        echo $this->ab->as_html() . '<br />';
+        echo $this->action_bar->as_html() . '<br />';
         echo $menu;
         echo $output;
         $this->display_footer();
@@ -40,11 +44,25 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
 
     function get_browser_html()
     {
-        $table = new InternshipOrganizerRegionBrowserTable($this, $this->get_parameters(), $this->get_condition());
         
         $html = array();
         $html[] = '<div style="float: right; width: 80%;">';
-        $html[] = $table->as_html();
+        
+        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
+        $tabs = new DynamicTabsRenderer($renderer_name);
+        
+        $parameters = $this->get_parameters();
+        $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
+        
+        // Subregion table tab
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_SUB_REGIONS;
+        $table = new InternshipOrganizerRegionBrowserTable($this, $parameters, $this->get_condition());
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_SUB_REGIONS, Translation :: get('SubRegions'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
+        
+        $tabs->add_tab(new DynamicContentTab(self :: TAB_DETAIL, Translation :: get('Detail'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $this->get_region_info()));
+        
+        $html[] = $tabs->render();
+        
         $html[] = '</div>';
         $html[] = '<div class="clear"></div>';
         
@@ -62,27 +80,65 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
         return implode($html, "\n");
     }
 
+    function get_region_info()
+    {
+        
+        $region = $this->retrieve_region($this->get_region());
+        
+        $html = array();
+        
+        $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
+        
+        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        {
+            $toolbar->add_item(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_region_editing_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        }
+        if ($region->get_parent_id() != 0)
+        {
+            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+            {
+                $toolbar->add_item(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_region_delete_url($region), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            }
+        }
+        
+        $html[] = '<b>' . Translation :: get('ZipCode') . '</b>: ' . $region->get_zip_code() . '<br />';
+        $html[] = '<b>' . Translation :: get('City') . '</b>: ' . $region->get_city_name() . '<br />';
+        
+        $description = $region->get_description();
+        if ($description)
+        {
+            $html[] = '<b>' . Translation :: get('Description') . '</b>: ' . $description . '<br />';
+        }
+        
+        $html[] = '<br />';
+        $html[] = $toolbar->as_html();
+        
+        return implode("\n", $html);
+    }
+
     function get_region()
     {
         if (! $this->region)
         {
             $region_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
-            $region_parent_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID);
+            //            $region_parent_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID);
             
-            if (! $region_id && ! $region_parent_id)
+
+            if (! $region_id)
+            //            if (! $region_id && ! $region_parent_id)
             {
                 $this->region = $this->get_root_region()->get_id();
             }
             else
             {
-                if ($region_parent_id)
-                {
-                    $this->region = $region_parent_id;
-                }
-                else
-                {
-                    $this->region = $region_id;
-                }
+                //                if ($region_parent_id)
+                //                {
+                //                    $this->region = $region_parent_id;
+                //                }
+                //                else
+                //                {
+                $this->region = $region_id;
+                //                }
             }
         
         }
@@ -104,7 +160,7 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
     {
         $condition = new EqualityCondition(InternshipOrganizerRegion :: PROPERTY_PARENT_ID, $this->get_region());
         
-        $query = $this->ab->get_query();
+        $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
             $or_conditions = array();
@@ -132,11 +188,12 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
         
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerRegion'), Theme :: get_common_image_path() . 'action_create.png', $this->get_region_create_url($this->get_region()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+            $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerRegion'), Theme :: get_common_image_path() . 'action_create.png', $this->get_region_create_url($this->get_region()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-      
-//        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_browse_regions_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-      
+        
+        //        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_browse_regions_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        
+
         return $action_bar;
     }
 }

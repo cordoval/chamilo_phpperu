@@ -26,17 +26,14 @@ class InternshipOrganizerCategoryManagerEditorComponent extends InternshipOrgani
         if ($id)
         {
             $category = $this->retrieve_category($id);
-            //$trail->add(new Breadcrumb($this->get_category_viewing_url($category), $category->get_name()));
-            //$trail->add(new Breadcrumb($this->get_category_editing_url($category), Translation :: get('UpdateInternshipOrganizerCategory') . ' ' . $category->get_name()));
-            
-
+        
             $form = new InternshipOrganizerCategoryForm(InternshipOrganizerCategoryForm :: TYPE_EDIT, $category, $this->get_category_editing_url($category), $this->get_user());
             
             if ($form->validate())
             {
                 $success = $form->update_category();
                 $category = $form->get_category();
-                $this->redirect(Translation :: get($success ? 'InternshipOrganizerCategoryUpdated' : 'InternshipOrganizerCategoryNotUpdated'), ($success ? false : true), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $category->get_id()));
+                $this->redirect(Translation :: get($success ? 'InternshipOrganizerCategoryUpdated' : 'InternshipOrganizerCategoryNotUpdated'), ($success ? false : true), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $category->get_id()));
             }
             else
             {

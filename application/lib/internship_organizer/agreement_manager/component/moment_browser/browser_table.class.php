@@ -23,7 +23,7 @@ class InternshipOrganizerMomentBrowserTable extends ObjectTable
 
         $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
         
-//        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: DELETE_MOMENT_RIGHT, $browser->get_moment()->get_id(), InternshipOrganizerRights :: TYPE_MOMENT))
+//        if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $browser->get_moment()->get_id(), InternshipOrganizerRights :: TYPE_MOMENT))
 //        {
             $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerAgreementManager :: ACTION_DELETE_MOMENT, Translation :: get('Delete')));
 //        }

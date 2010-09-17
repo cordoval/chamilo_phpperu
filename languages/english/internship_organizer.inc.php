@@ -122,6 +122,7 @@ $lang['internship_organizer']['SelectedInternshipOrganizerCategoriesNotEmptied']
 $lang['internship_organizer']['SelectedInternshipOrganizerCategoryEmptied'] = 'Category Emptied';
 $lang['internship_organizer']['SelectedInternshipOrganizerCategoriesEmptied'] = 'Categories Emptied';
 $lang['internship_organizer']['ViewInternshipOrganizerCategory'] = 'View Category';
+$lang['internship_organizer']['SubCategories'] = 'Sub Categories';
 
 $lang['internship_organizer']['AddInternshipOrganizerLocation'] = 'Add Location'; //Hang aan ander object
 $lang['internship_organizer']['CreateInternshipOrganizerLocation'] = 'Create Location';
@@ -251,6 +252,9 @@ $lang['internship_organizer']['SelectedInternshipOrganizerRegionsNotDeleted'] = 
 $lang['internship_organizer']['SelectedInternshipOrganizerRegionDeleted'] = 'Selected Region Deleted';
 $lang['internship_organizer']['SelectedInternshipOrganizerRegionsDeleted'] = 'Selected Regions Deleted';
 $lang['internship_organizer']['NoInternshipOrganizerRegionsSelected'] = 'No Regions Selected';
+$lang['internship_organizer']['SubRegions'] = 'Sub Regions';
+
+
 
 $lang['internship_organizer']['DeleteConfirm'] = 'Are you sure you want to delete these items?';
 $lang['internship_organizer']['Firstname'] = 'Firstname';

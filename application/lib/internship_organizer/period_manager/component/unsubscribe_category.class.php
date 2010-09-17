@@ -27,9 +27,8 @@ class InternshipOrganizerPeriodManagerUnsubscribeCategoryComponent extends Inter
                 $category_rel_period_ids = explode('|', $id);
                 
                 $period_id = $category_rel_period_ids[1];
-                $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
                 
-                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: UNSUBSCRIBE_CATEGORY_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_CATEGORY_RIGHT, $period_id, InternshipOrganizerRights :: TYPE_PERIOD))
                 {
                     
                     $category_rel_period = InternshipOrganizerDataManager :: get_instance()->retrieve_category_rel_period($category_rel_period_ids[0], $category_rel_period_ids[1]);

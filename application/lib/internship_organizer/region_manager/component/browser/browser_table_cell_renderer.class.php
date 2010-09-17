@@ -41,7 +41,7 @@ class InternshipOrganizerRegionBrowserTableCellRenderer extends DefaultInternshi
                 {
                     $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
                 }
-                return '<a href="' . htmlentities($this->browser->get_region_viewing_url($region)) . '" title="' . $title . '">' . $title_short . '</a>';
+                return '<a href="' . htmlentities($this->browser->get_browse_regions_url($region)) . '" title="' . $title . '">' . $title_short . '</a>';
             case InternshipOrganizerRegion :: PROPERTY_DESCRIPTION :
                 $description = strip_tags(parent :: render_cell($column, $region));
                 return Utilities :: truncate_string($description);

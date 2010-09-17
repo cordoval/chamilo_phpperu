@@ -21,7 +21,7 @@ class InternshipOrganizerPeriodAgreementUserBrowserTable extends ObjectTable
         $actions = new ObjectTableFormActions(InternshipOrganizerPeriodManager :: PARAM_ACTION);
         if ($user_type != InternshipOrganizerUserType :: STUDENT)
         {
-            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT, $browser->get_period()->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_AGREEMENT_USER_RIGHT, $browser->get_period()->get_id(), InternshipOrganizerRights :: TYPE_PERIOD))
             {
                 $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerPeriodManager :: ACTION_UNSUBSCRIBE_AGREEMENT_REL_USER, Translation :: get('UnsubscribeInternshipOrganizerAgreementRelUser')));
             }

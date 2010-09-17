@@ -27,9 +27,8 @@ class InternshipOrganizerPeriodManagerUnsubscribeGroupComponent extends Internsh
                 $period_rel_group_ids = explode('|', $id);
                 
                 $period_id = $period_rel_group_ids[0];
-                $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
                 
-                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: UNSUBSCRIBE_GROUP_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
+                if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_GROUP_RIGHT, $period_id, InternshipOrganizerRights :: TYPE_PERIOD))
                 {
                     
                     $period_rel_group = InternshipOrganizerDataManager :: get_instance()->retrieve_period_rel_group($period_rel_group_ids[0], $period_rel_group_ids[1], $period_rel_group_ids[2]);

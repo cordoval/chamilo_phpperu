@@ -20,18 +20,13 @@ class InternshipOrganizerCategoryManager extends SubManager
     const PARAM_CATEGORY_ID = 'category_id';
     const PARAM_CATEGORY_REL_LOCATION_ID = 'category_rel_location_id';
     const PARAM_LOCATION_ID = 'location_id';
-    const PARAM_REMOVE_SELECTED = 'delete';
-    const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
-    //    const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
-    const PARAM_TRUNCATE_SELECTED = 'truncate';
-    
+       
     const ACTION_CREATE_CATEGORY = 'creator';
     const ACTION_BROWSE_CATEGORIES = 'browser';
     const ACTION_EDIT_CATEGORY = 'editor';
     const ACTION_DELETE_CATEGORY = 'deleter';
     const ACTION_MOVE_CATEGORY = 'mover';
     const ACTION_TRUNCATE_CATEGORY = 'truncater';
-    const ACTION_VIEW_CATEGORY = 'viewer';
     const ACTION_SUBSCRIBE_LOCATION_TO_CATEGORY = 'subscriber';
     const ACTION_SUBSCRIBE_LOCATION_BROWSER = 'subscribe_location_browser';
     const ACTION_UNSUBSCRIBE_LOCATION_FROM_CATEGORY = 'unsubscriber';
@@ -119,11 +114,6 @@ class InternshipOrganizerCategoryManager extends SubManager
     function get_category_emptying_url($category)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TRUNCATE_CATEGORY, self :: PARAM_CATEGORY_ID => $category->get_id()));
-    }
-
-    function get_category_viewing_url($category)
-    {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_CATEGORY, self :: PARAM_CATEGORY_ID => $category->get_id()));
     }
 
     function get_category_rel_location_unsubscribing_url($categoryrellocation)

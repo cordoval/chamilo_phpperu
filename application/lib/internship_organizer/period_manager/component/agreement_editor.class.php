@@ -14,22 +14,20 @@ class InternshipOrganizerPeriodManagerAgreementUpdaterComponent extends Internsh
         
         $agreement = InternshipOrganizerDataManager :: get_instance()->retrieve_agreement(Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID));
         
-        $period_id = $agreement->get_period_id();
         
-        $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
         
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: EDIT_AGREEMENT_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-        
-        $period = InternshipOrganizerDataManager :: get_instance()->retrieve_period($period_id);
-        
+                     
         $trail = BreadcrumbTrail :: get_instance();
-     
+     	
+        $period_id = $agreement->get_period_id();
+        
         $form = new InternshipOrganizerAgreementForm(InternshipOrganizerAgreementForm :: TYPE_EDIT, $agreement, $this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement->get_id())), $this->get_user());
         
         if ($form->validate())

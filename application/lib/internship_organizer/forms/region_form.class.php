@@ -8,7 +8,7 @@ class InternshipOrganizerRegionForm extends FormValidator
     const RESULT_SUCCESS = 'InternshipOrganizerRegionUpdated';
     const RESULT_ERROR = 'InternshipOrganizerRegionUpdateFailed';
     
-    private $parent;
+   
     private $region;
     private $user;
 
@@ -49,8 +49,7 @@ class InternshipOrganizerRegionForm extends FormValidator
     function build_editing_form()
     {
         $region = $this->region;
-        $parent = $this->parent;
-        
+       
         $this->build_basic_form();
         
         $this->addElement('hidden', InternshipOrganizerRegion :: PROPERTY_ID);

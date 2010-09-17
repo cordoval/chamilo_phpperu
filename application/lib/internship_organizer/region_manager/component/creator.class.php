@@ -23,8 +23,8 @@ class InternshipOrganizerRegionManagerCreatorComponent extends InternshipOrganiz
         $trail->add_help('region general');
         
         $region = new InternshipOrganizerRegion();
-        $region->set_parent_id(Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID));
-        $form = new InternshipOrganizerRegionForm(InternshipOrganizerRegionForm :: TYPE_CREATE, $region, $this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID))), $this->get_user());
+        $region->set_parent_id($region_id);
+        $form = new InternshipOrganizerRegionForm(InternshipOrganizerRegionForm :: TYPE_CREATE, $region, $this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region_id)), $this->get_user());
         
         if ($form->validate())
         {
@@ -32,11 +32,11 @@ class InternshipOrganizerRegionManagerCreatorComponent extends InternshipOrganiz
             if ($success)
             {
                 $region = $form->get_region();
-                $this->redirect(Translation :: get('InternshipOrganizerRegionCreated'), (false), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_VIEW_REGION, InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region->get_id(), InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $region->get_parent_id()));
+                $this->redirect(Translation :: get('InternshipOrganizerRegionCreated'), (false), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS, InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region->get_id()));
             }
             else
             {
-                $this->redirect(Translation :: get('InternshipOrganizerRegionNotCreated'), (true), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS));
+                $this->redirect(Translation :: get('InternshipOrganizerRegionNotCreated'), (true), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS, InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region_id));
             }
         }
         else

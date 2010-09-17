@@ -3,7 +3,7 @@
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/forms/agreement_form.class.php';
 
-class InternshipOrganizerAgreementManagerUpdaterComponent extends InternshipOrganizerAgreementManager
+class InternshipOrganizerAgreementManagerEditorComponent extends InternshipOrganizerAgreementManager
 {
 
     /**
@@ -16,7 +16,7 @@ class InternshipOrganizerAgreementManagerUpdaterComponent extends InternshipOrga
         
         $agreement = $this->retrieve_agreement(Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID));
         
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: EDIT_AGREEMENT_RIGHT, $agreement, InternshipOrganizerRights :: TYPE_AGREEMENT))
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, $agreement->get_id(), InternshipOrganizerRights :: TYPE_AGREEMENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));

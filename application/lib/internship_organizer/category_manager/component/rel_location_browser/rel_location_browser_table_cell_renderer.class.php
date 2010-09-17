@@ -58,7 +58,7 @@ class InternshipOrganizerCategoryRelLocationBrowserTableCellRenderer extends Def
 
     function render_id_cell($categoryrellocation)
     {
-        return $categoryrellocation->get_location_id();
+        return $categoryrellocation->get_category_id().'|'.$categoryrellocation->get_location_id();
     }
 
 }

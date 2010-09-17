@@ -1,10 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/../period_manager.class.php';
-//require_once dirname(__FILE__) . '/browser/browser_table.class.php';
-//require_once dirname(__FILE__) . '/rel_user_browser/rel_user_browser_table.class.php';
-//require_once dirname(__FILE__) . '/rel_group_browser/rel_group_browser_table.class.php';
-//require_once dirname(__FILE__) . '/rel_category_browser/rel_category_browser_table.class.php';
-
 
 class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganizerPeriodManager
 {

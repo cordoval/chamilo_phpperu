@@ -38,7 +38,7 @@ class InternshipOrganizerPeriodAgreementUserBrowserTableCellRenderer extends Def
         $toolbar = new Toolbar();
         if ($this->user_type != InternshipOrganizerUserType :: STUDENT)
         {
-            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT, $this->browser->get_agreement()->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
+            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_AGREEMENT_USER_RIGHT, $this->browser->get_agreement()->get_period_id(), InternshipOrganizerRights :: TYPE_PERIOD))
             {
                 $toolbar->add_item(new ToolbarItem(Translation :: get('Unsubscribe'), Theme :: get_common_image_path() . 'action_delete.png', $this->browser->get_unsubscribe_agreement_rel_user_url($this->browser->get_agreement(), $user, $this->user_type), ToolbarItem :: DISPLAY_ICON, true));
             }

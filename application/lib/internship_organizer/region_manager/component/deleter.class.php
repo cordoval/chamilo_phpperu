@@ -34,7 +34,7 @@ class InternshipOrganizerRegionManagerDeleterComponent extends InternshipOrganiz
             foreach ($ids as $id)
             {
                 $region = $this->retrieve_region($id);
-                $parent_id = $this->get_parent();
+               
                 if (! $region->delete())
                 {
                     $failures ++;
@@ -67,8 +67,7 @@ class InternshipOrganizerRegionManagerDeleterComponent extends InternshipOrganiz
                     $message = 'SelectedInternshipOrganizerRegionsDeleted';
                 }
             }
-            //$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS));
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS, InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID => $region->get_parent_id()));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerRegionManager :: PARAM_ACTION => InternshipOrganizerRegionManager :: ACTION_BROWSE_REGIONS, InternshipOrganizerRegionManager :: PARAM_REGION_ID => $region->get_parent_id()));
         }
         else
         {

@@ -17,8 +17,6 @@ require_once dirname(__FILE__) . '/../agreement_rel_user.class.php';
 require_once dirname(__FILE__) . '/../agreement_rel_mentor.class.php';
 
 require_once dirname(__FILE__) . '/../publication.class.php';
-//require_once dirname(__FILE__) . '/../publication_group.class.php';
-//require_once dirname(__FILE__) . '/../publication_user.class.php';
 require_once dirname(__FILE__) . '/../publication_place.class.php';
 require_once dirname(__FILE__) . '/../publication_type.class.php';
 require_once dirname(__FILE__) . '/../publication_place.class.php';

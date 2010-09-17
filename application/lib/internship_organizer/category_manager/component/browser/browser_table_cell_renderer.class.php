@@ -41,7 +41,7 @@ class InternshipOrganizerCategoryBrowserTableCellRenderer extends DefaultInterns
                 {
                     $title_short = mb_substr($title_short, 0, 50) . '&hellip;';
                 }
-                return '<a href="' . htmlentities($this->browser->get_category_viewing_url($category)) . '" title="' . $title . '">' . $title_short . '</a>';
+                return '<a href="' . htmlentities($this->browser->get_browse_categories_url($category)) . '" title="' . $title . '">' . $title_short . '</a>';
             case InternshipOrganizerCategory :: PROPERTY_DESCRIPTION :
                 $description = strip_tags(parent :: render_cell($column, $category));
                 //				if(strlen($description) > 175)

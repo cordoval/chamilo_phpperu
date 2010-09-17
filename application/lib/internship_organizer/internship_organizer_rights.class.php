@@ -18,39 +18,30 @@ class InternshipOrganizerRights
     const ADD_AGREEMENT_RIGHT = '6';
     const ADD_AGREEMENT_NAME = 'add_agreement';
 
-//    const EDIT_AGREEMENT_RIGHT = '8';
-//    const EDIT_AGREEMENT_NAME = 'edit_agreement';
-    const SUBSCRIBE_CATEGORY_RIGHT = '9';
+    const SUBSCRIBE_CATEGORY_RIGHT = '7';
     const SUBSCRIBE_CATEGORY_NAME = 'subscribe_category';
-    const UNSUBSCRIBE_CATEGORY_RIGHT = '10';
-    const UNSUBSCRIBE_CATEGORY_NAME = 'unsubscribe_category';
-    const SUBSCRIBE_GROUP_RIGHT = '11';
+
+    const SUBSCRIBE_GROUP_RIGHT = '8';
     const SUBSCRIBE_GROUP_NAME = 'subscribe_group';
-    const UNSUBSCRIBE_GROUP_RIGHT = '12';
-    const UNSUBSCRIBE_GROUP_NAME = 'unsubscribe_group';
-    const SUBSCRIBE_USER_RIGHT = '13';
+
+    const SUBSCRIBE_USER_RIGHT = '9';
     const SUBSCRIBE_USER_NAME = 'subscribe_user';
-    const UNSUBSCRIBE_USER_RIGHT = '14';
-    const UNSUBSCRIBE_USER_NAME = 'unsubscribe_user';
-    const SUBSCRIBE_AGREEMENT_USER_RIGHT = '16';
+  
+    const SUBSCRIBE_AGREEMENT_USER_RIGHT = '10';
     const SUBSCRIBE_AGREEMENT_USER_NAME = 'subscribe_agreement_user';
-    const UNSUBSCRIBE_AGREEMENT_USER_RIGHT = '17';
-    const UNSUBSCRIBE_AGREEMENT_USER_NAME = 'unsubscribe_agreement_user';
-    const ADD_LOCATION_RIGHT = '18';
+
+    const ADD_LOCATION_RIGHT = '11';
     const ADD_LOCATION_NAME = 'add_location';
-    const APPROVE_LOCATION_RIGHT = '19';
-    const APPROVE_LOCATION_NAME = 'approve_location';
-    const ADD_MENTOR_RIGHT = '20';
-    const ADD_MENTOR_NAME = 'add_mentor';
-    const ADD_MOMENT_RIGHT = '21';
-    const ADD_MOMENT_NAME = 'add_moment';
-    const VIEW_MOMENT_RIGHT = '23';
-    const VIEW_MOMENT_NAME = 'view_moment';
-    const DELETE_MOMENT_RIGHT = '24';
-    const DELETE_MOMENT_NAME = 'delete_moment';
-    const EDIT_MOMENT_RIGHT = '25';
-    const EDIT_MOMENT_NAME = 'edit_moment';
     
+    const APPROVE_LOCATION_RIGHT = '12';
+    const APPROVE_LOCATION_NAME = 'approve_location';
+    
+    const ADD_MENTOR_RIGHT = '13';
+    const ADD_MENTOR_NAME = 'add_mentor';
+    
+    const ADD_MOMENT_RIGHT = '14';
+    const ADD_MOMENT_NAME = 'add_moment';
+       
     const LOCATION_AGREEMENT = 1;
     const LOCATION_CATEGORY = 2;
     const LOCATION_ORGANISATION = 3;
@@ -73,7 +64,7 @@ class InternshipOrganizerRights
 
     static function get_available_rights_for_periods()
     {
-        return array(self :: RIGHT_PUBLISH_NAME => self :: RIGHT_PUBLISH, self :: ADD_AGREEMENT_NAME => self :: ADD_AGREEMENT_RIGHT, self :: DELETE_AGREEMENT_NAME => self :: DELETE_AGREEMENT_RIGHT, self :: EDIT_AGREEMENT_NAME => self :: EDIT_AGREEMENT_RIGHT, self :: SUBSCRIBE_AGREEMENT_USER_NAME => self :: SUBSCRIBE_AGREEMENT_USER_RIGHT, self :: UNSUBSCRIBE_AGREEMENT_USER_NAME => self :: UNSUBSCRIBE_AGREEMENT_USER_RIGHT, self :: SUBSCRIBE_CATEGORY_NAME => self :: SUBSCRIBE_CATEGORY_RIGHT, self :: UNSUBSCRIBE_CATEGORY_NAME => self :: UNSUBSCRIBE_CATEGORY_RIGHT, self :: SUBSCRIBE_GROUP_NAME => self :: SUBSCRIBE_GROUP_RIGHT, self :: UNSUBSCRIBE_GROUP_NAME => self :: UNSUBSCRIBE_GROUP_RIGHT, self :: SUBSCRIBE_USER_NAME => self :: SUBSCRIBE_USER_RIGHT, self :: UNSUBSCRIBE_USER_NAME => self :: UNSUBSCRIBE_USER_RIGHT);
+        return array(self :: RIGHT_PUBLISH_NAME => self :: RIGHT_PUBLISH, self :: ADD_AGREEMENT_NAME => self :: ADD_AGREEMENT_RIGHT, self :: SUBSCRIBE_AGREEMENT_USER_NAME => self :: SUBSCRIBE_AGREEMENT_USER_RIGHT, self :: SUBSCRIBE_CATEGORY_NAME => self :: SUBSCRIBE_CATEGORY_RIGHT, self :: SUBSCRIBE_GROUP_NAME => self :: SUBSCRIBE_GROUP_RIGHT, self :: SUBSCRIBE_USER_NAME => self :: SUBSCRIBE_USER_RIGHT);
     }
 
     static function get_available_rights_for_agreements()
@@ -110,7 +101,6 @@ class InternshipOrganizerRights
     {
         return RightsUtilities :: get_location_by_identifier(InternshipOrganizerManager :: APPLICATION_NAME, $type, $identifier, 0, self :: TREE_TYPE_INTERNSHIP_ORGANIZER);
     }
-
     static function is_allowed_in_internship_organizers_subtree($right, $identifier, $type, $user_id = null)
     {
         return RightsUtilities :: is_allowed($right, $identifier, $type, InternshipOrganizerManager :: APPLICATION_NAME, $user_id, 0, self :: TREE_TYPE_INTERNSHIP_ORGANIZER);

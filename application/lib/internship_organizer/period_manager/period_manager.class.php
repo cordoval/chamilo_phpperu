@@ -32,7 +32,7 @@ class InternshipOrganizerPeriodManager extends SubManager
     
     const ACTION_CREATE_AGREEMENT = 'agreement_creator';
     const ACTION_DELETE_AGREEMENT = 'agreement_deleter';
-    const ACTION_UPDATE_AGREEMENT = 'agreement_updater';
+    const ACTION_UPDATE_AGREEMENT = 'agreement_editor';
     const ACTION_VIEW_AGREEMENT = 'agreement_viewer';
     
     const ACTION_VIEW_PUBLICATION = 'publication_viewer';

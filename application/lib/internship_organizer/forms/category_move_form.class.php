@@ -29,8 +29,17 @@ class InternshipOrganizerCategoryMoveForm extends FormValidator
     function move_category()
     {
         $new_parent = $this->exportValue(self :: PROPERTY_LOCATION);
-        $this->category->set_parent_id($new_parent);
-        return $this->category->update();
+        
+        if ($new_parent != $this->category->get_id())
+        {
+            $this->category->set_parent_id($new_parent);
+            return $this->category->update();
+        }
+        else
+        {
+            return false;
+        }
+    
     }
 
     function get_new_parent()

@@ -32,7 +32,7 @@ class InternshipOrganizerCategoryManagerCreatorComponent extends InternshipOrgan
             if ($success)
             {
                 $category = $form->get_category();
-                $this->redirect(Translation :: get('InternshipOrganizerCategoryCreated'), (false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_VIEW_CATEGORY, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $category->get_id()));
+                $this->redirect(Translation :: get('InternshipOrganizerCategoryCreated'), (false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $category->get_id()));
             }
             else
             {

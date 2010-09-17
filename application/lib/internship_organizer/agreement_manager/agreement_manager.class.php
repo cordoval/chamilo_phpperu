@@ -22,7 +22,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     
     const ACTION_CREATE_AGREEMENT = 'creator';
     const ACTION_BROWSE_AGREEMENT = 'browser';
-    const ACTION_UPDATE_AGREEMENT = 'updater';
+    const ACTION_UPDATE_AGREEMENT = 'editor';
     const ACTION_EDIT_AGREEMENT_RIGHTS = 'rights_editor';
     const ACTION_DELETE_AGREEMENT = 'deleter';
     const ACTION_VIEW_AGREEMENT = 'viewer';
@@ -37,7 +37,7 @@ class InternshipOrganizerAgreementManager extends SubManager
     
     const ACTION_CREATE_MOMENT = 'moment_creator';
     const ACTION_BROWSE_MOMENTS = 'moment_browser';
-    const ACTION_EDIT_MOMENT = 'moment_updater';
+    const ACTION_EDIT_MOMENT = 'moment_editor';
     const ACTION_EDIT_MOMENT_RIGHTS = 'moment_rights_editor';
     const ACTION_DELETE_MOMENT = 'moment_deleter';
     const ACTION_VIEW_MOMENT = 'moment_viewer';
