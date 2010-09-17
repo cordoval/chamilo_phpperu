@@ -18,10 +18,6 @@ class WikiManagerWikiPublicationUpdaterComponent extends WikiManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('Wiki')));
-        $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_WIKI_PUBLICATION => Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION))), Translation :: get('UpdateWikiPublication')));
-        
         $wiki_publication = $this->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         
         $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $wiki_publication->get_content_object(), 'edit', 'post', $this->get_url(array(WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id())));
@@ -39,17 +35,28 @@ class WikiManagerWikiPublicationUpdaterComponent extends WikiManager
             }
             else
             {
-            	$this->display_header($trail);
+            	$this->display_header();
                 $pub_form->display();
             }
         
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
         }
         $this->display_footer();
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('wiki_publication_updater');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('WikiManagerWikiPublicationsBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_WIKI_PUBLICATION);
     }
 }
 ?>

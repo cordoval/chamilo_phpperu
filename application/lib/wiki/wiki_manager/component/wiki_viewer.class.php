@@ -37,6 +37,17 @@ class WikiManagerWikiViewerComponent extends WikiManager
     {
         return $this->publication;
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('wiki_publication_viewer');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('WikiManagerWikiPublicationsBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_WIKI_PUBLICATION);
+    }
 
 }
 ?>

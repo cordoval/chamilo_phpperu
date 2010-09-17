@@ -15,9 +15,6 @@ class WikiManagerWikiEvaluationComponent extends WikiManager implements Evaluati
             $this->publication_id = $wiki_publication->get_id();
             $this->publisher_id = $wiki_publication->get_publisher();
             
-            BreadcrumbTrail :: get_instance()->add(new Breadcrumb($this->get_url(array(EvaluationManager :: PARAM_EVALUATION_ACTION => EvaluationManager :: ACTION_BROWSE, WikiManager :: PARAM_WIKI_PUBLICATION => $publication_id)), Translation :: get('BrowseEvaluationsOf') . ' ' . $wiki_publication->get_content_object()->get_title()));
-            $this->set_parameter(WikiManager :: PARAM_WIKI_PUBLICATION, $this->publication_id);
-            
             EvaluationManager :: launch($this);
         }
         else
@@ -34,6 +31,17 @@ class WikiManagerWikiEvaluationComponent extends WikiManager implements Evaluati
     function get_publisher_id()
     {
         return $this->publisher_id;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('wiki_publication_evaluation');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('WikiManagerWikiPublicationsBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_WIKI_PUBLICATION);
     }
 }
 ?>

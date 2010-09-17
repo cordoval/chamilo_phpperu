@@ -78,5 +78,16 @@ class WikiManagerWikiPublicationDeleterComponent extends WikiManager
             $this->display_error_page(htmlentities(Translation :: get('NoWikiPublicationsSelected')));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('wiki_publications_browser');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('WikiManagerWikiPublicationsBrowserComponent')));
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_WIKI_PUBLICATION);
+    }
 }
 ?>

@@ -18,7 +18,6 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchPortal')));
         
         $query = trim(Request :: get('query'));
         
@@ -27,7 +26,7 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
             $trail->add(new Breadcrumb($this->get_url(array('query' => Request :: get('query'), 'submit' => 'Search')), Translation :: get('SearchResultsFor') . ' ' . $query));
         }
             
-        $this->display_header($trail);
+        $this->display_header();
         
         $form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
         
@@ -158,6 +157,11 @@ class SearchPortalManagerSearcherComponent extends SearchPortalManager
         $params['perPage'] = $per_page;
         $params['totalItems'] = $total;
         return Pager :: factory($params);
+    }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('search_portal_searcher');
     }
 
 }

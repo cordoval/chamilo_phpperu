@@ -19,10 +19,6 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager implements 
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('Wiki')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishWiki')));
-
         /*
          *  We make use of the ContentObjectRepoViewer setting the type to wiki
          */
@@ -61,7 +57,7 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager implements 
             }
             else
             {
-                $this->display_header($trail, true);
+                $this->display_header(null, true);
                 $form->display();
                 $this->display_footer();
             }
@@ -71,6 +67,12 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManager implements 
     function get_allowed_content_object_types()
     {
         return array(Wiki :: get_type_name());
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('wiki_publication_creator');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('WikiManagerWikiPublicationsBrowserComponent')));
     }
 }
 ?>
