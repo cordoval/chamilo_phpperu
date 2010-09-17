@@ -23,16 +23,10 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManager
 		$language_pack_id = Request :: get(CdaManager :: PARAM_LANGUAGE_PACK);
 		$language_pack = CdaDataManager :: get_instance()->retrieve_language_pack($language_pack_id);
 		
-		$trail = BreadcrumbTrail :: get_instance();
-		$trail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('Cda')));
-		$trail->add(new Breadcrumb($this->get_browse_language_packs_url($language_id), CdaDataManager :: get_instance()->retrieve_cda_language($language_id)->get_original_name()));
-		$trail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_CDA_LANGUAGE => $language_id, CdaManager :: PARAM_LANGUAGE_PACK => $language_pack_id)), $language_pack->get_branch_name() . ' - ' . $language_pack->get_name()));
-//		$trail->add(new Breadcrumb('#', Translation :: get('BrowseVariableTranslations')));
-
 		$this->action_bar = $this->get_action_bar();
 		$this->form = new VariableTranslationBrowserFilterForm($this, $this->get_browse_variable_translations_url($language_id, $language_pack_id));
 		
-		$this->display_header($trail);
+		$this->display_header();
 		echo '<a name="top"></a>';
         echo $this->action_bar->as_html() . '';
         echo '<div id="action_bar_browser">';
@@ -117,6 +111,18 @@ class CdaManagerVariableTranslationsBrowserComponent extends CdaManager
         }
         
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(CdaManager :: PARAM_ACTION => CdaManager :: ACTION_BROWSE_LANGUAGE_PACKS, CdaManager :: PARAM_CDA_LANGUAGE => Request :: get(self :: PARAM_CDA_LANGUAGE))), Translation :: get('CdaManagerLanguagePacksBrowserComponent')));
+    	$breadcrumbtrail->add_help('cda_variable_translations_browser');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(CdaManager :: PARAM_CDA_LANGUAGE, CdaManager :: PARAM_LANGUAGE_PACK);
     }
 
 }

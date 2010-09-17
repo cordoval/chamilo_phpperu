@@ -60,6 +60,11 @@ class CdaManagerVariableTranslationsSearcherComponent extends CdaManager
 		return new EqualityCondition(VariableTranslation :: PROPERTY_LANGUAGE_ID, 0);
 	}
 
+	function add_additional_breadcrumbs(BreacrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_browse_cda_languages_url(), Translation :: get('CdaManagerCdaLanguagesBrowserComponent')));
+    	$breadcrumbtrail->add_help('variable_translations_searcher');
+    }
 
 }
 ?>
