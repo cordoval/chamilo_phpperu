@@ -55,8 +55,20 @@ class DatabaseUserDataManager extends Database implements UserDataManagerInterfa
 	{
 		// @Todo: review the user's objects on deletion
 		// (currently: when the user is deleted, the user's objects remain, and refer to an invalid user)
-		$condition = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
-		return $this->delete($user->get_table_name(), $condition);
+
+                $user_id = $user->get_id();
+		$condition = new EqualityCondition(User :: PROPERTY_ID, $user_id);
+		$is_user_deleted = $this->delete($user->get_table_name(), $condition);
+                if($is_user_deleted)
+                {
+                    $group_data_manager = GroupDataManager :: get_instance();
+                    $group_rel_user_condition = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id);
+                    return $group_data_manager->delete(GroupRelUser::get_table_name(), $group_rel_user_condition);
+                }
+                else
+                {
+                    return false;
+                }
 	}
 
 	function delete_user_rights_templates($condition)
