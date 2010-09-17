@@ -221,24 +221,42 @@ class RepositoryInstaller extends Installer
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Matterhorn');
         }
         
-    	// Adding the DropIo Manager
-        $drop_io = new ExternalRepository();
-        $drop_io->set_title('DropIo');
-        $drop_io->set_type('drop_io');
-        $drop_io->set_description(Translation :: get('DropIoTagline'));
-        $drop_io->set_enabled(true);
-        $drop_io->set_creation_date(time());
-        $drop_io->set_modification_date(time());
-        if (! $drop_io->create())
+    	// Adding the Photobucket Manager
+        $youtube = new ExternalRepository();
+        $youtube->set_title('Photobucket');
+        $youtube->set_type('photobucket');
+        $youtube->set_description(Translation :: get('PhotobucketTagline'));
+        $youtube->set_enabled(true);
+        $youtube->set_creation_date(time());
+        $youtube->set_modification_date(time());
+        if (! $youtube->create())
         {
-            $this->add_message(self :: TYPE_ERROR, Translation :: get('ExternalRepositoryManagerNotAdded') . ': DropIo');
+            $this->add_message(self :: TYPE_ERROR, Translation :: get('ExternalRepositoryManagerNotAdded') . ': Photobucket');
             return false;
         }
         else
         {
-            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': DropIo');
+            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': Photobucket');
         }
         
+    	// Adding the DropIo Manager
+//        $drop_io = new ExternalRepository();
+//        $drop_io->set_title('DropIo');
+//        $drop_io->set_type('drop_io');
+//        $drop_io->set_description(Translation :: get('DropIoTagline'));
+//        $drop_io->set_enabled(true);
+//        $drop_io->set_creation_date(time());
+//        $drop_io->set_modification_date(time());
+//        if (! $drop_io->create())
+//        {
+//            $this->add_message(self :: TYPE_ERROR, Translation :: get('ExternalRepositoryManagerNotAdded') . ': DropIo');
+//            return false;
+//        }
+//        else
+//        {
+//            $this->add_message(self :: TYPE_NORMAL, Translation :: get('ExternalRepositoryManagerAdded') . ': DropIo');
+//        }
+//        
         return true;
     }
 }

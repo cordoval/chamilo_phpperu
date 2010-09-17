@@ -324,9 +324,6 @@ class GalleryObjectTable
         $table_data = array();
         $row = array();
         $i = 0;
-        dump('ici');
-        dump($objects);
-        dump('after');
         while ($object = $objects->next_result())
         {
             if ($i >= $column_count)
