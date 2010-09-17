@@ -188,7 +188,7 @@ class DatabaseForumDataManager extends Database implements ForumDataManagerInter
             $info->set_application(ForumManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('Forum'));
-            $info->set_url('run.php?application=forum&go=view_forum_publications&publication_id=' . $record[ForumPublication :: PROPERTY_ID]);
+            $info->set_url('run.php?application=forum&go='.ForumManager::ACTION_VIEW.'&publication_id=' . $record[ForumPublication :: PROPERTY_ID]);
             $info->set_publication_object_id($record[ForumPublication :: PROPERTY_FORUM_ID]);
 
             $publication_attr[] = $info;

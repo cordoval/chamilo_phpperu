@@ -167,7 +167,7 @@ class DatabaseWikiDataManager extends Database implements WikiDataManagerInterfa
             $info->set_application(WikiManager :: APPLICATION_NAME);
             //TODO: i8n location string
             $info->set_location(Translation :: get('Wiki'));
-            $info->set_url('run.php?application=wiki&go=browse&wiki_publication=' . $record[WikiPublication :: PROPERTY_ID]);
+            $info->set_url('run.php?application=wiki&go='.WikiManager::ACTION_VIEW_WIKI.'&wiki_publication=' . $record[WikiPublication :: PROPERTY_ID]);
             $info->set_publication_object_id($record[WikiPublication :: PROPERTY_CONTENT_OBJECT]);
 
             $publication_attr[] = $info;

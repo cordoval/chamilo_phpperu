@@ -189,7 +189,7 @@ class DatabaseProfilerDataManager extends Database implements ProfilerDataManage
             $info->set_application('Profiler');
             //TODO: i8n location string
             $info->set_location(Translation :: get('List'));
-        	$info->set_url('run.php?application=profiler&amp;go=view&profile=' . $publication->get_id());
+        	$info->set_url('run.php?application=profiler&amp;go='.ProfilerManager::ACTION_VIEW_PUBLICATION.'&profile=' . $publication->get_id());
             $info->set_publication_object_id($publication->get_profile());
 
             $publication_attr[] = $info;
