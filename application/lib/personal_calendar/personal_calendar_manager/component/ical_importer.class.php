@@ -32,11 +32,7 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
         }
         else
         {
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => null)), Translation :: get('BrowsePersonalCalendar')));
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_IMPORT_ICAL)), Translation :: get('ImportICal')));
-            
-            $this->display_header($trail, true);
+            $this->display_header(null, true);
             
             echo $form->toHtml();
             $this->display_footer();
@@ -93,6 +89,12 @@ class PersonalCalendarManagerIcalImporterComponent extends PersonalCalendarManag
             $this->retrieve_categories($category->get_id(), ($level + 1));
         }
     }
-
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendarManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('personal_calendar_ical_importer');
+    }
+    
 }
 ?>

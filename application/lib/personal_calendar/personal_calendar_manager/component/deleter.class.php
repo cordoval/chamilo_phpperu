@@ -28,7 +28,7 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManager
                 
                 if (! $this->get_user()->is_platform_admin() && $publication->get_publisher() != $this->get_user_id())
                 {
-                    $this->display_header($trail);
+                    $this->display_header();
                     $this->display_error_message(Translation :: get('NotAllowed'));
                     $this->display_footer();
                     exit();
@@ -69,6 +69,18 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendarManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_CALENDAR_ID => Request :: get(self :: PARAM_PERSONAL_CALENDAR_ID))), Translation :: get('PersonalCalendarManagerViewerComponent')));
+    	$breadcrumbtrail->add_help('personal_calendar_deleter');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PERSONAL_CALENDAR_ID);
     }
 }
 ?>

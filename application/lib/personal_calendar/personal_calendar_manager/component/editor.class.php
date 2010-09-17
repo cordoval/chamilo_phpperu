@@ -26,19 +26,13 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManager
             
             if (! $user->is_platform_admin() && $calendar_event_publication->get_publisher() != $user->get_id())
             {
-                $this->display_header($trail);
+                $this->display_header();
                 $this->display_error_message(Translation :: get('NotAllowed'));
                 $this->display_footer();
                 exit();
             }
             
             $content_object = $calendar_event_publication->get_publication_object();
-            
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $id)), $content_object->get_title()));
-            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit')));
-            $trail->add_help('personal calender general');
             
             $form = ContentObjectForm :: factory(ContentObjectForm :: TYPE_EDIT, $content_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_EDIT_PUBLICATION, PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $calendar_event_publication->get_id())));
             
@@ -65,14 +59,14 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManager
                 }
                 else
                 {
-                    $this->display_header($trail, true);
+                    $this->display_header(null, true);
                     $publication_form->display();
                     $this->display_footer();
                 }
             }
             else
             {
-                $this->display_header($trail);
+                $this->display_header();
                 $form->display();
                 $this->display_footer();
             }
@@ -81,6 +75,18 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManager
         {
             $this->display_error_page(htmlentities(Translation :: get('NoPersonalCalendarPublicationSelected')));
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendarManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_CALENDAR_ID => Request :: get(self :: PARAM_PERSONAL_CALENDAR_ID))), Translation :: get('PersonalCalendarManagerViewerComponent')));
+    	$breadcrumbtrail->add_help('personal_calendar_editor');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PERSONAL_CALENDAR_ID);
     }
 }
 ?>

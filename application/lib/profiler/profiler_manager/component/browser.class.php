@@ -25,12 +25,7 @@ class ProfilerManagerBrowserComponent extends ProfilerManager
 
         $output = $this->get_publications_html();
 
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyProfiler')));
-        //$trail->merge($menu->get_breadcrumbs());
-        $trail->add_help('profiler general');
-
-        $this->display_header($trail);
+        $this->display_header();
 
         echo $this->action_bar->as_html();
         echo '<div class="clear"></div>';
@@ -148,6 +143,16 @@ class ProfilerManagerBrowserComponent extends ProfilerManager
         }
 
         return $condition;
+    }
+    
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('profiler_browser');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array('category');
     }
 
 }

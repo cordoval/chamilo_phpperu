@@ -15,11 +15,6 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager 
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
-        $trail->add_help('personal calender general');
-
         if(! PersonalCalendarRights :: is_allowed_in_personal_calendar_subtree(PersonalCalendarRights :: RIGHT_PUBLISH, PersonalCalendarRights :: get_personal_calendar_subtree_root()))
         {
             $this->display_header();
@@ -46,5 +41,12 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManager 
     {
         return array(CalendarEvent :: get_type_name(), Task :: get_type_name(), ExternalCalendar :: get_type_name());
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendarManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('personal_calendar_publisher');
+    }
+    
 }
 ?>
