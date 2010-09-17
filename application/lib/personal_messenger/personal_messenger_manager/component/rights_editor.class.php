@@ -37,5 +37,12 @@ class PersonalMessengerManagerRightsEditorComponent extends PersonalMessengerMan
         $array = PersonalMessengerRights :: get_available_rights();
         return $array;
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_MESSAGES)), Translation :: get('PersonalMessengerManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('personal_messenger_rights_editor');
+    }
+    
 }
 ?>

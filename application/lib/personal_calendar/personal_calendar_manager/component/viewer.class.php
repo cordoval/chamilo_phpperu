@@ -18,28 +18,22 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
     {
         $id = Request :: get(PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID);
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
-        
         if ($id)
         {
             $this->event = $this->retrieve_personal_calendar_publication($id);
 
             if (! $this->can_view())
             {
-                $this->display_header($trail);
+                $this->display_header();
                 $this->display_error_message(Translation :: get('NotAllowed'));
                 $this->display_footer();
                 exit();
             }
             
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_PERSONAL_CALENDAR_ID => $id)), $this->event->get_publication_object()->get_title()));
-            $trail->add_help('personal calender general');
-            
             $this->action_bar = $this->get_action_bar();
             $output = $this->get_publication_as_html();
             
-            $this->display_header($trail);
+            $this->display_header();
             echo '<br /><a name="top"></a>';
             echo $this->action_bar->as_html() . '<br />';
             echo '<div id="action_bar_browser">';
@@ -97,7 +91,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
         $html[] = $display->get_full_html();
         $html[] = '<div class="event_publication_info">';
         $html[] = htmlentities(Translation :: get('PublishedOn')) . ' ' . $this->render_publication_date();
-        $html[] = htmlentities(Translation :: get('By')) . ' ' . $this->render_repo_viewer($publication);
+        $html[] = htmlentities(Translation :: get('By')) . ' ' . $this->render_repo_viewer($event);
         $html[] = htmlentities(Translation :: get('SharedWith')) . ' ' . $this->render_publication_targets();
         $html[] = '</div>';
         
@@ -151,7 +145,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
                 if (count($users) == 1)
                 {
                     $user = $this->get_user_info($users[0]);
-                    return $user->get_firstname() . ' ' . $user->get_lastname() . $email_suffix;
+                    return $user->get_firstname() . ' ' . $user->get_lastname();
                 }
                 else
                 {
@@ -194,6 +188,17 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManager
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path() . 'tool_calendar_day.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'day'))));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path() . 'tool_calendar_today.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => (Request :: get('view') ? Request :: get('view') : 'month'), 'time' => time()))));
         return $action_bar;
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendarManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('personal_calendar_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PERSONAL_CALENDAR_ID);
     }
 }
 ?>

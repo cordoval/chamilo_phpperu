@@ -15,19 +15,13 @@ class ProfilerManagerViewerComponent extends ProfilerManager
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewProfile')));
-        $trail->add_help('profiler general');
-        
         $id = Request :: get(ProfilerManager :: PARAM_PROFILE_ID);
         
         if ($id)
         {
             $this->publication = $this->retrieve_profile_publication($id);
-            $trail->add(new Breadcrumb($this->get_url(array(ProfilerManager :: PARAM_PROFILE_ID => $id)), $this->publication->get_publication_object()->get_title()));
             
-            $this->display_header($trail);
+            $this->display_header();
             echo $this->get_publication_as_html();
             
             $this->display_footer();
@@ -49,6 +43,17 @@ class ProfilerManagerViewerComponent extends ProfilerManager
         $html[] = $display->get_full_html();
         
         return implode("\n", $html);
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('profiler_viewer');
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('ProfilerManagerBrowserComponent')));
+    }
+
+ 	function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PROFILE_ID);
     }
 }
 ?>

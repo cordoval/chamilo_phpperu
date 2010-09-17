@@ -28,15 +28,9 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
             $this->publication = $this->retrieve_personal_message_publication($id);
             $publication = $this->publication;
 
-            $trail = BreadcrumbTrail :: get_instance();
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)), Translation :: get('MyPersonalMessenger')));
-            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)), Translation :: get(ucfirst($this->folder))));
-            $trail->add(new Breadcrumb($this->get_url(), $publication->get_publication_object()->get_title()));
-            $trail->add_help('personal messenger general');
-
             if ($this->get_user_id() != $publication->get_user())
             {
-                $this->display_header($trail);
+                $this->display_header();
                 Display :: error_message(Translation :: get('NotAllowed'));
                 $this->display_footer();
                 exit();
@@ -50,7 +44,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
 
             $this->action_bar = $this->get_action_bar($publication);
 
-            $this->display_header($trail);
+            $this->display_header();
             echo $this->action_bar->as_html();
             echo '<div class="clear"></div><br />';
             echo $this->get_publication_as_html();
@@ -143,6 +137,17 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManager
         }
 
         return implode("\n", $html);
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_MESSAGES)), Translation :: get('PersonalMessengerManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('personal_messenger_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PERSONAL_MESSAGE_ID);
     }
 }
 ?>

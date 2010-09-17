@@ -17,9 +17,7 @@ class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManager
     function run()
     {
         $trail = BreadcrumbTrail :: get_instance();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyPersonalMessenger')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get(ucfirst($this->get_folder()))));
-        $trail->add_help('personal messenger general');
 
         if(!PersonalMessengerRights :: is_allowed_in_personal_messenger_subtree(PersonalMessengerRights :: RIGHT_BROWSE, PersonalMessengerRights :: get_personal_messenger_subtree_root()))
         {
@@ -87,6 +85,11 @@ class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManager
         
             return $action_bar->as_html();
         }
+    }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add_help('personal_messenger_browser');
     }
 }
 ?>

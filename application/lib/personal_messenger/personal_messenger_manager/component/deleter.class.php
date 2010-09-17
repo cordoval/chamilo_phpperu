@@ -66,5 +66,17 @@ class PersonalMessengerManagerDeleterComponent extends PersonalMessengerManager
             $this->display_error_page(htmlentities(Translation :: get('NoPublicationSelected')));
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_BROWSE_MESSAGES)), Translation :: get('PersonalMessengerManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => Request :: get(self :: PARAM_PERSONAL_MESSAGE_ID))), Translation :: get('PersonalMessengerManagerViewerComponent')));
+    	$breadcrumbtrail->add_help('personal_messenger_deleter');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PERSONAL_MESSAGE_ID);
+    }
 }
 ?>

@@ -41,6 +41,17 @@ class PersonalCalendarManagerIcalExporterComponent extends PersonalCalendarManag
             $this->dipslay_footer();
         }
     }
+    
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendarManagerBrowserComponent')));
+    	$breadcrumbtrail->add_help('personal_calendar_ical_exporter');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array(self :: PARAM_PERSONAL_CALENDAR_ID);
+    }
 
 }
 ?>

@@ -10,15 +10,11 @@ class PersonalCalendarManagerAttachmentViewerComponent extends PersonalCalendarM
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('personal calender general');
-        
         $object_id = Request :: get('object');
         
         if ($object_id)
         {
-            $trail->add(new Breadcrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment')));
-            $this->display_header($trail);
+            $this->display_header();
             
             echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
             
@@ -32,11 +28,22 @@ class PersonalCalendarManagerAttachmentViewerComponent extends PersonalCalendarM
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message('NoObjectSelected');
             $this->display_footer();
         }
+    }
     
+	function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendarManagerBrowserComponent')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_CALENDAR_ID => Request :: get(self :: PARAM_PERSONAL_CALENDAR_ID))), Translation :: get('PersonalCalendarManagerViewerComponent')));
+    	$breadcrumbtrail->add_help('personal_calendar_attachment_viewer');
+    }
+    
+    function get_additional_parameters()
+    {
+    	return array('object');
     }
 }
 ?>
