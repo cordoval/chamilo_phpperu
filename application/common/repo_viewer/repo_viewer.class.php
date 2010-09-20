@@ -126,7 +126,7 @@ class RepoViewer extends SubManager
             }
 
             $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($repo_viewer_action) . 'Title'));
-            $link = $this->get_url($parameters, true);
+            $link = $this->get_url($parameters);
             $tabs->add_tab(new DynamicVisualTab($repo_viewer_action, $label, Theme :: get_common_image_path() . 'place_repository_' . $repo_viewer_action . '.png', $link, $selected));
         }
 

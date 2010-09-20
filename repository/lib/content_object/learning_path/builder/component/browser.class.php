@@ -101,7 +101,12 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilder
 
         foreach ($types as $type)
         {
-            if ($type == LearningPath :: get_type_name())
+        	if(!RepositoryRights :: is_allowed_in_content_objects_subtree(RepositoryRights :: ADD_RIGHT, AdminDataManager :: get_registration($type, Registration :: TYPE_CONTENT_OBJECT)->get_id()))
+            {
+            	continue;	
+            }
+            
+        	if ($type == LearningPath :: get_type_name())
             {
                 $url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_COMPLEX_CONTENT_OBJECT_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_COMPLEX_CONTENT_OBJECT_ITEM_ID => $this->get_complex_content_object_item_id()));
             }
