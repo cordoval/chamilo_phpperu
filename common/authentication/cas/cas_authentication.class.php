@@ -40,7 +40,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
 
     public function check_login($user, $username, $password = null)
     {
-        if (!phpCAS :: has_already_been_called())
+        if (! phpCAS :: has_already_been_called())
         {
             self :: initialize_cas_client();
         }
@@ -87,29 +87,30 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
         }
     }
 
-//    public function is_password_changeable($user)
-//    {
-//    	if (! $this->is_configured())
-//        {
-//            Display :: error_message(Translation :: get('CheckCASConfiguration'));
-//            exit();
-//        }
-//        else
-//        {
-//        	$settings = $this->get_configuration();
-//
-//        	if ($settings['allow_change_password'] == true)
-//        	{
-//		        $cas_password_type = $this->determine_cas_password_type();
-//		        $cas_password = CasPassword :: factory($cas_password_type, $user);
-//		        return $cas_password->is_password_changeable();
-//        	}
-//        	else
-//        	{
-//        		return false;
-//        	}
-//        }
-//    }
+    //    public function is_password_changeable($user)
+    //    {
+    //    	if (! $this->is_configured())
+    //        {
+    //            Display :: error_message(Translation :: get('CheckCASConfiguration'));
+    //            exit();
+    //        }
+    //        else
+    //        {
+    //        	$settings = $this->get_configuration();
+    //
+    //        	if ($settings['allow_change_password'] == true)
+    //        	{
+    //		        $cas_password_type = $this->determine_cas_password_type();
+    //		        $cas_password = CasPassword :: factory($cas_password_type, $user);
+    //		        return $cas_password->is_password_changeable();
+    //        	}
+    //        	else
+    //        	{
+    //        		return false;
+    //        	}
+    //        }
+    //    }
+
 
     /**
      * Always returns false as the user's password
@@ -119,16 +120,16 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
      */
     function change_password($user, $old_password, $new_password)
     {
-//        if (!self :: is_password_changeable($user))
-//        {
-            return false;
-//        }
-//        else
-//        {
-//            $cas_password_type = $this->determine_cas_password_type();
-//            $cas_password = CasPassword :: factory($cas_password_type, $user);
-//            return $cas_password->set_password($old_password, $new_password);
-//        }
+        //        if (!self :: is_password_changeable($user))
+        //        {
+        return false;
+        //        }
+    //        else
+    //        {
+    //            $cas_password_type = $this->determine_cas_password_type();
+    //            $cas_password = CasPassword :: factory($cas_password_type, $user);
+    //            return $cas_password->set_password($old_password, $new_password);
+    //        }
     }
 
     function get_password_requirements()
@@ -157,7 +158,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
          * key to whatever is defined in your CAS setup.
          */
 
-        if (!phpCAS :: has_already_been_called())
+        if (! phpCAS :: has_already_been_called())
         {
             self :: initialize_cas_client();
         }
@@ -165,7 +166,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
         $user_attributes = phpCAS :: getAttributes();
         $authentication_type = $user_attributes['authentication_type'];
 
-        if (!isset($authentication_type))
+        if (! isset($authentication_type))
         {
             return 'default';
         }
@@ -177,7 +178,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
 
     public function register_new_user($user_id)
     {
-        if (!phpCAS :: has_already_been_called())
+        if (! phpCAS :: has_already_been_called())
         {
             self :: initialize_cas_client();
         }
@@ -190,7 +191,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
         $user->set_status(5);
         $user->set_auth_source('cas');
         $user->set_platformadmin(0);
-//        $user->set_language('english');
+        //        $user->set_language('english');
         $user->set_email($user_attributes['email']);
         $user->set_lastname($user_attributes['last_name']);
         $user->set_firstname($user_attributes['first_name']);
@@ -214,7 +215,7 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
         }
         else
         {
-            if (!phpCAS :: has_already_been_called())
+            if (! phpCAS :: has_already_been_called())
             {
                 self :: initialize_cas_client();
             }
@@ -237,7 +238,8 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
             $cas['certificate'] = PlatformSetting :: get('cas_certificate');
             $cas['log'] = PlatformSetting :: get('cas_log');
             $cas['enable_log'] = PlatformSetting :: get('cas_enable_log');
-//            $cas['allow_change_password'] = PlatformSetting :: get('cas_allow_change_password');
+            //            $cas['allow_change_password'] = PlatformSetting :: get('cas_allow_change_password');
+
 
             $this->cas_settings = $cas;
         }
@@ -270,23 +272,23 @@ class CasAuthentication extends Authentication implements UserRegistrationSuppor
         else
         {
             $settings = $this->get_configuration();
-		          
-              
+
             // initialize phpCAS
             if ($settings['enable_log'])
             {
                 phpCAS :: setDebug($settings['log']);
             }
-            
-          
-            
-            phpCAS :: client(SAML_VERSION_1_1, $settings['host'], (int) $settings['port'], $settings['uri'], true);
+
+            $uri = ($settings['uri'] ? $settings['uri'] : '');
+
+            phpCAS :: client(SAML_VERSION_1_1, $settings['host'], (int) $settings['port'], $uri, true);
 
             // SSL validation for the CAS server
             $crt_path = $settings['certificate'];
             phpCAS :: setExtraCurlOption(CURLOPT_SSLVERSION, 3);
             phpCAS :: setCasServerCACert($crt_path);
             //phpCAS :: setNoCasServerValidation();
+
 
             // force CAS authentication
             phpCAS :: forceAuthentication();
