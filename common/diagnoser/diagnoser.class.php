@@ -46,7 +46,7 @@ class Diagnoser
             }
             $params = $this->manager->get_parameters();
             $params['section'] = $section;
-            $html[] = ' href="' . $this->manager->get_url($params, true) . '">' . htmlentities(Translation :: get(ucfirst($section) . 'Title')) . '</a></li>';
+            $html[] = ' href="' . $this->manager->get_url($params) . '">' . htmlentities(Translation :: get(ucfirst($section) . 'Title')) . '</a></li>';
         }
         
         $html[] = '</ul><div class="tabbed-pane-content">';
