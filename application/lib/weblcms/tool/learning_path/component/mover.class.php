@@ -1,5 +1,5 @@
 <?php
-class GeolocationToolMoveUpComponent extends GeolocationTool
+class LearningPathToolMoverComponent extends LearningPathTool
 {
 
     function run()
@@ -9,7 +9,7 @@ class GeolocationToolMoveUpComponent extends GeolocationTool
 
     function get_move_direction()
     {
-        return - 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
 }
 ?>

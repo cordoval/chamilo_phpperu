@@ -25,6 +25,10 @@ abstract class Tool extends SubManager
     const PARAM_OBJECT_ID = 'object_id';
     const PARAM_BROWSER_TYPE = 'browser';
     const PARAM_TEMPLATE_NAME = 'template_name';
+
+    const PARAM_MOVE_DIRECTION = 'move_direction';
+    const PARAM_MOVE_DIRECTION_UP = -1;
+    const PARAM_MOVE_DIRECTION_DOWN = 1;
     
     const ACTION_BROWSE = 'browser';
     const ACTION_VIEW = 'viewer';
@@ -32,8 +36,7 @@ abstract class Tool extends SubManager
     const ACTION_DELETE = 'deleter';
     const ACTION_UPDATE = 'updater';
     const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
-    const ACTION_MOVE_DOWN = 'move_down';
-    const ACTION_MOVE_UP = 'move_up';
+    const ACTION_MOVE = 'mover';
     const ACTION_MOVE_TO_CATEGORY = 'category_mover';
     const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
     const ACTION_MANAGE_CATEGORIES = 'category_manager';

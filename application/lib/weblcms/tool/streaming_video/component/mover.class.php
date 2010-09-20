@@ -1,5 +1,5 @@
 <?php
-class AssessmentToolMoveUpComponent extends AssessmentTool
+class StreamingVideoToolMoveDownComponent extends StreamingVideoTool
 {
 
     function run()
@@ -9,7 +9,7 @@ class AssessmentToolMoveUpComponent extends AssessmentTool
 
     function get_move_direction()
     {
-        return - 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
 }
 ?>

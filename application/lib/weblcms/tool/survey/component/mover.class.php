@@ -1,5 +1,5 @@
 <?php
-class DocumentToolMoveDownComponent extends DocumentTool
+class SurveyToolMoverComponent extends SurveyTool
 {
 
     function run()
@@ -9,7 +9,7 @@ class DocumentToolMoveDownComponent extends DocumentTool
 
     function get_move_direction()
     {
-        return 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
 }
 ?>

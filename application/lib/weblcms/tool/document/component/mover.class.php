@@ -1,5 +1,6 @@
 <?php
-class StreamingVideoToolMoveDownComponent extends StreamingVideoTool
+
+class DocumentToolMoverComponent extends DocumentTool
 {
 
     function run()
@@ -9,7 +10,9 @@ class StreamingVideoToolMoveDownComponent extends StreamingVideoTool
 
     function get_move_direction()
     {
-        return 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
+
 }
+
 ?>

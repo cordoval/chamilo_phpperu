@@ -1,5 +1,6 @@
 <?php
-class GlossaryToolMoveDownComponent extends GlossaryTool
+
+class AssessmentToolMoverComponent extends AssessmentTool
 {
 
     function run()
@@ -9,7 +10,9 @@ class GlossaryToolMoveDownComponent extends GlossaryTool
 
     function get_move_direction()
     {
-        return 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
+
 }
+
 ?>

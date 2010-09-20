@@ -1,5 +1,6 @@
 <?php
-class LearningPathToolMoveDownComponent extends LearningPathTool
+
+class GlossaryToolMoverComponent extends GlossaryTool
 {
 
     function run()
@@ -9,7 +10,9 @@ class LearningPathToolMoveDownComponent extends LearningPathTool
 
     function get_move_direction()
     {
-        return 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
+
 }
+
 ?>
