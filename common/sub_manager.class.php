@@ -336,7 +336,7 @@ abstract class SubManager
 
     function get_additional_parameters()
     {
-    	
+    	return array();
     }
 
     /**

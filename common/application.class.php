@@ -784,7 +784,7 @@ abstract class Application
 
 	function get_additional_parameters()
     {
-    	
+    	return array();
     }
 }
 ?>

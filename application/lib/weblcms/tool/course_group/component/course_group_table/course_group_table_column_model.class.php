@@ -102,7 +102,7 @@ class CourseGroupTableColumnModel
         $this->order_direction = $direction;
     }
 
-    function get_order_column($column_number, $order_direction)
+    function get_order_column($column_number, $order_direction = SORT_ASC)
     {
         $column = $this->get_column($column_number);
         

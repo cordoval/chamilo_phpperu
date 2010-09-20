@@ -131,7 +131,7 @@ class ActionBarRenderer
 //        $html[] = '<div class="common_menu split">';
         $html[] = '<td class="common_menu split">';
 
-        if (count($common_actions) >= 0)
+        if ($common_actions && count($common_actions) >= 0)
         {
             $toolbar = new Toolbar();
             $toolbar->set_items($common_actions);
@@ -145,7 +145,7 @@ class ActionBarRenderer
 //        $html[] = '<div class="tool_menu split split_bevel">';
         $html[] = '<td class="tool_menu split split_bevel">';
 
-        if (count($tool_actions) >= 0)
+        if ($tool_actions && count($tool_actions) >= 0)
         {
             $toolbar = new Toolbar();
             $toolbar->set_items($tool_actions);
