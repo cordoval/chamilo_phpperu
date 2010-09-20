@@ -1,5 +1,5 @@
 <?php
-class DocumentToolMoveUpComponent extends DocumentTool
+class LinkToolMoverComponent extends LinkTool
 {
 
     function run()
@@ -9,7 +9,7 @@ class DocumentToolMoveUpComponent extends DocumentTool
 
     function get_move_direction()
     {
-        return - 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
 }
 ?>

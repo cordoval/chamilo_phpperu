@@ -1,5 +1,6 @@
 <?php
-class SurveyToolMoveDownComponent extends SurveyTool
+
+class BlogToolMoverComponent extends BlogTool
 {
 
     function run()
@@ -9,7 +10,9 @@ class SurveyToolMoveDownComponent extends SurveyTool
 
     function get_move_direction()
     {
-        return 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
+
 }
+
 ?>

@@ -1,5 +1,6 @@
 <?php
-class NoteToolMoveDownComponent extends NoteTool
+
+class DescriptionToolMoveDownComponent extends DescriptionTool
 {
 
     function run()
@@ -9,7 +10,9 @@ class NoteToolMoveDownComponent extends NoteTool
 
     function get_move_direction()
     {
-        return 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
+
 }
+
 ?>

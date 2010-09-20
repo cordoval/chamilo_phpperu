@@ -1,5 +1,6 @@
 <?php
-class BlogToolMoveUpComponent extends BlogTool
+
+class GeolocationToolMoverComponent extends GeolocationTool
 {
 
     function run()
@@ -9,7 +10,9 @@ class BlogToolMoveUpComponent extends BlogTool
 
     function get_move_direction()
     {
-        return - 1;
+        return Request::get(Tool::PARAM_MOVE_DIRECTION);
     }
+
 }
+
 ?>

@@ -1,5 +1,5 @@
 <?php
-class GlossaryToolMoveUpComponent extends GlossaryTool
+class WikiToolMoverComponent extends WikiTool
 {
 
     function run()
@@ -9,7 +9,7 @@ class GlossaryToolMoveUpComponent extends GlossaryTool
 
     function get_move_direction()
     {
-        return - 1;
+        return Request :: get(Tool :: PARAM_MOVE_DIRECTION);
     }
 }
 ?>

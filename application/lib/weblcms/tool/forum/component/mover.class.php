@@ -1,5 +1,5 @@
 <?php
-class LearningPathToolMoveUpComponent extends LearningPathTool
+class ForumToolMoverComponent extends ForumTool
 {
 
     function run()
@@ -9,7 +9,7 @@ class LearningPathToolMoveUpComponent extends LearningPathTool
 
     function get_move_direction()
     {
-        return - 1;
+        return 1;
     }
 }
 ?>
