@@ -37,7 +37,7 @@ class CourseGroupSubscribedUserBrowserTable extends ObjectTable
         	$actions[] = new ObjectTableFormAction(CourseGroupTool :: PARAM_UNSUBSCRIBE_USERS, Translation :: get('UnsubscribeUsers'));
         }
         
-        $this->set_form_actions($actions);
+        //$this->set_form_actions($actions);
         
         if ($browser->get_course()->is_course_admin($browser->get_user()))
         {
