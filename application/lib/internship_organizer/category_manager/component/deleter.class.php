@@ -1,5 +1,8 @@
 <?php
 
+require_once Path :: get_application_path() . 'lib/internship_organizer/category_manager/component/browser.class.php';
+
+
 class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrganizerCategoryManager
 {
 
@@ -11,7 +14,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
         
     if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -19,7 +22,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
    
     	$user = $this->get_user();
         
-        $ids = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
+        $ids = Request :: get(self :: PARAM_CATEGORY_ID);
         $failures = 0;
         
         if (! empty($ids))
@@ -39,7 +42,8 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
                 }
                 else
                 {
-                    //                    Event :: trigger('delete', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
+                    $parent_id = $category->get_parent_id();
+                	//                    Event :: trigger('delete', 'category', array('target_category_id' => $category->get_id(), 'action_user_id' => $user->get_id()));
                 }
             }
             
@@ -67,7 +71,7 @@ class InternshipOrganizerCategoryManagerDeleterComponent extends InternshipOrgan
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CATEGORIES, self :: PARAM_CATEGORY_ID => $parent_id, DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerCategoryManagerBrowserComponent :: TAB_SUB_CATEGORIES));
         }
         else
         {

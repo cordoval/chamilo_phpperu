@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/subscribe_location_browser/subscribe_location_browser_table.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/category_manager/component/browser.class.php';
 
 class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extends InternshipOrganizerCategoryManager
 {
@@ -15,16 +16,13 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('category subscribe locations');
-        
-        $category_id = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
+        $category_id = Request :: get(self :: PARAM_CATEGORY_ID);
         $this->category = $this->retrieve_category($category_id);
         
         $this->ab = $this->get_action_bar();
@@ -40,10 +38,10 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
     {
         $parameters = $this->get_parameters();
         
-        $parameters[InternshipOrganizerCategoryManager :: PARAM_ACTION] = InternshipOrganizerCategoryManager :: ACTION_SUBSCRIBE_LOCATION_BROWSER;
-        $parameters[InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID] = $this->category->get_id();
+        $parameters[self :: PARAM_ACTION] = self :: ACTION_SUBSCRIBE_LOCATION_BROWSER;
+        $parameters[self :: PARAM_CATEGORY_ID] = $this->category->get_id();
         
-        $table = new SubscribeLocationBrowserTable($this, $parameters, $this->get_subscribe_condition());
+        $table = new SubscribeLocationBrowserTable($this, $parameters, $this->get_subscribe_condition(), $this->category);
         
         $html = array();
         $html[] = $table->as_html();
@@ -53,7 +51,7 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
 
     function get_subscribe_condition()
     {
-        $condition = new EqualityCondition(InternshipOrganizerCategoryRelLocation :: PROPERTY_CATEGORY_ID, Request :: get(InternshipOrganizerCategoryRelLocation :: PROPERTY_CATEGORY_ID));
+        $condition = new EqualityCondition(InternshipOrganizerCategoryRelLocation :: PROPERTY_CATEGORY_ID, Request :: get(self :: PARAM_CATEGORY_ID));
         
         $category_rel_locations = $this->retrieve_category_rel_locations($condition);
         
@@ -65,21 +63,28 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         }
         
         $query = $this->ab->get_query();
-        
         if (isset($query) && $query != '')
         {
             
-            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_NAME, '*' . $query . '*');
-            $or_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_ADDRESS, '*' . $query . '*');
+            $region_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerRegion :: get_table_name());
+            $organisation_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerOrganisation :: get_table_name());
+            $location_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerLocation :: get_table_name());
             
-            $search_city_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*');
-            $search_city_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*');
-            $city_conditions = new OrCondition($search_city_conditions);
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_ADDRESS, '*' . $query . '*', $location_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_DESCRIPTION, '*' . $query . '*', $location_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_EMAIL, '*' . $query . '*', $location_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_NAME, '*' . $query . '*', $location_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_TELEPHONE, '*' . $query . '*', $location_alias, true);
             
-            $search_city_subselect_condition = new SubselectCondition(InternshipOrganizerLocation :: PROPERTY_REGION_ID, InternshipOrganizerRegion :: PROPERTY_ID, InternshipOrganizerRegion :: get_table_name(), $city_conditions);
-            $or_conditions[] = $search_city_subselect_condition;
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_CITY_NAME, '*' . $query . '*', $region_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_DESCRIPTION, '*' . $query . '*', $region_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerRegion :: PROPERTY_ZIP_CODE, '*' . $query . '*', $region_alias, true);
             
-            $conditions[] = new OrCondition($or_conditions);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerOrganisation :: PROPERTY_DESCRIPTION, '*' . $query . '*', $organisation_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerOrganisation :: PROPERTY_NAME, '*' . $query . '*', $organisation_alias, true);
+            
+            $conditions[] = new OrCondition($search_conditions);
         }
         
         if (count($conditions) == 0)
@@ -90,11 +95,6 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         $condition = new AndCondition($conditions);
         
         return $condition;
-    }
-
-    function get_category()
-    {
-        return $this->category;
     }
 
     function get_action_bar()
@@ -109,5 +109,16 @@ class InternshipOrganizerCategoryManagerSubscribeLocationBrowserComponent extend
         
         return $action_bar;
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CATEGORIES, self :: PARAM_CATEGORY_ID => Request :: get(self :: PARAM_CATEGORY_ID), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerCategoryManagerBrowserComponent :: TAB_LOCATIONS)), Translation :: get('BrowseInternshipOrganizerCategories')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_CATEGORY_ID);
+    }
+
 }
 ?>

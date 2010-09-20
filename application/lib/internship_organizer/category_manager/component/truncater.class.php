@@ -1,8 +1,6 @@
 <?php
-/**
- * $Id: truncater.class.php 224 2009-11-13 14:40:30Z kariboe $
- * @package category.lib.category_manager.component
- */
+
+require_once Path :: get_application_path() . 'lib/internship_organizer/category_manager/component/browser.class.php';
 
 class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrganizerCategoryManager
 {
@@ -15,7 +13,7 @@ class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrg
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -23,7 +21,7 @@ class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrg
         
         $user = $this->get_user();
         
-        $ids = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID);
+        $ids = Request :: get(self :: PARAM_CATEGORY_ID);
         $failures = 0;
         
         if (! empty($ids))
@@ -36,6 +34,7 @@ class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrg
             foreach ($ids as $id)
             {
                 $category = $this->retrieve_category($id);
+                $parent_id = $category->get_parent_id();
                 if (! $category->truncate())
                 {
                     $failures ++;
@@ -71,9 +70,9 @@ class InternshipOrganizerCategoryManagerTruncaterComponent extends InternshipOrg
             }
             
             if (count($ids) == 1)
-                $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $ids[0]));
+                $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CATEGORIES, self :: PARAM_CATEGORY_ID => $ids[0], DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerCategoryManagerBrowserComponent :: TAB_LOCATIONS));
             else
-                $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES));
+                $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CATEGORIES, self :: PARAM_CATEGORY_ID => $parent_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerCategoryManagerBrowserComponent :: TAB_SUB_CATEGORIES));
         }
         else
         {
