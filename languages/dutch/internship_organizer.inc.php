@@ -210,4 +210,68 @@ $lang['internship_organizer']['InternshipOrganizerAgreementAddLocation'] = 'Loca
 $lang['internship_organizer']['InternshipOrganizerAgreementToApprove'] = 'Wacht Op Goedkeuring';
 $lang['internship_organizer']['InternshipOrganizerAgreementApproved'] = 'Goedgekeurd';
 
+//2010-09-20
+//Agreement
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerBrowserComponent'] = 'Contractbeheer';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerPublisherComponent'] = 'Contractbeheer';
+$lang['internship_organizer']['PublishInAgreements'] = 'Publiceer In Contract';
+$lang['internship_organizer']['MyRepository'] = 'Mijn Magazijn';
+$lang['internship_organizer']['RepoViewerCreatorComponent'] = 'Verkenner';
+$lang['internship_organizer']['RepoViewerBrowserComponent'] = 'Verkenner';
+$lang['internship_organizer']['CategoryTypeName'] = 'Categorie';
+$lang['internship_organizer']['FileName'] = 'Bestandsnaam';
+
+$lang['internship_organizer']['SharedContentObjects'] = 'Gedeelde Inhoud';
+$lang['internship_organizer']['SelectedContentObjects'] = 'Gekozen Inhoud';
+$lang['internship_organizer']['ObjectPublished'] = 'Inhoud Gepubliceerd';
+
+$lang['internship_organizer']['InternshipOrganizerTypeOfPublication'] = 'Publicatietype';
+$lang['internship_organizer']['InternshipOrganizerContract'] = 'Contract';
+$lang['internship_organizer']['InternshipOrganizerGeneral'] = 'Algemeen';
+$lang['internship_organizer']['InternshipOrganizerInfo'] = 'Informatief';
+
+$lang['internship_organizer']['Agreements'] = 'Contracten';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerCreatorComponent'] = 'Contractbeheer';
+$lang['internship_organizer']['View'] = 'Bekijken';
+$lang['internship_organizer']['AddLocation'] = 'Locatie Toekennen';
+$lang['internship_organizer']['ApproveLocation'] = 'Locatie Goedkeuren';
+$lang['internship_organizer']['AddMentor'] = 'Mentor Toekennen';
+$lang['internship_organizer']['AddMoment'] = 'Momenten Toevoegen';
+$lang['internship_organizer']['InternshipOrganizerAddCoordinators'] = 'Alle Coördinatoren Toekennen';
+$lang['internship_organizer']['InternshipOrganizerAddCoaches'] = 'Alle Coaches Toekennen';
+//Periode
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerBrowserComponent'] = 'Periodebeheer';
+$lang['internship_organizer']['PublishInPeriods'] = 'Publiceer In Periode';
+$lang['internship_organizer']['AddInternshipOrganizerGroups'] = 'Ken Groepen Toe';
+$lang['internship_organizer']['AddCategories'] = 'Ken Categorieën Toe';
+$lang['internship_organizer']['Categories'] = 'Categorieën';
+$lang['internship_organizer']['Details'] = 'Details';
+$lang['internship_organizer']['ManageRights'] = 'Rechten';
+
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeUserComponent'] = 'Gebruikers Toekennen';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeGroupComponent'] = 'Groepen Toekennen';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeCategoryComponent'] = 'Categorieën Toekennen';
+$lang['internship_organizer']['PublishFor'] = 'Ken Toe Aan';
+
+//Organisatie
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerBrowserComponent'] = 'Organisatiebeheer';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerViewerComponent'] = 'Organisatiebeheer';
+$lang['internship_organizer']['InternshipOrganizerLocations'] = 'Locaties';
+$lang['internship_organizer']['InternshipOrganizerMentors'] = 'Mentoren';
+$lang['internship_organizer']['InternshipOrganizerUsers'] = 'Gebruikers';
+$lang['internship_organizer']['RemoveSelected'] = 'Verwijder Gekozen Items';
+
+//Categorie
+$lang['internship_organizer']['InternshipOrganizerCategoryManagerBrowserComponent'] = 'Categoriebeheer';
+$lang['internship_organizer']['TruncateNA'] = 'Legen Niet Beschikbaar';
+$lang['internship_organizer']['TruncateSelected'] = 'Gekozen Items Legen';
+$lang['internship_organizer']['SubCategories'] = 'Subcategorieën';
+
+//Regio
+$lang['internship_organizer']['InternshipOrganizerRegionManagerBrowserComponent'] = 'Regiobeheer';
+$lang['internship_organizer'][''] = '';
+$lang['internship_organizer'][''] = '';
+$lang['internship_organizer'][''] = '';
+
+
 ?>
