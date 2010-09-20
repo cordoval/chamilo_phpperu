@@ -50,7 +50,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
     {
         if ($column === ComplexBrowserTableColumnModel :: get_modification_column())
         {
-            return $this->get_modification_links($cloi);
+            return $this->get_modification_links($cloi)->as_html();
         }
 
         if (! $content_object)
@@ -97,7 +97,7 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    protected function get_modification_links($cloi, $additional_toolbar_items = array(), $no_move = false)
+    protected function get_modification_links($cloi, $no_move = false)
     {
     	$toolbar = new Toolbar();
 
@@ -169,7 +169,8 @@ class ComplexBrowserTableCellRenderer extends DefaultContentObjectTableCellRende
 				));
             }
         }
-        return $toolbar->as_html();
+        
+        return $toolbar;
     }
 
     protected function check_move_allowed($cloi)

@@ -41,8 +41,6 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
         $columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TYPE)));
         $columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_TITLE)));
         $columns[] = new StaticTableColumn(Translation :: get(Utilities :: underscores_to_camelcase(ContentObject :: PROPERTY_DESCRIPTION)));
-        //$columns[] = new ObjectTableColumn(ComplexContentObjectItem :: PROPERTY_DISPLAY_ORDER);
-
 
         if ($browser instanceof ComplexMenuSupport)
         {
@@ -54,7 +52,6 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
             $columns[] = $additional_column;
         }
 
-        //$columns[] = new ObjectTableColumn(ContentObject :: PROPERTY_MODIFICATION_DATE);
         $columns[] = self :: get_modification_column();
         return $columns;
     }

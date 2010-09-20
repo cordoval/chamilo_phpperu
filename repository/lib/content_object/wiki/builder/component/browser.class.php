@@ -29,6 +29,11 @@ class WikiBuilderBrowserComponent extends WikiBuilder
         
         $this->display_footer();
     }
+    
+	function get_complex_content_object_table_cell_renderer()
+    {
+    	return new WikiBrowserTableCellRenderer($this, $this->get_complex_content_object_table_condition());
+    }
 }
 
 ?>

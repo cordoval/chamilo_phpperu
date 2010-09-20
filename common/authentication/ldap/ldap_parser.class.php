@@ -52,11 +52,9 @@ class LdapParser
         $user_properties[User :: PROPERTY_PICTURE_URI] = '';
         $user_properties[User :: PROPERTY_CREATOR_ID] = '';
         
-        $user_properties[User :: PROPERTY_LANGUAGE] = 'english';
-        
-        $user = new User(0, $user_properties);
-        $user->create();
-        return true;
+        $user = new User(0);
+        $user->set_default_properties($user_properties);
+        return $user->create();
     }
 }
 ?>
