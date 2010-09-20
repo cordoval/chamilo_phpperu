@@ -149,11 +149,11 @@ if (PlatformSetting :: get('server_type') == 'test')
 
 	if (phpversion() >= 5.3)
 	{
-		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_WARNING);
 	}
 	else
 	{
-		error_reporting(E_ALL & ~ E_NOTICE);
+		error_reporting(E_ALL & ~ E_NOTICE & ~E_WARNING);
 	}
 
     //Addslashes to all $_GET variables
@@ -195,11 +195,11 @@ else
 	// The following error reporting setting is for software under development, these lines are to be disabled.
 	if (phpversion() >= 5.3)
 	{
-		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+		error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_WARNING);
 	}
 	else
 	{
-		error_reporting(E_ALL & ~ E_NOTICE);
+		error_reporting(E_ALL & ~ E_NOTICE & ~E_WARNING);
 	}
 }
 
