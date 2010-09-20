@@ -55,7 +55,7 @@ class CourseGroupForm extends FormValidator
     	$course = new Course();
     	$course->set_id($this->course_group->get_course_code());
 
-    	$menu = new CourseGroupMenu($course);
+    	$menu = new CourseGroupMenu($course, 0);
     	$renderer = new OptionsMenuRenderer();
         $menu->render($renderer, 'sitemap');
         return $renderer->toArray();
