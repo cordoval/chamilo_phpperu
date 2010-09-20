@@ -62,7 +62,7 @@ class ContentObjectPublicationCategoryTree extends HTML_Menu
         return intval(Request :: get(WeblcmsManager :: PARAM_CATEGORY));
     }
 
-    private function get_menu_items($extra_items)
+    private function get_menu_items($extra_items = null)
     {
         $menu = array();
         $menu_item = array();
