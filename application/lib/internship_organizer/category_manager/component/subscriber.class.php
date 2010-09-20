@@ -15,16 +15,15 @@ class InternshipOrganizerCategoryManagerSubscriberComponent extends InternshipOr
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_CATEGORY, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-        
-        $user = $this->get_user();
+             
         $failures = 0;
         
-        $selected_ids = Request :: get(InternshipOrganizerCategoryManager :: PARAM_CATEGORY_REL_LOCATION_ID);
+        $selected_ids = Request :: get(self :: PARAM_CATEGORY_REL_LOCATION_ID);
         
         if (! empty($selected_ids))
         {
@@ -86,7 +85,7 @@ class InternshipOrganizerCategoryManagerSubscriberComponent extends InternshipOr
                     $message = 'SelectedLocationsAddedToInternshipOrganizerCategory' . ($contains_dupes ? 'Dupes' : '');
                 }
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerCategoryManager :: PARAM_ACTION => InternshipOrganizerCategoryManager :: ACTION_BROWSE_CATEGORIES, InternshipOrganizerCategoryManager :: PARAM_CATEGORY_ID => $category_id));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CATEGORIES, self :: PARAM_CATEGORY_ID => $category_id));
         }
         else
         {

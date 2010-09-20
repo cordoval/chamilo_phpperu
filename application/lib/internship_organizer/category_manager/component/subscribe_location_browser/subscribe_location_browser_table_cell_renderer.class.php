@@ -7,18 +7,20 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
 {
     
     private $browser;
+    private $category;
 
-    function SubscribeLocationBrowserTableCellRenderer($browser)
+    function SubscribeLocationBrowserTableCellRenderer($browser, $category)
     {
         parent :: __construct();
         $this->browser = $browser;
+        $this->category = $category;
     }
 
     // Inherited
     function render_cell($column, $location)
-    { 
+    {
         if ($column === SubscribeLocationBrowserTableColumnModel :: get_modification_column())
-        {   
+        {
             return $this->get_modification_links($location);
         }
         
@@ -27,8 +29,7 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
 
     function render_id_cell($location)
     {
-        $category = $this->browser->get_category();
-        return $category->get_id() . '|' . $location->get_id();
+        return $this->category->get_id() . '|' . $location->get_id();
     }
 
     /**
@@ -38,15 +39,13 @@ class SubscribeLocationBrowserTableCellRenderer extends DefaultInternshipOrganiz
      * @return string A HTML representation of the action links
      */
     private function get_modification_links($location)
-    {   
-        $category = $this->browser->get_category();
+    {
         
         $toolbar = new Toolbar();
         
-        $subscribe_url = $this->browser->get_category_rel_location_subscribing_url($category, $location);
-
+        $subscribe_url = $this->browser->get_category_rel_location_subscribing_url($this->category, $location);
+        
         $toolbar->add_item(new ToolbarItem(Translation :: get('Subscribe'), Theme :: get_common_image_path() . 'action_subscribe.png', $subscribe_url, ToolbarItem :: DISPLAY_ICON));
-
         
         return $toolbar->as_html();
     }

@@ -186,7 +186,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         
         $query = 'SELECT  COUNT(DISTINCT ' . $this->escape_column_name(User :: PROPERTY_ID, $user_alias) . ')';
-                $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerOrganisationRelUser :: get_table_name()) . ' AS ' . $organisation_rel_user_alias;
+        $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerOrganisationRelUser :: get_table_name()) . ' AS ' . $organisation_rel_user_alias;
         
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerOrganisation :: get_table_name()) . ' AS ' . $organisation_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerOrganisation :: PROPERTY_ID, $organisation_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerOrganisationRelUser :: PROPERTY_ORGANISATION_ID, $organisation_rel_user_alias);
         
@@ -201,7 +201,7 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         $organisation_rel_user_alias = $this->get_alias(InternshipOrganizerOrganisationRelUser :: get_table_name());
         $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
         
-        $query = 'SELECT DISTINCT ' .  $user_alias . '. * , '.$organisation_rel_user_alias. '. * ';
+        $query = 'SELECT DISTINCT ' . $user_alias . '. * , ' . $organisation_rel_user_alias . '. * ';
         $query .= ' FROM ' . $this->escape_table_name(InternshipOrganizerOrganisationRelUser :: get_table_name()) . ' AS ' . $organisation_rel_user_alias;
         
         $query .= ' JOIN ' . $this->escape_table_name(InternshipOrganizerOrganisation :: get_table_name()) . ' AS ' . $organisation_alias . ' ON ' . $this->escape_column_name(InternshipOrganizerOrganisation :: PROPERTY_ID, $organisation_alias) . ' = ' . $this->escape_column_name(InternshipOrganizerOrganisationRelUser :: PROPERTY_ORGANISATION_ID, $organisation_rel_user_alias);
@@ -399,6 +399,12 @@ class DatabaseInternshipOrganizerDataManager extends Database implements Interns
         }
         
         return ! ($this->count_objects(InternshipOrganizerCategory :: get_table_name(), $condition) == 1);
+    }
+
+    function retrieve_category($category_id)
+    {
+        $condition = new EqualityCondition(InternshipOrganizerCategory :: PROPERTY_ID, $category_id);
+        return $this->retrieve_object(InternshipOrganizerCategory :: get_table_name(), $condition, array(), InternshipOrganizerCategory :: CLASS_NAME);
     }
 
     function retrieve_root_category()

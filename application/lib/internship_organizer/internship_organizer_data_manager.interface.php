@@ -61,6 +61,8 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null);
 
     function retrieve_root_category();
+    
+    function retrieve_category($category_id);
 
     function retrieve_category_rel_location($location_id, $category_id);
 
