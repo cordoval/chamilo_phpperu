@@ -3,7 +3,7 @@
  * $Id: course_group_table_column.class.php 216 2009-11-13 14:08:06Z kariboe $
  * @package application.lib.weblcms.tool.course_group.component.course_group_table
  */
-class CourseGroupTableColumn
+class CourseGroupTableColumn extends ObjectTableColumn
 {
     /**
      * The property of the course_group which will be displayed in this column.

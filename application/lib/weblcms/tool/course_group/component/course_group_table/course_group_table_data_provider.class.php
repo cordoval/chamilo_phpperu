@@ -21,8 +21,11 @@ class CourseGroupTableDataProvider
     {
         $dm = WeblcmsDataManager :: get_instance();
         
-        $order_property = array($order_property);
-        
+        if($order_property && !is_array($order_property))
+        {
+        	$order_property = array($order_property);
+        }
+ 
         return $dm->retrieve_course_groups($this->course_group_tool->get_condition(), $offset, $count, $order_property);
     }
 
