@@ -16,6 +16,11 @@ class IncludeWikiParser extends ContentObjectIncludeParser
         $base_path = Path :: get(WEB_REPO_PATH);
         $html_editors = $form->get_html_editors();
 
+        if(!$html_editors)
+        {
+        	return;
+        }
+        
         /*
          * need to be configured to work with wikitags
          */
@@ -25,6 +30,11 @@ class IncludeWikiParser extends ContentObjectIncludeParser
             {
                 $tags = Text :: fetch_tag_into_array($values[$html_editor], '[wikilink=]'); //bvb wikilink
 
+                if(!$tags)
+                {
+                	return;
+                }
+                
                 foreach ($tags as $tag)
                 {
                     $search_path = str_replace($base_path, '', $tag['src']);
