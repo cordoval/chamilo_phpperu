@@ -257,10 +257,14 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
 
                  $this->get_user_groups(true);
 
-                 $aut_app['name'] = 'aut_app';
-                 $aut_app['value'] = '^' . $this->get_app_id() . '^';
-                 $this->cql['OR'][] = $aut_app;
-
+                 $app_id = $this->get_app_id();
+                 if(!empty($app_id))
+                 {
+                    $aut_app['name'] = 'aut_app';
+                    $aut_app['value'] = '^' . $this->get_app_id() . '^';
+                    $this->cql['OR'][] = $aut_app;
+                 }
+                 
                 $response = $this->retrieve_mediamosa_assets($condition, $order_property, $offset, $count);
              break;
         }
