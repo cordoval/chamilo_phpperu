@@ -41,7 +41,7 @@ class CourseGroupSubscribedUserBrowserTable extends ObjectTable
         
         if ($browser->get_course()->is_course_admin($browser->get_user()))
         {
-            $this->set_form_actions($actions);
+            //$this->set_form_actions($actions);
         }
         $this->set_default_row_count(20);
     }
