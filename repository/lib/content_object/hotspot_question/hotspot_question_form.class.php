@@ -119,7 +119,7 @@ class HotspotQuestionForm extends ContentObjectForm
 
         if ($success)
         {
-            $object->attach_content_object($values['image_object']['lo'][0]);
+            $object->attach_content_object($values['image_object']);
         }
 
         return $object;
