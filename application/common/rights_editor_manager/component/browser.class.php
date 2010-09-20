@@ -112,7 +112,9 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $parameters[self :: PARAM_TYPE] = 'user';
         $parameters['query'] = $this->action_bar->get_query();
         $table = new LocationUserBrowserTable($this, $parameters, $this->get_user_conditions());
+        $html[] = '<div style="overflow: auto;">';
         $html[] = $table->as_html();
+        $html[] = '</div>';
         $html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'application/common/rights_editor_manager/javascript/configure_user.js');
         
         return implode("\n", $html);
@@ -134,7 +136,7 @@ class RightsEditorManagerBrowserComponent extends RightsEditorManager
         $html[] = $group_menu->render_as_tree();
             
         $html[] = '</div>';
-        $html[] = '<div style="float: right; width: 80%;">';
+        $html[] = '<div style="float: right; width: 80%; overflow:auto;">';
             
         $group_object = GroupDataManager :: get_instance()->retrieve_group($group);
         if ($group_object->has_children())
