@@ -64,8 +64,9 @@ abstract class Authentication
         $is_invitation = Request :: get(Application :: PARAM_APPLICATION) == UserManager :: APPLICATION_NAME && Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_REGISTER_INVITED_USER;
         $is_password_reset = Request :: get(Application :: PARAM_APPLICATION) == UserManager :: APPLICATION_NAME && Request :: get(Application :: PARAM_ACTION) == UserManager :: ACTION_RESET_PASSWORD;
         $is_online_page = Request :: get(Application :: PARAM_APPLICATION) == AdminManager :: APPLICATION_NAME && Request :: get(Application :: PARAM_ACTION) == AdminManager :: ACTION_WHOIS_ONLINE;
+        $is_download_page = Request :: get(Application :: PARAM_APPLICATION) == RepositoryManager :: APPLICATION_NAME && Request :: get(Application :: PARAM_ACTION) == RepositoryManager :: ACTION_DOWNLOAD_DOCUMENT;
 
-        $is_authentication_exception = $is_registration || $is_invitation || $is_password_reset || $is_online_page;
+        $is_authentication_exception = $is_registration || $is_invitation || $is_password_reset || $is_online_page || $is_download_page;
 
         if ($is_authentication_exception)
         {

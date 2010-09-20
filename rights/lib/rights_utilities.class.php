@@ -173,6 +173,11 @@ class RightsUtilities
             $user = self :: $user_cache[$user_id];
         }
         
+        if(!$user)
+        {
+        	return false;
+        }
+        
         $cache_id = md5(serialize(array($right, $identifier, $type, $application, $user_id, $tree_identifier, $tree_type)));
         
         if (! isset(self :: $is_allowed_cache[$cache_id]))
