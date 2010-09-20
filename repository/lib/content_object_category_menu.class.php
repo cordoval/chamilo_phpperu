@@ -49,7 +49,7 @@ class ContentObjectCategoryMenu extends HTML_Menu
      *                           root.
      * @param string[] $filter_count_on_types - Array to define the types on which the count on the categories should be filtered
      */
-    function ContentObjectCategoryMenu($owner, $current_category, $url_format = '?category=%s', $extra_items = array(), $filter_count_on_types = array())
+    function ContentObjectCategoryMenu($owner, $current_category = null, $url_format = '?category=%s', $extra_items = array(), $filter_count_on_types = array())
     {
         $this->owner = $owner;
         $this->urlFmt = $url_format;

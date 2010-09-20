@@ -58,8 +58,7 @@ class ChatToolViewerComponent extends ChatTool
 
     function  add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_BROWSE)), Translation :: get('BlogToolBrowserComponent')));
-        $trail->add_help('weblcms_tool_chat_viewer');
+        $breadcrumbtrail->add_help('weblcms_tool_chat_viewer');
     }
     function get_additional_parameters()
     {
