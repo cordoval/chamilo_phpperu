@@ -3,6 +3,10 @@
  * $Id: browser.class.php 200 2009-11-13 12:30:04Z kariboe $
  * @package repository.lib.complex_builder.assessment.component
  */
+
+require_once dirname(__FILE__) . '/browser/assessment_browser_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/browser/assessment_browser_table_column_model.class.php';
+
 class AssessmentBuilderBrowserComponent extends AssessmentBuilder
 {
 	function run()
@@ -23,9 +27,14 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilder
         return $links;
     }
     
-    function get_action_bar()
+    function get_complex_content_object_table_column_model()
     {
-    	
+    	return new AssessmentBrowserTableColumnModel($this);
+    }
+    
+    function get_complex_content_object_table_cell_renderer()
+    {
+    	return new AssessmentBrowserTableCellRenderer($this, $this->get_complex_content_object_table_condition());
     }
 }
 

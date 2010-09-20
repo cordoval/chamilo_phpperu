@@ -13,10 +13,10 @@ class AssessmentBrowserTableColumnModel extends ComplexBrowserTableColumnModel
     /**
      * Constructor
      */
-    function AssessmentBrowserTableColumnModel($show_subitems_column)
+    function AssessmentBrowserTableColumnModel($browser)
     {
         $columns[] = new StaticTableColumn(Translation :: get('Weight'));
-        parent :: __construct($show_subitems_column, $columns);
+        parent :: __construct($browser, $columns);
     }
 }
 ?>

@@ -54,7 +54,17 @@ class ComplexBuilderComponentBrowserComponent extends ComplexBuilderComponent
             echo '<div>';
         }
 
-        echo $this->get_complex_content_object_table_html();
+        if(method_exists($this->get_parent(), 'get_complex_content_object_table_column_model'))
+        {
+        	$column_model = $this->get_parent()->get_complex_content_object_table_column_model();
+        }
+        
+    	if(method_exists($this->get_parent(), 'get_complex_content_object_table_cell_renderer'))
+        {
+        	$cell_renderer = $this->get_parent()->get_complex_content_object_table_cell_renderer();
+        }
+        
+        echo $this->get_complex_content_object_table_html(true, $column_model, $cell_renderer);
         echo '</div>';
         echo '<div class="clear">&nbsp;</div>';
 
