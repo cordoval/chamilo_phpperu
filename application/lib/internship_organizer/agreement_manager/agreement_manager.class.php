@@ -54,12 +54,6 @@ class InternshipOrganizerAgreementManager extends SubManager
     function InternshipOrganizerAgreementManager($internship_manager)
     {
         parent :: __construct($internship_manager);
-        //        $action = Request :: get(self :: PARAM_ACTION);
-    //        if ($action)
-    //        {
-    //            $this->set_parameter(self :: PARAM_ACTION, $action);
-    //        }
-    //        $this->parse_input_from_table();
     }
 
     function get_application_component_path()
@@ -115,12 +109,6 @@ class InternshipOrganizerAgreementManager extends SubManager
     {
         return InternshipOrganizerDataManager :: get_instance()->retrieve_moment($id);
     }
-
-    //	function retrieve_user($id)
-    //    {
-    //        return UserDataManager :: get_instance()->retrieve_user($id);
-    //    }
-    
 
     //url creation
     function get_create_agreement_url()
@@ -267,44 +255,6 @@ class InternshipOrganizerAgreementManager extends SubManager
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION_RIGHTS, self :: PARAM_PUBLICATION_ID => $publication->get_id()));
     }
-
-    //    private function parse_input_from_table()
-    //    {
-    //        
-    //        if (isset($_POST['action']))
-    //        {
-    //            if (isset($_POST[InternshipOrganizerAgreementBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
-    //            {
-    //                $selected_ids = $_POST[InternshipOrganizerAgreementBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-    //            }
-    //            
-    //            if (isset($_POST[InternshipOrganizerMomentBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX]))
-    //            {
-    //                $selected_ids = $_POST[InternshipOrganizerMomentBrowserTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-    //            }
-    //            
-    //            if (empty($selected_ids))
-    //            {
-    //                $selected_ids = array();
-    //            }
-    //            elseif (! is_array($selected_ids))
-    //            {
-    //                $selected_ids = array($selected_ids);
-    //            }
-    //            switch ($_POST['action'])
-    //            {
-    //                case self :: PARAM_DELETE_SELECTED_MOMENTS :
-    //                    $this->set_agreement_action(self :: ACTION_DELETE_MOMENT);
-    //                    $_GET[self :: PARAM_MOMENT_ID] = $selected_ids;
-    //                    break;
-    //                case self :: PARAM_DELETE_SELECTED_AGREEMENTS :
-    //                    $this->set_agreement_action(self :: ACTION_DELETE_AGREEMENT);
-    //                    $_GET[self :: PARAM_AGREEMENT_ID] = $selected_ids;
-    //                    break;
-    //            }
-    //        }
-    //    }
-    
 
     private function set_agreement_action($action)
     {

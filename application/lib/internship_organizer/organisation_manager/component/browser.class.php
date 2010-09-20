@@ -9,11 +9,9 @@ class InternshipOrganizerOrganisationManagerBrowserComponent extends InternshipO
 
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-
         $this->action_bar = $this->get_action_bar();
         
-        $this->display_header($trail);
+        $this->display_header();
         
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';

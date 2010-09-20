@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOrganizerAgreementManager
+class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOrganizerAgreementManager implements DelegateComponent
 {
 
     /**
@@ -11,7 +11,7 @@ class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOr
 
     if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REPORTING, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -23,13 +23,14 @@ class InternshipOrganizerAgreementManagerReportingComponent extends InternshipOr
 
         $user_id = $this->get_user_id();
         $this->set_parameter(UserManager :: PARAM_USER_USER_ID, $user_id);
-
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('agreement general');
+      
+        $breadcrumbtrail = BreadcrumbTrail::get_instance();
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+      
 
         $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name('internship_organizer_agreement_reporting_template', InternshipOrganizerManager :: APPLICATION_NAME);
-        $rtv->set_breadcrumb_trail($trail);
+        $rtv->set_breadcrumb_trail($breadcrumbtrail);
         $rtv->hide_all_blocks();
         $rtv->run();
     }

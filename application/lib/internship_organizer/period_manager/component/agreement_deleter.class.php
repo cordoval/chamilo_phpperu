@@ -10,7 +10,7 @@ class InternshipOrganizerPeriodManagerAgreementDeleterComponent extends Internsh
      */
     function run()
     {
-        $ids = $_GET[InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID];
+        $ids = $_GET[self :: PARAM_AGREEMENT_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -59,7 +59,7 @@ class InternshipOrganizerPeriodManagerAgreementDeleterComponent extends Internsh
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_PERIOD, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_AGREEMENT));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_AGREEMENT));
         }
         else
         {

@@ -1,4 +1,6 @@
 <?php
+require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/viewer.class.php';
+
 
 class InternshipOrganizerPeriodManagerPublicationRightsEditorComponent extends InternshipOrganizerPeriodManager
 {
@@ -9,9 +11,9 @@ class InternshipOrganizerPeriodManagerPublicationRightsEditorComponent extends I
     function run()
     {
         
-        $publications = Request :: get(InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID);
+        $publications = Request :: get(self :: PARAM_PUBLICATION_ID);
         
-        $this->set_parameter(InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID, $publications);
+        $this->set_parameter(self :: PARAM_PUBLICATION_ID, $publications);
         
         if ($publications && ! is_array($publications))
         {
@@ -70,9 +72,19 @@ class InternshipOrganizerPeriodManagerPublicationRightsEditorComponent extends I
 
     function get_available_rights()
     {
-        
         return InternshipOrganizerRights :: get_available_rights_for_publications();
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => Request :: get(self :: PARAM_PERIOD_ID))), Translation :: get('BrowseInternshipOrganizerPeriods')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => Request :: get(self :: PARAM_PERIOD_ID), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_PUBLICATIONS)), Translation :: get('ViewInternshipOrganizerPeriod')));
     
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_PERIOD_ID);
     }
 
 }

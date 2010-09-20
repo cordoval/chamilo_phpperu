@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerPeriodManagerReportingComponent extends InternshipOrganizerPeriodManager
+class InternshipOrganizerPeriodManagerReportingComponent extends InternshipOrganizerPeriodManager implements DelegateComponent
 {
 
     /**
@@ -11,22 +11,23 @@ class InternshipOrganizerPeriodManagerReportingComponent extends InternshipOrgan
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
         
-        $period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+        $period_id = Request :: get(self :: PARAM_PERIOD_ID);
         $period = InternshipOrganizerDataManager :: get_instance()->retrieve_period($period_id);
-        $this->set_parameter(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID, $period_id);
+        $this->set_parameter(self :: PARAM_PERIOD_ID, $period_id);
+		
+        $breadcrumbtrail = BreadcrumbTrail::get_instance();
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS)), Translation :: get('BrowseInternshipOrganizerPeriods')));
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('period general');
         
         $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name('internship_organizer_period_reporting_template', InternshipOrganizerManager :: APPLICATION_NAME);
-        $rtv->set_breadcrumb_trail($trail);
+        $rtv->set_breadcrumb_trail($breadcrumbtrail);
         $rtv->hide_all_blocks();
         
         $rtv->run();

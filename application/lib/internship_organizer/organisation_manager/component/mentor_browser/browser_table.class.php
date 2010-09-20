@@ -18,12 +18,19 @@ class InternshipOrganizerMentorBrowserTable extends ObjectTable
         $data_provider = new InternshipOrganizerMentorBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = array();
         
-        $actions[] = new ObjectTableFormAction(InternshipOrganizerOrganisationManager :: PARAM_DELETE_SELECTED_MENTORS, Translation :: get('RemoveSelected'));
+        $action = new ObjectTableFormActions();
+        $action->set_action(InternshipOrganizerOrganisationManager :: PARAM_ACTION);
+        $action->add_form_action(new ObjectTableFormAction(InternshipOrganizerOrganisationManager :: ACTION_DELETE_MENTOR, Translation :: get('RemoveSelected')));
         
-        $this->set_form_actions($actions);
+        $this->set_form_actions($action);
         $this->set_default_row_count(20);
+    }
+
+    static function handle_table_action()
+    {
+        $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
+        Request :: set_get(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID, $ids);
     }
 }
 ?>

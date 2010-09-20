@@ -5,8 +5,9 @@
 
 //require_once dirname ( __FILE__ ) . '/rel_location_browser/rel_location_browser_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/location_browser/browser_table.class.php';
-//require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/mentor_browser/browser_table.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/rel_mentor_browser/rel_mentor_browser_table.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/mentor_browser/browser_table.class.php';
+//require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/rel_mentor_browser/rel_mentor_browser_table.class.php';
+
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/rel_user_browser/rel_user_browser_table.class.php';
 
@@ -23,18 +24,12 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
     function run()
     {
         
-        $organisation_id = $_GET[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID];
+        $organisation_id = $_GET[self :: PARAM_ORGANISATION_ID];
         $this->organisation = $this->retrieve_organisation($organisation_id);
         
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id)), $this->organisation->get_name()));
-        
-
         $this->action_bar = $this->get_action_bar();
         
-        $this->display_header($trail);
+        $this->display_header();
         
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
@@ -56,17 +51,17 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
         $tabs = new DynamicTabsRenderer($renderer_name);
         
         $parameters = $this->get_parameters();
-        $parameters[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID] = $this->organisation->get_id();
-        $table = new InternshipOrganizerLocationBrowserTable($this, $parameters, $this->get_organisation_condition());
+        $parameters[self :: PARAM_ORGANISATION_ID] = $this->organisation->get_id();
+        
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_LOCATIONS;
+        $table = new InternshipOrganizerLocationBrowserTable($this, $parameters, $this->get_location_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_LOCATIONS, Translation :: get('InternshipOrganizerLocations'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
-        $parameters = $this->get_parameters();
-        $parameters[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID] = $this->organisation->get_id();
-        $table = new InternshipOrganizerMentorRelLocationBrowserTable($this, $parameters, $this->get_mentor_condition());
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_MENTORS;
+        $table = new InternshipOrganizerMentorBrowserTable($this, $parameters, $this->get_mentor_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_MENTORS, Translation :: get('InternshipOrganizerMentors'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
-        $parameters = $this->get_parameters();
-        $parameters[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID] = $this->organisation->get_id();
+        $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_USERS;
         $table = new InternshipOrganizerOrganisationRelUserBrowserTable($this, $parameters, $this->get_user_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_USERS, Translation :: get('InternshipOrganizerUsers'), Theme :: get_image_path('internship_organizer') . 'place_mini_period.png', $table->as_html()));
         
@@ -87,28 +82,34 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerMentor'), Theme :: get_common_image_path() . 'action_create.png', $this->get_create_mentor_url($this->organisation), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         $action_bar->set_search_url($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $this->organisation->get_id())));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_organisation_subscribe_users_url($this->organisation), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_subscribe_users_url($this->organisation), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
         return $action_bar;
     }
 
-    function get_organisation_condition()
+    function get_location_condition()
     {
         
+    	$region_alias = InternshipOrganizerDataManager::get_instance()->get_alias(InternshipOrganizerRegion :: get_table_name());
+        $organisation_alias = InternshipOrganizerDataManager::get_instance()->get_alias(InternshipOrganizerOrganisation :: get_table_name());
+        $location_alias = InternshipOrganizerDataManager::get_instance()->get_alias(InternshipOrganizerLocation :: get_table_name());
+    	
         $query = $this->action_bar->get_query();
         $conditions = array();
         $organisation_id = $this->organisation->get_id();
-        $conditions[] = new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $organisation_id);
+        $conditions[] = new EqualityCondition(InternshipOrganizerLocation :: PROPERTY_ORGANISATION_ID, $organisation_id, $location_alias, true);
         
         if (isset($query) && $query != '')
         {
             $search_conditions = array();
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_NAME, '*' . $query . '*');
-            //$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_STREET, '*' . $query . '*' );
-            //$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_STREET_NUMBER, '*' . $query . '*' );
-            //$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_CITY, '*' . $query . '*' );
-            
-
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerLocation :: PROPERTY_NAME, '*' . $query . '*', $location_alias, true);
+            $search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_DESCRIPTION, '*' . $query . '*' , $location_alias, true);
+            $search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_ADDRESS, '*' . $query . '*' , $location_alias, true);
+            $search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_TELEPHONE, '*' . $query . '*' , $location_alias, true);
+            $search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_EMAIL, '*' . $query . '*' , $location_alias, true);
+			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerLocation::PROPERTY_FAX, '*' . $query . '*' , $location_alias, true);
+            $search_conditions [] = new PatternMatchCondition ( InternshipOrganizerRegion::PROPERTY_CITY_NAME, '*' . $query . '*' , $region_alias, true);
+			$search_conditions [] = new PatternMatchCondition ( InternshipOrganizerRegion::PROPERTY_ZIP_CODE, '*' . $query . '*' , $region_alias, true);
             $conditions[] = new OrCondition($search_conditions);
         }
         return new AndCondition($conditions);
@@ -117,26 +118,21 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
     function get_mentor_condition()
     {
         
-        $query = $this->action_bar->get_query();
+        $mentor_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerMentor :: get_table_name());
+        $organisation_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerOrganisation :: get_table_name());
+        
         $conditions = array();
-        $location_ids = $this->organisation->get_location_ids();
-        if (count($location_ids) > 0)
-        {
-            $conditions[] = new InCondition(InternshipOrganizerMentorRelLocation :: PROPERTY_LOCATION_ID, $location_ids);
-        }
-        else
-        {
-            $conditions[] = new EqualityCondition(InternshipOrganizerMentorRelLocation :: PROPERTY_LOCATION_ID, 0);
         
-        }
+        $conditions[] = new EqualityCondition(InternshipOrganizerOrganisation :: PROPERTY_ID, $this->organisation->get_id(), $organisation_alias, true);
         
+        $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
             $search_conditions = array();
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME, '*' . $query . '*', InternshipOrganizerMentor :: get_table_name());
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_LASTNAME, '*' . $query . '*', InternshipOrganizerMentor :: get_table_name());
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_TITLE, '*' . $query . '*', InternshipOrganizerMentor :: get_table_name());
-            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_EMAIL, '*' . $query . '*', InternshipOrganizerMentor :: get_table_name());
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_FIRSTNAME, '*' . $query . '*', $mentor_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_LASTNAME, '*' . $query . '*', $mentor_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_TITLE, '*' . $query . '*', $mentor_alias, true);
+            $search_conditions[] = new PatternMatchCondition(InternshipOrganizerMentor :: PROPERTY_EMAIL, '*' . $query . '*', $mentor_alias, true);
             $conditions[] = new OrCondition($search_conditions);
         }
         return new AndCondition($conditions);
@@ -145,46 +141,36 @@ class InternshipOrganizerOrganisationManagerViewerComponent extends InternshipOr
     function get_user_condition()
     {
         
-        $condition = new EqualityCondition(InternshipOrganizerOrganisationRelUser :: PROPERTY_ORGANISATION_ID, $this->organisation->get_id());
+        $organisation_rel_user_alias = InternshipOrganizerDataManager :: get_instance()->get_alias(InternshipOrganizerOrganisationRelUser :: get_table_name());
+        $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
+        
+        $conditions = array();
+        
+        $conditions[] = new EqualityCondition(InternshipOrganizerOrganisationRelUser :: PROPERTY_ORGANISATION_ID, $this->organisation->get_id(), $organisation_rel_user_alias, true);
         
         $query = $this->action_bar->get_query();
         if (isset($query) && $query != '')
         {
-            $conditions = array();
-            $conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*');
-            $conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*');
-            $conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*');
-            $user_condition = new OrCondition($conditions);
-            
-            $udm = UserDataManager :: get_instance();
-            $users = $udm->retrieve_users($user_condition);
-            
-            $user_ids = array();
-            while ($user = $users->next_result())
-            {
-                $user_ids[] = $user->get_id();
-            }
-            
-            if (count($user_ids))
-            {
-                
-                $rel_user_condition = new InCondition(InternshipOrganizerOrganisationRelUser :: PROPERTY_USER_ID, $user_ids);
-            
-            }
-            else
-            {
-                $rel_user_condition = new EqualityCondition(InternshipOrganizerOrganisationRelUser :: PROPERTY_USER_ID, 0);
-            
-            }
-            
-            $and_conditions = array();
-            $and_conditions[] = $condition;
-            $and_conditions[] = $rel_user_condition;
-            
-            return new AndCondition($and_conditions);
+            $search_conditions = array();
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $query . '*', $user_alias, true);
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $query . '*', $user_alias, true);
+            $search_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $query . '*', $user_alias, true);
+            $conditions[] = new OrCondition($search_conditions);
+        
         }
         
-        return $condition;
+        return new AndCondition($conditions);
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
+    
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_ORGANISATION_ID);
     }
 
 }

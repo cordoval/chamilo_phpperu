@@ -4,6 +4,8 @@ require_once dirname(__FILE__) . '/../agreement_manager.class.php';
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/publisher/publication_table/publication_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/moment_viewer.class.php';
+
 
 class InternshipOrganizerAgreementManagerPublicationViewerComponent extends InternshipOrganizerAgreementManager
 {
@@ -11,11 +13,11 @@ class InternshipOrganizerAgreementManagerPublicationViewerComponent extends Inte
     function run()
     {
         
-        $publication_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID];
+        $publication_id = $_GET[self :: PARAM_PUBLICATION_ID];
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $publication_id, InternshipOrganizerRights :: TYPE_PUBLICATION))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
@@ -37,10 +39,9 @@ class InternshipOrganizerAgreementManagerPublicationViewerComponent extends Inte
                 break;
         }
         
-        $content_object = $this->publication->get_content_object();
+        $content_object = $publication->get_content_object();
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $this->display_header($trail);
+        $this->display_header();
         
         echo '<div>';
         $display = ContentObjectDisplay :: factory($content_object);
@@ -49,5 +50,23 @@ class InternshipOrganizerAgreementManagerPublicationViewerComponent extends Inte
         
         $this->display_footer();
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        $moment_id = Request :: get(self :: PARAM_MOMENT_ID);
+        $moment = $this->retrieve_moment($moment_id);
+        $agreement_id = $moment->get_agreement_id();
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS)), Translation :: get('ViewInternshipOrganizerAgreement')));
+        
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MOMENT, self :: PARAM_MOMENT_ID => $moment_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerMomentViewerComponent :: TAB_PUBLICATIONS)), Translation :: get('ViewInternshipOrganizerMoment')));
+    
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_AGREEMENT_ID, self :: PARAM_MOMENT_ID);
+    }
+
 }
 ?>

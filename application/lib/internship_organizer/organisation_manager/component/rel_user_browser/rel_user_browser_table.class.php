@@ -23,7 +23,7 @@ class InternshipOrganizerOrganisationRelUserBrowserTable extends ObjectTable
         
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_EDIT, InternshipOrganizerRights :: LOCATION_ORGANISATION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerOrganisationManager :: ACTION_UNSUBSCRIBE_USERS, Translation :: get('Unsubscribe')));
+            $actions->add_form_action(new ObjectTableFormAction(InternshipOrganizerOrganisationManager :: ACTION_UNSUBSCRIBE_USER, Translation :: get('Unsubscribe')));
         }
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

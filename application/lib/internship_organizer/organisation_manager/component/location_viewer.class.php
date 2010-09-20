@@ -1,16 +1,11 @@
 <?php
 
 require_once dirname(__FILE__) . '/../organisation_manager.class.php';
-//require_once dirname ( __FILE__ ) . '/../organisation_manager_component.class.php';
-
-
-//require_once dirname ( __FILE__ ) . '/rel_location_browser/rel_location_browser_table.class.php';
 require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/location_browser/browser_table.class.php';
 
 class InternshipOrganizerOrganisationManagerLocationViewerComponent extends InternshipOrganizerOrganisationManager
 {
-    
-    //private $action_bar;
+ 
     private $location;
     private $region;
     private $organisation;
@@ -30,24 +25,10 @@ class InternshipOrganizerOrganisationManagerLocationViewerComponent extends Inte
         $this->organisation = $this->retrieve_organisation($organisation_id);
         $organisation = $this->organisation;
         
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id)), $this->organisation->get_name()));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_LOCATION, InternshipOrganizerOrganisationManager :: PARAM_LOCATION_ID => $location_id, InternshipOrganizerOrganisationManager :: PARAM_REGION_ID => $region_id, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id)), $this->location->get_name()));
+       
+        $this->display_header();
         
-        //$this->action_bar = $this->get_action_bar ();
-        
-
-        $this->display_header($trail);
-        
-        //echo $this->action_bar->as_html ();
-        //echo '<div id="action_bar_browser">';
-        
-
-        //echo '<div>';
-        //echo $this->get_table ();
-        //echo '</div>';
-        //echo '</div>';
+       
         echo '<div class="clear"></div><div class="content_object" style="background-image: url(' . Theme :: get_common_image_path() . 'place_location.png);">';
         echo '<div class="title">' . Translation :: get('Details') . '</div>';
         echo '<b>' . Translation :: get('Name') . '</b>: ' . $location->get_name();

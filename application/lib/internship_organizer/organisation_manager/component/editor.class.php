@@ -11,25 +11,34 @@ class InternshipOrganizerOrganisationManagerEditorComponent extends InternshipOr
      */
     function run()
     {
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
-        //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateInternshipOrganizerOrganisation')));
-        
-        $organisation = $this->retrieve_organisation(Request :: get(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID));
-        $form = new InternshipOrganizerOrganisationForm(InternshipOrganizerOrganisationForm :: TYPE_EDIT, $organisation, $this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation->get_id())), $this->get_user());
+      
+        $organisation = $this->retrieve_organisation(Request :: get(self :: PARAM_ORGANISATION_ID));
+        $form = new InternshipOrganizerOrganisationForm(InternshipOrganizerOrganisationForm :: TYPE_EDIT, $organisation, $this->get_url(array(self :: PARAM_ORGANISATION_ID => $organisation->get_id())), $this->get_user());
         
         if ($form->validate())
         {
             $success = $form->update_organisation();
-            $this->redirect($success ? Translation :: get('InternshipOrganizerOrganisationUpdated') : Translation :: get('InternshipOrganizerOrganisationNotUpdated'), ! $success, array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION));
+            $this->redirect($success ? Translation :: get('InternshipOrganizerOrganisationUpdated') : Translation :: get('InternshipOrganizerOrganisationNotUpdated'), ! $success, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_ORGANISATION));
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_ORGANISATION)), Translation :: get('BrowseInternshipOrganizerOrganisations')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ORGANISATION, self :: PARAM_ORGANISATION_ID => Request :: get(self :: PARAM_ORGANISATION_ID))), Translation :: get('ViewInternshipOrganizerOrganisation')));
+    
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_ORGANISATION_ID);
+    }
+
 }
 ?>

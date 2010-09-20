@@ -1,9 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../../tables/mentor_table/default_mentor_table_column_model.class.php';
-require_once dirname(__FILE__) . '/../../../mentor.class.php';
+require_once dirname(__FILE__) . '/../../../tables/mentor_rel_location_table/default_mentor_rel_location_table_column_model.class.php';
+require_once dirname(__FILE__) . '/../../../tables/region_table/default_region_table_column_model.class.php';
+require_once dirname(__FILE__) . '/../../../mentor_rel_location.class.php';
 
-class InternshipOrganizerMentorBrowserTableColumnModel extends DefaultInternshipOrganizerMentorTableColumnModel
+class InternshipOrganizerMentorRelLocationBrowserTableColumnModel extends DefaultInternshipOrganizerMentorRelLocationTableColumnModel
 {
     /**
      * The tables modification column
@@ -13,11 +14,12 @@ class InternshipOrganizerMentorBrowserTableColumnModel extends DefaultInternship
     /**
      * Constructor
      */
-    function InternshipOrganizerMentorBrowserTableColumnModel()
+    function InternshipOrganizerMentorRelLocationBrowserTableColumnModel()
     {
         parent :: __construct();
         $this->set_default_order_column(0);
         $this->add_column(self :: get_modification_column());
+    
     }
 
     /**

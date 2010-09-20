@@ -3,7 +3,8 @@
 require_once dirname(__FILE__) . '/../period_manager.class.php';
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/publisher/publication_table/publication_table.class.php';
-require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/viewer.class.php';
+
 
 class InternshipOrganizerPeriodManagerPublicationViewerComponent extends InternshipOrganizerPeriodManager
 {
@@ -11,7 +12,7 @@ class InternshipOrganizerPeriodManagerPublicationViewerComponent extends Interns
     function run()
     {
         
-        $publication_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID];
+        $publication_id = $_GET[self :: PARAM_PUBLICATION_ID];
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $publication_id, InternshipOrganizerRights :: TYPE_PUBLICATION))
         {
@@ -41,9 +42,8 @@ class InternshipOrganizerPeriodManagerPublicationViewerComponent extends Interns
         }
         
         $content_object = $publication->get_content_object();
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        $this->display_header($trail);
+       
+        $this->display_header();
         
         echo '<div>';
         $display = ContentObjectDisplay :: factory($content_object);
@@ -52,5 +52,18 @@ class InternshipOrganizerPeriodManagerPublicationViewerComponent extends Interns
         
         $this->display_footer();
     }
+    
+function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => Request :: get(self :: PARAM_PERIOD_ID))), Translation :: get('BrowseInternshipOrganizerPeriods')));
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => Request :: get(self :: PARAM_PERIOD_ID), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_PUBLICATIONS)), Translation :: get('ViewInternshipOrganizerPeriod')));
+    
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_PERIOD_ID);
+    }
+    
 }
 ?>

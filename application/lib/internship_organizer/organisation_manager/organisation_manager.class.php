@@ -15,6 +15,8 @@ class InternshipOrganizerOrganisationManager extends SubManager
     const PARAM_REGION_ID = 'region_id';
     
     const PARAM_MENTOR_ID = 'mentor_id';
+    const PARAM_MENTOR_REL_LOCATION_ID = 'mentor_rel_location_id';
+    const PARAM_MENTOR_REL_USER_ID = 'mentor_rel_user_id';
     
     const ACTION_CREATE_ORGANISATION = 'creator';
     const ACTION_BROWSE_ORGANISATION = 'browser';
@@ -30,10 +32,14 @@ class InternshipOrganizerOrganisationManager extends SubManager
     const ACTION_CREATE_MENTOR = 'mentor_creator';
     const ACTION_EDIT_MENTOR = 'mentor_editor';
     const ACTION_DELETE_MENTOR = 'mentor_deleter';
+    const ACTION_SUBSCRIBE_LOCATION = 'subscribe_location';
+    const ACTION_UNSUBSCRIBE_LOCATION = 'unsubscribe_location';
+    const ACTION_SUBSCRIBE_MENTOR_USERS = 'subscribe_mentor_user';
+    const ACTION_UNSUBSCRIBE_MENTOR_USER = 'unsubscribe_mentor_user';
     const ACTION_VIEW_MENTOR = 'mentor_viewer';
     
-    const ACTION_SUBSCRIBE_USERS = 'subscribe_users';
-    const ACTION_UNSUBSCRIBE_USERS = 'unsubscribe_users';
+    const ACTION_SUBSCRIBE_USER = 'subscribe_user';
+    const ACTION_UNSUBSCRIBE_USER = 'unsubscribe_user';
     
     const DEFAULT_ACTION = self :: ACTION_BROWSE_ORGANISATION;
 
@@ -165,19 +171,39 @@ class InternshipOrganizerOrganisationManager extends SubManager
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_MENTOR, self :: PARAM_MENTOR_ID => $mentor->get_id()));
     }
 
+    function get_subscribe_locations_url($mentor)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_LOCATION, self :: PARAM_MENTOR_ID => $mentor->get_id()));
+    }
+
+    function get_unsubscribe_location_url($mentor_rel_location)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_LOCATION, self :: PARAM_MENTOR_REL_LOCATION_ID => $mentor_rel_location->get_mentor_id() . '|' . $mentor_rel_location->get_location_id()));
+    }
+
     function get_view_mentor_url($mentor)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MENTOR, self :: PARAM_MENTOR_ID => $mentor->get_id()));
     }
 
-    function get_organisation_subscribe_users_url($organisation)
+    function get_subscribe_mentor_users_url($mentor)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USERS, self :: PARAM_ORGANISATION_ID => $organisation->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_MENTOR_USERS, self :: PARAM_MENTOR_ID => $mentor->get_id()));
+    }
+
+    function get_unsubscribe_mentor_user_url($mentor_rel_user)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_MENTOR_USER, self :: PARAM_MENTOR_REL_USER_ID => $mentor_rel_user->get_mentor_id() . '|' . $mentor_rel_user->get_user_id()));
+    }
+
+    function get_subscribe_users_url($organisation)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER, self :: PARAM_ORGANISATION_ID => $organisation->get_id()));
     }
 
     function get_unsubscribe_user_url($organisation_rel_user)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USERS, self :: PARAM_ORGANISATION_REL_USER_ID => $organisation_rel_user->get_organisation_id().'|'.$organisation_rel_user->get_user_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER, self :: PARAM_ORGANISATION_REL_USER_ID => $organisation_rel_user->get_organisation_id() . '|' . $organisation_rel_user->get_user_id()));
     }
 
     private function set_organisation_action($action)

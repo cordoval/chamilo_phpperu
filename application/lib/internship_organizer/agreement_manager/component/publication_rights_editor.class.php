@@ -1,5 +1,9 @@
 <?php
 
+require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/viewer.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/moment_viewer.class.php';
+
+
 class InternshipOrganizerAgreementManagerPublicationRightsEditorComponent extends InternshipOrganizerAgreementManager
 {
 
@@ -9,9 +13,9 @@ class InternshipOrganizerAgreementManagerPublicationRightsEditorComponent extend
     function run()
     {
         
-        $publications = Request :: get(InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID);
+        $publications = Request :: get(self :: PARAM_PUBLICATION_ID);
         
-        $this->set_parameter(InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID, $publications);
+        $this->set_parameter(self :: PARAM_PUBLICATION_ID, $publications);
         
         if ($publications && ! is_array($publications))
         {
@@ -73,6 +77,21 @@ class InternshipOrganizerAgreementManagerPublicationRightsEditorComponent extend
         
         return InternshipOrganizerRights :: get_available_rights_for_publications();
     
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        $agreement_id = Request :: get(self :: PARAM_AGREEMENT_ID);
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS)), Translation :: get('ViewInternshipOrganizerAgreement')));
+        $moment_id = Request :: get(self :: PARAM_MOMENT_ID);
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_MOMENT, self :: PARAM_MOMENT_ID => $moment_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerMomentViewerComponent :: TAB_PUBLICATIONS)), Translation :: get('ViewInternshipOrganizerMoment')));
+    
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_AGREEMENT_ID, self :: PARAM_MOMENT_ID);
     }
 
 }

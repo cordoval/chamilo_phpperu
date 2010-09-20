@@ -5,56 +5,54 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/period_m
 
 class InternshipOrganizerPeriodManagerSubscribeUserComponent extends InternshipOrganizerPeriodManager
 {
-    private $period;
-    private $ab;
-
-    /**
+     /**
      * Runs this component and displays its output.
      */
     function run()
     {
         
-        $period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
-        $location_id = InternshipOrganizerRights :: get_location_id_by_identifier_from_internship_organizers_subtree($period_id, InternshipOrganizerRights :: TYPE_PERIOD);
+        $period_id = Request :: get(self :: PARAM_PERIOD_ID);
         
-        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_USER_RIGHT, $location_id, InternshipOrganizerRights :: TYPE_PERIOD))
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: SUBSCRIBE_USER_RIGHT, $period_id, InternshipOrganizerRights :: TYPE_PERIOD))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
         
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('period subscribe users');
+        $period = $this->retrieve_period($period_id);
         
-        $this->period = $this->retrieve_period($period_id);
-        
-        $form = new InternshipOrganizerPeriodSubscribeUserForm($this->period, $this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID))), $this->get_user());
+        $form = new InternshipOrganizerPeriodSubscribeUserForm($period, $this->get_url(array(self :: PARAM_PERIOD_ID => Request :: get(self :: PARAM_PERIOD_ID))), $this->get_user());
         
         if ($form->validate())
         {
             $success = $form->create_period_rel_users();
             if ($success)
             {
-                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelUsersCreated'), (false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_USERS));
+                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelUsersCreated'), (false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_USERS));
             }
             else
             {
-                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelUsersNotCreated'), (true), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->period->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_USERS));
+                $this->redirect(Translation :: get('InternshipOrganizerPeriodRelUsersNotCreated'), (true), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_USERS));
             }
         }
         else
         {
-            $this->display_header($trail, true);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }
     }
 
-    function get_period()
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
     {
-        return $this->period;
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS)), Translation :: get('BrowseInternshipOrganizerPeriods')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_PERIOD_ID);
     }
 
 }

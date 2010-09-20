@@ -14,8 +14,8 @@ class DefaultInternshipOrganizerMentorTableCellRenderer extends ObjectTableCellR
 
     function render_cell($column, $mentor)
     {
-        
-        switch ($column->get_name())
+        	
+    	switch ($column->get_name())
         {
             case InternshipOrganizerMentor :: PROPERTY_TITLE :
                 return $mentor->get_title();
@@ -27,8 +27,6 @@ class DefaultInternshipOrganizerMentorTableCellRenderer extends ObjectTableCellR
                 return $mentor->get_email();
             case InternshipOrganizerMentor :: PROPERTY_TELEPHONE :
                 return $mentor->get_telephone();
-//            case InternshipOrganizerMentor :: PROPERTY_USER_ID :
-//                return $mentor->get_user_id();
             default :
                 return '&nbsp;';
         }

@@ -10,8 +10,8 @@ class InternshipOrganizerAgreementManagerSubscriberComponent extends InternshipO
      */
     function run()
     {
-        $agreement_id = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID);
-        $locations = Request :: get(InternshipOrganizerAgreementManager :: PARAM_LOCATION_ID);
+        $agreement_id = Request :: get(self :: PARAM_AGREEMENT_ID);
+        $locations = Request :: get(self :: PARAM_LOCATION_ID);
         
         $failures = 0;
         
@@ -76,7 +76,7 @@ class InternshipOrganizerAgreementManagerSubscriberComponent extends InternshipO
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_LOCATIONS));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_LOCATIONS));
             exit();
         }
         else

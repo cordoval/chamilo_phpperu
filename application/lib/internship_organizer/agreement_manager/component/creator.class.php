@@ -14,14 +14,12 @@ class InternshipOrganizerAgreementManagerCreatorComponent extends InternshipOrga
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_ADD, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-        
-        $trail = BreadcrumbTrail :: get_instance();
-   
+    
         $agreement = new InternshipOrganizerAgreement();
         $agreement->set_owner($this->get_user_id());
         
@@ -30,14 +28,24 @@ class InternshipOrganizerAgreementManagerCreatorComponent extends InternshipOrga
         if ($form->validate())
         {
             $success = $form->create_agreement();
-            $this->redirect($success ? Translation :: get('InternshipOrganizerAgreementCreated') : Translation :: get('InternshipOrganizerAgreementNotCreated'), ! $success, array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT));
+            $this->redirect($success ? Translation :: get('InternshipOrganizerAgreementCreated') : Translation :: get('InternshipOrganizerAgreementNotCreated'), ! $success, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT));
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_AGREEMENT_ID);
     }
 }
 ?>

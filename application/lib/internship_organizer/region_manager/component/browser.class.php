@@ -21,21 +21,18 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REGION, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('region general');
         
         $this->action_bar = $this->get_action_bar();
         
         $menu = $this->get_menu_html();
         $output = $this->get_browser_html();
         
-        $this->display_header($trail);
+        $this->display_header();
         echo $this->action_bar->as_html() . '<br />';
         echo $menu;
         echo $output;
@@ -120,27 +117,16 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
     {
         if (! $this->region)
         {
-            $region_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_REGION_ID);
-            //            $region_parent_id = Request :: get(InternshipOrganizerRegionManager :: PARAM_PARENT_REGION_ID);
+            $region_id = Request :: get(self :: PARAM_REGION_ID);
             
-
             if (! $region_id)
-            //            if (! $region_id && ! $region_parent_id)
             {
                 $this->region = $this->get_root_region()->get_id();
             }
             else
             {
-                //                if ($region_parent_id)
-                //                {
-                //                    $this->region = $region_parent_id;
-                //                }
-                //                else
-                //                {
                 $this->region = $region_id;
-                //                }
             }
-        
         }
         
         return $this->region;
@@ -182,7 +168,7 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->set_search_url($this->get_url(array(InternshipOrganizerRegionManager :: PARAM_REGION_ID => $this->get_region())));
+        $action_bar->set_search_url($this->get_url(array(self :: PARAM_REGION_ID => $this->get_region())));
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewRoot'), Theme :: get_common_image_path() . 'action_home.png', $this->get_browse_regions_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         
@@ -190,10 +176,7 @@ class InternshipOrganizerRegionManagerBrowserComponent extends InternshipOrganiz
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateInternshipOrganizerRegion'), Theme :: get_common_image_path() . 'action_create.png', $this->get_region_create_url($this->get_region()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        
-        //        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_browse_regions_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        
-
+       
         return $action_bar;
     }
 }

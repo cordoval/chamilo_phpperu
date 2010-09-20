@@ -11,12 +11,12 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/publishe
 class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrganizerAgreementManager
 {
     
-    const TAB_LOCATIONS = 'loc_tab';
-    const TAB_MOMENTS = 'mom_tab';
-    const TAB_COORDINATOR = 'coord_tab';
-    const TAB_COACH = 'coah_tab';
-    const TAB_MENTOR = 'ment_tab';
-    const TAB_PUBLICATIONS = 'pub_tab';
+    const TAB_LOCATIONS = 1;
+    const TAB_MOMENTS = 2;
+    const TAB_COORDINATOR = 3;
+    const TAB_COACH = 4;
+    const TAB_MENTOR = 5;
+    const TAB_PUBLICATIONS = 6;
     
     private $action_bar;
     private $agreement;
@@ -362,6 +362,16 @@ class InternshipOrganizerAgreementManagerViewerComponent extends InternshipOrgan
         }
         
         return new AndCondition($conditions);
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_AGREEMENT_ID);
     }
 
 }

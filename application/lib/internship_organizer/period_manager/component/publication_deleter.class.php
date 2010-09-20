@@ -1,6 +1,8 @@
 <?php
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/period_manager/component/viewer.class.php';
+
 
 class InternshipOrganizerPeriodManagerPublicationDeleterComponent extends InternshipOrganizerPeriodManager
 {
@@ -11,7 +13,8 @@ class InternshipOrganizerPeriodManagerPublicationDeleterComponent extends Intern
     function run()
     {
         
-        $ids = $_GET[InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID];
+        $period_id = $_GET[self :: PARAM_PERIOD_ID];
+    	$ids = $_GET[self :: PARAM_PUBLICATION_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -59,7 +62,7 @@ class InternshipOrganizerPeriodManagerPublicationDeleterComponent extends Intern
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_PERIOD, self :: PARAM_PERIOD_ID => $period_id, DynamicTabsRenderer::PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerViewerComponent :: TAB_PUBLICATIONS));
         }
         else
         {

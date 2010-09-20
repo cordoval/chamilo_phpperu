@@ -11,7 +11,8 @@ class InternshipOrganizerAgreementManagerPublicationDeleterComponent extends Int
     function run()
     {
         
-        $ids = $_GET[InternshipOrganizerAgreementManager :: PARAM_PUBLICATION_ID];
+        $agreement_id = Request::get(self :: PARAM_AGREEMENT_ID);
+    	$ids = $_GET[self :: PARAM_PUBLICATION_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -58,8 +59,8 @@ class InternshipOrganizerAgreementManagerPublicationDeleterComponent extends Int
                     $message = 'SelectedInternshipOrganizerPublicationsDeleted';
                 }
             }
-            
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT));
+            		
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT));
         }
         else
         {

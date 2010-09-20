@@ -4,11 +4,11 @@ require_once dirname(__FILE__) . '/../period_manager.class.php';
 class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganizerPeriodManager
 {
     
-    const TAB_DETAILS = 'dett';
-    const TAB_SUBPERIODS = 'subt';
-    const TAB_GROUPS = 'grot';
-    const TAB_USERS = 'uset';
-    const TAB_CATEGORIES = 'catt';
+    const TAB_DETAILS = 1;
+    const TAB_SUBPERIODS = 2;
+    const TAB_GROUPS = 3;
+    const TAB_USERS = 4;
+    const TAB_CATEGORIES = 5;
     
     private $action_bar;
     private $period;
@@ -19,8 +19,8 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
      */
     function run()
     {
-             
-    	if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+        
+        if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
             $this->display_header($trail);
             $this->display_error_message(Translation :: get('NotAllowed'));
@@ -28,17 +28,14 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
             exit();
         }
         
-        $period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+        $period_id = Request :: get(self :: PARAM_PERIOD_ID);
         $period = $this->retrieve_period($period_id);
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('period general');
         
         $this->action_bar = $this->get_action_bar();
         $menu = $this->get_menu_html();
         $output = $this->get_browser_html();
         
-        $this->display_header($trail);
+        $this->display_header();
         echo $this->action_bar->as_html() . '<br />';
         echo $menu;
         echo $output;
@@ -55,7 +52,7 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-        $parameters[InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID] = $id;
+        $parameters[self :: PARAM_PERIOD_ID] = $id;
         
         // Users table tab
         $parameters[DynamicTabsRenderer :: PARAM_SELECTED_TAB] = self :: TAB_USERS;
@@ -119,7 +116,7 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
     {
         if (! $this->period)
         {
-            $period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+            $period_id = Request :: get(self :: PARAM_PERIOD_ID);
             
             if (! $period_id)
             {
@@ -226,7 +223,7 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->set_search_url($this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $this->get_period()->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => Request :: get(DynamicTabsRenderer :: PARAM_SELECTED_TAB))));
+        $action_bar->set_search_url($this->get_url(array(self :: PARAM_PERIOD_ID => $this->get_period()->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => Request :: get(DynamicTabsRenderer :: PARAM_SELECTED_TAB))));
         
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ViewRoot'), Theme :: get_common_image_path() . 'action_home.png', $this->get_browse_periods_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_browse_periods_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -243,6 +240,14 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
         {
             $action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path() . 'action_edit.png', $this->get_period_editing_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
+        if ($this->get_period()->get_parent_id() != 0)
+        {
+            if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
+            {
+                $action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path() . 'action_delete.png', $this->get_period_delete_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+            }
+        }
+        
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('ViewPeriod'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_period_viewing_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -260,72 +265,10 @@ class InternshipOrganizerPeriodManagerBrowserComponent extends InternshipOrganiz
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddCategories'), Theme :: get_common_image_path() . 'action_subscribe.png', $this->get_period_subscribe_category_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_REPORTING, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
-                {
+        {
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Reporting'), Theme :: get_common_image_path() . 'action_view_results.png', $this->get_period_reporting_url($this->get_period()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
         return $action_bar;
-    }
-
-    function get_browse_period_tabs($links)
-    {
-        $renderer_name = Utilities :: camelcase_to_underscores(get_class($this));
-        $browse_period_tabs = new DynamicTabsRenderer($renderer_name);
-        
-        $index = 0;
-        foreach ($links as $sub_manager_links)
-        {
-            if (count($sub_manager_links['links']))
-            {
-                $index ++;
-                $html = array();
-                
-                if (isset($sub_manager_links['search']))
-                {
-                    $search_form = new AdminSearchForm($this, $sub_manager_links['search'], $index);
-                    
-                    $html[] = '<div class="vertical_action" style="border-top: none;">';
-                    $html[] = '<div class="icon">';
-                    $html[] = '<img src="' . Theme :: get_image_path('internship_organizer') . 'browse_search.png" alt="' . Translation :: get('Search') . '" title="' . Translation :: get('Search') . '"/>';
-                    $html[] = '</div>';
-                    $html[] = $search_form->display();
-                    $html[] = '</div>';
-                }
-                
-                $count = 1;
-                
-                foreach ($sub_manager_links['links'] as $link)
-                {
-                    $count ++;
-                    
-                    if ($link['confirm'])
-                    {
-                        $onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
-                    }
-                    
-                    if (! isset($sub_manager_links['search']) && $application_settings_count == 0 && $count == 2)
-                    {
-                        $html[] = '<div class="vertical_action" style="border-top: none;">';
-                    }
-                    else
-                    {
-                        $html[] = '<div class="vertical_action">';
-                    }
-                    
-                    $html[] = '<div class="icon">';
-                    $html[] = '<a href="' . $link['url'] . '" ' . $onclick . '><img src="' . Theme :: get_image_path('internship_organizer') . 'browse_' . $link['action'] . '.png" alt="' . $link['name'] . '" title="' . $link['name'] . '"/></a>';
-                    $html[] = '</div>';
-                    $html[] = '<div class="description">';
-                    $html[] = '<h4><a href="' . $link['url'] . '" ' . $onclick . '>' . $link['name'] . '</a></h4>';
-                    $html[] = $link['description'];
-                    $html[] = '</div>';
-                    $html[] = '</div>';
-                }
-                
-                $browse_period_tabs->add_tab(new DynamicActionsTab($sub_manager_links['application']['class'], Translation :: get($sub_manager_links['application']['name']), Theme :: get_image_path() . 'place_mini_' . $sub_manager_links['application']['class'] . '.png', implode("\n", $html), Tab :: TYPE_ACTIONS));
-            }
-        }
-        
-        return $browse_period_tabs->render();
     }
 
 }

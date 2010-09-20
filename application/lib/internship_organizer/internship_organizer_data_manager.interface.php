@@ -38,8 +38,7 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_organisation_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
 
     function retrieve_organisation_rel_user($organisation_id, $user_id);
-    
-    
+
     //categories
     function delete_internship_organizer_category($category);
 
@@ -164,6 +163,8 @@ interface InternshipOrganizerDataManagerInterface
 
     function retrieve_mentor_rel_users($condition = null, $offset = null, $count = null, $order_property = null);
 
+    function retrieve_mentor_rel_user($mentor_id, $user_id);
+
     function delete_internship_organizer_mentor_rel_location($organisation_rel_location);
 
     function create_internship_organizer_mentor_rel_location($organisation_rel_location);
@@ -171,6 +172,8 @@ interface InternshipOrganizerDataManagerInterface
     function count_mentor_rel_locations($conditions = null);
 
     function retrieve_mentor_rel_locations($condition = null, $offset = null, $count = null, $order_property = null);
+
+    function retrieve_mentor_rel_location($mentor_id, $location_id);
 
     function count_mentor_agreements($conditions = null);
 
@@ -232,6 +235,6 @@ interface InternshipOrganizerDataManagerInterface
     function retrieve_publication($publication_id);
 
     function retrieve_publications($condition = null, $offset = null, $count = null, $order_property = null);
-  
+
 }
 ?>

@@ -16,17 +16,15 @@ class InternshipOrganizerMentorForm extends FormValidator
     
     private $mentor;
     private $user;
-    private $organisation_id;
-
-    function InternshipOrganizerMentorForm($form_type, $mentor, $action, $user, $organisation_id)
+      
+    function InternshipOrganizerMentorForm($form_type, $mentor, $action, $user)
     {
         parent :: __construct('mentor_settings', 'post', $action);
         
         $this->mentor = $mentor;
         $this->user = $user;
         $this->form_type = $form_type;
-        $this->organisation_id = $organisation_id;
-        
+                      
         if ($this->form_type == self :: TYPE_EDIT)
         {
             $this->build_editing_form();
@@ -53,7 +51,7 @@ class InternshipOrganizerMentorForm extends FormValidator
         
         $this->addElement('text', InternshipOrganizerMentor :: PROPERTY_TELEPHONE, Translation :: get('Telephone'));
         
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_location_feed.php?organisation_id=' . $this->organisation_id;
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_location_feed.php?organisation_id=' . $this->mentor->get_organisation_id();
         
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseUsers');
@@ -66,7 +64,7 @@ class InternshipOrganizerMentorForm extends FormValidator
         $elem->setDefaults($defaults);
         $elem->setDefaultCollapsed(false);
         
-        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_organisation_user_feed.php?organisation_id=' . $this->organisation_id;
+        $url = Path :: get(WEB_PATH) . 'application/lib/internship_organizer/xml_feeds/xml_organisation_user_feed.php?organisation_id=' . $this->mentor->get_organisation_id();
         $locale = array();
         $locale['Display'] = Translation :: get('ChooseUsers');
         $locale['Searching'] = Translation :: get('Searching');
@@ -107,13 +105,12 @@ class InternshipOrganizerMentorForm extends FormValidator
         $mentor = $this->mentor;
         $values = $this->exportValues();
         
-        $mentor->set_id($values[InternshipOrganizerMentor :: PROPERTY_ID]);
         $mentor->set_title($values[InternshipOrganizerMentor :: PROPERTY_TITLE]);
         $mentor->set_firstname($values[InternshipOrganizerMentor :: PROPERTY_FIRSTNAME]);
         $mentor->set_lastname($values[InternshipOrganizerMentor :: PROPERTY_LASTNAME]);
         $mentor->set_email($values[InternshipOrganizerMentor :: PROPERTY_EMAIL]);
         $mentor->set_telephone($values[InternshipOrganizerMentor :: PROPERTY_TELEPHONE]);
-        
+      
         return $mentor->update();
     }
 
@@ -121,14 +118,13 @@ class InternshipOrganizerMentorForm extends FormValidator
     {
         $mentor = $this->mentor;
         $values = $this->exportValues();
-        
-        $mentor->set_id($values[InternshipOrganizerMentor :: PROPERTY_ID]);
+            
         $mentor->set_title($values[InternshipOrganizerMentor :: PROPERTY_TITLE]);
         $mentor->set_firstname($values[InternshipOrganizerMentor :: PROPERTY_FIRSTNAME]);
         $mentor->set_lastname($values[InternshipOrganizerMentor :: PROPERTY_LASTNAME]);
         $mentor->set_email($values[InternshipOrganizerMentor :: PROPERTY_EMAIL]);
         $mentor->set_telephone($values[InternshipOrganizerMentor :: PROPERTY_TELEPHONE]);
-        
+                
         $value = $mentor->create();
         
         if ($value)
@@ -167,8 +163,7 @@ class InternshipOrganizerMentorForm extends FormValidator
     function setDefaults($defaults = array ())
     {
         $mentor = $this->mentor;
-        
-        $defaults[InternshipOrganizerMentor :: PROPERTY_ID] = $mentor->get_id();
+              
         $defaults[InternshipOrganizerMentor :: PROPERTY_TITLE] = $mentor->get_title();
         $defaults[InternshipOrganizerMentor :: PROPERTY_FIRSTNAME] = $mentor->get_firstname();
         $defaults[InternshipOrganizerMentor :: PROPERTY_LASTNAME] = $mentor->get_lastname();

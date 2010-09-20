@@ -8,5 +8,6 @@
 		<property name="lastname" type="text" notnull="1" />
 		<property name="email" type="text" />
 		<property name="telephone" type="text" />
+		<property name="organisation_id" type="integer" unsigned="1" notnull="1" />
 	</properties>
 </object>

@@ -14,21 +14,16 @@ class InternshipOrganizerOrganisationManagerLocationEditorComponent extends Inte
         
         $location = $this->retrieve_location(Request :: get(InternshipOrganizerOrganisationManager :: PARAM_LOCATION_ID));
         
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_url(array(InternshipOrganizerManager :: PARAM_ACTION => InternshipOrganizerManager :: ACTION_APPLICATION_CHOOSER)), Translation :: get('InternshipOrganizer')));
-        //$trail->add(new Breadcrumb($this->get_view_organisation_url($location->get_organisation()), Translation :: get('BrowseInternshipOrganizerOrganisations')));
-        //$trail->add(new Breadcrumb($this->get_update_location_url($location), Translation :: get('UpdateInternshipOrganizerLocation')));
-        
-        $form = new InternshipOrganizerLocationForm(InternshipOrganizerLocationForm :: TYPE_EDIT, $location, $this->get_url(array(InternshipOrganizerOrganisationManager :: PARAM_LOCATION_ID => $location->get_id())), $this->get_user());
+        $form = new InternshipOrganizerLocationForm(InternshipOrganizerLocationForm :: TYPE_EDIT, $location, $this->get_url(array(self :: PARAM_LOCATION_ID => $location->get_id())), $this->get_user());
         
         if ($form->validate())
         {
             $success = $form->update_location();
-            $this->redirect($success ? Translation :: get('InternshipOrganizerLocationUpdated') : Translation :: get('InternshipOrganizerLocationNotUpdated'), ! $success, array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $location->get_organisation_id()));
+            $this->redirect($success ? Translation :: get('InternshipOrganizerLocationUpdated') : Translation :: get('InternshipOrganizerLocationNotUpdated'), ! $success, array(self :: PARAM_ACTION => self :: ACTION_VIEW_ORGANISATION, self :: PARAM_ORGANISATION_ID => $location->get_organisation_id()));
         }
         else
         {
-            $this->display_header($trail);
+            $this->display_header();
             $form->display();
             $this->display_footer();
         }

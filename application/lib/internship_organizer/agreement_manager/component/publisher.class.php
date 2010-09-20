@@ -5,13 +5,14 @@ require_once dirname(__FILE__) . '/../../publisher/agreement_publisher.class.php
 class InternshipOrganizerAgreementManagerPublisherComponent extends InternshipOrganizerAgreementManager implements RepoViewerInterface
 {
 
+    private $type;
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
         
-        $agreement_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
+        $agreement_id = $_GET[self :: PARAM_AGREEMENT_ID];
         
         if ($agreement_id)
         {
@@ -22,8 +23,8 @@ class InternshipOrganizerAgreementManagerPublisherComponent extends InternshipOr
                 $this->display_footer();
                 exit();
             }
-            $type = InternshipOrganizerAgreementPublisher :: SINGLE_AGREEMENT_TYPE;
-            $this->set_parameter(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID, $agreement_id);
+            $this->type = InternshipOrganizerAgreementPublisher :: SINGLE_AGREEMENT_TYPE;
+            $this->set_parameter(self :: PARAM_AGREEMENT_ID, $agreement_id);
         }
         else
         {
@@ -34,7 +35,7 @@ class InternshipOrganizerAgreementManagerPublisherComponent extends InternshipOr
                 $this->display_footer();
                 exit();
             }
-            $type = InternshipOrganizerAgreementPublisher :: MULTIPLE_AGREEMENT_TYPE;
+            $this->type = InternshipOrganizerAgreementPublisher :: MULTIPLE_AGREEMENT_TYPE;
         }
         
         $trail = BreadcrumbTrail :: get_instance();
@@ -47,7 +48,7 @@ class InternshipOrganizerAgreementManagerPublisherComponent extends InternshipOr
         }
         else
         {
-            $publisher = new InternshipOrganizerAgreementPublisher($this, $type);
+            $publisher = new InternshipOrganizerAgreementPublisher($this, $this->type);
             $publisher->get_publications_form(RepoViewer :: get_selected_objects());
         }
     }
@@ -56,5 +57,20 @@ class InternshipOrganizerAgreementManagerPublisherComponent extends InternshipOr
     {
         return array(Document :: get_type_name());
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+    	$agreement_id = Request :: get(self :: PARAM_AGREEMENT_ID);
+        if($agreement_id){
+    		$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_PUBLICATIONS)), Translation :: get('ViewInternshipOrganizerAgreement')));
+    	}   
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_AGREEMENT_ID);
+    }
+
 }
 ?>

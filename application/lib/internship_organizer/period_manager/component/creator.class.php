@@ -18,18 +18,13 @@ class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganiz
             $this->display_footer();
             exit();
         }
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        $trail->add_help('period general');
-        
-        $period_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
-        
+            
         $period = new InternshipOrganizerPeriod();
-        $parent_id = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+        $parent_id = Request :: get(self :: PARAM_PERIOD_ID);
         
         $period->set_parent_id($parent_id);
         $period->set_owner($this->get_user_id());
-        $form = new InternshipOrganizerPeriodForm(InternshipOrganizerPeriodForm :: TYPE_CREATE, $period, $this->get_url(array(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID))), $this->get_user());
+        $form = new InternshipOrganizerPeriodForm(InternshipOrganizerPeriodForm :: TYPE_CREATE, $period, $this->get_url(array(self :: PARAM_PERIOD_ID => Request :: get(self :: PARAM_PERIOD_ID))), $this->get_user());
         
         if ($form->validate())
         {
@@ -37,11 +32,11 @@ class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganiz
             if ($success)
             {
                 $period = $form->get_period();
-                $this->redirect(Translation :: get('InternshipOrganizerPeriodCreated'), (false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
+                $this->redirect(Translation :: get('InternshipOrganizerPeriodCreated'), (false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period->get_id(), DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
             }
             else
             {
-                $this->redirect(Translation :: get('InternshipOrganizerPeriodNotCreated'), (true), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $parent_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
+                $this->redirect(Translation :: get('InternshipOrganizerPeriodNotCreated'), (true), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $parent_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
             }
         }
         else
@@ -51,5 +46,11 @@ class InternshipOrganizerPeriodManagerCreatorComponent extends InternshipOrganiz
             $this->display_footer();
         }
     }
+    
+function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS)), Translation :: get('BrowseInternshipOrganizerPeriods')));
+    }
+    
 }
 ?>

@@ -56,12 +56,6 @@ class InternshipOrganizerPeriodManager extends SubManager
     function InternshipOrganizerPeriodManager($internship_manager)
     {
         parent :: __construct($internship_manager);
-//        $action = Request :: get(self :: PARAM_ACTION);
-//        if ($action)
-//        {
-//            $this->set_parameter(self :: PARAM_ACTION, $action);
-//        }
-    
     }
 
     function get_application_component_path()
@@ -124,20 +118,12 @@ class InternshipOrganizerPeriodManager extends SubManager
 
     function get_period_editing_url($period)
     {
-        
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PERIOD, self :: PARAM_PERIOD_ID => $period->get_id()));
     }
 
     function get_period_create_url($parent_period)
     {
-        //        if ($parent_id != null)
-        //        {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PERIOD, self :: PARAM_PERIOD_ID => $parent_period->get_id()));
-        //        }
-    //        else
-    //        {
-    //            return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PERIOD));
-    //        }
     }
 
     function get_period_emptying_url($period)

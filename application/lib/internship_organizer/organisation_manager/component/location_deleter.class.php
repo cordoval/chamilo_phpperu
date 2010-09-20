@@ -10,7 +10,7 @@ class InternshipOrganizerOrganisationManagerLocationDeleterComponent extends Int
      */
     function run()
     {
-        $ids = $_GET[InternshipOrganizerOrganisationManager :: PARAM_LOCATION_ID];
+        $ids = $_GET[self :: PARAM_LOCATION_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -54,7 +54,7 @@ class InternshipOrganizerOrganisationManagerLocationDeleterComponent extends Int
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisation_id));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_ORGANISATION, self :: PARAM_ORGANISATION_ID => $organisation_id));
         }
         else
         {

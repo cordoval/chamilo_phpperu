@@ -10,7 +10,7 @@ class InternshipOrganizerOrganisationManagerDeleterComponent extends InternshipO
      */
     function run()
     {
-        $ids = $_GET[InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID];
+        $ids = $_GET[self :: PARAM_ORGANISATION_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -53,7 +53,7 @@ class InternshipOrganizerOrganisationManagerDeleterComponent extends InternshipO
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_BROWSE_ORGANISATION));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_ORGANISATION));
         }
         else
         {

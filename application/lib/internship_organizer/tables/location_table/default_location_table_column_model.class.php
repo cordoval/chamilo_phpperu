@@ -36,6 +36,9 @@ class DefaultInternshipOrganizerLocationTableColumnModel extends ObjectTableColu
 		$columns [] = $region_column;
 		
 		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_DESCRIPTION, true, $location_alias );
+		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_EMAIL, true, $location_alias );
+		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_TELEPHONE, true, $location_alias );
+		$columns [] = new ObjectTableColumn ( InternshipOrganizerLocation::PROPERTY_FAX, true, $location_alias );
 		
 		return $columns;
 	}

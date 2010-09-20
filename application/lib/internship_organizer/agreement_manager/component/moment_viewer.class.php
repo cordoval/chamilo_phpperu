@@ -8,7 +8,7 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/agreemen
 class InternshipOrganizerAgreementManagerMomentViewerComponent extends InternshipOrganizerAgreementManager
 {
     
-    const TAB_PUBLICATIONS = 'pub_tab';
+    const TAB_PUBLICATIONS = 1;
     
     private $action_bar;
     private $moment;
@@ -16,7 +16,7 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
     function run()
     {
         
-        $moment_id = $_GET[InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID];
+        $moment_id = $_GET[self :: PARAM_MOMENT_ID];
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, $moment_id, InternshipOrganizerRights :: TYPE_MOMENT))
         {
@@ -66,7 +66,7 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
         $tabs = new DynamicTabsRenderer($renderer_name);
         
         $parameters = $this->get_parameters();
-        $parameters[InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID] = $this->moment->get_id();
+        $parameters[self :: PARAM_MOMENT_ID] = $this->moment->get_id();
         
         // Publications table tab
         $table = new InternshipOrganizerPublicationTable($this, $parameters, $this->get_publications_condition());
@@ -84,7 +84,7 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
-        $action_bar->set_search_url($this->get_url(array(InternshipOrganizerAgreementManager :: PARAM_MOMENT_ID => $this->moment->get_id())));
+        $action_bar->set_search_url($this->get_url(array(self :: PARAM_MOMENT_ID => $this->moment->get_id())));
         
         if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_PUBLISH, $this->moment->get_id(), InternshipOrganizerRights :: TYPE_MOMENT))
         {
@@ -121,6 +121,21 @@ class InternshipOrganizerAgreementManagerMomentViewerComponent extends Internshi
         
         return new AndCondition($conditions);
     }
-	   
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT)), Translation :: get('BrowseInternshipOrganizerAgreements')));
+        $moment_id = Request :: get(self :: PARAM_MOMENT_ID);
+        $moment = $this->retrieve_moment($moment_id);
+        $agreement_id = $moment->get_agreement_id();
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerAgreementManagerViewerComponent :: TAB_MOMENTS)), Translation :: get('ViewInternshipOrganizerAgreement')));
+    
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_AGREEMENT_ID, self :: PARAM_MOMENT_ID);
+    }
+
 }
 ?>

@@ -14,7 +14,7 @@ class InternshipOrganizerAgreementManagerUnsubscriberComponent extends Internshi
     {
         $user = $this->get_user();
         
-        $ids = Request :: get(InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_REL_LOCATION_ID);
+        $ids = Request :: get(self :: PARAM_AGREEMENT_REL_LOCATION_ID);
         $failures = 0;
         
         if (! empty($ids))
@@ -77,7 +77,7 @@ class InternshipOrganizerAgreementManagerUnsubscriberComponent extends Internshi
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID => $agreementrellocation_ids[0]));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreementrellocation_ids[0]));
         }
         else
         {

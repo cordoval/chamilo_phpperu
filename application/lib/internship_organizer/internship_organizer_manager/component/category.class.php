@@ -1,6 +1,6 @@
 <?php
 
-class InternshipOrganizerManagerCategoryComponent extends InternshipOrganizerManager
+class InternshipOrganizerManagerCategoryComponent extends InternshipOrganizerManager implements DelegateComponent
 {
 
     /**

@@ -10,7 +10,7 @@ class InternshipOrganizerPeriodManagerUnsubscribeAgreementRelUserComponent exten
      */
     function run()
     {
-        $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_USER_ID);
+        $ids = Request :: get(self :: PARAM_USER_ID);
         
         $failures = 0;
         
@@ -80,7 +80,7 @@ class InternshipOrganizerPeriodManagerUnsubscribeAgreementRelUserComponent exten
             
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_VIEW_AGREEMENT, InternshipOrganizerPeriodManager :: PARAM_AGREEMENT_ID => $agreement_rel_user_ids[0], DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_AGREEMENT, self :: PARAM_AGREEMENT_ID => $agreement_rel_user_ids[0], DynamicTabsRenderer :: PARAM_SELECTED_TAB => $tab));
         }
         else
         {

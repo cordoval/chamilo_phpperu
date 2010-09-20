@@ -3,7 +3,7 @@
 require_once Path :: get_application_path() . 'lib/internship_organizer/organisation_manager/component/viewer.class.php';
 
 
-class InternshipOrganizerOrganisationManagerUnsubscribeUsersComponent extends InternshipOrganizerOrganisationManager
+class InternshipOrganizerOrganisationManagerUnsubscribeUserComponent extends InternshipOrganizerOrganisationManager
 {
 
     /**
@@ -11,9 +11,7 @@ class InternshipOrganizerOrganisationManagerUnsubscribeUsersComponent extends In
      */
     function run()
     {
-        $user = $this->get_user();
-        
-        $ids = Request :: get(InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_REL_USER_ID);
+        $ids = Request :: get(self :: PARAM_ORGANISATION_REL_USER_ID);
         $failures = 0;
         
         if (! empty($ids))
@@ -76,7 +74,7 @@ class InternshipOrganizerOrganisationManagerUnsubscribeUsersComponent extends In
                 }
             }
             
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerOrganisationManager :: PARAM_ACTION => InternshipOrganizerOrganisationManager :: ACTION_VIEW_ORGANISATION, InternshipOrganizerOrganisationManager :: PARAM_ORGANISATION_ID => $organisationreluser_ids[0], DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerOrganisationManagerViewerComponent :: TAB_USERS));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_VIEW_ORGANISATION, self :: PARAM_ORGANISATION_ID => $organisationreluser_ids[0], DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerOrganisationManagerViewerComponent :: TAB_USERS));
         }
         else
         {

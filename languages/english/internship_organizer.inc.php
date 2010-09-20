@@ -35,7 +35,7 @@ $lang['internship_organizer']['RepoViewerBrowserComponent'] = 'Repository Viewer
 $lang['internship_organizer']['RepoViewerCreatorComponent'] = 'Repository Creator';
 
 //reporting components
-$lang['internship_organizer']['ReportingViewerViewerComponent'] = 'Viewer';
+$lang['internship_organizer']['ReportingViewerViewerComponent'] = 'View Reports';
 
 
 //agreement components
@@ -410,6 +410,21 @@ $lang['internship_organizer']['InternshipOrganizerOrganisationManagerSubscribeUs
 $lang['internship_organizer']['InternshipOrganizerOrganisationManagerLocationCreatorComponent'] = 'Create Location';
 $lang['internship_organizer']['InternshipOrganizerOrganisationManagerCreatorComponent'] = 'Create Organisation';
 $lang['internship_organizer']['InternshipOrganizerOrganisationManagerLocationEditorComponent'] = 'Location Editor';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerMentorEditorComponent'] = 'Mentor Editor';
+$lang['internship_organizer']['ViewInternshipOrganizerOrganisation'] = 'View Organisation';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerMentorViewerComponent'] = 'View mentor';
+$lang['internship_organizer']['AddLocations'] = 'Add Locations';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerSubscribeLocationComponent'] = 'Subscribe Location';
+$lang['internship_organizer']['ViewInternshipOrganizerMentor'] = 'View Mentor';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerSubscribeMentorUserComponent'] = 'Subscribe User';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerEditorComponent'] = 'Organisation Editor';
+$lang['internship_organizer']['InternshipOrganizerOrganisationManagerSubscribeUserComponent'] = 'Subscribe User';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeCategoryComponent'] = 'Subscribe Category';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerSubscribeGroupComponent'] = 'Subscribe Group';
+$lang['internship_organizer']['ViewInternshipOrganizerPeriod'] = 'View period';
+$lang['internship_organizer']['InternshipOrganizerPeriodManagerAgreementEditorComponent'] = 'Agreement Editor';
+$lang['internship_organizer']['InternshipOrganizerAgreementManagerMomentEditorComponent'] = 'Moment Editor';
+$lang['internship_organizer']['ViewInternshipOrganizerMoment'] = 'View Moment';
 
 
 

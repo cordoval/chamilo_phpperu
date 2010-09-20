@@ -9,19 +9,18 @@ class DefaultInternshipOrganizerOrganisationRelUserTableCellRenderer extends Obj
 
     function render_cell($column, $organisation_rel_user)
     {
-        
-        $user = UserDataManager :: get_instance()->retrieve_user($organisation_rel_user->get_user_id());
-        
+       
         switch ($column->get_name())
         {
            case User :: PROPERTY_LASTNAME :
-                return $user->get_lastname();
+                return $organisation_rel_user->get_optional_property(User :: PROPERTY_LASTNAME);
             case User :: PROPERTY_FIRSTNAME :
-                return $user->get_firstname();
+                return $organisation_rel_user->get_optional_property(User :: PROPERTY_FIRSTNAME);
             case User :: PROPERTY_USERNAME :
-                return $user->get_username();
+                return $organisation_rel_user->get_optional_property(User :: PROPERTY_USERNAME);
             case User :: PROPERTY_EMAIL :
-                return '<a href="mailto:' . $user->get_email() . '">' . $user->get_email() . '</a><br/>';
+                $email = $organisation_rel_user->get_optional_property(User :: PROPERTY_EMAIL);
+            	return '<a href="mailto:' . $email . '">' . $email . '</a><br/>';
         }
     
     }

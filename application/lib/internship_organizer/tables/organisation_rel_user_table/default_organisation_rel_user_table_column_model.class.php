@@ -13,10 +13,13 @@ class DefaultInternshipOrganizerOrganisationRelUserTableColumnModel extends Obje
 	private static function get_default_columns()
 	{
 		
+		     
+        $user_alias = UserDataManager :: get_instance()->get_alias(User :: get_table_name());
+	
 		$columns = array();
-		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, false, User :: get_table_name());
-		$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, false, User :: get_table_name());
-		$columns[] = new ObjectTableColumn(User :: PROPERTY_EMAIL, false, User :: get_table_name());
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true, $user_alias);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true, $user_alias);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_EMAIL, true, $user_alias);
 		
 		return $columns;
 		

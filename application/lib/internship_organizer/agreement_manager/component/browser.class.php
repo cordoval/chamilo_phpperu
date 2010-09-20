@@ -8,13 +8,13 @@ require_once Path :: get_application_path() . 'lib/internship_organizer/agreemen
 class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrganizerAgreementManager
 {
     
-    const TAB_ADD_LOCATION = 'addl';
-    const TAB_TO_APPROVE = 'toap';
-    const TAB_APPROVED = 'appr';
-    const TAB_COACH = 'coat';
-    const TAB_COORDINATOR = 'coot';
-    const TAB_STUDENT = 'stut';
-    const TAB_MENTOR = 'ment';
+    const TAB_ADD_LOCATION = 1;
+    const TAB_TO_APPROVE = 2;
+    const TAB_APPROVED = 3;
+    const TAB_COACH = 4;
+    const TAB_COORDINATOR = 5;
+    const TAB_STUDENT = 6;
+    const TAB_MENTOR = 7;
     
     private $action_bar;
     private $user_id;
@@ -24,19 +24,17 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_VIEW, InternshipOrganizerRights :: LOCATION_AGREEMENT, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        
+             
         $this->user_id = $this->get_user_id();
         
         $this->action_bar = $this->get_action_bar();
         
-        $this->display_header($trail);
+        $this->display_header();
         
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
@@ -101,7 +99,6 @@ class InternshipOrganizerAgreementManagerBrowserComponent extends InternshipOrga
         }
         
         echo $tabs->render();
-        //        echo $this->get_table();
         echo '</div>';
         echo '</div>';
         $this->display_footer();

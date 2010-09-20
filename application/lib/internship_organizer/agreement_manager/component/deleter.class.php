@@ -1,6 +1,8 @@
 <?php
 
 require_once Path :: get_application_path() . 'lib/internship_organizer/internship_organizer_manager/internship_organizer_manager.class.php';
+require_once Path :: get_application_path() . 'lib/internship_organizer/agreement_manager/component/browser.class.php';
+
 
 class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrganizerAgreementManager
 {
@@ -11,7 +13,7 @@ class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrga
     function run()
     {
         
-        $ids = $_GET[InternshipOrganizerAgreementManager :: PARAM_AGREEMENT_ID];
+        $ids = $_GET[self :: PARAM_AGREEMENT_ID];
         $failures = 0;
         
         if (! empty($ids))
@@ -27,6 +29,8 @@ class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrga
                 if (InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, $id, InternshipOrganizerRights :: TYPE_AGREEMENT))
                 {
                     $agreement = $this->retrieve_agreement($id);
+                    
+                    $status = $agreement->get_status();
                     
                     if (! $agreement->delete())
                     {
@@ -58,8 +62,19 @@ class InternshipOrganizerAgreementManagerDeleterComponent extends InternshipOrga
                     $message = 'SelectedInternshipOrganizerAgreementsDeleted';
                 }
             }
-            
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerAgreementManager :: PARAM_ACTION => InternshipOrganizerAgreementManager :: ACTION_BROWSE_AGREEMENT));
+            if ($status == InternshipOrganizerAgreement :: STATUS_ADD_LOCATION)
+            {
+            	$tab = InternshipOrganizerAgreementManagerBrowserComponent :: TAB_ADD_LOCATION;
+            }
+            if ($status == InternshipOrganizerAgreement :: STATUS_APPROVED)
+            {
+            	$tab = InternshipOrganizerAgreementManagerBrowserComponent :: TAB_APPROVED;
+            }
+            if ($status == InternshipOrganizerAgreement :: STATUS_TO_APPROVE)
+            {
+            	$tab = InternshipOrganizerAgreementManagerBrowserComponent :: TAB_TO_APPROVE;
+            }
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_AGREEMENT, DynamicTabsRenderer::PARAM_SELECTED_TAB =>$tab));
         }
         else
         {

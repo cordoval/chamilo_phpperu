@@ -13,15 +13,13 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
         
         if (! InternshipOrganizerRights :: is_allowed_in_internship_organizers_subtree(InternshipOrganizerRights :: RIGHT_DELETE, InternshipOrganizerRights :: LOCATION_PERIOD, InternshipOrganizerRights :: TYPE_INTERNSHIP_ORGANIZER_COMPONENT))
         {
-            $this->display_header($trail);
+            $this->display_header();
             $this->display_error_message(Translation :: get('NotAllowed'));
             $this->display_footer();
             exit();
         }
-        
-        $user = $this->get_user();
-        
-        $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID);
+              
+        $ids = Request :: get(self :: PARAM_PERIOD_ID);
         
         $failures = 0;
         
@@ -95,7 +93,7 @@ class InternshipOrganizerPeriodManagerDeleterComponent extends InternshipOrganiz
             
             }
             
-            $this->redirect(Translation :: get($message), ! $status, array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $parent_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
+            $this->redirect(Translation :: get($message), ! $status, array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $parent_id, DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_SUBPERIODS));
         }
         else
         {

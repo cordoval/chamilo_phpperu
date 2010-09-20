@@ -10,7 +10,7 @@ class InternshipOrganizerPeriodManagerUnsubscribeUserComponent extends Internshi
      */
     function run()
     {
-        $ids = Request :: get(InternshipOrganizerPeriodManager :: PARAM_PERIOD_REL_USER_ID);
+        $ids = Request :: get(self :: PARAM_PERIOD_REL_USER_ID);
         
         $failures = 0;
         
@@ -66,7 +66,7 @@ class InternshipOrganizerPeriodManagerUnsubscribeUserComponent extends Internshi
                     $message = 'SelectedInternshipOrganizerPeriodRelUsersDeleted';
                 }
             }
-            $this->redirect(Translation :: get($message), ($failures ? true : false), array(InternshipOrganizerPeriodManager :: PARAM_ACTION => InternshipOrganizerPeriodManager :: ACTION_BROWSE_PERIODS, InternshipOrganizerPeriodManager :: PARAM_PERIOD_ID => $period_rel_user_ids[0], DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_USERS));
+            $this->redirect(Translation :: get($message), ($failures ? true : false), array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PERIODS, self :: PARAM_PERIOD_ID => $period_rel_user_ids[0], DynamicTabsRenderer :: PARAM_SELECTED_TAB => InternshipOrganizerPeriodManagerBrowserComponent :: TAB_USERS));
         }
         else
         {
