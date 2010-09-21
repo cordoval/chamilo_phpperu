@@ -39,7 +39,7 @@ class SurveyManagerSurveyExcelExporterComponent extends SurveyManager
     
     function run()
     {
-        $ids = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         
         if (! is_array($ids))
         {

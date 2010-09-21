@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../survey_manager.class.php';
 
-
 class SurveyManagerVisibilityChangerComponent extends SurveyManager
 {
     
@@ -13,23 +12,22 @@ class SurveyManagerVisibilityChangerComponent extends SurveyManager
      */
     function run()
     {
-        $pid = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         
-        if ($pid)
+        if ($id)
         {
-            $publication = $this->retrieve_survey_publication($pid);
             
-            if (! $publication->is_visible_for_target_user($this->get_user()))
+            if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_EDIT, $id, SurveyRights :: TYPE_PUBLICATION))
             {
-                $this->redirect(null, false, array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
+                
+                $publication = $this->retrieve_survey_publication($id);
+                $publication->toggle_visibility();
+                $succes = $publication->update();
+                
+                $message = $succes ? self :: MESSAGE_VISIBILITY_CHANGED : self :: MESSAGE_VISIBILITY_NOT_CHANGED;
+                
+                $this->redirect(Translation :: get($message), ! $succes, array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
             }
-            
-            $publication->toggle_visibility();
-            $succes = $publication->update();
-            
-            $message = $succes ? self :: MESSAGE_VISIBILITY_CHANGED : self :: MESSAGE_VISIBILITY_NOT_CHANGED;
-            
-            $this->redirect(Translation :: get($message), ! $succes, array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS));
         }
         else
         {

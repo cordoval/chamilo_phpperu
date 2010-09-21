@@ -13,9 +13,9 @@ require_once dirname(__FILE__) . '/../trackers/survey_participant_tracker.class.
 class ReportingSurvey
 {
     
-    const PARAM_SURVEY_CATEGORY = 'category';
-    const PARAM_SURVEY_URL = 'url';
-    const PARAM_SURVEY_PARTICIPANT = 'participant';
+    const PARAM_SURVEY_ID_CATEGORY = 'category';
+    const PARAM_SURVEY_ID_URL = 'url';
+    const PARAM_PARTICIPANT_ID = 'participant';
 
     function ReportingSurvey()
     {
@@ -26,9 +26,9 @@ class ReportingSurvey
     {
         $data = array();
               
-        $category = $params[self :: PARAM_SURVEY_CATEGORY];
-        $url = $params[self :: PARAM_SURVEY_URL];
-        $participant_id = $params[self :: PARAM_SURVEY_PARTICIPANT];
+        $category = $params[self :: PARAM_SURVEY_ID_CATEGORY];
+        $url = $params[self :: PARAM_SURVEY_ID_URL];
+        $participant_id = $params[self :: PARAM_PARTICIPANT_ID];
         
         $adm = SurveyDataManager :: get_instance();
         $condition = new EqualityCondition(SurveyPublication :: PROPERTY_CATEGORY, $category);
@@ -68,7 +68,7 @@ class ReportingSurvey
 		        $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('ViewResults'),
 		        		Theme :: get_common_image_path() . 'action_view_results.png',
-		        		$url . '&' . SurveyManager :: PARAM_SURVEY_PUBLICATION . '=' . $publication->get_id(),
+		        		$url . '&' . SurveyManager :: PARAM_PUBLICATION_ID . '=' . $publication->get_id(),
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
 		        
@@ -92,7 +92,7 @@ class ReportingSurvey
 
     public static function getSurveyQuestionAnswers($params)
     {
-        $pid = $params[SurveyManager :: PARAM_SURVEY_PUBLICATION];
+        $pid = $params[SurveyManager :: PARAM_PUBLICATION_ID];
         
         $url = $params['url'];
         $results_export_url = $params['results_export_url'];
@@ -124,7 +124,7 @@ class ReportingSurvey
 		        $toolbar->add_item(new ToolbarItem(
 		        		Translation :: get('ViewResults'),
 		        		Theme :: get_common_image_path() . 'action_view_results.png',
-		        		$url . '&' . SurveyManager :: PARAM_SURVEY_QUESTION . '=' . $question_id,
+		        		$url . '&' . SurveyManager :: PARAM_SURVEY_QUESTION_ID . '=' . $question_id,
 		        		ToolbarItem :: DISPLAY_ICON
 		        ));
 		        
@@ -139,8 +139,8 @@ class ReportingSurvey
     {
         
         //dump($params);
-        $pub_id = $params[SurveyManager :: PARAM_SURVEY_PUBLICATION];
-        $question_id = $params[SurveyManager :: PARAM_SURVEY_QUESTION];
+        $pub_id = $params[SurveyManager :: PARAM_PUBLICATION_ID];
+        $question_id = $params[SurveyManager :: PARAM_SURVEY_QUESTION_ID];
         $question = RepositoryDataManager :: get_instance()->retrieve_content_object($question_id);
         $type = $question->get_type();
         //dump($type);

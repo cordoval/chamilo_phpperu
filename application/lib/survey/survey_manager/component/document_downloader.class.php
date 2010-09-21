@@ -11,10 +11,10 @@ class SurveyManagerDocumentDownloaderComponent extends SurveyManager
 
     function run()
     {
-        if (Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION))
+        if (Request :: get(SurveyManager :: PARAM_PUBLICATION_ID))
         {
-            $id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
-            $type = SurveyManager :: PARAM_SURVEY_PUBLICATION;
+            $id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
+            $type = SurveyManager :: PARAM_PUBLICATION_ID;
             $filenames = $this->save_survey_docs($id);
         }
         else 

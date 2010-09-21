@@ -11,12 +11,12 @@ abstract class SurveyReportingBlock extends ReportingBlock
 	
 	function get_survey_publication_id()
 	{
-		return $this->get_parent()->get_parameter(SurveyManager::PARAM_SURVEY_PUBLICATION);	
+		return $this->get_parent()->get_parameter(SurveyManager::PARAM_PUBLICATION_ID);	
 	}
 	
 	function get_survey_question_id()
 	{
-		return $this->get_parent()->get_parameter(SurveyManager::PARAM_SURVEY_QUESTION);	
+		return $this->get_parent()->get_parameter(SurveyManager::PARAM_SURVEY_QUESTION_ID);	
 	}
 	
 	public function get_data_manager()

@@ -11,7 +11,7 @@ class SurveyManagerQuestionBrowserComponent extends SurveyManager
     function run()
     {
         
-        $ids = Request :: get(SurveyManager :: PARAM_SURVEY_PAGE);
+        $ids = Request :: get(SurveyManager :: PARAM_SURVEY_PAGE_ID);
         
         if (! empty($ids))
         {
@@ -29,13 +29,14 @@ class SurveyManagerQuestionBrowserComponent extends SurveyManager
         
         $trail = BreadcrumbTrail :: get_instance();
         //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-//        if(count($ids) == 1){
-//        	//has to be publication !
-//        	$survey_page = $this->retrieve_survey_page($ids[0]);
-//        	//$trail->add(new Breadcrumb($this->get_browse_survey_pages_url($survey_page), Translation :: get('BrowseSurveyPages')));
-//        }
-//        
+        //        if(count($ids) == 1){
+        //        	//has to be publication !
+        //        	$survey_page = $this->retrieve_survey_page($ids[0]);
+        //        	//$trail->add(new Breadcrumb($this->get_browse_survey_pages_url($survey_page), Translation :: get('BrowseSurveyPages')));
+        //        }
+        //        
         
+
         $this->action_bar = $this->get_action_bar();
         $this->display_header($trail);
         
@@ -81,6 +82,18 @@ class SurveyManagerQuestionBrowserComponent extends SurveyManager
     function get_page_ids()
     {
         return $this->page_ids;
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveys')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES, self ::PARAM_SURVEY_ID => Request :: get(self :: PARAM_SURVEY_ID))), Translation :: get('BrowseSurveyPages')));
+        
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_SURVEY_ID, self :: PARAM_SURVEY_PAGE_ID);
     }
 
 }

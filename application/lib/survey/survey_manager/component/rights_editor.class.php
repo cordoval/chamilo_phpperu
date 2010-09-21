@@ -12,7 +12,7 @@ class SurveyManagerRightsEditorComponent extends SurveyManager
         //have to be fixed in reighteditormanager, if array is set as paramater, rightsmenu don't work anymore
         
 
-        $publications = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $publications = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         
         //        if ($publications && ! is_array($publications))
         //        {
@@ -20,7 +20,7 @@ class SurveyManagerRightsEditorComponent extends SurveyManager
         //        }
         
 
-        $this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $publications);
+        $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publications);
         
         if ($publications && ! is_array($publications))
         {
@@ -28,12 +28,12 @@ class SurveyManagerRightsEditorComponent extends SurveyManager
         }
         
         $locations = array();
-              
+        
         foreach ($publications as $publication)
         {
             
             $pub = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication);
-            if ($this->get_user()->is_platform_admin() || $publication->get_publisher() == $this->get_user_id())
+            if ($this->get_user()->is_platform_admin() || $pub->get_publisher() == $this->get_user_id())
             {
                 $locations[] = SurveyRights :: get_location_by_identifier_from_surveys_subtree($publication, SurveyRights :: TYPE_PUBLICATION);
             }
@@ -49,6 +49,16 @@ class SurveyManagerRightsEditorComponent extends SurveyManager
         
         return SurveyRights :: get_available_rights_for_publications();
     
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveys')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_PUBLICATION_ID);
     }
 
 }

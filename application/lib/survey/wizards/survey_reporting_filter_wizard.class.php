@@ -22,7 +22,7 @@ class SurveyReportingFilterWizard extends WizardPageValidator
     	
     	$attributes = array();
     	
-    	$selected_survey_ids = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+    	$selected_survey_ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
     	
         foreach ($selected_survey_ids as $id)
     	{

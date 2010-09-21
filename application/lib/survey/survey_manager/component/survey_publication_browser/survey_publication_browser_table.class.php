@@ -48,7 +48,7 @@ class SurveyPublicationBrowserTable extends ObjectTable
 	static function handle_table_action()
     {
         $ids = self :: get_selected_ids(Utilities :: camelcase_to_underscores(__CLASS__));
-        Request :: set_get(SurveyManager :: PARAM_SURVEY_PUBLICATION, $ids);
+        Request :: set_get(SurveyManager :: PARAM_PUBLICATION_ID, $ids);
     }
 }
 ?>

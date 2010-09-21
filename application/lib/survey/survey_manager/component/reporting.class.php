@@ -1,6 +1,6 @@
 <?php
 
-class SurveyManagerReportingComponent extends SurveyManager
+class SurveyManagerReportingComponent extends SurveyManager implements DelegateComponent
 {
 
     /**
@@ -17,33 +17,19 @@ class SurveyManagerReportingComponent extends SurveyManager
             exit();
         }
 
-        $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
+//        $classname = Request :: get(ReportingManager :: PARAM_TEMPLATE_NAME);
 
-        $trail = BreadcrumbTrail :: get_instance();
-
-        $publication_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $publication_id = Request :: get(self :: PARAM_PUBLICATION_ID);
         $publication = $this->retrieve_survey_publication($publication_id);
-        $this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $publication_id);
+        $this->set_parameter(self :: PARAM_PUBLICATION_ID, $publication_id);
 
-//        if ($publication->is_test())
-//        {
-//            //$trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-//        }
-//
-//        else
-//        {
-//            //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-//        }
-
-        //        $strail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('TakeSurvey')));
-
-
-//        //$trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_TEMPLATE_NAME => $classname, ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params)), Translation :: get('Report')));
-        $trail->add_help('survey reporting');
+	    $breadcrumbtrail = BreadcrumbTrail::get_instance();
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
+        
 
         $rtv = ReportingViewer :: construct($this);
-        $rtv->add_template_by_name('survey_publication_reporting_template', SurveyManager :: APPLICATION_NAME);
-        $rtv->set_breadcrumb_trail($trail);
+        $rtv->add_template_by_name('survey_publication_reporting_template', self :: APPLICATION_NAME);
+        $rtv->set_breadcrumb_trail($breadcrumbtrail);
         $rtv->show_all_blocks();
 
         $rtv->run();
