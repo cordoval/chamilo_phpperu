@@ -250,38 +250,35 @@ function dump_platform_groups_tree()
         foreach($group_relations as $group_relation)
         {
             $group = $group_relation->get_group_object();
-
-            echo '<leaf id="platform_' . $group->get_id() . '" classes="type type_group" title="' . htmlentities($group->get_name()) . '" description="' . htmlentities($group->get_name()) . '"/>' . "\n";
-
-//            echo '<node id="platform_' . $group->get_id() . '" classes="type type_group" title="' . htmlspecialchars($group->get_name()) . '" description="' . htmlspecialchars($group->get_name()) . '">', "\n";
-//            $user_ids = $group->get_users(true, true);
-//
-//            if (!is_null($user_condition))
-//            {
-//                $group_user_condition = new AndCondition($user_condition, new InCondition(User :: PROPERTY_ID, $user_ids));
-//            }
-//            else
-//            {
-//                if(count($user_ids) == 0)
-//                {
-//                    $user_ids[] = 0;
-//                }
-//
-//                $group_user_condition = new InCondition(User :: PROPERTY_ID, $user_ids);
-//            }
-//
-//            $users = UserDataManager :: get_instance()->retrieve_users($group_user_condition, 0, 0);
-//
-//            while($user = $users->next_result())
-//            {
-//                echo '<leaf id="user_' . $user->get_id() . '" classes="' . 'type type_user' . '" title="' . htmlentities($user->get_username()) . '" description="' . htmlentities($user->get_fullname()) . '"/>' . "\n";
-//            }
-//
-//            echo '</node>', "\n";
+			dump_platform_group($group);
         }
 
         echo '</node>', "\n";
     }
+}
+
+function dump_platform_group($group)
+{
+	$children = $group->get_children(false);
+	
+	if($children->size() > 0)
+	{
+		echo '<node id="platform_' . $group->get_id() . '" classes="type type_group" title="' . htmlentities($group->get_name()) . '" description="' . htmlentities($group->get_name()) . '">' . "\n";
+	}
+	else
+	{
+		echo '<leaf id="platform_' . $group->get_id() . '" classes="type type_group" title="' . htmlentities($group->get_name()) . '" description="' . htmlentities($group->get_name()) . '"/>' . "\n";
+	}
+
+	while($child = $children->next_result())
+	{
+		dump_platform_group($child);
+	}
+	
+	if($children->size() > 0)
+	{
+		echo '</node>';
+	}
 }
 
 function dump_groups_tree($groups)

@@ -117,42 +117,94 @@ abstract class ContentObjectPublicationListRenderer
                 if (count($users) == 1)
                 {
                     $user = $this->tool_browser->get_parent()->get_user_info($users[0]);
-                    return $user->get_firstname() . ' ' . $user->get_lastname() . $email_suffix;
+                    if($user)
+                    {
+                    	return $user->get_firstname() . ' ' . $user->get_lastname() . $email_suffix;
+                    }
+                    else
+                    {
+                    	return Translation :: get('UserUnknown');
+                    }
                 }
                 elseif (count($groups) == 1)
                 {
                     $gdm = GroupDataManager :: get_instance();
                     $group = $gdm->retrieve_group($groups[0]);
-                    return $group->get_name();
+                    if($group)
+                    {
+                    	return $group->get_name();
+                    }
+                    else
+                    {
+                    	return Translation :: get('GroupUnknown');
+                    }
                 }
                 else
                 {
                     $wdm = WeblcmsDataManager :: get_instance();
                     $course_group = $wdm->retrieve_course_group($course_groups[0]);
-                    return $course_group->get_name();
+                    if($course_group)
+                    {
+                    	return $course_group->get_name();
+                    }
+                    else
+                    {
+                    	return Translation :: get('CourseGroupUnknown');
+                    }
                 }
             }
+            
             $target_list = array();
             $target_list[] = '<select>';
             foreach ($users as $index => $user_id)
             {
                 $user = $this->tool_browser->get_parent()->get_user_info($user_id);
-                $target_list[] = '<option>' . $user->get_firstname() . ' ' . $user->get_lastname() . '</option>';
+                if($user)
+                {
+                	$name = $user->get_fullname();	
+                }
+                else
+                {
+                	$name = Translation :: get('UserUnknown');
+                }
+                
+                $target_list[] = '<option>' . $name . '</option>';
             }
+            
             foreach ($course_groups as $index => $course_group_id)
             {
                 $wdm = WeblcmsDataManager :: get_instance();
-                //Todo: make this more efficient. Get all course_groups using a single query
                 $course_group = $wdm->retrieve_course_group($course_group_id);
-                $target_list[] = '<option>' . $course_group->get_name() . '</option>';
+                
+                if($course_group)
+                {
+                	$name = $course_group->get_name();
+                }
+                else
+                {
+                	$name = Translation :: get('GroupUnknown');
+                }
+                
+                $target_list[] = '<option>' . $name . '</option>';
             }
+            
             foreach ($groups as $index => $group_id)
             {
                 $gdm = GroupDataManager :: get_instance();
-                //Todo: make this more efficient. Get all course_groups using a single query
                 $group = $gdm->retrieve_group($group_id);
-                $target_list[] = '<option>' . $group->get_name() . '</option>';
+                
+                if($group)
+                {
+                	$name = $group->get_name();
+                }
+                else
+                {
+                	$name = Translation :: get('CourseGroupUnknown');
+                }
+                
+                $target_list[] = '<option>' . $name . '</option>';
             }
+            
             $target_list[] = '</select>';
             return implode("\n", $target_list) . $email_suffix;
         }

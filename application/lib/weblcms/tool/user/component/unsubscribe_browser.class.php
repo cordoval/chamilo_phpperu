@@ -124,7 +124,7 @@ class UserToolUnsubscribeBrowserComponent extends UserTool
         {
             $group = GroupDataManager :: get_instance()->retrieve_group($group_id);
 
-            $users = $group->get_users(true, true);
+            $users = $group->get_users();
             if(count($users) == 0)
             {
             	return new EqualityCondition(User :: PROPERTY_ID, 0);

@@ -51,7 +51,7 @@ class SubscribeGroupMenu extends HTML_Menu
         $this->show_complete_tree = $show_complete_tree;
         $this->hide_current_category = $hide_current_category;
         
-        if ($current_category == '0' || is_null($cur_category))
+        if ($cur_category == '0' || is_null($cur_category))
         {
             $condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
             $group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, new ObjectTableOrder(Group :: PROPERTY_NAME))->next_result();

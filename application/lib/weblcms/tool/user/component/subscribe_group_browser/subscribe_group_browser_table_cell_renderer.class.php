@@ -72,7 +72,7 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
      * action links should be returned
      * @return string A HTML representation of the action links
      */
-    private function get_modification_links($group)
+    private function get_modification_links(Group $group)
     {
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
@@ -82,27 +82,53 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
         
         $count = WeblcmsDataManager :: get_instance()->count_course_group_relations($condition);
         
+        $parent_ids = array();
+        $parents = $group->get_parents(false);
+        while($parent = $parents->next_result())
+        {
+        	$parent_ids[] = $parent->get_id();
+        }
+        
+        $conditions = array();
+        $conditions[] = new EqualityCondition(CourseGroupRelation :: PROPERTY_COURSE_ID, $this->browser->get_course_id());
+        $conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $parent_ids);
+        $condition = new AndCondition($conditions);
+        
+        $count_parents = WeblcmsDataManager :: get_instance()->count_course_group_relations($condition);
+        
         if($count == 0)
         {
-	    	$parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE_USERS_FROM_GROUP;
-	        $parameters[UserTool :: PARAM_GROUPS] = $group->get_id();
-	
-	        $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('SubscribeUsersFromGroup'),
-	        		Theme :: get_common_image_path() . 'action_copy.png',
-	        		$this->browser->get_url($parameters),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
-	        
-	        $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE_GROUPS;
-	        $parameters[UserTool :: PARAM_GROUPS] = $group->get_id();
-	        
-	        $toolbar->add_item(new ToolbarItem(
-	        		Translation :: get('SubscribeGroup'),
-	        		Theme :: get_common_image_path() . 'action_subscribe.png',
-	        		$this->browser->get_url($parameters),
-	        		ToolbarItem :: DISPLAY_ICON
-	        ));
+	    	if($count_parents == 0)
+	    	{
+	        	$parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE_USERS_FROM_GROUP;
+		        $parameters[UserTool :: PARAM_GROUPS] = $group->get_id();
+		
+		        $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('SubscribeUsersFromGroup'),
+		        		Theme :: get_common_image_path() . 'action_copy.png',
+		        		$this->browser->get_url($parameters),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+		        
+		        $parameters[Tool :: PARAM_ACTION] = UserTool :: ACTION_SUBSCRIBE_GROUPS;
+		        $parameters[UserTool :: PARAM_GROUPS] = $group->get_id();
+		        
+		        $toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('SubscribeGroup'),
+		        		Theme :: get_common_image_path() . 'action_subscribe.png',
+		        		$this->browser->get_url($parameters),
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+	    	}
+	    	else
+	    	{
+	    		$toolbar->add_item(new ToolbarItem(
+		        		Translation :: get('GroupSubscribedThroughParent'),
+		        		Theme :: get_common_image_path() . 'action_setting_true_inherit.png',
+		        		null,
+		        		ToolbarItem :: DISPLAY_ICON
+		        ));
+	    	}
         }
         else
         {

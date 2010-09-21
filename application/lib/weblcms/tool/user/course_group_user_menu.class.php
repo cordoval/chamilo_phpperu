@@ -81,21 +81,40 @@ class CourseGroupUserMenu extends HTML_Menu
         foreach($group_relations as $group_relation)
         {
             $group = $group_relation->get_group_object();
-
-            $sub_menu_item = array();
-            $sub_menu_item['title'] = $group->get_name();
-            $sub_menu_item['url'] = $this->get_url($group->get_id());
-            $sub_menu_item['class'] = 'category';
-            $sub_menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
-
-            $sub_menu_items[] = $sub_menu_item;
+            $sub_menu_items[] = $this->get_group_menu_item($group);
         }
 
-        $menu_item['sub'] = $sub_menu_items;
+    	if(count($sub_menu_items) > 0) 
+        {
+        	$menu_item['sub'] = $sub_menu_items;
+        }
         $menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
         $menu[0] = $menu_item;
 
         return $menu;
+    }
+    
+    function get_group_menu_item($group)
+    {
+    	$sub_menu_item = array();
+        $sub_menu_item['title'] = $group->get_name();
+        $sub_menu_item['url'] = $this->get_url($group->get_id());
+        $sub_menu_item['class'] = 'category';
+        $sub_menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
+        
+        $sub_menu_items = array();
+        $children = $group->get_children(false);
+        while($child = $children->next_result())
+        {
+        	$sub_menu_items[] = $this->get_group_menu_item($child);
+        }
+        
+        if(count($sub_menu_items) > 0) 
+        {
+        	$sub_menu_item['sub'] = $sub_menu_items;
+        }
+        
+        return $sub_menu_item;
     }
 
     /**

@@ -48,13 +48,13 @@ class UserToolGroupSubscribeBrowserComponent extends UserTool
 
     function get_group_menu()
     {
-        $groupmenu = new SubscribeGroupMenu($this->get_course(), Request :: get(WeblcmsManager::PARAM_GROUP), '?application=weblcms&go=course_viewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=group_subscribe_browser&'. WeblcmsManager::PARAM_GROUP .'=%s');
+        $groupmenu = new SubscribeGroupMenu($this->get_course(), Request :: get(WeblcmsManager::PARAM_GROUP), '?application=weblcms&go=course_viewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=group_subscribe_browser&'. WeblcmsManager::PARAM_GROUP .'=%s', true, true);
         return '<div style="overflow: auto; width: 20%; float: left;">' . $groupmenu->render_as_tree() . '<br /></div>';
     }
 
     private function add_group_menu_breadcrumbs(&$breadcrumb_trail)
     {
-        $groupmenu = new SubscribeGroupMenu($this->get_course(), Request :: get(WeblcmsManager::PARAM_GROUP), '?application=weblcms&go=course_viewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=group_subscribe_browser&'. WeblcmsManager::PARAM_GROUP .'=%s');
+        $groupmenu = new SubscribeGroupMenu($this->get_course(), Request :: get(WeblcmsManager::PARAM_GROUP), '?application=weblcms&go=course_viewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=group_subscribe_browser&'. WeblcmsManager::PARAM_GROUP .'=%s', true, true);
         foreach ($groupmenu->get_breadcrumbs() as $breadcrumb)
         {
             $breadcrumb_trail->add(new Breadcrumb($breadcrumb['url'], $breadcrumb['title']));
