@@ -30,37 +30,7 @@ class CourseGroupTool extends Tool
     {
         parent :: __construct($parent);
         $this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
-        $this->parse_input_from_table();
-    }
-
-    private function parse_input_from_table()
-    {
-        if (isset($_POST['action']))
-        {
-            $ids = $_POST[CourseGroupTable :: DEFAULT_NAME . CourseGroupTable :: CHECKBOX_NAME_SUFFIX];
-            
-            if (empty($ids))
-            {
-                $ids = array();
-            }
-            elseif (! is_array($ids))
-            {
-                $ids = array($ids);
-            }
-            
-            $action = $_POST['action'];
-            switch ($action)
-            {
-                case self :: PARAM_DELETE_COURSE_GROUPS :
-                    $this->set_action(self :: ACTION_DELETE_COURSE_GROUP);
-                    Request :: set_get(self :: PARAM_COURSE_GROUP, $ids);
-                    break;
-                case self :: PARAM_UNSUBSCRIBE_USERS :
-                    $this->set_action(self :: ACTION_UNSUBSCRIBE);
-                    Request :: set_get(WeblcmsManager :: PARAM_USERS, $ids);
-                    break;
-            }
-        }
+   
     }
 
     function get_course_group()

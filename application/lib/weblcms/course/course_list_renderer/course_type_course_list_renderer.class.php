@@ -149,12 +149,24 @@ class CourseTypeCourseListRenderer extends CourseListRenderer
 		}
 		
 		$conditions = array();
-    	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_user_category_id, CourseUserRelation :: get_table_name());
-    	$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_parent()->get_user_id(), CourseUserRelation :: get_table_name());
+		
+		$access_conditions = array();
+		$user_access_conditions = array();
+		
+    	$user_access_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_user_category_id, CourseUserRelation :: get_table_name());
+    	$user_access_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_parent()->get_user_id(), CourseUserRelation :: get_table_name());
+    	
+    	$access_conditions[] = new AndCondition($user_access_conditions);
+    	if(!$course_user_category)
+    	{
+    		$access_conditions[] = new InCondition(CourseGroupRelation :: PROPERTY_GROUP_ID, $this->get_parent()->get_user()->get_groups(true), CourseGroupRelation :: get_table_name());
+    	}
+    	
+    	$conditions[] = new OrCondition($access_conditions);
     	$conditions[] = new EqualityCondition(Course :: PROPERTY_COURSE_TYPE_ID, $course_type_id, Course :: get_table_name());
     	$condition = new AndCondition($conditions);
-    	
-		return $this->retrieve_courses($condition);
+
+    	return $this->retrieve_courses($condition);
 	}
 	
 	/**

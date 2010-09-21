@@ -876,7 +876,9 @@ class DatabaseWeblcmsDataManager extends Database implements WeblcmsDataManagerI
         $query .= ' LEFT JOIN ' . $this->escape_table_name(CourseGroupRelation :: get_table_name()) . ' AS ' . $course_group_relation_alias . ' ON ' . $this->escape_column_name(Course :: PROPERTY_ID, $course_alias) . ' = ' . $this->escape_column_name(CourseGroupRelation :: PROPERTY_COURSE_ID, $course_group_relation_alias);
         
         if (is_null($order_by))
+        {
             $order_by[] = new ObjectTableOrder(Course :: PROPERTY_NAME);
+        }
         
         return $this->retrieve_object_set($query, Course :: get_table_name(), $condition, $offset, $max_objects, $order_by);
     }
