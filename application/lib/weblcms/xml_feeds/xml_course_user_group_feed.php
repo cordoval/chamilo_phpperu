@@ -10,6 +10,7 @@ require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_g
 if (Authentication :: is_valid())
 {
     $course = Request :: get('course');
+    $show_groups = Request :: get('show_groups');
 
     if ($course)
     {
@@ -134,45 +135,52 @@ if (Authentication :: is_valid())
             $users[] = $user;
         }
 
-        $groups = array();
-        $group_result_set = WeblcmsDataManager :: get_instance()->retrieve_course_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
-        while ($group = $group_result_set->next_result())
+        if($show_groups)
         {
-
-            $group_parent_id = $group->get_parent_id();
-
-            if (!is_array($groups[$group_parent_id]))
-            {
-                $groups[$group_parent_id] = array();
-            }
-
-            if (!isset($groups[$group_parent_id][$group->get_id()]))
-            {
-                $groups[$group_parent_id][$group->get_id()] = $group;
-            }
-
-            if ($group_parent_id != 0)
-            {
-                $tree_parents = $group->get_parents(false);
-
-                foreach ($tree_parents as $tree_parent)
-                {
-                    $tree_parent_parent_id = $tree_parent->get_parent_id();
-
-                    if (!is_array($groups[$tree_parent_parent_id]))
-                    {
-                        $groups[$tree_parent_parent_id] = array();
-                    }
-
-                    if (!isset($groups[$tree_parent_parent_id][$tree_parent->get_id()]))
-                    {
-                        $groups[$tree_parent_parent_id][$tree_parent->get_id()] = $tree_parent;
-                    }
-                }
-            }
+	        $groups = array();
+	        $group_result_set = WeblcmsDataManager :: get_instance()->retrieve_course_groups($group_condition, null, null, array(new ObjectTableOrder(Group :: PROPERTY_NAME)));
+	        while ($group = $group_result_set->next_result())
+	        {
+	
+	            $group_parent_id = $group->get_parent_id();
+	
+	            if (!is_array($groups[$group_parent_id]))
+	            {
+	                $groups[$group_parent_id] = array();
+	            }
+	
+	            if (!isset($groups[$group_parent_id][$group->get_id()]))
+	            {
+	                $groups[$group_parent_id][$group->get_id()] = $group;
+	            }
+	
+	            if ($group_parent_id != 0)
+	            {
+	                $tree_parents = $group->get_parents(false);
+	
+	                foreach ($tree_parents as $tree_parent)
+	                {
+	                    $tree_parent_parent_id = $tree_parent->get_parent_id();
+	
+	                    if (!is_array($groups[$tree_parent_parent_id]))
+	                    {
+	                        $groups[$tree_parent_parent_id] = array();
+	                    }
+	
+	                    if (!isset($groups[$tree_parent_parent_id][$tree_parent->get_id()]))
+	                    {
+	                        $groups[$tree_parent_parent_id][$tree_parent->get_id()] = $tree_parent;
+	                    }
+	                }
+	            }
+	        }
+	
+	        $groups_tree = get_group_tree(1, $groups);
         }
-
-        $groups_tree = get_group_tree(1, $groups);
+        else
+        {
+        	$groups_tree = array();
+        }
     }
     else
     {
@@ -190,7 +198,8 @@ echo '</tree>';
 
 function dump_tree($users, $groups_tree)
 {
-    global $group_users;
+    global $group_users, $show_groups;
+    
     if (contains_results($users) || contains_results($groups_tree))
     {
         if (contains_results($users))
@@ -212,16 +221,19 @@ function dump_tree($users, $groups_tree)
             echo '</node>', "\n";
         }
 
-        dump_platform_groups_tree();
-
-        if (contains_results($groups_tree))
+        if($show_groups)
         {
-            global $course;
-
-            echo '<node id="group" classes="category unlinked" title="'. $course->get_name() .'">', "\n";
-
-            dump_groups_tree($groups_tree);
-            echo '</node>', "\n";
+	        dump_platform_groups_tree();
+	
+	        if (contains_results($groups_tree))
+	        {
+	            global $course;
+	
+	            echo '<node id="group" classes="category unlinked" title="'. $course->get_name() .'">', "\n";
+	
+	            dump_groups_tree($groups_tree);
+	            echo '</node>', "\n";
+	        }
         }
     }
 }

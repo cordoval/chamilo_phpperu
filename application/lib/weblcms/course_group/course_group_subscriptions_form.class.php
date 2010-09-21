@@ -51,7 +51,7 @@ class CourseGroupSubscriptionsForm extends FormValidator
 //        $this->addElement('advmultiselect', 'users', Translation :: get('SelectGroupUsers'), $all, array('style' => 'width:300px; height: 250px;'));
 //        $this->setDefaults(array('users' => $subs));
 
-        $url = Path :: get(WEB_PATH) . 'application/lib/weblcms/xml_feeds/xml_course_user_feed.php?course=' . $this->parent->get_course_id();
+        $url = Path :: get(WEB_PATH) . 'application/lib/weblcms/xml_feeds/xml_course_user_group_feed.php?course=' . $this->parent->get_course_id();
 
         $course_group_users = $this->wdm->retrieve_course_group_users($this->course_group);
         $defaults = array();
@@ -72,8 +72,17 @@ class CourseGroupSubscriptionsForm extends FormValidator
         $locale['NoResults'] = Translation :: get('NoResults');
         $locale['Error'] = Translation :: get('Error');
 
+        $legend_items = array();
+        $legend_items[] = new ToolbarItem(Translation :: get('CourseUser'), Theme :: get_common_image_path() . 'treemenu/user.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+        $legend_items[] = new ToolbarItem(Translation :: get('LinkedUser'), Theme :: get_common_image_path() . 'treemenu/user_platform.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'legend');
+
+        $legend = new Toolbar();
+        $legend->set_items($legend_items);
+        $legend->set_type(Toolbar :: TYPE_HORIZONTAL);
+        
         $elem = $this->addElement('user_group_finder', 'users', Translation :: get('SubscribeUsers'), $url, $locale, $current, array('load_elements' => true));
 		$elem->setDefaults($defaults);
+		$this->addElement('static', null, null, $legend->as_html());
 
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Subscribe'), array('class' => 'positive subscribe'));
         $buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -98,7 +107,7 @@ class CourseGroupSubscriptionsForm extends FormValidator
             $current_members[] = $current_member->get_id();
         }
         $updated_members = array();
-
+		
         foreach ($values['users']['user'] as $value)
             $updated_members[] = $value;
         
