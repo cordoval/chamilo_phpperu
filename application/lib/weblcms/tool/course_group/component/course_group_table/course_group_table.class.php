@@ -9,7 +9,7 @@ class CourseGroupTable
     /**
      * Default table name
      */
-    const DEFAULT_NAME = 'course_group';
+    const DEFAULT_NAME = __CLASS__;
     /**
      * Suffix for checkbox name when using actions on selected course_groups.
      */
@@ -59,18 +59,34 @@ class CourseGroupTable
     {
         $this->parent = $parent;
     	$this->set_data_provider($data_provider);
-        $this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);
+        $this->set_name(isset($table_name) ? $table_name : Utilities :: camelcase_to_underscores(self :: DEFAULT_NAME));
         $this->set_column_model(isset($column_model) ? $column_model : new DefaultCourseGroupTableColumnModel($data_provider->get_parent()));
         $this->set_cell_renderer(isset($cell_renderer) ? $cell_renderer : new DefaultCourseGroupTableCellRenderer($data_provider->get_parent()));
         $this->set_default_row_count(10);
         $this->set_additional_parameters($this->determine_additional_parameters());
         
-        $actions = array();
+        $actions = new ObjectTableFormActions(CourseGroupTool :: PARAM_ACTION);
         if($parent->is_allowed(WeblcmsRights :: EDIT_RIGHT))
         {
-	    	$actions[] = new ObjectTableFormAction(CourseGroupTool :: PARAM_DELETE_COURSE_GROUPS, Translation :: get('RemoveSelected'));
-	    	//$this->set_form_actions(new ObjectTableFormActions(null,$actions));
+	    	$actions->add_form_action(new ObjectTableFormAction(CourseGroupTool :: ACTION_DELETE_COURSE_GROUP, Translation :: get('RemoveSelected')));
+	    	$this->set_form_actions($actions);
         }
+    }
+    
+    function handle_table_action()
+    {
+    	$selected_ids = Request :: post(Utilities :: camelcase_to_underscores(self :: DEFAULT_NAME) . self :: CHECKBOX_NAME_SUFFIX);
+
+        if (empty($selected_ids))
+        {
+            $selected_ids = array();
+        }
+        elseif (! is_array($selected_ids))
+        {
+            $selected_ids = array($selected_ids);
+        }
+        
+         Request :: set_get(CourseGroupTool :: PARAM_COURSE_GROUP, $selected_ids);
     }
 
     /**

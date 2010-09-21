@@ -38,7 +38,7 @@ class CourseGroupToolDeleterComponent extends CourseGroupTool
         }
         else
         {
-            Display :: display_error_message('NoObjectSelected');
+            Display :: error_message('NoObjectSelected');
         }
     
     }
