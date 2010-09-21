@@ -13,27 +13,23 @@ class SurveyManager extends WebApplication
     
     const APPLICATION_NAME = 'survey';
     
-    const PARAM_SURVEY_PUBLICATION = 'survey_publication';
-    const PARAM_SURVEY = 'survey';
-    const PARAM_SURVEY_PARTICIPANT = 'survey_participant';
-    const PARAM_SURVEY_INVITEE = 'survey_invitee';
-    const PARAM_SURVEY_INVITEES = 'survey_invitees';
+    const PARAM_PUBLICATION_ID = 'publication_id';
+    const PARAM_SURVEY_ID = 'survey_id';
+    const PARAM_PARTICIPANT_ID = 'participant_id';
+    const PARAM_INVITEE_ID = 'invitee_id';
+    const PARAM_INVITEE_IDS = 'invitee_ids';
     
-    const PARAM_SURVEY_PAGE = 'survey_page';
-    const PARAM_SURVEY_QUESTION = 'survey_question';
-    const PARAM_MAIL_PARTICIPANTS = 'mail_participant';
-    const PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS = 'delete_selected_survey_publications';
-    
-    //    const PARAM_TESTCASE = 'testcase';
-    
-
+    const PARAM_SURVEY_PAGE_ID = 'survey_page_id';
+    const PARAM_SURVEY_QUESTION_ID = 'survey_question';
+    const PARAM_PARTICIPANT_MAIL_ID = 'mail_participant';
+  
     const PARAM_TARGET = 'target_users_and_groups';
     const PARAM_TARGET_ELEMENTS = 'target_users_and_groups_elements';
     const PARAM_TARGET_OPTION = 'target_users_and_groups_option';
     
     const ACTION_DELETE_SURVEY_PUBLICATION = 'deleter';
     const ACTION_EDIT_SURVEY_PUBLICATION_RIGHTS = 'rights_editor';
-    const ACTION_EDIT_SURVEY_PUBLICATION = 'updater';
+    const ACTION_EDIT_SURVEY_PUBLICATION = 'editor';
     const ACTION_CREATE_SURVEY_PUBLICATION = 'creator';
     const ACTION_BROWSE_SURVEY_PUBLICATIONS = 'browser';
     const ACTION_BROWSE_SURVEY_PAGES = 'page_browser';
@@ -197,27 +193,27 @@ class SurveyManager extends WebApplication
 
     function get_update_survey_publication_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_SURVEY_PUBLICATION, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_delete_survey_publication_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_SURVEY_PUBLICATION, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_browse_survey_publications_url()
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS), array(self :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS), array(self :: PARAM_PUBLICATION_ID, ComplexBuilder :: PARAM_BUILDER_ACTION));
     }
 
     function get_browse_survey_pages_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES, self :: PARAM_SURVEY => $survey_publication->get_content_object()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES, self :: PARAM_SURVEY_ID => $survey_publication->get_content_object()));
     }
 
     function get_browse_survey_page_questions_url($survey_page)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS, self :: PARAM_SURVEY_PAGE => $survey_page->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS, self :: PARAM_SURVEY_PAGE_ID => $survey_page->get_id()));
     }
 
     function get_manage_survey_publication_categories_url()
@@ -227,18 +223,18 @@ class SurveyManager extends WebApplication
 
 //    function get_testcase_url()
 //    {
-//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TESTCASES), array(TestcaseManager :: PARAM_ACTION, TestcaseManager :: PARAM_SURVEY_PUBLICATION, ComplexBuilder :: PARAM_BUILDER_ACTION));
+//        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_TESTCASES), array(TestcaseManager :: PARAM_ACTION, TestcaseManager :: PARAM_PUBLICATION_ID, ComplexBuilder :: PARAM_BUILDER_ACTION));
 //    }
 
     function get_survey_publication_viewer_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_survey_results_viewer_url($survey_publication)
     {
         $id = $survey_publication ? $survey_publication->get_id() : null;
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS, self :: PARAM_SURVEY_PUBLICATION => $id));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_SURVEY_PUBLICATION_RESULTS, self :: PARAM_PUBLICATION_ID => $id));
     }
 
     function get_reporting_filter_survey_publication_url()
@@ -248,12 +244,12 @@ class SurveyManager extends WebApplication
 
     function get_reporting_survey_publication_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_question_reporting_url($question)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_QUESTION_REPORTING, self :: PARAM_SURVEY_QUESTION => $question->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_QUESTION_REPORTING, self :: PARAM_SURVEY_QUESTION_ID => $question->get_id()));
     }
 
     function get_import_survey_url()
@@ -263,17 +259,17 @@ class SurveyManager extends WebApplication
 
     function get_export_survey_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_SURVEY, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXPORT_SURVEY, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_change_survey_publication_visibility_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_SURVEY_PUBLICATION_VISIBILITY, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_move_survey_publication_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_SURVEY_PUBLICATION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_SURVEY_PUBLICATION, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_results_exporter_url($tracker_id)
@@ -283,58 +279,58 @@ class SurveyManager extends WebApplication
 
     function get_download_documents_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DOWNLOAD_DOCUMENTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_mail_survey_participant_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MAIL_SURVEY_PARTICIPANTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MAIL_SURVEY_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_build_survey_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_SURVEY, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BUILD_SURVEY, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_survey_publication_export_excel_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXCEL_EXPORT, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EXCEL_EXPORT, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_browse_survey_participants_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PARTICIPANTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PARTICIPANTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_browse_survey_excluded_users_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_EXCLUDED_USERS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_EXCLUDED_USERS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_change_test_to_production_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_TEST_TO_PRODUCTION, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_TEST_TO_PRODUCTION, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     }
 
     function get_survey_participant_publication_viewer_url($survey_participant_tracker)
     {
-        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION, SurveyManager :: PARAM_SURVEY_PUBLICATION => $survey_participant_tracker->get_survey_publication_id(), SurveyManager :: PARAM_SURVEY_PARTICIPANT => $survey_participant_tracker->get_id()));
+        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION, SurveyManager :: PARAM_PUBLICATION_ID => $survey_participant_tracker->get_survey_publication_id(), SurveyManager :: PARAM_PARTICIPANT_ID => $survey_participant_tracker->get_id()));
     }
 
 	function get_survey_invitee_publication_viewer_url($publication_id, $user_id)
     {
-        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION, SurveyManager :: PARAM_SURVEY_PUBLICATION => $publication_id, SurveyManager :: PARAM_SURVEY_INVITEE => $user_id));
+        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_VIEW_SURVEY_PUBLICATION, SurveyManager :: PARAM_PUBLICATION_ID => $publication_id, SurveyManager :: PARAM_INVITEE_ID => $user_id));
     }
     
     function get_rights_editor_url($survey_publication)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_SURVEY_PUBLICATION_RIGHTS, self :: PARAM_SURVEY_PUBLICATION => $survey_publication->get_id()));
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_SURVEY_PUBLICATION_RIGHTS, self :: PARAM_PUBLICATION_ID => $survey_publication->get_id()));
     
     }
 
 function get_survey_cancel_invitation_url($survey_publication_id, $invitee)
     {
-        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_CANCEL_INVITATION, SurveyManager :: PARAM_SURVEY_INVITEES => $survey_publication_id .'|'.$invitee));
+        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_CANCEL_INVITATION, SurveyManager :: PARAM_INVITEE_IDS => $survey_publication_id .'|'.$invitee));
     }
     
     //publications

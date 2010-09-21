@@ -11,7 +11,7 @@ class SurveyManagerPageBrowserComponent extends SurveyManager
     function run()
     {
         
-        $ids = Request :: get(SurveyManager :: PARAM_SURVEY);
+        $ids = Request :: get(self :: PARAM_SURVEY_ID);
         
         if (! empty($ids))
         {
@@ -24,15 +24,11 @@ class SurveyManagerPageBrowserComponent extends SurveyManager
         {
             $ids = array();
         }
-               
         
         $this->survey_ids = $ids;
         
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-        
         $this->action_bar = $this->get_action_bar();
-        $this->display_header($trail);
+        $this->display_header();
         
         echo $this->action_bar->as_html();
         echo '<div id="action_bar_browser">';
@@ -45,7 +41,7 @@ class SurveyManagerPageBrowserComponent extends SurveyManager
 
     function get_table()
     {
-        $table = new SurveyPageBrowserTable($this, array(Application :: PARAM_APPLICATION => SurveyManager :: APPLICATION_NAME, Application :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PAGES), $this->get_condition());
+        $table = new SurveyPageBrowserTable($this, array(Application :: PARAM_APPLICATION => self :: APPLICATION_NAME, Application :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES), $this->get_condition());
         return $table->as_html();
     }
 
@@ -76,6 +72,16 @@ class SurveyManagerPageBrowserComponent extends SurveyManager
     function get_survey_ids()
     {
         return $this->survey_ids;
+    }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveys')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_SURVEY_ID);
     }
 
 }

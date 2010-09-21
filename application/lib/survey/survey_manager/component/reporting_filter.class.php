@@ -21,7 +21,7 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
         else 
         {      	 
         	$this->wizard = new SurveyReportingFilterWizard($this->get_user(), $ids, $this->get_url($parameters));       	
-        	$publication_ids = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        	$publication_ids = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         	
 	        if (! empty($publication_ids))
 	        {
@@ -47,7 +47,7 @@ class SurveyManagerReportingFilterComponent extends SurveyManager
         			
         			foreach ($publication_ids as $publication_id)
         			{
-						$this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $publication_id);
+						$this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_id);
 									        	
         			}
         			$rtv->add_template_by_name('survey_publication_reporting_filter_template', SurveyManager :: APPLICATION_NAME);

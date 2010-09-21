@@ -21,13 +21,6 @@ class SurveyPublicationForm extends FormValidator
     function SurveyPublicationForm($form_type, $content_object, $user, $action)
     {
         parent :: __construct('survey_publication_settings', 'post', $action);
-        
-        //        $testcase = Request :: get(SurveyManager :: PARAM_TESTCASE);
-        //        if ($testcase === 1)
-        //        {
-        //            $this->testcase = 1;
-        //        }
-        
 
         $this->content_object = $content_object;
         $this->user = $user;

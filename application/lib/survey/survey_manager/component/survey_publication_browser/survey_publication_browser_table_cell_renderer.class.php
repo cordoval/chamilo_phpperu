@@ -48,7 +48,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
                 $content_object = $survey_publication->get_publication_object();
                 $user = $this->browser->get_user();
                 $title = $content_object->get_title();
-                if ($survey_publication->is_visible_for_target_user($user, true))
+                if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_VIEW, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION))
                 {
                     $url = '<a href="' . htmlentities($this->browser->get_survey_publication_viewer_url($survey_publication)) . '" title="' . $title . '">' . $title . '</a>';
                 }
@@ -82,7 +82,7 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
         
         $toolbar = new Toolbar(Toolbar :: TYPE_HORIZONTAL);
         
-        if ($survey_publication->is_visible_for_target_user($user, true))
+        if (SurveyRights :: is_allowed_in_surveys_subtree(SurveyRights :: RIGHT_VIEW, $survey_publication->get_id(), SurveyRights :: TYPE_PUBLICATION))
         {
             $toolbar->add_item(new ToolbarItem(Translation :: get('TakeSurvey'), Theme :: get_common_image_path() . 'action_next.png', $this->browser->get_survey_publication_viewer_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
         }
@@ -117,16 +117,6 @@ class SurveyPublicationBrowserTableCellRenderer extends DefaultSurveyPublication
             
             $toolbar->add_item(new ToolbarItem(Translation :: get('ViewReport'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_reporting_survey_publication_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
             
-            //TO DO implement survey exporter !!
-            //$toolbar_data[] = array('href' => $this->browser->get_export_survey_url($survey_publication), 'label' => Translation :: get('Export'), 'img' => Theme :: get_common_image_path() . 'action_export.png');
-            //            $toolbar->add_item(new ToolbarItem(
-            //	        		Translation :: get('Move'),
-            //	        		Theme :: get_common_image_path() . 'action_move.png',
-            //	        		$this->browser->get_move_survey_publication_url($survey_publication),
-            //	        		ToolbarItem :: DISPLAY_ICON
-            //	        ));
-            
-
             $toolbar->add_item(new ToolbarItem(Translation :: get('InviteParticipants'), Theme :: get_common_image_path() . 'action_invite_users.png', $this->browser->get_mail_survey_participant_url($survey_publication), ToolbarItem :: DISPLAY_ICON));
             
             $toolbar->add_item(new ToolbarItem(Translation :: get('BrowseSurveyPages'), Theme :: get_common_image_path() . 'action_view_results.png', $this->browser->get_browse_survey_pages_url($survey_publication), ToolbarItem :: DISPLAY_ICON));

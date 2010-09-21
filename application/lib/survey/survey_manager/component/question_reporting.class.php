@@ -1,6 +1,6 @@
 <?php
 
-class SurveyManagerQuestionReportingComponent extends SurveyManager
+class SurveyManagerQuestionReportingComponent extends SurveyManager implements DelegateComponent
 {
     
     const TEMPLATE_SURVEY_QUESTION_REPORTING = 'survey_question_reporting_template';
@@ -19,19 +19,24 @@ class SurveyManagerQuestionReportingComponent extends SurveyManager
             exit();
         }
         
-        $question_id = Request :: get(SurveyManager :: PARAM_SURVEY_QUESTION);
-        $this->set_parameter(SurveyManager :: PARAM_SURVEY_QUESTION, $question_id);
-        
-        $trail = BreadcrumbTrail :: get_instance();
-        //$trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
-        $trail->add_help('survey reporting');
+        $question_id = Request :: get(self :: PARAM_SURVEY_QUESTION_ID);
+        $this->set_parameter(self :: PARAM_SURVEY_QUESTION_ID, $question_id);
+       
+        $breadcrumbtrail = BreadcrumbTrail :: get_instance();
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveys')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGES, self ::PARAM_SURVEY_ID => Request :: get(self :: PARAM_SURVEY_ID))), Translation :: get('BrowseSurveyPages')));
+    	$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PAGE_QUESTIONS, self ::PARAM_SURVEY_PAGE_ID => Request :: get(self :: PARAM_SURVEY_PAGE_ID))), Translation :: get('BrowseSurveyPageQuestions')));
+    	
         
         $rtv = ReportingViewer :: construct($this);
         $rtv->add_template_by_name(self :: TEMPLATE_SURVEY_QUESTION_REPORTING, SurveyManager :: APPLICATION_NAME);
-        $rtv->set_breadcrumb_trail($trail);
+        $rtv->set_breadcrumb_trail($breadcrumbtrail);
         $rtv->show_all_blocks();
         
         $rtv->run();
     }
+    
+    
+    
 }
 ?>

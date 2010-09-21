@@ -638,7 +638,7 @@ abstract class ContentObjectPublicationListRenderer
             {
                 if ($publication->get_display_order_index() > 1)
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveUp'), Theme :: get_common_image_path() . 'action_up.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_UP)), ToolbarItem :: DISPLAY_ICON));
                 }
                 else
                 {
@@ -647,7 +647,7 @@ abstract class ContentObjectPublicationListRenderer
 
                 if ($publication->get_display_order_index() < $this->get_publication_count())
                 {
-                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+                    $toolbar->add_item(new ToolbarItem(Translation :: get('MoveDown'), Theme :: get_common_image_path() . 'action_down.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_MOVE_DIRECTION => Tool :: PARAM_MOVE_DIRECTION_DOWN)), ToolbarItem :: DISPLAY_ICON));
                 }
                 else
                 {

@@ -138,6 +138,8 @@ $lang['survey']['SurveyReplyEmailAddressName'] = 'Reply name';
 $lang['survey']['SurveyPublicationReportingTemplate'] = 'Publication reporting template';
 $lang['survey']['SurveyParticipantReportingBlock'] = 'Participant reporting block';
 $lang['survey']['SurveyParticipantMailReportingBlock'] = 'Participant mail reporting block';
+$lang['survey']['SurveyQuestionTypeReportingBlock'] = 'Question Type reporting block';
+
 $lang['survey']['Count'] = 'Count';
 $lang['survey']['finished'] = 'Finished';
 $lang['survey']['notstarted'] = 'Not started';
@@ -146,4 +148,20 @@ $lang['survey']['MailNotSend'] = 'Mail not sent';
 $lang['survey']['MailSend'] = 'Mail sent';
 $lang['survey']['ExportToExcel'] = 'Export to Excel';
 $lang['survey']['Excel'] = 'Excel';
+
+$lang['survey']['SurveyManagerBrowserComponent'] = 'Survey Browser';
+$lang['survey']['SurveyManagerParticipantBrowserComponent'] = 'Participant Browser';
+$lang['survey']['BrowseSurveys'] = 'Survey Browser';
+$lang['survey']['SurveyManagerEditorComponent'] = 'Survey Editor';
+$lang['survey']['ReportingViewerViewerComponent'] = 'Report Viewer';
+$lang['survey']['SurveyManagerMailerComponent'] = 'Survey Mailer';
+$lang['survey']['SurveyManagerPageBrowserComponent'] = 'Page Browser';
+$lang['survey']['SurveyManagerQuestionBrowserComponent'] = 'Question Browser';
+$lang['survey']['RightsEditorManagerBrowserComponent'] = 'Rights Browser';
+$lang['survey']['SurveyManagerRightsEditorComponent'] = 'Rights Manager';
+
+
+
+
+
 ?>

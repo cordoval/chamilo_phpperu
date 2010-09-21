@@ -16,10 +16,10 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
     function run()
     {
         
-        $this->pid = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $this->pid = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         if (! isset($this->pid))
         {
-            $this->pid = Request :: post(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+            $this->pid = Request :: post(SurveyManager :: PARAM_PUBLICATION_ID);
         }
         //        $trail = BreadcrumbTrail :: get_instance();
         //        //$trail->add(new Breadcrumb($this->get_browse_survey_publication_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
@@ -43,7 +43,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
     //    function get_table()
     //    {
     //        $parameters = $this->get_parameters();
-    //        $parameters[SurveyManager :: PARAM_SURVEY_PUBLICATION] = $this->pid;
+    //        $parameters[SurveyManager :: PARAM_PUBLICATION_ID] = $this->pid;
     //       	$parameters[ActionBarSearchForm::PARAM_SIMPLE_SEARCH_QUERY] =  $this->action_bar->get_query();
     //        $table = new SurveyParticipantBrowserTable($this, $parameters, $this->get_condition());
     //        return $table->as_html();
@@ -57,7 +57,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         
         $parameters = $this->get_parameters();
         $parameters[ActionBarSearchForm :: PARAM_SIMPLE_SEARCH_QUERY] = $this->action_bar->get_query();
-        $parameters[SurveyManager :: PARAM_SURVEY_PUBLICATION] = $this->pid;
+        $parameters[SurveyManager :: PARAM_PUBLICATION_ID] = $this->pid;
         
         $table = new SurveyParticipantBrowserTable($this, $parameters, $this->get_participant_condition());
         $tabs->add_tab(new DynamicContentTab(self :: TAB_PARTICIPANTS, Translation :: get('participants'), Theme :: get_image_path('survey') . 'survey-16.png', $table->as_html()));
@@ -82,7 +82,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
         
         $parameters = $this->get_parameters();
-        $parameters[SurveyManager :: PARAM_SURVEY_PUBLICATION] = $this->pid;
+        $parameters[SurveyManager :: PARAM_PUBLICATION_ID] = $this->pid;
         
         $action_bar->set_search_url($this->get_url($parameters));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path() . 'action_browser.png', $this->get_url($parameters), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -126,7 +126,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
     function get_invitee_condition()
     {
         
-        $survey_pub_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $survey_pub_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         
         $invited_users = array();
         $invited_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_VIEW, $survey_pub_id, SurveyRights :: TYPE_PUBLICATION);
@@ -165,7 +165,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
     function get_no_participant_condition()
     {
         
-        $survey_pub_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $survey_pub_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         
         $survey_publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($survey_pub_id);
         
@@ -175,7 +175,7 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         
         if ($context_template)
         {
-                     
+            
             $invited_users = SurveyRights :: get_allowed_users(SurveyRights :: RIGHT_VIEW, $survey_pub_id, SurveyRights :: TYPE_PUBLICATION);
             $cdm = SurveyContextDataManager :: get_instance();
             
@@ -234,5 +234,16 @@ class SurveyManagerParticipantBrowserComponent extends SurveyManager
         }
     
     }
+
+    function add_additional_breadcrumbs(BreadcrumbTrail $breadcrumbtrail)
+    {
+        $breadcrumbtrail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveys')));
+    }
+
+    function get_additional_parameters()
+    {
+        return array(self :: PARAM_PUBLICATION_ID);
+    }
+
 }
 ?>

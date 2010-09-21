@@ -11,9 +11,9 @@ class SurveyManagerBuilderComponent extends SurveyManager
 
     function run()
     {
-        $publication_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         $publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($publication_id);
-        $this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $publication_id);
+        $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $publication_id);
         $this->content_object = $publication->get_publication_object();
         
         dump('hi');

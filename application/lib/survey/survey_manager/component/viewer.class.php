@@ -26,18 +26,18 @@ class SurveyManagerViewerComponent extends SurveyManager
     function run()
     {
         
-        $this->publication_id = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $this->publication_id = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         
-        $this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $this->publication_id);
+        $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $this->publication_id);
         
-        $this->set_parameter(SurveyManager :: PARAM_SURVEY_PARTICIPANT, Request :: get(SurveyManager :: PARAM_SURVEY_PARTICIPANT));
+        $this->set_parameter(SurveyManager :: PARAM_PARTICIPANT_ID, Request :: get(SurveyManager :: PARAM_PARTICIPANT_ID));
         
-        $this->invitee_id = Request :: get(SurveyManager :: PARAM_SURVEY_INVITEE);
+        $this->invitee_id = Request :: get(SurveyManager :: PARAM_INVITEE_ID);
         
         if ($this->invitee_id)
         {
             $this->user_id = $this->invitee_id;
-            $this->set_parameter(SurveyManager :: PARAM_SURVEY_INVITEE, $this->invitee_id);
+            $this->set_parameter(SurveyManager :: PARAM_INVITEE_ID, $this->invitee_id);
         }
         else
         {
@@ -53,15 +53,15 @@ class SurveyManagerViewerComponent extends SurveyManager
         //        $this->datamanager = SurveyDataManager :: get_instance();
         
 
-        //        if (Request :: get(SurveyManager :: PARAM_SURVEY_PARTICIPANT))
+        //        if (Request :: get(SurveyManager :: PARAM_PARTICIPANT_ID))
         //        {
-        //            $this->participant_id = Request :: get(SurveyManager :: PARAM_SURVEY_PARTICIPANT);
+        //            $this->participant_id = Request :: get(SurveyManager :: PARAM_PARTICIPANT_ID);
         //            
         //            $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_ID, $this->participant_id);
         //            $trackers = Tracker :: get_data(SurveyParticipantTracker :: get_table_name(), SurveyManager :: APPLICATION_NAME, $condition, 0, 1);
         //            $this->active_tracker = $trackers->next_result();
         //            
-        //            $this->set_parameter(SurveyManager :: PARAM_SURVEY_PARTICIPANT, $this->participant_id);
+        //            $this->set_parameter(SurveyManager :: PARAM_PARTICIPANT_ID, $this->participant_id);
         //            $this->set_publication_variables($this->active_tracker->get_survey_publication_id());
         //            
         //            $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->publication_id);
@@ -76,7 +76,7 @@ class SurveyManagerViewerComponent extends SurveyManager
 
         //        else
         //        {
-        //            $this->set_publication_variables(Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION));
+        //            $this->set_publication_variables(Request :: get(SurveyManager :: PARAM_PUBLICATION_ID));
         //            
         //            $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_SURVEY_PUBLICATION_ID, $this->publication_id);
         //            $conditions[] = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_USER_ID, $this->user_id);
@@ -109,7 +109,7 @@ class SurveyManagerViewerComponent extends SurveyManager
         //            //            else
         //            //            {
         //            $this->active_tracker = $this->trackers->next_result();
-        //            $this->set_parameter(SurveyManager :: PARAM_SURVEY_PARTICIPANT, $this->active_tracker->get_id());
+        //            $this->set_parameter(SurveyManager :: PARAM_PARTICIPANT_ID, $this->active_tracker->get_id());
         //            //            }
         //        }
         
@@ -118,7 +118,7 @@ class SurveyManagerViewerComponent extends SurveyManager
         //        if ($this->pub->is_test())
         //        {
         //            $this->trail->add(new Breadcrumb($this->get_testcase_url(), Translation :: get('BrowseTestCaseSurveyPublications')));
-        //            $this->trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TESTCASES, TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PARTICIPANTS, TestcaseManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('BrowseTestCaseSurveyParticipants')));
+        //            $this->trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_TESTCASES, TestcaseManager :: PARAM_ACTION => TestcaseManager :: ACTION_BROWSE_SURVEY_PARTICIPANTS, TestcaseManager :: PARAM_PUBLICATION_ID => $this->pid)), Translation :: get('BrowseTestCaseSurveyParticipants')));
         //        
         //        }
         //        else
@@ -126,7 +126,7 @@ class SurveyManagerViewerComponent extends SurveyManager
         //            $this->trail->add(new Breadcrumb($this->get_browse_survey_publications_url(), Translation :: get('BrowseSurveyPublications')));
         //        
         //        }
-        //        $this->trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $this->pid)), Translation :: get('TakeSurvey')));
+        //        $this->trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_PUBLICATION_ID => $this->pid)), Translation :: get('TakeSurvey')));
         
 
         //        if ($this->pub && ! $this->pub->is_visible_for_target_user($this->get_user()))
@@ -189,7 +189,7 @@ class SurveyManagerViewerComponent extends SurveyManager
 //        $this->publication_id = $survey_publication_id;
 //        $this->publication = SurveyDataManager :: get_instance()->retrieve_survey_publication($survey_publication_id);
 //        $this->survey = $this->publication->get_publication_object();
-//        $this->set_parameter(SurveyManager :: PARAM_SURVEY_PUBLICATION, $this->publication_id);
+//        $this->set_parameter(SurveyManager :: PARAM_PUBLICATION_ID, $this->publication_id);
 //    }
 
 //    function get_menu_html()
@@ -219,7 +219,7 @@ class SurveyManagerViewerComponent extends SurveyManager
 //
 //    function get_participant()
 //    {
-//        return $this->get_parameter(SurveyManager :: PARAM_SURVEY_PARTICIPANT);
+//        return $this->get_parameter(SurveyManager :: PARAM_PARTICIPANT_ID);
 //    }
 //
 //    function save_answer($complex_question_id, $answer)
@@ -297,7 +297,7 @@ class SurveyManagerViewerComponent extends SurveyManager
 //
 //    function get_go_back_url()
 //    {
-//        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS, SurveyManager :: PARAM_SURVEY_PUBLICATION => null, SurveyManager :: PARAM_SURVEY_PARTICIPANT => null));
+//        return $this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS, SurveyManager :: PARAM_PUBLICATION_ID => null, SurveyManager :: PARAM_PARTICIPANT_ID => null));
 //    }
 //
 //    function parse($value)

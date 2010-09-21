@@ -20,10 +20,7 @@ class SurveyQuestionBrowserTable extends ObjectTable
         parent :: __construct($data_provider, self :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
         $actions = array();
-        
-//        $actions[] = new ObjectTableFormAction(SurveyManager :: PARAM_DELETE_SELECTED_SURVEY_PUBLICATIONS, Translation :: get('RemoveSelected'));
-//        $actions[] = new ObjectTableFormAction(SurveyManager :: PARAM_MAIL_PARTICIPANTS, Translation :: get('InviteParticipants'));
-        
+    
         
         $this->set_form_actions($actions);
         $this->set_default_row_count(20);

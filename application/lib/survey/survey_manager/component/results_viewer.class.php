@@ -35,7 +35,7 @@ class SurveyManagerResultsViewerComponent extends SurveyManager
         //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_ACTION => SurveyManager :: ACTION_BROWSE_SURVEY_PUBLICATIONS)), Translation :: get('BrowseSurveyPublications')));
         //$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewResults')));
         
-        $pid = Request :: get(SurveyManager :: PARAM_SURVEY_PUBLICATION);
+        $pid = Request :: get(SurveyManager :: PARAM_PUBLICATION_ID);
         //$delete = Request :: get('delete');
         
 
@@ -51,7 +51,7 @@ class SurveyManagerResultsViewerComponent extends SurveyManager
         //            else
         //            {
         //                $condition = new EqualityCondition(SurveyParticipantTracker :: PROPERTY_ID, $id);
-        //                $parameters = array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid);
+        //                $parameters = array(SurveyManager :: PARAM_PUBLICATION_ID => $pid);
         //            }
         //            
         //            $dummy = new SurveySurveyAttemptsTracker();
@@ -72,13 +72,13 @@ class SurveyManagerResultsViewerComponent extends SurveyManager
         }
         else
         {
-            //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid)), Translation :: get('ViewSurveyResults')));
+            //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('ViewSurveyResults')));
             
-            $question_id = Request :: get(SurveyManager :: PARAM_SURVEY_QUESTION);
+            $question_id = Request :: get(SurveyManager :: PARAM_SURVEY_QUESTION_ID);
             
             if ($question_id)
             {
-                //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid, SurveyManager :: PARAM_SURVEY_QUESTION => $question_id)), Translation :: get('ViewSurveyDetails')));
+                //$trail->add(new Breadcrumb($this->get_url(array(SurveyManager :: PARAM_PUBLICATION_ID => $pid, SurveyManager :: PARAM_SURVEY_QUESTION_ID => $question_id)), Translation :: get('ViewSurveyDetails')));
                 
                 $this->question_id = $question_id;
                 $html = $this->display_question_results($pid);
@@ -117,9 +117,9 @@ class SurveyManagerResultsViewerComponent extends SurveyManager
         $current_category = Request :: get('category');
         $current_category = $current_category ? $current_category : 0;
         $parameters = array();
-        $parameters[ReportingSurvey :: PARAM_SURVEY_CATEGORY] = $current_category;
-        $parameters[ReportingSurvey :: PARAM_SURVEY_URL] = $this->get_url();
-        $parameters[ReportingSurvey :: PARAM_SURVEY_PARTICIPANT] = $this->get_user_id();
+        $parameters[ReportingSurvey :: PARAM_SURVEY_ID_CATEGORY] = $current_category;
+        $parameters[ReportingSurvey :: PARAM_SURVEY_ID_URL] = $this->get_url();
+        $parameters[ReportingSurvey :: PARAM_PARTICIPANT_ID] = $this->get_user_id();
         $template = new SurveyAttemptReportingTemplate($this);
         //$template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();
@@ -128,11 +128,11 @@ class SurveyManagerResultsViewerComponent extends SurveyManager
     function display_survey_questions($pid)
     {
         
-        $url = $this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid));
+        $url = $this->get_url(array(SurveyManager :: PARAM_PUBLICATION_ID => $pid));
         $results_export_url = $this->get_results_exporter_url();
         $user_id = $this->get_user_id();
         
-        $parameters = array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid/*, 'url' => $url, 'results_export_url' => $results_export_url, 'user_id' => $user_id*/);
+        $parameters = array(SurveyManager :: PARAM_PUBLICATION_ID => $pid/*, 'url' => $url, 'results_export_url' => $results_export_url, 'user_id' => $user_id*/);
         $template = new SurveyAttemptReportingTemplate($this);
         $template->set_parameters($parameters);
         //$template->set_reporting_blocks_function_parameters($parameters);
@@ -142,10 +142,10 @@ class SurveyManagerResultsViewerComponent extends SurveyManager
     function display_question_results($pid)
     {
         
-        $url = $this->get_url(array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid));
+        $url = $this->get_url(array(SurveyManager :: PARAM_PUBLICATION_ID => $pid));
         $results_export_url = $this->get_results_exporter_url();
         
-        $parameters = array(SurveyManager :: PARAM_SURVEY_PUBLICATION => $pid, 'url' => $url, 'results_export_url' => $results_export_url, SurveyManager :: PARAM_SURVEY_QUESTION => $this->question_id);
+        $parameters = array(SurveyManager :: PARAM_PUBLICATION_ID => $pid, 'url' => $url, 'results_export_url' => $results_export_url, SurveyManager :: PARAM_SURVEY_QUESTION_ID => $this->question_id);
         $template = new SurveyQuestionResultsTemplate($this, 0, $parameters, null, $pid);
         $template->set_reporting_blocks_function_parameters($parameters);
         return $template->to_html();
