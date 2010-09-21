@@ -135,9 +135,12 @@ class ToolbarItem
             if ($this->target)
             {
                 $target = ' target="' . $this->target . '"';
+                $button = '<a' . $class . $target . ' href="' . htmlentities($this->href) . '" title="' . $label . '"' . ($this->needs_confirmation() ? ' onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"' : '') . '>' . $button . '</a>';
             }
-
-            $button = '<a' . $class . $target . ' href="' . htmlentities($this->href) . '" title="' . $label . '"' . ($this->needs_confirmation() ? ' onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"' : '') . '>' . $button . '</a>';
+            else
+            {
+                $button = '<a' . $class . ' href="' . htmlentities($this->href) . '" title="' . $label . '"' . ($this->needs_confirmation() ? ' onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"' : '') . '>' . $button . '</a>';
+            }
         }
 
         return $button;
