@@ -34,7 +34,7 @@ class WeblcmsWikiMostEditedPageReportingBlock extends WeblcmsToolReportingBlock
                 }
             }
 
-            $url = 'run.php?go=courseviewer&course=' . $this->get_course_id() . '&tool=' . $this->get_tool() . '&application=weblcms&' . Tool :: PARAM_PUBLICATION_ID . '=' . $this->get_pid() . '&tool_action=view&display_action=view_item&selected_cloi=' . $most_edited_page->get_id();
+            $url = 'run.php?go='.WeblcmsManager :: ACTION_VIEW_COURSE.'&course=' . $this->get_course_id() . '&tool=' . $this->get_tool() . '&application=weblcms&' . Tool :: PARAM_PUBLICATION_ID . '=' . $this->get_pid() . '&tool_action='.Tool :: ACTION_VIEW.'&display_action=view_item&selected_cloi=' . $most_edited_page->get_id();
 
             $reporting_data->add_category(0);
             $reporting_data->add_data_category_row(0, Translation :: get('MostEditedPage'), '<a href="' . $url . '">' . $most_edited_page->get_ref_object()->get_title() . '</a>');

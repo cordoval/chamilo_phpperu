@@ -20,7 +20,7 @@ class AssessmentCellRenderer extends ObjectPublicationTableCellRenderer
         if ($column === ObjectPublicationTableColumnModel :: get_action_column())
         {
             $actions = $this->get_actions($publication);
-            $actions->prepend_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_next.png', $this->table_renderer->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
+            //$actions->prepend_item(new ToolbarItem(Translation :: get('TakeAssessment'), Theme :: get_common_image_path() . 'action_next.png', $this->table_renderer->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), ToolbarItem :: DISPLAY_ICON));
             return $actions->as_html();
         }
 

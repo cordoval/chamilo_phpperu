@@ -134,7 +134,7 @@ class ReportingWeblcms
         {
             $name = $value->name;
             //$link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" />';// <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(Utilities::underscores_to_camelcase($name)).'</a>';
-            $link = ' <a href="run.php?go=courseviewer&course=' . $course_id . '&tool=' . $name . '&application=weblcms">' . Translation :: get(Utilities :: underscores_to_camelcase($name)) . '</a>';
+            $link = ' <a href="run.php?go=course_viewer&course=' . $course_id . '&tool=' . $name . '&application=weblcms">' . Translation :: get(Utilities :: underscores_to_camelcase($name)) . '</a>';
             $date = $wdm->get_last_visit_date_per_course($course_id, $name);
             if ($date)
             {
@@ -417,7 +417,7 @@ class ReportingWeblcms
                 $lastpublication = date('Y-m-d G:i:s', $lastpublication);
             }
 
-            $arr[Translation :: get('Course')][] = '<a href="run.php?go=courseviewer&course=' . $course->get_id() . '&application=weblcms&" />' . $course->get_name() . '</a>';
+            $arr[Translation :: get('Course')][] = '<a href="run.php?go='.WeblcmsManager :: ACTION_VIEW_COURSE.'&course=' . $course->get_id() . '&application=weblcms&" />' . $course->get_name() . '</a>';
             $arr[Translation :: get('LastVisit')][] = $lastaccess;
             $arr[Translation :: get('LastPublication')][] = $lastpublication;
         }
@@ -596,10 +596,10 @@ class ReportingWeblcms
             switch (Request :: get('tool'))
             {
                 case 'learning_path' :
-                    $tool_action = 'view_clo';
+                    $tool_action = LearningPathTool :: ACTION_VIEW_CLO;
                     break;
                 default :
-                    $tool_action = 'view';
+                    $tool_action = Tool :: ACTION_VIEW;
                     break;
             }
             arsort($visits);
@@ -609,7 +609,7 @@ class ReportingWeblcms
                 if (in_array($key, array_keys($cloi_refs)))
                 {
                     $page = RepositoryDataManager :: get_instance()->retrieve_content_object($cloi_refs[$key]);
-                    $url = (Redirect :: get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => $tool_action, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $params[Tool :: PARAM_PUBLICATION_ID], 'selected_cloi' => $keys[0])));
+                    $url = (Redirect :: get_url(array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => $tool_action, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $params[Tool :: PARAM_PUBLICATION_ID], 'selected_cloi' => $keys[0])));
                     $arr[Translation :: get('MostVisitedPage')][] = '<a href="' . $url . '">' . htmlspecialchars($page->get_title()) . '</a>';
                     $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
                     break;
@@ -642,7 +642,7 @@ class ReportingWeblcms
         }
         arsort($edits);
         $keys = array_keys($edits);
-        $url = (Redirect :: get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $wiki->get_id(), 'cid' => $page_ids[$keys[0]])));
+        $url = (Redirect :: get_url(array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => Tool :: ACTION_VIEW, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $wiki->get_id(), 'cid' => $page_ids[$keys[0]])));
         $arr[Translation :: get('MostEditedPage')][] = '<a href="' . $url . '">' . htmlspecialchars($keys[0]) . '</a>';
         $arr[Translation :: get('NumberOfEdits')][] = $edits[$keys[0]];
         return Reporting :: getSerieArray($arr);
@@ -683,7 +683,7 @@ class ReportingWeblcms
                 if ($value->get_leave_date() > $lastaccess)
                     $lastaccess = $value->get_leave_date();
             }
-            $url = 'run.php?go=courseviewer&course=' . $course_id . '&tool=' . $tool . '&application=weblcms&tool_action=view&pid=' . $lop->get_id();
+            $url = 'run.php?go='.WeblcmsManager :: ACTION_VIEW_COURSE.'&course=' . $course_id . '&tool=' . $tool . '&application=weblcms&tool_action='.Tool :: ACTION_VIEW.'&pid=' . $lop->get_id();
             $arr[Translation :: get('Title')][] = '<a href="' . $url . '">' . $lop->get_content_object()->get_title() . '</a>';
 
             $des = $lop->get_content_object()->get_description();
@@ -736,7 +736,7 @@ class ReportingWeblcms
                 $lastaccess = $value->get_leave_date();
         }
         //      run.php?go=courseviewer&course=1&tool=announcement&application=weblcms&pid=1&tool_action=view
-        $url = 'run.php?go=courseviewer&course=' . $course_id . '&tool=' . $tool . '&application=weblcms&pid=' . $id . '&tool_action=view';
+        $url = 'run.php?go='.WeblcmsManager :: ACTION_VIEW_COURSE.'&course=' . $course_id . '&tool=' . $tool . '&application=weblcms&pid=' . $id . '&tool_action='.Tool :: ACTION_VIEW;
         $arr[Translation :: get('Title')][] = '<a href="' . $url . '">' . $title . '</a>';
 
         $arr[Translation :: get('Description')][] = Utilities :: truncate_string($descr, 50);
