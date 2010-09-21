@@ -35,8 +35,8 @@ class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
      * @return ResultSet A set of matching learning objects.
      */
     function get_objects($offset, $count, $order_property = null)
-    {        
-    	if(is_null($this->preloaded_result_set))
+    {
+    	//if(is_null($this->preloaded_result_set))
     	{
 	    	$order_property = $this->get_order_property($order_property);
 	        $add_course_admin = (parent::get_browser()->get_action() == UserTool :: ACTION_UNSUBSCRIBE_USER_BROWSER || is_null(parent::get_browser()->get_action()));
