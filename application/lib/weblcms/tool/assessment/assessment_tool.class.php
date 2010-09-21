@@ -16,7 +16,7 @@ class AssessmentTool extends Tool implements Categorizable
     const ACTION_DELETE_RESULTS = 'results_deleter';
     const ACTION_EXPORT_QTI = 'qti_exporter';
     const ACTION_IMPORT_QTI = 'qti_importer';
-    const ACTION_TAKE_ASSESSMENT = 'taker';
+    const ACTION_TAKE_ASSESSMENT = 'complex_display';
     
     const PARAM_USER_ASSESSMENT = 'uaid';
     const PARAM_QUESTION_ATTEMPT = 'qaid';

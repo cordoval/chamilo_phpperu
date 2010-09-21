@@ -9,7 +9,7 @@ require_once dirname(__FILE__) . '/../survey_invitation.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_question_attempts_tracker.class.php';
 
-class AssessmentToolTakerComponent extends AssessmentTool
+class AssessmentToolComplexDisplayComponent extends AssessmentTool
 {
 
     private $datamanager;
