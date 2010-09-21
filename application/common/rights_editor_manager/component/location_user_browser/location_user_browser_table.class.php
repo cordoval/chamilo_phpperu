@@ -24,7 +24,7 @@ class LocationUserBrowserTable extends ObjectTable
         $data_provider = new LocationUserBrowserTableDataProvider($browser, $condition);
         parent :: __construct($data_provider, LocationUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
         $this->set_additional_parameters($parameters);
-        $actions = array();
+        $actions = new ObjectTableFormActions();
         //Deactivated: What should happen when a user is removed ? Full remove or deactivation of account ?
         //$actions[UserManager :: PARAM_REMOVE_SELECTED] = Translation :: get('RemoveSelected');
         $this->set_form_actions($actions);

@@ -1,9 +1,9 @@
 <?php
+
 /**
  * $Id: rights_editor_manager.class.php 191 2009-11-13 11:50:28Z chellee $
  * @package application.common.rights_editor_manager
  */
-
 class RightsEditorManager extends SubManager
 {
     const PARAM_RIGHTS_EDITOR_ACTION = 'action';
@@ -20,13 +20,10 @@ class RightsEditorManager extends SubManager
     const MODUS_BOTH = 2;
 
     private $locations;
-
     private $excluded_groups;
     private $excluded_users;
-
     private $limited_groups;
     private $limited_users;
-
     private $modus;
 
     /**
@@ -53,9 +50,9 @@ class RightsEditorManager extends SubManager
         }
     }
 
-    function factory($content_object, $parent , $locations)
+    function factory($content_object, $parent, $locations)
     {
-        if($content_object)
+        if ($content_object)
         {
             $type = $content_object->get_type_name();
             $file = Path :: get_repository_path() . '/lib/content_object/' . $type . '/rights/' . $type . '_rights_editor_manager.class.php';
@@ -88,8 +85,8 @@ class RightsEditorManager extends SubManager
                 $component = $this->create_component('GroupRightsSetter');
                 break;
             case self :: ACTION_CHANGE_INHERIT:
-            	$component = $this->create_component('InheritChanger');
-            	break;
+                $component = $this->create_component('InheritChanger');
+                break;
             default :
                 $component = $this->create_component('Browser');
                 break;
@@ -160,7 +157,15 @@ class RightsEditorManager extends SubManager
 
     function get_limited_groups()
     {
-        return $this->limited_groups;
+        if (is_null($this->limited_groups))
+        {
+
+            return array();
+        }
+        else
+        {
+            return $this->limited_groups;
+        }
     }
 
     function set_modus($modus)
@@ -189,5 +194,7 @@ class RightsEditorManager extends SubManager
 
         return $component;
     }
+
 }
+
 ?>
