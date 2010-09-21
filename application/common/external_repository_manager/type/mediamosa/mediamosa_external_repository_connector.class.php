@@ -403,7 +403,7 @@ class MediamosaExternalRepositoryConnector extends ExternalRepositoryConnector
         }
 
         $this->cql = array();
-        echo $string;
+        //echo $string;
         return $string;
     }
 

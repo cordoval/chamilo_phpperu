@@ -42,7 +42,7 @@ class WeblcmsPublicationDetailReportingBlock extends WeblcmsToolReportingBlock
             if ($value->get_leave_date() > $lastaccess)
                 $lastaccess = $value->get_leave_date();
         }
-        $url = 'run.php?go=courseviewer&course=' . $course_id . '&tool=' . $tool . '&application=weblcms&' . Tool::PARAM_PUBLICATION_ID . '=' . $id . '&tool_action=view';
+        $url = 'run.php?go='.WeblcmsManager :: ACTION_VIEW_COURSE.'&course=' . $course_id . '&tool=' . $tool . '&application=weblcms&' . Tool::PARAM_PUBLICATION_ID . '=' . $id . '&tool_action=' . Tool :: ACTION_VIEW;
         
         /*$arr[Translation :: get('Title')][] = '<a href="' . $url . '">' . $title . '</a>';
         $arr[Translation :: get('Description')][] = Utilities :: truncate_string($descr, 50);
