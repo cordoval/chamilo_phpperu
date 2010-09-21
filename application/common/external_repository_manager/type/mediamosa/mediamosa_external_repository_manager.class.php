@@ -220,7 +220,7 @@ class MediamosaExternalRepositoryManager extends ExternalRepositoryManager
 
     function validate_settings()
     {
-        $settings = array('url', 'login', 'password');
+        $settings = array('url', 'loginname', 'password');
         
         foreach ($settings as $variable)
         {
