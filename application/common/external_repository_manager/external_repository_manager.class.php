@@ -199,7 +199,7 @@ abstract class ExternalRepositoryManager extends SubManager
             }
             
             $label = htmlentities(Translation :: get(Utilities :: underscores_to_camelcase($external_repository_action) . 'Title'));
-            $link = $this->get_url($parameters, true);
+            $link = $this->get_url($parameters);
             
             $tabs->add_tab(new DynamicVisualTab($external_repository_action, $label, Theme :: get_common_image_path() . 'place_tab_' . $external_repository_action . '.png', $link, $selected));
         }
